@@ -23,7 +23,7 @@ namespace OneStoryProjectEditor
         private readonly TeamMembersData _dataTeamMembers;
         private readonly ProjectSettings _theProjSettings;
         protected StoryProjectData _theStoryProjectData;
-        private string m_strSelectedMember;
+        private string m_strSelectedMemberName;
 
         Dictionary<string, TeamMemberData> m_mapNewMembersThisSession = new Dictionary<string, TeamMemberData>();
 
@@ -40,128 +40,45 @@ namespace OneStoryProjectEditor
             InitializeComponent();
             
             foreach (TeamMemberData aMember in _dataTeamMembers.Values)
-            {
-                int nIndex = listBoxTeamMembers.Items.Add(aMember.Name);
-                listBoxMemberRoles.Items.Insert(nIndex, TeamMemberData.GetMemberTypeAsDisplayString(aMember.MemberType));
-            }
+                listBoxTeamMembers.Items.Add(GetListBoxItem(aMember));
 
             if ((listBoxTeamMembers.Items.Count > 0) && !String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
                 listBoxTeamMembers.SelectedItem = Properties.Settings.Default.LastMemberLogin;
 
-            /*
-            // initialize the keyboard combo list
-            foreach (KeyboardController.KeyboardDescriptor keyboard in
-                KeyboardController.GetAvailableKeyboards(KeyboardController.Engines.All))
-            {
-                comboBoxKeyboardVernacular.Items.Add(keyboard.Name);
-                comboBoxKeyboardNationalBT.Items.Add(keyboard.Name);
-            }
-
-            // initialize the vernacular language controls
-            if (_projSettings.Vernacular.HasData)
-            {
-                textBoxVernacular.Text = ((String.IsNullOrEmpty(_projSettings.Vernacular.LangName)) ? _projSettings.ProjectName : _projSettings.Vernacular.LangName);
-                textBoxVernacularEthCode.Text = _projSettings.Vernacular.LangCode;
-                
-                // select the configured keyboard in the combo box (this is made complicated by the fact
-                //  that members may have overridden the default keyboard for their own system)
-                // First check if the logged in member (which is approximated by being the 'last member')
-                //  has an override for the keyboard
-                if ((_tmdLastMember != null)
-                    && !String.IsNullOrEmpty(_tmdLastMember.OverrideVernacularKeyboard)
-                    && comboBoxKeyboardVernacular.Items.Contains(_tmdLastMember.OverrideVernacularKeyboard))
-                {
-                    comboBoxKeyboardVernacular.SelectedItem = _tmdLastMember.OverrideVernacularKeyboard;
-                }
-                else if (!String.IsNullOrEmpty(_projSettings.Vernacular.DefaultKeyboard)
-                    && comboBoxKeyboardVernacular.Items.Contains(_projSettings.Vernacular.DefaultKeyboard))
-                {
-                    comboBoxKeyboardVernacular.SelectedItem = _projSettings.Vernacular.DefaultKeyboard;
-                }
-                checkBoxVernacularRTL.Checked = _projSettings.Vernacular.IsRTL;
-                checkBoxVernacular.Checked = true;
-            }
-            else
-                checkBoxVernacular.Checked = false;
-
-            // even if there's no Vern, these should still be set (in case they check the box for Vern)
-            textBoxVernSentFullStop.Font = _projSettings.Vernacular.LangFont;
-            textBoxVernSentFullStop.ForeColor = _projSettings.Vernacular.FontColor;
-            textBoxVernSentFullStop.Text = _projSettings.Vernacular.FullStop;
-            toolTip.SetToolTip(buttonVernacularFont, String.Format(CstrDefaultFontTooltipVernacular,
-                                                                   Environment.NewLine, _projSettings.Vernacular.LangFont,
-                                                                   _projSettings.Vernacular.FontColor,
-                                                                   _projSettings.Vernacular.IsRTL));
-
-            // if there is a national language configured, then initialize those as well.
-            if (_projSettings.NationalBT.HasData)
-            {
-                textBoxNationalBTLanguage.Text = _projSettings.NationalBT.LangName;
-                textBoxNationalBTEthCode.Text = _projSettings.NationalBT.LangCode;
-
-                // select the configured keyboard in the combo box (this is made complicated by the fact
-                //  that members may have overridden the default keyboard for their own system)
-                // First check if the logged in member (which is approximated by being the 'last member')
-                //  has an override for the keyboard
-                if ((_tmdLastMember != null)
-                    && !String.IsNullOrEmpty(_tmdLastMember.OverrideNationalBTKeyboard)
-                    && comboBoxKeyboardNationalBT.Items.Contains(_tmdLastMember.OverrideNationalBTKeyboard))
-                {
-                    comboBoxKeyboardNationalBT.SelectedItem = _tmdLastMember.OverrideNationalBTKeyboard;
-                }
-                else if (!String.IsNullOrEmpty(_projSettings.NationalBT.DefaultKeyboard)
-                    && comboBoxKeyboardNationalBT.Items.Contains(_projSettings.NationalBT.DefaultKeyboard))
-                {
-                    comboBoxKeyboardNationalBT.SelectedItem = _projSettings.NationalBT.DefaultKeyboard;
-                }
-
-                checkBoxNationalRTL.Checked = _projSettings.NationalBT.IsRTL;
-                checkBoxNationalLangBT.Checked = true;
-            }
-            else
-                checkBoxNationalLangBT.Checked = false;
-
-            // even if there's no National language BT, these should still be set (in case they check the box for National language BT)
-            textBoxNationalBTSentFullStop.Font = _projSettings.NationalBT.LangFont;
-            textBoxNationalBTSentFullStop.ForeColor = _projSettings.NationalBT.FontColor;
-            textBoxNationalBTSentFullStop.Text = _projSettings.NationalBT.FullStop;
-            toolTip.SetToolTip(buttonNationalBTFont, String.Format(CstrDefaultFontTooltipNationalBT,
-                                                                   Environment.NewLine, _projSettings.NationalBT.LangFont,
-                                                                   _projSettings.NationalBT.FontColor,
-                                                                   _projSettings.NationalBT.IsRTL));
-
-            // even if there's no English BT, these should still be set (in case they check the box for English BT)
-            toolTip.SetToolTip(buttonInternationalBTFont, String.Format(CstrDefaultFontTooltipInternationalBT,
-                                                                   Environment.NewLine, _projSettings.InternationalBT.LangFont,
-                                                                   _projSettings.InternationalBT.FontColor,
-                                                                   _projSettings.InternationalBT.IsRTL));
-
-
-            textBoxProjectName.Text = _projSettings.ProjectName;
-            */
             if (!bUseLoginLabel)
             {
                 buttonOK.Text = CstrReturnLabel;
                 toolTip.SetToolTip(buttonOK, "Click to return to the previous window");
             }
-            /*
-            // if the user hasn't configured the language information, send them there first
-            if (!_projSettings.IsConfigured)
-                tabControlProjectMetaData.SelectedTab = tabPageLanguageInfo;
+        }
 
-            if (_projSettings.Vernacular.HasData && !String.IsNullOrEmpty(textBoxVernacular.Text) && String.IsNullOrEmpty(textBoxVernacularEthCode.Text))
-                ProposeEthnologueCode(textBoxVernacular.Text, textBoxVernacularEthCode);
-            */
+        private static string GetListBoxItem(TeamMemberData theTeamMember)
+        {
+            return GetListBoxItem(theTeamMember.Name, theTeamMember.MemberType);
+        }
+
+        private static string GetListBoxItem(string strName, TeamMemberData.UserTypes eMemberRole)
+        {
+            return String.Format("{0} ({1})",
+                                 strName,
+                                 TeamMemberData.GetMemberTypeAsDisplayString(eMemberRole));
+        }
+
+        private static void ParseListBoxItem(string strItem, 
+            out string strName, out TeamMemberData.UserTypes eMemberRole)
+        {
+            int nIndex = strItem.LastIndexOf(" (");
+            strName = strItem.Substring(0, nIndex);
+            string strRole = strItem.Substring(nIndex + 2, strItem.Length - nIndex - 3);
+            eMemberRole = TeamMemberData.GetMemberTypeFromDisplayString(strRole);
         }
 
         public string SelectedMember
         {
-            get { return m_strSelectedMember; }
+            get { return m_strSelectedMemberName; }
             set
             {
-                if (!listBoxTeamMembers.Items.Contains(value))
-                    throw new ApplicationException(String.Format("The project File doesn't contain a member named '{0}'", value));
-                listBoxTeamMembers.SelectedItem = m_strSelectedMember = value;
+                listBoxTeamMembers.SelectedItem = value;
             }
         }
         /*
@@ -300,12 +217,14 @@ namespace OneStoryProjectEditor
             //  from removing a team member that has other references in the project).
             if (bOneSelected)
             {
-                m_strSelectedMember = (string)listBoxTeamMembers.SelectedItem;
-                buttonDeleteMember.Visible = m_mapNewMembersThisSession.ContainsKey(SelectedMember);
+                TeamMemberData.UserTypes eUserType;
+                ParseListBoxItem((string) listBoxTeamMembers.SelectedItem,
+                                 out m_strSelectedMemberName, out eUserType);
+                buttonDeleteMember.Visible = m_mapNewMembersThisSession.ContainsKey(m_strSelectedMemberName);
 
-                if (_dataTeamMembers.ContainsKey(m_strSelectedMember))
+                if (_dataTeamMembers.ContainsKey(m_strSelectedMemberName))
                 {
-                    var theMember = _dataTeamMembers[m_strSelectedMember];
+                    var theMember = _dataTeamMembers[m_strSelectedMemberName];
                     buttonMergeMember.Visible = (theMember.MemberType == TeamMemberData.UserTypes.eUNS);
                 }
             }
@@ -317,25 +236,9 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(listBoxTeamMembers.SelectedIndex != -1);
             if (listBoxTeamMembers.SelectedIndex == -1)
                 return;
-            /*
-            // first see if the project information has been configured
-            if (String.IsNullOrEmpty(textBoxProjectName.Text)
-                || (checkBoxVernacular.Checked
-                    &&  (  String.IsNullOrEmpty(textBoxVernacular.Text)
-                        || String.IsNullOrEmpty(textBoxVernacularEthCode.Text)
-                        || String.IsNullOrEmpty(textBoxVernSentFullStop.Text)))
-                || (checkBoxNationalLangBT.Checked
-                    &&  (  String.IsNullOrEmpty(textBoxNationalBTLanguage.Text)
-                        || String.IsNullOrEmpty(textBoxNationalBTEthCode.Text)
-                        || String.IsNullOrEmpty(textBoxNationalBTSentFullStop.Text))))
-            {
-                tabControlProjectMetaData.SelectedTab = tabPageLanguageInfo;
-                MessageBox.Show("Configure the Project and Language Name information as well.",  OseResources.Properties.Resources.IDS_Caption);
-                return;
-            }
-            */
+
             // if the selected user is a UNS, this is probably a mistake.
-            TeamMemberData theMember = _dataTeamMembers[SelectedMember];
+            TeamMemberData theMember = _dataTeamMembers[m_strSelectedMemberName];
             if ((theMember.MemberType == TeamMemberData.UserTypes.eUNS) && (buttonOK.Text == CstrDefaultOKLabel))
             {
                 MessageBox.Show(Properties.Resources.IDS_LoginAsProjectFacilitator,  OseResources.Properties.Resources.IDS_Caption);
@@ -346,7 +249,7 @@ namespace OneStoryProjectEditor
             if (buttonOK.Text == CstrDefaultOKLabel)
             {
                 Properties.Settings.Default.LastMemberLogin = SelectedMember;
-                Properties.Settings.Default.LastUserType = _dataTeamMembers[SelectedMember].MemberTypeAsString;
+                Properties.Settings.Default.LastUserType = _dataTeamMembers[m_strSelectedMemberName].MemberTypeAsString;
                 Properties.Settings.Default.Save();
             }
 
@@ -364,7 +267,8 @@ namespace OneStoryProjectEditor
             var dlg = new EditMemberForm(null, _theProjSettings, true);
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                if (listBoxTeamMembers.Items.Contains(dlg.MemberName))
+                string strItem = GetListBoxItem(dlg.MemberName, dlg.MemberType);
+                if (listBoxTeamMembers.Items.Contains(strItem))
                 {
                     MessageBox.Show(String.Format("Oops... you already have a member with the name, '{0}'. If you meant to edit that member, then select the name in the listbox and click the 'Edit Member' button", dlg.MemberName));
                     return;
@@ -381,7 +285,7 @@ namespace OneStoryProjectEditor
                     System.Diagnostics.Debug.Assert(false);
 
                     // must just be editing the already added member...
-                    System.Diagnostics.Debug.Assert(listBoxTeamMembers.Items.Contains(dlg.MemberName));
+                    System.Diagnostics.Debug.Assert(listBoxTeamMembers.Items.Contains(strItem));
 
                     theNewMemberData.MemberType = dlg.MemberType;
                     theNewMemberData.Email = dlg.Email;
@@ -392,8 +296,8 @@ namespace OneStoryProjectEditor
                     theNewMemberData.TeamViewerID = dlg.TeamViewerID;
 
                     // update the role listbox
-                    int nIndex = listBoxTeamMembers.Items.IndexOf(dlg.MemberName);
-                    listBoxMemberRoles.Items[nIndex] = TeamMemberData.GetMemberTypeAsDisplayString(theNewMemberData.MemberType);
+                    int nIndex = listBoxTeamMembers.Items.IndexOf(strItem);
+                    // listBoxMemberRoles.Items[nIndex] = TeamMemberData.GetMemberTypeAsDisplayString(theNewMemberData.MemberType);
                 }
                 else
                 {
@@ -409,9 +313,9 @@ namespace OneStoryProjectEditor
 
                     _dataTeamMembers.Add(dlg.MemberName, theNewMemberData);
                     m_mapNewMembersThisSession.Add(dlg.MemberName, theNewMemberData);
-                    int nIndex = listBoxTeamMembers.Items.Add(dlg.MemberName);
-                    listBoxMemberRoles.Items.Insert(nIndex, TeamMemberData.GetMemberTypeAsDisplayString(theNewMemberData.MemberType));
-                    listBoxTeamMembers.SelectedItem = dlg.MemberName;
+                    listBoxTeamMembers.Items.Add(strItem);
+                    // listBoxMemberRoles.Items.Insert(nIndex, TeamMemberData.GetMemberTypeAsDisplayString(theNewMemberData.MemberType));
+                    listBoxTeamMembers.SelectedItem = strItem;
                 }
             }
         }
@@ -422,9 +326,12 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(listBoxTeamMembers.SelectedIndex != -1);
             int nIndex = listBoxTeamMembers.SelectedIndex;
 
-            m_strSelectedMember = (string)listBoxTeamMembers.SelectedItem;
-            System.Diagnostics.Debug.Assert(_dataTeamMembers.ContainsKey(m_strSelectedMember));
-            TeamMemberData theMemberData = _dataTeamMembers[m_strSelectedMember];
+            TeamMemberData.UserTypes eMemberRole;
+            ParseListBoxItem((string) listBoxTeamMembers.SelectedItem,
+                             out m_strSelectedMemberName, out eMemberRole);
+
+            System.Diagnostics.Debug.Assert(_dataTeamMembers.ContainsKey(m_strSelectedMemberName));
+            TeamMemberData theMemberData = _dataTeamMembers[m_strSelectedMemberName];
             var dlg = new EditMemberForm(theMemberData, _theProjSettings, true);
             if (dlg.ShowDialog() != DialogResult.OK) 
                 return;
@@ -433,7 +340,7 @@ namespace OneStoryProjectEditor
 
             // if the name of the edited item has been changed and the new name is already 
             //  in use, then don't change the name
-            if ((dlg.MemberName != m_strSelectedMember) 
+            if ((dlg.MemberName != m_strSelectedMemberName) 
                 && _dataTeamMembers.ContainsKey(dlg.MemberName))
             {
                 MessageBox.Show(String.Format("Oops... you already have a member with the name, '{0}'. If you meant to edit that member, then select the name in the listbox and click the 'Edit Member' button.", dlg.MemberName));
@@ -452,15 +359,15 @@ namespace OneStoryProjectEditor
             theMemberData.DefaultRequired = dlg.DefaultRequired;
 
             // update the role listbox
-            listBoxMemberRoles.Items[nIndex] = TeamMemberData.GetMemberTypeAsDisplayString(theMemberData.MemberType);
-            if (theMemberData.Name != m_strSelectedMember)
+            // listBoxMemberRoles.Items[nIndex] = TeamMemberData.GetMemberTypeAsDisplayString(theMemberData.MemberType);
+            if (theMemberData.Name != m_strSelectedMemberName)
             {
-                _dataTeamMembers.Remove(m_strSelectedMember);
-                m_strSelectedMember = theMemberData.Name;
-                _dataTeamMembers.Add(m_strSelectedMember, theMemberData);
+                _dataTeamMembers.Remove(m_strSelectedMemberName);
+                m_strSelectedMemberName = theMemberData.Name;
+                _dataTeamMembers.Add(m_strSelectedMemberName, theMemberData);
             }
 
-            listBoxTeamMembers.Items[nIndex] = theMemberData.Name;
+            listBoxTeamMembers.Items[nIndex] = GetListBoxItem(theMemberData);
 
             // keep a hang on it so we don't try to, for example, give it a new guid
             if (!m_mapNewMembersThisSession.ContainsKey(dlg.MemberName))
@@ -567,10 +474,12 @@ namespace OneStoryProjectEditor
             buttonOK_Click(sender, e);
         }
 
+        /*
         private void listBoxMemberRoles_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             buttonOK_Click(sender, e);
         }
+        */
 
         private void buttonMergeMember_Click(object sender, EventArgs e)
         {
@@ -578,9 +487,12 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(listBoxTeamMembers.SelectedIndex != -1);
             int nIndex = listBoxTeamMembers.SelectedIndex;
 
-            m_strSelectedMember = (string)listBoxTeamMembers.SelectedItem;
-            System.Diagnostics.Debug.Assert(_dataTeamMembers.ContainsKey(m_strSelectedMember));
-            TeamMemberData theMemberData = _dataTeamMembers[m_strSelectedMember];
+            TeamMemberData.UserTypes eMemberRole;
+            ParseListBoxItem((string) listBoxTeamMembers.SelectedItem,
+                             out m_strSelectedMemberName, out eMemberRole);
+
+            System.Diagnostics.Debug.Assert(_dataTeamMembers.ContainsKey(m_strSelectedMemberName));
+            TeamMemberData theMemberData = _dataTeamMembers[m_strSelectedMemberName];
 
             // query the UNS to merge into this UNS record
             var dlg = new MemberPicker(_theStoryProjectData, 
@@ -613,11 +525,11 @@ namespace OneStoryProjectEditor
             string strNameToDelete = _dataTeamMembers.GetNameFromMemberId(strUnsGuid);
             _dataTeamMembers.Remove(strNameToDelete);
 
-            nIndex = listBoxTeamMembers.FindString(strNameToDelete);
+            nIndex = listBoxTeamMembers.FindString(GetListBoxItem(dlg.SelectedMember));
             if (nIndex != -1)
             {
                 listBoxTeamMembers.Items.RemoveAt(nIndex);
-                listBoxMemberRoles.Items.RemoveAt(nIndex);
+                // listBoxMemberRoles.Items.RemoveAt(nIndex);
             }
         }
 

@@ -1,4 +1,10 @@
-﻿don't offer to split into lines once there are anchors and beyond
+﻿use a scrollbar in Login dialog (and consider making the items as <Member name> (<role>)
+
+allow a team member to have multiple roles
+
+Add ability to remove an Answer box
+
+lable link to ln 0 doesn't work
 
 Send Process check reports to Judy
 
@@ -17,10 +23,6 @@ add the ability to delete an individual answer box
 add Spelling
 
 fix acts.hindiwbtc
-
-add 'cn' lines to line option button (since there may not be anchors in non-biblical stories).
-
-add count of TQs to the panorama view
 
 automatically send emails when "Send to xxx" happens
 

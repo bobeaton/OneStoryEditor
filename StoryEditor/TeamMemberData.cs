@@ -40,7 +40,8 @@ namespace OneStoryProjectEditor
         internal const string CstrConsultantInTrainingDisplay = "Consultant in Training";
         internal const string CstrIndependentConsultantDisplay = "Consultant";
         internal const string CstrProjectFacilitatorDisplay = "Project Facilitator";
-        
+        private const string CstrJustLookingDisplay = "Just Looking";
+
         public string Name;
         public UserTypes MemberType = UserTypes.eUndefined;
         public string MemberGuid;
@@ -244,6 +245,23 @@ namespace OneStoryProjectEditor
             return UserTypes.eUndefined;
         }
 
+        public static UserTypes GetMemberTypeFromDisplayString(string strMemberTypeDisplayString)
+        {
+            if (strMemberTypeDisplayString == CstrEnglishBackTranslatorDisplay)
+                return UserTypes.eEnglishBacktranslator;
+            if (strMemberTypeDisplayString == CstrFirstPassMentorDisplay)
+                return UserTypes.eFirstPassMentor;
+            if (strMemberTypeDisplayString == CstrConsultantInTrainingDisplay)
+                return UserTypes.eConsultantInTraining;
+            if (strMemberTypeDisplayString == CstrIndependentConsultantDisplay)
+                return UserTypes.eIndependentConsultant;
+            if (strMemberTypeDisplayString == CstrProjectFacilitatorDisplay)
+                return UserTypes.eProjectFacilitator;
+            if (strMemberTypeDisplayString == CstrJustLookingDisplay)
+                return UserTypes.eJustLooking;
+            return GetMemberType(strMemberTypeDisplayString);
+        }
+
         public string MemberTypeAsString
         {
             get { return GetMemberTypeAsString(MemberType); }
@@ -278,6 +296,8 @@ namespace OneStoryProjectEditor
                 return CstrProjectFacilitatorDisplay;
             if ((eMemberType & UserTypes.eFirstPassMentor) == UserTypes.eFirstPassMentor)
                 return CstrFirstPassMentorDisplay;
+            if ((eMemberType & UserTypes.eJustLooking) == UserTypes.eJustLooking)
+                return CstrJustLookingDisplay;
             return GetMemberTypeAsString(eMemberType);
         }
 
