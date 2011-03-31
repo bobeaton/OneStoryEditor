@@ -22,17 +22,21 @@ namespace OneStoryProjectEditor
 
         private readonly TeamMembersData _dataTeamMembers;
         private readonly ProjectSettings _theProjSettings;
+        protected StoryProjectData _theStoryProjectData;
         private string m_strSelectedMember;
 
         Dictionary<string, TeamMemberData> m_mapNewMembersThisSession = new Dictionary<string, TeamMemberData>();
 
         public bool Modified;
 
-        public TeamMemberForm(TeamMembersData dataTeamMembers, bool bUseLoginLabel, ProjectSettings theProjSettings)
+        public TeamMemberForm(TeamMembersData dataTeamMembers, bool bUseLoginLabel,
+            ProjectSettings theProjSettings, StoryProjectData theStoryProjectData)
             : base(true)
         {
             _dataTeamMembers = dataTeamMembers;
             _theProjSettings = theProjSettings;
+            _theStoryProjectData = theStoryProjectData;
+
             InitializeComponent();
             
             foreach (TeamMemberData aMember in _dataTeamMembers.Values)
@@ -298,6 +302,12 @@ namespace OneStoryProjectEditor
             {
                 m_strSelectedMember = (string)listBoxTeamMembers.SelectedItem;
                 buttonDeleteMember.Visible = m_mapNewMembersThisSession.ContainsKey(SelectedMember);
+
+                if (_dataTeamMembers.ContainsKey(m_strSelectedMember))
+                {
+                    var theMember = _dataTeamMembers[m_strSelectedMember];
+                    buttonMergeMember.Visible = (theMember.MemberType == TeamMemberData.UserTypes.eUNS);
+                }
             }
         }
 
@@ -560,6 +570,55 @@ namespace OneStoryProjectEditor
         private void listBoxMemberRoles_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             buttonOK_Click(sender, e);
+        }
+
+        private void buttonMergeMember_Click(object sender, EventArgs e)
+        {
+            // this button should only be enabled if a team member is selected
+            System.Diagnostics.Debug.Assert(listBoxTeamMembers.SelectedIndex != -1);
+            int nIndex = listBoxTeamMembers.SelectedIndex;
+
+            m_strSelectedMember = (string)listBoxTeamMembers.SelectedItem;
+            System.Diagnostics.Debug.Assert(_dataTeamMembers.ContainsKey(m_strSelectedMember));
+            TeamMemberData theMemberData = _dataTeamMembers[m_strSelectedMember];
+
+            // query the UNS to merge into this UNS record
+            var dlg = new MemberPicker(_theStoryProjectData, 
+                TeamMemberData.UserTypes.eUNS)
+                          {
+                              Text =
+                                  String.Format("Choose the UNS to merge into the record for '{0}'",
+                                                theMemberData.Name),
+                              ItemToBlock = theMemberData.Name
+                          };
+
+            DialogResult res = dlg.ShowDialog();
+            if (res != DialogResult.OK)
+                return;
+
+            string strUnsGuid = dlg.SelectedMember.MemberGuid;
+            _theStoryProjectData.ReplaceUns(strUnsGuid, theMemberData.MemberGuid);
+            theMemberData.MergeWith(dlg.SelectedMember);
+            Modified = true;
+
+            res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteUns,
+                                                dlg.SelectedMember.Name,
+                                                theMemberData.Name), 
+                                  OseResources.Properties.Resources.IDS_Caption,
+                                  MessageBoxButtons.YesNoCancel);
+            
+            if (res != DialogResult.Yes)
+                return;
+
+            string strNameToDelete = _dataTeamMembers.GetNameFromMemberId(strUnsGuid);
+            _dataTeamMembers.Remove(strNameToDelete);
+
+            nIndex = listBoxTeamMembers.FindString(strNameToDelete);
+            if (nIndex != -1)
+            {
+                listBoxTeamMembers.Items.RemoveAt(nIndex);
+                listBoxMemberRoles.Items.RemoveAt(nIndex);
+            }
         }
 
         /*

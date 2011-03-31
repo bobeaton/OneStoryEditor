@@ -2117,4 +2117,7 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_QueryProjectFolderOnThumbDrive" xml:space="preserve">
     <value>Browse for the project folder on the thumbdrive</value>
   </data>
+  <data name="IDS_ConfirmDeleteUns" xml:space="preserve">
+    <value>All of the UNS test information associated with '{0}' is now associated with '{1}'. Click 'Yes' to delete the record for '{0}'.</value>
+  </data>
 </root>

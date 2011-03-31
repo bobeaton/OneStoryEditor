@@ -33,6 +33,7 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
+            this.buttonMergeMember = new System.Windows.Forms.Button();
             this.fontDialog = new System.Windows.Forms.FontDialog();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
@@ -49,8 +50,9 @@
             // 
             // buttonCancel
             // 
+            this.buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(331, 442);
+            this.buttonCancel.Location = new System.Drawing.Point(320, 451);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 5;
@@ -61,9 +63,9 @@
             // 
             // buttonOK
             // 
-            this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonOK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonOK.Enabled = false;
-            this.buttonOK.Location = new System.Drawing.Point(250, 442);
+            this.buttonOK.Location = new System.Drawing.Point(239, 451);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 4;
@@ -71,6 +73,19 @@
             this.toolTip.SetToolTip(this.buttonOK, "Click to login as the selected member");
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
+            // 
+            // buttonMergeMember
+            // 
+            this.buttonMergeMember.Location = new System.Drawing.Point(519, 110);
+            this.buttonMergeMember.Name = "buttonMergeMember";
+            this.buttonMergeMember.Size = new System.Drawing.Size(111, 30);
+            this.buttonMergeMember.TabIndex = 3;
+            this.buttonMergeMember.Text = "&Merge UNSs";
+            this.toolTip.SetToolTip(this.buttonMergeMember, "Click this button to merge a different UNS with the selected UNS (so all referenc" +
+                    "es will be to the selected UNS)");
+            this.buttonMergeMember.UseVisualStyleBackColor = true;
+            this.buttonMergeMember.Visible = false;
+            this.buttonMergeMember.Click += new System.EventHandler(this.buttonMergeMember_Click);
             // 
             // fontDialog
             // 
@@ -83,7 +98,7 @@
             // buttonAddNewMember
             // 
             this.helpProvider.SetHelpString(this.buttonAddNewMember, "Click to Add a new team member");
-            this.buttonAddNewMember.Location = new System.Drawing.Point(440, 38);
+            this.buttonAddNewMember.Location = new System.Drawing.Point(519, 38);
             this.buttonAddNewMember.Name = "buttonAddNewMember";
             this.helpProvider.SetShowHelp(this.buttonAddNewMember, true);
             this.buttonAddNewMember.Size = new System.Drawing.Size(111, 30);
@@ -96,7 +111,7 @@
             // 
             this.buttonEditMember.Enabled = false;
             this.helpProvider.SetHelpString(this.buttonEditMember, "Click to edit the selected member\'s profile");
-            this.buttonEditMember.Location = new System.Drawing.Point(440, 74);
+            this.buttonEditMember.Location = new System.Drawing.Point(519, 74);
             this.buttonEditMember.Name = "buttonEditMember";
             this.helpProvider.SetShowHelp(this.buttonEditMember, true);
             this.buttonEditMember.Size = new System.Drawing.Size(111, 30);
@@ -108,7 +123,7 @@
             // buttonDeleteMember
             // 
             this.helpProvider.SetHelpString(this.buttonDeleteMember, "Click to delete the selected member (only works for members added this session)");
-            this.buttonDeleteMember.Location = new System.Drawing.Point(440, 110);
+            this.buttonDeleteMember.Location = new System.Drawing.Point(519, 150);
             this.buttonDeleteMember.Name = "buttonDeleteMember";
             this.helpProvider.SetShowHelp(this.buttonDeleteMember, true);
             this.buttonDeleteMember.Size = new System.Drawing.Size(111, 30);
@@ -127,9 +142,9 @@
             this.listBoxTeamMembers.Location = new System.Drawing.Point(3, 38);
             this.listBoxTeamMembers.MultiColumn = true;
             this.listBoxTeamMembers.Name = "listBoxTeamMembers";
-            this.tableLayoutPanelTeamMembers.SetRowSpan(this.listBoxTeamMembers, 3);
+            this.tableLayoutPanelTeamMembers.SetRowSpan(this.listBoxTeamMembers, 4);
             this.helpProvider.SetShowHelp(this.listBoxTeamMembers, true);
-            this.listBoxTeamMembers.Size = new System.Drawing.Size(213, 394);
+            this.listBoxTeamMembers.Size = new System.Drawing.Size(252, 394);
             this.listBoxTeamMembers.Sorted = true;
             this.listBoxTeamMembers.TabIndex = 0;
             this.listBoxTeamMembers.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxTeamMembers_MouseDoubleClick);
@@ -137,47 +152,46 @@
             // 
             // listBoxMemberRoles
             // 
-            this.tableLayoutPanelTeamMembers.SetColumnSpan(this.listBoxMemberRoles, 2);
             this.listBoxMemberRoles.ColumnWidth = 151;
             this.listBoxMemberRoles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listBoxMemberRoles.FormattingEnabled = true;
             this.helpProvider.SetHelpString(this.listBoxMemberRoles, "This list shows all the member\'s role on the team");
-            this.listBoxMemberRoles.Location = new System.Drawing.Point(222, 38);
+            this.listBoxMemberRoles.Location = new System.Drawing.Point(261, 38);
             this.listBoxMemberRoles.MultiColumn = true;
             this.listBoxMemberRoles.Name = "listBoxMemberRoles";
-            this.tableLayoutPanelTeamMembers.SetRowSpan(this.listBoxMemberRoles, 3);
+            this.tableLayoutPanelTeamMembers.SetRowSpan(this.listBoxMemberRoles, 4);
             this.listBoxMemberRoles.SelectionMode = System.Windows.Forms.SelectionMode.None;
             this.helpProvider.SetShowHelp(this.listBoxMemberRoles, true);
-            this.listBoxMemberRoles.Size = new System.Drawing.Size(212, 394);
+            this.listBoxMemberRoles.Size = new System.Drawing.Size(252, 394);
             this.listBoxMemberRoles.TabIndex = 7;
             this.listBoxMemberRoles.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxMemberRoles_MouseDoubleClick);
             // 
             // tableLayoutPanelTeamMembers
             // 
-            this.tableLayoutPanelTeamMembers.ColumnCount = 4;
+            this.tableLayoutPanelTeamMembers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelTeamMembers.ColumnCount = 3;
             this.tableLayoutPanelTeamMembers.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelTeamMembers.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanelTeamMembers.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanelTeamMembers.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelTeamMembers.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonCancel, 2, 4);
-            this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonAddNewMember, 4, 1);
-            this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonEditMember, 4, 2);
-            this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonDeleteMember, 4, 3);
+            this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonAddNewMember, 3, 1);
+            this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonEditMember, 3, 2);
+            this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonDeleteMember, 3, 4);
             this.tableLayoutPanelTeamMembers.Controls.Add(this.listBoxTeamMembers, 0, 1);
             this.tableLayoutPanelTeamMembers.Controls.Add(this.listBoxMemberRoles, 1, 1);
             this.tableLayoutPanelTeamMembers.Controls.Add(this.textBoxMemberNames, 0, 0);
             this.tableLayoutPanelTeamMembers.Controls.Add(this.textBoxMemberRoles, 1, 0);
-            this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonOK, 1, 4);
-            this.tableLayoutPanelTeamMembers.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonMergeMember, 2, 3);
             this.tableLayoutPanelTeamMembers.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanelTeamMembers.Name = "tableLayoutPanelTeamMembers";
             this.tableLayoutPanelTeamMembers.RowCount = 5;
             this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelTeamMembers.Size = new System.Drawing.Size(556, 468);
+            this.tableLayoutPanelTeamMembers.Size = new System.Drawing.Size(634, 445);
             this.tableLayoutPanelTeamMembers.TabIndex = 1;
             // 
             // textBoxMemberNames
@@ -187,20 +201,19 @@
             this.textBoxMemberNames.Location = new System.Drawing.Point(3, 3);
             this.textBoxMemberNames.Name = "textBoxMemberNames";
             this.textBoxMemberNames.ReadOnly = true;
-            this.textBoxMemberNames.Size = new System.Drawing.Size(213, 29);
+            this.textBoxMemberNames.Size = new System.Drawing.Size(252, 29);
             this.textBoxMemberNames.TabIndex = 8;
             this.textBoxMemberNames.Text = "Team Members";
             this.textBoxMemberNames.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBoxMemberRoles
             // 
-            this.tableLayoutPanelTeamMembers.SetColumnSpan(this.textBoxMemberRoles, 2);
             this.textBoxMemberRoles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxMemberRoles.Font = new System.Drawing.Font("Segoe UI", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxMemberRoles.Location = new System.Drawing.Point(222, 3);
+            this.textBoxMemberRoles.Location = new System.Drawing.Point(261, 3);
             this.textBoxMemberRoles.Name = "textBoxMemberRoles";
             this.textBoxMemberRoles.ReadOnly = true;
-            this.textBoxMemberRoles.Size = new System.Drawing.Size(212, 29);
+            this.textBoxMemberRoles.Size = new System.Drawing.Size(252, 29);
             this.textBoxMemberRoles.TabIndex = 9;
             this.textBoxMemberRoles.Text = "Roles";
             this.textBoxMemberRoles.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -211,8 +224,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(556, 468);
+            this.ClientSize = new System.Drawing.Size(635, 485);
+            this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.tableLayoutPanelTeamMembers);
+            this.Controls.Add(this.buttonOK);
             this.HelpButton = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -241,5 +256,6 @@
         private System.Windows.Forms.TextBox textBoxMemberNames;
         private System.Windows.Forms.TextBox textBoxMemberRoles;
         private System.Windows.Forms.Button buttonOK;
+        private System.Windows.Forms.Button buttonMergeMember;
     }
 }

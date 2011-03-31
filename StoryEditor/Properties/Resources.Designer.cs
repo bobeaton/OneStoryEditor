@@ -547,6 +547,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All of the UNS test information associated with &apos;{0}&apos; is now associated with &apos;{1}&apos;. Click &apos;Yes&apos; to delete the record for &apos;{0}&apos;..
+        /// </summary>
+        internal static string IDS_ConfirmDeleteUns {
+            get {
+                return ResourceManager.GetString("IDS_ConfirmDeleteUns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Click &apos;Yes&apos; to override the &apos;{0}&apos; {1} for yourself (&apos;{2}&apos;) only. Click &apos;No&apos; to make this change apply to every member of the team (if you all are switching to a new {1})..
         /// </summary>
         internal static string IDS_ConfirmOverride {

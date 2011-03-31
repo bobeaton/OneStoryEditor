@@ -509,6 +509,12 @@ namespace OneStoryProjectEditor
                 OseResources.Properties.Resources.HTML_DOM_Prefix,
                 strHtml);
         }
+
+        public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
+        {
+            CraftingInfo.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
+            Verses.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
+        }
     }
 
     public class StoryStateTransitionHistory : List<StoryStateTransition>
@@ -710,6 +716,16 @@ namespace OneStoryProjectEditor
                     new XAttribute(TestorInfo.CstrAttributeMemberID, testorInfo.TestorGuid),
                     testorInfo.TestComment));
             elemCraftingInfo.Add(elemTestors);
+        }
+
+        public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
+        {
+            int nIndex = IndexOf(strOldUnsGuid);
+            if (nIndex != -1)
+            {
+                var testor = this[nIndex];
+                testor.TestorGuid = strNewUnsGuid;
+            }
         }
     }
 
@@ -1101,6 +1117,14 @@ namespace OneStoryProjectEditor
                                                                               CstrLangInternationalBtStyleClassName,
                                                                            strName))));
         }
+
+        public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
+        {
+            if (BackTranslatorMemberID == strOldUnsGuid)
+                BackTranslatorMemberID = strNewUnsGuid;
+            TestorsToCommentsRetellings.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
+            TestorsToCommentsTqAnswers.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
+        }
     }
 
     public class StoriesData : List<StoryData>
@@ -1162,6 +1186,12 @@ namespace OneStoryProjectEditor
                 if (strStoryName == aSD.Name)
                     return aSD;
             return null;
+        }
+
+        public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
+        {
+            foreach (var storyData in this)
+                storyData.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
         }
     }
 
@@ -1475,7 +1505,7 @@ namespace OneStoryProjectEditor
         internal TeamMemberData EditTeamMembers(string strMemberName, bool bUseLoginLabel,
             ProjectSettings projSettings, ref bool bModified)
         {
-            var dlg = new TeamMemberForm(TeamMembers, bUseLoginLabel, projSettings);
+            var dlg = new TeamMemberForm(TeamMembers, bUseLoginLabel, projSettings, this);
             if (!String.IsNullOrEmpty(strMemberName))
             {
                 try
@@ -1601,6 +1631,12 @@ namespace OneStoryProjectEditor
 
                 return elemStoryProject;
             }
+        }
+
+        public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
+        {
+            foreach (var storiesData in Values)
+                storiesData.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
         }
     }
 }

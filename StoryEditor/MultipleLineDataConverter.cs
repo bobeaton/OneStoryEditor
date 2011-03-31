@@ -427,6 +427,13 @@ namespace OneStoryProjectEditor
                                                                 strRow)));
             return strRow;
         }
+
+        public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
+        {
+            var theLine = TryGetValue(strOldUnsGuid);
+            if ((theLine != null) && (theLine.MemberId == strOldUnsGuid))
+                theLine.MemberId = strNewUnsGuid;
+        }
     }
 
     public class RetellingsData : MultipleLineDataConverter

@@ -22,16 +22,24 @@ namespace OneStoryProjectEditor
             _eWantedType = eWantedType;
 
             InitializeComponent();
-
-            InitializeListBox(eWantedType);
         }
+
+        public new DialogResult ShowDialog()
+        {
+            InitializeListBox(_eWantedType);
+            return base.ShowDialog();
+        }
+
+        public string ItemToBlock { get; set; }
 
         protected void InitializeListBox(TeamMemberData.UserTypes eType)
         {
             listBoxUNSs.Items.Clear();
-            foreach (TeamMemberData aTMD in _theStoryProjectData.TeamMembers.Values)
-                if (aTMD.MemberType == eType)
-                    listBoxUNSs.Items.Add(aTMD.Name);
+            foreach (TeamMemberData aTMD in
+                _theStoryProjectData.TeamMembers.Values.Where(aTMD => (aTMD.MemberType == eType) && (aTMD.Name != ItemToBlock)))
+            {
+                listBoxUNSs.Items.Add(aTMD.Name);
+            }
 
             if (listBoxUNSs.Items.Count > 0)
                 listBoxUNSs.SelectedIndex = 0;

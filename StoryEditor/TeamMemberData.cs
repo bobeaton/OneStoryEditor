@@ -528,6 +528,22 @@ namespace OneStoryProjectEditor
         {
             return new ApplicationException(GetWrongMemberTypeWarning(eMemberTypeWithEditToken));
         }
+
+        public void MergeWith(TeamMemberData otherMember)
+        {
+            if (String.IsNullOrEmpty(Email))
+                Email = otherMember.Email;
+            if (String.IsNullOrEmpty(SkypeID))
+                SkypeID = otherMember.SkypeID;
+            if (String.IsNullOrEmpty(TeamViewerID))
+                TeamViewerID = otherMember.TeamViewerID;
+            if (String.IsNullOrEmpty(Phone))
+                Phone = otherMember.Phone;
+            if (String.IsNullOrEmpty(AltPhone))
+                AltPhone = otherMember.AltPhone;
+            if (String.IsNullOrEmpty(BioData))
+                BioData = otherMember.BioData;
+        }
     }
 
     public class TeamMembersData : Dictionary<string, TeamMemberData>

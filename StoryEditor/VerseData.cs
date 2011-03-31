@@ -931,6 +931,12 @@ namespace OneStoryProjectEditor
 
             return FinishPresentationHtml(strRow, strHtml, !IsVisible);
         }
+
+        public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
+        {
+            Retellings.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
+            TestQuestions.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
+        }
     }
 
     public class VersesData : List<VerseData>
@@ -1519,6 +1525,13 @@ namespace OneStoryProjectEditor
             foreach (var lineMemberData in
                 this.SelectMany(aVerseData => aVerseData.TestQuestions.Select(aTqData => aTqData.Answers[nIndex])))
                 lineMemberData.MemberId = strNewGuid;
+        }
+
+        public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
+        {
+            FirstVerse.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
+            foreach (var verse in this)
+                verse.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
         }
     }
 }

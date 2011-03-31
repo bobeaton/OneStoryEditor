@@ -288,6 +288,11 @@ namespace OneStoryProjectEditor
 
             return strTQRow;
         }
+
+        public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
+        {
+            Answers.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
+        }
     }
 
     public class TestQuestionsData : List<TestQuestionData>
@@ -474,6 +479,12 @@ namespace OneStoryProjectEditor
                                                   String.Format(OseResources.Properties.Resources.HTML_Table,
                                                                 strRow)));
             return strRow;
+        }
+
+        public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
+        {
+            foreach (var aTq in this)
+                aTq.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
         }
     }
 }
