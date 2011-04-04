@@ -601,12 +601,15 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public static bool QueryHgRepoParameters(string strProjectFolder, string strProjectName)
+        public static bool QueryHgRepoParameters(string strProjectFolder, 
+            string strProjectName, TeamMemberData loggedOnUser)
         {
-            HgRepoForm dlg = new HgRepoForm
+            var dlg = new HgRepoForm
             {
                 ProjectName = strProjectName,
                 UrlBase = "http://hg-private.languagedepot.org",
+                Username = (loggedOnUser != null) ? loggedOnUser.HgUsername : null,
+                Password = (loggedOnUser != null) ? loggedOnUser.HgPassword : null
             };
 
             if (dlg.ShowDialog() == DialogResult.OK)

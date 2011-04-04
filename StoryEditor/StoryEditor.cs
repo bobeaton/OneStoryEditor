@@ -4165,7 +4165,8 @@ namespace OneStoryProjectEditor
         {
             Debug.Assert(StoryProject.ProjSettings != null);
             Program.QueryHgRepoParameters(StoryProject.ProjSettings.ProjectFolder,
-                                          StoryProject.ProjSettings.ProjectName);
+                                          StoryProject.ProjSettings.ProjectName,
+                                          LoggedOnMember);
             Program.SyncWithRepository(StoryProject.ProjSettings.ProjectFolder, true);
         }
 
