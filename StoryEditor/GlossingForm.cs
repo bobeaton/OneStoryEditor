@@ -47,11 +47,13 @@ namespace OneStoryProjectEditor
                 flowLayoutPanel.FlowDirection = FlowDirection.RightToLeft;
 
             System.Diagnostics.Debug.Assert(SourceWords.Count == TargetWords.Count);
+            string strBeforeSource = SourceStringsInBetween[0];
+            string strBeforeTarget = TargetStringsInBetween[0];
             for (int i = 0; i < SourceWords.Count; i++)
             {
                 var gc = new GlossingControl(this,
-                    liSourceLang, SourceWords[i], SourceStringsInBetween[i + 1],
-                    liTargetLang, TargetWords[i], TargetStringsInBetween[i + 1]);
+                    liSourceLang, ref strBeforeSource, SourceWords[i], SourceStringsInBetween[i + 1],
+                    liTargetLang, ref strBeforeTarget, TargetWords[i], TargetStringsInBetween[i + 1]);
 
                 flowLayoutPanel.Controls.Add(gc);
             }
@@ -88,12 +90,15 @@ namespace OneStoryProjectEditor
             }
 
             System.Diagnostics.Debug.Assert(flowLayoutPanel.Controls.Count > 0);
-            string strTargetSentence = ((GlossingControl)flowLayoutPanel.Controls[0]).TargetWord;
+            var gc = (GlossingControl) flowLayoutPanel.Controls[0];
+            string strTargetSentence = gc.InBetweenBeforeTarget + 
+                gc.TargetWord + gc.InBetweenAfterTarget;
 
             for (int i = 1; i < flowLayoutPanel.Controls.Count; i++)
             {
-                var aGc = (GlossingControl)flowLayoutPanel.Controls[i];
-                strTargetSentence += " " + aGc.TargetWord;
+                gc = (GlossingControl)flowLayoutPanel.Controls[i];
+                strTargetSentence += " " + gc.InBetweenBeforeTarget + 
+                    gc.TargetWord + gc.InBetweenAfterTarget;
             }
 
             TargetSentence = strTargetSentence;
@@ -161,16 +166,26 @@ namespace OneStoryProjectEditor
             //  split source words again.
             control.TargetWord = SafeConvert(control.SourceWord);
 
+            GlossingControl ctrlNew = null;
             for (int i = 1; i < astrSourceWords.Length; i++)
             {
                 string strSourceWord = astrSourceWords[i];
                 string strTargetWord = SafeConvert(strSourceWord);
-                var gc = new GlossingControl(this,
-                    liSourceLang, strSourceWord, "",
-                    liTargetLang, strTargetWord, "");
+                string strDummy = null;
+                ctrlNew = new GlossingControl(this,
+                    liSourceLang, ref strDummy, strSourceWord, "",
+                    liTargetLang, ref strDummy, strTargetWord, "");
 
-                flowLayoutPanel.Controls.Add(gc);
-                flowLayoutPanel.Controls.SetChildIndex(gc, ++nIndex);
+                flowLayoutPanel.Controls.Add(ctrlNew);
+                flowLayoutPanel.Controls.SetChildIndex(ctrlNew, ++nIndex);
+            }
+
+            if (ctrlNew != null)
+            {
+                ctrlNew.InBetweenAfterSource = control.InBetweenAfterSource;
+                control.InBetweenAfterSource = null;
+                ctrlNew.InBetweenAfterTarget = control.InBetweenAfterTarget;
+                control.InBetweenAfterTarget = null;
             }
         }
 

@@ -12,9 +12,10 @@ namespace OneStoryProjectEditor
         protected GlossingForm _parent;
         public const string CstrAmbiguitySeparator = "¦";
         protected string _strTargetKeyboard, _strSourceKeyboard;
+
         public GlossingControl(GlossingForm parent, 
-            ProjectSettings.LanguageInfo liSource, string strSourceWord, string strSourceInBetween,
-            ProjectSettings.LanguageInfo liTarget, string strTargetWord, string strTargetInBetween)
+            ProjectSettings.LanguageInfo liSource, ref string strBeforeSource, string strSourceWord, string strSourceInBetween,
+            ProjectSettings.LanguageInfo liTarget, ref string strBeforeTarget, string strTargetWord, string strTargetInBetween)
         {
             _parent = parent;
             InitializeComponent();
@@ -22,29 +23,85 @@ namespace OneStoryProjectEditor
             _strTargetKeyboard = liTarget.Keyboard;
             _strSourceKeyboard = liSource.Keyboard;
 
+            InBetweenBeforeSource = strBeforeSource;
+            InBetweenBeforeTarget = strBeforeTarget;
+
             if (liSource.DoRtl)
                 this.tableLayoutPanel.RightToLeft = RightToLeft.Yes;
 
-            string strFollowingSource = strSourceInBetween.Trim();
-            if (!String.IsNullOrEmpty(strFollowingSource))
+            InBetweenAfterSource = ProcessInBetween(strSourceInBetween, ref strBeforeSource);
+            if (!String.IsNullOrEmpty(InBetweenAfterSource))
                 buttonJoin.Visible = false;
+
+            InBetweenAfterTarget = ProcessInBetween(strTargetInBetween, ref strBeforeTarget);
 
             textBoxSourceWord.Font = liSource.FontToUse;
             textBoxSourceWord.ForeColor = liSource.FontColor;
             if (liSource.DoRtl)
                 textBoxSourceWord.RightToLeft = RightToLeft.Yes;
-            textBoxSourceWord.Text = strSourceWord + strFollowingSource;
+            textBoxSourceWord.Text = strSourceWord;
 
             textBoxTargetWord.Font = liTarget.FontToUse;
             textBoxTargetWord.ForeColor = liTarget.FontColor;
             if (liTarget.DoRtl)
                 textBoxTargetWord.RightToLeft = RightToLeft.Yes;
 
+            /*
             if (strTargetInBetween != " ")
                 strTargetWord += strTargetInBetween;
+            */
             TargetWord = strTargetWord;
 
             Modified = false;   // reinitialize
+        }
+
+        public string InBetweenBeforeSource { get; set; }
+        public string InBetweenAfterSource { get; set; }
+        public string InBetweenBeforeTarget { get; set; }
+        public string InBetweenAfterTarget { get; set; }
+
+        /// <summary>
+        /// Turn the white space and punctuation between words into strings that follow
+        /// the current word, or precede the next word
+        /// </summary>
+        /// <param name="strInBetweenAfter">what comes after the current word (some of which might be for after this current word and some (past a space) is what comes before the next word</param>
+        /// <param name="strBeforeNext">what should go before the current word</param>
+        private static string ProcessInBetween(string strInBetweenAfter, ref string strBeforeNext)
+        {
+            if (String.IsNullOrEmpty(strInBetweenAfter))
+                return null;
+
+            string[] astr = strInBetweenAfter.Split(GlossingForm.achWordDelimiters, StringSplitOptions.RemoveEmptyEntries);
+            if (astr.Length >= 2)
+            {
+                // e.g. /, "/
+                strInBetweenAfter = astr[0];
+                strBeforeNext = null;
+                for (int i = 1; i < astr.Length; i++ )
+                    strBeforeNext += astr[i];
+            }
+            else if (astr.Length == 1)
+            {
+                // either, e.g. / '/
+                if (strInBetweenAfter[0] == ' ')
+                {
+                    strBeforeNext = astr[0];
+                    strInBetweenAfter = null;
+                }
+                else
+                {
+                    // or /' /
+                    strBeforeNext = null;
+                    strInBetweenAfter = astr[0];
+                }
+            }
+            else
+            {
+                // must have just been a space
+                strBeforeNext = strInBetweenAfter = null;
+            }
+
+            return strInBetweenAfter;
         }
 
         public string SourceWord

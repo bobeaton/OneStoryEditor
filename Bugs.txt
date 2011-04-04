@@ -1,6 +1,4 @@
-﻿use a scrollbar in Login dialog (and consider making the items as <Member name> (<role>)
-
-allow a team member to have multiple roles
+﻿Re-hook OEBTer into Tasks
 
 Add ability to remove an Answer box
 

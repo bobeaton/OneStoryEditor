@@ -215,7 +215,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        const string CstrAdaptItPunct = "?.,;:\"!()<>{}[]“”‘’";
+        const string CstrAdaptItPunct = "?.,;:\"'!()<>{}[]“”‘’…-";
             
         private static void AiPunctuation(string strSourceSentenceFinalPuncts, string strTargetSentenceFinalPuncts, out string strSourcePunct, out string strTargetPunct)
         {
