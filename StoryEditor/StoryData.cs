@@ -41,8 +41,8 @@ namespace OneStoryProjectEditor
             Verses.InsureFirstVerse();
 
             string strMemberName = projectData.TeamMembers.GetNameFromMemberId(strLoggedOnMemberGuid);
-            System.Diagnostics.Debug.Assert(projectData.TeamMembers[strMemberName].MemberType ==
-                                            TeamMemberData.UserTypes.eProjectFacilitator);
+            System.Diagnostics.Debug.Assert(TeamMemberData.IsUser(projectData.TeamMembers[strMemberName].MemberType,
+                                                                  TeamMemberData.UserTypes.ProjectFacilitator));
 
             TeamMemberData thePf = projectData.TeamMembers[strMemberName];
             TasksAllowedPf = (TasksPf.TaskSettings)thePf.DefaultAllowed;
@@ -272,30 +272,31 @@ namespace OneStoryProjectEditor
 
         public void CheckForProjectFacilitator(StoryProjectData storyProjectData, TeamMemberData loggedOnMember)
         {
-            if (CraftingInfo.ProjectFacilitatorMemberID == null)
-            {
-                // this means that we've opened a file which didn't have the proj fac listed
-                // if there's only one PF, then just put that one in. If there are multiple,
-                //  then ask which one to use
-                if ((storyProjectData.TeamMembers.CountOfProjectFacilitator == 1)
-                    && (loggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator))
-                {
-                    CraftingInfo.ProjectFacilitatorMemberID = loggedOnMember.MemberGuid;
-                    return;
-                }
-#if !DataDllBuild
-                // fall thru means either the logged in person isn't a PF or there are multiple,
-                //  so, ask the user to tell which PF added this story
-                var dlg = new MemberPicker(storyProjectData, TeamMemberData.UserTypes.eProjectFacilitator)
-                                       {
-                                           Text = "Choose the Project Facilitator that entered this story"
-                                       };
-                if (dlg.ShowDialog() != DialogResult.OK)
-                    return;
+            if (CraftingInfo.ProjectFacilitatorMemberID != null)
+                return;
 
-                CraftingInfo.ProjectFacilitatorMemberID = dlg.SelectedMember.MemberGuid;
-#endif
+            // this means that we've opened a file which didn't have the proj fac listed
+            // if there's only one PF, then just put that one in. If there are multiple,
+            //  then ask which one to use
+            if ((storyProjectData.TeamMembers.CountOfProjectFacilitator == 1)
+                && TeamMemberData.IsUser(loggedOnMember.MemberType,
+                                         TeamMemberData.UserTypes.ProjectFacilitator))
+            {
+                CraftingInfo.ProjectFacilitatorMemberID = loggedOnMember.MemberGuid;
+                return;
             }
+#if !DataDllBuild
+            // fall thru means either the logged in person isn't a PF or there are multiple,
+            //  so, ask the user to tell which PF added this story
+            var dlg = new MemberPicker(storyProjectData, TeamMemberData.UserTypes.ProjectFacilitator)
+                          {
+                              Text = Properties.Resources.IDS_ChooseProjFac
+                          };
+            if (dlg.ShowDialog() != DialogResult.OK)
+                return;
+
+            CraftingInfo.ProjectFacilitatorMemberID = dlg.SelectedMember.MemberGuid;
+#endif
         }
 
         private static TasksPf.TaskSettings GetAttributeValue(XmlNode node, 
@@ -510,10 +511,28 @@ namespace OneStoryProjectEditor
                 strHtml);
         }
 
-        public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
+        public void ReplaceUns(string strOldMemberGuid, string strNewMemberGuid)
         {
-            CraftingInfo.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
-            Verses.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
+            try
+            {
+                CraftingInfo.ReplaceUns(strOldMemberGuid, strNewMemberGuid);
+                Verses.ReplaceUns(strOldMemberGuid, strNewMemberGuid);
+            }
+            catch (StoryProjectData.ReplaceMemberException ex)
+            {
+                ex.StoryName = Name;
+                throw;
+            }
+        }
+
+        public void ReplaceProjectFacilitator(string strOldMemberGuid, string strNewMemberGuid)
+        {
+            CraftingInfo.ReplaceProjectFacilitator(strOldMemberGuid, strNewMemberGuid);
+        }
+
+        public void ReplaceCrafter(string strOldMemberGuid, string strNewMemberGuid)
+        {
+            CraftingInfo.ReplaceCrafter(strOldMemberGuid, strNewMemberGuid);
         }
     }
 
@@ -1118,12 +1137,36 @@ namespace OneStoryProjectEditor
                                                                            strName))));
         }
 
-        public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
+        public void ReplaceUns(string strOldMemberGuid, string strNewMemberGuid)
         {
-            if (BackTranslatorMemberID == strOldUnsGuid)
-                BackTranslatorMemberID = strNewUnsGuid;
-            TestorsToCommentsRetellings.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
-            TestorsToCommentsTqAnswers.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
+            // before we do *any* changing, we have to verify that this isn't going 
+            //  to put us in a bad situation: the same UNS twice for the same story
+            if (TestorsToCommentsRetellings.Contains(strNewMemberGuid)
+                || TestorsToCommentsTqAnswers.Contains(strNewMemberGuid))
+            {
+                throw new StoryProjectData.ReplaceMemberException
+                          {
+                              MemberGuid = strNewMemberGuid,
+                              Format = Properties.Resources.IDS_ReplaceUnsException
+                          };
+            }
+
+            if (BackTranslatorMemberID == strOldMemberGuid)
+                BackTranslatorMemberID = strNewMemberGuid;
+            TestorsToCommentsRetellings.ReplaceUns(strOldMemberGuid, strNewMemberGuid);
+            TestorsToCommentsTqAnswers.ReplaceUns(strOldMemberGuid, strNewMemberGuid);
+        }
+
+        public void ReplaceProjectFacilitator(string strOldMemberGuid, string strNewMemberGuid)
+        {
+            if (ProjectFacilitatorMemberID == strOldMemberGuid)
+                ProjectFacilitatorMemberID = strNewMemberGuid;
+        }
+
+        public void ReplaceCrafter(string strOldMemberGuid, string strNewMemberGuid)
+        {
+            if (StoryCrafterMemberID == strOldMemberGuid)
+                StoryCrafterMemberID = strNewMemberGuid;
         }
     }
 
@@ -1188,10 +1231,22 @@ namespace OneStoryProjectEditor
             return null;
         }
 
-        public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
+        public void ReplaceUns(string strOldMemberGuid, string strNewMemberGuid)
         {
             foreach (var storyData in this)
-                storyData.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
+                storyData.ReplaceUns(strOldMemberGuid, strNewMemberGuid);
+        }
+
+        public void ReplaceProjectFacilitator(string strOldMemberGuid, string strNewMemberGuid)
+        {
+            foreach (var storyData in this)
+                storyData.ReplaceProjectFacilitator(strOldMemberGuid, strNewMemberGuid);
+        }
+
+        public void ReplaceCrafter(string strOldMemberGuid, string strNewMemberGuid)
+        {
+            foreach (var storyData in this)
+                storyData.ReplaceCrafter(strOldMemberGuid, strNewMemberGuid);
         }
     }
 
@@ -1457,17 +1512,19 @@ namespace OneStoryProjectEditor
             //  (basically Crafters or others that are also the same role as last time)
             string strMemberName = null;
             TeamMemberData loggedOnMember = null;
+            TeamMemberData.UserTypes eRole = TeamMemberData.UserTypes.Undefined;
             if (!String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
             {
                 strMemberName = Properties.Settings.Default.LastMemberLogin;
-                string strMemberTypeString = Properties.Settings.Default.LastUserType;
-                if (CanLoginMember(strMemberName, strMemberTypeString))
+                eRole = TeamMemberData.GetMemberType(Properties.Settings.Default.LastUserType);
+                if (CanLoginMember(strMemberName, eRole))
                     loggedOnMember = TeamMembers[strMemberName];
             }
 
             // otherwise, fall thru and make them pick it.
             if (loggedOnMember == null)
-                loggedOnMember = EditTeamMembers(strMemberName, true, ProjSettings, ref bModified);
+                loggedOnMember = EditTeamMembers(strMemberName, eRole, true, 
+                    ProjSettings, true, ref bModified);
 
             // if we have a logged on person, then initialize the overrides for that
             //  person (i.e. fonts, keyboards)
@@ -1479,12 +1536,12 @@ namespace OneStoryProjectEditor
 
         // this can be used to determine whether a given member name and type are one
         //  of the ones in this project (for auto-login)
-        public bool CanLoginMember(string strMemberName, string strMemberType)
+        public bool CanLoginMember(string strMemberName, TeamMemberData.UserTypes eRole)
         {
             if (TeamMembers.ContainsKey(strMemberName))
             {
-                TeamMemberData aTMD = TeamMembers[strMemberName];
-                if (aTMD.MemberTypeAsString == strMemberType)
+                var aTMD = TeamMembers[strMemberName];
+                if (TeamMemberData.IsUser(aTMD.MemberType, eRole))
                 {
                     // kind of a kludge, but necessary for the state logic
                     //  If we're going to return true (meaning that we can auto-log this person in), then
@@ -1502,8 +1559,9 @@ namespace OneStoryProjectEditor
         }
 
         // returns the logged in member
-        internal TeamMemberData EditTeamMembers(string strMemberName, bool bUseLoginLabel,
-            ProjectSettings projSettings, ref bool bModified)
+        internal TeamMemberData EditTeamMembers(string strMemberName, 
+            TeamMemberData.UserTypes eRole, bool bUseLoginLabel, 
+            ProjectSettings projSettings, bool bLoginRequired, ref bool bModified)
         {
             var dlg = new TeamMemberForm(TeamMembers, bUseLoginLabel, projSettings, this);
             if (!String.IsNullOrEmpty(strMemberName))
@@ -1512,32 +1570,26 @@ namespace OneStoryProjectEditor
                 {
                     // if we did find the "last member" in the list, but couldn't accept it without question
                     //  (e.g. because the role was different), then at least pre-select the member
-                    dlg.SelectedMember = strMemberName;
+                    dlg.SelectedMember = TeamMemberForm.GetListBoxItem(strMemberName, eRole);
                 }
                 catch { }    // might fail if the "last user" on this machine is opening this project file for the first time... just ignore
             }
 
-            if (dlg.ShowDialog() != DialogResult.OK)
-            {
-                if (bUseLoginLabel)
-                    MessageBox.Show(OseResources.Properties.Resources.IDS_HaveToLogInToContinue, OseResources.Properties.Resources.IDS_Caption);
-
-                throw BackOutWithNoUI;
-            }
+            var res = dlg.ShowDialog();
 
             // if the user added a new member, then the proj file is 'dirty'
             if (dlg.Modified)
                 bModified = true;
 
-            // kind of a kludge, but necessary for the state logic
-            //  If we have an English Back-translator person in the team, then we have to set the 
-            //  member with the edit token when we get to the EnglishBT state as that person
-            //  otherwise, it's a crafter
-            /*
-            StoryStageLogic.stateTransitions[StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT].MemberTypeWithEditToken =
-                (TeamMembers.HasOutsideEnglishBTer) ? TeamMemberData.UserTypes.eEnglishBacktranslator : TeamMemberData.UserTypes.eProjectFacilitator;
-            */
-            return TeamMembers[dlg.SelectedMember];
+            if (res != DialogResult.OK)
+            {
+                if (bUseLoginLabel && bLoginRequired)
+                    MessageBox.Show(OseResources.Properties.Resources.IDS_HaveToLogInToContinue, OseResources.Properties.Resources.IDS_Caption);
+
+                throw BackOutWithNoUI;
+            }
+
+            return TeamMembers[dlg.SelectedMemberName];
         }
 #endif
 
@@ -1591,10 +1643,9 @@ namespace OneStoryProjectEditor
 
                 // the role "English Back-translator" only has meaning if there's another
                 //  language involved.
-                foreach (TeamMemberData aTM in TeamMembers.Values)
-                    if (aTM.MemberType == TeamMemberData.UserTypes.eEnglishBacktranslator)
-                        return true;
-                return false;
+                return TeamMembers.Values.Any(aTM => 
+                    TeamMemberData.IsUser(aTM.MemberType, 
+                    TeamMemberData.UserTypes.EnglishBackTranslator));
             }
         }
 
@@ -1633,10 +1684,29 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
+        public void ReplaceUns(string strOldMemberGuid, string strNewMemberGuid)
         {
             foreach (var storiesData in Values)
-                storiesData.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
+                storiesData.ReplaceUns(strOldMemberGuid, strNewMemberGuid);
+        }
+
+        public void ReplaceProjectFacilitator(string strOldMemberGuid, string strNewMemberGuid)
+        {
+            foreach (var storiesData in Values)
+                storiesData.ReplaceProjectFacilitator(strOldMemberGuid, strNewMemberGuid);
+        }
+
+        public void ReplaceCrafter(string strOldMemberGuid, string strNewMemberGuid)
+        {
+            foreach (var storiesData in Values)
+                storiesData.ReplaceCrafter(strOldMemberGuid, strNewMemberGuid);
+        }
+
+        public class ReplaceMemberException : Exception
+        {
+            public string MemberGuid { get; set; }
+            public string StoryName { get; set; }
+            public string Format { get; set; }
         }
     }
 }

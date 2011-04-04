@@ -33,7 +33,9 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
-            this.buttonMergeMember = new System.Windows.Forms.Button();
+            this.buttonMergeUns = new System.Windows.Forms.Button();
+            this.buttonMergeProjectFacilitators = new System.Windows.Forms.Button();
+            this.buttonMergeCrafter = new System.Windows.Forms.Button();
             this.fontDialog = new System.Windows.Forms.FontDialog();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
@@ -72,18 +74,44 @@
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
-            // buttonMergeMember
+            // buttonMergeUns
             // 
-            this.buttonMergeMember.Location = new System.Drawing.Point(520, 110);
-            this.buttonMergeMember.Name = "buttonMergeMember";
-            this.buttonMergeMember.Size = new System.Drawing.Size(111, 30);
-            this.buttonMergeMember.TabIndex = 3;
-            this.buttonMergeMember.Text = "&Merge UNSs";
-            this.toolTip.SetToolTip(this.buttonMergeMember, "Click this button to merge a different UNS with the selected UNS (so all referenc" +
+            this.buttonMergeUns.Location = new System.Drawing.Point(487, 182);
+            this.buttonMergeUns.Name = "buttonMergeUns";
+            this.buttonMergeUns.Size = new System.Drawing.Size(144, 30);
+            this.buttonMergeUns.TabIndex = 3;
+            this.buttonMergeUns.Text = "&Merge UNSs";
+            this.toolTip.SetToolTip(this.buttonMergeUns, "Click this button to merge a different UNS with the selected UNS (so all referenc" +
                     "es will be to the selected UNS)");
-            this.buttonMergeMember.UseVisualStyleBackColor = true;
-            this.buttonMergeMember.Visible = false;
-            this.buttonMergeMember.Click += new System.EventHandler(this.buttonMergeMember_Click);
+            this.buttonMergeUns.UseVisualStyleBackColor = true;
+            this.buttonMergeUns.Visible = false;
+            this.buttonMergeUns.Click += new System.EventHandler(this.buttonMergeUns_Click);
+            // 
+            // buttonMergeProjectFacilitators
+            // 
+            this.buttonMergeProjectFacilitators.Location = new System.Drawing.Point(487, 110);
+            this.buttonMergeProjectFacilitators.Name = "buttonMergeProjectFacilitators";
+            this.buttonMergeProjectFacilitators.Size = new System.Drawing.Size(144, 30);
+            this.buttonMergeProjectFacilitators.TabIndex = 3;
+            this.buttonMergeProjectFacilitators.Text = "&Merge Project Facilitators";
+            this.toolTip.SetToolTip(this.buttonMergeProjectFacilitators, "Click this button to merge a different Project Facilitator with the selected Proj" +
+                    "ect Facilitator (so all references will be to the selected Project Facilitator)");
+            this.buttonMergeProjectFacilitators.UseVisualStyleBackColor = true;
+            this.buttonMergeProjectFacilitators.Visible = false;
+            this.buttonMergeProjectFacilitators.Click += new System.EventHandler(this.buttonMergeProjectFacilitators_Click);
+            // 
+            // buttonMergeCrafter
+            // 
+            this.buttonMergeCrafter.Location = new System.Drawing.Point(487, 146);
+            this.buttonMergeCrafter.Name = "buttonMergeCrafter";
+            this.buttonMergeCrafter.Size = new System.Drawing.Size(144, 30);
+            this.buttonMergeCrafter.TabIndex = 3;
+            this.buttonMergeCrafter.Text = "&Merge Crafters";
+            this.toolTip.SetToolTip(this.buttonMergeCrafter, "Click this button to merge a different Crafter with the selected Crafter (so all " +
+                    "references will be to the selected Crafter)");
+            this.buttonMergeCrafter.UseVisualStyleBackColor = true;
+            this.buttonMergeCrafter.Visible = false;
+            this.buttonMergeCrafter.Click += new System.EventHandler(this.buttonMergeCrafter_Click);
             // 
             // fontDialog
             // 
@@ -96,10 +124,10 @@
             // buttonAddNewMember
             // 
             this.helpProvider.SetHelpString(this.buttonAddNewMember, "Click to Add a new team member");
-            this.buttonAddNewMember.Location = new System.Drawing.Point(520, 38);
+            this.buttonAddNewMember.Location = new System.Drawing.Point(487, 38);
             this.buttonAddNewMember.Name = "buttonAddNewMember";
             this.helpProvider.SetShowHelp(this.buttonAddNewMember, true);
-            this.buttonAddNewMember.Size = new System.Drawing.Size(111, 30);
+            this.buttonAddNewMember.Size = new System.Drawing.Size(144, 30);
             this.buttonAddNewMember.TabIndex = 1;
             this.buttonAddNewMember.Text = "&Add New Member";
             this.buttonAddNewMember.UseVisualStyleBackColor = true;
@@ -109,10 +137,10 @@
             // 
             this.buttonEditMember.Enabled = false;
             this.helpProvider.SetHelpString(this.buttonEditMember, "Click to edit the selected member\'s profile");
-            this.buttonEditMember.Location = new System.Drawing.Point(520, 74);
+            this.buttonEditMember.Location = new System.Drawing.Point(487, 74);
             this.buttonEditMember.Name = "buttonEditMember";
             this.helpProvider.SetShowHelp(this.buttonEditMember, true);
-            this.buttonEditMember.Size = new System.Drawing.Size(111, 30);
+            this.buttonEditMember.Size = new System.Drawing.Size(144, 30);
             this.buttonEditMember.TabIndex = 2;
             this.buttonEditMember.Text = "&Edit Member";
             this.buttonEditMember.UseVisualStyleBackColor = true;
@@ -121,10 +149,10 @@
             // buttonDeleteMember
             // 
             this.helpProvider.SetHelpString(this.buttonDeleteMember, "Click to delete the selected member (only works for members added this session)");
-            this.buttonDeleteMember.Location = new System.Drawing.Point(520, 150);
+            this.buttonDeleteMember.Location = new System.Drawing.Point(487, 218);
             this.buttonDeleteMember.Name = "buttonDeleteMember";
             this.helpProvider.SetShowHelp(this.buttonDeleteMember, true);
-            this.buttonDeleteMember.Size = new System.Drawing.Size(111, 30);
+            this.buttonDeleteMember.Size = new System.Drawing.Size(144, 30);
             this.buttonDeleteMember.TabIndex = 3;
             this.buttonDeleteMember.Text = "&Delete Member";
             this.buttonDeleteMember.UseVisualStyleBackColor = true;
@@ -139,9 +167,9 @@
             this.helpProvider.SetHelpString(this.listBoxTeamMembers, resources.GetString("listBoxTeamMembers.HelpString"));
             this.listBoxTeamMembers.Location = new System.Drawing.Point(3, 38);
             this.listBoxTeamMembers.Name = "listBoxTeamMembers";
-            this.tableLayoutPanelTeamMembers.SetRowSpan(this.listBoxTeamMembers, 4);
+            this.tableLayoutPanelTeamMembers.SetRowSpan(this.listBoxTeamMembers, 6);
             this.helpProvider.SetShowHelp(this.listBoxTeamMembers, true);
-            this.listBoxTeamMembers.Size = new System.Drawing.Size(511, 394);
+            this.listBoxTeamMembers.Size = new System.Drawing.Size(478, 394);
             this.listBoxTeamMembers.Sorted = true;
             this.listBoxTeamMembers.TabIndex = 0;
             this.listBoxTeamMembers.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxTeamMembers_MouseDoubleClick);
@@ -155,20 +183,23 @@
             this.tableLayoutPanelTeamMembers.ColumnCount = 2;
             this.tableLayoutPanelTeamMembers.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelTeamMembers.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelTeamMembers.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonAddNewMember, 2, 1);
             this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonEditMember, 2, 2);
-            this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonDeleteMember, 2, 4);
             this.tableLayoutPanelTeamMembers.Controls.Add(this.listBoxTeamMembers, 0, 1);
             this.tableLayoutPanelTeamMembers.Controls.Add(this.textBoxMemberNames, 0, 0);
-            this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonMergeMember, 1, 3);
+            this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonDeleteMember, 1, 6);
+            this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonMergeCrafter, 1, 4);
+            this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonMergeProjectFacilitators, 1, 3);
+            this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonMergeUns, 1, 5);
             this.tableLayoutPanelTeamMembers.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanelTeamMembers.Name = "tableLayoutPanelTeamMembers";
-            this.tableLayoutPanelTeamMembers.RowCount = 5;
+            this.tableLayoutPanelTeamMembers.RowCount = 6;
             this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelTeamMembers.Size = new System.Drawing.Size(634, 445);
             this.tableLayoutPanelTeamMembers.TabIndex = 1;
@@ -180,7 +211,7 @@
             this.textBoxMemberNames.Location = new System.Drawing.Point(3, 3);
             this.textBoxMemberNames.Name = "textBoxMemberNames";
             this.textBoxMemberNames.ReadOnly = true;
-            this.textBoxMemberNames.Size = new System.Drawing.Size(511, 29);
+            this.textBoxMemberNames.Size = new System.Drawing.Size(478, 29);
             this.textBoxMemberNames.TabIndex = 8;
             this.textBoxMemberNames.Text = "Team Members";
             this.textBoxMemberNames.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -221,6 +252,8 @@
         private System.Windows.Forms.ListBox listBoxTeamMembers;
         private System.Windows.Forms.TextBox textBoxMemberNames;
         private System.Windows.Forms.Button buttonOK;
-        private System.Windows.Forms.Button buttonMergeMember;
+        private System.Windows.Forms.Button buttonMergeUns;
+        private System.Windows.Forms.Button buttonMergeProjectFacilitators;
+        private System.Windows.Forms.Button buttonMergeCrafter;
     }
 }

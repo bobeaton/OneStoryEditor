@@ -286,7 +286,7 @@ namespace OneStoryProjectEditor
                 return;
 
             if (!IsGeneralQuestionsLine 
-                && (theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+                && TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator)
                 && !TasksPf.IsTaskOn(theSE.theCurrentStory.TasksAllowedPf, TasksPf.TaskSettings.TestQuestions))
             {
                 MessageBox.Show(Resources.IDS_CantAddTQs, 

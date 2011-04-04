@@ -2117,7 +2117,22 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_QueryProjectFolderOnThumbDrive" xml:space="preserve">
     <value>Browse for the project folder on the thumbdrive</value>
   </data>
-  <data name="IDS_ConfirmDeleteUns" xml:space="preserve">
-    <value>All of the UNS test information associated with '{0}' is now associated with '{1}'. Click 'Yes' to delete the record for '{0}'.</value>
+  <data name="IDS_ConfirmDeleteMember" xml:space="preserve">
+    <value>All of the information associated with '{0}' is now associated with '{1}'. Click 'Yes' to delete the record for '{0}'.</value>
+  </data>
+  <data name="IDS_WarnNeedNameAndRole" xml:space="preserve">
+    <value>You have to enter at least a name and indicate your role (even if you're 'Just Looking')!</value>
+  </data>
+  <data name="IDS_ChooseProjFac" xml:space="preserve">
+    <value>Choose the Project Facilitator that entered this story</value>
+  </data>
+  <data name="IDS_CantChangeMember" xml:space="preserve">
+    <value>Unable to merge '{0}' into '{1}' because in the story '{2}', {3}</value>
+  </data>
+  <data name="IDS_QueryMergeMultipleRoles" xml:space="preserve">
+    <value>'{0}' has these additional roles: '{1}'. Would you like to add those roles to '{2}' also?</value>
+  </data>
+  <data name="IDS_ReplaceUnsException" xml:space="preserve">
+    <value>the UNS '{0}' is already used. That would result in the same UNS being used for two different tests. To correct this, go to that story and click 'Story', 'Story Information' and change the test associated with '{0}' to someone else and try to merge them again</value>
   </data>
 </root>

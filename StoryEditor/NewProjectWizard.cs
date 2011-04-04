@@ -382,7 +382,7 @@ namespace OneStoryProjectEditor
             {
                 // then at least turn on the default
                 foreach (var aTeamMember in
-                    _storyProjectData.TeamMembers.Values.Where(aTeamMember => aTeamMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator))
+                    _storyProjectData.TeamMembers.Values.Where(aTeamMember => TeamMemberData.IsUser(aTeamMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator)))
                 {
                     aTeamMember.DefaultAllowed |= (long)(uint)newTaskAllowed;
                 }
@@ -825,7 +825,7 @@ namespace OneStoryProjectEditor
                 && !_storyProjectData.IsASeparateEnglishBackTranslator)
             {
                 // if this user is saying that there's an external BTer, then query for it.
-                var dlg = new MemberPicker(_storyProjectData, TeamMemberData.UserTypes.eEnglishBacktranslator)
+                var dlg = new MemberPicker(_storyProjectData, TeamMemberData.UserTypes.EnglishBackTranslator)
                                        {
                                            Text = "Choose the member that will do English BTs"
                                        };
@@ -844,7 +844,7 @@ namespace OneStoryProjectEditor
             {
                 // if this user is saying that there's a first pass mentor, but there doesn't
                 //  appear to be one, then query for it.
-                var dlg = new MemberPicker(_storyProjectData, TeamMemberData.UserTypes.eFirstPassMentor)
+                var dlg = new MemberPicker(_storyProjectData, TeamMemberData.UserTypes.FirstPassMentor)
                 {
                     Text = "Choose the member that is the first-pass mentor"
                 };
@@ -863,7 +863,7 @@ namespace OneStoryProjectEditor
             {
                 // if this user is saying that there's a first pass mentor, but there doesn't
                 //  appear to be one, then query for it.
-                var dlg = new MemberPicker(_storyProjectData, TeamMemberData.UserTypes.eIndependentConsultant)
+                var dlg = new MemberPicker(_storyProjectData, TeamMemberData.UserTypes.IndependentConsultant)
                 {
                     Text = "Choose the member that is the independent consultant"
                 };

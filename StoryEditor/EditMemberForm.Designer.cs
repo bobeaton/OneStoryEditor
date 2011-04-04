@@ -33,16 +33,16 @@
             this.labelName = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.groupBoxRole = new System.Windows.Forms.GroupBox();
+            this.checkBoxUns = new System.Windows.Forms.CheckBox();
+            this.checkBoxCrafter = new System.Windows.Forms.CheckBox();
+            this.checkBoxProjectFacilitator = new System.Windows.Forms.CheckBox();
             this.buttonSetDefaultTasks = new System.Windows.Forms.Button();
             this.radioButtonIndependentConsultant = new System.Windows.Forms.RadioButton();
             this.radioButtonEnglishBackTranslator = new System.Windows.Forms.RadioButton();
             this.radioButtonJustViewing = new System.Windows.Forms.RadioButton();
             this.radioButtonCoach = new System.Windows.Forms.RadioButton();
-            this.radioButtonProjectFacilitator = new System.Windows.Forms.RadioButton();
             this.radioButtonConsultantInTraining = new System.Windows.Forms.RadioButton();
             this.radioButtonFirstPassMentor = new System.Windows.Forms.RadioButton();
-            this.radioButtonUNS = new System.Windows.Forms.RadioButton();
-            this.radioButtonStoryCrafter = new System.Windows.Forms.RadioButton();
             this.labelEmail = new System.Windows.Forms.Label();
             this.textBoxEmail = new System.Windows.Forms.TextBox();
             this.labelPhoneNumber = new System.Windows.Forms.Label();
@@ -125,22 +125,55 @@
             this.groupBoxRole.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxRole.Controls.Add(this.checkBoxUns);
+            this.groupBoxRole.Controls.Add(this.checkBoxCrafter);
+            this.groupBoxRole.Controls.Add(this.checkBoxProjectFacilitator);
             this.groupBoxRole.Controls.Add(this.buttonSetDefaultTasks);
             this.groupBoxRole.Controls.Add(this.radioButtonIndependentConsultant);
             this.groupBoxRole.Controls.Add(this.radioButtonEnglishBackTranslator);
             this.groupBoxRole.Controls.Add(this.radioButtonJustViewing);
             this.groupBoxRole.Controls.Add(this.radioButtonCoach);
-            this.groupBoxRole.Controls.Add(this.radioButtonProjectFacilitator);
             this.groupBoxRole.Controls.Add(this.radioButtonConsultantInTraining);
             this.groupBoxRole.Controls.Add(this.radioButtonFirstPassMentor);
-            this.groupBoxRole.Controls.Add(this.radioButtonUNS);
-            this.groupBoxRole.Controls.Add(this.radioButtonStoryCrafter);
             this.groupBoxRole.Location = new System.Drawing.Point(92, 29);
             this.groupBoxRole.Name = "groupBoxRole";
             this.groupBoxRole.Size = new System.Drawing.Size(405, 147);
             this.groupBoxRole.TabIndex = 2;
             this.groupBoxRole.TabStop = false;
             this.groupBoxRole.Text = "What role do you have in the team?";
+            // 
+            // checkBoxUns
+            // 
+            this.checkBoxUns.AutoSize = true;
+            this.checkBoxUns.Location = new System.Drawing.Point(17, 65);
+            this.checkBoxUns.Name = "checkBoxUns";
+            this.checkBoxUns.Size = new System.Drawing.Size(127, 17);
+            this.checkBoxUns.TabIndex = 12;
+            this.checkBoxUns.Text = "&Testing Helper (UNS)";
+            this.checkBoxUns.UseVisualStyleBackColor = true;
+            this.checkBoxUns.CheckedChanged += new System.EventHandler(this.checkBoxRole_CheckedChanged);
+            // 
+            // checkBoxCrafter
+            // 
+            this.checkBoxCrafter.AutoSize = true;
+            this.checkBoxCrafter.Location = new System.Drawing.Point(18, 42);
+            this.checkBoxCrafter.Name = "checkBoxCrafter";
+            this.checkBoxCrafter.Size = new System.Drawing.Size(84, 17);
+            this.checkBoxCrafter.TabIndex = 11;
+            this.checkBoxCrafter.Text = "&Story Crafter";
+            this.checkBoxCrafter.UseVisualStyleBackColor = true;
+            this.checkBoxCrafter.CheckedChanged += new System.EventHandler(this.checkBoxRole_CheckedChanged);
+            // 
+            // checkBoxProjectFacilitator
+            // 
+            this.checkBoxProjectFacilitator.AutoSize = true;
+            this.checkBoxProjectFacilitator.Location = new System.Drawing.Point(18, 19);
+            this.checkBoxProjectFacilitator.Name = "checkBoxProjectFacilitator";
+            this.checkBoxProjectFacilitator.Size = new System.Drawing.Size(107, 17);
+            this.checkBoxProjectFacilitator.TabIndex = 10;
+            this.checkBoxProjectFacilitator.Text = "&Project Facilitator";
+            this.checkBoxProjectFacilitator.UseVisualStyleBackColor = true;
+            this.checkBoxProjectFacilitator.CheckedChanged += new System.EventHandler(this.checkBoxRole_CheckedChanged);
             // 
             // buttonSetDefaultTasks
             // 
@@ -166,6 +199,7 @@
             this.radioButtonIndependentConsultant.TabIndex = 6;
             this.radioButtonIndependentConsultant.Text = "&Independent Consultant";
             this.radioButtonIndependentConsultant.UseVisualStyleBackColor = true;
+            this.radioButtonIndependentConsultant.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
             // 
             // radioButtonEnglishBackTranslator
             // 
@@ -193,6 +227,7 @@
             this.radioButtonJustViewing.TabIndex = 8;
             this.radioButtonJustViewing.Text = "&Just Looking";
             this.radioButtonJustViewing.UseVisualStyleBackColor = true;
+            this.radioButtonJustViewing.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
             // 
             // radioButtonCoach
             // 
@@ -206,19 +241,7 @@
             this.radioButtonCoach.TabIndex = 7;
             this.radioButtonCoach.Text = "Coac&h";
             this.radioButtonCoach.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonProjectFacilitator
-            // 
-            this.radioButtonProjectFacilitator.AutoSize = true;
-            this.helpProvider.SetHelpString(this.radioButtonProjectFacilitator, resources.GetString("radioButtonProjectFacilitator.HelpString"));
-            this.radioButtonProjectFacilitator.Location = new System.Drawing.Point(18, 19);
-            this.radioButtonProjectFacilitator.Name = "radioButtonProjectFacilitator";
-            this.helpProvider.SetShowHelp(this.radioButtonProjectFacilitator, true);
-            this.radioButtonProjectFacilitator.Size = new System.Drawing.Size(106, 17);
-            this.radioButtonProjectFacilitator.TabIndex = 0;
-            this.radioButtonProjectFacilitator.Text = "&Project Facilitator";
-            this.radioButtonProjectFacilitator.UseVisualStyleBackColor = true;
-            this.radioButtonProjectFacilitator.CheckedChanged += new System.EventHandler(this.radioButtonProjectFacilitator_CheckedChanged);
+            this.radioButtonCoach.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
             // 
             // radioButtonConsultantInTraining
             // 
@@ -244,30 +267,7 @@
             this.radioButtonFirstPassMentor.TabIndex = 4;
             this.radioButtonFirstPassMentor.Text = "&First Pass Mentor";
             this.radioButtonFirstPassMentor.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonUNS
-            // 
-            this.radioButtonUNS.AutoSize = true;
-            this.helpProvider.SetHelpString(this.radioButtonUNS, resources.GetString("radioButtonUNS.HelpString"));
-            this.radioButtonUNS.Location = new System.Drawing.Point(18, 65);
-            this.radioButtonUNS.Name = "radioButtonUNS";
-            this.helpProvider.SetShowHelp(this.radioButtonUNS, true);
-            this.radioButtonUNS.Size = new System.Drawing.Size(126, 17);
-            this.radioButtonUNS.TabIndex = 2;
-            this.radioButtonUNS.Text = "&Testing Helper (UNS)";
-            this.radioButtonUNS.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonStoryCrafter
-            // 
-            this.radioButtonStoryCrafter.AutoSize = true;
-            this.helpProvider.SetHelpString(this.radioButtonStoryCrafter, "A member who crafts stories");
-            this.radioButtonStoryCrafter.Location = new System.Drawing.Point(18, 42);
-            this.radioButtonStoryCrafter.Name = "radioButtonStoryCrafter";
-            this.helpProvider.SetShowHelp(this.radioButtonStoryCrafter, true);
-            this.radioButtonStoryCrafter.Size = new System.Drawing.Size(83, 17);
-            this.radioButtonStoryCrafter.TabIndex = 1;
-            this.radioButtonStoryCrafter.Text = "&Story Crafter";
-            this.radioButtonStoryCrafter.UseVisualStyleBackColor = true;
+            this.radioButtonFirstPassMentor.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
             // 
             // labelEmail
             // 
@@ -446,8 +446,6 @@
         private System.Windows.Forms.RadioButton radioButtonJustViewing;
         private System.Windows.Forms.RadioButton radioButtonCoach;
         private System.Windows.Forms.RadioButton radioButtonFirstPassMentor;
-        private System.Windows.Forms.RadioButton radioButtonUNS;
-        private System.Windows.Forms.RadioButton radioButtonStoryCrafter;
         private System.Windows.Forms.Label labelEmail;
         private System.Windows.Forms.TextBox textBoxEmail;
         private System.Windows.Forms.Label labelPhoneNumber;
@@ -463,10 +461,12 @@
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.RadioButton radioButtonEnglishBackTranslator;
-        private System.Windows.Forms.RadioButton radioButtonProjectFacilitator;
         private System.Windows.Forms.RadioButton radioButtonConsultantInTraining;
         private System.Windows.Forms.HelpProvider helpProvider;
         private System.Windows.Forms.RadioButton radioButtonIndependentConsultant;
         private System.Windows.Forms.Button buttonSetDefaultTasks;
+        private System.Windows.Forms.CheckBox checkBoxProjectFacilitator;
+        private System.Windows.Forms.CheckBox checkBoxCrafter;
+        private System.Windows.Forms.CheckBox checkBoxUns;
     }
 }

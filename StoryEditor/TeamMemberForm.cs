@@ -57,7 +57,7 @@ namespace OneStoryProjectEditor
             return GetListBoxItem(theTeamMember.Name, theTeamMember.MemberType);
         }
 
-        private static string GetListBoxItem(string strName, TeamMemberData.UserTypes eMemberRole)
+        public static string GetListBoxItem(string strName, TeamMemberData.UserTypes eMemberRole)
         {
             return String.Format("{0} ({1})",
                                  strName,
@@ -73,135 +73,140 @@ namespace OneStoryProjectEditor
             eMemberRole = TeamMemberData.GetMemberTypeFromDisplayString(strRole);
         }
 
-        public string SelectedMember
+        public string SelectedMemberName
         {
             get { return m_strSelectedMemberName; }
+        }
+
+        public string SelectedMember
+        {
             set
             {
                 listBoxTeamMembers.SelectedItem = value;
             }
         }
+        
         /*
-        private bool DoAccept()
-        {
-            try
-            {
-                FinishEdit();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message,  OseResources.Properties.Resources.IDS_Caption);
-                return false;
-            }
-
-            return true;
-        }
-
-        protected string ThrowIfNullOrEmpty(string strValue, string strErrorMessage)
-        {
-            if (String.IsNullOrEmpty(strValue))
-                throw new ApplicationException(String.Format("You have to configure the {0} first", strErrorMessage));
-            return strValue;
-        }
-
-        protected void FinishEdit()
-        {
-            // the only time you can *not* have a BT language is if the vernacular is "English"
-            if ((!checkBoxVernacular.Checked || (textBoxVernacular.Text != "English")) && !checkBoxEnglishBT.Checked && !checkBoxNationalLangBT.Checked)
-                throw new ApplicationException("You must have at least a back-translation language! Either a national language back-translation or English. Check one of the boxes that begins 'Project will use a *** BT?'");
-
-            // update the language information as well (in case that was changed also)
-            if (checkBoxVernacular.Checked)
-            {
-                // if there is a default keyboard (from before) and the user has chosen another one, then see if they mean to 
-                //  change it for everyone or just themselves (then we can make sure that they are who we think we are)
-                string strKeyboard = (string)comboBoxKeyboardVernacular.SelectedItem;
-                if (_tmdLastMember != null)
+                private bool DoAccept()
                 {
-                    if (!String.IsNullOrEmpty(_projSettings.Vernacular.DefaultKeyboard)
-                        && (strKeyboard != _projSettings.Vernacular.DefaultKeyboard))
+                    try
                     {
-                        DialogResult res = MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_ConfirmKeyboardOverride,
-                            _projSettings.Vernacular.LangName, _tmdLastMember.Name), OseResources.Properties.Resources.IDS_Caption,
-                            MessageBoxButtons.YesNoCancel);
+                        FinishEdit();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message,  OseResources.Properties.Resources.IDS_Caption);
+                        return false;
+                    }
 
-                        if (res == DialogResult.Yes)
-                            _tmdLastMember.OverrideVernacularKeyboard = strKeyboard;
-                        else if (res == DialogResult.No)
+                    return true;
+                }
+
+                protected string ThrowIfNullOrEmpty(string strValue, string strErrorMessage)
+                {
+                    if (String.IsNullOrEmpty(strValue))
+                        throw new ApplicationException(String.Format("You have to configure the {0} first", strErrorMessage));
+                    return strValue;
+                }
+
+                protected void FinishEdit()
+                {
+                    // the only time you can *not* have a BT language is if the vernacular is "English"
+                    if ((!checkBoxVernacular.Checked || (textBoxVernacular.Text != "English")) && !checkBoxEnglishBT.Checked && !checkBoxNationalLangBT.Checked)
+                        throw new ApplicationException("You must have at least a back-translation language! Either a national language back-translation or English. Check one of the boxes that begins 'Project will use a *** BT?'");
+
+                    // update the language information as well (in case that was changed also)
+                    if (checkBoxVernacular.Checked)
+                    {
+                        // if there is a default keyboard (from before) and the user has chosen another one, then see if they mean to 
+                        //  change it for everyone or just themselves (then we can make sure that they are who we think we are)
+                        string strKeyboard = (string)comboBoxKeyboardVernacular.SelectedItem;
+                        if (_tmdLastMember != null)
                         {
+                            if (!String.IsNullOrEmpty(_projSettings.Vernacular.DefaultKeyboard)
+                                && (strKeyboard != _projSettings.Vernacular.DefaultKeyboard))
+                            {
+                                DialogResult res = MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_ConfirmKeyboardOverride,
+                                    _projSettings.Vernacular.LangName, _tmdLastMember.Name), OseResources.Properties.Resources.IDS_Caption,
+                                    MessageBoxButtons.YesNoCancel);
+
+                                if (res == DialogResult.Yes)
+                                    _tmdLastMember.OverrideVernacularKeyboard = strKeyboard;
+                                else if (res == DialogResult.No)
+                                {
+                                    _projSettings.Vernacular.DefaultKeyboard = strKeyboard;
+                                    _tmdLastMember.OverrideVernacularKeyboard = null;   // if there was an override, it should go away
+                                }
+                                else
+                                    return;
+                            }
+                            else
+                            {
+                                _projSettings.Vernacular.DefaultKeyboard = strKeyboard;
+                                _tmdLastMember.OverrideVernacularKeyboard = null;   // if there was an override, it should go away
+                            }
+                        }
+                        else
                             _projSettings.Vernacular.DefaultKeyboard = strKeyboard;
-                            _tmdLastMember.OverrideVernacularKeyboard = null;   // if there was an override, it should go away
-                        }
-                        else
-                            return;
+
+                        _projSettings.Vernacular.LangName = ThrowIfNullOrEmpty(textBoxVernacular.Text, "Story language name");
+                        _projSettings.Vernacular.LangCode = ThrowIfNullOrEmpty(textBoxVernacularEthCode.Text, "Story language Ethn. code");
+                        _projSettings.Vernacular.FullStop = ThrowIfNullOrEmpty(textBoxVernSentFullStop.Text, "Story language sentence final punctuation");
+                        _projSettings.Vernacular.IsRTL = checkBoxVernacularRTL.Checked;
                     }
                     else
+                        _projSettings.Vernacular.HasData = false;
+
+                    if (checkBoxNationalLangBT.Checked)
                     {
-                        _projSettings.Vernacular.DefaultKeyboard = strKeyboard;
-                        _tmdLastMember.OverrideVernacularKeyboard = null;   // if there was an override, it should go away
-                    }
-                }
-                else
-                    _projSettings.Vernacular.DefaultKeyboard = strKeyboard;
-
-                _projSettings.Vernacular.LangName = ThrowIfNullOrEmpty(textBoxVernacular.Text, "Story language name");
-                _projSettings.Vernacular.LangCode = ThrowIfNullOrEmpty(textBoxVernacularEthCode.Text, "Story language Ethn. code");
-                _projSettings.Vernacular.FullStop = ThrowIfNullOrEmpty(textBoxVernSentFullStop.Text, "Story language sentence final punctuation");
-                _projSettings.Vernacular.IsRTL = checkBoxVernacularRTL.Checked;
-            }
-            else
-                _projSettings.Vernacular.HasData = false;
-
-            if (checkBoxNationalLangBT.Checked)
-            {
-                // if there is a default keyboard (from before) and the user has chosen another one, then see if they mean to 
-                //  change it for everyone or just themselves (then we can make sure that they are who we think we are)
-                string strKeyboard = (string)comboBoxKeyboardNationalBT.SelectedItem;
-                if (_tmdLastMember != null)
-                {
-                    if(!String.IsNullOrEmpty(_projSettings.NationalBT.DefaultKeyboard)
-                        && (strKeyboard != _projSettings.NationalBT.DefaultKeyboard))
-                    {
-                        DialogResult res = MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_ConfirmKeyboardOverride,
-                            _projSettings.Vernacular.LangName, _tmdLastMember.Name), OseResources.Properties.Resources.IDS_Caption,
-                            MessageBoxButtons.YesNoCancel);
-
-                        if (res == DialogResult.Yes)
-                            _tmdLastMember.OverrideNationalBTKeyboard = strKeyboard;
-                        else if (res == DialogResult.No)
+                        // if there is a default keyboard (from before) and the user has chosen another one, then see if they mean to 
+                        //  change it for everyone or just themselves (then we can make sure that they are who we think we are)
+                        string strKeyboard = (string)comboBoxKeyboardNationalBT.SelectedItem;
+                        if (_tmdLastMember != null)
                         {
-                            _projSettings.NationalBT.DefaultKeyboard = strKeyboard;
-                            _tmdLastMember.OverrideNationalBTKeyboard = null;
+                            if(!String.IsNullOrEmpty(_projSettings.NationalBT.DefaultKeyboard)
+                                && (strKeyboard != _projSettings.NationalBT.DefaultKeyboard))
+                            {
+                                DialogResult res = MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_ConfirmKeyboardOverride,
+                                    _projSettings.Vernacular.LangName, _tmdLastMember.Name), OseResources.Properties.Resources.IDS_Caption,
+                                    MessageBoxButtons.YesNoCancel);
+
+                                if (res == DialogResult.Yes)
+                                    _tmdLastMember.OverrideNationalBTKeyboard = strKeyboard;
+                                else if (res == DialogResult.No)
+                                {
+                                    _projSettings.NationalBT.DefaultKeyboard = strKeyboard;
+                                    _tmdLastMember.OverrideNationalBTKeyboard = null;
+                                }
+                                else
+                                    return;
+                            }
+                            else
+                            {
+                                _projSettings.NationalBT.DefaultKeyboard = strKeyboard;
+                                _tmdLastMember.OverrideNationalBTKeyboard = null;
+                            }
                         }
                         else
-                            return;
+                            _projSettings.NationalBT.DefaultKeyboard = strKeyboard;
+
+                        _projSettings.NationalBT.LangName = ThrowIfNullOrEmpty(textBoxNationalBTLanguage.Text, "National BT language name");
+                        _projSettings.NationalBT.LangCode = ThrowIfNullOrEmpty(textBoxNationalBTEthCode.Text, "National BT language Ethn. code");
+                        _projSettings.NationalBT.FullStop = ThrowIfNullOrEmpty(textBoxNationalBTSentFullStop.Text, "National BT language sentence final punctuation");
+                        _projSettings.NationalBT.IsRTL = checkBoxNationalRTL.Checked;
                     }
                     else
-                    {
-                        _projSettings.NationalBT.DefaultKeyboard = strKeyboard;
-                        _tmdLastMember.OverrideNationalBTKeyboard = null;
-                    }
+                        _projSettings.NationalBT.HasData = false;
+
+                    if (!checkBoxEnglishBT.Checked)
+                        // don't set via 'Checked' because HasData should only be set if false
+                        _projSettings.InternationalBT.HasData = false; 
+
+                    // English was done by the font dialog handler
+
+                    Modified = false;
                 }
-                else
-                    _projSettings.NationalBT.DefaultKeyboard = strKeyboard;
-
-                _projSettings.NationalBT.LangName = ThrowIfNullOrEmpty(textBoxNationalBTLanguage.Text, "National BT language name");
-                _projSettings.NationalBT.LangCode = ThrowIfNullOrEmpty(textBoxNationalBTEthCode.Text, "National BT language Ethn. code");
-                _projSettings.NationalBT.FullStop = ThrowIfNullOrEmpty(textBoxNationalBTSentFullStop.Text, "National BT language sentence final punctuation");
-                _projSettings.NationalBT.IsRTL = checkBoxNationalRTL.Checked;
-            }
-            else
-                _projSettings.NationalBT.HasData = false;
-
-            if (!checkBoxEnglishBT.Checked)
-                // don't set via 'Checked' because HasData should only be set if false
-                _projSettings.InternationalBT.HasData = false; 
-
-            // English was done by the font dialog handler
-
-            Modified = false;
-        }
-        */
+                */
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
@@ -225,7 +230,13 @@ namespace OneStoryProjectEditor
                 if (_dataTeamMembers.ContainsKey(m_strSelectedMemberName))
                 {
                     var theMember = _dataTeamMembers[m_strSelectedMemberName];
-                    buttonMergeMember.Visible = (theMember.MemberType == TeamMemberData.UserTypes.eUNS);
+                    buttonMergeUns.Visible = (TeamMemberData.IsUser(theMember.MemberType,
+                                                                    TeamMemberData.UserTypes.UNS));
+                    buttonMergeCrafter.Visible = (TeamMemberData.IsUser(theMember.MemberType,
+                                                                        TeamMemberData.UserTypes.Crafter));
+                    buttonMergeProjectFacilitators.Visible = (TeamMemberData.IsUser(theMember.MemberType,
+                                                                                    TeamMemberData.UserTypes.
+                                                                                        ProjectFacilitator));
                 }
             }
         }
@@ -239,17 +250,26 @@ namespace OneStoryProjectEditor
 
             // if the selected user is a UNS, this is probably a mistake.
             TeamMemberData theMember = _dataTeamMembers[m_strSelectedMemberName];
-            if ((theMember.MemberType == TeamMemberData.UserTypes.eUNS) && (buttonOK.Text == CstrDefaultOKLabel))
+            var eAllowedLoginRoleFilter = (theMember.MemberType &
+                                           (TeamMemberData.UserTypes.ProjectFacilitator |
+                                            TeamMemberData.UserTypes.ConsultantInTraining |
+                                            TeamMemberData.UserTypes.IndependentConsultant |
+                                            TeamMemberData.UserTypes.Coach |
+                                            TeamMemberData.UserTypes.EnglishBackTranslator |
+                                            TeamMemberData.UserTypes.FirstPassMentor));
+            if ((buttonOK.Text == CstrDefaultOKLabel)
+                && (eAllowedLoginRoleFilter == TeamMemberData.UserTypes.Undefined))
             {
-                MessageBox.Show(Properties.Resources.IDS_LoginAsProjectFacilitator,  OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(Properties.Resources.IDS_LoginAsProjectFacilitator,
+                                OseResources.Properties.Resources.IDS_Caption);
                 return;
             }
 
             // when the button label is "OK", it means we're adding a UNS
             if (buttonOK.Text == CstrDefaultOKLabel)
             {
-                Properties.Settings.Default.LastMemberLogin = SelectedMember;
-                Properties.Settings.Default.LastUserType = _dataTeamMembers[m_strSelectedMemberName].MemberTypeAsString;
+                Properties.Settings.Default.LastMemberLogin = SelectedMemberName;
+                Properties.Settings.Default.LastUserType = eAllowedLoginRoleFilter.ToString();
                 Properties.Settings.Default.Save();
             }
 
@@ -377,10 +397,10 @@ namespace OneStoryProjectEditor
         private void buttonDeleteMember_Click(object sender, EventArgs e)
         {
             // this is only enabled if we added the member this session
-            System.Diagnostics.Debug.Assert(m_mapNewMembersThisSession.ContainsKey(SelectedMember) && _dataTeamMembers.ContainsKey(SelectedMember));
+            System.Diagnostics.Debug.Assert(m_mapNewMembersThisSession.ContainsKey(SelectedMemberName) && _dataTeamMembers.ContainsKey(SelectedMemberName));
 
-            _dataTeamMembers.Remove(SelectedMember);
-            m_mapNewMembersThisSession.Remove(SelectedMember);
+            _dataTeamMembers.Remove(SelectedMemberName);
+            m_mapNewMembersThisSession.Remove(SelectedMemberName);
         }
         /*
         private void tabControlProjectMetaData_Selected(object sender, TabControlEventArgs e)
@@ -481,9 +501,28 @@ namespace OneStoryProjectEditor
         }
         */
 
-        private void buttonMergeMember_Click(object sender, EventArgs e)
+        private void buttonMergeUns_Click(object sender, EventArgs e)
         {
             // this button should only be enabled if a team member is selected
+            ReplaceMember(TeamMemberData.UserTypes.UNS, _theStoryProjectData.ReplaceUns);
+        }
+
+        private void buttonMergeProjectFacilitators_Click(object sender, EventArgs e)
+        {
+            // this button should only be enabled if a team member is selected
+            ReplaceMember(TeamMemberData.UserTypes.ProjectFacilitator, _theStoryProjectData.ReplaceProjectFacilitator);
+        }
+
+        private void buttonMergeCrafter_Click(object sender, EventArgs e)
+        {
+            // this button should only be enabled if a team member is selected
+            ReplaceMember(TeamMemberData.UserTypes.Crafter, _theStoryProjectData.ReplaceCrafter);
+        }
+
+        private delegate void ReplaceMemberDelegate(string strOldUnsGuid, string strNewUnsGuid);
+
+        private void ReplaceMember(TeamMemberData.UserTypes eRole, ReplaceMemberDelegate replaceMemberDelegate)
+        {
             System.Diagnostics.Debug.Assert(listBoxTeamMembers.SelectedIndex != -1);
             int nIndex = listBoxTeamMembers.SelectedIndex;
 
@@ -495,11 +534,12 @@ namespace OneStoryProjectEditor
             TeamMemberData theMemberData = _dataTeamMembers[m_strSelectedMemberName];
 
             // query the UNS to merge into this UNS record
-            var dlg = new MemberPicker(_theStoryProjectData, 
-                TeamMemberData.UserTypes.eUNS)
+            var dlg = new MemberPicker(_theStoryProjectData,
+                                       eRole)
                           {
                               Text =
-                                  String.Format("Choose the UNS to merge into the record for '{0}'",
+                                  String.Format("Choose the {0} to merge into the record for '{1}'",
+                                                TeamMemberData.GetMemberTypeAsDisplayString(eRole),
                                                 theMemberData.Name),
                               ItemToBlock = theMemberData.Name
                           };
@@ -508,29 +548,84 @@ namespace OneStoryProjectEditor
             if (res != DialogResult.OK)
                 return;
 
-            string strUnsGuid = dlg.SelectedMember.MemberGuid;
-            _theStoryProjectData.ReplaceUns(strUnsGuid, theMemberData.MemberGuid);
-            theMemberData.MergeWith(dlg.SelectedMember);
-            Modified = true;
-
-            res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteUns,
-                                                dlg.SelectedMember.Name,
-                                                theMemberData.Name), 
-                                  OseResources.Properties.Resources.IDS_Caption,
-                                  MessageBoxButtons.YesNoCancel);
-            
-            if (res != DialogResult.Yes)
-                return;
-
-            string strNameToDelete = _dataTeamMembers.GetNameFromMemberId(strUnsGuid);
-            _dataTeamMembers.Remove(strNameToDelete);
-
-            nIndex = listBoxTeamMembers.FindString(GetListBoxItem(dlg.SelectedMember));
-            if (nIndex != -1)
+            string strOldMemberGuid = dlg.SelectedMember.MemberGuid;
+            TeamMemberData.UserTypes eOrigRoles = dlg.SelectedMember.MemberType;
+            try
             {
-                listBoxTeamMembers.Items.RemoveAt(nIndex);
-                // listBoxMemberRoles.Items.RemoveAt(nIndex);
+                replaceMemberDelegate(strOldMemberGuid, theMemberData.MemberGuid);
+                theMemberData.MergeWith(dlg.SelectedMember);
+                Modified = true;
+
+                dlg.SelectedMember.MemberType &= ~eRole;
+                if (dlg.SelectedMember.MemberType != TeamMemberData.UserTypes.Undefined)
+                {
+                    res = MessageBox.Show(String.Format(Properties.Resources.IDS_QueryMergeMultipleRoles,
+                                                        _dataTeamMembers.GetNameFromMemberId(strOldMemberGuid),
+                                                        TeamMemberData.GetMemberTypeAsDisplayString(
+                                                            dlg.SelectedMember.MemberType),
+                                                        _dataTeamMembers.GetNameFromMemberId(theMemberData.MemberGuid)),
+                                          OseResources.Properties.Resources.IDS_Caption,
+                                          MessageBoxButtons.YesNoCancel);
+                    if (res != DialogResult.Yes)
+                        return;
+
+                    MergeOtherRoles(dlg.SelectedMember.MemberType, 
+                        strOldMemberGuid, theMemberData.MemberGuid);
+
+                    // get the index for the member we're about to add new roles to 
+                    //  (since we have to update his role list)
+                    nIndex = listBoxTeamMembers.FindString(GetListBoxItem(theMemberData));
+
+                    // now add those roles just in case they aren't already
+                    theMemberData.MemberType |= dlg.SelectedMember.MemberType;
+
+                    if (nIndex != -1)
+                        listBoxTeamMembers.Items[nIndex] = GetListBoxItem(theMemberData);
+                    else
+                        System.Diagnostics.Debug.Assert(false);
+                }
+
+                res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteMember,
+                                                    dlg.SelectedMember.Name,
+                                                    theMemberData.Name),
+                                      OseResources.Properties.Resources.IDS_Caption,
+                                      MessageBoxButtons.YesNoCancel);
+
+                if (res != DialogResult.Yes)
+                    return;
+
+                string strNameToDelete = _dataTeamMembers.GetNameFromMemberId(strOldMemberGuid);
+                _dataTeamMembers.Remove(strNameToDelete);
+
+                nIndex = listBoxTeamMembers.FindString(GetListBoxItem(strNameToDelete, eOrigRoles));
+                if (nIndex != -1)
+                    listBoxTeamMembers.Items.RemoveAt(nIndex);
+                else
+                    System.Diagnostics.Debug.Assert(false);
             }
+            catch (StoryProjectData.ReplaceMemberException ex)
+            {
+                var strErrorMsg = String.Format(Properties.Resources.IDS_CantChangeMember,
+                                                _dataTeamMembers.GetNameFromMemberId(
+                                                    strOldMemberGuid),
+                                                _dataTeamMembers.GetNameFromMemberId(
+                                                    theMemberData.MemberGuid),
+                                                ex.StoryName,
+                                                String.Format(ex.Format,
+                                                              _dataTeamMembers.GetNameFromMemberId(
+                                                                  ex.MemberGuid)));
+                MessageBox.Show(strErrorMsg, OseResources.Properties.Resources.IDS_Caption);
+            }
+        }
+
+        private void MergeOtherRoles(TeamMemberData.UserTypes eRoles, string strOldMemberGuid, string strNewMemberGuid)
+        {
+            if (TeamMemberData.IsUser(eRoles, TeamMemberData.UserTypes.ProjectFacilitator))
+                _theStoryProjectData.ReplaceProjectFacilitator(strOldMemberGuid, strNewMemberGuid);
+            if (TeamMemberData.IsUser(eRoles, TeamMemberData.UserTypes.Crafter))
+                _theStoryProjectData.ReplaceCrafter(strOldMemberGuid, strNewMemberGuid);
+            if (TeamMemberData.IsUser(eRoles, TeamMemberData.UserTypes.UNS))
+                _theStoryProjectData.ReplaceUns(strOldMemberGuid, strNewMemberGuid);
         }
 
         /*

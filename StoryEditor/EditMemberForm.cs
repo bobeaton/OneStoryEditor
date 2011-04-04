@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using OneStoryProjectEditor.Properties;
 
 namespace OneStoryProjectEditor
 {
@@ -67,11 +68,12 @@ namespace OneStoryProjectEditor
         }
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(MemberName))
+            if (String.IsNullOrEmpty(MemberName) 
+                || (MemberType == TeamMemberData.UserTypes.Undefined))
             {
                 MessageBox.Show(
-                    "You have to enter at least a name and indicate your role (even if you're 'just looking')!",
-                     OseResources.Properties.Resources.IDS_Caption);
+                    Resources.IDS_WarnNeedNameAndRole,
+                    OseResources.Properties.Resources.IDS_Caption);
                 return;
             }
 
@@ -81,7 +83,7 @@ namespace OneStoryProjectEditor
 
         public string MemberName
         {
-            get { return textBoxName.Text; }
+            get { return textBoxName.Text.Trim(); }
             set { textBoxName.Text = value; }
         }
 
@@ -89,118 +91,133 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                if (radioButtonStoryCrafter.Checked)
-                    return TeamMemberData.UserTypes.eCrafter;
+                TeamMemberData.UserTypes type = TeamMemberData.UserTypes.Undefined;
+                if (checkBoxProjectFacilitator.Checked)
+                    type |= TeamMemberData.UserTypes.ProjectFacilitator;
+                if (checkBoxCrafter.Checked)
+                    type |= TeamMemberData.UserTypes.Crafter;
+                if (checkBoxUns.Checked)
+                    type |= TeamMemberData.UserTypes.UNS;
                 if (radioButtonEnglishBackTranslator.Checked)
-                    return TeamMemberData.UserTypes.eEnglishBacktranslator;
-                if (radioButtonUNS.Checked)
-                    return TeamMemberData.UserTypes.eUNS;
-                if (radioButtonProjectFacilitator.Checked)
-                    return TeamMemberData.UserTypes.eProjectFacilitator;
+                    return TeamMemberData.UserTypes.EnglishBackTranslator;
                 if (radioButtonFirstPassMentor.Checked)
-                    return TeamMemberData.UserTypes.eFirstPassMentor;
+                    return TeamMemberData.UserTypes.FirstPassMentor;
                 if (radioButtonConsultantInTraining.Checked)
-                    return TeamMemberData.UserTypes.eConsultantInTraining;
+                    return TeamMemberData.UserTypes.ConsultantInTraining;
                 if (radioButtonIndependentConsultant.Checked)
-                    return TeamMemberData.UserTypes.eIndependentConsultant;
+                    return TeamMemberData.UserTypes.IndependentConsultant;
                 if (radioButtonCoach.Checked)
-                    return TeamMemberData.UserTypes.eCoach;
+                    return TeamMemberData.UserTypes.Coach;
                 if (radioButtonJustViewing.Checked)
-                    return TeamMemberData.UserTypes.eJustLooking;
-                return TeamMemberData.UserTypes.eUndefined;
+                    return TeamMemberData.UserTypes.JustLooking;
+                return type;
             }
             set
             {
-                switch (value)
+                if (TeamMemberData.IsUser(value,
+                    TeamMemberData.UserTypes.ProjectFacilitator | 
+                    TeamMemberData.UserTypes.Crafter | 
+                    TeamMemberData.UserTypes.UNS))
                 {
-                    case TeamMemberData.UserTypes.eCrafter:
-                        radioButtonStoryCrafter.Checked = true;
-                        break;
-                    case TeamMemberData.UserTypes.eEnglishBacktranslator:
-                        radioButtonEnglishBackTranslator.Checked = true;
-                        break;
-                    case TeamMemberData.UserTypes.eUNS:
-                        radioButtonUNS.Checked = true;
-                        break;
-                    case TeamMemberData.UserTypes.eProjectFacilitator:
-                        radioButtonProjectFacilitator.Checked = true;
-                        break;
-                    case TeamMemberData.UserTypes.eFirstPassMentor:
-                        radioButtonFirstPassMentor.Checked = true;
-                        break;
-                    case TeamMemberData.UserTypes.eConsultantInTraining:
-                        radioButtonConsultantInTraining.Checked = true;
-                        break;
-                    case TeamMemberData.UserTypes.eIndependentConsultant:
-                        radioButtonIndependentConsultant.Checked = true;
-                        break;
-                    case TeamMemberData.UserTypes.eCoach:
-                        radioButtonCoach.Checked = true;
-                        break;
-                    case TeamMemberData.UserTypes.eJustLooking:
-                        radioButtonJustViewing.Checked = true;
-                        break;
-                    default:
-                        System.Diagnostics.Debug.Assert(false); // should get here.
-                        break;
+                    checkBoxProjectFacilitator.Checked =
+                        TeamMemberData.IsUser(value,
+                                              TeamMemberData.UserTypes.ProjectFacilitator);
+                    checkBoxCrafter.Checked =
+                        TeamMemberData.IsUser(value,
+                                              TeamMemberData.UserTypes.Crafter);
+                    checkBoxUns.Checked =
+                        TeamMemberData.IsUser(value,
+                                              TeamMemberData.UserTypes.UNS);
+                }
+                else
+                {
+                    switch (value)
+                    {
+                        case TeamMemberData.UserTypes.EnglishBackTranslator:
+                            radioButtonEnglishBackTranslator.Checked = true;
+                            break;
+                        case TeamMemberData.UserTypes.FirstPassMentor:
+                            radioButtonFirstPassMentor.Checked = true;
+                            break;
+                        case TeamMemberData.UserTypes.ConsultantInTraining:
+                            radioButtonConsultantInTraining.Checked = true;
+                            break;
+                        case TeamMemberData.UserTypes.IndependentConsultant:
+                            radioButtonIndependentConsultant.Checked = true;
+                            break;
+                        case TeamMemberData.UserTypes.Coach:
+                            radioButtonCoach.Checked = true;
+                            break;
+                        case TeamMemberData.UserTypes.JustLooking:
+                            radioButtonJustViewing.Checked = true;
+                            break;
+                        default:
+                            System.Diagnostics.Debug.Assert(false); // should get here.
+                            break;
+                    }
                 }
             }
         }
 
+        private string TrimForPossibleNull(TextBox tb)
+        {
+            string strTbText = null;
+            if (tb.Text != null)
+                strTbText = tb.Text.Trim();
+            return strTbText;
+        }
+
         public string Email
         {
-            get { return (String.IsNullOrEmpty(textBoxEmail.Text) ? null : textBoxEmail.Text); }
+            get { return TrimForPossibleNull(textBoxEmail); }
             set { textBoxEmail.Text = value; }
         }
 
         public string Phone
         {
-            get { return (String.IsNullOrEmpty(textBoxPhoneNumber.Text) ? null : textBoxPhoneNumber.Text); }
+            get { return TrimForPossibleNull(textBoxPhoneNumber); }
             set { textBoxPhoneNumber.Text = value; }
         }
 
         public string AltPhone
         {
-            get { return (String.IsNullOrEmpty(textBoxAltPhone.Text) ? null : textBoxAltPhone.Text); }
+            get { return TrimForPossibleNull(textBoxAltPhone); }
             set { textBoxAltPhone.Text = value; }
         }
 
         public string SkypeID
         {
-            get { return (String.IsNullOrEmpty(textBoxSkypeID.Text) ? null : textBoxSkypeID.Text); }
+            get { return TrimForPossibleNull(textBoxSkypeID); }
             set { textBoxSkypeID.Text = value; }
         }
 
         public string TeamViewerID
         {
-            get { return (String.IsNullOrEmpty(textBoxTeamViewer.Text) ? null : textBoxTeamViewer.Text); }
+            get { return TrimForPossibleNull(textBoxTeamViewer); }
             set { textBoxTeamViewer.Text = value; }
         }
 
         public string BioData
         {
-            get { return (String.IsNullOrEmpty(textBoxBioData.Text) ? null : textBoxBioData.Text); }
+            get { return TrimForPossibleNull(textBoxBioData); }
             set { textBoxBioData.Text = value; }
         }
 
         private void radioButtonEnglishBackTranslator_Click(object sender, EventArgs e)
         {
             MessageBox.Show(Properties.Resources.IDS_AreYouSureYouWantToHaveAnEnglishBter, OseResources.Properties.Resources.IDS_Caption);
-        }
-
-        private void radioButtonProjectFacilitator_CheckedChanged(object sender, EventArgs e)
-        {
-            SetDefaultTasksButtonState();
+            radioButton_CheckedChanged(sender, e);
         }
 
         private void radioButtonConsultantInTraining_CheckedChanged(object sender, EventArgs e)
         {
             SetDefaultTasksButtonState();
+            radioButton_CheckedChanged(sender, e);
         }
 
         private void SetDefaultTasksButtonState()
         {
-            buttonSetDefaultTasks.Visible = (radioButtonProjectFacilitator.Checked ||
+            buttonSetDefaultTasks.Visible = (checkBoxProjectFacilitator.Checked ||
                                              radioButtonConsultantInTraining.Checked);
         }
 
@@ -216,7 +233,7 @@ namespace OneStoryProjectEditor
             // find out from the consultant what tasks they want to set in the story
             try
             {
-                if (radioButtonProjectFacilitator.Checked)
+                if (checkBoxProjectFacilitator.Checked)
                     GetPfDefaultTasks();
                 else if (radioButtonConsultantInTraining.Checked)
                     GetCitDefaultTasks();
@@ -235,7 +252,7 @@ namespace OneStoryProjectEditor
             {
                 if (_DefaultAllowed == 0)
                 {
-                    if (radioButtonProjectFacilitator.Checked)
+                    if (checkBoxProjectFacilitator.Checked)
                         return (long) TasksPf.DefaultAllowed;
                     if (radioButtonConsultantInTraining.Checked)
                         return (long) TasksCit.DefaultAllowed;
@@ -252,7 +269,7 @@ namespace OneStoryProjectEditor
             {
                 if (_DefaultRequired == 0)
                 {
-                    if (radioButtonProjectFacilitator.Checked)
+                    if (checkBoxProjectFacilitator.Checked)
                         return (long) TasksPf.DefaultRequired;
                     if (radioButtonConsultantInTraining.Checked)
                         return (long) TasksCit.DefaultRequired;
@@ -292,6 +309,33 @@ namespace OneStoryProjectEditor
         private string GetDefaultTaskTitleText
         {
             get { return String.Format("Set Default Tasks for {0}", textBoxName.Text); }
+        }
+
+        private void checkBoxRole_CheckedChanged(object sender, EventArgs e)
+        {
+            var cb = sender as CheckBox;
+            if ((cb != null) && cb.Checked)
+            {
+                radioButtonJustViewing.Checked =
+                    radioButtonIndependentConsultant.Checked =
+                    radioButtonFirstPassMentor.Checked =
+                    radioButtonEnglishBackTranslator.Checked =
+                    radioButtonConsultantInTraining.Checked =
+                    radioButtonCoach.Checked = false;
+            }
+        
+            SetDefaultTasksButtonState();
+        }
+
+        private void radioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            var rb = sender as RadioButton;
+            if ((rb != null) && rb.Checked)
+            {
+                checkBoxProjectFacilitator.Checked =
+                    checkBoxCrafter.Checked =
+                    checkBoxUns.Checked = false;
+            }
         }
     }
 }

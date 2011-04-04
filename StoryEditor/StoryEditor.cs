@@ -34,7 +34,7 @@ namespace OneStoryProjectEditor
         protected string _strStoriesSet;
 
         // we keep a copy of this, because it ought to persist across multiple files
-        private TeamMemberData _loggedOnMember;
+        private TeamMemberData _loggedOnMember = null;
         internal TeamMemberData LoggedOnMember
         {
             get { return _loggedOnMember; }
@@ -48,13 +48,14 @@ namespace OneStoryProjectEditor
                 
                 if (value != null)
                 {
-                    linkLabelTasks.Visible = ((value.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
-                                              || (value.MemberType == TeamMemberData.UserTypes.eIndependentConsultant)
-                                              || (value.MemberType == TeamMemberData.UserTypes.eConsultantInTraining)
-                                              || (value.MemberType == TeamMemberData.UserTypes.eCoach)
-                                              || (value.MemberType == TeamMemberData.UserTypes.eJustLooking)
-                                              || (value.MemberType == TeamMemberData.UserTypes.eEnglishBacktranslator)
-                                              || (value.MemberType == TeamMemberData.UserTypes.eFirstPassMentor));
+                    linkLabelTasks.Visible = TeamMemberData.IsUser(value.MemberType,
+                                                                   TeamMemberData.UserTypes.ProjectFacilitator |
+                                                                   TeamMemberData.UserTypes.IndependentConsultant |
+                                                                   TeamMemberData.UserTypes.ConsultantInTraining |
+                                                                   TeamMemberData.UserTypes.Coach |
+                                                                   TeamMemberData.UserTypes.JustLooking |
+                                                                   TeamMemberData.UserTypes.EnglishBackTranslator |
+                                                                   TeamMemberData.UserTypes.FirstPassMentor);
 
                     // check whether we should be showing the transliteration or not
                     viewTransliterationVernacular.Checked = !String.IsNullOrEmpty(value.TransliteratorVernacular);
@@ -125,9 +126,15 @@ namespace OneStoryProjectEditor
                 {
                     if (String.IsNullOrEmpty(Properties.Settings.Default.LastUserType))
                         NewProjectFile();
-                    else if ((Properties.Settings.Default.LastUserType == TeamMemberData.CstrProjectFacilitator)
+                    else 
+                    {
+                        var eRole = TeamMemberData.GetMemberType(Properties.Settings.Default.LastUserType);
+                        if (TeamMemberData.IsUser(eRole, TeamMemberData.UserTypes.ProjectFacilitator)
                             && !String.IsNullOrEmpty(Properties.Settings.Default.LastProject))
-                        OpenProject(Properties.Settings.Default.LastProjectPath, Properties.Settings.Default.LastProject);
+                        {
+                            OpenProject(Properties.Settings.Default.LastProjectPath, Properties.Settings.Default.LastProject);
+                        }
+                    }
                 }
                 catch { }   // this was only a bene anyway, so just ignore it
             }
@@ -207,7 +214,8 @@ namespace OneStoryProjectEditor
 
             if (Modified
                 && !((LoggedOnMember != null)
-                        && (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eJustLooking)))
+                        && TeamMemberData.IsUser(LoggedOnMember.MemberType, 
+                                                 TeamMemberData.UserTypes.JustLooking)))
             {
                 // don't do it *now* if the user is typing
                 if (SuspendSaveDialog ||
@@ -580,10 +588,17 @@ namespace OneStoryProjectEditor
                 {
                     // detect if the logged on member type changed, and if so, redo the Consult Notes panes
                     string strMemberName = null;
+                    TeamMemberData.UserTypes eRole = TeamMemberData.UserTypes.Undefined;
+                    bool bLoginRequired = true;
                     if (LoggedOnMember != null)
+                    {
                         strMemberName = LoggedOnMember.Name;
+                        eRole = LoggedOnMember.MemberType;
+                        bLoginRequired = false;
+                    }
 
-                    LoggedOnMember = StoryProject.EditTeamMembers(strMemberName, true, StoryProject.ProjSettings, ref Modified);
+                    LoggedOnMember = StoryProject.EditTeamMembers(strMemberName, eRole, true, 
+                        StoryProject.ProjSettings, bLoginRequired, ref Modified);
 
                     if (theCurrentStory != null)
                     {
@@ -759,7 +774,9 @@ namespace OneStoryProjectEditor
         protected bool CheckForProjFac()
         {
             Debug.Assert(LoggedOnMember != null);
-            if ((LoggedOnMember == null) || (LoggedOnMember.MemberType != TeamMemberData.UserTypes.eProjectFacilitator))
+            if ((LoggedOnMember == null) 
+                || !TeamMemberData.IsUser(LoggedOnMember.MemberType,
+                                          TeamMemberData.UserTypes.ProjectFacilitator))
             {
                 MessageBox.Show(Properties.Resources.IDS_LogInAsProjFac, OseResources.Properties.Resources.IDS_Caption);
                 return false;
@@ -877,7 +894,7 @@ namespace OneStoryProjectEditor
                 return;
 
             // query for the crafter
-            MemberPicker dlg = new MemberPicker(StoryProject, TeamMemberData.UserTypes.eCrafter)
+            var dlg = new MemberPicker(StoryProject, TeamMemberData.UserTypes.Crafter)
             {
                 Text = "Choose the crafter that crafted this story"
             };
@@ -891,7 +908,8 @@ namespace OneStoryProjectEditor
             if (res == DialogResult.Cancel)
                 return;
 
-            Debug.Assert(LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator);
+            Debug.Assert(TeamMemberData.IsUser(LoggedOnMember.MemberType,
+                                               TeamMemberData.UserTypes.ProjectFacilitator));
             Debug.Assert(StoryProject.TeamMembers != null);
             StoryData theNewStory = new StoryData(strStoryName, strCrafterGuid,
                 LoggedOnMember.MemberGuid,
@@ -959,8 +977,11 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.Save();
 
                 // see if this PF is the one who's editing the story
-                if (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+                if (TeamMemberData.IsUser(LoggedOnMember.MemberType,
+                                          TeamMemberData.UserTypes.ProjectFacilitator))
+                {
                     theCurrentStory.CheckForProjectFacilitator(StoryProject, LoggedOnMember);
+                }
             }
 
             // initialize the text box showing the storying they're editing
@@ -991,10 +1012,15 @@ namespace OneStoryProjectEditor
         {
             // inform the user that they won't be able to edit this if they aren't the proper member type
             Debug.Assert((theCurrentStory != null) && (LoggedOnMember != null));
-            if (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+            if (TeamMemberData.IsUser(LoggedOnMember.MemberType,
+                                      TeamMemberData.UserTypes.ProjectFacilitator))
+            {
                 viewCoachNotesFieldMenuItem.Checked = false;
+            }
+
             if (_bNagOnce)
                 LoggedOnMember.CheckIfThisAnAcceptableEditorForThisStory(theCurrentStory);
+            
             _bNagOnce = false;
         }
 
@@ -1565,7 +1591,8 @@ namespace OneStoryProjectEditor
 
         internal void SendNoteToCorrectPane(int nVerseIndex, string strNote)
         {
-            if (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eCoach)
+            if (TeamMemberData.IsUser(LoggedOnMember.MemberType, 
+                                      TeamMemberData.UserTypes.Coach))
             {
                 if (!viewCoachNotesFieldMenuItem.Checked)
                     viewCoachNotesFieldMenuItem.Checked = true;
@@ -1710,19 +1737,8 @@ namespace OneStoryProjectEditor
             StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[eStage];
             Debug.Assert(st != null);
 
-            // see if we're supposed to use the same settings as always... 
-            //  but not for PFs who are in the early stages
-            bool bProjFacInEarlyState = (((int)eStage <= (int)StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions)
-                && (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator));
-
-            if (!useSameSettingsForAllStoriesToolStripMenuItem.Checked
-                || bProjFacInEarlyState)
+            if (!useSameSettingsForAllStoriesToolStripMenuItem.Checked)
             {
-                // if we are overriding the value because of a PF in the early state, then
-                //  clear the flag so it doesn't continue thru the states.
-                if (bProjFacInEarlyState)
-                    useSameSettingsForAllStoriesToolStripMenuItem.Checked = false;
-
                 // in case the caller is just about to call InitAllPanes anyway, we don't
                 //  want the screen to thrash, so have the ability to disable the thrashing.
                 _bDisableReInitVerseControls = bDisableReInits;
@@ -1882,7 +1898,7 @@ namespace OneStoryProjectEditor
             // if we're in the 'old stories' window OR if it's a Just looking user, then
             //  ignore the modified flag and return
             if (!IsInStoriesSet ||
-                ((LoggedOnMember != null) && (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eJustLooking)))
+                ((LoggedOnMember != null) && TeamMemberData.IsUser(LoggedOnMember.MemberType, TeamMemberData.UserTypes.JustLooking)))
             {
                 Modified = false;   // just in case
                 return true;
@@ -2020,7 +2036,7 @@ namespace OneStoryProjectEditor
                 {
                     Debug.Assert(theCurrentStory.CraftingInfo != null);
                     if (theCurrentStory.CraftingInfo.IsBiblicalStory
-                        && (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+                        && TeamMemberData.IsUser(LoggedOnMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator)
                         && (((int)theCurrentStory.ProjStage.ProjectStage) > (int)StoryStageLogic.ProjectStages.eProjFacTypeVernacular)
                         && (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose)
                         || String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ResourcesUsed)))
@@ -2677,21 +2693,25 @@ namespace OneStoryProjectEditor
 
         private void editToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
+            bool bSomeVerses = ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
             editFindToolStripMenuItem.Enabled =
                 copyToolStripMenuItem.Enabled =
                 copyNationalBackTranslationToolStripMenuItem.Enabled =
                 copyEnglishBackTranslationToolStripMenuItem.Enabled =
-                copyFreeTranslationMenuItem.Enabled =
-                ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+                copyFreeTranslationMenuItem.Enabled = bSomeVerses;
 
             deleteBackTranslationToolStripMenuItem.Enabled =
                 deleteStoryNationalBackTranslationToolStripMenuItem.Enabled =
                 deleteEnglishBacktranslationToolStripMenuItem.Enabled =
                 deleteFreeTranslationToolStripMenuItem.Enabled =
-                editAddRetellingTestResultsToolStripMenuItem.Enabled =
+                    (IsInStoriesSet && bSomeVerses);
+
+            editAddRetellingTestResultsToolStripMenuItem.Enabled =
                 editAddInferenceTestResultsToolStripMenuItem.Enabled =
-                addgeneralTestQuestionToolStripMenuItem.Enabled = 
-                (IsInStoriesSet && (theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+                addgeneralTestQuestionToolStripMenuItem.Enabled =
+                    (IsInStoriesSet 
+                        && bSomeVerses 
+                        && theCurrentStory.CraftingInfo.IsBiblicalStory);
 
             pasteToolStripMenuItem.Enabled = (CtrlTextBox._inTextBox != null);
 
@@ -2922,8 +2942,10 @@ namespace OneStoryProjectEditor
             string strUnsGuid = null;
             while (String.IsNullOrEmpty(strUnsGuid))
             {
-                MemberPicker dlg = new MemberPicker(theStoryProjectData, TeamMemberData.UserTypes.eUNS);
-                dlg.Text = "Choose the UNS that gave answers for this test";
+                var dlg = new MemberPicker(theStoryProjectData, TeamMemberData.UserTypes.UNS)
+                              {
+                                  Text = "Choose the UNS that gave answers for this test"
+                              };
                 DialogResult res = dlg.ShowDialog();
                 if (res == DialogResult.OK)
                     strUnsGuid = dlg.SelectedMember.MemberGuid;
@@ -3676,8 +3698,9 @@ namespace OneStoryProjectEditor
 
                 // the coach pane shouldn't be visible except to Consultants and Coach
                 viewCoachNotesFieldMenuItem.Enabled = ((LoggedOnMember != null) &&
-                                                       (LoggedOnMember.MemberType !=
-                                                        TeamMemberData.UserTypes.eProjectFacilitator));
+                                                       !TeamMemberData.IsUser(LoggedOnMember.MemberType,
+                                                                              TeamMemberData.UserTypes.
+                                                                                  ProjectFacilitator));
             }
             else
                 showHideFieldsToolStripMenuItem.Enabled =

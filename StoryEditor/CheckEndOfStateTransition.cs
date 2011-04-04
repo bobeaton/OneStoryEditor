@@ -796,7 +796,7 @@ namespace OneStoryProjectEditor
         {
             while (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.BackTranslatorMemberID))
             {
-                var dlg = new MemberPicker(theStoryProjectData, TeamMemberData.UserTypes.eUNS)
+                var dlg = new MemberPicker(theStoryProjectData, TeamMemberData.UserTypes.UNS)
                               {
                                   Text = "Choose the UNS that did this back-translation"
                               };

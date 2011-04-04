@@ -24,8 +24,8 @@ namespace OneStoryProjectEditor
             if (TheStory == null)
             {
                 if ((TheSe.LoggedOnMember != null)
-                    && (TheSe.LoggedOnMember.MemberType 
-                            == TeamMemberData.UserTypes.eProjectFacilitator))
+                    && TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                                             TeamMemberData.UserTypes.ProjectFacilitator))
                     buttonAddStory.Visible = true;
                 return;
             }
@@ -48,20 +48,25 @@ namespace OneStoryProjectEditor
             if (TheSe.LoggedOnMember == null)
                 return;
 
-            switch (TheSe.LoggedOnMember.MemberType)
+            if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType, 
+                                      TeamMemberData.UserTypes.ProjectFacilitator))
             {
-                case TeamMemberData.UserTypes.eProjectFacilitator:
-                    SetProjectFaciliatorButtons(theStory, theStoryProjectData, projSettings);
-                    break;
-                case TeamMemberData.UserTypes.eIndependentConsultant:
-                    SetIndependentConsultantButtons();
-                    break;
-                case TeamMemberData.UserTypes.eConsultantInTraining:
-                    SetConsultantInTrainingButtons();
-                    break;
-                case TeamMemberData.UserTypes.eCoach:
-                    SetCoachButtons();
-                    break;
+                SetProjectFaciliatorButtons(theStory, theStoryProjectData, projSettings);
+            }
+            else if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType, 
+                                           TeamMemberData.UserTypes.IndependentConsultant))
+            {
+                SetIndependentConsultantButtons();
+            }
+            else if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType, 
+                                           TeamMemberData.UserTypes.ConsultantInTraining))
+            {
+                SetConsultantInTrainingButtons();
+            }
+            else if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType, 
+                                           TeamMemberData.UserTypes.Coach))
+            {
+                SetCoachButtons();
             }
         }
 
@@ -224,7 +229,8 @@ namespace OneStoryProjectEditor
 
         private void buttonAddStory_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert(TheSe.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator);
+            System.Diagnostics.Debug.Assert(TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                                                                  TeamMemberData.UserTypes.ProjectFacilitator));
             ParentForm.Close();
             TheSe.addNewStoryAfterToolStripMenuItem_Click(sender, e);
         }
@@ -232,7 +238,8 @@ namespace OneStoryProjectEditor
         private void buttonVernacular_Click(object sender, EventArgs e)
         {
             ParentForm.Close();
-            if (TheSe.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+            if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                TeamMemberData.UserTypes.ProjectFacilitator))
             {
                 TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacTypeVernacular, false);
             }
@@ -245,7 +252,8 @@ namespace OneStoryProjectEditor
         private void buttonNationalBt_Click(object sender, EventArgs e)
         {
             ParentForm.Close();
-            if (TheSe.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+            if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                TeamMemberData.UserTypes.ProjectFacilitator))
             {
                 TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacTypeNationalBT, false);
             }
@@ -258,7 +266,8 @@ namespace OneStoryProjectEditor
         private void buttonInternationalBt_Click(object sender, EventArgs e)
         {
             ParentForm.Close();
-            if (TheSe.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+            if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType, 
+                TeamMemberData.UserTypes.ProjectFacilitator))
             {
                 TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT, false);
             }
@@ -271,7 +280,8 @@ namespace OneStoryProjectEditor
         private void buttonFreeTranslation_Click(object sender, EventArgs e)
         {
             ParentForm.Close();
-            if (TheSe.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+            if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType, 
+                TeamMemberData.UserTypes.ProjectFacilitator))
             {
                 TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation, false);
             }
@@ -284,7 +294,8 @@ namespace OneStoryProjectEditor
         private void buttonAnchors_Click(object sender, EventArgs e)
         {
             ParentForm.Close();
-            if (TheSe.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+            if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                TeamMemberData.UserTypes.ProjectFacilitator))
             {
                 TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacAddAnchors, false);
             }
@@ -299,7 +310,8 @@ namespace OneStoryProjectEditor
         private void buttonRetellings_Click(object sender, EventArgs e)
         {
             ParentForm.Close();
-            if (TheSe.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+            if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType, 
+                TeamMemberData.UserTypes.ProjectFacilitator))
             {
                 TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest1, false);
             }
@@ -311,7 +323,8 @@ namespace OneStoryProjectEditor
 
         private void buttonAddRetellingBoxes_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert(TheSe.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator);
+            System.Diagnostics.Debug.Assert(TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                                                                  TeamMemberData.UserTypes.ProjectFacilitator));
             ParentForm.Close();
             TheSe.editAddTestResultsToolStripMenuItem_Click(sender, e);
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest1, false);
@@ -320,7 +333,8 @@ namespace OneStoryProjectEditor
         private void buttonTestQuestions_Click(object sender, EventArgs e)
         {
             ParentForm.Close();
-            if (TheSe.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+            if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType, 
+                TeamMemberData.UserTypes.ProjectFacilitator))
             {
                 TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions, false);
             }
@@ -333,7 +347,8 @@ namespace OneStoryProjectEditor
         private void buttonTestQuestionAnswers_Click(object sender, EventArgs e)
         {
             ParentForm.Close();
-            if (TheSe.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+            if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType, 
+                TeamMemberData.UserTypes.ProjectFacilitator))
             {
                 TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1, false);
             }
@@ -346,7 +361,8 @@ namespace OneStoryProjectEditor
         
         private void buttonAddBoxesForAnswers_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert(TheSe.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator);
+            System.Diagnostics.Debug.Assert(TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                                                                  TeamMemberData.UserTypes.ProjectFacilitator));
             ParentForm.Close();
             if (TheSe.AddInferenceTestBoxes())
                 TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1, false);
@@ -367,7 +383,8 @@ namespace OneStoryProjectEditor
         private void buttonSendToConsultant_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Assert(_checker != null);
-            System.Diagnostics.Debug.Assert(TheSe.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator);
+            System.Diagnostics.Debug.Assert(TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                                                                  TeamMemberData.UserTypes.ProjectFacilitator));
             
             ParentForm.Close();
             if (!_checker.CheckIfRequirementsAreMet())
@@ -428,7 +445,8 @@ namespace OneStoryProjectEditor
         private void buttonSendToCoach_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Assert(_checker != null);
-            System.Diagnostics.Debug.Assert(TheSe.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eConsultantInTraining);
+            System.Diagnostics.Debug.Assert(TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                                                                  TeamMemberData.UserTypes.ConsultantInTraining));
             
             ParentForm.Close();
             if (!_checker.CheckIfRequirementsAreMet())
@@ -439,7 +457,8 @@ namespace OneStoryProjectEditor
 
         private void buttonSendToCIT_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert(TheSe.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eCoach);
+            System.Diagnostics.Debug.Assert(TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                                                                  TeamMemberData.UserTypes.Coach));
 
             ParentForm.Close();
             if (!CheckEndOfStateTransition.CheckThatCoachAnsweredCITsQuestions(TheSe, TheStory))
@@ -464,15 +483,22 @@ namespace OneStoryProjectEditor
         private void buttonViewTasks_Click(object sender, EventArgs e)
         {
             SetTasksForm dlg;
-            if (TheSe.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+            if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                TeamMemberData.UserTypes.ProjectFacilitator))
+            {
                 dlg = new SetPfTasksForm(TheSe.StoryProject.ProjSettings,
                                          TheStory.TasksAllowedPf, 
                                          TheStory.TasksRequiredPf,
                                          TheStory.CraftingInfo.IsBiblicalStory)
-                          {Text = "Tasks for Project Facilitator"};
-            else if (TheSe.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eConsultantInTraining)
-                dlg = new SetCitTasksForm(TheStory.TasksAllowedCit, TheStory.TasksRequiredCit)
-                          {Text = "Tasks for CIT"};
+                                         {Text = "Tasks for Project Facilitator"};
+            }
+            else if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                     TeamMemberData.UserTypes.ConsultantInTraining))
+            {
+                dlg = new SetCitTasksForm(TheStory.TasksAllowedCit,
+                                          TheStory.TasksRequiredCit) 
+                                          {Text = "Tasks for CIT"};
+            }
             else
             {
                 System.Diagnostics.Debug.Assert(false);

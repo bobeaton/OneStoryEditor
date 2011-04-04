@@ -38,13 +38,13 @@ namespace OneStoryProjectEditor
             get
             {
                 if (Direction == ConsultNoteDataConverter.CommunicationDirections.eProjFacToConsultant)
-                    return TeamMemberData.UserTypes.eProjectFacilitator;
+                    return TeamMemberData.UserTypes.ProjectFacilitator;
 
                 if ((Direction == ConsultNoteDataConverter.CommunicationDirections.eCoachToConsultant)
                     || (Direction == ConsultNoteDataConverter.CommunicationDirections.eCoachToCoach))
-                    return TeamMemberData.UserTypes.eCoach;
+                    return TeamMemberData.UserTypes.Coach;
                 
-                return TeamMemberData.UserTypes.eConsultantInTraining;
+                return TeamMemberData.UserTypes.ConsultantInTraining;
             }
         }
     }
@@ -135,10 +135,10 @@ namespace OneStoryProjectEditor
                 return;
             }
 
-            TeamMemberData.UserTypes eLoggedOnMember = LoggedOnMember.MemberType;
-            if (((eLoggedOnMember & eMentorType) == eLoggedOnMember) && ((Count == 0) || (IsFromMentee(this[Count - 1]))))
+            TeamMemberData.UserTypes eLoggedOnMemberType = LoggedOnMember.MemberType;
+            if (TeamMemberData.IsUser(eLoggedOnMemberType, eMentorType) && ((Count == 0) || (IsFromMentee(this[Count - 1]))))
                 Add(new CommInstance(strValue, MentorDirection, null, DateTime.Now));
-            else if (((eLoggedOnMember & eMenteeType) == eLoggedOnMember) && ((Count == 0) || (this[Count - 1].Direction == MentorDirection)))
+            else if (TeamMemberData.IsUser(eLoggedOnMemberType, eMenteeType) && ((Count == 0) || (this[Count - 1].Direction == MentorDirection)))
                 Add(new CommInstance(strValue, MenteeDirection, null, DateTime.Now));
         }
 
@@ -155,7 +155,7 @@ namespace OneStoryProjectEditor
 
         protected virtual bool IsWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
         {
-            return (eLoggedOnMember != eRequiredEditor);
+            return !TeamMemberData.IsUser(eLoggedOnMember, eRequiredEditor);
         }
 
         protected virtual bool CanDoConversationButtons(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
@@ -592,14 +592,15 @@ namespace OneStoryProjectEditor
 
         protected override bool IsMentorLoggedOn(TeamMemberData loggedOnMember)
         {
-            return ((loggedOnMember.MemberType == TeamMemberData.UserTypes.eConsultantInTraining) ||
-                    (loggedOnMember.MemberType == TeamMemberData.UserTypes.eIndependentConsultant) ||
-                    (loggedOnMember.MemberType == TeamMemberData.UserTypes.eFirstPassMentor));
+            return (TeamMemberData.IsUser(loggedOnMember.MemberType,
+                                          TeamMemberData.UserTypes.ConsultantInTraining |
+                                          TeamMemberData.UserTypes.IndependentConsultant |
+                                          TeamMemberData.UserTypes.FirstPassMentor));
         }
 
         protected override bool IsMenteeLoggedOn(TeamMemberData loggedOnMember)
         {
-            return (loggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator);
+            return (TeamMemberData.IsUser(loggedOnMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator));
         }
 
         protected override bool IsWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
@@ -610,14 +611,11 @@ namespace OneStoryProjectEditor
             {
                 // ... and if the logged in member isn't that mentor, nor the First Pass 
                 //  Mentor, nor an independent consultant... or an English BTr
-                if ((eLoggedOnMember == eRequiredEditor)
-                    || 
-                    (eLoggedOnMember == TeamMemberData.UserTypes.eFirstPassMentor)
-                    || 
-                    (eLoggedOnMember == TeamMemberData.UserTypes.eIndependentConsultant)
-                    ||
-                    (eLoggedOnMember == TeamMemberData.UserTypes.eEnglishBacktranslator)
-                    )
+                if (TeamMemberData.IsUser(eLoggedOnMember, 
+                    eRequiredEditor | 
+                    TeamMemberData.UserTypes.FirstPassMentor | 
+                    TeamMemberData.UserTypes.IndependentConsultant | 
+                    TeamMemberData.UserTypes.EnglishBackTranslator))
                 {
                     return false;
                 }
@@ -635,11 +633,10 @@ namespace OneStoryProjectEditor
             {
                 // ... and if the logged in member isn't that mentor, nor the First Pass 
                 //  Mentor, nor an independent consultant... or an English BTr
-                if ((eLoggedOnMember == eRequiredEditor)
-                    ||
-                    (eLoggedOnMember == TeamMemberData.UserTypes.eFirstPassMentor)
-                    ||
-                    (eLoggedOnMember == TeamMemberData.UserTypes.eIndependentConsultant))
+                if (TeamMemberData.IsUser(eLoggedOnMember,
+                                          eRequiredEditor |
+                                          TeamMemberData.UserTypes.FirstPassMentor |
+                                          TeamMemberData.UserTypes.IndependentConsultant))
                 {
                     return true;
                 }
@@ -672,12 +669,12 @@ namespace OneStoryProjectEditor
         */
         public override TeamMemberData.UserTypes MentorRequiredEditor
         {
-            get { return TeamMemberData.UserTypes.eConsultantInTraining; }
+            get { return TeamMemberData.UserTypes.ConsultantInTraining; }
         }
 
         public override TeamMemberData.UserTypes MenteeRequiredEditor
         {
-            get { return TeamMemberData.UserTypes.eProjectFacilitator; }
+            get { return TeamMemberData.UserTypes.ProjectFacilitator; }
         }
 
         protected override VerseData.ViewSettings.ItemToInsureOn AssociatedPane
@@ -728,13 +725,15 @@ namespace OneStoryProjectEditor
 
         protected override bool IsMentorLoggedOn(TeamMemberData loggedOnMember)
         {
-            return (loggedOnMember.MemberType == TeamMemberData.UserTypes.eCoach);
+            return (TeamMemberData.IsUser(loggedOnMember.MemberType,
+                                          TeamMemberData.UserTypes.Coach));
         }
 
         protected override bool IsMenteeLoggedOn(TeamMemberData loggedOnMember)
         {
-            return ((loggedOnMember.MemberType == TeamMemberData.UserTypes.eConsultantInTraining) ||
-                    (loggedOnMember.MemberType == TeamMemberData.UserTypes.eIndependentConsultant));
+            return (TeamMemberData.IsUser(loggedOnMember.MemberType,
+                                          TeamMemberData.UserTypes.ConsultantInTraining |
+                                          TeamMemberData.UserTypes.IndependentConsultant));
         }
 
         public override CommunicationDirections MenteeDirection
@@ -764,12 +763,12 @@ namespace OneStoryProjectEditor
 
         public override TeamMemberData.UserTypes MentorRequiredEditor
         {
-            get { return TeamMemberData.UserTypes.eCoach; }
+            get { return TeamMemberData.UserTypes.Coach; }
         }
 
         public override TeamMemberData.UserTypes MenteeRequiredEditor
         {
-            get { return TeamMemberData.UserTypes.eConsultantInTraining; }
+            get { return TeamMemberData.UserTypes.ConsultantInTraining; }
         }
 
         protected override VerseData.ViewSettings.ItemToInsureOn AssociatedPane
@@ -819,8 +818,8 @@ namespace OneStoryProjectEditor
 
         public bool HasAddNotePrivilege(TeamMemberData.UserTypes eLoggedOnMember)
         {
-            return ((eLoggedOnMember & MentorType) == eLoggedOnMember) ||
-                   ((eLoggedOnMember & MenteeType) == eLoggedOnMember);
+            return (TeamMemberData.IsUser(eLoggedOnMember, MentorType)) ||
+                   (TeamMemberData.IsUser(eLoggedOnMember, MenteeType));
         }
 
         public bool HasAddNoteToSelfPrivilege(TeamMemberData.UserTypes eLoggedOnMember)
@@ -975,15 +974,15 @@ namespace OneStoryProjectEditor
             get
             {
                 // the 'mentor' for this class can be any of the following
-                return (TeamMemberData.UserTypes.eConsultantInTraining
-                        | TeamMemberData.UserTypes.eFirstPassMentor
-                        | TeamMemberData.UserTypes.eIndependentConsultant);
+                return (TeamMemberData.UserTypes.ConsultantInTraining
+                        | TeamMemberData.UserTypes.FirstPassMentor
+                        | TeamMemberData.UserTypes.IndependentConsultant);
             }
         }
 
         protected override TeamMemberData.UserTypes MenteeType
         {
-            get { return TeamMemberData.UserTypes.eProjectFacilitator; }
+            get { return TeamMemberData.UserTypes.ProjectFacilitator; }
         }
     }
 
@@ -1030,7 +1029,7 @@ namespace OneStoryProjectEditor
 
         protected override TeamMemberData.UserTypes MentorType
         {
-            get { return TeamMemberData.UserTypes.eCoach; }
+            get { return TeamMemberData.UserTypes.Coach; }
         }
 
         protected override TeamMemberData.UserTypes MenteeType
@@ -1038,9 +1037,9 @@ namespace OneStoryProjectEditor
             get
             {
                 // the mentee type for this class can be any of the following
-                return (TeamMemberData.UserTypes.eConsultantInTraining
-                        | TeamMemberData.UserTypes.eFirstPassMentor
-                        | TeamMemberData.UserTypes.eIndependentConsultant);
+                return (TeamMemberData.UserTypes.ConsultantInTraining
+                        | TeamMemberData.UserTypes.FirstPassMentor
+                        | TeamMemberData.UserTypes.IndependentConsultant);
             }
         }
     }

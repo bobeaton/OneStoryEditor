@@ -110,14 +110,14 @@ namespace OneStoryProjectEditor
         private void buttonBrowserForProjectFacilitator_MouseUp(object sender, MouseEventArgs e)
         {
             HandleMouseUp(e.Button == MouseButtons.Right, textBoxProjectFacilitator,
-                TeamMemberData.UserTypes.eProjectFacilitator, 
+                TeamMemberData.UserTypes.ProjectFacilitator, 
                 "Choose the Project Facilitator for this story");
         }
 
         private void buttonBrowseForStoryCrafter_MouseUp(object sender, MouseEventArgs e)
         {
             HandleMouseUp(e.Button == MouseButtons.Right, textBoxStoryCrafter,
-                TeamMemberData.UserTypes.eCrafter,
+                TeamMemberData.UserTypes.Crafter,
                 "Choose the crafter for this story");
         }
 
@@ -156,7 +156,7 @@ namespace OneStoryProjectEditor
 
         protected TeamMemberData SelectedUnsMember()
         {
-            MemberPicker dlg = new MemberPicker(_theStoryProjectData, TeamMemberData.UserTypes.eUNS);
+            var dlg = new MemberPicker(_theStoryProjectData, TeamMemberData.UserTypes.UNS);
             if (dlg.ShowDialog() == DialogResult.OK)
                 return dlg.SelectedMember;
             return null;
@@ -165,7 +165,7 @@ namespace OneStoryProjectEditor
         private void buttonBrowseUNSBackTranslator_MouseUp(object sender, MouseEventArgs e)
         {
             HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsBackTranslator,
-                TeamMemberData.UserTypes.eUNS,
+                TeamMemberData.UserTypes.UNS,
                 "Choose the back-translator for this story");
 
 #if false   // obsolete (I think)
@@ -178,7 +178,8 @@ namespace OneStoryProjectEditor
 
         private void buttonBrowseUnsRetellingTest1_MouseUp(object sender, MouseEventArgs e)
         {
-            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsRetellingTest1, TeamMemberData.UserTypes.eUNS,
+            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsRetellingTest1, 
+                TeamMemberData.UserTypes.UNS,
                 "Choose the UNS that took this test");
 
 #if false   // obsolete (I think)
@@ -191,7 +192,8 @@ namespace OneStoryProjectEditor
 
         private void buttonBrowseUnsRetellingTest2_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsRetellingTest2, TeamMemberData.UserTypes.eUNS,
+            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsRetellingTest2, 
+                TeamMemberData.UserTypes.UNS,
                 "Choose the UNS that took this test");
 
 #if false   // obsolete (I think)
@@ -204,7 +206,8 @@ namespace OneStoryProjectEditor
 
         private void buttonBrowseUnsRetellingTest3_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsRetellingTest3, TeamMemberData.UserTypes.eUNS,
+            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsRetellingTest3, 
+                TeamMemberData.UserTypes.UNS,
                 "Choose the UNS that took this test");
 
 #if false   // obsolete (I think)
@@ -217,19 +220,22 @@ namespace OneStoryProjectEditor
 
         private void buttonBrowseUnsInferenceTest1_MouseUp(object sender, MouseEventArgs e)
         {
-            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsInferenceTest1, TeamMemberData.UserTypes.eUNS,
+            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsInferenceTest1, 
+                TeamMemberData.UserTypes.UNS,
                 "Choose the UNS that took this test");
         }
 
         private void buttonBrowseUnsInferenceTest2_MouseUp(object sender, MouseEventArgs e)
         {
-            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsInferenceTest2, TeamMemberData.UserTypes.eUNS,
+            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsInferenceTest2, 
+                TeamMemberData.UserTypes.UNS,
                 "Choose the UNS that took this test");
         }
 
         private void buttonBrowseUnsInferenceTest3_MouseUp(object sender, MouseEventArgs e)
         {
-            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsInferenceTest3, TeamMemberData.UserTypes.eUNS,
+            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsInferenceTest3, 
+                TeamMemberData.UserTypes.UNS,
                 "Choose the UNS that took this test");
         }
 
@@ -239,14 +245,14 @@ namespace OneStoryProjectEditor
 
             if (textBoxProjectFacilitator.Tag != null)
             {
-                TeamMemberData thePF = (TeamMemberData)textBoxProjectFacilitator.Tag;
+                var thePF = (TeamMemberData)textBoxProjectFacilitator.Tag;
                 _theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID = thePF.MemberGuid;
                 bModified = true;
             }
 
             if (textBoxStoryCrafter.Tag != null)
             {
-                TeamMemberData theSC = (TeamMemberData) textBoxStoryCrafter.Tag;
+                var theSC = (TeamMemberData) textBoxStoryCrafter.Tag;
                 _theCurrentStory.CraftingInfo.StoryCrafterMemberID = theSC.MemberGuid;
                 bModified = true;                
             }
@@ -265,7 +271,7 @@ namespace OneStoryProjectEditor
 
             if (textBoxUnsBackTranslator.Tag != null)
             {
-                TeamMemberData theBT = (TeamMemberData)textBoxUnsBackTranslator.Tag;
+                var theBT = (TeamMemberData)textBoxUnsBackTranslator.Tag;
                 _theCurrentStory.CraftingInfo.BackTranslatorMemberID = theBT.MemberGuid;
                 bModified = true;
             }

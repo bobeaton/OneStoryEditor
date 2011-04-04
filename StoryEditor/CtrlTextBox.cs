@@ -21,7 +21,7 @@ namespace OneStoryProjectEditor
 
         public delegate void ThrowIfNotCorrectEditor(TeamMemberData.UserTypes eLoggedInMember, TeamMemberData.UserTypes eRequiredEditor);
         protected ThrowIfNotCorrectEditor _delegateRequiredEditorCheck;
-        protected TeamMemberData.UserTypes _eRequiredEditor = TeamMemberData.UserTypes.eUndefined;
+        protected TeamMemberData.UserTypes _eRequiredEditor = TeamMemberData.UserTypes.Undefined;
 
         /* old method for MultiLine and 'cn' lines, but it wasn't working well
         public CtrlTextBox(string strName, VerseControl ctrlVerseParent, Font font,
@@ -216,7 +216,8 @@ namespace OneStoryProjectEditor
                     {
                         ProjectSettings projSettings = theSE.StoryProject.ProjSettings;
                         StoryData theStory = theSE.theCurrentStory;
-                        if (theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+                        if (TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType,
+                            TeamMemberData.UserTypes.ProjectFacilitator))
                         {
                             ProjectSettings.LanguageInfo li;
                             if (!CheckForTaskPermission((li = projSettings.Vernacular), StoryEditor.TextFieldType.Vernacular, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.VernacularLangFields))

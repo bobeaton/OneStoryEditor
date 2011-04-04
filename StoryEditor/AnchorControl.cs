@@ -105,8 +105,10 @@ namespace OneStoryProjectEditor
                 if (!CheckForProperEditToken(out theSE))
                     return;
 
-                if ((theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
-                    && !TasksPf.IsTaskOn(theSE.theCurrentStory.TasksAllowedPf, TasksPf.TaskSettings.Anchors))
+                if (TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType,
+                                          TeamMemberData.UserTypes.ProjectFacilitator)
+                    && !TasksPf.IsTaskOn(theSE.theCurrentStory.TasksAllowedPf, 
+                                         TasksPf.TaskSettings.Anchors))
                 {
                     MessageBox.Show(Properties.Resources.IDS_CantAddAnchors,
                                     OseResources.Properties.Resources.IDS_Caption);

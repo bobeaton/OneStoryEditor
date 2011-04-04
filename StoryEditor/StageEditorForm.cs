@@ -174,39 +174,49 @@ namespace OneStoryProjectEditor
                 if (!stateTransition.IsThisStateAllow(_storyProjectData, _theCurrentStory))
                     continue;
 
-                switch (stateTransition.MemberTypeWithEditToken)
+                if (TeamMemberData.IsUser(stateTransition.MemberTypeWithEditToken, 
+                    TeamMemberData.UserTypes.ProjectFacilitator))
                 {
-                    case TeamMemberData.UserTypes.eProjectFacilitator:
-                        InitButton(stateTransition, ColumnProjectFacilitatorStages.Name);
-                        break;
-                    case TeamMemberData.UserTypes.eEnglishBacktranslator:
-                        if (ColumnEnglishBackTranslator.Visible)
-                        {
-                            InitButton(stateTransition, ColumnEnglishBackTranslator.Name);
-                        }
-                        break;
-                    case TeamMemberData.UserTypes.eFirstPassMentor:
-                        if (ColumnFirstPassMentor.Visible)
-                        {
-                            InitButton(stateTransition, ColumnFirstPassMentor.Name);
-                        }
-                        break;
-                    case TeamMemberData.UserTypes.eConsultantInTraining:
-                        // could be an independent consultant as well (because that invalid case of
-                        //  the state being for a CIT while having no "manage with coaching" in
-                        //  the project settings was already excluded by the call to IsThisStateAllow above)
-                        InitButton(stateTransition, ColumnConsultantInTraining.Name);
-                        break;
-                    case TeamMemberData.UserTypes.eCoach:
-                        if (ColumnCoach.Visible)
-                        {
-                            InitButton(stateTransition, ColumnCoach.Name);
-                        }
-                        break;
-                    default:
-                        System.Diagnostics.Debug.Assert(false);
-                        break;
+                    InitButton(stateTransition, ColumnProjectFacilitatorStages.Name);
                 }
+                else if (TeamMemberData.IsUser(stateTransition.MemberTypeWithEditToken, 
+                         TeamMemberData.UserTypes.EnglishBackTranslator))
+                {
+                    if (ColumnEnglishBackTranslator.Visible)
+                    {
+                        InitButton(stateTransition, ColumnEnglishBackTranslator.Name);
+                    }
+                }
+
+                else if (TeamMemberData.IsUser(stateTransition.MemberTypeWithEditToken, 
+                         TeamMemberData.UserTypes.FirstPassMentor))
+                {
+                    if (ColumnFirstPassMentor.Visible)
+                    {
+                        InitButton(stateTransition, ColumnFirstPassMentor.Name);
+                    }
+                }
+
+                else if (TeamMemberData.IsUser(stateTransition.MemberTypeWithEditToken, 
+                         TeamMemberData.UserTypes.ConsultantInTraining))
+                {
+                    // could be an independent consultant as well (because that invalid case of
+                    //  the state being for a CIT while having no "manage with coaching" in
+                    //  the project settings was already excluded by the call to IsThisStateAllow above)
+                    InitButton(stateTransition, ColumnConsultantInTraining.Name);
+                }
+
+                else if (TeamMemberData.IsUser(stateTransition.MemberTypeWithEditToken, 
+                         TeamMemberData.UserTypes.Coach))
+                {
+                    if (ColumnCoach.Visible)
+                    {
+                        InitButton(stateTransition, ColumnCoach.Name);
+                    }
+                }
+
+                else
+                    System.Diagnostics.Debug.Assert(false);
             }
         }
         protected void InitButton(StoryStageLogic.StateTransition stateTransition,

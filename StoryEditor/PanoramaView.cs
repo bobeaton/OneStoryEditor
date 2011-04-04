@@ -84,7 +84,7 @@ namespace OneStoryProjectEditor
                 strTimeInState += String.Format("{0} minutes", ts.Minutes);
 
                 string strWhoHasEditToken =
-                    _storyProject.TeamMembers.GetMemberTypeAsDisplayString(aSD.ProjStage.MemberTypeWithEditToken);
+                    TeamMemberData.GetMemberTypeAsDisplayString(aSD.ProjStage.MemberTypeWithEditToken);
 
                 if (strWhoHasEditToken == TeamMemberData.CstrProjectFacilitatorDisplay)
                 {

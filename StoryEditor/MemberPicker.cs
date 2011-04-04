@@ -13,9 +13,10 @@ namespace OneStoryProjectEditor
     {
         protected StoryProjectData _theStoryProjectData;
         protected TeamMemberData _dataSelectedMember = null;
-        protected TeamMemberData.UserTypes _eWantedType = TeamMemberData.UserTypes.eUndefined;
+        protected TeamMemberData.UserTypes _eWantedType = TeamMemberData.UserTypes.Undefined;
 
-        public MemberPicker(StoryProjectData theStoryProjectData, TeamMemberData.UserTypes eWantedType)
+        public MemberPicker(StoryProjectData theStoryProjectData, 
+            TeamMemberData.UserTypes eWantedType)
             : base(true)
         {
             _theStoryProjectData = theStoryProjectData;
@@ -27,6 +28,11 @@ namespace OneStoryProjectEditor
         public new DialogResult ShowDialog()
         {
             InitializeListBox(_eWantedType);
+
+            // don't show AddNewMember button if we're displaying this as a result
+            //  of being called from the Login dialog (which is the only time we
+            //  currently call it with a value for Item2block)
+            buttonAddNewMember.Visible = String.IsNullOrEmpty(ItemToBlock);
             return base.ShowDialog();
         }
 
@@ -36,7 +42,7 @@ namespace OneStoryProjectEditor
         {
             listBoxUNSs.Items.Clear();
             foreach (TeamMemberData aTMD in
-                _theStoryProjectData.TeamMembers.Values.Where(aTMD => (aTMD.MemberType == eType) && (aTMD.Name != ItemToBlock)))
+                _theStoryProjectData.TeamMembers.Values.Where(aTMD => (TeamMemberData.IsUser(aTMD.MemberType, eType) && (aTMD.Name != ItemToBlock))))
             {
                 listBoxUNSs.Items.Add(aTMD.Name);
             }
@@ -56,7 +62,12 @@ namespace OneStoryProjectEditor
             try
             {
                 bool bModified = false;
-                TeamMemberData theMember = _theStoryProjectData.EditTeamMembers(null, false, _theStoryProjectData.ProjSettings, ref bModified);
+                TeamMemberData theMember = _theStoryProjectData.EditTeamMembers(null,
+                                                                                TeamMemberData.UserTypes.Undefined,
+                                                                                false, 
+                                                                                _theStoryProjectData.ProjSettings,
+                                                                                false,
+                                                                                ref bModified);
                 InitializeListBox(_eWantedType);
                 listBoxUNSs.SelectedItem = theMember.Name;
             }

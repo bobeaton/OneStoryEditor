@@ -367,6 +367,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to merge &apos;{0}&apos; into &apos;{1}&apos; because in the story &apos;{2}&apos;, {3}.
+        /// </summary>
+        internal static string IDS_CantChangeMember {
+            get {
+                return ResourceManager.GetString("IDS_CantChangeMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The program can&apos;t make this change right now. If this error continues, contact bob_eaton@sall.com for help.
         /// </summary>
         internal static string IDS_CantEditPanoramaView {
@@ -448,6 +457,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Choose the Project Facilitator that entered this story.
+        /// </summary>
+        internal static string IDS_ChooseProjFac {
+            get {
+                return ResourceManager.GetString("IDS_ChooseProjFac", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose the Story Crafter.
         /// </summary>
         internal static string IDS_ChooseTheStoryCrafter {
@@ -511,6 +529,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All of the information associated with &apos;{0}&apos; is now associated with &apos;{1}&apos;. Click &apos;Yes&apos; to delete the record for &apos;{0}&apos;..
+        /// </summary>
+        internal static string IDS_ConfirmDeleteMember {
+            get {
+                return ResourceManager.GetString("IDS_ConfirmDeleteMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to remove all of the retelling results from .
         /// </summary>
         internal static string IDS_ConfirmDeleteRetellings {
@@ -543,15 +570,6 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_ConfirmDeleteTQs {
             get {
                 return ResourceManager.GetString("IDS_ConfirmDeleteTQs", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to All of the UNS test information associated with &apos;{0}&apos; is now associated with &apos;{1}&apos;. Click &apos;Yes&apos; to delete the record for &apos;{0}&apos;..
-        /// </summary>
-        internal static string IDS_ConfirmDeleteUns {
-            get {
-                return ResourceManager.GetString("IDS_ConfirmDeleteUns", resourceCulture);
             }
         }
         
@@ -1231,6 +1249,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; has these additional roles: &apos;{1}&apos;. Would you like to add those roles to &apos;{2}&apos; also?.
+        /// </summary>
+        internal static string IDS_QueryMergeMultipleRoles {
+            get {
+                return ResourceManager.GetString("IDS_QueryMergeMultipleRoles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to How many times did the UNS hear the story before giving this retelling?.
         /// </summary>
         internal static string IDS_QueryNumOfTimeHeard {
@@ -1290,6 +1317,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_ReorderClickSpaceTip {
             get {
                 return ResourceManager.GetString("IDS_ReorderClickSpaceTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the UNS &apos;{0}&apos; is already used. That would result in the same UNS being used for two different tests. To correct this, go to that story and click &apos;Story&apos;, &apos;Story Information&apos; and change the test associated with &apos;{0}&apos; to someone else and try to merge them again.
+        /// </summary>
+        internal static string IDS_ReplaceUnsException {
+            get {
+                return ResourceManager.GetString("IDS_ReplaceUnsException", resourceCulture);
             }
         }
         
@@ -1577,6 +1613,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_WarnAboutNotEnoughTqs {
             get {
                 return ResourceManager.GetString("IDS_WarnAboutNotEnoughTqs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have to enter at least a name and indicate your role (even if you&apos;re &apos;Just Looking&apos;)!.
+        /// </summary>
+        internal static string IDS_WarnNeedNameAndRole {
+            get {
+                return ResourceManager.GetString("IDS_WarnNeedNameAndRole", resourceCulture);
             }
         }
         

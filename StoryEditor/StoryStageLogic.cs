@@ -281,7 +281,10 @@ namespace OneStoryProjectEditor
                     while (xpStageTransition.MoveNext())
                     {
                         ProjectStages eThisStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpStageTransition.Current.GetAttribute(StateTransition.CstrAttributeLabelStage, navigator.NamespaceURI));
-                        TeamMemberData.UserTypes eMemberType = (TeamMemberData.UserTypes)Enum.Parse(typeof(TeamMemberData.UserTypes), xpStageTransition.Current.GetAttribute(StateTransition.CstrAttributeLabelMemberTypeWithEditToken, navigator.NamespaceURI));
+                        string strMemberType =
+                            xpStageTransition.Current.GetAttribute(
+                                StateTransition.CstrAttributeLabelMemberTypeWithEditToken, navigator.NamespaceURI);
+                        TeamMemberData.UserTypes eMemberType = (TeamMemberData.UserTypes)Enum.Parse(typeof(TeamMemberData.UserTypes), strMemberType);
                         
                         bool bRequiresUsingVernacular =
                             (xpStageTransition.Current.GetAttribute(StateTransition.CstrAttributeLabelRequiresUsingVernacular, navigator.NamespaceURI) ==
@@ -497,7 +500,7 @@ namespace OneStoryProjectEditor
             internal ProjectStages CurrentStage = ProjectStages.eUndefined;
             internal AllowableTransitions AllowableForewardsTransitions = new AllowableTransitions("AllowableForewardsTransitions");
             internal AllowableTransitions AllowableBackwardsTransitions = new AllowableTransitions("AllowableBackwardsTransitions");
-            internal TeamMemberData.UserTypes MemberTypeWithEditToken = TeamMemberData.UserTypes.eUndefined;
+            internal TeamMemberData.UserTypes MemberTypeWithEditToken = TeamMemberData.UserTypes.Undefined;
             internal string StageDisplayString;
             internal string TransitionDisplayString;
             private string _strStageInstructions;
@@ -659,11 +662,13 @@ namespace OneStoryProjectEditor
                 theSE.viewRetellingFieldMenuItem.Checked = IsRetellingVisible && bBiblicalStory;
                 theSE.viewConsultantNoteFieldMenuItem.Checked = IsConsultantNotesVisible;
                 
-                // diable the coach window also if the proj fac is logged in.
+                // disable the coach window also if the proj fac is logged in.
                 theSE.viewCoachNotesFieldMenuItem.Checked = IsCoachNotesVisible
                                                             && ((theSE.LoggedOnMember != null)
-                                                                && (theSE.LoggedOnMember.MemberType !=
-                                                                    TeamMemberData.UserTypes.eProjectFacilitator));
+                                                                &&
+                                                                !TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType,
+                                                                                       TeamMemberData.UserTypes.
+                                                                                           ProjectFacilitator));
                 theSE.viewNetBibleMenuItem.Checked = IsNetBibleVisible && bBiblicalStory;
             }
 #endif
