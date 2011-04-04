@@ -141,6 +141,7 @@ namespace OneStoryProjectEditor
 
             theCNDC.Visible = (theCNDC.Visible) ? false : true;
 
+            /*
             if (TheSE.hiddenVersesToolStripMenuItem.Checked)
             {
                 // then we just swap the text on the button
@@ -173,6 +174,7 @@ namespace OneStoryProjectEditor
             {
                 return true;
             }
+            */
 
             // otherwise, we have to reload the document
             LoadDocument();
@@ -221,6 +223,7 @@ namespace OneStoryProjectEditor
                 elemButton.InnerText = ConsultNoteDataConverter.CstrButtonLabelConversationReopen;
             }
 
+            /*
             if (theCNDC.IsFinished)
             {
                 if (Document != null)
@@ -252,6 +255,7 @@ namespace OneStoryProjectEditor
             else
                 StrIdToScrollTo = ConsultNoteDataConverter.TextareaReadonlyRowId(nVerseIndex, nConversationIndex,
                                                                                  theCNDC.Count - 1);
+            */
 
             LoadDocument();
             return true;
