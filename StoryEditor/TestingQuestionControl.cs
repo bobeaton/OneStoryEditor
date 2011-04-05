@@ -192,8 +192,7 @@ namespace OneStoryProjectEditor
             StoryEditor.TextFieldType eFieldtype, string strTestNumberLabel, Color clrFont)
         {
             var tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, this,
-                strTbText, li, strTestNumberLabel, true, 
-                eFieldtype, clrFont);
+                strTbText, li, strTestNumberLabel, eFieldtype, clrFont);
 #if ShowLabelRow
             tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
 #else

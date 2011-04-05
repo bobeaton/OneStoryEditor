@@ -1466,10 +1466,34 @@ namespace OneStoryProjectEditor
             SendNoteToCorrectPane(ctrlParent.VerseNumber, strNote);
         }
 
+        private static bool IsFirstCharsEqual(string strLhs, string strRhs)
+        {
+            const int cnLengthToCompare = 4;
+            return ((strLhs.Length >= cnLengthToCompare)
+                    && (strRhs.Length >= cnLengthToCompare)
+                        && (strLhs.Substring(0, cnLengthToCompare)
+                            == strRhs.Substring(0, cnLengthToCompare)));
+        }
+
+        internal static bool IsTestQuestionBox(string strLabel)
+        {
+            return IsFirstCharsEqual(strLabel, TestQuestionData.CstrTestQuestionsLabelFormat);
+        }
+
+        internal static bool IsRetellingBox(string strLabel)
+        {
+            return IsFirstCharsEqual(strLabel, RetellingsData.CstrRetellingLabelFormat);
+        }
+
+        internal static bool IsTqAnswerBox(string strLabel)
+        {
+            return IsFirstCharsEqual(strLabel, AnswersData.CstrAnswersLabelFormat);
+        }
+
         private void AddExtraInfoBasedOnLabel(string strLabel, VerseBtControl ctrl, 
             ref string strNote)
         {
-            if (strLabel.Substring(0, 3) == TestQuestionData.CstrTestQuestionsLabelFormat.Substring(0, 3))
+            if (IsTestQuestionBox(strLabel))
             {
                 TestQuestionData testQuestionData = GetTestQuestionData(strLabel, ctrl);
 
@@ -1494,7 +1518,7 @@ namespace OneStoryProjectEditor
                         strNote += String.Format(" '{0}'", str);
                 }
             }
-            else if (strLabel.Substring(0, 3) == RetellingsData.CstrRetellingLabelFormat.Substring(0, 3))
+            else if (IsRetellingBox(strLabel))
             {
                 RetellingsData retellings = ctrl._verseData.Retellings;
                 string strTestNumber = strLabel.Substring(4, 1);
@@ -1527,21 +1551,11 @@ namespace OneStoryProjectEditor
                         strNote += String.Format(" '{0}'", str);
                 }
             }
-            else if (strLabel.Substring(0, 3) == AnswersData.CstrAnswersLabelFormat.Substring(0, 3))
+            else if (IsTqAnswerBox(strLabel))
             {
                 // e.g. "ans 1:tst 1:"
-                string strTestNumber = strLabel.Substring(10, 1);
-                int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
-                TestQuestionData testQuestionData = ctrl._verseData.TestQuestions[nTestNumber];
-                AnswersData answers = testQuestionData.Answers;
-                strTestNumber = strLabel.Substring(4, 1);
-
-                // there are two cases we have to treat specially:
-                //  1) it's 'ans 0' (because somehow the member id was removed)
-                //  2) there's no 'ans 1' (in which case 'ans 2' is the zeroth element)
-                nTestNumber = Convert.ToInt32(strTestNumber) - 1;
-                var testor = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTestNumber];
-                LineMemberData answerData = answers.TryGetValue(testor.TestorGuid);
+                AnswersData answers;
+                var answerData = GetTqAnswerData(strLabel, ctrl, out answers);
 
                 strNote += strLabel;
                 // get selected text from all visible Story line controls
@@ -1566,6 +1580,24 @@ namespace OneStoryProjectEditor
             }
             else
                 strNote += CtrlTextBox._inTextBox._strLabel;
+        }
+
+        internal LineMemberData GetTqAnswerData(string strLabel, VerseBtControl ctrl,
+            out AnswersData answers)
+        {
+            // e.g. "ans 1:tst 1:"
+            string strTestNumber = strLabel.Substring(10, 1);
+            int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
+            TestQuestionData testQuestionData = ctrl._verseData.TestQuestions[nTestNumber];
+            answers = testQuestionData.Answers;
+            strTestNumber = strLabel.Substring(4, 1);
+
+            // there are two cases we have to treat specially:
+            //  1) it's 'ans 0' (because somehow the member id was removed)
+            //  2) there's no 'ans 1' (in which case 'ans 2' is the zeroth element)
+            nTestNumber = Convert.ToInt32(strTestNumber) - 1;
+            var testor = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTestNumber];
+            return answers.TryGetValue(testor.TestorGuid);
         }
 
         internal static TestQuestionData GetTestQuestionData(string strLabel, VerseBtControl ctrl)

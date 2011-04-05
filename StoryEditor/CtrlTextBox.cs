@@ -56,20 +56,11 @@ namespace OneStoryProjectEditor
         */
 
         public CtrlTextBox(string strName, VerseControl ctrlVerseParent, 
-            ResizableControl ctrlParent, StringTransfer stData, 
-            ProjectSettings.LanguageInfo li, string strLabel, bool bAddTqFlag,
-            StoryEditor.TextFieldType eFieldType, Color clrFont)
-        {
-            InitComponent(bAddTqFlag);
-            Init(strName, strLabel, li, stData, ctrlParent, ctrlVerseParent, eFieldType, clrFont);
-        }
-
-        public CtrlTextBox(string strName, VerseControl ctrlVerseParent, 
             ResizableControl ctrlParent, StringTransfer stData,
             ProjectSettings.LanguageInfo li, string strLabel,
             StoryEditor.TextFieldType eFieldType, Color clrFont)
         {
-            InitComponent(false);
+            InitComponent(strLabel);
             Init(strName, strLabel, li, stData, ctrlParent, ctrlVerseParent, eFieldType,
                 clrFont);
         }
@@ -476,11 +467,12 @@ namespace OneStoryProjectEditor
         protected const string CstrPasteSelected = "&Paste";
         protected const string CstrUndo = "U&ndo";
         protected const string CstrAddAnswerBox = "Add Ans&wer Box";
+        protected const string CstrRemAnswerBox = "Remove Ans&wer Box";
         protected const string CstrReorderWords = "&Reorder words";
         protected const string CstrGlossTextToNational = "&Back-translate to National Language";
         protected const string CstrGlossTextToEnglish = "Back-translate to &English";
 
-        protected void InitComponent(bool bAddAnswerBox)
+        protected void InitComponent(string strLabel)
         {
             _ctxMenu = new ContextMenuStrip();
             _ctxMenu.Items.Add(CstrAddNoteOnSelected, null, onAddNewNote);
@@ -488,9 +480,14 @@ namespace OneStoryProjectEditor
             _ctxMenu.Items.Add(CstrConcordanceSearch, null, onConcordanceSearch);
             _ctxMenu.Items.Add(CstrAddLnCNote, null, onAddLnCNote);
             _ctxMenu.Items.Add(new ToolStripSeparator());
-            if (bAddAnswerBox)
+            if (StoryEditor.IsTestQuestionBox(strLabel))
             {
                 _ctxMenu.Items.Add(CstrAddAnswerBox, null, onAddAnswerBox);
+                _ctxMenu.Items.Add(new ToolStripSeparator());
+            }
+            else if (StoryEditor.IsTqAnswerBox(strLabel))
+            {
+                _ctxMenu.Items.Add(CstrRemAnswerBox, null, onRemAnswerBox);
                 _ctxMenu.Items.Add(new ToolStripSeparator());
             }
 
@@ -683,6 +680,24 @@ namespace OneStoryProjectEditor
             var testQuestionData = StoryEditor.GetTestQuestionData(_strLabel, theVerseCtrl);
             if (_ctrlVerseParent.TheSE.AddSingleTestResult(testQuestionData))
                 theVerseCtrl.UpdateViewOfThisVerse(_ctrlVerseParent.TheSE);
+        }
+
+        private void onRemAnswerBox(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert((_ctrlVerseParent != null) 
+                && (_ctrlVerseParent.TheSE != null));
+            var theVerseCtrl = _ctrlVerseParent as VerseBtControl;
+            if (theVerseCtrl == null)
+                return;
+
+            AnswersData answers;
+            var answerData = _ctrlVerseParent.TheSE.GetTqAnswerData(_strLabel, 
+                theVerseCtrl, out answers);
+            if (answerData != null)
+            {
+                answers.Remove(answerData);
+                theVerseCtrl.UpdateViewOfThisVerse(_ctrlVerseParent.TheSE);
+            }
         }
 
         void CtrlTextBox_MouseUp(object sender, MouseEventArgs e)
