@@ -1545,6 +1545,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to process the state customization file (i.e. {0}). If you&apos;ve customized which fields show by default in various states, then you need to delete the version of the customization file in the project folder (i.e. &quot;{1}\{0}&quot;) so the program can re-create it using the newly upgraded version.
+        /// </summary>
+        internal static string IDS_UnableToOpenStageTransitionsXml {
+            get {
+                return ResourceManager.GetString("IDS_UnableToOpenStageTransitionsXml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to save the project file &apos;{1}&apos;{0}{0}{2}.
         /// </summary>
         internal static string IDS_UnableToSave {

@@ -407,7 +407,10 @@ namespace OneStoryProjectEditor
                 }
                 catch (Exception ex)
                 {
-                    throw new ApplicationException(String.Format("Unable to process the xml file containing the State Transitions (i.e. {0})... Reinstall.", CstrStateTransitionsXmlFilename), ex);
+                    throw new ApplicationException(
+                        String.Format(Properties.Resources.IDS_UnableToOpenStageTransitionsXml,
+                                      CstrStateTransitionsXmlFilename,
+                                      strProjectFolder), ex);
                 }
             }
 

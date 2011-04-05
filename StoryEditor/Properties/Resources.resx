@@ -2135,4 +2135,7 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_ReplaceUnsException" xml:space="preserve">
     <value>the UNS '{0}' is already used. That would result in the same UNS being used for two different tests. To correct this, go to that story and click 'Story', 'Story Information' and change the test associated with '{0}' to someone else and try to merge them again</value>
   </data>
+  <data name="IDS_UnableToOpenStageTransitionsXml" xml:space="preserve">
+    <value>Unable to process the state customization file (i.e. {0}). If you've customized which fields show by default in various states, then you need to delete the version of the customization file in the project folder (i.e. "{1}\{0}") so the program can re-create it using the newly upgraded version</value>
+  </data>
 </root>
