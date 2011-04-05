@@ -4,16 +4,17 @@
   <ApplicationExecutable />
   <ApplicationName>OneStory Editor AutoUpdater</ApplicationName>
   <FullUpgradeFileName />
-  <OffsetFromUctWhereManifestWasOriginallyCreated>2011-03-30T21:45:44.2990000-05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+  <OffsetFromUctWhereManifestWasOriginallyCreated>2011-04-04T18:03:53.8476000-05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
   <ManifestFiles>
-    <File name="AIGuesserEC.dll" method="version" action="copy" version="4.0.0.4" optional="false" size="90112">AdaptIt Encoding Converters</File>
-    <File name="AIGuesserEC.tlb" method="date" action="copy" version="Thursday, March 17, 2011 7:29:51 AM" optional="false" size="16804" />
+    <File name="AIGuesserEC.dll" method="version" action="copy" version="4.0.0.5" optional="false" size="90112">AdaptIt Encoding Converters</File>
+    <File name="AIGuesserEC.tlb" method="date" action="copy" version="Monday, April 04, 2011 5:36:15 PM" optional="false" size="16804" />
     <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="1.0.4092.5305" optional="false" size="25088">AutoUpgrade Lib</File>
-    <File name="Chorus.exe" method="version" action="copy" version="1.1.0.2" optional="false" size="500736">Chorus</File>
-    <File name="ChorusMerge.exe" method="version" action="copy" version="1.1.0.1" optional="false" size="5632">ChorusMerge</File>
-    <File name="LibChorus.dll" method="version" action="copy" version="1.1.0.4" optional="false" size="258560">Chorus</File>
+    <File name="Chorus.exe" method="version" action="copy" version="1.1.0.3" optional="false" size="500736">Chorus</File>
+    <File name="ChorusMerge.exe" method="version" action="copy" version="1.1.0.2" optional="false" size="5632">ChorusMerge</File>
+    <File name="LibChorus.dll" method="version" action="copy" version="1.1.0.5" optional="false" size="258560">Chorus</File>
     <File name="OseResources.dll" method="version" action="copy" version="2.0.0.2" optional="false" size="50688">OseResources</File>
-    <File name="StoryEditor.exe" method="version" action="copy" version="2.1.0.12" optional="false" size="1342464">OneStory Editor</File>
+    <File name="StageTransitions.xml" method="date" action="copy" version="Friday, April 01, 2011 9:48:45 PM" optional="false" size="86998" />
+    <File name="StoryEditor.exe" method="version" action="copy" version="2.1.0.13" optional="false" size="1347072">OneStory Editor</File>
   </ManifestFiles>
   <SourcePath />
   <UpgradeFiles />
