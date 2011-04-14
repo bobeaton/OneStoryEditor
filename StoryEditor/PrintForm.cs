@@ -88,10 +88,12 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                System.Diagnostics.Debug.Assert((_theSE != null)
-                                                && (_theSE.StoryProject != null)
-                                                && (_theSE.StoryProject.ProjSettings != null));
-                VerseData.ViewSettings viewSettings = new VerseData.ViewSettings(
+                if ((_theSE != null)
+                    && (_theSE.StoryProject != null)
+                    && (_theSE.StoryProject.ProjSettings != null))
+                    return null;
+
+                var viewSettings = new VerseData.ViewSettings(
                     _theSE.StoryProject.ProjSettings,
                     checkBoxLangVernacular.Checked,
                     checkBoxLangNationalBT.Checked,
@@ -198,6 +200,10 @@ namespace OneStoryProjectEditor
 
         private void PrintForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            var vd = ViewSettings;
+            if (vd == null)
+                return;
+
             Properties.Settings.Default.LastPrintSettings = ViewSettings.LongValue;
             Properties.Settings.Default.Save();
         }
