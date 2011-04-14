@@ -36,6 +36,7 @@
             this.addCommentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editKeyTermsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.insertNullAnchorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripAnchorOptions.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -71,9 +72,11 @@
             this.deleteToolStripMenuItem,
             this.addCommentToolStripMenuItem,
             this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem,
+            this.insertNullAnchorToolStripMenuItem,
             this.editKeyTermsToolStripMenuItem});
             this.contextMenuStripAnchorOptions.Name = "contextMenuStripAnchorOptions";
-            this.contextMenuStripAnchorOptions.Size = new System.Drawing.Size(307, 114);
+            this.contextMenuStripAnchorOptions.Size = new System.Drawing.Size(307, 136);
+            this.contextMenuStripAnchorOptions.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripAnchorOptions_Opening);
             // 
             // deleteToolStripMenuItem
             // 
@@ -104,6 +107,15 @@
             this.editKeyTermsToolStripMenuItem.Visible = false;
             this.editKeyTermsToolStripMenuItem.Click += new System.EventHandler(this.editKeyTermsToolStripMenuItem_Click);
             // 
+            // insertNullAnchorToolStripMenuItem
+            // 
+            this.insertNullAnchorToolStripMenuItem.Name = "insertNullAnchorToolStripMenuItem";
+            this.insertNullAnchorToolStripMenuItem.Size = new System.Drawing.Size(306, 22);
+            this.insertNullAnchorToolStripMenuItem.Text = "Insert \"&Empty\" Anchor";
+            this.insertNullAnchorToolStripMenuItem.ToolTipText = "Use this to add an empty anchor for lines of the story that don\'t really have a b" +
+                "iblical anchor";
+            this.insertNullAnchorToolStripMenuItem.Click += new System.EventHandler(this.insertNullAnchorToolStripMenuItem_Click);
+            // 
             // AnchorControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -126,5 +138,6 @@
         private System.Windows.Forms.ToolStripMenuItem addCommentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editKeyTermsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addConsultantCoachNoteOnThisAnchorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem insertNullAnchorToolStripMenuItem;
     }
 }
