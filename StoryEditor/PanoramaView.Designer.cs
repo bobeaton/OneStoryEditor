@@ -50,7 +50,6 @@
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnTimeInState = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnLineCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnTestQuestions = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -143,7 +142,6 @@
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn3,
-            this.dataGridViewTextBoxColumn4,
             this.ColumnTimeInState,
             this.ColumnLineCount,
             this.ColumnTestQuestions,
@@ -296,14 +294,6 @@
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
             this.dataGridViewTextBoxColumn3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.HeaderText = "Stage";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            this.dataGridViewTextBoxColumn4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn4.ToolTipText = "Right-click to change state";
-            // 
             // ColumnTimeInState
             // 
             this.ColumnTimeInState.HeaderText = "Time in Stage";
@@ -380,7 +370,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTimeInState;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnLineCount;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTestQuestions;
