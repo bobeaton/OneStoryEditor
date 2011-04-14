@@ -19,16 +19,37 @@ namespace OneStoryProjectEditor
             EnglishBackTranslator = 2,
             UNS = 4,
             ProjectFacilitator = 8,
-            FirstPassMentor = 16,
+            FirstPassMentor = 16,   // aka. language specialty review
             ConsultantInTraining = 32,
             IndependentConsultant = 64,
             Coach = 128,
-            JustLooking = 256
+            JustLooking = 256,
+            AnyEditor = ProjectFacilitator | 
+                            FirstPassMentor | 
+                            ConsultantInTraining |
+                            IndependentConsultant |
+                            Coach
         }
 
         public static bool IsUser(UserTypes eTypes, UserTypes eType)
         {
             return ((eTypes & eType) != UserTypes.Undefined);
+        }
+
+        // this is used enough places to justify making a short cut
+        public bool IsPfAndNotLsr
+        {
+            get
+            {
+                return (MemberType & (UserTypes.ProjectFacilitator | UserTypes.FirstPassMentor)) ==
+                       UserTypes.ProjectFacilitator;
+            }
+        }
+
+        // means exactly and only 'any editor' (for TeamComplete and Final states)
+        public bool IsAnyEditor
+        {
+            get { return ((MemberType & UserTypes.AnyEditor) == UserTypes.AnyEditor); }
         }
 
         /*
@@ -44,7 +65,7 @@ namespace OneStoryProjectEditor
         */
 
         protected const string CstrEnglishBackTranslatorDisplay = "English Back Translator";
-        protected const string CstrFirstPassMentorDisplay = "First Pass Mentor";
+        protected const string CstrFirstPassMentorDisplay = "Language Specialty Reviewer";
         internal const string CstrConsultantInTrainingDisplay = "Consultant in Training";
         internal const string CstrIndependentConsultantDisplay = "Consultant";
         internal const string CstrProjectFacilitatorDisplay = "Project Facilitator";
@@ -288,7 +309,8 @@ namespace OneStoryProjectEditor
 
         // override to handle the case were the project state says it's in the 
         //  CIT's state, but really, it's an independent consultant
-        public static string GetMemberWithEditTokenAsDisplayString(TeamMembersData teamMembers, UserTypes eMemberType)
+        public static string GetMemberWithEditTokenAsDisplayString(TeamMembersData teamMembers, 
+            UserTypes eMemberType)
         {
             if (IsUser(eMemberType, 
                        UserTypes.IndependentConsultant | 
@@ -539,8 +561,7 @@ namespace OneStoryProjectEditor
                                                   CstrProjectFacilitatorDisplay),
                                     OseResources.Properties.Resources.IDS_Caption);
                 }
-                else if ((MemberGuid != theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID)
-                         && !String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID))
+                else if (MemberGuid != theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID)
                 {
                     MessageBox.Show(OseResources.Properties.Resources.IDS_NotTheRightProjFac,
                                     OseResources.Properties.Resources.IDS_Caption);
@@ -554,32 +575,45 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public void ThrowIfEditIsntAllowed(UserTypes eMemberTypeWithEditToken)
+        public void ThrowIfEditIsntAllowed(StoryData theCurrentStory)
         {
-            if (!IsEditAllowed(eMemberTypeWithEditToken))
-                throw WrongMemberTypeException(eMemberTypeWithEditToken);
+            System.Diagnostics.Debug.Assert(theCurrentStory != null);
+
+            if (!IsEditAllowed(theCurrentStory))
+                throw WrongMemberTypeException(theCurrentStory.ProjStage.MemberTypeWithEditToken);
         }
 
-        public bool IsEditAllowed(UserTypes eMemberTypeWithEditToken)
+        public bool IsEditAllowed(StoryData theStory)
         {
-            if (IsUser(eMemberTypeWithEditToken, 
-                UserTypes.ConsultantInTraining |
-                UserTypes.IndependentConsultant))
-            {
-                // special case where either role is allowed to edit
-                return (IsUser(MemberType,
-                               UserTypes.ConsultantInTraining |
-                               UserTypes.IndependentConsultant));
-            }
+            return IsEditAllowed(theStory.ProjStage.MemberTypeWithEditToken,
+                                 theStory.CraftingInfo.ProjectFacilitatorMemberID);
+        }
+
+        private bool IsEditAllowed(UserTypes eMemberTypeWithEditToken, 
+                                   string strTheStoryPf)
+        {
+            System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strTheStoryPf));
+
+            if (eMemberTypeWithEditToken == UserTypes.AnyEditor)
+                return true;
+
+            // if it's a PF, then it has to be the *right* PF
+            if (IsUser(eMemberTypeWithEditToken, UserTypes.ProjectFacilitator) &&
+                (MemberGuid != strTheStoryPf))
+                return false;
 
             return (IsUser(MemberType, eMemberTypeWithEditToken));
         }
 
         public static string GetWrongMemberTypeWarning(UserTypes eMemberTypeWithEditToken)
         {
+            if (IsUser(eMemberTypeWithEditToken, UserTypes.ProjectFacilitator))
+                return OseResources.Properties.Resources.IDS_WrongPf;
+
             // rewrite the name so it applies for either type of consultant
             if (IsUser(eMemberTypeWithEditToken, UserTypes.ConsultantInTraining))
                 eMemberTypeWithEditToken = UserTypes.IndependentConsultant;
+
             return String.Format(OseResources.Properties.Resources.IDS_WhichUserEdits,
                                  GetMemberTypeAsDisplayString(eMemberTypeWithEditToken));
         }
@@ -733,6 +767,18 @@ namespace OneStoryProjectEditor
                     TeamMemberData.IsUser(aTM.MemberType, 
                     TeamMemberData.UserTypes.ProjectFacilitator));
             }
+        }
+
+        public string MemberIdOfOneAndOnlyMemberType(TeamMemberData.UserTypes eMemberType)
+        {
+            if (Values.Count(aTm =>
+                             TeamMemberData.IsUser(aTm.MemberType, eMemberType)) == 1)
+            {
+                return (from aTm in Values
+                        where TeamMemberData.IsUser(aTm.MemberType, eMemberType)
+                        select aTm.MemberGuid).FirstOrDefault();
+            }
+            return null;
         }
 
         public const string CstrElementLabelMembers = "Members";

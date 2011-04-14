@@ -256,7 +256,9 @@ namespace OneStoryProjectEditor
                                             TeamMemberData.UserTypes.IndependentConsultant |
                                             TeamMemberData.UserTypes.Coach |
                                             TeamMemberData.UserTypes.EnglishBackTranslator |
-                                            TeamMemberData.UserTypes.FirstPassMentor));
+                                            TeamMemberData.UserTypes.FirstPassMentor |
+                                            TeamMemberData.UserTypes.JustLooking));
+
             if ((buttonOK.Text == CstrDefaultOKLabel)
                 && (eAllowedLoginRoleFilter == TeamMemberData.UserTypes.Undefined))
             {

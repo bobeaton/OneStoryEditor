@@ -29,8 +29,8 @@ namespace OneStoryProjectEditor
                 {
                     ConsultNotesDataConverter aCNsDC = DataConverter(i);
                     foreach (ConsultNoteDataConverter dc in aCNsDC)
-                        aCNsDC.InsureExtraBox(dc, TheSE.theCurrentStory.ProjStage, 
-                                TheSE.LoggedOnMember);
+                        aCNsDC.InsureExtraBox(dc, TheSE.theCurrentStory, 
+                                TheSE.LoggedOnMember, TheSE.StoryProject.TeamMembers);
                 }
             }
         }
@@ -223,9 +223,12 @@ namespace OneStoryProjectEditor
                 elemButton.InnerText = ConsultNoteDataConverter.CstrButtonLabelConversationReopen;
             }
 
-            /*
             if (theCNDC.IsFinished)
             {
+#if !DontAlwaysDoLoadDoc
+                if (!theCNDC.FinalComment.HasData)
+                    theCNDC.Remove(theCNDC.FinalComment);
+#else
                 if (Document != null)
                 {
                     HtmlElement elem =
@@ -241,21 +244,21 @@ namespace OneStoryProjectEditor
                         }
                     }
                 }
+#endif
             }
             else
             {
                 // just in case we need to have an open box now
-                theCNsDC.InsureExtraBox(theCNDC, TheSE.theCurrentStory.ProjStage, 
-                    TheSE.LoggedOnMember);
+                theCNsDC.InsureExtraBox(theCNDC, TheSE.theCurrentStory,  
+                    TheSE.LoggedOnMember, TheSE.StoryProject.TeamMembers);
             }
 
-            if (theCNDC.IsEditable(TheSE.theCurrentStory.ProjStage, theCNDC.Count - 1, TheSE.LoggedOnMember,
-                theCNDC[theCNDC.Count - 1]))
+            if (theCNDC.IsEditable(TheSE.LoggedOnMember, TheSE.StoryProject.TeamMembers,
+                TheSE.theCurrentStory))
                 StrIdToScrollTo = ConsultNoteDataConverter.TextareaId(nVerseIndex, nConversationIndex);
             else
                 StrIdToScrollTo = ConsultNoteDataConverter.TextareaReadonlyRowId(nVerseIndex, nConversationIndex,
                                                                                  theCNDC.Count - 1);
-            */
 
             LoadDocument();
             return true;
@@ -295,7 +298,7 @@ namespace OneStoryProjectEditor
 
             ConsultNoteDataConverter theCNDC = DataConverter(nVerseIndex, nConversationIndex);
             System.Diagnostics.Debug.Assert((theCNDC != null) && (theCNDC.Count > 0));
-            CommInstance aCI = theCNDC[theCNDC.Count - 1];
+            CommInstance aCI = theCNDC.FinalComment;
 
             if (Document != null)
             {
@@ -324,7 +327,7 @@ namespace OneStoryProjectEditor
             ConsultNoteDataConverter theCNDC = theCNsDC[nConversationIndex];
             System.Diagnostics.Debug.Assert((theCNDC != null) && (theCNDC.Count > 0));
 
-            CommInstance aCI = theCNDC[theCNDC.Count - 1];
+            CommInstance aCI = theCNDC.FinalComment;
             aCI.SetValue(strText);
 
             // indicate that the document has changed
@@ -351,14 +354,17 @@ namespace OneStoryProjectEditor
             theCNsDC = DataConverter(nVerseIndex);
             System.Diagnostics.Debug.Assert((theCNsDC != null) && (theCNsDC.Count > nConversationIndex));
 
+            /* I shouldn't need this anymore, because if it's not allowed, then there shouldn't
+             * be buttons visible to get here
             StoryEditor theSE;
             if (!CheckForProperEditToken(theCNsDC, out theSE))
                 return false;
+            */
 
             theCNDC = theCNsDC[nConversationIndex];
 
             // this always leads to the document being modified
-            theSE.Modified = true;
+            TheSE.Modified = true;
             
             return true;
         }
@@ -377,7 +383,10 @@ namespace OneStoryProjectEditor
                     throw theSE.CantEditOldStoriesEx;
 
 #if !JustMentorsCanAddNotesWhenNotTheirTurn
-                if (theCNsDC.HasAddNotePrivilege(theSE.LoggedOnMember.MemberType))
+                string strPfMemberId = null;
+                if (theSE.theCurrentStory != null)
+                    strPfMemberId = theSE.theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID;
+                if (theCNsDC.HasAddNotePrivilege(theSE.LoggedOnMember, strPfMemberId))
                     return true;
 #else
                 if (((this is HtmlConsultantNotesControl) && (theSE.LoggedOnMember.MemberType == TeamMemberData.UserTypes.eConsultantInTraining))
@@ -387,7 +396,7 @@ namespace OneStoryProjectEditor
                 }
 #endif
 
-                theSE.LoggedOnMember.ThrowIfEditIsntAllowed(theSE.theCurrentStory.ProjStage.MemberTypeWithEditToken);
+                theSE.LoggedOnMember.ThrowIfEditIsntAllowed(theSE.theCurrentStory);
             }
             catch (Exception ex)
             {
@@ -412,20 +421,17 @@ namespace OneStoryProjectEditor
             if (String.IsNullOrEmpty(strNote) && (theSE.LoggedOnMember != null))
                 strNote = StoryEditor.GetInitials(theSE.LoggedOnMember.Name) + ": Re: ";
 
+            /* I think this is already done in CheckForProperEditToken now (via HasAddNotePrivilege)
             // if the coach tries to add a note in the consultant's pane, that should fail.
             // (but it's okay for a project facilitator to add one if they have a question
             //  for the consultant)
             if (!aCNsDC.CheckAddNotePrivilege(theSE.SetStatusBar, theSE.LoggedOnMember.MemberType))
                 return null;
-
-            StoryStageLogic.ProjectStages eCurState = theSE.theCurrentStory.ProjStage.ProjectStage;
-            int round = 1;
-            if (eCurState > StoryStageLogic.ProjectStages.eProjFacOnlineReview1WithConsultant)
-                round = 2;
+            */
 
             ConsultNoteDataConverter cndc =
-                aCNsDC.Add(round, theSE.theCurrentStory.ProjStage, 
-                    theSE.LoggedOnMember, strNote);
+                aCNsDC.Add(theSE.theCurrentStory, 
+                    theSE.LoggedOnMember, theSE.StoryProject.TeamMembers, strNote);
             System.Diagnostics.Debug.Assert(cndc.Count == 1);
             if (bNoteToSelf)
                 cndc[0].Direction = cndc.MentorToSelfDirection;
@@ -605,6 +611,28 @@ namespace OneStoryProjectEditor
             }
             return true;
         }
+
+        public bool OnConvertToMentoreeNote(string strId, bool bNeedsApproval)
+        {
+            return SetDirectionToMentor(strId, bNeedsApproval);
+        }
+
+        protected bool SetDirectionToMentor(string strId, bool bNeedsApproval)
+        {
+            int nVerseIndex, nConversationIndex;
+            ConsultNotesDataConverter theCNsDC;
+            ConsultNoteDataConverter theCNDC;
+            if (!GetDataConverters(strId, out nVerseIndex, out nConversationIndex,
+                                   out theCNsDC, out theCNDC))
+                return false;
+
+            theCNDC.FinalComment.Direction = (bNeedsApproval)
+                                                       ? ConsultNoteDataConverter.CommunicationDirections.
+                                                             eConsultantToProjFacNeedsApproval
+                                                       : theCNDC.MentorDirection;
+            LoadDocument();
+            return true;
+        }
     }
 
     [ComVisible(true)]
@@ -612,9 +640,10 @@ namespace OneStoryProjectEditor
     {
         public override void LoadDocument()
         {
-            string strHtml = StoryData.ConsultantNotesHtml(this, TheSE.theCurrentStory.ProjStage,
+            string strHtml = StoryData.ConsultantNotesHtml(this,
                                                            TheSE.StoryProject.ProjSettings,
                                                            TheSE.LoggedOnMember,
+                                                           TheSE.StoryProject.TeamMembers,
                                                            TheSE.hiddenVersesToolStripMenuItem.Checked,
                                                            TheSE.viewOnlyOpenConversationsMenu.Checked);
             DocumentText = strHtml;
@@ -632,6 +661,12 @@ namespace OneStoryProjectEditor
         {
             TheSE.FocusOnVerse(nVerseIndex, false, true);
         }
+
+        // this only applies to the Consultant Note pane
+        public bool OnApproveNote(string strId)
+        {
+            return SetDirectionToMentor(strId, false);
+        }
     }
 
     [ComVisible(true)]
@@ -639,9 +674,10 @@ namespace OneStoryProjectEditor
     {
         public override void LoadDocument()
         {
-            string strHtml = StoryData.CoachNotesHtml(this, TheSE.theCurrentStory.ProjStage,
+            string strHtml = StoryData.CoachNotesHtml(this, 
                                                       TheSE.StoryProject.ProjSettings,
                                                       TheSE.LoggedOnMember,
+                                                      TheSE.StoryProject.TeamMembers,
                                                       TheSE.hiddenVersesToolStripMenuItem.Checked,
                                                       TheSE.viewOnlyOpenConversationsMenu.Checked);
             DocumentText = strHtml;

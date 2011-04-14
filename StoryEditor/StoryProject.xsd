@@ -269,7 +269,6 @@
 																					<xs:sequence>
 																						<xs:element name="ConsultantNote" minOccurs="1" maxOccurs="unbounded" type="Comment" />
 																					</xs:sequence>
-																					<xs:attribute name="round" type="xs:unsignedByte" use="required" />
 																					<xs:attribute name="guid" type="xs:string" use="required" />
 																					<xs:attribute name="visible" type="xs:boolean" />
                                           <xs:attribute name="finished" type="xs:boolean" use="optional" default="false" />
@@ -286,7 +285,6 @@
 																					<xs:sequence>
 																						<xs:element name="CoachNote" minOccurs="1" maxOccurs="unbounded" type="Comment" />
 																					</xs:sequence>
-																					<xs:attribute name="round" type="xs:unsignedByte" use="required" />
 																					<xs:attribute name="guid" type="xs:string" use="required" />
 																					<xs:attribute name="visible" type="xs:boolean" />
                                           <xs:attribute name="finished" type="xs:boolean" use="optional" default="false" />
@@ -414,6 +412,7 @@
 			<xs:enumeration value="CoachReviewRound2Notes" />
       <xs:enumeration value="ConsultantFinalCheck" />
 			<xs:enumeration value="TeamComplete" />
+      <xs:enumeration value="TeamFinalApproval" />
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="LanguageInfo">
@@ -436,6 +435,7 @@
 			<xs:enumeration value="CoachToConsultant" />
       <xs:enumeration value="ConsultantToConsultant" />
       <xs:enumeration value="CoachToCoach" />
+      <xs:enumeration value="ConsultantToProjFacNeedsApproval" />
     </xs:restriction>
 	</xs:simpleType>
   <xs:simpleType name="AdaptItProjectType">
@@ -458,7 +458,8 @@
 			<xs:extension base="xs:string">
 				<xs:attribute name="Direction" type="FromTo" use="required" />
 				<xs:attribute name="guid" type="xs:string" use="required" />
-				<xs:attribute name="timeStamp" type="xs:dateTime" />
+        <xs:attribute name="memberID" type="xs:string" use="optional" />
+        <xs:attribute name="timeStamp" type="xs:dateTime" />
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>

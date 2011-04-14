@@ -22,15 +22,14 @@ namespace OneStoryProjectEditor
     {
         public readonly bool DoVernacularLangFields;
         public readonly bool DoNationalBtLangFields;
-        public readonly bool DoInternationalBtFields;
+        public bool DoInternationalBtFields;
         public readonly bool DoFreeTranslationFields;
         public readonly bool DoAnchors;
         public readonly bool DoRetelling;
         public readonly bool DoTestQuestions;
         public readonly bool DoAnswers;
 
-        public ProjectFacilitatorRequirementsCheck(StoryEditor theSe,
-            StoryProjectData theStoryProjectData, StoryData theStory)
+        public ProjectFacilitatorRequirementsCheck(StoryEditor theSe, StoryData theStory)
             :base(theSe, theStory)
         {
             ProjectSettings projSettings = TheSe.StoryProject.ProjSettings;
@@ -41,18 +40,26 @@ namespace OneStoryProjectEditor
             DoNationalBtLangFields = projSettings.NationalBT.HasData && TasksPf.IsTaskOn(theStory.TasksRequiredPf,
                                                                                          TasksPf.TaskSettings.
                                                                                              NationalBtLangFields);
-            DoInternationalBtFields = projSettings.InternationalBT.HasData && TasksPf.IsTaskOn(theStory.TasksRequiredPf,
-                                                                                               TasksPf.TaskSettings.
-                                                                                                   InternationalBtFields);
-            DoFreeTranslationFields = projSettings.FreeTranslation.HasData && TasksPf.IsTaskOn(theStory.TasksRequiredPf,
-                                                                                               TasksPf.TaskSettings.
-                                                                                                   FreeTranslationFields);
+            DoInternationalBtFields = projSettings.InternationalBT.HasData
+                                      && TasksPf.IsTaskOn(theStory.TasksRequiredPf,
+                                                          TasksPf.TaskSettings.
+                                                              InternationalBtFields)
+                                      && !TheSe.StoryProject.TeamMembers.HasOutsideEnglishBTer;
+
+            DoFreeTranslationFields = projSettings.FreeTranslation.HasData
+                                      && TasksPf.IsTaskOn(theStory.TasksRequiredPf,
+                                                          TasksPf.TaskSettings.
+                                                              FreeTranslationFields);
+
             DoAnchors = TasksPf.IsTaskOn(theStory.TasksRequiredPf,
-                                                      TasksPf.TaskSettings.Anchors);
+                                         TasksPf.TaskSettings.Anchors);
+
             DoRetelling = TasksPf.IsTaskOn(theStory.TasksRequiredPf,
                                            TasksPf.TaskSettings.Retellings | TasksPf.TaskSettings.Retellings2);
+
             DoTestQuestions = TasksPf.IsTaskOn(theStory.TasksRequiredPf,
-                                                      TasksPf.TaskSettings.TestQuestions);
+                                               TasksPf.TaskSettings.TestQuestions);
+
             DoAnswers = TasksPf.IsTaskOn(theStory.TasksRequiredPf,
                                          TasksPf.TaskSettings.Answers | TasksPf.TaskSettings.Answers2);
         }
@@ -556,6 +563,22 @@ namespace OneStoryProjectEditor
             }
             System.Diagnostics.Debug.Assert(false);
             return null;
+        }
+    }
+
+    public class EnglishBterRequirementsCheck : ProjectFacilitatorRequirementsCheck
+    {
+        public EnglishBterRequirementsCheck(StoryEditor theSe, StoryData theStory)
+            :base(theSe, theStory)
+        {
+            System.Diagnostics.Debug.Assert(TheSe.StoryProject.TeamMembers.HasOutsideEnglishBTer);
+
+            ProjectSettings projSettings = TheSe.StoryProject.ProjSettings;
+
+            DoInternationalBtFields = projSettings.InternationalBT.HasData
+                                      && TasksPf.IsTaskOn(theStory.TasksRequiredPf,
+                                                          TasksPf.TaskSettings.
+                                                              InternationalBtFields);
         }
     }
 }

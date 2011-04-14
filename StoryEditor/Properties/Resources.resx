@@ -2097,7 +2097,7 @@ and in the resulting window click on the next (green) state.
     <value>Did you want the project facilitator to do 1 or 2 {0} tests?</value>
   </data>
   <data name="IDS_DidntAnswerQuestion" xml:space="preserve">
-    <value>In line {0}, the {1} made a comment, which you didn't respond to. Did you forget it?</value>
+    <value>In line {0}, there's an empty box labeled '{1}', into which you are supposed to enter a response. Did you forget it?</value>
   </data>
   <data name="IDS_MustAllowToRequireTask" xml:space="preserve">
     <value>Oops. You have to allow a task in order to require it. Please check the box in the Allowed Tasks list for '{0}'</value>
@@ -2137,5 +2137,26 @@ and in the resulting window click on the next (green) state.
   </data>
   <data name="IDS_UnableToOpenStageTransitionsXml" xml:space="preserve">
     <value>Unable to process the state customization file (i.e. {0}). If you've customized which fields show by default in various states, then you need to delete the version of the customization file in the project folder (i.e. "{1}\{0}") so the program can re-create it using the newly upgraded version</value>
+  </data>
+  <data name="IDS_MainFrameTitleSuffix" xml:space="preserve">
+    <value> -- ({0} logged in as '{1}')</value>
+  </data>
+  <data name="IDS_ChooseCoach" xml:space="preserve">
+    <value>Choose the coach that is working on this story</value>
+  </data>
+  <data name="IDS_ChooseConsultant" xml:space="preserve">
+    <value>Choose the consultant that is working on this story</value>
+  </data>
+  <data name="IDS_WarnAboutUnapprovedComments" xml:space="preserve">
+    <value>There are one or more comments in the Consultant Notes pane by either a CIT or LSR that haven't been approved. Click 'Yes' to ignore them and continue changing to the project facilitator's turn or click 'No' to cancel so you can go back and approve them</value>
+  </data>
+  <data name="IDS_WarnAboutUnrespondedToComments" xml:space="preserve">
+    <value>There are one or more questions in the Coach Note pane which haven't been responded to by a Coach. Click 'Yes' to ignore them and continue changing to the project facilitator's turn or click 'No' to cancel so you can go back and respond to them</value>
+  </data>
+  <data name="IDS_LoginAsCoach" xml:space="preserve">
+    <value>You will need to log in as a coach to be able to respond to the CIT/LSR comments</value>
+  </data>
+  <data name="IDS_WarnAboutSimilarLnCNote" xml:space="preserve">
+    <value>You already have this L&amp;C note for the word '{0}'! See 'View', 'L&amp;C Notes'</value>
   </data>
 </root>

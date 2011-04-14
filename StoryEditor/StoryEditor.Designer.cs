@@ -162,6 +162,7 @@ namespace OneStoryProjectEditor
             this.textBoxCoachNotes = new System.Windows.Forms.TextBox();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.toolStripRecordNavigation = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonFirst = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonPrevious = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonNext = new System.Windows.Forms.ToolStripButton();
@@ -735,7 +736,7 @@ namespace OneStoryProjectEditor
             this.viewStoryTestingQuestionAnswerMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.viewStoryTestingQuestionAnswerMenuItem.Name = "viewStoryTestingQuestionAnswerMenuItem";
             this.viewStoryTestingQuestionAnswerMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.viewStoryTestingQuestionAnswerMenuItem.Text = "Story testing question ans&wers";
+            this.viewStoryTestingQuestionAnswerMenuItem.Text = "Ans&wers";
             this.viewStoryTestingQuestionAnswerMenuItem.ToolTipText = "Show the text boxes for the UNS\'s answers to testing questions";
             this.viewStoryTestingQuestionAnswerMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
@@ -939,7 +940,7 @@ namespace OneStoryProjectEditor
             this.comboBoxStorySelector.Size = new System.Drawing.Size(290, 27);
             this.comboBoxStorySelector.Text = "<to create a story, type its name here and hit Enter>";
             this.comboBoxStorySelector.ToolTipText = "Select the Story to edit or type in a new name to add a new story";
-            this.comboBoxStorySelector.SelectedIndexChanged += new System.EventHandler(this.comboBoxStorySelector_SelectedIndexChanged);
+            this.comboBoxStorySelector.SelectedIndexChanged += new System.EventHandler(this.LoadStory);
             this.comboBoxStorySelector.KeyUp += new System.Windows.Forms.KeyEventHandler(this.comboBoxStorySelector_KeyUp);
             // 
             // storyToolStripMenuItem
@@ -1424,15 +1425,27 @@ namespace OneStoryProjectEditor
             this.toolStripRecordNavigation.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStripRecordNavigation.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStripRecordNavigation.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton1,
             this.toolStripButtonFirst,
             this.toolStripButtonPrevious,
             this.toolStripButtonNext,
             this.toolStripButtonLast});
-            this.toolStripRecordNavigation.Location = new System.Drawing.Point(494, 0);
+            this.toolStripRecordNavigation.Location = new System.Drawing.Point(471, 0);
             this.toolStripRecordNavigation.Name = "toolStripRecordNavigation";
-            this.toolStripRecordNavigation.Size = new System.Drawing.Size(95, 25);
+            this.toolStripRecordNavigation.Size = new System.Drawing.Size(118, 25);
             this.toolStripRecordNavigation.TabIndex = 3;
             this.toolStripRecordNavigation.Text = "toolStrip1";
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = global::OneStoryProjectEditor.Properties.Resources.ShowAllCommentsHS;
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.ToolTipText = "Click to view the list of full stories (same as \"Panorama\", \"Show\")";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripMenuItemShowPanorama_Click);
             // 
             // toolStripButtonFirst
             // 
@@ -1697,6 +1710,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem closeProjectToolStripMenuItem;
         internal ToolStripMenuItem viewExegeticalHelps;
         private System.ComponentModel.BackgroundWorker backgroundWorker;
+        private ToolStripButton toolStripButton1;
     }
 
 #if UsingHtmlDisplayForConNotes

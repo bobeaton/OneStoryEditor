@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using OneStoryProjectEditor.Properties;
 
 namespace OneStoryProjectEditor
 {
@@ -72,7 +71,7 @@ namespace OneStoryProjectEditor
                 || (MemberType == TeamMemberData.UserTypes.Undefined))
             {
                 MessageBox.Show(
-                    Resources.IDS_WarnNeedNameAndRole,
+                    Properties.Resources.IDS_WarnNeedNameAndRole,
                     OseResources.Properties.Resources.IDS_Caption);
                 return;
             }
@@ -98,10 +97,10 @@ namespace OneStoryProjectEditor
                     type |= TeamMemberData.UserTypes.Crafter;
                 if (checkBoxUns.Checked)
                     type |= TeamMemberData.UserTypes.UNS;
+                if (checkBoxLangSpecialtyReviewer.Checked)
+                    type |= TeamMemberData.UserTypes.FirstPassMentor;
                 if (radioButtonEnglishBackTranslator.Checked)
                     return TeamMemberData.UserTypes.EnglishBackTranslator;
-                if (radioButtonFirstPassMentor.Checked)
-                    return TeamMemberData.UserTypes.FirstPassMentor;
                 if (radioButtonConsultantInTraining.Checked)
                     return TeamMemberData.UserTypes.ConsultantInTraining;
                 if (radioButtonIndependentConsultant.Checked)
@@ -117,7 +116,8 @@ namespace OneStoryProjectEditor
                 if (TeamMemberData.IsUser(value,
                     TeamMemberData.UserTypes.ProjectFacilitator | 
                     TeamMemberData.UserTypes.Crafter | 
-                    TeamMemberData.UserTypes.UNS))
+                    TeamMemberData.UserTypes.UNS | 
+                    TeamMemberData.UserTypes.FirstPassMentor))
                 {
                     checkBoxProjectFacilitator.Checked =
                         TeamMemberData.IsUser(value,
@@ -128,6 +128,9 @@ namespace OneStoryProjectEditor
                     checkBoxUns.Checked =
                         TeamMemberData.IsUser(value,
                                               TeamMemberData.UserTypes.UNS);
+                    checkBoxLangSpecialtyReviewer.Checked =
+                        TeamMemberData.IsUser(value,
+                                              TeamMemberData.UserTypes.FirstPassMentor);
                 }
                 else
                 {
@@ -135,9 +138,6 @@ namespace OneStoryProjectEditor
                     {
                         case TeamMemberData.UserTypes.EnglishBackTranslator:
                             radioButtonEnglishBackTranslator.Checked = true;
-                            break;
-                        case TeamMemberData.UserTypes.FirstPassMentor:
-                            radioButtonFirstPassMentor.Checked = true;
                             break;
                         case TeamMemberData.UserTypes.ConsultantInTraining:
                             radioButtonConsultantInTraining.Checked = true;
@@ -318,7 +318,6 @@ namespace OneStoryProjectEditor
             {
                 radioButtonJustViewing.Checked =
                     radioButtonIndependentConsultant.Checked =
-                    radioButtonFirstPassMentor.Checked =
                     radioButtonEnglishBackTranslator.Checked =
                     radioButtonConsultantInTraining.Checked =
                     radioButtonCoach.Checked = false;

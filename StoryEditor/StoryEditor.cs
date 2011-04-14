@@ -48,21 +48,30 @@ namespace OneStoryProjectEditor
                 
                 if (value != null)
                 {
-                    linkLabelTasks.Visible = TeamMemberData.IsUser(value.MemberType,
-                                                                   TeamMemberData.UserTypes.ProjectFacilitator |
-                                                                   TeamMemberData.UserTypes.IndependentConsultant |
-                                                                   TeamMemberData.UserTypes.ConsultantInTraining |
-                                                                   TeamMemberData.UserTypes.Coach |
-                                                                   TeamMemberData.UserTypes.JustLooking |
-                                                                   TeamMemberData.UserTypes.EnglishBackTranslator |
-                                                                   TeamMemberData.UserTypes.FirstPassMentor);
+                    UpdateTaskLinkVisibility(value);
 
                     // check whether we should be showing the transliteration or not
                     viewTransliterationVernacular.Checked = !String.IsNullOrEmpty(value.TransliteratorVernacular);
                     viewTransliterationNationalBT.Checked = !String.IsNullOrEmpty(value.TransliteratorNationalBT);
+
+                    // update the frame title if a new person logs in
+                    Text = GetFrameTitle(true);
                 }
             }
         }
+
+        private void UpdateTaskLinkVisibility(TeamMemberData loggedOnMember)
+        {
+            linkLabelTasks.Visible = (TeamMemberData.IsUser(loggedOnMember.MemberType,
+                                                            TeamMemberData.UserTypes.ProjectFacilitator |
+                                                            TeamMemberData.UserTypes.IndependentConsultant |
+                                                            TeamMemberData.UserTypes.ConsultantInTraining |
+                                                            TeamMemberData.UserTypes.Coach |
+                                                            TeamMemberData.UserTypes.JustLooking |
+                                                            TeamMemberData.UserTypes.EnglishBackTranslator |
+                                                            TeamMemberData.UserTypes.FirstPassMentor));
+        }
+
         internal bool Modified;
         internal Timer myFocusTimer = new Timer();
         internal static Timer mySaveTimer = new Timer();
@@ -139,8 +148,10 @@ namespace OneStoryProjectEditor
                 catch { }   // this was only a bene anyway, so just ignore it
             }
 
+#if !DEBUG
             if (Properties.Settings.Default.AutoCheckForProgramUpdatesAtStartup)
                 backgroundWorker.RunWorkerAsync();
+#endif
         }
 
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -527,7 +538,7 @@ namespace OneStoryProjectEditor
                 if (Modified)
                 {
                     SaveClicked();
-                    Text = GetFrameTitle();
+                    Text = GetFrameTitle(true);
                 }
 
                 return true;
@@ -687,7 +698,7 @@ namespace OneStoryProjectEditor
 
                 UpdateUIMenusWithShortCuts();
 
-                Text = GetFrameTitle();
+                Text = GetFrameTitle(true);
 
                 // show the chorus notes at load time
                 InitProjectNotes(projSettings, LoggedOnMember.Name);
@@ -712,21 +723,26 @@ namespace OneStoryProjectEditor
             Program.InsureSingleInstanceOfProgramName(this);
         }
 
-        internal string GetFrameTitle()
+        internal string GetFrameTitle(bool bAddLogin)
         {
             if ((StoryProject == null)
                 || (StoryProject.ProjSettings == null)
                 || (String.IsNullOrEmpty(StoryProject.ProjSettings.ProjectName)))
                 return OseResources.Properties.Resources.IDS_Caption;
 
-            if (IsInStoriesSet)
-            {
-                return String.Format(Properties.Resources.IDS_MainFrameTitle, StoryProject.ProjSettings.ProjectName);
-            }
-            else
-            {
-                return String.Format(Properties.Resources.IDS_MainFrameTitleOldStories, StoryProject.ProjSettings.ProjectName);
-            }
+            string strTitleFormat = IsInStoriesSet
+                                        ? Properties.Resources.IDS_MainFrameTitle
+                                        : Properties.Resources.IDS_MainFrameTitleOldStories;
+
+            string strTitle = String.Format(strTitleFormat,
+                                            StoryProject.ProjSettings.ProjectName);
+
+            if (bAddLogin && (LoggedOnMember != null))
+                strTitle += String.Format(Properties.Resources.IDS_MainFrameTitleSuffix,
+                                          LoggedOnMember.Name,
+                                          TeamMemberData.GetMemberTypeAsDisplayString(LoggedOnMember.MemberType));
+
+            return strTitle;
         }
 
         private void InitProjectNotes(ProjectSettings projSettings, string strUsername)
@@ -929,7 +945,7 @@ namespace OneStoryProjectEditor
         }
 
         private bool _bCancellingChange = false;
-        private void comboBoxStorySelector_SelectedIndexChanged(object sender, EventArgs e)
+        private void LoadStory(object sender, EventArgs e)
         {
             // do nothing if we're already on this story:
             if (_bCancellingChange
@@ -976,12 +992,9 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.LastStoryWorkedOn = theCurrentStory.Name;
                 Properties.Settings.Default.Save();
 
-                // see if this PF is the one who's editing the story
-                if (TeamMemberData.IsUser(LoggedOnMember.MemberType,
-                                          TeamMemberData.UserTypes.ProjectFacilitator))
-                {
-                    theCurrentStory.CheckForProjectFacilitator(StoryProject, LoggedOnMember);
-                }
+                // see if we have proper Member IDs on all connote conversation comments
+                if (!theCurrentStory.CheckForConNotesParticipants(StoryProject, ref Modified))
+                    return;
             }
 
             // initialize the text box showing the storying they're editing
@@ -2446,7 +2459,7 @@ namespace OneStoryProjectEditor
         {
             try
             {
-                LoggedOnMember.ThrowIfEditIsntAllowed(theCurrentStory.ProjStage.MemberTypeWithEditToken);
+                LoggedOnMember.ThrowIfEditIsntAllowed(theCurrentStory);
             }
             catch (Exception ex)
             {
@@ -2455,7 +2468,7 @@ namespace OneStoryProjectEditor
             }
 
             if ((theCurrentStory.ProjStage.ProjectStage == stateToSet)
-                && (stateToSet == StoryStageLogic.ProjectStages.eTeamComplete))
+                && (stateToSet == StoryStageLogic.ProjectStages.eTeamFinalApproval))
             {
                 MessageBox.Show(Properties.Resources.IDS_GoBackwardsYoungMan,
                                 OseResources.Properties.Resources.IDS_Caption);
@@ -3712,7 +3725,6 @@ namespace OneStoryProjectEditor
                 viewEnglishBTFieldMenuItem.Enabled = 
                     viewFreeTranslationToolStripMenuItem.Enabled =
                     viewConsultantNoteFieldMenuItem.Enabled =
-                    viewCoachNotesFieldMenuItem.Enabled =
                     stateTransitionHistoryToolStripMenuItem.Enabled = (theCurrentStory != null);
 
                 // this have the added requirement that it be a biblical story
@@ -3729,10 +3741,10 @@ namespace OneStoryProjectEditor
                     concordanceToolStripMenuItem.Enabled = true;
 
                 // the coach pane shouldn't be visible except to Consultants and Coach
+                //  (here we want to use "!=" for PF, because if he's also a LSR, then
+                //  we want to be able to see Coach note pane).
                 viewCoachNotesFieldMenuItem.Enabled = ((LoggedOnMember != null) &&
-                                                       !TeamMemberData.IsUser(LoggedOnMember.MemberType,
-                                                                              TeamMemberData.UserTypes.
-                                                                                  ProjectFacilitator));
+                                                       !LoggedOnMember.IsPfAndNotLsr);
             }
             else
                 showHideFieldsToolStripMenuItem.Enabled =
@@ -4732,11 +4744,13 @@ namespace OneStoryProjectEditor
                 strDummy = null;
             GetSelectedLanguageText(ref strVernacular, ref strNationalBT, ref strInternationalBT, ref strDummy);
             var dlg = new AddLnCNoteForm(this, strVernacular, strNationalBT, strInternationalBT);
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                StoryProject.LnCNotes.Add(dlg.TheLnCNote);
-                Modified = true;
-            }
+            if (dlg.ShowDialog() != DialogResult.OK)
+                return;
+
+            StoryProject.LnCNotes.CheckForSimilarNote(this, strVernacular, strNationalBT, strInternationalBT);
+
+            StoryProject.LnCNotes.Add(dlg.TheLnCNote);
+            Modified = true;
         }
 
         private void toolStripMenuItemSelectState_Click(object sender, EventArgs e)
@@ -5102,7 +5116,7 @@ namespace OneStoryProjectEditor
                 if (!IsInStoriesSet)
                     throw CantEditOldStoriesEx;
 
-                LoggedOnMember.ThrowIfEditIsntAllowed(theCurrentStory.ProjStage.MemberTypeWithEditToken);
+                LoggedOnMember.ThrowIfEditIsntAllowed(theCurrentStory);
             }
             catch (Exception ex)
             {

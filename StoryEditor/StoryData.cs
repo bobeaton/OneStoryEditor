@@ -7,7 +7,6 @@ using System.Xml.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Xsl;
-using SilEncConverters40;
 
 namespace OneStoryProjectEditor
 {
@@ -50,15 +49,28 @@ namespace OneStoryProjectEditor
             TasksAllowedCit = TasksCit.DefaultAllowed;
             TasksRequiredCit = TasksCit.DefaultRequired;
 
-            // set the attributes that say how many tests are required
-            if (TasksPf.IsTaskOn(TasksRequiredPf, TasksPf.TaskSettings.Retellings))
-                CountRetellingsTests = 1;
-            if (TasksPf.IsTaskOn(TasksRequiredPf, TasksPf.TaskSettings.Retellings2))
-                CountRetellingsTests = 2;
-            if (TasksPf.IsTaskOn(TasksRequiredPf, TasksPf.TaskSettings.Answers))
-                CountTestingQuestionTests = 1;
-            if (TasksPf.IsTaskOn(TasksRequiredPf, TasksPf.TaskSettings.Answers2))
-                CountTestingQuestionTests = 2;
+            if (bIsBiblicalStory)
+            {
+                // set the attributes that say how many tests are required
+                if (TasksPf.IsTaskOn(TasksRequiredPf, TasksPf.TaskSettings.Retellings))
+                    CountRetellingsTests = 1;
+                if (TasksPf.IsTaskOn(TasksRequiredPf, TasksPf.TaskSettings.Retellings2))
+                    CountRetellingsTests = 2;
+                if (TasksPf.IsTaskOn(TasksRequiredPf, TasksPf.TaskSettings.Answers))
+                    CountTestingQuestionTests = 1;
+                if (TasksPf.IsTaskOn(TasksRequiredPf, TasksPf.TaskSettings.Answers2))
+                    CountTestingQuestionTests = 2;
+            }
+            else
+            {
+                // can't require Anchors, Retellings, etc in a non-biblical story.
+                TasksRequiredPf &= ~(TasksPf.TaskSettings.Anchors |
+                                     TasksPf.TaskSettings.Answers |
+                                     TasksPf.TaskSettings.Answers2 |
+                                     TasksPf.TaskSettings.Retellings |
+                                     TasksPf.TaskSettings.Retellings2 |
+                                     TasksPf.TaskSettings.TestQuestions);
+            }
         }
 
         public StoryData(XmlNode node, string strProjectFolder)
@@ -259,6 +271,16 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public bool AreUnapprovedConsultantNotes
+        {
+            get { return Verses.AreUnapprovedConsultantNotes; }
+        }
+
+        public bool AreUnrespondedToCoachNoteComments
+        {
+            get { return Verses.AreUnrespondedToCoachNoteComments; }
+        }
+
         public string NumOfWords(ProjectSettings projSettings)
         {
             return Verses.NumOfWords(projSettings);
@@ -270,33 +292,71 @@ namespace OneStoryProjectEditor
             Verses.IndexSearch(findProperties, ref lstBoxesToSearch);
         }
 
-        public void CheckForProjectFacilitator(StoryProjectData storyProjectData, TeamMemberData loggedOnMember)
+        public string CheckForProjectFacilitator(StoryProjectData storyProjectData)
         {
-            if (CraftingInfo.ProjectFacilitatorMemberID != null)
-                return;
+            return CraftingInfo.ProjectFacilitatorMemberID ??
+                   (CraftingInfo.ProjectFacilitatorMemberID =
+                    QueryForMember(storyProjectData,
+                                   TeamMemberData.UserTypes.ProjectFacilitator,
+                                   Properties.Resources.IDS_ChooseProjFac));
+        }
 
-            // this means that we've opened a file which didn't have the proj fac listed
-            // if there's only one PF, then just put that one in. If there are multiple,
-            //  then ask which one to use
-            if ((storyProjectData.TeamMembers.CountOfProjectFacilitator == 1)
-                && TeamMemberData.IsUser(loggedOnMember.MemberType,
-                                         TeamMemberData.UserTypes.ProjectFacilitator))
+        public bool CheckForConNotesParticipants(StoryProjectData storyProjectData, 
+            ref bool bModified)
+        {
+            bool bNeedPf, bNeedCons, bNeedCoach;
+            string strConsultant = null, strCoach = null;
+            Verses.CheckConNoteMemberIds(out bNeedPf, out bNeedCons, out bNeedCoach);
+            if (bNeedPf)
             {
-                CraftingInfo.ProjectFacilitatorMemberID = loggedOnMember.MemberGuid;
-                return;
+                if (String.IsNullOrEmpty(CheckForProjectFacilitator(storyProjectData)))
+                    return false;
             }
-#if !DataDllBuild
-            // fall thru means either the logged in person isn't a PF or there are multiple,
-            //  so, ask the user to tell which PF added this story
-            var dlg = new MemberPicker(storyProjectData, TeamMemberData.UserTypes.ProjectFacilitator)
-                          {
-                              Text = Properties.Resources.IDS_ChooseProjFac
-                          };
-            if (dlg.ShowDialog() != DialogResult.OK)
-                return;
+            if (bNeedCons)
+            {
+                strConsultant = QueryForMember(storyProjectData,
+                                               TeamMemberData.UserTypes.IndependentConsultant |
+                                               TeamMemberData.UserTypes.ConsultantInTraining,
+                                               Properties.Resources.IDS_ChooseConsultant);
+                if (String.IsNullOrEmpty(strConsultant))
+                    return false;
+            }
+            if (bNeedCoach)
+            {
+                strCoach = QueryForMember(storyProjectData,
+                                               TeamMemberData.UserTypes.Coach,
+                                               Properties.Resources.IDS_ChooseCoach);
+                if (String.IsNullOrEmpty(strCoach))
+                    return false;
+            }
+            
+            if (bNeedPf || bNeedCons || bNeedCoach)
+            {
+                bModified = true;
+                SetCommentMemberId(strConsultant, strCoach);
+            }
 
-            CraftingInfo.ProjectFacilitatorMemberID = dlg.SelectedMember.MemberGuid;
-#endif
+            return true;
+        }
+
+        private static string QueryForMember(StoryProjectData storyProjectData, 
+            TeamMemberData.UserTypes eMemberToCheck, string strPickerTitle)
+        {
+            string strMemberId = storyProjectData.TeamMembers.MemberIdOfOneAndOnlyMemberType(eMemberToCheck);
+            if (!String.IsNullOrEmpty(strMemberId))
+                return strMemberId;
+
+            // fall thru means that there isn't just one of them, so ask the user 
+            //  to tell which one it is
+            var dlg = new MemberPicker(storyProjectData,
+                                       eMemberToCheck)
+                          {
+                              Text = strPickerTitle
+                          };
+
+            return (dlg.ShowDialog() == DialogResult.OK)
+                       ? dlg.SelectedMember.MemberGuid
+                       : null;
         }
 
         private static TasksPf.TaskSettings GetAttributeValue(XmlNode node, 
@@ -486,12 +546,12 @@ namespace OneStoryProjectEditor
         }
 
         public string ConsultantNotesHtml(object htmlConNoteCtrl, 
-            StoryStageLogic theStoryStage, ProjectSettings projSettings, 
-            TeamMemberData LoggedOnMember,
-            bool bViewHidden, bool bShowOnlyOpenConversations)
+            ProjectSettings projSettings, TeamMemberData LoggedOnMember, 
+            TeamMembersData teamMembers, bool bViewHidden, bool bShowOnlyOpenConversations)
         {
-            string strHtml = Verses.ConsultantNotesHtml(htmlConNoteCtrl, theStoryStage,
-                LoggedOnMember, bViewHidden, bShowOnlyOpenConversations);
+            string strHtml = Verses.ConsultantNotesHtml(htmlConNoteCtrl, LoggedOnMember, 
+                teamMembers, this, bViewHidden, bShowOnlyOpenConversations);
+
             return String.Format(OseResources.Properties.Resources.HTML_Header,
                 StylePrefix(projSettings),
                 OseResources.Properties.Resources.HTML_DOM_Prefix, 
@@ -499,12 +559,12 @@ namespace OneStoryProjectEditor
         }
 
         public string CoachNotesHtml(object htmlConNoteCtrl, 
-            StoryStageLogic theStoryStage, ProjectSettings projSettings, 
-            TeamMemberData LoggedOnMember,
-            bool bViewHidden, bool bShowOnlyOpenConversations)
+            ProjectSettings projSettings, TeamMemberData LoggedOnMember, 
+            TeamMembersData teamMembers, bool bViewHidden, bool bShowOnlyOpenConversations)
         {
-            string strHtml = Verses.CoachNotesHtml(htmlConNoteCtrl, theStoryStage,
-                LoggedOnMember, bViewHidden, bShowOnlyOpenConversations);
+            string strHtml = Verses.CoachNotesHtml(htmlConNoteCtrl, LoggedOnMember, 
+                teamMembers, this, bViewHidden, bShowOnlyOpenConversations);
+
             return String.Format(OseResources.Properties.Resources.HTML_Header,
                 StylePrefix(projSettings),
                 OseResources.Properties.Resources.HTML_DOM_Prefix,
@@ -533,6 +593,13 @@ namespace OneStoryProjectEditor
         public void ReplaceCrafter(string strOldMemberGuid, string strNewMemberGuid)
         {
             CraftingInfo.ReplaceCrafter(strOldMemberGuid, strNewMemberGuid);
+        }
+
+        public void SetCommentMemberId(string strConsultant, string strCoach)
+        {
+            Verses.SetCommentMemberId(CraftingInfo.ProjectFacilitatorMemberID,
+                                      strConsultant, 
+                                      strCoach);
         }
     }
 
@@ -1248,6 +1315,12 @@ namespace OneStoryProjectEditor
             foreach (var storyData in this)
                 storyData.ReplaceCrafter(strOldMemberGuid, strNewMemberGuid);
         }
+
+        public void SetCommentMemberId(string strConsultant, string strCoach)
+        {
+            foreach (var storyData in this)
+                storyData.SetCommentMemberId(strConsultant, strCoach);
+        }
     }
 
     public class StoryProjectData : Dictionary<string, StoriesData>
@@ -1256,7 +1329,7 @@ namespace OneStoryProjectEditor
         public ProjectSettings ProjSettings;
         public LnCNotesData LnCNotes;
         public string PanoramaFrontMatter;
-        public string XmlDataVersion = "1.5";
+        public string XmlDataVersion = "1.6";
 
         /// <summary>
         /// This version of the constructor should *always* be followed by a call to InitializeProjectSettings()
@@ -1272,7 +1345,7 @@ namespace OneStoryProjectEditor
             Add(OseResources.Properties.Resources.IDS_ObsoleteStoriesSet, new StoriesData(OseResources.Properties.Resources.IDS_ObsoleteStoriesSet));
         }
 
-        static bool bProjectConvertWarnedOnce = false;
+        static bool bProjectConvertWarnedOnce;
                 
         public StoryProjectData(NewDataSet projFile, ProjectSettings projSettings)
         {
@@ -1339,6 +1412,26 @@ namespace OneStoryProjectEditor
                 Add(aStoriesRow.SetName, new StoriesData(aStoriesRow, 
                                                          projFile,
                                                          ProjSettings.ProjectFolder));
+
+            if (projFile.StoryProject[0].version.CompareTo("1.5") == 0)
+                CheckForCommentMemberIds();
+        }
+
+        private void CheckForCommentMemberIds()
+        {
+            // add 'memberID' attributes to all connote conversation comments, but only
+            //  if there's only one consultant (otherwise, we'll have to do this 
+            //  interactively as a story is attempted to be edited).
+            string strConsultant =
+                TeamMembers.MemberIdOfOneAndOnlyMemberType(TeamMemberData.UserTypes.ConsultantInTraining |
+                                                           TeamMemberData.UserTypes.IndependentConsultant);
+
+            string strCoach =
+                TeamMembers.MemberIdOfOneAndOnlyMemberType(TeamMemberData.UserTypes.Coach);
+
+            if (!String.IsNullOrEmpty(strConsultant) || !String.IsNullOrEmpty(strCoach))
+                foreach (var storiesData in Values)
+                    storiesData.SetCommentMemberId(strConsultant, strCoach);
         }
 
         private void ConvertProjectFile1_3_to_1_4(string strProjectFilePath)

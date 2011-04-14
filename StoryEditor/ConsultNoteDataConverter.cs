@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System.Text;
@@ -12,14 +13,16 @@ namespace OneStoryProjectEditor
         public ConsultNoteDataConverter.CommunicationDirections Direction;
         public string Guid;
         public DateTime TimeStamp;
+        public string MemberID;
 
         public CommInstance(string strValue, 
             ConsultNoteDataConverter.CommunicationDirections direction, 
-            string strGuid, DateTime timeStamp)
+            string strGuid, string strMemberId, DateTime timeStamp)
             : base(strValue)
         {
             Direction = direction;
             Guid = strGuid ?? System.Guid.NewGuid().ToString();
+            MemberID = strMemberId;
             TimeStamp = timeStamp;
         }
 
@@ -30,10 +33,11 @@ namespace OneStoryProjectEditor
 
             // the guid shouldn't be replicated
             Guid = System.Guid.NewGuid().ToString();  // rhs.Guid;
+            MemberID = rhs.MemberID;
             TimeStamp = rhs.TimeStamp;
         }
 
-        public TeamMemberData.UserTypes Initiator
+        public TeamMemberData.UserTypes InitiatorType
         {
             get
             {
@@ -43,15 +47,48 @@ namespace OneStoryProjectEditor
                 if ((Direction == ConsultNoteDataConverter.CommunicationDirections.eCoachToConsultant)
                     || (Direction == ConsultNoteDataConverter.CommunicationDirections.eCoachToCoach))
                     return TeamMemberData.UserTypes.Coach;
-                
-                return TeamMemberData.UserTypes.ConsultantInTraining;
+
+                return (TeamMemberData.UserTypes.ConsultantInTraining |
+                        TeamMemberData.UserTypes.IndependentConsultant |
+                        TeamMemberData.UserTypes.FirstPassMentor);
             }
+        }
+
+        public const string CstrAttributeLabelDirection = "Direction";
+        public const string CstrAttributeLabelGuid = "guid";
+        public const string CstrAttributeLabelMemberId = "memberID";
+        public const string CstrAttributeLabelTimeStamp = "timeStamp";
+
+        public XElement GetXml(string strSubElementName)
+        {
+            var elem = new XElement(strSubElementName,
+                                new XAttribute(CstrAttributeLabelDirection, GetDirectionString),
+                                new XAttribute(CstrAttributeLabelGuid, Guid));
+
+            if (!String.IsNullOrEmpty(MemberID))
+                elem.Add(new XAttribute(CstrAttributeLabelMemberId, MemberID));
+
+            elem.Add(new XAttribute(CstrAttributeLabelTimeStamp, TimeStamp.ToString("s")),
+                     this.ToString());
+            
+            return elem;
+        }
+
+        public string GetDirectionString
+        {
+            get { return Direction.ToString().Substring(1); }
+        }
+
+        public TeamMemberData Commentor(TeamMembersData teamMembersData)
+        {
+            return teamMembersData.ContainsKey(teamMembersData.GetNameFromMemberId(MemberID))
+                       ? teamMembersData[teamMembersData.GetNameFromMemberId(MemberID)]
+                       : null;
         }
     }
 
     public abstract class ConsultNoteDataConverter : List<CommInstance>
     {
-        public int RoundNum;
         public string guid;
         public bool Visible = true;
         public bool IsFinished;
@@ -64,19 +101,19 @@ namespace OneStoryProjectEditor
             eConsultantToCoach,
             eCoachToConsultant,
             eConsultantToConsultant,    // consultant's note to self
-            eCoachToCoach               // coach's note to self
+            eCoachToCoach,              // coach's note to self
+            eConsultantToProjFacNeedsApproval   // for LRC or CIT notes to PF (IC or Coach must approve before they become visible to PF)
         }
 
-        protected ConsultNoteDataConverter(int nRoundNum)
+        protected ConsultNoteDataConverter()
         {
-            RoundNum = nRoundNum;
             guid = Guid.NewGuid().ToString();
+            AllowButtonsOverride = true;    // so the person can delete in case it was a mistake
         }
 
-        protected ConsultNoteDataConverter(int nRoundNum, string strGuid, 
+        protected ConsultNoteDataConverter(string strGuid,
             bool bVisible, bool bIsFinished)
         {
-            RoundNum = nRoundNum;
             guid = strGuid;
             Visible = bVisible;
             IsFinished = bIsFinished;
@@ -84,8 +121,6 @@ namespace OneStoryProjectEditor
 
         protected ConsultNoteDataConverter(ConsultNoteDataConverter rhs)
         {
-            RoundNum = rhs.RoundNum;
-
             // the guid shouldn't be replicated
             guid = Guid.NewGuid().ToString();   // rhs.guid;
             Visible = rhs.Visible;
@@ -102,7 +137,8 @@ namespace OneStoryProjectEditor
             { "ConsultantToCoach", CommunicationDirections.eConsultantToCoach },
             { "CoachToConsultant", CommunicationDirections.eCoachToConsultant },
             { "ConsultantToConsultant", CommunicationDirections.eConsultantToConsultant },
-            { "CoachToCoach", CommunicationDirections.eCoachToCoach }
+            { "CoachToCoach", CommunicationDirections.eCoachToCoach },
+            { "ConsultantToProjFacNeedsApproval", CommunicationDirections.eConsultantToProjFacNeedsApproval }
         };
 
         protected CommunicationDirections GetDirectionFromString(string strDirectionString)
@@ -111,37 +147,90 @@ namespace OneStoryProjectEditor
             return CmapDirectionStringToEnumType[strDirectionString];
         }
 
-        public string GetDirectionString(CommunicationDirections eDirection)
-        {
-            return eDirection.ToString().Substring(1);
-        }
-
-        public void InsureExtraBox(StoryStageLogic theStoryStage, 
-            TeamMemberData LoggedOnMember, 
-            TeamMemberData.UserTypes eMentorType, TeamMemberData.UserTypes eMenteeType,
-            string strValue)
+        public void InsureExtraBox(StoryData theStory, TeamMemberData loggedOnMember,
+            TeamMembersData theTeamMembers, string strValue)
         {
             // in case the user re-logs in, we might have extra boxes here. So remove any null ones before
             //  "insuring" the one(s) we need
             if (Count > 1)
-                while (!this[Count - 1].HasData)
+                while (!FinalComment.HasData)
                     RemoveAt(Count - 1);
 
             // don't bother, though, if the user has ended the conversation
-            if (IsFinished ||
-                (!IsMentorLoggedOn(LoggedOnMember) && !IsMenteeLoggedOn(LoggedOnMember) &&
-                !LoggedOnMember.IsEditAllowed(theStoryStage.MemberTypeWithEditToken)))
+            if (IsFinished)// || !HasAddNotePrivilege loggedOnMember.IsEditAllowed(theStory))
+                /*
+                (!LoggedOnMentorHasResponsePrivilege(loggedOnMember, theStory) &&
+                 !LoggedOnMentoreeHasResponsePrivilege(loggedOnMember, theStory)) &&
+                 !loggedOnMember.IsEditAllowed(theStory)) 
+                */
             {
                 return;
             }
 
-            TeamMemberData.UserTypes eLoggedOnMemberType = LoggedOnMember.MemberType;
-            if (TeamMemberData.IsUser(eLoggedOnMemberType, eMentorType) && ((Count == 0) || (IsFromMentee(this[Count - 1]))))
-                Add(new CommInstance(strValue, MentorDirection, null, DateTime.Now));
-            else if (TeamMemberData.IsUser(eLoggedOnMemberType, eMenteeType) && ((Count == 0) || (this[Count - 1].Direction == MentorDirection)))
-                Add(new CommInstance(strValue, MenteeDirection, null, DateTime.Now));
+            if (MentorHasRespondPrivilege(loggedOnMember, theTeamMembers, theStory))
+                Add(CreateMentorNote(loggedOnMember, strValue));
+            else if (MentoreeHasRespondPrivilege(loggedOnMember, theStory))
+                Add(new CommInstance(strValue, MenteeDirection, null, loggedOnMember.MemberGuid, DateTime.Now));
         }
 
+        protected virtual CommInstance CreateMentorNote(TeamMemberData loggedOnMember, string strValue)
+        {
+            return new CommInstance(strValue, MentorDirection, null, loggedOnMember.MemberGuid, DateTime.Now);
+        }
+
+        protected virtual bool LoggedOnMentoreeHasResponsePrivilege(TeamMemberData loggedOnMember, 
+            StoryData theStory)
+        {
+            return IsMenteeLoggedOn(loggedOnMember)
+                   && loggedOnMember.IsEditAllowed(theStory);   // needed to prevent cons response box to a PF initiated comment while story is in PF state
+        }
+
+        protected virtual bool LoggedOnMentorHasResponsePrivilege(TeamMemberData loggedOnMember,
+            TeamMembersData theTeamMembers, StoryData theStory)
+        {
+            return IsMentorLoggedOn(loggedOnMember)
+                   && loggedOnMember.IsEditAllowed(theStory);   // needed to prevent cons response box to a PF initiated comment while story is in PF state
+        }
+
+        protected bool MentorHasRespondPrivilege(TeamMemberData loggedOnMember,
+            TeamMembersData theTeamMembers, StoryData theStory)
+        {
+            // can add a box if: 
+            //  a)  the mentor is logged on and is initiating a conversation or 
+            //  b)  the last comment is from the mentoree and the logged on mentor
+            //      has privilege to respond
+            if (Count == 0)
+                return IsMentorLoggedOn(loggedOnMember);
+            
+            // otherwise, the last comment has to be from the mentoree AND
+            // either the conversation is just beginning or the same mentor has to have
+            //  initiated the conversation AND
+            // the logged on mentor must have the privilege to make a response.
+            return (IsFromMentee(FinalComment) &&
+                    ((Count < 2) || 
+                        InitiatedConversation(loggedOnMember) || 
+                        (InitiatedByMentoree && InitialFollowupBy(loggedOnMember))) &&
+                    LoggedOnMentorHasResponsePrivilege(loggedOnMember, theTeamMembers, theStory));
+        }
+
+        protected bool MentoreeHasRespondPrivilege(TeamMemberData loggedOnMember,
+            StoryData theStory)
+        {
+            // can add a box if: 
+            //  a)  the mentoree is logged on and is initiating a conversation or 
+            //  b)  the last comment is from the mentor and the logged on mentoree
+            //      has privilege to respond
+            if (Count == 0)
+                return IsMenteeLoggedOn(loggedOnMember);
+
+            return (IsFromMentor(FinalComment) &&
+                    ((Count < 2) || 
+                        InitiatedConversation(loggedOnMember) || 
+                        (InitiatedByMentor && InitialFollowupBy(loggedOnMember))) &&
+                    !NoteNeedsApproval &&
+                    !IsNoteToSelf && 
+                    LoggedOnMentoreeHasResponsePrivilege(loggedOnMember, theStory));
+        }
         /*
         // do this here, because we need to sub-class it to allow for FirstPassMentor working as well in addition to CIT
         public virtual void ThrowIfWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
@@ -150,41 +239,120 @@ namespace OneStoryProjectEditor
                 throw new ApplicationException(String.Format("Only a '{0}' can edit this field", TeamMemberData.GetMemberTypeAsDisplayString(eRequiredEditor)));
         }
         */
-        protected abstract bool IsMentorLoggedOn(TeamMemberData loggedOnMember);
-        protected abstract bool IsMenteeLoggedOn(TeamMemberData loggedOnMember);
+        protected bool IsMentorLoggedOn(TeamMemberData loggedOnMember)
+        {
+            return (TeamMemberData.IsUser(loggedOnMember.MemberType,
+                                          MentorRequiredEditor));
+        }
 
-        protected virtual bool IsWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
+        protected bool IsMenteeLoggedOn(TeamMemberData loggedOnMember)
+        {
+            return (TeamMemberData.IsUser(loggedOnMember.MemberType,
+                                          MenteeRequiredEditor));
+        }
+
+        protected bool IsWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
         {
             return !TeamMemberData.IsUser(eLoggedOnMember, eRequiredEditor);
         }
 
-        protected virtual bool CanDoConversationButtons(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
+        protected CommInstance InitialComment
         {
-            return !IsWrongEditor(eLoggedOnMember, eRequiredEditor) || AllowButtonsOverride;
+            get
+            {
+                System.Diagnostics.Debug.Assert(Count > 0);
+                return this[0];
+            }
+        }
+
+        public CommInstance FinalComment
+        {
+            get
+            {
+                System.Diagnostics.Debug.Assert(Count > 0);
+                return this[Count - 1];
+            }
+        }
+
+        private bool InitialFollowupBy(TeamMemberData loggedOnMember)
+        {
+            System.Diagnostics.Debug.Assert(Count > 1);
+            var theInitialFollowup = this[1];
+            return (loggedOnMember.MemberGuid == theInitialFollowup.MemberID);
+        }
+
+        protected virtual bool InitiatedConversation(TeamMemberData loggedOnMember)
+        {
+            var theInitialComment = InitialComment;
+            System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(theInitialComment.MemberID));
+            return (loggedOnMember.MemberGuid == theInitialComment.MemberID);
+        }
+
+        protected TeamMemberData InitiatedConversation(TeamMembersData teamMembersData)
+        {
+            return InitialComment.Commentor(teamMembersData);
+        }
+
+        protected bool InitiatedByMentor
+        {
+            get
+            {
+                var aCi = InitialComment;
+                return IsFromMentor(aCi);
+            }
+        }
+
+        protected bool InitiatedByMentoree
+        {
+            get
+            {
+                var aCi = InitialComment;
+                return IsFromMentee(aCi);
+            }
         }
 
         public abstract CommunicationDirections MenteeDirection { get; }
         public abstract CommunicationDirections MentorDirection { get; }
         public abstract CommunicationDirections MentorToSelfDirection { get; }
 
-        public abstract string MentorLabel
+        /// <summary>
+        /// This returns whether the initiator of this comment is to be interpreted
+        /// as a language specialty reviewer (so we can use a different label and/or
+        /// color for those comments. It would be an LSR either if the member type
+        /// doesn't include PF or if the PF of the story is a different PF.
+        /// </summary>
+        /// <param name="theMember">the TeamMemberData of the initiator of this comment</param>
+        /// <param name="theStoryPfMemberId">the member id of the project facilitator for the story</param>
+        /// <returns></returns>
+        public static bool IsMemberAnLsrThatIsntAlsoTheStoryPf(TeamMemberData theMember,
+            string theStoryPfMemberId)
         {
-            get;
+            return ((theMember != null)
+                    && TeamMemberData.IsUser(theMember.MemberType,
+                                             TeamMemberData.UserTypes.FirstPassMentor)
+                    && (theMember.MemberGuid != theStoryPfMemberId));
         }
 
-        public abstract string MenteeLabel
+        public abstract string MentorLabel(TeamMemberData theCommentor,
+            string theStoryPfMemberId);
+
+        public abstract string MenteeLabel(TeamMemberData theCommentor,
+            string theStoryPfMemberId);
+
+        public Color CommentColor(TeamMemberData theInitiator,
+            string theStoryPfMemberId)
         {
-            get;
+            return /* IsMemberAnLsrThatIsntAlsoTheStoryPf(theMember, theStoryPfMemberId)
+                       ? Color.AntiqueWhite
+                       : */ Color.AliceBlue;
         }
 
-        public Color CommentColor
+        public Color ResponseColor(TeamMemberData theInitiator,
+            string theStoryPfMemberId)
         {
-            get { return Color.AliceBlue; }
-        }
-
-        public Color ResponseColor
-        {
-            get { return Color.Cornsilk; /* LightCyan */ }
+            return /* IsMemberAnLsrThatIsntAlsoTheStoryPf(theMember, theStoryPfMemberId)
+                       ? Color.Coral
+                       : */ Color.Cornsilk; 
         }
 
         public Color NoteToSelfColor
@@ -226,29 +394,28 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public const string CstrAttributeLabelGuid = "guid";
+        public const string CstrAttributeLabelVisible = "visible";
+        public const string CstrAttributeLabelFinished = "finished";
+
         public XElement GetXml
         {
             get
             {
                 System.Diagnostics.Debug.Assert(Count > 0);
 
-                XElement eleNote = new XElement(InstanceElementName, 
-                    new XAttribute("round", RoundNum),
-                    new XAttribute("guid", guid));
+                var eleNote = new XElement(InstanceElementName,
+                    new XAttribute(CstrAttributeLabelGuid, guid));
 
                 if (!Visible)
-                    eleNote.Add(new XAttribute("visible", false));
+                    eleNote.Add(new XAttribute(CstrAttributeLabelVisible, false));
 
                 if (IsFinished)
-                    eleNote.Add(new XAttribute("finished", true));
+                    eleNote.Add(new XAttribute(CstrAttributeLabelFinished, true));
 
                 foreach (CommInstance aCI in this)
                     if (aCI.IsSavable)
-                        eleNote.Add(new XElement(SubElementName,
-                            new XAttribute("Direction", GetDirectionString(aCI.Direction)),
-                            new XAttribute("guid", aCI.Guid),
-                            new XAttribute("timeStamp", aCI.TimeStamp.ToString("s")),
-                            aCI.ToString()));
+                        eleNote.Add(aCI.GetXml(SubElementName));
 
                 return eleNote;
             }
@@ -286,6 +453,8 @@ namespace OneStoryProjectEditor
         public const int CnBtnIndexDelete = 0;
         public const int CnBtnIndexHide = 1;
         public const int CnBtnIndexEndConversation = 2;
+        public const int CnBtnIndexConvertToMentoreeNote = 3;
+        public const int CnBtnIndexApproveNote = 4;
 
         public static string ButtonRowId(int nVerseIndex, int nConversationIndex)
         {
@@ -302,32 +471,75 @@ namespace OneStoryProjectEditor
         public const string CstrButtonLabelConversationReopen = "Reopen conversation";
         public const string CstrButtonLabelConversationEnd = "End conversation";
 
+        public bool IsEditable(TeamMemberData loggedOnMember, 
+            TeamMembersData theTeamMembers, StoryData theStory)
+        {
+            var theFinalComment = FinalComment;
+            return !IsFinished &&
+                   (MentoreeAcceptable(loggedOnMember, theStory, theFinalComment) |
+                    MentorAcceptable(loggedOnMember, theStory, theTeamMembers, theFinalComment));
+        }
+
+        /*
         public bool IsEditable(StoryStageLogic theStoryStage, int i, 
-            TeamMemberData LoggedOnMember, CommInstance aCI)
+            TeamMemberData loggedOnMember, string theStoryPfMemberId, CommInstance aCi)
         {
             return (i == (Count - 1))
                    && !IsFinished
-                   && ((IsMentorLoggedOn(LoggedOnMember) && IsFromMentor(aCI))
-                    || (IsMenteeLoggedOn(LoggedOnMember) && IsFromMentee(aCI))
-                    || LoggedOnMember.IsEditAllowed(theStoryStage.MemberTypeWithEditToken)
-                       && ((IsFromMentor(aCI) && !IsWrongEditor(LoggedOnMember.MemberType, MentorRequiredEditor))
-                           || (!IsFromMentor(aCI) && !IsWrongEditor(LoggedOnMember.MemberType, MenteeRequiredEditor))));
+                   && ((IsMentorLoggedOn(loggedOnMember) && IsFromMentor(aCi))
+                    || (IsMenteeLoggedOn(loggedOnMember) && IsFromMentee(aCi))
+                    || loggedOnMember.IsEditAllowed(theStoryStage.MemberTypeWithEditToken)
+                       && ((IsFromMentor(aCi) && !IsWrongEditor(loggedOnMember.MemberType, MentorRequiredEditor))
+                           || (!IsFromMentor(aCi) && !IsWrongEditor(loggedOnMember.MemberType, MenteeRequiredEditor))));
+        }
+        */
+
+        public bool HasAllMentoreeMemberIdData
+        {
+            get 
+            {
+                return this.All(aCi => 
+                    !IsFromMentee(aCi) || 
+                    !String.IsNullOrEmpty(aCi.MemberID)); 
+            }
+        }
+
+        public bool HasAllMentorMemberIdData
+        {
+            get
+            {
+                return this.All(aCi =>
+                    !IsFromMentor(aCi) || 
+                    !String.IsNullOrEmpty(aCi.MemberID));
+            }
         }
 
         public bool IsNoteToSelf
         {
-            get { return ((Count == 1) && IsMyNoteToSelf(this[0])); }
+            get
+            {
+                return ((Count == 1) &&
+                        IsMyNoteToSelf(InitialComment));
+            }
         }
 
-        protected bool IsMyNoteToSelf(CommInstance aCI)
+        protected bool IsMyNoteToSelf(CommInstance aCi)
         {
-            return (aCI.Direction == MentorToSelfDirection);
+            return (aCi.Direction == MentorToSelfDirection);
+        }
+
+        protected bool IsMyNoteToSelf(CommInstance aCi, TeamMemberData loggedOnMember)
+        {
+            return (IsMyNoteToSelf(aCi) &&
+                    (aCi.MemberID == loggedOnMember.MemberGuid));
         }
 
         public bool IsFromMentor(CommInstance aCI)
         {
             // it is from the mentor if if it has the mentor's direction or is a note to self
-            return ((aCI.Direction == MentorDirection) || IsMyNoteToSelf(aCI));
+            return ((aCI.Direction == MentorDirection) ||
+                    IsMyNoteToSelf(aCI) ||
+                    CommentNeedsApproval(aCI));
         }
 
         public bool IsFromMentee(CommInstance aCI)
@@ -342,90 +554,75 @@ namespace OneStoryProjectEditor
         readonly static Regex RegexHttpRef = new Regex(@"((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?)", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
 
         public string Html(object htmlConNoteCtrl, 
-            StoryStageLogic theStoryStage, 
-            TeamMemberData LoggedOnMember, 
-            int nVerseIndex, int nConversationIndex)
+            TeamMembersData theTeamMembers, TeamMemberData loggedOnMember, 
+            StoryData theStory, int nVerseIndex, int nConversationIndex)
         {
-            System.Diagnostics.Debug.Assert(Count > 0);
-            if ((Count == 0) || 
-                (IsNoteToSelf && !IsMentorLoggedOn(LoggedOnMember)))
-                return null;
-
-            // only the initiator of a conversation gets the buttons to delete, hide or
-            //  end conversation.
-            string strRow = null;
-            CommInstance aCInitiator = this[0];
-            if (CanDoConversationButtons(LoggedOnMember.MemberType, aCInitiator.Initiator))
+            // don't show anything if
+            //  a) there's nothing to show
+            //  b) it's someone's note to self and the logged on member is not "self"
+            //  c) it's a note in need of approval, but neither the person who initiated
+            //      the note, nor the one with the ability to approve it, nor one with
+            //      the ability to view such notes is logged on.
+            if ((Count == 0) ||
+                    (IsNoteToSelf && !InitiatedConversation(loggedOnMember)) ||
+                    (NoteNeedsApproval &&
+                        !InitiatedConversation(loggedOnMember) &&
+                        !HasNoteApprovalAuthority(loggedOnMember, theTeamMembers) &&
+                        !HasApprovalNeedingNoteViewingAuthority(loggedOnMember)))
             {
-                strRow += // String.Format(OseResources.Properties.Resources.HTML_TableCellWidthPixels, 50,
-                                        String.Format(OseResources.Properties.Resources.HTML_Button,
-                                                      ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexDelete),
-                                                      "return window.external.OnClickDelete(this.id);",
-                                                      "Delete"); //);
-
-                strRow += // String.Format(OseResources.Properties.Resources.HTML_TableCellWidthPixels, 40,
-                                        String.Format(OseResources.Properties.Resources.HTML_Button,
-                                                      ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexHide),
-                                                      "return window.external.OnClickHide(this.id);",
-                                                      (Visible) ? CstrButtonLabelHide : CstrButtonLabelUnhide);
-
-                strRow += // String.Format(OseResources.Properties.Resources.HTML_TableCellWidthPixels, 100,
-                                        String.Format(OseResources.Properties.Resources.HTML_Button,
-                                                      ButtonId(nVerseIndex, nConversationIndex,
-                                                               CnBtnIndexEndConversation),
-                                                      "return window.external.OnClickEndConversation(this.id);",
-                                                      (IsFinished)
-                                                          ? CstrButtonLabelConversationReopen
-                                                          : CstrButtonLabelConversationEnd);
+                return null;
             }
 
-            if (!Visible)
-                strRow += "(Hidden)";
+            string strHtml = HtmlGetButtonRow(loggedOnMember,
+                                              theStory,
+                                              theTeamMembers,
+                                              nVerseIndex,
+                                              nConversationIndex);
 
-            strRow = String.Format(OseResources.Properties.Resources.HTML_TableCell, strRow);
-
-            // color changes if hidden
-            string strColor = "#FFFFFF";    // default white background
-            if (!Visible)
-                strColor = "#F0E68C";
-
-            string strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRowIdColor,
-                ButtonRowId(nVerseIndex, nConversationIndex),
-                strColor,
-                strRow);
-
-            string strHtmlTable = null;
+            string strColor, strHtmlTable = null;
             for (int i = 0; i < Count; i++)
             {
                 CommInstance aCI = this[i];
 
-                strRow = null;
+                TeamMemberData theCommentor = aCI.Commentor(theTeamMembers);
+
+                string strRow = null, theStoryPfMemberId = theStory.CraftingInfo.ProjectFacilitatorMemberID;
                 Color clrRow;
                 if (IsMyNoteToSelf(aCI))
                 {
                     strRow += String.Format(OseResources.Properties.Resources.HTML_TableCell,
-                                            MentorLabel);
+                                            MentorLabel(theCommentor,
+                                                        theStoryPfMemberId));
                     clrRow = NoteToSelfColor;
                 }
                 else if (IsFromMentor(aCI))
                 {
                     strRow += String.Format(OseResources.Properties.Resources.HTML_TableCell,
-                                            MentorLabel);
-                    clrRow = CommentColor;
+                                            MentorLabel(theCommentor,
+                                                        theStoryPfMemberId));
+                    clrRow = CommentColor(theCommentor, theStoryPfMemberId);
                 }
                 else
                 {
                     strRow += String.Format(OseResources.Properties.Resources.HTML_TableCell,
-                                            MenteeLabel);
-                    clrRow = ResponseColor;
+                                            MenteeLabel(theCommentor,
+                                                        theStoryPfMemberId));
+                    clrRow = ResponseColor(theCommentor, theStoryPfMemberId);
                 }
 
                 strColor = VerseData.HtmlColor(clrRow);
 
-                // only the last one is editable and then only if the right person is 
-                //  logged in
+                // there are two factors in deciding whether a conversation may be edited.
+                //  1) the right person is logged in and
+                //  2) the last comment box is for that person
+                // Re: 1) the conversation is editable if either the conversation initiator 
+                //  is logged in or a mentoree. For the ConsultantNote pane, this means the
+                //  specific project facilitator associated with the story. For the Coach
+                //  note pane, this could be any mentoree (PF, LSR, or CIT).
+                // Re: 2) that depends on whether the ...
                 string strHtmlElementId;
-                if (IsEditable(theStoryStage, i, LoggedOnMember, aCI))
+                if ((i == (Count - 1)) && 
+                    IsEditable(loggedOnMember, theTeamMembers, theStory))
                 {
                     strHtmlElementId = TextareaId(nVerseIndex, nConversationIndex);
                     strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellForTextArea, "#FF0000",
@@ -484,6 +681,171 @@ namespace OneStoryProjectEditor
             return strHtml;
         }
 
+        // the logged on person makes an exceptable editor of the final box, as a mentor if...
+        private bool MentoreeAcceptable(TeamMemberData loggedOnMember, StoryData theStory,
+            CommInstance aCiLast)
+        {
+            if (Count == 1)
+                return InitiatedConversation(loggedOnMember);
+
+            return LoggedOnMentoreeHasResponsePrivilege(loggedOnMember, theStory) &&
+                   (InitiatedConversation(loggedOnMember) || InitiatedByMentor) &&
+                   IsFromMentee(aCiLast);
+        }
+
+        // the logged on person makes an exceptable editor of the final box, as a mentor if...
+        private bool MentorAcceptable(TeamMemberData loggedOnMember, StoryData theStory,
+            TeamMembersData theTeamMembers, CommInstance aCiLast)
+        {
+            if (Count == 1)
+                return InitiatedConversation(loggedOnMember);
+
+            // the mentor is actually logged on
+            // and that specific person actually initiated the conversation or it was 
+            //  initiated by the mentoree
+            // and the last comment visible is from a mentor
+            return LoggedOnMentorHasResponsePrivilege(loggedOnMember, theTeamMembers, theStory) &&
+                   (InitiatedConversation(loggedOnMember) || 
+                        (InitiatedByMentoree && InitialFollowupBy(loggedOnMember))) &&
+                   IsFromMentor(aCiLast);
+        }
+
+        // certain members won't get a regular turn (e.g. an LSR or a Coach when the 
+        //  project is not specified as a manage with coaching situation). In these cases,
+        //  just allow them to have their 'End', 'Hide', etc, buttons.
+        private static bool OtherwiseDoesntHaveaTurn(TeamMemberData loggedOnMember, 
+            StoryData theStory, TeamMembersData theTeamMembers)
+        {
+            return IsMemberAnLsrThatIsntAlsoTheStoryPf(loggedOnMember, theStory.CraftingInfo.ProjectFacilitatorMemberID) ||
+                   CoachWithoutaTurn(loggedOnMember, theTeamMembers);
+        }
+
+        protected static bool CoachWithoutaTurn(TeamMemberData loggedOnMember, TeamMembersData theTeamMembers)
+        {
+            return theTeamMembers.HasIndependentConsultant &&
+                   TeamMemberData.IsUser(loggedOnMember.MemberType,
+                                         TeamMemberData.UserTypes.Coach);
+        }
+
+        private string HtmlGetButtonRow(TeamMemberData loggedOnMember, StoryData theStory,
+            TeamMembersData theTeamMembers, int nVerseIndex, int nConversationIndex)
+        {
+            // only the initiator of a conversation gets the buttons to delete, hide or
+            //  end conversation. But they can only do that when it's their turn.
+            //  However, for an LSR, there's never an explicit turn, so allow them to do
+            //  it anytime.
+            string strRow = null;
+            if (InitiatedConversation(loggedOnMember) && 
+                (loggedOnMember.IsEditAllowed(theStory) ||
+                    OtherwiseDoesntHaveaTurn(loggedOnMember, theStory, theTeamMembers) ||
+                    AllowButtonsOverride))
+            {
+                strRow += String.Format(OseResources.Properties.Resources.HTML_Button,
+                                        ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexDelete),
+                                        "return window.external.OnClickDelete(this.id);",
+                                        "Delete");
+
+                strRow += String.Format(OseResources.Properties.Resources.HTML_Button,
+                                        ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexHide),
+                                        "return window.external.OnClickHide(this.id);",
+                                        (Visible) ? CstrButtonLabelHide : CstrButtonLabelUnhide);
+
+                strRow += String.Format(OseResources.Properties.Resources.HTML_Button,
+                                        ButtonId(nVerseIndex, nConversationIndex,
+                                                 CnBtnIndexEndConversation),
+                                        "return window.external.OnClickEndConversation(this.id);",
+                                        (IsFinished)
+                                            ? CstrButtonLabelConversationReopen
+                                            : CstrButtonLabelConversationEnd);
+            }
+
+            // allow the person who created a "note to self" to convert it to a note to 
+            //  the mentoree
+            if (IsNoteToLoggedOnMemberSelf(loggedOnMember))
+            {
+                strRow += String.Format(OseResources.Properties.Resources.HTML_Button,
+                                        ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexConvertToMentoreeNote),
+                                        String.Format("return window.external.OnConvertToMentoreeNote(this.id, {0});",
+                                        (InitiatedByCit(theTeamMembers)) ? "true" : "false"),
+                                        "Change to mentoree note");
+            }
+
+            // add a button if the logged on person has the authority to approve the note
+            if (NoteNeedsApproval && !IsFinished)
+            {
+                if (HasNoteApprovalAuthority(loggedOnMember, theTeamMembers) && 
+                    (loggedOnMember.IsEditAllowed(theStory) || 
+                        CoachWithoutaTurn(loggedOnMember, theTeamMembers)))
+                    strRow += String.Format(OseResources.Properties.Resources.HTML_Button,
+                                            ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexApproveNote),
+                                            "return window.external.OnApproveNote(this.id);",
+                                            "Approve Note");
+                else
+                    strRow += "(Awaiting approval)";
+            }
+
+            if (!Visible)
+                strRow += "(Hidden)";
+
+            strRow = String.Format(OseResources.Properties.Resources.HTML_TableCell, strRow);
+
+            // color changes if hidden
+            string strColor = "#FFFFFF";    // default white background
+            if (!Visible)
+                strColor = "#F0E68C";
+
+            return String.Format(OseResources.Properties.Resources.HTML_TableRowIdColor,
+                                 ButtonRowId(nVerseIndex, nConversationIndex),
+                                 strColor,
+                                 strRow);
+        }
+
+        protected bool InitiatedByCit(TeamMembersData teamMembersData)
+        {
+            var theInitiator = InitiatedConversation(teamMembersData);
+            return TeamMemberData.IsUser(theInitiator.MemberType,
+                                         TeamMemberData.UserTypes.ConsultantInTraining |
+                                         TeamMemberData.UserTypes.FirstPassMentor);
+        }
+
+        private static bool HasNoteApprovalAuthority(TeamMemberData loggedOnMember,
+            TeamMembersData theTeamMembers)
+        {
+            return TeamMemberData.IsUser(loggedOnMember.MemberType,
+                                         !theTeamMembers.HasIndependentConsultant
+                                             ? TeamMemberData.UserTypes.Coach
+                                             : TeamMemberData.UserTypes.Coach |
+                                               TeamMemberData.UserTypes.IndependentConsultant);
+        }
+
+        private static bool HasApprovalNeedingNoteViewingAuthority(TeamMemberData loggedOnMember)
+        {
+            return TeamMemberData.IsUser(loggedOnMember.MemberType,
+                                         TeamMemberData.UserTypes.FirstPassMentor |
+                                         TeamMemberData.UserTypes.ConsultantInTraining);
+        }
+
+        public bool CommentNeedsApproval(CommInstance theCi)
+        {
+            return (theCi.Direction == CommunicationDirections.eConsultantToProjFacNeedsApproval);
+        }
+
+        public bool NoteNeedsApproval
+        {
+            get
+            {
+                System.Diagnostics.Debug.Assert(Count > 0);
+                return ((Count > 0)
+                        && (FinalComment.Direction == CommunicationDirections.eConsultantToProjFacNeedsApproval));
+            }
+        }
+
+        private bool IsNoteToLoggedOnMemberSelf(TeamMemberData loggedOnMember)
+        {
+            System.Diagnostics.Debug.Assert(Count > 0);
+            return IsMyNoteToSelf(InitialComment, loggedOnMember);
+        }
+
         static string BibleReferenceFound(Match m)
         {
             // Get the matched string.
@@ -521,33 +883,45 @@ namespace OneStoryProjectEditor
             foreach (CommInstance aCI in this)
                 lstBoxesToSearch.AddNewVerseString(aCI, AssociatedPane);
         }
+
+        public void SetCommentMemberId(string strMentoree, string strMentor)
+        {
+            foreach (var aCi in this.Where(aCi => String.IsNullOrEmpty(aCi.MemberID)))
+            {
+                aCi.MemberID = (IsFromMentee(aCi))
+                                   ? strMentoree
+                                   : strMentor;
+            }
+        }
     }
 
     public class ConsultantNoteData : ConsultNoteDataConverter
     {
         public ConsultantNoteData(NewDataSet.ConsultantConversationRow aConRow)
-            : base (aConRow.round, aConRow.guid, 
+            : base (aConRow.guid, 
             (aConRow.IsvisibleNull()) ? true : aConRow.visible,
             (aConRow.IsfinishedNull()) ? false : aConRow.finished)
         {
             NewDataSet.ConsultantNoteRow[] theNoteRows = aConRow.GetConsultantNoteRows();
             foreach (NewDataSet.ConsultantNoteRow aNoteRow in theNoteRows)
-                Add(new CommInstance(aNoteRow.ConsultantNote_text, 
-                    GetDirectionFromString(aNoteRow.Direction),
-                    aNoteRow.guid, (aNoteRow.IstimeStampNull()) ? 
-                        DateTime.Now : aNoteRow.timeStamp));
+                Add(new CommInstance(aNoteRow.ConsultantNote_text,
+                                     GetDirectionFromString(aNoteRow.Direction),
+                                     aNoteRow.guid,
+                                     (aNoteRow.IsmemberIDNull())
+                                         ? null
+                                         : aNoteRow.memberID,
+                                     (aNoteRow.IstimeStampNull())
+                                         ? DateTime.Now
+                                         : aNoteRow.timeStamp));
 
             // make sure that there are at least two (we can't save them if they're empty)
             System.Diagnostics.Debug.Assert(Count != 0, "It looks like you have an empty Consultant Note field that shouldn't be there. For now, you can just 'Ignore' this error (but perhaps let bob_eaton@sall.com know)");
         }
 
-        public ConsultantNoteData(int nRound, StoryStageLogic theStoryStage, 
-            TeamMemberData LoggedOnMember,
-            TeamMemberData.UserTypes eMentorType, TeamMemberData.UserTypes eMenteeType,
-            string strValue)
-            : base(nRound)
+        public ConsultantNoteData(StoryData theStory,
+            TeamMemberData loggedOnMember, TeamMembersData theTeamMembers, string strValue)
         {
-            InsureExtraBox(theStoryStage, LoggedOnMember, eMentorType, eMenteeType, strValue);
+            InsureExtraBox(theStory, loggedOnMember, theTeamMembers, strValue);
         }
 
         public ConsultantNoteData(ConsultNoteDataConverter rhs)
@@ -570,14 +944,23 @@ namespace OneStoryProjectEditor
             get { return CommunicationDirections.eProjFacToConsultant; }
         }
 
-        public override string MentorLabel
+        public override string MentorLabel(TeamMemberData theCommentor,
+            string theStoryPfMemberId)
         {
-            get { return "cons:"; }
+            return TeamMemberData.IsUser(theCommentor.MemberType,
+                                         TeamMemberData.UserTypes.ConsultantInTraining)
+                       ? "cit:"
+                       : IsMemberAnLsrThatIsntAlsoTheStoryPf(theCommentor, theStoryPfMemberId)
+                             ? "lsr:" // language specialty reviewer
+                             : "con:";
         }
 
-        public override string MenteeLabel
+        public override string MenteeLabel(TeamMemberData theCommentor,
+            string theStoryPfMemberId)
         {
-            get { return "prfc:"; }
+            return IsMemberAnLsrThatIsntAlsoTheStoryPf(theCommentor, theStoryPfMemberId)
+                       ? "lsr:" // language specialty reviewer
+                       : "prf:";
         }
 
         protected override string InstanceElementName
@@ -590,19 +973,7 @@ namespace OneStoryProjectEditor
             get { return "ConsultantNote"; }
         }
 
-        protected override bool IsMentorLoggedOn(TeamMemberData loggedOnMember)
-        {
-            return (TeamMemberData.IsUser(loggedOnMember.MemberType,
-                                          TeamMemberData.UserTypes.ConsultantInTraining |
-                                          TeamMemberData.UserTypes.IndependentConsultant |
-                                          TeamMemberData.UserTypes.FirstPassMentor));
-        }
-
-        protected override bool IsMenteeLoggedOn(TeamMemberData loggedOnMember)
-        {
-            return (TeamMemberData.IsUser(loggedOnMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator));
-        }
-
+        /*
         protected override bool IsWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
         {
             // if it's the *mentor* that we're supposed to be checking for... (this will get called for the mentee check
@@ -624,9 +995,12 @@ namespace OneStoryProjectEditor
             // otherwise, let the base class handle it
             return base.IsWrongEditor(eLoggedOnMember, eRequiredEditor);
         }
-
-        protected override bool CanDoConversationButtons(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
+        
+        protected override bool CanDoConversationButtons(TeamMemberData loggedOnMember, CommInstance theCommInstance)
         {
+            TeamMemberData.UserTypes eRequiredEditor = theCommInstance.InitiatorType;
+            TeamMemberData.UserTypes eLoggedOnMember = loggedOnMember.MemberType;
+
             // if it's the *mentor* that we're supposed to be checking for... (this will get called for the mentee check
             //  as well, but the special case is only for FirstPassMentor; not ProjFac)
             if (eRequiredEditor == MentorRequiredEditor)
@@ -647,7 +1021,7 @@ namespace OneStoryProjectEditor
             //  *our* version of IsWro...)
             return !base.IsWrongEditor(eLoggedOnMember, eRequiredEditor) || AllowButtonsOverride;
         }
-        /*
+
         // override to allow for FirstPassMentor working as well in addition to CIT
         //  (or an independent consultant)
         public override void ThrowIfWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
@@ -669,7 +1043,12 @@ namespace OneStoryProjectEditor
         */
         public override TeamMemberData.UserTypes MentorRequiredEditor
         {
-            get { return TeamMemberData.UserTypes.ConsultantInTraining; }
+            get
+            {
+                return TeamMemberData.UserTypes.ConsultantInTraining |
+                       TeamMemberData.UserTypes.FirstPassMentor |
+                       TeamMemberData.UserTypes.IndependentConsultant;
+            }
         }
 
         public override TeamMemberData.UserTypes MenteeRequiredEditor
@@ -681,31 +1060,49 @@ namespace OneStoryProjectEditor
         {
             get { return VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields; }
         }
+
+        protected override CommInstance CreateMentorNote(TeamMemberData loggedOnMember, string strValue)
+        {
+            return TeamMemberData.IsUser(loggedOnMember.MemberType,
+                                         TeamMemberData.UserTypes.ConsultantInTraining |
+                                         TeamMemberData.UserTypes.FirstPassMentor)
+                       ? new CommInstance(strValue, CommunicationDirections.eConsultantToProjFacNeedsApproval, null,
+                                          loggedOnMember.MemberGuid, DateTime.Now)
+                       : base.CreateMentorNote(loggedOnMember, strValue);
+        }
+
+        protected override bool LoggedOnMentorHasResponsePrivilege(TeamMemberData loggedOnMember,
+            TeamMembersData theTeamMembers, StoryData theStory)
+        {
+            return base.LoggedOnMentorHasResponsePrivilege(loggedOnMember, theTeamMembers, theStory) ||
+                   IsMemberAnLsrThatIsntAlsoTheStoryPf(loggedOnMember, theStory.CraftingInfo.ProjectFacilitatorMemberID);
+        }
     }
 
     public class CoachNoteData : ConsultNoteDataConverter
     {
         public CoachNoteData(NewDataSet.CoachConversationRow aCoaCRow)
-            : base (aCoaCRow.round, aCoaCRow.guid, 
+            : base (aCoaCRow.guid, 
             (aCoaCRow.IsvisibleNull()) ? true : aCoaCRow.visible,
             (aCoaCRow.IsfinishedNull()) ? false : aCoaCRow.finished)
         {
             NewDataSet.CoachNoteRow[] theNoteRows = aCoaCRow.GetCoachNoteRows();
             foreach (NewDataSet.CoachNoteRow aNoteRow in theNoteRows)
-                Add(new CommInstance(aNoteRow.CoachNote_text, 
-                    GetDirectionFromString(aNoteRow.Direction), 
-                    aNoteRow.guid,
-                    (aNoteRow.IstimeStampNull()) ? DateTime.Now :
-                    aNoteRow.timeStamp));
+                Add(new CommInstance(aNoteRow.CoachNote_text,
+                                     GetDirectionFromString(aNoteRow.Direction),
+                                     aNoteRow.guid,
+                                     (aNoteRow.IsmemberIDNull())
+                                         ? null
+                                         : aNoteRow.memberID,
+                                     (aNoteRow.IstimeStampNull())
+                                         ? DateTime.Now
+                                         : aNoteRow.timeStamp));
         }
 
-        public CoachNoteData(int nRound, StoryStageLogic theStoryStage, 
-            TeamMemberData LoggedOnMember,
-            TeamMemberData.UserTypes eMentorType, TeamMemberData.UserTypes eMenteeType,
-            string strValue)
-            : base (nRound)
+        public CoachNoteData(StoryData theStory,
+            TeamMemberData loggedOnMember, TeamMembersData theTeamMembers, string strValue)
         {
-            InsureExtraBox(theStoryStage, LoggedOnMember, eMentorType, eMenteeType, strValue);
+            InsureExtraBox(theStory, loggedOnMember, theTeamMembers, strValue);
         }
 
         public CoachNoteData(ConsultNoteDataConverter rhs)
@@ -723,17 +1120,20 @@ namespace OneStoryProjectEditor
             get { return CommunicationDirections.eCoachToCoach; }
         }
 
-        protected override bool IsMentorLoggedOn(TeamMemberData loggedOnMember)
+        protected override bool LoggedOnMentoreeHasResponsePrivilege(TeamMemberData loggedOnMember, StoryData theStory)
         {
-            return (TeamMemberData.IsUser(loggedOnMember.MemberType,
-                                          TeamMemberData.UserTypes.Coach));
+            return base.LoggedOnMentoreeHasResponsePrivilege(loggedOnMember, theStory) |
+                   IsMemberAnLsrThatIsntAlsoTheStoryPf(loggedOnMember,
+                                 theStory.CraftingInfo.ProjectFacilitatorMemberID);
         }
 
-        protected override bool IsMenteeLoggedOn(TeamMemberData loggedOnMember)
+        protected override bool LoggedOnMentorHasResponsePrivilege(TeamMemberData loggedOnMember, 
+            TeamMembersData theTeamMembers, StoryData theStory)
         {
-            return (TeamMemberData.IsUser(loggedOnMember.MemberType,
-                                          TeamMemberData.UserTypes.ConsultantInTraining |
-                                          TeamMemberData.UserTypes.IndependentConsultant));
+            // if there's a coach, but he won't otherwise get a turn (since the project
+            //  is not otherwise configured to be a manage with coaching situation)
+            return base.LoggedOnMentorHasResponsePrivilege(loggedOnMember, theTeamMembers, theStory) ||
+                   CoachWithoutaTurn(loggedOnMember, theTeamMembers);
         }
 
         public override CommunicationDirections MenteeDirection
@@ -741,14 +1141,21 @@ namespace OneStoryProjectEditor
             get { return CommunicationDirections.eConsultantToCoach; }
         }
 
-        public override string MentorLabel
+        public override string MentorLabel(TeamMemberData theCommentor,
+            string theStoryPfMemberId)
         {
-            get { return "coch:"; }
+            return "cch:";
         }
 
-        public override string MenteeLabel
+        public override string MenteeLabel(TeamMemberData theCommentor,
+            string theStoryPfMemberId)
         {
-            get { return "cons:"; }
+            return TeamMemberData.IsUser(theCommentor.MemberType,
+                                         TeamMemberData.UserTypes.ConsultantInTraining)
+                       ? "cit:"
+                       : IsMemberAnLsrThatIsntAlsoTheStoryPf(theCommentor, theStoryPfMemberId)
+                             ? "lsr:" // language specialty reviewer
+                             : "con:";
         }
 
         protected override string InstanceElementName
@@ -768,7 +1175,11 @@ namespace OneStoryProjectEditor
 
         public override TeamMemberData.UserTypes MenteeRequiredEditor
         {
-            get { return TeamMemberData.UserTypes.ConsultantInTraining; }
+            get
+            {
+                return TeamMemberData.UserTypes.ConsultantInTraining |
+                       TeamMemberData.UserTypes.FirstPassMentor;
+            }
         }
 
         protected override VerseData.ViewSettings.ItemToInsureOn AssociatedPane
@@ -790,15 +1201,26 @@ namespace OneStoryProjectEditor
 
         public bool HasData
         {
-            get { return (this.Count > 0); }
+            get { return (Count > 0); }
         }
 
-        public void InsureExtraBox(ConsultNoteDataConverter aCNDC, 
-            StoryStageLogic theStoryStage, TeamMemberData LoggedOnMemberType)
+        public bool HasAllMentoreeMemberIdData
         {
-            aCNDC.InsureExtraBox(theStoryStage, LoggedOnMemberType, MentorType, MenteeType, null);
+            get { return this.All(aCndc => aCndc.HasAllMentoreeMemberIdData); }
         }
 
+        public bool HasAllMentorMemberIdData
+        {
+            get { return this.All(aCndc => aCndc.HasAllMentorMemberIdData); }
+        }
+
+        public void InsureExtraBox(ConsultNoteDataConverter aCNDC,
+            StoryData theStory, TeamMemberData LoggedOnMemberType, TeamMembersData theTeamMembers)
+        {
+            aCNDC.InsureExtraBox(theStory, LoggedOnMemberType, theTeamMembers, null);
+        }
+
+        /*
         public delegate void UpdateStatusBar(string strStatus);
         // if the coach tries to add a note in the consultant's pane, that should fail.
         // (but it's okay for a project facilitator to add one if they have a question
@@ -815,21 +1237,22 @@ namespace OneStoryProjectEditor
             }
             return true;
         }
+        */
 
-        public bool HasAddNotePrivilege(TeamMemberData.UserTypes eLoggedOnMember)
+        public virtual bool HasAddNotePrivilege(TeamMemberData loggedOnMember, 
+            string strThePfMemberId)
         {
-            return (TeamMemberData.IsUser(eLoggedOnMember, MentorType)) ||
-                   (TeamMemberData.IsUser(eLoggedOnMember, MenteeType));
+            return (TeamMemberData.IsUser(loggedOnMember.MemberType, MentorType)) ||
+                   (TeamMemberData.IsUser(loggedOnMember.MemberType, MenteeType));
         }
 
         public bool HasAddNoteToSelfPrivilege(TeamMemberData.UserTypes eLoggedOnMember)
         {
-            return ((eLoggedOnMember & MentorType) == eLoggedOnMember);
+            return TeamMemberData.IsUser(MentorType, eLoggedOnMember);
         }
 
-        public abstract ConsultNoteDataConverter Add(int nRound,
-            StoryStageLogic theStoryStage, TeamMemberData LoggedOnMember, 
-            string strValue);
+        public abstract ConsultNoteDataConverter Add(StoryData theStory,
+            TeamMemberData LoggedOnMember, TeamMembersData theTeamMembers, string strValue);
         protected abstract TeamMemberData.UserTypes MentorType { get; }
         protected abstract TeamMemberData.UserTypes MenteeType { get; }
 
@@ -846,9 +1269,9 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public string Html(object htmlConNoteCtrl, 
-            StoryStageLogic theStoryStage, TeamMemberData LoggedOnMember, 
-            bool bViewHidden, bool bVerseVisible, bool bShowOnlyOpenConversations, int nVerseIndex)
+        public string Html(object htmlConNoteCtrl, TeamMemberData LoggedOnMember, 
+            TeamMembersData teamMembers, StoryData theStory, bool bViewHidden, 
+            bool bVerseVisible, bool bShowOnlyOpenConversations, int nVerseIndex)
         {
             string strHtml = null;
             for (int i = 0; i < Count; i++)
@@ -858,7 +1281,8 @@ namespace OneStoryProjectEditor
                     && (!bShowOnlyOpenConversations 
                         || !aCNDC.IsFinished 
                         || ShowOpenConversations))
-                    strHtml += aCNDC.Html(htmlConNoteCtrl, theStoryStage, LoggedOnMember, nVerseIndex, i);
+                    strHtml += aCNDC.Html(htmlConNoteCtrl, teamMembers, LoggedOnMember,
+                        theStory, nVerseIndex, i);
             }
 
             // color changes if hidden
@@ -888,6 +1312,12 @@ namespace OneStoryProjectEditor
         {
             foreach (ConsultNoteDataConverter aCNDC in this)
                 aCNDC.IndexSearch(findProperties, lstBoxesToSearch);
+        }
+
+        public void SetCommentMemberId(string strMentoree, string strMentor)
+        {
+            foreach (var aCn in this)
+                aCn.SetCommentMemberId(strMentoree, strMentor);
         }
     }
 
@@ -921,19 +1351,19 @@ namespace OneStoryProjectEditor
         {
         }
 
-        public override ConsultNoteDataConverter Add(int nRound,
-            StoryStageLogic theStoryStage, TeamMemberData LoggedOnMember, 
-            string strValue)
+        public override bool HasAddNotePrivilege(TeamMemberData loggedOnMember,
+            string strThePfMemberId)
         {
-            /*
-            TeamMemberData.UserTypes eMentorType = MentorType;
-            if (eLoggedOnMember == TeamMemberData.UserTypes.eFirstPassMentor)
-                eMentorType = TeamMemberData.UserTypes.eFirstPassMentor;
-            else if (eLoggedOnMember == TeamMemberData.UserTypes.eIndependentConsultant)
-                eMentorType = TeamMemberData.UserTypes.eIndependentConsultant;
-            */
-            ConsultNoteDataConverter theNewCN = new ConsultantNoteData(nRound,
-                theStoryStage, LoggedOnMember, MentorType, MenteeType, strValue);
+            // for this one, we also have to have the right PF
+            return (TeamMemberData.IsUser(loggedOnMember.MemberType, MentorType) ||
+                    (loggedOnMember.MemberGuid == strThePfMemberId));
+        }
+
+        public override ConsultNoteDataConverter Add(StoryData theStory,
+            TeamMemberData LoggedOnMember, TeamMembersData theTeamMembers, string strValue)
+        {
+            ConsultNoteDataConverter theNewCN = new ConsultantNoteData(theStory, 
+                LoggedOnMember, theTeamMembers, strValue);
             Add(theNewCN);
             return theNewCN;
         }
@@ -974,15 +1404,25 @@ namespace OneStoryProjectEditor
             get
             {
                 // the 'mentor' for this class can be any of the following
-                return (TeamMemberData.UserTypes.ConsultantInTraining
-                        | TeamMemberData.UserTypes.FirstPassMentor
-                        | TeamMemberData.UserTypes.IndependentConsultant);
+                return (TeamMemberData.UserTypes.IndependentConsultant
+                        | TeamMemberData.UserTypes.ConsultantInTraining
+                        | TeamMemberData.UserTypes.FirstPassMentor);
             }
         }
 
         protected override TeamMemberData.UserTypes MenteeType
         {
             get { return TeamMemberData.UserTypes.ProjectFacilitator; }
+        }
+
+        public bool AreUnapprovedComments
+        {
+            get
+            {
+                return this.Any(aCndc => aCndc.Visible &&
+                                         !aCndc.IsFinished &&
+                                         aCndc.NoteNeedsApproval);
+            }
         }
     }
 
@@ -1016,13 +1456,12 @@ namespace OneStoryProjectEditor
         {
         }
 
-        public override ConsultNoteDataConverter Add(int nRound,
-            StoryStageLogic theStoryStage, TeamMemberData LoggedOnMember, 
-            string strValue)
+        public override ConsultNoteDataConverter Add(StoryData theStory,
+            TeamMemberData LoggedOnMember, TeamMembersData theTeamMembers, string strValue)
         {
             // always add closest to the verse label
-            ConsultNoteDataConverter theNewCN = new CoachNoteData(nRound, 
-                theStoryStage, LoggedOnMember, MentorType, MenteeType, strValue);
+            ConsultNoteDataConverter theNewCN = new CoachNoteData(theStory, 
+                LoggedOnMember, theTeamMembers, strValue);
             Add(theNewCN);
             return theNewCN;
         }
@@ -1037,9 +1476,19 @@ namespace OneStoryProjectEditor
             get
             {
                 // the mentee type for this class can be any of the following
-                return (TeamMemberData.UserTypes.ConsultantInTraining
-                        | TeamMemberData.UserTypes.FirstPassMentor
-                        | TeamMemberData.UserTypes.IndependentConsultant);
+                return (TeamMemberData.UserTypes.ConsultantInTraining |
+                        TeamMemberData.UserTypes.FirstPassMentor);
+            }
+        }
+
+        public bool AreUnrespondedToCoachNoteComments
+        {
+            get
+            {
+                return this.Any(aCndc =>
+                                aCndc.Visible &&
+                                !aCndc.IsFinished &&
+                                aCndc.IsFromMentee(aCndc.FinalComment));
             }
         }
     }

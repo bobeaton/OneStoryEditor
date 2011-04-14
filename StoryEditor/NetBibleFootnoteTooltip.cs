@@ -38,15 +38,16 @@ namespace OneStoryProjectEditor
 
     public class MoveConNoteTooltip : MinimalHtmlForm
     {
-        public void SetDocumentText(ConsultNoteDataConverter aConNote, StoryEditor theSE,
-            Point ptLocation)
+        public void SetDocumentText(ConsultNoteDataConverter aConNote, 
+            StoryEditor theSE, Point ptLocation)
         {
             Location = ptLocation;
             if (!theSE.splitContainerLeftRight.Panel2Collapsed)
                 Width = theSE.splitContainerLeftRight.Panel2.Size.Width;
 
-            webBrowser.DocumentText = aConNote.Html(null, theSE.theCurrentStory.ProjStage,
-                theSE.LoggedOnMember, 0, 0);
+            webBrowser.DocumentText = aConNote.Html(null, 
+                theSE.StoryProject.TeamMembers, theSE.LoggedOnMember, 
+                theSE.theCurrentStory, 0, 0);
         }
     }
 

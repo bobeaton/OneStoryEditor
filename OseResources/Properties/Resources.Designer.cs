@@ -566,7 +566,7 @@ namespace OseResources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to WARNING: You are not the Project Facilitator that originally entered this story. If you make any changes, it is very likely that they will conflict with any changes done by the other Project Facilitator. Proceed with caution (e.g. say &quot;No&quot; if you are asked if you want to Save Changes while on this story).
+        ///   Looks up a localized string similar to You will not be able to make any changes to this story, because you are not the Project Facilitator assigned to it. If you are the new Project Facilitator for the story, then click &quot;Story&quot;, &quot;Story Information&quot; and right-click on the &quot;...&quot; button to the right of the line that says &quot;Project Facilitator&quot;to choose your name to be assigned to it.
         /// </summary>
         public static string IDS_NotTheRightProjFac {
             get {
@@ -629,11 +629,20 @@ namespace OseResources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Right now, only a &apos;{0}&apos; can change the state of this story. If you&apos;re a {0}, click &apos;Project&apos;, &apos;Login&apos; to login.
+        ///   Looks up a localized string similar to Right now, only a &apos;{0}&apos; can make changes in the Story pane. If you&apos;re a {0}, click &apos;Project&apos;, &apos;Login&apos; to login.
         /// </summary>
         public static string IDS_WhichUserEdits {
             get {
                 return ResourceManager.GetString("IDS_WhichUserEdits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Right now, only the Project Facilitator assigned to this story can make changes in the Story pane (see &apos;Story&apos;, &apos;Story Information&apos;).
+        /// </summary>
+        public static string IDS_WrongPf {
+            get {
+                return ResourceManager.GetString("IDS_WrongPf", resourceCulture);
             }
         }
     }

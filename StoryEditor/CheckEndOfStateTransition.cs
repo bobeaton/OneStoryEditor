@@ -1,6 +1,7 @@
 ﻿#define NotRelaxTqCountRequirement
 
 using System;
+using System.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
@@ -1067,7 +1068,7 @@ namespace OneStoryProjectEditor
             if (theCurrentStory.Verses.FirstVerse.IsVisible)
                 if (!CheckThatMenteeAnsweredMentorsQuestions(theSE,
                         theSE.htmlCoachNotesControl, theCurrentStory.Verses.FirstVerse.CoachNotes, 
-                        theCurrentStory.Name, VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields, 
+                        theCurrentStory, VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields, 
                         ref nVerseNumber))
                     return false;
 
@@ -1076,7 +1077,7 @@ namespace OneStoryProjectEditor
             {
                 if (aVerseData.IsVisible)
                     if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.htmlCoachNotesControl,
-                        aVerseData.CoachNotes, theCurrentStory.Name, 
+                        aVerseData.CoachNotes, theCurrentStory, 
                         VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields, ref nVerseNumber))
                         return false;
                 nVerseNumber++;
@@ -1090,7 +1091,7 @@ namespace OneStoryProjectEditor
             int nVerseNumber = 0;
             if (theCurrentStory.Verses.FirstVerse.IsVisible)
                 if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.htmlConsultantNotesControl,
-                    theCurrentStory.Verses.FirstVerse.ConsultantNotes, theCurrentStory.Name,
+                    theCurrentStory.Verses.FirstVerse.ConsultantNotes, theCurrentStory,
                     VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields, ref nVerseNumber))
                     return false;
 
@@ -1099,7 +1100,7 @@ namespace OneStoryProjectEditor
             {
                 if (aVerseData.IsVisible)
                     if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.htmlConsultantNotesControl,
-                        aVerseData.ConsultantNotes, theCurrentStory.Name,
+                        aVerseData.ConsultantNotes, theCurrentStory,
                     VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields, ref nVerseNumber))
                         return false;
 
@@ -1109,57 +1110,53 @@ namespace OneStoryProjectEditor
         }
 
         static bool CheckThatMentorAnsweredMenteesQuestions(StoryEditor theSE,
-            HtmlConNoteControl paneConNote, ConsultNotesDataConverter aCNsDC, 
+            HtmlConNoteControl paneConNote, IEnumerable<ConsultNoteDataConverter> aCNsDC, 
             ref int nVerseNumber)
         {
-            foreach (ConsultNoteDataConverter aConNote in aCNsDC)
+            foreach (var aConNote in from aConNote in aCNsDC
+                                     where aConNote.Visible && !aConNote.IsFinished
+                                     let theLastCi = aConNote[aConNote.Count - 1]
+                                     where (theLastCi.Direction == aConNote.MentorDirection) && !theLastCi.HasData
+                                     select aConNote)
             {
-                if (aConNote.Visible)
-                {
-                    int nIndexLast = aConNote.Count - 1;
-                    CommInstance theLastCI = aConNote[nIndexLast];
-                    if ((theLastCI.Direction == aConNote.MentorDirection)
-                        && !theLastCI.HasData)
-                    {
-                        ShowErrorFocus(theSE, paneConNote, nVerseNumber,
-                                       String.Format(
-                                           "Error: in line {0}, the {1} made a comment, which you didn't respond to. Did you forget it?",
-                                           nVerseNumber,
-                                           TeamMemberData.GetMemberTypeAsDisplayString(aConNote.MenteeRequiredEditor)));
-                        return false;
-                    }
-                }
+                ShowErrorFocus(theSE, paneConNote, nVerseNumber,
+                               String.Format(
+                                   "Error: in line {0}, the {1} made a comment, which you didn't respond to. Did you forget it?",
+                                   nVerseNumber,
+                                   TeamMemberData.GetMemberTypeAsDisplayString(aConNote.MenteeRequiredEditor)));
+                return false;
             }
             return true;
         }
 
         static bool CheckThatMenteeAnsweredMentorsQuestions(StoryEditor theSE, 
-            HtmlConNoteControl paneConNote, ConsultNotesDataConverter aCNsDC, 
-            string strCurrentStoryName, VerseData.ViewSettings.ItemToInsureOn ePane,
+            HtmlConNoteControl paneConNote, IEnumerable<ConsultNoteDataConverter> aCNsDC, 
+            StoryData theStory, VerseData.ViewSettings.ItemToInsureOn ePane,
             ref int nVerseNumber)
         {
-            foreach (ConsultNoteDataConverter aConNote in aCNsDC)
+            foreach (var aConNote in aCNsDC)
             {
-                if (aConNote.Visible)
+                if (!aConNote.Visible || aConNote.IsFinished) 
+                    continue;
+
+                int nIndexLast = aConNote.Count - 1;
+                var theLastCi = aConNote[nIndexLast];
+                if ((theLastCi.Direction == aConNote.MenteeDirection)
+                    && !theLastCi.HasData)
                 {
-                    int nIndexLast = aConNote.Count - 1;
-                    CommInstance theLastCI = aConNote[nIndexLast];
-                    if ((theLastCI.Direction == aConNote.MenteeDirection)
-                        && !theLastCI.HasData)
-                    {
-                        var viewSettings = new VerseData.ViewSettings(ePane);
-                        theSE.NavigateTo(strCurrentStoryName,
-                                         viewSettings,
-                                         false,
-                                         null);
-                        ShowErrorFocus(theSE, paneConNote, nVerseNumber,
-                                       String.Format(
-                                           Properties.Resources.IDS_DidntAnswerQuestion,
-                                           nVerseNumber,
-                                           TeamMemberData.GetMemberWithEditTokenAsDisplayString(
-                                               theSE.StoryProject.TeamMembers, aConNote.MentorRequiredEditor)));
-                        return false;
-                    }
+                    var viewSettings = new VerseData.ViewSettings(ePane);
+                    theSE.NavigateTo(theStory.Name,
+                                     viewSettings,
+                                     false,
+                                     null);
+
+                    TeamMemberData theCommentor = theLastCi.Commentor(theSE.StoryProject.TeamMembers);
+                    string strErrorMsg = String.Format(
+                        Properties.Resources.IDS_DidntAnswerQuestion,
+                        nVerseNumber,
+                        aConNote.MenteeLabel(theCommentor, theStory.CraftingInfo.ProjectFacilitatorMemberID));
+                    ShowErrorFocus(theSE, paneConNote, nVerseNumber, strErrorMsg);
+                    return false;
                 }
             }
             return true;
@@ -1915,6 +1912,12 @@ namespace OneStoryProjectEditor
         public static bool TeamComplete(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'TeamComplete' work is finished: Name: {0}", theCurrentStory.Name));
+            return true;
+        }
+
+        public static bool TeamFinalApproval(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            Console.WriteLine(String.Format("Checking if stage 'TeamFinalApproval' work is finished: Name: {0}", theCurrentStory.Name));
             return true;
         }
 
