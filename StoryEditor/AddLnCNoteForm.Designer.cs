@@ -58,9 +58,7 @@
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37F));
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 63F));
-            this.tableLayoutPanel.Controls.Add(this.buttonCancel, 2, 5);
             this.tableLayoutPanel.Controls.Add(this.labelVernacular, 0, 0);
-            this.tableLayoutPanel.Controls.Add(this.buttonOK, 1, 5);
             this.tableLayoutPanel.Controls.Add(this.textBoxVernacular, 1, 0);
             this.tableLayoutPanel.Controls.Add(this.labelNationalBT, 0, 1);
             this.tableLayoutPanel.Controls.Add(this.textBoxNationalBT, 1, 1);
@@ -73,21 +71,20 @@
             this.tableLayoutPanel.Controls.Add(this.textBoxKeyTerms, 2, 4);
             this.tableLayoutPanel.Location = new System.Drawing.Point(13, 12);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
-            this.tableLayoutPanel.RowCount = 6;
+            this.tableLayoutPanel.RowCount = 5;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(517, 340);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(517, 311);
             this.tableLayoutPanel.TabIndex = 0;
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(264, 314);
+            this.buttonCancel.Location = new System.Drawing.Point(274, 329);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 12;
@@ -106,8 +103,8 @@
             // 
             // buttonOK
             // 
-            this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOK.Location = new System.Drawing.Point(183, 314);
+            this.buttonOK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.buttonOK.Location = new System.Drawing.Point(193, 329);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 11;
@@ -184,7 +181,7 @@
             // 
             this.labelNotes.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelNotes.AutoSize = true;
-            this.labelNotes.Location = new System.Drawing.Point(70, 162);
+            this.labelNotes.Location = new System.Drawing.Point(70, 173);
             this.labelNotes.Name = "labelNotes";
             this.labelNotes.Size = new System.Drawing.Size(38, 13);
             this.labelNotes.TabIndex = 6;
@@ -200,7 +197,7 @@
             this.textBoxNotes.Multiline = true;
             this.textBoxNotes.Name = "textBoxNotes";
             this.helpProvider.SetShowHelp(this.textBoxNotes, true);
-            this.textBoxNotes.Size = new System.Drawing.Size(400, 176);
+            this.textBoxNotes.Size = new System.Drawing.Size(400, 197);
             this.textBoxNotes.TabIndex = 7;
             this.toolTip.SetToolTip(this.textBoxNotes, "Enter notes on this term");
             // 
@@ -209,7 +206,7 @@
             this.labelOptionalKeyTerms.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelOptionalKeyTerms.AutoSize = true;
             this.helpProvider.SetHelpString(this.labelOptionalKeyTerms, "Click this button to associate a biblical key term with this word");
-            this.labelOptionalKeyTerms.Location = new System.Drawing.Point(3, 268);
+            this.labelOptionalKeyTerms.Location = new System.Drawing.Point(3, 289);
             this.labelOptionalKeyTerms.Name = "labelOptionalKeyTerms";
             this.helpProvider.SetShowHelp(this.labelOptionalKeyTerms, true);
             this.labelOptionalKeyTerms.Size = new System.Drawing.Size(105, 13);
@@ -219,7 +216,7 @@
             // 
             // buttonKeyTermSelect
             // 
-            this.buttonKeyTermSelect.Location = new System.Drawing.Point(114, 263);
+            this.buttonKeyTermSelect.Location = new System.Drawing.Point(114, 284);
             this.buttonKeyTermSelect.Name = "buttonKeyTermSelect";
             this.buttonKeyTermSelect.Size = new System.Drawing.Size(144, 23);
             this.buttonKeyTermSelect.TabIndex = 9;
@@ -234,7 +231,7 @@
             // 
             this.textBoxKeyTerms.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxKeyTerms.Enabled = false;
-            this.textBoxKeyTerms.Location = new System.Drawing.Point(264, 263);
+            this.textBoxKeyTerms.Location = new System.Drawing.Point(264, 284);
             this.textBoxKeyTerms.Name = "textBoxKeyTerms";
             this.textBoxKeyTerms.ReadOnly = true;
             this.textBoxKeyTerms.Size = new System.Drawing.Size(250, 20);
@@ -248,7 +245,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(542, 364);
+            this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.tableLayoutPanel);
+            this.Controls.Add(this.buttonOK);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddLnCNoteForm";
             this.Text = "Add L&C Note";
