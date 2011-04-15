@@ -1512,19 +1512,19 @@ namespace OneStoryProjectEditor
 
                 strNote += strLabel;
                 // get selected text from all visible Story line controls
-                if (StoryProject.ProjSettings.ShowTestQuestionsVernacular && viewVernacularLangFieldMenuItem.Checked)
+                if (StoryProject.ProjSettings.ShowTestQuestions.Vernacular && viewVernacularLangFieldMenuItem.Checked)
                 {
                     string str = testQuestionData.TestQuestionLine.Vernacular.TextBox.SelectedText.Trim();
                     if (!String.IsNullOrEmpty(str))
                         strNote += String.Format(" /{0}/", str);
                 }
-                if (StoryProject.ProjSettings.ShowTestQuestionsNationalBT && viewNationalLangFieldMenuItem.Checked)
+                if (StoryProject.ProjSettings.ShowTestQuestions.NationalBt && viewNationalLangFieldMenuItem.Checked)
                 {
                     string str = testQuestionData.TestQuestionLine.NationalBt.TextBox.SelectedText.Trim();
                     if (!String.IsNullOrEmpty(str))
                         strNote += String.Format(" /{0}/", str);
                 }
-                if (StoryProject.ProjSettings.ShowTestQuestionsInternationalBT && viewEnglishBTFieldMenuItem.Checked)
+                if (StoryProject.ProjSettings.ShowTestQuestions.InternationalBt && viewEnglishBTFieldMenuItem.Checked)
                 {
                     string str = testQuestionData.TestQuestionLine.InternationalBt.TextBox.SelectedText.Trim();
                     if (!String.IsNullOrEmpty(str))
@@ -1545,19 +1545,19 @@ namespace OneStoryProjectEditor
 
                 strNote += strLabel;
                 // get selected text from all visible Story line controls
-                if (StoryProject.ProjSettings.ShowRetellingVernacular && viewVernacularLangFieldMenuItem.Checked)
+                if (StoryProject.ProjSettings.ShowRetellings.Vernacular && viewVernacularLangFieldMenuItem.Checked)
                 {
                     string str = retellingData.Vernacular.TextBox.SelectedText.Trim();
                     if (!String.IsNullOrEmpty(str))
                         strNote += String.Format(" /{0}/", str);
                 }
-                if (StoryProject.ProjSettings.ShowRetellingNationalBT && viewNationalLangFieldMenuItem.Checked)
+                if (StoryProject.ProjSettings.ShowRetellings.NationalBt && viewNationalLangFieldMenuItem.Checked)
                 {
                     string str = retellingData.NationalBt.TextBox.SelectedText.Trim();
                     if (!String.IsNullOrEmpty(str))
                         strNote += String.Format(" /{0}/", str);
                 }
-                if (StoryProject.ProjSettings.ShowRetellingInternationalBT && viewEnglishBTFieldMenuItem.Checked)
+                if (StoryProject.ProjSettings.ShowRetellings.InternationalBt && viewEnglishBTFieldMenuItem.Checked)
                 {
                     string str = retellingData.InternationalBt.TextBox.SelectedText.Trim();
                     if (!String.IsNullOrEmpty(str))
@@ -1572,19 +1572,19 @@ namespace OneStoryProjectEditor
 
                 strNote += strLabel;
                 // get selected text from all visible Story line controls
-                if (StoryProject.ProjSettings.ShowAnswersVernacular && viewVernacularLangFieldMenuItem.Checked)
+                if (StoryProject.ProjSettings.ShowAnswers.Vernacular && viewVernacularLangFieldMenuItem.Checked)
                 {
                     string str = answerData.Vernacular.TextBox.SelectedText.Trim();
                     if (!String.IsNullOrEmpty(str))
                         strNote += String.Format(" /{0}/", str);
                 }
-                if (StoryProject.ProjSettings.ShowAnswersNationalBT && viewNationalLangFieldMenuItem.Checked)
+                if (StoryProject.ProjSettings.ShowAnswers.NationalBt && viewNationalLangFieldMenuItem.Checked)
                 {
                     string str = answerData.NationalBt.TextBox.SelectedText.Trim();
                     if (!String.IsNullOrEmpty(str))
                         strNote += String.Format(" /{0}/", str);
                 }
-                if (StoryProject.ProjSettings.ShowAnswersInternationalBT && viewEnglishBTFieldMenuItem.Checked)
+                if (StoryProject.ProjSettings.ShowAnswers.InternationalBt && viewEnglishBTFieldMenuItem.Checked)
                 {
                     string str = answerData.InternationalBt.TextBox.SelectedText.Trim();
                     if (!String.IsNullOrEmpty(str))
@@ -3002,28 +3002,22 @@ namespace OneStoryProjectEditor
 
         private void OnRemoveRetellingTest(object sender, EventArgs e)
         {
-            ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
+            var tsmi = sender as ToolStripMenuItem;
             if (MessageBox.Show(Properties.Resources.IDS_ConfirmDeleteRetellings + tsmi.Text, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
             {
                 int nTestNum = (int)tsmi.Tag;
                 Debug.Assert((nTestNum >= 0) && (nTestNum < theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count));
                 string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsRetellings[nTestNum].TestorGuid;
-                foreach (VerseData aVerseData in theCurrentStory.Verses)
+                foreach (var aVerseData in theCurrentStory.Verses)
                 {
                     // even the verse itself may be newer and only have a single retelling (compared
                     //  with multiple retellings for verses that we're present from draft 1)
-                    LineMemberData theLineData = aVerseData.Retellings.TryGetValue(strUnsGuid);
+                    var theLineData = aVerseData.Retellings.TryGetValue(strUnsGuid);
                     if (theLineData != null)
                         aVerseData.Retellings.Remove(theLineData);
                 }
 
                 theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.RemoveAt(nTestNum);
-
-                // if the consultant was requiring the PF to do retellings, 
-                //  then show that (s)he's lacking one
-                if (TasksPf.IsTaskOn(theCurrentStory.TasksRequiredPf, TasksPf.TaskSettings.Retellings | TasksPf.TaskSettings.Retellings2))
-                    theCurrentStory.CountRetellingsTests++;
-
                 Modified = true;
                 InitAllPanes();
             }
@@ -3046,11 +3040,6 @@ namespace OneStoryProjectEditor
                 RemoveTestQuestion(theCurrentStory.Verses.FirstVerse, strUnsGuid);
 
                 theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.RemoveAt(nTestNum);
-
-                // if the consultant was requiring the PF to do retellings, 
-                //  then show that (s)he's lacking one
-                if (TasksPf.IsTaskOn(theCurrentStory.TasksRequiredPf, TasksPf.TaskSettings.Answers | TasksPf.TaskSettings.Answers2))
-                    theCurrentStory.CountTestingQuestionTests++;
 
                 Modified = true;
                 InitAllPanes();

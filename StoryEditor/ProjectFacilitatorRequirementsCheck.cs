@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
@@ -119,8 +120,7 @@ namespace OneStoryProjectEditor
                 if (DoRetelling)
                 {
                     // for this one, make sure that every line of the story has something in the vernacular field
-                    if (!CheckForCompletionRetelling(TheSe, theStoryProjectData, TheStory))
-                        throw StoryProjectData.BackOutWithNoUI;
+                    CheckForCompletionRetelling(TheSe, theStoryProjectData, TheStory);
                 }
 
                 if (DoTestQuestions)
@@ -133,8 +133,7 @@ namespace OneStoryProjectEditor
                 if (DoAnswers)
                 {
                     // for this one, make sure that every line of the story has something in the vernacular field
-                    if (!CheckForCompletionAnswers(theStoryProjectData, TheStory))
-                        throw StoryProjectData.BackOutWithNoUI;
+                    CheckForCompletionAnswers(TheSe, theStoryProjectData, TheStory);
                 }
 
                 // finally, they have to have responded to all of the CITs comments
@@ -143,6 +142,13 @@ namespace OneStoryProjectEditor
             }
             catch (StoryProjectData.BackOutWithNoUIException)
             {
+                return false;
+            }
+            catch (ExceptionWithViewToTurnOn ex)
+            {
+                ex.ViewToTurnOn.Checked = true; // turn on any needed views
+                TheSe.FocusOnVerse(ex.VerseToScrollTo, false, false);
+                Program.ShowException(ex);
                 return false;
             }
             finally
@@ -154,16 +160,31 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        private static bool CheckForCompletionAnswers(StoryProjectData theStoryProjectData, StoryData theStory)
+        private class ExceptionWithViewToTurnOn : ApplicationException
         {
+            public ToolStripMenuItem ViewToTurnOn { get; set; }
+            public int VerseToScrollTo { get; set; }
+
+            public ExceptionWithViewToTurnOn(string strError)
+                : base(strError)
+            {
+            }
+        }
+
+        private static void CheckForCompletionAnswers(StoryEditor TheSe, 
+            StoryProjectData theStoryProjectData, StoryData theStory)
+        {
+            // this can happen if the person has a story in this state, but then changes it to be a non-biblical story
+            if (!theStory.CraftingInfo.IsBiblicalStory)
+                return;
+
             // the first/easiest check is that the count of question tests should be 0
             if (theStory.CountTestingQuestionTests > 0)
             {
-                MessageBox.Show(String.Format(Properties.Resources.IDS_DoXMoreTqTests,
-                                              theStory.CountTestingQuestionTests,
-                                              "story question"),
-                                OseResources.Properties.Resources.IDS_Caption);
-                return false;
+                throw new ExceptionWithViewToTurnOn(String.Format(Properties.Resources.IDS_DoXMoreTqTests,
+                                                                  theStory.CountTestingQuestionTests,
+                                                                  "story question"))
+                          {ViewToTurnOn = TheSe.viewStoryTestingQuestionAnswerMenuItem};
             }
 
             for (int nVerseNumber = 1; nVerseNumber <= theStory.Verses.Count; nVerseNumber++)
@@ -172,51 +193,43 @@ namespace OneStoryProjectEditor
                 if (!aVerseData.IsVisible || !aVerseData.TestQuestions.HasData)
                     continue;
 
-                foreach (TestQuestionData aTQ in aVerseData.TestQuestions)
+                foreach (var theAnswerData in aVerseData.TestQuestions.SelectMany(aTq => 
+                    aTq.Answers))
                 {
-                    /* I'm not sure this is true... what if it were a new TQ?
-                    // if there are no answers, then we have a problem
-                    if (aTQ.Answers.Count == 0)
+                    ProjectSettings.LanguageInfo li;
+                    var projSettings = theStoryProjectData.ProjSettings;
+                    if (!HasProperData(projSettings.ShowAnswers.Vernacular, (li = projSettings.Vernacular), theAnswerData.Vernacular)
+                        || !HasProperData(projSettings.ShowAnswers.NationalBt, (li = projSettings.NationalBT), theAnswerData.NationalBt)
+                        || !HasProperData(projSettings.ShowAnswers.InternationalBt, (li = projSettings.InternationalBT), theAnswerData.InternationalBt))
                     {
-                        MessageBox.Show(Properties.Resources.IDS_CantHaveNoAnswers,
-                                        OseResources.Properties.Resources.IDS_Caption);
-                        return false;
-                    }
-                    */
-
-                    // at least make sure that all fields configured are filled
-                    foreach (var theAnswerData in aTQ.Answers)
-                    {
-                        ProjectSettings.LanguageInfo li;
-                        ProjectSettings projSettings = theStoryProjectData.ProjSettings;
-                        if (!HasProperData(projSettings.ShowAnswersVernacular, (li = projSettings.Vernacular), theAnswerData.Vernacular)
-                            || !HasProperData(projSettings.ShowAnswersNationalBT, (li = projSettings.NationalBT), theAnswerData.NationalBt)
-                            || !HasProperData(projSettings.ShowAnswersInternationalBT, (li = projSettings.InternationalBT), theAnswerData.InternationalBt))
-                        {
-                            MessageBox.Show(String.Format(Properties.Resources.IDS_DataMissing,
-                                                          Environment.NewLine,
-                                                          li.LangName,
-                                                          "Answer",
-                                                          nVerseNumber));
-                            return false;
-                        }
+                        throw new ExceptionWithViewToTurnOn(String.Format(Properties.Resources.IDS_DataMissing,
+                                                                          Environment.NewLine,
+                                                                          li.LangName,
+                                                                          "Answer",
+                                                                          nVerseNumber))
+                                  {
+                                      ViewToTurnOn = TheSe.viewStoryTestingQuestionAnswerMenuItem,
+                                      VerseToScrollTo = nVerseNumber
+                                  };
                     }
                 }
             }
-
-            return true;
         }
 
-        private static bool CheckForCompletionRetelling(StoryEditor theSe, StoryProjectData theStoryProjectData, StoryData theStory)
+        private static void CheckForCompletionRetelling(StoryEditor theSe, StoryProjectData theStoryProjectData, 
+            StoryData theStory)
         {
-            // the first/easiest check is that the count of question tests should be 0
+            // this can happen if the person has a story in this state, but then changes it to be a non-biblical story
+            if (!theStory.CraftingInfo.IsBiblicalStory)
+                return;
+
+            // the first/easiest check is that the count of retelling tests should be 0
             if (theStory.CountRetellingsTests > 0)
             {
-                MessageBox.Show(String.Format(Properties.Resources.IDS_DoXMoreTqTests,
-                                              theStory.CountRetellingsTests,
-                                              "retelling"),
-                                OseResources.Properties.Resources.IDS_Caption);
-                return false;
+                throw new ExceptionWithViewToTurnOn(String.Format(Properties.Resources.IDS_DoXMoreTqTests,
+                                                                  theStory.CountRetellingsTests,
+                                                                  "retelling"))
+                          {ViewToTurnOn = theSe.viewRetellingFieldMenuItem};
             }
 
             // make sure the TQs that are there are filled in for all requested languages
@@ -227,37 +240,27 @@ namespace OneStoryProjectEditor
                 if (!aVerse.IsVisible) 
                     continue;
 
-                /* as with Answers, I'm not sure this is true. There may not be 
-                 * retelling boxes for any new lines
-                // if there are no retellings, then we have a problem
-                if (aVerse.Retellings.Count == 0)
-                {
-                    MessageBox.Show(Properties.Resources.IDS_CantHaveNoRetellings,
-                                    OseResources.Properties.Resources.IDS_Caption);
-                    return false;
-                }
-                */
-
                 // but at least make sure that all fields configured are filled
                 foreach (var theRetellingData in aVerse.Retellings)
                 {
                     ProjectSettings.LanguageInfo li;
                     ProjectSettings projSettings = theStoryProjectData.ProjSettings;
-                    if (!HasProperData(projSettings.ShowRetellingVernacular, (li = projSettings.Vernacular), theRetellingData.Vernacular)
-                        || !HasProperData(projSettings.ShowRetellingNationalBT, (li = projSettings.NationalBT), theRetellingData.NationalBt)
-                        || !HasProperData(projSettings.ShowRetellingInternationalBT, (li = projSettings.InternationalBT), theRetellingData.InternationalBt))
+                    if (!HasProperData(projSettings.ShowRetellings.Vernacular, (li = projSettings.Vernacular), theRetellingData.Vernacular)
+                        || !HasProperData(projSettings.ShowRetellings.NationalBt, (li = projSettings.NationalBT), theRetellingData.NationalBt)
+                        || !HasProperData(projSettings.ShowRetellings.InternationalBt, (li = projSettings.InternationalBT), theRetellingData.InternationalBt))
                     {
-                        MessageBox.Show(String.Format(Properties.Resources.IDS_DataMissing,
-                                                      Environment.NewLine,
-                                                      li.LangName,
-                                                      "Retelling",
-                                                      nVerseNumber));
-                        return false;
+                        throw new ExceptionWithViewToTurnOn(String.Format(Properties.Resources.IDS_DataMissing,
+                                                                          Environment.NewLine,
+                                                                          li.LangName,
+                                                                          "Retelling",
+                                                                          nVerseNumber))
+                                  {
+                                      ViewToTurnOn = theSe.viewRetellingFieldMenuItem,
+                                      VerseToScrollTo = nVerseNumber
+                                  };
                     }
                 }
             }
-
-            return true;
         }
 
         private static bool HasProperData(bool isShowing, 
@@ -292,21 +295,24 @@ namespace OneStoryProjectEditor
                     ProjectSettings.LanguageInfo li;
                     LineData theTqData = t.TestQuestionLine;
                     ProjectSettings projSettings = theStoryProjectData.ProjSettings;
-                    if (!HasProperData(projSettings.ShowTestQuestionsVernacular, (li = projSettings.Vernacular),
+                    if (!HasProperData(projSettings.ShowTestQuestions.Vernacular, (li = projSettings.Vernacular),
                                        theTqData.Vernacular)
                         ||
-                        !HasProperData(projSettings.ShowTestQuestionsNationalBT, (li = projSettings.NationalBT),
+                        !HasProperData(projSettings.ShowTestQuestions.NationalBt, (li = projSettings.NationalBT),
                                        theTqData.NationalBt)
                         ||
-                        !HasProperData(projSettings.ShowTestQuestionsInternationalBT, (li = projSettings.InternationalBT),
+                        !HasProperData(projSettings.ShowTestQuestions.InternationalBt, (li = projSettings.InternationalBT),
                                        theTqData.InternationalBt))
                     {
-                        MessageBox.Show(String.Format(Properties.Resources.IDS_DataMissing,
-                                                      Environment.NewLine,
-                                                      li.LangName,
-                                                      "Test Question",
-                                                      nVerseNumber));
-                        return false;
+                        throw new ExceptionWithViewToTurnOn(String.Format(Properties.Resources.IDS_DataMissing,
+                                                                          Environment.NewLine,
+                                                                          li.LangName,
+                                                                          "Test Question",
+                                                                          nVerseNumber))
+                                  {
+                                      ViewToTurnOn = theSe.viewStoryTestingQuestionMenuItem,
+                                      VerseToScrollTo = nVerseNumber
+                                  };
                     }
                 }
             }

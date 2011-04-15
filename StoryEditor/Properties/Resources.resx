@@ -2159,4 +2159,7 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_WarnAboutSimilarLnCNote" xml:space="preserve">
     <value>You already have this L&amp;C note for the word '{0}'! See 'View', 'L&amp;C Notes'</value>
   </data>
+  <data name="IDS_MustAllowRequirement" xml:space="preserve">
+    <value>If you require the project facilitator to '{0}', then you'll also need to allow the '{1}' task?</value>
+  </data>
 </root>

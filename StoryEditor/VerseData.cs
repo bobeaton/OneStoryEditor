@@ -554,31 +554,31 @@ namespace OneStoryProjectEditor
                 if (bStoryTestingQuestions)
                 {
                     // break this down based on projSettings
-                    if (projSettings.ShowTestQuestionsVernacular)
+                    if (projSettings.ShowTestQuestions.Vernacular)
                         _itemToInsureOn |= ItemToInsureOn.TestQuestionsVernacular;
-                    if (projSettings.ShowTestQuestionsNationalBT)
+                    if (projSettings.ShowTestQuestions.NationalBt)
                         _itemToInsureOn |= ItemToInsureOn.TestQuestionsNationalBT;
-                    if (projSettings.ShowTestQuestionsInternationalBT)
+                    if (projSettings.ShowTestQuestions.InternationalBt)
                         _itemToInsureOn |= ItemToInsureOn.TestQuestionsInternationalBT;
                 }
                 if (bStoryTestingQuestionAnswers)
                 {
                     // break this down based on projSettings
-                    if (projSettings.ShowAnswersVernacular)
+                    if (projSettings.ShowAnswers.Vernacular)
                         _itemToInsureOn |= ItemToInsureOn.AnswersVernacular;
-                    if (projSettings.ShowAnswersNationalBT)
+                    if (projSettings.ShowAnswers.NationalBt)
                         _itemToInsureOn |= ItemToInsureOn.AnswersNationalBT;
-                    if (projSettings.ShowAnswersInternationalBT)
+                    if (projSettings.ShowAnswers.InternationalBt)
                         _itemToInsureOn |= ItemToInsureOn.AnswersInternationalBT;
                 }
                 if (bRetellings)
                 {
                     // break this down based on projSettings
-                    if (projSettings.ShowRetellingVernacular)
+                    if (projSettings.ShowRetellings.Vernacular)
                         _itemToInsureOn |= ItemToInsureOn.RetellingsVernacular;
-                    if (projSettings.ShowRetellingNationalBT)
+                    if (projSettings.ShowRetellings.NationalBt)
                         _itemToInsureOn |= ItemToInsureOn.RetellingsNationalBT;
-                    if (projSettings.ShowRetellingInternationalBT)
+                    if (projSettings.ShowRetellings.InternationalBt)
                         _itemToInsureOn |= ItemToInsureOn.RetellingsInternationalBT;
                 }
                 if (bConsultantNotes)

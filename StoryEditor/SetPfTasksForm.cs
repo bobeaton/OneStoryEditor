@@ -21,9 +21,11 @@ namespace OneStoryProjectEditor
         private const string CstrAnswers1 = "Do 1 more story question test";
         private const string CstrAnswers2 = "Do 2 more story question tests";
 
-        public SetPfTasksForm()
+        private readonly ProjectSettings _projSettings;
+
+        public SetPfTasksForm(ProjectSettings projSettings)
         {
-            
+            _projSettings = projSettings;
         }
 
         public SetPfTasksForm(ProjectSettings projSettings,
@@ -86,6 +88,8 @@ namespace OneStoryProjectEditor
                     TasksPf.TaskSettings.Answers2,
                     tasksAllowed, tasksRequired);
             }
+
+            _projSettings = projSettings;
         }
 
         public TasksPf.TaskSettings TasksAllowed
@@ -143,26 +147,105 @@ namespace OneStoryProjectEditor
             return taskAllowed;
         }
 
-        private void SetPfTasksForm_FormClosing(object sender, FormClosingEventArgs e)
+        protected override bool CheckForRequirements()
         {
-            // make sure they haven't requested both one and two tests
-            TasksPf.TaskSettings taskRequired = TasksRequired;
-            if (TasksPf.IsTaskOn(taskRequired, TasksPf.TaskSettings.Retellings)
-                && (TasksPf.IsTaskOn(taskRequired, TasksPf.TaskSettings.Retellings2)))
+            if (!base.CheckForRequirements())
+                return false;
+
+            TasksPf.TaskSettings tasksRequired = TasksRequired;
+            TasksPf.TaskSettings tasksAllowed = TasksAllowed;
+            string strFieldToAllow = null, strFieldRequired;
+            if (TasksPf.IsTaskOn(tasksRequired, TasksPf.TaskSettings.Retellings)
+                && (TasksPf.IsTaskOn(tasksRequired, TasksPf.TaskSettings.Retellings2)))
             {
                 MessageBox.Show(String.Format(Properties.Resources.IDS_CantHaveBoth1And2,
                                               "retelling"),
                                 OseResources.Properties.Resources.IDS_Caption);
-                e.Cancel = true;
+                return false;
             }
-            else if (TasksPf.IsTaskOn(taskRequired, TasksPf.TaskSettings.Answers)
-                && (TasksPf.IsTaskOn(taskRequired, TasksPf.TaskSettings.Answers2)))
+            
+            if (TasksPf.IsTaskOn(tasksRequired, TasksPf.TaskSettings.Answers)
+                     && (TasksPf.IsTaskOn(tasksRequired, TasksPf.TaskSettings.Answers2)))
             {
                 MessageBox.Show(String.Format(Properties.Resources.IDS_CantHaveBoth1And2,
                                               "story question"),
                                 OseResources.Properties.Resources.IDS_Caption);
-                e.Cancel = true;
+                return false;
             }
+
+            // another scenario is that if any retelling (or answers) are required, then
+            //  make sure the PF has the permission to do what's required
+            if ((CheckForRequirements(tasksRequired, tasksAllowed,
+                                      TasksPf.TaskSettings.Retellings,
+                                      _projSettings.ShowRetellings,
+                                      ref strFieldToAllow) &&
+                 !String.IsNullOrEmpty(strFieldRequired = CstrRetellingTest1)) ||
+                (CheckForRequirements(tasksRequired, tasksAllowed,
+                                      TasksPf.TaskSettings.Retellings2,
+                                      _projSettings.ShowRetellings,
+                                      ref strFieldToAllow) &&
+                 !String.IsNullOrEmpty(strFieldRequired = CstrRetellingTest2)) ||
+                (CheckForRequirements(tasksRequired, tasksAllowed,
+                                      TasksPf.TaskSettings.TestQuestions,
+                                      _projSettings.ShowTestQuestions,
+                                      ref strFieldToAllow) &&
+                 !String.IsNullOrEmpty(strFieldRequired = CstrTestQuestion)) ||
+                (CheckForRequirements(tasksRequired, tasksAllowed,
+                                      TasksPf.TaskSettings.Answers,
+                                      _projSettings.ShowAnswers,
+                                      ref strFieldToAllow) &&
+                 !String.IsNullOrEmpty(strFieldRequired = CstrAnswers1)) ||
+                (CheckForRequirements(tasksRequired, tasksAllowed,
+                                      TasksPf.TaskSettings.Answers2,
+                                      _projSettings.ShowAnswers,
+                                      ref strFieldToAllow) &&
+                 !String.IsNullOrEmpty(strFieldRequired = CstrAnswers2)))
+            {
+                MessageBox.Show(String.Format(Properties.Resources.IDS_MustAllowRequirement,
+                                              strFieldRequired, strFieldToAllow),
+                                OseResources.Properties.Resources.IDS_Caption);
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool CheckForRequirements(TasksPf.TaskSettings tasksRequired,
+            TasksPf.TaskSettings tasksAllowed, TasksPf.TaskSettings toCheck,
+            ShowLanguageFields showLanguageFields, ref string strFieldToAllow)
+        {
+            if (TasksPf.IsTaskOn(tasksRequired, toCheck))
+            {
+                return ((CheckForRequirement(_projSettings.Vernacular.HasData,
+                                             showLanguageFields.Vernacular, tasksAllowed,
+                                             TasksPf.TaskSettings.VernacularLangFields) &&
+                         !String.IsNullOrEmpty(strFieldToAllow = CstrVernacularLangFields)) ||
+                        (CheckForRequirement(_projSettings.NationalBT.HasData,
+                                             showLanguageFields.NationalBt, tasksAllowed,
+                                             TasksPf.TaskSettings.NationalBtLangFields) &&
+                         !String.IsNullOrEmpty(strFieldToAllow = CstrNationalBtLangFields)) ||
+                        (CheckForRequirement(_projSettings.InternationalBT.HasData,
+                                             showLanguageFields.InternationalBt, tasksAllowed,
+                                             TasksPf.TaskSettings.InternationalBtFields) &&
+                         !String.IsNullOrEmpty(strFieldToAllow = CstrInternationalBtFields)));
+            }
+            return false;
+        }
+
+        private static bool CheckForRequirement(bool bHasData, bool bShowLanguageField, 
+            TasksPf.TaskSettings tasksAllowed, TasksPf.TaskSettings taskToCheck)
+        {
+            return bHasData && bShowLanguageField && 
+                   !TasksPf.IsTaskOn(tasksAllowed, taskToCheck);
+        }
+
+        private void buttonOK_Click(object sender, EventArgs e)
+        {
+            if (!CheckForRequirements())
+                return;
+
+            DialogResult = DialogResult.OK;
+            Close();
         }
     }
 }

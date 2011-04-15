@@ -48,9 +48,9 @@ namespace OneStoryProjectEditor
             else
             {
                 _bStartedWithVernacular = checkBoxLanguageVernacular.Checked = true;
-                checkBoxRetellingsVernacular.Checked = _storyProjectData.ProjSettings.ShowRetellingVernacular;
-                checkBoxTestQuestionsVernacular.Checked = _storyProjectData.ProjSettings.ShowTestQuestionsVernacular;
-                checkBoxAnswersVernacular.Checked = _storyProjectData.ProjSettings.ShowAnswersVernacular;
+                checkBoxRetellingsVernacular.Checked = _storyProjectData.ProjSettings.ShowRetellings.Vernacular;
+                checkBoxTestQuestionsVernacular.Checked = _storyProjectData.ProjSettings.ShowTestQuestions.Vernacular;
+                checkBoxAnswersVernacular.Checked = _storyProjectData.ProjSettings.ShowAnswers.Vernacular;
             }
 
             if ((_storyProjectData.ProjSettings == null)
@@ -59,9 +59,9 @@ namespace OneStoryProjectEditor
             else
             {
                 _bStartedWithNationalBt = checkBoxLanguageNationalBT.Checked = true;
-                checkBoxRetellingsNationalBT.Checked = _storyProjectData.ProjSettings.ShowRetellingNationalBT;
-                checkBoxTestQuestionsNationalBT.Checked = _storyProjectData.ProjSettings.ShowTestQuestionsNationalBT;
-                checkBoxAnswersNationalBT.Checked = _storyProjectData.ProjSettings.ShowAnswersNationalBT;
+                checkBoxRetellingsNationalBT.Checked = _storyProjectData.ProjSettings.ShowRetellings.NationalBt;
+                checkBoxTestQuestionsNationalBT.Checked = _storyProjectData.ProjSettings.ShowTestQuestions.NationalBt;
+                checkBoxAnswersNationalBT.Checked = _storyProjectData.ProjSettings.ShowAnswers.NationalBt;
             }
 
             if ((_storyProjectData.ProjSettings != null)
@@ -75,10 +75,10 @@ namespace OneStoryProjectEditor
                 _bStartedWithInternationalBt
                 // checkBoxLanguageInternationalBT.Checked
                     = true;
-                checkBoxRetellingsInternationalBT.Checked = _storyProjectData.ProjSettings.ShowRetellingInternationalBT;
+                checkBoxRetellingsInternationalBT.Checked = _storyProjectData.ProjSettings.ShowRetellings.InternationalBt;
                 checkBoxTestQuestionsInternationalBT.Checked =
-                    _storyProjectData.ProjSettings.ShowTestQuestionsInternationalBT;
-                checkBoxAnswersInternationalBT.Checked = _storyProjectData.ProjSettings.ShowAnswersInternationalBT;
+                    _storyProjectData.ProjSettings.ShowTestQuestions.InternationalBt;
+                checkBoxAnswersInternationalBT.Checked = _storyProjectData.ProjSettings.ShowAnswers.InternationalBt;
             }
 
             if ((_storyProjectData.ProjSettings == null)
@@ -586,15 +586,15 @@ namespace OneStoryProjectEditor
             _storyProjectData.TeamMembers.HasOutsideEnglishBTer = checkBoxOutsideEnglishBackTranslator.Checked;
             _storyProjectData.TeamMembers.HasFirstPassMentor = checkBoxFirstPassMentor.Checked;
             _storyProjectData.TeamMembers.HasIndependentConsultant = radioButtonIndependentConsultant.Checked;
-            ProjSettings.ShowRetellingVernacular = checkBoxRetellingsVernacular.Checked;
-            ProjSettings.ShowRetellingNationalBT = checkBoxRetellingsNationalBT.Checked;
-            ProjSettings.ShowRetellingInternationalBT = checkBoxRetellingsInternationalBT.Checked;
-            ProjSettings.ShowTestQuestionsVernacular = checkBoxTestQuestionsVernacular.Checked;
-            ProjSettings.ShowTestQuestionsNationalBT = checkBoxTestQuestionsNationalBT.Checked;
-            ProjSettings.ShowTestQuestionsInternationalBT = checkBoxTestQuestionsInternationalBT.Checked;
-            ProjSettings.ShowAnswersVernacular = checkBoxAnswersVernacular.Checked;
-            ProjSettings.ShowAnswersNationalBT = checkBoxAnswersNationalBT.Checked;
-            ProjSettings.ShowAnswersInternationalBT = checkBoxAnswersInternationalBT.Checked;
+            ProjSettings.ShowRetellings.Vernacular = checkBoxRetellingsVernacular.Checked;
+            ProjSettings.ShowRetellings.NationalBt = checkBoxRetellingsNationalBT.Checked;
+            ProjSettings.ShowRetellings.InternationalBt = checkBoxRetellingsInternationalBT.Checked;
+            ProjSettings.ShowTestQuestions.Vernacular = checkBoxTestQuestionsVernacular.Checked;
+            ProjSettings.ShowTestQuestions.NationalBt = checkBoxTestQuestionsNationalBT.Checked;
+            ProjSettings.ShowTestQuestions.InternationalBt = checkBoxTestQuestionsInternationalBT.Checked;
+            ProjSettings.ShowAnswers.Vernacular = checkBoxAnswersVernacular.Checked;
+            ProjSettings.ShowAnswers.NationalBt = checkBoxAnswersNationalBT.Checked;
+            ProjSettings.ShowAnswers.InternationalBt = checkBoxAnswersInternationalBT.Checked;
 
             ProjSettings.VernacularToNationalBt =
                 (tlpAdaptItConfiguration.Controls.ContainsKey(adaptItConfigCtrlVernacularToNationalBt.Name))

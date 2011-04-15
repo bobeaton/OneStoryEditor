@@ -959,6 +959,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If you require the project facilitator to &apos;{0}&apos;, then you&apos;ll also need to allow the &apos;{1}&apos; task?.
+        /// </summary>
+        internal static string IDS_MustAllowRequirement {
+            get {
+                return ResourceManager.GetString("IDS_MustAllowRequirement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Oops. You have to allow a task in order to require it. Please check the box in the Allowed Tasks list for &apos;{0}&apos;.
         /// </summary>
         internal static string IDS_MustAllowToRequireTask {
