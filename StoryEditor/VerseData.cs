@@ -973,6 +973,14 @@ namespace OneStoryProjectEditor
         {
             get { return CoachNotes.AreUnrespondedToCoachNoteComments; }
         }
+
+        public void UpdateCommentMemberId(string strOldMemberGuid, string strNewMemberGuid)
+        {
+            // for now, this is only used when update the PF (since we don't keep track
+            //  of who the consultant for a story is), so PFs can only deal with the
+            //  ConsultantNotes pane (if it were generalized, then add CoachNotes
+            ConsultantNotes.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
+        }
     }
 
     public class VersesData : List<VerseData>
@@ -1676,6 +1684,13 @@ namespace OneStoryProjectEditor
             FirstVerse.SetCommentMemberId(strPfMemberId, strConsultant, strCoach);
             foreach (var verse in this)
                 verse.SetCommentMemberId(strPfMemberId, strConsultant, strCoach);
+        }
+
+        public void UpdateCommentMemberId(string strOldMemberGuid, string strNewMemberGuid)
+        {
+            FirstVerse.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
+            foreach (var verse in this)
+                verse.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
         }
     }
 }

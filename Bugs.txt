@@ -12,15 +12,7 @@ gbrannon@smu.edu Peter's FinAid
 
 add ability to strip out insert symbol garbage
 
-I don’t know if this something you can do something about, but everytime you hide a line, or close a conversation, the window jumps to the end of the story
-
-null anchor
-
 changing the PF means I probably have to write all the ConsultantNote mentoreeMemberId records to the new PF (otherwise, the new PF can't edit the comments)
-
-don't include "Anchors, etc" in the default tasks for a non-biblical story.
-
-can't log in as "Just Looking"
 
 Re-hook OEBTer into Tasks
 

@@ -588,6 +588,9 @@ namespace OneStoryProjectEditor
         public void ReplaceProjectFacilitator(string strOldMemberGuid, string strNewMemberGuid)
         {
             CraftingInfo.ReplaceProjectFacilitator(strOldMemberGuid, strNewMemberGuid);
+
+            // also have to update any pfrc comments in the ConsultantNotes pane
+            Verses.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
         }
 
         public void ReplaceCrafter(string strOldMemberGuid, string strNewMemberGuid)

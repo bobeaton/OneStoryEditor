@@ -571,8 +571,9 @@ namespace OneStoryProjectEditor
                     if (res != DialogResult.Yes)
                         return;
 
-                    MergeOtherRoles(dlg.SelectedMember.MemberType, 
-                        strOldMemberGuid, theMemberData.MemberGuid);
+                    MergeOtherRoles(dlg.SelectedMember.MemberType,
+                                    strOldMemberGuid, 
+                                    theMemberData.MemberGuid);
 
                     // get the index for the member we're about to add new roles to 
                     //  (since we have to update his role list)

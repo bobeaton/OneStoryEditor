@@ -893,6 +893,15 @@ namespace OneStoryProjectEditor
                                    : strMentor;
             }
         }
+
+        public void UpdateCommentMemberId(string strOldMemberGuid, string strNewMemberGuid)
+        {
+            foreach (var aComment in this.Where(aComment => 
+                aComment.MemberID == strOldMemberGuid))
+            {
+                aComment.MemberID = strNewMemberGuid;
+            }
+        }
     }
 
     public class ConsultantNoteData : ConsultNoteDataConverter
@@ -1423,6 +1432,12 @@ namespace OneStoryProjectEditor
                                          !aCndc.IsFinished &&
                                          aCndc.NoteNeedsApproval);
             }
+        }
+
+        public void UpdateCommentMemberId(string strOldMemberGuid, string strNewMemberGuid)
+        {
+            foreach (var aCndc in this)
+                aCndc.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
         }
     }
 

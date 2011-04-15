@@ -246,7 +246,8 @@ namespace OneStoryProjectEditor
             if (textBoxProjectFacilitator.Tag != null)
             {
                 var thePF = (TeamMemberData)textBoxProjectFacilitator.Tag;
-                _theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID = thePF.MemberGuid;
+                _theCurrentStory.ReplaceProjectFacilitator(_theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID,
+                                                           thePF.MemberGuid);
                 bModified = true;
             }
 
