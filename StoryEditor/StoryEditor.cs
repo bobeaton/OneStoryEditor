@@ -1338,7 +1338,7 @@ namespace OneStoryProjectEditor
             // from the verses pane... (for verse controls, this is the line number, which
             //  is one more than the index we're looking for. (if this is from the zeroth
             //  line of the ConNotes, then just skip it)
-            if (nVerseIndex > 0)
+            if (nVerseIndex >= 0)
             {
                 Control ctrl = flowLayoutPanelVerses.GetControlAtVerseIndex(nVerseIndex);
                 if (ctrl == null)

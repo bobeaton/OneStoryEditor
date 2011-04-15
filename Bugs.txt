@@ -12,8 +12,6 @@ gbrannon@smu.edu Peter's FinAid
 
 add ability to strip out insert symbol garbage
 
-changing the PF means I probably have to write all the ConsultantNote mentoreeMemberId records to the new PF (otherwise, the new PF can't edit the comments)
-
 Re-hook OEBTer into Tasks
 
 Add ability to remove an Answer box
