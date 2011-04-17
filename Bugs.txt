@@ -1,4 +1,8 @@
-﻿pssecurity@utdallas.edu
+﻿Print not working (e.g. not displaying comments properly)
+
+Toolbox export not working still
+
+pssecurity@utdallas.edu
 
 we can log into the manage information site, but not galaxy.
 
@@ -13,10 +17,6 @@ gbrannon@smu.edu Peter's FinAid
 add ability to strip out insert symbol garbage
 
 Re-hook OEBTer into Tasks
-
-Add ability to remove an Answer box
-
-lable link to ln 0 doesn't work
 
 Send Process check reports to Judy
 
