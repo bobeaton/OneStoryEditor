@@ -81,9 +81,7 @@ namespace OneStoryProjectEditor
 
         public TeamMemberData Commentor(TeamMembersData teamMembersData)
         {
-            return teamMembersData.ContainsKey(teamMembersData.GetNameFromMemberId(MemberID))
-                       ? teamMembersData[teamMembersData.GetNameFromMemberId(MemberID)]
-                       : null;
+            return teamMembersData.GetMemberFromId(MemberID);
         }
     }
 
@@ -586,7 +584,7 @@ namespace OneStoryProjectEditor
 
                 TeamMemberData theCommentor = aCI.Commentor(theTeamMembers);
 
-                string strRow = null, theStoryPfMemberId = theStory.CraftingInfo.ProjectFacilitatorMemberID;
+                string strRow = null, theStoryPfMemberId = theStory.CraftingInfo.ProjectFacilitator.MemberId;
                 Color clrRow;
                 if (IsMyNoteToSelf(aCI))
                 {
@@ -716,7 +714,7 @@ namespace OneStoryProjectEditor
         private static bool OtherwiseDoesntHaveaTurn(TeamMemberData loggedOnMember, 
             StoryData theStory, TeamMembersData theTeamMembers)
         {
-            return IsMemberAnLsrThatIsntAlsoTheStoryPf(loggedOnMember, theStory.CraftingInfo.ProjectFacilitatorMemberID) ||
+            return IsMemberAnLsrThatIsntAlsoTheStoryPf(loggedOnMember, theStory.CraftingInfo.ProjectFacilitator.MemberId) ||
                    CoachWithoutaTurn(loggedOnMember, theTeamMembers);
         }
 
@@ -1084,7 +1082,7 @@ namespace OneStoryProjectEditor
             TeamMembersData theTeamMembers, StoryData theStory)
         {
             return base.LoggedOnMentorHasResponsePrivilege(loggedOnMember, theTeamMembers, theStory) ||
-                   IsMemberAnLsrThatIsntAlsoTheStoryPf(loggedOnMember, theStory.CraftingInfo.ProjectFacilitatorMemberID);
+                   IsMemberAnLsrThatIsntAlsoTheStoryPf(loggedOnMember, theStory.CraftingInfo.ProjectFacilitator.MemberId);
         }
     }
 
@@ -1133,7 +1131,7 @@ namespace OneStoryProjectEditor
         {
             return base.LoggedOnMentoreeHasResponsePrivilege(loggedOnMember, theStory) |
                    IsMemberAnLsrThatIsntAlsoTheStoryPf(loggedOnMember,
-                                 theStory.CraftingInfo.ProjectFacilitatorMemberID);
+                                 theStory.CraftingInfo.ProjectFacilitator.MemberId);
         }
 
         protected override bool LoggedOnMentorHasResponsePrivilege(TeamMemberData loggedOnMember, 

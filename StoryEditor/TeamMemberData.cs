@@ -561,7 +561,7 @@ namespace OneStoryProjectEditor
                                                   CstrProjectFacilitatorDisplay),
                                     OseResources.Properties.Resources.IDS_Caption);
                 }
-                else if (MemberGuid != theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID)
+                else if (MemberGuid != theCurrentStory.CraftingInfo.ProjectFacilitator.MemberId)
                 {
                     MessageBox.Show(OseResources.Properties.Resources.IDS_NotTheRightProjFac,
                                     OseResources.Properties.Resources.IDS_Caption);
@@ -586,20 +586,20 @@ namespace OneStoryProjectEditor
         public bool IsEditAllowed(StoryData theStory)
         {
             return IsEditAllowed(theStory.ProjStage.MemberTypeWithEditToken,
-                                 theStory.CraftingInfo.ProjectFacilitatorMemberID);
+                                 theStory.CraftingInfo.ProjectFacilitator.MemberId);
         }
 
         private bool IsEditAllowed(UserTypes eMemberTypeWithEditToken, 
-                                   string strTheStoryPf)
+                                   string strTheStoryPfId)
         {
-            System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strTheStoryPf));
+            System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strTheStoryPfId));
 
             if (eMemberTypeWithEditToken == UserTypes.AnyEditor)
                 return true;
 
             // if it's a PF, then it has to be the *right* PF
             if (IsUser(eMemberTypeWithEditToken, UserTypes.ProjectFacilitator) &&
-                (MemberGuid != strTheStoryPf))
+                (MemberGuid != strTheStoryPfId))
                 return false;
 
             return (IsUser(MemberType, eMemberTypeWithEditToken));
@@ -710,12 +710,20 @@ namespace OneStoryProjectEditor
                 HasIndependentConsultant = theMembersRow.HasIndependentConsultant;
         }
 
-        public string GetNameFromMemberId(string memberID)
+        public string GetNameFromMemberId(string memberId)
         {
-            foreach (TeamMemberData aTeamMember in Values)
-                if (aTeamMember.MemberGuid == memberID)
-                    return aTeamMember.Name;
+            foreach (var aTeamMember in Values.Where(aTeamMember => 
+                aTeamMember.MemberGuid == memberId))
+            {
+                return aTeamMember.Name;
+            }
             return CstrBrowserMemberName;   // shouldn't really be able to happen, but return something
+        }
+
+        public TeamMemberData GetMemberFromId(string strMemberId)
+        {
+            string strName = GetNameFromMemberId(strMemberId);
+            return !String.IsNullOrEmpty(strName) ? this[strName] : null;
         }
 
         // should use the StoryProjectData version if outside user

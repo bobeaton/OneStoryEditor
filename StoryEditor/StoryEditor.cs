@@ -68,8 +68,7 @@ namespace OneStoryProjectEditor
                                                             TeamMemberData.UserTypes.ConsultantInTraining |
                                                             TeamMemberData.UserTypes.Coach |
                                                             TeamMemberData.UserTypes.JustLooking |
-                                                            TeamMemberData.UserTypes.EnglishBackTranslator |
-                                                            TeamMemberData.UserTypes.FirstPassMentor));
+                                                            TeamMemberData.UserTypes.EnglishBackTranslator));
         }
 
         internal bool Modified;
@@ -1541,7 +1540,7 @@ namespace OneStoryProjectEditor
                 //  2) there's no 'ret 1' (in which case 'ret 2' is the zeroth element)
                 int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
                 var testor = theCurrentStory.CraftingInfo.TestorsToCommentsRetellings[nTestNumber];
-                LineMemberData retellingData = retellings.TryGetValue(testor.TestorGuid);
+                LineMemberData retellingData = retellings.TryGetValue(testor.MemberId);
 
                 strNote += strLabel;
                 // get selected text from all visible Story line controls
@@ -1610,7 +1609,7 @@ namespace OneStoryProjectEditor
             //  2) there's no 'ans 1' (in which case 'ans 2' is the zeroth element)
             nTestNumber = Convert.ToInt32(strTestNumber) - 1;
             var testor = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTestNumber];
-            return answers.TryGetValue(testor.TestorGuid);
+            return answers.TryGetValue(testor.MemberId);
         }
 
         internal static TestQuestionData GetTestQuestionData(string strLabel, VerseBtControl ctrl)
@@ -2543,8 +2542,8 @@ namespace OneStoryProjectEditor
             if ((theCurrentStory != null)
                 && (theCurrentStory.Verses.Count > 0)
                 && (theCurrentStory.CraftingInfo != null)
-                && ((theCurrentStory.CraftingInfo.IsBiblicalStory && !WillBeLossInVerse(theCurrentStory.Verses))
-                    || (!theCurrentStory.CraftingInfo.IsBiblicalStory && (theCurrentStory.ProjStage.ProjectStage < StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory))))
+                && ((theCurrentStory.CraftingInfo.IsBiblicalStory || 
+                        (theCurrentStory.ProjStage.ProjectStage < StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory))))
             {
                 // then we can do splitting and collapsing of the story
                 splitIntoLinesToolStripMenuItem.Enabled =
@@ -2795,7 +2794,7 @@ namespace OneStoryProjectEditor
                 {
                     for (int nTest = 0; nTest < theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count; nTest++)
                     {
-                        string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsRetellings[nTest].TestorGuid;
+                        string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsRetellings[nTest].MemberId;
                         AddDeleteTestSubmenu(deleteTestToolStripMenuItem,
                                              String.Format("Retelling Test {0} done by {1}", nTest + 1,
                                                            StoryProject.GetMemberNameFromMemberGuid(strUnsGuid)),
@@ -2803,7 +2802,7 @@ namespace OneStoryProjectEditor
                     }
                     for (int nTest = 0; nTest < theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count; nTest++)
                     {
-                        string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTest].TestorGuid;
+                        string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTest].MemberId;
                         AddDeleteTestSubmenu(deleteTestToolStripMenuItem,
                                              String.Format("Story Question Testing {0} done by {1}", nTest + 1,
                                                            StoryProject.GetMemberNameFromMemberGuid(strUnsGuid)),
@@ -2854,10 +2853,10 @@ namespace OneStoryProjectEditor
                     return false;
 
                 foreach (var ti in theCurrentStory.CraftingInfo.TestorsToCommentsRetellings)
-                    if (ti.TestorGuid == strUnsGuid)
+                    if (ti.MemberId == strUnsGuid)
                     {
                         string strError = String.Format(Properties.Resources.IDS_AddTestSameUNS,
-                                                        StoryProject.TeamMembers.GetNameFromMemberId(ti.TestorGuid));
+                                                        StoryProject.GetMemberNameFromMemberGuid(ti.MemberId));
                         DialogResult res = MessageBox.Show(strError,
                                                            OseResources.Properties.Resources.IDS_Caption,
                                                            MessageBoxButtons.OKCancel);
@@ -2875,7 +2874,7 @@ namespace OneStoryProjectEditor
 
             strAnswer = String.Format(Properties.Resources.IDS_RetellingCommentFormat,
                                       DateTime.Now.ToString("yyyy-MMM-dd"), strAnswer);
-            var toi = new TestorInfo(strUnsGuid, strAnswer);
+            var toi = new MemberIdInfo(strUnsGuid, strAnswer);
             theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Add(toi);
             foreach (VerseData aVerseData in theCurrentStory.Verses)
                 aVerseData.Retellings.TryAddNewLine(strUnsGuid);
@@ -2901,10 +2900,10 @@ namespace OneStoryProjectEditor
                     return false;
 
                 foreach (var ti in theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers)
-                    if (ti.TestorGuid == strUnsGuid)
+                    if (ti.MemberId == strUnsGuid)
                     {
                         string strError = String.Format(Properties.Resources.IDS_AddTestSameUNS,
-                                                        StoryProject.TeamMembers.GetNameFromMemberId(ti.TestorGuid));
+                                                        StoryProject.GetMemberNameFromMemberGuid(ti.MemberId));
                         DialogResult res = MessageBox.Show(strError,
                                                            OseResources.Properties.Resources.IDS_Caption,
                                                            MessageBoxButtons.OKCancel);
@@ -2917,7 +2916,7 @@ namespace OneStoryProjectEditor
 
             string strAnswer = String.Format(Properties.Resources.IDS_InferenceCommentFormat,
                                              DateTime.Now.ToString("yyyy-MMM-dd"));
-            var toi = new TestorInfo(strUnsGuid, strAnswer);
+            var toi = new MemberIdInfo(strUnsGuid, strAnswer);
             theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Add(toi);
 
             foreach (VerseData aVerseData in theCurrentStory.Verses)
@@ -2969,7 +2968,7 @@ namespace OneStoryProjectEditor
             if (!theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Contains(strUnsGuid))
             {
                 // this means that this UNS has never been added for this story. Add now
-                theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Add(new TestorInfo(strUnsGuid, null));
+                theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Add(new MemberIdInfo(strUnsGuid, null));
             }
 
             // by now, the user-chosen UNS *is* in the CraftingInfo list and *isn't* in
@@ -3007,7 +3006,7 @@ namespace OneStoryProjectEditor
             {
                 int nTestNum = (int)tsmi.Tag;
                 Debug.Assert((nTestNum >= 0) && (nTestNum < theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count));
-                string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsRetellings[nTestNum].TestorGuid;
+                string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsRetellings[nTestNum].MemberId;
                 foreach (var aVerseData in theCurrentStory.Verses)
                 {
                     // even the verse itself may be newer and only have a single retelling (compared
@@ -3030,7 +3029,7 @@ namespace OneStoryProjectEditor
             {
                 int nTestNum = (int)tsmi.Tag;
                 Debug.Assert((nTestNum >= 0) && (nTestNum < theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count));
-                string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTestNum].TestorGuid;
+                string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTestNum].MemberId;
                 foreach (VerseData aVerseData in theCurrentStory.Verses)
                 {
                     RemoveTestQuestion(aVerseData, strUnsGuid);
@@ -3843,7 +3842,11 @@ namespace OneStoryProjectEditor
             Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
 
             if (WillBeLossInVerse(theCurrentStory.Verses))
+            {
+                MessageBox.Show(Properties.Resources.IDS_CantSplitIntoLines,
+                                OseResources.Properties.Resources.IDS_Caption);
                 return;
+            }
 
             if (!CheckForSaveDirtyFile())    // ought to do a save before this so we don't cause them to lose anything.
                 return;
@@ -3889,8 +3892,14 @@ namespace OneStoryProjectEditor
         private void splitIntoLinesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Debug.Assert((theCurrentStory != null)
-                && (theCurrentStory.Verses.Count > 0)
-                && !WillBeLossInVerse(theCurrentStory.Verses));
+                && (theCurrentStory.Verses.Count > 0));
+
+            if (WillBeLossInVerse(theCurrentStory.Verses))
+            {
+                MessageBox.Show(Properties.Resources.IDS_CantSplitIntoLines,
+                                OseResources.Properties.Resources.IDS_Caption);
+                return;
+            }
 
             if (!CheckForSaveDirtyFile())    // ought to do a save before this so we don't cause them to lose anything.
                 return;
@@ -3940,20 +3949,13 @@ namespace OneStoryProjectEditor
 
         public static bool WillBeLossInVerse(VersesData theVerses)
         {
-            foreach (var aVerse in theVerses)
-            {
-                if (aVerse.Anchors.HasData
-                    || aVerse.ExegeticalHelpNotes.HasData
-                    || aVerse.Retellings.HasData
-                    || aVerse.ConsultantNotes.HasData
-                    || aVerse.CoachNotes.HasData
-                    || aVerse.TestQuestions.HasData)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return theVerses.Any(aVerse =>
+                                 aVerse.Anchors.HasData ||
+                                 aVerse.ExegeticalHelpNotes.HasData ||
+                                 aVerse.Retellings.HasData ||
+                                 aVerse.ConsultantNotes.HasData ||
+                                 aVerse.CoachNotes.HasData ||
+                                 aVerse.TestQuestions.HasData);
         }
 
         public void NavigateTo(string strStoryName, int nLineIndex, string strAnchor)
@@ -4693,32 +4695,40 @@ namespace OneStoryProjectEditor
                 if (ctrl != null)
                 {
                     Debug.Assert(ctrl is VerseBtControl);
-                    VerseBtControl theVerse = ctrl as VerseBtControl;
+                    var theVerse = ctrl as VerseBtControl;
                     if (theVerse != null)
                     {
                         if (viewVernacularLangFieldMenuItem.Checked)
                         {
                             Debug.Assert(theVerse._verseData.StoryLine.Vernacular.TextBox != null);
-                            strVernacular = theVerse._verseData.StoryLine.Vernacular.TextBox.SelectedText;
+                            strVernacular = GrabTrimSelectedText(theVerse._verseData.StoryLine.Vernacular.TextBox);
                         }
                         if (viewNationalLangFieldMenuItem.Checked)
                         {
                             Debug.Assert(theVerse._verseData.StoryLine.NationalBt.TextBox != null);
-                            strNationalBT = theVerse._verseData.StoryLine.NationalBt.TextBox.SelectedText;
+                            strNationalBT = GrabTrimSelectedText(theVerse._verseData.StoryLine.NationalBt.TextBox);
                         }
                         if (viewEnglishBTFieldMenuItem.Checked)
                         {
                             Debug.Assert(theVerse._verseData.StoryLine.InternationalBt.TextBox != null);
-                            strInternationalBT = theVerse._verseData.StoryLine.InternationalBt.TextBox.SelectedText;
+                            strInternationalBT = GrabTrimSelectedText(theVerse._verseData.StoryLine.InternationalBt.TextBox);
                         }
                         if (viewFreeTranslationToolStripMenuItem.Checked)
                         {
                             Debug.Assert(theVerse._verseData.StoryLine.FreeTranslation.TextBox != null);
-                            strFreeTranslation = theVerse._verseData.StoryLine.FreeTranslation.TextBox.SelectedText;
+                            strFreeTranslation = GrabTrimSelectedText(theVerse._verseData.StoryLine.FreeTranslation.TextBox);
                         }
                     }
                 }
             }
+        }
+
+        private string GrabTrimSelectedText(CtrlTextBox tbx)
+        {
+            string str = tbx.SelectedText;
+            if (!String.IsNullOrEmpty(str))
+                str = str.Trim();
+            return str;
         }
 
         private void viewLnCNotesMenu_Click(object sender, EventArgs e)

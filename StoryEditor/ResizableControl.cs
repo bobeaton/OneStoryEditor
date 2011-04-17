@@ -181,9 +181,10 @@ namespace OneStoryProjectEditor
                 if ((theSE.StoryProject != null)
                     && (theSE.theCurrentStory != null)
                     && (theSE.LoggedOnMember != null)
-                    && (TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType, 
-                                              TeamMemberData.UserTypes.ProjectFacilitator) && 
-                        theSE.LoggedOnMember.MemberGuid != theSE.theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID))
+                    && (TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType,
+                                              TeamMemberData.UserTypes.ProjectFacilitator) &&
+                        (theSE.LoggedOnMember.MemberGuid !=
+                         theSE.theCurrentStory.CraftingInfo.ProjectFacilitator.MemberId)))
                 {
                     throw new ApplicationException(OseResources.Properties.Resources.IDS_NotTheRightProjFac);
                 }

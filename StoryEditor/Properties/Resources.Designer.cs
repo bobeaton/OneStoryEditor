@@ -430,6 +430,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OSE can&apos;t automatically rearrange the story lines now because that would result in the loss of other information (e.g. Anchors, Testing Questions, and/or Consultant Notes). If you delete these other items, then you could use this command again.
+        /// </summary>
+        internal static string IDS_CantSplitIntoLines {
+            get {
+                return ResourceManager.GetString("IDS_CantSplitIntoLines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Click &apos;Yes&apos; to enter UNS test results now or click &apos;No&apos; to send the story to the consultant first for checking..
         /// </summary>
         internal static string IDS_CheckForSkipToUnsCheck {
@@ -457,29 +466,11 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Choose the coach that is working on this story.
+        ///   Looks up a localized string similar to Choose the {0} working on the story &apos;{1}&apos;.
         /// </summary>
-        internal static string IDS_ChooseCoach {
+        internal static string IDS_ChooseMemberStory {
             get {
-                return ResourceManager.GetString("IDS_ChooseCoach", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Choose the consultant that is working on this story.
-        /// </summary>
-        internal static string IDS_ChooseConsultant {
-            get {
-                return ResourceManager.GetString("IDS_ChooseConsultant", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Choose the Project Facilitator that entered this story.
-        /// </summary>
-        internal static string IDS_ChooseProjFac {
-            get {
-                return ResourceManager.GetString("IDS_ChooseProjFac", resourceCulture);
+                return ResourceManager.GetString("IDS_ChooseMemberStory", resourceCulture);
             }
         }
         
@@ -1013,6 +1004,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The coach is requiring you to &apos;{0}&apos;.
+        /// </summary>
+        internal static string IDS_MustPassToCoach {
+            get {
+                return ResourceManager.GetString("IDS_MustPassToCoach", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} back-translation of the story to the clipboard.
         /// </summary>
         internal static string IDS_NationalBtOfStory {
@@ -1429,6 +1429,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Left-click to edit the contact or bio data for this team member; right-click to choose another team member.
+        /// </summary>
+        internal static string IDS_StoryInformationBrowseButtonTooltip {
+            get {
+                return ResourceManager.GetString("IDS_StoryInformationBrowseButtonTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;{0} back-translation fields.
         /// </summary>
         internal static string IDS_StoryLanguageField {
@@ -1523,6 +1532,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_ThisStoryNotInThisRevision {
             get {
                 return ResourceManager.GetString("IDS_ThisStoryNotInThisRevision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are unapproved comments! Set to Coach&apos;s turn instead to get them approved or they won&apos;t be visible to the Project Facilitator.
+        /// </summary>
+        internal static string IDS_ToolTipAboutUnapprovedComments {
+            get {
+                return ResourceManager.GetString("IDS_ToolTipAboutUnapprovedComments", resourceCulture);
             }
         }
         
@@ -1680,7 +1698,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There are one or more comments in the Consultant Notes pane by either a CIT or LSR that haven&apos;t been approved. Click &apos;Yes&apos; to ignore them and continue changing to the project facilitator&apos;s turn or click &apos;No&apos; to cancel so you can go back and approve them.
+        ///   Looks up a localized string similar to There are one or more comments in the Consultant Notes pane by the CIT (or LSR) that haven&apos;t been approved. Click &apos;Yes&apos; to ignore them and continue on, or click &apos;No&apos; to cancel so you can go back and approve/get them approved.
         /// </summary>
         internal static string IDS_WarnAboutUnapprovedComments {
             get {

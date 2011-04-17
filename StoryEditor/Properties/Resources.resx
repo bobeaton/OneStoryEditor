@@ -2123,8 +2123,8 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_WarnNeedNameAndRole" xml:space="preserve">
     <value>You have to enter at least a name and indicate your role (even if you're 'Just Looking')!</value>
   </data>
-  <data name="IDS_ChooseProjFac" xml:space="preserve">
-    <value>Choose the Project Facilitator that entered this story</value>
+  <data name="IDS_ChooseMemberStory" xml:space="preserve">
+    <value>Choose the {0} working on the story '{1}'</value>
   </data>
   <data name="IDS_CantChangeMember" xml:space="preserve">
     <value>Unable to merge '{0}' into '{1}' because in the story '{2}', {3}</value>
@@ -2141,14 +2141,8 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_MainFrameTitleSuffix" xml:space="preserve">
     <value> -- ({0} logged in as '{1}')</value>
   </data>
-  <data name="IDS_ChooseCoach" xml:space="preserve">
-    <value>Choose the coach that is working on this story</value>
-  </data>
-  <data name="IDS_ChooseConsultant" xml:space="preserve">
-    <value>Choose the consultant that is working on this story</value>
-  </data>
   <data name="IDS_WarnAboutUnapprovedComments" xml:space="preserve">
-    <value>There are one or more comments in the Consultant Notes pane by either a CIT or LSR that haven't been approved. Click 'Yes' to ignore them and continue changing to the project facilitator's turn or click 'No' to cancel so you can go back and approve them</value>
+    <value>There are one or more comments in the Consultant Notes pane by the CIT (or LSR) that haven't been approved. Click 'Yes' to ignore them and continue on, or click 'No' to cancel so you can go back and approve/get them approved</value>
   </data>
   <data name="IDS_WarnAboutUnrespondedToComments" xml:space="preserve">
     <value>There are one or more questions in the Coach Note pane which haven't been responded to by a Coach. Click 'Yes' to ignore them and continue changing to the project facilitator's turn or click 'No' to cancel so you can go back and respond to them</value>
@@ -2161,5 +2155,17 @@ and in the resulting window click on the next (green) state.
   </data>
   <data name="IDS_MustAllowRequirement" xml:space="preserve">
     <value>If you require the project facilitator to '{0}', then you'll also need to allow the '{1}' task?</value>
+  </data>
+  <data name="IDS_ToolTipAboutUnapprovedComments" xml:space="preserve">
+    <value>There are unapproved comments! Set to Coach's turn instead to get them approved or they won't be visible to the Project Facilitator</value>
+  </data>
+  <data name="IDS_CantSplitIntoLines" xml:space="preserve">
+    <value>OSE can't automatically rearrange the story lines now because that would result in the loss of other information (e.g. Anchors, Testing Questions, and/or Consultant Notes). If you delete these other items, then you could use this command again</value>
+  </data>
+  <data name="IDS_MustPassToCoach" xml:space="preserve">
+    <value>The coach is requiring you to '{0}'</value>
+  </data>
+  <data name="IDS_StoryInformationBrowseButtonTooltip" xml:space="preserve">
+    <value>Left-click to edit the contact or bio data for this team member; right-click to choose another team member</value>
   </data>
 </root>

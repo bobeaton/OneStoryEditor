@@ -101,8 +101,8 @@ namespace OneStoryProjectEditor
                 {
                     strWhoHasEditToken = String.Format("{0} ({1})",
                                                        strWhoHasEditToken,
-                                                       _storyProject.TeamMembers.GetNameFromMemberId(
-                                                           aSD.CraftingInfo.ProjectFacilitatorMemberID));
+                                                       _storyProject.GetMemberNameFromMemberGuid(
+                                                           aSD.CraftingInfo.ProjectFacilitator.MemberId));
                 }
 
 #if ShowingState

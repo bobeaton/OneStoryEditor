@@ -385,7 +385,7 @@ namespace OneStoryProjectEditor
 #if !JustMentorsCanAddNotesWhenNotTheirTurn
                 string strPfMemberId = null;
                 if (theSE.theCurrentStory != null)
-                    strPfMemberId = theSE.theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID;
+                    strPfMemberId = theSE.theCurrentStory.CraftingInfo.ProjectFacilitator.MemberId;
                 if (theCNsDC.HasAddNotePrivilege(theSE.LoggedOnMember, strPfMemberId))
                     return true;
 #else

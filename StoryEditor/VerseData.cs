@@ -1566,7 +1566,7 @@ namespace OneStoryProjectEditor
                                     bShowOnlyOpenConversations,
                                     FirstVerse.ConsultantNotes,
                                     LoggedOnMember,
-                                    theStory.CraftingInfo.ProjectFacilitatorMemberID);
+                                    theStory.CraftingInfo.ProjectFacilitator.MemberId);
 
             strHtml += FirstVerse.ConsultantNotes.Html(htmlConNoteCtrl,
                                                        LoggedOnMember,
@@ -1587,7 +1587,7 @@ namespace OneStoryProjectEditor
                                         bShowOnlyOpenConversations,
                                         aVerseData.ConsultantNotes,
                                         LoggedOnMember,
-                                        theStory.CraftingInfo.ProjectFacilitatorMemberID);
+                                        theStory.CraftingInfo.ProjectFacilitator.MemberId);
 
                 strHtml += aVerseData.ConsultantNotes.Html(htmlConNoteCtrl,
                                                            LoggedOnMember, 
@@ -1611,7 +1611,7 @@ namespace OneStoryProjectEditor
                                     bShowOnlyOpenConversations,
                                     FirstVerse.CoachNotes,
                                     LoggedOnMember,
-                                    theStory.CraftingInfo.ProjectFacilitatorMemberID);
+                                    theStory.CraftingInfo.ProjectFacilitator.MemberId);
 
             strHtml += FirstVerse.CoachNotes.Html(htmlConNoteCtrl,
                                                   LoggedOnMember,
@@ -1632,7 +1632,7 @@ namespace OneStoryProjectEditor
                                         bShowOnlyOpenConversations,
                                         aVerseData.CoachNotes,
                                         LoggedOnMember,
-                                        theStory.CraftingInfo.ProjectFacilitatorMemberID);
+                                        theStory.CraftingInfo.ProjectFacilitator.MemberId);
 
                 strHtml += aVerseData.CoachNotes.Html(htmlConNoteCtrl,
                                                       LoggedOnMember,
@@ -1688,6 +1688,9 @@ namespace OneStoryProjectEditor
 
         public void UpdateCommentMemberId(string strOldMemberGuid, string strNewMemberGuid)
         {
+            if (String.IsNullOrEmpty(strOldMemberGuid))
+                return;
+
             FirstVerse.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
             foreach (var verse in this)
                 verse.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
