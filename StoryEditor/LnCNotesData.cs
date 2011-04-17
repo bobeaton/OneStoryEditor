@@ -109,13 +109,25 @@ namespace OneStoryProjectEditor
         {
             string strMatch = null;
             return (from aLncNote in this
-                    where ((strMatch = aLncNote.InternationalBtRendering).ToLowerInvariant() == strToSearchForInternationalBt.ToLowerInvariant() || 
-                           (strMatch = aLncNote.NationalBtRendering).ToLowerInvariant() == strToSearchForNationalBt.ToLowerInvariant() || 
-                           (strMatch = aLncNote.VernacularRendering).ToLowerInvariant() == strToSearchForVernacular.ToLowerInvariant())
+                    where (CheckForSimilarity(aLncNote.InternationalBtRendering, strToSearchForInternationalBt, ref strMatch) ||
+                           CheckForSimilarity(aLncNote.NationalBtRendering, strToSearchForNationalBt, ref strMatch) || 
+                           CheckForSimilarity(aLncNote.VernacularRendering, strToSearchForVernacular, ref strMatch))
                     select new AddLnCNoteForm(theSe, aLncNote)
                                {
                                    Text = String.Format(Properties.Resources.IDS_WarnAboutSimilarLnCNote, strMatch)
                                }).Select(dlg => dlg.ShowDialog()).FirstOrDefault();
+        }
+
+        public bool CheckForSimilarity(string strRendering, string strToCompare, ref string strMatch)
+        {
+            if (!String.IsNullOrEmpty(strRendering) &&
+                !String.IsNullOrEmpty(strToCompare) &&
+                (strRendering.ToLowerInvariant() == strToCompare.ToLowerInvariant()))
+            {
+                strMatch = strRendering;
+                return true;
+            }
+            return false;
         }
     }
 
