@@ -113,8 +113,7 @@ namespace OneStoryProjectEditor
                 if (DoAnchors)
                 {
                     // for this one, make sure that every line of the story has something in the vernacular field
-                    if (!CheckForCompletionAnchors(TheSe, TheStory))
-                        throw StoryProjectData.BackOutWithNoUI;
+                    CheckForCompletionAnchors(TheSe, TheStory);
                 }
 
                 if (DoRetelling)
@@ -320,32 +319,31 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        private static bool CheckForCompletionAnchors(StoryEditor theSe, 
+        private static void CheckForCompletionAnchors(StoryEditor theSe, 
             StoryData theStory)
         {
             // this can happen if the person has a story in this state, but then changes it to be a non-biblical story
             if (!theStory.CraftingInfo.IsBiblicalStory)
-                return true;
+                return;
 
             // for each verse, make sure that there is at least one anchor.
             int nVerseNumber = 1;
-            foreach (VerseData aVerseData in theStory.Verses)
+            foreach (var aVerseData in theStory.Verses)
             {
                 if (aVerseData.IsVisible)
                 {
                     if (aVerseData.Anchors.Count == 0)
                     {
-                        CheckEndOfStateTransition.ShowError(theSe,
-                                  String.Format(Properties.Resources.IDS_NoAnchor,
-                                                nVerseNumber));
-                        theSe.FocusOnVerse(nVerseNumber, true, true);
-                        return false;
+                        throw new ExceptionWithViewToTurnOn(String.Format(Properties.Resources.IDS_NoAnchor,
+                                                                          nVerseNumber))
+                                  {
+                                      ViewToTurnOn = theSe.viewAnchorFieldMenuItem,
+                                      VerseToScrollTo = nVerseNumber
+                                  };
                     }
                 }
                 nVerseNumber++;
             }
-
-            return true;
         }
 
         private bool CheckForCompletion(StoryEditor theSe, 
@@ -412,6 +410,13 @@ namespace OneStoryProjectEditor
             StoryEditor.TextFieldType fieldToCheck, StoryEditor.TextFieldType fieldHighest,
             ref bool bTriggerRefresh)
         {
+            // if there are no verses... that can't be good
+            if (theStory.Verses.Count < 2)
+            {
+                CheckEndOfStateTransition.ShowError(theSe, Properties.Resources.IDS_NoMultipleLines);
+                return false;
+            }
+
             if (StoryEditor.WillBeLossInVerse(theStory.Verses))
                 return true;
 
@@ -419,13 +424,6 @@ namespace OneStoryProjectEditor
             var lstDontCheck = new List<int>();
             do
             {
-                // if there are no verses... that can't be good
-                if (theStory.Verses.Count < 2)
-                {
-                    CheckEndOfStateTransition.ShowError(theSe, Properties.Resources.IDS_NoMultipleLines);
-                    return false;
-                }
-
                 int nVerseNumber = 1; // this wants to be 1, because it's dealing with the
                 // VerseBT pane, which starts at 1.
                 foreach (VerseData aVerseData in theStory.Verses)

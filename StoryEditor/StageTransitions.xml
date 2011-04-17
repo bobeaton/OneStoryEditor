@@ -535,17 +535,18 @@ the story.
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewFreeTranslationField="true" viewAnchorField="true" viewStoryTestingQuestions="true" viewStoryTestingAnswers="false" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCoachReviewRound1Notes" MemberTypeWithEditToken="Coach" RequiresBiblicalStory="true" RequiresManageWithCoaching="true">
-    <StageDisplayString>Coach reviews story/CIT feedback (pre-UNS testing)</StageDisplayString>
+    <StageDisplayString>Coach reviews story/CIT feedback</StageDisplayString>
     <TransitionDisplayString>send to the coach for checking</TransitionDisplayString>
     <StageInstructions>
 In this stage, you (the coach) will check the story and the consultant notes added by the 
-consultant-in-training (and possibly the first-pass mentor) in the Consultant Notes pane. 
-Any feedback you have can be put into a note in the "Coach Notes" pane. Click on the "Add 
-Note" button to create a box for entering a comment, which will be labeled, "coch:"
+consultant-in-training (and possibly a Language Specialty Reviewer) in the Consultant Notes 
+pane. Any feedback you have can be put into a note in the "Coach Notes" pane. Click on the "Add 
+Note" button to create a box for entering a comment, which will be labeled, "cch:"
 
-If you are satisfied that the story is ready for a UNS test (after your feedback is 
-processed), then click the 'Select State' button and choose the forward (green) state 
-button for the 'Consultant revises pre-UNS test notes based on Coach's feedback' state. 
+When you are ready to send it back to the CIT for further processing, click the 'Tasks' link and 
+click the "Set to CIT's turn" button. The "Set CIT Tasks" dialog box will appear. If you are 
+satisfied that the story is ready to be returned to the Project Facilitator (i.e. you're happy 
+with all the feedback of the CIT), then uncheck the box that 
 This will put the story into the CIT's state to process your feedback before sending it on 
 to the Project Facilitator to make final revisions before the UNS test.
 
@@ -972,10 +973,10 @@ for the Project Facilitator/Crafter to correct the story.
     <ViewSettings viewVernacularLangField="false" viewNationalLangField="true" viewEnglishBTField="true" viewFreeTranslationField="true" viewAnchorField="true" viewStoryTestingQuestions="true" viewStoryTestingAnswers="false" viewRetellingField="false" viewConsultantNoteField="true" viewCoachNotesField="true" viewNetBible="true" />
   </StateTransition>
   <StateTransition stage="eCoachReviewRound2Notes" MemberTypeWithEditToken="Coach" RequiresBiblicalStory="true" RequiresManageWithCoaching="true">
-    <StageDisplayString>Coach reviews story/CIT feedback (including UNS testing results)</StageDisplayString>
+    <StageDisplayString>Coach reviews story/CIT feedback</StageDisplayString>
     <TransitionDisplayString>send to the coach for checking</TransitionDisplayString>
     <StageInstructions>
-In this stage, you (the coach) will check the UNS test results and the consultant notes added by the
+In this stage, you (the coach) will check story, and the consultant notes added by the
 consultant-in-training (and possibly the first-pass mentor) in the Consultant Notes pane.
 
 Any feedback you have can be put into a note in the "Coach Notes" pane. You can click on the "Add 

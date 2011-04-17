@@ -102,12 +102,23 @@ namespace OneStoryProjectEditor
             if (!TheSe.LoggedOnMember.IsEditAllowed(TheStory))
                 return;
 
+            bool bAreUnapprovedNotes = TheStory.AreUnapprovedConsultantNotes;
             if (TheSe.StoryProject.TeamMembers.HasOutsideEnglishBTer)
+            {
                 buttonSendToEnglishBter.Visible = true;
+                if (bAreUnapprovedNotes)
+                    toolTip.SetToolTip(buttonSendToEnglishBter, 
+                        Properties.Resources.IDS_ToolTipAboutUnapprovedComments);
+            }
             else
+            {
                 buttonReturnToProjectFacilitator.Visible = (TasksCit.IsTaskOn(TheStory.TasksAllowedCit,
                                                                               TasksCit.TaskSettings.
                                                                                   SendToProjectFacilitatorForRevision));
+                if (bAreUnapprovedNotes)
+                    toolTip.SetToolTip(buttonReturnToProjectFacilitator,
+                        Properties.Resources.IDS_ToolTipAboutUnapprovedComments);
+            }
 
             buttonSendToCoach.Visible = (TasksCit.IsTaskOn(TheStory.TasksAllowedCit,
                                                            TasksCit.TaskSettings.SendToCoachForReview));
@@ -539,46 +550,45 @@ namespace OneStoryProjectEditor
 
         private bool CheckIfReadyToReturnToPf()
         {
+            // first have to satisfy the requirement to send to coach
+            if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                                      TeamMemberData.UserTypes.ConsultantInTraining) &&
+                TasksCit.IsTaskOn(TheStory.TasksRequiredCit,
+                                  TasksCit.TaskSettings.SendToCoachForReview))
+            {
+                MessageBox.Show(String.Format(Properties.Resources.IDS_MustPassToCoach,
+                                              SetCitTasksForm.CstrSendToCoach),
+                                OseResources.Properties.Resources.IDS_Caption);
+                return false;
+            }
+
             if (!CheckEndOfStateTransition.CheckThatCITAnsweredPFsQuestions(TheSe, TheStory))
                 return false;
-            
-            // if the IC is logged in and there are unapproved comments, then point that
-            //  out to them.
-            if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
-                                      TeamMemberData.UserTypes.IndependentConsultant))
-            {
-                if (TheStory.AreUnapprovedConsultantNotes)
-                {
-                    DialogResult res = MessageBox.Show(Properties.Resources.IDS_WarnAboutUnapprovedComments,
-                                                       OseResources.Properties.Resources.IDS_Caption,
-                                                       MessageBoxButtons.YesNoCancel);
-                    if (res != DialogResult.Yes)
-                    {
-                        if (res == DialogResult.No)
-                            TheSe.viewConsultantNoteFieldMenuItem.Checked = true;
-                        return false;
-                    }
-                }
 
-                // if we don't have an explicit coach state, then the IC is the one who
-                //  probably needs to deal with Coach Notes, so warn him/her if there
-                //  are unresponded to comments.
-                if (TheSe.StoryProject.TeamMembers.HasIndependentConsultant &&
-                    TheStory.AreUnrespondedToCoachNoteComments)
+            // this applies to both CITs and ICs
+            if (!CheckForUnapprovedComments())
+                return false;
+
+            // if we don't have an explicit coach state, then the IC is the one who
+            //  probably needs to deal with Coach Notes, so warn him/her if there
+            //  are unresponded to comments.
+            if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                                      TeamMemberData.UserTypes.IndependentConsultant) &&
+                TheSe.StoryProject.TeamMembers.HasIndependentConsultant &&
+                TheStory.AreUnrespondedToCoachNoteComments)
+            {
+                DialogResult res = MessageBox.Show(Properties.Resources.IDS_WarnAboutUnrespondedToComments,
+                                                   OseResources.Properties.Resources.IDS_Caption,
+                                                   MessageBoxButtons.YesNoCancel);
+                if (res != DialogResult.Yes)
                 {
-                    DialogResult res = MessageBox.Show(Properties.Resources.IDS_WarnAboutUnrespondedToComments,
-                                                       OseResources.Properties.Resources.IDS_Caption,
-                                                       MessageBoxButtons.YesNoCancel);
-                    if (res != DialogResult.Yes)
+                    if (res == DialogResult.No)
                     {
-                        if (res == DialogResult.No)
-                        {
-                            TheSe.viewCoachNotesFieldMenuItem.Checked = true;
-                            MessageBox.Show(Properties.Resources.IDS_LoginAsCoach,
-                                            OseResources.Properties.Resources.IDS_Caption);
-                        }
-                        return false;
+                        TheSe.viewCoachNotesFieldMenuItem.Checked = true;
+                        MessageBox.Show(Properties.Resources.IDS_LoginAsCoach,
+                                        OseResources.Properties.Resources.IDS_Caption);
                     }
+                    return false;
                 }
             }
 
@@ -588,8 +598,8 @@ namespace OneStoryProjectEditor
                                          TheStory.CraftingInfo.IsBiblicalStory)
                           {
                               Text = String.Format("Set tasks for the Project Facilitator ({0}) to do on story: {1}",
-                                                   TheSe.StoryProject.TeamMembers.GetNameFromMemberId(
-                                                       TheStory.CraftingInfo.ProjectFacilitatorMemberID),
+                                                   TheSe.StoryProject.GetMemberNameFromMemberGuid(
+                                                       TheStory.CraftingInfo.ProjectFacilitator.MemberId),
                                                    TheStory.Name)
                           };
 
@@ -609,6 +619,23 @@ namespace OneStoryProjectEditor
             if (TasksPf.IsTaskOn(TheStory.TasksRequiredPf, TasksPf.TaskSettings.Answers2))
                 TheStory.CountTestingQuestionTests = 2;
 
+            return true;
+        }
+
+        private bool CheckForUnapprovedComments()
+        {
+            if (TheStory.AreUnapprovedConsultantNotes)
+            {
+                DialogResult res = MessageBox.Show(Properties.Resources.IDS_WarnAboutUnapprovedComments,
+                                                   OseResources.Properties.Resources.IDS_Caption,
+                                                   MessageBoxButtons.YesNoCancel);
+                if (res != DialogResult.Yes)
+                {
+                    if (res == DialogResult.No)
+                        TheSe.viewConsultantNoteFieldMenuItem.Checked = true;
+                    return false;
+                }
+            }
             return true;
         }
 
@@ -647,6 +674,10 @@ namespace OneStoryProjectEditor
 
             ParentForm.Close();
             if (!CheckEndOfStateTransition.CheckThatCoachAnsweredCITsQuestions(TheSe, TheStory))
+                return;
+
+            // this applies to both CITs and ICs
+            if (!CheckForUnapprovedComments())
                 return;
 
             // find out from the Coach what tasks they want to set in the story

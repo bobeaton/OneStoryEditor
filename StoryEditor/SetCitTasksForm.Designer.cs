@@ -28,7 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // buttonOK
+            // 
+            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
+            // 
+            // SetCitTasksForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.ClientSize = new System.Drawing.Size(477, 293);
+            this.Name = "SetCitTasksForm";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
