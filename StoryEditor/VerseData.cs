@@ -934,7 +934,17 @@ namespace OneStoryProjectEditor
 
         public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
         {
+            ReplaceRetellingUns(strOldUnsGuid, strNewUnsGuid);
+            ReplaceAnswersUns(strOldUnsGuid, strNewUnsGuid);
+        }
+
+        public void ReplaceRetellingUns(string strOldUnsGuid, string strNewUnsGuid)
+        {
             Retellings.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
+        }
+
+        public void ReplaceAnswersUns(string strOldUnsGuid, string strNewUnsGuid)
+        {
             TestQuestions.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
         }
 
@@ -1659,17 +1669,18 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public void ChangeRetellingTestorGuid(int nIndex, string strNewGuid)
+        public void ChangeRetellingTestorGuid(string strOldGuid, string strNewGuid)
         {
-            foreach (var lineMemberData in this.Select(aVerseData => aVerseData.Retellings[nIndex]))
-                lineMemberData.MemberId = strNewGuid;
+            // no retellings in FirstVerse.ReplaceRetellingUns(strOldGuid, strNewGuid);
+            foreach (var aVerse in this)
+                aVerse.ReplaceRetellingUns(strOldGuid, strNewGuid);
         }
 
-        public void ChangeTqAnswersTestorGuid(int nIndex, string strNewGuid)
+        public void ChangeTqAnswersTestorGuid(string strOldGuid, string strNewGuid)
         {
-            foreach (var lineMemberData in
-                this.SelectMany(aVerseData => aVerseData.TestQuestions.Select(aTqData => aTqData.Answers[nIndex])))
-                lineMemberData.MemberId = strNewGuid;
+            FirstVerse.ReplaceAnswersUns(strOldGuid, strNewGuid);
+            foreach (var aVerse in this)
+                aVerse.ReplaceAnswersUns(strOldGuid, strNewGuid);
         }
 
         public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)

@@ -362,8 +362,12 @@ namespace OneStoryProjectEditor
                 ChangeQuestionTestor(textBoxUnsInferenceTest4, 3, ref testInfoInferenceTests, ref bModified);
 
                 // now that we've checked and verified everything, then update the stored info
-                _theCurrentStory.CraftingInfo.TestorsToCommentsRetellings = testInfoRetellings;
-                _theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers = testInfoInferenceTests;
+                _theCurrentStory.CraftingInfo.TestorsToCommentsRetellings = AdjustForSwap(testInfoRetellings,
+                                                                                          _theCurrentStory.Verses.
+                                                                                              ChangeRetellingTestorGuid);
+                _theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers = AdjustForSwap(testInfoInferenceTests,
+                                                                                         _theCurrentStory.Verses.
+                                                                                             ChangeTqAnswersTestorGuid);
             }
             catch (Exception ex)
             {
@@ -376,6 +380,24 @@ namespace OneStoryProjectEditor
 
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private delegate void ChangeTestorGuid(string strOldGuid, string strNewGuid);
+        private TestInfo AdjustForSwap(TestInfo testInfo, 
+            ChangeTestorGuid changeTestorGuid)
+        {
+            foreach (var aTestor in testInfo)
+                if (_theStoryProjectData.TeamMembers.ContainsKey(aTestor.MemberId))
+                {
+                    // this means we had temporarily used the member's *name* as their
+                    //  guid (in the case where the person was already in the list, 
+                    //  we couldn't just change the guid due to the 'swap' problem--
+                    //  see StoryData.ChangeTestor for details)
+                    var member = _theStoryProjectData.TeamMembers[aTestor.MemberId];
+                    changeTestorGuid(aTestor.MemberId, member.MemberGuid);
+                    aTestor.MemberId = member.MemberGuid;
+                }
+            return testInfo;
         }
 
         private void CheckForDuplicate(TextBox textBox, ref List<string> lstUnsGuids)
@@ -414,12 +436,13 @@ namespace OneStoryProjectEditor
         protected void ChangeRetellingTestor(TextBox tb, int nIndex,
             ref TestInfo testInfoNew, ref bool bModified)
         {
-            TeamMemberData theUns;
+            TeamMemberData theNewUns;
             if (ChangeTestor(tb, nIndex,
                              _theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
-                             out theUns, ref bModified))
+                             out theNewUns, ref bModified))
             {
-                _theCurrentStory.ChangeRetellingTestor(nIndex, theUns.MemberGuid, ref testInfoNew);
+                _theCurrentStory.ChangeRetellingTestor(_theStoryProjectData.TeamMembers,
+                    nIndex, theNewUns.MemberGuid, ref testInfoNew);
             }
         }
 
@@ -431,26 +454,27 @@ namespace OneStoryProjectEditor
                              _theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
                              out theUns, ref bModified))
             {
-                _theCurrentStory.ChangeTqAnswersTestor(nIndex, theUns.MemberGuid, ref testInfoNew);
+                _theCurrentStory.ChangeTqAnswersTestor(_theStoryProjectData.TeamMembers, 
+                    nIndex, theUns.MemberGuid, ref testInfoNew);
             }
         }
 
         private bool ChangeTestor(TextBox tb, int nIndex, TestInfo testInfoCurrent,
-            out TeamMemberData theUns, ref bool bModified)
+            out TeamMemberData theNewUns, ref bool bModified)
         {
             if (tb.Tag != null)
             {
-                theUns = (TeamMemberData)tb.Tag;
+                theNewUns = (TeamMemberData)tb.Tag;
                 bModified = true;
             }
             else if (testInfoCurrent.Count > nIndex)
             {
                 var testorInfo = testInfoCurrent[nIndex];
-                theUns = _theStoryProjectData.GetMemberFromId(testorInfo.MemberId);
+                theNewUns = _theStoryProjectData.GetMemberFromId(testorInfo.MemberId);
             }
             else
             {
-                theUns = null;
+                theNewUns = null;
                 return false;
             }
 

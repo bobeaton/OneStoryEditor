@@ -201,32 +201,35 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public void ChangeRetellingTestor(int nTestIndex, string strNewGuid, 
-            ref TestInfo testInfoNew)
+        public void ChangeRetellingTestor(TeamMembersData teamMembersData, int nTestIndex, 
+            string strNewGuid, ref TestInfo testInfoNew)
         {
             // first see if UNS being "added" is already there (i.e. it's just a change
             //  of index)
-            if (ChangeTestor(CraftingInfo.TestorsToCommentsRetellings, 
-                    strNewGuid, nTestIndex, ref testInfoNew))
+            string strOldGuid = null;
+            if (ChangeTestor(teamMembersData, CraftingInfo.TestorsToCommentsRetellings,
+                    nTestIndex, ref testInfoNew, ref strOldGuid, ref strNewGuid))
             {
-                Verses.ChangeRetellingTestorGuid(nTestIndex, strNewGuid);
+                Verses.ChangeRetellingTestorGuid(strOldGuid, strNewGuid);
             }
         }
 
-        public void ChangeTqAnswersTestor(int nTestIndex, string strNewGuid,
-            ref TestInfo testInfoNew)
+        public void ChangeTqAnswersTestor(TeamMembersData teamMembersData, int nTestIndex, 
+            string strNewGuid, ref TestInfo testInfoNew)
         {
             // first see if UNS being "added" is already there (i.e. it's just a change
             //  of index)
-            if (ChangeTestor(CraftingInfo.TestorsToCommentsTqAnswers,
-                    strNewGuid, nTestIndex, ref testInfoNew))
+            string strOldGuid = null;
+            if (ChangeTestor(teamMembersData, CraftingInfo.TestorsToCommentsTqAnswers,
+                    nTestIndex, ref testInfoNew, ref strOldGuid, ref strNewGuid))
             {
-                Verses.ChangeTqAnswersTestorGuid(nTestIndex, strNewGuid);
+                Verses.ChangeTqAnswersTestorGuid(strOldGuid, strNewGuid);
             }
         }
 
-        private static bool ChangeTestor(TestInfo testInfo, string strNewGuid, 
-            int nTestIndex, ref TestInfo testInfoNew)
+        private static bool ChangeTestor(TeamMembersData teamMembersData, 
+            TestInfo testInfo, int nTestIndex, ref TestInfo testInfoNew, 
+            ref string strOldGuid, ref string strNewGuid)
         {
             bool bRet = false;
             MemberIdInfo memberIdInfo;
@@ -235,6 +238,18 @@ namespace OneStoryProjectEditor
                 var oldTestorInfo = testInfo[nTestIndex];
                 if (oldTestorInfo.MemberId != strNewGuid)
                 {
+                    strOldGuid = oldTestorInfo.MemberId;
+                    
+                    // if the new guid is already in the list (i.e. the person is being
+                    //  moved to another index), then we have to do the "swap" algorithm 
+                    //  (i.e. a->c, b->a, c->b) so we don't end up having (if temporarily) 
+                    //  two sets of results for one UNS, since we can't distinguish 
+                    //  between them to split them up again. So 'c' will be the member's 
+                    //  *name* rather than guid and after we're done, we'll check for the 
+                    //  existance of names as guids and swap them to guids if so
+                    if (testInfo.Contains(strNewGuid))
+                        strNewGuid = teamMembersData.GetNameFromMemberId(strNewGuid);
+
                     memberIdInfo = new MemberIdInfo(strNewGuid, oldTestorInfo.MemberComment);
                     bRet = true;
                 }
@@ -245,6 +260,7 @@ namespace OneStoryProjectEditor
             }
             else
             {
+                Debug.Assert(false); // can this happen?
                 // default comment for both
                 string strComment = String.Format(Properties.Resources.IDS_InferenceCommentFormat,
                                                   DateTime.Now.ToString("yyyy-MMM-dd"));

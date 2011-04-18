@@ -430,6 +430,10 @@ namespace OneStoryProjectEditor
 
         public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
         {
+            // shouldn't already have the new one (or we'll get duplicates, which can't
+            //  be rectified)
+            System.Diagnostics.Debug.Assert(TryGetValue(strNewUnsGuid) == null);
+
             var theLine = TryGetValue(strOldUnsGuid);
             if ((theLine != null) && (theLine.MemberId == strOldUnsGuid))
                 theLine.MemberId = strNewUnsGuid;
