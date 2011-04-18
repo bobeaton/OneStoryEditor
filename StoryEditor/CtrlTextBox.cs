@@ -660,6 +660,10 @@ namespace OneStoryProjectEditor
         private void onAddAnswerBox(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Assert((_ctrlVerseParent != null) && (_ctrlVerseParent.TheSE != null));
+            StoryEditor theSE;
+            if (!_ctrlVerseParent.CheckForProperEditToken(out theSE))
+                return;
+
             var theVerseCtrl = _ctrlVerseParent as VerseBtControl;
             if (theVerseCtrl == null)
                 return;
@@ -673,6 +677,10 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert((_ctrlVerseParent != null) 
                 && (_ctrlVerseParent.TheSE != null));
+            StoryEditor theSE;
+            if (!_ctrlVerseParent.CheckForProperEditToken(out theSE))
+                return;
+
             var theVerseCtrl = _ctrlVerseParent as VerseBtControl;
             if (theVerseCtrl == null)
                 return;
