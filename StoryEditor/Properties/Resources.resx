@@ -372,7 +372,7 @@ of the team before overwriting a list</value>
 &lt;meta name=Generator content="Microsoft Word 11"&gt;
 &lt;meta name=Originator content="Microsoft Word 11"&gt;
 &lt;link rel=File-List href="OneStory%20Editor%20is%20Copyright_files/filelist.xml"&gt;
-&lt;title&gt;OneStory Editor is Copyright © 2009 SIL International &lt;/title&gt;
+&lt;title&gt;OneStory Editor is Copyright © 2009-2011 SIL International &lt;/title&gt;
 &lt;!--[if gte mso 9]&gt;&lt;xml&gt;
  &lt;o:DocumentProperties&gt;
   &lt;o:Author&gt;Bob Eaton&lt;/o:Author&gt;
@@ -751,7 +751,7 @@ div.Section1
 &lt;div class=Section1&gt;
 
 &lt;p class=MsoNormal&gt;&lt;span class=SpellE&gt;OneStory&lt;/span&gt; Editor is Copyright ©
-2009 SIL International &lt;/p&gt;
+2009-2011 SIL International &lt;/p&gt;
 
 &lt;p class=MsoNormal&gt;For limited support, contact: &lt;a
 href="mailto:bob_eaton@sall.com"&gt;bob_eaton@sall.com&lt;/a&gt;&lt;/p&gt;
@@ -2140,6 +2140,9 @@ and in the resulting window click on the next (green) state.
   </data>
   <data name="IDS_MainFrameTitleSuffix" xml:space="preserve">
     <value> -- ({0} logged in as '{1}')</value>
+  </data>
+  <data name="IDS_OSEUpgradeServerNextMajorUpgrade" xml:space="preserve">
+    <value>ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.2/StoryEditor.exe.manifest.xml</value>
   </data>
   <data name="IDS_WarnAboutUnapprovedComments" xml:space="preserve">
     <value>There are one or more comments in the Consultant Notes pane by the CIT (or LSR) that haven't been approved. Click 'Yes' to ignore them and continue on, or click 'No' to cancel so you can go back and approve/get them approved</value>

@@ -625,12 +625,11 @@ namespace OneStoryProjectEditor.Properties {
         ///&lt;meta name=Generator content=&quot;Microsoft Word 11&quot;&gt;
         ///&lt;meta name=Originator content=&quot;Microsoft Word 11&quot;&gt;
         ///&lt;link rel=File-List href=&quot;OneStory%20Editor%20is%20Copyright_files/filelist.xml&quot;&gt;
-        ///&lt;title&gt;OneStory Editor is Copyright © 2009 SIL International &lt;/title&gt;
+        ///&lt;title&gt;OneStory Editor is Copyright © 2009-2011 SIL International &lt;/title&gt;
         ///&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
         /// &lt;o:DocumentProperties&gt;
         ///  &lt;o:Author&gt;Bob Eaton&lt;/o:Author&gt;
-        ///  &lt;o:LastAuthor&gt;Bob Eaton&lt;/o:LastAuthor&gt;
-        ///  &lt;o [rest of string was truncated]&quot;;.
+        ///  &lt;o:LastAuthor&gt;Bob Eaton&lt;/o:LastAuthor&gt;        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IDS_CopyrightInfo {
             get {
@@ -1128,6 +1127,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_OSEUpgradeServer {
             get {
                 return ResourceManager.GetString("IDS_OSEUpgradeServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.2/StoryEditor.exe.manifest.xml.
+        /// </summary>
+        internal static string IDS_OSEUpgradeServerNextMajorUpgrade {
+            get {
+                return ResourceManager.GetString("IDS_OSEUpgradeServerNextMajorUpgrade", resourceCulture);
             }
         }
         

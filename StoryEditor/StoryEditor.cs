@@ -4869,6 +4869,16 @@ namespace OneStoryProjectEditor
 
         private void checkForProgramUpdatesNowToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            CheckForUpgrade(Properties.Resources.IDS_OSEUpgradeServer);
+        }
+
+        private void checkNowForNextMajorUpdateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckForUpgrade(Properties.Resources.IDS_OSEUpgradeServerNextMajorUpgrade);
+        }
+
+        private void CheckForUpgrade(string strManifestUrl)
+        {
             try
             {
                 // save changes before checking (so we can close rapidly if need be)
@@ -4877,7 +4887,7 @@ namespace OneStoryProjectEditor
 
                 // this shouldn't be needed, but it seems that occasionally, it is...
                 SuspendSaveDialog = true;
-                Program.CheckForProgramUpdate(true);
+                Program.CheckForProgramUpdate(true, strManifestUrl);
                 SuspendSaveDialog = false;
 
                 // since the call to SaveDirty will have removed them all
@@ -4886,7 +4896,7 @@ namespace OneStoryProjectEditor
 
                 // if it returns here without throwing an exception, it means there were no updates
                 MessageBox.Show(Properties.Resources.IDS_NoProgramUpdates,
-                    OseResources.Properties.Resources.IDS_Caption);
+                                OseResources.Properties.Resources.IDS_Caption);
             }
             catch (Program.RestartException)
             {

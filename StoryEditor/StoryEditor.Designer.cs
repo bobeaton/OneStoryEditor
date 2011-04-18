@@ -139,6 +139,7 @@ namespace OneStoryProjectEditor
             this.programUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.automaticallyCheckAtStartupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForProgramUpdatesNowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkNowForNextMajorUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveTimeoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.asSilentlyAsPossibleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -162,7 +163,7 @@ namespace OneStoryProjectEditor
             this.textBoxCoachNotes = new System.Windows.Forms.TextBox();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.toolStripRecordNavigation = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonShowPanoramaStories = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonFirst = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonPrevious = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonNext = new System.Windows.Forms.ToolStripButton();
@@ -1118,7 +1119,8 @@ namespace OneStoryProjectEditor
             // 
             this.programUpdatesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.automaticallyCheckAtStartupToolStripMenuItem,
-            this.checkForProgramUpdatesNowToolStripMenuItem});
+            this.checkForProgramUpdatesNowToolStripMenuItem,
+            this.checkNowForNextMajorUpdateToolStripMenuItem});
             this.programUpdatesToolStripMenuItem.Name = "programUpdatesToolStripMenuItem";
             this.programUpdatesToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.programUpdatesToolStripMenuItem.Text = "Program &Updates";
@@ -1128,7 +1130,7 @@ namespace OneStoryProjectEditor
             // 
             this.automaticallyCheckAtStartupToolStripMenuItem.CheckOnClick = true;
             this.automaticallyCheckAtStartupToolStripMenuItem.Name = "automaticallyCheckAtStartupToolStripMenuItem";
-            this.automaticallyCheckAtStartupToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.automaticallyCheckAtStartupToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
             this.automaticallyCheckAtStartupToolStripMenuItem.Text = "&Automatically check at startup";
             this.automaticallyCheckAtStartupToolStripMenuItem.ToolTipText = "Uncheck this menu to stop the program from automatically checking for program upd" +
                 "ates when the program is started (this can save startup time)";
@@ -1137,10 +1139,19 @@ namespace OneStoryProjectEditor
             // checkForProgramUpdatesNowToolStripMenuItem
             // 
             this.checkForProgramUpdatesNowToolStripMenuItem.Name = "checkForProgramUpdatesNowToolStripMenuItem";
-            this.checkForProgramUpdatesNowToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.checkForProgramUpdatesNowToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
             this.checkForProgramUpdatesNowToolStripMenuItem.Text = "&Check now";
             this.checkForProgramUpdatesNowToolStripMenuItem.ToolTipText = "Click this menu to have the program manually check for program updates";
             this.checkForProgramUpdatesNowToolStripMenuItem.Click += new System.EventHandler(this.checkForProgramUpdatesNowToolStripMenuItem_Click);
+            // 
+            // checkNowForNextMajorUpdateToolStripMenuItem
+            // 
+            this.checkNowForNextMajorUpdateToolStripMenuItem.Name = "checkNowForNextMajorUpdateToolStripMenuItem";
+            this.checkNowForNextMajorUpdateToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.checkNowForNextMajorUpdateToolStripMenuItem.Text = "Check now for next &major update";
+            this.checkNowForNextMajorUpdateToolStripMenuItem.ToolTipText = "Click this menu to have the program check if the next major update (which wouldn\'" +
+                "t be installed automatically by default) is available";
+            this.checkNowForNextMajorUpdateToolStripMenuItem.Click += new System.EventHandler(this.checkNowForNextMajorUpdateToolStripMenuItem_Click);
             // 
             // saveTimeoutToolStripMenuItem
             // 
@@ -1425,27 +1436,27 @@ namespace OneStoryProjectEditor
             this.toolStripRecordNavigation.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStripRecordNavigation.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStripRecordNavigation.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1,
+            this.toolStripButtonShowPanoramaStories,
             this.toolStripButtonFirst,
             this.toolStripButtonPrevious,
             this.toolStripButtonNext,
             this.toolStripButtonLast});
-            this.toolStripRecordNavigation.Location = new System.Drawing.Point(471, 0);
+            this.toolStripRecordNavigation.Location = new System.Drawing.Point(440, 0);
             this.toolStripRecordNavigation.Name = "toolStripRecordNavigation";
-            this.toolStripRecordNavigation.Size = new System.Drawing.Size(118, 25);
+            this.toolStripRecordNavigation.Size = new System.Drawing.Size(149, 25);
             this.toolStripRecordNavigation.TabIndex = 3;
             this.toolStripRecordNavigation.Text = "toolStrip1";
             // 
-            // toolStripButton1
+            // toolStripButtonShowPanoramaStories
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = global::OneStoryProjectEditor.Properties.Resources.ShowAllCommentsHS;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "toolStripButton1";
-            this.toolStripButton1.ToolTipText = "Click to view the list of full stories (same as \"Panorama\", \"Show\")";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripMenuItemShowPanorama_Click);
+            this.toolStripButtonShowPanoramaStories.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonShowPanoramaStories.Image = global::OneStoryProjectEditor.Properties.Resources.ShowAllCommentsHS;
+            this.toolStripButtonShowPanoramaStories.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonShowPanoramaStories.Name = "toolStripButtonShowPanoramaStories";
+            this.toolStripButtonShowPanoramaStories.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonShowPanoramaStories.Text = "Show Panorama Stories";
+            this.toolStripButtonShowPanoramaStories.ToolTipText = "Click to view the list of full stories (same as \"Panorama\", \"Show\")";
+            this.toolStripButtonShowPanoramaStories.Click += new System.EventHandler(this.toolStripMenuItemShowPanorama_Click);
             // 
             // toolStripButtonFirst
             // 
@@ -1710,7 +1721,8 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem closeProjectToolStripMenuItem;
         internal ToolStripMenuItem viewExegeticalHelps;
         private System.ComponentModel.BackgroundWorker backgroundWorker;
-        private ToolStripButton toolStripButton1;
+        private ToolStripButton toolStripButtonShowPanoramaStories;
+        private ToolStripMenuItem checkNowForNextMajorUpdateToolStripMenuItem;
     }
 
 #if UsingHtmlDisplayForConNotes
