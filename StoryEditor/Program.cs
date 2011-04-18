@@ -103,9 +103,8 @@ namespace OneStoryProjectEditor
         {
         }
 
-        internal static void CheckForProgramUpdate(bool bThrowErrors)
+        internal static void CheckForProgramUpdate(bool bThrowErrors, string strManifestAddress)
         {
-            string strManifestAddress = Properties.Resources.IDS_OSEUpgradeServer;
             /*
             strManifestAddress = @"ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/Testing/StoryEditor.exe.manifest.xml";
             strManifestAddress = 

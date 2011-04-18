@@ -372,7 +372,7 @@ of the team before overwriting a list</value>
 &lt;meta name=Generator content="Microsoft Word 11"&gt;
 &lt;meta name=Originator content="Microsoft Word 11"&gt;
 &lt;link rel=File-List href="OneStory%20Editor%20is%20Copyright_files/filelist.xml"&gt;
-&lt;title&gt;OneStory Editor is Copyright © 2009 SIL International &lt;/title&gt;
+&lt;title&gt;OneStory Editor is Copyright © 2009-2011 SIL International &lt;/title&gt;
 &lt;!--[if gte mso 9]&gt;&lt;xml&gt;
  &lt;o:DocumentProperties&gt;
   &lt;o:Author&gt;Bob Eaton&lt;/o:Author&gt;
@@ -751,7 +751,7 @@ div.Section1
 &lt;div class=Section1&gt;
 
 &lt;p class=MsoNormal&gt;&lt;span class=SpellE&gt;OneStory&lt;/span&gt; Editor is Copyright ©
-2009 SIL International &lt;/p&gt;
+2009-2011 SIL International &lt;/p&gt;
 
 &lt;p class=MsoNormal&gt;For limited support, contact: &lt;a
 href="mailto:bob_eaton@sall.com"&gt;bob_eaton@sall.com&lt;/a&gt;&lt;/p&gt;
@@ -2137,5 +2137,8 @@ and in the resulting window click on the next (green) state.
   </data>
   <data name="IDS_UnableToOpenStageTransitionsXml" xml:space="preserve">
     <value>Unable to process the state customization file (i.e. {0}). If you've customized which fields show by default in various states, then you need to delete the version of the customization file in the project folder (i.e. "{1}\{0}") so the program can re-create it using the newly upgraded version</value>
+  </data>
+  <data name="IDS_OSEUpgradeServerNextMajorUpgrade" xml:space="preserve">
+    <value>ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.2/StoryEditor.exe.manifest.xml</value>
   </data>
 </root>

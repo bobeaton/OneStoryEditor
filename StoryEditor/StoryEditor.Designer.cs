@@ -170,6 +170,7 @@ namespace OneStoryProjectEditor
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.checkNowForNextMajorUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -1117,7 +1118,8 @@ namespace OneStoryProjectEditor
             // 
             this.programUpdatesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.automaticallyCheckAtStartupToolStripMenuItem,
-            this.checkForProgramUpdatesNowToolStripMenuItem});
+            this.checkForProgramUpdatesNowToolStripMenuItem,
+            this.checkNowForNextMajorUpdateToolStripMenuItem});
             this.programUpdatesToolStripMenuItem.Name = "programUpdatesToolStripMenuItem";
             this.programUpdatesToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.programUpdatesToolStripMenuItem.Text = "Program &Updates";
@@ -1127,7 +1129,7 @@ namespace OneStoryProjectEditor
             // 
             this.automaticallyCheckAtStartupToolStripMenuItem.CheckOnClick = true;
             this.automaticallyCheckAtStartupToolStripMenuItem.Name = "automaticallyCheckAtStartupToolStripMenuItem";
-            this.automaticallyCheckAtStartupToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.automaticallyCheckAtStartupToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
             this.automaticallyCheckAtStartupToolStripMenuItem.Text = "&Automatically check at startup";
             this.automaticallyCheckAtStartupToolStripMenuItem.ToolTipText = "Uncheck this menu to stop the program from automatically checking for program upd" +
                 "ates when the program is started (this can save startup time)";
@@ -1136,7 +1138,7 @@ namespace OneStoryProjectEditor
             // checkForProgramUpdatesNowToolStripMenuItem
             // 
             this.checkForProgramUpdatesNowToolStripMenuItem.Name = "checkForProgramUpdatesNowToolStripMenuItem";
-            this.checkForProgramUpdatesNowToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.checkForProgramUpdatesNowToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
             this.checkForProgramUpdatesNowToolStripMenuItem.Text = "&Check now";
             this.checkForProgramUpdatesNowToolStripMenuItem.ToolTipText = "Click this menu to have the program manually check for program updates";
             this.checkForProgramUpdatesNowToolStripMenuItem.Click += new System.EventHandler(this.checkForProgramUpdatesNowToolStripMenuItem_Click);
@@ -1522,6 +1524,15 @@ namespace OneStoryProjectEditor
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
             // 
+            // checkNowForNextMajorUpdateToolStripMenuItem
+            // 
+            this.checkNowForNextMajorUpdateToolStripMenuItem.Name = "checkNowForNextMajorUpdateToolStripMenuItem";
+            this.checkNowForNextMajorUpdateToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.checkNowForNextMajorUpdateToolStripMenuItem.Text = "Check now for next &major update";
+            this.checkNowForNextMajorUpdateToolStripMenuItem.ToolTipText = "Click this menu to have the program check if the next major update (which wouldn\'" +
+                "t be installed automatically by default) is available";
+            this.checkNowForNextMajorUpdateToolStripMenuItem.Click += new System.EventHandler(this.checkNowForNextMajorUpdateToolStripMenuItem_Click);
+            // 
             // StoryEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1697,6 +1708,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem closeProjectToolStripMenuItem;
         internal ToolStripMenuItem viewExegeticalHelps;
         private System.ComponentModel.BackgroundWorker backgroundWorker;
+        private ToolStripMenuItem checkNowForNextMajorUpdateToolStripMenuItem;
     }
 
 #if UsingHtmlDisplayForConNotes
