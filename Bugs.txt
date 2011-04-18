@@ -1,6 +1,4 @@
-﻿Print not working (e.g. not displaying comments properly)
-
-Toolbox export not working still
+﻿Toolbox export not working still
 
 pssecurity@utdallas.edu
 
