@@ -329,7 +329,7 @@ namespace OneStoryProjectEditor
         {
             bool bNeedPf, bNeedCons, bNeedCoach;
             Verses.CheckConNoteMemberIds(out bNeedPf, out bNeedCons, out bNeedCoach);
-            if (bNeedPf || !MemberIdInfo.Configured(CraftingInfo.ProjectFacilitator))
+            if (bNeedPf && !MemberIdInfo.Configured(CraftingInfo.ProjectFacilitator))
             {
                 var str = CheckForMember(storyProjectData,
                                          TeamMemberData.UserTypes.ProjectFacilitator,
@@ -337,7 +337,7 @@ namespace OneStoryProjectEditor
                 if (String.IsNullOrEmpty(str))
                     return false;
             }
-            if (bNeedCons || !MemberIdInfo.Configured(CraftingInfo.Consultant))
+            if (bNeedCons && !MemberIdInfo.Configured(CraftingInfo.Consultant))
             {
                 var str = CheckForMember(storyProjectData,
                                          TeamMemberData.UserTypes.IndependentConsultant |
@@ -346,7 +346,7 @@ namespace OneStoryProjectEditor
                 if (String.IsNullOrEmpty(str))
                     return false;
             }
-            if (bNeedCoach || !MemberIdInfo.Configured(CraftingInfo.Coach))
+            if (bNeedCoach && !MemberIdInfo.Configured(CraftingInfo.Coach))
             {
                 var str = CheckForMember(storyProjectData,
                                          TeamMemberData.UserTypes.Coach,
