@@ -1538,9 +1538,14 @@ namespace OneStoryProjectEditor
                 // there are two cases we have to treat specially:
                 //  1) it's 'ret 0' (because somehow the member id was removed)
                 //  2) there's no 'ret 1' (in which case 'ret 2' is the zeroth element)
-                int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
-                var testor = theCurrentStory.CraftingInfo.TestorsToCommentsRetellings[nTestNumber];
-                LineMemberData retellingData = retellings.TryGetValue(testor.MemberId);
+
+                // there are two cases we have to treat specially:
+                //  1) it's 'ans 0' (because somehow the member id was removed)
+                //  2) there's no 'ans 1' (in which case 'ans 2' is the zeroth element)
+                string strTestorId = GetTestorId(strTestNumber,
+                                                 theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
+                                                 retellings);
+                LineMemberData retellingData = retellings.TryGetValue(strTestorId);
 
                 strNote += strLabel;
                 // get selected text from all visible Story line controls
@@ -1607,9 +1612,34 @@ namespace OneStoryProjectEditor
             // there are two cases we have to treat specially:
             //  1) it's 'ans 0' (because somehow the member id was removed)
             //  2) there's no 'ans 1' (in which case 'ans 2' is the zeroth element)
-            nTestNumber = Convert.ToInt32(strTestNumber) - 1;
-            var testor = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTestNumber];
-            return answers.TryGetValue(testor.MemberId);
+            string strTestorId = GetTestorId(strTestNumber,
+                                             theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
+                                             answers);
+            return answers.TryGetValue(strTestorId);
+        }
+
+        private static string GetTestorId(string strTestNumber, TestInfo testInfo,
+            IEnumerable<LineMemberData> answersData)
+        {
+            int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
+            string strMemberId = null;
+            if (nTestNumber < 0)
+            {
+                // means it was "ans 0", so figure out which one it was (it'll be the
+                //  one that *isn't* in the testInfo structure)
+                foreach (var answer in answersData.Where(answer => 
+                    !testInfo.Contains(answer.MemberId)))
+                {
+                    strMemberId = answer.MemberId;
+                    break;
+                }
+            }
+            else
+            {
+                var testor = testInfo[nTestNumber];
+                strMemberId = testor.MemberId;
+            }
+            return strMemberId;
         }
 
         internal static TestQuestionData GetTestQuestionData(string strLabel, VerseBtControl ctrl)
