@@ -166,12 +166,13 @@ namespace OneStoryProjectEditor
             }
 
             if (MentorHasRespondPrivilege(loggedOnMember, theTeamMembers, theStory))
-                Add(CreateMentorNote(loggedOnMember, strValue));
+                Add(CreateMentorNote(loggedOnMember, theStory, strValue));
             else if (MentoreeHasRespondPrivilege(loggedOnMember, theStory))
                 Add(new CommInstance(strValue, MenteeDirection, null, loggedOnMember.MemberGuid, DateTime.Now));
         }
 
-        protected virtual CommInstance CreateMentorNote(TeamMemberData loggedOnMember, string strValue)
+        protected virtual CommInstance CreateMentorNote(TeamMemberData loggedOnMember,
+            StoryData theStory, string strValue)
         {
             return new CommInstance(strValue, MentorDirection, null, loggedOnMember.MemberGuid, DateTime.Now);
         }
@@ -1068,14 +1069,28 @@ namespace OneStoryProjectEditor
             get { return VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields; }
         }
 
-        protected override CommInstance CreateMentorNote(TeamMemberData loggedOnMember, string strValue)
+        protected override CommInstance CreateMentorNote(TeamMemberData loggedOnMember, 
+            StoryData theStory, string strValue)
         {
-            return TeamMemberData.IsUser(loggedOnMember.MemberType,
-                                         TeamMemberData.UserTypes.ConsultantInTraining |
-                                         TeamMemberData.UserTypes.FirstPassMentor)
+            // override in order to add a comment that needs to be approved
+            // a comment needs approval in two cases:
+            //   1) The member is a CIT and (s)he is required to send the story back to
+            //      the coach anyway (so, to allow the CIT to *not* have to get approval 
+            //      for some minor comment (e.g. "add this TQ and send it to the PF for 
+            //      a test"), then the coach must uncheck the 'Set to Coach's turn' 
+            //      requirement).
+            //   2) The member is an LSR. Such comments always need to be approved.
+            bool bNeedsApproval =
+                (TeamMemberData.IsUser(loggedOnMember.MemberType,
+                                       TeamMemberData.UserTypes.ConsultantInTraining) &&
+                 TasksCit.IsTaskOn(theStory.TasksRequiredCit,
+                                   TasksCit.TaskSettings.SendToCoachForReview)) ||
+                TeamMemberData.IsUser(loggedOnMember.MemberType,
+                                      TeamMemberData.UserTypes.FirstPassMentor);
+            return (bNeedsApproval)
                        ? new CommInstance(strValue, CommunicationDirections.eConsultantToProjFacNeedsApproval, null,
                                           loggedOnMember.MemberGuid, DateTime.Now)
-                       : base.CreateMentorNote(loggedOnMember, strValue);
+                       : base.CreateMentorNote(loggedOnMember, theStory, strValue);
         }
 
         protected override bool LoggedOnMentorHasResponsePrivilege(TeamMemberData loggedOnMember,
