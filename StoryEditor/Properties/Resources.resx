@@ -229,7 +229,7 @@
     <comment>कहानी: </comment>
   </data>
   <data name="IDS_OSEUpgradeServer" xml:space="preserve">
-    <value>ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.1/StoryEditor.exe.manifest.xml</value>
+    <value>ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.2/StoryEditor.exe.manifest.xml</value>
   </data>
   <data name="IDS_NoSearchString" xml:space="preserve">
     <value>Nothing to search for!</value>
@@ -2142,7 +2142,7 @@ and in the resulting window click on the next (green) state.
     <value> -- ({0} logged in as '{1}')</value>
   </data>
   <data name="IDS_OSEUpgradeServerNextMajorUpgrade" xml:space="preserve">
-    <value>ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.2/StoryEditor.exe.manifest.xml</value>
+    <value>ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.3/StoryEditor.exe.manifest.xml</value>
   </data>
   <data name="IDS_WarnAboutUnapprovedComments" xml:space="preserve">
     <value>There are one or more comments in the Consultant Notes pane by the CIT (or LSR) that haven't been approved. Click 'Yes' to ignore them and continue on, or click 'No' to cancel so you can go back and approve/get them approved</value>
