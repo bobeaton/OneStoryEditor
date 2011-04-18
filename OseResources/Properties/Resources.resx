@@ -716,7 +716,7 @@ eater Panorama
     <value>It appears that some other team member has added a duplicate member with the name '{0}', but only one is allowed! The latter one will be discarded.</value>
   </data>
   <data name="IDS_GetNewVersion" xml:space="preserve">
-    <value>One of the team members has used a newer version of this program to edit the file, which is not compatible with the version you are using. You will have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the "Setup OneStory Editor.zip" file.</value>
+    <value>One of the team members is using a newer version of OSE to edit the file, which is not compatible with the version you are using. You might try, "Advanced", "Program Updates", "Check now" or "Check now for next major update" or you may have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the "Setup OneStory Editor.zip" file.</value>
   </data>
   <data name="IDS_HaveToLogInToContinue" xml:space="preserve">
     <value>You have to log in to continue. Click 'Project', 'Login' and choose or add your name.</value>
