@@ -2141,4 +2141,7 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_OSEUpgradeServerNextMajorUpgrade" xml:space="preserve">
     <value>ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.2/StoryEditor.exe.manifest.xml</value>
   </data>
+  <data name="IDS_MentionNewUpdateAvailable" xml:space="preserve">
+    <value>There's a new version of OSE available. To upgrade, click 'Advanced', 'Program Updates', 'Check now'</value>
+  </data>
 </root>

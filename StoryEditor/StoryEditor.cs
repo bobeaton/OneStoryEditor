@@ -161,18 +161,10 @@ namespace OneStoryProjectEditor
             {
                 var autoUpgrade = e.Result as devX.AutoUpgrade;
 
-                //  confirm this is what the user wants to do.
-                if ((autoUpgrade == null)
-                    || (MessageBox.Show(Properties.Resources.IDS_ConfirmAutoUpgrade,
-                                        OseResources.Properties.Resources.IDS_Caption,
-                                        MessageBoxButtons.YesNoCancel) != DialogResult.Yes))
-                    return;
-
-                if (!CheckForSaveDirtyFile())
-                    return;
-
-                Close();
-                autoUpgrade.StartUpgradeStub();
+                //  info the user about the new release available
+                if (autoUpgrade != null)
+                    MessageBox.Show(Properties.Resources.IDS_MentionNewUpdateAvailable,
+                                    OseResources.Properties.Resources.IDS_Caption);
             }
             catch (Exception ex)
             {
