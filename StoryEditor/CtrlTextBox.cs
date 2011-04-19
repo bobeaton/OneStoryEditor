@@ -8,7 +8,6 @@ namespace OneStoryProjectEditor
 {
     public class CtrlTextBox : TextBox
     {
-        protected StoryStageLogic _stageLogic;
         internal VerseControl _ctrlVerseParent;
         protected string _strKeyboardName;
         internal string _strLabel;
@@ -34,7 +33,6 @@ namespace OneStoryProjectEditor
             stData.SetAssociation(this);
             TextChanged += new EventHandler(ctrlParent.textBox_TextChanged);
             System.Diagnostics.Debug.Assert(ctrlParent.StageLogic != null);
-            _stageLogic = ctrlParent.StageLogic;
             _ctrlVerseParent = ctrlVerseParent;
         }
 
@@ -48,7 +46,6 @@ namespace OneStoryProjectEditor
             stData.SetAssociation(this);
             TextChanged += new EventHandler(ctrlParent.textBox_TextChanged);
             System.Diagnostics.Debug.Assert(ctrlParent.StageLogic != null);
-            _stageLogic = ctrlParent.StageLogic;
             _ctrlVerseParent = ctrlVerseParent;
             _delegateRequiredEditorCheck = delegateRequiredEditorCheck; // call to check if the proper member is logged in!
             _eRequiredEditor = eRequiredEditor;
@@ -86,7 +83,6 @@ namespace OneStoryProjectEditor
             TextChanged += ctrlParent.textBox_TextChanged;
             MouseMove += CtrlTextBox_MouseMove;
             System.Diagnostics.Debug.Assert(ctrlParent.StageLogic != null);
-            _stageLogic = ctrlParent.StageLogic;
             _ctrlVerseParent = ctrlVerseParent;
             _strKeyboardName = li.Keyboard;
             _strFullStop = li.FullStop;
@@ -198,28 +194,23 @@ namespace OneStoryProjectEditor
 
                     // finally, the last possible blockage is if the currently logged on member isn't the 
                     //  right editor for the state we are in (which has to do with who has the edit token)
-                    theSE.LoggedOnMember.ThrowIfEditIsntAllowed(_stageLogic.MemberTypeWithEditToken);
+                    StoryData theStory = theSE.theCurrentStory;
+                    theSE.LoggedOnMember.ThrowIfEditIsntAllowed(theStory);
 
                     // one more finally, don't allow it if it's blocked by the consultant
-                    if ((theSE.StoryProject != null) 
-                        && (theSE.theCurrentStory != null)
-                        && (theSE.LoggedOnMember != null))
+                    ProjectSettings projSettings = theSE.StoryProject.ProjSettings;
+                    if (TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType,
+                        TeamMemberData.UserTypes.ProjectFacilitator))
                     {
-                        ProjectSettings projSettings = theSE.StoryProject.ProjSettings;
-                        StoryData theStory = theSE.theCurrentStory;
-                        if (TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType,
-                            TeamMemberData.UserTypes.ProjectFacilitator))
+                        ProjectSettings.LanguageInfo li;
+                        if (!CheckForTaskPermission((li = projSettings.Vernacular), StoryEditor.TextFieldType.Vernacular, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.VernacularLangFields))
+                            || !CheckForTaskPermission((li = projSettings.NationalBT), StoryEditor.TextFieldType.NationalBt, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.NationalBtLangFields))
+                            || !CheckForTaskPermission((li = projSettings.InternationalBT), StoryEditor.TextFieldType.InternationalBt, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.InternationalBtFields))
+                            || !CheckForTaskPermission((li = projSettings.FreeTranslation), StoryEditor.TextFieldType.FreeTranslation, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.FreeTranslationFields)))
                         {
-                            ProjectSettings.LanguageInfo li;
-                            if (!CheckForTaskPermission((li = projSettings.Vernacular), StoryEditor.TextFieldType.Vernacular, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.VernacularLangFields))
-                                || !CheckForTaskPermission((li = projSettings.NationalBT), StoryEditor.TextFieldType.NationalBt, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.NationalBtLangFields))
-                                || !CheckForTaskPermission((li = projSettings.InternationalBT), StoryEditor.TextFieldType.InternationalBt, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.InternationalBtFields))
-                                || !CheckForTaskPermission((li = projSettings.FreeTranslation), StoryEditor.TextFieldType.FreeTranslation, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.FreeTranslationFields)))
-                            {
-                                throw new ApplicationException(
-                                    String.Format(Properties.Resources.IDS_DontHaveTaskPermission,
-                                                  li.LangName));
-                            }
+                            throw new ApplicationException(
+                                String.Format(Properties.Resources.IDS_DontHaveTaskPermission,
+                                              li.LangName));
                         }
                     }
                 }
@@ -276,11 +267,6 @@ namespace OneStoryProjectEditor
                         _delegateRequiredEditorCheck(theSE.LoggedOnMember.MemberType, _eRequiredEditor);
                     }
 
-                    /* this was already done by CheckForProperEditToken above???
-                    // finally, the last possible blockage is if the currently logged on member isn't the 
-                    //  right editor for the state we are in (which has to do with who has the edit token)
-                    theSE.LoggedOnMember.ThrowIfEditIsntAllowed(_stageLogic.MemberTypeWithEditToken);
-                    */
                     drgevent.Effect = DragDropEffects.Copy;
                 }
                 catch { }   // noop
@@ -647,7 +633,8 @@ namespace OneStoryProjectEditor
             if (tsi != null)
             {
                 var note = (LnCNote)tsi.Tag;
-                var dlg = new AddLnCNoteForm(_ctrlVerseParent.TheSE, note) {Text = LnCNotesForm.CstrEditLnCNote};
+                var dlg = new AddLnCNoteForm(_ctrlVerseParent.TheSE, note)
+                                {Text = LnCNotesForm.CstrEditLnCNote};
                 if ((dlg.ShowDialog() == DialogResult.OK) && (note != null))
                     _ctrlVerseParent.TheSE.Modified = true;
             }
@@ -673,6 +660,10 @@ namespace OneStoryProjectEditor
         private void onAddAnswerBox(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Assert((_ctrlVerseParent != null) && (_ctrlVerseParent.TheSE != null));
+            StoryEditor theSE;
+            if (!_ctrlVerseParent.CheckForProperEditToken(out theSE))
+                return;
+
             var theVerseCtrl = _ctrlVerseParent as VerseBtControl;
             if (theVerseCtrl == null)
                 return;
@@ -686,6 +677,10 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert((_ctrlVerseParent != null) 
                 && (_ctrlVerseParent.TheSE != null));
+            StoryEditor theSE;
+            if (!_ctrlVerseParent.CheckForProperEditToken(out theSE))
+                return;
+
             var theVerseCtrl = _ctrlVerseParent as VerseBtControl;
             if (theVerseCtrl == null)
                 return;

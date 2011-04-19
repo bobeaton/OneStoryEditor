@@ -13,7 +13,7 @@ namespace OneStoryProjectEditor
     public class ProjectSettings
     {
         public string ProjectName;
-        protected string _strProjectFolder = null;
+        protected string _strProjectFolder;
 
         // default is to have all 3, but the user might disable one or the other bt languages
         public LanguageInfo Vernacular = new LanguageInfo(LineData.CstrAttributeLangVernacular, new Font("Arial Unicode MS", 12), Color.Maroon);
@@ -26,16 +26,10 @@ namespace OneStoryProjectEditor
         public AdaptItConfiguration NationalBtToInternationalBt;
 
         public bool IsConfigured;
-        public string HgRepoUrl = null;
-        public bool ShowRetellingVernacular;
-        public bool ShowRetellingNationalBT;
-        public bool ShowRetellingInternationalBT = true;
-        public bool ShowTestQuestionsVernacular;
-        public bool ShowTestQuestionsNationalBT;
-        public bool ShowTestQuestionsInternationalBT = true;
-        public bool ShowAnswersVernacular;
-        public bool ShowAnswersNationalBT;
-        public bool ShowAnswersInternationalBT = true;
+        public string HgRepoUrl;
+        public ShowLanguageFields ShowRetellings = new ShowLanguageFields();
+        public ShowLanguageFields ShowTestQuestions = new ShowLanguageFields();
+        public ShowLanguageFields ShowAnswers = new ShowLanguageFields();
 
         public ProjectSettings(string strProjectFolderDefaultIfNull, string strProjectName)
         {
@@ -76,31 +70,31 @@ namespace OneStoryProjectEditor
             NewDataSet.LanguagesRow theLangRow = InsureLanguagesRow(projFile);
 
             if (!theLangRow.IsUseRetellingVernacularNull())
-                ShowRetellingVernacular = theLangRow.UseRetellingVernacular;
+                ShowRetellings.Vernacular = theLangRow.UseRetellingVernacular;
 
             if (!theLangRow.IsUseRetellingNationalBTNull())
-                ShowRetellingNationalBT = theLangRow.UseRetellingNationalBT;
+                ShowRetellings.NationalBt = theLangRow.UseRetellingNationalBT;
 
             if (!theLangRow.IsUseRetellingInternationalBTNull())
-                ShowRetellingInternationalBT = theLangRow.UseRetellingInternationalBT;
+                ShowRetellings.InternationalBt = theLangRow.UseRetellingInternationalBT;
 
             if (!theLangRow.IsUseTestQuestionVernacularNull())
-                ShowTestQuestionsVernacular = theLangRow.UseTestQuestionVernacular;
+                ShowTestQuestions.Vernacular = theLangRow.UseTestQuestionVernacular;
 
             if (!theLangRow.IsUseTestQuestionNationalBTNull())
-                ShowTestQuestionsNationalBT = theLangRow.UseTestQuestionNationalBT;
+                ShowTestQuestions.NationalBt = theLangRow.UseTestQuestionNationalBT;
 
             if (!theLangRow.IsUseTestQuestionInternationalBTNull())
-                ShowTestQuestionsInternationalBT = theLangRow.UseTestQuestionInternationalBT;
+                ShowTestQuestions.InternationalBt = theLangRow.UseTestQuestionInternationalBT;
 
             if (!theLangRow.IsUseAnswerVernacularNull())
-                ShowAnswersVernacular = theLangRow.UseAnswerVernacular;
+                ShowAnswers.Vernacular = theLangRow.UseAnswerVernacular;
 
             if (!theLangRow.IsUseAnswerNationalBTNull())
-                ShowAnswersNationalBT = theLangRow.UseAnswerNationalBT;
+                ShowAnswers.NationalBt = theLangRow.UseAnswerNationalBT;
 
             if (!theLangRow.IsUseAnswerInternationalBTNull())
-                ShowAnswersInternationalBT = theLangRow.UseAnswerInternationalBT;
+                ShowAnswers.InternationalBt = theLangRow.UseAnswerInternationalBT;
 
             if (projFile.AdaptItConfigurations.Count == 1)
             {
@@ -561,15 +555,15 @@ namespace OneStoryProjectEditor
                 System.Diagnostics.Debug.Assert(Vernacular.HasData || NationalBT.HasData || InternationalBT.HasData || FreeTranslation.HasData);
 
                 var elem = new XElement(CstrElementLabelLanguages,
-                    new XAttribute(CstrAttributeLabelUseRetellingVernacular, ShowRetellingVernacular),
-                    new XAttribute(CstrAttributeLabelUseRetellingNationalBT, ShowRetellingNationalBT),
-                    new XAttribute(CstrAttributeLabelUseRetellingInternationalBT, ShowRetellingInternationalBT),
-                    new XAttribute(CstrAttributeLabelUseTestQuestionVernacular, ShowTestQuestionsVernacular),
-                    new XAttribute(CstrAttributeLabelUseTestQuestionNationalBT, ShowTestQuestionsNationalBT),
-                    new XAttribute(CstrAttributeLabelUseTestQuestionInternationalBT, ShowTestQuestionsInternationalBT),
-                    new XAttribute(CstrAttributeLabelUseAnswerVernacular, ShowAnswersVernacular),
-                    new XAttribute(CstrAttributeLabelUseAnswerNationalBT, ShowAnswersNationalBT),
-                    new XAttribute(CstrAttributeLabelUseAnswerInternationalBT, ShowAnswersInternationalBT));
+                    new XAttribute(CstrAttributeLabelUseRetellingVernacular, ShowRetellings.Vernacular),
+                    new XAttribute(CstrAttributeLabelUseRetellingNationalBT, ShowRetellings.NationalBt),
+                    new XAttribute(CstrAttributeLabelUseRetellingInternationalBT, ShowRetellings.InternationalBt),
+                    new XAttribute(CstrAttributeLabelUseTestQuestionVernacular, ShowTestQuestions.Vernacular),
+                    new XAttribute(CstrAttributeLabelUseTestQuestionNationalBT, ShowTestQuestions.NationalBt),
+                    new XAttribute(CstrAttributeLabelUseTestQuestionInternationalBT, ShowTestQuestions.InternationalBt),
+                    new XAttribute(CstrAttributeLabelUseAnswerVernacular, ShowAnswers.Vernacular),
+                    new XAttribute(CstrAttributeLabelUseAnswerNationalBT, ShowAnswers.NationalBt),
+                    new XAttribute(CstrAttributeLabelUseAnswerInternationalBT, ShowAnswers.InternationalBt));
 
                 if (Vernacular.HasData)
                     elem.Add(Vernacular.GetXml);
@@ -622,9 +616,9 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(projFile.StoryProject.Count == 1);
             if (projFile.Languages.Count == 0)
                 return projFile.Languages.AddLanguagesRow(
-                    ShowRetellingVernacular, ShowRetellingNationalBT, ShowRetellingInternationalBT,
-                    ShowTestQuestionsVernacular, ShowTestQuestionsNationalBT, ShowTestQuestionsInternationalBT,
-                    ShowAnswersVernacular, ShowAnswersNationalBT, ShowAnswersInternationalBT,
+                    ShowRetellings.Vernacular, ShowRetellings.NationalBt, ShowRetellings.InternationalBt,
+                    ShowTestQuestions.Vernacular, ShowTestQuestions.NationalBt, ShowTestQuestions.InternationalBt,
+                    ShowAnswers.Vernacular, ShowAnswers.NationalBt, ShowAnswers.InternationalBt,
                     projFile.StoryProject[0]);
 
             System.Diagnostics.Debug.Assert(projFile.Languages.Count == 1);
@@ -658,6 +652,17 @@ namespace OneStoryProjectEditor
             InternationalBT.InvertRtl = loggedOnMember.OverrideRtlInternationalBT;
             FreeTranslation.InvertRtl = loggedOnMember.OverrideRtlFreeTranslation;
         }
+    }
+
+    public class ShowLanguageFields
+    {
+        public ShowLanguageFields()
+        {
+            InternationalBt = true; // by default
+        }
+        public bool Vernacular { get; set; }
+        public bool NationalBt { get; set; }
+        public bool InternationalBt { get; set; }
     }
 
     public class TasksPf

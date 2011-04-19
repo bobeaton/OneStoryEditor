@@ -42,7 +42,6 @@
             this.radioButtonJustViewing = new System.Windows.Forms.RadioButton();
             this.radioButtonCoach = new System.Windows.Forms.RadioButton();
             this.radioButtonConsultantInTraining = new System.Windows.Forms.RadioButton();
-            this.radioButtonFirstPassMentor = new System.Windows.Forms.RadioButton();
             this.labelEmail = new System.Windows.Forms.Label();
             this.textBoxEmail = new System.Windows.Forms.TextBox();
             this.labelPhoneNumber = new System.Windows.Forms.Label();
@@ -58,6 +57,7 @@
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
+            this.checkBoxLangSpecialtyReviewer = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanelMemberInformation.SuspendLayout();
             this.groupBoxRole.SuspendLayout();
             this.SuspendLayout();
@@ -125,6 +125,7 @@
             this.groupBoxRole.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxRole.Controls.Add(this.checkBoxLangSpecialtyReviewer);
             this.groupBoxRole.Controls.Add(this.checkBoxUns);
             this.groupBoxRole.Controls.Add(this.checkBoxCrafter);
             this.groupBoxRole.Controls.Add(this.checkBoxProjectFacilitator);
@@ -134,7 +135,6 @@
             this.groupBoxRole.Controls.Add(this.radioButtonJustViewing);
             this.groupBoxRole.Controls.Add(this.radioButtonCoach);
             this.groupBoxRole.Controls.Add(this.radioButtonConsultantInTraining);
-            this.groupBoxRole.Controls.Add(this.radioButtonFirstPassMentor);
             this.groupBoxRole.Location = new System.Drawing.Point(92, 29);
             this.groupBoxRole.Name = "groupBoxRole";
             this.groupBoxRole.Size = new System.Drawing.Size(405, 147);
@@ -205,7 +205,7 @@
             // 
             this.radioButtonEnglishBackTranslator.AutoSize = true;
             this.helpProvider.SetHelpString(this.radioButtonEnglishBackTranslator, resources.GetString("radioButtonEnglishBackTranslator.HelpString"));
-            this.radioButtonEnglishBackTranslator.Location = new System.Drawing.Point(18, 88);
+            this.radioButtonEnglishBackTranslator.Location = new System.Drawing.Point(251, 19);
             this.radioButtonEnglishBackTranslator.Name = "radioButtonEnglishBackTranslator";
             this.helpProvider.SetShowHelp(this.radioButtonEnglishBackTranslator, true);
             this.radioButtonEnglishBackTranslator.Size = new System.Drawing.Size(171, 17);
@@ -255,19 +255,6 @@
             this.radioButtonConsultantInTraining.Text = "&Consultant in Training";
             this.radioButtonConsultantInTraining.UseVisualStyleBackColor = true;
             this.radioButtonConsultantInTraining.CheckedChanged += new System.EventHandler(this.radioButtonConsultantInTraining_CheckedChanged);
-            // 
-            // radioButtonFirstPassMentor
-            // 
-            this.radioButtonFirstPassMentor.AutoSize = true;
-            this.helpProvider.SetHelpString(this.radioButtonFirstPassMentor, resources.GetString("radioButtonFirstPassMentor.HelpString"));
-            this.radioButtonFirstPassMentor.Location = new System.Drawing.Point(251, 19);
-            this.radioButtonFirstPassMentor.Name = "radioButtonFirstPassMentor";
-            this.helpProvider.SetShowHelp(this.radioButtonFirstPassMentor, true);
-            this.radioButtonFirstPassMentor.Size = new System.Drawing.Size(106, 17);
-            this.radioButtonFirstPassMentor.TabIndex = 4;
-            this.radioButtonFirstPassMentor.Text = "&First Pass Mentor";
-            this.radioButtonFirstPassMentor.UseVisualStyleBackColor = true;
-            this.radioButtonFirstPassMentor.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
             // 
             // labelEmail
             // 
@@ -413,6 +400,17 @@
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
+            // checkBoxLangSpecialtyReviewer
+            // 
+            this.checkBoxLangSpecialtyReviewer.AutoSize = true;
+            this.checkBoxLangSpecialtyReviewer.Location = new System.Drawing.Point(17, 88);
+            this.checkBoxLangSpecialtyReviewer.Name = "checkBoxLangSpecialtyReviewer";
+            this.checkBoxLangSpecialtyReviewer.Size = new System.Drawing.Size(168, 17);
+            this.checkBoxLangSpecialtyReviewer.TabIndex = 13;
+            this.checkBoxLangSpecialtyReviewer.Text = "&Language Specialty Reviewer";
+            this.checkBoxLangSpecialtyReviewer.UseVisualStyleBackColor = true;
+            this.checkBoxLangSpecialtyReviewer.CheckedChanged += new System.EventHandler(this.checkBoxRole_CheckedChanged);
+            // 
             // EditMemberForm
             // 
             this.AcceptButton = this.buttonOK;
@@ -445,7 +443,6 @@
         private System.Windows.Forms.GroupBox groupBoxRole;
         private System.Windows.Forms.RadioButton radioButtonJustViewing;
         private System.Windows.Forms.RadioButton radioButtonCoach;
-        private System.Windows.Forms.RadioButton radioButtonFirstPassMentor;
         private System.Windows.Forms.Label labelEmail;
         private System.Windows.Forms.TextBox textBoxEmail;
         private System.Windows.Forms.Label labelPhoneNumber;
@@ -468,5 +465,6 @@
         private System.Windows.Forms.CheckBox checkBoxProjectFacilitator;
         private System.Windows.Forms.CheckBox checkBoxCrafter;
         private System.Windows.Forms.CheckBox checkBoxUns;
+        private System.Windows.Forms.CheckBox checkBoxLangSpecialtyReviewer;
     }
 }

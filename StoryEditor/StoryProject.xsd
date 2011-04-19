@@ -101,23 +101,53 @@
 										<xs:element name="CraftingInfo" minOccurs="1" maxOccurs="1">
 											<xs:complexType>
 												<xs:sequence>
-													<xs:element name="StoryCrafter" maxOccurs="1" minOccurs="1">
+													<xs:element name="StoryCrafter" minOccurs="0" maxOccurs="1" nillable="true">
 														<xs:complexType>
-															<xs:attribute name="memberID" type="xs:IDREF" use="optional" />
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute name="memberID" type="xs:IDREF" use="required" />
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+													</xs:element>
+													<xs:element name="ProjectFacilitator" maxOccurs="1" minOccurs="0" nillable="true">
+														<xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute name="memberID" type="xs:IDREF" use="required" />
+                                </xs:extension>
+                              </xs:simpleContent>
 														</xs:complexType>
 													</xs:element>
-													<xs:element name="ProjectFacilitator" maxOccurs="1" minOccurs="0">
-														<xs:complexType>
-															<xs:attribute name="memberID" type="xs:IDREF" use="optional" />
-														</xs:complexType>
-													</xs:element>
-													<xs:element name="StoryPurpose" minOccurs="0" maxOccurs="1" type="xs:string" />
+                          <xs:element name="Consultant" maxOccurs="1" minOccurs="0" nillable="true">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute name="memberID" type="xs:IDREF" use="required" />
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Coach" maxOccurs="1" minOccurs="0" nillable="true">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute name="memberID" type="xs:IDREF" use="required" />
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="StoryPurpose" minOccurs="0" maxOccurs="1" type="xs:string" />
 													<xs:element name="ResourcesUsed" minOccurs="0" maxOccurs="1" type="xs:string" />
                           <xs:element name="MiscellaneousStoryInfo" minOccurs="0" maxOccurs="1" type="xs:string" />
-													<xs:element name="BackTranslator" minOccurs="1" maxOccurs="1">
+													<xs:element name="BackTranslator" minOccurs="0" maxOccurs="1" nillable="true">
 														<xs:complexType>
-															<xs:attribute name="memberID" type="xs:IDREF" use="optional" />
-														</xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute name="memberID" type="xs:IDREF" use="required" />
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
 													</xs:element>
 													<xs:element name="TestsRetellings" minOccurs="0" maxOccurs="1">
 														<xs:complexType>
@@ -269,7 +299,6 @@
 																					<xs:sequence>
 																						<xs:element name="ConsultantNote" minOccurs="1" maxOccurs="unbounded" type="Comment" />
 																					</xs:sequence>
-																					<xs:attribute name="round" type="xs:unsignedByte" use="required" />
 																					<xs:attribute name="guid" type="xs:string" use="required" />
 																					<xs:attribute name="visible" type="xs:boolean" />
                                           <xs:attribute name="finished" type="xs:boolean" use="optional" default="false" />
@@ -286,7 +315,6 @@
 																					<xs:sequence>
 																						<xs:element name="CoachNote" minOccurs="1" maxOccurs="unbounded" type="Comment" />
 																					</xs:sequence>
-																					<xs:attribute name="round" type="xs:unsignedByte" use="required" />
 																					<xs:attribute name="guid" type="xs:string" use="required" />
 																					<xs:attribute name="visible" type="xs:boolean" />
                                           <xs:attribute name="finished" type="xs:boolean" use="optional" default="false" />
@@ -414,6 +442,7 @@
 			<xs:enumeration value="CoachReviewRound2Notes" />
       <xs:enumeration value="ConsultantFinalCheck" />
 			<xs:enumeration value="TeamComplete" />
+      <xs:enumeration value="TeamFinalApproval" />
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="LanguageInfo">
@@ -436,6 +465,7 @@
 			<xs:enumeration value="CoachToConsultant" />
       <xs:enumeration value="ConsultantToConsultant" />
       <xs:enumeration value="CoachToCoach" />
+      <xs:enumeration value="ConsultantToProjFacNeedsApproval" />
     </xs:restriction>
 	</xs:simpleType>
   <xs:simpleType name="AdaptItProjectType">
@@ -458,7 +488,8 @@
 			<xs:extension base="xs:string">
 				<xs:attribute name="Direction" type="FromTo" use="required" />
 				<xs:attribute name="guid" type="xs:string" use="required" />
-				<xs:attribute name="timeStamp" type="xs:dateTime" />
+        <xs:attribute name="memberID" type="xs:string" use="optional" />
+        <xs:attribute name="timeStamp" type="xs:dateTime" />
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>

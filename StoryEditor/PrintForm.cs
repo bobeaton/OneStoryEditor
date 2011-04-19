@@ -69,29 +69,31 @@ namespace OneStoryProjectEditor
 
         private void tabControl_Selected(object sender, TabControlEventArgs e)
         {
-            if (e.TabPage == tabPagePrintPreview)
-            {
-                string strHtml = null;
-                foreach (var aCheckedStoryName in checkedListBoxStories.CheckedItems)
-                {
-                    StoryData aStory = _theSE.TheCurrentStoriesSet.GetStoryFromName(aCheckedStoryName.ToString());
-                    if (aStory != null)
-                        strHtml += aStory.PresentationHtmlWithoutHtmlDocOutside(ViewSettings, _theSE.StoryProject.ProjSettings,
-                            _theSE.StoryProject.TeamMembers, null);
-                }
+            if (e.TabPage != tabPagePrintPreview)
+                return;
 
-                htmlStoryBt.DocumentText = StoryData.AddHtmlHtmlDocOutside(strHtml, _theSE.StoryProject.ProjSettings);
+            string strHtml = null;
+            foreach (var aCheckedStoryName in checkedListBoxStories.CheckedItems)
+            {
+                StoryData aStory = _theSE.TheCurrentStoriesSet.GetStoryFromName(aCheckedStoryName.ToString());
+                if (aStory != null)
+                    strHtml += aStory.PresentationHtmlWithoutHtmlDocOutside(ViewSettings, _theSE.StoryProject.ProjSettings,
+                                                                            _theSE.StoryProject.TeamMembers, null);
             }
+
+            htmlStoryBt.DocumentText = StoryData.AddHtmlHtmlDocOutside(strHtml, _theSE.StoryProject.ProjSettings);
         }
 
         private VerseData.ViewSettings ViewSettings
         {
             get
             {
-                System.Diagnostics.Debug.Assert((_theSE != null)
-                                                && (_theSE.StoryProject != null)
-                                                && (_theSE.StoryProject.ProjSettings != null));
-                VerseData.ViewSettings viewSettings = new VerseData.ViewSettings(
+                if ((_theSE == null)
+                    || (_theSE.StoryProject == null)
+                    || (_theSE.StoryProject.ProjSettings == null))
+                    return null;
+
+                var viewSettings = new VerseData.ViewSettings(
                     _theSE.StoryProject.ProjSettings,
                     checkBoxLangVernacular.Checked,
                     checkBoxLangNationalBT.Checked,
@@ -198,6 +200,10 @@ namespace OneStoryProjectEditor
 
         private void PrintForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            var vd = ViewSettings;
+            if (vd == null)
+                return;
+
             Properties.Settings.Default.LastPrintSettings = ViewSettings.LongValue;
             Properties.Settings.Default.Save();
         }

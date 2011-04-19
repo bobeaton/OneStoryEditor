@@ -1,6 +1,7 @@
 ﻿#define NotRelaxTqCountRequirement
 
 using System;
+using System.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
@@ -319,7 +320,7 @@ namespace OneStoryProjectEditor
             // if there's not a free translation and we haven't already figured it out, then
             //  query for the UNS who did the BT
             if (!theStoryProjectData.ProjSettings.FreeTranslation.HasData
-                && String.IsNullOrEmpty(theCurrentStory.CraftingInfo.BackTranslatorMemberID))
+                && (theCurrentStory.CraftingInfo.BackTranslator == null))
                 QueryForUnsBackTranslator(theSE, theStoryProjectData, theCurrentStory);
 
 #if CheckProposedNextState
@@ -419,7 +420,7 @@ namespace OneStoryProjectEditor
 #endif
 
             // if we haven't already figured it out, then query for the UNS who did the BT
-            if (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.BackTranslatorMemberID))
+            if (theCurrentStory.CraftingInfo.BackTranslator == null)
                 QueryForUnsBackTranslator(theSE, theStoryProjectData, theCurrentStory);
 
             if (eProposedNextState == StoryStageLogic.ProjectStages.eProjFacAddAnchors)
@@ -757,7 +758,7 @@ namespace OneStoryProjectEditor
             }
 
             // if we haven't already figured it out, then query for the UNS who did the BT
-            if (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.BackTranslatorMemberID))
+            if (theCurrentStory.CraftingInfo.BackTranslator == null)
                 QueryForUnsBackTranslator(theSE, theStoryProjectData, theCurrentStory);
 
 #if CheckProposedNextState
@@ -794,7 +795,7 @@ namespace OneStoryProjectEditor
 
         public static void QueryForUnsBackTranslator(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory)
         {
-            while (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.BackTranslatorMemberID))
+            while (theCurrentStory.CraftingInfo.BackTranslator == null)
             {
                 var dlg = new MemberPicker(theStoryProjectData, TeamMemberData.UserTypes.UNS)
                               {
@@ -803,7 +804,7 @@ namespace OneStoryProjectEditor
                 if (dlg.ShowDialog() != DialogResult.OK)
                     return;
 
-                theCurrentStory.CraftingInfo.BackTranslatorMemberID = dlg.SelectedMember.MemberGuid;
+                theCurrentStory.CraftingInfo.BackTranslator = new MemberIdInfo(dlg.SelectedMember.MemberGuid, null);
             }
         }
 
@@ -986,17 +987,18 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public static bool CheckThatCoachAnsweredCITsQuestions(StoryEditor theSE, StoryData theCurrentStory)
+        public static bool CheckThatCoachAnsweredCITsQuestions(StoryEditor theSE, 
+            StoryData theCurrentStory)
         {
             int nVerseNumber = 0;   // this wants to be 0, because ConNotes have a 0th verse
-            if (!CheckThatCoachAnsweredInVerse(theCurrentStory.Name, theSE, 
+            if (!CheckThatCoachAnsweredInVerse(theCurrentStory, theSE, 
                 theCurrentStory.Verses.FirstVerse, ref nVerseNumber))
                 return false;
 
             nVerseNumber++;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
             {
-                if (!CheckThatCoachAnsweredInVerse(theCurrentStory.Name, theSE, 
+                if (!CheckThatCoachAnsweredInVerse(theCurrentStory, theSE, 
                     aVerseData, ref nVerseNumber))
                     return false;
                 nVerseNumber++;
@@ -1004,54 +1006,48 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        private static bool CheckThatConsultantAnsweredInVerse(string strStoryName,
+        private static bool CheckThatConsultantAnsweredInVerse(StoryData theCurrentStory,
             StoryEditor theSE, VerseData theVerseData, ref int nVerseNumber)
         {
             return CheckThatMentorAnsweredInVerse(theVerseData, theSE,
-                theSE.htmlConsultantNotesControl, strStoryName, theVerseData.ConsultantNotes,
+                theSE.htmlConsultantNotesControl, theCurrentStory, theVerseData.ConsultantNotes,
                 VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields, ref nVerseNumber);
         }
 
-        private static bool CheckThatCoachAnsweredInVerse(string strStoryName,
+        private static bool CheckThatCoachAnsweredInVerse(StoryData theCurrentStory,
             StoryEditor theSE, VerseData theVerseData, ref int nVerseNumber)
         {
-            return CheckThatMentorAnsweredInVerse(theVerseData, theSE, 
-                theSE.htmlCoachNotesControl, strStoryName, theVerseData.CoachNotes, 
+            return CheckThatMentorAnsweredInVerse(theVerseData, theSE,
+                theSE.htmlCoachNotesControl, theCurrentStory, theVerseData.CoachNotes, 
                 VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields, ref nVerseNumber);
         }
 
         private static bool CheckThatMentorAnsweredInVerse(VerseData theVerseData,
-            StoryEditor theSE, HtmlConNoteControl htmlControl, string strStoryName,
+            StoryEditor theSE, HtmlConNoteControl htmlControl, StoryData theCurrentStory,
             ConsultNotesDataConverter dataConNotes, 
             VerseData.ViewSettings.ItemToInsureOn itemToInsureOn, ref int nVerseNumber)
         {
             if (theVerseData.IsVisible)
-                if (!CheckThatMentorAnsweredMenteesQuestions(theSE,
-                                                             htmlControl,
-                                                             dataConNotes, 
-                                                             ref nVerseNumber))
-                {
-                    var viewSettings = new VerseData.ViewSettings(itemToInsureOn);
-                    theSE.NavigateTo(strStoryName,
-                                     viewSettings,
-                                     false,
-                                     null);
-                    return false;
-                }
+                return CheckThatMentorAnsweredMenteesQuestions(theSE,
+                                                               htmlControl,
+                                                               dataConNotes,
+                                                               theCurrentStory,
+                                                               itemToInsureOn,
+                                                               ref nVerseNumber);
             return true;
         }
 
         public static bool CheckThatCITAnsweredPFsQuestions(StoryEditor theSE, StoryData theCurrentStory)
         {
             int nVerseNumber = 0;
-            if (!CheckThatConsultantAnsweredInVerse(theCurrentStory.Name, theSE, 
+            if (!CheckThatConsultantAnsweredInVerse(theCurrentStory, theSE, 
                 theCurrentStory.Verses.FirstVerse, ref nVerseNumber))
                 return false;
 
             nVerseNumber++;
             foreach (VerseData aVerseData in theCurrentStory.Verses)
             {
-                if (!CheckThatConsultantAnsweredInVerse(theCurrentStory.Name, theSE,
+                if (!CheckThatConsultantAnsweredInVerse(theCurrentStory, theSE,
                     aVerseData, ref nVerseNumber))
                     return false;
 
@@ -1067,7 +1063,7 @@ namespace OneStoryProjectEditor
             if (theCurrentStory.Verses.FirstVerse.IsVisible)
                 if (!CheckThatMenteeAnsweredMentorsQuestions(theSE,
                         theSE.htmlCoachNotesControl, theCurrentStory.Verses.FirstVerse.CoachNotes, 
-                        theCurrentStory.Name, VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields, 
+                        theCurrentStory, VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields, 
                         ref nVerseNumber))
                     return false;
 
@@ -1076,7 +1072,7 @@ namespace OneStoryProjectEditor
             {
                 if (aVerseData.IsVisible)
                     if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.htmlCoachNotesControl,
-                        aVerseData.CoachNotes, theCurrentStory.Name, 
+                        aVerseData.CoachNotes, theCurrentStory, 
                         VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields, ref nVerseNumber))
                         return false;
                 nVerseNumber++;
@@ -1090,7 +1086,7 @@ namespace OneStoryProjectEditor
             int nVerseNumber = 0;
             if (theCurrentStory.Verses.FirstVerse.IsVisible)
                 if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.htmlConsultantNotesControl,
-                    theCurrentStory.Verses.FirstVerse.ConsultantNotes, theCurrentStory.Name,
+                    theCurrentStory.Verses.FirstVerse.ConsultantNotes, theCurrentStory,
                     VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields, ref nVerseNumber))
                     return false;
 
@@ -1099,7 +1095,7 @@ namespace OneStoryProjectEditor
             {
                 if (aVerseData.IsVisible)
                     if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.htmlConsultantNotesControl,
-                        aVerseData.ConsultantNotes, theCurrentStory.Name,
+                        aVerseData.ConsultantNotes, theCurrentStory,
                     VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields, ref nVerseNumber))
                         return false;
 
@@ -1109,59 +1105,66 @@ namespace OneStoryProjectEditor
         }
 
         static bool CheckThatMentorAnsweredMenteesQuestions(StoryEditor theSE,
-            HtmlConNoteControl paneConNote, ConsultNotesDataConverter aCNsDC, 
+            HtmlConNoteControl paneConNote, IEnumerable<ConsultNoteDataConverter> aCNsDC, 
+            StoryData theStory, VerseData.ViewSettings.ItemToInsureOn ePane,
             ref int nVerseNumber)
         {
-            foreach (ConsultNoteDataConverter aConNote in aCNsDC)
+            foreach (var aConNote in aCNsDC)
             {
-                if (aConNote.Visible)
-                {
-                    int nIndexLast = aConNote.Count - 1;
-                    CommInstance theLastCI = aConNote[nIndexLast];
-                    if ((theLastCI.Direction == aConNote.MentorDirection)
-                        && !theLastCI.HasData)
-                    {
-                        ShowErrorFocus(theSE, paneConNote, nVerseNumber,
-                                       String.Format(
-                                           "Error: in line {0}, the {1} made a comment, which you didn't respond to. Did you forget it?",
-                                           nVerseNumber,
-                                           TeamMemberData.GetMemberTypeAsDisplayString(aConNote.MenteeRequiredEditor)));
-                        return false;
-                    }
-                }
+                var theLastCi = aConNote.FinalComment;
+                if (!aConNote.Visible ||
+                    aConNote.IsFinished ||
+                    aConNote.IsFromMentee(theLastCi) ||
+                    theLastCi.HasData)
+                    continue;
+
+                var viewSettings = new VerseData.ViewSettings(ePane);
+                theSE.NavigateTo(theStory.Name,
+                                 viewSettings,
+                                 false,
+                                 null);
+
+                TeamMemberData theCommentor = theLastCi.Commentor(theSE.StoryProject.TeamMembers);
+                string strErrorMsg = String.Format(
+                    Properties.Resources.IDS_DidntAnswerQuestion,
+                    nVerseNumber,
+                    aConNote.MentorLabel(theCommentor, theStory.CraftingInfo.ProjectFacilitator.MemberId));
+                ShowErrorFocus(theSE, paneConNote, nVerseNumber, strErrorMsg);
+                return false;
             }
+
             return true;
         }
 
         static bool CheckThatMenteeAnsweredMentorsQuestions(StoryEditor theSE, 
-            HtmlConNoteControl paneConNote, ConsultNotesDataConverter aCNsDC, 
-            string strCurrentStoryName, VerseData.ViewSettings.ItemToInsureOn ePane,
+            HtmlConNoteControl paneConNote, IEnumerable<ConsultNoteDataConverter> aCNsDC, 
+            StoryData theStory, VerseData.ViewSettings.ItemToInsureOn ePane,
             ref int nVerseNumber)
         {
-            foreach (ConsultNoteDataConverter aConNote in aCNsDC)
+            foreach (var aConNote in aCNsDC)
             {
-                if (aConNote.Visible)
-                {
-                    int nIndexLast = aConNote.Count - 1;
-                    CommInstance theLastCI = aConNote[nIndexLast];
-                    if ((theLastCI.Direction == aConNote.MenteeDirection)
-                        && !theLastCI.HasData)
-                    {
-                        var viewSettings = new VerseData.ViewSettings(ePane);
-                        theSE.NavigateTo(strCurrentStoryName,
-                                         viewSettings,
-                                         false,
-                                         null);
-                        ShowErrorFocus(theSE, paneConNote, nVerseNumber,
-                                       String.Format(
-                                           Properties.Resources.IDS_DidntAnswerQuestion,
-                                           nVerseNumber,
-                                           TeamMemberData.GetMemberWithEditTokenAsDisplayString(
-                                               theSE.StoryProject.TeamMembers, aConNote.MentorRequiredEditor)));
-                        return false;
-                    }
-                }
+                var theLastCi = aConNote.FinalComment;
+                if (!aConNote.Visible || 
+                    aConNote.IsFinished ||
+                    aConNote.IsFromMentor(theLastCi) ||
+                    theLastCi.HasData) 
+                    continue;
+
+                var viewSettings = new VerseData.ViewSettings(ePane);
+                theSE.NavigateTo(theStory.Name,
+                                 viewSettings,
+                                 false,
+                                 null);
+
+                TeamMemberData theCommentor = theLastCi.Commentor(theSE.StoryProject.TeamMembers);
+                string strErrorMsg = String.Format(
+                    Properties.Resources.IDS_DidntAnswerQuestion,
+                    nVerseNumber,
+                    aConNote.MenteeLabel(theCommentor, theStory.CraftingInfo.ProjectFacilitator.MemberId));
+                ShowErrorFocus(theSE, paneConNote, nVerseNumber, strErrorMsg);
+                return false;
             }
+
             return true;
         }
 
@@ -1915,6 +1918,12 @@ namespace OneStoryProjectEditor
         public static bool TeamComplete(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
         {
             Console.WriteLine(String.Format("Checking if stage 'TeamComplete' work is finished: Name: {0}", theCurrentStory.Name));
+            return true;
+        }
+
+        public static bool TeamFinalApproval(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
+        {
+            Console.WriteLine(String.Format("Checking if stage 'TeamFinalApproval' work is finished: Name: {0}", theCurrentStory.Name));
             return true;
         }
 

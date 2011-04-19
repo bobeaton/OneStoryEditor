@@ -14,12 +14,18 @@ namespace OneStoryProjectEditor
         protected const int CnColumnStoryName = 0;
         protected const int CnColumnStoryPurpose = 1;
         protected const int CnColumnStoryEditToken = 2;
+#if ShowingState
         protected const int CnColumnStoryStage = 3;
         protected const int CnColumnStoryTimeInStage = 4;
         protected const int CnColumnNumOfLines = 5;
         protected const int CnColumnTestQuestions = 6;
         protected const int CnColumnNumOfWords = 7;
-
+#else
+        protected const int CnColumnStoryTimeInStage = 3;
+        protected const int CnColumnNumOfLines = 4;
+        protected const int CnColumnTestQuestions = 5;
+        protected const int CnColumnNumOfWords = 6;
+#endif
         protected StoryProjectData _storyProject;
         protected StoriesData _stories;
         protected bool _bInCtor = true;
@@ -62,6 +68,10 @@ namespace OneStoryProjectEditor
                     new Size(Properties.Settings.Default.PanoramaViewDlgWidth,
                         Properties.Settings.Default.PanoramaViewDlgHeight));
             }
+
+            InitStoriesTab(tabPagePanorama);
+            tabControlSets.SelectTab(tabPagePanorama);
+
             return base.ShowDialog();
         }
 
@@ -84,23 +94,34 @@ namespace OneStoryProjectEditor
                 strTimeInState += String.Format("{0} minutes", ts.Minutes);
 
                 string strWhoHasEditToken =
-                    TeamMemberData.GetMemberTypeAsDisplayString(aSD.ProjStage.MemberTypeWithEditToken);
+                    GetMemberWithEditTokenAsDisplayString(_storyProject.TeamMembers,
+                                                          aSD.ProjStage.MemberTypeWithEditToken);
 
                 if (strWhoHasEditToken == TeamMemberData.CstrProjectFacilitatorDisplay)
                 {
                     strWhoHasEditToken = String.Format("{0} ({1})",
                                                        strWhoHasEditToken,
-                                                       _storyProject.TeamMembers.GetNameFromMemberId(
-                                                           aSD.CraftingInfo.ProjectFacilitatorMemberID));
+                                                       _storyProject.GetMemberNameFromMemberGuid(
+                                                           aSD.CraftingInfo.ProjectFacilitator.MemberId));
                 }
 
-                StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[aSD.ProjStage.ProjectStage];
+                if ((aSD.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eTeamComplete) ||
+                    (aSD.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eTeamFinalApproval))
+                {
+                    StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[aSD.ProjStage.ProjectStage];
+                    strWhoHasEditToken = String.Format("{0}: {1}",
+                                                       st.StageDisplayString.Substring("Story has ".Length), 
+                                                       strWhoHasEditToken);
+                }
+
                 var aObs = new object[]
                 {   
                     aSD.Name, 
                     aSD.CraftingInfo.StoryPurpose, 
                     strWhoHasEditToken, 
+#if ShowingState
                     st.StageDisplayString, 
+#endif
                     strTimeInState,
                     aSD.NumOfLines,
                     aSD.NumOfTestQuestions,
@@ -108,9 +129,40 @@ namespace OneStoryProjectEditor
                 };
                 int nRowIndex = dataGridViewPanorama.Rows.Add(aObs);
                 DataGridViewRow aRow = dataGridViewPanorama.Rows[nRowIndex];
+#if ShowingState
                 aRow.Tag = st;
+#endif
                 aRow.Height = _fontForDev.Height + 4;
             }
+        }
+
+        // override to handle the case were the project state says it's in the 
+        //  CIT's state, but really, it's an independent consultant
+        public static string GetMemberWithEditTokenAsDisplayString(TeamMembersData teamMembers,
+            TeamMemberData.UserTypes eMemberType)
+        {
+            if ((eMemberType != TeamMemberData.UserTypes.AnyEditor) &&
+                 TeamMemberData.IsUser(eMemberType,
+                        TeamMemberData.UserTypes.IndependentConsultant |
+                        TeamMemberData.UserTypes.ConsultantInTraining))
+            {
+                // this is a special case where both the CIT and Independant Consultant are acceptable
+                return TeamMemberData.GetMemberTypeAsDisplayString(
+                    teamMembers.HasIndependentConsultant
+                        ? TeamMemberData.UserTypes.IndependentConsultant
+                        : TeamMemberData.UserTypes.ConsultantInTraining);
+            }
+
+            if (eMemberType == TeamMemberData.UserTypes.AnyEditor)
+                eMemberType &= (teamMembers.HasIndependentConsultant)
+                                   ? ~(TeamMemberData.UserTypes.ConsultantInTraining |
+                                       TeamMemberData.UserTypes.Coach |
+                                       TeamMemberData.UserTypes.FirstPassMentor)
+                                   : ~(TeamMemberData.UserTypes.IndependentConsultant |
+                                       TeamMemberData.UserTypes.FirstPassMentor);
+
+            // otherwise, let the other version do it
+            return TeamMemberData.GetMemberTypeAsDisplayString(eMemberType);
         }
 
         private StoryData _theStoryBeingEdited;
@@ -362,18 +414,7 @@ namespace OneStoryProjectEditor
             {
                 if ((tab == tabPagePanorama) || (tab == tabPageObsolete))
                 {
-                    if (tab == tabPagePanorama)
-                    {
-                        _stories = _storyProject[OseResources.Properties.Resources.IDS_MainStoriesSet];
-                        toolTip.SetToolTip(buttonCopyToOldStories, Properties.Resources.IDS_PanoramaViewCopyToOldStories);
-                    }
-                    else if (tab == tabPageObsolete)
-                    {
-                        _stories = _storyProject[OseResources.Properties.Resources.IDS_ObsoleteStoriesSet];
-                        toolTip.SetToolTip(buttonCopyToOldStories, Properties.Resources.IDS_PanoramaViewCopyBackToStories);
-                    }
-                    InitParentTab(tab);
-                    InitGrid();
+                    InitStoriesTab(tab);
                 }
                 else if (tab == tabPageKeyTerms)
                 {
@@ -425,6 +466,22 @@ namespace OneStoryProjectEditor
                     Cursor = Cursors.Default;
                 }
             }
+        }
+
+        private void InitStoriesTab(TabPage tab)
+        {
+            if (tab == tabPagePanorama)
+            {
+                _stories = _storyProject[OseResources.Properties.Resources.IDS_MainStoriesSet];
+                toolTip.SetToolTip(buttonCopyToOldStories, Properties.Resources.IDS_PanoramaViewCopyToOldStories);
+            }
+            else if (tab == tabPageObsolete)
+            {
+                _stories = _storyProject[OseResources.Properties.Resources.IDS_ObsoleteStoriesSet];
+                toolTip.SetToolTip(buttonCopyToOldStories, Properties.Resources.IDS_PanoramaViewCopyBackToStories);
+            }
+            InitParentTab(tab);
+            InitGrid();
         }
 
         protected void InitParentTab(TabPage tab)

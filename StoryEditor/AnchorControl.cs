@@ -77,8 +77,12 @@ namespace OneStoryProjectEditor
             Form form = FindForm();
             if ((form != null) && (form is StoryEditor))
             {
-                StoryEditor aSE = (StoryEditor)form;
-                ToolStripButton tssb = (ToolStripButton)sender;
+                var aSE = (StoryEditor)form;
+                var tssb = (ToolStripButton)sender;
+
+                // if this is the null anchor, then do nothing
+                if (tssb.Text == CstrNullAnchor)
+                    return;
 
                 // the button may have the extra indicator that there's a tooltip.
                 string strJumpTarget = tssb.Text;
@@ -315,6 +319,28 @@ namespace OneStoryProjectEditor
             }
             else
                 MessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to", OseResources.Properties.Resources.IDS_Caption);
+        }
+
+        private const string CstrNullAnchor = "No Anchor";
+
+        private void insertNullAnchorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            AnchorData theAnchorData = _myAnchorsData.AddAnchorData(CstrNullAnchor, CstrNullAnchor);
+            InitAnchorButton(toolStripAnchors, theAnchorData);
+
+            // indicate that we've changed something so that we don't exit without offering
+            //  to save.
+            theSE.Modified = true;
+        }
+
+        private void contextMenuStripAnchorOptions_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            insertNullAnchorToolStripMenuItem.Visible = (_myAnchorsData.Count == 0);
         }
     }
 }

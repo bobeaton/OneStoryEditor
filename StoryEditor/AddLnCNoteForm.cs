@@ -8,7 +8,6 @@ namespace OneStoryProjectEditor
     {
         public LnCNote TheLnCNote;
 
-        readonly StoryEditor _theSE;
         readonly StoryProjectData _storyProject;
         BiblicalTermsList _btl;
 
@@ -16,7 +15,6 @@ namespace OneStoryProjectEditor
         {
             InitializeComponent();
             TheLnCNote = theLnC;
-            _theSE = theSE;
             _storyProject = theSE.StoryProject;
             _btl = BiblicalTermsList.GetBiblicalTerms(_storyProject.ProjSettings.ProjectFolder);
 
@@ -39,7 +37,6 @@ namespace OneStoryProjectEditor
         {
             InitializeComponent();
 
-            _theSE = theSE;
             _storyProject = theSE.StoryProject;
             TheLnCNote = new LnCNote();
 
@@ -51,11 +48,10 @@ namespace OneStoryProjectEditor
                 labelInternationalBT, textBoxInternationalBT);
         }
 
-        private int _nColumnIndex = 0;
+        private int _nRowIndex = 0;
         private void InitSearchBoxes(bool bDoForSure, ProjectSettings.LanguageInfo li, 
             string strToStartWith, Control lbl, Control tb)
         {
-            _nColumnIndex++;
             if (bDoForSure || li.HasData)
             {
                 lbl.Visible = tb.Visible = true;
@@ -72,8 +68,9 @@ namespace OneStoryProjectEditor
             {
                 // change it so that this column is invisible and the others fill the gaps
                 lbl.Visible = tb.Visible = false;
-                tableLayoutPanel.ColumnStyles[_nColumnIndex] = new ColumnStyle(SizeType.Absolute, 0);
+                tableLayoutPanel.RowStyles[_nRowIndex] = new RowStyle(SizeType.Absolute, 0);
             }
+            _nRowIndex++;            
         }
 
         private void buttonOK_Click(object sender, EventArgs e)

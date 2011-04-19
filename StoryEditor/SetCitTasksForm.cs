@@ -5,7 +5,7 @@ namespace OneStoryProjectEditor
 {
     public partial class SetCitTasksForm : SetTasksForm
     {
-        private const string CstrSendToCoach = "Set to coach's turn";
+        public const string CstrSendToCoach = "Set to coach's turn";
         private const string CstrSendToProjectFacilitator = "Set to project facilitator's turn";
 
         public SetCitTasksForm(TasksCit.TaskSettings tasksAllowed, 
@@ -64,6 +64,9 @@ namespace OneStoryProjectEditor
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
+            if (!base.CheckForRequirements())
+                return;
+
             DialogResult = DialogResult.OK;
             Close();
         }

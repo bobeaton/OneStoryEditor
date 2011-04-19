@@ -27,7 +27,7 @@ namespace OneStoryProjectEditor
             InitializeComponent();
 
             Text = String.Format("Revision History: {0}", theSE.theCurrentStory.Name);
-            _strStoryToDiff = storyData.Name;
+            _strStoryToDiff = storyData.guid;
             _strProjectFolder = theSE.StoryProject.ProjSettings.ProjectFolder;
 
             if (theSE.StoryProject.ProjSettings.Vernacular.HasData)
@@ -254,7 +254,7 @@ namespace OneStoryProjectEditor
             string strFileContents = File.ReadAllText(strFilePath);
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(strFileContents);
-            string strXPathToStoryWithName = String.Format("/StoryProject/stories[@SetName = 'Stories']/story[@name = '{0}']",
+            string strXPathToStoryWithName = String.Format("/StoryProject/stories[@SetName = 'Stories']/story[@guid = \"{0}\"]",
                 _strStoryToDiff);
             nodeStoryProject = doc.SelectSingleNode(strXPathToStoryWithName);
             if (nodeStoryProject == null)

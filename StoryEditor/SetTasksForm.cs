@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
@@ -12,6 +13,7 @@ namespace OneStoryProjectEditor
 
         public bool Readonly
         {
+            get { return !checkedListBoxAllowedTasks.Enabled; /* for e.g */ }
             set
             {
                 checkedListBoxAllowedTasks.Enabled =
@@ -29,21 +31,19 @@ namespace OneStoryProjectEditor
             checkedListBoxRequiredTasks.SetItemChecked(nIndex, TasksPf.IsTaskOn(tasksRequired, task));
         }
 
-        private void buttonOK_Click(object sender, EventArgs e)
+        protected virtual bool CheckForRequirements()
         {
             // make sure that if something is required that it's also allowed.
-            foreach (int nIndex in checkedListBoxRequiredTasks.CheckedIndices)
+            foreach (int nIndex in
+                checkedListBoxRequiredTasks.CheckedIndices.Cast<int>().Where(nIndex => !checkedListBoxAllowedTasks.GetItemChecked(nIndex)))
             {
-                if (!checkedListBoxAllowedTasks.GetItemChecked(nIndex))
-                {
-                    MessageBox.Show(String.Format(Properties.Resources.IDS_MustAllowToRequireTask,
-                                                  checkedListBoxRequiredTasks.Items[nIndex]),
-                                    OseResources.Properties.Resources.IDS_Caption);
-                    return;
-                }
+                MessageBox.Show(String.Format(Properties.Resources.IDS_MustAllowToRequireTask,
+                                              checkedListBoxRequiredTasks.Items[nIndex]),
+                                OseResources.Properties.Resources.IDS_Caption);
+                return false;
             }
-            DialogResult = DialogResult.OK;
-            Close();
+
+            return true;
         }
     }
 }

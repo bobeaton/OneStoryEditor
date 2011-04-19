@@ -208,7 +208,7 @@ namespace OneStoryProjectEditor
                 ResetSingleInstanceLock();
 
             bool bCreatedNew;
-            string strEventName = theSe.GetFrameTitle();
+            string strEventName = theSe.GetFrameTitle(false);
             EventForProjectName = new EventWaitHandle(false,
                 EventResetMode.ManualReset, strEventName, out bCreatedNew);
             if (!bCreatedNew)

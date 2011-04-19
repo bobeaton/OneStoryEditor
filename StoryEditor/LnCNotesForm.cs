@@ -67,8 +67,7 @@ namespace OneStoryProjectEditor
         private void EditLnCNote(DataGridViewRow theRow, string strTitle)
         {
             var theLnCNote = theRow.Tag as LnCNote;
-            var dlg = new AddLnCNoteForm(_theSE, theLnCNote);
-            dlg.Text = strTitle;
+            var dlg = new AddLnCNoteForm(_theSE, theLnCNote) {Text = strTitle};
             if ((dlg.ShowDialog() == DialogResult.OK) && (theLnCNote != null))
             {
                 theRow.Cells[CnColumnInternationalBT].Value = theLnCNote.InternationalBtRendering;

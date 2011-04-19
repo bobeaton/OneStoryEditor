@@ -117,39 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="helpProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="helpProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <data name="radioButtonEnglishBackTranslator.HelpString" xml:space="preserve">
-    <value>This member (someone outside the crafting team) helps the team by making an English back-translation of the project documentation *after* the project facilitator has entered the UNS’s back-translation, etc., in the national language. The English back-translator will translate the story lines (i.e. the national language back-translation of the story), the testing questions, answers, and retellings from the national language into English for the sake of the consultants. They do this during a special intermediate state after the project facilitator has finished with his or her tasks and before the story goes to the consultant. Later when the editing responsibility goes back from the consultant(s) to the team, the English back-translator will once again have a special intermediate state to translate the consultant's responses into a language that the crafting team knows. NOTE: if your project only uses an English back-translation (i.e. it is not configured to show the story language or a national back-translation), then you don’t want an English back-translator member. The person creating the English back-translation would simply be a UNS.</value>
-  </data>
-  <data name="radioButtonConsultantInTraining.HelpString" xml:space="preserve">
-    <value>The member (usually only one/team) who provides exegetical feedback to the team on their stories. Currently, if this person is an independent consultant, then he or she will need to create a second member (with a different name) as the role of coach.</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        AAABAAIAEBAQAAAABAAoAQAAJgAAACAgEAAAAAQA6AIAAE4BAAAoAAAAEAAAACAAAAABAAQAAAAAAIAA
-        AAAAAAAAAAAAABAAAAAQAAAAAAAAAAAAgAAAgAAAAICAAIAAAACAAIAAgIAAAICAgADAwMAAAAD/AAD/
-        AAAA//8A/wAAAP8A/wD//wAA////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAA
-        AAAAAAAzAAAAAAAAMzMAAAAAADMzMzAAAAADMzMzMwAAAAMz//8zAAAAMz//P/MwAAAzP/M/8zAAAAM/
-        8//zAAAAAzP//zMAAAAAMzMzMAAAAAAAMzAAAAAA/8EAAP+YAAD/gAAA/8AAAP75AAD84wAA8MkAAMBB
-        AACAPwAAgD8AAAAfAAAAHwAAgD8AAIA/AADAfwAA8f8AACgAAAAgAAAAQAAAAAEABAAAAAAAAAIAAAAA
-        AAAAAAAAEAAAABAAAAAAAAAAAACAAACAAAAAgIAAgAAAAIAAgACAgAAAgICAAMDAwAAAAP8AAP8AAAD/
-        /wD/AAAA/wD/AP//AAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAAAAAAzAAAAAAAAAA
-        AAAAAAAAADMwAAAAAAAAAAAAAAAAAAMzMAAAAAAAAAAAAAAAAAADMzAAAAAAAAAAAAADMzMAMzMAAAAA
-        AAAAAAADMzMzMzMzAAAAAAAAAAADMzMzMzMzMwAAAAAAAAAAMzP///MzMzMAAAAAAAAAAzM//zP/MzMz
-        AAAAAAAAADMzP/MzP/MzMwAAAAAAAAAzM/8zMzP/MzMAAAAAAAADMzP/MzMz/zMzMAAAAAAAAzMz/zMz
-        M/8zMzAAAAAAAAMzM/8zMzP/MzMwAAAAAAAAMzP/MzMz/zMzAAAAAAAAADMz/z//P/MzMwAAAAAAAAAA
-        Mz//8//zMzAAAAAAAAAAAAMzM///MzAAAAAAAAAAAAAAAzMzMzMAAAAAAAAAAAAAAAADMzMwAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////////////
-        ////////////////////////////////9////+f////H////h////4f//4MOD/4ADOf4AAgT8AAIQ+AA
-        CMPAAAwDwAAPx4AABx+AAAR/gAAEz8AADg/AAA//8AAf//gAf//+AP///4H//////////////////w==
-</value>
-  </data>
 </root>

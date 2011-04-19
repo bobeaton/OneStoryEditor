@@ -12,7 +12,8 @@ namespace OneStoryProjectEditor
     public partial class ViewEnableForm : Form
     {
         private ProjectSettings _projSettings;
-        public ViewEnableForm(StoryEditor theSE, ProjectSettings projSettings, StoryData theCurrentStory, bool bUseForAllStories)
+        public ViewEnableForm(StoryEditor theSE, ProjectSettings projSettings,
+            StoryData theCurrentStory, bool bUseForAllStories)
         {
             _projSettings = projSettings;
             InitializeComponent();
@@ -54,8 +55,9 @@ namespace OneStoryProjectEditor
             else
                 checkBoxLangFreeTranslation.Visible = false;
 
-            checkBoxConsultantNotes.Enabled =
-                checkBoxCoachNotes.Enabled = (theCurrentStory != null);
+            checkBoxConsultantNotes.Enabled = (theCurrentStory != null);
+            checkBoxCoachNotes.Enabled = (theCurrentStory != null) &&
+                                         !theSE.LoggedOnMember.IsPfAndNotLsr;
 
             checkBoxUseForAllStories.Checked = bUseForAllStories;
 

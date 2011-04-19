@@ -118,9 +118,9 @@ namespace OneStoryProjectEditor
                     InitRetellings(_verseData.Retellings, m_nNumRows, 
                         theSE.theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
                         TheSE.StoryProject.ProjSettings,
-                        (theSE.viewVernacularLangFieldMenuItem.Checked && TheSE.StoryProject.ProjSettings.ShowRetellingVernacular),
-                        (theSE.viewNationalLangFieldMenuItem.Checked && TheSE.StoryProject.ProjSettings.ShowRetellingNationalBT),
-                        (theSE.viewEnglishBTFieldMenuItem.Checked && TheSE.StoryProject.ProjSettings.ShowRetellingInternationalBT));
+                        (theSE.viewVernacularLangFieldMenuItem.Checked && TheSE.StoryProject.ProjSettings.ShowRetellings.Vernacular),
+                        (theSE.viewNationalLangFieldMenuItem.Checked && TheSE.StoryProject.ProjSettings.ShowRetellings.NationalBt),
+                        (theSE.viewEnglishBTFieldMenuItem.Checked && TheSE.StoryProject.ProjSettings.ShowRetellings.InternationalBt));
                     m_nNumRows++;
                 }
             }

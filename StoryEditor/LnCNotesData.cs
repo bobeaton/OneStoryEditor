@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using System.Xml.Linq;
 
 namespace OneStoryProjectEditor
@@ -74,21 +75,59 @@ namespace OneStoryProjectEditor
                 {
                     case StoryEditor.TextFieldType.Vernacular:
                         if (StringContains(anLnCnote.VernacularRendering, strSearchString))
-                            map.Add(anLnCnote.VernacularRendering, anLnCnote);
+                            AddWithUniqueKey(map, anLnCnote.VernacularRendering, anLnCnote);
                         break;
 
                     case StoryEditor.TextFieldType.NationalBt:
                         if (StringContains(anLnCnote.NationalBtRendering, strSearchString))
-                            map.Add(anLnCnote.NationalBtRendering, anLnCnote);
+                            AddWithUniqueKey(map, anLnCnote.NationalBtRendering, anLnCnote);
                         break;
 
                     case StoryEditor.TextFieldType.InternationalBt:
                         if (StringContains(anLnCnote.InternationalBtRendering, strSearchString))
-                            map.Add(anLnCnote.InternationalBtRendering, anLnCnote);
+                            AddWithUniqueKey(map, anLnCnote.InternationalBtRendering, anLnCnote);
                         break;
                 }
             }
             return map;
+        }
+
+        private static void AddWithUniqueKey(Dictionary<string, LnCNote> map,
+            string strKeyToTry, LnCNote anLnCnote)
+        {
+            int n = 1;
+            string strOrigKey = strKeyToTry;
+            while (map.ContainsKey(strKeyToTry))
+            {
+                strKeyToTry = String.Format("{0}.{1}", strOrigKey, n++);
+            }
+            map.Add(strKeyToTry, anLnCnote);
+        }
+
+        public DialogResult CheckForSimilarNote(StoryEditor theSe, string strToSearchForVernacular,
+            string strToSearchForNationalBt, string strToSearchForInternationalBt)
+        {
+            string strMatch = null;
+            return (from aLncNote in this
+                    where (CheckForSimilarity(aLncNote.InternationalBtRendering, strToSearchForInternationalBt, ref strMatch) ||
+                           CheckForSimilarity(aLncNote.NationalBtRendering, strToSearchForNationalBt, ref strMatch) || 
+                           CheckForSimilarity(aLncNote.VernacularRendering, strToSearchForVernacular, ref strMatch))
+                    select new AddLnCNoteForm(theSe, aLncNote)
+                               {
+                                   Text = String.Format(Properties.Resources.IDS_WarnAboutSimilarLnCNote, strMatch)
+                               }).Select(dlg => dlg.ShowDialog()).FirstOrDefault();
+        }
+
+        public bool CheckForSimilarity(string strRendering, string strToCompare, ref string strMatch)
+        {
+            if (!String.IsNullOrEmpty(strRendering) &&
+                !String.IsNullOrEmpty(strToCompare) &&
+                (strRendering.ToLowerInvariant() == strToCompare.ToLowerInvariant()))
+            {
+                strMatch = strRendering;
+                return true;
+            }
+            return false;
         }
     }
 

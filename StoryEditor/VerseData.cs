@@ -554,31 +554,31 @@ namespace OneStoryProjectEditor
                 if (bStoryTestingQuestions)
                 {
                     // break this down based on projSettings
-                    if (projSettings.ShowTestQuestionsVernacular)
+                    if (projSettings.ShowTestQuestions.Vernacular)
                         _itemToInsureOn |= ItemToInsureOn.TestQuestionsVernacular;
-                    if (projSettings.ShowTestQuestionsNationalBT)
+                    if (projSettings.ShowTestQuestions.NationalBt)
                         _itemToInsureOn |= ItemToInsureOn.TestQuestionsNationalBT;
-                    if (projSettings.ShowTestQuestionsInternationalBT)
+                    if (projSettings.ShowTestQuestions.InternationalBt)
                         _itemToInsureOn |= ItemToInsureOn.TestQuestionsInternationalBT;
                 }
                 if (bStoryTestingQuestionAnswers)
                 {
                     // break this down based on projSettings
-                    if (projSettings.ShowAnswersVernacular)
+                    if (projSettings.ShowAnswers.Vernacular)
                         _itemToInsureOn |= ItemToInsureOn.AnswersVernacular;
-                    if (projSettings.ShowAnswersNationalBT)
+                    if (projSettings.ShowAnswers.NationalBt)
                         _itemToInsureOn |= ItemToInsureOn.AnswersNationalBT;
-                    if (projSettings.ShowAnswersInternationalBT)
+                    if (projSettings.ShowAnswers.InternationalBt)
                         _itemToInsureOn |= ItemToInsureOn.AnswersInternationalBT;
                 }
                 if (bRetellings)
                 {
                     // break this down based on projSettings
-                    if (projSettings.ShowRetellingVernacular)
+                    if (projSettings.ShowRetellings.Vernacular)
                         _itemToInsureOn |= ItemToInsureOn.RetellingsVernacular;
-                    if (projSettings.ShowRetellingNationalBT)
+                    if (projSettings.ShowRetellings.NationalBt)
                         _itemToInsureOn |= ItemToInsureOn.RetellingsNationalBT;
-                    if (projSettings.ShowRetellingInternationalBT)
+                    if (projSettings.ShowRetellings.InternationalBt)
                         _itemToInsureOn |= ItemToInsureOn.RetellingsInternationalBT;
                 }
                 if (bConsultantNotes)
@@ -934,8 +934,62 @@ namespace OneStoryProjectEditor
 
         public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
         {
+            ReplaceRetellingUns(strOldUnsGuid, strNewUnsGuid);
+            ReplaceAnswersUns(strOldUnsGuid, strNewUnsGuid);
+        }
+
+        public void ReplaceRetellingUns(string strOldUnsGuid, string strNewUnsGuid)
+        {
             Retellings.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
+        }
+
+        public void ReplaceAnswersUns(string strOldUnsGuid, string strNewUnsGuid)
+        {
             TestQuestions.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
+        }
+
+        public void SetCommentMemberId(string strPfMemberId, string strConsultant, string strCoach)
+        {
+            ConsultantNotes.SetCommentMemberId(strPfMemberId, strConsultant);
+            CoachNotes.SetCommentMemberId(strConsultant, strCoach);
+        }
+
+        public bool HasAllConsultantNoteMentoreeMemberIdData
+        {
+            get { return ConsultantNotes.HasAllMentoreeMemberIdData; }
+        }
+
+        public bool HasAllConsultantNoteMentorMemberIdData
+        {
+            get { return ConsultantNotes.HasAllMentorMemberIdData; }
+        }
+
+        public bool HasAllCoachNoteMentoreeMemberIdData
+        {
+            get { return CoachNotes.HasAllMentoreeMemberIdData; }
+        }
+
+        public bool HasAllCoachNoteMentorMemberIdData
+        {
+            get { return CoachNotes.HasAllMentorMemberIdData; }
+        }
+
+        public bool AreUnapprovedConsultantNotes
+        {
+            get { return ConsultantNotes.AreUnapprovedComments; }
+        }
+
+        public bool AreUnrespondedToCoachNoteComments
+        {
+            get { return CoachNotes.AreUnrespondedToCoachNoteComments; }
+        }
+
+        public void UpdateCommentMemberId(string strOldMemberGuid, string strNewMemberGuid)
+        {
+            // for now, this is only used when update the PF (since we don't keep track
+            //  of who the consultant for a story is), so PFs can only deal with the
+            //  ConsultantNotes pane (if it were generalized, then add CoachNotes
+            ConsultantNotes.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
         }
     }
 
@@ -1046,7 +1100,7 @@ namespace OneStoryProjectEditor
             get
             {
                 System.Diagnostics.Debug.Assert(HasData);
-                XElement elemVerses = new XElement(CstrElementLabelVerses);
+                var elemVerses = new XElement(CstrElementLabelVerses);
                 
                 // write out the zeroth verse first
                 elemVerses.Add(FirstVerse.GetXml);
@@ -1063,11 +1117,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                int nCount = 0;
-                foreach (VerseData aVerse in this)
-                    if (aVerse.IsVisible)
-                        nCount++;
-                return nCount;
+                return this.Count(aVerse => aVerse.IsVisible);
             }
         }
 
@@ -1187,6 +1237,74 @@ namespace OneStoryProjectEditor
                 string strEitherEdgeQuotes = Properties.Settings.Default.EitherEdgeQuotes;
                 return strLeftEdgeQuotes + strRightEdgeQuotes + strEitherEdgeQuotes;
             }
+        }
+
+        public bool HasAllConsultantNoteMentoreeMemberIdData
+        {
+            get
+            {
+                return (FirstVerse.HasAllConsultantNoteMentoreeMemberIdData
+                        && this.All(aVerse =>
+                                    aVerse.HasAllConsultantNoteMentoreeMemberIdData));
+            }
+        }
+
+        public bool HasAllConsultantNoteMentorMemberIdData
+        {
+            get
+            {
+                return (FirstVerse.HasAllConsultantNoteMentorMemberIdData
+                        && this.All(aVerse =>
+                                    aVerse.HasAllConsultantNoteMentorMemberIdData));
+            }
+        }
+
+        public bool HasAllCoachNoteMentoreeMemberIdData
+        {
+            get
+            {
+                return (FirstVerse.HasAllCoachNoteMentoreeMemberIdData
+                        && this.All(aVerse =>
+                                    aVerse.HasAllCoachNoteMentoreeMemberIdData));
+            }
+        }
+
+        public bool HasAllCoachNoteMentorMemberIdData
+        {
+            get
+            {
+                return (FirstVerse.HasAllCoachNoteMentorMemberIdData
+                        && this.All(aVerse =>
+                                    aVerse.HasAllCoachNoteMentorMemberIdData));
+            }
+        }
+
+        public bool AreUnapprovedConsultantNotes
+        {
+            get
+            {
+                return FirstVerse.AreUnapprovedConsultantNotes ||
+                       this.Any(aVerse =>
+                                aVerse.AreUnapprovedConsultantNotes);
+            }
+        }
+
+        public bool AreUnrespondedToCoachNoteComments
+        {
+            get
+            {
+                return FirstVerse.AreUnrespondedToCoachNoteComments ||
+                       this.Any(aVerse =>
+                                aVerse.AreUnrespondedToCoachNoteComments);
+            }
+        }
+
+        public void CheckConNoteMemberIds(out bool bNeedPf, out bool bNeedCons, out bool bNeedCoach)
+        {
+            bNeedPf = !HasAllConsultantNoteMentoreeMemberIdData;
+            bNeedCons = !HasAllConsultantNoteMentorMemberIdData ||
+                        !HasAllCoachNoteMentoreeMemberIdData;
+            bNeedCoach = !HasAllCoachNoteMentorMemberIdData;
         }
 
         internal const string CstrWhiteSpace = "\r\n ";
@@ -1392,10 +1510,11 @@ namespace OneStoryProjectEditor
 
         protected string GetHeaderRow(string strHeader, int nVerseIndex, 
             bool bVerseVisible, bool bShowOnlyOpenConversations,
-            ConsultNotesDataConverter theCNsDC, TeamMemberData LoggedOnMember)
+            ConsultNotesDataConverter theCNsDC, TeamMemberData LoggedOnMember,
+            string strThePfMemberId)
         {
             string strHtmlButtons = null;
-            if (theCNsDC.HasAddNotePrivilege(LoggedOnMember.MemberType))
+            if (theCNsDC.HasAddNotePrivilege(LoggedOnMember, strThePfMemberId))
             {
                 strHtmlButtons += // String.Format(OseResources.Properties.Resources.HTML_TableCell,
                                                String.Format(OseResources.Properties.Resources.HTML_Button,
@@ -1448,54 +1567,90 @@ namespace OneStoryProjectEditor
         }
 
         public string ConsultantNotesHtml(object htmlConNoteCtrl, 
-            StoryStageLogic theStoryStage, TeamMemberData LoggedOnMember,
-            bool bViewHidden, bool bShowOnlyOpenConversations)
+            TeamMemberData LoggedOnMember, TeamMembersData teamMembers, 
+            StoryData theStory, bool bViewHidden, bool bShowOnlyOpenConversations)
         {
             string strHtml = null;
-            strHtml += GetHeaderRow(CstrZerothLineNameConNotes, 0, FirstVerse.IsVisible, 
-                bShowOnlyOpenConversations, FirstVerse.ConsultantNotes, LoggedOnMember);
+            strHtml += GetHeaderRow(CstrZerothLineNameConNotes, 0,
+                                    FirstVerse.IsVisible,
+                                    bShowOnlyOpenConversations,
+                                    FirstVerse.ConsultantNotes,
+                                    LoggedOnMember,
+                                    theStory.CraftingInfo.ProjectFacilitator.MemberId);
 
-            strHtml += FirstVerse.ConsultantNotes.Html(htmlConNoteCtrl, theStoryStage,
-                LoggedOnMember, bViewHidden, FirstVerse.IsVisible, bShowOnlyOpenConversations, 0);
+            strHtml += FirstVerse.ConsultantNotes.Html(htmlConNoteCtrl,
+                                                       LoggedOnMember,
+                                                       teamMembers,
+                                                       theStory,
+                                                       bViewHidden,
+                                                       FirstVerse.IsVisible,
+                                                       bShowOnlyOpenConversations, 0);
 
             for (int i = 1; i <= Count; i++)
             {
                 VerseData aVerseData = this[i - 1];
-                if (aVerseData.IsVisible || bViewHidden)
-                {
-                    strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.IsVisible,
-                        bShowOnlyOpenConversations, aVerseData.ConsultantNotes, LoggedOnMember);
+                if (!aVerseData.IsVisible && !bViewHidden)
+                    continue;
 
-                    strHtml += aVerseData.ConsultantNotes.Html(htmlConNoteCtrl,
-                        theStoryStage, LoggedOnMember, bViewHidden, aVerseData.IsVisible, bShowOnlyOpenConversations, i);
-                }
+                strHtml += GetHeaderRow("Ln: " + i, i,
+                                        aVerseData.IsVisible,
+                                        bShowOnlyOpenConversations,
+                                        aVerseData.ConsultantNotes,
+                                        LoggedOnMember,
+                                        theStory.CraftingInfo.ProjectFacilitator.MemberId);
+
+                strHtml += aVerseData.ConsultantNotes.Html(htmlConNoteCtrl,
+                                                           LoggedOnMember, 
+                                                           teamMembers, 
+                                                           theStory,
+                                                           bViewHidden, 
+                                                           aVerseData.IsVisible,
+                                                           bShowOnlyOpenConversations, i);
             }
 
             return String.Format(OseResources.Properties.Resources.HTML_Table, strHtml);
         }
 
         public string CoachNotesHtml(object htmlConNoteCtrl, 
-            StoryStageLogic theStoryStage, TeamMemberData LoggedOnMember,
+            TeamMemberData LoggedOnMember, TeamMembersData teamMembers, StoryData theStory,
             bool bViewHidden, bool bShowOnlyOpenConversations)
         {
             string strHtml = null;
-            strHtml += GetHeaderRow(CstrZerothLineNameConNotes, 0, FirstVerse.IsVisible,
-                bShowOnlyOpenConversations, FirstVerse.CoachNotes, LoggedOnMember);
+            strHtml += GetHeaderRow(CstrZerothLineNameConNotes, 0,
+                                    FirstVerse.IsVisible,
+                                    bShowOnlyOpenConversations,
+                                    FirstVerse.CoachNotes,
+                                    LoggedOnMember,
+                                    theStory.CraftingInfo.ProjectFacilitator.MemberId);
 
-            strHtml += FirstVerse.CoachNotes.Html(htmlConNoteCtrl, theStoryStage,
-                LoggedOnMember, bViewHidden, FirstVerse.IsVisible, bShowOnlyOpenConversations, 0);
+            strHtml += FirstVerse.CoachNotes.Html(htmlConNoteCtrl,
+                                                  LoggedOnMember,
+                                                  teamMembers,
+                                                  theStory,
+                                                  bViewHidden,
+                                                  FirstVerse.IsVisible,
+                                                  bShowOnlyOpenConversations, 0);
 
             for (int i = 1; i <= Count; i++)
             {
                 VerseData aVerseData = this[i - 1];
-                if (aVerseData.IsVisible || bViewHidden)
-                {
-                    strHtml += GetHeaderRow("Ln: " + i, i, aVerseData.IsVisible,
-                        bShowOnlyOpenConversations, aVerseData.CoachNotes, LoggedOnMember);
+                if (!aVerseData.IsVisible && !bViewHidden)
+                    continue;
+                
+                strHtml += GetHeaderRow("Ln: " + i, i,
+                                        aVerseData.IsVisible,
+                                        bShowOnlyOpenConversations,
+                                        aVerseData.CoachNotes,
+                                        LoggedOnMember,
+                                        theStory.CraftingInfo.ProjectFacilitator.MemberId);
 
-                    strHtml += aVerseData.CoachNotes.Html(htmlConNoteCtrl, theStoryStage,
-                        LoggedOnMember, bViewHidden, aVerseData.IsVisible, bShowOnlyOpenConversations, i);
-                }
+                strHtml += aVerseData.CoachNotes.Html(htmlConNoteCtrl,
+                                                      LoggedOnMember,
+                                                      teamMembers,
+                                                      theStory,
+                                                      bViewHidden,
+                                                      aVerseData.IsVisible,
+                                                      bShowOnlyOpenConversations, i);
             }
 
             return String.Format(OseResources.Properties.Resources.HTML_Table, strHtml);
@@ -1514,17 +1669,18 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public void ChangeRetellingTestorGuid(int nIndex, string strNewGuid)
+        public void ChangeRetellingTestorGuid(string strOldGuid, string strNewGuid)
         {
-            foreach (var lineMemberData in this.Select(aVerseData => aVerseData.Retellings[nIndex]))
-                lineMemberData.MemberId = strNewGuid;
+            // no retellings in FirstVerse.ReplaceRetellingUns(strOldGuid, strNewGuid);
+            foreach (var aVerse in this)
+                aVerse.ReplaceRetellingUns(strOldGuid, strNewGuid);
         }
 
-        public void ChangeTqAnswersTestorGuid(int nIndex, string strNewGuid)
+        public void ChangeTqAnswersTestorGuid(string strOldGuid, string strNewGuid)
         {
-            foreach (var lineMemberData in
-                this.SelectMany(aVerseData => aVerseData.TestQuestions.Select(aTqData => aTqData.Answers[nIndex])))
-                lineMemberData.MemberId = strNewGuid;
+            FirstVerse.ReplaceAnswersUns(strOldGuid, strNewGuid);
+            foreach (var aVerse in this)
+                aVerse.ReplaceAnswersUns(strOldGuid, strNewGuid);
         }
 
         public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
@@ -1532,6 +1688,23 @@ namespace OneStoryProjectEditor
             FirstVerse.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
             foreach (var verse in this)
                 verse.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
+        }
+
+        public void SetCommentMemberId(string strPfMemberId, string strConsultant, string strCoach)
+        {
+            FirstVerse.SetCommentMemberId(strPfMemberId, strConsultant, strCoach);
+            foreach (var verse in this)
+                verse.SetCommentMemberId(strPfMemberId, strConsultant, strCoach);
+        }
+
+        public void UpdateCommentMemberId(string strOldMemberGuid, string strNewMemberGuid)
+        {
+            if (String.IsNullOrEmpty(strOldMemberGuid))
+                return;
+
+            FirstVerse.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
+            foreach (var verse in this)
+                verse.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
         }
     }
 }

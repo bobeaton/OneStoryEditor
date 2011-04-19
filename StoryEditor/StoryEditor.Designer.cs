@@ -139,6 +139,7 @@ namespace OneStoryProjectEditor
             this.programUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.automaticallyCheckAtStartupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForProgramUpdatesNowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkNowForNextMajorUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveTimeoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.asSilentlyAsPossibleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -162,6 +163,7 @@ namespace OneStoryProjectEditor
             this.textBoxCoachNotes = new System.Windows.Forms.TextBox();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.toolStripRecordNavigation = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonShowPanoramaStories = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonFirst = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonPrevious = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonNext = new System.Windows.Forms.ToolStripButton();
@@ -170,7 +172,6 @@ namespace OneStoryProjectEditor
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.checkNowForNextMajorUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -736,7 +737,7 @@ namespace OneStoryProjectEditor
             this.viewStoryTestingQuestionAnswerMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.viewStoryTestingQuestionAnswerMenuItem.Name = "viewStoryTestingQuestionAnswerMenuItem";
             this.viewStoryTestingQuestionAnswerMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.viewStoryTestingQuestionAnswerMenuItem.Text = "Story testing question ans&wers";
+            this.viewStoryTestingQuestionAnswerMenuItem.Text = "Ans&wers";
             this.viewStoryTestingQuestionAnswerMenuItem.ToolTipText = "Show the text boxes for the UNS\'s answers to testing questions";
             this.viewStoryTestingQuestionAnswerMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
@@ -940,7 +941,7 @@ namespace OneStoryProjectEditor
             this.comboBoxStorySelector.Size = new System.Drawing.Size(290, 27);
             this.comboBoxStorySelector.Text = "<to create a story, type its name here and hit Enter>";
             this.comboBoxStorySelector.ToolTipText = "Select the Story to edit or type in a new name to add a new story";
-            this.comboBoxStorySelector.SelectedIndexChanged += new System.EventHandler(this.comboBoxStorySelector_SelectedIndexChanged);
+            this.comboBoxStorySelector.SelectedIndexChanged += new System.EventHandler(this.LoadStory);
             this.comboBoxStorySelector.KeyUp += new System.Windows.Forms.KeyEventHandler(this.comboBoxStorySelector_KeyUp);
             // 
             // storyToolStripMenuItem
@@ -1142,6 +1143,15 @@ namespace OneStoryProjectEditor
             this.checkForProgramUpdatesNowToolStripMenuItem.Text = "&Check now";
             this.checkForProgramUpdatesNowToolStripMenuItem.ToolTipText = "Click this menu to have the program manually check for program updates";
             this.checkForProgramUpdatesNowToolStripMenuItem.Click += new System.EventHandler(this.checkForProgramUpdatesNowToolStripMenuItem_Click);
+            // 
+            // checkNowForNextMajorUpdateToolStripMenuItem
+            // 
+            this.checkNowForNextMajorUpdateToolStripMenuItem.Name = "checkNowForNextMajorUpdateToolStripMenuItem";
+            this.checkNowForNextMajorUpdateToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.checkNowForNextMajorUpdateToolStripMenuItem.Text = "Check now for next &major update";
+            this.checkNowForNextMajorUpdateToolStripMenuItem.ToolTipText = "Click this menu to have the program check if the next major update (which wouldn\'" +
+                "t be installed automatically by default) is available";
+            this.checkNowForNextMajorUpdateToolStripMenuItem.Click += new System.EventHandler(this.checkNowForNextMajorUpdateToolStripMenuItem_Click);
             // 
             // saveTimeoutToolStripMenuItem
             // 
@@ -1426,15 +1436,27 @@ namespace OneStoryProjectEditor
             this.toolStripRecordNavigation.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStripRecordNavigation.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStripRecordNavigation.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonShowPanoramaStories,
             this.toolStripButtonFirst,
             this.toolStripButtonPrevious,
             this.toolStripButtonNext,
             this.toolStripButtonLast});
-            this.toolStripRecordNavigation.Location = new System.Drawing.Point(494, 0);
+            this.toolStripRecordNavigation.Location = new System.Drawing.Point(440, 0);
             this.toolStripRecordNavigation.Name = "toolStripRecordNavigation";
-            this.toolStripRecordNavigation.Size = new System.Drawing.Size(95, 25);
+            this.toolStripRecordNavigation.Size = new System.Drawing.Size(149, 25);
             this.toolStripRecordNavigation.TabIndex = 3;
             this.toolStripRecordNavigation.Text = "toolStrip1";
+            // 
+            // toolStripButtonShowPanoramaStories
+            // 
+            this.toolStripButtonShowPanoramaStories.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonShowPanoramaStories.Image = global::OneStoryProjectEditor.Properties.Resources.ShowAllCommentsHS;
+            this.toolStripButtonShowPanoramaStories.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonShowPanoramaStories.Name = "toolStripButtonShowPanoramaStories";
+            this.toolStripButtonShowPanoramaStories.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonShowPanoramaStories.Text = "Show Panorama Stories";
+            this.toolStripButtonShowPanoramaStories.ToolTipText = "Click to view the list of full stories (same as \"Panorama\", \"Show\")";
+            this.toolStripButtonShowPanoramaStories.Click += new System.EventHandler(this.toolStripMenuItemShowPanorama_Click);
             // 
             // toolStripButtonFirst
             // 
@@ -1523,15 +1545,6 @@ namespace OneStoryProjectEditor
             // 
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
-            // 
-            // checkNowForNextMajorUpdateToolStripMenuItem
-            // 
-            this.checkNowForNextMajorUpdateToolStripMenuItem.Name = "checkNowForNextMajorUpdateToolStripMenuItem";
-            this.checkNowForNextMajorUpdateToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
-            this.checkNowForNextMajorUpdateToolStripMenuItem.Text = "Check now for next &major update";
-            this.checkNowForNextMajorUpdateToolStripMenuItem.ToolTipText = "Click this menu to have the program check if the next major update (which wouldn\'" +
-                "t be installed automatically by default) is available";
-            this.checkNowForNextMajorUpdateToolStripMenuItem.Click += new System.EventHandler(this.checkNowForNextMajorUpdateToolStripMenuItem_Click);
             // 
             // StoryEditor
             // 
@@ -1708,6 +1721,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem closeProjectToolStripMenuItem;
         internal ToolStripMenuItem viewExegeticalHelps;
         private System.ComponentModel.BackgroundWorker backgroundWorker;
+        private ToolStripButton toolStripButtonShowPanoramaStories;
         private ToolStripMenuItem checkNowForNextMajorUpdateToolStripMenuItem;
     }
 

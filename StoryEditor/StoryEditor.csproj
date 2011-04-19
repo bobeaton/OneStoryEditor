@@ -565,6 +565,9 @@
     <EmbeddedResource Include="SelectTermsListForm.resx">
       <DependentUpon>SelectTermsListForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SetCitTasksForm.resx">
+      <DependentUpon>SetCitTasksForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SetPfTasksForm.resx">
       <DependentUpon>SetPfTasksForm.cs</DependentUpon>
     </EmbeddedResource>

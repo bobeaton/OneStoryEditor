@@ -48,7 +48,8 @@ namespace OneStoryProjectEditor
             eConsultantCauseRevisionAfterUnsTest,
             eCoachReviewRound2Notes,
             eConsultantFinalCheck,
-            eTeamComplete
+            eTeamComplete,  // i.e. eTeamPreliminaryApproval
+            eTeamFinalApproval
         }
 
         public ProjectStages ProjectStage
@@ -176,7 +177,8 @@ namespace OneStoryProjectEditor
             { "ConsultantCauseRevisionAfterUnsTest", ProjectStages.eConsultantCauseRevisionAfterUnsTest },
             { "CoachReviewRound2Notes", ProjectStages.eCoachReviewRound2Notes },
             { "ConsultantFinalCheck", ProjectStages.eConsultantFinalCheck },
-            { "TeamComplete", ProjectStages.eTeamComplete }};
+            { "TeamComplete", ProjectStages.eTeamComplete },
+            { "TeamFinalApproval", ProjectStages.eTeamFinalApproval }};
 
         public class StateTransitions : Dictionary<ProjectStages, StateTransition>
         {
@@ -666,12 +668,12 @@ namespace OneStoryProjectEditor
                 theSE.viewConsultantNoteFieldMenuItem.Checked = IsConsultantNotesVisible;
                 
                 // disable the coach window also if the proj fac is logged in.
+                //  (here we want to use "!=" for PF, because if he's also a LSR, then
+                //  we want to be able to see Coach note pane).
                 theSE.viewCoachNotesFieldMenuItem.Checked = IsCoachNotesVisible
-                                                            && ((theSE.LoggedOnMember != null)
-                                                                &&
-                                                                !TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType,
-                                                                                       TeamMemberData.UserTypes.
-                                                                                           ProjectFacilitator));
+                                                            && (theSE.LoggedOnMember != null)
+                                                            && theSE.LoggedOnMember.IsPfAndNotLsr;
+
                 theSE.viewNetBibleMenuItem.Checked = IsNetBibleVisible && bBiblicalStory;
             }
 #endif

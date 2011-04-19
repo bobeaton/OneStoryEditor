@@ -430,6 +430,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OSE can&apos;t automatically rearrange the story lines now because that would result in the loss of other information (e.g. Anchors, Testing Questions, and/or Consultant Notes). If you delete these other items, then you could use this command again.
+        /// </summary>
+        internal static string IDS_CantSplitIntoLines {
+            get {
+                return ResourceManager.GetString("IDS_CantSplitIntoLines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Click &apos;Yes&apos; to enter UNS test results now or click &apos;No&apos; to send the story to the consultant first for checking..
         /// </summary>
         internal static string IDS_CheckForSkipToUnsCheck {
@@ -457,11 +466,11 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Choose the Project Facilitator that entered this story.
+        ///   Looks up a localized string similar to Choose the {0} working on the story &apos;{1}&apos;.
         /// </summary>
-        internal static string IDS_ChooseProjFac {
+        internal static string IDS_ChooseMemberStory {
             get {
-                return ResourceManager.GetString("IDS_ChooseProjFac", resourceCulture);
+                return ResourceManager.GetString("IDS_ChooseMemberStory", resourceCulture);
             }
         }
         
@@ -620,7 +629,8 @@ namespace OneStoryProjectEditor.Properties {
         ///&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
         /// &lt;o:DocumentProperties&gt;
         ///  &lt;o:Author&gt;Bob Eaton&lt;/o:Author&gt;
-        ///  &lt;o:LastAuthor&gt;Bob Eaton&lt;/o:LastAuthor&gt;        /// [rest of string was truncated]&quot;;.
+        ///  &lt;o:LastAuthor&gt;Bob Eaton&lt;/o:LastAuthor&gt;
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IDS_CopyrightInfo {
             get {
@@ -679,7 +689,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to In line {0}, the {1} made a comment, which you didn&apos;t respond to. Did you forget it?.
+        ///   Looks up a localized string similar to In line {0}, there&apos;s an empty box labeled &apos;{1}&apos;, into which you are supposed to enter a response. Did you forget it?.
         /// </summary>
         internal static string IDS_DidntAnswerQuestion {
             get {
@@ -877,6 +887,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You will need to log in as a coach to be able to respond to the CIT/LSR comments.
+        /// </summary>
+        internal static string IDS_LoginAsCoach {
+            get {
+                return ResourceManager.GetString("IDS_LoginAsCoach", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You have added a UNS in order to identify, for example, which UNS did the back translation or a particular test. However, you as the Project Facilitator should still be logged in to enter the UNS&apos;s comments. So select your *Project Facilitator* member name and click &apos;Login&apos; again.
         /// </summary>
         internal static string IDS_LoginAsProjectFacilitator {
@@ -913,11 +932,11 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There&apos;s a new version of OSE available. To upgrade, click &apos;Advanced&apos;, &apos;Program Updates&apos;, &apos;Check now&apos;.
+        ///   Looks up a localized string similar to  -- ({0} logged in as &apos;{1}&apos;).
         /// </summary>
-        internal static string IDS_MentionNewUpdateAvailable {
+        internal static string IDS_MainFrameTitleSuffix {
             get {
-                return ResourceManager.GetString("IDS_MentionNewUpdateAvailable", resourceCulture);
+                return ResourceManager.GetString("IDS_MainFrameTitleSuffix", resourceCulture);
             }
         }
         
@@ -927,6 +946,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_MoveProjectsToNewProjectFolder {
             get {
                 return ResourceManager.GetString("IDS_MoveProjectsToNewProjectFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you require the project facilitator to &apos;{0}&apos;, then you&apos;ll also need to allow the &apos;{1}&apos; task?.
+        /// </summary>
+        internal static string IDS_MustAllowRequirement {
+            get {
+                return ResourceManager.GetString("IDS_MustAllowRequirement", resourceCulture);
             }
         }
         
@@ -972,6 +1000,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_MustHaveAtLeastOneLanguage {
             get {
                 return ResourceManager.GetString("IDS_MustHaveAtLeastOneLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The coach is requiring you to &apos;{0}&apos;.
+        /// </summary>
+        internal static string IDS_MustPassToCoach {
+            get {
+                return ResourceManager.GetString("IDS_MustPassToCoach", resourceCulture);
             }
         }
         
@@ -1086,7 +1123,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.1/StoryEditor.exe.manifest.xml.
+        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.2/StoryEditor.exe.manifest.xml.
         /// </summary>
         internal static string IDS_OSEUpgradeServer {
             get {
@@ -1095,7 +1132,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.2/StoryEditor.exe.manifest.xml.
+        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.3/StoryEditor.exe.manifest.xml.
         /// </summary>
         internal static string IDS_OSEUpgradeServerNextMajorUpgrade {
             get {
@@ -1401,6 +1438,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Left-click to edit the contact or bio data for this team member; right-click to choose another team member.
+        /// </summary>
+        internal static string IDS_StoryInformationBrowseButtonTooltip {
+            get {
+                return ResourceManager.GetString("IDS_StoryInformationBrowseButtonTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;{0} back-translation fields.
         /// </summary>
         internal static string IDS_StoryLanguageField {
@@ -1472,7 +1518,8 @@ namespace OneStoryProjectEditor.Properties {
         ///
         ///\+mkr ans
         ///\nam Answers
-        ///\lng InternationalBT        /// [rest of string was truncated]&quot;;.
+        ///\lng InternationalBT
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IDS_TbxFile_StoryBT {
             get {
@@ -1495,6 +1542,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_ThisStoryNotInThisRevision {
             get {
                 return ResourceManager.GetString("IDS_ThisStoryNotInThisRevision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are unapproved comments! Set to Coach&apos;s turn instead to get them approved or they won&apos;t be visible to the Project Facilitator.
+        /// </summary>
+        internal static string IDS_ToolTipAboutUnapprovedComments {
+            get {
+                return ResourceManager.GetString("IDS_ToolTipAboutUnapprovedComments", resourceCulture);
             }
         }
         
@@ -1643,6 +1699,33 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You already have this L&amp;C note for the word &apos;{0}&apos;! See &apos;View&apos;, &apos;L&amp;C Notes&apos;.
+        /// </summary>
+        internal static string IDS_WarnAboutSimilarLnCNote {
+            get {
+                return ResourceManager.GetString("IDS_WarnAboutSimilarLnCNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are one or more comments in the Consultant Notes pane by the CIT (or LSR) that haven&apos;t been approved. Click &apos;Yes&apos; to ignore them and continue on, or click &apos;No&apos; to cancel so you can go back and approve/get them approved.
+        /// </summary>
+        internal static string IDS_WarnAboutUnapprovedComments {
+            get {
+                return ResourceManager.GetString("IDS_WarnAboutUnapprovedComments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are one or more questions in the Coach Note pane which haven&apos;t been responded to by a Coach. Click &apos;Yes&apos; to ignore them and continue changing to the project facilitator&apos;s turn or click &apos;No&apos; to cancel so you can go back and respond to them.
+        /// </summary>
+        internal static string IDS_WarnAboutUnrespondedToComments {
+            get {
+                return ResourceManager.GetString("IDS_WarnAboutUnrespondedToComments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You have to enter at least a name and indicate your role (even if you&apos;re &apos;Just Looking&apos;)!.
         /// </summary>
         internal static string IDS_WarnNeedNameAndRole {
@@ -1665,7 +1748,8 @@ namespace OneStoryProjectEditor.Properties {
         ///    &lt;!-- oneStory2CoachNotes.xsl         
         ///        create by Bob Eaton based on Jim Albright&apos;s script for storyingBT 
         ///        (to handle conversion of onestory to sfm)
-        ///        2010-04-05        /// [rest of string was truncated]&quot;;.
+        ///        2010-04-05
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string oneStory2CoachNotes {
             get {

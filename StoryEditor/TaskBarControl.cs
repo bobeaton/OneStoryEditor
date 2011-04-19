@@ -30,20 +30,8 @@ namespace OneStoryProjectEditor
                 return;
             }
 
-            // these buttons probably want to be shone for all users (i.e. so they
-            //  can view the fields), but the labels will be adjusted by the different
-            //  roles depending on permission
-            ProjectSettings projSettings = theStoryProjectData.ProjSettings;
-            buttonVernacular.Visible = projSettings.Vernacular.HasData;
-            buttonNationalBt.Visible = projSettings.NationalBT.HasData;
-            buttonInternationalBt.Visible = projSettings.InternationalBT.HasData;
-            buttonFreeTranslation.Visible = projSettings.FreeTranslation.HasData;
-
-            buttonAnchors.Visible = true;
-            buttonViewRetellings.Visible = true;
-            buttonViewTestQuestions.Visible = true;
-            buttonViewTestQuestionAnswers.Visible = true;
-            buttonStoryInformation.Visible = true;
+            // getting rid of all the 'view' ones, since those are "tasks"
+            //  buttonStoryInformation.Visible = true;
 
             if (TheSe.LoggedOnMember == null)
                 return;
@@ -51,7 +39,12 @@ namespace OneStoryProjectEditor
             if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType, 
                                       TeamMemberData.UserTypes.ProjectFacilitator))
             {
-                SetProjectFaciliatorButtons(theStory, theStoryProjectData, projSettings);
+                SetProjectFaciliatorButtons(theStory, theStoryProjectData);
+            }
+            else if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                                           TeamMemberData.UserTypes.EnglishBackTranslator))
+            {
+                SetEnglishBackTranslatorButtons();
             }
             else if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType, 
                                            TeamMemberData.UserTypes.IndependentConsultant))
@@ -70,46 +63,99 @@ namespace OneStoryProjectEditor
             }
         }
 
+        private void SetEnglishBackTranslatorButtons()
+        {
+            buttonViewTasksPf.Visible = true;
+
+            bool bEditAllowed = TheSe.LoggedOnMember.IsEditAllowed(TheStory);
+
+            buttonReturnToProjectFacilitator.Visible =
+                buttonSendToConsultant.Visible = bEditAllowed;
+
+            _checker = new EnglishBterRequirementsCheck(TheSe, TheStory);
+        }
+
         private void SetCoachButtons()
         {
-            buttonMarkReadyForSfg.Visible =
-                buttonSendToCIT.Visible =
-                    TheSe.LoggedOnMember.IsEditAllowed(TheStory.ProjStage.MemberTypeWithEditToken);
+            buttonViewTasksPf.Visible = true;
+
+            // make the view CIT tasks visible only if we're in a manage with coaching
+            //  situation.
+            buttonViewTasksCit.Visible = !TheSe.StoryProject.TeamMembers.HasIndependentConsultant;
+
+            if (!TheSe.LoggedOnMember.IsEditAllowed(TheStory))
+                return;
+
+            if (TheStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eTeamComplete)
+                buttonMarkFinalApproval.Visible = true;
+            else
+                buttonMarkPreliminaryApproval.Visible = true;
+
+            buttonSendToCIT.Visible = true;
         }
 
         private void SetConsultantInTrainingButtons()
         {
-            buttonViewTasks.Visible = true;
+            buttonViewTasksPf.Visible = true;
+            buttonViewTasksCit.Visible = true;
 
-            bool bEditAllowed = TheSe.LoggedOnMember.IsEditAllowed(TheStory.ProjStage.MemberTypeWithEditToken);
+            if (!TheSe.LoggedOnMember.IsEditAllowed(TheStory))
+                return;
 
-            buttonReturnToProjectFacilitator.Visible = (bEditAllowed &&
-                                                        TasksCit.IsTaskOn(TheStory.TasksAllowedCit,
-                                                                          TasksCit.TaskSettings.
-                                                                              SendToProjectFacilitatorForRevision));
-            buttonSendToCoach.Visible = (bEditAllowed && TasksCit.IsTaskOn(TheStory.TasksAllowedCit,
-                                                                           TasksCit.TaskSettings.SendToCoachForReview));
+            bool bAreUnapprovedNotes = TheStory.AreUnapprovedConsultantNotes;
+            if (TheSe.StoryProject.TeamMembers.HasOutsideEnglishBTer)
+            {
+                buttonSendToEnglishBter.Visible = true;
+                if (bAreUnapprovedNotes)
+                    toolTip.SetToolTip(buttonSendToEnglishBter, 
+                        Properties.Resources.IDS_ToolTipAboutUnapprovedComments);
+            }
+            else
+            {
+                buttonReturnToProjectFacilitator.Visible = (TasksCit.IsTaskOn(TheStory.TasksAllowedCit,
+                                                                              TasksCit.TaskSettings.
+                                                                                  SendToProjectFacilitatorForRevision));
+                if (bAreUnapprovedNotes)
+                    toolTip.SetToolTip(buttonReturnToProjectFacilitator,
+                        Properties.Resources.IDS_ToolTipAboutUnapprovedComments);
+            }
 
-            if (bEditAllowed)
-                _checker = new ConsultantInTrainingRequirementsCheck(TheSe, TheStory);
+            buttonSendToCoach.Visible = (TasksCit.IsTaskOn(TheStory.TasksAllowedCit,
+                                                           TasksCit.TaskSettings.SendToCoachForReview));
+
+            _checker = new ConsultantInTrainingRequirementsCheck(TheSe, TheStory);
         }
 
         private void SetIndependentConsultantButtons()
         {
-            buttonReturnToProjectFacilitator.Visible =
-                buttonMarkReadyForSfg.Visible =
-                TheSe.LoggedOnMember.IsEditAllowed(TheStory.ProjStage.MemberTypeWithEditToken);
+            buttonViewTasksPf.Visible = true;
+            
+            if (!TheSe.LoggedOnMember.IsEditAllowed(TheStory))
+                return;
+
+            if (TheStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eTeamComplete)
+                buttonMarkFinalApproval.Visible = true;
+            else
+                buttonMarkPreliminaryApproval.Visible = true;
+
+            if (TheSe.StoryProject.TeamMembers.HasOutsideEnglishBTer)
+                buttonSendToEnglishBter.Visible = true;
+            else
+                buttonReturnToProjectFacilitator.Visible = true;
         }
 
         private void SetButtonsAndTooltip(Button btn, bool bEditAllowed, bool bDefaultVisibility,
             TasksPf.TaskSettings taskToCheck, string strTooltipFormat, string strButtonText)
         {
             if (!bEditAllowed)
+                btn.Visible = false;
+                /* people didn't want to see 'View' anything as a 'task'
                 toolTip.SetToolTip(btn, String.Format(Properties.Resources.IDS_PfNoEditToken,
                                                       strTooltipFormat,
                                                       TeamMemberData.GetMemberWithEditTokenAsDisplayString(
                                                           TheSe.StoryProject.TeamMembers,
                                                           TheSe.theCurrentStory.ProjStage.MemberTypeWithEditToken)));
+                */
 
             else if (!TasksPf.IsTaskOn(TheStory.TasksAllowedPf, taskToCheck))
                 toolTip.SetToolTip(btn, String.Format(Properties.Resources.IDS_PfNotAllowedToModified,
@@ -124,12 +170,26 @@ namespace OneStoryProjectEditor
         }
 
         private void SetProjectFaciliatorButtons(StoryData theStory,
-            StoryProjectData theStoryProjectData, ProjectSettings projSettings)
+            StoryProjectData theStoryProjectData)
         {
-            bool bEditAllowed = TheSe.LoggedOnMember.IsEditAllowed(theStory.ProjStage.MemberTypeWithEditToken);
+            bool bEditAllowed = TheSe.LoggedOnMember.IsEditAllowed(theStory);
 
             buttonAddStory.Visible = true;
-            buttonViewTasks.Visible = true;
+            buttonViewTasksPf.Visible = true;
+
+            ProjectSettings projSettings = theStoryProjectData.ProjSettings;
+            buttonVernacular.Visible = bEditAllowed && projSettings.Vernacular.HasData;
+            buttonNationalBt.Visible = bEditAllowed && projSettings.NationalBT.HasData;
+            buttonInternationalBt.Visible = bEditAllowed && projSettings.InternationalBT.HasData;
+            buttonFreeTranslation.Visible = bEditAllowed && projSettings.FreeTranslation.HasData;
+
+            if (TheStory.CraftingInfo.IsBiblicalStory)
+            {
+                buttonAnchors.Visible = bEditAllowed;
+                // buttonViewRetellings.Visible = bEditAllowed;
+                buttonViewTestQuestions.Visible = bEditAllowed;
+                // buttonViewTestQuestionAnswers.Visible = bEditAllowed;
+            }
 
             SetButtonsAndTooltip(buttonVernacular,
                                  bEditAllowed,
@@ -195,7 +255,7 @@ namespace OneStoryProjectEditor
                                  TasksPf.TaskSettings.TestQuestions,
                                  "story testing question",
                                  Properties.Resources.IDS_PfButtonLabelTestQuestions);
-
+            
             SetButtonsAndTooltip(buttonAddBoxesForAnswers,
                                  bEditAllowed,
                                  true,
@@ -220,11 +280,15 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            // these also are added for short cuts
-            buttonSendToConsultant.Visible = bEditAllowed;
+            if (!bEditAllowed)
+                return;
 
-            if (bEditAllowed)
-                _checker = new ProjectFacilitatorRequirementsCheck(TheSe, theStoryProjectData, theStory);
+            if (theStoryProjectData.TeamMembers.HasOutsideEnglishBTer)
+                buttonSendToEnglishBter.Visible = true;
+            else
+                buttonSendToConsultant.Visible = true;
+
+            _checker = new ProjectFacilitatorRequirementsCheck(TheSe, theStory);
         }
 
         private void buttonAddStory_Click(object sender, EventArgs e)
@@ -380,42 +444,174 @@ namespace OneStoryProjectEditor
             TheSe.toolStripMenuItemShowPanorama_Click(sender, e);
         }
 
+        private void buttonSendToEnglishBter_Click(object sender, EventArgs e)
+        {
+            // we go to the English Bter either going forwards from the PF...
+            if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                                      TeamMemberData.UserTypes.ProjectFacilitator))
+            {
+                if (!CheckForPfDone())
+                    return;
+
+                TheSe.SetNextStateAdvancedOverride(
+                    StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBTTest1, true);
+            }
+            // ... or coming backwards from the CIT/IC
+            else if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                                           TeamMemberData.UserTypes.IndependentConsultant | 
+                                           TeamMemberData.UserTypes.ConsultantInTraining))
+            {
+                if (!CheckIfReadyToReturnToPf())
+                    return;
+
+                if (TheStory.CraftingInfo.IsBiblicalStory)
+                {
+                    TheSe.SetNextStateAdvancedOverride(
+                        StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotesAfterUnsTest, true);
+                }
+                else
+                {
+                    TheSe.SetNextStateAdvancedOverride(
+                        StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotesBeforeUnsTest, true);
+                }
+            }
+        }
+
         private void buttonSendToConsultant_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert(_checker != null);
-            System.Diagnostics.Debug.Assert(TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
-                                                                  TeamMemberData.UserTypes.ProjectFacilitator));
+            System.Diagnostics.Debug.Assert(TeamMemberData.IsUser(
+                TheSe.LoggedOnMember.MemberType,
+                TeamMemberData.UserTypes.EnglishBackTranslator |
+                TeamMemberData.UserTypes.ProjectFacilitator)
+                                            && (ParentForm != null)
+                                            && (_checker != null));
             
-            ParentForm.Close();
-            if (!_checker.CheckIfRequirementsAreMet())
-                return;
+            // we go to the consultant forward either from the English BTer...
+            if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                                      TeamMemberData.UserTypes.EnglishBackTranslator))
+            {
+                ParentForm.Close();
+            
+                if (!_checker.CheckIfRequirementsAreMet())
+                    return;
 
-            if (MessageBox.Show(Properties.Resources.IDS_TerminalTransitionMessage,
-                                OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
-                return;
+            }
+
+            else if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                                           TeamMemberData.UserTypes.ProjectFacilitator))
+            {
+                if (!CheckForPfDone())
+                    return;
+            }
+
+            // if this is a "manage with coaching" situation, then reset the 
+            //  'Set to Coach's turn' requirement. [That requirement will have been so
+            //  removed that the CIT could send it to the PF in the first place, and the 
+            //  nature of a CIT is that he always must send to the coach anyway]
+            if (!TheSe.StoryProject.TeamMembers.HasIndependentConsultant)
+                TheStory.TasksRequiredCit |= TasksCit.TaskSettings.SendToCoachForReview;
 
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eConsultantCheck2, true);
         }
 
+        private bool CheckForPfDone()
+        {
+            System.Diagnostics.Debug.Assert(_checker != null);
+            System.Diagnostics.Debug.Assert(TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                                                                  TeamMemberData.UserTypes.ProjectFacilitator));
+
+            ParentForm.Close();
+            if (!_checker.CheckIfRequirementsAreMet())
+                return false;
+
+            if (MessageBox.Show(Properties.Resources.IDS_TerminalTransitionMessage,
+                                OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                return false;
+
+            return true;
+        }
+
         private void buttonReturnToProjectFacilitator_Click(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.Assert(TeamMemberData.IsUser(
+                TheSe.LoggedOnMember.MemberType,
+                TeamMemberData.UserTypes.EnglishBackTranslator |
+                TeamMemberData.UserTypes.ConsultantInTraining |
+                TeamMemberData.UserTypes.IndependentConsultant)
+                                            && (ParentForm != null));
+
             ParentForm.Close();
+
+            if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                                      TeamMemberData.UserTypes.ConsultantInTraining |
+                                      TeamMemberData.UserTypes.IndependentConsultant))
+            {
+                // if it's coming from the CIT/IC
+                if (!CheckIfReadyToReturnToPf())
+                    return;
+            }
+
+            // this applies regardless of who it's coming from
+            TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacRevisesAfterUnsTest, true);
+        }
+
+        private bool CheckIfReadyToReturnToPf()
+        {
+            // first have to satisfy the requirement to send to coach
+            if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                                      TeamMemberData.UserTypes.ConsultantInTraining) &&
+                TasksCit.IsTaskOn(TheStory.TasksRequiredCit,
+                                  TasksCit.TaskSettings.SendToCoachForReview))
+            {
+                MessageBox.Show(String.Format(Properties.Resources.IDS_MustPassToCoach,
+                                              SetCitTasksForm.CstrSendToCoach),
+                                OseResources.Properties.Resources.IDS_Caption);
+                return false;
+            }
+
             if (!CheckEndOfStateTransition.CheckThatCITAnsweredPFsQuestions(TheSe, TheStory))
-                return;
+                return false;
+
+            // this applies to both CITs and ICs
+            if (!CheckForUnapprovedComments())
+                return false;
+
+            // if we don't have an explicit coach state, then the IC is the one who
+            //  probably needs to deal with Coach Notes, so warn him/her if there
+            //  are unresponded to comments.
+            if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                                      TeamMemberData.UserTypes.IndependentConsultant) &&
+                TheSe.StoryProject.TeamMembers.HasIndependentConsultant &&
+                TheStory.AreUnrespondedToCoachNoteComments)
+            {
+                DialogResult res = MessageBox.Show(Properties.Resources.IDS_WarnAboutUnrespondedToComments,
+                                                   OseResources.Properties.Resources.IDS_Caption,
+                                                   MessageBoxButtons.YesNoCancel);
+                if (res != DialogResult.Yes)
+                {
+                    if (res == DialogResult.No)
+                    {
+                        TheSe.viewCoachNotesFieldMenuItem.Checked = true;
+                        MessageBox.Show(Properties.Resources.IDS_LoginAsCoach,
+                                        OseResources.Properties.Resources.IDS_Caption);
+                    }
+                    return false;
+                }
+            }
 
             // find out from the consultant what tasks they want to set in the story
             var dlg = new SetPfTasksForm(TheSe.StoryProject.ProjSettings,
-                TheStory.TasksAllowedPf, TheStory.TasksRequiredPf, 
-                TheStory.CraftingInfo.IsBiblicalStory)
+                                         TheStory.TasksAllowedPf, TheStory.TasksRequiredPf,
+                                         TheStory.CraftingInfo.IsBiblicalStory)
                           {
                               Text = String.Format("Set tasks for the Project Facilitator ({0}) to do on story: {1}",
-                                                   TheSe.StoryProject.TeamMembers.GetNameFromMemberId(
-                                                       TheStory.CraftingInfo.ProjectFacilitatorMemberID),
+                                                   TheSe.StoryProject.GetMemberNameFromMemberGuid(
+                                                       TheStory.CraftingInfo.ProjectFacilitator.MemberId),
                                                    TheStory.Name)
                           };
 
             if (dlg.ShowDialog() != DialogResult.OK)
-                return;
+                return false;
 
             TheStory.TasksAllowedPf = dlg.TasksAllowed;
             TheStory.TasksRequiredPf = dlg.TasksRequired;
@@ -430,16 +626,39 @@ namespace OneStoryProjectEditor
             if (TasksPf.IsTaskOn(TheStory.TasksRequiredPf, TasksPf.TaskSettings.Answers2))
                 TheStory.CountTestingQuestionTests = 2;
 
-            TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacRevisesAfterUnsTest, true);
+            return true;
         }
 
-        private void buttonMarkReadyForSfg_Click(object sender, EventArgs e)
+        private bool CheckForUnapprovedComments()
+        {
+            if (TheStory.AreUnapprovedConsultantNotes)
+            {
+                DialogResult res = MessageBox.Show(Properties.Resources.IDS_WarnAboutUnapprovedComments,
+                                                   OseResources.Properties.Resources.IDS_Caption,
+                                                   MessageBoxButtons.YesNoCancel);
+                if (res != DialogResult.Yes)
+                {
+                    if (res == DialogResult.No)
+                        TheSe.viewConsultantNoteFieldMenuItem.Checked = true;
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private void buttonMarkPreliminaryApproval_Click(object sender, EventArgs e)
         {
             ParentForm.Close();
             if (!CheckEndOfStateTransition.CheckThatCITAnsweredPFsQuestions(TheSe, TheStory))
                 return;
 
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eTeamComplete, true);
+        }
+
+        private void buttonMarkFinalApproval_Click(object sender, EventArgs e)
+        {
+            ParentForm.Close();
+            TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eTeamFinalApproval, true);
         }
 
         private void buttonSendToCoach_Click(object sender, EventArgs e)
@@ -464,6 +683,10 @@ namespace OneStoryProjectEditor
             if (!CheckEndOfStateTransition.CheckThatCoachAnsweredCITsQuestions(TheSe, TheStory))
                 return;
 
+            // this applies to both CITs and ICs
+            if (!CheckForUnapprovedComments())
+                return;
+
             // find out from the Coach what tasks they want to set in the story
             var dlg = new SetCitTasksForm(TheStory.TasksAllowedCit, 
                 TheStory.TasksRequiredCit)
@@ -480,31 +703,29 @@ namespace OneStoryProjectEditor
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eConsultantCauseRevisionAfterUnsTest, true);
         }
 
-        private void buttonViewTasks_Click(object sender, EventArgs e)
+        private void buttonViewTasksPf_Click(object sender, EventArgs e)
         {
-            SetTasksForm dlg;
-            if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
-                TeamMemberData.UserTypes.ProjectFacilitator))
-            {
-                dlg = new SetPfTasksForm(TheSe.StoryProject.ProjSettings,
-                                         TheStory.TasksAllowedPf, 
+            var dlg = new SetPfTasksForm(TheSe.StoryProject.ProjSettings,
+                                         TheStory.TasksAllowedPf,
                                          TheStory.TasksRequiredPf,
                                          TheStory.CraftingInfo.IsBiblicalStory)
-                                         {Text = "Tasks for Project Facilitator"};
-            }
-            else if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
-                     TeamMemberData.UserTypes.ConsultantInTraining))
-            {
-                dlg = new SetCitTasksForm(TheStory.TasksAllowedCit,
-                                          TheStory.TasksRequiredCit) 
-                                          {Text = "Tasks for CIT"};
-            }
-            else
-            {
-                System.Diagnostics.Debug.Assert(false);
-                return;
-            }
-            dlg.Readonly = true;
+                          {
+                              Text = "Tasks for Project Facilitator",
+                              Readonly = true
+                          };
+
+            dlg.ShowDialog();
+        }
+
+        private void buttonViewTasksCit_Click(object sender, EventArgs e)
+        {
+            var dlg = new SetCitTasksForm(TheStory.TasksAllowedCit,
+                                          TheStory.TasksRequiredCit)
+                          {
+                              Text = "Tasks for CIT",
+                              Readonly = true
+                          };
+
             dlg.ShowDialog();
         }
     }

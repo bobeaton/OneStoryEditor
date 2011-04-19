@@ -1,8 +1,20 @@
-﻿Re-hook OEBTer into Tasks
+﻿Toolbox export not working still
 
-Add ability to remove an Answer box
+pssecurity@utdallas.edu
 
-lable link to ln 0 doesn't work
+we can log into the manage information site, but not galaxy.
+
+pxe110230
+
+gbrannon@smu.edu Peter's FinAid
+
+214-768-4357
+
+214-947-6278
+
+add ability to strip out insert symbol garbage
+
+Re-hook OEBTer into Tasks
 
 Send Process check reports to Judy
 

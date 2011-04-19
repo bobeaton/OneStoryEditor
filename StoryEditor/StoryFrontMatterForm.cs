@@ -19,99 +19,129 @@ namespace OneStoryProjectEditor
 
             InitializeComponent();
 
-            InitToolboxTextTip(theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID,
-                textBoxProjectFacilitator);
+            InitToolboxTextTip(theCurrentStory.CraftingInfo.ProjectFacilitator,
+                               labelProjectFacilitator,
+                               textBoxProjectFacilitator,
+                               textBoxCommentProjectFacilitator,
+                               buttonBrowserForProjectFacilitator);
+            ;
 
-            InitToolboxTextTip(theCurrentStory.CraftingInfo.StoryCrafterMemberID,
-                textBoxStoryCrafter);
+            InitToolboxTextTip(theCurrentStory.CraftingInfo.Consultant,
+                               labelConsultant,
+                               textBoxConsultant,
+                               textBoxCommentConsultant,
+                               buttonBrowserForConsultant);
+
+            InitToolboxTextTip(theCurrentStory.CraftingInfo.Coach,
+                               labelCoach,
+                               textBoxCoach,
+                               textBoxCommentCoach,
+                               buttonBrowserForCoach);
+
+            InitToolboxTextTip(theCurrentStory.CraftingInfo.StoryCrafter,
+                               labelStoryCrafter,
+                               textBoxStoryCrafter,
+                               textBoxCommentStoryCrafter,
+                               buttonBrowseForStoryCrafter);
 
             textBoxStoryPurpose.Text = theCurrentStory.CraftingInfo.StoryPurpose;
             textBoxResourcesUsed.Text = theCurrentStory.CraftingInfo.ResourcesUsed;
-            
-            InitToolboxTextTip(theCurrentStory.CraftingInfo.BackTranslatorMemberID,
-                textBoxUnsBackTranslator);
+            textBoxMiscNotes.Text = theCurrentStory.CraftingInfo.MiscellaneousStoryInfo;
 
-            if (theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count > 0)
-            {
-                var ti = theCurrentStory.CraftingInfo.TestorsToCommentsRetellings[0];
-                InitToolboxTextTip(ti.TestorGuid, textBoxUnsRetellingTest1);
-                textBoxRetellingComment1.Text = ti.TestComment;
-                buttonBrowseUnsRetellingTest1.Enabled = true;
-            }
-            else
-                textBoxRetellingComment1.Enabled = buttonBrowseUnsRetellingTest1.Enabled = false;
+            InitToolboxTextTip(theCurrentStory.CraftingInfo.BackTranslator,
+                               labelBackTranslator,
+                               textBoxUnsBackTranslator,
+                               textBoxCommentUnsBackTranslator,
+                               buttonBrowseUNSBackTranslator);
 
-            if (theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count > 1)
-            {
-                var ti = theCurrentStory.CraftingInfo.TestorsToCommentsRetellings[1];
-                InitToolboxTextTip(ti.TestorGuid, textBoxUnsRetellingTest2);
-                textBoxRetellingComment2.Text = ti.TestComment;
-                buttonBrowseUnsRetellingTest2.Enabled = true;
-            }
-            else
-                textBoxRetellingComment2.Enabled = buttonBrowseUnsRetellingTest2.Enabled = false;
+            InitTestor(theCurrentStory.CraftingInfo.TestorsToCommentsRetellings, 0,
+                       labelUnsRetellingTest1, textBoxUnsRetellingTest1,
+                       textBoxRetellingComment1, buttonBrowseUnsRetellingTest1);
 
-            if (theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count > 2)
-            {
-                var ti = theCurrentStory.CraftingInfo.TestorsToCommentsRetellings[2];
-                InitToolboxTextTip(ti.TestorGuid, textBoxUnsRetellingTest3);
-                textBoxRetellingComment3.Text = ti.TestComment;
-                buttonBrowseUnsRetellingTest3.Enabled = true;
-            }
-            else
-                textBoxRetellingComment3.Enabled = buttonBrowseUnsRetellingTest3.Enabled = false;
+            InitTestor(theCurrentStory.CraftingInfo.TestorsToCommentsRetellings, 1,
+                       labelUnsRetellingTest2, textBoxUnsRetellingTest2,
+                       textBoxRetellingComment2, buttonBrowseUnsRetellingTest2);
 
-            if (theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count > 0)
-            {
-                var ti = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[0];
-                InitToolboxTextTip(ti.TestorGuid, textBoxUnsInferenceTest1);
-                textBoxInferenceComment1.Text = ti.TestComment;
-                buttonBrowseUnsInferenceTest1.Enabled = true;
-            }
-            else
-                textBoxInferenceComment1.Enabled = buttonBrowseUnsInferenceTest1.Enabled = false;
+            InitTestor(theCurrentStory.CraftingInfo.TestorsToCommentsRetellings, 2,
+                       labelUnsRetellingTest3, textBoxUnsRetellingTest3,
+                       textBoxRetellingComment3, buttonBrowseUnsRetellingTest3);
 
-            if (theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count > 1)
-            {
-                var ti = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[1];
-                InitToolboxTextTip(ti.TestorGuid, textBoxUnsInferenceTest2);
-                textBoxInferenceComment2.Text = ti.TestComment;
-                buttonBrowseUnsInferenceTest2.Enabled = true;
-            }
-            else
-                textBoxInferenceComment2.Enabled = buttonBrowseUnsInferenceTest2.Enabled = false;
+            InitTestor(theCurrentStory.CraftingInfo.TestorsToCommentsRetellings, 3,
+                       labelUnsRetellingTest4, textBoxUnsRetellingTest4,
+                       textBoxRetellingComment4, buttonBrowseUnsRetellingTest4);
 
-            if (theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count > 2)
-            {
-                var ti = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[2];
-                InitToolboxTextTip(ti.TestorGuid, textBoxUnsInferenceTest3);
-                textBoxInferenceComment3.Text = ti.TestComment;
-                buttonBrowseUnsInferenceTest3.Enabled = true;
-            }
-            else
-                textBoxInferenceComment3.Enabled = buttonBrowseUnsInferenceTest3.Enabled = false;
+            InitTestor(theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers, 0,
+                       labelInferenceTest1, textBoxUnsInferenceTest1,
+                       textBoxInferenceComment1, buttonBrowseUnsInferenceTest1);
+
+            InitTestor(theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers, 1,
+                       labelInferenceTest2, textBoxUnsInferenceTest2,
+                       textBoxInferenceComment2, buttonBrowseUnsInferenceTest2);
+
+            InitTestor(theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers, 2,
+                       labelInferenceTest3, textBoxUnsInferenceTest3,
+                       textBoxInferenceComment3, buttonBrowseUnsInferenceTest3);
+
+            InitTestor(theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers, 3,
+                       labelInferenceTest4, textBoxUnsInferenceTest4,
+                       textBoxInferenceComment4, buttonBrowseUnsInferenceTest4);
 
             Text = String.Format("Story Information for '{0}'", theCurrentStory.Name);
         }
 
-        protected void InitToolboxTextTip(string strGuid, TextBox tb)
+        private void InitTestor(TestInfo tests, int nIndex, Label lbl, TextBox tb, 
+            TextBox tbComment, Button btnBrowse)
         {
-            string strName = _theStoryProjectData.GetMemberNameFromMemberGuid(strGuid);
-            if (!String.IsNullOrEmpty(strName))
-                InitToolboxTextTip(_theStoryProjectData.TeamMembers[strName], tb);
+            if (tests.Count > nIndex)
+            {
+                var ti = tests[nIndex];
+                InitToolboxTextTip(ti, lbl, tb, tbComment, btnBrowse);
+            }
+            else
+                lbl.Visible = tb.Visible = tbComment.Visible = btnBrowse.Visible = false;
         }
 
-        protected void InitToolboxTextTip(TeamMemberData tmd, TextBox tb)
+        protected void InitToolboxTextTip(MemberIdInfo memberInfo, Label lbl, 
+            TextBox tbName, TextBox tbComment, Button btnBrowse)
         {
-            tb.Text = tmd.Name;
-            toolTip.SetToolTip(tb, tmd.BioData);
+            if (MemberIdInfo.Configured(memberInfo))
+            {
+                var member = _theStoryProjectData.GetMemberFromId(memberInfo.MemberId);
+                if (member != null)
+                    InitToolboxTextTip(member, tbName);
+                tbComment.Text = memberInfo.MemberComment;
+                toolTip.SetToolTip(btnBrowse, Properties.Resources.IDS_StoryInformationBrowseButtonTooltip);
+            }
+            else
+                lbl.Visible = tbName.Visible = tbComment.Visible = btnBrowse.Visible = false;
+        }
+
+        protected void InitToolboxTextTip(TeamMemberData tmd, TextBox tbName)
+        {
+            tbName.Text = tmd.Name;
+            toolTip.SetToolTip(tbName, tmd.BioData);
         }
 
         private void buttonBrowserForProjectFacilitator_MouseUp(object sender, MouseEventArgs e)
         {
             HandleMouseUp(e.Button == MouseButtons.Right, textBoxProjectFacilitator,
-                TeamMemberData.UserTypes.ProjectFacilitator, 
-                "Choose the Project Facilitator for this story");
+                          TeamMemberData.UserTypes.ProjectFacilitator,
+                          "Choose the Project Facilitator for this story");
+        }
+
+        private void buttonBrowserForConsultant_MouseUp(object sender, MouseEventArgs e)
+        {
+            HandleMouseUp(e.Button == MouseButtons.Right, textBoxConsultant,
+                          TeamMemberData.UserTypes.ConsultantInTraining |
+                          TeamMemberData.UserTypes.IndependentConsultant,
+                          "Choose the Consultant/CIT for this story");
+        }
+
+        private void buttonBrowserForCoach_MouseUp(object sender, MouseEventArgs e)
+        {
+            HandleMouseUp(e.Button == MouseButtons.Right, textBoxCoach,
+                          TeamMemberData.UserTypes.Coach,
+                          "Choose the Coach for this story");
         }
 
         private void buttonBrowseForStoryCrafter_MouseUp(object sender, MouseEventArgs e)
@@ -167,76 +197,53 @@ namespace OneStoryProjectEditor
             HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsBackTranslator,
                 TeamMemberData.UserTypes.UNS,
                 "Choose the back-translator for this story");
+        }
 
-#if false   // obsolete (I think)
-            TeamMemberData aUns = SelectedUnsMember();
-            textBoxUnsBackTranslator.Tag = aUns;
-            if (aUns != null)
-                InitToolboxTextTip(aUns, textBoxUnsBackTranslator);
-#endif
+        private void HandleUnsTestMouseUp(TextBox tb, MouseEventArgs e)
+        {
+            HandleMouseUp(e.Button == MouseButtons.Right, tb,
+                          TeamMemberData.UserTypes.UNS,
+                          "Choose the UNS that took this test");
         }
 
         private void buttonBrowseUnsRetellingTest1_MouseUp(object sender, MouseEventArgs e)
         {
-            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsRetellingTest1, 
-                TeamMemberData.UserTypes.UNS,
-                "Choose the UNS that took this test");
-
-#if false   // obsolete (I think)
-            TeamMemberData aUns = SelectedUnsMember();
-            textBoxUnsTest1.Tag = aUns;
-            if (aUns != null)
-                InitToolboxTextTip(aUns, textBoxUnsTest1);
-#endif
+            HandleUnsTestMouseUp(textBoxUnsRetellingTest1, e);
         }
 
         private void buttonBrowseUnsRetellingTest2_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsRetellingTest2, 
-                TeamMemberData.UserTypes.UNS,
-                "Choose the UNS that took this test");
-
-#if false   // obsolete (I think)
-            TeamMemberData aUns = SelectedUnsMember();
-            textBoxUnsTest2.Tag = aUns;
-            if (aUns != null)
-                InitToolboxTextTip(aUns, textBoxUnsTest2);
-#endif
+            HandleUnsTestMouseUp(textBoxUnsRetellingTest2, e);
         }
 
         private void buttonBrowseUnsRetellingTest3_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsRetellingTest3, 
-                TeamMemberData.UserTypes.UNS,
-                "Choose the UNS that took this test");
+            HandleUnsTestMouseUp(textBoxUnsRetellingTest3, e);
+        }
 
-#if false   // obsolete (I think)
-            TeamMemberData aUns = SelectedUnsMember();
-            textBoxUnsTest3.Tag = aUns;
-            if (aUns != null)
-                InitToolboxTextTip(aUns, textBoxUnsTest3);
-#endif
+        private void buttonBrowseUnsRetellingTest4_MouseUp(object sender, MouseEventArgs e)
+        {
+            HandleUnsTestMouseUp(textBoxUnsRetellingTest4, e);
         }
 
         private void buttonBrowseUnsInferenceTest1_MouseUp(object sender, MouseEventArgs e)
         {
-            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsInferenceTest1, 
-                TeamMemberData.UserTypes.UNS,
-                "Choose the UNS that took this test");
+            HandleUnsTestMouseUp(textBoxUnsInferenceTest1, e);
         }
 
         private void buttonBrowseUnsInferenceTest2_MouseUp(object sender, MouseEventArgs e)
         {
-            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsInferenceTest2, 
-                TeamMemberData.UserTypes.UNS,
-                "Choose the UNS that took this test");
+            HandleUnsTestMouseUp(textBoxUnsInferenceTest2, e);
         }
 
         private void buttonBrowseUnsInferenceTest3_MouseUp(object sender, MouseEventArgs e)
         {
-            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsInferenceTest3, 
-                TeamMemberData.UserTypes.UNS,
-                "Choose the UNS that took this test");
+            HandleUnsTestMouseUp(textBoxUnsInferenceTest3, e);
+        }
+
+        private void buttonBrowseUnsInferenceTest4_MouseUp(object sender, MouseEventArgs e)
+        {
+            HandleUnsTestMouseUp(textBoxUnsInferenceTest4, e);
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
@@ -246,16 +253,38 @@ namespace OneStoryProjectEditor
             if (textBoxProjectFacilitator.Tag != null)
             {
                 var thePF = (TeamMemberData)textBoxProjectFacilitator.Tag;
-                _theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID = thePF.MemberGuid;
+                _theCurrentStory.ReplaceProjectFacilitator(thePF.MemberGuid);
                 bModified = true;
             }
+            GetChangeToComment(_theCurrentStory.CraftingInfo.ProjectFacilitator,
+                               textBoxCommentProjectFacilitator, ref bModified);
+
+            if (textBoxConsultant.Tag != null)
+            {
+                var theCons = (TeamMemberData)textBoxConsultant.Tag;
+                _theCurrentStory.ReplaceConsultant(theCons.MemberGuid);
+                bModified = true;
+            }
+            GetChangeToComment(_theCurrentStory.CraftingInfo.Consultant,
+                               textBoxCommentConsultant, ref bModified);
+
+            if (textBoxCoach.Tag != null)
+            {
+                var theCch = (TeamMemberData)textBoxCoach.Tag;
+                _theCurrentStory.ReplaceCoach(theCch.MemberGuid);
+                bModified = true;
+            }
+            GetChangeToComment(_theCurrentStory.CraftingInfo.Coach,
+                               textBoxCommentCoach, ref bModified);
 
             if (textBoxStoryCrafter.Tag != null)
             {
                 var theSC = (TeamMemberData) textBoxStoryCrafter.Tag;
-                _theCurrentStory.CraftingInfo.StoryCrafterMemberID = theSC.MemberGuid;
+                _theCurrentStory.CraftingInfo.StoryCrafter.MemberId = theSC.MemberGuid;
                 bModified = true;                
             }
+            GetChangeToComment(_theCurrentStory.CraftingInfo.StoryCrafter,
+                               textBoxCommentStoryCrafter, ref bModified);
 
             if (_theCurrentStory.CraftingInfo.StoryPurpose != textBoxStoryPurpose.Text)
             {
@@ -269,12 +298,20 @@ namespace OneStoryProjectEditor
                 bModified = true;
             }
 
+            if (_theCurrentStory.CraftingInfo.MiscellaneousStoryInfo != textBoxMiscNotes.Text)
+            {
+                _theCurrentStory.CraftingInfo.MiscellaneousStoryInfo = textBoxMiscNotes.Text;
+                bModified = true;
+            }
+
             if (textBoxUnsBackTranslator.Tag != null)
             {
                 var theBT = (TeamMemberData)textBoxUnsBackTranslator.Tag;
-                _theCurrentStory.CraftingInfo.BackTranslatorMemberID = theBT.MemberGuid;
+                _theCurrentStory.CraftingInfo.BackTranslator.MemberId = theBT.MemberGuid;
                 bModified = true;
             }
+            GetChangeToComment(_theCurrentStory.CraftingInfo.BackTranslator,
+                               textBoxCommentUnsBackTranslator, ref bModified);
 
             GetChangeToComment(_theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
                 textBoxRetellingComment1, 0, ref bModified);
@@ -285,6 +322,9 @@ namespace OneStoryProjectEditor
             GetChangeToComment(_theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
                 textBoxRetellingComment3, 2, ref bModified);
 
+            GetChangeToComment(_theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
+                textBoxRetellingComment4, 3, ref bModified);
+
             GetChangeToComment(_theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
                 textBoxInferenceComment1, 0, ref bModified);
 
@@ -293,6 +333,9 @@ namespace OneStoryProjectEditor
 
             GetChangeToComment(_theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
                 textBoxInferenceComment3, 2, ref bModified);
+
+            GetChangeToComment(_theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
+                textBoxInferenceComment4, 3, ref bModified);
 
             // here's a scenario to avoid: the user is changing UNS#2 to be UNS#1 and
             //  UNS#2 to be someone else (or accidentally leaving USE#2 as both).
@@ -310,24 +353,32 @@ namespace OneStoryProjectEditor
                 CheckForDuplicate(textBoxUnsRetellingTest1, ref lstUnsGuids);
                 CheckForDuplicate(textBoxUnsRetellingTest2, ref lstUnsGuids);
                 CheckForDuplicate(textBoxUnsRetellingTest3, ref lstUnsGuids);
+                CheckForDuplicate(textBoxUnsRetellingTest4, ref lstUnsGuids);
                 lstUnsGuids.Clear();
                 CheckForDuplicate(textBoxUnsInferenceTest1, ref lstUnsGuids);
                 CheckForDuplicate(textBoxUnsInferenceTest2, ref lstUnsGuids);
                 CheckForDuplicate(textBoxUnsInferenceTest3, ref lstUnsGuids);
+                CheckForDuplicate(textBoxUnsInferenceTest4, ref lstUnsGuids);
 
                 var testInfoRetellings = new TestInfo();
                 ChangeRetellingTestor(textBoxUnsRetellingTest1, 0, ref testInfoRetellings, ref bModified);
                 ChangeRetellingTestor(textBoxUnsRetellingTest2, 1, ref testInfoRetellings, ref bModified);
                 ChangeRetellingTestor(textBoxUnsRetellingTest3, 2, ref testInfoRetellings, ref bModified);
+                ChangeRetellingTestor(textBoxUnsRetellingTest4, 3, ref testInfoRetellings, ref bModified);
 
                 var testInfoInferenceTests = new TestInfo();
                 ChangeQuestionTestor(textBoxUnsInferenceTest1, 0, ref testInfoInferenceTests, ref bModified);
                 ChangeQuestionTestor(textBoxUnsInferenceTest2, 1, ref testInfoInferenceTests, ref bModified);
                 ChangeQuestionTestor(textBoxUnsInferenceTest3, 2, ref testInfoInferenceTests, ref bModified);
+                ChangeQuestionTestor(textBoxUnsInferenceTest4, 3, ref testInfoInferenceTests, ref bModified);
 
                 // now that we've checked and verified everything, then update the stored info
-                _theCurrentStory.CraftingInfo.TestorsToCommentsRetellings = testInfoRetellings;
-                _theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers = testInfoInferenceTests;
+                _theCurrentStory.CraftingInfo.TestorsToCommentsRetellings = AdjustForSwap(testInfoRetellings,
+                                                                                          _theCurrentStory.Verses.
+                                                                                              ChangeRetellingTestorGuid);
+                _theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers = AdjustForSwap(testInfoInferenceTests,
+                                                                                         _theCurrentStory.Verses.
+                                                                                             ChangeTqAnswersTestorGuid);
             }
             catch (Exception ex)
             {
@@ -342,6 +393,24 @@ namespace OneStoryProjectEditor
             Close();
         }
 
+        private delegate void ChangeTestorGuid(string strOldGuid, string strNewGuid);
+        private TestInfo AdjustForSwap(TestInfo testInfo, 
+            ChangeTestorGuid changeTestorGuid)
+        {
+            foreach (var aTestor in testInfo)
+                if (_theStoryProjectData.TeamMembers.ContainsKey(aTestor.MemberId))
+                {
+                    // this means we had temporarily used the member's *name* as their
+                    //  guid (in the case where the person was already in the list, 
+                    //  we couldn't just change the guid due to the 'swap' problem--
+                    //  see StoryData.ChangeTestor for details)
+                    var member = _theStoryProjectData.TeamMembers[aTestor.MemberId];
+                    changeTestorGuid(aTestor.MemberId, member.MemberGuid);
+                    aTestor.MemberId = member.MemberGuid;
+                }
+            return testInfo;
+        }
+
         private void CheckForDuplicate(TextBox textBox, ref List<string> lstUnsGuids)
         {
             if (String.IsNullOrEmpty(textBox.Text))
@@ -350,7 +419,7 @@ namespace OneStoryProjectEditor
             var theUns = _theStoryProjectData.TeamMembers[textBox.Text];
             if (lstUnsGuids.Contains(theUns.MemberGuid))
                 throw new ApplicationException(String.Format(Properties.Resources.IDS_AddTestSameUNS,
-                                                             _theStoryProjectData.TeamMembers.GetNameFromMemberId(
+                                                             _theStoryProjectData.GetMemberNameFromMemberGuid(
                                                                  theUns.MemberGuid)));
             lstUnsGuids.Add(theUns.MemberGuid);
         }
@@ -361,23 +430,31 @@ namespace OneStoryProjectEditor
             if (testInfo.Count > nIndex)
             {
                 var testorInfo = testInfo[nIndex];
-                if (tb.Text != testorInfo.TestComment)
-                {
-                    testorInfo.TestComment = tb.Text;
-                    bModified = true;
-                }
+                GetChangeToComment(testorInfo, tb, ref bModified);
+            }
+        }
+
+        private static void GetChangeToComment(MemberIdInfo testorInfo, TextBox tb, 
+            ref bool bModified)
+        {
+            if (MemberIdInfo.Configured(testorInfo) && 
+                (tb.Text != testorInfo.MemberComment))
+            {
+                testorInfo.MemberComment = tb.Text;
+                bModified = true;
             }
         }
 
         protected void ChangeRetellingTestor(TextBox tb, int nIndex,
             ref TestInfo testInfoNew, ref bool bModified)
         {
-            TeamMemberData theUns;
+            TeamMemberData theNewUns;
             if (ChangeTestor(tb, nIndex,
                              _theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
-                             out theUns, ref bModified))
+                             out theNewUns, ref bModified))
             {
-                _theCurrentStory.ChangeRetellingTestor(nIndex, theUns.MemberGuid, ref testInfoNew);
+                _theCurrentStory.ChangeRetellingTestor(_theStoryProjectData.TeamMembers,
+                    nIndex, theNewUns.MemberGuid, ref testInfoNew);
             }
         }
 
@@ -389,27 +466,27 @@ namespace OneStoryProjectEditor
                              _theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
                              out theUns, ref bModified))
             {
-                _theCurrentStory.ChangeTqAnswersTestor(nIndex, theUns.MemberGuid, ref testInfoNew);
+                _theCurrentStory.ChangeTqAnswersTestor(_theStoryProjectData.TeamMembers, 
+                    nIndex, theUns.MemberGuid, ref testInfoNew);
             }
         }
 
         private bool ChangeTestor(TextBox tb, int nIndex, TestInfo testInfoCurrent,
-            out TeamMemberData theUns, ref bool bModified)
+            out TeamMemberData theNewUns, ref bool bModified)
         {
             if (tb.Tag != null)
             {
-                theUns = (TeamMemberData)tb.Tag;
+                theNewUns = (TeamMemberData)tb.Tag;
                 bModified = true;
             }
             else if (testInfoCurrent.Count > nIndex)
             {
                 var testorInfo = testInfoCurrent[nIndex];
-                var strName = _theStoryProjectData.TeamMembers.GetNameFromMemberId(testorInfo.TestorGuid);
-                theUns = _theStoryProjectData.TeamMembers[strName];
+                theNewUns = _theStoryProjectData.GetMemberFromId(testorInfo.MemberId);
             }
             else
             {
-                theUns = null;
+                theNewUns = null;
                 return false;
             }
 

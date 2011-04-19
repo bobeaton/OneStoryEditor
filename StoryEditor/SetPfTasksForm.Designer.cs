@@ -30,12 +30,15 @@
         {
             this.SuspendLayout();
             // 
+            // buttonOK
+            // 
+            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
+            // 
             // SetPfTasksForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.ClientSize = new System.Drawing.Size(477, 293);
             this.Name = "SetPfTasksForm";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SetPfTasksForm_FormClosing);
             this.ResumeLayout(false);
 
         }

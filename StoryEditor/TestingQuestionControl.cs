@@ -66,7 +66,7 @@ namespace OneStoryProjectEditor
                 // insert the vernacular representation of the testing question
                 CtrlTextBox ctrlTextBoxVernacular = null;
                 if (theSE.viewVernacularLangFieldMenuItem.Checked 
-                    && theSE.StoryProject.ProjSettings.ShowTestQuestionsVernacular)
+                    && theSE.StoryProject.ProjSettings.ShowTestQuestions.Vernacular)
                 {
                     InsertColumn(nNumColumns);
                     if (bShowHeader)
@@ -83,7 +83,7 @@ namespace OneStoryProjectEditor
 #if !LimitWhenToShow
                 CtrlTextBox ctrlTextBoxNationalBT = null;
                 if (theSE.viewNationalLangFieldMenuItem.Checked
-                    && theSE.StoryProject.ProjSettings.ShowTestQuestionsNationalBT)
+                    && theSE.StoryProject.ProjSettings.ShowTestQuestions.NationalBt)
 #else
                 // the only time we show the National BT is if there's an "other" English BTr (who will
                 //  do the EnglishBT from the NationalBT) OR there's no vernacular
@@ -109,7 +109,7 @@ namespace OneStoryProjectEditor
 
 #if !LimitWhenToShow
                 if (theSE.viewEnglishBTFieldMenuItem.Checked
-                    && theSE.StoryProject.ProjSettings.ShowTestQuestionsInternationalBT)
+                    && theSE.StoryProject.ProjSettings.ShowTestQuestions.InternationalBt)
 #else
                 if (theSE.viewEnglishBTFieldMenuItem.Checked
                     && (!theSE.StoryProject.TeamMembers.HasOutsideEnglishBTer
@@ -144,9 +144,9 @@ namespace OneStoryProjectEditor
                     _aTQData.Answers, theSE.StoryProject.ProjSettings,
                     theSE.theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
                     strTestNumberLabel,
-                    (theSE.StoryProject.ProjSettings.ShowAnswersVernacular && theSE.viewVernacularLangFieldMenuItem.Checked),
-                    (theSE.StoryProject.ProjSettings.ShowAnswersNationalBT && theSE.viewNationalLangFieldMenuItem.Checked),
-                    (theSE.StoryProject.ProjSettings.ShowAnswersInternationalBT && theSE.viewEnglishBTFieldMenuItem.Checked),
+                    (theSE.StoryProject.ProjSettings.ShowAnswers.Vernacular && theSE.viewVernacularLangFieldMenuItem.Checked),
+                    (theSE.StoryProject.ProjSettings.ShowAnswers.NationalBt && theSE.viewNationalLangFieldMenuItem.Checked),
+                    (theSE.StoryProject.ProjSettings.ShowAnswers.InternationalBt && theSE.viewEnglishBTFieldMenuItem.Checked),
                     Properties.Settings.Default.AnswersVernacularColor,
                     Properties.Settings.Default.AnswersNationalBtColor,
                     Properties.Settings.Default.AnswersInternationalBtColor)
