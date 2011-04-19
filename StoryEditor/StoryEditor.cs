@@ -1116,7 +1116,9 @@ namespace OneStoryProjectEditor
                 nLastVerseInFocus = 0;
             }
 
-            FocusOnVerse(nLastVerseInFocus, true, true);
+            else 
+                FocusOnVerse(nLastVerseInFocus, true, true);
+
             if ((stLast != null) && (stLast.TextBox != null))
                 stLast.TextBox.Focus();
         }
@@ -1481,10 +1483,11 @@ namespace OneStoryProjectEditor
         private static bool IsFirstCharsEqual(string strLhs, string strRhs)
         {
             const int cnLengthToCompare = 4;
-            return ((strLhs.Length >= cnLengthToCompare)
-                    && (strRhs.Length >= cnLengthToCompare)
-                        && (strLhs.Substring(0, cnLengthToCompare)
-                            == strRhs.Substring(0, cnLengthToCompare)));
+            return (!String.IsNullOrEmpty(strLhs) &&
+                    (strLhs.Length >= cnLengthToCompare) &&
+                    (strRhs.Length >= cnLengthToCompare) &&
+                    (strLhs.Substring(0, cnLengthToCompare)
+                     == strRhs.Substring(0, cnLengthToCompare)));
         }
 
         internal static bool IsTestQuestionBox(string strLabel)

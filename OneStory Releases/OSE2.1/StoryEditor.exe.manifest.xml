@@ -4,7 +4,7 @@
   <ApplicationExecutable />
   <ApplicationName>OneStory Editor AutoUpdater</ApplicationName>
   <FullUpgradeFileName />
-  <OffsetFromUctWhereManifestWasOriginallyCreated>2011-04-18T15:09:35.3960000-05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+  <OffsetFromUctWhereManifestWasOriginallyCreated>2011-04-18T20:05:25.3650000-05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
   <ManifestFiles>
     <File name="AIGuesserEC.dll" method="version" action="copy" version="4.0.0.5" optional="false" size="90112">AdaptIt Encoding Converters</File>
     <File name="AIGuesserEC.tlb" method="date" action="copy" version="Monday, April 04, 2011 5:36:15 PM" optional="false" size="16804" />

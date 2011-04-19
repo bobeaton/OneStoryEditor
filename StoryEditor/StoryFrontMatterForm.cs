@@ -20,22 +20,27 @@ namespace OneStoryProjectEditor
             InitializeComponent();
 
             InitToolboxTextTip(theCurrentStory.CraftingInfo.ProjectFacilitator,
-                               textBoxProjectFacilitator, 
+                               labelProjectFacilitator,
+                               textBoxProjectFacilitator,
                                textBoxCommentProjectFacilitator,
                                buttonBrowserForProjectFacilitator);
+            ;
 
             InitToolboxTextTip(theCurrentStory.CraftingInfo.Consultant,
+                               labelConsultant,
                                textBoxConsultant,
                                textBoxCommentConsultant,
                                buttonBrowserForConsultant);
 
             InitToolboxTextTip(theCurrentStory.CraftingInfo.Coach,
+                               labelCoach,
                                textBoxCoach,
                                textBoxCommentCoach,
                                buttonBrowserForCoach);
 
             InitToolboxTextTip(theCurrentStory.CraftingInfo.StoryCrafter,
-                               textBoxStoryCrafter, 
+                               labelStoryCrafter,
+                               textBoxStoryCrafter,
                                textBoxCommentStoryCrafter,
                                buttonBrowseForStoryCrafter);
 
@@ -44,7 +49,8 @@ namespace OneStoryProjectEditor
             textBoxMiscNotes.Text = theCurrentStory.CraftingInfo.MiscellaneousStoryInfo;
 
             InitToolboxTextTip(theCurrentStory.CraftingInfo.BackTranslator,
-                               textBoxUnsBackTranslator, 
+                               labelBackTranslator,
+                               textBoxUnsBackTranslator,
                                textBoxCommentUnsBackTranslator,
                                buttonBrowseUNSBackTranslator);
 
@@ -89,20 +95,25 @@ namespace OneStoryProjectEditor
             if (tests.Count > nIndex)
             {
                 var ti = tests[nIndex];
-                InitToolboxTextTip(ti, tb, tbComment, btnBrowse);
+                InitToolboxTextTip(ti, lbl, tb, tbComment, btnBrowse);
             }
             else
                 lbl.Visible = tb.Visible = tbComment.Visible = btnBrowse.Visible = false;
         }
 
-        protected void InitToolboxTextTip(MemberIdInfo memberInfo, TextBox tbName, 
-            TextBox tbComment, Button btnBrowse)
+        protected void InitToolboxTextTip(MemberIdInfo memberInfo, Label lbl, 
+            TextBox tbName, TextBox tbComment, Button btnBrowse)
         {
-            var member = _theStoryProjectData.GetMemberFromId(memberInfo.MemberId);
-            if (member != null)
-                InitToolboxTextTip(member, tbName);
-            tbComment.Text = memberInfo.MemberComment;
-            toolTip.SetToolTip(btnBrowse, Properties.Resources.IDS_StoryInformationBrowseButtonTooltip);
+            if (MemberIdInfo.Configured(memberInfo))
+            {
+                var member = _theStoryProjectData.GetMemberFromId(memberInfo.MemberId);
+                if (member != null)
+                    InitToolboxTextTip(member, tbName);
+                tbComment.Text = memberInfo.MemberComment;
+                toolTip.SetToolTip(btnBrowse, Properties.Resources.IDS_StoryInformationBrowseButtonTooltip);
+            }
+            else
+                lbl.Visible = tbName.Visible = tbComment.Visible = btnBrowse.Visible = false;
         }
 
         protected void InitToolboxTextTip(TeamMemberData tmd, TextBox tbName)
@@ -426,7 +437,8 @@ namespace OneStoryProjectEditor
         private static void GetChangeToComment(MemberIdInfo testorInfo, TextBox tb, 
             ref bool bModified)
         {
-            if (tb.Text != testorInfo.MemberComment)
+            if (MemberIdInfo.Configured(testorInfo) && 
+                (tb.Text != testorInfo.MemberComment))
             {
                 testorInfo.MemberComment = tb.Text;
                 bModified = true;
