@@ -307,26 +307,6 @@ namespace OneStoryProjectEditor
             return eRoles;
         }
 
-        // override to handle the case were the project state says it's in the 
-        //  CIT's state, but really, it's an independent consultant
-        public static string GetMemberWithEditTokenAsDisplayString(TeamMembersData teamMembers, 
-            UserTypes eMemberType)
-        {
-            if (IsUser(eMemberType, 
-                       UserTypes.IndependentConsultant | 
-                       UserTypes.ConsultantInTraining))
-            {
-                // this is a special case where both the CIT and Independant Consultant are acceptable
-                return GetMemberTypeAsDisplayString(
-                    teamMembers.HasIndependentConsultant
-                        ? UserTypes.IndependentConsultant
-                        : UserTypes.ConsultantInTraining);
-            }
-
-            // otherwise, let the other version do it
-            return GetMemberTypeAsDisplayString(eMemberType);
-        }
-
         public static string GetMemberTypeAsDisplayString(UserTypes eMemberType)
         {
             var lst = new List<string>();

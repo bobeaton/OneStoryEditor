@@ -94,8 +94,8 @@ namespace OneStoryProjectEditor
                 strTimeInState += String.Format("{0} minutes", ts.Minutes);
 
                 string strWhoHasEditToken =
-                    TeamMemberData.GetMemberWithEditTokenAsDisplayString(_storyProject.TeamMembers,
-                                                                         aSD.ProjStage.MemberTypeWithEditToken);
+                    GetMemberWithEditTokenAsDisplayString(_storyProject.TeamMembers,
+                                                          aSD.ProjStage.MemberTypeWithEditToken);
 
                 if (strWhoHasEditToken == TeamMemberData.CstrProjectFacilitatorDisplay)
                 {
@@ -105,9 +105,15 @@ namespace OneStoryProjectEditor
                                                            aSD.CraftingInfo.ProjectFacilitator.MemberId));
                 }
 
-#if ShowingState
-                StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[aSD.ProjStage.ProjectStage];
-#endif
+                if ((aSD.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eTeamComplete) ||
+                    (aSD.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eTeamFinalApproval))
+                {
+                    StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[aSD.ProjStage.ProjectStage];
+                    strWhoHasEditToken = String.Format("{0}: {1}",
+                                                       st.StageDisplayString.Substring("Story has ".Length), 
+                                                       strWhoHasEditToken);
+                }
+
                 var aObs = new object[]
                 {   
                     aSD.Name, 
@@ -128,6 +134,35 @@ namespace OneStoryProjectEditor
 #endif
                 aRow.Height = _fontForDev.Height + 4;
             }
+        }
+
+        // override to handle the case were the project state says it's in the 
+        //  CIT's state, but really, it's an independent consultant
+        public static string GetMemberWithEditTokenAsDisplayString(TeamMembersData teamMembers,
+            TeamMemberData.UserTypes eMemberType)
+        {
+            if ((eMemberType != TeamMemberData.UserTypes.AnyEditor) &&
+                 TeamMemberData.IsUser(eMemberType,
+                        TeamMemberData.UserTypes.IndependentConsultant |
+                        TeamMemberData.UserTypes.ConsultantInTraining))
+            {
+                // this is a special case where both the CIT and Independant Consultant are acceptable
+                return TeamMemberData.GetMemberTypeAsDisplayString(
+                    teamMembers.HasIndependentConsultant
+                        ? TeamMemberData.UserTypes.IndependentConsultant
+                        : TeamMemberData.UserTypes.ConsultantInTraining);
+            }
+
+            if (eMemberType == TeamMemberData.UserTypes.AnyEditor)
+                eMemberType &= (teamMembers.HasIndependentConsultant)
+                                   ? ~(TeamMemberData.UserTypes.ConsultantInTraining |
+                                       TeamMemberData.UserTypes.Coach |
+                                       TeamMemberData.UserTypes.FirstPassMentor)
+                                   : ~(TeamMemberData.UserTypes.IndependentConsultant |
+                                       TeamMemberData.UserTypes.FirstPassMentor);
+
+            // otherwise, let the other version do it
+            return TeamMemberData.GetMemberTypeAsDisplayString(eMemberType);
         }
 
         private StoryData _theStoryBeingEdited;
