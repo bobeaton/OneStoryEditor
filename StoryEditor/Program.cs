@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -248,12 +249,29 @@ namespace OneStoryProjectEditor
 
                 var address = RepositoryAddress.Create(CstrInternetName, strUrl);
                 var addresses = repo.GetRepositoryPathsInHgrc();
+                RepositoryAddress addressToRemove = null;
                 foreach (var addr in addresses)
                     if (addr.URI == address.URI)
                         return;
+                    else if ((addr.UserName == address.UserName) &&
+                        (addr.Name == address.Name) &&
+                        (addr.Password != address.Password))
+                    {
+                        // means the person changed the password, so clobber the entry
+                        //  so it gets added below
+                        addressToRemove = addr;
+                        break;
+                    }
 
-                var lstAddrs = new List<RepositoryAddress>(addresses);
-                lstAddrs.Add(address);
+                var lstAddrs = new List<RepositoryAddress>(addresses) {address};
+                if (addressToRemove != null)
+                    foreach (var addr in lstAddrs.Where(addr =>
+                        addr.URI == addressToRemove.URI))
+                    {
+                        lstAddrs.Remove(addr);
+                        break;
+                    }
+
                 repo.SetKnownRepositoryAddresses(lstAddrs);
             }
             catch (Exception ex)
