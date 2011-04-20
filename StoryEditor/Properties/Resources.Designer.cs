@@ -688,7 +688,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to In line {0}, there&apos;s an empty box labeled &apos;{1}&apos;, into which you are supposed to enter a response. Did you forget it?.
+        ///   Looks up a localized string similar to In line {0} of the {1} pane, there&apos;s an empty box labeled &apos;{2}&apos;, into which you are supposed to enter a response. Did you forget it?.
         /// </summary>
         internal static string IDS_DidntAnswerQuestion {
             get {

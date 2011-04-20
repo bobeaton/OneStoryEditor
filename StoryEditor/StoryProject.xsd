@@ -463,6 +463,7 @@
 			<xs:enumeration value="ProjFacToConsultant" />
 			<xs:enumeration value="ConsultantToCoach" />
 			<xs:enumeration value="CoachToConsultant" />
+      <xs:enumeration value="ProjFacToProjFac" />
       <xs:enumeration value="ConsultantToConsultant" />
       <xs:enumeration value="CoachToCoach" />
       <xs:enumeration value="ConsultantToProjFacNeedsApproval" />

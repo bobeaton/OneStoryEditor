@@ -2097,7 +2097,7 @@ and in the resulting window click on the next (green) state.
     <value>Did you want the project facilitator to do 1 or 2 {0} tests?</value>
   </data>
   <data name="IDS_DidntAnswerQuestion" xml:space="preserve">
-    <value>In line {0}, there's an empty box labeled '{1}', into which you are supposed to enter a response. Did you forget it?</value>
+    <value>In line {0} of the {1} pane, there's an empty box labeled '{2}', into which you are supposed to enter a response. Did you forget it?</value>
   </data>
   <data name="IDS_MustAllowToRequireTask" xml:space="preserve">
     <value>Oops. You have to allow a task in order to require it. Please check the box in the Allowed Tasks list for '{0}'</value>

@@ -8,6 +8,8 @@ namespace OneStoryProjectEditor
     [ComVisible(true)]
     public abstract class HtmlConNoteControl : HtmlVerseControl
     {
+        public abstract string PaneLabel();
+
         protected HtmlConNoteControl()
         {
             ObjectForScripting = this;
@@ -430,12 +432,9 @@ namespace OneStoryProjectEditor
             */
 
             ConsultNoteDataConverter cndc =
-                aCNsDC.Add(theSE.theCurrentStory, 
-                    theSE.LoggedOnMember, theSE.StoryProject.TeamMembers, strNote);
+                aCNsDC.Add(theSE.theCurrentStory, theSE.LoggedOnMember, 
+                theSE.StoryProject.TeamMembers, strNote, bNoteToSelf);
             System.Diagnostics.Debug.Assert(cndc.Count == 1);
-            if (bNoteToSelf)
-                cndc[0].Direction = cndc.MentorToSelfDirection;
-
             LoadDocument();
             theSE.Modified = true;
 
@@ -614,10 +613,16 @@ namespace OneStoryProjectEditor
 
         public bool OnConvertToMentoreeNote(string strId, bool bNeedsApproval)
         {
-            return SetDirectionToMentor(strId, bNeedsApproval);
+            return SetDirectionTo(strId, bNeedsApproval, true);
         }
 
-        protected bool SetDirectionToMentor(string strId, bool bNeedsApproval)
+        public bool OnConvertToMentorNote(string strId)
+        {
+            return SetDirectionTo(strId, false, false);
+        }
+
+        protected bool SetDirectionTo(string strId, 
+            bool bNeedsApproval, bool bToMentorDirection)
         {
             int nVerseIndex, nConversationIndex;
             ConsultNotesDataConverter theCNsDC;
@@ -626,10 +631,12 @@ namespace OneStoryProjectEditor
                                    out theCNsDC, out theCNDC))
                 return false;
 
-            theCNDC.FinalComment.Direction = (bNeedsApproval)
+            theCNDC.FinalComment.Direction = (bToMentorDirection)
+                                                 ? (bNeedsApproval)
                                                        ? ConsultNoteDataConverter.CommunicationDirections.
                                                              eConsultantToProjFacNeedsApproval
-                                                       : theCNDC.MentorDirection;
+                                                       : theCNDC.MentorDirection
+                                                 : theCNDC.MenteeDirection;
             LoadDocument();
             return true;
         }
@@ -650,6 +657,11 @@ namespace OneStoryProjectEditor
             LineNumberLink.Visible = true;
         }
 
+        public override string PaneLabel()
+        {
+            return "Consultant Notes";
+        }
+
         public override ConsultNotesDataConverter DataConverter(int nVerseIndex)
         {
             VerseData verse = Verse(nVerseIndex);
@@ -665,7 +677,7 @@ namespace OneStoryProjectEditor
         // this only applies to the Consultant Note pane
         public bool OnApproveNote(string strId)
         {
-            return SetDirectionToMentor(strId, false);
+            return SetDirectionTo(strId, false, true);
         }
     }
 
@@ -682,6 +694,11 @@ namespace OneStoryProjectEditor
                                                       TheSE.viewOnlyOpenConversationsMenu.Checked);
             DocumentText = strHtml;
             LineNumberLink.Visible = true;
+        }
+
+        public override string PaneLabel()
+        {
+            return "Coach Notes";
         }
 
         public override ConsultNotesDataConverter DataConverter(int nVerseIndex)

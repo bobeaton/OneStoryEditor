@@ -1128,6 +1128,7 @@ namespace OneStoryProjectEditor
                 string strErrorMsg = String.Format(
                     Properties.Resources.IDS_DidntAnswerQuestion,
                     nVerseNumber,
+                    paneConNote.PaneLabel(),
                     aConNote.MentorLabel(theCommentor, theStory.CraftingInfo.ProjectFacilitator.MemberId));
                 ShowErrorFocus(theSE, paneConNote, nVerseNumber, strErrorMsg);
                 return false;
@@ -1160,7 +1161,9 @@ namespace OneStoryProjectEditor
                 string strErrorMsg = String.Format(
                     Properties.Resources.IDS_DidntAnswerQuestion,
                     nVerseNumber,
+                    paneConNote.PaneLabel(),
                     aConNote.MenteeLabel(theCommentor, theStory.CraftingInfo.ProjectFacilitator.MemberId));
+
                 ShowErrorFocus(theSE, paneConNote, nVerseNumber, strErrorMsg);
                 return false;
             }
