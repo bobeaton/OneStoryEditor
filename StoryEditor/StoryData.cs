@@ -329,15 +329,17 @@ namespace OneStoryProjectEditor
         {
             bool bNeedPf, bNeedCons, bNeedCoach;
             Verses.CheckConNoteMemberIds(out bNeedPf, out bNeedCons, out bNeedCoach);
-            if (bNeedPf && !MemberIdInfo.Configured(CraftingInfo.ProjectFacilitator))
+            if (bNeedPf || !MemberIdInfo.Configured(CraftingInfo.ProjectFacilitator))
             {
                 var str = CheckForMember(storyProjectData,
                                          TeamMemberData.UserTypes.ProjectFacilitator,
                                          ref CraftingInfo.ProjectFacilitator);
                 if (String.IsNullOrEmpty(str))
                     return false;
+                bModified = true;
             }
-            if (bNeedCons && !MemberIdInfo.Configured(CraftingInfo.Consultant))
+
+            if (bNeedCons || !MemberIdInfo.Configured(CraftingInfo.Consultant))
             {
                 var str = CheckForMember(storyProjectData,
                                          TeamMemberData.UserTypes.IndependentConsultant |
@@ -345,19 +347,24 @@ namespace OneStoryProjectEditor
                                          ref CraftingInfo.Consultant);
                 if (String.IsNullOrEmpty(str))
                     return false;
+                bModified = true;
             }
-            if (bNeedCoach && !MemberIdInfo.Configured(CraftingInfo.Coach))
+
+            // for the coach, we only need this if it's a "manage with coaching" situation
+            if (bNeedCoach || 
+                (!MemberIdInfo.Configured(CraftingInfo.Coach) &&
+                    !storyProjectData.TeamMembers.HasIndependentConsultant))
             {
                 var str = CheckForMember(storyProjectData,
                                          TeamMemberData.UserTypes.Coach,
                                          ref CraftingInfo.Coach);
                 if (String.IsNullOrEmpty(str))
                     return false;
+                bModified = true;
             }
             
             if (bNeedPf || bNeedCons || bNeedCoach)
             {
-                bModified = true;
                 SetCommentMemberId();
             }
 
