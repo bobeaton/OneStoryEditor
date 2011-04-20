@@ -2171,4 +2171,7 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_StoryInformationBrowseButtonTooltip" xml:space="preserve">
     <value>Left-click to edit the contact or bio data for this team member; right-click to choose another team member</value>
   </data>
+  <data name="IDS_MentionNewUpdateAvailable" xml:space="preserve">
+    <value>There's a new version of OSE available. To upgrade, click 'Advanced', 'Program Updates', 'Check now'</value>
+  </data>
 </root>
