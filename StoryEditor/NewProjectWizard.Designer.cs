@@ -130,7 +130,6 @@
             this.textBoxTeamMembersInstructionBox = new System.Windows.Forms.TextBox();
             this.radioButtonManageWithCoaching = new System.Windows.Forms.RadioButton();
             this.radioButtonIndependentConsultant = new System.Windows.Forms.RadioButton();
-            this.checkBoxFirstPassMentor = new System.Windows.Forms.CheckBox();
             this.checkBoxOutsideEnglishBackTranslator = new System.Windows.Forms.CheckBox();
             this.checkBoxProjectFacilitator = new System.Windows.Forms.CheckBox();
             this.tabPageAIBT = new System.Windows.Forms.TabPage();
@@ -138,15 +137,15 @@
             this.labelAdaptItVernacularToNationalBt = new System.Windows.Forms.Label();
             this.labelAdaptItVernacularToInternationalBt = new System.Windows.Forms.Label();
             this.labelAdaptItNationalBtToInternationalBt = new System.Windows.Forms.Label();
+            this.adaptItConfigCtrlVernacularToNationalBt = new OneStoryProjectEditor.AdaptItConfigControl();
+            this.adaptItConfigCtrlVernacularToInternationalBt = new OneStoryProjectEditor.AdaptItConfigControl();
+            this.adaptItConfigCtrlNationalBtToInternationalBt = new OneStoryProjectEditor.AdaptItConfigControl();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.buttonNext = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.buttonPrevious = new System.Windows.Forms.Button();
             this.fontDialog = new System.Windows.Forms.FontDialog();
-            this.adaptItConfigCtrlVernacularToNationalBt = new OneStoryProjectEditor.AdaptItConfigControl();
-            this.adaptItConfigCtrlVernacularToInternationalBt = new OneStoryProjectEditor.AdaptItConfigControl();
-            this.adaptItConfigCtrlNationalBtToInternationalBt = new OneStoryProjectEditor.AdaptItConfigControl();
             this.tabControl.SuspendLayout();
             this.tabPageProjectName.SuspendLayout();
             this.tabPageInternetRepository.SuspendLayout();
@@ -1365,7 +1364,6 @@
             this.tabPageMemberRoles.Controls.Add(this.textBoxTeamMembersInstructionBox);
             this.tabPageMemberRoles.Controls.Add(this.radioButtonManageWithCoaching);
             this.tabPageMemberRoles.Controls.Add(this.radioButtonIndependentConsultant);
-            this.tabPageMemberRoles.Controls.Add(this.checkBoxFirstPassMentor);
             this.tabPageMemberRoles.Controls.Add(this.checkBoxOutsideEnglishBackTranslator);
             this.tabPageMemberRoles.Controls.Add(this.checkBoxProjectFacilitator);
             this.tabPageMemberRoles.Location = new System.Drawing.Point(4, 22);
@@ -1394,7 +1392,7 @@
             // 
             this.radioButtonManageWithCoaching.AutoSize = true;
             this.radioButtonManageWithCoaching.Checked = true;
-            this.radioButtonManageWithCoaching.Location = new System.Drawing.Point(17, 81);
+            this.radioButtonManageWithCoaching.Location = new System.Drawing.Point(17, 58);
             this.radioButtonManageWithCoaching.Name = "radioButtonManageWithCoaching";
             this.radioButtonManageWithCoaching.Size = new System.Drawing.Size(197, 17);
             this.radioButtonManageWithCoaching.TabIndex = 3;
@@ -1405,24 +1403,13 @@
             // radioButtonIndependentConsultant
             // 
             this.radioButtonIndependentConsultant.AutoSize = true;
-            this.radioButtonIndependentConsultant.Location = new System.Drawing.Point(235, 81);
+            this.radioButtonIndependentConsultant.Location = new System.Drawing.Point(235, 58);
             this.radioButtonIndependentConsultant.Name = "radioButtonIndependentConsultant";
             this.radioButtonIndependentConsultant.Size = new System.Drawing.Size(138, 17);
             this.radioButtonIndependentConsultant.TabIndex = 4;
             this.radioButtonIndependentConsultant.Text = "&Independent Consultant";
             this.radioButtonIndependentConsultant.UseVisualStyleBackColor = true;
             this.radioButtonIndependentConsultant.CheckedChanged += new System.EventHandler(this.radioButtonIndependentConsultant_CheckedChanged);
-            // 
-            // checkBoxFirstPassMentor
-            // 
-            this.checkBoxFirstPassMentor.AutoSize = true;
-            this.checkBoxFirstPassMentor.Location = new System.Drawing.Point(17, 58);
-            this.checkBoxFirstPassMentor.Name = "checkBoxFirstPassMentor";
-            this.checkBoxFirstPassMentor.Size = new System.Drawing.Size(106, 17);
-            this.checkBoxFirstPassMentor.TabIndex = 2;
-            this.checkBoxFirstPassMentor.Text = "&First-pass Mentor";
-            this.checkBoxFirstPassMentor.UseVisualStyleBackColor = true;
-            this.checkBoxFirstPassMentor.CheckedChanged += new System.EventHandler(this.checkBoxFirstPassMentor_CheckedChanged);
             // 
             // checkBoxOutsideEnglishBackTranslator
             // 
@@ -1515,6 +1502,45 @@
             this.labelAdaptItNationalBtToInternationalBt.TabIndex = 5;
             this.labelAdaptItNationalBtToInternationalBt.Text = "Use AdaptIt for X to Y BT:";
             // 
+            // adaptItConfigCtrlVernacularToNationalBt
+            // 
+            this.adaptItConfigCtrlVernacularToNationalBt.AdaptItConfiguration = null;
+            this.adaptItConfigCtrlVernacularToNationalBt.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.adaptItConfigCtrlVernacularToNationalBt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.adaptItConfigCtrlVernacularToNationalBt.Location = new System.Drawing.Point(136, 0);
+            this.adaptItConfigCtrlVernacularToNationalBt.Margin = new System.Windows.Forms.Padding(0);
+            this.adaptItConfigCtrlVernacularToNationalBt.Name = "adaptItConfigCtrlVernacularToNationalBt";
+            this.adaptItConfigCtrlVernacularToNationalBt.Size = new System.Drawing.Size(589, 74);
+            this.adaptItConfigCtrlVernacularToNationalBt.SourceLanguageName = null;
+            this.adaptItConfigCtrlVernacularToNationalBt.TabIndex = 6;
+            this.adaptItConfigCtrlVernacularToNationalBt.TargetLanguageName = null;
+            // 
+            // adaptItConfigCtrlVernacularToInternationalBt
+            // 
+            this.adaptItConfigCtrlVernacularToInternationalBt.AdaptItConfiguration = null;
+            this.adaptItConfigCtrlVernacularToInternationalBt.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.adaptItConfigCtrlVernacularToInternationalBt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.adaptItConfigCtrlVernacularToInternationalBt.Location = new System.Drawing.Point(136, 74);
+            this.adaptItConfigCtrlVernacularToInternationalBt.Margin = new System.Windows.Forms.Padding(0);
+            this.adaptItConfigCtrlVernacularToInternationalBt.Name = "adaptItConfigCtrlVernacularToInternationalBt";
+            this.adaptItConfigCtrlVernacularToInternationalBt.Size = new System.Drawing.Size(589, 74);
+            this.adaptItConfigCtrlVernacularToInternationalBt.SourceLanguageName = null;
+            this.adaptItConfigCtrlVernacularToInternationalBt.TabIndex = 7;
+            this.adaptItConfigCtrlVernacularToInternationalBt.TargetLanguageName = null;
+            // 
+            // adaptItConfigCtrlNationalBtToInternationalBt
+            // 
+            this.adaptItConfigCtrlNationalBtToInternationalBt.AdaptItConfiguration = null;
+            this.adaptItConfigCtrlNationalBtToInternationalBt.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.adaptItConfigCtrlNationalBtToInternationalBt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.adaptItConfigCtrlNationalBtToInternationalBt.Location = new System.Drawing.Point(136, 148);
+            this.adaptItConfigCtrlNationalBtToInternationalBt.Margin = new System.Windows.Forms.Padding(0);
+            this.adaptItConfigCtrlNationalBtToInternationalBt.Name = "adaptItConfigCtrlNationalBtToInternationalBt";
+            this.adaptItConfigCtrlNationalBtToInternationalBt.Size = new System.Drawing.Size(589, 74);
+            this.adaptItConfigCtrlNationalBtToInternationalBt.SourceLanguageName = null;
+            this.adaptItConfigCtrlNationalBtToInternationalBt.TabIndex = 8;
+            this.adaptItConfigCtrlNationalBtToInternationalBt.TargetLanguageName = null;
+            // 
             // textBox1
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -1565,45 +1591,6 @@
             // fontDialog
             // 
             this.fontDialog.ShowColor = true;
-            // 
-            // adaptItConfigCtrlVernacularToNationalBt
-            // 
-            this.adaptItConfigCtrlVernacularToNationalBt.AdaptItConfiguration = null;
-            this.adaptItConfigCtrlVernacularToNationalBt.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.adaptItConfigCtrlVernacularToNationalBt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.adaptItConfigCtrlVernacularToNationalBt.Location = new System.Drawing.Point(136, 0);
-            this.adaptItConfigCtrlVernacularToNationalBt.Margin = new System.Windows.Forms.Padding(0);
-            this.adaptItConfigCtrlVernacularToNationalBt.Name = "adaptItConfigCtrlVernacularToNationalBt";
-            this.adaptItConfigCtrlVernacularToNationalBt.Size = new System.Drawing.Size(589, 74);
-            this.adaptItConfigCtrlVernacularToNationalBt.SourceLanguageName = null;
-            this.adaptItConfigCtrlVernacularToNationalBt.TabIndex = 6;
-            this.adaptItConfigCtrlVernacularToNationalBt.TargetLanguageName = null;
-            // 
-            // adaptItConfigCtrlVernacularToInternationalBt
-            // 
-            this.adaptItConfigCtrlVernacularToInternationalBt.AdaptItConfiguration = null;
-            this.adaptItConfigCtrlVernacularToInternationalBt.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.adaptItConfigCtrlVernacularToInternationalBt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.adaptItConfigCtrlVernacularToInternationalBt.Location = new System.Drawing.Point(136, 74);
-            this.adaptItConfigCtrlVernacularToInternationalBt.Margin = new System.Windows.Forms.Padding(0);
-            this.adaptItConfigCtrlVernacularToInternationalBt.Name = "adaptItConfigCtrlVernacularToInternationalBt";
-            this.adaptItConfigCtrlVernacularToInternationalBt.Size = new System.Drawing.Size(589, 74);
-            this.adaptItConfigCtrlVernacularToInternationalBt.SourceLanguageName = null;
-            this.adaptItConfigCtrlVernacularToInternationalBt.TabIndex = 7;
-            this.adaptItConfigCtrlVernacularToInternationalBt.TargetLanguageName = null;
-            // 
-            // adaptItConfigCtrlNationalBtToInternationalBt
-            // 
-            this.adaptItConfigCtrlNationalBtToInternationalBt.AdaptItConfiguration = null;
-            this.adaptItConfigCtrlNationalBtToInternationalBt.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.adaptItConfigCtrlNationalBtToInternationalBt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.adaptItConfigCtrlNationalBtToInternationalBt.Location = new System.Drawing.Point(136, 148);
-            this.adaptItConfigCtrlNationalBtToInternationalBt.Margin = new System.Windows.Forms.Padding(0);
-            this.adaptItConfigCtrlNationalBtToInternationalBt.Name = "adaptItConfigCtrlNationalBtToInternationalBt";
-            this.adaptItConfigCtrlNationalBtToInternationalBt.Size = new System.Drawing.Size(589, 74);
-            this.adaptItConfigCtrlNationalBtToInternationalBt.SourceLanguageName = null;
-            this.adaptItConfigCtrlNationalBtToInternationalBt.TabIndex = 8;
-            this.adaptItConfigCtrlNationalBtToInternationalBt.TargetLanguageName = null;
             // 
             // NewProjectWizard
             // 
@@ -1680,7 +1667,6 @@
         private System.Windows.Forms.TabPage tabPageMemberRoles;
         private System.Windows.Forms.RadioButton radioButtonManageWithCoaching;
         private System.Windows.Forms.RadioButton radioButtonIndependentConsultant;
-        private System.Windows.Forms.CheckBox checkBoxFirstPassMentor;
         private System.Windows.Forms.CheckBox checkBoxOutsideEnglishBackTranslator;
         private System.Windows.Forms.CheckBox checkBoxProjectFacilitator;
         private System.Windows.Forms.TextBox textBoxTeamMembersInstructionBox;
