@@ -625,7 +625,7 @@ namespace OneStoryProjectEditor
         protected const string CstrBrowserMemberName = "Browser";
 
         public bool HasOutsideEnglishBTer;
-        public bool HasFirstPassMentor;
+        public bool HasLanguageSpecialtyReviewer;
         public bool HasIndependentConsultant;
 
         public TeamMembersData()
@@ -679,10 +679,9 @@ namespace OneStoryProjectEditor
             else
                 HasOutsideEnglishBTer = theMembersRow.HasOutsideEnglishBTer;
 
-            if (theMembersRow.IsHasFirstPassMentorNull())
-                HasFirstPassMentor = IsThereAFirstPassMentor;
-            else
-                HasFirstPassMentor = theMembersRow.HasFirstPassMentor;
+            HasLanguageSpecialtyReviewer = (theMembersRow.IsHasFirstPassMentorNull())
+                                               ? false
+                                               : theMembersRow.HasFirstPassMentor;
 
             if (theMembersRow.IsHasIndependentConsultantNull())
                 HasIndependentConsultant = IsThereAnIndependentConsultant;
@@ -777,10 +776,10 @@ namespace OneStoryProjectEditor
             {
                 var eleMembers = new XElement(CstrElementLabelMembers,
                     new XAttribute("HasOutsideEnglishBTer", HasOutsideEnglishBTer),
-                    new XAttribute("HasFirstPassMentor", HasFirstPassMentor),
+                    new XAttribute("HasFirstPassMentor", HasLanguageSpecialtyReviewer),
                     new XAttribute("HasIndependentConsultant", HasIndependentConsultant));
 
-                foreach (TeamMemberData aMemberData in Values)
+                foreach (var aMemberData in Values)
                     eleMembers.Add(aMemberData.GetXml);
 
                 return eleMembers;

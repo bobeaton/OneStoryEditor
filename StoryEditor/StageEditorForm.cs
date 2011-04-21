@@ -44,8 +44,7 @@ namespace OneStoryProjectEditor
                 radioButtonManageWithCoaching.Checked = true;
 #else
             ColumnEnglishBackTranslator.Visible = storyProjectData.TeamMembers.HasOutsideEnglishBTer;
-            ColumnFirstPassMentor.Visible = storyProjectData.TeamMembers.HasFirstPassMentor;
-
+            
             if (storyProjectData.TeamMembers.HasIndependentConsultant)
             {
                 ColumnConsultantInTraining.HeaderText = TeamMemberData.CstrIndependentConsultantDisplay;
@@ -191,10 +190,12 @@ namespace OneStoryProjectEditor
                 else if (TeamMemberData.IsUser(stateTransition.MemberTypeWithEditToken, 
                          TeamMemberData.UserTypes.FirstPassMentor))
                 {
+                    /*
                     if (ColumnFirstPassMentor.Visible)
                     {
                         InitButton(stateTransition, ColumnFirstPassMentor.Name);
                     }
+                    */
                 }
 
                 else if (TeamMemberData.IsUser(stateTransition.MemberTypeWithEditToken, 

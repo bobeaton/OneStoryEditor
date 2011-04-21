@@ -603,7 +603,6 @@ namespace OneStoryProjectEditor
                         && (!RequiresUsingFreeTranslation || storyProjectData.ProjSettings.FreeTranslation.HasData)
                         && (!RequiresBiblicalStory || theCurrentStory.CraftingInfo.IsBiblicalStory)
                         && (!RequiresNonBiblicalStory || !theCurrentStory.CraftingInfo.IsBiblicalStory)
-                        && (!RequiresFirstPassMentor || storyProjectData.TeamMembers.HasFirstPassMentor)
                         && (!HasUsingOtherEnglishBTer
                             || (RequiresUsingOtherEnglishBTer ==
                                 storyProjectData.TeamMembers.HasOutsideEnglishBTer))

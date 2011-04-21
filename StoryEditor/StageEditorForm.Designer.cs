@@ -31,14 +31,13 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StageEditorForm));
             this.dataGridViewStates = new System.Windows.Forms.DataGridView();
-            this.ColumnProjectFacilitatorStages = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.ColumnEnglishBackTranslator = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.ColumnFirstPassMentor = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.ColumnConsultantInTraining = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.ColumnCoach = new System.Windows.Forms.DataGridViewButtonColumn();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ColumnProjectFacilitatorStages = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.ColumnEnglishBackTranslator = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.ColumnConsultantInTraining = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.ColumnCoach = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStates)).BeginInit();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -54,7 +53,6 @@
             this.dataGridViewStates.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnProjectFacilitatorStages,
             this.ColumnEnglishBackTranslator,
-            this.ColumnFirstPassMentor,
             this.ColumnConsultantInTraining,
             this.ColumnCoach});
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -80,36 +78,6 @@
             this.dataGridViewStates.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewStates_CellMouseEnter);
             this.dataGridViewStates.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.dataGridViewStates_HelpRequested);
             // 
-            // ColumnProjectFacilitatorStages
-            // 
-            this.ColumnProjectFacilitatorStages.HeaderText = "Project Facilitator";
-            this.ColumnProjectFacilitatorStages.Name = "ColumnProjectFacilitatorStages";
-            this.ColumnProjectFacilitatorStages.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // ColumnEnglishBackTranslator
-            // 
-            this.ColumnEnglishBackTranslator.HeaderText = "English Back-translator";
-            this.ColumnEnglishBackTranslator.Name = "ColumnEnglishBackTranslator";
-            this.ColumnEnglishBackTranslator.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // ColumnFirstPassMentor
-            // 
-            this.ColumnFirstPassMentor.HeaderText = "First Pass Mentor";
-            this.ColumnFirstPassMentor.Name = "ColumnFirstPassMentor";
-            this.ColumnFirstPassMentor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // ColumnConsultantInTraining
-            // 
-            this.ColumnConsultantInTraining.HeaderText = "Consultant-in-Training";
-            this.ColumnConsultantInTraining.Name = "ColumnConsultantInTraining";
-            this.ColumnConsultantInTraining.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // ColumnCoach
-            // 
-            this.ColumnCoach.HeaderText = "Coach";
-            this.ColumnCoach.Name = "ColumnCoach";
-            this.ColumnCoach.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -123,9 +91,33 @@
             // toolStripStatusLabel
             // 
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(397, 17);
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(426, 17);
             this.toolStripStatusLabel.Text = "Press F1 for Instructions (with the mouse cursor hovering over the desired state)" +
                 "";
+            // 
+            // ColumnProjectFacilitatorStages
+            // 
+            this.ColumnProjectFacilitatorStages.HeaderText = "Project Facilitator";
+            this.ColumnProjectFacilitatorStages.Name = "ColumnProjectFacilitatorStages";
+            this.ColumnProjectFacilitatorStages.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // ColumnEnglishBackTranslator
+            // 
+            this.ColumnEnglishBackTranslator.HeaderText = "English Back-translator";
+            this.ColumnEnglishBackTranslator.Name = "ColumnEnglishBackTranslator";
+            this.ColumnEnglishBackTranslator.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // ColumnConsultantInTraining
+            // 
+            this.ColumnConsultantInTraining.HeaderText = "Consultant-in-Training";
+            this.ColumnConsultantInTraining.Name = "ColumnConsultantInTraining";
+            this.ColumnConsultantInTraining.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // ColumnCoach
+            // 
+            this.ColumnCoach.HeaderText = "Coach";
+            this.ColumnCoach.Name = "ColumnCoach";
+            this.ColumnCoach.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // StageEditorForm
             // 
@@ -156,13 +148,12 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridViewStates;
-        private System.Windows.Forms.DataGridViewButtonColumn ColumnProjectFacilitatorStages;
-        private System.Windows.Forms.DataGridViewButtonColumn ColumnEnglishBackTranslator;
-        private System.Windows.Forms.DataGridViewButtonColumn ColumnFirstPassMentor;
-        private System.Windows.Forms.DataGridViewButtonColumn ColumnConsultantInTraining;
-        private System.Windows.Forms.DataGridViewButtonColumn ColumnCoach;
         private System.Windows.Forms.HelpProvider helpProvider;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
+        private System.Windows.Forms.DataGridViewButtonColumn ColumnProjectFacilitatorStages;
+        private System.Windows.Forms.DataGridViewButtonColumn ColumnEnglishBackTranslator;
+        private System.Windows.Forms.DataGridViewButtonColumn ColumnConsultantInTraining;
+        private System.Windows.Forms.DataGridViewButtonColumn ColumnCoach;
     }
 }

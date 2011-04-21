@@ -260,7 +260,6 @@ namespace OneStoryProjectEditor
                                                     checkBoxLanguageVernacular.Checked));
 
                 checkBoxOutsideEnglishBackTranslator.Checked = _storyProjectData.TeamMembers.HasOutsideEnglishBTer;
-                checkBoxFirstPassMentor.Checked = _storyProjectData.TeamMembers.HasFirstPassMentor;
                 radioButtonIndependentConsultant.Checked = _storyProjectData.TeamMembers.HasIndependentConsultant;
 
                 // now deal with the AdaptIt BT helpers (doing this here, because by now LoggedOnMember
@@ -584,7 +583,6 @@ namespace OneStoryProjectEditor
         private void FinishEdit()
         {
             _storyProjectData.TeamMembers.HasOutsideEnglishBTer = checkBoxOutsideEnglishBackTranslator.Checked;
-            _storyProjectData.TeamMembers.HasFirstPassMentor = checkBoxFirstPassMentor.Checked;
             _storyProjectData.TeamMembers.HasIndependentConsultant = radioButtonIndependentConsultant.Checked;
             ProjSettings.ShowRetellings.Vernacular = checkBoxRetellingsVernacular.Checked;
             ProjSettings.ShowRetellings.NationalBt = checkBoxRetellingsNationalBT.Checked;
@@ -833,25 +831,6 @@ namespace OneStoryProjectEditor
                     return;
 
                 checkBoxOutsideEnglishBackTranslator.Checked = false;
-            }
-            Modified = true;
-        }
-
-        private void checkBoxFirstPassMentor_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBoxFirstPassMentor.Checked 
-                && !_storyProjectData.TeamMembers.IsThereAFirstPassMentor)
-            {
-                // if this user is saying that there's a first pass mentor, but there doesn't
-                //  appear to be one, then query for it.
-                var dlg = new MemberPicker(_storyProjectData, TeamMemberData.UserTypes.FirstPassMentor)
-                {
-                    Text = "Choose the member that is the first-pass mentor"
-                };
-                if (dlg.ShowDialog() == DialogResult.OK)
-                    return;
-
-                checkBoxFirstPassMentor.Checked = false;
             }
             Modified = true;
         }
