@@ -536,8 +536,7 @@ namespace OneStoryProjectEditor
             TeamMemberData theMemberData = _dataTeamMembers[m_strSelectedMemberName];
 
             // query the UNS to merge into this UNS record
-            var dlg = new MemberPicker(_theStoryProjectData,
-                                       eRole)
+            var dlg = new MemberPicker(_theStoryProjectData, eRole)
                           {
                               Text =
                                   String.Format("Choose the {0} to merge into the record for '{1}'",

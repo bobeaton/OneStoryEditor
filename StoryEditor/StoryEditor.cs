@@ -2871,26 +2871,9 @@ namespace OneStoryProjectEditor
         {
             // query for the UNSs that will be doing this test
             string strUnsGuid = null;
-            while (String.IsNullOrEmpty(strUnsGuid))
-            {
-                strUnsGuid = QueryForUnsTestor(StoryProject);
-                if (String.IsNullOrEmpty(strUnsGuid))
-                    return false;
-
-                foreach (var ti in theCurrentStory.CraftingInfo.TestorsToCommentsRetellings)
-                    if (ti.MemberId == strUnsGuid)
-                    {
-                        string strError = String.Format(Properties.Resources.IDS_AddTestSameUNS,
-                                                        StoryProject.GetMemberNameFromMemberGuid(ti.MemberId));
-                        DialogResult res = MessageBox.Show(strError,
-                                                           OseResources.Properties.Resources.IDS_Caption,
-                                                           MessageBoxButtons.OKCancel);
-                        if (res == DialogResult.Cancel)
-                            return false;
-                        strUnsGuid = null;
-                        break;
-                    }
-            }
+            if (!GetUniqueTestor(theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
+                ref strUnsGuid))
+                return false;
 
             // also need to query for the number of times the UNS heard the story
             string strAnswer = Microsoft.VisualBasic.Interaction.InputBox(Properties.Resources.IDS_QueryNumOfTimeHeard,
@@ -2918,26 +2901,9 @@ namespace OneStoryProjectEditor
         {
             // query for the UNSs that will be doing this test
             string strUnsGuid = null;
-            while (String.IsNullOrEmpty(strUnsGuid))
-            {
-                strUnsGuid = QueryForUnsTestor(StoryProject);
-                if (String.IsNullOrEmpty(strUnsGuid))
-                    return false;
-
-                foreach (var ti in theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers)
-                    if (ti.MemberId == strUnsGuid)
-                    {
-                        string strError = String.Format(Properties.Resources.IDS_AddTestSameUNS,
-                                                        StoryProject.GetMemberNameFromMemberGuid(ti.MemberId));
-                        DialogResult res = MessageBox.Show(strError,
-                                                           OseResources.Properties.Resources.IDS_Caption,
-                                                           MessageBoxButtons.OKCancel);
-                        if (res == DialogResult.Cancel)
-                            return false;
-                        strUnsGuid = null;
-                        break;
-                    }
-            }
+            if (!GetUniqueTestor(theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
+                ref strUnsGuid))
+                return false;
 
             string strAnswer = String.Format(Properties.Resources.IDS_InferenceCommentFormat,
                                              DateTime.Now.ToString("yyyy-MMM-dd"));
@@ -2955,6 +2921,31 @@ namespace OneStoryProjectEditor
             viewStoryTestingQuestionAnswerMenuItem.Checked = true;
 
             Modified = true;
+            return true;
+        }
+
+        private bool GetUniqueTestor(TestInfo testInfo, ref string strUnsGuid)
+        {
+            while (String.IsNullOrEmpty(strUnsGuid))
+            {
+                strUnsGuid = QueryForUnsTestor(StoryProject);
+                if (String.IsNullOrEmpty(strUnsGuid))
+                    return false;
+
+                foreach (var ti in testInfo)
+                    if (ti.MemberId == strUnsGuid)
+                    {
+                        string strError = String.Format(Properties.Resources.IDS_AddTestSameUNS,
+                                                        StoryProject.GetMemberNameFromMemberGuid(ti.MemberId));
+                        DialogResult res = MessageBox.Show(strError,
+                                                           OseResources.Properties.Resources.IDS_Caption,
+                                                           MessageBoxButtons.OKCancel);
+                        if (res == DialogResult.Cancel)
+                            return false;
+                        strUnsGuid = null;
+                        break;
+                    }
+            }
             return true;
         }
 

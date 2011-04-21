@@ -819,12 +819,21 @@ namespace OneStoryProjectEditor
             return Configured(member) ? member.MemberId : null;
         }
 
+        /// <summary>
+        /// checks if the given memberIdInfo is configured or not and if not creates it.
+        /// Then it checks whether it's MemberId member has been set and if not (or if
+        /// it's being 'forced') sets it. NOTE: if bForceSet is false and the MemberId
+        /// is already set, then no change is made.
+        /// </summary>
+        /// <param name="memberIdInfo"></param>
+        /// <param name="strMemberId"></param>
+        /// <param name="bForceSet"></param>
         public static void SetCreateIfEmpty(ref MemberIdInfo memberIdInfo, 
             string strMemberId, bool bForceSet)
         {
-            if (memberIdInfo == null)
+            if (!Configured(memberIdInfo))
                 memberIdInfo = new MemberIdInfo(strMemberId, null);
-            else if (String.IsNullOrEmpty(memberIdInfo.MemberId) || bForceSet)
+            else if (!memberIdInfo.IsConfigured || bForceSet)
                 memberIdInfo.MemberId = strMemberId;
         }
 
@@ -1455,7 +1464,7 @@ namespace OneStoryProjectEditor
                           };
             }
 
-            if (BackTranslator.MemberId == strOldMemberGuid)
+            if (MemberIdInfo.SafeGetMemberId(BackTranslator) == strOldMemberGuid)
                 BackTranslator.MemberId = strNewMemberGuid;
             TestorsToCommentsRetellings.ReplaceUns(strOldMemberGuid, strNewMemberGuid);
             TestorsToCommentsTqAnswers.ReplaceUns(strOldMemberGuid, strNewMemberGuid);
@@ -1484,7 +1493,7 @@ namespace OneStoryProjectEditor
 
         public void ReplaceCrafter(string strOldMemberGuid, string strNewMemberGuid)
         {
-            if (StoryCrafter.MemberId == strOldMemberGuid)
+            if (MemberIdInfo.SafeGetMemberId(StoryCrafter) == strOldMemberGuid)
                 StoryCrafter.MemberId = strNewMemberGuid;
         }
     }
@@ -1560,7 +1569,7 @@ namespace OneStoryProjectEditor
         {
             foreach (var storyData in
                 this.Where(storyData => 
-                    storyData.CraftingInfo.ProjectFacilitator.MemberId == strOldMemberGuid))
+                    MemberIdInfo.SafeGetMemberId(storyData.CraftingInfo.ProjectFacilitator) == strOldMemberGuid))
             {
                 storyData.ReplaceProjectFacilitator(strNewMemberGuid);
             }
@@ -1787,7 +1796,7 @@ namespace OneStoryProjectEditor
         {
             bool bRet = false;
 #if !DataDllBuild
-            NewProjectWizard dlg = new NewProjectWizard(this) 
+            var dlg = new NewProjectWizard(this) 
             { 
                 LoggedInMember = loggedOnMember,
                 Text = "Edit Project Settings"
