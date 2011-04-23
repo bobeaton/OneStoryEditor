@@ -795,7 +795,7 @@ namespace OneStoryProjectEditor
 
         public static void QueryForUnsBackTranslator(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory)
         {
-            while (theCurrentStory.CraftingInfo.BackTranslator == null)
+            while (!MemberIdInfo.Configured(theCurrentStory.CraftingInfo.BackTranslator))
             {
                 var dlg = new MemberPicker(theStoryProjectData, TeamMemberData.UserTypes.UNS)
                               {
@@ -804,7 +804,8 @@ namespace OneStoryProjectEditor
                 if (dlg.ShowDialog() != DialogResult.OK)
                     return;
 
-                theCurrentStory.CraftingInfo.BackTranslator = new MemberIdInfo(dlg.SelectedMember.MemberGuid, null);
+                MemberIdInfo.SetCreateIfEmpty(ref theCurrentStory.CraftingInfo.BackTranslator,
+                                              dlg.SelectedMember.MemberGuid, true);
             }
         }
 

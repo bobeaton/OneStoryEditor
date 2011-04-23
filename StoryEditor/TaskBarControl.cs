@@ -446,6 +446,8 @@ namespace OneStoryProjectEditor
 
         private void buttonSendToEnglishBter_Click(object sender, EventArgs e)
         {
+            ParentForm.Close();
+
             // we go to the English Bter either going forwards from the PF...
             if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
                                       TeamMemberData.UserTypes.ProjectFacilitator))

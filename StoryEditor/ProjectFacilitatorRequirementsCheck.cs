@@ -71,9 +71,6 @@ namespace OneStoryProjectEditor
             StoryProjectData theStoryProjectData = TheSe.StoryProject;
             try
             {
-                // make sure the PF has specified the UNS back-translator
-                CheckEndOfStateTransition.QueryForUnsBackTranslator(TheSe, theStoryProjectData, TheStory);
-
                 if (DoVernacularLangFields)
                 {
                     // for this one, make sure that every line of the story has something in the vernacular field
@@ -361,8 +358,15 @@ namespace OneStoryProjectEditor
             //  the highest field had something, that the field to check also does.
             if (fieldToCheck != fieldHighest)
             {
-                return CheckFieldForCompletion(theSe, theStoryProjectData, theStory,
-                                               fieldToCheck, fieldHighest);
+                if (!CheckFieldForCompletion(theSe, theStoryProjectData, theStory,
+                                             fieldToCheck, fieldHighest))
+                    return false;
+
+                // make sure the PF has specified the UNS back-translator (this only 
+                //  shows something if nothing is configured (but if the user keeps 
+                //  cancelling the dialog, theoretically, it will come up multiple times)
+                CheckEndOfStateTransition.QueryForUnsBackTranslator(TheSe, theStoryProjectData, TheStory);
+
             }
             return true;
         }

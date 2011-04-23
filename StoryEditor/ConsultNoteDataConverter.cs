@@ -157,15 +157,8 @@ namespace OneStoryProjectEditor
                     RemoveAt(Count - 1);
 
             // don't bother, though, if the user has ended the conversation
-            if (IsFinished)// || !HasAddNotePrivilege loggedOnMember.IsEditAllowed(theStory))
-                /*
-                (!LoggedOnMentorHasResponsePrivilege(loggedOnMember, theStory) &&
-                 !LoggedOnMentoreeHasResponsePrivilege(loggedOnMember, theStory)) &&
-                 !loggedOnMember.IsEditAllowed(theStory)) 
-                */
-            {
+            if (IsFinished)
                 return;
-            }
 
             if (MentorHasRespondPrivilege(loggedOnMember, theTeamMembers, theStory))
                 Add(CreateMentorNote(loggedOnMember, theStory, strValue, bNoteToSelf));
@@ -265,7 +258,7 @@ namespace OneStoryProjectEditor
                                           MentorRequiredEditor));
         }
 
-        protected bool IsMenteeLoggedOn(TeamMemberData loggedOnMember)
+        protected virtual bool IsMenteeLoggedOn(TeamMemberData loggedOnMember)
         {
             return (TeamMemberData.IsUser(loggedOnMember.MemberType,
                                           MenteeRequiredEditor));
@@ -614,7 +607,7 @@ namespace OneStoryProjectEditor
 
                 TeamMemberData theCommentor = aCI.Commentor(theTeamMembers);
 
-                string strRow = null, theStoryPfMemberId = theStory.CraftingInfo.ProjectFacilitator.MemberId;
+                string strRow = null, theStoryPfMemberId = MemberIdInfo.SafeGetMemberId(theStory.CraftingInfo.ProjectFacilitator);
                 Color clrRow;
                 if (IsFromMentor(aCI))
                 {
@@ -1046,7 +1039,8 @@ namespace OneStoryProjectEditor
             TeamMemberData.UserTypes.IndependentConsultant;
 
         public const TeamMemberData.UserTypes ConsultantNoteMentees =
-            TeamMemberData.UserTypes.ProjectFacilitator;
+            TeamMemberData.UserTypes.ProjectFacilitator |
+            TeamMemberData.UserTypes.EnglishBackTranslator;
 
         public override TeamMemberData.UserTypes MentorRequiredEditor
         {
