@@ -312,9 +312,18 @@ namespace OneStoryProjectEditor
                 contextMenuStrip.Items.Insert(3, menuAddTestQuestion);
 
             if (IsGeneralQuestionsLine)
+            {
                 menuAddTestQuestion.Text = "Add a &general testing question";
+                hideVerseToolStripMenuItem.Visible = 
+                    deleteTheWholeVerseToolStripMenuItem.Visible = 
+                    addANewVerseToolStripMenuItem.Visible = 
+                    pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem.Visible = 
+                    splitStoryToolStripMenuItem.Visible = 
+                    moveSelectedTextToANewLineToolStripMenuItem.Visible = 
+                        false; // can't hide this line
+            }
 
-            if (_verseData.IsVisible)
+            else if (_verseData.IsVisible)
                 hideVerseToolStripMenuItem.Text = "&Hide line";
             else
                 hideVerseToolStripMenuItem.Text = "&Unhide line";
