@@ -1472,14 +1472,19 @@ namespace OneStoryProjectEditor
             SendNoteToCorrectPane(ctrlParent.VerseNumber, strNote);
         }
 
+        public static bool IsFirstCharsEqual(string strLhs, string strRhs, int nNumChars)
+        {
+            return (!String.IsNullOrEmpty(strLhs) &&
+                    (strLhs.Length >= nNumChars) &&
+                    (strRhs.Length >= nNumChars) &&
+                    (strLhs.Substring(0, nNumChars)
+                     == strRhs.Substring(0, nNumChars)));
+        }
+
         private static bool IsFirstCharsEqual(string strLhs, string strRhs)
         {
             const int cnLengthToCompare = 4;
-            return (!String.IsNullOrEmpty(strLhs) &&
-                    (strLhs.Length >= cnLengthToCompare) &&
-                    (strRhs.Length >= cnLengthToCompare) &&
-                    (strLhs.Substring(0, cnLengthToCompare)
-                     == strRhs.Substring(0, cnLengthToCompare)));
+            return IsFirstCharsEqual(strLhs, strRhs, cnLengthToCompare);
         }
 
         internal static bool IsTestQuestionBox(string strLabel)

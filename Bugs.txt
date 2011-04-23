@@ -1,4 +1,6 @@
-﻿see why it's repeatedly launching the sec.msi when the start menu shortcuts are moved post-install (i.e. find out how to get wix to ignore this).
+﻿Nathan: There have been a few times where the check box for "is there an internet repository for this project" has lost its check without me purposely doing it. Then (obviously) the send/receive won't work. But the program doesn't give me any notice that synchronization didn't happen. It pops up the project notes window. Now that I'm conditioned to expect the synchronizing window to pop up I think I would notice when it doesn't, so I would know something is wrong. But a notice that the synchronization failed would be nice. Especially for newbies. Or send/receive could be grayed out if that box is not checked. Also, what's the difference between [project > transfer via thumbdrive] and [project > send/receive and then "USB flash drive" in the "synchronizing OneStory project...." window]? And why do you only get the ''synchronizing OneStory project...." window  when the internet repository box is checked in settings? Since presumably you could want to send/receive via flash drive without ever using the internet? 
+
+see why it's repeatedly launching the sec.msi when the start menu shortcuts are moved post-install (i.e. find out how to get wix to ignore this).
 
 Toolbox export not working still
 

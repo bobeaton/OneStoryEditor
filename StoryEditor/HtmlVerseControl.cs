@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -28,48 +30,96 @@ namespace OneStoryProjectEditor
 
         public void OnScroll()
         {
-            if ((Document != null) && (Document.Body != null))
+            var elemLnPrev = GetTopHtmlElementId("td");
+            if (elemLnPrev == null)
+                return;
+
+            if (StoryEditor.IsFirstCharsEqual(elemLnPrev.InnerText,
+                                              VersesData.CstrZerothLineNameConNotes,
+                                              VersesData.CstrZerothLineNameConNotes.Length))
             {
-                HtmlDocument doc = Document;
+                LineNumberLink.Text = "Story (Ln: 0)";
+                LineNumberLink.Tag = 0;
+            }
+            else
+            {
+                LineNumberLink.Text = elemLnPrev.InnerText;
+                int nIndex = elemLnPrev.InnerText.IndexOf(' ');
+                System.Diagnostics.Debug.Assert(nIndex != -1);
+                string strLineNumber = elemLnPrev.InnerText.Substring(nIndex + 1);
+                if ((nIndex = strLineNumber.IndexOf(OseResources.Properties.Resources.IDS_HiddenLabel)) != -1)
+                    strLineNumber = strLineNumber.Substring(0, nIndex);
+                LineNumberLink.Tag = Convert.ToInt32(strLineNumber);
+            }
+        }
+
+        protected string GetTopRowId
+        {
+            get
+            {
+                var elem = GetTopHtmlElementId("tr");
+                return (elem != null) ? elem.Id : null;
+            }
+        }
+
+        private static void HtmlElementTotalScrollTop(HtmlElement elem, 
+            ref int nTopOffset, ref int nTopScroll)
+        {
+            nTopOffset += elem.OffsetRectangle.Top;
+            nTopScroll += elem.ScrollTop;
+            if (elem.OffsetParent != null)
+                HtmlElementTotalScrollTop(elem.OffsetParent, ref nTopOffset, ref nTopScroll);
+        }
+
+        private HtmlElement GetTopHtmlElementId(string strElementTagName)
+        {
+            HtmlElement elemLnPrev = null;
+            HtmlDocument doc;
+            int nScrollTop;
+            if (((doc = Document) != null) &&
+                ((elemLnPrev = doc.Body) != null) &&
+                (nScrollTop = elemLnPrev.ScrollTop) >= 0)
+            {
 #if DEBUG
-                System.Diagnostics.Debug.WriteLine(String.Format("doc.Body.ScrollTop: {0}", doc.Body.ScrollTop));
-                foreach (HtmlElement elemLn in doc.GetElementsByTagName("td"))
-                    if (!String.IsNullOrEmpty(elemLn.Id))   // so we only get "ln: n" values
-                        System.Diagnostics.Debug.WriteLine(String.Format("id: {0}, or: {1}, sr: {2}, st: {3}",
-                            elemLn.Id, elemLn.OffsetRectangle,
-                            elemLn.ScrollRectangle,
-                            elemLn.ScrollTop));
+                // in debug, dump out the position of all the rows that have IDs
+                HtmlWindow window = doc.Window;
+                var domwindow = (mshtml.IHTMLWindow3)window.DomWindow;
+                var screenY = domwindow.screenTop;
+                System.Diagnostics.Debug.WriteLine(String.Format("GetTopRow: doc.Body.ScrollTop: {0}, screenY: {1}",
+                                                                 nScrollTop,
+                                                                 screenY));
+
+                foreach (var elemLn in
+                    doc.GetElementsByTagName(strElementTagName).Cast<HtmlElement>().Where(elemLn =>
+                            !String.IsNullOrEmpty(elemLn.Id)))
+                {
+                    int nTopOffset = 0, nTopScroll = 0;
+                    HtmlElementTotalScrollTop(elemLn, ref nTopOffset, ref nTopScroll);
+                    System.Diagnostics.Debug.WriteLine(String.Format("id: {0}, to: {1}, ts: {2}",
+                                                                     elemLn.Id,
+                                                                     nTopOffset,
+                                                                     nTopScroll));
+                }
 #endif
 
-                HtmlElement elemLnPrev = null;
-                foreach (HtmlElement elemLn in doc.GetElementsByTagName("td"))
-                    if (!String.IsNullOrEmpty(elemLn.Id))
-                    {
-                        if (elemLn.OffsetRectangle.Top < doc.Body.ScrollTop)
-                            elemLnPrev = elemLn;
-                        else
-                            break;
-                    }
-
-                if (elemLnPrev != null)
+                // get all the 'row' elements that have 'ids' (these are the ones that we 
+                //  can scroll to if the need arises)
+                foreach (var elemLn in
+                    doc.GetElementsByTagName(strElementTagName).Cast<HtmlElement>().
+                        Where(elemLn => !String.IsNullOrEmpty(elemLn.Id)))
                 {
-                    if (elemLnPrev.InnerText == VersesData.CstrZerothLineNameConNotes)
-                    {
-                        LineNumberLink.Text = "Story (Ln: 0)";
-                        LineNumberLink.Tag = 0;
-                    }
+                    // the first time through, the lhs might be a small # and the rhs 0
+                    //  so if st is 0, just pick the first one
+                    int nTopOffset = 0, nTopScroll = 0;
+                    HtmlElementTotalScrollTop(elemLn, ref nTopOffset, ref nTopScroll);
+                    if (nTopOffset <= (nScrollTop + 1))
+                        elemLnPrev = elemLn;
                     else
-                    {
-                        LineNumberLink.Text = elemLnPrev.InnerText;
-                        int nIndex = elemLnPrev.InnerText.IndexOf(' ');
-                        System.Diagnostics.Debug.Assert(nIndex != -1);
-                        string strLineNumber = elemLnPrev.InnerText.Substring(nIndex + 1);
-                        if ((nIndex = strLineNumber.IndexOf(OseResources.Properties.Resources.IDS_HiddenLabel)) != -1)
-                            strLineNumber = strLineNumber.Substring(0, nIndex);
-                        LineNumberLink.Tag = Convert.ToInt32(strLineNumber);
-                    }
+                        break;
                 }
             }
+
+            return elemLnPrev;
         }
 
         public abstract void LoadDocument();

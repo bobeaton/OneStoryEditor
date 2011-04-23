@@ -62,15 +62,19 @@ namespace OneStoryProjectEditor
 
         private bool CallDoAddNote(int nVerseIndex, string strNote, bool bNoteToSelf)
         {
+            StrIdToScrollTo = GetTopRowId;
             ConsultNotesDataConverter aCNsDC = DataConverter(nVerseIndex);
             ConsultNoteDataConverter aCNDC = DoAddNote(strNote, aCNsDC, bNoteToSelf);
-            if (aCNDC != null)
+            
+            // if we couldn't determine the top-most row, then just get the line row
+            if ((aCNDC != null) && String.IsNullOrEmpty(StrIdToScrollTo))
                 StrIdToScrollTo = ConsultNoteDataConverter.TextareaId(nVerseIndex, aCNsDC.IndexOf(aCNDC));
             return true;
         }
 
         public bool OnShowHideOpenConversations(string strButtonId)
         {
+            StrIdToScrollTo = GetTopRowId;
             string[] astrId = strButtonId.Split('_');
             System.Diagnostics.Debug.Assert(astrId.Length ==2);
             int nVerseIndex = Convert.ToInt32(astrId[1]);
@@ -81,8 +85,9 @@ namespace OneStoryProjectEditor
             
             // brute force (no need to repaint the button since the reload will do it for us
             LoadDocument();
-            Application.DoEvents();
-            ScrollToVerse(nVerseIndex);
+            // don't think we need this anymore
+            // Application.DoEvents();
+            // ScrollToVerse(nVerseIndex);
             return true;
         }
 
@@ -108,6 +113,7 @@ namespace OneStoryProjectEditor
                     return true;
             }
 
+            StrIdToScrollTo = GetTopRowId;
             bool bRemovedLast = (theCNsDC.IndexOf(theCNDC) == (theCNsDC.Count - 1));
             theCNsDC.Remove(theCNDC);
 
@@ -141,6 +147,7 @@ namespace OneStoryProjectEditor
             if (!theCNDC.HasData)
                 OnClickDelete(strId);
 
+            StrIdToScrollTo = GetTopRowId;
             theCNDC.Visible = (theCNDC.Visible) ? false : true;
 
             /*
@@ -225,6 +232,7 @@ namespace OneStoryProjectEditor
                 elemButton.InnerText = ConsultNoteDataConverter.CstrButtonLabelConversationReopen;
             }
 
+            StrIdToScrollTo = GetTopRowId;
             if (theCNDC.IsFinished)
             {
 #if !DontAlwaysDoLoadDoc
@@ -255,12 +263,15 @@ namespace OneStoryProjectEditor
                     TheSE.LoggedOnMember, TheSE.StoryProject.TeamMembers);
             }
 
-            if (theCNDC.IsEditable(TheSE.LoggedOnMember, TheSE.StoryProject.TeamMembers,
-                TheSE.theCurrentStory))
-                StrIdToScrollTo = ConsultNoteDataConverter.TextareaId(nVerseIndex, nConversationIndex);
-            else
-                StrIdToScrollTo = ConsultNoteDataConverter.TextareaReadonlyRowId(nVerseIndex, nConversationIndex,
-                                                                                 theCNDC.Count - 1);
+            if (String.IsNullOrEmpty(StrIdToScrollTo))
+            {
+                if (theCNDC.IsEditable(TheSE.LoggedOnMember, TheSE.StoryProject.TeamMembers,
+                    TheSE.theCurrentStory))
+                    StrIdToScrollTo = ConsultNoteDataConverter.TextareaId(nVerseIndex, nConversationIndex);
+                else
+                    StrIdToScrollTo = ConsultNoteDataConverter.TextareaReadonlyRowId(nVerseIndex, nConversationIndex,
+                                                                                     theCNDC.Count - 1);
+            }
 
             LoadDocument();
             return true;
@@ -431,6 +442,7 @@ namespace OneStoryProjectEditor
                 return null;
             */
 
+            StrIdToScrollTo = GetTopRowId;
             ConsultNoteDataConverter cndc =
                 aCNsDC.Add(theSE.theCurrentStory, theSE.LoggedOnMember, 
                 theSE.StoryProject.TeamMembers, strNote, bNoteToSelf);
@@ -637,6 +649,7 @@ namespace OneStoryProjectEditor
                                                              eConsultantToProjFacNeedsApproval
                                                        : theCNDC.MentorDirection
                                                  : theCNDC.MenteeDirection;
+            StrIdToScrollTo = GetTopRowId;
             LoadDocument();
             return true;
         }

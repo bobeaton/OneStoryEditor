@@ -1505,6 +1505,11 @@ namespace OneStoryProjectEditor
             return String.Format("ln_{0}", nVerseIndex);
         }
 
+        public static string RowId(int nVerseIndex)
+        {
+            return String.Format("row_{0}", nVerseIndex);
+        }
+
         internal const string CstrShowOpenHideClosed = "Hide Closed";
         internal const string CstrShowOpenShowAll = "Show All";
 
@@ -1541,7 +1546,9 @@ namespace OneStoryProjectEditor
             if (!bVerseVisible)
                 strLink += OseResources.Properties.Resources.IDS_HiddenLabel;
 
-            return String.Format(OseResources.Properties.Resources.HTML_TableRowColor, "#AACCFF",
+            return String.Format(OseResources.Properties.Resources.HTML_TableRowIdColor,
+                                 RowId(nVerseIndex),
+                                 "#AACCFF",
                                  String.Format("{0}{1}",
                                                String.Format(OseResources.Properties.Resources.HTML_TableCellId,
                                                              LineId(nVerseIndex),
@@ -1565,20 +1572,23 @@ namespace OneStoryProjectEditor
             StoryData theStory, bool bViewHidden, bool bShowOnlyOpenConversations)
         {
             string strHtml = null;
-            strHtml += GetHeaderRow(CstrZerothLineNameConNotes, 0,
-                                    FirstVerse.IsVisible,
-                                    bShowOnlyOpenConversations,
-                                    FirstVerse.ConsultantNotes,
-                                    LoggedOnMember,
-                                    theStory.CraftingInfo.ProjectFacilitator.MemberId);
+            if (FirstVerse.IsVisible || bViewHidden)
+            {
+                strHtml += GetHeaderRow(CstrZerothLineNameConNotes, 0,
+                                        FirstVerse.IsVisible,
+                                        bShowOnlyOpenConversations,
+                                        FirstVerse.ConsultantNotes,
+                                        LoggedOnMember,
+                                        theStory.CraftingInfo.ProjectFacilitator.MemberId);
 
-            strHtml += FirstVerse.ConsultantNotes.Html(htmlConNoteCtrl,
-                                                       LoggedOnMember,
-                                                       teamMembers,
-                                                       theStory,
-                                                       bViewHidden,
-                                                       FirstVerse.IsVisible,
-                                                       bShowOnlyOpenConversations, 0);
+                strHtml += FirstVerse.ConsultantNotes.Html(htmlConNoteCtrl,
+                                                           LoggedOnMember,
+                                                           teamMembers,
+                                                           theStory,
+                                                           bViewHidden,
+                                                           FirstVerse.IsVisible,
+                                                           bShowOnlyOpenConversations, 0);
+            }
 
             for (int i = 1; i <= Count; i++)
             {
