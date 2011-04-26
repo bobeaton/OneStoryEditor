@@ -161,6 +161,7 @@ Namespace devX
                 ftpWebRequest.EnableSsl = True
                 ftpWebRequest.UsePassive = True
                 ftpWebRequest.UseBinary = True
+                ftpWebRequest.Timeout = 120000  ' increase to two minutes
                 GetWebRequest = ftpWebRequest
             End If
         End Function
