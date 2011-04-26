@@ -206,78 +206,78 @@ namespace OneStoryProjectEditor
                           "Choose the UNS that took this test");
         }
 
+        public bool Modified;
+
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            bool bModified = false;
-
             if (textBoxProjectFacilitator.Tag != null)
             {
                 var thePF = (TeamMemberData)textBoxProjectFacilitator.Tag;
                 _theCurrentStory.ReplaceProjectFacilitator(thePF.MemberGuid);
-                bModified = true;
+                Modified = true;
             }
             GetChangeToComment(_theCurrentStory.CraftingInfo.ProjectFacilitator,
-                               textBoxCommentProjectFacilitator, ref bModified);
+                               textBoxCommentProjectFacilitator, ref Modified);
 
             if (textBoxConsultant.Tag != null)
             {
                 var theCons = (TeamMemberData)textBoxConsultant.Tag;
                 _theCurrentStory.ReplaceConsultant(theCons.MemberGuid);
-                bModified = true;
+                Modified = true;
             }
             GetChangeToComment(_theCurrentStory.CraftingInfo.Consultant,
-                               textBoxCommentConsultant, ref bModified);
+                               textBoxCommentConsultant, ref Modified);
 
             if (textBoxCoach.Tag != null)
             {
                 var theCch = (TeamMemberData)textBoxCoach.Tag;
                 _theCurrentStory.ReplaceCoach(theCch.MemberGuid);
-                bModified = true;
+                Modified = true;
             }
             GetChangeToComment(_theCurrentStory.CraftingInfo.Coach,
-                               textBoxCommentCoach, ref bModified);
+                               textBoxCommentCoach, ref Modified);
 
             if (textBoxStoryCrafter.Tag != null)
             {
                 var theSC = (TeamMemberData) textBoxStoryCrafter.Tag;
                 _theCurrentStory.CraftingInfo.StoryCrafter.MemberId = theSC.MemberGuid;
-                bModified = true;                
+                Modified = true;                
             }
             GetChangeToComment(_theCurrentStory.CraftingInfo.StoryCrafter,
-                               textBoxCommentStoryCrafter, ref bModified);
+                               textBoxCommentStoryCrafter, ref Modified);
 
             if (_theCurrentStory.CraftingInfo.StoryPurpose != textBoxStoryPurpose.Text)
             {
                 _theCurrentStory.CraftingInfo.StoryPurpose = textBoxStoryPurpose.Text;
-                bModified = true;
+                Modified = true;
             }
 
             if (_theCurrentStory.CraftingInfo.ResourcesUsed != textBoxResourcesUsed.Text)
             {
                 _theCurrentStory.CraftingInfo.ResourcesUsed = textBoxResourcesUsed.Text;
-                bModified = true;
+                Modified = true;
             }
 
             if (_theCurrentStory.CraftingInfo.MiscellaneousStoryInfo != textBoxMiscNotes.Text)
             {
                 _theCurrentStory.CraftingInfo.MiscellaneousStoryInfo = textBoxMiscNotes.Text;
-                bModified = true;
+                Modified = true;
             }
 
             if (textBoxUnsBackTranslator.Tag != null)
             {
                 var theBT = (TeamMemberData)textBoxUnsBackTranslator.Tag;
                 _theCurrentStory.CraftingInfo.BackTranslator.MemberId = theBT.MemberGuid;
-                bModified = true;
+                Modified = true;
             }
             GetChangeToComment(_theCurrentStory.CraftingInfo.BackTranslator,
-                               textBoxCommentUnsBackTranslator, ref bModified);
+                               textBoxCommentUnsBackTranslator, ref Modified);
 
             ProcessTestCommentChanges(_theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
-                rowsRetellings, ref bModified);
+                rowsRetellings, ref Modified);
 
             ProcessTestCommentChanges(_theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
-                rowsAnswers, ref bModified);
+                rowsAnswers, ref Modified);
 
             try
             {
@@ -290,7 +290,7 @@ namespace OneStoryProjectEditor
                         _theCurrentStory.ChangeRetellingTestor,
                         _theCurrentStory.Verses.ChangeRetellingTestorGuid,
                         _theStoryProjectData.TeamMembers,
-                        ref bModified);
+                        ref Modified);
 
                 _theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers =
                     rowsAnswers.ChangeTestors(
@@ -298,7 +298,7 @@ namespace OneStoryProjectEditor
                         _theCurrentStory.ChangeTqAnswersTestor,
                         _theCurrentStory.Verses.ChangeTqAnswersTestorGuid,
                         _theStoryProjectData.TeamMembers,
-                        ref bModified);
+                        ref Modified);
             }
             catch (Exception ex)
             {
@@ -306,7 +306,7 @@ namespace OneStoryProjectEditor
                 return;
             }
 
-            if (bModified)
+            if (Modified)
                 _theSE.Modified = true;
 
             DialogResult = DialogResult.OK;

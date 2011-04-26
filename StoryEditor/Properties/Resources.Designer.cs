@@ -1733,7 +1733,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You have to enter at least a name and indicate your role (even if you&apos;re &apos;Just Looking&apos;)!.
+        ///   Looks up a localized string similar to You have to enter at least a name and indicate a role (even if you&apos;re &apos;Just Looking&apos;)!.
         /// </summary>
         internal static string IDS_WarnNeedNameAndRole {
             get {
