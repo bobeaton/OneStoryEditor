@@ -290,7 +290,8 @@ namespace OneStoryProjectEditor
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 string strItem = GetListBoxItem(dlg.MemberName, dlg.MemberType);
-                if (listBoxTeamMembers.Items.Contains(strItem))
+                if (listBoxTeamMembers.Items.Contains(strItem) ||
+                    _dataTeamMembers.ContainsKey(dlg.MemberName))
                 {
                     MessageBox.Show(String.Format("Oops... you already have a member with the name, '{0}'. If you meant to edit that member, then select the name in the listbox and click the 'Edit Member' button", dlg.MemberName));
                     return;
