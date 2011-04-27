@@ -740,7 +740,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return TaskSettings.SendToCoachForReview;
+                return TaskSettings.None;
             }
         }
     }

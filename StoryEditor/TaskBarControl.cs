@@ -510,8 +510,16 @@ namespace OneStoryProjectEditor
             //  'Set to Coach's turn' requirement. [That requirement will have been so
             //  removed that the CIT could send it to the PF in the first place, and the 
             //  nature of a CIT is that he always must send to the coach anyway]
-            if (!TheSe.StoryProject.TeamMembers.HasIndependentConsultant)
-                TheStory.TasksRequiredCit |= TasksCit.TaskSettings.SendToCoachForReview;
+            if (!TheSe.StoryProject.TeamMembers.HasIndependentConsultant &&
+                MemberIdInfo.Configured(TheStory.CraftingInfo.Consultant))
+            {
+                // but it must be based on the assigned CITs default requirement
+                var theCit = TheSe.StoryProject.TeamMembers.GetMemberFromId(TheStory.CraftingInfo.Consultant.MemberId);
+                if (TasksCit.IsTaskOn((TasksCit.TaskSettings)theCit.DefaultRequired, 
+                                       TasksCit.TaskSettings.SendToCoachForReview))
+                    TheStory.TasksRequiredCit |= 
+                        TasksCit.TaskSettings.SendToCoachForReview;
+            }
 
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eConsultantCheck2, true);
         }
