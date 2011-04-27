@@ -985,7 +985,12 @@ namespace OneStoryProjectEditor
 
                 // see if we have proper Member IDs on all connote conversation comments
                 if (!theCurrentStory.CheckForConNotesParticipants(StoryProject, ref Modified))
+                {
+                    // failed to indicate who the main commentors are, 
+                    //  so we can't continue
+                    theCurrentStory = null;
                     return;
+                }
             }
 
             // initialize the text box showing the storying they're editing
@@ -2019,6 +2024,7 @@ namespace OneStoryProjectEditor
                 htmlConsultantNotesControl.Document.OpenNew(true);
             if (htmlCoachNotesControl.Document != null)
                 htmlCoachNotesControl.Document.OpenNew(true);
+            Application.DoEvents(); // give them time to actually empty the webcontrols
 #else
             flowLayoutPanelConsultantNotes.Clear();
             flowLayoutPanelCoachNotes.Clear();
@@ -3717,7 +3723,11 @@ namespace OneStoryProjectEditor
                     viewOnlyOpenConversationsMenu.Enabled = (theCurrentStory != null);
 
                 if (StoryProject.ProjSettings.Vernacular.HasData)
-                    viewVernacularLangFieldMenuItem.Text = String.Format(Properties.Resources.IDS_LanguageFields, StoryProject.ProjSettings.Vernacular.LangName);
+                {
+                    viewVernacularLangFieldMenuItem.Text = String.Format(Properties.Resources.IDS_LanguageFields,
+                                                                         StoryProject.ProjSettings.Vernacular.LangName);
+                    viewVernacularLangFieldMenuItem.Enabled = (theCurrentStory != null);
+                }
                 else
                     viewVernacularLangFieldMenuItem.Checked = viewVernacularLangFieldMenuItem.Visible = false;
 
@@ -3726,11 +3736,7 @@ namespace OneStoryProjectEditor
                     viewNationalLangFieldMenuItem.Text = String.Format(Properties.Resources.IDS_StoryLanguageField,
                                                                        StoryProject.ProjSettings.NationalBT.LangName);
 
-                    /* this doesn't make sense anymore in the 'task' world
-                    viewNationalLangFieldMenuItem.Enabled = ((theCurrentStory != null)
-                                                             && (((int)theCurrentStory.ProjStage.ProjectStage)
-                                                                 >= (int)StoryStageLogic.ProjectStages.eProjFacTypeNationalBT));
-                    */
+                    viewNationalLangFieldMenuItem.Enabled = (theCurrentStory != null);
                 }
                 else
                     viewNationalLangFieldMenuItem.Checked = viewNationalLangFieldMenuItem.Visible = false;
@@ -3738,6 +3744,7 @@ namespace OneStoryProjectEditor
                 viewEnglishBTFieldMenuItem.Enabled = 
                     viewFreeTranslationToolStripMenuItem.Enabled =
                     viewConsultantNoteFieldMenuItem.Enabled =
+                    viewExegeticalHelps.Enabled = 
                     stateTransitionHistoryToolStripMenuItem.Enabled = (theCurrentStory != null);
 
                 // this have the added requirement that it be a biblical story
