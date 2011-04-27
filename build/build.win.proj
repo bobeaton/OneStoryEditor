@@ -16,7 +16,7 @@
 		<Solution>StoryEditor.sln</Solution>
 		<ApplicationName>StoryEditor</ApplicationName>
 		<ApplicationNameLC>storyeditor</ApplicationNameLC>
-		<Configuration>Debug</Configuration>
+		<Configuration>Release</Configuration>
 		<Platform>x86</Platform>
 	</PropertyGroup>
   
@@ -78,7 +78,7 @@
 			<DevEnv>$(ProgramFiles)\Microsoft Visual Studio 9.0\Common7\IDE\devenv.com</DevEnv>
 			<SolutionFile>$(RootDir)\$(Solution)</SolutionFile>
 			<ProjectFile>Setup OneStory Editor</ProjectFile>
-			<Configuration>Debug</Configuration>
+			<Configuration>Release</Configuration>
 		</PropertyGroup>
 		<Exec
 			Command="&quot;$(DevEnv)&quot; &quot;$(SolutionFile)&quot; /Project &quot;$(ProjectFile)&quot; /ProjectConfig &quot;$(Configuration)&quot; /Build $(Configuration) /Log log.txt"
