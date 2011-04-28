@@ -783,16 +783,15 @@ namespace OneStoryProjectEditor
             MemberComment = rhs.MemberComment;
         }
 
-        public MemberIdInfo(XmlNode nodeTest)
+        public static MemberIdInfo CreateFromXmlNode(XmlNode node)
         {
-            if ((nodeTest == null) || (nodeTest.Attributes == null))
-                return;
-
             XmlAttribute attr;
-            MemberId = ((attr = nodeTest.Attributes[CstrAttributeMemberID]) != null)
-                             ? attr.Value
-                             : null;
-            MemberComment = nodeTest.InnerText;
+            if ((node == null) ||
+                (node.Attributes == null) ||
+                ((attr = node.Attributes[CstrAttributeMemberID]) == null))
+                return null;
+
+            return new MemberIdInfo(attr.Value, node.InnerText);
         }
 
         public void WriteXml(string strElementLabel, XElement elem)
@@ -963,8 +962,13 @@ namespace OneStoryProjectEditor
             XmlNodeList list = node.SelectNodes(String.Format("{0}/{1}",
                 strCollectionElement, strElementLabel));
             if (list != null)
-                foreach (XmlNode nodeTest in list)
-                    Add(new MemberIdInfo(nodeTest));
+                foreach (var memberIdInfo in
+                    list.Cast<XmlNode>().Select(nodeTest => 
+                        MemberIdInfo.CreateFromXmlNode(nodeTest)).Where(memberIdInfo => 
+                            memberIdInfo != null))
+                {
+                    Add(memberIdInfo);
+                }
         }
 
         public void WriteXml(string strCollectionLabel, string strElementLabel, XElement elemCraftingInfo)
@@ -1043,11 +1047,13 @@ namespace OneStoryProjectEditor
 
         public CraftingInfoData(XmlNode node)
         {
+            StoryCrafter = MemberIdInfo.CreateFromXmlNode(node.SelectSingleNode(CstrElementLabelStoryCrafter));
+            ProjectFacilitator = MemberIdInfo.CreateFromXmlNode(node.SelectSingleNode(CstrElementLabelProjectFacilitator));
+            Consultant = MemberIdInfo.CreateFromXmlNode(node.SelectSingleNode(CstrElementLabelConsultant));
+            Coach = MemberIdInfo.CreateFromXmlNode(node.SelectSingleNode(CstrElementLabelCoach));
+            BackTranslator = MemberIdInfo.CreateFromXmlNode(node.SelectSingleNode(CstrElementLabelBackTranslator));
+            
             XmlNode elem;
-            StoryCrafter = new MemberIdInfo(node.SelectSingleNode(CstrElementLabelStoryCrafter));
-            ProjectFacilitator = new MemberIdInfo(node.SelectSingleNode(CstrElementLabelProjectFacilitator));
-            Consultant = new MemberIdInfo(node.SelectSingleNode(CstrElementLabelConsultant));
-            Coach = new MemberIdInfo(node.SelectSingleNode(CstrElementLabelCoach));
             StoryPurpose = ((elem = node.SelectSingleNode(CstrElementLabelStoryPurpose)) != null) 
                 ? elem.InnerText 
                 : null;
@@ -1057,7 +1063,6 @@ namespace OneStoryProjectEditor
             MiscellaneousStoryInfo = ((elem = node.SelectSingleNode(CstrElementLabelMiscellaneousStoryInfo)) != null)
                 ? elem.InnerText
                 : null;
-            BackTranslator = new MemberIdInfo(node.SelectSingleNode(CstrElementLabelBackTranslator));
             TestorsToCommentsRetellings.Add(node, CstrElementLabelTestsRetellings, CstrElementLabelTestRetelling);
             TestorsToCommentsTqAnswers.Add(node, CstrElementLabelTestsTqAnswers, CstrElementLabelTestTqAnswer);
         }
@@ -1160,11 +1165,21 @@ namespace OneStoryProjectEditor
 
         public CraftingInfoData(CraftingInfoData rhs)
         {
-            StoryCrafter = new MemberIdInfo(rhs.StoryCrafter);
-            ProjectFacilitator = new MemberIdInfo(rhs.ProjectFacilitator);
-            Consultant = new MemberIdInfo(rhs.Consultant);
-            Coach = new MemberIdInfo(rhs.Coach);
-            BackTranslator = new MemberIdInfo(rhs.BackTranslator);
+            if (MemberIdInfo.Configured(rhs.StoryCrafter))
+                StoryCrafter = new MemberIdInfo(rhs.StoryCrafter);
+
+            if (MemberIdInfo.Configured(rhs.ProjectFacilitator))
+                ProjectFacilitator = new MemberIdInfo(rhs.ProjectFacilitator);
+
+            if (MemberIdInfo.Configured(rhs.Consultant))
+                Consultant = new MemberIdInfo(rhs.Consultant);
+
+            if (MemberIdInfo.Configured(rhs.Coach))
+                Coach = new MemberIdInfo(rhs.Coach);
+
+            if (MemberIdInfo.Configured(rhs.BackTranslator))
+                BackTranslator = new MemberIdInfo(rhs.BackTranslator);
+
             StoryPurpose = rhs.StoryPurpose;
             ResourcesUsed = rhs.ResourcesUsed;
             MiscellaneousStoryInfo = rhs.MiscellaneousStoryInfo;
