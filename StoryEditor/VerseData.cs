@@ -1279,6 +1279,16 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public bool HasCoachNoteData
+        {
+            get
+            {
+                return (FirstVerse.CoachNotes.HasData ||
+                        this.Any(aVerse =>
+                                 aVerse.CoachNotes.HasData));
+            }
+        }
+
         public bool AreUnapprovedConsultantNotes
         {
             get

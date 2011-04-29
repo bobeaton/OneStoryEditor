@@ -297,6 +297,11 @@ namespace OneStoryProjectEditor
             get { return Verses.AreUnrespondedToCoachNoteComments; }
         }
 
+        public bool HasCoachNoteData
+        {
+            get { return Verses.HasCoachNoteData; }
+        }
+
         public string NumOfWords(ProjectSettings projSettings)
         {
             return Verses.NumOfWords(projSettings);

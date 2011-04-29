@@ -27,35 +27,34 @@ namespace OneStoryProjectEditor
             textBoxResourcesUsed.Text = theCurrentStory.CraftingInfo.ResourcesUsed;
             textBoxMiscNotes.Text = theCurrentStory.CraftingInfo.MiscellaneousStoryInfo;
 
-            InitToolboxTextTip(theCurrentStory.CraftingInfo.ProjectFacilitator,
-                               labelProjectFacilitator,
-                               textBoxProjectFacilitator,
-                               textBoxCommentProjectFacilitator,
-                               buttonBrowserForProjectFacilitator);
+            InitControls(theCurrentStory.CraftingInfo.ProjectFacilitator,
+                         textBoxProjectFacilitator,
+                         textBoxCommentProjectFacilitator,
+                         buttonBrowserForProjectFacilitator);
 
-            InitToolboxTextTip(theCurrentStory.CraftingInfo.Consultant,
-                               labelConsultant,
-                               textBoxConsultant,
-                               textBoxCommentConsultant,
-                               buttonBrowserForConsultant);
+            InitControls(theCurrentStory.CraftingInfo.Consultant,
+                         textBoxConsultant,
+                         textBoxCommentConsultant,
+                         buttonBrowserForConsultant);
 
+            // only show the coach if this is a manage with coaching situation
             InitToolboxTextTip(theCurrentStory.CraftingInfo.Coach,
                                labelCoach,
                                textBoxCoach,
                                textBoxCommentCoach,
-                               buttonBrowserForCoach);
+                               buttonBrowserForCoach,
+                               !theStoryProjectData.TeamMembers.HasIndependentConsultant ||
+                               !theCurrentStory.HasCoachNoteData);
 
-            InitToolboxTextTip(theCurrentStory.CraftingInfo.StoryCrafter,
-                               labelStoryCrafter,
-                               textBoxStoryCrafter,
-                               textBoxCommentStoryCrafter,
-                               buttonBrowseForStoryCrafter);
+            InitControls(theCurrentStory.CraftingInfo.StoryCrafter,
+                         textBoxStoryCrafter,
+                         textBoxCommentStoryCrafter,
+                         buttonBrowseForStoryCrafter);
 
-            InitToolboxTextTip(theCurrentStory.CraftingInfo.BackTranslator,
-                               labelBackTranslator,
-                               textBoxUnsBackTranslator,
-                               textBoxCommentUnsBackTranslator,
-                               buttonBrowseUNSBackTranslator);
+            InitControls(theCurrentStory.CraftingInfo.BackTranslator,
+                         textBoxUnsBackTranslator,
+                         textBoxCommentUnsBackTranslator,
+                         buttonBrowseUNSBackTranslator);
 
             // initialize a callback pointer for when mouses click up
             ControlRow.MyParent = this;
@@ -110,7 +109,16 @@ namespace OneStoryProjectEditor
         }
 
         private void InitToolboxTextTip(MemberIdInfo memberInfo, Label lbl, 
-            TextBox tbName, TextBox tbComment, Button btnBrowse)
+            TextBox tbName, TextBox tbComment, Button btnBrowse, bool bShowControls)
+        {
+            if (bShowControls)
+                InitControls(memberInfo, tbName, tbComment, btnBrowse);
+            else
+                lbl.Visible = tbName.Visible = tbComment.Visible = btnBrowse.Visible = false;
+        }
+
+        private void InitControls(MemberIdInfo memberInfo, TextBox tbName, 
+            TextBox tbComment, Button btnBrowse)
         {
             if (MemberIdInfo.Configured(memberInfo))
             {
@@ -118,10 +126,8 @@ namespace OneStoryProjectEditor
                 if (member != null)
                     InitToolboxTextTip(member, tbName);
                 tbComment.Text = memberInfo.MemberComment;
-                toolTip.SetToolTip(btnBrowse, Properties.Resources.IDS_StoryInformationBrowseButtonTooltip);
             }
-            else
-                lbl.Visible = tbName.Visible = tbComment.Visible = btnBrowse.Visible = false;
+            toolTip.SetToolTip(btnBrowse, Properties.Resources.IDS_StoryInformationBrowseButtonTooltip);
         }
 
         private void InitToolboxTextTip(TeamMemberData tmd, TextBox tbName)
