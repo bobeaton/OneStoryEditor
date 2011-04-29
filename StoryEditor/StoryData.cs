@@ -808,6 +808,7 @@ namespace OneStoryProjectEditor
 
         public string MemberId { get; set; }
         public string MemberComment { get; set; }
+
         public bool IsConfigured
         {
             get { return !String.IsNullOrEmpty(MemberId); }
@@ -1485,7 +1486,7 @@ namespace OneStoryProjectEditor
             }
 
             if (MemberIdInfo.SafeGetMemberId(BackTranslator) == strOldMemberGuid)
-                BackTranslator.MemberId = strNewMemberGuid;
+                MemberIdInfo.SetCreateIfEmpty(ref BackTranslator, strNewMemberGuid, true);
             TestorsToCommentsRetellings.ReplaceUns(strOldMemberGuid, strNewMemberGuid);
             TestorsToCommentsTqAnswers.ReplaceUns(strOldMemberGuid, strNewMemberGuid);
         }
@@ -1514,7 +1515,7 @@ namespace OneStoryProjectEditor
         public void ReplaceCrafter(string strOldMemberGuid, string strNewMemberGuid)
         {
             if (MemberIdInfo.SafeGetMemberId(StoryCrafter) == strOldMemberGuid)
-                StoryCrafter.MemberId = strNewMemberGuid;
+                MemberIdInfo.SetCreateIfEmpty(ref StoryCrafter, strNewMemberGuid, true);
         }
     }
 

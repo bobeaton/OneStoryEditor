@@ -44,7 +44,7 @@ namespace OneStoryProjectEditor
                                textBoxCommentCoach,
                                buttonBrowserForCoach,
                                !theStoryProjectData.TeamMembers.HasIndependentConsultant ||
-                               !theCurrentStory.HasCoachNoteData);
+                               theCurrentStory.HasCoachNoteData);
 
             InitControls(theCurrentStory.CraftingInfo.StoryCrafter,
                          textBoxStoryCrafter,
@@ -246,11 +246,22 @@ namespace OneStoryProjectEditor
             if (textBoxStoryCrafter.Tag != null)
             {
                 var theSC = (TeamMemberData) textBoxStoryCrafter.Tag;
-                _theCurrentStory.CraftingInfo.StoryCrafter.MemberId = theSC.MemberGuid;
+                MemberIdInfo.SetCreateIfEmpty(ref _theCurrentStory.CraftingInfo.StoryCrafter,
+                                              theSC.MemberGuid, true);
                 Modified = true;                
             }
             GetChangeToComment(_theCurrentStory.CraftingInfo.StoryCrafter,
                                textBoxCommentStoryCrafter, ref Modified);
+
+            if (textBoxUnsBackTranslator.Tag != null)
+            {
+                var theBT = (TeamMemberData)textBoxUnsBackTranslator.Tag;
+                MemberIdInfo.SetCreateIfEmpty(ref _theCurrentStory.CraftingInfo.BackTranslator,
+                                              theBT.MemberGuid, true);
+                Modified = true;
+            }
+            GetChangeToComment(_theCurrentStory.CraftingInfo.BackTranslator,
+                               textBoxCommentUnsBackTranslator, ref Modified);
 
             if (_theCurrentStory.CraftingInfo.StoryPurpose != textBoxStoryPurpose.Text)
             {
@@ -269,15 +280,6 @@ namespace OneStoryProjectEditor
                 _theCurrentStory.CraftingInfo.MiscellaneousStoryInfo = textBoxMiscNotes.Text;
                 Modified = true;
             }
-
-            if (textBoxUnsBackTranslator.Tag != null)
-            {
-                var theBT = (TeamMemberData)textBoxUnsBackTranslator.Tag;
-                _theCurrentStory.CraftingInfo.BackTranslator.MemberId = theBT.MemberGuid;
-                Modified = true;
-            }
-            GetChangeToComment(_theCurrentStory.CraftingInfo.BackTranslator,
-                               textBoxCommentUnsBackTranslator, ref Modified);
 
             ProcessTestCommentChanges(_theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
                 rowsRetellings, ref Modified);
