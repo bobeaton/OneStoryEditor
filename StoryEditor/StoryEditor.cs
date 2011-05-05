@@ -2020,10 +2020,8 @@ namespace OneStoryProjectEditor
             flowLayoutPanelVerses.Clear();
             linkLabelVerseBT.Visible = false;
 #if UsingHtmlDisplayForConNotes
-            if (htmlConsultantNotesControl.Document != null)
-                htmlConsultantNotesControl.Document.OpenNew(true);
-            if (htmlCoachNotesControl.Document != null)
-                htmlCoachNotesControl.Document.OpenNew(true);
+            htmlConsultantNotesControl.ResetDocument();
+            htmlCoachNotesControl.ResetDocument();
             Application.DoEvents(); // give them time to actually empty the webcontrols
 #else
             flowLayoutPanelConsultantNotes.Clear();

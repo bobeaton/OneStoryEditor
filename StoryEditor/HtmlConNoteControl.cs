@@ -653,6 +653,14 @@ namespace OneStoryProjectEditor
             LoadDocument();
             return true;
         }
+
+        public void ResetDocument()
+        {
+            //reset so we don't jump to a soon-to-be-non-existant (or wrong context) place
+            StrIdToScrollTo = null;
+            if (Document != null)
+                Document.OpenNew(true);
+        }
     }
 
     [ComVisible(true)]
@@ -660,12 +668,12 @@ namespace OneStoryProjectEditor
     {
         public override void LoadDocument()
         {
-            string strHtml = StoryData.ConsultantNotesHtml(this,
-                                                           TheSE.StoryProject.ProjSettings,
-                                                           TheSE.LoggedOnMember,
-                                                           TheSE.StoryProject.TeamMembers,
-                                                           TheSE.hiddenVersesToolStripMenuItem.Checked,
-                                                           TheSE.viewOnlyOpenConversationsMenu.Checked);
+            var strHtml = StoryData.ConsultantNotesHtml(this,
+                                                        TheSE.StoryProject.ProjSettings,
+                                                        TheSE.LoggedOnMember,
+                                                        TheSE.StoryProject.TeamMembers,
+                                                        TheSE.hiddenVersesToolStripMenuItem.Checked,
+                                                        TheSE.viewOnlyOpenConversationsMenu.Checked);
             DocumentText = strHtml;
             LineNumberLink.Visible = true;
         }
@@ -699,12 +707,12 @@ namespace OneStoryProjectEditor
     {
         public override void LoadDocument()
         {
-            string strHtml = StoryData.CoachNotesHtml(this, 
-                                                      TheSE.StoryProject.ProjSettings,
-                                                      TheSE.LoggedOnMember,
-                                                      TheSE.StoryProject.TeamMembers,
-                                                      TheSE.hiddenVersesToolStripMenuItem.Checked,
-                                                      TheSE.viewOnlyOpenConversationsMenu.Checked);
+            var strHtml = StoryData.CoachNotesHtml(this,
+                                                   TheSE.StoryProject.ProjSettings,
+                                                   TheSE.LoggedOnMember,
+                                                   TheSE.StoryProject.TeamMembers,
+                                                   TheSE.hiddenVersesToolStripMenuItem.Checked,
+                                                   TheSE.viewOnlyOpenConversationsMenu.Checked);
             DocumentText = strHtml;
             LineNumberLink.Visible = true;
         }
