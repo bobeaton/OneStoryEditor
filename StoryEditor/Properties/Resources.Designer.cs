@@ -1257,7 +1257,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You can click this button to add boxes for up to {1} {0} test(s).
+        ///   Looks up a localized string similar to The consultant is requiring you to show results for {1} {0} test(s).
         /// </summary>
         internal static string IDS_PfRequiredToDoXTests {
             get {
@@ -1446,11 +1446,20 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Left-click to edit the contact or bio data for this team member; right-click to choose another team member.
+        ///   Looks up a localized string similar to Click to choose another team member.
         /// </summary>
-        internal static string IDS_StoryInformationBrowseButtonTooltip {
+        internal static string IDS_StoryInformationTooltipLinkChange {
             get {
-                return ResourceManager.GetString("IDS_StoryInformationBrowseButtonTooltip", resourceCulture);
+                return ResourceManager.GetString("IDS_StoryInformationTooltipLinkChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click to edit the contact or bio data for this team member.
+        /// </summary>
+        internal static string IDS_StoryInformationTooltipLinkView {
+            get {
+                return ResourceManager.GetString("IDS_StoryInformationTooltipLinkView", resourceCulture);
             }
         }
         

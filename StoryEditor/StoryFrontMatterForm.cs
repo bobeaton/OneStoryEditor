@@ -30,31 +30,36 @@ namespace OneStoryProjectEditor
             InitControls(theCurrentStory.CraftingInfo.ProjectFacilitator,
                          textBoxProjectFacilitator,
                          textBoxCommentProjectFacilitator,
-                         buttonBrowserForProjectFacilitator);
+                         linkLabelForProjectFacilitatorView,
+                         linkLabelForProjectFacilitatorChange);
 
             InitControls(theCurrentStory.CraftingInfo.Consultant,
                          textBoxConsultant,
                          textBoxCommentConsultant,
-                         buttonBrowserForConsultant);
+                         linkLabelForConsultantView,
+                         linkLabelForConsultantChange);
 
             // only show the coach if this is a manage with coaching situation
             InitToolboxTextTip(theCurrentStory.CraftingInfo.Coach,
                                labelCoach,
                                textBoxCoach,
                                textBoxCommentCoach,
-                               buttonBrowserForCoach,
+                               linkLabelForCoachView,
+                               linkLabelForCoachChange,
                                !theStoryProjectData.TeamMembers.HasIndependentConsultant ||
                                theCurrentStory.HasCoachNoteData);
 
             InitControls(theCurrentStory.CraftingInfo.StoryCrafter,
                          textBoxStoryCrafter,
                          textBoxCommentStoryCrafter,
-                         buttonBrowseForStoryCrafter);
+                         linkLabelForStoryCrafterView,
+                         linkLabelForStoryCrafterChange);
 
             InitControls(theCurrentStory.CraftingInfo.BackTranslator,
                          textBoxUnsBackTranslator,
                          textBoxCommentUnsBackTranslator,
-                         buttonBrowseUNSBackTranslator);
+                         linkLabelForUnsBterView,
+                         linkLabelForUnsBterChange);
 
             // initialize a callback pointer for when mouses click up
             ControlRow.MyParent = this;
@@ -96,7 +101,8 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.Controls.Add(row.Label, 0, nRow);
             tableLayoutPanel.Controls.Add(row.TbxName, 1, nRow);
             tableLayoutPanel.Controls.Add(row.TbxComment, 2, nRow);
-            tableLayoutPanel.Controls.Add(row.BtnBrowse, 3, nRow);
+            tableLayoutPanel.Controls.Add(row.LinkLabelView, 3, nRow);
+            tableLayoutPanel.Controls.Add(row.LinkLabelChange, 4, nRow);
             tableLayoutPanel.RowStyles.Add(new RowStyle());
             tableLayoutPanel.RowCount++;
             
@@ -105,20 +111,23 @@ namespace OneStoryProjectEditor
             if (member != null)
                 InitToolboxTextTip(member, row.TbxName);
             row.TbxComment.Text = testor.MemberComment;
-            toolTip.SetToolTip(row.BtnBrowse, Properties.Resources.IDS_StoryInformationBrowseButtonTooltip);
+            toolTip.SetToolTip(row.LinkLabelView, Properties.Resources.IDS_StoryInformationTooltipLinkView);
+            toolTip.SetToolTip(row.LinkLabelChange, Properties.Resources.IDS_StoryInformationTooltipLinkChange);
         }
 
         private void InitToolboxTextTip(MemberIdInfo memberInfo, Label lbl, 
-            TextBox tbName, TextBox tbComment, Button btnBrowse, bool bShowControls)
+            TextBox tbName, TextBox tbComment, LinkLabel linkView, LinkLabel linkChange, 
+            bool bShowControls)
         {
             if (bShowControls)
-                InitControls(memberInfo, tbName, tbComment, btnBrowse);
+                InitControls(memberInfo, tbName, tbComment, linkView, linkChange);
             else
-                lbl.Visible = tbName.Visible = tbComment.Visible = btnBrowse.Visible = false;
+                lbl.Visible = tbName.Visible = tbComment.Visible = linkView.Visible = 
+                    linkChange.Visible = false;
         }
 
         private void InitControls(MemberIdInfo memberInfo, TextBox tbName, 
-            TextBox tbComment, Button btnBrowse)
+            TextBox tbComment, LinkLabel linkView, LinkLabel linkChange)
         {
             if (MemberIdInfo.Configured(memberInfo))
             {
@@ -127,7 +136,8 @@ namespace OneStoryProjectEditor
                     InitToolboxTextTip(member, tbName);
                 tbComment.Text = memberInfo.MemberComment;
             }
-            toolTip.SetToolTip(btnBrowse, Properties.Resources.IDS_StoryInformationBrowseButtonTooltip);
+            toolTip.SetToolTip(linkView, Properties.Resources.IDS_StoryInformationTooltipLinkView);
+            toolTip.SetToolTip(linkChange, Properties.Resources.IDS_StoryInformationTooltipLinkChange);
         }
 
         private void InitToolboxTextTip(TeamMemberData tmd, TextBox tbName)
@@ -136,33 +146,73 @@ namespace OneStoryProjectEditor
             toolTip.SetToolTip(tbName, tmd.BioData);
         }
 
-        private void buttonBrowserForProjectFacilitator_MouseUp(object sender, MouseEventArgs e)
+        private void linkLabelViewForProjectFacilitator_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            HandleMouseUp(e.Button == MouseButtons.Right, textBoxProjectFacilitator,
+            ProjectFacilitatorHandler(false);
+        }
+
+        private void linkLabelChangeForProjectFacilitator_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ProjectFacilitatorHandler(true);
+        }
+
+        private void ProjectFacilitatorHandler(bool bChange)
+        {
+            HandleMouseUp(bChange, textBoxProjectFacilitator,
                           TeamMemberData.UserTypes.ProjectFacilitator,
                           "Choose the Project Facilitator for this story");
         }
 
-        private void buttonBrowserForConsultant_MouseUp(object sender, MouseEventArgs e)
+        private void linkLabelViewForConsultant_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            HandleMouseUp(e.Button == MouseButtons.Right, textBoxConsultant,
+            ConsultantHandler(false);
+        }
+
+        private void linkLabelChangeForConsultant_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ConsultantHandler(true);
+        }
+
+        private void ConsultantHandler(bool bChange)
+        {
+            HandleMouseUp(bChange, textBoxConsultant,
                           TeamMemberData.UserTypes.ConsultantInTraining |
                           TeamMemberData.UserTypes.IndependentConsultant,
                           "Choose the Consultant/CIT for this story");
         }
 
-        private void buttonBrowserForCoach_MouseUp(object sender, MouseEventArgs e)
+        private void linkLabelViewForCoach_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            HandleMouseUp(e.Button == MouseButtons.Right, textBoxCoach,
+            CoachHandler(false);
+        }
+
+        private void linkLabelChangeForCoach_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            CoachHandler(true);
+        }
+
+        private void CoachHandler(bool bChange)
+        {
+            HandleMouseUp(bChange, textBoxCoach,
                           TeamMemberData.UserTypes.Coach,
                           "Choose the Coach for this story");
         }
 
-        private void buttonBrowseForStoryCrafter_MouseUp(object sender, MouseEventArgs e)
+        private void linkLabelViewForStoryCrafter_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            HandleMouseUp(e.Button == MouseButtons.Right, textBoxStoryCrafter,
-                TeamMemberData.UserTypes.Crafter,
-                "Choose the crafter for this story");
+            StoryCrafterHandler(false);
+        }
+
+        private void linkLabelChangeForStoryCrafter_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            StoryCrafterHandler(true);
+        }
+
+        private void StoryCrafterHandler(bool bChange)
+        {
+            HandleMouseUp(bChange, textBoxStoryCrafter,
+                          TeamMemberData.UserTypes.Crafter,
+                          "Choose the crafter for this story");
         }
 
         protected void HandleMouseUp(bool bRightButton, TextBox textBox,
@@ -198,16 +248,26 @@ namespace OneStoryProjectEditor
             _theSE.Modified = true;
         }
 
-        private void buttonBrowseUNSBackTranslator_MouseUp(object sender, MouseEventArgs e)
+        private void linkLabelViewForUnsBter_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            HandleMouseUp(e.Button == MouseButtons.Right, textBoxUnsBackTranslator,
-                TeamMemberData.UserTypes.UNS,
-                "Choose the back-translator for this story");
+            UnsBterHandler(false);
         }
 
-        public void HandleUnsTestMouseUp(TextBox tb, MouseEventArgs e)
+        private void linkLabelChangeForUnsBter_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            HandleMouseUp(e.Button == MouseButtons.Right, tb,
+            UnsBterHandler(true);
+        }
+
+        private void UnsBterHandler(bool bChange)
+        {
+            HandleMouseUp(bChange, textBoxUnsBackTranslator,
+                          TeamMemberData.UserTypes.UNS,
+                          "Choose the back-translator for this story");
+        }
+
+        public void HandleUnsTestMouseUp(bool bChange, TextBox tb)
+        {
+            HandleMouseUp(bChange, tb,
                           TeamMemberData.UserTypes.UNS,
                           "Choose the UNS that took this test");
         }
@@ -450,7 +510,8 @@ namespace OneStoryProjectEditor
         public Label Label { get; set; }
         public TextBox TbxName { get; set; }
         public TextBox TbxComment { get; set; }
-        public Button BtnBrowse { get; set; }
+        public LinkLabel LinkLabelView { get; set; }
+        public LinkLabel LinkLabelChange { get; set; }
 
         public ControlRow(string strLabel)
         {
@@ -471,18 +532,30 @@ namespace OneStoryProjectEditor
                                  AutoSize = true,
                                  Dock = DockStyle.Fill
                              };
-            BtnBrowse = new Button
-                            {
-                                Text = "...",
-                                Size = new Size(24, 23),
-                                UseVisualStyleBackColor = true
-                            };
-            BtnBrowse.MouseUp += OnBtnBrowseMouseUp;
+            LinkLabelView = new LinkLabel
+                                {
+                                    Anchor = AnchorStyles.Left,
+                                    Text = "Edit",
+                                    AutoSize = true
+                                };
+            LinkLabelView.Click += OnLinkClickView;
+            LinkLabelChange = new LinkLabel
+                                  {
+                                      Anchor = AnchorStyles.Left,
+                                      Text = "Change",
+                                      AutoSize = true
+                                  };
+            LinkLabelChange.Click += OnLinkClickChange;
         }
 
-        private void OnBtnBrowseMouseUp(object sender, MouseEventArgs e)
+        private void OnLinkClickView(object sender, EventArgs e)
         {
-            MyParent.HandleUnsTestMouseUp(TbxName, e);
+            MyParent.HandleUnsTestMouseUp(false, TbxName);
+        }
+
+        private void OnLinkClickChange(object sender, EventArgs e)
+        {
+            MyParent.HandleUnsTestMouseUp(true, TbxName);
         }
     }
 }

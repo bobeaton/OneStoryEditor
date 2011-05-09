@@ -237,7 +237,8 @@ namespace OneStoryProjectEditor
             // then enable it whether there are any more tests to do
             if (TasksPf.IsTaskOn(TheStory.TasksRequiredPf, TasksPf.TaskSettings.Retellings | TasksPf.TaskSettings.Retellings2))
             {
-                if (TheStory.CountRetellingsTests > 0)
+                if ((TheStory.CountRetellingsTests > 0) || 
+                    (TasksPf.IsTaskOn(TheStory.TasksAllowedPf, TasksPf.TaskSettings.Retellings | TasksPf.TaskSettings.Retellings2)))
                     toolTip.SetToolTip(buttonAddRetellingBoxes, String.Format(Properties.Resources.IDS_PfRequiredToDoXTests,
                         cstrRetelling,
                         TheStory.CountRetellingsTests));

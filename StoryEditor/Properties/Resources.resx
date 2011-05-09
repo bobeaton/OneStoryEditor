@@ -2106,7 +2106,7 @@ and in the resulting window click on the next (green) state.
     <value>You've added boxes for all of the required {0} tests</value>
   </data>
   <data name="IDS_PfRequiredToDoXTests" xml:space="preserve">
-    <value>You can click this button to add boxes for up to {1} {0} test(s)</value>
+    <value>The consultant is requiring you to show results for {1} {0} test(s)</value>
   </data>
   <data name="IDS_DoXMoreTqTests" xml:space="preserve">
     <value>The consultant is requiring you to do {0} more {1} test(s)</value>
@@ -2168,10 +2168,13 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_MustPassToCoach" xml:space="preserve">
     <value>The coach is requiring you to '{0}'</value>
   </data>
-  <data name="IDS_StoryInformationBrowseButtonTooltip" xml:space="preserve">
-    <value>Left-click to edit the contact or bio data for this team member; right-click to choose another team member</value>
+  <data name="IDS_StoryInformationTooltipLinkView" xml:space="preserve">
+    <value>Click to edit the contact or bio data for this team member</value>
   </data>
   <data name="IDS_MentionNewUpdateAvailable" xml:space="preserve">
     <value>There's a new version of OSE available. To upgrade, click 'Advanced', 'Program Updates', 'Check now'</value>
+  </data>
+  <data name="IDS_StoryInformationTooltipLinkChange" xml:space="preserve">
+    <value>Click to choose another team member</value>
   </data>
 </root>
