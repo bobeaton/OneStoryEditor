@@ -207,7 +207,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public static bool SuspendSaveDialog;
+        public static int SuspendSaveDialog;
         protected TimeSpan tsLastKeyPressDelay = new TimeSpan(0, 0, CnSecondsToDelyLastKeyPress);
 
         private void TimeToSave(object sender, EventArgs e)
@@ -220,7 +220,7 @@ namespace OneStoryProjectEditor
                                                  TeamMemberData.UserTypes.JustLooking)))
             {
                 // don't do it *now* if the user is typing
-                if (SuspendSaveDialog ||
+                if ((SuspendSaveDialog > 0) ||
                     (DateTime.Now - LastKeyPressedTimeStamp) < tsLastKeyPressDelay)
                 {
                     // wait at least 3 secs from the last key press
@@ -4916,9 +4916,9 @@ namespace OneStoryProjectEditor
                     return;
 
                 // this shouldn't be needed, but it seems that occasionally, it is...
-                SuspendSaveDialog = true;
+                SuspendSaveDialog++;
                 Program.CheckForProgramUpdate(true, strManifestUrl);
-                SuspendSaveDialog = false;
+                SuspendSaveDialog--;
 
                 // since the call to SaveDirty will have removed them all
                 if (theCurrentStory != null)

@@ -566,9 +566,9 @@ namespace OneStoryProjectEditor
             if (m_bMouseDown)
             {
                 ScriptureReference = strScriptureReference;
-                StoryEditor.SuspendSaveDialog = true;
+                StoryEditor.SuspendSaveDialog++;
                 webBrowserNetBible.DoDragDrop(this, DragDropEffects.Link | DragDropEffects.Copy);
-                StoryEditor.SuspendSaveDialog = false;
+                StoryEditor.SuspendSaveDialog--;
             }
         }
 
