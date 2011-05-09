@@ -149,16 +149,17 @@ namespace OneStoryProjectEditor
         public new bool Focus()
         {
             var slc = tableLayoutPanel.Controls[CstrFieldNameStoryLine] as StoryLineControl;
-            if (slc != null) return slc.Focus();
-            return false;
+            return slc != null && slc.Focus();
         }
 
         protected void InitStoryLine(StoryEditor theSE, VerseData aVerseData, int nLayoutRow)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine));
-            StoryLineControl aStoryLineCtrl = new StoryLineControl(theSE, this, aVerseData);
-            aStoryLineCtrl.Name = CstrFieldNameStoryLine;
-            aStoryLineCtrl.ParentControl = this;
+            var aStoryLineCtrl = new StoryLineControl(theSE, this, aVerseData)
+                                     {
+                                         Name = CstrFieldNameStoryLine,
+                                         ParentControl = this
+                                     };
 
             InsertRow(nLayoutRow);
             tableLayoutPanel.SetColumnSpan(aStoryLineCtrl, 2);

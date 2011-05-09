@@ -120,6 +120,11 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public static void ResetSelection()
+        {
+            _SelectionStart = _SelectionLength = 0;
+        }
+
         public new bool Focus()
         {
             _ctrlVerseParent.Focus();

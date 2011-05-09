@@ -154,7 +154,10 @@ namespace OneStoryProjectEditor
             SetLineNumberLink(VerseControlJustAboveDisplayRectange);
 
             if (bSetFocusToo)
+            {
+                CtrlTextBox.ResetSelection();
                 ctrl.Focus();
+            }
         }
 
         protected Control NextControlUp
