@@ -1608,11 +1608,9 @@ namespace OneStoryProjectEditor
             out AnswersData answers)
         {
             // e.g. "ans 1:tst 1:"
-            string strTestNumber = strLabel.Substring(10, 1);
-            int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
-            TestQuestionData testQuestionData = ctrl._verseData.TestQuestions[nTestNumber];
+            TestQuestionData testQuestionData = GetTestQuestionDataFromAnswerLabel(strLabel, ctrl);
             answers = testQuestionData.Answers;
-            strTestNumber = strLabel.Substring(4, 1);
+            string strTestNumber = strLabel.Substring(4, 1);
 
             // there are two cases we have to treat specially:
             //  1) it's 'ans 0' (because somehow the member id was removed)
@@ -1649,7 +1647,16 @@ namespace OneStoryProjectEditor
 
         internal static TestQuestionData GetTestQuestionData(string strLabel, VerseBtControl ctrl)
         {
+            // e.g. "tst 1:"
             string strTestNumber = strLabel.Substring(4, 1);
+            int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
+            return ctrl._verseData.TestQuestions[nTestNumber];
+        }
+
+        internal static TestQuestionData GetTestQuestionDataFromAnswerLabel(string strLabel, VerseBtControl ctrl)
+        {
+            // e.g. "ans 1:tst 1:"
+            string strTestNumber = strLabel.Substring(10, 1);
             int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
             return ctrl._verseData.TestQuestions[nTestNumber];
         }
@@ -2962,8 +2969,9 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        internal bool AddSingleTestResult(TestQuestionData theTQ)
+        internal bool AddSingleTestResult(TestQuestionData theTq, out LineMemberData theNewAnswer)
         {
+            /* don't bother... they just misunderstand the question anyway
             // let's first just make sure that this isn't the wrong request
             DialogResult res = MessageBox.Show(Properties.Resources.IDS_VerifyAddSingleTest,
                                                OseResources.Properties.Resources.IDS_Caption,
@@ -2974,19 +2982,22 @@ namespace OneStoryProjectEditor
 
             if (res == DialogResult.Cancel)
                 return false;
-
+            */
             // so they want to just add a single box for this TQ's answer for a new UNS.
             // query for the UNSs that will be doing this test
             string strUnsGuid = QueryForUnsTestor(StoryProject);
             if (String.IsNullOrEmpty(strUnsGuid))
-                return false;
-
-            LineMemberData aLineData = theTQ.Answers.TryGetValue(strUnsGuid);
-            if (aLineData != null)
             {
-                int nIndex = theTQ.Answers.IndexOf(aLineData);
+                theNewAnswer = null;
+                return false;
+            }
+
+            theNewAnswer = theTq.Answers.TryGetValue(strUnsGuid);
+            if (theNewAnswer != null)
+            {
+                int nIndex = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.IndexOf(theNewAnswer.MemberId);
                 MessageBox.Show(String.Format(Properties.Resources.IDS_AddTestSameUNS,
-                                              String.Format(theTQ.Answers.LabelTextFormat, nIndex + 1)),
+                                              String.Format(theTq.Answers.LabelTextFormat, nIndex + 1)),
                                 OseResources.Properties.Resources.IDS_Caption,
                                 MessageBoxButtons.OKCancel);
                 return false;
@@ -3002,11 +3013,48 @@ namespace OneStoryProjectEditor
 
             // by now, the user-chosen UNS *is* in the CraftingInfo list and *isn't* in
             //  the Answer list for this particular TQ, so add it now.
-            theTQ.Answers.TryAddNewLine(strUnsGuid);
+            theNewAnswer = theTq.Answers.TryAddNewLine(strUnsGuid);
 
             // make sure the answers field is open in case it's not
             viewStoryTestingQuestionAnswerMenuItem.Checked = true;
             Modified = true;
+            return true;
+        }
+
+        internal bool ChangeAnswerBoxUns(string strLabel, VerseBtControl theVerseCtrl)
+        {
+            var testQuestionData = GetTestQuestionDataFromAnswerLabel(strLabel, theVerseCtrl);
+            LineMemberData theNewAnswer;
+            if (!AddSingleTestResult(testQuestionData, out theNewAnswer))
+                return false;
+
+            Modified = true;
+
+            AnswersData answers;
+            var answerData = GetTqAnswerData(strLabel, theVerseCtrl, out answers);
+            if (answerData != null)
+            {
+                // put the original data in the new box
+                theNewAnswer.SetText(answerData);
+                answers.Remove(answerData);
+
+                // finally, if this is the last reference to that UNS, then remove the 
+                //  reference to it
+                if (!theCurrentStory.DoesReferenceTqUns(answerData.MemberId))
+                {
+                    int nTestNum = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.IndexOf(answerData.MemberId);
+                    if (nTestNum >= 0)
+                    {
+                        theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.RemoveAt(nTestNum);
+
+                        // since we have removed a UNS from the test, now all 'ans N' values
+                        //  may change for other verses as well. So repaint all
+                        InitAllPanes();
+                        return false;    // and now we don't need to update this one verse only
+                    }
+                }
+            }
+
             return true;
         }
 

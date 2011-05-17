@@ -564,5 +564,10 @@ namespace OneStoryProjectEditor
         {
             return findProperties.TestAs;
         }
+
+        public bool DoesReferenceTqUns(string strMemberId)
+        {
+            return (TryGetValue(strMemberId) != null);
+        }
     }
 }

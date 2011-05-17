@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using SilEncConverters40;
@@ -485,6 +486,13 @@ namespace OneStoryProjectEditor
         {
             foreach (var aTq in this)
                 aTq.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
+        }
+
+        public bool DoesReferenceTqUns(string strMemberId)
+        {
+            return this.Any(testQuestion =>
+                            testQuestion.Answers.DoesReferenceTqUns(strMemberId));
+
         }
     }
 }

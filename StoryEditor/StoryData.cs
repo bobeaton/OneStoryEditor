@@ -651,6 +651,11 @@ namespace OneStoryProjectEditor
                                           ? CraftingInfo.Coach.MemberId
                                           : null);
         }
+
+        public bool DoesReferenceTqUns(string strMemberId)
+        {
+            return Verses.DoesReferenceTqUns(strMemberId);
+        }
     }
 
     public class StoryStateTransitionHistory : List<StoryStateTransition>

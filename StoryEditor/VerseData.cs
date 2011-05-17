@@ -51,10 +51,7 @@ namespace OneStoryProjectEditor
 
         public LineData(LineData rhs)
         {
-            Vernacular = new StringTransfer(rhs.Vernacular.ToString());
-            NationalBt = new StringTransfer(rhs.NationalBt.ToString());
-            InternationalBt = new StringTransfer(rhs.InternationalBt.ToString());
-            FreeTranslation = new StringTransfer((rhs.FreeTranslation != null) ? rhs.FreeTranslation.ToString() : null);
+            SetText(rhs);
         }
 
         public LineData()
@@ -149,6 +146,14 @@ namespace OneStoryProjectEditor
             NationalBt.ExtractSelectedText(out strNationalBt);
             InternationalBt.ExtractSelectedText(out strEnglishBt);
             FreeTranslation.ExtractSelectedText(out strFreeTranslation);
+        }
+
+        public void SetText(LineData rhs)
+        {
+            Vernacular = new StringTransfer((rhs.Vernacular != null) ? rhs.Vernacular.ToString() : null);
+            NationalBt = new StringTransfer((rhs.NationalBt != null) ? rhs.NationalBt.ToString() : null);
+            InternationalBt = new StringTransfer((rhs.InternationalBt != null) ? rhs.InternationalBt.ToString() : null);
+            FreeTranslation = new StringTransfer((rhs.FreeTranslation != null) ? rhs.FreeTranslation.ToString() : null);
         }
     }
 
@@ -991,6 +996,11 @@ namespace OneStoryProjectEditor
             //  ConsultantNotes pane (if it were generalized, then add CoachNotes
             ConsultantNotes.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
         }
+
+        public bool DoesReferenceTqUns(string strMemberId)
+        {
+            return TestQuestions.DoesReferenceTqUns(strMemberId);
+        }
     }
 
     public class VersesData : List<VerseData>
@@ -1719,6 +1729,12 @@ namespace OneStoryProjectEditor
             FirstVerse.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
             foreach (var verse in this)
                 verse.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
+        }
+
+        public bool DoesReferenceTqUns(string strMemberId)
+        {
+            return FirstVerse.DoesReferenceTqUns(strMemberId) || 
+                this.Any(verse => verse.DoesReferenceTqUns(strMemberId));
         }
     }
 }

@@ -459,6 +459,7 @@ namespace OneStoryProjectEditor
         protected const string CstrUndo = "U&ndo";
         protected const string CstrAddAnswerBox = "Add Ans&wer Box";
         protected const string CstrRemAnswerBox = "Remove Ans&wer Box";
+        protected const string CstrRemAnswerChangeUns = "Change UN&S";
         protected const string CstrReorderWords = "&Reorder words";
         protected const string CstrGlossTextToNational = "&Back-translate to National Language";
         protected const string CstrGlossTextToEnglish = "Back-translate to &English";
@@ -479,6 +480,7 @@ namespace OneStoryProjectEditor
             else if (StoryEditor.IsTqAnswerBox(strLabel))
             {
                 _ctxMenu.Items.Add(CstrRemAnswerBox, null, onRemAnswerBox);
+                _ctxMenu.Items.Add(CstrRemAnswerChangeUns, null, onChangeUns);
                 _ctxMenu.Items.Add(new ToolStripSeparator());
             }
 
@@ -674,8 +676,9 @@ namespace OneStoryProjectEditor
                 return;
 
             var testQuestionData = StoryEditor.GetTestQuestionData(_strLabel, theVerseCtrl);
-            if (_ctrlVerseParent.TheSE.AddSingleTestResult(testQuestionData))
-                theVerseCtrl.UpdateViewOfThisVerse(_ctrlVerseParent.TheSE);
+            LineMemberData theNewAnswer;
+            if (theSE.AddSingleTestResult(testQuestionData, out theNewAnswer))
+                theVerseCtrl.UpdateViewOfThisVerse(theSE);
         }
 
         private void onRemAnswerBox(object sender, EventArgs e)
@@ -691,13 +694,28 @@ namespace OneStoryProjectEditor
                 return;
 
             AnswersData answers;
-            var answerData = _ctrlVerseParent.TheSE.GetTqAnswerData(_strLabel, 
-                theVerseCtrl, out answers);
+            var answerData = theSE.GetTqAnswerData(_strLabel, theVerseCtrl, out answers);
             if (answerData != null)
             {
                 answers.Remove(answerData);
-                theVerseCtrl.UpdateViewOfThisVerse(_ctrlVerseParent.TheSE);
+                theVerseCtrl.UpdateViewOfThisVerse(theSE);
             }
+        }
+
+        private void onChangeUns(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert((_ctrlVerseParent != null) 
+                && (_ctrlVerseParent.TheSE != null));
+            StoryEditor theSE;
+            if (!_ctrlVerseParent.CheckForProperEditToken(out theSE))
+                return;
+
+            var theVerseCtrl = _ctrlVerseParent as VerseBtControl;
+            if (theVerseCtrl == null)
+                return;
+
+            if (theSE.ChangeAnswerBoxUns(_strLabel, theVerseCtrl))
+                theVerseCtrl.UpdateViewOfThisVerse(theSE);
         }
 
         void CtrlTextBox_MouseUp(object sender, MouseEventArgs e)
