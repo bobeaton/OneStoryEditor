@@ -115,7 +115,10 @@ namespace OneStoryProjectEditor
             {
                 strSelectedText = _tb.SelectedText;
                 if (!String.IsNullOrEmpty(strSelectedText))
+                {
                     _tb.SelectedText = null;
+                    strSelectedText = strSelectedText.Trim();
+                }
             }
             else
 #endif
