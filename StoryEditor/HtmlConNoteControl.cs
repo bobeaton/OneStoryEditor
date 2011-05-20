@@ -46,9 +46,9 @@ namespace OneStoryProjectEditor
             return aCNsDC[nConversationIndex];
         }
 
-        public bool OnAddNote(int nVerseIndex, string strNote)
+        public bool OnAddNote(int nVerseIndex, string strNote, bool bNoteToSelf)
         {
-            return CallDoAddNote(nVerseIndex, strNote, false);
+            return CallDoAddNote(nVerseIndex, strNote, bNoteToSelf);
         }
 
         public bool OnAddNoteToSelf(string strButtonId, string strNote)

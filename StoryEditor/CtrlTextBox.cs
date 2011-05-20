@@ -448,26 +448,28 @@ namespace OneStoryProjectEditor
             return false;
         }
 
-        protected const string CstrAddNoteOnSelected = "&Add Note on Selected Text";
-        protected const string CstrJumpToReference = "&Jump to Bible Reference";
-        protected const string CstrConcordanceSearch = "Concordance &Search";
-        protected const string CstrAddLnCNote = "Add &L&&C Note";
+        protected const string CstrAddNoteOnSelected = "&Add note on selected text";
+        protected const string CstrAddNoteToSelfOnSelected = "Add no&te to self on selected text";
+        protected const string CstrJumpToReference = "&Jump to Bible reference";
+        protected const string CstrConcordanceSearch = "Concordance &search";
+        protected const string CstrAddLnCNote = "Add &L&&C note";
         protected const string CstrCutSelected = "C&ut";
         protected const string CstrCopySelected = "&Copy";
-        protected const string CstrCopyOriginalSelected = "Copy &Original Text (before transliteration)";
+        protected const string CstrCopyOriginalSelected = "Copy &original text (before transliteration)";
         protected const string CstrPasteSelected = "&Paste";
         protected const string CstrUndo = "U&ndo";
-        protected const string CstrAddAnswerBox = "Add Ans&wer Box";
-        protected const string CstrRemAnswerBox = "Remove Ans&wer Box";
+        protected const string CstrAddAnswerBox = "Add ans&wer box";
+        protected const string CstrRemAnswerBox = "Remove ans&wer box";
         protected const string CstrRemAnswerChangeUns = "Change UN&S";
         protected const string CstrReorderWords = "&Reorder words";
-        protected const string CstrGlossTextToNational = "&Back-translate to National Language";
+        protected const string CstrGlossTextToNational = "&Back-translate to national language";
         protected const string CstrGlossTextToEnglish = "Back-translate to &English";
 
         protected void InitComponent(string strLabel)
         {
             _ctxMenu = new ContextMenuStrip();
             _ctxMenu.Items.Add(CstrAddNoteOnSelected, null, onAddNewNote);
+            _ctxMenu.Items.Add(CstrAddNoteToSelfOnSelected, null, onAddNoteToSelf);
             _ctxMenu.Items.Add(CstrJumpToReference, null, onJumpToBibleRef);
             _ctxMenu.Items.Add(CstrConcordanceSearch, null, onConcordanceSearch);
             _ctxMenu.Items.Add(CstrAddLnCNote, null, onAddLnCNote);
@@ -725,9 +727,12 @@ namespace OneStoryProjectEditor
 
         private void onAddNewNote(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert(sender is ToolStripMenuItem);
-            ToolStripMenuItem tsm = sender as ToolStripMenuItem;
-            _ctrlVerseParent.TheSE.AddNoteAbout(_ctrlVerseParent);
+            _ctrlVerseParent.TheSE.AddNoteAbout(_ctrlVerseParent, false);
+        }
+
+        private void onAddNoteToSelf(object sender, EventArgs e)
+        {
+            _ctrlVerseParent.TheSE.AddNoteAbout(_ctrlVerseParent, true);
         }
 
         private static void onCutSelectedText(object sender, EventArgs e)

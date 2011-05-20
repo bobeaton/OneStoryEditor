@@ -315,7 +315,7 @@ namespace OneStoryProjectEditor
 
                 strNote += ". ";
 
-                theSE.SendNoteToCorrectPane(_ctrlVerse.VerseNumber, strNote);
+                theSE.SendNoteToCorrectPane(_ctrlVerse.VerseNumber, strNote, false);
             }
             else
                 MessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to", OseResources.Properties.Resources.IDS_Caption);

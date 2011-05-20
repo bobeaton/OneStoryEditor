@@ -1395,7 +1395,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public void AddNoteAbout(VerseControl ctrlParent)
+        public void AddNoteAbout(VerseControl ctrlParent, bool bNoteToSelf)
         {
             Debug.Assert(LoggedOnMember != null);
             string strNote = GetInitials(LoggedOnMember.Name) + ": Re:";
@@ -1481,7 +1481,7 @@ namespace OneStoryProjectEditor
             }
             strNote += ". ";
 
-            SendNoteToCorrectPane(ctrlParent.VerseNumber, strNote);
+            SendNoteToCorrectPane(ctrlParent.VerseNumber, strNote, bNoteToSelf);
         }
 
         public static bool IsFirstCharsEqual(string strLhs, string strRhs, int nNumChars)
@@ -1682,7 +1682,7 @@ namespace OneStoryProjectEditor
             return strInitials;
         }
 
-        internal void SendNoteToCorrectPane(int nVerseIndex, string strNote)
+        internal void SendNoteToCorrectPane(int nVerseIndex, string strNote, bool bNoteToSelf)
         {
             if (TeamMemberData.IsUser(LoggedOnMember.MemberType, 
                                       TeamMemberData.UserTypes.Coach))
@@ -1691,7 +1691,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesFieldMenuItem.Checked = true;
 
 #if UsingHtmlDisplayForConNotes
-                htmlCoachNotesControl.OnAddNote(nVerseIndex, strNote);
+                htmlCoachNotesControl.OnAddNote(nVerseIndex, strNote, bNoteToSelf);
 #else
                 Control ctrl = flowLayoutPanelCoachNotes.GetControlAtVerseIndex(nVerseIndex);
                 if (ctrl == null)
@@ -1738,7 +1738,7 @@ namespace OneStoryProjectEditor
                     viewConsultantNoteFieldMenuItem.Checked = true;
 
 #if UsingHtmlDisplayForConNotes
-                htmlConsultantNotesControl.OnAddNote(nVerseIndex, strNote);
+                htmlConsultantNotesControl.OnAddNote(nVerseIndex, strNote, bNoteToSelf);
 #else
                 Control ctrl = flowLayoutPanelConsultantNotes.GetControlAtVerseIndex(nVerseIndex);
                 if (ctrl == null)
