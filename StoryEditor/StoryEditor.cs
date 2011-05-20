@@ -333,9 +333,14 @@ namespace OneStoryProjectEditor
                 string strProjectName = Path.GetFileNameWithoutExtension(dlg.PathToNewProject);
 
                 // we can save this information so we can use it automatically during the next restart
-                string strUsername = ExtractUsernameFromUrl(dlg.ThreadSafeUrl);
+                var uri = new Uri(dlg.ThreadSafeUrl);
+                string strUsername, strDummy, strBaseUrl = null;
+                GetDetailsFromUri(uri, out strUsername, out strDummy, ref strBaseUrl);
                 Program.SetHgParameters(dlg.PathToNewProject, strProjectName, dlg.ThreadSafeUrl, strUsername);
-                ProjectSettings projSettings = new ProjectSettings(dlg.PathToNewProject, strProjectName);
+                var projSettings = new ProjectSettings(dlg.PathToNewProject, strProjectName)
+                                       {
+                                           HgRepoUrlHost = strBaseUrl
+                                       };
                 try
                 {
                     OpenProject(projSettings);
@@ -347,6 +352,21 @@ namespace OneStoryProjectEditor
                     MessageBox.Show(strErrorMsg, OseResources.Properties.Resources.IDS_Caption);
                 }
             }
+        }
+
+        internal static void GetDetailsFromUri(Uri uri, out string strUsername,
+            out string strPassword, ref string strHgUrlBase)
+        {
+            strUsername = strPassword = null;
+            if (!String.IsNullOrEmpty(uri.UserInfo) && (uri.UserInfo.IndexOf(':') != -1))
+            {
+                string[] astrUserInfo = uri.UserInfo.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                strUsername = astrUserInfo[0];
+                strPassword = astrUserInfo[1];
+            }
+
+            if (String.IsNullOrEmpty(strHgUrlBase))
+                strHgUrlBase = uri.Scheme + "://" + uri.Host;
         }
 
         private void projectFromASharedNetworkDriveToolStripMenu_Click(object sender, EventArgs e)
@@ -411,19 +431,6 @@ namespace OneStoryProjectEditor
                 }
             }
 #endif
-        }
-
-        public static string ExtractUsernameFromUrl(string url)
-        {
-            // e.g. http://bobeaton:helpmepld@hg-private.languagedepot.org/
-            int nIndex = url.IndexOf("//") + 2;
-            if (nIndex != -1)
-            {
-                int nIndexEnd = url.IndexOf(':', nIndex);
-                if (nIndexEnd != -1)
-                    return url.Substring(nIndex, nIndexEnd - nIndex);
-            }
-            return null;
         }
 
         protected void CloseProjectFile()
@@ -632,7 +639,7 @@ namespace OneStoryProjectEditor
 
         protected void OpenProject(string strProjectFolder, string strProjectName)
         {
-            ProjectSettings projSettings = new ProjectSettings(strProjectFolder, strProjectName);
+            var projSettings = new ProjectSettings(strProjectFolder, strProjectName);
 
             // see if we can update from a repository first before opening.
             string strDotHgFolder = Path.Combine(projSettings.ProjectFolder, ".hg");
@@ -762,7 +769,7 @@ namespace OneStoryProjectEditor
 
         protected StoryProjectData GetOldStoryProjectData(NewDataSet projFile, ProjectSettings projSettings)
         {
-            StoryProjectData theOldStoryProject = new StoryProjectData(projFile, projSettings);
+            var theOldStoryProject = new StoryProjectData(projFile, projSettings);
             CheckForLogon(theOldStoryProject);
             return theOldStoryProject;
         }
@@ -2306,12 +2313,8 @@ namespace OneStoryProjectEditor
 
                 projectLoginToolStripMenuItem.Enabled = (StoryProject != null);
 
-                if ((StoryProject != null)
-                        && (StoryProject.ProjSettings != null))
-                {
-                    string strDotHgFolder = StoryProject.ProjSettings.ProjectFolder + @"\.hg";
-                    sendReceiveToolStripMenuItem.Enabled = Directory.Exists(strDotHgFolder);
-                }
+                if ((StoryProject != null) && (StoryProject.ProjSettings != null))
+                    sendReceiveToolStripMenuItem.Enabled = !String.IsNullOrEmpty(StoryProject.ProjSettings.HgRepoUrlHost);
                 else
                     sendReceiveToolStripMenuItem.Enabled = false;
             }
@@ -3775,7 +3778,8 @@ namespace OneStoryProjectEditor
                     viewVernacularLangFieldMenuItem.Enabled = (theCurrentStory != null);
                 }
                 else
-                    viewVernacularLangFieldMenuItem.Checked = viewVernacularLangFieldMenuItem.Visible = false;
+                    viewVernacularLangFieldMenuItem.Checked = 
+                        viewVernacularLangFieldMenuItem.Visible = false;
 
                 if (StoryProject.ProjSettings.NationalBT.HasData)
                 {
@@ -3785,11 +3789,22 @@ namespace OneStoryProjectEditor
                     viewNationalLangFieldMenuItem.Enabled = (theCurrentStory != null);
                 }
                 else
-                    viewNationalLangFieldMenuItem.Checked = viewNationalLangFieldMenuItem.Visible = false;
+                    viewNationalLangFieldMenuItem.Checked = 
+                        viewNationalLangFieldMenuItem.Visible = false;
 
-                viewEnglishBTFieldMenuItem.Enabled = 
-                    viewFreeTranslationToolStripMenuItem.Enabled =
-                    viewConsultantNoteFieldMenuItem.Enabled =
+                if (StoryProject.ProjSettings.InternationalBT.HasData)
+                    viewEnglishBTFieldMenuItem.Enabled = (theCurrentStory != null);
+                else
+                    viewEnglishBTFieldMenuItem.Checked = 
+                        viewEnglishBTFieldMenuItem.Visible = false;
+
+                if (StoryProject.ProjSettings.FreeTranslation.HasData)
+                    viewFreeTranslationToolStripMenuItem.Enabled = (theCurrentStory != null);
+                else
+                    viewFreeTranslationToolStripMenuItem.Checked = 
+                        viewFreeTranslationToolStripMenuItem.Visible = false;
+
+                viewConsultantNoteFieldMenuItem.Enabled =
                     viewExegeticalHelps.Enabled = 
                     stateTransitionHistoryToolStripMenuItem.Enabled = (theCurrentStory != null);
 
@@ -5022,10 +5037,17 @@ namespace OneStoryProjectEditor
 
         private void sendReceiveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // just pretend this is the same as a reload. (it'll take care of the rest)
-            string strProjectName = StoryProject.ProjSettings.ProjectName;
-            string strProjectPath = StoryProject.ProjSettings.ProjectFolder;
-            DoReopen(strProjectPath, strProjectName);
+            Debug.Assert((StoryProject != null) && (StoryProject.ProjSettings != null));
+            if (!String.IsNullOrEmpty(StoryProject.ProjSettings.HgRepoUrlHost))
+            {
+            }
+            else
+            {
+                // just pretend this is the same as a reload. (it'll take care of the rest)
+                string strProjectName = StoryProject.ProjSettings.ProjectName;
+                string strProjectPath = StoryProject.ProjSettings.ProjectFolder;
+                DoReopen(strProjectPath, strProjectName);
+            }
         }
 
         private void DoReopen(string strProjectPath, string strProjectName)

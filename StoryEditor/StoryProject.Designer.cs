@@ -2241,6 +2241,8 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnProjectName;
             
+            private global::System.Data.DataColumn columnHgRepoUrlHost;
+            
             private global::System.Data.DataColumn columnPanoramaFrontMatter;
             
             private global::System.Data.DataColumn columnStoryProject_Id;
@@ -2290,6 +2292,13 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn HgRepoUrlHostColumn {
+                get {
+                    return this.columnHgRepoUrlHost;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public global::System.Data.DataColumn PanoramaFrontMatterColumn {
                 get {
                     return this.columnPanoramaFrontMatter;
@@ -2332,11 +2341,12 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public StoryProjectRow AddStoryProjectRow(string version, string ProjectName, string PanoramaFrontMatter) {
+            public StoryProjectRow AddStoryProjectRow(string version, string ProjectName, string HgRepoUrlHost, string PanoramaFrontMatter) {
                 StoryProjectRow rowStoryProjectRow = ((StoryProjectRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         version,
                         ProjectName,
+                        HgRepoUrlHost,
                         PanoramaFrontMatter,
                         null};
                 rowStoryProjectRow.ItemArray = columnValuesArray;
@@ -2360,6 +2370,7 @@ namespace OneStoryProjectEditor {
             internal void InitVars() {
                 this.columnversion = base.Columns["version"];
                 this.columnProjectName = base.Columns["ProjectName"];
+                this.columnHgRepoUrlHost = base.Columns["HgRepoUrlHost"];
                 this.columnPanoramaFrontMatter = base.Columns["PanoramaFrontMatter"];
                 this.columnStoryProject_Id = base.Columns["StoryProject_Id"];
             }
@@ -2370,6 +2381,8 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnversion);
                 this.columnProjectName = new global::System.Data.DataColumn("ProjectName", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnProjectName);
+                this.columnHgRepoUrlHost = new global::System.Data.DataColumn("HgRepoUrlHost", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnHgRepoUrlHost);
                 this.columnPanoramaFrontMatter = new global::System.Data.DataColumn("PanoramaFrontMatter", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnPanoramaFrontMatter);
                 this.columnStoryProject_Id = new global::System.Data.DataColumn("StoryProject_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
@@ -2380,6 +2393,7 @@ namespace OneStoryProjectEditor {
                 this.columnversion.Namespace = "";
                 this.columnProjectName.AllowDBNull = false;
                 this.columnProjectName.Namespace = "";
+                this.columnHgRepoUrlHost.Namespace = "";
                 this.columnPanoramaFrontMatter.Namespace = "";
                 this.columnStoryProject_Id.AutoIncrement = true;
                 this.columnStoryProject_Id.AllowDBNull = false;
@@ -2622,7 +2636,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentStoryProjectRowByStoryProject_Members != null)) {
-                    columnValuesArray[4] = parentStoryProjectRowByStoryProject_Members[3];
+                    columnValuesArray[4] = parentStoryProjectRowByStoryProject_Members[4];
                 }
                 rowMembersRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowMembersRow);
@@ -3693,7 +3707,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentStoryProjectRowByStoryProject_Languages != null)) {
-                    columnValuesArray[10] = parentStoryProjectRowByStoryProject_Languages[3];
+                    columnValuesArray[10] = parentStoryProjectRowByStoryProject_Languages[4];
                 }
                 rowLanguagesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowLanguagesRow);
@@ -4332,7 +4346,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentStoryProjectRowByStoryProject_AdaptItConfigurations != null)) {
-                    columnValuesArray[1] = parentStoryProjectRowByStoryProject_AdaptItConfigurations[3];
+                    columnValuesArray[1] = parentStoryProjectRowByStoryProject_AdaptItConfigurations[4];
                 }
                 rowAdaptItConfigurationsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowAdaptItConfigurationsRow);
@@ -4902,7 +4916,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentStoryProjectRowByStoryProject_LnCNotes != null)) {
-                    columnValuesArray[1] = parentStoryProjectRowByStoryProject_LnCNotes[3];
+                    columnValuesArray[1] = parentStoryProjectRowByStoryProject_LnCNotes[4];
                 }
                 rowLnCNotesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowLnCNotesRow);
@@ -5466,7 +5480,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentStoryProjectRowByStoryProject_stories != null)) {
-                    columnValuesArray[2] = parentStoryProjectRowByStoryProject_stories[3];
+                    columnValuesArray[2] = parentStoryProjectRowByStoryProject_stories[4];
                 }
                 rowstoriesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowstoriesRow);
@@ -14391,6 +14405,21 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string HgRepoUrlHost {
+                get {
+                    try {
+                        return ((string)(this[this.tableStoryProject.HgRepoUrlHostColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'HgRepoUrlHost\' in table \'StoryProject\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableStoryProject.HgRepoUrlHostColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string PanoramaFrontMatter {
                 get {
                     try {
@@ -14413,6 +14442,16 @@ namespace OneStoryProjectEditor {
                 set {
                     this[this.tableStoryProject.StoryProject_IdColumn] = value;
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsHgRepoUrlHostNull() {
+                return this.IsNull(this.tableStoryProject.HgRepoUrlHostColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetHgRepoUrlHostNull() {
+                this[this.tableStoryProject.HgRepoUrlHostColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

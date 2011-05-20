@@ -1661,10 +1661,17 @@ namespace OneStoryProjectEditor
 
             // if the project file we opened doesn't have anything yet.. (shouldn't really happen)
             if (projFile.StoryProject.Count == 0)
-                projFile.StoryProject.AddStoryProjectRow(XmlDataVersion, ProjSettings.ProjectName, OseResources.Properties.Resources.IDS_DefaultPanoramaFrontMatter);
+                projFile.StoryProject.AddStoryProjectRow(XmlDataVersion,
+                                                         ProjSettings.ProjectName,
+                                                         ProjSettings.HgRepoUrlHost,
+                                                         OseResources.Properties.Resources.
+                                                             IDS_DefaultPanoramaFrontMatter);
             else
             {
                 projFile.StoryProject[0].ProjectName = ProjSettings.ProjectName; // in case the user changed it.
+                if (projFile.StoryProject[0].IsHgRepoUrlHostNull() &&
+                    !String.IsNullOrEmpty(ProjSettings.HgRepoUrlHost))
+                    projFile.StoryProject[0].HgRepoUrlHost = ProjSettings.HgRepoUrlHost;
 
                 if (projFile.StoryProject[0].version.CompareTo("1.3") == 0)
                 {
@@ -1701,6 +1708,10 @@ namespace OneStoryProjectEditor
             PanoramaFrontMatter = projFile.StoryProject[0].PanoramaFrontMatter;
             if (String.IsNullOrEmpty(PanoramaFrontMatter))
                 PanoramaFrontMatter = OseResources.Properties.Resources.IDS_DefaultPanoramaFrontMatter;
+
+            ProjSettings.HgRepoUrlHost = !projFile.StoryProject[0].IsHgRepoUrlHostNull()
+                                              ? projFile.StoryProject[0].HgRepoUrlHost
+                                              : null;
 
             if (projFile.stories.Count == 0)
             {
@@ -1990,10 +2001,12 @@ namespace OneStoryProjectEditor
 #endif
 
         // use of this version factors in both the settings in the project file
-        public bool GetHgRepoUsernamePassword(string strProjectName, TeamMemberData loggedOnMember, 
-            out string strUsername, out string strPassword, out string strHgUrlBase)
+        public bool GetHgRepoUsernamePassword(string strProjectName, 
+            TeamMemberData loggedOnMember, out string strUsername, out string strPassword, 
+            out string strHgUrlBase)
         {
-            strPassword = strHgUrlBase = null;    // just in case we don't have anything for this.
+            strHgUrlBase = (ProjSettings != null) ? ProjSettings.HgRepoUrlHost : null;
+            strPassword = null;    // just in case we don't have anything for this.
 
 #if !DataDllBuild
             string strRepoUrl, strDummy;
@@ -2003,14 +2016,8 @@ namespace OneStoryProjectEditor
                 if (!String.IsNullOrEmpty(strRepoUrl))
                 {
                     var uri = new Uri(strRepoUrl);
-                    if (!String.IsNullOrEmpty(uri.UserInfo) && (uri.UserInfo.IndexOf(':') != -1))
-                    {
-                        string[] astrUserInfo = uri.UserInfo.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
-                        System.Diagnostics.Debug.Assert((astrUserInfo.Length == 2) && (astrUserInfo[0] == strUsername));
-                        strUsername = astrUserInfo[0];
-                        strPassword = astrUserInfo[1];
-                    }
-                    strHgUrlBase = uri.Scheme + "://" + uri.Host;
+                    StoryEditor.GetDetailsFromUri(uri, out strUsername, out strPassword,
+                        ref strHgUrlBase);
                 }
             }
 #else
@@ -2055,18 +2062,24 @@ namespace OneStoryProjectEditor
         }
 
         public const string CstrAttributeProjectName = "ProjectName";
+        public const string CstrAttributeHgRepoUrlHost = "HgRepoUrlHost";
 
         public XElement GetXml
         {
             get
             {
-                XElement elemStoryProject =
+                var elemStoryProject =
                     new XElement("StoryProject",
                         new XAttribute("version", XmlDataVersion),
-                        new XAttribute(CstrAttributeProjectName, ProjSettings.ProjectName),
-                        new XAttribute("PanoramaFrontMatter", PanoramaFrontMatter),
-                        TeamMembers.GetXml,
-                        ProjSettings.GetXml);
+                        new XAttribute(CstrAttributeProjectName, ProjSettings.ProjectName));
+
+                if (!String.IsNullOrEmpty(ProjSettings.HgRepoUrlHost))
+                    elemStoryProject.Add(new XAttribute(CstrAttributeHgRepoUrlHost,
+                        ProjSettings.HgRepoUrlHost));
+
+                elemStoryProject.Add(new XAttribute("PanoramaFrontMatter", PanoramaFrontMatter),
+                                     TeamMembers.GetXml,
+                                     ProjSettings.GetXml);
                 
                 if (ProjSettings.HasAdaptItConfigurationData)
                     elemStoryProject.Add(ProjSettings.AdaptItConfigXml);

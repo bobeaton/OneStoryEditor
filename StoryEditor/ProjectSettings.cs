@@ -15,6 +15,8 @@ namespace OneStoryProjectEditor
         public string ProjectName;
         protected string _strProjectFolder;
 
+        public string HgRepoUrlHost;    // e.g. http://hg-private.languagedepot.org
+        
         // default is to have all 3, but the user might disable one or the other bt languages
         public LanguageInfo Vernacular = new LanguageInfo(LineData.CstrAttributeLangVernacular, new Font("Arial Unicode MS", 12), Color.Maroon);
         public LanguageInfo NationalBT = new LanguageInfo(LineData.CstrAttributeLangNationalBt, new Font("Arial Unicode MS", 12), Color.Green);
@@ -26,7 +28,6 @@ namespace OneStoryProjectEditor
         public AdaptItConfiguration NationalBtToInternationalBt;
 
         public bool IsConfigured;
-        public string HgRepoUrl;
         public ShowLanguageFields ShowRetellings = new ShowLanguageFields();
         public ShowLanguageFields ShowTestQuestions = new ShowLanguageFields();
         public ShowLanguageFields ShowAnswers = new ShowLanguageFields();
@@ -46,8 +47,15 @@ namespace OneStoryProjectEditor
         public ProjectSettings(XmlNode node, string strProjectFolder)
         {
             XmlAttribute attr;
-            ProjectName = ((attr = node.Attributes[StoryProjectData.CstrAttributeProjectName]) != null) ? attr.Value : null;
+            ProjectName = ((attr = node.Attributes[StoryProjectData.CstrAttributeProjectName]) != null)
+                              ? attr.Value
+                              : null;
+
             _strProjectFolder = strProjectFolder;
+
+            HgRepoUrlHost = ((attr = node.Attributes[StoryProjectData.CstrAttributeHgRepoUrlHost]) != null)
+                                 ? attr.Value
+                                 : null;
 
             Vernacular = new LanguageInfo(node.SelectSingleNode(XPathForLangInformation(LineData.CstrAttributeLangVernacular)));
             NationalBT = new LanguageInfo(node.SelectSingleNode(XPathForLangInformation(LineData.CstrAttributeLangNationalBt)));

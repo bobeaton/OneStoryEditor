@@ -35,7 +35,8 @@ namespace OneStoryProjectEditor
                 ProjSettings = _storyProjectData.ProjSettings;
                 ProjectName = ProjSettings.ProjectName;
                 string strDummy;
-                if (Program.GetHgRepoParameters(ProjectName, out strDummy, out strDummy, out strDummy))
+                if (!String.IsNullOrEmpty(ProjSettings.HgRepoUrlHost) ||
+                    Program.GetHgRepoParameters(ProjectName, out strDummy, out strDummy, out strDummy))
                     checkBoxUseInternetRepo.Checked = true;
             }
             
@@ -126,11 +127,12 @@ namespace OneStoryProjectEditor
                     ProjSettings.ProjectName = ProjectName;
 
                 string strUsername, strRepoUrl, strPassword;
-                if (_storyProjectData.GetHgRepoUsernamePassword(ProjectName, LoggedInMember,
-                    out strUsername, out strPassword, out strRepoUrl))
-                    UrlBase = strRepoUrl;
-                else
-                    UrlBase = Program.LookupRepoUrl(Properties.Resources.IDS_DefaultRepoServer);
+                UrlBase = _storyProjectData.GetHgRepoUsernamePassword(ProjectName, LoggedInMember,
+                                                                      out strUsername, 
+                                                                      out strPassword, 
+                                                                      out strRepoUrl)
+                              ? strRepoUrl
+                              : Program.LookupRepoUrl(Properties.Resources.IDS_DefaultRepoServer);
 
                 // these *might* have been initialized even if the call to GetHg... fails
                 HgUsername = strUsername;
@@ -164,7 +166,8 @@ namespace OneStoryProjectEditor
                     LoggedInMember.HgUsername = HgUsername;
                     LoggedInMember.HgPassword = HgPassword;
                 }
-                
+
+                ProjSettings.HgRepoUrlHost = UrlBase;
                 Program.SetHgParameters(ProjSettings.ProjectFolder,
                     ProjSettings.ProjectName, Url, HgUsername);
 
