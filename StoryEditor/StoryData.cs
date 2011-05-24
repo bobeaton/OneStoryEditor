@@ -2031,8 +2031,8 @@ namespace OneStoryProjectEditor
                 && (!String.IsNullOrEmpty(loggedOnMember.HgUsername))
                 && (!String.IsNullOrEmpty(loggedOnMember.HgPassword)))
             {
-                strUsername = loggedOnMember.HgUsername;
-                strPassword = loggedOnMember.HgPassword;
+                TeamMemberData.GetHgParameters(loggedOnMember,
+                                               out strUsername, out strPassword);
             }
 
             return !String.IsNullOrEmpty(strHgUrlBase);

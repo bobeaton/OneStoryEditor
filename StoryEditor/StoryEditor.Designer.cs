@@ -794,7 +794,6 @@ namespace OneStoryProjectEditor
             this.viewNetBibleMenuItem.Text = "&Bible viewer";
             this.viewNetBibleMenuItem.ToolTipText = "Show the Bible Viewer pane";
             this.viewNetBibleMenuItem.CheckedChanged += new System.EventHandler(this.viewNetBibleMenuItem_CheckedChanged);
-            this.viewNetBibleMenuItem.Click += new System.EventHandler(this.viewNetBibleMenuItem_Click);
             // 
             // toolStripSeparator7
             // 

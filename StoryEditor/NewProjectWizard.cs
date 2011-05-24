@@ -118,7 +118,7 @@ namespace OneStoryProjectEditor
                         RemoveProject(strFilename, ProjectName);
                     }
 
-                    ProjSettings = new ProjectSettings((string)null, ProjectName);
+                    ProjSettings = new ProjectSettings((string)null, ProjectName, false);
 
                     // make sure the 'new' folder exists
                     Directory.CreateDirectory(ProjSettings.ProjectFolder);
@@ -132,7 +132,7 @@ namespace OneStoryProjectEditor
                                                                       out strPassword, 
                                                                       out strRepoUrl)
                               ? strRepoUrl
-                              : Program.LookupRepoUrl(Properties.Resources.IDS_DefaultRepoServer);
+                              : Program.LookupRepoUrlHost(Properties.Resources.IDS_DefaultRepoServer);
 
                 // these *might* have been initialized even if the call to GetHg... fails
                 HgUsername = strUsername;
@@ -519,6 +519,7 @@ namespace OneStoryProjectEditor
         public string Url
         {
             get { return textBoxHgRepoUrl.Text; }
+            set { textBoxHgRepoUrl.Text = value; }
         }
 
         public string HgUsername
@@ -861,32 +862,11 @@ namespace OneStoryProjectEditor
         {
             try
             {
-                UpdateUrlTextBox();
+                Url = Program.FormHgUrl(UrlBase, HgUsername, HgPassword, ProjectName);
                 Modified = true;
             }
             catch
             {
-            }
-        }
-
-        protected void UpdateUrlTextBox()
-        {
-            string strUrlBase = UrlBase;
-            var uri = new Uri(strUrlBase);
-            if (!String.IsNullOrEmpty(textBoxUsername.Text))
-            {
-                textBoxPassword.Enabled = true;
-                textBoxHgRepoUrl.Text = String.Format("{0}://{1}{2}@{3}/{4}",
-                    uri.Scheme, HgUsername, 
-                    (String.IsNullOrEmpty(HgPassword)) ? null : ':' + HgPassword, 
-                    uri.Host, ProjectName);
-            }
-            else
-            {
-                textBoxPassword.Text = null;
-                textBoxPassword.Enabled = false;
-                textBoxHgRepoUrl.Text = String.Format("{0}://{1}/{2}",
-                    uri.Scheme, uri.Host, ProjectName);
             }
         }
 

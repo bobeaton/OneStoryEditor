@@ -166,7 +166,7 @@ namespace OneStoryProjectEditor
             if (module != null)
             {
                 string strFontName, strModuleVersion = module.Name();
-                if (Program._mapSwordModuleToFont.TryGetValue(strModuleVersion, out strFontName))
+                if (Program.MapSwordModuleToFont.TryGetValue(strModuleVersion, out strFontName))
                     text = String.Format(NetBibleViewer.CstrAddFontFormat, text, strFontName);
             }
 

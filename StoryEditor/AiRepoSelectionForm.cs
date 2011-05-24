@@ -20,7 +20,7 @@ namespace OneStoryProjectEditor
         public AiRepoSelectionForm()
         {
             InitializeComponent();
-            foreach (string strServerLabel in Program._mapServerToUrl.Keys)
+            foreach (string strServerLabel in Program.MapServerToUrlHost.Keys)
                 comboBoxServer.Items.Add(strServerLabel);
         }
 
@@ -79,7 +79,7 @@ namespace OneStoryProjectEditor
             string strInternetAddress;
             if (String.IsNullOrEmpty(strProjectName) 
                 || String.IsNullOrEmpty(strServer)
-                || String.IsNullOrEmpty(strInternetAddress = Program.LookupRepoUrl(strServer)))
+                || String.IsNullOrEmpty(strInternetAddress = Program.LookupRepoUrlHost(strServer)))
                 return null;
 
             return String.Format("{0}/{1}", strInternetAddress, strProjectName);

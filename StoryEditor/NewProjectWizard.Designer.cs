@@ -349,9 +349,10 @@
             // 
             // textBoxPassword
             // 
+            this.textBoxPassword.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxPassword.Location = new System.Drawing.Point(355, 59);
             this.textBoxPassword.Name = "textBoxPassword";
-            this.textBoxPassword.Size = new System.Drawing.Size(253, 20);
+            this.textBoxPassword.Size = new System.Drawing.Size(347, 20);
             this.textBoxPassword.TabIndex = 4;
             this.textBoxPassword.TextChanged += new System.EventHandler(this.textBoxHgRepo_TextChanged);
             // 

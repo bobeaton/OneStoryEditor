@@ -176,8 +176,8 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.ProjectNameToAiHgNetworkUrl = new StringCollection();
             _mapProjectNameToAiHgNetworkUrl = ArrayToDictionary(Properties.Settings.Default.ProjectNameToAiHgNetworkUrl);
 
-            _mapServerToUrl = ArrayToDictionary(Properties.Settings.Default.AdaptItDefaultServerLabels);
-            _mapSwordModuleToFont = ArrayToDictionary(Properties.Settings.Default.SwordModuleToFont);
+            MapServerToUrlHost = ArrayToDictionary(Properties.Settings.Default.AdaptItDefaultServerLabels);
+            MapSwordModuleToFont = ArrayToDictionary(Properties.Settings.Default.SwordModuleToFont);
         }
 
         private static void SetupErrorHandling()
@@ -195,11 +195,11 @@ namespace OneStoryProjectEditor
         static Dictionary<string, string> _mapProjectNameToHgNetworkUrl;
         static Dictionary<string, string> _mapProjectNameToAiHgHttpUrl;
         static Dictionary<string, string> _mapProjectNameToAiHgNetworkUrl;
-        public static Dictionary<string, string> _mapServerToUrl;
-        public static Dictionary<string, string> _mapSwordModuleToFont;
+        public static Dictionary<string, string> MapServerToUrlHost;
+        public static Dictionary<string, string> MapSwordModuleToFont;
         
-        private const string CstrInternetName = "Internet";
-        private const string CstrNetworkDriveName = "Network Drive";
+        public const string CstrInternetName = "Internet";
+        public const string CstrNetworkDriveName = "Network Drive";
 
         private static EventWaitHandle EventForProjectName;
 
@@ -319,10 +319,18 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public static string LookupRepoUrl(string strServerName)
+        public static string LookupRepoUrlHost(string strServerName)
         {
             string strUrl;
-            return _mapServerToUrl.TryGetValue(strServerName, out strUrl) ? strUrl : null;
+            return MapServerToUrlHost.TryGetValue(strServerName, out strUrl)
+                       ? strUrl
+                       : null;
+        }
+
+        public static string LookupSharedNetworkPath(string strProjectFolder)
+        {
+            string strSharedNetworkPath;
+            return _mapProjectNameToHgNetworkUrl.TryGetValue(strProjectFolder, out strSharedNetworkPath) ? strSharedNetworkPath : null;
         }
 
         public static bool AreAdaptItHgParametersSet(string strProjectFolder)
@@ -618,19 +626,23 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public static bool QueryHgRepoParameters(string strProjectFolder, 
-            string strProjectName, TeamMemberData loggedOnUser)
+        public static bool QueryHgRepoParameters(string strProjectFolder,
+            string strProjectName, TeamMemberData loggedOnMember)
         {
+            string strUsername, strPassword;
+            TeamMemberData.GetHgParameters(loggedOnMember,
+                                           out strUsername, out strPassword);
             var dlg = new HgRepoForm
             {
                 ProjectName = strProjectName,
-                UrlBase = "http://hg-private.languagedepot.org",
-                Username = (loggedOnUser != null) ? loggedOnUser.HgUsername : null,
-                Password = (loggedOnUser != null) ? loggedOnUser.HgPassword : null
+                UrlBase = LookupRepoUrlHost(Properties.Resources.IDS_DefaultRepoServer),
+                Username = strUsername,
+                Password = strPassword
             };
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
+                TeamMemberData.SetHgParameters(loggedOnMember, dlg.Username, dlg.Password);
                 SetHgParameters(strProjectFolder, strProjectName, dlg.Url, dlg.Username);
                 return true;
             }
@@ -722,7 +734,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private static ProjectFolderConfiguration GetProjectFolderConfiguration(string strProjectFolder)
+        public static ProjectFolderConfiguration GetProjectFolderConfiguration(string strProjectFolder)
         {
             var projectConfig = new ProjectFolderConfiguration(strProjectFolder);
             projectConfig.IncludePatterns.Add("*.onestory");
@@ -731,6 +743,34 @@ namespace OneStoryProjectEditor
             projectConfig.IncludePatterns.Add("*.conflict"); // include the conflicts file as well so we can fix them
             projectConfig.IncludePatterns.Add("*.ChorusNotes"); // the new conflict file
             return projectConfig;
+        }
+
+        public static string FormHgUrl(string strUrlBase, string strUsername,
+            string strHgPassword, string strProjectName)
+        {
+            if (String.IsNullOrEmpty(strUrlBase))
+                return null;
+
+            var uri = new Uri(strUrlBase);
+            string strHgRepoUrl;
+            if (!String.IsNullOrEmpty(strUsername))
+            {
+                strHgRepoUrl = String.Format("{0}://{1}{2}@{3}/{4}",
+                                             uri.Scheme, strUsername,
+                                             (String.IsNullOrEmpty(strHgPassword))
+                                                 ? null
+                                                 : ':' + strHgPassword,
+                                             uri.Host,
+                                             strProjectName);
+            }
+            else
+            {
+                strHgRepoUrl = String.Format("{0}://{1}/{2}",
+                                             uri.Scheme,
+                                             uri.Host,
+                                             strProjectName);
+            }
+            return strHgRepoUrl;
         }
 
         public static void SyncWithRepositoryThumbdrive(string strProjectFolder)

@@ -373,7 +373,7 @@ namespace OneStoryProjectEditor
                     // insert a button (for drag-drop) and the HTML into a table format
                     // kindof a cheat, but I don't mind (this should be done better...)
                     string strFontName, strModuleVersion = moduleVersion.Name();
-                    if (Program._mapSwordModuleToFont.TryGetValue(strModuleVersion, out strFontName))
+                    if (Program.MapSwordModuleToFont.TryGetValue(strModuleVersion, out strFontName))
                     {
                         // can turn this into another map, but not yet.
                         if (strModuleVersion == CstrFarsiModule)

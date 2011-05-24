@@ -62,13 +62,15 @@ namespace OneStoryProjectEditor
 
         private void UpdateTaskLinkVisibility(TeamMemberData loggedOnMember)
         {
-            linkLabelTasks.Visible = (TeamMemberData.IsUser(loggedOnMember.MemberType,
-                                                            TeamMemberData.UserTypes.ProjectFacilitator |
+            linkLabelTasks.Visible = TeamMemberData.IsUser(loggedOnMember.MemberType,
+                                                           TeamMemberData.UserTypes.ProjectFacilitator) ||
+                                     (TeamMemberData.IsUser(loggedOnMember.MemberType,
+                                                            TeamMemberData.UserTypes.JustLooking |
+                                                            TeamMemberData.UserTypes.EnglishBackTranslator |
                                                             TeamMemberData.UserTypes.IndependentConsultant |
                                                             TeamMemberData.UserTypes.ConsultantInTraining |
-                                                            TeamMemberData.UserTypes.Coach |
-                                                            TeamMemberData.UserTypes.JustLooking |
-                                                            TeamMemberData.UserTypes.EnglishBackTranslator));
+                                                            TeamMemberData.UserTypes.Coach) &&
+                                      (theCurrentStory != null));
         }
 
         internal bool Modified;
@@ -305,7 +307,7 @@ namespace OneStoryProjectEditor
                         }
                     }
 
-                    ProjectSettings projSettings = new ProjectSettings(Path.GetDirectoryName(openFileDialog.FileName), strProjectName);
+                    var projSettings = new ProjectSettings(Path.GetDirectoryName(openFileDialog.FileName), strProjectName, true);
                     OpenProject(projSettings);
                 }
             }
@@ -337,7 +339,7 @@ namespace OneStoryProjectEditor
                 string strUsername, strDummy, strBaseUrl = null;
                 GetDetailsFromUri(uri, out strUsername, out strDummy, ref strBaseUrl);
                 Program.SetHgParameters(dlg.PathToNewProject, strProjectName, dlg.ThreadSafeUrl, strUsername);
-                var projSettings = new ProjectSettings(dlg.PathToNewProject, strProjectName)
+                var projSettings = new ProjectSettings(dlg.PathToNewProject, strProjectName, false)
                                        {
                                            HgRepoUrlHost = strBaseUrl
                                        };
@@ -639,7 +641,7 @@ namespace OneStoryProjectEditor
 
         protected void OpenProject(string strProjectFolder, string strProjectName)
         {
-            var projSettings = new ProjectSettings(strProjectFolder, strProjectName);
+            var projSettings = new ProjectSettings(strProjectFolder, strProjectName, true);
 
             // see if we can update from a repository first before opening.
             string strDotHgFolder = Path.Combine(projSettings.ProjectFolder, ".hg");
@@ -649,7 +651,8 @@ namespace OneStoryProjectEditor
                 if (!SaveAndCloseProject())
                     return;
 
-                Program.SyncWithRepository(projSettings.ProjectFolder, true);
+                projSettings.SyncWithRepository(LoggedOnMember);
+                // Program.SyncWithRepository(projSettings.ProjectFolder, true);
             }
 
             OpenProject(projSettings);
@@ -1804,8 +1807,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(String.Format(Properties.Resources.IDS_UnableToContinue, ex.Message), OseResources.Properties.Resources.IDS_Caption);
-                return;
+                Program.ShowException(ex);
             }
         }
 
@@ -3862,11 +3864,6 @@ namespace OneStoryProjectEditor
             theOldStoryEditor.comboBoxStorySelector.SelectedItem = tsi.Text;
         }
 
-        private void viewNetBibleMenuItem_Click(object sender, EventArgs e)
-        {
-            InitAllPanes();
-        }
-
         private void editCopySelectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (CtrlTextBox._inTextBox != null)
@@ -4330,7 +4327,7 @@ namespace OneStoryProjectEditor
 
             // next, do the sync
             Program.SyncWithRepositoryThumbdrive(strProjectFolder);
-            var projSettings = new ProjectSettings(strProjectFolder, strProjectName);
+            var projSettings = new ProjectSettings(strProjectFolder, strProjectName, true);
             OpenProject(projSettings);
         }
 
@@ -5037,9 +5034,12 @@ namespace OneStoryProjectEditor
 
         private void sendReceiveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Debug.Assert((StoryProject != null) && (StoryProject.ProjSettings != null));
+            Debug.Assert((StoryProject != null) && 
+                (StoryProject.ProjSettings != null) &&
+                (LoggedOnMember != null));
             if (!String.IsNullOrEmpty(StoryProject.ProjSettings.HgRepoUrlHost))
             {
+                StoryProject.ProjSettings.SyncWithRepository(LoggedOnMember);
             }
             else
             {

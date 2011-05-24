@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 using Chorus.UI.Clone;
+using Chorus.UI.Sync;
+using Chorus.Utilities;
+using Chorus.VcsDrivers;
+using Chorus.VcsDrivers.Mercurial;
 using Microsoft.Win32;                  // for RegistryKey
 
 namespace OneStoryProjectEditor
@@ -32,7 +37,8 @@ namespace OneStoryProjectEditor
         public ShowLanguageFields ShowTestQuestions = new ShowLanguageFields();
         public ShowLanguageFields ShowAnswers = new ShowLanguageFields();
 
-        public ProjectSettings(string strProjectFolderDefaultIfNull, string strProjectName)
+        public ProjectSettings(string strProjectFolderDefaultIfNull, string strProjectName,
+            bool bLookForHgUrlHost)
         {
             ProjectName = strProjectName;
             if (String.IsNullOrEmpty(strProjectFolderDefaultIfNull))
@@ -42,6 +48,38 @@ namespace OneStoryProjectEditor
                 System.Diagnostics.Debug.Assert(strProjectFolderDefaultIfNull[strProjectFolderDefaultIfNull.Length - 1] != '\\');
                 _strProjectFolder = strProjectFolderDefaultIfNull;
             }
+
+            if (bLookForHgUrlHost)
+            {
+                HgRepoUrlHost = GetHgRepoUrlHostFromProjectFile();
+            }
+        }
+
+        private string GetHgRepoUrlHostFromProjectFile()
+        {
+            if (!File.Exists(ProjectFilePath))
+                return null;
+
+            // this is kind of a hack, but it works for now. We're going to read in the 
+            //  project (xml) file as though it were just a utf-8 text file and look for 
+            //  the attribute at the beginning for the HgRepoUrl host (this is usually so 
+            //  we can build the sync command (see SyncWithRepository) to update the file 
+            //  before *actually* opening it.
+            // it's usually something like:
+            //  <StoryProject version="1.6" ProjectName="asdg" HgRepoUrlHost="http://hg-private.languagedepot.org" PanoramaFrontMatter=...
+            string strProjectFileContents = File.ReadAllText(ProjectFilePath, Encoding.UTF8);
+            const string strToSearchFor = StoryProjectData.CstrAttributeHgRepoUrlHost + "=\"";
+            int nIndex = strProjectFileContents.IndexOf(strToSearchFor);
+            if (nIndex < 0)
+                return null;
+
+            // look past the attribute name...
+            nIndex += strToSearchFor.Length;
+
+            // get the index (or len) to the end of the attribute value and return
+            //  that substring
+            int nLength = strProjectFileContents.IndexOf('"', nIndex) - nIndex;
+            return strProjectFileContents.Substring(nIndex, nLength);
         }
 
         public ProjectSettings(XmlNode node, string strProjectFolder)
@@ -659,6 +697,69 @@ namespace OneStoryProjectEditor
             NationalBT.InvertRtl = loggedOnMember.OverrideRtlNationalBT;
             InternationalBT.InvertRtl = loggedOnMember.OverrideRtlInternationalBT;
             FreeTranslation.InvertRtl = loggedOnMember.OverrideRtlFreeTranslation;
+        }
+
+        // e.g. http://bobeaton:helpmepld@hg-private.languagedepot.org/snwmtn-test
+        // or \\Bob-StudioXPS\Backup\Storying\snwmtn-test
+        public void SyncWithRepository(TeamMemberData loggedOnMember)
+        {
+            // the project folder name has come here bogus at times...
+            if (!Directory.Exists(ProjectFolder))
+                return;
+
+            string strUsername, strPassword;
+            TeamMemberData.GetHgParameters(loggedOnMember, out strUsername, out strPassword);
+
+            try
+            {
+                string strHgUrl = Program.FormHgUrl(HgRepoUrlHost,
+                                                    strUsername,
+                                                    strPassword,
+                                                    ProjectName);
+                if (String.IsNullOrEmpty(strHgUrl))
+                    Program.SyncWithRepository(ProjectFolder, true);
+                else
+                    TrySyncWithRepository(ProjectName, ProjectFolder, strHgUrl);
+            }
+            catch (Exception ex)
+            {
+                Program.ShowException(ex);
+            }
+        }
+
+        private static void TrySyncWithRepository(string strProjectName, 
+            string strProjectFolder, string strRepoUrl)
+        {
+            // if there's no repo yet, then create one (even if we aren't going
+            //  to ultimately push with an internet repo, we still want one locally)
+            var projectConfig = Program.GetProjectFolderConfiguration(strProjectFolder);
+            var nullProgress = new NullProgress();
+            var repo = new HgRepository(strProjectFolder, nullProgress);
+            if (!repo.GetCanConnectToRemote(strRepoUrl, nullProgress))
+                if (MessageBox.Show(Properties.Resources.IDS_ConnectToInternet,
+                                    OseResources.Properties.Resources.IDS_Caption,
+                                    MessageBoxButtons.OKCancel) ==
+                    DialogResult.Cancel)
+                {
+                    return;
+                }
+
+            // for when we launch the program, just do a quick & dirty send/receive, 
+            //  but for closing (or if we have a network drive also), then we want to 
+            //  be more informative
+            using (var dlg = new SyncDialog(projectConfig, SyncUIDialogBehaviors.Lazy, 
+                SyncUIFeatures.NormalRecommended))
+            {
+                dlg.UseTargetsAsSpecifiedInSyncOptions = true;
+                if (!String.IsNullOrEmpty(strRepoUrl))
+                    dlg.SyncOptions.RepositorySourcesToTry.Add(RepositoryAddress.Create(Program.CstrInternetName, strRepoUrl));
+                string strSharedNetworkPath = Program.LookupSharedNetworkPath(strProjectFolder);
+                if (!String.IsNullOrEmpty(strSharedNetworkPath))
+                    dlg.SyncOptions.RepositorySourcesToTry.Add(RepositoryAddress.Create(Program.CstrNetworkDriveName, strSharedNetworkPath));
+
+                dlg.Text = "Synchronizing OneStory Project: " + strProjectName;
+                dlg.ShowDialog();
+            }
         }
     }
 
