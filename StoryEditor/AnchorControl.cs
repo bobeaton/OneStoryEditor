@@ -341,6 +341,15 @@ namespace OneStoryProjectEditor
         private void contextMenuStripAnchorOptions_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             insertNullAnchorToolStripMenuItem.Visible = (_myAnchorsData.Count == 0);
+
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE) || (theSE.LoggedOnMember == null))
+                return;
+
+            addConsultantCoachNoteOnThisAnchorToolStripMenuItem.Visible =
+                TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType,
+                                      TeamMemberData.UserTypes.AnyEditor);
         }
     }
 }

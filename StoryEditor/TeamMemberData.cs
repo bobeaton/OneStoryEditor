@@ -25,7 +25,7 @@ namespace OneStoryProjectEditor
             Coach = 128,
             JustLooking = 256,
             AnyEditor = ProjectFacilitator | 
-                            FirstPassMentor | 
+                            FirstPassMentor |   // LSR
                             ConsultantInTraining |
                             IndependentConsultant |
                             Coach
