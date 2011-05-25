@@ -344,7 +344,9 @@ namespace OneStoryProjectEditor
                 bModified = true;
             }
 
-            if (bNeedCons || !MemberIdInfo.Configured(CraftingInfo.Consultant))
+            // the Consultant isn't strictly necessary until there are Consultant Notes
+            //  so avoid the 'barage of questions' when a PF adds a new story.
+            if (bNeedCons) // || !MemberIdInfo.Configured(CraftingInfo.Consultant))
             {
                 var str = CheckForMember(storyProjectData,
                                          TeamMemberData.UserTypes.IndependentConsultant |
@@ -356,9 +358,11 @@ namespace OneStoryProjectEditor
             }
 
             // for the coach, we only need this if it's a "manage with coaching" situation
-            if (bNeedCoach || 
+            // but again, this isn't strictly necessary until there are Coach Notes
+            //  so avoid the 'barage of questions' when a PF adds a new story.
+            if (bNeedCoach) /* || 
                 (!MemberIdInfo.Configured(CraftingInfo.Coach) &&
-                    !storyProjectData.TeamMembers.HasIndependentConsultant))
+                    !storyProjectData.TeamMembers.HasIndependentConsultant)) */
             {
                 var str = CheckForMember(storyProjectData,
                                          TeamMemberData.UserTypes.Coach,

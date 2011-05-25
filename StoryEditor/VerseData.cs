@@ -966,12 +966,24 @@ namespace OneStoryProjectEditor
 
         public bool HasAllConsultantNoteMentorMemberIdData
         {
-            get { return ConsultantNotes.HasAllMentorMemberIdData; }
+            get
+            {
+                // it can be considered to have all of the mentor member id data if
+                //  it has no data at all or all of them have it configured
+                return !ConsultantNotes.HasData ||
+                       ConsultantNotes.HasAllMentorMemberIdData;
+            }
         }
 
         public bool HasAllCoachNoteMentoreeMemberIdData
         {
-            get { return CoachNotes.HasAllMentoreeMemberIdData; }
+            get
+            {
+                // it can be considered to have all of the mentor member id data if
+                //  it has no data at all or all of them have it configured
+                return !CoachNotes.HasData ||
+                       CoachNotes.HasAllMentoreeMemberIdData;
+            }
         }
 
         public bool HasAllCoachNoteMentorMemberIdData
