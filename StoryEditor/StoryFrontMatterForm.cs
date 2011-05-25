@@ -8,16 +8,17 @@ namespace OneStoryProjectEditor
 {
     public partial class StoryFrontMatterForm : TopForm
     {
-        protected StoryEditor _theSE;
-        protected StoryProjectData _theStoryProjectData;
-        protected StoryData _theCurrentStory;
-        private readonly TestRows rowsRetellings = new TestRows();
-        private readonly TestRows rowsAnswers = new TestRows();
+        private readonly StoryEditor _theSe;
+        private readonly StoryProjectData _theStoryProjectData;
+        private readonly StoryData _theCurrentStory;
+        private readonly TestRows _rowsRetellings = new TestRows();
+        private readonly TestRows _rowsAnswers = new TestRows();
+        private TestRows _rowsToDelete = new TestRows();
 
         public StoryFrontMatterForm(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory)
             : base(true)
         {
-            _theSE = theSE;
+            _theSe = theSE;
             _theStoryProjectData = theStoryProjectData;
             _theCurrentStory = theCurrentStory;
 
@@ -68,11 +69,11 @@ namespace OneStoryProjectEditor
             SuspendLayout();
 
             InitializeTestRows(theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
-                rowsRetellings,
+                _rowsRetellings,
                 "Retelling Test &");
 
             InitializeTestRows(theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
-                rowsAnswers,
+                _rowsAnswers,
                 "Story Question Test &");
 
             tableLayoutPanel.ResumeLayout(false);
@@ -103,6 +104,7 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.Controls.Add(row.TbxComment, 2, nRow);
             tableLayoutPanel.Controls.Add(row.LinkLabelView, 3, nRow);
             tableLayoutPanel.Controls.Add(row.LinkLabelChange, 4, nRow);
+            tableLayoutPanel.Controls.Add(row.LinkLabelDelete, 5, nRow);
             tableLayoutPanel.RowStyles.Add(new RowStyle());
             tableLayoutPanel.RowCount++;
             
@@ -114,6 +116,9 @@ namespace OneStoryProjectEditor
             toolTip.SetToolTip(row.LinkLabelView, Properties.Resources.IDS_StoryInformationTooltipLinkView);
             toolTip.SetToolTip(row.LinkLabelChange, Properties.Resources.IDS_StoryInformationTooltipLinkChange);
         }
+
+        internal const string CstrDeleteTest = "Delete";
+        internal const string CstrUndeleteTest = "Undelete";
 
         private void InitToolboxTextTip(MemberIdInfo memberInfo, Label lbl, 
             TextBox tbName, TextBox tbComment, LinkLabel linkView, LinkLabel linkChange, 
@@ -245,7 +250,7 @@ namespace OneStoryProjectEditor
 
             textBox.Tag = theTeamMember;
             InitToolboxTextTip(theTeamMember, textBox);
-            _theSE.Modified = true;
+            _theSe.Modified = true;
         }
 
         private void linkLabelViewForUnsBter_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -270,6 +275,31 @@ namespace OneStoryProjectEditor
             HandleMouseUp(bChange, tb,
                           TeamMemberData.UserTypes.UNS,
                           "Choose the UNS that took this test");
+        }
+
+        public void DeleteTestClicked(ControlRow row)
+        {
+            // if deleting it, show all the controls ith strikeout (and the link as 'undelete')
+            var fontStyleNew = new FontStyle();
+            if (_rowsToDelete.Contains(row))
+            {
+                fontStyleNew = new FontStyle();
+                row.LinkLabelDelete.Text = CstrDeleteTest;
+                _rowsToDelete.Remove(row);
+            }
+            else
+            {
+                fontStyleNew |= FontStyle.Strikeout;
+                row.LinkLabelDelete.Text = CstrUndeleteTest;
+                _rowsToDelete.Add(row);
+            }
+
+            row.Label.Font = new Font(row.Label.Font, fontStyleNew);
+            row.TbxName.Font = new Font(row.TbxName.Font, fontStyleNew);
+            row.TbxComment.Font = new Font(row.TbxComment.Font, fontStyleNew);
+            row.LinkLabelView.Font = new Font(row.LinkLabelView.Font, fontStyleNew);
+            row.LinkLabelChange.Font = new Font(row.LinkLabelChange.Font, fontStyleNew);
+            row.TbxName.Font = new Font(row.TbxName.Font, fontStyleNew);
         }
 
         public bool Modified;
@@ -341,19 +371,21 @@ namespace OneStoryProjectEditor
                 Modified = true;
             }
 
+            PurgeDeletedTests(ref Modified);
+
             ProcessTestCommentChanges(_theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
-                rowsRetellings, ref Modified);
+                _rowsRetellings, ref Modified);
 
             ProcessTestCommentChanges(_theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
-                rowsAnswers, ref Modified);
+                _rowsAnswers, ref Modified);
 
             try
             {
-                rowsRetellings.CheckForDuplicateUns();
-                rowsAnswers.CheckForDuplicateUns();
+                _rowsRetellings.CheckForDuplicateUns();
+                _rowsAnswers.CheckForDuplicateUns();
 
                 _theCurrentStory.CraftingInfo.TestorsToCommentsRetellings =
-                    rowsRetellings.ChangeTestors(
+                    _rowsRetellings.ChangeTestors(
                         _theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
                         _theCurrentStory.ChangeRetellingTestor,
                         _theCurrentStory.Verses.ChangeRetellingTestorGuid,
@@ -361,7 +393,7 @@ namespace OneStoryProjectEditor
                         ref Modified);
 
                 _theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers =
-                    rowsAnswers.ChangeTestors(
+                    _rowsAnswers.ChangeTestors(
                         _theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
                         _theCurrentStory.ChangeTqAnswersTestor,
                         _theCurrentStory.Verses.ChangeTqAnswersTestorGuid,
@@ -375,15 +407,40 @@ namespace OneStoryProjectEditor
             }
 
             if (Modified)
-                _theSE.Modified = true;
+                _theSe.Modified = true;
 
             DialogResult = DialogResult.OK;
             Close();
         }
 
+        private void PurgeDeletedTests(ref bool bModified)
+        {
+            foreach (var controlRow in _rowsToDelete)
+            {
+                var nIndex = _rowsRetellings.IndexOf(controlRow);
+                if (nIndex != -1)
+                {
+                    if (_theSe.QueryForAndDeleteRetellingTest(nIndex))
+                    {
+                        _rowsRetellings.Remove(controlRow);
+                        bModified = true;
+                    }
+                }
+                else if ((nIndex = _rowsAnswers.IndexOf(controlRow)) != -1)
+                {
+                    if (_theSe.QueryForAndDeleteAnswerTest(nIndex))
+                    {
+                        _rowsAnswers.Remove(controlRow);
+                        bModified = true;
+                    }
+                }
+            }
+        }
+
         private static void ProcessTestCommentChanges(TestInfo testInfo, 
             TestRows lstRows, ref bool bModified)
         {
+            System.Diagnostics.Debug.Assert(testInfo.Count == lstRows.Count, "bad assumption after having deleted a test");
             for (int i = 0; i < lstRows.Count; i++)
             {
                 var memberIdInfo = testInfo[i];
@@ -512,6 +569,7 @@ namespace OneStoryProjectEditor
         public TextBox TbxComment { get; set; }
         public LinkLabel LinkLabelView { get; set; }
         public LinkLabel LinkLabelChange { get; set; }
+        public LinkLabel LinkLabelDelete { get; set; }
 
         public ControlRow(string strLabel)
         {
@@ -546,6 +604,13 @@ namespace OneStoryProjectEditor
                                       AutoSize = true
                                   };
             LinkLabelChange.Click += OnLinkClickChange;
+            LinkLabelDelete = new LinkLabel
+                                  {
+                                      Anchor = AnchorStyles.Left,
+                                      Text = StoryFrontMatterForm.CstrDeleteTest,
+                                      AutoSize = true
+                                  };
+            LinkLabelDelete.Click += OnLinkClickDelete;
         }
 
         private void OnLinkClickView(object sender, EventArgs e)
@@ -556,6 +621,11 @@ namespace OneStoryProjectEditor
         private void OnLinkClickChange(object sender, EventArgs e)
         {
             MyParent.HandleUnsTestMouseUp(true, TbxName);
+        }
+
+        private void OnLinkClickDelete(object sender, EventArgs e)
+        {
+            MyParent.DeleteTestClicked(this);
         }
     }
 }

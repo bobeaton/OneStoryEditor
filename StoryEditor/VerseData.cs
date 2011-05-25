@@ -1013,6 +1013,16 @@ namespace OneStoryProjectEditor
         {
             return TestQuestions.DoesReferenceTqUns(strMemberId);
         }
+
+        public void RemoveTestQuestionAnswer(string strUnsGuid)
+        {
+            TestQuestions.RemoveTestQuestionAnswers(strUnsGuid);
+        }
+
+        public void RemoveRetelling(string strUnsGuid)
+        {
+            Retellings.RemoveTestResult(strUnsGuid);
+        }
     }
 
     public class VersesData : List<VerseData>

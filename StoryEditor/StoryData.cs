@@ -660,6 +660,28 @@ namespace OneStoryProjectEditor
         {
             return Verses.DoesReferenceTqUns(strMemberId);
         }
+
+        public void DeleteRetellingTestResults(int nTestNum, string strUnsGuid)
+        {
+            foreach (var aVerseData in Verses)
+                aVerseData.RemoveRetelling(strUnsGuid);
+
+            // and remove the entry from the 'database' of tests
+            CraftingInfo.TestorsToCommentsRetellings.RemoveAt(nTestNum);
+        }
+
+        public void DeleteAnswerTestResults(int nTestNum, string strUnsGuid)
+        {
+            // remove the answers to general questions in ln 0
+            Verses.FirstVerse.RemoveTestQuestionAnswer(strUnsGuid);
+
+            // then from the rest of the verses
+            foreach (var aVerseData in Verses)
+                aVerseData.RemoveTestQuestionAnswer(strUnsGuid);
+
+            // and remove the entry from the 'database' of tests
+            CraftingInfo.TestorsToCommentsTqAnswers.RemoveAt(nTestNum);
+        }
     }
 
     public class StoryStateTransitionHistory : List<StoryStateTransition>

@@ -2064,10 +2064,10 @@ and in the resulting window click on the next (green) state.
     <value>The consultant hasn't given you permission to edit the '{0}' language fields</value>
   </data>
   <data name="IDS_ConfirmDeleteTQs" xml:space="preserve">
-    <value>Are you sure you want to remove all of the story question test results from </value>
+    <value>Are you sure you want to remove all of the story question test results for </value>
   </data>
   <data name="IDS_ConfirmDeleteRetellings" xml:space="preserve">
-    <value>Are you sure you want to remove all of the retelling results from </value>
+    <value>Are you sure you want to remove all of the retelling results for </value>
   </data>
   <data name="IDS_PfButtonLabelAnchors" xml:space="preserve">
     <value>Enter &amp;Anchors</value>

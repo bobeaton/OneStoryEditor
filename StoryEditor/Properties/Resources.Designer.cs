@@ -547,7 +547,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to remove all of the retelling results from .
+        ///   Looks up a localized string similar to Are you sure you want to remove all of the retelling results for .
         /// </summary>
         internal static string IDS_ConfirmDeleteRetellings {
             get {
@@ -574,7 +574,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to remove all of the story question test results from .
+        ///   Looks up a localized string similar to Are you sure you want to remove all of the story question test results for .
         /// </summary>
         internal static string IDS_ConfirmDeleteTQs {
             get {

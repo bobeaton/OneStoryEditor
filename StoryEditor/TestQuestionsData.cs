@@ -494,5 +494,11 @@ namespace OneStoryProjectEditor
                             testQuestion.Answers.DoesReferenceTqUns(strMemberId));
 
         }
+
+        public void RemoveTestQuestionAnswers(string strUnsGuid)
+        {
+            foreach (var aTq in this)
+                aTq.Answers.RemoveTestResult(strUnsGuid);
+        }
     }
 }

@@ -3103,61 +3103,53 @@ namespace OneStoryProjectEditor
         private void OnRemoveRetellingTest(object sender, EventArgs e)
         {
             var tsmi = sender as ToolStripMenuItem;
-            if (MessageBox.Show(Properties.Resources.IDS_ConfirmDeleteRetellings + tsmi.Text, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
-            {
-                int nTestNum = (int)tsmi.Tag;
-                Debug.Assert((nTestNum >= 0) && (nTestNum < theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count));
-                string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsRetellings[nTestNum].MemberId;
-                foreach (var aVerseData in theCurrentStory.Verses)
-                {
-                    // even the verse itself may be newer and only have a single retelling (compared
-                    //  with multiple retellings for verses that we're present from draft 1)
-                    var theLineData = aVerseData.Retellings.TryGetValue(strUnsGuid);
-                    if (theLineData != null)
-                        aVerseData.Retellings.Remove(theLineData);
-                }
+            int nTestNum = (int)tsmi.Tag;
+            if (!QueryForAndDeleteRetellingTest(nTestNum))
+                return;
 
-                theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.RemoveAt(nTestNum);
-                Modified = true;
-                InitAllPanes();
-            }
+            Modified = true;
+            InitAllPanes();
+        }
+
+        public bool QueryForAndDeleteRetellingTest(int nTestNum)
+        {
+            Debug.Assert((nTestNum >= 0) && (nTestNum < theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count));
+            string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsRetellings[nTestNum].MemberId;
+            string strTestorName = StoryProject.GetMemberNameFromMemberGuid(strUnsGuid);
+
+            if (MessageBox.Show(Properties.Resources.IDS_ConfirmDeleteRetellings + strTestorName,
+                                OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) !=
+                DialogResult.Yes)
+                return false;
+
+            theCurrentStory.DeleteRetellingTestResults(nTestNum, strUnsGuid);
+            return true;
         }
 
         private void OnRemoveInferenceTest(object sender, EventArgs e)
         {
             var tsmi = sender as ToolStripMenuItem;
-            if (MessageBox.Show(Properties.Resources.IDS_ConfirmDeleteTQs + tsmi.Text, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
-            {
-                int nTestNum = (int)tsmi.Tag;
-                Debug.Assert((nTestNum >= 0) && (nTestNum < theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count));
-                string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTestNum].MemberId;
-                foreach (VerseData aVerseData in theCurrentStory.Verses)
-                {
-                    RemoveTestQuestion(aVerseData, strUnsGuid);
-                }
+            int nTestNum = (int)tsmi.Tag;
+            if (!QueryForAndDeleteAnswerTest(nTestNum))
+                return;
 
-                // also remove the answers to general questions in ln 0
-                RemoveTestQuestion(theCurrentStory.Verses.FirstVerse, strUnsGuid);
-
-                theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.RemoveAt(nTestNum);
-
-                Modified = true;
-                InitAllPanes();
-            }
+            Modified = true;
+            InitAllPanes();
         }
 
-        private void RemoveTestQuestion(VerseData aVerseData, string strUnsGuid)
+        public bool QueryForAndDeleteAnswerTest(int nTestNum)
         {
-            LineMemberData theLineData;
-            foreach (TestQuestionData aTQ in aVerseData.TestQuestions)
-            {
-                // it's possible that a question is *newer*, in which case, there may only be answers from a new UNS 
-                //  and not earlier ones. So delete the records based on the UnsGuid (since that is what the 
-                //  user will have selected off of to delete)
-                theLineData = aTQ.Answers.TryGetValue(strUnsGuid);
-                if (theLineData != null)
-                    aTQ.Answers.Remove(theLineData);
-            }
+            Debug.Assert((nTestNum >= 0) && (nTestNum < theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count));
+            string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTestNum].MemberId;
+            string strTestorName = StoryProject.GetMemberNameFromMemberGuid(strUnsGuid);
+
+            if (MessageBox.Show(Properties.Resources.IDS_ConfirmDeleteTQs + strTestorName,
+                                OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) !=
+                DialogResult.Yes)
+                return false;
+
+            theCurrentStory.DeleteAnswerTestResults(nTestNum, strUnsGuid);
+            return true;
         }
 
         protected void AddDeleteTestSubmenu(ToolStripMenuItem tsm, string strText, int nTestNum, EventHandler theEH)

@@ -438,6 +438,15 @@ namespace OneStoryProjectEditor
             if ((theLine != null) && (theLine.MemberId == strOldUnsGuid))
                 theLine.MemberId = strNewUnsGuid;
         }
+
+        public void RemoveTestResult(string strUnsGuid)
+        {
+            // even the verse itself may be newer and only have a single retelling (compared
+            //  with multiple retellings for verses that we're present from draft 1)
+            var theLineData = TryGetValue(strUnsGuid);
+            if (theLineData != null)
+                Remove(theLineData);
+        }
     }
 
     public class RetellingsData : MultipleLineDataConverter
