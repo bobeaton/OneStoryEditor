@@ -26,7 +26,7 @@ namespace OneStoryProjectEditor
         {
             InitializeComponent();
 
-            Text = String.Format("Revision History: {0}", theSE.theCurrentStory.Name);
+            Text = String.Format("Revision History: {0}", theSE.TheCurrentStory.Name);
             _strStoryToDiff = storyData.guid;
             _strProjectFolder = theSE.StoryProject.ProjSettings.ProjectFolder;
 

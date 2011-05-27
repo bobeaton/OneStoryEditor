@@ -652,8 +652,8 @@ namespace OneStoryProjectEditor
                         && !theSE.StoryProject.ProjSettings.InternationalBT.HasData)));
 
                 // the rest never want to be on for a non-biblical story
-                bool bBiblicalStory = ((theSE.theCurrentStory == null) ||
-                                       theSE.theCurrentStory.CraftingInfo.IsBiblicalStory);
+                bool bBiblicalStory = ((theSE.TheCurrentStory == null) ||
+                                       theSE.TheCurrentStory.CraftingInfo.IsBiblicalStory);
 
                 theSE.viewAnchorFieldMenuItem.Checked = 
                     IsAnchorVisible && bBiblicalStory;

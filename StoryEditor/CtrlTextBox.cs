@@ -199,7 +199,7 @@ namespace OneStoryProjectEditor
 
                     // finally, the last possible blockage is if the currently logged on member isn't the 
                     //  right editor for the state we are in (which has to do with who has the edit token)
-                    StoryData theStory = theSE.theCurrentStory;
+                    StoryData theStory = theSE.TheCurrentStory;
                     theSE.LoggedOnMember.ThrowIfEditIsntAllowed(theStory);
 
                     // one more finally, don't allow it if it's blocked by the consultant

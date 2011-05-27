@@ -31,7 +31,7 @@ namespace OneStoryProjectEditor
                 {
                     ConsultNotesDataConverter aCNsDC = DataConverter(i);
                     foreach (ConsultNoteDataConverter dc in aCNsDC)
-                        aCNsDC.InsureExtraBox(dc, TheSE.theCurrentStory, 
+                        aCNsDC.InsureExtraBox(dc, TheSE.TheCurrentStory, 
                                 TheSE.LoggedOnMember, TheSE.StoryProject.TeamMembers);
                 }
             }
@@ -259,14 +259,14 @@ namespace OneStoryProjectEditor
             else
             {
                 // just in case we need to have an open box now
-                theCNsDC.InsureExtraBox(theCNDC, TheSE.theCurrentStory,  
+                theCNsDC.InsureExtraBox(theCNDC, TheSE.TheCurrentStory,  
                     TheSE.LoggedOnMember, TheSE.StoryProject.TeamMembers);
             }
 
             if (String.IsNullOrEmpty(StrIdToScrollTo))
             {
                 if (theCNDC.IsEditable(TheSE.LoggedOnMember, TheSE.StoryProject.TeamMembers,
-                    TheSE.theCurrentStory))
+                    TheSE.TheCurrentStory))
                     StrIdToScrollTo = ConsultNoteDataConverter.TextareaId(nVerseIndex, nConversationIndex);
                 else
                     StrIdToScrollTo = ConsultNoteDataConverter.TextareaReadonlyRowId(nVerseIndex, nConversationIndex,
@@ -348,7 +348,7 @@ namespace OneStoryProjectEditor
             theSE.LastKeyPressedTimeStamp = DateTime.Now;   // so we can delay the autosave while typing
 
             // update the status bar (in case we previously put an error there
-            StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theSE.theCurrentStory.ProjStage.ProjectStage];
+            StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theSE.TheCurrentStory.ProjStage.ProjectStage];
             theSE.SetStatusBar(String.Format("{0}  Press F1 for instructions", st.StageDisplayString));
 
             return true;
@@ -397,8 +397,8 @@ namespace OneStoryProjectEditor
 
 #if !JustMentorsCanAddNotesWhenNotTheirTurn
                 string strPfMemberId = null;
-                if (theSE.theCurrentStory != null)
-                    strPfMemberId = theSE.theCurrentStory.CraftingInfo.ProjectFacilitator.MemberId;
+                if (theSE.TheCurrentStory != null)
+                    strPfMemberId = theSE.TheCurrentStory.CraftingInfo.ProjectFacilitator.MemberId;
                 if (theCNsDC.HasAddNotePrivilege(theSE.LoggedOnMember, strPfMemberId))
                     return true;
 #else
@@ -409,7 +409,7 @@ namespace OneStoryProjectEditor
                 }
 #endif
 
-                theSE.LoggedOnMember.ThrowIfEditIsntAllowed(theSE.theCurrentStory);
+                theSE.LoggedOnMember.ThrowIfEditIsntAllowed(theSE.TheCurrentStory);
             }
             catch (Exception ex)
             {
@@ -444,7 +444,7 @@ namespace OneStoryProjectEditor
 
             StrIdToScrollTo = GetTopRowId;
             ConsultNoteDataConverter cndc =
-                aCNsDC.Add(theSE.theCurrentStory, theSE.LoggedOnMember, 
+                aCNsDC.Add(theSE.TheCurrentStory, theSE.LoggedOnMember, 
                 theSE.StoryProject.TeamMembers, strNote, bNoteToSelf);
             System.Diagnostics.Debug.Assert(cndc.Count == 1);
             LoadDocument();

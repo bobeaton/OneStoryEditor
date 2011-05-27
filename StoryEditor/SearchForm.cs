@@ -106,8 +106,8 @@ namespace OneStoryProjectEditor
                 }
                 else
                 {
-                    ssidx = alstBoxesToSearch.GetNewStorySearchIndex(TheSE.theCurrentStory.Name);
-                    TheSE.theCurrentStory.IndexSearch(FindProperties, ref ssidx);
+                    ssidx = alstBoxesToSearch.GetNewStorySearchIndex(TheSE.TheCurrentStory.Name);
+                    TheSE.TheCurrentStory.IndexSearch(FindProperties, ref ssidx);
                 }
             }
             
@@ -121,7 +121,7 @@ namespace OneStoryProjectEditor
                 return;
             }
 
-            ssidx = ssidx ?? BoxesToSearch[TheSE.theCurrentStory.Name];
+            ssidx = ssidx ?? BoxesToSearch[TheSE.TheCurrentStory.Name];
 
             // check to see if we have a starting place...
             if (CtrlTextBox._inTextBox != null)

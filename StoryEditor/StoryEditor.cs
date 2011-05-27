@@ -30,11 +30,23 @@ namespace OneStoryProjectEditor
         internal const string CstrButtonDropTargetName = "buttonDropTarget";
 
         internal StoryProjectData StoryProject;
-        internal StoryData theCurrentStory;
         protected string _strStoriesSet;
 
+        private StoryData _theCurrentStory;
+        public StoryData TheCurrentStory
+        {
+            get { return _theCurrentStory; }
+            set
+            {
+                _theCurrentStory = value;
+                // since the task link visibility is based on this too, check and update
+                if (LoggedOnMember != null)
+                    UpdateTaskLinkVisibility(LoggedOnMember);
+            }
+        }
+
         // we keep a copy of this, because it ought to persist across multiple files
-        private TeamMemberData _loggedOnMember = null;
+        private TeamMemberData _loggedOnMember;
         internal TeamMemberData LoggedOnMember
         {
             get { return _loggedOnMember; }
@@ -70,7 +82,7 @@ namespace OneStoryProjectEditor
                                                             TeamMemberData.UserTypes.IndependentConsultant |
                                                             TeamMemberData.UserTypes.ConsultantInTraining |
                                                             TeamMemberData.UserTypes.Coach) &&
-                                      (theCurrentStory != null));
+                                      (TheCurrentStory != null));
         }
 
         internal bool Modified;
@@ -490,7 +502,7 @@ namespace OneStoryProjectEditor
         {
             ClearFlowControls();
             CtrlTextBox._inTextBox = null;
-            theCurrentStory = null;
+            TheCurrentStory = null;
             StoryStageLogic.stateTransitions = null;
             comboBoxStorySelector.Items.Clear();
             comboBoxStorySelector.Text = Properties.Resources.IDS_EnterStoryName;
@@ -569,7 +581,7 @@ namespace OneStoryProjectEditor
                 {
                     SaveClicked();
 
-                    if (theCurrentStory != null)
+                    if (TheCurrentStory != null)
                     {
                         // reload the state transitions so that we can possible support a new
                         //  configuration (e.g. there might now be a FPM)
@@ -577,7 +589,7 @@ namespace OneStoryProjectEditor
                         StoryStageLogic.stateTransitions =
                             new StoryStageLogic.StateTransitions(StoryProject.ProjSettings.ProjectFolder);
                         ReInitMenuVisibility();
-                        SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, true);
+                        SetViewBasedOnProjectStage(TheCurrentStory.ProjStage.ProjectStage, true);
                         InitAllPanes(); // just in case e.g. the font or RTL value changed
                     }
                 }
@@ -611,9 +623,9 @@ namespace OneStoryProjectEditor
                     LoggedOnMember = StoryProject.EditTeamMembers(strMemberName, eRole, true, 
                         StoryProject.ProjSettings, bLoginRequired, ref Modified);
 
-                    if (theCurrentStory != null)
+                    if (TheCurrentStory != null)
                     {
-                        InitAllPanes(theCurrentStory.Verses);
+                        InitAllPanes(TheCurrentStory.Verses);
                         WarnIfNotProperMemberType();
                     }
                 }
@@ -824,7 +836,7 @@ namespace OneStoryProjectEditor
                             comboBoxStorySelector.SelectedItem = strStoryName;
                             return false;
                         }
-                        else if (aStory.Name == theCurrentStory.Name)
+                        else if (aStory.Name == TheCurrentStory.Name)
                         {
                             nIndexForInsert = TheCurrentStoriesSet.IndexOf(aStory);
                             return true;
@@ -884,7 +896,7 @@ namespace OneStoryProjectEditor
                 for (int i = 0; i < TheCurrentStoriesSet.Count; i++)
                 {
                     StoryData aStory = TheCurrentStoriesSet[i];
-                    if ((theCurrentStory != null) && (theCurrentStory == aStory))
+                    if ((TheCurrentStory != null) && (TheCurrentStory == aStory))
                         nInsertIndex = i + 1;
                     if (aStory.Name == strStoryToLoad)
                         theStory = aStory;
@@ -937,9 +949,9 @@ namespace OneStoryProjectEditor
 
         protected void InsertNewStoryAdjustComboBox(StoryData theNewStory, int nIndexToInsert)
         {
-            theCurrentStory = theNewStory;
+            TheCurrentStory = theNewStory;
             comboBoxStorySelector.Items.Insert(nIndexToInsert, theNewStory.Name);
-            TheCurrentStoriesSet.Insert(nIndexToInsert, theCurrentStory);
+            TheCurrentStoriesSet.Insert(nIndexToInsert, TheCurrentStory);
             comboBoxStorySelector.SelectedItem = theNewStory.Name;
             Modified = true;
             InitAllPanes();
@@ -950,18 +962,18 @@ namespace OneStoryProjectEditor
         {
             // do nothing if we're already on this story:
             if (_bCancellingChange
-                && (theCurrentStory != null)
-                && (theCurrentStory.Name == (string)comboBoxStorySelector.SelectedItem))
+                && (TheCurrentStory != null)
+                && (TheCurrentStory.Name == (string)comboBoxStorySelector.SelectedItem))
                 return;
 
             // save the file before moving on.
             if (!CheckForSaveDirtyFile())
             {
                 // if we're backing out, try to reset the combo box with the current story
-                if ((theCurrentStory != null) && (theCurrentStory.Name != (string)comboBoxStorySelector.SelectedItem))
+                if ((TheCurrentStory != null) && (TheCurrentStory.Name != (string)comboBoxStorySelector.SelectedItem))
                 {
                     _bCancellingChange = true;
-                    comboBoxStorySelector.SelectedItem = theCurrentStory.Name;
+                    comboBoxStorySelector.SelectedItem = TheCurrentStory.Name;
                     _bCancellingChange = false;
                 }
                 return;
@@ -984,33 +996,33 @@ namespace OneStoryProjectEditor
             foreach (StoryData aStory in TheCurrentStoriesSet)
                 if (aStory.Name == (string)comboBoxStorySelector.SelectedItem)
                 {
-                    theCurrentStory = aStory;
+                    TheCurrentStory = aStory;
                     break;
                 }
-            Debug.Assert(theCurrentStory != null);
+            Debug.Assert(TheCurrentStory != null);
             if (IsInStoriesSet)
             {
-                Properties.Settings.Default.LastStoryWorkedOn = theCurrentStory.Name;
+                Properties.Settings.Default.LastStoryWorkedOn = TheCurrentStory.Name;
                 Properties.Settings.Default.Save();
 
                 // see if we have proper Member IDs on all connote conversation comments
-                if (!theCurrentStory.CheckForConNotesParticipants(StoryProject, ref Modified))
+                if (!TheCurrentStory.CheckForConNotesParticipants(StoryProject, ref Modified))
                 {
                     // failed to indicate who the main commentors are, 
                     //  so we can't continue
-                    theCurrentStory = null;
+                    TheCurrentStory = null;
                     return;
                 }
             }
 
             // initialize the text box showing the storying they're editing
-            textBoxStoryVerse.Text = Properties.Resources.IDS_StoryColon + theCurrentStory.Name;
+            textBoxStoryVerse.Text = Properties.Resources.IDS_StoryColon + TheCurrentStory.Name;
 
             // initialize the project stage details (which might hide certain views)
             //  (do this *after* initializing the whole thing, because if we save, we'll
             //  want to save even the hidden pieces)
             // BUT to avoid the multiple repaints, temporarily disable the painting
-            SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, true);
+            SetViewBasedOnProjectStage(TheCurrentStory.ProjStage.ProjectStage, true);
 
             // forget things:
             CtrlTextBox._nLastVerse = -1;
@@ -1030,7 +1042,7 @@ namespace OneStoryProjectEditor
         private void WarnIfNotProperMemberType()
         {
             // inform the user that they won't be able to edit this if they aren't the proper member type
-            Debug.Assert((theCurrentStory != null) && (LoggedOnMember != null));
+            Debug.Assert((TheCurrentStory != null) && (LoggedOnMember != null));
             if (TeamMemberData.IsUser(LoggedOnMember.MemberType,
                                       TeamMemberData.UserTypes.ProjectFacilitator))
             {
@@ -1038,7 +1050,7 @@ namespace OneStoryProjectEditor
             }
 
             if (_bNagOnce)
-                LoggedOnMember.CheckIfThisAnAcceptableEditorForThisStory(theCurrentStory);
+                LoggedOnMember.CheckIfThisAnAcceptableEditorForThisStory(TheCurrentStory);
             
             _bNagOnce = false;
         }
@@ -1055,17 +1067,17 @@ namespace OneStoryProjectEditor
             ClearFlowControls();
             int nVerseIndex = 0;
             if (theVerses.Count == 0)
-                theCurrentStory.Verses.InsertVerse(0, null, null, null, null);
+                TheCurrentStory.Verses.InsertVerse(0, null, null, null, null);
 
             flowLayoutPanelVerses.SuspendLayout();
 #if UsingHtmlDisplayForConNotes
             flowLayoutPanelVerses.LineNumberLink = linkLabelVerseBT;
             linkLabelVerseBT.Visible = true;
             htmlConsultantNotesControl.TheSE = this;
-            htmlConsultantNotesControl.StoryData = theCurrentStory;
+            htmlConsultantNotesControl.StoryData = TheCurrentStory;
             htmlConsultantNotesControl.LineNumberLink = linkLabelConsultantNotes;
             htmlCoachNotesControl.TheSE = this;
-            htmlCoachNotesControl.StoryData = theCurrentStory;
+            htmlCoachNotesControl.StoryData = TheCurrentStory;
             htmlCoachNotesControl.LineNumberLink = linkLabelCoachNotes;
 #else
             flowLayoutPanelConsultantNotes.SuspendLayout();
@@ -1145,7 +1157,7 @@ namespace OneStoryProjectEditor
         internal void ReInitVerseControls()
         {
             // this sometimes gets called in bad times
-            if ((theCurrentStory == null) || (theCurrentStory.Verses.Count == 0))
+            if ((TheCurrentStory == null) || (TheCurrentStory.Verses.Count == 0))
                 return;
 
             int nLastVerseInFocus = CtrlTextBox._nLastVerse;
@@ -1160,11 +1172,11 @@ namespace OneStoryProjectEditor
 
             // add either the general testing question line or a button
             if (viewGeneralTestingQuestionMenuItem.Checked)
-                InitVerseControls(theCurrentStory.Verses.FirstVerse, nVerseIndex++);
+                InitVerseControls(TheCurrentStory.Verses.FirstVerse, nVerseIndex++);
             else
                 AddDropTargetToFlowLayout(nVerseIndex++);
 
-            foreach (VerseData aVerse in theCurrentStory.Verses)
+            foreach (VerseData aVerse in TheCurrentStory.Verses)
             {
                 if (aVerse.IsVisible || hiddenVersesToolStripMenuItem.Checked)
                     InitVerseControls(aVerse, nVerseIndex);
@@ -1312,7 +1324,7 @@ namespace OneStoryProjectEditor
             for (int i = 0; i < nNumberToAdd; i++)
                 lstNewVerses.Add(new VerseData());
 
-            theCurrentStory.Verses.InsertRange(nInsertionIndex, lstNewVerses);
+            TheCurrentStory.Verses.InsertRange(nInsertionIndex, lstNewVerses);
             InitAllPanes();
             Debug.Assert(lstNewVerses.Count > 0);
             // shouldn't need to do this here (done in InitAllPanes): FocusOnVerse(nInsertionIndex);
@@ -1558,7 +1570,7 @@ namespace OneStoryProjectEditor
                 //  1) it's 'ans 0' (because somehow the member id was removed)
                 //  2) there's no 'ans 1' (in which case 'ans 2' is the zeroth element)
                 string strTestorId = GetTestorId(strTestNumber,
-                                                 theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
+                                                 TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
                                                  retellings);
                 LineMemberData retellingData = retellings.TryGetValue(strTestorId);
 
@@ -1626,7 +1638,7 @@ namespace OneStoryProjectEditor
             //  1) it's 'ans 0' (because somehow the member id was removed)
             //  2) there's no 'ans 1' (in which case 'ans 2' is the zeroth element)
             string strTestorId = GetTestorId(strTestNumber,
-                                             theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
+                                             TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
                                              answers);
             return answers.TryGetValue(strTestorId);
         }
@@ -1740,7 +1752,7 @@ namespace OneStoryProjectEditor
                 if (TeamMemberData.IsUser(LoggedOnMember.MemberType,
                                           TeamMemberData.UserTypes.Coach))
                 {
-                    MemberIdInfo.SetCreateIfEmpty(ref theCurrentStory.CraftingInfo.Coach,
+                    MemberIdInfo.SetCreateIfEmpty(ref TheCurrentStory.CraftingInfo.Coach,
                                                   LoggedOnMember.MemberGuid, false);
                 }
             }
@@ -1797,7 +1809,7 @@ namespace OneStoryProjectEditor
                                           TeamMemberData.UserTypes.IndependentConsultant |
                                           TeamMemberData.UserTypes.ConsultantInTraining))
                 {
-                    MemberIdInfo.SetCreateIfEmpty(ref theCurrentStory.CraftingInfo.Consultant,
+                    MemberIdInfo.SetCreateIfEmpty(ref TheCurrentStory.CraftingInfo.Consultant,
                                                   LoggedOnMember.MemberGuid, false);
                 }
             }
@@ -1806,8 +1818,8 @@ namespace OneStoryProjectEditor
         internal void AddNewVerse(int nInsertionIndex, string strVernacular, 
             string strNationalBT, string strInternationalBT, string strFreeTranslation)
         {
-            Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses != null));
-            theCurrentStory.Verses.InsertVerse(nInsertionIndex,
+            Debug.Assert((TheCurrentStory != null) && (TheCurrentStory.Verses != null));
+            TheCurrentStory.Verses.InsertVerse(nInsertionIndex,
                                                strVernacular, 
                                                strNationalBT, 
                                                strInternationalBT,
@@ -1821,7 +1833,7 @@ namespace OneStoryProjectEditor
         {
             try
             {
-                InitAllPanes(theCurrentStory.Verses);
+                InitAllPanes(TheCurrentStory.Verses);
                 ResetStatusBar();
             }
             catch (Exception ex)
@@ -1832,7 +1844,7 @@ namespace OneStoryProjectEditor
 
         internal void DeleteVerse(VerseData theVerseDataToDelete)
         {
-            theCurrentStory.Verses.Remove(theVerseDataToDelete);
+            TheCurrentStory.Verses.Remove(theVerseDataToDelete);
             InitAllPanes();
             Modified = true;
         }
@@ -1905,8 +1917,8 @@ namespace OneStoryProjectEditor
 
         void DoMove(int nInsertionIndex, VerseData theVerseToMove)
         {
-            int nCurIndex = theCurrentStory.Verses.IndexOf(theVerseToMove);
-            theCurrentStory.Verses.Remove(theVerseToMove);
+            int nCurIndex = TheCurrentStory.Verses.IndexOf(theVerseToMove);
+            TheCurrentStory.Verses.Remove(theVerseToMove);
 
             // if we're moving the verse to an earlier position, then remove it from its higher index, 
             //  just insert it at the new lower index. However, if an earlier verse is being moved later, 
@@ -1914,14 +1926,14 @@ namespace OneStoryProjectEditor
             if (nInsertionIndex > nCurIndex)
                 --nInsertionIndex;
 
-            theCurrentStory.Verses.Insert(nInsertionIndex, theVerseToMove);
+            TheCurrentStory.Verses.Insert(nInsertionIndex, theVerseToMove);
             InitAllPanes();
             Modified = true;
         }
 
         internal void DoPasteVerse(int nInsertionIndex, VerseData theVerseToPaste)
         {
-            theCurrentStory.Verses.Insert(nInsertionIndex, theVerseToPaste);
+            TheCurrentStory.Verses.Insert(nInsertionIndex, theVerseToPaste);
             // now done by callerInitAllPanes();
             Modified = true;
         }
@@ -2136,7 +2148,7 @@ namespace OneStoryProjectEditor
 
         internal void QueryStoryPurpose()
         {
-            var dlg = new StoryFrontMatterForm(this, StoryProject, theCurrentStory);
+            var dlg = new StoryFrontMatterForm(this, StoryProject, TheCurrentStory);
 
             // since this can affect things, if things were changed, then update the panes
             //  (e.g. change of Consultant could result in different buttons)
@@ -2149,14 +2161,14 @@ namespace OneStoryProjectEditor
             try
             {
                 // let's see if the UNS entered the purpose and resources used on this story
-                if (theCurrentStory != null)
+                if (TheCurrentStory != null)
                 {
-                    Debug.Assert(theCurrentStory.CraftingInfo != null);
-                    if (theCurrentStory.CraftingInfo.IsBiblicalStory
+                    Debug.Assert(TheCurrentStory.CraftingInfo != null);
+                    if (TheCurrentStory.CraftingInfo.IsBiblicalStory
                         && TeamMemberData.IsUser(LoggedOnMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator)
-                        && (((int)theCurrentStory.ProjStage.ProjectStage) > (int)StoryStageLogic.ProjectStages.eProjFacTypeVernacular)
-                        && (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose)
-                        || String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ResourcesUsed)))
+                        && (((int)TheCurrentStory.ProjStage.ProjectStage) > (int)StoryStageLogic.ProjectStages.eProjFacTypeVernacular)
+                        && (String.IsNullOrEmpty(TheCurrentStory.CraftingInfo.StoryPurpose)
+                        || String.IsNullOrEmpty(TheCurrentStory.CraftingInfo.ResourcesUsed)))
                         QueryStoryPurpose();
                 }
 
@@ -2391,10 +2403,10 @@ namespace OneStoryProjectEditor
 
         internal void ResetStatusBar()
         {
-            if (theCurrentStory == null)
+            if (TheCurrentStory == null)
                 return;
 
-            StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
+            StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[TheCurrentStory.ProjStage.ProjectStage];
             SetStatusBar(String.Format("{0}  Press F1 for instructions", st.StageDisplayString));
         }
 
@@ -2495,23 +2507,23 @@ namespace OneStoryProjectEditor
         internal bool _bByNextStateButton = false;
         private void buttonsStoryStage_Click(object sender, EventArgs e)
         {
-            if ((StoryProject == null) || (StoryProject.ProjSettings == null) || (theCurrentStory == null))
+            if ((StoryProject == null) || (StoryProject.ProjSettings == null) || (TheCurrentStory == null))
                 return;
 
-            StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
+            StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[TheCurrentStory.ProjStage.ProjectStage];
             _bByNextStateButton = true;
-            SetNextState(st.DefaultNextState(StoryProject, theCurrentStory), true);
+            SetNextState(st.DefaultNextState(StoryProject, TheCurrentStory), true);
             _bByNextStateButton = false;
         }
 
         protected bool SetNextState(StoryStageLogic.ProjectStages stateToSet, bool bDoUpdateCtrls)
         {
-            if ((StoryProject == null) || (StoryProject.ProjSettings == null) || (theCurrentStory == null))
+            if ((StoryProject == null) || (StoryProject.ProjSettings == null) || (TheCurrentStory == null))
                 return false;
 
             if (SetNextStateIfReady(stateToSet))
             {
-                SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage,
+                SetViewBasedOnProjectStage(TheCurrentStory.ProjStage.ProjectStage,
                     bDoUpdateCtrls);
 
                 if (bDoUpdateCtrls)
@@ -2527,7 +2539,7 @@ namespace OneStoryProjectEditor
         {
             try
             {
-                LoggedOnMember.ThrowIfEditIsntAllowed(theCurrentStory);
+                LoggedOnMember.ThrowIfEditIsntAllowed(TheCurrentStory);
             }
             catch (Exception ex)
             {
@@ -2535,7 +2547,7 @@ namespace OneStoryProjectEditor
                 return false;
             }
 
-            if ((theCurrentStory.ProjStage.ProjectStage == stateToSet)
+            if ((TheCurrentStory.ProjStage.ProjectStage == stateToSet)
                 && (stateToSet == StoryStageLogic.ProjectStages.eTeamFinalApproval))
             {
                 MessageBox.Show(Properties.Resources.IDS_GoBackwardsYoungMan,
@@ -2543,14 +2555,14 @@ namespace OneStoryProjectEditor
                 return false;
             }
 
-            StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
-            bool bRet = st.IsReadyForTransition(this, StoryProject, theCurrentStory, ref stateToSet);
+            StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[TheCurrentStory.ProjStage.ProjectStage];
+            bool bRet = st.IsReadyForTransition(this, StoryProject, TheCurrentStory, ref stateToSet);
             if (bRet)
             {
                 StoryStageLogic.ProjectStages eNextState = stateToSet;
                 StoryStageLogic.StateTransition stNext = StoryStageLogic.stateTransitions[eNextState];
                 bool bReqSave = false;
-                if (theCurrentStory.ProjStage.IsTerminalTransition(eNextState))
+                if (TheCurrentStory.ProjStage.IsTerminalTransition(eNextState))
                 {
                     if (MessageBox.Show(Properties.Resources.IDS_TerminalTransitionMessage,
                                         OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
@@ -2560,10 +2572,10 @@ namespace OneStoryProjectEditor
                     bReqSave = true;  // request a save if we've just done a terminal transition
                 }
                 // a record to our history
-                theCurrentStory.TransitionHistory.Add(LoggedOnMember.MemberGuid,
-                    theCurrentStory.ProjStage.ProjectStage, eNextState);
-                theCurrentStory.ProjStage.ProjectStage = eNextState;  // if we are ready, then go ahead and transition
-                theCurrentStory.StageTimeStamp = DateTime.Now;
+                TheCurrentStory.TransitionHistory.Add(LoggedOnMember.MemberGuid,
+                    TheCurrentStory.ProjStage.ProjectStage, eNextState);
+                TheCurrentStory.ProjStage.ProjectStage = eNextState;  // if we are ready, then go ahead and transition
+                TheCurrentStory.StageTimeStamp = DateTime.Now;
                 Modified = true;
 
                 if (bReqSave)
@@ -2577,13 +2589,13 @@ namespace OneStoryProjectEditor
             bool bTriggerSnapshotSave)
         {
             // a record to our history
-            theCurrentStory.TransitionHistory.Add(LoggedOnMember.MemberGuid,
-                theCurrentStory.ProjStage.ProjectStage, stateToSet);
-            theCurrentStory.ProjStage.ProjectStage = stateToSet;  // if we are ready, then go ahead and transition
-            theCurrentStory.StageTimeStamp = DateTime.Now;
+            TheCurrentStory.TransitionHistory.Add(LoggedOnMember.MemberGuid,
+                TheCurrentStory.ProjStage.ProjectStage, stateToSet);
+            TheCurrentStory.ProjStage.ProjectStage = stateToSet;  // if we are ready, then go ahead and transition
+            TheCurrentStory.StageTimeStamp = DateTime.Now;
             Modified = true;
 
-            SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, true);
+            SetViewBasedOnProjectStage(TheCurrentStory.ProjStage.ProjectStage, true);
 
             if (bTriggerSnapshotSave)
             {
@@ -2596,11 +2608,11 @@ namespace OneStoryProjectEditor
 
         private void storyToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
-            enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Enabled = ((theCurrentStory != null) &&
-                                                                          (theCurrentStory.CraftingInfo != null));
+            enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Enabled = ((TheCurrentStory != null) &&
+                                                                          (TheCurrentStory.CraftingInfo != null));
 
             deleteStoryToolStripMenuItem.Enabled =
-                storyCopyWithNewNameToolStripMenuItem.Enabled = (theCurrentStory != null);
+                storyCopyWithNewNameToolStripMenuItem.Enabled = (TheCurrentStory != null);
 
             insertNewStoryToolStripMenuItem.Enabled = addNewStoryAfterToolStripMenuItem.Enabled =
                 (IsInStoriesSet && (StoryProject != null) && (LoggedOnMember != null));
@@ -2608,17 +2620,17 @@ namespace OneStoryProjectEditor
             // if there's a story that has more than no verses, AND if it's a bible
             //  story and before the add anchors stage or a non-biblical story and
             //  before the consultant check stage...
-            if ((theCurrentStory != null)
-                && (theCurrentStory.Verses.Count > 0)
-                && (theCurrentStory.CraftingInfo != null)
-                && ((theCurrentStory.CraftingInfo.IsBiblicalStory || 
-                        (theCurrentStory.ProjStage.ProjectStage < StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory))))
+            if ((TheCurrentStory != null)
+                && (TheCurrentStory.Verses.Count > 0)
+                && (TheCurrentStory.CraftingInfo != null)
+                && ((TheCurrentStory.CraftingInfo.IsBiblicalStory || 
+                        (TheCurrentStory.ProjStage.ProjectStage < StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory))))
             {
                 // then we can do splitting and collapsing of the story
                 splitIntoLinesToolStripMenuItem.Enabled =
                     realignStoryVersesToolStripMenuItem.Enabled = true;
 
-                if (theCurrentStory.Verses.Count == 1)
+                if (TheCurrentStory.Verses.Count == 1)
                     splitIntoLinesToolStripMenuItem.Text = "S&plit into Lines";
                 else
                     splitIntoLinesToolStripMenuItem.Text = "&Collapse into 1 line";
@@ -2629,8 +2641,8 @@ namespace OneStoryProjectEditor
 
             if ((StoryProject != null) 
                 && (StoryProject.ProjSettings != null)
-                && (theCurrentStory != null)
-                && (theCurrentStory.Verses.Count > 0))
+                && (TheCurrentStory != null)
+                && (TheCurrentStory.Verses.Count > 0))
             {
                 useAdaptItForBacktranslationToolStripMenuItem.Enabled = true;
                 bool bAnySharedProjects = false;
@@ -2700,7 +2712,7 @@ namespace OneStoryProjectEditor
                 return;
 
             // keep track of the index of the current story (in case it gets deleted)
-            int nIndex = (theCurrentStory != null) ? TheCurrentStoriesSet.IndexOf(theCurrentStory) : -1;
+            int nIndex = (TheCurrentStory != null) ? TheCurrentStoriesSet.IndexOf(TheCurrentStory) : -1;
 
             PanoramaView dlg = new PanoramaView(StoryProject);
             dlg.ShowDialog();
@@ -2713,16 +2725,16 @@ namespace OneStoryProjectEditor
                     comboBoxStorySelector.Items.Add(aStory.Name);
 
                 // if the current story has been deleted, then choose another
-                if (theCurrentStory != null)
+                if (TheCurrentStory != null)
                 {
-                    int nNewIndex = TheCurrentStoriesSet.IndexOf(theCurrentStory);
+                    int nNewIndex = TheCurrentStoriesSet.IndexOf(TheCurrentStory);
                     if (nNewIndex != -1)
                     {
                         nIndex = -1;
 
                         // also check to see if its name has been changed
-                        if (theCurrentStory.Name != comboBoxStorySelector.Text)
-                            comboBoxStorySelector.Text = theCurrentStory.Name;
+                        if (TheCurrentStory.Name != comboBoxStorySelector.Text)
+                            comboBoxStorySelector.Text = TheCurrentStory.Name;
                     }
                 }
 
@@ -2745,22 +2757,22 @@ namespace OneStoryProjectEditor
 
         private void deleteStoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Debug.Assert(theCurrentStory != null);
+            Debug.Assert(TheCurrentStory != null);
 
-            int nIndex = TheCurrentStoriesSet.IndexOf(theCurrentStory);
+            int nIndex = TheCurrentStoriesSet.IndexOf(TheCurrentStory);
             Debug.Assert(nIndex != -1);
             if (nIndex == -1)
                 return;
 
             // make sure the user really wants to do this
             if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteStory,
-                theCurrentStory.Name), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel)
+                TheCurrentStory.Name), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel)
                 != DialogResult.Yes)
                 return;
 
             TheCurrentStoriesSet.RemoveAt(nIndex);
-            Debug.Assert(comboBoxStorySelector.Items.IndexOf(theCurrentStory.Name) == nIndex);
-            comboBoxStorySelector.Items.Remove(theCurrentStory.Name);
+            Debug.Assert(comboBoxStorySelector.Items.IndexOf(TheCurrentStory.Name) == nIndex);
+            comboBoxStorySelector.Items.Remove(TheCurrentStory.Name);
 
             if (nIndex > 0)
                 nIndex--;
@@ -2806,7 +2818,7 @@ namespace OneStoryProjectEditor
 
         private void editToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
-            bool bSomeVerses = ((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+            bool bSomeVerses = ((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
             editFindToolStripMenuItem.Enabled =
                 copyToolStripMenuItem.Enabled =
                 copyNationalBackTranslationToolStripMenuItem.Enabled =
@@ -2824,13 +2836,13 @@ namespace OneStoryProjectEditor
                 addgeneralTestQuestionToolStripMenuItem.Enabled =
                     (IsInStoriesSet 
                         && bSomeVerses 
-                        && theCurrentStory.CraftingInfo.IsBiblicalStory);
+                        && TheCurrentStory.CraftingInfo.IsBiblicalStory);
 
             pasteToolStripMenuItem.Enabled = (CtrlTextBox._inTextBox != null);
 
             editCopySelectionToolStripMenuItem.Enabled = ((CtrlTextBox._inTextBox != null) && (!String.IsNullOrEmpty(CtrlTextBox._inTextBox.SelectedText)));
 
-            if ((StoryProject != null) && (StoryProject.ProjSettings != null) && (theCurrentStory != null) && (theCurrentStory.Verses.Count > 0))
+            if ((StoryProject != null) && (StoryProject.ProjSettings != null) && (TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0))
             {
                 if (StoryProject.ProjSettings.Vernacular.HasData)
                     copyStoryToolStripMenuItem.Text = String.Format(Properties.Resources.IDS_StoryText, StoryProject.ProjSettings.Vernacular.LangName);
@@ -2858,20 +2870,20 @@ namespace OneStoryProjectEditor
                         copyFreeTranslationMenuItem.Visible = false;
 
                 deleteTestToolStripMenuItem.DropDownItems.Clear();
-                if ((theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count > 0)
-                    || (theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count > 0))
+                if ((TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count > 0)
+                    || (TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count > 0))
                 {
-                    for (int nTest = 0; nTest < theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count; nTest++)
+                    for (int nTest = 0; nTest < TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count; nTest++)
                     {
-                        string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsRetellings[nTest].MemberId;
+                        string strUnsGuid = TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings[nTest].MemberId;
                         AddDeleteTestSubmenu(deleteTestToolStripMenuItem,
                                              String.Format("Retelling Test {0} done by {1}", nTest + 1,
                                                            StoryProject.GetMemberNameFromMemberGuid(strUnsGuid)),
                                              nTest, OnRemoveRetellingTest);
                     }
-                    for (int nTest = 0; nTest < theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count; nTest++)
+                    for (int nTest = 0; nTest < TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count; nTest++)
                     {
-                        string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTest].MemberId;
+                        string strUnsGuid = TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTest].MemberId;
                         AddDeleteTestSubmenu(deleteTestToolStripMenuItem,
                                              String.Format("Story Question Testing {0} done by {1}", nTest + 1,
                                                            StoryProject.GetMemberNameFromMemberGuid(strUnsGuid)),
@@ -2898,7 +2910,7 @@ namespace OneStoryProjectEditor
 
         internal bool AddInferenceTestBoxes()
         {
-            if (!CheckEndOfStateTransition.CheckForCountOfTestingQuestions(theCurrentStory, this))
+            if (!CheckEndOfStateTransition.CheckForCountOfTestingQuestions(TheCurrentStory, this))
                 return false;
 
             if (MessageBox.Show(Properties.Resources.IDS_AreAllTestingQuestionsEnteredQuery,
@@ -2915,7 +2927,7 @@ namespace OneStoryProjectEditor
         {
             // query for the UNSs that will be doing this test
             string strUnsGuid = null;
-            if (!GetUniqueTestor(theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
+            if (!GetUniqueTestor(TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
                 ref strUnsGuid))
                 return false;
 
@@ -2927,12 +2939,12 @@ namespace OneStoryProjectEditor
             strAnswer = String.Format(Properties.Resources.IDS_RetellingCommentFormat,
                                       DateTime.Now.ToString("yyyy-MMM-dd"), strAnswer);
             var toi = new MemberIdInfo(strUnsGuid, strAnswer);
-            theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Add(toi);
-            foreach (VerseData aVerseData in theCurrentStory.Verses)
+            TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Add(toi);
+            foreach (VerseData aVerseData in TheCurrentStory.Verses)
                 aVerseData.Retellings.TryAddNewLine(strUnsGuid);
 
-            if (theCurrentStory.CountRetellingsTests > 0)
-                theCurrentStory.CountRetellingsTests--; // to show we've added one
+            if (TheCurrentStory.CountRetellingsTests > 0)
+                TheCurrentStory.CountRetellingsTests--; // to show we've added one
 
             // just in case it wasn't showing
             viewRetellingFieldMenuItem.Checked = true;
@@ -2945,21 +2957,21 @@ namespace OneStoryProjectEditor
         {
             // query for the UNSs that will be doing this test
             string strUnsGuid = null;
-            if (!GetUniqueTestor(theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
+            if (!GetUniqueTestor(TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
                 ref strUnsGuid))
                 return false;
 
             string strAnswer = String.Format(Properties.Resources.IDS_InferenceCommentFormat,
                                              DateTime.Now.ToString("yyyy-MMM-dd"));
             var toi = new MemberIdInfo(strUnsGuid, strAnswer);
-            theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Add(toi);
+            TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Add(toi);
 
-            foreach (VerseData aVerseData in theCurrentStory.Verses)
+            foreach (VerseData aVerseData in TheCurrentStory.Verses)
                 foreach (TestQuestionData aTQ in aVerseData.TestQuestions)
                     aTQ.Answers.TryAddNewLine(strUnsGuid);
 
-            if (theCurrentStory.CountTestingQuestionTests > 0)
-                theCurrentStory.CountTestingQuestionTests--;    // to show we've added one
+            if (TheCurrentStory.CountTestingQuestionTests > 0)
+                TheCurrentStory.CountTestingQuestionTests--;    // to show we've added one
 
             // just in case it isn't currently showing
             viewStoryTestingQuestionAnswerMenuItem.Checked = true;
@@ -3019,7 +3031,7 @@ namespace OneStoryProjectEditor
             theNewAnswer = theTq.Answers.TryGetValue(strUnsGuid);
             if (theNewAnswer != null)
             {
-                int nIndex = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.IndexOf(theNewAnswer.MemberId);
+                int nIndex = TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.IndexOf(theNewAnswer.MemberId);
                 MessageBox.Show(String.Format(Properties.Resources.IDS_AddTestSameUNS,
                                               String.Format(theTq.Answers.LabelTextFormat, nIndex + 1)),
                                 OseResources.Properties.Resources.IDS_Caption,
@@ -3029,10 +3041,10 @@ namespace OneStoryProjectEditor
 
             // okay, so the selected UNS doesn't already have an Answer entry for this
             //  TQ. Now see if (s)he has been added to the story level list
-            if (!theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Contains(strUnsGuid))
+            if (!TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Contains(strUnsGuid))
             {
                 // this means that this UNS has never been added for this story. Add now
-                theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Add(new MemberIdInfo(strUnsGuid, null));
+                TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Add(new MemberIdInfo(strUnsGuid, null));
             }
 
             // by now, the user-chosen UNS *is* in the CraftingInfo list and *isn't* in
@@ -3064,12 +3076,12 @@ namespace OneStoryProjectEditor
 
                 // finally, if this is the last reference to that UNS, then remove the 
                 //  reference to it
-                if (!theCurrentStory.DoesReferenceTqUns(answerData.MemberId))
+                if (!TheCurrentStory.DoesReferenceTqUns(answerData.MemberId))
                 {
-                    int nTestNum = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.IndexOf(answerData.MemberId);
+                    int nTestNum = TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.IndexOf(answerData.MemberId);
                     if (nTestNum >= 0)
                     {
-                        theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.RemoveAt(nTestNum);
+                        TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.RemoveAt(nTestNum);
 
                         // since we have removed a UNS from the test, now all 'ans N' values
                         //  may change for other verses as well. So repaint all
@@ -3113,8 +3125,8 @@ namespace OneStoryProjectEditor
 
         public bool QueryForAndDeleteRetellingTest(int nTestNum)
         {
-            Debug.Assert((nTestNum >= 0) && (nTestNum < theCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count));
-            string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsRetellings[nTestNum].MemberId;
+            Debug.Assert((nTestNum >= 0) && (nTestNum < TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count));
+            string strUnsGuid = TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings[nTestNum].MemberId;
             string strTestorName = StoryProject.GetMemberNameFromMemberGuid(strUnsGuid);
 
             if (MessageBox.Show(Properties.Resources.IDS_ConfirmDeleteRetellings + strTestorName,
@@ -3122,7 +3134,7 @@ namespace OneStoryProjectEditor
                 DialogResult.Yes)
                 return false;
 
-            theCurrentStory.DeleteRetellingTestResults(nTestNum, strUnsGuid);
+            TheCurrentStory.DeleteRetellingTestResults(nTestNum, strUnsGuid);
             return true;
         }
 
@@ -3139,8 +3151,8 @@ namespace OneStoryProjectEditor
 
         public bool QueryForAndDeleteAnswerTest(int nTestNum)
         {
-            Debug.Assert((nTestNum >= 0) && (nTestNum < theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count));
-            string strUnsGuid = theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTestNum].MemberId;
+            Debug.Assert((nTestNum >= 0) && (nTestNum < TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count));
+            string strUnsGuid = TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTestNum].MemberId;
             string strTestorName = StoryProject.GetMemberNameFromMemberGuid(strUnsGuid);
 
             if (MessageBox.Show(Properties.Resources.IDS_ConfirmDeleteTQs + strTestorName,
@@ -3148,7 +3160,7 @@ namespace OneStoryProjectEditor
                 DialogResult.Yes)
                 return false;
 
-            theCurrentStory.DeleteAnswerTestResults(nTestNum, strUnsGuid);
+            TheCurrentStory.DeleteAnswerTestResults(nTestNum, strUnsGuid);
             return true;
         }
 
@@ -3168,7 +3180,7 @@ namespace OneStoryProjectEditor
         private void copyStoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // iterate thru the verses and copy them to the clipboard
-            Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+            Debug.Assert((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
 
             string strStory = GetFullStoryContentsVernacular;
             PutOnClipboard(strStory);
@@ -3178,17 +3190,17 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                Debug.Assert((theCurrentStory != null)
-                    && (theCurrentStory.Verses.Count > 0));
+                Debug.Assert((TheCurrentStory != null)
+                    && (TheCurrentStory.Verses.Count > 0));
 
-                VerseData aVerse = theCurrentStory.Verses[0];
+                VerseData aVerse = TheCurrentStory.Verses[0];
                 string strText = null;
                 if (aVerse.IsVisible)
                     strText = aVerse.StoryLine.Vernacular.ToString();
 
-                for (int i = 1; i < theCurrentStory.Verses.Count; i++)
+                for (int i = 1; i < TheCurrentStory.Verses.Count; i++)
                 {
-                    aVerse = theCurrentStory.Verses[i];
+                    aVerse = TheCurrentStory.Verses[i];
                     if (aVerse.IsVisible && aVerse.StoryLine.Vernacular.HasData)
                         strText += ' ' + aVerse.StoryLine.Vernacular.ToString();
                 }
@@ -3201,17 +3213,17 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                Debug.Assert((theCurrentStory != null)
-                    && (theCurrentStory.Verses.Count > 0));
+                Debug.Assert((TheCurrentStory != null)
+                    && (TheCurrentStory.Verses.Count > 0));
 
-                VerseData aVerse = theCurrentStory.Verses[0];
+                VerseData aVerse = TheCurrentStory.Verses[0];
                 string strText = null;
                 if (aVerse.IsVisible)
                     strText = aVerse.StoryLine.NationalBt.ToString();
 
-                for (int i = 1; i < theCurrentStory.Verses.Count; i++)
+                for (int i = 1; i < TheCurrentStory.Verses.Count; i++)
                 {
-                    aVerse = theCurrentStory.Verses[i];
+                    aVerse = TheCurrentStory.Verses[i];
                     if (aVerse.IsVisible && aVerse.StoryLine.NationalBt.HasData)
                         strText += ' ' + aVerse.StoryLine.NationalBt.ToString();
                 }
@@ -3224,17 +3236,17 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                Debug.Assert((theCurrentStory != null)
-                    && (theCurrentStory.Verses.Count > 0));
+                Debug.Assert((TheCurrentStory != null)
+                    && (TheCurrentStory.Verses.Count > 0));
 
-                VerseData aVerse = theCurrentStory.Verses[0];
+                VerseData aVerse = TheCurrentStory.Verses[0];
                 string strText = null;
                 if (aVerse.IsVisible)
                     strText = aVerse.StoryLine.InternationalBt.ToString();
 
-                for (int i = 1; i < theCurrentStory.Verses.Count; i++)
+                for (int i = 1; i < TheCurrentStory.Verses.Count; i++)
                 {
-                    aVerse = theCurrentStory.Verses[i];
+                    aVerse = TheCurrentStory.Verses[i];
                     if (aVerse.IsVisible && aVerse.StoryLine.InternationalBt.HasData)
                         strText += ' ' + aVerse.StoryLine.InternationalBt.ToString();
                 }
@@ -3247,17 +3259,17 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                Debug.Assert((theCurrentStory != null)
-                    && (theCurrentStory.Verses.Count > 0));
+                Debug.Assert((TheCurrentStory != null)
+                    && (TheCurrentStory.Verses.Count > 0));
 
-                VerseData aVerse = theCurrentStory.Verses[0];
+                VerseData aVerse = TheCurrentStory.Verses[0];
                 string strText = null;
                 if (aVerse.IsVisible)
                     strText = aVerse.StoryLine.FreeTranslation.ToString();
 
-                for (int i = 1; i < theCurrentStory.Verses.Count; i++)
+                for (int i = 1; i < TheCurrentStory.Verses.Count; i++)
                 {
-                    aVerse = theCurrentStory.Verses[i];
+                    aVerse = TheCurrentStory.Verses[i];
                     if (aVerse.IsVisible && aVerse.StoryLine.FreeTranslation.HasData)
                         strText += ' ' + aVerse.StoryLine.FreeTranslation.ToString();
                 }
@@ -3294,7 +3306,7 @@ namespace OneStoryProjectEditor
         private void copyNationalBackTranslationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // iterate thru the verses and copy them to the clipboard
-            Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+            Debug.Assert((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
 
             string strStory = GetFullStoryContentsNationalBTText;
             PutOnClipboard(strStory);
@@ -3303,7 +3315,7 @@ namespace OneStoryProjectEditor
         private void copyEnglishBackTranslationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // iterate thru the verses and copy them to the clipboard
-            Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+            Debug.Assert((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
 
             string strStory = GetFullStoryContentsInternationalBTText;
             PutOnClipboard(strStory);
@@ -3312,7 +3324,7 @@ namespace OneStoryProjectEditor
         private void copyFreeTranslationMenuItem_Click(object sender, EventArgs e)
         {
             // iterate thru the verses and copy them to the clipboard
-            Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+            Debug.Assert((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
 
             string strStory = GetFullStoryContentsFreeTranslationText;
             PutOnClipboard(strStory);
@@ -3337,14 +3349,14 @@ namespace OneStoryProjectEditor
 
         private void deleteStoryVersesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Debug.Assert((theCurrentStory != null) && (sender is ToolStripItem));
+            Debug.Assert((TheCurrentStory != null) && (sender is ToolStripItem));
 
             ToolStripItem tsi = sender as ToolStripItem;
             if (tsi != null)
                 if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteAllVerseLines,
                                                   tsi.Text.Replace("&", null)), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                 {
-                    foreach (VerseData aVerse in theCurrentStory.Verses)
+                    foreach (VerseData aVerse in TheCurrentStory.Verses)
                         aVerse.StoryLine.Vernacular.SetValue(null);
                     ReInitVerseControls();
                     Modified = true;
@@ -3353,7 +3365,7 @@ namespace OneStoryProjectEditor
 
         private void deleteStoryNationalBackTranslationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Debug.Assert((theCurrentStory != null) && (sender is ToolStripItem));
+            Debug.Assert((TheCurrentStory != null) && (sender is ToolStripItem));
 
             ToolStripItem tsi = sender as ToolStripItem;
             if (tsi != null)
@@ -3361,7 +3373,7 @@ namespace OneStoryProjectEditor
                                                   tsi.Text.Replace("&", null)), OseResources.Properties.Resources.IDS_Caption,
                                     MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                 {
-                    foreach (VerseData aVerse in theCurrentStory.Verses)
+                    foreach (VerseData aVerse in TheCurrentStory.Verses)
                         aVerse.StoryLine.NationalBt.SetValue(null);
                     ReInitVerseControls();
                     Modified = true;
@@ -3370,7 +3382,7 @@ namespace OneStoryProjectEditor
 
         private void deleteEnglishBacktranslationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Debug.Assert((theCurrentStory != null) && (sender is ToolStripItem));
+            Debug.Assert((TheCurrentStory != null) && (sender is ToolStripItem));
 
             ToolStripItem tsi = sender as ToolStripItem;
             if (tsi != null)
@@ -3378,7 +3390,7 @@ namespace OneStoryProjectEditor
                                                   tsi.Text.Replace("&", null)), OseResources.Properties.Resources.IDS_Caption,
                                     MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                 {
-                    foreach (VerseData aVerse in theCurrentStory.Verses)
+                    foreach (VerseData aVerse in TheCurrentStory.Verses)
                         aVerse.StoryLine.InternationalBt.SetValue(null);
                     ReInitVerseControls();
                     Modified = true;
@@ -3387,7 +3399,7 @@ namespace OneStoryProjectEditor
 
         private void deleteFreeTranslationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Debug.Assert((theCurrentStory != null) && (sender is ToolStripItem));
+            Debug.Assert((TheCurrentStory != null) && (sender is ToolStripItem));
 
             ToolStripItem tsi = sender as ToolStripItem;
             if (tsi != null)
@@ -3395,7 +3407,7 @@ namespace OneStoryProjectEditor
                                                   tsi.Text.Replace("&", null)), OseResources.Properties.Resources.IDS_Caption,
                                     MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                 {
-                    foreach (VerseData aVerse in theCurrentStory.Verses)
+                    foreach (VerseData aVerse in TheCurrentStory.Verses)
                         aVerse.StoryLine.FreeTranslation.SetValue(null);
                     ReInitVerseControls();
                     Modified = true;
@@ -3434,7 +3446,7 @@ namespace OneStoryProjectEditor
                 return;
             }
 
-            string strAdaptationFilespec = AdaptationFilespec(theEC.ConverterIdentifier, theCurrentStory.Name);
+            string strAdaptationFilespec = AdaptationFilespec(theEC.ConverterIdentifier, TheCurrentStory.Name);
             string strProjectName =
                 AdaptItGlossing.GetAiProjectFolderNameFromConverterIdentifier(theEC.ConverterIdentifier);
 
@@ -3442,7 +3454,7 @@ namespace OneStoryProjectEditor
             if (File.Exists(strAdaptationFilespec))
             {
                 res = MessageBox.Show(String.Format(Properties.Resources.IDS_AdaptItFileAlreadyExists,
-                    strProjectName, theCurrentStory.Name), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                    strProjectName, TheCurrentStory.Name), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
 
                 if (res == DialogResult.Cancel)
                     return;
@@ -3559,7 +3571,7 @@ namespace OneStoryProjectEditor
                 res = MessageBox.Show(String.Format(Properties.Resources.IDS_AdaptationInstructions,
                                                     Environment.NewLine, liSourceLang.LangName,
                                                     liTargetLang.LangName, strProjectName, 
-                                                    theCurrentStory.Name),
+                                                    TheCurrentStory.Name),
                                       OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
 
                 if (res != DialogResult.Yes)
@@ -3578,9 +3590,9 @@ namespace OneStoryProjectEditor
 
                 XPathNodeIterator xpIterator = navigator.Select("/AdaptItDoc/S");
 
-                for (int nVerseNum = 0; nVerseNum < theCurrentStory.Verses.Count; nVerseNum++)
+                for (int nVerseNum = 0; nVerseNum < TheCurrentStory.Verses.Count; nVerseNum++)
                 {
-                    VerseData aVerse = theCurrentStory.Verses[nVerseNum];
+                    VerseData aVerse = TheCurrentStory.Verses[nVerseNum];
                     string strStoryVerse = (eBtDirection == ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.NationalBtToInternationalBt)
                                                ? aVerse.StoryLine.NationalBt.ToString()
                                                : aVerse.StoryLine.Vernacular.ToString();
@@ -3716,15 +3728,15 @@ namespace OneStoryProjectEditor
 
         protected void UpdateUIMenusWithShortCuts()
         {
-            refreshToolStripMenuItem.Enabled = (theCurrentStory != null);
+            refreshToolStripMenuItem.Enabled = (TheCurrentStory != null);
 
             editFindToolStripMenuItem.Enabled =
                 findNextToolStripMenuItem.Enabled =
                 replaceToolStripMenuItem.Enabled =
                     ((StoryProject != null)
                     && (StoryProject.ProjSettings != null)
-                    && (theCurrentStory != null)
-                    && (theCurrentStory.Verses.Count > 0));
+                    && (TheCurrentStory != null)
+                    && (TheCurrentStory.Verses.Count > 0));
 
             if ((StoryProject != null) && (StoryProject.ProjSettings != null))
             {
@@ -3737,7 +3749,7 @@ namespace OneStoryProjectEditor
 
         private void showHideFieldsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var dlg = new ViewEnableForm(this, StoryProject.ProjSettings, theCurrentStory,
+            var dlg = new ViewEnableForm(this, StoryProject.ProjSettings, TheCurrentStory,
                                          useSameSettingsForAllStoriesToolStripMenuItem.Checked)
                           {
                               ViewSettings = new VerseData.ViewSettings
@@ -3768,7 +3780,7 @@ namespace OneStoryProjectEditor
             {
                 // have to turn this off, or these new settings won't work
                 useSameSettingsForAllStoriesToolStripMenuItem.Checked = false;
-                NavigateTo(theCurrentStory.Name, dlg.ViewSettings, true, CtrlTextBox._inTextBox);
+                NavigateTo(TheCurrentStory.Name, dlg.ViewSettings, true, CtrlTextBox._inTextBox);
                 useSameSettingsForAllStoriesToolStripMenuItem.Checked = dlg.UseForAllStories;
             }
         }
@@ -3782,13 +3794,13 @@ namespace OneStoryProjectEditor
                 showHideFieldsToolStripMenuItem.Enabled =
                     historicalDifferencesToolStripMenuItem.Enabled =
                     hiddenVersesToolStripMenuItem.Enabled =
-                    viewOnlyOpenConversationsMenu.Enabled = (theCurrentStory != null);
+                    viewOnlyOpenConversationsMenu.Enabled = (TheCurrentStory != null);
 
                 if (StoryProject.ProjSettings.Vernacular.HasData)
                 {
                     viewVernacularLangFieldMenuItem.Text = String.Format(Properties.Resources.IDS_LanguageFields,
                                                                          StoryProject.ProjSettings.Vernacular.LangName);
-                    viewVernacularLangFieldMenuItem.Enabled = (theCurrentStory != null);
+                    viewVernacularLangFieldMenuItem.Enabled = (TheCurrentStory != null);
                 }
                 else
                     viewVernacularLangFieldMenuItem.Checked = 
@@ -3799,27 +3811,27 @@ namespace OneStoryProjectEditor
                     viewNationalLangFieldMenuItem.Text = String.Format(Properties.Resources.IDS_StoryLanguageField,
                                                                        StoryProject.ProjSettings.NationalBT.LangName);
 
-                    viewNationalLangFieldMenuItem.Enabled = (theCurrentStory != null);
+                    viewNationalLangFieldMenuItem.Enabled = (TheCurrentStory != null);
                 }
                 else
                     viewNationalLangFieldMenuItem.Checked = 
                         viewNationalLangFieldMenuItem.Visible = false;
 
                 if (StoryProject.ProjSettings.InternationalBT.HasData)
-                    viewEnglishBTFieldMenuItem.Enabled = (theCurrentStory != null);
+                    viewEnglishBTFieldMenuItem.Enabled = (TheCurrentStory != null);
                 else
                     viewEnglishBTFieldMenuItem.Checked = 
                         viewEnglishBTFieldMenuItem.Visible = false;
 
                 if (StoryProject.ProjSettings.FreeTranslation.HasData)
-                    viewFreeTranslationToolStripMenuItem.Enabled = (theCurrentStory != null);
+                    viewFreeTranslationToolStripMenuItem.Enabled = (TheCurrentStory != null);
                 else
                     viewFreeTranslationToolStripMenuItem.Checked = 
                         viewFreeTranslationToolStripMenuItem.Visible = false;
 
                 viewConsultantNoteFieldMenuItem.Enabled =
                     viewExegeticalHelps.Enabled = 
-                    stateTransitionHistoryToolStripMenuItem.Enabled = (theCurrentStory != null);
+                    stateTransitionHistoryToolStripMenuItem.Enabled = (TheCurrentStory != null);
 
                 // this have the added requirement that it be a biblical story
                 viewAnchorFieldMenuItem.Enabled =
@@ -3827,7 +3839,7 @@ namespace OneStoryProjectEditor
                     viewStoryTestingQuestionAnswerMenuItem.Enabled =
                     viewStoryTestingQuestionMenuItem.Enabled =
                     viewRetellingFieldMenuItem.Enabled =
-                    (theCurrentStory != null) && theCurrentStory.CraftingInfo.IsBiblicalStory;
+                    (TheCurrentStory != null) && TheCurrentStory.CraftingInfo.IsBiblicalStory;
 
                 viewTransliterationsToolStripMenuItem.Enabled = (StoryProject.ProjSettings.Vernacular.HasData || StoryProject.ProjSettings.NationalBT.HasData);
 
@@ -3940,9 +3952,9 @@ namespace OneStoryProjectEditor
 
         private void realignStoryVersesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+            Debug.Assert((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
 
-            if (WillBeLossInVerse(theCurrentStory.Verses))
+            if (WillBeLossInVerse(TheCurrentStory.Verses))
             {
                 MessageBox.Show(Properties.Resources.IDS_CantSplitIntoLines,
                                 OseResources.Properties.Resources.IDS_Caption);
@@ -3958,12 +3970,12 @@ namespace OneStoryProjectEditor
             string strEnglishBT = GetFullStoryContentsInternationalBTText;
             string strFreeTranslation = GetFullStoryContentsFreeTranslationText;
 
-            theCurrentStory.Verses.RemoveRange(0, theCurrentStory.Verses.Count);
-            theCurrentStory.Verses.InsertVerse(0, strVernacular, strNationalBT,
+            TheCurrentStory.Verses.RemoveRange(0, TheCurrentStory.Verses.Count);
+            TheCurrentStory.Verses.InsertVerse(0, strVernacular, strNationalBT,
                 strEnglishBT, strFreeTranslation);
 
             // then split into lines
-            VerseData aVerseData = theCurrentStory.Verses[0];
+            VerseData aVerseData = TheCurrentStory.Verses[0];
             List<string> lstSentencesVernacular = GetSentencesVernacular(aVerseData);
             List<string> lstSentencesNationalBT = GetSentencesNationalBT(aVerseData);
             List<string> lstSentencesEnglishBT = GetSentencesEnglishBT(aVerseData);
@@ -3975,11 +3987,11 @@ namespace OneStoryProjectEditor
                                                         lstSentencesFreeTranslation.Count)));
 
             // remove what's there so we can add the new ones from scratch
-            theCurrentStory.Verses.Remove(aVerseData);
+            TheCurrentStory.Verses.Remove(aVerseData);
 
             for (int i = 0; i < nNumVerses; i++)
             {
-                theCurrentStory.Verses.InsertVerse(i,
+                TheCurrentStory.Verses.InsertVerse(i,
                     GetSentence(i, lstSentencesVernacular),
                     GetSentence(i, lstSentencesNationalBT),
                     GetSentence(i, lstSentencesEnglishBT),
@@ -3992,10 +4004,10 @@ namespace OneStoryProjectEditor
 
         private void splitIntoLinesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Debug.Assert((theCurrentStory != null)
-                && (theCurrentStory.Verses.Count > 0));
+            Debug.Assert((TheCurrentStory != null)
+                && (TheCurrentStory.Verses.Count > 0));
 
-            if (WillBeLossInVerse(theCurrentStory.Verses))
+            if (WillBeLossInVerse(TheCurrentStory.Verses))
             {
                 MessageBox.Show(Properties.Resources.IDS_CantSplitIntoLines,
                                 OseResources.Properties.Resources.IDS_Caption);
@@ -4005,10 +4017,10 @@ namespace OneStoryProjectEditor
             if (!CheckForSaveDirtyFile())    // ought to do a save before this so we don't cause them to lose anything.
                 return;
 
-            if (theCurrentStory.Verses.Count == 1)
+            if (TheCurrentStory.Verses.Count == 1)
             {
                 // means 'split into lines'
-                VerseData aVerseData = theCurrentStory.Verses[0];
+                VerseData aVerseData = TheCurrentStory.Verses[0];
                 List<string> lstSentencesVernacular = GetSentencesVernacular(aVerseData);
                 List<string> lstSentencesNationalBT = GetSentencesNationalBT(aVerseData);
                 List<string> lstSentencesEnglishBT = GetSentencesEnglishBT(aVerseData);
@@ -4020,11 +4032,11 @@ namespace OneStoryProjectEditor
                                                             lstSentencesFreeTranslation.Count)));
 
                 // remove what's there so we can add the new ones from scratch
-                theCurrentStory.Verses.Remove(aVerseData);
+                TheCurrentStory.Verses.Remove(aVerseData);
 
                 for (int i = 0; i < nNumVerses; i++)
                 {
-                    theCurrentStory.Verses.InsertVerse(i,
+                    TheCurrentStory.Verses.InsertVerse(i,
                         GetSentence(i, lstSentencesVernacular),
                         GetSentence(i, lstSentencesNationalBT),
                         GetSentence(i, lstSentencesEnglishBT),
@@ -4039,8 +4051,8 @@ namespace OneStoryProjectEditor
                 string strEnglishBT = GetFullStoryContentsInternationalBTText;
                 string strFreeTranslation = GetFullStoryContentsFreeTranslationText;
 
-                theCurrentStory.Verses.RemoveRange(0, theCurrentStory.Verses.Count);
-                theCurrentStory.Verses.InsertVerse(0, strVernacular, strNationalBT,
+                TheCurrentStory.Verses.RemoveRange(0, TheCurrentStory.Verses.Count);
+                TheCurrentStory.Verses.InsertVerse(0, strVernacular, strNationalBT,
                     strEnglishBT, strFreeTranslation);
             }
 
@@ -4063,12 +4075,12 @@ namespace OneStoryProjectEditor
         {
             Debug.Assert(comboBoxStorySelector.Items.Contains(strStoryName));
             comboBoxStorySelector.SelectedItem = strStoryName;
-            if (strStoryName != theCurrentStory.Name)
+            if (strStoryName != TheCurrentStory.Name)
                 return; // must have cancelled
 
             if (!String.IsNullOrEmpty(strAnchor))
                 SetNetBibleVerse(strAnchor);
-            Debug.Assert(theCurrentStory.Verses.Count >= nLineIndex);
+            Debug.Assert(TheCurrentStory.Verses.Count >= nLineIndex);
             FocusOnVerse(nLineIndex, true, true);
         }
 
@@ -4077,7 +4089,7 @@ namespace OneStoryProjectEditor
             CtrlTextBox ctbToFocus)
         {
             Debug.Assert(comboBoxStorySelector.Items.Contains(strStoryName));
-            if (strStoryName != theCurrentStory.Name)
+            if (strStoryName != TheCurrentStory.Name)
                 comboBoxStorySelector.SelectedItem = strStoryName;
 
             bool bSomethingChanged = false;
@@ -4344,7 +4356,7 @@ namespace OneStoryProjectEditor
 
         private void storyCopyWithNewNameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Debug.Assert(theCurrentStory != null);
+            Debug.Assert(TheCurrentStory != null);
 
             string strStoryName;
             int nIndexOfCurrentStory = -1;
@@ -4352,7 +4364,7 @@ namespace OneStoryProjectEditor
             {
                 Debug.Assert(nIndexOfCurrentStory != -1);
                 nIndexOfCurrentStory = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
-                StoryData theNewStory = new StoryData(theCurrentStory);
+                StoryData theNewStory = new StoryData(TheCurrentStory);
                 theNewStory.Name = strStoryName;
                 InsertNewStoryAdjustComboBox(theNewStory, nIndexOfCurrentStory);
             }
@@ -4595,11 +4607,11 @@ namespace OneStoryProjectEditor
 
         private void statusLabel_Click(object sender, EventArgs e)
         {
-            if ((theCurrentStory != null) && (theCurrentStory.ProjStage != null))
+            if ((TheCurrentStory != null) && (TheCurrentStory.ProjStage != null))
             {
                 // update the status bar (in case we previously put an error there
                 StoryStageLogic.StateTransition st =
-                    StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
+                    StoryStageLogic.stateTransitions[TheCurrentStory.ProjStage.ProjectStage];
                 SetStatusBar(String.Format(Properties.Resources.IDS_PressF1ForInstructions, st.StageDisplayString));
             }
         }
@@ -4716,15 +4728,15 @@ namespace OneStoryProjectEditor
         private void contextMenuStripVerseList_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             contextMenuStripVerseList.Items.Clear();
-            if (theCurrentStory != null)
+            if (TheCurrentStory != null)
             {
                 if (contextMenuStripVerseList.SourceControl != linkLabelVerseBT)
                     contextMenuStripVerseList.Items.Add(CstrFirstVerse, null,
                         onClickVerseNumber);
 
-                for (int i = 0; i < theCurrentStory.Verses.Count; i++)
+                for (int i = 0; i < TheCurrentStory.Verses.Count; i++)
                 {
-                    VerseData aVerse = theCurrentStory.Verses[i];
+                    VerseData aVerse = TheCurrentStory.Verses[i];
                     string strMenuText = "Ln: " + (i + 1);
                     if (!aVerse.IsVisible)
                         strMenuText += OseResources.Properties.Resources.IDS_HiddenLabel;
@@ -4756,7 +4768,7 @@ namespace OneStoryProjectEditor
 
         private void historicalDifferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            m_dlgHistDiffDlg = new HtmlDisplayForm(this, theCurrentStory);
+            m_dlgHistDiffDlg = new HtmlDisplayForm(this, TheCurrentStory);
             m_dlgHistDiffDlg.Show();
         }
 
@@ -4855,11 +4867,11 @@ namespace OneStoryProjectEditor
 
         private void toolStripMenuItemSelectState_Click(object sender, EventArgs e)
         {
-            if ((StoryProject == null) || (theCurrentStory == null))
+            if ((StoryProject == null) || (TheCurrentStory == null))
                 return;
 
 #if !UseAdvancedStatePickerByDefault
-            SelectStateBasicForm dlg = new SelectStateBasicForm(StoryProject, theCurrentStory);
+            SelectStateBasicForm dlg = new SelectStateBasicForm(StoryProject, TheCurrentStory);
 #else
             // locate the window near the cursor...
             Point ptTooltip = Cursor.Position;
@@ -4868,7 +4880,7 @@ namespace OneStoryProjectEditor
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 Debug.Assert(dlg.NextState != StoryStageLogic.ProjectStages.eUndefined);
-                if (theCurrentStory.ProjStage.ProjectStage != dlg.NextState)
+                if (TheCurrentStory.ProjStage.ProjectStage != dlg.NextState)
                 {
                     StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[dlg.NextState];
                     SetNextState(dlg.NextState, true);
@@ -4876,21 +4888,21 @@ namespace OneStoryProjectEditor
             }
 
             if (dlg.ViewStateChanged)
-                SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, false);
+                SetViewBasedOnProjectStage(TheCurrentStory.ProjStage.ProjectStage, false);
         }
 
         private void toolStripButtonFirst_Click(object sender, EventArgs e)
         {
-            if ((TheCurrentStoriesSet != null) && (theCurrentStory != null))
+            if ((TheCurrentStoriesSet != null) && (TheCurrentStory != null))
                 comboBoxStorySelector.SelectedIndex = 0;
         }
 
         private void toolStripButtonPrevious_Click(object sender, EventArgs e)
         {
-            if ((TheCurrentStoriesSet == null) || (theCurrentStory == null))
+            if ((TheCurrentStoriesSet == null) || (TheCurrentStory == null))
                 return;
 
-            int nIndex = TheCurrentStoriesSet.IndexOf(theCurrentStory);
+            int nIndex = TheCurrentStoriesSet.IndexOf(TheCurrentStory);
             if (nIndex > 0)
                 comboBoxStorySelector.SelectedIndex = --nIndex;
         }
@@ -4900,38 +4912,38 @@ namespace OneStoryProjectEditor
             if ((StoryProject == null)
                 || String.IsNullOrEmpty(_strStoriesSet)
                 || (StoryProject[_strStoriesSet] == null)
-                || (theCurrentStory == null))
+                || (TheCurrentStory == null))
                 return;
 
-            int nIndex = TheCurrentStoriesSet.IndexOf(theCurrentStory);
+            int nIndex = TheCurrentStoriesSet.IndexOf(TheCurrentStory);
             if (nIndex < (TheCurrentStoriesSet.Count - 1))
                 comboBoxStorySelector.SelectedIndex = ++nIndex;
         }
 
         private void toolStripButtonLast_Click(object sender, EventArgs e)
         {
-            if ((TheCurrentStoriesSet != null) && (theCurrentStory != null))
+            if ((TheCurrentStoriesSet != null) && (TheCurrentStory != null))
                 comboBoxStorySelector.SelectedIndex = (TheCurrentStoriesSet.Count - 1);
         }
 
         private void viewOnlyOpenConversationsMenu_CheckStateChanged(object sender, EventArgs e)
         {
             if (viewOnlyOpenConversationsMenu.Checked)
-                theCurrentStory.Verses.ResetShowOpenConversationsFlags();
+                TheCurrentStory.Verses.ResetShowOpenConversationsFlags();
 
             InitAllPanes();
         }
 
         private void stateTransitionHistoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!theCurrentStory.TransitionHistory.HasData)
+            if (!TheCurrentStory.TransitionHistory.HasData)
             {
                 MessageBox.Show(Properties.Resources.IDS_NoTransitionHistory,
                                 OseResources.Properties.Resources.IDS_Caption);
                 return;
             }
 
-            var dlg = new TransitionHistoryForm(theCurrentStory.TransitionHistory, StoryProject.TeamMembers);
+            var dlg = new TransitionHistoryForm(TheCurrentStory.TransitionHistory, StoryProject.TeamMembers);
             dlg.ShowDialog();
         }
 
@@ -4944,28 +4956,28 @@ namespace OneStoryProjectEditor
                 OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                 return;
 
-            var dlg = new StageEditorForm(StoryProject, theCurrentStory, ptTooltip, true);
+            var dlg = new StageEditorForm(StoryProject, TheCurrentStory, ptTooltip, true);
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 Debug.Assert(dlg.NextState != StoryStageLogic.ProjectStages.eUndefined);
-                if (theCurrentStory.ProjStage.ProjectStage == dlg.NextState)
+                if (TheCurrentStory.ProjStage.ProjectStage == dlg.NextState)
                     return;
 
                 SetNextStateAdvancedOverride(dlg.NextState, 
-                    theCurrentStory.ProjStage.IsTerminalTransition(dlg.NextState));
+                    TheCurrentStory.ProjStage.IsTerminalTransition(dlg.NextState));
             }
 
             // even if we don't change the state, we might 
             else if (dlg.ViewStateChanged)
             {
-                SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage, false);
+                SetViewBasedOnProjectStage(TheCurrentStory.ProjStage.ProjectStage, false);
                 InitAllPanes(); // just in case there were changes
             }
         }
 
         private void advancedToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
-            changeStateWithoutChecksToolStripMenuItem.Enabled = ((StoryProject != null) && (theCurrentStory != null));
+            changeStateWithoutChecksToolStripMenuItem.Enabled = ((StoryProject != null) && (TheCurrentStory != null));
         }
 
         private void checkForProgramUpdatesNowToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4992,7 +5004,7 @@ namespace OneStoryProjectEditor
                 SuspendSaveDialog--;
 
                 // since the call to SaveDirty will have removed them all
-                if (theCurrentStory != null)
+                if (TheCurrentStory != null)
                     InitAllPanes();
 
                 // if it returns here without throwing an exception, it means there were no updates
@@ -5093,7 +5105,7 @@ namespace OneStoryProjectEditor
 
         public void SplitStory(VerseData verseStart)
         {
-            Debug.Assert(theCurrentStory != null);
+            Debug.Assert(TheCurrentStory != null);
 
             string strStoryName;
             int nIndexOfCurrentStory = -1;
@@ -5103,14 +5115,14 @@ namespace OneStoryProjectEditor
                 int nIndexToInsert = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
 
                 // first clone the story... (so we get everything, including the state, etc)
-                var theNewStory = new StoryData(theCurrentStory) { Name = strStoryName };
+                var theNewStory = new StoryData(TheCurrentStory) { Name = strStoryName };
 
                 // then, delete the latter verses from current story and the earlier verses
                 //  from the new one
-                int nIndex = theCurrentStory.Verses.IndexOf(verseStart);
-                int nNumberToMove = theCurrentStory.Verses.Count - nIndex;
+                int nIndex = TheCurrentStory.Verses.IndexOf(verseStart);
+                int nNumberToMove = TheCurrentStory.Verses.Count - nIndex;
                 theNewStory.Verses.RemoveRange(0, nIndex);
-                theCurrentStory.Verses.RemoveRange(nIndex, nNumberToMove);
+                TheCurrentStory.Verses.RemoveRange(nIndex, nNumberToMove);
                 InsertNewStoryAdjustComboBox(theNewStory, nIndexToInsert);
             }
         }
@@ -5139,9 +5151,9 @@ namespace OneStoryProjectEditor
         private void storyAdaptItVernacularToNationalMenuItem_Click(object sender, EventArgs e)
         {
             // iterate thru the verses and copy them to the clipboard
-            Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+            Debug.Assert((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
 
-            if (((int)theCurrentStory.ProjStage.ProjectStage)
+            if (((int)TheCurrentStory.ProjStage.ProjectStage)
                 < (int)StoryStageLogic.ProjectStages.eProjFacTypeNationalBT)
             {
                 MessageBox.Show(String.Format(Properties.Resources.IDS_MustBeInBTState,
@@ -5157,9 +5169,9 @@ namespace OneStoryProjectEditor
         private void storyAdaptItVernacularToEnglishMenuItem_Click(object sender, EventArgs e)
         {
             // iterate thru the verses and copy them to the clipboard
-            Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+            Debug.Assert((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
 
-            if (((int)theCurrentStory.ProjStage.ProjectStage)
+            if (((int)TheCurrentStory.ProjStage.ProjectStage)
                 < (int)StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
             {
                 MessageBox.Show(String.Format(Properties.Resources.IDS_MustBeInBTState,
@@ -5175,9 +5187,9 @@ namespace OneStoryProjectEditor
         private void storyAdaptItNationalToEnglishMenuItem_Click(object sender, EventArgs e)
         {
             // iterate thru the verses and copy them to the clipboard
-            Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
+            Debug.Assert((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
 
-            if (((int)theCurrentStory.ProjStage.ProjectStage)
+            if (((int)TheCurrentStory.ProjStage.ProjectStage)
                 < (int)StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
             {
                 MessageBox.Show(String.Format(Properties.Resources.IDS_MustBeInBTState,
@@ -5195,7 +5207,7 @@ namespace OneStoryProjectEditor
             if (StoryProject == null)
                 return;
 
-            var dlg = new TaskBarForm(this, StoryProject, theCurrentStory);
+            var dlg = new TaskBarForm(this, StoryProject, TheCurrentStory);
             dlg.ShowDialog();
         }
 
@@ -5236,7 +5248,7 @@ namespace OneStoryProjectEditor
                 if (!IsInStoriesSet)
                     throw CantEditOldStoriesEx;
 
-                LoggedOnMember.ThrowIfEditIsntAllowed(theCurrentStory);
+                LoggedOnMember.ThrowIfEditIsntAllowed(TheCurrentStory);
             }
             catch (Exception ex)
             {
@@ -5252,7 +5264,7 @@ namespace OneStoryProjectEditor
             if (!CheckForProperEditToken())
                 return;
 
-            theCurrentStory.Verses.FirstVerse.TestQuestions.AddTestQuestion();
+            TheCurrentStory.Verses.FirstVerse.TestQuestions.AddTestQuestion();
             
             // just in case it wasn't showing
             viewGeneralTestingQuestionMenuItem.Checked = true;

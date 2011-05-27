@@ -29,7 +29,7 @@ namespace OneStoryProjectEditor
 
         public VerseBtControl(StoryEditor theSE, LineFlowLayoutPanel parentFlowLayoutPanel,
             VerseData dataVerse, int nVerseNumber)
-            : base(theSE.theCurrentStory.ProjStage, nVerseNumber, theSE, 
+            : base(theSE.TheCurrentStory.ProjStage, nVerseNumber, theSE, 
                 parentFlowLayoutPanel)
         {
             _verseData = dataVerse;
@@ -116,7 +116,7 @@ namespace OneStoryProjectEditor
                 if (_verseData.Retellings.Count > 0)
                 {
                     InitRetellings(_verseData.Retellings, m_nNumRows, 
-                        theSE.theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
+                        theSE.TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
                         TheSE.StoryProject.ProjSettings,
                         (theSE.viewVernacularLangFieldMenuItem.Checked && TheSE.StoryProject.ProjSettings.ShowRetellings.Vernacular),
                         (theSE.viewNationalLangFieldMenuItem.Checked && TheSE.StoryProject.ProjSettings.ShowRetellings.NationalBt),
@@ -288,7 +288,7 @@ namespace OneStoryProjectEditor
 
             if (!IsGeneralQuestionsLine 
                 && TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator)
-                && !TasksPf.IsTaskOn(theSE.theCurrentStory.TasksAllowedPf, TasksPf.TaskSettings.TestQuestions))
+                && !TasksPf.IsTaskOn(theSE.TheCurrentStory.TasksAllowedPf, TasksPf.TaskSettings.TestQuestions))
             {
                 MessageBox.Show(Resources.IDS_CantAddTQs, 
                                 OseResources.Properties.Resources.IDS_Caption);
@@ -309,7 +309,7 @@ namespace OneStoryProjectEditor
         {
             // if this is a Biblical story, we have to add a few menu items
             StoryEditor theSE = (StoryEditor)FindForm();
-            if (theSE.theCurrentStory.CraftingInfo.IsBiblicalStory)
+            if (theSE.TheCurrentStory.CraftingInfo.IsBiblicalStory)
                 contextMenuStrip.Items.Insert(3, menuAddTestQuestion);
 
             if (IsGeneralQuestionsLine)
@@ -346,7 +346,7 @@ namespace OneStoryProjectEditor
             if (!CheckForProperEditToken(out theSE))
                 return;
 
-            var dlg = new CutItemPicker(_verseData, theSE.theCurrentStory.Verses, theSE, false);
+            var dlg = new CutItemPicker(_verseData, theSE.TheCurrentStory.Verses, theSE, false);
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 theSE.Modified = true;
@@ -361,7 +361,7 @@ namespace OneStoryProjectEditor
             if (!CheckForProperEditToken(out theSE))
                 return;
 
-            var dlg = new CutItemPicker(_verseData, theSE.theCurrentStory.Verses, theSE, true)
+            var dlg = new CutItemPicker(_verseData, theSE.TheCurrentStory.Verses, theSE, true)
                           {
                               Text = Resources.IDS_DeleteItemFrameTitle
                           };

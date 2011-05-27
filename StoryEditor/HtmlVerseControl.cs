@@ -173,7 +173,7 @@ namespace OneStoryProjectEditor
                 if (!theSE.IsInStoriesSet)
                     throw theSE.CantEditOldStoriesEx;
 
-                theSE.LoggedOnMember.ThrowIfEditIsntAllowed(theSE.theCurrentStory);
+                theSE.LoggedOnMember.ThrowIfEditIsntAllowed(theSE.TheCurrentStory);
             }
             catch (Exception ex)
             {

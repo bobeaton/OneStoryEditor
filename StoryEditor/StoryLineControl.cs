@@ -13,7 +13,7 @@ namespace OneStoryProjectEditor
         protected VerseData _aVerseData = null;
 
         public StoryLineControl(StoryEditor aSE, VerseBtControl ctrlVerse, VerseData aVerseData)
-            : base(aSE.theCurrentStory.ProjStage)
+            : base(aSE.TheCurrentStory.ProjStage)
         {
             InitializeComponent();
 
@@ -47,10 +47,10 @@ namespace OneStoryProjectEditor
                 // if we're in the one of the states where the user is entering in the 
                 //  national or international BT, then disable the Vernacular as a tab stop.
                 bool bDisableTabStopVernacular =
-                    ((aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeNationalBT)
-                    || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
-                    || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation)
-                    || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
+                    ((aSE.TheCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeNationalBT)
+                    || (aSE.TheCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
+                    || (aSE.TheCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation)
+                    || (aSE.TheCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
                 _aVerseData.StoryLine.Vernacular.Transliterator = ctrlVerse.TransliteratorVernacular;
                 ctrlTextBoxVernacular = InitTextBox(ctrlVerse, LineData.CstrAttributeLangVernacular, 
@@ -73,9 +73,9 @@ namespace OneStoryProjectEditor
                 // if we're in the one of the states where the user is entering in the 
                 //  international BT, then disable the National BT as a tab stop.
                 bool bDisableTabStopNationalBT =
-                    ((aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
-                    || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation)
-                    || (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
+                    ((aSE.TheCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
+                    || (aSE.TheCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation)
+                    || (aSE.TheCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
                 _aVerseData.StoryLine.NationalBt.Transliterator = ctrlVerse.TransliteratorNationalBT;
                 ctrlTextBoxNationalBT = InitTextBox(ctrlVerse, LineData.CstrAttributeLangNationalBt, _aVerseData.StoryLine.NationalBt, 
@@ -100,7 +100,7 @@ namespace OneStoryProjectEditor
                 // if we're in the one of the states where the user is entering in the 
                 //  international BT, then disable the National BT as a tab stop.
                 bool bDisableTabStopInternationalBT =
-                    (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation);
+                    (aSE.TheCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation);
 
                 CtrlTextBox ctrlTextBoxEnglishBT = InitTextBox(ctrlVerse, 
                     LineData.CstrAttributeLangInternationalBt, _aVerseData.StoryLine.InternationalBt,

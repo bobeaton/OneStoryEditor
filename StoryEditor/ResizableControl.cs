@@ -174,17 +174,17 @@ namespace OneStoryProjectEditor
                 if (!theSE.IsInStoriesSet)
                     throw theSE.CantEditOldStoriesEx;
 
-                theSE.LoggedOnMember.ThrowIfEditIsntAllowed(theSE.theCurrentStory);
+                theSE.LoggedOnMember.ThrowIfEditIsntAllowed(theSE.TheCurrentStory);
 
                 // finally, make sure we have the right PF
                 // one more finally, don't allow it if it's blocked by the consultant
                 if ((theSE.StoryProject != null)
-                    && (theSE.theCurrentStory != null)
+                    && (theSE.TheCurrentStory != null)
                     && (theSE.LoggedOnMember != null)
                     && (TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType,
                                               TeamMemberData.UserTypes.ProjectFacilitator) &&
                         (theSE.LoggedOnMember.MemberGuid !=
-                         theSE.theCurrentStory.CraftingInfo.ProjectFacilitator.MemberId)))
+                         theSE.TheCurrentStory.CraftingInfo.ProjectFacilitator.MemberId)))
                 {
                     throw new ApplicationException(OseResources.Properties.Resources.IDS_NotTheRightProjFac);
                 }

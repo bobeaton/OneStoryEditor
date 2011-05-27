@@ -47,7 +47,7 @@ namespace OneStoryProjectEditor
 
             webBrowser.DocumentText = aConNote.Html(null, 
                 theSE.StoryProject.TeamMembers, theSE.LoggedOnMember, 
-                theSE.theCurrentStory, 0, 0);
+                theSE.TheCurrentStory, 0, 0);
         }
     }
 

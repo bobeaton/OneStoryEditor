@@ -111,7 +111,7 @@ namespace OneStoryProjectEditor
 
                 if (TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType,
                                           TeamMemberData.UserTypes.ProjectFacilitator)
-                    && !TasksPf.IsTaskOn(theSE.theCurrentStory.TasksAllowedPf, 
+                    && !TasksPf.IsTaskOn(theSE.TheCurrentStory.TasksAllowedPf, 
                                          TasksPf.TaskSettings.Anchors))
                 {
                     MessageBox.Show(Properties.Resources.IDS_CantAddAnchors,

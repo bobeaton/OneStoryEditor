@@ -20,7 +20,7 @@ namespace OneStoryProjectEditor
 
         public TestingQuestionControl(StoryEditor theSE, VerseBtControl ctrlVerse, 
             TestQuestionData aTQData, int nIndex, bool bShowHeader)
-            : base(theSE.theCurrentStory.ProjStage)
+            : base(theSE.TheCurrentStory.ProjStage)
         {
             _aTQData = aTQData;
 
@@ -139,10 +139,10 @@ namespace OneStoryProjectEditor
             if (theSE.viewStoryTestingQuestionAnswerMenuItem.Checked 
                 && (_aTQData.Answers != null) && (_aTQData.Answers.Count > 0))
             {
-                System.Diagnostics.Debug.Assert(theSE.theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count >= _aTQData.Answers.Count);
+                System.Diagnostics.Debug.Assert(theSE.TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count >= _aTQData.Answers.Count);
                 var aAnswersCtrl = new MultiLineControl(ctrlVerse, StageLogic,
                     _aTQData.Answers, theSE.StoryProject.ProjSettings,
-                    theSE.theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
+                    theSE.TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
                     strTestNumberLabel,
                     (theSE.StoryProject.ProjSettings.ShowAnswers.Vernacular && theSE.viewVernacularLangFieldMenuItem.Checked),
                     (theSE.StoryProject.ProjSettings.ShowAnswers.NationalBt && theSE.viewNationalLangFieldMenuItem.Checked),
