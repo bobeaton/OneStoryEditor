@@ -31,9 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddLnCNoteForm));
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.buttonCancel = new System.Windows.Forms.Button();
             this.labelVernacular = new System.Windows.Forms.Label();
-            this.buttonOK = new System.Windows.Forms.Button();
             this.textBoxVernacular = new System.Windows.Forms.TextBox();
             this.labelNationalBT = new System.Windows.Forms.Label();
             this.textBoxNationalBT = new System.Windows.Forms.TextBox();
@@ -44,6 +42,8 @@
             this.labelOptionalKeyTerms = new System.Windows.Forms.Label();
             this.buttonKeyTermSelect = new System.Windows.Forms.Button();
             this.textBoxKeyTerms = new System.Windows.Forms.TextBox();
+            this.buttonCancel = new System.Windows.Forms.Button();
+            this.buttonOK = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.tableLayoutPanel.SuspendLayout();
@@ -80,17 +80,6 @@
             this.tableLayoutPanel.Size = new System.Drawing.Size(517, 311);
             this.tableLayoutPanel.TabIndex = 0;
             // 
-            // buttonCancel
-            // 
-            this.buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(274, 329);
-            this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-            this.buttonCancel.TabIndex = 12;
-            this.buttonCancel.Text = "Cancel";
-            this.buttonCancel.UseVisualStyleBackColor = true;
-            // 
             // labelVernacular
             // 
             this.labelVernacular.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -100,17 +89,6 @@
             this.labelVernacular.Size = new System.Drawing.Size(49, 13);
             this.labelVernacular.TabIndex = 0;
             this.labelVernacular.Text = "Story Lg:";
-            // 
-            // buttonOK
-            // 
-            this.buttonOK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonOK.Location = new System.Drawing.Point(193, 329);
-            this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(75, 23);
-            this.buttonOK.TabIndex = 11;
-            this.buttonOK.Text = "&OK";
-            this.buttonOK.UseVisualStyleBackColor = true;
-            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
             // textBoxVernacular
             // 
@@ -237,6 +215,28 @@
             this.textBoxKeyTerms.Size = new System.Drawing.Size(250, 20);
             this.textBoxKeyTerms.TabIndex = 10;
             this.textBoxKeyTerms.Visible = false;
+            // 
+            // buttonCancel
+            // 
+            this.buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.buttonCancel.Location = new System.Drawing.Point(274, 329);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancel.TabIndex = 12;
+            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            // 
+            // buttonOK
+            // 
+            this.buttonOK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.buttonOK.Location = new System.Drawing.Point(193, 329);
+            this.buttonOK.Name = "buttonOK";
+            this.buttonOK.Size = new System.Drawing.Size(75, 23);
+            this.buttonOK.TabIndex = 11;
+            this.buttonOK.Text = "&OK";
+            this.buttonOK.UseVisualStyleBackColor = true;
+            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
             // AddLnCNoteForm
             // 

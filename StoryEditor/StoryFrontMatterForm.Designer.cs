@@ -201,15 +201,15 @@
             this.textBoxProjectFacilitator.Location = new System.Drawing.Point(116, 357);
             this.textBoxProjectFacilitator.Name = "textBoxProjectFacilitator";
             this.textBoxProjectFacilitator.ReadOnly = true;
-            this.textBoxProjectFacilitator.Size = new System.Drawing.Size(139, 20);
+            this.textBoxProjectFacilitator.Size = new System.Drawing.Size(138, 20);
             this.textBoxProjectFacilitator.TabIndex = 7;
             // 
             // textBoxCommentProjectFacilitator
             // 
             this.textBoxCommentProjectFacilitator.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxCommentProjectFacilitator.Location = new System.Drawing.Point(261, 357);
+            this.textBoxCommentProjectFacilitator.Location = new System.Drawing.Point(260, 357);
             this.textBoxCommentProjectFacilitator.Name = "textBoxCommentProjectFacilitator";
-            this.textBoxCommentProjectFacilitator.Size = new System.Drawing.Size(289, 20);
+            this.textBoxCommentProjectFacilitator.Size = new System.Drawing.Size(288, 20);
             this.textBoxCommentProjectFacilitator.TabIndex = 8;
             // 
             // labelConsultant
@@ -228,15 +228,15 @@
             this.textBoxConsultant.Location = new System.Drawing.Point(116, 383);
             this.textBoxConsultant.Name = "textBoxConsultant";
             this.textBoxConsultant.ReadOnly = true;
-            this.textBoxConsultant.Size = new System.Drawing.Size(139, 20);
+            this.textBoxConsultant.Size = new System.Drawing.Size(138, 20);
             this.textBoxConsultant.TabIndex = 11;
             // 
             // textBoxCommentConsultant
             // 
             this.textBoxCommentConsultant.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxCommentConsultant.Location = new System.Drawing.Point(261, 383);
+            this.textBoxCommentConsultant.Location = new System.Drawing.Point(260, 383);
             this.textBoxCommentConsultant.Name = "textBoxCommentConsultant";
-            this.textBoxCommentConsultant.Size = new System.Drawing.Size(289, 20);
+            this.textBoxCommentConsultant.Size = new System.Drawing.Size(288, 20);
             this.textBoxCommentConsultant.TabIndex = 12;
             // 
             // labelCoach
@@ -255,15 +255,15 @@
             this.textBoxCoach.Location = new System.Drawing.Point(116, 409);
             this.textBoxCoach.Name = "textBoxCoach";
             this.textBoxCoach.ReadOnly = true;
-            this.textBoxCoach.Size = new System.Drawing.Size(139, 20);
+            this.textBoxCoach.Size = new System.Drawing.Size(138, 20);
             this.textBoxCoach.TabIndex = 15;
             // 
             // textBoxCommentCoach
             // 
             this.textBoxCommentCoach.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxCommentCoach.Location = new System.Drawing.Point(261, 409);
+            this.textBoxCommentCoach.Location = new System.Drawing.Point(260, 409);
             this.textBoxCommentCoach.Name = "textBoxCommentCoach";
-            this.textBoxCommentCoach.Size = new System.Drawing.Size(289, 20);
+            this.textBoxCommentCoach.Size = new System.Drawing.Size(288, 20);
             this.textBoxCommentCoach.TabIndex = 16;
             // 
             // labelStoryCrafter
@@ -282,15 +282,15 @@
             this.textBoxStoryCrafter.Location = new System.Drawing.Point(116, 435);
             this.textBoxStoryCrafter.Name = "textBoxStoryCrafter";
             this.textBoxStoryCrafter.ReadOnly = true;
-            this.textBoxStoryCrafter.Size = new System.Drawing.Size(139, 20);
+            this.textBoxStoryCrafter.Size = new System.Drawing.Size(138, 20);
             this.textBoxStoryCrafter.TabIndex = 19;
             // 
             // textBoxCommentStoryCrafter
             // 
             this.textBoxCommentStoryCrafter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxCommentStoryCrafter.Location = new System.Drawing.Point(261, 435);
+            this.textBoxCommentStoryCrafter.Location = new System.Drawing.Point(260, 435);
             this.textBoxCommentStoryCrafter.Name = "textBoxCommentStoryCrafter";
-            this.textBoxCommentStoryCrafter.Size = new System.Drawing.Size(289, 20);
+            this.textBoxCommentStoryCrafter.Size = new System.Drawing.Size(288, 20);
             this.textBoxCommentStoryCrafter.TabIndex = 20;
             // 
             // labelBackTranslator
@@ -309,22 +309,22 @@
             this.textBoxUnsBackTranslator.Location = new System.Drawing.Point(116, 461);
             this.textBoxUnsBackTranslator.Name = "textBoxUnsBackTranslator";
             this.textBoxUnsBackTranslator.ReadOnly = true;
-            this.textBoxUnsBackTranslator.Size = new System.Drawing.Size(139, 20);
+            this.textBoxUnsBackTranslator.Size = new System.Drawing.Size(138, 20);
             this.textBoxUnsBackTranslator.TabIndex = 23;
             // 
             // textBoxCommentUnsBackTranslator
             // 
             this.textBoxCommentUnsBackTranslator.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxCommentUnsBackTranslator.Location = new System.Drawing.Point(261, 461);
+            this.textBoxCommentUnsBackTranslator.Location = new System.Drawing.Point(260, 461);
             this.textBoxCommentUnsBackTranslator.Name = "textBoxCommentUnsBackTranslator";
-            this.textBoxCommentUnsBackTranslator.Size = new System.Drawing.Size(289, 20);
+            this.textBoxCommentUnsBackTranslator.Size = new System.Drawing.Size(288, 20);
             this.textBoxCommentUnsBackTranslator.TabIndex = 24;
             // 
             // linkLabelForProjectFacilitatorChange
             // 
             this.linkLabelForProjectFacilitatorChange.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.linkLabelForProjectFacilitatorChange.AutoSize = true;
-            this.linkLabelForProjectFacilitatorChange.Location = new System.Drawing.Point(587, 360);
+            this.linkLabelForProjectFacilitatorChange.Location = new System.Drawing.Point(585, 360);
             this.linkLabelForProjectFacilitatorChange.Name = "linkLabelForProjectFacilitatorChange";
             this.linkLabelForProjectFacilitatorChange.Size = new System.Drawing.Size(44, 13);
             this.linkLabelForProjectFacilitatorChange.TabIndex = 26;
@@ -336,7 +336,7 @@
             // 
             this.linkLabelForProjectFacilitatorView.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.linkLabelForProjectFacilitatorView.AutoSize = true;
-            this.linkLabelForProjectFacilitatorView.Location = new System.Drawing.Point(556, 360);
+            this.linkLabelForProjectFacilitatorView.Location = new System.Drawing.Point(554, 360);
             this.linkLabelForProjectFacilitatorView.Name = "linkLabelForProjectFacilitatorView";
             this.linkLabelForProjectFacilitatorView.Size = new System.Drawing.Size(25, 13);
             this.linkLabelForProjectFacilitatorView.TabIndex = 27;
@@ -348,7 +348,7 @@
             // 
             this.linkLabelForConsultantView.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.linkLabelForConsultantView.AutoSize = true;
-            this.linkLabelForConsultantView.Location = new System.Drawing.Point(556, 386);
+            this.linkLabelForConsultantView.Location = new System.Drawing.Point(554, 386);
             this.linkLabelForConsultantView.Name = "linkLabelForConsultantView";
             this.linkLabelForConsultantView.Size = new System.Drawing.Size(25, 13);
             this.linkLabelForConsultantView.TabIndex = 27;
@@ -360,7 +360,7 @@
             // 
             this.linkLabelForConsultantChange.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.linkLabelForConsultantChange.AutoSize = true;
-            this.linkLabelForConsultantChange.Location = new System.Drawing.Point(587, 386);
+            this.linkLabelForConsultantChange.Location = new System.Drawing.Point(585, 386);
             this.linkLabelForConsultantChange.Name = "linkLabelForConsultantChange";
             this.linkLabelForConsultantChange.Size = new System.Drawing.Size(44, 13);
             this.linkLabelForConsultantChange.TabIndex = 26;
@@ -372,7 +372,7 @@
             // 
             this.linkLabelForCoachView.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.linkLabelForCoachView.AutoSize = true;
-            this.linkLabelForCoachView.Location = new System.Drawing.Point(556, 412);
+            this.linkLabelForCoachView.Location = new System.Drawing.Point(554, 412);
             this.linkLabelForCoachView.Name = "linkLabelForCoachView";
             this.linkLabelForCoachView.Size = new System.Drawing.Size(25, 13);
             this.linkLabelForCoachView.TabIndex = 27;
@@ -384,7 +384,7 @@
             // 
             this.linkLabelForCoachChange.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.linkLabelForCoachChange.AutoSize = true;
-            this.linkLabelForCoachChange.Location = new System.Drawing.Point(587, 412);
+            this.linkLabelForCoachChange.Location = new System.Drawing.Point(585, 412);
             this.linkLabelForCoachChange.Name = "linkLabelForCoachChange";
             this.linkLabelForCoachChange.Size = new System.Drawing.Size(44, 13);
             this.linkLabelForCoachChange.TabIndex = 26;
@@ -396,7 +396,7 @@
             // 
             this.linkLabelForStoryCrafterView.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.linkLabelForStoryCrafterView.AutoSize = true;
-            this.linkLabelForStoryCrafterView.Location = new System.Drawing.Point(556, 438);
+            this.linkLabelForStoryCrafterView.Location = new System.Drawing.Point(554, 438);
             this.linkLabelForStoryCrafterView.Name = "linkLabelForStoryCrafterView";
             this.linkLabelForStoryCrafterView.Size = new System.Drawing.Size(25, 13);
             this.linkLabelForStoryCrafterView.TabIndex = 27;
@@ -408,7 +408,7 @@
             // 
             this.linkLabelForStoryCrafterChange.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.linkLabelForStoryCrafterChange.AutoSize = true;
-            this.linkLabelForStoryCrafterChange.Location = new System.Drawing.Point(587, 438);
+            this.linkLabelForStoryCrafterChange.Location = new System.Drawing.Point(585, 438);
             this.linkLabelForStoryCrafterChange.Name = "linkLabelForStoryCrafterChange";
             this.linkLabelForStoryCrafterChange.Size = new System.Drawing.Size(44, 13);
             this.linkLabelForStoryCrafterChange.TabIndex = 26;
@@ -420,7 +420,7 @@
             // 
             this.linkLabelForUnsBterView.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.linkLabelForUnsBterView.AutoSize = true;
-            this.linkLabelForUnsBterView.Location = new System.Drawing.Point(556, 465);
+            this.linkLabelForUnsBterView.Location = new System.Drawing.Point(554, 465);
             this.linkLabelForUnsBterView.Name = "linkLabelForUnsBterView";
             this.linkLabelForUnsBterView.Size = new System.Drawing.Size(25, 13);
             this.linkLabelForUnsBterView.TabIndex = 27;
@@ -432,7 +432,7 @@
             // 
             this.linkLabelForUnsBterChange.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.linkLabelForUnsBterChange.AutoSize = true;
-            this.linkLabelForUnsBterChange.Location = new System.Drawing.Point(587, 465);
+            this.linkLabelForUnsBterChange.Location = new System.Drawing.Point(585, 465);
             this.linkLabelForUnsBterChange.Name = "linkLabelForUnsBterChange";
             this.linkLabelForUnsBterChange.Size = new System.Drawing.Size(44, 13);
             this.linkLabelForUnsBterChange.TabIndex = 26;

@@ -1565,7 +1565,7 @@ namespace OneStoryProjectEditor
             {
                 strHtmlButtons += String.Format(OseResources.Properties.Resources.HTML_Button,
                                                 nVerseIndex,
-                                                "return window.external.OnAddNote(this.id, null);",
+                                                "return window.external.OnAddNote(this.id, null, false);",
                                                 "Add Note");
 
                 strHtmlButtons += String.Format(OseResources.Properties.Resources.HTML_Button,
