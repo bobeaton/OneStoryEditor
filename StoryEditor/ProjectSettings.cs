@@ -701,14 +701,11 @@ namespace OneStoryProjectEditor
 
         // e.g. http://bobeaton:helpmepld@hg-private.languagedepot.org/snwmtn-test
         // or \\Bob-StudioXPS\Backup\Storying\snwmtn-test
-        public void SyncWithRepository(TeamMemberData loggedOnMember)
+        public void SyncWithRepository(string strUsername, string strPassword)
         {
             // the project folder name has come here bogus at times...
             if (!Directory.Exists(ProjectFolder))
                 return;
-
-            string strUsername, strPassword;
-            TeamMemberData.GetHgParameters(loggedOnMember, out strUsername, out strPassword);
 
             try
             {

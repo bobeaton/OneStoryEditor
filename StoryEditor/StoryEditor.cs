@@ -659,11 +659,14 @@ namespace OneStoryProjectEditor
             string strDotHgFolder = Path.Combine(projSettings.ProjectFolder, ".hg");
             if (IsInStoriesSet && Directory.Exists(strDotHgFolder))
             {
+                string strUsername, strPassword;
+                TeamMemberData.GetHgParameters(LoggedOnMember, out strUsername, out strPassword);
+
                 // clean up any existing open projects
                 if (!SaveAndCloseProject())
                     return;
 
-                projSettings.SyncWithRepository(LoggedOnMember);
+                projSettings.SyncWithRepository(strUsername, strPassword);
                 // Program.SyncWithRepository(projSettings.ProjectFolder, true);
             }
 
@@ -5060,17 +5063,10 @@ namespace OneStoryProjectEditor
             Debug.Assert((StoryProject != null) && 
                 (StoryProject.ProjSettings != null) &&
                 (LoggedOnMember != null));
-            if (!String.IsNullOrEmpty(StoryProject.ProjSettings.HgRepoUrlHost))
-            {
-                StoryProject.ProjSettings.SyncWithRepository(LoggedOnMember);
-            }
-            else
-            {
-                // just pretend this is the same as a reload. (it'll take care of the rest)
-                string strProjectName = StoryProject.ProjSettings.ProjectName;
-                string strProjectPath = StoryProject.ProjSettings.ProjectFolder;
-                DoReopen(strProjectPath, strProjectName);
-            }
+            // just pretend this is the same as a reload. (it'll take care of the rest)
+            string strProjectName = StoryProject.ProjSettings.ProjectName;
+            string strProjectPath = StoryProject.ProjSettings.ProjectFolder;
+            DoReopen(strProjectPath, strProjectName);
         }
 
         private void DoReopen(string strProjectPath, string strProjectName)
@@ -5099,7 +5095,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+                Program.ShowException(ex);
             }
         }
 
