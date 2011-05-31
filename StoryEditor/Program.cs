@@ -12,6 +12,7 @@ using Chorus.Utilities;
 using Chorus.VcsDrivers;
 using Chorus.VcsDrivers.Mercurial;
 using devX;
+using Palaso.Email;
 using Palaso.Reporting;
 
 namespace OneStoryProjectEditor
@@ -186,6 +187,17 @@ namespace OneStoryProjectEditor
             ErrorReport.EmailAddress = "bob_eaton@sall.com";//TODO Change this address
             ErrorReport.AddStandardProperties();
             ExceptionHandler.Init();
+        }
+
+        public static void SendEmail(string strEmailAddress, string strSubjectLine, 
+            string strBodyText)
+        {
+            var emailProvider = EmailProviderFactory.PreferredEmailProvider();
+            var emailMessage = emailProvider.CreateMessage();
+            emailMessage.To.Add(strEmailAddress);
+            emailMessage.Subject = strSubjectLine;
+            emailMessage.Body = strBodyText;
+            emailMessage.Send(emailProvider);
         }
 
         static List<string> _astrProjectForSync = new List<string>();
@@ -652,8 +664,7 @@ namespace OneStoryProjectEditor
         public static bool GetHgRepoParameters(string strProjectName, 
             out string strUsername, out string strRepoUrl, out string strSharedNetworkUrl)
         {
-            string strHgUrl = (_mapProjectNameToHgHttpUrl.ContainsKey(strProjectName))
-                ? _mapProjectNameToHgHttpUrl[strProjectName] : null;
+            string strHgUrl = GetHgRepoFullUrl(strProjectName);
             string strHgUsername = (_mapProjectNameToHgUsername.ContainsKey(strProjectName))
                 ? _mapProjectNameToHgUsername[strProjectName] : null;
 
@@ -671,6 +682,13 @@ namespace OneStoryProjectEditor
 
             strUsername = strRepoUrl = null;
             return false;
+        }
+
+        public static string GetHgRepoFullUrl(string strProjectName)
+        {
+            return (_mapProjectNameToHgHttpUrl.ContainsKey(strProjectName))
+                       ? _mapProjectNameToHgHttpUrl[strProjectName]
+                       : null;
         }
 
         public static bool GetAiHgRepoParameters(string strProjectName,

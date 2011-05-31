@@ -149,7 +149,16 @@
                               </xs:simpleContent>
                             </xs:complexType>
 													</xs:element>
-													<xs:element name="TestsRetellings" minOccurs="0" maxOccurs="1">
+                          <xs:element name="OutsideEnglishBackTranslator" minOccurs="0" maxOccurs="1" nillable="true">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute name="memberID" type="xs:IDREF" use="required" />
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="TestsRetellings" minOccurs="0" maxOccurs="1">
 														<xs:complexType>
 															<xs:sequence>
                                 <xs:element name="TestRetelling" minOccurs="1" maxOccurs="unbounded" nillable="true">

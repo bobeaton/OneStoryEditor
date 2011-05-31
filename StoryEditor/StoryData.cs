@@ -1068,6 +1068,7 @@ namespace OneStoryProjectEditor
         public MemberIdInfo Coach;
         public MemberIdInfo StoryCrafter;
         public MemberIdInfo BackTranslator;
+        public MemberIdInfo OutsideEnglishBackTranslator;
         public string StoryPurpose;
         public string ResourcesUsed;
         public string MiscellaneousStoryInfo;
@@ -1089,7 +1090,9 @@ namespace OneStoryProjectEditor
             Consultant = MemberIdInfo.CreateFromXmlNode(node.SelectSingleNode(CstrElementLabelConsultant));
             Coach = MemberIdInfo.CreateFromXmlNode(node.SelectSingleNode(CstrElementLabelCoach));
             BackTranslator = MemberIdInfo.CreateFromXmlNode(node.SelectSingleNode(CstrElementLabelBackTranslator));
-            
+            OutsideEnglishBackTranslator =
+                MemberIdInfo.CreateFromXmlNode(node.SelectSingleNode(CstrElementLabelOutsideEnglishBackTranslator));
+
             XmlNode elem;
             StoryPurpose = ((elem = node.SelectSingleNode(CstrElementLabelStoryPurpose)) != null) 
                 ? elem.InnerText 
@@ -1116,7 +1119,7 @@ namespace OneStoryProjectEditor
                 NewDataSet.StoryCrafterRow[] aSCRs = theCIR.GetStoryCrafterRows();
                 if (aSCRs.Length == 1)
                 {
-                    NewDataSet.StoryCrafterRow theRow = aSCRs[0];
+                    var theRow = aSCRs[0];
                     StoryCrafter = new MemberIdInfo(theRow.memberID,
                                                     (theRow.IsStoryCrafter_textNull())
                                                         ? null
@@ -1128,7 +1131,7 @@ namespace OneStoryProjectEditor
                 NewDataSet.ProjectFacilitatorRow[] thePfRows = theCIR.GetProjectFacilitatorRows();
                 if (thePfRows.Length == 1)
                 {
-                    NewDataSet.ProjectFacilitatorRow theRow = thePfRows[0];
+                    var theRow = thePfRows[0];
                     ProjectFacilitator = new MemberIdInfo(theRow.memberID,
                                                           (theRow.IsProjectFacilitator_textNull())
                                                               ? null
@@ -1138,7 +1141,7 @@ namespace OneStoryProjectEditor
                 NewDataSet.ConsultantRow[] theCoRows = theCIR.GetConsultantRows();
                 if (theCoRows.Length == 1)
                 {
-                    NewDataSet.ConsultantRow theRow = theCoRows[0];
+                    var theRow = theCoRows[0];
                     Consultant = new MemberIdInfo(theRow.memberID,
                                                   (theRow.IsConsultant_textNull())
                                                       ? null
@@ -1148,7 +1151,7 @@ namespace OneStoryProjectEditor
                 NewDataSet.CoachRow[] theCchRows = theCIR.GetCoachRows();
                 if (theCchRows.Length == 1)
                 {
-                    NewDataSet.CoachRow theRow = theCchRows[0];
+                    var theRow = theCchRows[0];
                     Coach = new MemberIdInfo(theRow.memberID,
                                                           (theRow.IsCoach_textNull())
                                                               ? null
@@ -1158,11 +1161,21 @@ namespace OneStoryProjectEditor
                 NewDataSet.BackTranslatorRow[] aBTRs = theCIR.GetBackTranslatorRows();
                 if (aBTRs.Length == 1)
                 {
-                    NewDataSet.BackTranslatorRow theRow = aBTRs[0];
+                    var theRow = aBTRs[0];
                     BackTranslator = new MemberIdInfo(theRow.memberID,
                                                       (theRow.IsBackTranslator_textNull())
                                                           ? null
                                                           : theRow.BackTranslator_text);
+                }
+
+                NewDataSet.OutsideEnglishBackTranslatorRow[] aOEBTers = theCIR.GetOutsideEnglishBackTranslatorRows();
+                if (aOEBTers.Length == 1)
+                {
+                    var theRow = aOEBTers[0];
+                    OutsideEnglishBackTranslator = new MemberIdInfo(theRow.memberID,
+                                                      (theRow.IsOutsideEnglishBackTranslator_textNull())
+                                                          ? null
+                                                          : theRow.OutsideEnglishBackTranslator_text);
                 }
 
                 if (!theCIR.IsStoryPurposeNull())
@@ -1217,6 +1230,9 @@ namespace OneStoryProjectEditor
             if (MemberIdInfo.Configured(rhs.BackTranslator))
                 BackTranslator = new MemberIdInfo(rhs.BackTranslator);
 
+            if (MemberIdInfo.Configured(rhs.OutsideEnglishBackTranslator))
+                OutsideEnglishBackTranslator = new MemberIdInfo(rhs.OutsideEnglishBackTranslator);
+
             StoryPurpose = rhs.StoryPurpose;
             ResourcesUsed = rhs.ResourcesUsed;
             MiscellaneousStoryInfo = rhs.MiscellaneousStoryInfo;
@@ -1235,6 +1251,7 @@ namespace OneStoryProjectEditor
         public const string CstrElementLabelResourcesUsed = "ResourcesUsed";
         public const string CstrElementLabelMiscellaneousStoryInfo = "MiscellaneousStoryInfo";
         public const string CstrElementLabelBackTranslator = "BackTranslator";
+        public const string CstrElementLabelOutsideEnglishBackTranslator = "OutsideEnglishBackTranslator";
         public const string CstrAttributeMemberID = "memberID";
 
         public const string CstrElementLabelTestsRetellings = "TestsRetellings";
@@ -1267,6 +1284,10 @@ namespace OneStoryProjectEditor
                 if (MemberIdInfo.Configured(BackTranslator))
                     BackTranslator.WriteXml(CstrElementLabelBackTranslator,
                                             elemCraftingInfo);
+
+                if (MemberIdInfo.Configured(OutsideEnglishBackTranslator))
+                    OutsideEnglishBackTranslator.WriteXml(CstrElementLabelOutsideEnglishBackTranslator,
+                                                          elemCraftingInfo);
 
                 if (!String.IsNullOrEmpty(StoryPurpose))
                     elemCraftingInfo.Add(new XElement(CstrElementLabelStoryPurpose, StoryPurpose));
@@ -1340,7 +1361,12 @@ namespace OneStoryProjectEditor
                                                            ? null
                                                            : child.BackTranslator,
                                                        bIsPrinting);
-
+            strRow += MemberIdInfo.PresentationHtmlRow(teamMembers, "English Back-Translator", OutsideEnglishBackTranslator,
+                                                       (bIsPrinting)
+                                                           ? null
+                                                           : child.OutsideEnglishBackTranslator,
+                                                       bIsPrinting);
+            
             strRow += TestorsToCommentsRetellings.PresentationHtml(teamMembers,
                                                                    "Retelling Testor {0}",
                                                                    ((child != null) &&

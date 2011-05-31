@@ -347,10 +347,11 @@ namespace OneStoryProjectEditor
                 string strProjectName = Path.GetFileNameWithoutExtension(dlg.PathToNewProject);
 
                 // we can save this information so we can use it automatically during the next restart
-                var uri = new Uri(dlg.ThreadSafeUrl);
+                string strFullUrl = dlg.ThreadSafeUrl;
+                var uri = new Uri(strFullUrl);
                 string strUsername, strDummy, strBaseUrl = null;
                 GetDetailsFromUri(uri, out strUsername, out strDummy, ref strBaseUrl);
-                Program.SetHgParameters(dlg.PathToNewProject, strProjectName, dlg.ThreadSafeUrl, strUsername);
+                Program.SetHgParameters(dlg.PathToNewProject, strProjectName, strFullUrl, strUsername);
                 var projSettings = new ProjectSettings(dlg.PathToNewProject, strProjectName, false)
                                        {
                                            HgRepoUrlHost = strBaseUrl
@@ -362,7 +363,7 @@ namespace OneStoryProjectEditor
                 catch (Exception)
                 {
                     string strErrorMsg = String.Format(Properties.Resources.IDS_NoProjectFromInternet,
-                                                       Environment.NewLine, dlg.ThreadSafeUrl);
+                                                       Environment.NewLine, strFullUrl);
                     MessageBox.Show(strErrorMsg, OseResources.Properties.Resources.IDS_Caption);
                 }
             }
@@ -4200,25 +4201,28 @@ namespace OneStoryProjectEditor
             return false;
         }
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        internal static string GetOseVersion()
         {
             System.Reflection.Assembly assy = System.Reflection.Assembly.GetExecutingAssembly();
             string strLocation = assy.Location;
-            if (!String.IsNullOrEmpty(strLocation))
-            {
-                var fv = FileVersionInfo.GetVersionInfo(strLocation);
+            if (String.IsNullOrEmpty(strLocation))
+                return null;
 
-                string strHeader = String.Format("About... OneStory Editor v{0}",
-                                                 fv.FileVersion);
+            return FileVersionInfo.GetVersionInfo(strLocation).FileVersion;
+        }
 
-                var dlg = new HtmlForm
-                              {
-                                  Text = strHeader,
-                                  ClientText = Properties.Resources.IDS_CopyrightInfo
-                              };
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string strVersion = GetOseVersion();
+            string strHeader = "About... OneStory Editor v" + strVersion;
 
-                dlg.ShowDialog();
-            }
+            var dlg = new HtmlForm
+                          {
+                              Text = strHeader,
+                              ClientText = Properties.Resources.IDS_CopyrightInfo
+                          };
+
+            dlg.ShowDialog();
         }
 
         internal SearchForm m_frmFind = null;

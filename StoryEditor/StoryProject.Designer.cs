@@ -59,6 +59,8 @@ namespace OneStoryProjectEditor {
         
         private BackTranslatorDataTable tableBackTranslator;
         
+        private OutsideEnglishBackTranslatorDataTable tableOutsideEnglishBackTranslator;
+        
         private TestsRetellingsDataTable tableTestsRetellings;
         
         private TestRetellingDataTable tableTestRetelling;
@@ -142,6 +144,8 @@ namespace OneStoryProjectEditor {
         private global::System.Data.DataRelation relationCraftingInfo_Coach;
         
         private global::System.Data.DataRelation relationCraftingInfo_BackTranslator;
+        
+        private global::System.Data.DataRelation relationCraftingInfo_OutsideEnglishBackTranslator;
         
         private global::System.Data.DataRelation relationCraftingInfo_TestsRetellings;
         
@@ -271,6 +275,9 @@ namespace OneStoryProjectEditor {
                 }
                 if ((ds.Tables["BackTranslator"] != null)) {
                     base.Tables.Add(new BackTranslatorDataTable(ds.Tables["BackTranslator"]));
+                }
+                if ((ds.Tables["OutsideEnglishBackTranslator"] != null)) {
+                    base.Tables.Add(new OutsideEnglishBackTranslatorDataTable(ds.Tables["OutsideEnglishBackTranslator"]));
                 }
                 if ((ds.Tables["TestsRetellings"] != null)) {
                     base.Tables.Add(new TestsRetellingsDataTable(ds.Tables["TestsRetellings"]));
@@ -518,6 +525,15 @@ namespace OneStoryProjectEditor {
         public BackTranslatorDataTable BackTranslator {
             get {
                 return this.tableBackTranslator;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public OutsideEnglishBackTranslatorDataTable OutsideEnglishBackTranslator {
+            get {
+                return this.tableOutsideEnglishBackTranslator;
             }
         }
         
@@ -865,6 +881,9 @@ namespace OneStoryProjectEditor {
                 if ((ds.Tables["BackTranslator"] != null)) {
                     base.Tables.Add(new BackTranslatorDataTable(ds.Tables["BackTranslator"]));
                 }
+                if ((ds.Tables["OutsideEnglishBackTranslator"] != null)) {
+                    base.Tables.Add(new OutsideEnglishBackTranslatorDataTable(ds.Tables["OutsideEnglishBackTranslator"]));
+                }
                 if ((ds.Tables["TestsRetellings"] != null)) {
                     base.Tables.Add(new TestsRetellingsDataTable(ds.Tables["TestsRetellings"]));
                 }
@@ -1075,6 +1094,12 @@ namespace OneStoryProjectEditor {
                     this.tableBackTranslator.InitVars();
                 }
             }
+            this.tableOutsideEnglishBackTranslator = ((OutsideEnglishBackTranslatorDataTable)(base.Tables["OutsideEnglishBackTranslator"]));
+            if ((initTable == true)) {
+                if ((this.tableOutsideEnglishBackTranslator != null)) {
+                    this.tableOutsideEnglishBackTranslator.InitVars();
+                }
+            }
             this.tableTestsRetellings = ((TestsRetellingsDataTable)(base.Tables["TestsRetellings"]));
             if ((initTable == true)) {
                 if ((this.tableTestsRetellings != null)) {
@@ -1247,6 +1272,7 @@ namespace OneStoryProjectEditor {
             this.relationCraftingInfo_Consultant = this.Relations["CraftingInfo_Consultant"];
             this.relationCraftingInfo_Coach = this.Relations["CraftingInfo_Coach"];
             this.relationCraftingInfo_BackTranslator = this.Relations["CraftingInfo_BackTranslator"];
+            this.relationCraftingInfo_OutsideEnglishBackTranslator = this.Relations["CraftingInfo_OutsideEnglishBackTranslator"];
             this.relationCraftingInfo_TestsRetellings = this.Relations["CraftingInfo_TestsRetellings"];
             this.relationTestsRetellings_TestRetelling = this.Relations["TestsRetellings_TestRetelling"];
             this.relationCraftingInfo_TestsTqAnswers = this.Relations["CraftingInfo_TestsTqAnswers"];
@@ -1316,6 +1342,8 @@ namespace OneStoryProjectEditor {
             base.Tables.Add(this.tableCoach);
             this.tableBackTranslator = new BackTranslatorDataTable();
             base.Tables.Add(this.tableBackTranslator);
+            this.tableOutsideEnglishBackTranslator = new OutsideEnglishBackTranslatorDataTable();
+            base.Tables.Add(this.tableOutsideEnglishBackTranslator);
             this.tableTestsRetellings = new TestsRetellingsDataTable();
             base.Tables.Add(this.tableTestsRetellings);
             this.tableTestRetelling = new TestRetellingDataTable();
@@ -1478,6 +1506,13 @@ namespace OneStoryProjectEditor {
                         this.tableCraftingInfo.CraftingInfo_IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableBackTranslator.CraftingInfo_IdColumn});
             this.tableBackTranslator.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("CraftingInfo_OutsideEnglishBackTranslator", new global::System.Data.DataColumn[] {
+                        this.tableCraftingInfo.CraftingInfo_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableOutsideEnglishBackTranslator.CraftingInfo_IdColumn});
+            this.tableOutsideEnglishBackTranslator.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
@@ -1743,6 +1778,11 @@ namespace OneStoryProjectEditor {
                         this.tableBackTranslator.CraftingInfo_IdColumn}, false);
             this.relationCraftingInfo_BackTranslator.Nested = true;
             this.Relations.Add(this.relationCraftingInfo_BackTranslator);
+            this.relationCraftingInfo_OutsideEnglishBackTranslator = new global::System.Data.DataRelation("CraftingInfo_OutsideEnglishBackTranslator", new global::System.Data.DataColumn[] {
+                        this.tableCraftingInfo.CraftingInfo_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableOutsideEnglishBackTranslator.CraftingInfo_IdColumn}, false);
+            this.relationCraftingInfo_OutsideEnglishBackTranslator.Nested = true;
+            this.Relations.Add(this.relationCraftingInfo_OutsideEnglishBackTranslator);
             this.relationCraftingInfo_TestsRetellings = new global::System.Data.DataRelation("CraftingInfo_TestsRetellings", new global::System.Data.DataColumn[] {
                         this.tableCraftingInfo.CraftingInfo_IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableTestsRetellings.CraftingInfo_IdColumn}, false);
@@ -1957,6 +1997,11 @@ namespace OneStoryProjectEditor {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private bool ShouldSerializeBackTranslator() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializeOutsideEnglishBackTranslator() {
             return false;
         }
         
@@ -2176,6 +2221,8 @@ namespace OneStoryProjectEditor {
         public delegate void CoachRowChangeEventHandler(object sender, CoachRowChangeEvent e);
         
         public delegate void BackTranslatorRowChangeEventHandler(object sender, BackTranslatorRowChangeEvent e);
+        
+        public delegate void OutsideEnglishBackTranslatorRowChangeEventHandler(object sender, OutsideEnglishBackTranslatorRowChangeEvent e);
         
         public delegate void TestsRetellingsRowChangeEventHandler(object sender, TestsRetellingsRowChangeEvent e);
         
@@ -7554,6 +7601,260 @@ namespace OneStoryProjectEditor {
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "BackTranslatorDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class OutsideEnglishBackTranslatorDataTable : global::System.Data.TypedTableBase<OutsideEnglishBackTranslatorRow> {
+            
+            private global::System.Data.DataColumn columnmemberID;
+            
+            private global::System.Data.DataColumn columnOutsideEnglishBackTranslator_text;
+            
+            private global::System.Data.DataColumn columnCraftingInfo_Id;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public OutsideEnglishBackTranslatorDataTable() {
+                this.TableName = "OutsideEnglishBackTranslator";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal OutsideEnglishBackTranslatorDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected OutsideEnglishBackTranslatorDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn memberIDColumn {
+                get {
+                    return this.columnmemberID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn OutsideEnglishBackTranslator_textColumn {
+                get {
+                    return this.columnOutsideEnglishBackTranslator_text;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn CraftingInfo_IdColumn {
+                get {
+                    return this.columnCraftingInfo_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public OutsideEnglishBackTranslatorRow this[int index] {
+                get {
+                    return ((OutsideEnglishBackTranslatorRow)(this.Rows[index]));
+                }
+            }
+            
+            public event OutsideEnglishBackTranslatorRowChangeEventHandler OutsideEnglishBackTranslatorRowChanging;
+            
+            public event OutsideEnglishBackTranslatorRowChangeEventHandler OutsideEnglishBackTranslatorRowChanged;
+            
+            public event OutsideEnglishBackTranslatorRowChangeEventHandler OutsideEnglishBackTranslatorRowDeleting;
+            
+            public event OutsideEnglishBackTranslatorRowChangeEventHandler OutsideEnglishBackTranslatorRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddOutsideEnglishBackTranslatorRow(OutsideEnglishBackTranslatorRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public OutsideEnglishBackTranslatorRow AddOutsideEnglishBackTranslatorRow(string memberID, string OutsideEnglishBackTranslator_text, CraftingInfoRow parentCraftingInfoRowByCraftingInfo_OutsideEnglishBackTranslator) {
+                OutsideEnglishBackTranslatorRow rowOutsideEnglishBackTranslatorRow = ((OutsideEnglishBackTranslatorRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        memberID,
+                        OutsideEnglishBackTranslator_text,
+                        null};
+                if ((parentCraftingInfoRowByCraftingInfo_OutsideEnglishBackTranslator != null)) {
+                    columnValuesArray[2] = parentCraftingInfoRowByCraftingInfo_OutsideEnglishBackTranslator[4];
+                }
+                rowOutsideEnglishBackTranslatorRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowOutsideEnglishBackTranslatorRow);
+                return rowOutsideEnglishBackTranslatorRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override global::System.Data.DataTable Clone() {
+                OutsideEnglishBackTranslatorDataTable cln = ((OutsideEnglishBackTranslatorDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new OutsideEnglishBackTranslatorDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnmemberID = base.Columns["memberID"];
+                this.columnOutsideEnglishBackTranslator_text = base.Columns["OutsideEnglishBackTranslator_text"];
+                this.columnCraftingInfo_Id = base.Columns["CraftingInfo_Id"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnmemberID = new global::System.Data.DataColumn("memberID", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnmemberID);
+                this.columnOutsideEnglishBackTranslator_text = new global::System.Data.DataColumn("OutsideEnglishBackTranslator_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
+                base.Columns.Add(this.columnOutsideEnglishBackTranslator_text);
+                this.columnCraftingInfo_Id = new global::System.Data.DataColumn("CraftingInfo_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnCraftingInfo_Id);
+                this.columnmemberID.AllowDBNull = false;
+                this.columnmemberID.Namespace = "";
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public OutsideEnglishBackTranslatorRow NewOutsideEnglishBackTranslatorRow() {
+                return ((OutsideEnglishBackTranslatorRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new OutsideEnglishBackTranslatorRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Type GetRowType() {
+                return typeof(OutsideEnglishBackTranslatorRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.OutsideEnglishBackTranslatorRowChanged != null)) {
+                    this.OutsideEnglishBackTranslatorRowChanged(this, new OutsideEnglishBackTranslatorRowChangeEvent(((OutsideEnglishBackTranslatorRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.OutsideEnglishBackTranslatorRowChanging != null)) {
+                    this.OutsideEnglishBackTranslatorRowChanging(this, new OutsideEnglishBackTranslatorRowChangeEvent(((OutsideEnglishBackTranslatorRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.OutsideEnglishBackTranslatorRowDeleted != null)) {
+                    this.OutsideEnglishBackTranslatorRowDeleted(this, new OutsideEnglishBackTranslatorRowChangeEvent(((OutsideEnglishBackTranslatorRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.OutsideEnglishBackTranslatorRowDeleting != null)) {
+                    this.OutsideEnglishBackTranslatorRowDeleting(this, new OutsideEnglishBackTranslatorRowChangeEvent(((OutsideEnglishBackTranslatorRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveOutsideEnglishBackTranslatorRow(OutsideEnglishBackTranslatorRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                NewDataSet ds = new NewDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "OutsideEnglishBackTranslatorDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -17061,6 +17362,16 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public OutsideEnglishBackTranslatorRow[] GetOutsideEnglishBackTranslatorRows() {
+                if ((this.Table.ChildRelations["CraftingInfo_OutsideEnglishBackTranslator"] == null)) {
+                    return new OutsideEnglishBackTranslatorRow[0];
+                }
+                else {
+                    return ((OutsideEnglishBackTranslatorRow[])(base.GetChildRows(this.Table.ChildRelations["CraftingInfo_OutsideEnglishBackTranslator"])));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public TestsRetellingsRow[] GetTestsRetellingsRows() {
                 if ((this.Table.ChildRelations["CraftingInfo_TestsRetellings"] == null)) {
                     return new TestsRetellingsRow[0];
@@ -17504,6 +17815,93 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetCraftingInfo_IdNull() {
                 this[this.tableBackTranslator.CraftingInfo_IdColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class OutsideEnglishBackTranslatorRow : global::System.Data.DataRow {
+            
+            private OutsideEnglishBackTranslatorDataTable tableOutsideEnglishBackTranslator;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal OutsideEnglishBackTranslatorRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableOutsideEnglishBackTranslator = ((OutsideEnglishBackTranslatorDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string memberID {
+                get {
+                    return ((string)(this[this.tableOutsideEnglishBackTranslator.memberIDColumn]));
+                }
+                set {
+                    this[this.tableOutsideEnglishBackTranslator.memberIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string OutsideEnglishBackTranslator_text {
+                get {
+                    try {
+                        return ((string)(this[this.tableOutsideEnglishBackTranslator.OutsideEnglishBackTranslator_textColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'OutsideEnglishBackTranslator_text\' in table \'OutsideEnglish" +
+                                "BackTranslator\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableOutsideEnglishBackTranslator.OutsideEnglishBackTranslator_textColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int CraftingInfo_Id {
+                get {
+                    try {
+                        return ((int)(this[this.tableOutsideEnglishBackTranslator.CraftingInfo_IdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CraftingInfo_Id\' in table \'OutsideEnglishBackTranslator\' is" +
+                                " DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableOutsideEnglishBackTranslator.CraftingInfo_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CraftingInfoRow CraftingInfoRow {
+                get {
+                    return ((CraftingInfoRow)(this.GetParentRow(this.Table.ParentRelations["CraftingInfo_OutsideEnglishBackTranslator"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["CraftingInfo_OutsideEnglishBackTranslator"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsOutsideEnglishBackTranslator_textNull() {
+                return this.IsNull(this.tableOutsideEnglishBackTranslator.OutsideEnglishBackTranslator_textColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetOutsideEnglishBackTranslator_textNull() {
+                this[this.tableOutsideEnglishBackTranslator.OutsideEnglishBackTranslator_textColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsCraftingInfo_IdNull() {
+                return this.IsNull(this.tableOutsideEnglishBackTranslator.CraftingInfo_IdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetCraftingInfo_IdNull() {
+                this[this.tableOutsideEnglishBackTranslator.CraftingInfo_IdColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -20496,6 +20894,37 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public BackTranslatorRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class OutsideEnglishBackTranslatorRowChangeEvent : global::System.EventArgs {
+            
+            private OutsideEnglishBackTranslatorRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public OutsideEnglishBackTranslatorRowChangeEvent(OutsideEnglishBackTranslatorRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public OutsideEnglishBackTranslatorRow Row {
                 get {
                     return this.eventRow;
                 }

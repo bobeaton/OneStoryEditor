@@ -2177,4 +2177,18 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_StoryInformationTooltipLinkChange" xml:space="preserve">
     <value>Click to choose another team member</value>
   </data>
+  <data name="IDS_EmailDetails" xml:space="preserve">
+    <value>‘{0}’ has set the story ‘{1}’ to your turn</value>
+  </data>
+  <data name="IDS_EmailMessageBody" xml:space="preserve">
+    <value>This is an automated message from OSE v{0}:
+
+{1}</value>
+  </data>
+  <data name="IDS_EmailSubjectLine" xml:space="preserve">
+    <value>[OSE says]: {0}</value>
+  </data>
+  <data name="IDS_InformToDoSendReceive" xml:space="preserve">
+    <value>An automated message has been put into your email's Outbox to inform {0} that it is now his/her turn to work on the story. When you're finished, you should click 'Project', 'Send/Receive' to synchronize your changes to the Internet repository (or thumbdrive) and then do a Send/Receive of your email as well, so the other person gets the message</value>
+  </data>
 </root>

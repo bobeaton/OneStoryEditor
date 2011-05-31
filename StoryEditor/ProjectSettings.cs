@@ -70,16 +70,26 @@ namespace OneStoryProjectEditor
             string strProjectFileContents = File.ReadAllText(ProjectFilePath, Encoding.UTF8);
             const string strToSearchFor = StoryProjectData.CstrAttributeHgRepoUrlHost + "=\"";
             int nIndex = strProjectFileContents.IndexOf(strToSearchFor);
-            if (nIndex < 0)
-                return null;
+            if (nIndex >= 0)
+            {
+                // look past the attribute name...
+                nIndex += strToSearchFor.Length;
 
-            // look past the attribute name...
-            nIndex += strToSearchFor.Length;
+                // get the index (or len) to the end of the attribute value and return
+                //  that substring
+                int nLength = strProjectFileContents.IndexOf('"', nIndex) - nIndex;
+                return strProjectFileContents.Substring(nIndex, nLength);
+            }
 
-            // get the index (or len) to the end of the attribute value and return
-            //  that substring
-            int nLength = strProjectFileContents.IndexOf('"', nIndex) - nIndex;
-            return strProjectFileContents.Substring(nIndex, nLength);
+            // finally, worst case, we *might* have it in the settings file
+            string strBaseUrl = null, strFullUri = Program.GetHgRepoFullUrl(ProjectName);
+            if (!String.IsNullOrEmpty(strFullUri))
+            {
+                var uri = new Uri(strFullUri);
+                string strDummy;
+                StoryEditor.GetDetailsFromUri(uri, out strDummy, out strDummy, ref strBaseUrl);
+            }
+            return strBaseUrl;
         }
 
         public ProjectSettings(XmlNode node, string strProjectFolder)

@@ -724,6 +724,35 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ‘{0}’ has set the story ‘{1}’ to your turn.
+        /// </summary>
+        internal static string IDS_EmailDetails {
+            get {
+                return ResourceManager.GetString("IDS_EmailDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is an automated message from OSE v{0}:
+        ///
+        ///{1}.
+        /// </summary>
+        internal static string IDS_EmailMessageBody {
+            get {
+                return ResourceManager.GetString("IDS_EmailMessageBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [OSE says]: {0}.
+        /// </summary>
+        internal static string IDS_EmailSubjectLine {
+            get {
+                return ResourceManager.GetString("IDS_EmailSubjectLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter the correct spelling.
         /// </summary>
         internal static string IDS_EnterCorrectedSpelling {
@@ -846,6 +875,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_InferenceCommentFormat {
             get {
                 return ResourceManager.GetString("IDS_InferenceCommentFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An automated message has been put into your email&apos;s Outbox to inform {0} that it is now his/her turn to work on the story. When you&apos;re finished, you should click &apos;Project&apos;, &apos;Send/Receive&apos; to synchronize your changes to the Internet repository (or thumbdrive) and then do a Send/Receive of your email as well, so the other person gets the message.
+        /// </summary>
+        internal static string IDS_InformToDoSendReceive {
+            get {
+                return ResourceManager.GetString("IDS_InformToDoSendReceive", resourceCulture);
             }
         }
         

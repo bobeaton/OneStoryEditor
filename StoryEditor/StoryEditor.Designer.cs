@@ -196,8 +196,8 @@ namespace OneStoryProjectEditor
             this.comboBoxStorySelector,
             this.storyToolStripMenuItem,
             this.panoramaToolStripMenuItem,
-            this.advancedToolStripMenuItem,
-            this.aboutToolStripMenuItem});
+            this.aboutToolStripMenuItem,
+            this.advancedToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(881, 31);
@@ -1440,9 +1440,9 @@ namespace OneStoryProjectEditor
             this.toolStripButtonPrevious,
             this.toolStripButtonNext,
             this.toolStripButtonLast});
-            this.toolStripRecordNavigation.Location = new System.Drawing.Point(440, 0);
+            this.toolStripRecordNavigation.Location = new System.Drawing.Point(471, 0);
             this.toolStripRecordNavigation.Name = "toolStripRecordNavigation";
-            this.toolStripRecordNavigation.Size = new System.Drawing.Size(149, 25);
+            this.toolStripRecordNavigation.Size = new System.Drawing.Size(118, 25);
             this.toolStripRecordNavigation.TabIndex = 3;
             this.toolStripRecordNavigation.Text = "toolStrip1";
             // 

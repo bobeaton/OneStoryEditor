@@ -296,12 +296,14 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert(TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
                                                                   TeamMemberData.UserTypes.ProjectFacilitator));
+            System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
             TheSe.addNewStoryAfterToolStripMenuItem_Click(sender, e);
         }
 
         private void buttonVernacular_Click(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
             if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
                 TeamMemberData.UserTypes.ProjectFacilitator))
@@ -316,6 +318,7 @@ namespace OneStoryProjectEditor
 
         private void buttonNationalBt_Click(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
             if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
                 TeamMemberData.UserTypes.ProjectFacilitator))
@@ -330,6 +333,7 @@ namespace OneStoryProjectEditor
 
         private void buttonInternationalBt_Click(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
             if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType, 
                 TeamMemberData.UserTypes.ProjectFacilitator))
@@ -344,6 +348,7 @@ namespace OneStoryProjectEditor
 
         private void buttonFreeTranslation_Click(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
             if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType, 
                 TeamMemberData.UserTypes.ProjectFacilitator))
@@ -358,6 +363,7 @@ namespace OneStoryProjectEditor
 
         private void buttonAnchors_Click(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
             if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
                 TeamMemberData.UserTypes.ProjectFacilitator))
@@ -374,6 +380,7 @@ namespace OneStoryProjectEditor
 
         private void buttonRetellings_Click(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
             if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType, 
                 TeamMemberData.UserTypes.ProjectFacilitator))
@@ -390,6 +397,7 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert(TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
                                                                   TeamMemberData.UserTypes.ProjectFacilitator));
+            System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
             TheSe.editAddTestResultsToolStripMenuItem_Click(sender, e);
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest1, false);
@@ -397,6 +405,7 @@ namespace OneStoryProjectEditor
 
         private void buttonTestQuestions_Click(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
             if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType, 
                 TeamMemberData.UserTypes.ProjectFacilitator))
@@ -411,6 +420,7 @@ namespace OneStoryProjectEditor
 
         private void buttonTestQuestionAnswers_Click(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
             if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType, 
                 TeamMemberData.UserTypes.ProjectFacilitator))
@@ -428,6 +438,7 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert(TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
                                                                   TeamMemberData.UserTypes.ProjectFacilitator));
+            System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
             if (TheSe.AddInferenceTestBoxes())
                 TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1, false);
@@ -435,18 +446,21 @@ namespace OneStoryProjectEditor
 
         private void buttonStoryInformation_Click(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
             TheSe.QueryStoryPurpose();
         }
 
         private void buttonViewPanorama_Click(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
             TheSe.toolStripMenuItemShowPanorama_Click(sender, e);
         }
 
         private void buttonSendToEnglishBter_Click(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
 
             // we go to the English Bter either going forwards from the PF...
@@ -467,17 +481,17 @@ namespace OneStoryProjectEditor
                 if (!CheckIfReadyToReturnToPf())
                     return;
 
-                if (TheStory.CraftingInfo.IsBiblicalStory)
-                {
-                    TheSe.SetNextStateAdvancedOverride(
-                        StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotesAfterUnsTest, true);
-                }
-                else
-                {
-                    TheSe.SetNextStateAdvancedOverride(
-                        StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotesBeforeUnsTest, true);
-                }
+                TheSe.SetNextStateAdvancedOverride(
+                    TheStory.CraftingInfo.IsBiblicalStory
+                        ? StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotesAfterUnsTest
+                        : StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotesBeforeUnsTest, true);
             }
+
+            // TODO: Add OutsideEnglishBackTranslator to the StoryFrontMatterForm
+            //  and initialize it when an OutsideEnglishBackTranslator does something
+            //  to the story.
+            SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
+                TheStory.CraftingInfo.OutsideEnglishBackTranslator);
         }
 
         private void buttonSendToConsultant_Click(object sender, EventArgs e)
@@ -523,10 +537,55 @@ namespace OneStoryProjectEditor
             }
 
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eConsultantCheck2, true);
+
+            // Send the consultant for this story an email
+            SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember, 
+                TheStory.CraftingInfo.Consultant);
+        }
+
+        private static void SendEmail(StoryProjectData theProject, StoryData theStory, 
+            TeamMemberData loggedOnMember, MemberIdInfo recipient)
+        {
+            if (!MemberIdInfo.Configured(recipient))
+                return;
+
+            var member = theProject.GetMemberFromId(recipient.MemberId);
+            if ((member == null) || String.IsNullOrEmpty(member.Email))
+                return;
+
+            // e.g. ‘Bob Eaton’ has set the story ‘01 creation’ to your turn
+            string strDetails = String.Format(Properties.Resources.IDS_EmailDetails,
+                                              loggedOnMember.Name, theStory.Name);
+
+            // e.g. [OSE says]: <strDetails>
+            string strSubjectLine = String.Format(Properties.Resources.IDS_EmailSubjectLine,
+                                                  strDetails);
+
+            /*
+             * This is an automated message from OSE v 2.2.0.7:
+             * 
+             * <strDetails>
+             */
+
+            string strMessageBody = String.Format(Properties.Resources.IDS_EmailMessageBody,
+                                                  StoryEditor.GetOseVersion(),
+                                                  strDetails);
+
+            try
+            {
+                Program.SendEmail(member.Email, strSubjectLine, strMessageBody);
+                MessageBox.Show(String.Format(Properties.Resources.IDS_InformToDoSendReceive,
+                                              member.Name));
+            }
+            catch (Exception ex)
+            {
+                Program.ShowException(ex);
+            }
         }
 
         private bool CheckForPfDone()
         {
+            System.Diagnostics.Debug.Assert(ParentForm != null);
             System.Diagnostics.Debug.Assert(_checker != null);
             System.Diagnostics.Debug.Assert(TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
                                                                   TeamMemberData.UserTypes.ProjectFacilitator));
@@ -564,6 +623,9 @@ namespace OneStoryProjectEditor
 
             // this applies regardless of who it's coming from
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacRevisesAfterUnsTest, true);
+
+            SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
+                TheStory.CraftingInfo.ProjectFacilitator);
         }
 
         private bool CheckIfReadyToReturnToPf()
@@ -659,6 +721,7 @@ namespace OneStoryProjectEditor
 
         private void buttonMarkPreliminaryApproval_Click(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
             if (!CheckEndOfStateTransition.CheckThatCITAnsweredPFsQuestions(TheSe, TheStory))
                 return;
@@ -668,12 +731,14 @@ namespace OneStoryProjectEditor
 
         private void buttonMarkFinalApproval_Click(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eTeamFinalApproval, true);
         }
 
         private void buttonSendToCoach_Click(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.Assert(ParentForm != null);
             System.Diagnostics.Debug.Assert(_checker != null);
             System.Diagnostics.Debug.Assert(TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
                                                                   TeamMemberData.UserTypes.ConsultantInTraining));
@@ -683,10 +748,14 @@ namespace OneStoryProjectEditor
                 return;
 
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eCoachReviewRound2Notes, true);
+
+            SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
+                TheStory.CraftingInfo.Coach);
         }
 
         private void buttonSendToCIT_Click(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.Assert(ParentForm != null);
             System.Diagnostics.Debug.Assert(TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
                                                                   TeamMemberData.UserTypes.Coach));
 
@@ -712,6 +781,9 @@ namespace OneStoryProjectEditor
             TheStory.TasksAllowedCit = dlg.TasksAllowed;
             TheStory.TasksRequiredCit = dlg.TasksRequired;
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eConsultantCauseRevisionAfterUnsTest, true);
+
+            SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
+                TheStory.CraftingInfo.Consultant);
         }
 
         private void buttonViewTasksPf_Click(object sender, EventArgs e)
