@@ -97,12 +97,26 @@ namespace OneStoryProjectEditor
                     GetMemberWithEditTokenAsDisplayString(_storyProject.TeamMembers,
                                                           aSD.ProjStage.MemberTypeWithEditToken);
 
+                string strMemberId = null;
                 if (strWhoHasEditToken == TeamMemberData.CstrProjectFacilitatorDisplay)
+                {
+                    strMemberId = MemberIdInfo.SafeGetMemberId(aSD.CraftingInfo.ProjectFacilitator);
+                }
+                else if ((strWhoHasEditToken == TeamMemberData.CstrConsultantInTrainingDisplay) ||
+                    (strWhoHasEditToken == TeamMemberData.CstrIndependentConsultantDisplay))
+                {
+                    strMemberId = MemberIdInfo.SafeGetMemberId(aSD.CraftingInfo.Consultant);
+                }
+                else if (strWhoHasEditToken == TeamMemberData.UserTypes.Coach.ToString())
+                {
+                    strMemberId = MemberIdInfo.SafeGetMemberId(aSD.CraftingInfo.Coach);
+                }
+
+                if (!String.IsNullOrEmpty(strMemberId))
                 {
                     strWhoHasEditToken = String.Format("{0} ({1})",
                                                        strWhoHasEditToken,
-                                                       _storyProject.GetMemberNameFromMemberGuid(
-                                                           aSD.CraftingInfo.ProjectFacilitator.MemberId));
+                                                       _storyProject.GetMemberNameFromMemberGuid(strMemberId));
                 }
 
                 if ((aSD.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eTeamComplete) ||
