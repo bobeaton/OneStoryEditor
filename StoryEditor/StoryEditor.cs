@@ -1758,15 +1758,6 @@ namespace OneStoryProjectEditor
                 if ((st != null) && (st.TextBox != null))
                     st.TextBox.Focus();
 #endif
-                // if this is a caoch, then set the Crafting info if it isn't already
-                //  (this assumes that the first consultant type to add a note to the 
-                //  ConNote pane is *the* consultant.
-                if (TeamMemberData.IsUser(LoggedOnMember.MemberType,
-                                          TeamMemberData.UserTypes.Coach))
-                {
-                    MemberIdInfo.SetCreateIfEmpty(ref TheCurrentStory.CraftingInfo.Coach,
-                                                  LoggedOnMember.MemberGuid, false);
-                }
             }
             else
             {
@@ -1814,16 +1805,33 @@ namespace OneStoryProjectEditor
                 if ((st != null) && (st.TextBox != null))
                     st.TextBox.Focus();
 #endif
-                // if this is a consultant, then set the Crafting info if it isn't already
-                //  (this assumes that the first consultant type to add a note to the 
-                //  ConNote pane is *the* consultant.
-                if (TeamMemberData.IsUser(LoggedOnMember.MemberType,
-                                          TeamMemberData.UserTypes.IndependentConsultant |
-                                          TeamMemberData.UserTypes.ConsultantInTraining))
-                {
-                    MemberIdInfo.SetCreateIfEmpty(ref TheCurrentStory.CraftingInfo.Consultant,
-                                                  LoggedOnMember.MemberGuid, false);
-                }
+            }
+        }
+
+        // if this is a coach, then set the Crafting info if it isn't already
+        //  (this assumes that the first consultant type to add a note to the 
+        //  ConNote pane is *the* consultant.
+        public void CheckUpdateMentorInfoCoach()
+        {
+            if (TeamMemberData.IsUser(LoggedOnMember.MemberType,
+                                      TeamMemberData.UserTypes.Coach))
+            {
+                MemberIdInfo.SetCreateIfEmpty(ref TheCurrentStory.CraftingInfo.Coach,
+                                              LoggedOnMember.MemberGuid, false);
+            }
+        }
+
+        // if this is a consultant, then set the Crafting info if it isn't already
+        //  (this assumes that the first consultant type to add a note to the 
+        //  ConNote pane is *the* consultant.
+        public void CheckUpdateMentorInfoConsultant()
+        {
+            if (TeamMemberData.IsUser(LoggedOnMember.MemberType,
+                                      TeamMemberData.UserTypes.IndependentConsultant |
+                                      TeamMemberData.UserTypes.ConsultantInTraining))
+            {
+                MemberIdInfo.SetCreateIfEmpty(ref TheCurrentStory.CraftingInfo.Consultant,
+                                              LoggedOnMember.MemberGuid, false);
             }
         }
 

@@ -434,14 +434,6 @@ namespace OneStoryProjectEditor
             if (String.IsNullOrEmpty(strNote) && (theSE.LoggedOnMember != null))
                 strNote = StoryEditor.GetInitials(theSE.LoggedOnMember.Name) + ": Re: ";
 
-            /* I think this is already done in CheckForProperEditToken now (via HasAddNotePrivilege)
-            // if the coach tries to add a note in the consultant's pane, that should fail.
-            // (but it's okay for a project facilitator to add one if they have a question
-            //  for the consultant)
-            if (!aCNsDC.CheckAddNotePrivilege(theSE.SetStatusBar, theSE.LoggedOnMember.MemberType))
-                return null;
-            */
-
             StrIdToScrollTo = GetTopRowId;
             ConsultNoteDataConverter cndc =
                 aCNsDC.Add(theSE.TheCurrentStory, theSE.LoggedOnMember, 
@@ -450,9 +442,13 @@ namespace OneStoryProjectEditor
             LoadDocument();
             theSE.Modified = true;
 
+            CheckUpdateMentorInfo(theSE);
+
             // return the conversation we just created
             return cndc;
         }
+
+        protected abstract void CheckUpdateMentorInfo(StoryEditor theSe);
 
         public void DoFind(string strId)
         {
@@ -690,6 +686,11 @@ namespace OneStoryProjectEditor
             return aCNsDC;
         }
 
+        protected override void CheckUpdateMentorInfo(StoryEditor theSe)
+        {
+            theSe.CheckUpdateMentorInfoConsultant();
+        }
+
         public void OnVerseLineJump(int nVerseIndex)
         {
             TheSE.FocusOnVerse(nVerseIndex, false, true);
@@ -727,6 +728,11 @@ namespace OneStoryProjectEditor
             VerseData verse = Verse(nVerseIndex);
             ConsultNotesDataConverter aCNsDC = verse.CoachNotes;
             return aCNsDC;
+        }
+
+        protected override void CheckUpdateMentorInfo(StoryEditor theSe)
+        {
+            theSe.CheckUpdateMentorInfoCoach();
         }
 
         public void OnVerseLineJump(int nVerseIndex)
