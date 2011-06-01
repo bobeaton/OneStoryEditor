@@ -209,7 +209,6 @@ namespace OneStoryProjectEditor
             this.projectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.recentProjectsToolStripMenuItem,
             this.sendReceiveToolStripMenuItem,
-            this.newToolStripMenuItem,
             this.closeProjectToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.toolStripSeparator1,
@@ -1081,6 +1080,7 @@ namespace OneStoryProjectEditor
             // advancedToolStripMenuItem
             // 
             this.advancedToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem,
             this.changeProjectFolderRootToolStripMenuItem,
             this.resetStoredInformationToolStripMenuItem,
             this.changeStateWithoutChecksToolStripMenuItem,
