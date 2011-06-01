@@ -1324,9 +1324,17 @@ namespace OneStoryProjectEditor
             if (bAfter)
                 nInsertionIndex++;
 
-            VersesData lstNewVerses = new VersesData();
+            var lstNewVerses = new VersesData();
             for (int i = 0; i < nNumberToAdd; i++)
-                lstNewVerses.Add(new VerseData());
+            {
+                var verse = new VerseData();
+                
+                // add boxes for retellings just in case
+                foreach (var testInfo in TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings)
+                    verse.Retellings.TryAddNewLine(testInfo.MemberId);
+
+                lstNewVerses.Add(verse);
+            }
 
             TheCurrentStory.Verses.InsertRange(nInsertionIndex, lstNewVerses);
             InitAllPanes();
@@ -2360,7 +2368,6 @@ namespace OneStoryProjectEditor
                 toTheInternetToolStripMenuItem.Enabled =
                     projectFromASharedNetworkDriveToolStripMenu.Enabled =
                     recentProjectsToolStripMenuItem.Enabled =
-                    newToolStripMenuItem.Enabled =
                     saveToolStripMenuItem.Enabled =
                     browseForProjectToolStripMenuItem.Enabled =
                     projectSettingsToolStripMenuItem.Enabled =
@@ -4985,6 +4992,7 @@ namespace OneStoryProjectEditor
         private void advancedToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             changeStateWithoutChecksToolStripMenuItem.Enabled = ((StoryProject != null) && (TheCurrentStory != null));
+            newToolStripMenuItem.Enabled = IsInStoriesSet;
         }
 
         private void checkForProgramUpdatesNowToolStripMenuItem_Click(object sender, EventArgs e)
