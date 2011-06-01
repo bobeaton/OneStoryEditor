@@ -255,6 +255,8 @@ namespace OneStoryProjectEditor
 
         }
 
+        /*
+         * nah... this wasn't such a good idea
         protected override void OnDragEnter(DragEventArgs drgevent)
         {
             if (drgevent.Data.GetDataPresent(typeof(NetBibleViewer)))
@@ -301,6 +303,7 @@ namespace OneStoryProjectEditor
                 catch { }   // noop
             }
         }
+        */
 
         internal static CtrlTextBox _inTextBox;
         internal static int _nLastVerse = -1;
