@@ -1,16 +1,10 @@
-﻿If 'Add Note' from the ConNote pane is triggered, then set CraftingInfo.Consultant if not set (i.e. don't do it in StoryEditor only)
-
-After rescrolling to the same earlier line, can we do something to make sure it's visible (for the cases where the thing we add is below the view)
+﻿After rescrolling to the same earlier line, can we do something to make sure it's visible (for the cases where the thing we add is below the view)
 
 Decouple Sword from installer
 
 in viewing old stories, why am I being asked if I want to save changes?
 
-remove Story pane boxes as a legitimate drop target for dragged Scripture references
-
 add transliteration viewing to glossing dialog
-
-why is PF being asked for UNS BTer on 2nd round after consultant
 
 Try to use "International BT" rather than English BT
 

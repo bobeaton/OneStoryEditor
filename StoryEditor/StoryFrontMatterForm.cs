@@ -81,6 +81,10 @@ namespace OneStoryProjectEditor
             ResumeLayout(false);
 
             Text = String.Format("Story Information for '{0}'", theCurrentStory.Name);
+
+            Modified = false;
+            buttonOK.Enabled = false;
+            buttonCancel.Text = "Close";
         }
 
         private void InitializeTestRows(TestInfo testInfo, TestRows rows, 
@@ -233,6 +237,7 @@ namespace OneStoryProjectEditor
                 if (dlg.ShowDialog() != DialogResult.OK)
                     return;
                 theTeamMember = dlg.SelectedMember;
+                MarkTouched();
             }
             else
             {
@@ -300,6 +305,8 @@ namespace OneStoryProjectEditor
             row.LinkLabelView.Font = new Font(row.LinkLabelView.Font, fontStyleNew);
             row.LinkLabelChange.Font = new Font(row.LinkLabelChange.Font, fontStyleNew);
             row.TbxName.Font = new Font(row.TbxName.Font, fontStyleNew);
+
+            MarkTouched();
         }
 
         public bool Modified;
@@ -459,6 +466,18 @@ namespace OneStoryProjectEditor
                 bModified = true;
             }
         }
+
+        private void textBox_TextChanged(object sender, EventArgs e)
+        {
+            MarkTouched();
+        }
+
+        public void MarkTouched()
+        {
+            Modified = true;
+            buttonOK.Enabled = true;
+            buttonCancel.Text = "Cancel";
+        }
     }
 
     public class TestRows : List<ControlRow>
@@ -590,6 +609,7 @@ namespace OneStoryProjectEditor
                                  AutoSize = true,
                                  Dock = DockStyle.Fill
                              };
+            TbxComment.TextChanged += textBox_TextChanged;
             LinkLabelView = new LinkLabel
                                 {
                                     Anchor = AnchorStyles.Left,
@@ -611,6 +631,11 @@ namespace OneStoryProjectEditor
                                       AutoSize = true
                                   };
             LinkLabelDelete.Click += OnLinkClickDelete;
+        }
+
+        private static void textBox_TextChanged(object sender, EventArgs e)
+        {
+            MyParent.MarkTouched();
         }
 
         private void OnLinkClickView(object sender, EventArgs e)
