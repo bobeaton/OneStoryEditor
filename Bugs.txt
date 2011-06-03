@@ -1,4 +1,10 @@
-﻿After rescrolling to the same earlier line, can we do something to make sure it's visible (for the cases where the thing we add is below the view)
+﻿Add the 'Adaptations' sub-folder to an OSE-created AI project or AI fails to enjoy opening it
+
+put wait cursor while "Check Now"
+
+Don't show the Delete button after Edits
+
+After rescrolling to the same earlier line, can we do something to make sure it's visible (for the cases where the thing we add is below the view)
 
 Decouple Sword from installer
 
