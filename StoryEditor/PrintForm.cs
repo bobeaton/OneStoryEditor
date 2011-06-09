@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using ECInterfaces;
 using SilEncConverters40;
@@ -206,6 +208,16 @@ namespace OneStoryProjectEditor
 
             Properties.Settings.Default.LastPrintSettings = ViewSettings.LongValue;
             Properties.Settings.Default.Save();
+        }
+
+        private void buttonSaveHtml_Click(object sender, EventArgs e)
+        {
+            saveFileDialog.FileName = _theSE.StoryProject.ProjSettings.ProjectName;
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string strDocumentText = htmlStoryBt.DocumentText;
+                File.WriteAllText(saveFileDialog.FileName, strDocumentText, Encoding.UTF8);
+            }
         }
     }
 }
