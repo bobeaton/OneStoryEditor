@@ -671,7 +671,13 @@ namespace OneStoryProjectEditor
                 //  we want to be able to see Coach note pane).
                 theSE.viewCoachNotesFieldMenuItem.Checked = IsCoachNotesVisible
                                                             && (theSE.LoggedOnMember != null)
-                                                            && theSE.LoggedOnMember.IsPfAndNotLsr;
+                                                            &&
+                                                            (!TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType,
+                                                                                    TeamMemberData.UserTypes.
+                                                                                        ProjectFacilitator) ||
+                                                             TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType,
+                                                                                   TeamMemberData.UserTypes.
+                                                                                       FirstPassMentor));
 
                 theSE.viewNetBibleMenuItem.Checked = IsNetBibleVisible && bBiblicalStory;
             }
