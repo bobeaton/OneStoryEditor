@@ -647,13 +647,10 @@ namespace OneStoryProjectEditor
 
         public void SetCommentMemberId()
         {
-            Verses.SetCommentMemberId(CraftingInfo.ProjectFacilitator.MemberId,
-                                      (MemberIdInfo.Configured(CraftingInfo.Consultant))
-                                          ? CraftingInfo.Consultant.MemberId
-                                          : null,
-                                      (MemberIdInfo.Configured(CraftingInfo.Coach))
-                                          ? CraftingInfo.Coach.MemberId
-                                          : null);
+            Verses.SetCommentMemberId(
+                MemberIdInfo.SafeGetMemberId(CraftingInfo.ProjectFacilitator),
+                MemberIdInfo.SafeGetMemberId(CraftingInfo.Consultant),
+                MemberIdInfo.SafeGetMemberId(CraftingInfo.Coach));
         }
 
         public bool DoesReferenceTqUns(string strMemberId)
@@ -955,8 +952,8 @@ namespace OneStoryProjectEditor
                                                strLabel) +
                                  String.Format(
                                      OseResources.Properties.Resources.HTML_TableCellWithSpanAndWidth,
-                                     2,
                                      100,
+                                     2,
                                      String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
                                                    strLabel,
                                                    StoryData.

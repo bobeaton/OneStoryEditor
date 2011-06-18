@@ -123,7 +123,7 @@ namespace OneStoryProjectEditor
         public virtual void AddXml(XElement elem, string strFieldName)
         {
             if (Vernacular.HasData)
-                elem.Add(new XElement(strFieldName, 
+                elem.Add(new XElement(strFieldName,
                     new XAttribute(CstrAttributeLang, CstrAttributeLangVernacular),
                     Vernacular));
             if (NationalBt.HasData)
@@ -132,11 +132,11 @@ namespace OneStoryProjectEditor
                     NationalBt));
             if (InternationalBt.HasData)
                 elem.Add(new XElement(strFieldName,
-                    new XAttribute(CstrAttributeLang, CstrAttributeLangInternationalBt), 
+                    new XAttribute(CstrAttributeLang, CstrAttributeLangInternationalBt),
                     InternationalBt));
             if (FreeTranslation.HasData)
                 elem.Add(new XElement(strFieldName,
-                    new XAttribute(CstrAttributeLang, CstrAttributeLangFreeTranslation), 
+                    new XAttribute(CstrAttributeLang, CstrAttributeLangFreeTranslation),
                     FreeTranslation));
         }
 
@@ -350,7 +350,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return (StoryLine.HasData || Anchors.HasData || TestQuestions.HasData 
+                return (StoryLine.HasData || Anchors.HasData || TestQuestions.HasData
                     || Retellings.HasData || ConsultantNotes.HasData || CoachNotes.HasData);
             }
         }
@@ -369,7 +369,7 @@ namespace OneStoryProjectEditor
             {
                 XElement elemVerse = new XElement(CstrElementLabelVerse,
                     new XAttribute(CstrAttributeGuid, guid));
-                
+
                 // only need to write out the 'first' attribute if it's true
                 if (IsFirstVerse)
                     elemVerse.Add(new XAttribute(CstrAttributeFirstVerse, IsFirstVerse));
@@ -377,7 +377,7 @@ namespace OneStoryProjectEditor
                 // only need to write out the 'visible' attribute if it's false
                 if (!IsVisible)
                     elemVerse.Add(new XAttribute(CstrAttributeVisible, IsVisible));
-                
+
                 if (StoryLine.HasData)
                     StoryLine.AddXml(elemVerse, CstrFieldNameStoryLine);
                 if (Anchors.HasData)
@@ -704,8 +704,8 @@ namespace OneStoryProjectEditor
 
         // Html that shows the data in the StoryBt file, but in a fully read-only manner
         public string PresentationHtml(int nVerseIndex, int nNumCols, CraftingInfoData craftingInfo,
-            ViewSettings viewSettings, VerseData theChildVerse, 
-            bool bPrintPreview, bool bHasOutsideEnglishBTer)
+            ViewSettings viewSettings, VerseData theChildVerse,
+            bool bPrintPreview)
         {
             string strRow = null;
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.VernacularLangField))
@@ -776,7 +776,7 @@ namespace OneStoryProjectEditor
             {
                 strHtml += Anchors.PresentationHtml(nVerseIndex, nNumCols,
                                                     (theChildVerse != null) ? theChildVerse.Anchors : null,
-                                                    bPrintPreview, 
+                                                    bPrintPreview,
                                                     ref astrExegeticalHelpNotes);
             }
 
@@ -804,13 +804,16 @@ namespace OneStoryProjectEditor
                                                            ViewSettings.ItemToInsureOn.RetellingsInternationalBT));
             }
 
-            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
-                                          ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
+            if ((!IsFirstVerse && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
+                                                            ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers)) ||
+                (IsFirstVerse && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.GeneralTestQuestions)))
+            {
                 strHtml += TestQuestions.PresentationHtml(nVerseIndex, nNumCols, viewSettings,
                                                           craftingInfo.TestorsToCommentsTqAnswers,
                                                           (theChildVerse != null) ? theChildVerse.TestQuestions : null,
-                                                          bPrintPreview, bHasOutsideEnglishBTer);
-            
+                                                          bPrintPreview, IsFirstVerse);
+            }
+
             // show the row as hidden if either we're in print preview (and it's hidden)
             //  OR based on whether the child is hidden or not
             bool bShowAsHidden = (bPrintPreview)
@@ -821,7 +824,7 @@ namespace OneStoryProjectEditor
             return FinishPresentationHtml(strRow, strHtml, bShowAsHidden);
         }
 
-        protected string FinishPresentationHtml(string strStoryLineRow, string strHtml, 
+        protected string FinishPresentationHtml(string strStoryLineRow, string strHtml,
             bool bChildIsHidden)
         {
             strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRow,
@@ -1096,10 +1099,10 @@ namespace OneStoryProjectEditor
         public void InsureFirstVerse()
         {
             if (FirstVerse == null)
-                FirstVerse = new VerseData {IsFirstVerse = true};
+                FirstVerse = new VerseData { IsFirstVerse = true };
         }
 
-        public VerseData InsertVerse(int nIndex, string strVernacular, 
+        public VerseData InsertVerse(int nIndex, string strVernacular,
             string strNationalBt, string strInternationalBt, string strFreeTranslation)
         {
             var dataVerse = new VerseData
@@ -1133,7 +1136,7 @@ namespace OneStoryProjectEditor
             {
                 System.Diagnostics.Debug.Assert(HasData);
                 var elemVerses = new XElement(CstrElementLabelVerses);
-                
+
                 // write out the zeroth verse first
                 elemVerses.Add(FirstVerse.GetXml);
 
@@ -1407,10 +1410,29 @@ namespace OneStoryProjectEditor
             return null;
         }
 
-        public string PresentationHtml(CraftingInfoData craftingInfo, VersesData child, 
+        public string PresentationHtml(CraftingInfoData craftingInfo, VersesData child,
             int nNumCols, VerseData.ViewSettings viewSettings, bool bHasOutsideEnglishBTer)
         {
             string strHtml = null;
+            // first check on line 0 (general TQs)
+            if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions))
+            {
+                var theChildFirstVerse = (child == null) ? null : child.FirstVerse;
+                strHtml += GetHeaderRow("General Testing Qs: ", null, 0, false, nNumCols);
+                strHtml += FirstVerse.PresentationHtml(0, nNumCols, craftingInfo,
+                                                       viewSettings, theChildFirstVerse,
+                                                       (child == null));
+                if ((theChildFirstVerse == null) &&
+                    (child != null) &&
+                    (child.FirstVerse != null))
+                {
+                    strHtml += child.FirstVerse.PresentationHtmlAsAddition(0, nNumCols,
+                                                                           craftingInfo,
+                                                                           viewSettings,
+                                                                           bHasOutsideEnglishBTer);
+                }
+            }
+
             int nInsertCount = 0;
             int i = 1;
             while (i <= Count)
@@ -1423,7 +1445,7 @@ namespace OneStoryProjectEditor
                 // process this as long as it *isn't* the first verse and either it's visible
                 //  or we're showing hidden material
                 if (!aVerseData.IsFirstVerse
-                    && (((theChildVerse != null) ? theChildVerse.IsVisible : aVerseData.IsVisible) 
+                    && (((theChildVerse != null) ? theChildVerse.IsVisible : aVerseData.IsVisible)
                         || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.HiddenStuff)))
                 {
                     string strHeaderAdd = DetermineHiddenLabel(aVerseData.IsVisible, theChildVerse);
@@ -1440,8 +1462,8 @@ namespace OneStoryProjectEditor
                             VerseData aPassedByChild = child[j - 1];
                             if (!aPassedByChild.IsDiffProcessed)
                             {
-                                strHtml += aPassedByChild.PresentationHtmlAsAddition(nLineIndex, 
-                                    nNumCols, craftingInfo, viewSettings, 
+                                strHtml += aPassedByChild.PresentationHtmlAsAddition(nLineIndex,
+                                    nNumCols, craftingInfo, viewSettings,
                                     bHasOutsideEnglishBTer);
                                 bFoundOne = true;
                                 nInsertCount++;
@@ -1452,8 +1474,8 @@ namespace OneStoryProjectEditor
                             continue;
                     }
 
-                    strHtml += aVerseData.PresentationHtml(nLineIndex, nNumCols, craftingInfo, 
-                        viewSettings, theChildVerse, (child == null), bHasOutsideEnglishBTer);
+                    strHtml += aVerseData.PresentationHtml(nLineIndex, nNumCols, craftingInfo,
+                        viewSettings, theChildVerse, (child == null));
 
                     // if there is a child, but we couldn't find the equivalent verse...
                     if ((child != null) && (theChildVerse == null) && (child.Count >= i))
@@ -1555,7 +1577,7 @@ namespace OneStoryProjectEditor
         internal const string CstrShowOpenHideClosed = "Hide Closed";
         internal const string CstrShowOpenShowAll = "Show All";
 
-        protected string GetHeaderRow(string strHeader, int nVerseIndex, 
+        protected string GetHeaderRow(string strHeader, int nVerseIndex,
             bool bVerseVisible, bool bShowOnlyOpenConversations,
             ConsultNotesDataConverter theCNsDC, TeamMemberData LoggedOnMember,
             string strThePfMemberId)
@@ -1609,8 +1631,8 @@ namespace OneStoryProjectEditor
                     verseData.CoachNotes.ShowOpenConversations = false;
         }
 
-        public string ConsultantNotesHtml(object htmlConNoteCtrl, 
-            TeamMemberData LoggedOnMember, TeamMembersData teamMembers, 
+        public string ConsultantNotesHtml(object htmlConNoteCtrl,
+            TeamMemberData LoggedOnMember, TeamMembersData teamMembers,
             StoryData theStory, bool bViewHidden, bool bShowOnlyOpenConversations)
         {
             string strHtml = null;
@@ -1646,10 +1668,10 @@ namespace OneStoryProjectEditor
                                         theStory.CraftingInfo.ProjectFacilitator.MemberId);
 
                 strHtml += aVerseData.ConsultantNotes.Html(htmlConNoteCtrl,
-                                                           LoggedOnMember, 
-                                                           teamMembers, 
+                                                           LoggedOnMember,
+                                                           teamMembers,
                                                            theStory,
-                                                           bViewHidden, 
+                                                           bViewHidden,
                                                            aVerseData.IsVisible,
                                                            bShowOnlyOpenConversations, i);
             }
@@ -1657,7 +1679,7 @@ namespace OneStoryProjectEditor
             return String.Format(OseResources.Properties.Resources.HTML_Table, strHtml);
         }
 
-        public string CoachNotesHtml(object htmlConNoteCtrl, 
+        public string CoachNotesHtml(object htmlConNoteCtrl,
             TeamMemberData LoggedOnMember, TeamMembersData teamMembers, StoryData theStory,
             bool bViewHidden, bool bShowOnlyOpenConversations)
         {
@@ -1682,7 +1704,7 @@ namespace OneStoryProjectEditor
                 VerseData aVerseData = this[i - 1];
                 if (!aVerseData.IsVisible && !bViewHidden)
                     continue;
-                
+
                 strHtml += GetHeaderRow("Ln: " + i, i,
                                         aVerseData.IsVisible,
                                         bShowOnlyOpenConversations,
@@ -1755,7 +1777,7 @@ namespace OneStoryProjectEditor
 
         public bool DoesReferenceTqUns(string strMemberId)
         {
-            return FirstVerse.DoesReferenceTqUns(strMemberId) || 
+            return FirstVerse.DoesReferenceTqUns(strMemberId) ||
                 this.Any(verse => verse.DoesReferenceTqUns(strMemberId));
         }
     }

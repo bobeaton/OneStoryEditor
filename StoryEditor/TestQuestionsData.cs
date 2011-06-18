@@ -165,7 +165,7 @@ namespace OneStoryProjectEditor
         public string PresentationHtml(int nVerseIndex, int nTQNum, int nNumTestQuestionCols, 
             VerseData.ViewSettings viewSettings, bool bShowVernacular, bool bShowNationalBT, 
             bool bShowEnglishBT, TestInfo astrTestors, TestQuestionsData child, 
-            bool bPrintPreview, bool bProcessingTheChild)
+            bool bPrintPreview, bool bProcessingTheChild, bool bIsFirstVerse)
         {
             TestQuestionData theChildTQ = null;
             if (child != null)
@@ -178,7 +178,8 @@ namespace OneStoryProjectEditor
                     }
 
             string strTQRow = null;
-            if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions))
+            if ((!bIsFirstVerse && viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions)) ||
+                (bIsFirstVerse && viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions)))
             {
                 string strRow = String.Format(OseResources.Properties.Resources.HTML_TableCell,
                                               String.Format(CstrTestQuestionsLabelFormat, nTQNum + 1));
@@ -399,8 +400,8 @@ namespace OneStoryProjectEditor
         }
 
         public string PresentationHtml(int nVerseIndex, int nNumCols, 
-            VerseData.ViewSettings viewSettings, TestInfo astrTestors, 
-            TestQuestionsData child, bool bPrintPreview, bool bHasOutsideEnglishBTer)
+            VerseData.ViewSettings viewSettings, TestInfo astrTestors,
+            TestQuestionsData child, bool bPrintPreview, bool bIsFirstVerse)
         {
             // return nothing if there's nothing to do
             if ((!HasData && ((child == null) || !child.HasData)))
@@ -409,16 +410,24 @@ namespace OneStoryProjectEditor
             // just get the column count from the first question (in case there are multiple)
             bool bShowVernacular = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField)
                                    &&
-                                   viewSettings.IsViewItemOn(
-                                       VerseData.ViewSettings.ItemToInsureOn.TestQuestionsVernacular);
+                                   ((!bIsFirstVerse && viewSettings.IsViewItemOn(
+                                       VerseData.ViewSettings.ItemToInsureOn.TestQuestionsVernacular)) ||
+                                    (bIsFirstVerse && viewSettings.IsViewItemOn(
+                                        VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions)));
+
             bool bShowNationalBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField)
                                    &&
-                                   viewSettings.IsViewItemOn(
-                                       VerseData.ViewSettings.ItemToInsureOn.TestQuestionsNationalBT);
+                                   ((!bIsFirstVerse && viewSettings.IsViewItemOn(
+                                       VerseData.ViewSettings.ItemToInsureOn.TestQuestionsNationalBT)) ||
+                                    (bIsFirstVerse && viewSettings.IsViewItemOn(
+                                        VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions)));
+
             bool bShowEnglishBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField)
                                   &&
-                                  viewSettings.IsViewItemOn(
-                                      VerseData.ViewSettings.ItemToInsureOn.TestQuestionsInternationalBT);
+                                  ((!bIsFirstVerse && viewSettings.IsViewItemOn(
+                                      VerseData.ViewSettings.ItemToInsureOn.TestQuestionsInternationalBT)) ||
+                                   (bIsFirstVerse && viewSettings.IsViewItemOn(
+                                       VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions)));
 
             int nNumTestQuestionCols = 0;
             if (bShowVernacular) nNumTestQuestionCols++;
@@ -430,7 +439,7 @@ namespace OneStoryProjectEditor
             {
                 TestQuestionData testQuestionData = this[i];
                 strRow += testQuestionData.PresentationHtml(nVerseIndex, i, nNumTestQuestionCols, viewSettings,
-                    bShowVernacular, bShowNationalBT, bShowEnglishBT, astrTestors, child, bPrintPreview, false);
+                    bShowVernacular, bShowNationalBT, bShowEnglishBT, astrTestors, child, bPrintPreview, false, bIsFirstVerse);
             }
 
             if (child != null)
