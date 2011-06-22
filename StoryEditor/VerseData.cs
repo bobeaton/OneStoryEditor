@@ -784,6 +784,10 @@ namespace OneStoryProjectEditor
                 ExegeticalHelpNotes.PresentationHtml((theChildVerse != null) ? theChildVerse.ExegeticalHelpNotes : null,
                                                      ref astrExegeticalHelpNotes);
 
+            // the following call in either the case that we already have some html
+            //  (e.g. anchors which this method will wrap in a table necessary to get
+            //  the col span correct) or if there are sub-items that want to be put 
+            //  below the anchors (in the same table)
             if (!String.IsNullOrEmpty(strHtml) || (astrExegeticalHelpNotes.Count > 0))
                 strHtml = ExegeticalHelpNotes.FinishPresentationHtml(strHtml,
                                                                      nVerseIndex,
@@ -906,17 +910,25 @@ namespace OneStoryProjectEditor
             string strHtml = null;
             var astrExegeticalHelpNotes = new List<string>();
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.AnchorFields))
+            {
                 strHtml += Anchors.PresentationHtmlAsAddition(nVerseIndex, nNumCols,
-                    ref astrExegeticalHelpNotes);
+                                                              ref astrExegeticalHelpNotes);
+            }
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.ExegeticalHelps))
                 ExegeticalHelpNotes.PresentationHtml(null, ref astrExegeticalHelpNotes);
 
-            if (astrExegeticalHelpNotes.Count > 0)
+            // the following call in either the case that we already have some html
+            //  (e.g. anchors which this method will wrap in a table necessary to get
+            //  the col span correct) or if there are sub-items that want to be put 
+            //  below the anchors (in the same table)
+            if (!String.IsNullOrEmpty(strHtml) || (astrExegeticalHelpNotes.Count > 0))
+            {
                 strHtml = ExegeticalHelpNotes.FinishPresentationHtml(strHtml,
                                                                      nVerseIndex,
                                                                      nNumCols,
                                                                      astrExegeticalHelpNotes);
+            }
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
             {
@@ -931,11 +943,14 @@ namespace OneStoryProjectEditor
                                                                          RetellingsInternationalBT));
             }
 
-            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
-                                          ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
+            if ((!IsFirstVerse && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
+                                          ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers)) ||
+                (IsFirstVerse && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.GeneralTestQuestions)))
+            {
                 strHtml += TestQuestions.PresentationHtmlAsAddition(nVerseIndex, nNumCols, viewSettings,
                                                                     craftingInfo.TestorsToCommentsTqAnswers,
                                                                     bHasOutsideEnglishBTer);
+            }
 
             return FinishPresentationHtml(strRow, strHtml, !IsVisible);
         }
@@ -1422,15 +1437,6 @@ namespace OneStoryProjectEditor
                 strHtml += FirstVerse.PresentationHtml(0, nNumCols, craftingInfo,
                                                        viewSettings, theChildFirstVerse,
                                                        (child == null));
-                if ((theChildFirstVerse == null) &&
-                    (child != null) &&
-                    (child.FirstVerse != null))
-                {
-                    strHtml += child.FirstVerse.PresentationHtmlAsAddition(0, nNumCols,
-                                                                           craftingInfo,
-                                                                           viewSettings,
-                                                                           bHasOutsideEnglishBTer);
-                }
             }
 
             int nInsertCount = 0;
