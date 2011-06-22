@@ -669,15 +669,14 @@ namespace OneStoryProjectEditor
                 // disable the coach window also if the proj fac is logged in.
                 //  (here we want to use "!=" for PF, because if he's also a LSR, then
                 //  we want to be able to see Coach note pane).
-                theSE.viewCoachNotesFieldMenuItem.Checked = IsCoachNotesVisible
-                                                            && (theSE.LoggedOnMember != null)
-                                                            &&
-                                                            (!TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType,
-                                                                                    TeamMemberData.UserTypes.
-                                                                                        ProjectFacilitator) ||
-                                                             TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType,
-                                                                                   TeamMemberData.UserTypes.
-                                                                                       FirstPassMentor));
+                //  also no need if this isn't a mentoring project
+                theSE.viewCoachNotesFieldMenuItem.Checked = IsCoachNotesVisible &&
+                    (theSE.LoggedOnMember != null) &&
+                    (!TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType,
+                                            TeamMemberData.UserTypes.ProjectFacilitator) ||
+                     TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType,
+                                           TeamMemberData.UserTypes.FirstPassMentor)) &&
+                     !theSE.StoryProject.TeamMembers.HasIndependentConsultant;
 
                 theSE.viewNetBibleMenuItem.Checked = IsNetBibleVisible && bBiblicalStory;
             }
