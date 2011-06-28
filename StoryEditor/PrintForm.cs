@@ -125,22 +125,41 @@ namespace OneStoryProjectEditor
 
         private void SetViewSettings(long lSettings)
         {
-            VerseData.ViewSettings viewSettings = new VerseData.ViewSettings(lSettings);
-            checkBoxLangVernacular.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
-            checkBoxLangNationalBT.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField);
-            checkBoxLangInternationalBT.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField);
-            checkBoxAnchors.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnchorFields);
-            checkBoxExegeticalHelpNote.Checked =
-                viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.ExegeticalHelps);
-            checkBoxGeneralTestingQuestions.Checked =
-                viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions);
-            checkBoxStoryTestingQuestions.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions);
-            checkBoxAnswers.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers);
-            checkBoxRetellings.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.RetellingFields);
-            checkBoxFrontMatter.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryFrontMatter);
-            checkBoxShowHidden.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.HiddenStuff);
-            checkBoxLangTransliterateVernacular.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularTransliterationField);
-            checkBoxLangTransliterateNationalBT.Checked = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTTransliterationField);
+            var viewSettings = new VerseData.ViewSettings(lSettings);
+            SetViewSetting(checkBoxLangVernacular, viewSettings,
+                           VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
+            SetViewSetting(checkBoxLangNationalBT, viewSettings,
+                           VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField);
+            SetViewSetting(checkBoxLangInternationalBT, viewSettings,
+                           VerseData.ViewSettings.ItemToInsureOn.EnglishBTField);
+            SetViewSetting(checkBoxAnchors, viewSettings,
+                           VerseData.ViewSettings.ItemToInsureOn.AnchorFields);
+            SetViewSetting(checkBoxExegeticalHelpNote, viewSettings,
+                           VerseData.ViewSettings.ItemToInsureOn.ExegeticalHelps);
+            SetViewSetting(checkBoxGeneralTestingQuestions, viewSettings,
+                           VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions);
+            SetViewSetting(checkBoxStoryTestingQuestions, viewSettings,
+                           VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions);
+            SetViewSetting(checkBoxAnswers, viewSettings,
+                           VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers);
+            SetViewSetting(checkBoxRetellings, viewSettings,
+                           VerseData.ViewSettings.ItemToInsureOn.RetellingFields);
+            SetViewSetting(checkBoxFrontMatter, viewSettings,
+                           VerseData.ViewSettings.ItemToInsureOn.StoryFrontMatter);
+            SetViewSetting(checkBoxShowHidden, viewSettings,
+                           VerseData.ViewSettings.ItemToInsureOn.HiddenStuff);
+            SetViewSetting(checkBoxLangTransliterateVernacular, viewSettings,
+                           VerseData.ViewSettings.ItemToInsureOn.VernacularTransliterationField);
+            SetViewSetting(checkBoxLangTransliterateNationalBT, viewSettings,
+                           VerseData.ViewSettings.ItemToInsureOn.NationalBTTransliterationField);
+        }
+
+        // set the checkbox state *if* the checkbox is even visible
+        private static void SetViewSetting(CheckBox cb, VerseData.ViewSettings viewSettings,
+            VerseData.ViewSettings.ItemToInsureOn eItem)
+        {
+            if (cb.Visible)
+                cb.Checked = viewSettings.IsViewItemOn(eItem);
         }
 
         private void buttonPrint_Click(object sender, EventArgs e)
