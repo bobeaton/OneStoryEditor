@@ -990,7 +990,8 @@ namespace OneStoryProjectEditor
                     if (LoggedInMember != null)
                     {
                         if (!String.IsNullOrEmpty(li.DefaultFontName)
-                            && (fontDialog.Font.Name != li.DefaultFontName))
+                            && ((fontDialog.Font.Name != li.DefaultFontName) ||
+                            fontDialog.Font.Size != li.DefaultFontSize))
                         {
                             DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmOverride,
                                 li.DefaultFontName, "font", LoggedInMember.Name), OseResources.Properties.Resources.IDS_Caption,
