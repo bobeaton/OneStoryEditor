@@ -215,13 +215,15 @@ namespace OneStoryProjectEditor
 
         private static EventWaitHandle EventForProjectName;
 
-        public static void InsureSingleInstanceOfProgramName(StoryEditor theSe)
+        public static void InsureSingleInstanceOfProgramName(string strTitleFormat,
+            string strProjectName)
         {
             if (EventForProjectName != null)
                 ResetSingleInstanceLock();
 
             bool bCreatedNew;
-            string strEventName = theSe.GetFrameTitle(false);
+            string strEventName = String.Format(strTitleFormat,
+                                                strProjectName);
             EventForProjectName = new EventWaitHandle(false,
                 EventResetMode.ManualReset, strEventName, out bCreatedNew);
             if (!bCreatedNew)

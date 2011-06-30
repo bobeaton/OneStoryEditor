@@ -39,7 +39,6 @@ namespace OneStoryProjectEditor
             this.projectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.recentProjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sendReceiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -132,7 +131,9 @@ namespace OneStoryProjectEditor
             this.insertNewStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewStoryAfterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemShowPanorama = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeProjectFolderRootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetStoredInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeStateWithoutChecksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -143,7 +144,6 @@ namespace OneStoryProjectEditor
             this.saveTimeoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.asSilentlyAsPossibleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.splitContainerLeftRight = new System.Windows.Forms.SplitContainer();
@@ -196,8 +196,8 @@ namespace OneStoryProjectEditor
             this.comboBoxStorySelector,
             this.storyToolStripMenuItem,
             this.panoramaToolStripMenuItem,
-            this.aboutToolStripMenuItem,
-            this.advancedToolStripMenuItem});
+            this.advancedToolStripMenuItem,
+            this.aboutToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(881, 31);
@@ -245,15 +245,6 @@ namespace OneStoryProjectEditor
             this.sendReceiveToolStripMenuItem.Text = "Sen&d/Receive";
             this.sendReceiveToolStripMenuItem.ToolTipText = "Click to synchronize this project with the Internet (or thumbdrive) repository";
             this.sendReceiveToolStripMenuItem.Click += new System.EventHandler(this.sendReceiveToolStripMenuItem_Click);
-            // 
-            // newToolStripMenuItem
-            // 
-            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.ShowShortcutKeys = false;
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.newToolStripMenuItem.Text = "&New Project";
-            this.newToolStripMenuItem.ToolTipText = "Click to create a new OneStory project";
-            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // closeProjectToolStripMenuItem
             // 
@@ -1077,6 +1068,13 @@ namespace OneStoryProjectEditor
                 " state";
             this.toolStripMenuItemShowPanorama.Click += new System.EventHandler(this.toolStripMenuItemShowPanorama_Click);
             // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 27);
+            this.aboutToolStripMenuItem.Text = "&About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
             // advancedToolStripMenuItem
             // 
             this.advancedToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1090,6 +1088,15 @@ namespace OneStoryProjectEditor
             this.advancedToolStripMenuItem.Size = new System.Drawing.Size(72, 27);
             this.advancedToolStripMenuItem.Text = "A&dvanced";
             this.advancedToolStripMenuItem.DropDownOpening += new System.EventHandler(this.advancedToolStripMenuItem_DropDownOpening);
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.ShowShortcutKeys = false;
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.newToolStripMenuItem.Text = "&New Project";
+            this.newToolStripMenuItem.ToolTipText = "Click to create a new OneStory project";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // changeProjectFolderRootToolStripMenuItem
             // 
@@ -1179,13 +1186,6 @@ namespace OneStoryProjectEditor
             this.asSilentlyAsPossibleToolStripMenuItem.Text = "&As silently as possible";
             this.asSilentlyAsPossibleToolStripMenuItem.ToolTipText = "This menu indicates whether the program will query you (unchecked) or not (checke" +
                 "d) to do the save";
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 27);
-            this.aboutToolStripMenuItem.Text = "&About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // openFileDialog
             // 

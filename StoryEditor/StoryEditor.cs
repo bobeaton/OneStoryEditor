@@ -158,6 +158,10 @@ namespace OneStoryProjectEditor
                         }
                     }
                 }
+                catch (Program.RestartException)
+                {
+                    throw;
+                }
                 catch { }   // this was only a bene anyway, so just ignore it
             }
 
@@ -663,6 +667,9 @@ namespace OneStoryProjectEditor
                 string strUsername, strPassword;
                 TeamMemberData.GetHgParameters(LoggedOnMember, out strUsername, out strPassword);
 
+                // can't allow a sync if two instances are running with the same project
+                Program.InsureSingleInstanceOfProgramName(TitleFormat, strProjectName);
+
                 // clean up any existing open projects
                 if (!SaveAndCloseProject())
                     return;
@@ -686,6 +693,8 @@ namespace OneStoryProjectEditor
             projSettings.ThrowIfProjectFileDoesntExists();
 
             UpdateRecentlyUsedLists(projSettings);
+
+            Program.InsureSingleInstanceOfProgramName(TitleFormat, projSettings.ProjectName);
 
             try
             {
@@ -736,8 +745,16 @@ namespace OneStoryProjectEditor
                     ((ex.InnerException != null) ? ex.InnerException.Message : ""), ex.Message);
                 MessageBox.Show(strErrorMsg, OseResources.Properties.Resources.IDS_Caption);
             }
+        }
 
-            Program.InsureSingleInstanceOfProgramName(this);
+        private string TitleFormat
+        {
+            get
+            {
+                return IsInStoriesSet
+                           ? Properties.Resources.IDS_MainFrameTitle
+                           : Properties.Resources.IDS_MainFrameTitleOldStories;
+            }
         }
 
         internal string GetFrameTitle(bool bAddLogin)
@@ -747,11 +764,7 @@ namespace OneStoryProjectEditor
                 || (String.IsNullOrEmpty(StoryProject.ProjSettings.ProjectName)))
                 return OseResources.Properties.Resources.IDS_Caption;
 
-            string strTitleFormat = IsInStoriesSet
-                                        ? Properties.Resources.IDS_MainFrameTitle
-                                        : Properties.Resources.IDS_MainFrameTitleOldStories;
-
-            string strTitle = String.Format(strTitleFormat,
+            string strTitle = String.Format(TitleFormat,
                                             StoryProject.ProjSettings.ProjectName);
 
             if (bAddLogin && (LoggedOnMember != null))
@@ -5015,6 +5028,8 @@ namespace OneStoryProjectEditor
 
         private void CheckForUpgrade(string strManifestUrl)
         {
+            Cursor = Cursors.WaitCursor;
+
             try
             {
                 // save changes before checking (so we can close rapidly if need be)
@@ -5044,6 +5059,10 @@ namespace OneStoryProjectEditor
                 if (ex.InnerException != null)
                     strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
                 MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
             }
         }
 

@@ -1,4 +1,10 @@
-﻿Add the 'Adaptations' sub-folder to an OSE-created AI project or AI fails to enjoy opening it
+﻿I made changes in lb1-hindi-animist set in 747 which were lost in some subsequent change set (with no merge error)
+
+check out rev 326 in Resurrection story in lb1-hindi-animist to see why the Historical difference comparer things that Vijay made a change to the story.
+
+Add/Delete a line: automatically adjust a 'ln' reference in ConNotes
+
+Add the 'Adaptations' sub-folder to an OSE-created AI project or AI fails to enjoy opening it
 
 put wait cursor while "Check Now"
 
