@@ -269,7 +269,8 @@ namespace OneStoryProjectEditor
             if (TasksPf.IsTaskOn(TheStory.TasksRequiredPf, TasksPf.TaskSettings.Answers | TasksPf.TaskSettings.Answers2))
             {
                 // then enable it whether there are any more tests to do
-                if (TheStory.CountTestingQuestionTests > 0)
+                if ((TheStory.CountTestingQuestionTests > 0) ||
+                    (TasksPf.IsTaskOn(TheStory.TasksAllowedPf, TasksPf.TaskSettings.Answers | TasksPf.TaskSettings.Answers2)))
                     toolTip.SetToolTip(buttonAddBoxesForAnswers, String.Format(Properties.Resources.IDS_PfRequiredToDoXTests,
                         cstrStoryQuestionLabel,
                         TheStory.CountTestingQuestionTests));
