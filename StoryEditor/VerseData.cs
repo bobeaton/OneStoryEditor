@@ -95,10 +95,10 @@ namespace OneStoryProjectEditor
                     itemToInsureOn | VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
             if (NationalBt.HasData && findProperties.NationalBT)
                 lstBoxesToSearch.AddNewVerseString(NationalBt,
-                    itemToInsureOn | VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField);
+                    itemToInsureOn | VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField);
             if (InternationalBt.HasData && findProperties.EnglishBT)
                 lstBoxesToSearch.AddNewVerseString(InternationalBt,
-                    itemToInsureOn | VerseData.ViewSettings.ItemToInsureOn.EnglishBTField);
+                    itemToInsureOn | VerseData.ViewSettings.ItemToInsureOn.InternationalBtField);
             if (FreeTranslation.HasData && findProperties.FreeTranslation)
                 lstBoxesToSearch.AddNewVerseString(FreeTranslation,
                     itemToInsureOn | VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField);
@@ -411,35 +411,40 @@ namespace OneStoryProjectEditor
                 Undefined = 0,
                 VernacularLangField = 1,
                 VernacularTransliterationField = 2,
-                NationalBTLangField = 4,
-                NationalBTTransliterationField = 8,
-                EnglishBTField = 16,
-                FreeTranslationField = 32,
-                AnchorFields = 64,
-                ConsultantNoteFields = 128,
-                CoachNotesFields = 256,
-                BibleViewer = 512,
-                StoryFrontMatter = 1024,
-                HiddenStuff = 2048,
-                OpenConNotesOnly = 4096,
-                RetellingsVernacular = 8192,
-                RetellingsNationalBT = 16384,
-                RetellingsInternationalBT = 32768,
-                TestQuestionsVernacular = 65536,
-                TestQuestionsNationalBT = 131072,
-                TestQuestionsInternationalBT = 262144,
-                AnswersVernacular = 524288,
-                AnswersNationalBT = 1048576,
-                AnswersInternationalBT = 2097152,
-                GeneralTestQuestions = 4194304,
-                ExegeticalHelps = 8388608,
-                RetellingFields = 8192 | 16384 | 32768,
-                StoryTestingQuestions = 65536 | 131072 | 262144,
-                StoryTestingQuestionAnswers = 524288 | 1048576 | 2097152
+                NationalBtLangField = 4,
+                NationalBtTransliterationField = 8,
+                InternationalBtField = 16,
+                InternationalBtTransliterationField = 32,
+                FreeTranslationField = 64,
+                FreeTranslationTransliterationField = 128,
+                AnchorFields = 256,
+                ConsultantNoteFields = 512,
+                CoachNotesFields = 1024,
+                BibleViewer = 2048,
+                StoryFrontMatter = 4096,
+                HiddenStuff = 8192,
+                OpenConNotesOnly = 16384,
+                RetellingsVernacular = 32768,
+                RetellingsNationalBT = 65536,
+                RetellingsInternationalBT = 131072,
+                TestQuestionsVernacular = 262144,
+                TestQuestionsNationalBT = 524288,
+                TestQuestionsInternationalBT = 1048576,
+                AnswersVernacular = 2097152,
+                AnswersNationalBT = 4194304,
+                AnswersInternationalBT = 8388608,
+                GeneralTestQuestions = 16777216,
+                ExegeticalHelps = 33554432,
+                RetellingFields = RetellingsVernacular | RetellingsNationalBT | RetellingsInternationalBT,
+                StoryTestingQuestions = TestQuestionsVernacular | TestQuestionsNationalBT | TestQuestionsInternationalBT,
+                StoryTestingQuestionAnswers = AnswersVernacular | AnswersNationalBT | AnswersInternationalBT
             }
 
             public DirectableEncConverter TransliteratorVernacular { get; set; }
             public DirectableEncConverter TransliteratorNationalBT { get; set; }
+            public DirectableEncConverter TransliteratorInternationalBt { get; set; }
+            public DirectableEncConverter TransliteratorFreeTranslation { get; set; }
+
             protected ItemToInsureOn _itemToInsureOn;
 
             public long LongValue
@@ -485,7 +490,9 @@ namespace OneStoryProjectEditor
                 bool bOpenConversationsOnly,
                 bool bGeneralTestQuestions,
                 DirectableEncConverter decTransliteratorVernacular,
-                DirectableEncConverter decTransliteratorNationalBT
+                DirectableEncConverter decTransliteratorNationalBT,
+                DirectableEncConverter decTransliteratorInternationalBt,
+                DirectableEncConverter decTransliteratorFreeTranslation
                 )
             {
                 SetItemsToInsureOn(projSettings,
@@ -494,7 +501,9 @@ namespace OneStoryProjectEditor
                                    bLangNationalBT,
                                    (decTransliteratorNationalBT != null),
                                    bLangInternationalBT,
+                                   (decTransliteratorInternationalBt != null),
                                    bLangFreeTranslation,
+                                   (decTransliteratorFreeTranslation != null),
                                    bAnchors,
                                    bExegeticalHelps,
                                    bStoryTestingQuestions,
@@ -509,6 +518,8 @@ namespace OneStoryProjectEditor
                                    bGeneralTestQuestions);
                 TransliteratorVernacular = decTransliteratorVernacular;
                 TransliteratorNationalBT = decTransliteratorNationalBT;
+                TransliteratorInternationalBt = decTransliteratorInternationalBt;
+                TransliteratorFreeTranslation = decTransliteratorFreeTranslation;
             }
 
             public bool IsViewItemOn(ItemToInsureOn eFlag)
@@ -524,7 +535,9 @@ namespace OneStoryProjectEditor
                 bool bLangNationalBT,
                 bool bLangNationalBTTransliterate,
                 bool bLangInternationalBT,
+                bool bLangInternationalBtTransliterate,
                 bool bLangFreeTranslation,
+                bool bLangFreeTranslationTransliterate,
                 bool bAnchors,
                 bool bExegeticalHelps,
                 bool bStoryTestingQuestions,
@@ -545,13 +558,17 @@ namespace OneStoryProjectEditor
                 if (bLangVernacularTransliterate)
                     _itemToInsureOn |= ItemToInsureOn.VernacularTransliterationField;
                 if (bLangNationalBT)
-                    _itemToInsureOn |= ItemToInsureOn.NationalBTLangField;
+                    _itemToInsureOn |= ItemToInsureOn.NationalBtLangField;
                 if (bLangNationalBTTransliterate)
-                    _itemToInsureOn |= ItemToInsureOn.NationalBTTransliterationField;
+                    _itemToInsureOn |= ItemToInsureOn.NationalBtTransliterationField;
                 if (bLangInternationalBT)
-                    _itemToInsureOn |= ItemToInsureOn.EnglishBTField;
+                    _itemToInsureOn |= ItemToInsureOn.InternationalBtField;
+                if (bLangInternationalBtTransliterate)
+                    _itemToInsureOn |= ItemToInsureOn.InternationalBtTransliterationField;
                 if (bLangFreeTranslation)
                     _itemToInsureOn |= ItemToInsureOn.FreeTranslationField;
+                if (bLangFreeTranslationTransliterate)
+                    _itemToInsureOn |= ItemToInsureOn.FreeTranslationTransliterationField;
                 if (bAnchors)
                     _itemToInsureOn |= ItemToInsureOn.AnchorFields;
                 if (bExegeticalHelps)
@@ -724,7 +741,7 @@ namespace OneStoryProjectEditor
                                                StoryData.CstrLangVernacularStyleClassName, str);
             }
 
-            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.NationalBTLangField))
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.NationalBtLangField))
             {
                 DirectableEncConverter transliterator = viewSettings.TransliteratorNationalBT;
                 string str;
@@ -740,14 +757,15 @@ namespace OneStoryProjectEditor
                                                StoryData.CstrLangNationalBtStyleClassName, str);
             }
 
-            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.EnglishBTField))
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.InternationalBtField))
             {
+                DirectableEncConverter transliterator = viewSettings.TransliteratorInternationalBt;
                 string str;
-                if (!TryStoryLineStringDiff(null, bPrintPreview, theChildVerse,
+                if (!TryStoryLineStringDiff(transliterator, bPrintPreview, theChildVerse,
                     StoryLine.InternationalBt, out str))
                 {
                     // otherise, it must be compared
-                    str = Diff.HtmlDiff(null, StoryLine.InternationalBt,
+                    str = Diff.HtmlDiff(transliterator, StoryLine.InternationalBt,
                         theChildVerse.StoryLine.InternationalBt);
                 }
 
@@ -757,12 +775,13 @@ namespace OneStoryProjectEditor
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.FreeTranslationField))
             {
+                DirectableEncConverter transliterator = viewSettings.TransliteratorFreeTranslation;
                 string str;
-                if (!TryStoryLineStringDiff(null, bPrintPreview, theChildVerse,
+                if (!TryStoryLineStringDiff(transliterator, bPrintPreview, theChildVerse,
                     StoryLine.FreeTranslation, out str))
                 {
                     // otherise, it must be compared
-                    str = Diff.HtmlDiff(null, StoryLine.FreeTranslation,
+                    str = Diff.HtmlDiff(transliterator, StoryLine.FreeTranslation,
                         theChildVerse.StoryLine.FreeTranslation);
                 }
 
@@ -875,25 +894,29 @@ namespace OneStoryProjectEditor
             string strRow = null;
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.VernacularLangField))
             {
-                DirectableEncConverter transliterator = viewSettings.TransliteratorVernacular;
-                string str = Diff.HtmlDiff(transliterator, null, StoryLine.Vernacular);
+                string str = Diff.HtmlDiff(viewSettings.TransliteratorVernacular,
+                                           null,
+                                           StoryLine.Vernacular);
 
                 strRow += FormatLanguageColumn(nVerseIndex, nNumCols, LineData.CstrAttributeLangVernacular,
                                                StoryData.CstrLangVernacularStyleClassName, str);
             }
 
-            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.NationalBTLangField))
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.NationalBtLangField))
             {
-                DirectableEncConverter transliterator = viewSettings.TransliteratorNationalBT;
-                string str = Diff.HtmlDiff(transliterator, null, StoryLine.NationalBt);
+                string str = Diff.HtmlDiff(viewSettings.TransliteratorNationalBT,
+                                           null,
+                                           StoryLine.NationalBt);
 
                 strRow += FormatLanguageColumn(nVerseIndex, nNumCols, LineData.CstrAttributeLangNationalBt,
                                                StoryData.CstrLangNationalBtStyleClassName, str);
             }
 
-            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.EnglishBTField))
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.InternationalBtField))
             {
-                string str = Diff.HtmlDiff(null, StoryLine.InternationalBt);
+                string str = Diff.HtmlDiff(viewSettings.TransliteratorInternationalBt,
+                                           null,
+                                           StoryLine.InternationalBt);
 
                 strRow += FormatLanguageColumn(nVerseIndex, nNumCols, LineData.CstrAttributeLangInternationalBt,
                                                StoryData.CstrLangInternationalBtStyleClassName, str);
@@ -901,7 +924,9 @@ namespace OneStoryProjectEditor
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.FreeTranslationField))
             {
-                string str = Diff.HtmlDiff(null, StoryLine.FreeTranslation);
+                string str = Diff.HtmlDiff(viewSettings.TransliteratorFreeTranslation,
+                                           null,
+                                           StoryLine.FreeTranslation);
 
                 strRow += FormatLanguageColumn(nVerseIndex, nNumCols, LineData.CstrAttributeLangFreeTranslation,
                                                StoryData.CstrLangFreeTranslationStyleClassName, str);
@@ -1244,9 +1269,9 @@ namespace OneStoryProjectEditor
             int nColSpan = 0;
             if (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField))
                 nColSpan++;
-            if (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField))
+            if (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField))
                 nColSpan++;
-            if (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField))
+            if (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.InternationalBtField))
                 nColSpan++;
             if (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField))
                 nColSpan++;

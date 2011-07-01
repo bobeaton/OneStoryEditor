@@ -14,6 +14,7 @@ using Chorus.VcsDrivers.Mercurial;
 using devX;
 using Palaso.Email;
 using Palaso.Reporting;
+using SilEncConverters40;
 
 namespace OneStoryProjectEditor
 {
@@ -815,6 +816,27 @@ namespace OneStoryProjectEditor
                 dlg.Text = "Synchronizing OneStory Project: " + strProjectName;
                 dlg.ShowDialog();
             }
+        }
+
+        public static void InitializeLangCheckBoxes(ProjectSettings.LanguageInfo li,
+            CheckBox cbLang, CheckBox cbLangTransliterator, ToolStripMenuItem tsmi,
+            DirectableEncConverter dec)
+        {
+            if (li.HasData)
+            {
+                cbLang.Text = String.Format(Properties.Resources.IDS_LanguageFields,
+                                            li.LangName);
+                if (dec != null)
+                {
+                    cbLangTransliterator.Visible = true;
+                    cbLangTransliterator.Checked = tsmi.Checked;
+                }
+                else
+                    cbLangTransliterator.Visible =
+                        cbLangTransliterator.Checked = false;
+            }
+            else
+                cbLang.Visible = cbLang.Checked = false;            
         }
     }
 }

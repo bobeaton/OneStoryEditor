@@ -52,7 +52,7 @@ namespace OneStoryProjectEditor
                     || (aSE.TheCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation)
                     || (aSE.TheCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
-                _aVerseData.StoryLine.Vernacular.Transliterator = ctrlVerse.TransliteratorVernacular;
+                _aVerseData.StoryLine.Vernacular.Transliterator = VerseBtControl.TransliteratorVernacular;
                 ctrlTextBoxVernacular = InitTextBox(ctrlVerse, LineData.CstrAttributeLangVernacular, 
                     _aVerseData.StoryLine.Vernacular, 
                     aSE.StoryProject.ProjSettings.Vernacular, bDisableTabStopVernacular,
@@ -77,7 +77,7 @@ namespace OneStoryProjectEditor
                     || (aSE.TheCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation)
                     || (aSE.TheCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
-                _aVerseData.StoryLine.NationalBt.Transliterator = ctrlVerse.TransliteratorNationalBT;
+                _aVerseData.StoryLine.NationalBt.Transliterator = VerseBtControl.TransliteratorNationalBt;
                 ctrlTextBoxNationalBT = InitTextBox(ctrlVerse, LineData.CstrAttributeLangNationalBt, _aVerseData.StoryLine.NationalBt, 
                     aSE.StoryProject.ProjSettings.NationalBT, bDisableTabStopNationalBT,
                     nNumColumns, StoryEditor.TextFieldType.NationalBt);
@@ -102,6 +102,7 @@ namespace OneStoryProjectEditor
                 bool bDisableTabStopInternationalBT =
                     (aSE.TheCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation);
 
+                _aVerseData.StoryLine.InternationalBt.Transliterator = VerseBtControl.TransliteratorInternationalBt;
                 CtrlTextBox ctrlTextBoxEnglishBT = InitTextBox(ctrlVerse, 
                     LineData.CstrAttributeLangInternationalBt, _aVerseData.StoryLine.InternationalBt,
                     aSE.StoryProject.ProjSettings.InternationalBT, bDisableTabStopInternationalBT, nNumColumns,
@@ -119,6 +120,7 @@ namespace OneStoryProjectEditor
             {
                 InsertColumn(nNumColumns);
 
+                _aVerseData.StoryLine.FreeTranslation.Transliterator = VerseBtControl.TransliteratorFreeTranslation;
                 InitTextBox(ctrlVerse, 
                     LineData.CstrAttributeLangFreeTranslation, _aVerseData.StoryLine.FreeTranslation,
                     aSE.StoryProject.ProjSettings.FreeTranslation, false, nNumColumns,

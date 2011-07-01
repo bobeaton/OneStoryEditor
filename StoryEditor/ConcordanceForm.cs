@@ -44,12 +44,26 @@ namespace OneStoryProjectEditor
 
         private void buttonBeginSearch_Click(object sender, EventArgs e)
         {
-            htmlBuilder.SearchVerseText(_storyProject, progressBarLoadingKeyTerms, 
-                _theSE.hiddenVersesToolStripMenuItem.Checked,   // if the user is *showing* hidden verses, then search in them
-                textBoxWordsToSearchForVernacular.Text, 
-                textBoxWordsToSearchForNationalBT.Text,
-                textBoxWordsToSearchForInternationalBT.Text,
-                textBoxWordsToSearchForFreeTranslation.Text);
+            htmlBuilder.SearchVerseText(_storyProject,
+                                        progressBarLoadingKeyTerms,
+                                        _theSE.hiddenVersesToolStripMenuItem.Checked,
+                                        // if the user is *showing* hidden verses, then search in them
+                                        textBoxWordsToSearchForVernacular.Text,
+                                        _theSE.viewTransliterationVernacular.Checked
+                                            ? _theSE.LoggedOnMember.TransliteratorVernacular
+                                            : null,
+                                        textBoxWordsToSearchForNationalBT.Text,
+                                        _theSE.viewTransliterationNationalBT.Checked
+                                            ? _theSE.LoggedOnMember.TransliteratorNationalBt
+                                            : null,
+                                        textBoxWordsToSearchForInternationalBT.Text,
+                                        _theSE.viewTransliterationInternationalBt.Checked
+                                            ? _theSE.LoggedOnMember.TransliteratorInternationalBt
+                                            : null,
+                                        textBoxWordsToSearchForFreeTranslation.Text,
+                                        _theSE.viewTransliterationFreeTranslation.Checked
+                                            ? _theSE.LoggedOnMember.TransliteratorFreeTranslation
+                                            : null);
 
             BiblicalTermStatus dontcare;
             string strHtml = htmlBuilder.Build(_storyProject, progressBarLoadingKeyTerms, false, out dontcare);

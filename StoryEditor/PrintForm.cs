@@ -10,8 +10,6 @@ namespace OneStoryProjectEditor
     public partial class PrintForm : Form
     {
         private StoryEditor _theSE;
-        public DirectableEncConverter TransliteratorVernacular;
-        public DirectableEncConverter TransliteratorNationalBT;
 
         public PrintForm(StoryEditor theSE)
         {
@@ -22,49 +20,30 @@ namespace OneStoryProjectEditor
             foreach (StoryData aStory in _theSE.TheCurrentStoriesSet)
                 checkedListBoxStories.Items.Add(aStory.Name, true);
 
-            if (_theSE.StoryProject.ProjSettings.Vernacular.HasData)
-            {
-                checkBoxLangVernacular.Text = String.Format(Properties.Resources.IDS_LanguageFields,
-                                                            _theSE.StoryProject.ProjSettings.Vernacular.LangName);
-                if (theSE.viewTransliterationVernacular.Checked
-                   && !String.IsNullOrEmpty(theSE.LoggedOnMember.TransliteratorVernacular))
-                {
-                    checkBoxLangTransliterateVernacular.Visible =
-                        checkBoxLangTransliterateVernacular.Checked = true;
-                    TransliteratorVernacular = new DirectableEncConverter(theSE.LoggedOnMember.TransliteratorVernacular,
-                                                                          theSE.LoggedOnMember.
-                                                                              TransliteratorDirectionForwardVernacular,
-                                                                          NormalizeFlags.None);
-                }
-            }
-            else
-                checkBoxLangVernacular.Checked = checkBoxLangVernacular.Visible = false;
+            Program.InitializeLangCheckBoxes(theSE.StoryProject.ProjSettings.Vernacular,
+                                             checkBoxLangVernacular,
+                                             checkBoxLangTransliterateVernacular,
+                                             theSE.viewTransliterationVernacular,
+                                             theSE.LoggedOnMember.TransliteratorVernacular);
 
-            if (_theSE.StoryProject.ProjSettings.NationalBT.HasData)
-            {
-                checkBoxLangNationalBT.Text = String.Format(Properties.Resources.IDS_StoryLanguageField,
-                                                            _theSE.StoryProject.ProjSettings.NationalBT.LangName);
-                if (theSE.viewTransliterationNationalBT.Checked
-                   && !String.IsNullOrEmpty(theSE.LoggedOnMember.TransliteratorNationalBT))
-                {
-                    checkBoxLangTransliterateNationalBT.Visible =
-                        checkBoxLangTransliterateNationalBT.Checked = true;
-                    TransliteratorNationalBT = new DirectableEncConverter(theSE.LoggedOnMember.TransliteratorNationalBT,
-                                                                          theSE.LoggedOnMember.
-                                                                              TransliteratorDirectionForwardNationalBT,
-                                                                          NormalizeFlags.None);
-                }
-            }
-            else
-                checkBoxLangNationalBT.Checked = checkBoxLangNationalBT.Visible = false;
 
-            checkBoxLangInternationalBT.Checked =
-                checkBoxLangInternationalBT.Visible =
-                _theSE.StoryProject.ProjSettings.InternationalBT.HasData;
+            Program.InitializeLangCheckBoxes(_theSE.StoryProject.ProjSettings.NationalBT,
+                                             checkBoxLangNationalBT,
+                                             checkBoxLangTransliterateNationalBT,
+                                             theSE.viewTransliterationNationalBT,
+                                             theSE.LoggedOnMember.TransliteratorNationalBt);
 
-            checkBoxLangFreeTranslation.Checked =
-                checkBoxLangFreeTranslation.Visible =
-                _theSE.StoryProject.ProjSettings.FreeTranslation.HasData;
+            Program.InitializeLangCheckBoxes(_theSE.StoryProject.ProjSettings.InternationalBT,
+                                             checkBoxLangInternationalBT,
+                                             checkBoxLangTransliterateInternationalBt,
+                                             theSE.viewTransliterationInternationalBt,
+                                             theSE.LoggedOnMember.TransliteratorInternationalBt);
+
+            Program.InitializeLangCheckBoxes(_theSE.StoryProject.ProjSettings.FreeTranslation,
+                                             checkBoxLangFreeTranslation,
+                                             checkBoxLangTransliterateFreeTranslation,
+                                             theSE.viewTransliterationFreeTranslation,
+                                             theSE.LoggedOnMember.TransliteratorFreeTranslation);
 
             checkBoxShowHidden.Checked = _theSE.hiddenVersesToolStripMenuItem.Checked;
         }
@@ -114,10 +93,16 @@ namespace OneStoryProjectEditor
                     false, // show only open conversations (doesn't apply)
                     checkBoxGeneralTestingQuestions.Checked,
                     (checkBoxLangTransliterateVernacular.Checked)
-                        ? TransliteratorVernacular
+                        ? _theSE.LoggedOnMember.TransliteratorVernacular
                         : null,
                     (checkBoxLangTransliterateNationalBT.Checked)
-                        ? TransliteratorNationalBT
+                        ? _theSE.LoggedOnMember.TransliteratorNationalBt
+                        : null,
+                    (checkBoxLangTransliterateInternationalBt.Checked)
+                        ? _theSE.LoggedOnMember.TransliteratorInternationalBt
+                        : null,
+                    (checkBoxLangTransliterateFreeTranslation.Checked)
+                        ? _theSE.LoggedOnMember.TransliteratorFreeTranslation
                         : null);
                 return viewSettings;
             }
@@ -129,9 +114,11 @@ namespace OneStoryProjectEditor
             SetViewSetting(checkBoxLangVernacular, viewSettings,
                            VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
             SetViewSetting(checkBoxLangNationalBT, viewSettings,
-                           VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField);
+                           VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField);
             SetViewSetting(checkBoxLangInternationalBT, viewSettings,
-                           VerseData.ViewSettings.ItemToInsureOn.EnglishBTField);
+                           VerseData.ViewSettings.ItemToInsureOn.InternationalBtField);
+            SetViewSetting(checkBoxLangFreeTranslation, viewSettings,
+                           VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField);
             SetViewSetting(checkBoxAnchors, viewSettings,
                            VerseData.ViewSettings.ItemToInsureOn.AnchorFields);
             SetViewSetting(checkBoxExegeticalHelpNote, viewSettings,
@@ -151,7 +138,11 @@ namespace OneStoryProjectEditor
             SetViewSetting(checkBoxLangTransliterateVernacular, viewSettings,
                            VerseData.ViewSettings.ItemToInsureOn.VernacularTransliterationField);
             SetViewSetting(checkBoxLangTransliterateNationalBT, viewSettings,
-                           VerseData.ViewSettings.ItemToInsureOn.NationalBTTransliterationField);
+                           VerseData.ViewSettings.ItemToInsureOn.NationalBtTransliterationField);
+            SetViewSetting(checkBoxLangTransliterateInternationalBt, viewSettings,
+                           VerseData.ViewSettings.ItemToInsureOn.InternationalBtTransliterationField);
+            SetViewSetting(checkBoxLangTransliterateFreeTranslation, viewSettings,
+                           VerseData.ViewSettings.ItemToInsureOn.FreeTranslationTransliterationField);
         }
 
         // set the checkbox state *if* the checkbox is even visible

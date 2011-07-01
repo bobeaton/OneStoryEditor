@@ -71,7 +71,7 @@ namespace OneStoryProjectEditor
                     InsertColumn(nNumColumns);
                     if (bShowHeader)
                         InitColumnLabel(theSE.StoryProject.ProjSettings.Vernacular.LangName, nNumColumns);
-                    _aTQData.TestQuestionLine.Vernacular.Transliterator = ctrlVerse.TransliteratorVernacular;
+                    _aTQData.TestQuestionLine.Vernacular.Transliterator = VerseBtControl.TransliteratorVernacular;
                     ctrlTextBoxVernacular = InitTextBox(ctrlVerse, CstrFieldNameVernacular, 
                         _aTQData.TestQuestionLine.Vernacular,
                         theSE.StoryProject.ProjSettings.Vernacular, nNumColumns,
@@ -95,7 +95,7 @@ namespace OneStoryProjectEditor
                     InsertColumn(nNumColumns);
                     if (bShowHeader)
                         InitColumnLabel(theSE.StoryProject.ProjSettings.NationalBT.LangName, nNumColumns);
-                    _aTQData.TestQuestionLine.NationalBt.Transliterator = ctrlVerse.TransliteratorNationalBT;
+                    _aTQData.TestQuestionLine.NationalBt.Transliterator = VerseBtControl.TransliteratorNationalBt;
                     ctrlTextBoxNationalBT = InitTextBox(ctrlVerse, CstrFieldNameNationalBt,
                         _aTQData.TestQuestionLine.NationalBt, 
                         theSE.StoryProject.ProjSettings.NationalBT, nNumColumns,
@@ -121,6 +121,8 @@ namespace OneStoryProjectEditor
                     InsertColumn(nNumColumns);
                     if (bShowHeader)
                         InitColumnLabel(theSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
+                    _aTQData.TestQuestionLine.InternationalBt.Transliterator =
+                        VerseBtControl.TransliteratorInternationalBt;
                     CtrlTextBox ctrlTextBoxEnglishBT = InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.TestQuestionLine.InternationalBt,
                         theSE.StoryProject.ProjSettings.InternationalBT, nNumColumns,
                         StoryEditor.TextFieldType.InternationalBt,

@@ -44,7 +44,7 @@ namespace OneStoryProjectEditor
                 {
                     if (nNumRows == 0)
                         InsertColumn(nNumColumns);
-                    aLineData.Vernacular.Transliterator = ctrlVerse.TransliteratorVernacular;
+                    aLineData.Vernacular.Transliterator = VerseBtControl.TransliteratorVernacular;
                     ctrlTextBoxVernacular = InitTextBox(ctrlVerse, LineData.CstrAttributeLangVernacular,
                                                         aLineData.Vernacular, strLabelRow + strLabelSuffix, 
                                                         projSettings.Vernacular,
@@ -59,7 +59,7 @@ namespace OneStoryProjectEditor
                 {
                     if (nNumRows == 0)
                         InsertColumn(nNumColumns);
-                    aLineData.NationalBt.Transliterator = ctrlVerse.TransliteratorNationalBT;
+                    aLineData.NationalBt.Transliterator = VerseBtControl.TransliteratorNationalBt;
                     ctrlTextBoxNationalBT = InitTextBox(ctrlVerse, LineData.CstrAttributeLangNationalBt,
                                                         aLineData.NationalBt, strLabelRow + strLabelSuffix, 
                                                         projSettings.NationalBT,
@@ -76,12 +76,14 @@ namespace OneStoryProjectEditor
                 {
                     if (nNumRows == 0)
                         InsertColumn(nNumColumns);
+                    aLineData.InternationalBt.Transliterator = VerseBtControl.TransliteratorInternationalBt;
                     CtrlTextBox ctrlTextBoxEnglishBT = InitTextBox(ctrlVerse, LineData.CstrAttributeLangInternationalBt,
-                                                        aLineData.InternationalBt, strLabelRow + strLabelSuffix, 
-                                                        projSettings.InternationalBT,
-                                                        nNumColumns, nNumRows, 
-                                                        StoryEditor.TextFieldType.InternationalBt,
-                                                        clrInternationalBt);
+                                                                   aLineData.InternationalBt,
+                                                                   strLabelRow + strLabelSuffix,
+                                                                   projSettings.InternationalBT,
+                                                                   nNumColumns, nNumRows,
+                                                                   StoryEditor.TextFieldType.InternationalBt,
+                                                                   clrInternationalBt);
                     nNumColumns++;
 
                     if (ctrlTextBoxVernacular != null)

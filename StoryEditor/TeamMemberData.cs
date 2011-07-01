@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 using System.Text;
+using ECInterfaces;
+using SilEncConverters40;
 
 namespace OneStoryProjectEditor
 {
@@ -98,12 +100,114 @@ namespace OneStoryProjectEditor
         public bool OverrideRtlFreeTranslation;
         public string HgUsername;
         public string HgPassword;
-        public string TransliteratorVernacular;
-        public bool TransliteratorDirectionForwardVernacular;
-        public string TransliteratorNationalBT;
-        public bool TransliteratorDirectionForwardNationalBT;
         public long DefaultAllowed;
         public long DefaultRequired;
+
+        private string TransliteratorNameVernacular;
+        private bool TransliteratorDirectionForwardVernacular;
+        private string TransliteratorNameNationalBT;
+        private bool TransliteratorDirectionForwardNationalBT;
+        private string TransliteratorNameInternationalBt;
+        private bool TransliteratorDirectionForwardInternationalBt;
+        private string TransliteratorNameFreeTranslation;
+        private bool TransliteratorDirectionForwardFreeTranslation;
+
+        private DirectableEncConverter _transliteratorVernacular;
+        public DirectableEncConverter TransliteratorVernacular
+        {
+            get
+            {
+                return _transliteratorVernacular ??
+                       (_transliteratorVernacular = GetTransliterator(TransliteratorNameVernacular,
+                                                                   TransliteratorDirectionForwardVernacular));
+            }
+            set
+            {
+                SetTransliterator(value,
+                                  ref _transliteratorVernacular,
+                                  ref TransliteratorNameVernacular,
+                                  ref TransliteratorDirectionForwardVernacular);
+            }
+        }
+
+        private DirectableEncConverter _transliteratorNationalBt;
+        public DirectableEncConverter TransliteratorNationalBt
+        {
+            get
+            {
+                return _transliteratorNationalBt ??
+                       (_transliteratorNationalBt = GetTransliterator(TransliteratorNameNationalBT,
+                                                                      TransliteratorDirectionForwardNationalBT));
+            }
+            set
+            {
+                SetTransliterator(value,
+                                  ref _transliteratorNationalBt,
+                                  ref TransliteratorNameNationalBT,
+                                  ref TransliteratorDirectionForwardNationalBT);
+            }
+        }
+
+        private DirectableEncConverter _transliteratorInternationalBt;
+        public DirectableEncConverter TransliteratorInternationalBt
+        {
+            get
+            {
+                return _transliteratorInternationalBt ??
+                       (_transliteratorInternationalBt = GetTransliterator(TransliteratorNameInternationalBt,
+                                                                        TransliteratorDirectionForwardInternationalBt));
+            }
+            set
+            {
+                SetTransliterator(value,
+                                  ref _transliteratorInternationalBt,
+                                  ref TransliteratorNameInternationalBt,
+                                  ref TransliteratorDirectionForwardInternationalBt);
+            }
+        }
+
+        private DirectableEncConverter _transliteratorFreeTranslation;
+        public DirectableEncConverter TransliteratorFreeTranslation
+        {
+            get
+            {
+                return _transliteratorFreeTranslation ??
+                       (_transliteratorFreeTranslation = GetTransliterator(TransliteratorNameFreeTranslation,
+                                                                        TransliteratorDirectionForwardFreeTranslation));
+            }
+            set
+            {
+                SetTransliterator(value,
+                                  ref _transliteratorFreeTranslation,
+                                  ref TransliteratorNameFreeTranslation,
+                                  ref TransliteratorDirectionForwardFreeTranslation);
+            }
+        }
+
+        private static DirectableEncConverter GetTransliterator(string strName, bool bForward)
+        {
+            if (!String.IsNullOrEmpty(strName))
+                return new DirectableEncConverter(strName,
+                                                  bForward,
+                                                  NormalizeFlags.None);
+            return null;
+        }
+
+        private static void SetTransliterator(DirectableEncConverter theNewValue,
+            ref DirectableEncConverter theEc, ref string strName, 
+            ref bool bDirectionForward)
+        {
+            theEc = theNewValue;
+            if (theNewValue != null)
+            {
+                strName = theNewValue.Name;
+                bDirectionForward = theNewValue.GetEncConverter.DirectionForward;
+            }
+            else
+            {
+                strName = null;
+            }
+        }
 
         public TeamMemberData(string strName, UserTypes eMemberType, string strMemberGuid, string strEmail, string strSkypeID, string strTeamViewerID, string strPhone, string strAltPhone, string strBioData)
         {
@@ -219,15 +323,29 @@ namespace OneStoryProjectEditor
                 HgPassword = EncryptionClass.Decrypt(strEncryptedHgPassword);
             }
 
+            // transliterator information for the Vernacular field
             if (!theMemberRow.IsTransliteratorVernacularNull())
-                TransliteratorVernacular = theMemberRow.TransliteratorVernacular;
+                TransliteratorNameVernacular = theMemberRow.TransliteratorVernacular;
             if (!theMemberRow.IsTransliteratorDirectionForwardVernacularNull())
                 TransliteratorDirectionForwardVernacular = theMemberRow.TransliteratorDirectionForwardVernacular;
 
+            // transliterator information for the National BT
             if (!theMemberRow.IsTransliteratorNationalBTNull())
-                TransliteratorNationalBT = theMemberRow.TransliteratorNationalBT;
+                TransliteratorNameNationalBT = theMemberRow.TransliteratorNationalBT;
             if (!theMemberRow.IsTransliteratorDirectionForwardNationalBTNull())
                 TransliteratorDirectionForwardNationalBT = theMemberRow.TransliteratorDirectionForwardNationalBT;
+
+            // transliterator information for the International BT
+            if (!theMemberRow.IsTransliteratorInternationalBTNull())
+                TransliteratorNameInternationalBt = theMemberRow.TransliteratorInternationalBT;
+            if (!theMemberRow.IsTransliteratorDirectionForwardInternationalBTNull())
+                TransliteratorDirectionForwardInternationalBt = theMemberRow.TransliteratorDirectionForwardInternationalBT;
+
+            // transliterator information for the Free Translation
+            if (!theMemberRow.IsTransliteratorFreeTranslationNull())
+                TransliteratorNameFreeTranslation = theMemberRow.TransliteratorFreeTranslation;
+            if (!theMemberRow.IsTransliteratorDirectionForwardFreeTranslationNull())
+                TransliteratorDirectionForwardFreeTranslation = theMemberRow.TransliteratorDirectionForwardFreeTranslation;
 
             if (IsUser(MemberType, UserTypes.ProjectFacilitator))
             {
@@ -424,6 +542,10 @@ namespace OneStoryProjectEditor
         public const string CstrAttributeNameTransliteratorDirectionForwardVernacular = "TransliteratorDirectionForwardVernacular";
         public const string CstrAttributeNameTransliteratorNationalBT = "TransliteratorNationalBT";
         public const string CstrAttributeNameTransliteratorDirectionForwardNationalBT = "TransliteratorDirectionForwardNationalBT";
+        public const string CstrAttributeNameTransliteratorInternationalBT = "TransliteratorInternationalBT";
+        public const string CstrAttributeNameTransliteratorDirectionForwardInternationalBT = "TransliteratorDirectionForwardInternationalBT";
+        public const string CstrAttributeNameTransliteratorFreeTranslation = "TransliteratorFreeTranslation";
+        public const string CstrAttributeNameTransliteratorDirectionForwardFreeTranslation = "TransliteratorDirectionForwardFreeTranslation";
         public const string CstrAttributeNameMemberKey = "memberKey";
 
         public const string CstrAttributeLabelDefaultTasksAllowed = "DefaultTasksAllowed";
@@ -501,18 +623,33 @@ namespace OneStoryProjectEditor
                     eleMember.Add(new XAttribute(CstrAttributeNameHgPassword, strEncryptedHgPassword));
                 }
 
-                if (!String.IsNullOrEmpty(TransliteratorVernacular))
+                if (!String.IsNullOrEmpty(TransliteratorNameVernacular))
                 {
                     eleMember.Add(
-                        new XAttribute(CstrAttributeNameTransliteratorVernacular, TransliteratorVernacular),
+                        new XAttribute(CstrAttributeNameTransliteratorVernacular, TransliteratorNameVernacular),
                         new XAttribute(CstrAttributeNameTransliteratorDirectionForwardVernacular,
                                        TransliteratorDirectionForwardVernacular));
                 }
-                if (!String.IsNullOrEmpty(TransliteratorNationalBT))
+
+                if (!String.IsNullOrEmpty(TransliteratorNameNationalBT))
                 {
-                    eleMember.Add(new XAttribute(CstrAttributeNameTransliteratorNationalBT, TransliteratorNationalBT),
+                    eleMember.Add(new XAttribute(CstrAttributeNameTransliteratorNationalBT, TransliteratorNameNationalBT),
                                   new XAttribute(CstrAttributeNameTransliteratorDirectionForwardNationalBT,
                                                  TransliteratorDirectionForwardNationalBT));
+                }
+
+                if (!String.IsNullOrEmpty(TransliteratorNameInternationalBt))
+                {
+                    eleMember.Add(new XAttribute(CstrAttributeNameTransliteratorInternationalBT, TransliteratorNameInternationalBt),
+                                  new XAttribute(CstrAttributeNameTransliteratorDirectionForwardInternationalBT,
+                                                 TransliteratorDirectionForwardInternationalBt));
+                }
+
+                if (!String.IsNullOrEmpty(TransliteratorNameFreeTranslation))
+                {
+                    eleMember.Add(new XAttribute(CstrAttributeNameTransliteratorFreeTranslation, TransliteratorNameFreeTranslation),
+                                  new XAttribute(CstrAttributeNameTransliteratorDirectionForwardFreeTranslation,
+                                                 TransliteratorDirectionForwardFreeTranslation));
                 }
 
                 eleMember.Add(new XAttribute(CstrAttributeNameMemberKey, MemberGuid));

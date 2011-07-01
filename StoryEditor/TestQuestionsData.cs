@@ -211,11 +211,12 @@ namespace OneStoryProjectEditor
 
                 if (bShowEnglishBT)
                 {
+                    DirectableEncConverter transliterator = viewSettings.TransliteratorInternationalBt;
                     string str = (!bPrintPreview)
                         ? (child != null)
-                            ? Diff.HtmlDiff(TestQuestionLine.InternationalBt, (theChildTQ != null) ? theChildTQ.TestQuestionLine.InternationalBt : null)
-                            : Diff.HtmlDiff(null, TestQuestionLine.InternationalBt)
-                        : TestQuestionLine.InternationalBt.ToString();
+                            ? Diff.HtmlDiff(transliterator, TestQuestionLine.InternationalBt, (theChildTQ != null) ? theChildTQ.TestQuestionLine.InternationalBt : null)
+                            : Diff.HtmlDiff(transliterator, null, TestQuestionLine.InternationalBt)
+                        : TestQuestionLine.InternationalBt.GetValue(transliterator);
 
                     strRow += PresentationHtmlCell(nVerseIndex, nTQNum, nNumTestQuestionCols,
                         StoryData.CstrLangInternationalBtStyleClassName, LineData.CstrAttributeLangInternationalBt, str);
@@ -269,7 +270,8 @@ namespace OneStoryProjectEditor
 
                 if (bShowEnglishBT)
                 {
-                    string str = Diff.HtmlDiff(null, TestQuestionLine.InternationalBt);
+                    DirectableEncConverter transliterator = viewSettings.TransliteratorInternationalBt;
+                    string str = Diff.HtmlDiff(transliterator, null, TestQuestionLine.InternationalBt);
 
                     strRow += PresentationHtmlCell(nVerseIndex, nTQNum, nNumTestQuestionCols,
                         StoryData.CstrLangInternationalBtStyleClassName, LineData.CstrAttributeLangInternationalBt, str);
@@ -415,14 +417,14 @@ namespace OneStoryProjectEditor
                                     (bIsFirstVerse && viewSettings.IsViewItemOn(
                                         VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions)));
 
-            bool bShowNationalBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField)
+            bool bShowNationalBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField)
                                    &&
                                    ((!bIsFirstVerse && viewSettings.IsViewItemOn(
                                        VerseData.ViewSettings.ItemToInsureOn.TestQuestionsNationalBT)) ||
                                     (bIsFirstVerse && viewSettings.IsViewItemOn(
                                         VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions)));
 
-            bool bShowEnglishBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField)
+            bool bShowEnglishBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.InternationalBtField)
                                   &&
                                   ((!bIsFirstVerse && viewSettings.IsViewItemOn(
                                       VerseData.ViewSettings.ItemToInsureOn.TestQuestionsInternationalBT)) ||
@@ -467,8 +469,8 @@ namespace OneStoryProjectEditor
 
             // just get the column count from the first question (in case there are multiple)
             bool bShowVernacular = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
-            bool bShowNationalBT = bHasOutsideEnglishBTer && viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField);
-            bool bShowEnglishBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField);
+            bool bShowNationalBT = bHasOutsideEnglishBTer && viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField);
+            bool bShowEnglishBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.InternationalBtField);
 
             int nNumTestQuestionCols = 0;
             if (bShowVernacular) nNumTestQuestionCols++;

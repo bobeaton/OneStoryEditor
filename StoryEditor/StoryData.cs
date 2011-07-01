@@ -427,9 +427,10 @@ namespace OneStoryProjectEditor
         // remotely accessible one from Chorus
         public string GetPresentationHtmlForChorus(XmlNode nodeProjectFile, string strProjectPath, XmlNode parentStory, XmlNode childStory)
         {
-            ProjectSettings projSettings = new ProjectSettings(nodeProjectFile, strProjectPath);
-            TeamMembersData teamMembers = new TeamMembersData(nodeProjectFile);
-            StoryData ParentStory = null, ChildStory = null;
+            var projSettings = new ProjectSettings(nodeProjectFile, strProjectPath);
+            var teamMembers = new TeamMembersData(nodeProjectFile);
+            StoryData ParentStory = null;
+            StoryData ChildStory = null;
             if (parentStory != null)
                 ParentStory = new StoryData(parentStory, strProjectPath);
             if (childStory != null)
@@ -452,8 +453,10 @@ namespace OneStoryProjectEditor
                 false,  // hidden matter
                 false,  // only open conversations
                 true,   // General Testing questions
-                null,
-                null);
+                null,   // TransliteratorVernacular
+                null,   // TransliteratorNationalBt
+                null,   // TransliteratorInternationalBt
+                null);  // TransliteratorFreeTranslation
 
             string strHtml = null;
             if (ParentStory != null)
@@ -484,8 +487,8 @@ namespace OneStoryProjectEditor
             ProjectSettings projSettings, TeamMembersData teamMembers, StoryData child)
         {
             bool bShowVernacular = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
-            bool bShowNationalBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField);
-            bool bShowEnglishBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField);
+            bool bShowNationalBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField);
+            bool bShowEnglishBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.InternationalBtField);
             bool bShowFreeTranslation = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField);
 
             int nNumCols = 0;
@@ -529,8 +532,8 @@ namespace OneStoryProjectEditor
 
             // occasionally, we just want to print the header stuff (without lines)
             if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField)
-                || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField)
-                || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField)
+                || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField)
+                || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.InternationalBtField)
                 || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField)
                 || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnchorFields)
                 || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.ExegeticalHelps)

@@ -2918,6 +2918,14 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnTransliteratorDirectionForwardNationalBT;
             
+            private global::System.Data.DataColumn columnTransliteratorInternationalBT;
+            
+            private global::System.Data.DataColumn columnTransliteratorDirectionForwardInternationalBT;
+            
+            private global::System.Data.DataColumn columnTransliteratorFreeTranslation;
+            
+            private global::System.Data.DataColumn columnTransliteratorDirectionForwardFreeTranslation;
+            
             private global::System.Data.DataColumn columnDefaultTasksAllowed;
             
             private global::System.Data.DataColumn columnDefaultTasksRequired;
@@ -3172,6 +3180,34 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn TransliteratorInternationalBTColumn {
+                get {
+                    return this.columnTransliteratorInternationalBT;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn TransliteratorDirectionForwardInternationalBTColumn {
+                get {
+                    return this.columnTransliteratorDirectionForwardInternationalBT;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn TransliteratorFreeTranslationColumn {
+                get {
+                    return this.columnTransliteratorFreeTranslation;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn TransliteratorDirectionForwardFreeTranslationColumn {
+                get {
+                    return this.columnTransliteratorDirectionForwardFreeTranslation;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public global::System.Data.DataColumn DefaultTasksAllowedColumn {
                 get {
                     return this.columnDefaultTasksAllowed;
@@ -3253,6 +3289,10 @@ namespace OneStoryProjectEditor {
                         bool TransliteratorDirectionForwardVernacular, 
                         string TransliteratorNationalBT, 
                         bool TransliteratorDirectionForwardNationalBT, 
+                        string TransliteratorInternationalBT, 
+                        bool TransliteratorDirectionForwardInternationalBT, 
+                        string TransliteratorFreeTranslation, 
+                        bool TransliteratorDirectionForwardFreeTranslation, 
                         string DefaultTasksAllowed, 
                         string DefaultTasksRequired, 
                         MembersRow parentMembersRowByMembers_Member) {
@@ -3289,11 +3329,15 @@ namespace OneStoryProjectEditor {
                         TransliteratorDirectionForwardVernacular,
                         TransliteratorNationalBT,
                         TransliteratorDirectionForwardNationalBT,
+                        TransliteratorInternationalBT,
+                        TransliteratorDirectionForwardInternationalBT,
+                        TransliteratorFreeTranslation,
+                        TransliteratorDirectionForwardFreeTranslation,
                         DefaultTasksAllowed,
                         DefaultTasksRequired,
                         null};
                 if ((parentMembersRowByMembers_Member != null)) {
-                    columnValuesArray[33] = parentMembersRowByMembers_Member[3];
+                    columnValuesArray[37] = parentMembersRowByMembers_Member[3];
                 }
                 rowMemberRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowMemberRow);
@@ -3345,6 +3389,10 @@ namespace OneStoryProjectEditor {
                 this.columnTransliteratorDirectionForwardVernacular = base.Columns["TransliteratorDirectionForwardVernacular"];
                 this.columnTransliteratorNationalBT = base.Columns["TransliteratorNationalBT"];
                 this.columnTransliteratorDirectionForwardNationalBT = base.Columns["TransliteratorDirectionForwardNationalBT"];
+                this.columnTransliteratorInternationalBT = base.Columns["TransliteratorInternationalBT"];
+                this.columnTransliteratorDirectionForwardInternationalBT = base.Columns["TransliteratorDirectionForwardInternationalBT"];
+                this.columnTransliteratorFreeTranslation = base.Columns["TransliteratorFreeTranslation"];
+                this.columnTransliteratorDirectionForwardFreeTranslation = base.Columns["TransliteratorDirectionForwardFreeTranslation"];
                 this.columnDefaultTasksAllowed = base.Columns["DefaultTasksAllowed"];
                 this.columnDefaultTasksRequired = base.Columns["DefaultTasksRequired"];
                 this.columnMembers_Id = base.Columns["Members_Id"];
@@ -3414,6 +3462,14 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnTransliteratorNationalBT);
                 this.columnTransliteratorDirectionForwardNationalBT = new global::System.Data.DataColumn("TransliteratorDirectionForwardNationalBT", typeof(bool), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnTransliteratorDirectionForwardNationalBT);
+                this.columnTransliteratorInternationalBT = new global::System.Data.DataColumn("TransliteratorInternationalBT", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnTransliteratorInternationalBT);
+                this.columnTransliteratorDirectionForwardInternationalBT = new global::System.Data.DataColumn("TransliteratorDirectionForwardInternationalBT", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnTransliteratorDirectionForwardInternationalBT);
+                this.columnTransliteratorFreeTranslation = new global::System.Data.DataColumn("TransliteratorFreeTranslation", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnTransliteratorFreeTranslation);
+                this.columnTransliteratorDirectionForwardFreeTranslation = new global::System.Data.DataColumn("TransliteratorDirectionForwardFreeTranslation", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnTransliteratorDirectionForwardFreeTranslation);
                 this.columnDefaultTasksAllowed = new global::System.Data.DataColumn("DefaultTasksAllowed", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnDefaultTasksAllowed);
                 this.columnDefaultTasksRequired = new global::System.Data.DataColumn("DefaultTasksRequired", typeof(string), null, global::System.Data.MappingType.Attribute);
@@ -3454,6 +3510,10 @@ namespace OneStoryProjectEditor {
                 this.columnTransliteratorDirectionForwardVernacular.Namespace = "";
                 this.columnTransliteratorNationalBT.Namespace = "";
                 this.columnTransliteratorDirectionForwardNationalBT.Namespace = "";
+                this.columnTransliteratorInternationalBT.Namespace = "";
+                this.columnTransliteratorDirectionForwardInternationalBT.Namespace = "";
+                this.columnTransliteratorFreeTranslation.Namespace = "";
+                this.columnTransliteratorDirectionForwardFreeTranslation.Namespace = "";
                 this.columnDefaultTasksAllowed.Namespace = "";
                 this.columnDefaultTasksRequired.Namespace = "";
             }
@@ -15434,6 +15494,70 @@ namespace OneStoryProjectEditor {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string TransliteratorInternationalBT {
+                get {
+                    try {
+                        return ((string)(this[this.tableMember.TransliteratorInternationalBTColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TransliteratorInternationalBT\' in table \'Member\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tableMember.TransliteratorInternationalBTColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool TransliteratorDirectionForwardInternationalBT {
+                get {
+                    try {
+                        return ((bool)(this[this.tableMember.TransliteratorDirectionForwardInternationalBTColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TransliteratorDirectionForwardInternationalBT\' in table \'Me" +
+                                "mber\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableMember.TransliteratorDirectionForwardInternationalBTColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string TransliteratorFreeTranslation {
+                get {
+                    try {
+                        return ((string)(this[this.tableMember.TransliteratorFreeTranslationColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TransliteratorFreeTranslation\' in table \'Member\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tableMember.TransliteratorFreeTranslationColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool TransliteratorDirectionForwardFreeTranslation {
+                get {
+                    try {
+                        return ((bool)(this[this.tableMember.TransliteratorDirectionForwardFreeTranslationColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TransliteratorDirectionForwardFreeTranslation\' in table \'Me" +
+                                "mber\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableMember.TransliteratorDirectionForwardFreeTranslationColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string DefaultTasksAllowed {
                 get {
                     try {
@@ -15766,6 +15890,46 @@ namespace OneStoryProjectEditor {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetTransliteratorDirectionForwardNationalBTNull() {
                 this[this.tableMember.TransliteratorDirectionForwardNationalBTColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsTransliteratorInternationalBTNull() {
+                return this.IsNull(this.tableMember.TransliteratorInternationalBTColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetTransliteratorInternationalBTNull() {
+                this[this.tableMember.TransliteratorInternationalBTColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsTransliteratorDirectionForwardInternationalBTNull() {
+                return this.IsNull(this.tableMember.TransliteratorDirectionForwardInternationalBTColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetTransliteratorDirectionForwardInternationalBTNull() {
+                this[this.tableMember.TransliteratorDirectionForwardInternationalBTColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsTransliteratorFreeTranslationNull() {
+                return this.IsNull(this.tableMember.TransliteratorFreeTranslationColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetTransliteratorFreeTranslationNull() {
+                this[this.tableMember.TransliteratorFreeTranslationColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsTransliteratorDirectionForwardFreeTranslationNull() {
+                return this.IsNull(this.tableMember.TransliteratorDirectionForwardFreeTranslationColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetTransliteratorDirectionForwardFreeTranslationNull() {
+                this[this.tableMember.TransliteratorDirectionForwardFreeTranslationColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

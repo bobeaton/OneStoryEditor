@@ -56,19 +56,23 @@ namespace OneStoryProjectEditor
                 if ((StoryProject != null) 
                     && (StoryProject.ProjSettings != null)
                     && (File.Exists(StoryProject.ProjSettings.ProjectFolder)))
-                    InitProjectNotes(StoryProject.ProjSettings, value.Name);
-                
-                if (value != null)
                 {
-                    UpdateTaskLinkVisibility(value);
-
-                    // check whether we should be showing the transliteration or not
-                    viewTransliterationVernacular.Checked = !String.IsNullOrEmpty(value.TransliteratorVernacular);
-                    viewTransliterationNationalBT.Checked = !String.IsNullOrEmpty(value.TransliteratorNationalBT);
-
-                    // update the frame title if a new person logs in
-                    Text = GetFrameTitle(true);
+                    InitProjectNotes(StoryProject.ProjSettings, value.Name);
                 }
+
+                if (value == null)
+                    return;
+
+                UpdateTaskLinkVisibility(value);
+
+                // check whether we should be showing the transliteration or not
+                viewTransliterationVernacular.Checked = (value.TransliteratorVernacular != null);
+                viewTransliterationNationalBT.Checked = (value.TransliteratorNationalBt != null);
+                viewTransliterationInternationalBt.Checked = (value.TransliteratorInternationalBt != null);
+                viewTransliterationFreeTranslation.Checked = (value.TransliteratorFreeTranslation != null);
+
+                // update the frame title if a new person logs in
+                Text = GetFrameTitle(true);
             }
         }
 
@@ -331,6 +335,10 @@ namespace OneStoryProjectEditor
             {
                 // sub-routine has taken care of the UI, just exit without doing anything
             }
+            catch (Program.RestartException)
+            {
+                Close();
+            }
             catch (Exception ex)
             {
                 string strErrorMsg = String.Format(Properties.Resources.IDS_UnableToOpenProjectFile,
@@ -363,6 +371,10 @@ namespace OneStoryProjectEditor
                 try
                 {
                     OpenProject(projSettings);
+                }
+                catch (Program.RestartException)
+                {
+                    Close();
                 }
                 catch (Exception)
                 {
@@ -1108,6 +1120,7 @@ namespace OneStoryProjectEditor
             InitConsultNotesPane(flowLayoutPanelConsultantNotes, theVerses.FirstVerse.ConsultantNotes, nVerseIndex);
             InitConsultNotesPane(flowLayoutPanelCoachNotes, theVerses.FirstVerse.CoachNotes, nVerseIndex);
 #endif
+            InitializeTransliterators();
 
             // either add the general testing question line (or a button)
             if (viewGeneralTestingQuestionMenuItem.Checked)
@@ -1159,11 +1172,30 @@ namespace OneStoryProjectEditor
                 stLast.TextBox.Focus();
         }
 
+        private void InitializeTransliterators()
+        {
+            VerseBtControl.TransliteratorVernacular = viewTransliterationVernacular.Checked
+                                                          ? LoggedOnMember.TransliteratorVernacular
+                                                          : null;
+
+            VerseBtControl.TransliteratorNationalBt = viewTransliterationNationalBT.Checked
+                                                          ? LoggedOnMember.TransliteratorNationalBt
+                                                          : null;
+
+            VerseBtControl.TransliteratorInternationalBt = viewTransliterationInternationalBt.Checked
+                                                               ? LoggedOnMember.TransliteratorInternationalBt
+                                                               : null;
+
+            VerseBtControl.TransliteratorFreeTranslation = viewTransliterationFreeTranslation.Checked
+                                                               ? LoggedOnMember.TransliteratorFreeTranslation
+                                                               : null;
+        }
+
         protected void InitVerseControls(VerseData aVerse, int nVerseIndex)
         {
             var aVerseCtrl = new VerseBtControl(this, flowLayoutPanelVerses, aVerse, nVerseIndex);
             if (!aVerse.IsVisible)
-                aVerseCtrl.BackColor = System.Drawing.Color.Khaki;
+                aVerseCtrl.BackColor = Color.Khaki;
 
             aVerseCtrl.UpdateHeight(Panel1_Width);
             flowLayoutPanelVerses.Controls.Add(aVerseCtrl);
@@ -1186,6 +1218,8 @@ namespace OneStoryProjectEditor
             flowLayoutPanelVerses.Controls.Clear();
             flowLayoutPanelVerses.SuspendLayout();
             SuspendLayout();
+
+            InitializeTransliterators();
 
             // add either the general testing question line or a button
             if (viewGeneralTestingQuestionMenuItem.Checked)
@@ -3804,8 +3838,9 @@ namespace OneStoryProjectEditor
                                   viewOnlyOpenConversationsMenu.Checked,
                                   viewGeneralTestingQuestionMenuItem.Checked,
                                   null,
-                                  null
-                                  )
+                                  null,
+                                  null,
+                                  null)
                           };
 
             if (dlg.ShowDialog() == DialogResult.OK)
@@ -3873,7 +3908,10 @@ namespace OneStoryProjectEditor
                     viewRetellingFieldMenuItem.Enabled =
                     (TheCurrentStory != null) && TheCurrentStory.CraftingInfo.IsBiblicalStory;
 
-                viewTransliterationsToolStripMenuItem.Enabled = (StoryProject.ProjSettings.Vernacular.HasData || StoryProject.ProjSettings.NationalBT.HasData);
+                viewTransliterationsToolStripMenuItem.Enabled = (StoryProject.ProjSettings.Vernacular.HasData ||
+                                                                 StoryProject.ProjSettings.NationalBT.HasData ||
+                                                                 StoryProject.ProjSettings.InternationalBT.HasData ||
+                                                                 StoryProject.ProjSettings.FreeTranslation.HasData);
 
                 viewLnCNotesMenu.Enabled =
                     concordanceToolStripMenuItem.Enabled = true;
@@ -4136,19 +4174,27 @@ namespace OneStoryProjectEditor
                                                bDoOffToo);
             bSomethingChanged |= InsureVisible(viewNationalLangFieldMenuItem,
                                                viewItemToInsureOn.IsViewItemOn(
-                                                   VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField),
+                                                   VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField),
                                                bDoOffToo);
             bSomethingChanged |= InsureVisible(viewTransliterationNationalBT,
                                                viewItemToInsureOn.IsViewItemOn(
-                                                   VerseData.ViewSettings.ItemToInsureOn.NationalBTTransliterationField),
+                                                   VerseData.ViewSettings.ItemToInsureOn.NationalBtTransliterationField),
                                                bDoOffToo);
             bSomethingChanged |= InsureVisible(viewEnglishBTFieldMenuItem,
                                                viewItemToInsureOn.IsViewItemOn(
-                                                   VerseData.ViewSettings.ItemToInsureOn.EnglishBTField),
+                                                   VerseData.ViewSettings.ItemToInsureOn.InternationalBtField),
+                                               bDoOffToo);
+            bSomethingChanged |= InsureVisible(viewTransliterationInternationalBt,
+                                               viewItemToInsureOn.IsViewItemOn(
+                                                   VerseData.ViewSettings.ItemToInsureOn.InternationalBtTransliterationField),
                                                bDoOffToo);
             bSomethingChanged |= InsureVisible(viewFreeTranslationToolStripMenuItem,
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField),
+                                               bDoOffToo);
+            bSomethingChanged |= InsureVisible(viewTransliterationFreeTranslation,
+                                               viewItemToInsureOn.IsViewItemOn(
+                                                   VerseData.ViewSettings.ItemToInsureOn.FreeTranslationTransliterationField),
                                                bDoOffToo);
             bSomethingChanged |= InsureVisible(viewAnchorFieldMenuItem,
                                                viewItemToInsureOn.IsViewItemOn(
@@ -4386,7 +4432,18 @@ namespace OneStoryProjectEditor
             // next, do the sync
             Program.SyncWithRepositoryThumbdrive(strProjectFolder);
             var projSettings = new ProjectSettings(strProjectFolder, strProjectName, true);
-            OpenProject(projSettings);
+            try
+            {
+                OpenProject(projSettings);
+            }
+            catch (Program.RestartException)
+            {
+                Close();
+            }
+            catch (Exception ex)
+            {
+                Program.ShowException(ex);
+            }
         }
 
         private void storyCopyWithNewNameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4653,49 +4710,69 @@ namespace OneStoryProjectEditor
 
         private void viewTransliterationVernacular_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
+            var tsmi = sender as ToolStripMenuItem;
             if (tsmi.Checked)
             {
-                if (String.IsNullOrEmpty(LoggedOnMember.TransliteratorVernacular))
+                if (LoggedOnMember.TransliteratorVernacular == null)
                 {
-                    EncConverters aECs = new EncConverters();
-                    IEncConverter aEC = aECs.AutoSelectWithTitle(ConvType.Unicode_to_from_Unicode,
-                                                                 "Choose the transliterator for " +
-                                                                 StoryProject.ProjSettings.Vernacular.LangName);
-                    if (aEC != null)
-                    {
-                        LoggedOnMember.TransliteratorVernacular = aEC.Name;
-                        LoggedOnMember.TransliteratorDirectionForwardVernacular = aEC.DirectionForward;
-                        Modified = true;
-                    }
-                    else
-                    {
-                        LoggedOnMember.TransliteratorVernacular = null;
-                        Modified = true;
-                    }
+                    LoggedOnMember.TransliteratorVernacular =
+                        GetDec(StoryProject.ProjSettings.Vernacular.LangName);
                 }
             }
 
             ReInitVerseControls();
         }
 
+        private DirectableEncConverter GetDec(string strLangName)
+        {
+            var aEc = DirectableEncConverter.EncConverters.AutoSelectWithTitle(ConvType.Unicode_to_from_Unicode,
+                                                                               "Choose the transliterator for " +
+                                                                               strLangName);
+            Modified = true;
+            return (aEc != null)
+                       ? new DirectableEncConverter(aEc)
+                       : null;
+        }
+
         private void viewTransliterationNationalBT_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
+            var tsmi = sender as ToolStripMenuItem;
             if (tsmi.Checked)
             {
-                if (String.IsNullOrEmpty(LoggedOnMember.TransliteratorNationalBT))
+                if (LoggedOnMember.TransliteratorNationalBt == null)
                 {
-                    EncConverters aECs = new EncConverters();
-                    IEncConverter aEC = aECs.AutoSelectWithTitle(ConvType.Unicode_to_from_Unicode,
-                                                                 "Choose the transliterator for " +
-                                                                 StoryProject.ProjSettings.NationalBT.LangName);
-                    if (aEC != null)
-                    {
-                        LoggedOnMember.TransliteratorNationalBT = aEC.Name;
-                        LoggedOnMember.TransliteratorDirectionForwardNationalBT = aEC.DirectionForward;
-                        Modified = true;
-                    }
+                    LoggedOnMember.TransliteratorNationalBt =
+                        GetDec(StoryProject.ProjSettings.NationalBT.LangName);
+                }
+            }
+
+            ReInitVerseControls();
+        }
+
+        private void viewTransliterationInternationalBt_Click(object sender, EventArgs e)
+        {
+            var tsmi = sender as ToolStripMenuItem;
+            if (tsmi.Checked)
+            {
+                if (LoggedOnMember.TransliteratorInternationalBt == null)
+                {
+                    LoggedOnMember.TransliteratorInternationalBt =
+                        GetDec(StoryProject.ProjSettings.InternationalBT.LangName);
+                }
+            }
+
+            ReInitVerseControls();
+        }
+
+        private void viewTransliterationFreeTranslation_Click(object sender, EventArgs e)
+        {
+            var tsmi = sender as ToolStripMenuItem;
+            if (tsmi.Checked)
+            {
+                if (LoggedOnMember.TransliteratorFreeTranslation == null)
+                {
+                    LoggedOnMember.TransliteratorFreeTranslation =
+                        GetDec(StoryProject.ProjSettings.FreeTranslation.LangName);
                 }
             }
 
@@ -4708,30 +4785,63 @@ namespace OneStoryProjectEditor
                 && (StoryProject != null)
                 && (StoryProject.ProjSettings != null))
             {
-                viewTransliterationVernacular.Text = StoryProject.ProjSettings.Vernacular.LangName;
-                viewTransliterationVernacular.Visible = (StoryProject.ProjSettings.Vernacular.HasData);
-                viewTransliterationNationalBT.Text = StoryProject.ProjSettings.NationalBT.LangName;
-                viewTransliterationNationalBT.Visible = (StoryProject.ProjSettings.NationalBT.HasData);
+                SetTransliterationMenu(viewTransliterationVernacular,
+                                       StoryProject.ProjSettings.Vernacular);
+
+                SetTransliterationMenu(viewTransliterationNationalBT,
+                                       StoryProject.ProjSettings.NationalBT);
+
+                SetTransliterationMenu(viewTransliterationInternationalBt,
+                                       StoryProject.ProjSettings.InternationalBT);
+
+                SetTransliterationMenu(viewTransliterationFreeTranslation,
+                                       StoryProject.ProjSettings.FreeTranslation);
             }
             else
             {
                 viewTransliterationVernacular.Enabled =
-                    viewTransliterationNationalBT.Enabled = false;
+                    viewTransliterationNationalBT.Enabled =
+                    viewTransliterationInternationalBt.Enabled =
+                    viewTransliterationFreeTranslation.Enabled = false;
             }
+        }
+
+        private static void SetTransliterationMenu(ToolStripMenuItem tsmi, ProjectSettings.LanguageInfo li)
+        {
+            tsmi.Text = li.LangName;
+            tsmi.Visible = li.HasData;
         }
 
         private void viewTransliteratorVernacularConfigureToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LoggedOnMember.TransliteratorVernacular = null;
+            viewTransliterationVernacular.Checked = true;
             viewTransliterationVernacular_Click(viewTransliterationVernacular, null);
             viewTransliterationVernacular.Checked = (LoggedOnMember.TransliteratorVernacular != null);
         }
 
         private void viewTransliteratorNationalBTConfigureToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            LoggedOnMember.TransliteratorNationalBT = null;
+            LoggedOnMember.TransliteratorNationalBt = null;
+            viewTransliterationNationalBT.Checked = true;
             viewTransliterationNationalBT_Click(viewTransliterationNationalBT, null);
-            viewTransliterationNationalBT.Checked = (LoggedOnMember.TransliteratorNationalBT != null);
+            viewTransliterationNationalBT.Checked = (LoggedOnMember.TransliteratorNationalBt != null);
+        }
+
+        private void viewTransliteratorInternationalBtConfigureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoggedOnMember.TransliteratorInternationalBt = null;
+            viewTransliterationInternationalBt.Checked = true;
+            viewTransliterationInternationalBt_Click(viewTransliterationInternationalBt, null);
+            viewTransliterationInternationalBt.Checked = (LoggedOnMember.TransliteratorInternationalBt != null);
+        }
+
+        private void viewTransliteratorFreeTranslationConfigureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoggedOnMember.TransliteratorFreeTranslation = null;
+            viewTransliterationFreeTranslation.Checked = true;
+            viewTransliterationFreeTranslation_Click(viewTransliterationFreeTranslation, null);
+            viewTransliterationFreeTranslation.Checked = (LoggedOnMember.TransliteratorFreeTranslation != null);
         }
 
         private void linkLabelConsultantNotes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

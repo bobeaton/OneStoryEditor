@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using Paratext;
 using System.Text.RegularExpressions;
+using SilEncConverters40;
 
 namespace OneStoryProjectEditor
 {
@@ -378,16 +380,23 @@ namespace OneStoryProjectEditor
             return termRendering;
         }
 
-        public void SearchVerseText(StoryProjectData theSPD, ProgressBar progressBarLoadingKeyTerms, 
-            bool bSearchHidden, string strSearchPatternsVernacular, 
-            string strSearchPatternsNationalBT, string strSearchPatternsInternationalBT,
-            string strSearchPatternsFreeTranslation)
+        public void SearchVerseText(StoryProjectData theSpd, 
+            ProgressBar progressBarLoadingKeyTerms, 
+            bool bSearchHidden, 
+            string strSearchPatternsVernacular, 
+            DirectableEncConverter decVernacular,
+            string strSearchPatternsNationalBt, 
+            DirectableEncConverter decNationalBt,
+            string strSearchPatternsInternationalBt,
+            DirectableEncConverter decInternationalBt,
+            string strSearchPatternsFreeTranslation,
+            DirectableEncConverter decFreeTranslation)
         {
             // to *have* them, is to show them.
-            bool bShowVernacular = theSPD.ProjSettings.Vernacular.HasData;
-            bool bShowNationalBT = theSPD.ProjSettings.NationalBT.HasData;
-            bool bShowInternationalBT = theSPD.ProjSettings.InternationalBT.HasData;
-            bool bShowFreeTranslation = theSPD.ProjSettings.FreeTranslation.HasData;
+            bool bShowVernacular = theSpd.ProjSettings.Vernacular.HasData;
+            bool bShowNationalBT = theSpd.ProjSettings.NationalBT.HasData;
+            bool bShowInternationalBT = theSpd.ProjSettings.InternationalBT.HasData;
+            bool bShowFreeTranslation = theSpd.ProjSettings.FreeTranslation.HasData;
 
             mapReferenceToVerseTextList = new Dictionary<string, List<string>>();
             termRenderingsList = new List<TermRendering>();
@@ -401,16 +410,16 @@ namespace OneStoryProjectEditor
                 arrRegexVernacular = GetRegexs(BuildFakeReferences(nColumnIndex++, strSearchPatternsVernacular));
 
             if (bShowNationalBT)
-                arrRegexNationalBT = GetRegexs(BuildFakeReferences(nColumnIndex++, strSearchPatternsNationalBT));
+                arrRegexNationalBT = GetRegexs(BuildFakeReferences(nColumnIndex++, strSearchPatternsNationalBt));
 
             if (bShowInternationalBT)
-                arrRegexInternationalBT = GetRegexs(BuildFakeReferences(nColumnIndex++, strSearchPatternsInternationalBT));
+                arrRegexInternationalBT = GetRegexs(BuildFakeReferences(nColumnIndex++, strSearchPatternsInternationalBt));
 
             if (bShowFreeTranslation)
                 arrRegexFreeTranslation = GetRegexs(BuildFakeReferences(nColumnIndex, strSearchPatternsFreeTranslation));
 
             // get the current stories only (not the obsolete ones)
-            StoriesData theStories = theSPD[OseResources.Properties.Resources.IDS_MainStoriesSet];
+            StoriesData theStories = theSpd[OseResources.Properties.Resources.IDS_MainStoriesSet];
             progressBarLoadingKeyTerms.Maximum = theStories.Count;
             progressBarLoadingKeyTerms.Value = 0;
             progressBarLoadingKeyTerms.Visible = true;  // in case we're repeating
@@ -428,20 +437,20 @@ namespace OneStoryProjectEditor
                         continue;
 
                     // don't need to continue checking the others if we find a hit earlier
-                    if ((bShowVernacular && SearchForHit(arrRegexVernacular, aVerse.StoryLine.Vernacular.ToString()))
-                        || (bShowNationalBT && SearchForHit(arrRegexNationalBT, aVerse.StoryLine.NationalBt.ToString()))
-                        || (bShowInternationalBT && SearchForHit(arrRegexInternationalBT, aVerse.StoryLine.InternationalBt.ToString()))
-                        || (bShowFreeTranslation && SearchForHit(arrRegexFreeTranslation, aVerse.StoryLine.FreeTranslation.ToString())))
+                    if (SearchForHit(bShowVernacular, arrRegexVernacular, aVerse.StoryLine.Vernacular, decVernacular)
+                        || SearchForHit(bShowNationalBT, arrRegexNationalBT, aVerse.StoryLine.NationalBt, decNationalBt)
+                        || SearchForHit(bShowInternationalBT, arrRegexInternationalBT, aVerse.StoryLine.InternationalBt, decInternationalBt)
+                        || SearchForHit(bShowFreeTranslation, arrRegexFreeTranslation, aVerse.StoryLine.FreeTranslation, decFreeTranslation))
                     {
-                        List<string> astrVerseText = new List<string>(scrTextNames.Count);
+                        var astrVerseText = new List<string>(scrTextNames.Count);
                         if (bShowVernacular)
-                            astrVerseText.Add(aVerse.StoryLine.Vernacular.ToString());
+                            astrVerseText.Add(aVerse.StoryLine.Vernacular.GetValue(decVernacular));
                         if (bShowNationalBT)
-                            astrVerseText.Add(aVerse.StoryLine.NationalBt.ToString());
+                            astrVerseText.Add(aVerse.StoryLine.NationalBt.GetValue(decNationalBt));
                         if (bShowInternationalBT)
-                            astrVerseText.Add(aVerse.StoryLine.InternationalBt.ToString());
+                            astrVerseText.Add(aVerse.StoryLine.InternationalBt.GetValue(decInternationalBt));
                         if (bShowFreeTranslation)
-                            astrVerseText.Add(aVerse.StoryLine.FreeTranslation.ToString());
+                            astrVerseText.Add(aVerse.StoryLine.FreeTranslation.GetValue(decFreeTranslation));
                         mapReferenceToVerseTextList.Add(strVerseReference, astrVerseText);
                     }
                 }
@@ -449,22 +458,23 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public static bool SearchForHit(IEnumerable<Regex> arrRegex, string strTextToSearch)
+        private static bool SearchForHit(bool bCheck, IEnumerable<Regex> arrRegex, 
+            StringTransfer st, DirectableEncConverter dec)
         {
-            bool bFoundMatch = false;
-            if (!String.IsNullOrEmpty(strTextToSearch) && (arrRegex != null))
-                foreach (Regex regex in arrRegex)
-                    if (SearchForHit(regex, strTextToSearch))
-                    {
-                        bFoundMatch = true;
-                        break;
-                    }
-            return bFoundMatch;
+            if (!bCheck || (st == null))
+                return false;
+
+            string strForMatch = st.GetValue(dec);
+            return SearchForHit(arrRegex, strForMatch);
         }
 
-        private static bool SearchForHit(Regex regex, string strTextToSearch)
+        public static bool SearchForHit(IEnumerable<Regex> arrRegex, string strForMatch)
         {
-            return regex.IsMatch(strTextToSearch);
+            var bFoundMatch = false;
+            if (!String.IsNullOrEmpty(strForMatch) && (arrRegex != null))
+                bFoundMatch = arrRegex.Any(regex =>
+                                           regex.IsMatch(strForMatch));
+            return bFoundMatch;
         }
 
         /// <summary>
@@ -721,7 +731,7 @@ namespace OneStoryProjectEditor
 			return status;
 		}
         */
-    }
+	}
 
     /*
 	/// <summary>

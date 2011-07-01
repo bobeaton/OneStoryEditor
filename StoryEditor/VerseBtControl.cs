@@ -22,8 +22,10 @@ namespace OneStoryProjectEditor
         protected ExegeticalHelpNotesData _myExegeticalHelpNotes;
         private int m_nNumRows;
 
-        public DirectableEncConverter TransliteratorVernacular;
-        public DirectableEncConverter TransliteratorNationalBT;
+        public static DirectableEncConverter TransliteratorVernacular;
+        public static DirectableEncConverter TransliteratorNationalBt;
+        public static DirectableEncConverter TransliteratorInternationalBt;
+        public static DirectableEncConverter TransliteratorFreeTranslation;
 
         private bool IsGeneralQuestionsLine;
 
@@ -44,34 +46,6 @@ namespace OneStoryProjectEditor
                 labelReference.Text = VersesData.CstrZerothLineNameBtPane;
             else
                 labelReference.Text = CstrVerseName + VerseNumber;
-
-            if (theSE.viewTransliterationVernacular.Checked
-                && !String.IsNullOrEmpty(theSE.LoggedOnMember.TransliteratorVernacular))
-            {
-                if (TransliteratorVernacular == null)
-                {
-                    TransliteratorVernacular = new DirectableEncConverter(theSE.LoggedOnMember.TransliteratorVernacular,
-                                                                          theSE.LoggedOnMember.
-                                                                              TransliteratorDirectionForwardVernacular,
-                                                                          NormalizeFlags.None);
-                }
-            }
-            else
-                TransliteratorVernacular = null;  // in case it was set from before
-
-            if (theSE.viewTransliterationNationalBT.Checked
-                && !String.IsNullOrEmpty(theSE.LoggedOnMember.TransliteratorNationalBT))
-            {
-                if (TransliteratorNationalBT == null)
-                {
-                    TransliteratorNationalBT = new DirectableEncConverter(theSE.LoggedOnMember.TransliteratorNationalBT,
-                                                                          theSE.LoggedOnMember.
-                                                                              TransliteratorDirectionForwardNationalBT,
-                                                                          NormalizeFlags.None);
-                }
-            }
-            else
-                TransliteratorNationalBT = null;
 
             InitControls(theSE);
         }

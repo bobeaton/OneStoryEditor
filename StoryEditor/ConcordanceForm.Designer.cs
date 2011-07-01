@@ -40,10 +40,10 @@
             this.webBrowser = new onlyconnect.HtmlEditor();
             this.progressBarLoadingKeyTerms = new System.Windows.Forms.ProgressBar();
             this.buttonBeginSearch = new System.Windows.Forms.Button();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.labelFreeTranslation = new System.Windows.Forms.Label();
             this.textBoxWordsToSearchForFreeTranslation = new System.Windows.Forms.TextBox();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 

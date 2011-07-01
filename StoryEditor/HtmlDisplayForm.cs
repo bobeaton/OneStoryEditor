@@ -18,8 +18,6 @@ namespace OneStoryProjectEditor
         HgRepository _repository;
         List<Revision> _lstRevisions;
         string _strStoryToDiff, _strLastState, _strProjectFolder;
-        public DirectableEncConverter TransliteratorVernacular;
-        public DirectableEncConverter TransliteratorNationalBT;
 
         public HtmlDisplayForm(StoryEditor theSE, StoryData storyData)
             : base(true)
@@ -30,55 +28,35 @@ namespace OneStoryProjectEditor
             _strStoryToDiff = storyData.guid;
             _strProjectFolder = theSE.StoryProject.ProjSettings.ProjectFolder;
 
-            if (theSE.StoryProject.ProjSettings.Vernacular.HasData)
-            {
-                checkBoxLangVernacular.Text = String.Format(Properties.Resources.IDS_LanguageFields,
-                                                            theSE.StoryProject.ProjSettings.Vernacular.LangName);
-                if (theSE.viewTransliterationVernacular.Checked
-                   && !String.IsNullOrEmpty(theSE.LoggedOnMember.TransliteratorVernacular))
-                {
-                    checkBoxLangTransliterateVernacular.Visible = 
-                        checkBoxLangTransliterateVernacular.Checked = true;
-                    TransliteratorVernacular = new DirectableEncConverter(theSE.LoggedOnMember.TransliteratorVernacular,
-                                                                          theSE.LoggedOnMember.
-                                                                              TransliteratorDirectionForwardVernacular,
-                                                                          NormalizeFlags.None);
-                }
-            }
-            else
-                checkBoxLangVernacular.Checked = checkBoxLangVernacular.Visible = false;
+            Program.InitializeLangCheckBoxes(theSE.StoryProject.ProjSettings.Vernacular,
+                                             checkBoxLangVernacular,
+                                             checkBoxLangTransliterateVernacular,
+                                             theSE.viewTransliterationVernacular,
+                                             theSE.LoggedOnMember.TransliteratorVernacular);
 
-            if (theSE.StoryProject.ProjSettings.NationalBT.HasData)
-            {
-                checkBoxLangNationalBT.Text = String.Format(Properties.Resources.IDS_StoryLanguageField,
-                                                            theSE.StoryProject.ProjSettings.NationalBT.LangName);
-                if (theSE.viewTransliterationNationalBT.Checked
-                   && !String.IsNullOrEmpty(theSE.LoggedOnMember.TransliteratorNationalBT))
-                {
-                    checkBoxLangTransliterateNationalBT.Visible =
-                        checkBoxLangTransliterateNationalBT.Checked = true;
-                    TransliteratorNationalBT = new DirectableEncConverter(theSE.LoggedOnMember.TransliteratorNationalBT,
-                                                                          theSE.LoggedOnMember.
-                                                                              TransliteratorDirectionForwardNationalBT,
-                                                                          NormalizeFlags.None);
-                }
-            }
-            else
-                checkBoxLangNationalBT.Checked = checkBoxLangNationalBT.Visible = false;
+            Program.InitializeLangCheckBoxes(theSE.StoryProject.ProjSettings.NationalBT,
+                                             checkBoxLangNationalBT,
+                                             checkBoxLangTransliterateNationalBT,
+                                             theSE.viewTransliterationNationalBT,
+                                             theSE.LoggedOnMember.TransliteratorNationalBt);
 
-            checkBoxLangInternationalBT.Checked = 
-                checkBoxLangInternationalBT.Visible = 
-                theSE.StoryProject.ProjSettings.InternationalBT.HasData;
+            Program.InitializeLangCheckBoxes(theSE.StoryProject.ProjSettings.InternationalBT,
+                                             checkBoxLangInternationalBT,
+                                             checkBoxLangTransliterateInternationalBt,
+                                             theSE.viewTransliterationInternationalBt,
+                                             theSE.LoggedOnMember.TransliteratorInternationalBt);
 
-            checkBoxLangFreeTranslation.Checked =
-                checkBoxLangFreeTranslation.Visible =
-                theSE.StoryProject.ProjSettings.FreeTranslation.HasData;
+            Program.InitializeLangCheckBoxes(theSE.StoryProject.ProjSettings.FreeTranslation,
+                                             checkBoxLangFreeTranslation,
+                                             checkBoxLangTransliterateFreeTranslation,
+                                             theSE.viewTransliterationFreeTranslation,
+                                             theSE.LoggedOnMember.TransliteratorFreeTranslation);
 
             checkBoxShowHidden.Checked = theSE.hiddenVersesToolStripMenuItem.Checked;
 
             try
             {
-                NullProgress np = new NullProgress();
+                var np = new NullProgress();
                 _repository = HgRepository.CreateOrLocate(theSE.StoryProject.ProjSettings.ProjectFolder, np);
                 _lstRevisions = _repository.GetAllRevisions();  // _revisionInRepositoryModel.GetHistoryItems();
                 progressBar.Value = 0;
@@ -115,18 +93,24 @@ namespace OneStoryProjectEditor
                     checkBoxStoryTestingQuestions.Checked,
                     checkBoxAnswers.Checked,
                     checkBoxRetellings.Checked,
-                    false,  // theSE.viewConsultantNoteFieldMenuItem.Checked,
-                    false,  // theSE.viewCoachNotesFieldMenuItem.Checked,
-                    false,  // theSE.viewNetBibleMenuItem.Checked
+                    false, // theSE.viewConsultantNoteFieldMenuItem.Checked,
+                    false, // theSE.viewCoachNotesFieldMenuItem.Checked,
+                    false, // theSE.viewNetBibleMenuItem.Checked
                     checkBoxFrontMatter.Checked,
                     checkBoxShowHidden.Checked,
-                    false,  // only open conversations (doesn't apply here)
+                    false, // only open conversations (doesn't apply here)
                     checkBoxGeneralTestingQuestions.Checked,
                     (checkBoxLangTransliterateVernacular.Checked)
-                        ? TransliteratorVernacular
+                        ? htmlStoryBtControl.TheSE.LoggedOnMember.TransliteratorVernacular
                         : null,
                     (checkBoxLangTransliterateNationalBT.Checked)
-                        ? TransliteratorNationalBT
+                        ? htmlStoryBtControl.TheSE.LoggedOnMember.TransliteratorNationalBt
+                        : null,
+                    (checkBoxLangTransliterateInternationalBt.Checked)
+                        ? htmlStoryBtControl.TheSE.LoggedOnMember.TransliteratorInternationalBt
+                        : null,
+                    (checkBoxLangTransliterateFreeTranslation.Checked)
+                        ? htmlStoryBtControl.TheSE.LoggedOnMember.TransliteratorFreeTranslation
                         : null);
 
                 htmlStoryBtControl.ParentStory = GetStoryForPresentation(_nParentIndex);

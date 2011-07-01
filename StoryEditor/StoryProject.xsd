@@ -40,6 +40,10 @@
                   <xs:attribute name="TransliteratorDirectionForwardVernacular" type="xs:boolean" use="optional" />
                   <xs:attribute name="TransliteratorNationalBT" type="xs:string" use="optional" />
                   <xs:attribute name="TransliteratorDirectionForwardNationalBT" type="xs:boolean" use="optional" />
+                  <xs:attribute name="TransliteratorInternationalBT" type="xs:string" use="optional" />
+                  <xs:attribute name="TransliteratorDirectionForwardInternationalBT" type="xs:boolean" use="optional" />
+                  <xs:attribute name="TransliteratorFreeTranslation" type="xs:string" use="optional" />
+                  <xs:attribute name="TransliteratorDirectionForwardFreeTranslation" type="xs:boolean" use="optional" />
                   <xs:attribute name="DefaultTasksAllowed" type="xs:string" use="optional" />
                   <xs:attribute name="DefaultTasksRequired" type="xs:string" use="optional" />
                 </xs:complexType>
