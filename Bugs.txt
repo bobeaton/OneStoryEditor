@@ -1,4 +1,25 @@
-﻿I made changes in lb1-hindi-animist set in 747 which were lost in some subsequent change set (with no merge error)
+﻿Figure out why Glosing tool doesn't work the first time
+
+Fix Toolbox export
+
+When adding boxes, add boxes for GTQs as well
+
+Don't allow "Do 1 (or 2) more story question tests" without 'Add story questions' being required
+
+it would be nice in L&C notes if a transliterator is being used to show the transliteration also
+
+when splitting something like "word, word", I seem to get a empty box for the word where we had a ", "
+
+Test: creating local AI KB and then switch to Shared seemed to lose the ConverterName (also don't allow the converter name to be null... as that's a no-no)
+
+tab order in Glossing tool seems confused
+
+Why does it seem that going back into the Oriya glossing tool doesn't automatically do a retranslation
+
+
+when you add a new language field, the PF should have allowed permission to edit that field by default
+
+I made changes in lb1-hindi-animist set in 747 which were lost in some subsequent change set (with no merge error)
 
 check out rev 326 in Resurrection story in lb1-hindi-animist to see why the Historical difference comparer things that Vijay made a change to the story.
 
@@ -35,6 +56,7 @@ pssecurity@utdallas.edu
 we can log into the manage information site, but not galaxy.
 
 pxe110230
+2021102316
 
 gbrannon@smu.edu Peter's FinAid
 
