@@ -1455,9 +1455,12 @@ namespace OneStoryProjectEditor
         {
             string strHtml = null;
             // first check on line 0 (general TQs)
-            if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions))
+            if ((FirstVerse != null) && 
+                viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions))
             {
-                var theChildFirstVerse = (child == null) ? null : child.FirstVerse;
+                var theChildFirstVerse = ((child != null) && (child.FirstVerse != null))
+                                             ? child.FirstVerse
+                                             : null;
                 strHtml += GetHeaderRow("General Testing Qs: ", null, 0, false, nNumCols);
                 strHtml += FirstVerse.PresentationHtml(0, nNumCols, craftingInfo,
                                                        viewSettings, theChildFirstVerse,
