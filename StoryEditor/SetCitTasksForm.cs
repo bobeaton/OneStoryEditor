@@ -32,6 +32,23 @@ namespace OneStoryProjectEditor
             get { return ReadCheckedStates(checkedListBoxRequiredTasks); }
         }
 
+        public static bool EditCitTasks(ref StoryData theStory)
+        {
+            var dlg = new SetCitTasksForm(theStory.TasksAllowedCit,
+                                          theStory.TasksRequiredCit)
+            {
+                Text = String.Format("Set tasks for the CIT to do on story: {0}",
+                                     theStory.Name)
+            };
+
+            if (dlg.ShowDialog() != DialogResult.OK)
+                return false;
+
+            theStory.TasksAllowedCit = dlg.TasksAllowed;
+            theStory.TasksRequiredCit = dlg.TasksRequired;
+            return true;
+        }
+
         private static TasksCit.TaskSettings ReadCheckedStates(CheckedListBox checkedListBox)
         {
             TasksCit.TaskSettings taskAllowed = TasksCit.TaskSettings.None;

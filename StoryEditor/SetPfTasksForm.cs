@@ -102,6 +102,26 @@ namespace OneStoryProjectEditor
             get { return ReadCheckedStates(checkedListBoxRequiredTasks); }
         }
 
+        public static bool EditPfTasks(StoryEditor theSe, ref StoryData theStory)
+        {
+            var dlg = new SetPfTasksForm(theSe.StoryProject.ProjSettings,
+                                         theStory.TasksAllowedPf, theStory.TasksRequiredPf,
+                                         theStory.CraftingInfo.IsBiblicalStory)
+            {
+                Text = String.Format("Set tasks for the Project Facilitator ({0}) to do on story: {1}",
+                                     theSe.StoryProject.GetMemberNameFromMemberGuid(
+                                         theStory.CraftingInfo.ProjectFacilitator.MemberId),
+                                     theStory.Name)
+            };
+
+            if (dlg.ShowDialog() != DialogResult.OK)
+                return false;
+
+            theStory.TasksAllowedPf = dlg.TasksAllowed;
+            theStory.TasksRequiredPf = dlg.TasksRequired;
+            return true;
+        }
+
         private static TasksPf.TaskSettings ReadCheckedStates(CheckedListBox checkedListBox)
         {
             TasksPf.TaskSettings taskAllowed = TasksPf.TaskSettings.None;
@@ -203,6 +223,18 @@ namespace OneStoryProjectEditor
             {
                 MessageBox.Show(String.Format(Properties.Resources.IDS_MustAllowRequirement,
                                               strFieldRequired, strFieldToAllow),
+                                OseResources.Properties.Resources.IDS_Caption);
+                return false;
+            }
+            
+            if (TasksPf.IsTaskOn(tasksRequired,
+                                  TasksPf.TaskSettings.Answers | 
+                                  TasksPf.TaskSettings.Answers2) &&
+                 !TasksPf.IsTaskOn(tasksAllowed,
+                                   TasksPf.TaskSettings.TestQuestions))
+            {
+                MessageBox.Show(String.Format(Properties.Resources.IDS_MustAllowAddingTestQuestions,
+                                              CstrTestQuestion),
                                 OseResources.Properties.Resources.IDS_Caption);
                 return false;
             }
