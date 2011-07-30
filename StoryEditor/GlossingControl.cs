@@ -82,15 +82,17 @@ namespace OneStoryProjectEditor
             }
             else if (astr.Length == 1)
             {
-                // either, e.g. / '/
-                if (strInBetweenAfter[0] == ' ')
+                // either, e.g. / '/, but not / ' / (which we want to fix by stripping
+                //  out the initial space as in the else case
+                if (strInBetweenAfter[0] == ' ' && 
+                    (strInBetweenAfter[strInBetweenAfter.Length - 1] != ' '))
                 {
                     strBeforeNext = astr[0];
                     strInBetweenAfter = null;
                 }
                 else
                 {
-                    // or /' /
+                    // or /' / or / ' /
                     strBeforeNext = null;
                     strInBetweenAfter = astr[0];
                 }
