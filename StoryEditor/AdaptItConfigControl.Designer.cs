@@ -81,7 +81,7 @@
             // radioButtonShared
             // 
             this.radioButtonShared.AutoSize = true;
-            this.radioButtonShared.Location = new System.Drawing.Point(184, 17);
+            this.radioButtonShared.Location = new System.Drawing.Point(197, 17);
             this.radioButtonShared.Name = "radioButtonShared";
             this.radioButtonShared.Size = new System.Drawing.Size(134, 17);
             this.radioButtonShared.TabIndex = 2;
@@ -95,7 +95,7 @@
             // radioButtonLocal
             // 
             this.radioButtonLocal.AutoSize = true;
-            this.radioButtonLocal.Location = new System.Drawing.Point(52, 17);
+            this.radioButtonLocal.Location = new System.Drawing.Point(64, 17);
             this.radioButtonLocal.Name = "radioButtonLocal";
             this.radioButtonLocal.Size = new System.Drawing.Size(126, 17);
             this.radioButtonLocal.TabIndex = 1;
@@ -111,10 +111,10 @@
             this.radioButtonNone.AutoSize = true;
             this.radioButtonNone.Location = new System.Drawing.Point(7, 17);
             this.radioButtonNone.Name = "radioButtonNone";
-            this.radioButtonNone.Size = new System.Drawing.Size(39, 17);
+            this.radioButtonNone.Size = new System.Drawing.Size(51, 17);
             this.radioButtonNone.TabIndex = 0;
             this.radioButtonNone.TabStop = true;
-            this.radioButtonNone.Text = "&No";
+            this.radioButtonNone.Text = "&None";
             this.toolTip.SetToolTip(this.radioButtonNone, "Select this option if you don\'t want to use Adapt It for this back translation");
             this.radioButtonNone.UseVisualStyleBackColor = true;
             this.radioButtonNone.Click += new System.EventHandler(this.radioButtonNone_Click);

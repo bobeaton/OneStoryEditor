@@ -78,10 +78,15 @@ namespace OneStoryProjectEditor
                     textBoxProjectPath.Clear();
                     AdaptItProjectType = ProjectSettings.AdaptItConfiguration.AdaptItProjectType.None;
                     AdaptItConverterName = _strAdaptItNetworkRepositoryPath = null;
-                    _strAdaptItProjectName = GetProjectNameOrDefault;
-                    _strAdaptItRepositoryServer = Properties.Resources.IDS_DefaultRepoServer;
+                    InitSharedOnlyFieldDefaults();
                 }
             }
+        }
+
+        private void InitSharedOnlyFieldDefaults()
+        {
+            _strAdaptItProjectName = GetProjectNameOrDefault;
+            _strAdaptItRepositoryServer = Properties.Resources.IDS_DefaultRepoServer;
         }
 
         private void ResetSharedOnlyFields()
@@ -293,6 +298,12 @@ namespace OneStoryProjectEditor
                     else
                         return;
                 }
+
+                // in case the user has just created it via Local and switches to Shared, we
+                //  need to re setup the project name, etc...
+                if (String.IsNullOrEmpty(_strAdaptItProjectName) || 
+                    String.IsNullOrEmpty(_strAdaptItRepositoryServer))
+                    InitSharedOnlyFieldDefaults();
 
                 // now we know which local AI project it is and it's EncConverter, but now
                 //  we need to possibly push the project.

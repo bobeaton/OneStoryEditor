@@ -572,8 +572,10 @@ namespace OneStoryProjectEditor
             }
             catch (UserException ex)
             {
-                tabControl.SelectedTab = ex.Tab;
-                ex.Control.Focus();
+                if (ex.Tab != null)
+                    tabControl.SelectedTab = ex.Tab;
+                if (ex.Control != null)
+                    ex.Control.Focus();
                 MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
             }
             finally
@@ -586,6 +588,7 @@ namespace OneStoryProjectEditor
 
         private void FinishEdit()
         {
+            VerifyAiConfiguration();
             _storyProjectData.TeamMembers.HasOutsideEnglishBTer = checkBoxOutsideEnglishBackTranslator.Checked;
             _storyProjectData.TeamMembers.HasIndependentConsultant = radioButtonIndependentConsultant.Checked;
             ProjSettings.ShowRetellings.Vernacular = checkBoxRetellingsVernacular.Checked;
@@ -618,6 +621,46 @@ namespace OneStoryProjectEditor
             ProjSettings.IsConfigured = true;
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void VerifyAiConfiguration()
+        {
+            // if there is an AI project configured, then it can't have a null ConverterName
+            if (tlpAdaptItConfiguration.Controls.ContainsKey(adaptItConfigCtrlVernacularToNationalBt.Name))
+            {
+                ThrowIfAiConfigIsBad(adaptItConfigCtrlVernacularToNationalBt,
+                                     labelAdaptItVernacularToNationalBt.Text);
+            }
+            if (tlpAdaptItConfiguration.Controls.ContainsKey(adaptItConfigCtrlVernacularToInternationalBt.Name))
+            {
+                ThrowIfAiConfigIsBad(adaptItConfigCtrlVernacularToInternationalBt,
+                                     labelAdaptItVernacularToInternationalBt.Text);
+            }
+            if (tlpAdaptItConfiguration.Controls.ContainsKey(adaptItConfigCtrlNationalBtToInternationalBt.Name))
+            {
+                ThrowIfAiConfigIsBad(adaptItConfigCtrlNationalBtToInternationalBt,
+                                     labelAdaptItNationalBtToInternationalBt.Text);
+            }
+        }
+
+        private void ThrowIfAiConfigIsBad(AdaptItConfigControl adaptItConfigControl, string strWhichLanguages)
+        {
+            System.Diagnostics.Debug.Assert(adaptItConfigControl != null);
+            var conf = adaptItConfigControl.AdaptItConfiguration;
+            
+            // this if condition is to see if we should even check whether it's bad
+            if ((conf != null) &&
+                (adaptItConfigControl.AdaptItConfiguration.ProjectType !=
+                 ProjectSettings.AdaptItConfiguration.AdaptItProjectType.None))
+            {
+                // we could check other things, but for now, at least make sure that 
+                //  there's a converter spec, since it particularly doesn't like to work 
+                //  without one
+                if (String.IsNullOrEmpty(conf.ConverterName))
+                    throw new UserException(
+                        String.Format(Properties.Resources.IDS_AdaptItConfigurationIsBad, strWhichLanguages),
+                        null, null);
+            }
         }
 
         public bool Modified;

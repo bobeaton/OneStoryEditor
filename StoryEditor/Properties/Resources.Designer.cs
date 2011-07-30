@@ -232,6 +232,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There&apos;s something missing in the Adapt It configuration for {0} (e.g. no Converter name in the text box above when the type set to &apos;Local...&apos; or &apos;Shared Adapt It project&apos;). Try to configure it again or set it to &apos;None&apos;.
+        /// </summary>
+        internal static string IDS_AdaptItConfigurationIsBad {
+            get {
+                return ResourceManager.GetString("IDS_AdaptItConfigurationIsBad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Adapt It converter named &apos;{0}&apos; doesn&apos;t exist! You probably need to do &apos;Project&apos;, &apos;Settings&apos; and configure it on the &apos;Adapt It&apos; tab.
         /// </summary>
         internal static string IDS_AdaptItConverterDoesntExist {
@@ -992,6 +1001,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_MoveProjectsToNewProjectFolder {
             get {
                 return ResourceManager.GetString("IDS_MoveProjectsToNewProjectFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you&apos;re going to have the project facilitator do story inference testing, then you probably need to allow them to &apos;{0}&apos; also.
+        /// </summary>
+        internal static string IDS_MustAllowAddingTestQuestions {
+            get {
+                return ResourceManager.GetString("IDS_MustAllowAddingTestQuestions", resourceCulture);
             }
         }
         
