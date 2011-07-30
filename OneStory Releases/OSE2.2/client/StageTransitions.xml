@@ -22,9 +22,8 @@ to enter the plain (most common) 'full stop' punctuation character as the first 
 spaces between the characters. This (first) character will be used for any sentences that don't 
 have a full stop (i.e. if you forget one, then it will be added to the sentence).
 
-When you are finished, click on the "Select State" menu item to bring up the list of states for
-this story. To move forward (which is the only possible direction in this state), click the (green) 
-state button. 
+When you are finished, click the 'Tasks' link and the 'Set to Consultant's turn' button to give
+the story to the consultant for checking. 
 
 If this is a story from the Bible, then a dialog window will be displayed asking you to type in 
 the purpose that this story is in the set; that is, why have you chosen this particular story? 
@@ -1041,9 +1040,6 @@ In this stage the story has preliminary approval to be used in a Story Fellowshi
 
 If you have any changes as a result of the SFG, then you can make your edits to the story and return it to the
 consultant for review.
-
-To return to one of these previous states, click on the "Select State" menu item and choose the state you want to
-return to shown in red.
     </StageInstructions>
     <AllowableForewardsTransitions>
       <AllowableTransition>eTeamFinalApproval</AllowableTransition>
