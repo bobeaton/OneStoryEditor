@@ -510,7 +510,7 @@ namespace OneStoryProjectEditor
             {
                 ParentForm.Close();
             
-                if (!_checker.CheckIfRequirementsAreMet())
+                if (!_checker.CheckIfRequirementsAreMet(true))
                     return;
 
             }
@@ -592,7 +592,7 @@ namespace OneStoryProjectEditor
                                                                   TeamMemberData.UserTypes.ProjectFacilitator));
 
             ParentForm.Close();
-            if (!_checker.CheckIfRequirementsAreMet())
+            if (!_checker.CheckIfRequirementsAreMet(true))
                 return false;
 
             if (MessageBox.Show(Properties.Resources.IDS_TerminalTransitionMessage,
@@ -674,21 +674,8 @@ namespace OneStoryProjectEditor
             }
 
             // find out from the consultant what tasks they want to set in the story
-            var dlg = new SetPfTasksForm(TheSe.StoryProject.ProjSettings,
-                                         TheStory.TasksAllowedPf, TheStory.TasksRequiredPf,
-                                         TheStory.CraftingInfo.IsBiblicalStory)
-                          {
-                              Text = String.Format("Set tasks for the Project Facilitator ({0}) to do on story: {1}",
-                                                   TheSe.StoryProject.GetMemberNameFromMemberGuid(
-                                                       TheStory.CraftingInfo.ProjectFacilitator.MemberId),
-                                                   TheStory.Name)
-                          };
-
-            if (dlg.ShowDialog() != DialogResult.OK)
+            if (!SetPfTasksForm.EditPfTasks(TheSe, ref TheStory))
                 return false;
-
-            TheStory.TasksAllowedPf = dlg.TasksAllowed;
-            TheStory.TasksRequiredPf = dlg.TasksRequired;
 
             // set the attributes that say how many tests are required
             if (TasksPf.IsTaskOn(TheStory.TasksRequiredPf, TasksPf.TaskSettings.Retellings))
@@ -745,7 +732,7 @@ namespace OneStoryProjectEditor
                                                                   TeamMemberData.UserTypes.ConsultantInTraining));
             
             ParentForm.Close();
-            if (!_checker.CheckIfRequirementsAreMet())
+            if (!_checker.CheckIfRequirementsAreMet(true))
                 return;
 
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eCoachReviewRound2Notes, true);
@@ -769,18 +756,9 @@ namespace OneStoryProjectEditor
                 return;
 
             // find out from the Coach what tasks they want to set in the story
-            var dlg = new SetCitTasksForm(TheStory.TasksAllowedCit, 
-                TheStory.TasksRequiredCit)
-                          {
-                              Text = String.Format("Set tasks for the CIT to do on story: {0}",
-                                                   TheStory.Name)
-                          };
-
-            if (dlg.ShowDialog() != DialogResult.OK)
+            if (!SetCitTasksForm.EditCitTasks(ref TheStory))
                 return;
 
-            TheStory.TasksAllowedCit = dlg.TasksAllowed;
-            TheStory.TasksRequiredCit = dlg.TasksRequired;
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eConsultantCauseRevisionAfterUnsTest, true);
 
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,

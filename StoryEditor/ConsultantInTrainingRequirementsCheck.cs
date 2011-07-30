@@ -21,19 +21,18 @@ namespace OneStoryProjectEditor
                                               TasksCit.TaskSettings.SendToCoachForReview);
         }
 
-        public override bool CheckIfRequirementsAreMet()
+        public override bool CheckIfRequirementsAreMet(bool bGoingToMentor)
         {
             try
             {
-                if (DoSendToProjectFacilitator)
-                {
-                    if (!CheckEndOfStateTransition.CheckThatCITAnsweredPFsQuestions(TheSe, TheStory))
-                        throw StoryProjectData.BackOutWithNoUI;
-                }
-
-                if (DoSendToCoach)
+                if (bGoingToMentor)
                 {
                     if (!CheckEndOfStateTransition.CheckThatCITRespondedToCoachQuestions(TheSe, TheStory))
+                        throw StoryProjectData.BackOutWithNoUI;
+                }
+                else
+                {
+                    if (!CheckEndOfStateTransition.CheckThatCITAnsweredPFsQuestions(TheSe, TheStory))
                         throw StoryProjectData.BackOutWithNoUI;
                 }
             }

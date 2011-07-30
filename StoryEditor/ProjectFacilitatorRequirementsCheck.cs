@@ -16,7 +16,7 @@ namespace OneStoryProjectEditor
             TheStory = theStory;
         }
 
-        public abstract bool CheckIfRequirementsAreMet();
+        public abstract bool CheckIfRequirementsAreMet(bool bGoingToMentor);
     }
 
     public class ProjectFacilitatorRequirementsCheck : MentoreeRequirementsCheck
@@ -65,7 +65,7 @@ namespace OneStoryProjectEditor
                                          TasksPf.TaskSettings.Answers | TasksPf.TaskSettings.Answers2);
         }
 
-        public override bool CheckIfRequirementsAreMet()
+        public override bool CheckIfRequirementsAreMet(bool bGoingToMentor)
         {
             bool bTriggerRefresh = false;
             StoryProjectData theStoryProjectData = TheSe.StoryProject;
@@ -133,8 +133,9 @@ namespace OneStoryProjectEditor
                 }
 
                 // finally, they have to have responded to all of the CITs comments
-                if (!CheckEndOfStateTransition.CheckThatPFRespondedToCITQuestions(TheSe, TheStory))
-                    throw StoryProjectData.BackOutWithNoUI;
+                if (bGoingToMentor)
+                    if (!CheckEndOfStateTransition.CheckThatPFRespondedToCITQuestions(TheSe, TheStory))
+                        throw StoryProjectData.BackOutWithNoUI;
             }
             catch (StoryProjectData.BackOutWithNoUIException)
             {
