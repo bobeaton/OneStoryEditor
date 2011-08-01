@@ -2178,7 +2178,7 @@ and in the resulting window click on the next (green) state.
     <value>Click to choose another team member</value>
   </data>
   <data name="IDS_EmailDetails" xml:space="preserve">
-    <value>‘{0}’ has set the story ‘{1}’ to your turn</value>
+    <value>‘{0}’ has set the story ‘{1}’ from project '{2}' to your turn</value>
   </data>
   <data name="IDS_EmailMessageBody" xml:space="preserve">
     <value>This is an automated message from OSE v{0}:

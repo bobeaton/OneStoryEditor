@@ -556,7 +556,9 @@ namespace OneStoryProjectEditor
 
             // e.g. ‘Bob Eaton’ has set the story ‘01 creation’ to your turn
             string strDetails = String.Format(Properties.Resources.IDS_EmailDetails,
-                                              loggedOnMember.Name, theStory.Name);
+                                              loggedOnMember.Name, 
+                                              theStory.Name,
+                                              theProject.ProjSettings.ProjectName);
 
             // e.g. [OSE says]: <strDetails>
             string strSubjectLine = String.Format(Properties.Resources.IDS_EmailSubjectLine,
