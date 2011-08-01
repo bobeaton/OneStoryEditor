@@ -398,7 +398,8 @@ Namespace devX
 #End If
                                     ' bs... this used to check that the file was within a minute, but that breaks
                                     ' when the US is in DST... so we don't update these files that often, so just make it +/- an hour (technically 61 minutes)
-                                    If System.Math.Abs(DateDiff(DateInterval.Minute, datDownloadedFileTime, CType(manCurrentAutoUpgradeFile.Version, System.DateTime))) > 61 Then
+                                    ' fpos... make it 3 hours... 
+                                    If System.Math.Abs(DateDiff(DateInterval.Minute, datDownloadedFileTime, CType(manCurrentAutoUpgradeFile.Version, System.DateTime))) > 185 Then
                                         RaiseEvent UpgradeProgress("The date on the downloaded file '" & manCurrentAutoUpgradeFile.Name & " - [" & datDownloadedFileTime.ToString & "]' does not match the manifest file date - [" & CType(manCurrentAutoUpgradeFile.Version, System.DateTime).ToString & "].", manCurrentAutoUpgradeFile.Name, 0, 0, mblnCancel)
                                     End If
                                 Case AutoUpgrade.File.CompareMethod.version
@@ -746,7 +747,8 @@ Namespace devX
                                     ' seems to round to the nearest minute)
                                     ' bs... this used to check that the file was within a minute, but that breaks
                                     ' when the US is in DST... so we don't update these files that often, so just make it +/- an hour
-                                    If System.Math.Abs(DateDiff(DateInterval.Minute, datLocalFileDate, datManifestFileDate)) > 61 Then
+                                    ' fpos... use 3 hours...
+                                    If System.Math.Abs(DateDiff(DateInterval.Minute, datLocalFileDate, datManifestFileDate)) > 185 Then
 #If DEBUG Then
                                         Dim strMsg As String = String.Format("4: name: '{0}', datLocalFileDate: '{1}', datManifestFileDate: '{2}'", _
                                                                              manFile.Name, datLocalFileDate, datManifestFileDate)
