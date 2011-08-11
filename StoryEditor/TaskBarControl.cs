@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
@@ -492,7 +494,8 @@ namespace OneStoryProjectEditor
             //  and initialize it when an OutsideEnglishBackTranslator does something
             //  to the story.
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
-                TheStory.CraftingInfo.OutsideEnglishBackTranslator);
+                TheStory.CraftingInfo.OutsideEnglishBackTranslator,
+                FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
         }
 
         private void buttonSendToConsultant_Click(object sender, EventArgs e)
@@ -540,12 +543,13 @@ namespace OneStoryProjectEditor
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eConsultantCheck2, true);
 
             // Send the consultant for this story an email
-            SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember, 
-                TheStory.CraftingInfo.Consultant);
+            SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
+                TheStory.CraftingInfo.Consultant,
+                FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
         }
 
         private static void SendEmail(StoryProjectData theProject, StoryData theStory, 
-            TeamMemberData loggedOnMember, MemberIdInfo recipient)
+            TeamMemberData loggedOnMember, MemberIdInfo recipient, string strFinalComments)
         {
             if (!MemberIdInfo.Configured(recipient))
                 return;
@@ -573,6 +577,11 @@ namespace OneStoryProjectEditor
             string strMessageBody = String.Format(Properties.Resources.IDS_EmailMessageBody,
                                                   StoryEditor.GetOseVersion(),
                                                   strDetails);
+
+            if (!String.IsNullOrEmpty(strFinalComments))
+                strMessageBody += String.Format(Properties.Resources.IDS_EmailLastComments,
+                                                Environment.NewLine,
+                                                strFinalComments);
 
             try
             {
@@ -628,7 +637,8 @@ namespace OneStoryProjectEditor
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacRevisesAfterUnsTest, true);
 
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
-                TheStory.CraftingInfo.ProjectFacilitator);
+                TheStory.CraftingInfo.ProjectFacilitator,
+                FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
         }
 
         private bool CheckIfReadyToReturnToPf()
@@ -740,7 +750,36 @@ namespace OneStoryProjectEditor
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eCoachReviewRound2Notes, true);
 
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
-                TheStory.CraftingInfo.Coach);
+                TheStory.CraftingInfo.Coach,
+                FinalConNoteComments(TheStory.Verses.FirstVerse.CoachNotes));
+        }
+
+        private string FinalConNoteComments(IEnumerable<ConsultNoteDataConverter> theStoryLine)
+        {
+            /*
+            string strFinalComments = null;
+            foreach (var theCndc in theStoryLine)
+            {
+                if (!theCndc.IsFinished && !theCndc.IsNoteToSelf && !theCndc.NoteNeedsApproval)
+                {
+                    var theLastComment = theCndc.FinalComment;
+                    if (TheSe.LoggedOnMember == theLastComment.Commentor(TheSe.StoryProject.TeamMembers))
+                        strFinalComments += String.Format("{0}{0}{1}",
+                                                          Environment.NewLine,
+                                                          theLastComment);
+                }
+            }
+            return strFinalComments;
+            */
+            return theStoryLine.Where(theCndc =>
+                                        !theCndc.IsFinished &&
+                                        !theCndc.IsNoteToSelf &&
+                                        !theCndc.NoteNeedsApproval)
+                    .Select(theCndc => theCndc.FinalComment)
+                    .Where(theLastComment =>
+                        TheSe.LoggedOnMember == theLastComment.Commentor(TheSe.StoryProject.TeamMembers))
+                        .Aggregate<CommInstance, string>(null, (current, theLastComment) =>
+                            current + String.Format("{0}{0}{1}", Environment.NewLine, theLastComment));
         }
 
         private void buttonSendToCIT_Click(object sender, EventArgs e)
@@ -764,7 +803,8 @@ namespace OneStoryProjectEditor
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eConsultantCauseRevisionAfterUnsTest, true);
 
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
-                TheStory.CraftingInfo.Consultant);
+                TheStory.CraftingInfo.Consultant,
+                FinalConNoteComments(TheStory.Verses.FirstVerse.CoachNotes));
         }
 
         private void buttonViewTasksPf_Click(object sender, EventArgs e)

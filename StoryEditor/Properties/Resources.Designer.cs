@@ -742,6 +742,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}{0}Most recent (open) Story line comments:{1}.
+        /// </summary>
+        internal static string IDS_EmailLastComments {
+            get {
+                return ResourceManager.GetString("IDS_EmailLastComments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This is an automated message from OSE v{0}:
         ///
         ///{1}.

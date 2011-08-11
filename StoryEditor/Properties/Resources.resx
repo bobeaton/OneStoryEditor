@@ -2197,4 +2197,7 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_MustAllowAddingTestQuestions" xml:space="preserve">
     <value>If you're going to have the project facilitator do story inference testing, then you probably need to allow them to '{0}' also</value>
   </data>
+  <data name="IDS_EmailLastComments" xml:space="preserve">
+    <value>{0}{0}Most recent (open) Story line comments:{1}</value>
+  </data>
 </root>
