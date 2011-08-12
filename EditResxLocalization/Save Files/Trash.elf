@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EditableLocalization>
+  <Languages>
+    <Language Id="en" name="English" />
+    <Language Id="hi" name="Hindi" fallbackId="en" />
+  </Languages>
+  <Entries>
+    <Entry Id="IDS_Unchanged">
+      <Value lang="en">
+        <Text>This one is the same in both</Text>
+      </Value>
+      <Value lang="hi">
+        <Text>यह दोनों में एक है</Text>
+      </Value>
+    </Entry>
+    <Entry Id="IDS_ChangedOne">
+      <Value lang="en">
+        <Text>This is the old value</Text>
+      </Value>
+      <Value lang="hi">
+        <Text>यह बदल गया है, पर सिर्फ़ अंग्रेज़ी</Text>
+      </Value>
+    </Entry>
+    <Entry Id="IDS_SoonToBeObsolete">
+      <Value lang="en">
+        <Text>This will be obsolete after the merge</Text>
+      </Value>
+      <Value lang="hi">
+        <Text>यह मर्ग के बाद बेकार हो जाएगा</Text>
+      </Value>
+    </Entry>
+  </Entries>
+</EditableLocalization>

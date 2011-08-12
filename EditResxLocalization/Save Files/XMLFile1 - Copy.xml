@@ -1,0 +1,22 @@
+﻿<EditableLocalization>
+  <Languages>
+    <Language Id="en" name="English" fallbackId="en" />
+  </Languages>
+  <Entries>
+    <Entry Id="IDS_Unchanged">
+      <Value lang="en">
+        <Text>This one is the same in both</Text>
+      </Value>
+    </Entry>
+    <Entry Id="IDS_ChangedOne">
+      <Value lang="en">
+        <Text>This is the new value</Text>
+      </Value>
+    </Entry>
+    <Entry Id="IDS_NewOne">
+      <Value lang="en">
+        <Text>This is a new one</Text>
+      </Value>
+    </Entry>
+  </Entries>
+</EditableLocalization>
