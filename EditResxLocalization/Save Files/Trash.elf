@@ -1,32 +1,133 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<EditableLocalization>
+﻿<EditableLocalization version="1.0">
   <Languages>
-    <Language Id="en" name="English" />
-    <Language Id="hi" name="Hindi" fallbackId="en" />
+    <Language Id="en" name="English">
+      <SendEmailOnUpdate>bob_eaton@sall.com</SendEmailOnUpdate>
+    </Language>
+    <Language Id="hi" name="Hindi" fallbackId="en">
+      <SendEmailOnUpdate>bob_eaton@sall.com</SendEmailOnUpdate>
+      <SendEmailOnUpdate>vijay.parihan@hotmail.com</SendEmailOnUpdate>
+    </Language>
   </Languages>
   <Entries>
-    <Entry Id="IDS_Unchanged">
+    <Entry Id="IDS_Caption">
       <Value lang="en">
-        <Text>This one is the same in both</Text>
+        <Text>Localization Editor</Text>
       </Value>
       <Value lang="hi">
-        <Text>यह दोनों में एक है</Text>
+        <Text>भाषा एडिटर</Text>
       </Value>
     </Entry>
-    <Entry Id="IDS_ChangedOne">
+    <Entry Id="IDS_SaveFirstQuery">
       <Value lang="en">
-        <Text>This is the old value</Text>
+        <Text>Would you like to save the Localization file first?</Text>
       </Value>
-      <Value lang="hi">
-        <Text>यह बदल गया है, पर सिर्फ़ अंग्रेज़ी</Text>
+      <Value lang="hi" needsUpdating="true">
+        <Text>क्‍या पहले सेव करना है?</Text>
+        <PreviousText>Would you like to save the BillLocalization file first?</PreviousText>
       </Value>
     </Entry>
-    <Entry Id="IDS_SoonToBeObsolete">
+    <Entry Id="IDS_New" obsolete="true">
       <Value lang="en">
-        <Text>This will be obsolete after the merge</Text>
+        <Text>Newone</Text>
       </Value>
       <Value lang="hi">
-        <Text>यह मर्ग के बाद बेकार हो जाएगा</Text>
+        <Text>नया वाला</Text>
+      </Value>
+    </Entry>
+    <Entry Id="IDS_Hidden" hidden="true" obsolete="true">
+      <Value lang="en">
+        <Text>SomeProgramInternalStringNotMeantForTranslation</Text>
+      </Value>
+      <Value lang="hi">
+        <Text>SomeProgramInternalStringNotMeantForTranslation</Text>
+      </Value>
+    </Entry>
+    <Entry Id="IDS_Newer">
+      <Value lang="en">
+        <Text>Even Newer One</Text>
+      </Value>
+      <Value lang="hi" needsUpdating="true">
+        <Text>Even Newer One</Text>
+      </Value>
+    </Entry>
+    <Entry Id="IDS_NewVersion">
+      <Value lang="en">
+        <Text>The program has been updated to a newer version which is not compatible with the version you are using. You must update the program in order to use another language for the user interface.</Text>
+      </Value>
+      <Value lang="hi" needsUpdating="true">
+        <Text>The program has been updated to a newer version which is not compatible with the version you are using. You must update the program in order to use another language for the user interface.</Text>
+      </Value>
+    </Entry>
+    <Entry Id="IDS__File">
+      <Value lang="en">
+        <Text>&amp;File</Text>
+      </Value>
+      <Value lang="hi" needsUpdating="true">
+        <Text>&amp;File</Text>
+      </Value>
+    </Entry>
+    <Entry Id="IDS__New">
+      <Value lang="en">
+        <Text>&amp;New</Text>
+      </Value>
+      <Value lang="hi" needsUpdating="true">
+        <Text>&amp;New</Text>
+      </Value>
+    </Entry>
+    <Entry Id="IDS__Open">
+      <Value lang="en">
+        <Text>&amp;Open</Text>
+      </Value>
+      <Value lang="hi" needsUpdating="true">
+        <Text>&amp;Open</Text>
+      </Value>
+    </Entry>
+    <Entry Id="IDS__Save">
+      <Value lang="en">
+        <Text>&amp;Save</Text>
+      </Value>
+      <Value lang="hi" needsUpdating="true">
+        <Text>&amp;Save</Text>
+      </Value>
+    </Entry>
+    <Entry Id="IDS_Save__As">
+      <Value lang="en">
+        <Text>Save &amp;As</Text>
+      </Value>
+      <Value lang="hi" needsUpdating="true">
+        <Text>Save &amp;As</Text>
+      </Value>
+    </Entry>
+    <Entry Id="IDS_Exit">
+      <Value lang="en">
+        <Text>Exit</Text>
+      </Value>
+      <Value lang="hi" needsUpdating="true">
+        <Text>Exit</Text>
+      </Value>
+    </Entry>
+    <Entry Id="IDS__Import_Merge">
+      <Value lang="en">
+        <Text>&amp;Import-Merge</Text>
+      </Value>
+      <Value lang="hi" needsUpdating="true">
+        <Text>&amp;Import-Merge</Text>
+      </Value>
+    </Entry>
+    <Entry Id="IDS__From___resx">
+      <Value lang="en">
+        <Text>&amp;From *.resx</Text>
+      </Value>
+      <Value lang="hi" needsUpdating="true">
+        <Text>&amp;From *.resx</Text>
+      </Value>
+    </Entry>
+    <Entry Id="IDS__About">
+      <Value lang="en">
+        <Text>&amp;About</Text>
+      </Value>
+      <Value lang="hi" needsUpdating="true">
+        <Text>&amp;About</Text>
       </Value>
     </Entry>
   </Entries>

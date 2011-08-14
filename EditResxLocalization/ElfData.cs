@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
@@ -11,19 +12,44 @@ namespace EditResxLocalization
 {
     public class EditableLocalization
     {
-        [XmlIgnore]
-        public string Path2Elf;
+        [XmlAttribute("version")]
+        public string XmlVersion
+        {
+            get { return _xmlVersion; }
+            set
+            {
+                if (value.CompareTo(_xmlVersion) > 0)
+                    throw new ApplicationException(Properties.Resources.IDS_NewVersion);
+            }
+        }
 
-        public List<Language> Languages { get; set; }
+        public Languages Languages { get; set; }
 
         public List<Entry> Entries { get; set; }
+
+        #region EditableLocalization_NonAttributesElements
+        private string _xmlVersion = "1.0";
+
+        [XmlIgnore]
+        public string Path2Elf;
 
         // used by XmlSerializer.Serialize
         public EditableLocalization() { }
 
         public EditableLocalization(bool bInitialize)
         {
-            Languages = new List<Language> {new Language {Id = "en", Name = "English"}};
+            Languages = new Languages
+                            {
+                                new Language
+                                    {
+                                        Id = "en", 
+                                        Name = "English", 
+                                        SendEmailOnUpdate = new List<string>
+                                                                {
+                                                                    "bob_eaton@sall.com"
+                                                                }
+                                    }
+                            };
             Entries = new List<Entry>();
         }
 
@@ -39,6 +65,10 @@ namespace EditResxLocalization
                     var elf = (EditableLocalization)serializer.Deserialize(stringReader);
                     elf.Path2Elf = strPath2Elf;
                     return elf;
+                }
+                catch (ApplicationException ex)
+                {
+                    Program.ShowException(ex);
                 }
                 catch (Exception ex)
                 {
@@ -70,8 +100,13 @@ namespace EditResxLocalization
         public void SaveEditableLocalizations()
         {
             System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(Path2Elf));
+            SaveEditableLocalizationFile(Path2Elf);
+        }
+
+        private void SaveEditableLocalizationFile(string strPath2Elf)
+        {
             var serializer = new XmlSerializer(typeof (EditableLocalization));
-            var xmlWriter = new XmlTextWriter(Path2Elf, Encoding.UTF8);
+            var xmlWriter = new XmlTextWriter(strPath2Elf, Encoding.UTF8);
             xmlWriter.Formatting = Formatting.Indented;
             var ns = new XmlSerializerNamespaces();
             ns.Add("", "");
@@ -95,16 +130,21 @@ namespace EditResxLocalization
 
         public string MergeXmlFragment(string strXmlFragment)
         {
-            System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(Path2Elf) &&
-                                            File.Exists(Path2Elf));
             // get the xml fragment into a memory stream so it can be the 
             //  input to the transformer
             var streamData = new MemoryStream(Encoding.UTF8.GetBytes(strXmlFragment));
 
             // write the formatted XSLT to another memory stream.
             var strXslt = Properties.Resources.elfMerge;
-            strXslt = strXslt.Replace("{0}", Path2Elf);
+            string strPath = Path2Elf;
+            if (String.IsNullOrEmpty(strPath) || !File.Exists(strPath))
+            {
+                strPath = Path.GetTempFileName();
+                SaveEditableLocalizationFile(strPath);
+            }
+            strXslt = strXslt.Replace("{0}", strPath);
             var streamXslt = new MemoryStream(Encoding.UTF8.GetBytes(strXslt));
+
             return TransformXml(streamXslt, streamData);
         }
 
@@ -126,6 +166,7 @@ namespace EditResxLocalization
 
             return strBuilder.ToString();
         }
+        #endregion EditableLocalization_NonAttributesElements
     }
 
     public class Entry
@@ -136,6 +177,13 @@ namespace EditResxLocalization
         [XmlAttribute("obsolete")]
         public string obsolete { get; set; }
 
+        [XmlAttribute("hidden")]
+        public string hidden { get; set; }
+
+        [XmlElement("Value")]
+        public Values Values { get; set; }
+
+        #region Entry_NonAttributesElements
         [XmlIgnore]
         public bool Obsolete
         {
@@ -143,8 +191,21 @@ namespace EditResxLocalization
             set { obsolete = (value) ? "true" : null; }
         }
 
-        [XmlElement("Value")]
-        public List<Value> Values { get; set; }
+        [XmlIgnore]
+        public bool Hidden
+        {
+            get { return (hidden == "true"); }
+            set { hidden = (value) ? "true" : null; }
+        }
+        #endregion Entry_NonAttributesElements
+    }
+
+    public class Values : List<Value>
+    {
+        public Value this[string strId]
+        {
+            get { return this.FirstOrDefault(value => value.Lang == strId); }
+        }
     }
 
     public class Value
@@ -155,14 +216,26 @@ namespace EditResxLocalization
         [XmlAttribute("needsUpdating")]
         public string needsUpdating { get; set; }
 
+        public string Text { get; set; }
+
+        public string PreviousText { get; set; }
+
+        #region Value_NonAttributesElements
         [XmlIgnore]
         public bool NeedsUpdating
         {
             get { return (needsUpdating == "true"); }
             set { needsUpdating = (value) ? "true" : null; }
         }
-  
-        public string Text { get; set; }
+        #endregion Value_NonAttributesElements
+    }
+
+    public class Languages : List<Language>
+    {
+        public Language this[string strId]
+        {
+            get { return this.FirstOrDefault(lang => lang.Id == strId); }
+        }
     }
 
     public class Language
@@ -173,7 +246,7 @@ namespace EditResxLocalization
         [XmlAttribute("name")]
         public string Name;
 
-        [XmlAttribute("fallbackId")]
-        public string FallbackId;
+        [XmlElementAttribute(ElementName = "SendEmailOnUpdate")]
+        public List<string> SendEmailOnUpdate { get; set; }
     }
 }
