@@ -4,36 +4,8 @@
 >
   <xsl:output method="xml" indent="yes"/>
 
-  <xsl:param name="param1"/>
-  <xsl:param name="param2"/>
-  <xsl:param name="param3"/>
-
-  <xsl:variable name="languageName" select="$param1"/>
-  <xsl:variable name="languageId" select="$param2"/>
-  <xsl:variable name="fallbackId" select="$param3"/>
-  
   <xsl:template match="root">
     <EditableLocalization>
-      <Languages>
-        <Language>
-          <xsl:attribute name="Id">
-            <xsl:value-of select="$languageId"/>
-          </xsl:attribute>
-          <xsl:attribute name="name">
-            <xsl:value-of select="$languageName"/>
-          </xsl:attribute>
-          <xsl:attribute name="fallbackId">
-            <xsl:choose>
-              <xsl:when test="$fallbackId = ''">
-                <xsl:text>en</xsl:text>
-              </xsl:when>
-              <xsl:otherwise>
-                <xsl:value-of select="$fallbackId"/>
-              </xsl:otherwise>
-            </xsl:choose>
-          </xsl:attribute>
-        </Language>
-      </Languages>
       <Entries>
         <xsl:apply-templates select="node()"/>
       </Entries>
@@ -41,14 +13,14 @@
   </xsl:template>
 
   <!--pick off only the string resources-->
-  <xsl:template match="data[@xml:space='preserve']">
+  <xsl:template match="data[not(@type)]">
     <Entry>
       <xsl:attribute name="Id">
         <xsl:value-of select="@name"/>
       </xsl:attribute>
       <Value>
         <xsl:attribute name="lang">
-          <xsl:value-of select="$languageId"/>
+          <xsl:text>en</xsl:text>
         </xsl:attribute>
         <Text>
           <xsl:value-of select="value/text()"/>
