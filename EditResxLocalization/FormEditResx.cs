@@ -1,5 +1,7 @@
-﻿using System;
+﻿#define DebuggingDeserialize
+using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
@@ -12,11 +14,48 @@ namespace EditResxLocalization
 {
     public partial class FormEditResx : Form
     {
+        private const string CstrDefLangId = "en";
         private EditableLocalization _elf;
+        public bool Modified;
+
+        private string strCurrentLangId = CstrDefLangId;
 
         public FormEditResx()
         {
             InitializeComponent();
+#if DebuggingDeserialize
+            _elf = new EditableLocalization(true);
+            _elf.Languages[0].SendEmailOnUpdate.Add("pete_dembrowski@hotmail.com");
+            var str = _elf.ToString();
+#endif
+        }
+
+        private void UpdateGrid(string strLangId)
+        {
+            if (String.IsNullOrEmpty(strLangId))
+            {
+                // first see if the previously selected language is in the current _elf
+                if (_elf.Languages[strCurrentLangId] != null)
+                    strLangId = strCurrentLangId;
+                else
+                    strLangId = strCurrentLangId = CstrDefLangId;
+            }
+
+            dataGridView.Rows.Clear();
+            foreach (var entry in _elf.Entries)
+            {
+                System.Diagnostics.Debug.Assert(entry.Values.Count > 0);
+                var valueEn = entry.Values[CstrDefLangId];
+                var valueTr = entry.Values[strLangId];
+                System.Diagnostics.Debug.Assert(valueEn != null);
+                var aoValues = new object[]
+                                   {
+                                       entry.Id,
+                                       valueEn.Text,
+                                       (valueTr != null) ? valueTr.Text : null
+                                   };
+                var nIndex = dataGridView.Rows.Add(aoValues);
+            }
         }
 
         private void MenuFileDropDownOpening(object sender, EventArgs e)
@@ -36,6 +75,8 @@ namespace EditResxLocalization
             if (!CheckForSaveFirst())
                 return;
             _elf = EditableLocalization.GetEditableLocalizations(null);
+            Modified = true;
+            UpdateGrid(CstrDefLangId);
         }
 
         private void MenuFileOpenClick(object sender, EventArgs e)
@@ -49,12 +90,13 @@ namespace EditResxLocalization
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 _elf = EditableLocalization.GetEditableLocalizations(openFileDialog.FileName);
+                UpdateGrid(null);
             }
         }
 
         private bool CheckForSaveFirst()
         {
-            if (_elf != null)
+            if ((_elf != null) && Modified)
             {
                 DialogResult res = MessageBox.Show(Properties.Resources.IDS_SaveFirstQuery,
                                                    Properties.Resources.IDS_Caption,
@@ -70,12 +112,20 @@ namespace EditResxLocalization
                     MenuFileSaveClick(null, null);
                 }
             }
+            
             return true;
         }
 
         private void MenuFileSaveClick(object sender, EventArgs e)
         {
-            _elf.SaveEditableLocalizations();
+            System.Diagnostics.Debug.Assert(_elf != null);
+            if (String.IsNullOrEmpty(_elf.Path2Elf))
+                MenuFileSaveAsClickEx();
+            else
+            {
+                _elf.SaveEditableLocalizations();
+                Modified = false;
+            }
         }
 
         private void MenuFileSaveAsClick(object sender, EventArgs e)
@@ -108,7 +158,11 @@ namespace EditResxLocalization
                 {
                     var strResxAsElf = OpenResxFile(openFileDialog.FileName);
                     var strMergedElf = _elf.MergeXmlFragment(strResxAsElf);
+                    var strPath2Elf = _elf.Path2Elf;
                     _elf = EditableLocalization.CreateEditableLocalizationsFromString(strMergedElf);
+                    _elf.Path2Elf = strPath2Elf;
+                    Modified = true;
+                    UpdateGrid(null);
 #if DEBUG
                     var str = _elf.ToString();
                     var doc1 = new XmlDocument();
@@ -136,15 +190,10 @@ namespace EditResxLocalization
 
             // write the formatted XSLT to another memory stream.
             var streamXslt = new MemoryStream(Encoding.UTF8.GetBytes(Properties.Resources.resx2elf));
-            var strLanguageName = "English";
-            var strLanguageId = "en";
-            string strFallbackId = null;
-            return TransformedXml(streamXslt, streamResxData,
-                strLanguageName, strLanguageId, strFallbackId);
+            return TransformedXml(streamXslt, streamResxData);
         }
 
-        private static string TransformedXml(Stream streamXslt, Stream streamData,
-            string strParam1, string strParam2, string strParam3)
+        private static string TransformedXml(Stream streamXslt, Stream streamData)
         {
             var myProcessor = new XslCompiledTransform();
             var xslReader = XmlReader.Create(streamXslt);
@@ -153,25 +202,51 @@ namespace EditResxLocalization
             // rewind
             streamData.Seek(0, SeekOrigin.Begin);
 
-            /*
-              <xsl:param name="languageName"/>
-              <xsl:param name="languageId"/>
-              <xsl:param name="fallbackId" />
-            */
-            var xslArg = new XsltArgumentList();
-            xslArg.AddParam("param1", "", strParam1);
-            if (!String.IsNullOrEmpty(strParam2))
-                xslArg.AddParam("param2", "", strParam2);
-            if (!String.IsNullOrEmpty(strParam3))
-                xslArg.AddParam("param3", "", strParam3);
-
             var reader = XmlReader.Create(streamData);
             var strBuilder = new StringBuilder();
             var settings = new XmlWriterSettings { ConformanceLevel = ConformanceLevel.Fragment };
             var writer = XmlWriter.Create(strBuilder, settings);
-            myProcessor.Transform(reader, xslArg, writer);
+            myProcessor.Transform(reader, writer);
 
             return strBuilder.ToString();
+        }
+
+        private void MenuLanguageDropDownOpening(object sender, EventArgs e)
+        {
+            // add sub-menu items for each language in the project
+            if (_elf == null)
+                return;
+
+            foreach (var language in _elf.Languages)
+            {
+                var strMenuText = String.Format("{0} ({1})",
+                                                language.Name, language.Id);
+
+                if (IsSomeUntranslatedEntries(language.Id))
+                    strMenuText += " [translator needed]";
+                menuLanguage.DropDownItems.Add(strMenuText,
+                                               null,
+                                               onChangeLanguage).Tag = language.Id;
+            }
+        }
+
+        private void onChangeLanguage(object sender, EventArgs e)
+        {
+            var tsi = sender as ToolStripItem;
+            if (tsi != null) 
+                UpdateGrid(tsi.Tag as string);
+        }
+
+        private bool IsSomeUntranslatedEntries(string strId)
+        {
+            return _elf.Entries.Any(entry => !IsValuePresentAndFinished(entry, strId));
+        }
+
+        private static bool IsValuePresentAndFinished(Entry entry, string strId)
+        {
+            return (from value in entry.Values 
+                    where value.Lang == strId 
+                    select !value.NeedsUpdating).FirstOrDefault();
         }
     }
 }

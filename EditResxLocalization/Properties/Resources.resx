@@ -130,10 +130,37 @@
   <data name="IDS_SaveFirstQuery" xml:space="preserve">
     <value>Would you like to save the Localization file first?</value>
   </data>
-  <data name="IDS_New" xml:space="preserve">
-    <value>newly non-obsolete</value>
-  </data>
-  <data name="IDS_Newer" xml:space="preserve">
+	<data name="IDS_Newer" xml:space="preserve">
     <value>Even Newer One</value>
   </data>
+  <data name="IDS_NewVersion" xml:space="preserve">
+    <value>The program has been updated to a newer version which is not compatible with the version you are using. You must update the program in order to use another language for the user interface.</value>
+  </data>
+	<data name="IDS__File">
+		<value><![CDATA[&File]]></value>
+	</data>
+	<data name="IDS__New">
+		<value><![CDATA[&New]]></value>
+	</data>
+	<data name="IDS__Open">
+		<value><![CDATA[&Open]]></value>
+	</data>
+	<data name="IDS__Save">
+		<value><![CDATA[&Save]]></value>
+	</data>
+	<data name="IDS_Save__As">
+		<value><![CDATA[Save &As]]></value>
+	</data>
+	<data name="IDS_Exit">
+		<value xml:space="preserve">Exit</value>
+	</data>
+	<data name="IDS__Import_Merge">
+		<value><![CDATA[&Import-Merge]]></value>
+	</data>
+	<data name="IDS__From___resx">
+		<value><![CDATA[&From *.resx]]></value>
+	</data>
+	<data name="IDS__About">
+		<value><![CDATA[&About]]></value>
+	</data>
 </root>

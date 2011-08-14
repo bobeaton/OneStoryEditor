@@ -80,6 +80,69 @@ namespace EditResxLocalization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &amp;About.
+        /// </summary>
+        internal static string IDS__About {
+            get {
+                return ResourceManager.GetString("IDS__About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;File.
+        /// </summary>
+        internal static string IDS__File {
+            get {
+                return ResourceManager.GetString("IDS__File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;From *.resx.
+        /// </summary>
+        internal static string IDS__From___resx {
+            get {
+                return ResourceManager.GetString("IDS__From___resx", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Import-Merge.
+        /// </summary>
+        internal static string IDS__Import_Merge {
+            get {
+                return ResourceManager.GetString("IDS__Import_Merge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;New.
+        /// </summary>
+        internal static string IDS__New {
+            get {
+                return ResourceManager.GetString("IDS__New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Open.
+        /// </summary>
+        internal static string IDS__Open {
+            get {
+                return ResourceManager.GetString("IDS__Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Save.
+        /// </summary>
+        internal static string IDS__Save {
+            get {
+                return ResourceManager.GetString("IDS__Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Localization Editor.
         /// </summary>
         internal static string IDS_Caption {
@@ -89,11 +152,11 @@ namespace EditResxLocalization.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to newly non-obsolete.
+        ///   Looks up a localized string similar to Exit.
         /// </summary>
-        internal static string IDS_New {
+        internal static string IDS_Exit {
             get {
-                return ResourceManager.GetString("IDS_New", resourceCulture);
+                return ResourceManager.GetString("IDS_Exit", resourceCulture);
             }
         }
         
@@ -103,6 +166,24 @@ namespace EditResxLocalization.Properties {
         internal static string IDS_Newer {
             get {
                 return ResourceManager.GetString("IDS_Newer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The program has been updated to a newer version which is not compatible with the version you are using. You must update the program in order to use another language for the user interface..
+        /// </summary>
+        internal static string IDS_NewVersion {
+            get {
+                return ResourceManager.GetString("IDS_NewVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save &amp;As.
+        /// </summary>
+        internal static string IDS_Save__As {
+            get {
+                return ResourceManager.GetString("IDS_Save__As", resourceCulture);
             }
         }
         
