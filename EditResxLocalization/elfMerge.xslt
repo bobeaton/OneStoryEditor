@@ -20,7 +20,7 @@
   <xsl:template match="EditableLocalization">
     <xsl:copy>
       <!--first apply templates on everything in the doc1-->
-      <xsl:apply-templates select="$doc1/EditableLocalization/*"/>
+      <xsl:apply-templates select="$doc1/EditableLocalization/@*|$doc1/EditableLocalization/*"/>
     </xsl:copy>
   </xsl:template>
 
@@ -34,9 +34,7 @@
       <xsl:for-each select="$doc2//Entry[not(@Id = $doc1IDs)]">
         <!--copy the Entry element and it's Id-->
         <xsl:copy>
-          <xsl:attribute name="Id">
-            <xsl:value-of select="@Id"/>
-          </xsl:attribute>
+          <xsl:copy-of select="@*"/>
           <!--Call a template to process the new value item(s). For each language
               we put the English value as the value and set a new attribute 
               (needsUpdating) for those that are non-'en'-->
@@ -75,9 +73,7 @@
       from doc2 that we have to overwrite from-->
   <xsl:template match="Entry">
     <xsl:copy>
-      <xsl:attribute name="Id">
-        <xsl:value-of select="@Id"/>
-      </xsl:attribute>
+      <xsl:copy-of select="@*"/>
       <xsl:choose>
         <xsl:when test="@Id = $doc2IDs">
           <!--this means that we have the same item in doc2, so use *it's* value
@@ -119,9 +115,7 @@
     <!--iterate over the Value entries (in a doc1//Entry)...-->
     <xsl:for-each select="Value">
       <Value>
-        <xsl:attribute name="lang">
-          <xsl:value-of select="@lang"/>
-        </xsl:attribute>
+        <xsl:copy-of select="@*"/>
         <!--when the language is 'en', it means we have to update the value 
             (from the param)-->
         <xsl:choose>
@@ -137,6 +131,9 @@
               <xsl:text>true</xsl:text>
             </xsl:attribute>
             <xsl:copy-of select="Text"/>
+            <PreviousText>
+              <xsl:value-of select="preceding-sibling::Value[@lang = 'en']/Text/text()"/>
+            </PreviousText>
           </xsl:otherwise>
         </xsl:choose>
       </Value>
