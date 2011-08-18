@@ -70,8 +70,31 @@
       <xsl:number value="$chapNo" format="01" />
       <xsl:text>.</xsl:text>
       <xsl:number value="position()-1" format="01" />
-      <xsl:if test="Retellings/Retelling[@memberID=$testorId]">
-        <xsl:text>&cr;\ret </xsl:text>
+      <xsl:if test="@visible = 'false'">
+        <xsl:text> (hidden)</xsl:text>
+      </xsl:if>
+      <xsl:if test="preceding::Languages/@UseRetellingVernacular = 'true' 
+            and Retellings/Retelling[@lang='Vernacular'][@memberID=$testorId][text()]
+            and preceding::Languages/LanguageInfo[@lang='Vernacular'][@code]">
+        <xsl:text>&cr;\ret</xsl:text>
+        <xsl:value-of select="preceding::Languages/LanguageInfo[@lang='Vernacular']/@code"/>
+        <xsl:text> </xsl:text>
+        <xsl:value-of select="Retellings/Retelling[@lang='Vernacular'][@memberID=$testorId]"/>
+      </xsl:if>
+      <xsl:if test="preceding::Languages/@UseRetellingNationalBT = 'true' 
+            and Retellings/Retelling[@lang='NationalBt'][@memberID=$testorId][text()]
+            and preceding::Languages/LanguageInfo[@lang='NationalBt'][@code]">
+        <xsl:text>&cr;\ret</xsl:text>
+        <xsl:value-of select="preceding::Languages/LanguageInfo[@lang='NationalBt']/@code"/>
+        <xsl:text> </xsl:text>
+        <xsl:value-of select="Retellings/Retelling[@lang='NationalBt'][@memberID=$testorId]"/>
+      </xsl:if>
+      <xsl:if test="preceding::Languages/@UseRetellingInternationalBT = 'true' 
+            and Retellings/Retelling[@lang='InternationalBt'][@memberID=$testorId][text()]
+            and preceding::Languages/LanguageInfo[@lang='InternationalBt'][@code]">
+        <xsl:text>&cr;\ret</xsl:text>
+        <xsl:value-of select="preceding::Languages/LanguageInfo[@lang='InternationalBt']/@code"/>
+        <xsl:text> </xsl:text>
         <xsl:value-of select="Retellings/Retelling[@lang='InternationalBt'][@memberID=$testorId]"/>
       </xsl:if>
     </xsl:template>

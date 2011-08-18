@@ -43,12 +43,16 @@
     </xsl:template>
     <xsl:template match="Verse">
       <xsl:param name="chapNo" />
-      <xsl:text>&cr;\ln </xsl:text><xsl:number value="$chapNo" format="01" /><xsl:text>.</xsl:text><xsl:number value="position()-1" format="01" />
+      <xsl:text>&cr;\ln </xsl:text><xsl:number value="$chapNo" format="01" />
+      <xsl:text>.</xsl:text>
+      <xsl:number value="position()-1" format="01" />
+      <xsl:if test="position() = 1">
+        <xsl:text>0 (general story comments)</xsl:text>
+      </xsl:if>
       <xsl:apply-templates select="descendant::ConsultantConversation"/>
     </xsl:template>
 
   <xsl:template match="ConsultantConversation">
-    <xsl:text>&cr;\rnd </xsl:text><xsl:value-of select="@round"/>
     <xsl:apply-templates select="ConsultantNote"/>
   </xsl:template>
 

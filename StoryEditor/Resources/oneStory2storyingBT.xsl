@@ -91,6 +91,8 @@
   BookMap map = new BookMap();
   public string ConvertToToolboxAnchor(string strAnchor)
   {
+    if (strAnchor == "No Anchor")
+      return strAnchor; // the following code doesn't apply if this is a null anchor
     int nIndexSpace = strAnchor.IndexOf(' ');
     string strBookCode = strAnchor.Substring(0, nIndexSpace);
     try
@@ -116,8 +118,19 @@
   ]]>
   </msxsl:script>
 
+  <xsl:variable name="storySet">
+    <xsl:text>Stories</xsl:text>
+  </xsl:variable>
+  <xsl:variable name="pathToRunningFolder">
+    <xsl:text>C:\src\StoryEditor\output\Release\StageTransitions.xml</xsl:text>
+  </xsl:variable>
+  <!--
   <xsl:param name="storySet"/>
-
+  <xsl:variable name="pathToRunningFolder">
+    <xsl:text>{0}\Release\StageTransitions.xml</xsl:text>
+  </xsl:variable>
+  -->
+  
   <xsl:output method="text" encoding="UTF-8" indent="no"/>
     <xsl:strip-space elements="*"/>
 
@@ -173,12 +186,11 @@
   <xsl:text>&cr;\co Resources used: </xsl:text>
   <xsl:value-of select="descendant::ResourcesUsed"/>
   <xsl:variable name="BackTranslator" select="descendant::BackTranslator/@memberID"/>
-  <xsl:text>&cr;\co Backtranslator to </xsl:text><xsl:value-of select="preceding::Languages/LanguageInfo[@lang='NationalBt']/@name"/><xsl:text>: </xsl:text><xsl:value-of select="preceding::Member[@memberKey=$BackTranslator]/@name"/> 
-  <xsl:text>&cr;\co Backtranslator </xsl:text><xsl:value-of select="preceding::Languages/LanguageInfo[@lang='NationalBt']/@name"></xsl:value-of><xsl:text> to </xsl:text><xsl:value-of select="preceding::Languages/LanguageInfo[@lang='InternationalBt']/@name"/><xsl:text>: </xsl:text>
+  <xsl:text>&cr;\co Backtranslator: </xsl:text><xsl:value-of select="preceding::Member[@memberKey=$BackTranslator]/@name"/> 
   <xsl:text>&cr;\co reason this story is in the set: </xsl:text><xsl:value-of select="descendant::StoryPurpose"/>
   <xsl:variable name="stageId" select="concat('e', @stage)"/>
   <xsl:text>&cr;\co Story State: </xsl:text>
-  <xsl:value-of select="document('{0}\StageTransitions.xml')/ProjectStates/StateTransition[@stage = $stageId]/StageDisplayString"/>
+  <xsl:value-of select="document($pathToRunningFolder)/ProjectStates/StateTransition[@stage = $stageId]/StageDisplayString"/>
   <xsl:apply-templates select="descendant::TestRetelling"/>
   <xsl:apply-templates select="descendant::TestTqAnswer"/>
   <xsl:text>&cr;</xsl:text>
@@ -209,11 +221,16 @@
         <xsl:with-param name="chapNo" select="$chapNo" />
       </xsl:apply-templates>
     </xsl:template>
-    <xsl:template match="Verse[not(@first)]">
+    <xsl:template match="Verse">
       <xsl:param name="chapNo" />
-      <xsl:text>&cr;\ln </xsl:text><xsl:number value="$chapNo" format="01" /><xsl:text>.</xsl:text><xsl:number value="position()-1" format="01" />
+      <xsl:text>&cr;\ln </xsl:text><xsl:number value="$chapNo" format="01" />
+      <xsl:text>.</xsl:text>
+      <xsl:number value="position()-1" format="01" />
       <xsl:if test="@visible = 'false'">
         <xsl:text> (hidden)</xsl:text>
+      </xsl:if>
+      <xsl:if test="position() = 1">
+        <xsl:text>0 (general testing questions)</xsl:text>
       </xsl:if>
       <xsl:if test="StoryLine[@lang='Vernacular'][text()] and preceding::Languages/LanguageInfo[@lang='Vernacular'][@code]">
         <xsl:text>&cr;\</xsl:text>
@@ -263,19 +280,39 @@
   </xsl:template>
 
   <xsl:template match="TestQuestion">
-    <xsl:if test="TestQuestionLine[@lang='Vernacular'][text()] and preceding::Languages/LanguageInfo[@lang='Vernacular'][@code]">
+    <!--I'm hiding this, because it turns out I don't want anything different
+            however, this is a nice equation:
+            get the position of the ancestor Verse (in this case, it means the FirstVerse
+    <xsl:variable name="tstType">
+      <xsl:choose>
+        <xsl:when test="count(ancestor::Verse/*/preceding-sibling::*) = 0">
+          <xsl:text>&cr;\gtst</xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:text>&cr;\tst</xsl:text>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    -->
+    <xsl:if test="preceding::Languages/@UseTestQuestionVernacular = 'true' 
+            and TestQuestionLine[@lang='Vernacular'][text()] 
+            and preceding::Languages/LanguageInfo[@lang='Vernacular'][@code]">
       <xsl:text>&cr;\tst</xsl:text>
       <xsl:value-of select="preceding::Languages/LanguageInfo[@lang='Vernacular']/@code"/>
       <xsl:text> </xsl:text>
       <xsl:value-of select="TestQuestionLine[@lang='Vernacular']"/>
     </xsl:if>
-    <xsl:if test="TestQuestionLine[@lang='NationalBt'][text()] and preceding::Languages/LanguageInfo[@lang='NationalBt'][@code]">
+    <xsl:if test="preceding::Languages/@UseTestQuestionNationalBT = 'true' 
+            and TestQuestionLine[@lang='NationalBt'][text()] 
+            and preceding::Languages/LanguageInfo[@lang='NationalBt'][@code]">
       <xsl:text>&cr;\tst</xsl:text>
       <xsl:value-of select="preceding::Languages/LanguageInfo[@lang='NationalBt']/@code"/>
       <xsl:text> </xsl:text>
       <xsl:value-of select="TestQuestionLine[@lang='NationalBt']"/>
     </xsl:if>
-    <xsl:if test="TestQuestionLine[@lang='InternationalBt'][text()] and preceding::Languages/LanguageInfo[@lang='InternationalBt'][@code]">
+    <xsl:if test="preceding::Languages/@UseTestQuestionInternationalBT = 'true' 
+            and TestQuestionLine[@lang='InternationalBt'][text()] 
+            and preceding::Languages/LanguageInfo[@lang='InternationalBt'][@code]">
       <xsl:text>&cr;\tst</xsl:text>
       <xsl:value-of select="preceding::Languages/LanguageInfo[@lang='InternationalBt']/@code"/>
       <xsl:text> </xsl:text>
@@ -289,8 +326,9 @@
   </xsl:template>
 
   <xsl:template match="Answer">
-    <xsl:variable name="testNo" select="{<xsl:number value='1'/>}"/>
-      <xsl:if test="@lang='Vernacular' and preceding::Languages/LanguageInfo[@lang='Vernacular'][@code]">
+    <xsl:if test="preceding::Languages/@UseAnswerVernacular = 'true' 
+            and @lang = 'Vernacular' 
+            and preceding::Languages/LanguageInfo[@lang='Vernacular'][@code]">
       <xsl:text>&cr;\ans</xsl:text>
       <xsl:value-of select="preceding::Languages/LanguageInfo[@lang='Vernacular']/@code"/>
       <xsl:text> T</xsl:text>
@@ -298,7 +336,9 @@
       <xsl:text>: </xsl:text>
       <xsl:value-of select="."/>
     </xsl:if>
-    <xsl:if test="@lang='NationalBt' and preceding::Languages/LanguageInfo[@lang='NationalBt'][@code]">
+    <xsl:if test="preceding::Languages/@UseAnswerNationalBT = 'true' 
+            and @lang = 'NationalBt' 
+            and preceding::Languages/LanguageInfo[@lang='NationalBt'][@code]">
       <xsl:text>&cr;\ans</xsl:text>
       <xsl:value-of select="preceding::Languages/LanguageInfo[@lang='NationalBt']/@code"/>
       <xsl:text> T</xsl:text>
@@ -306,7 +346,9 @@
       <xsl:text>: </xsl:text>
       <xsl:value-of select="."/>
     </xsl:if>
-    <xsl:if test="@lang='InternationalBt' and preceding::Languages/LanguageInfo[@lang='InternationalBt'][@code]">
+    <xsl:if test="preceding::Languages/@UseAnswerInternationalBT = 'true' 
+            and @lang = 'InternationalBt' 
+            and preceding::Languages/LanguageInfo[@lang='InternationalBt'][@code]">
       <xsl:text>&cr;\ans</xsl:text>
       <xsl:value-of select="preceding::Languages/LanguageInfo[@lang='InternationalBt']/@code"/>
       <xsl:text> T</xsl:text>
