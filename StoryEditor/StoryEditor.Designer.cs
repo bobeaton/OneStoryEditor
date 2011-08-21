@@ -124,6 +124,7 @@ namespace OneStoryProjectEditor
             this.storyCopyWithNewNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitIntoLinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.realignStoryVersesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.storyOverrideTasks = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.useAdaptItForBacktranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.storyAdaptItVernacularToNationalMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -175,7 +176,7 @@ namespace OneStoryProjectEditor
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.storyOverrideTasks = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectNotesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -597,6 +598,7 @@ namespace OneStoryProjectEditor
             this.viewLnCNotesMenu,
             this.concordanceToolStripMenuItem,
             this.stateTransitionHistoryToolStripMenuItem,
+            this.projectNotesToolStripMenuItem,
             this.viewOldStoriesToolStripMenuItem,
             this.toolStripSeparator11,
             this.hiddenVersesToolStripMenuItem,
@@ -1019,6 +1021,13 @@ namespace OneStoryProjectEditor
             this.realignStoryVersesToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
             this.realignStoryVersesToolStripMenuItem.Text = "&Re-align story lines";
             this.realignStoryVersesToolStripMenuItem.Click += new System.EventHandler(this.realignStoryVersesToolStripMenuItem_Click);
+            // 
+            // storyOverrideTasks
+            // 
+            this.storyOverrideTasks.Name = "storyOverrideTasks";
+            this.storyOverrideTasks.Size = new System.Drawing.Size(245, 22);
+            this.storyOverrideTasks.Text = "&Override Tasks";
+            this.storyOverrideTasks.Click += new System.EventHandler(this.storyOverrideTasks_Click);
             // 
             // toolStripSeparator14
             // 
@@ -1577,12 +1586,12 @@ namespace OneStoryProjectEditor
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
             // 
-            // storyOverrideTasks
+            // projectNotesToolStripMenuItem
             // 
-            this.storyOverrideTasks.Name = "storyOverrideTasks";
-            this.storyOverrideTasks.Size = new System.Drawing.Size(245, 22);
-            this.storyOverrideTasks.Text = "&Override Tasks";
-            this.storyOverrideTasks.Click += new System.EventHandler(this.storyOverrideTasks_Click);
+            this.projectNotesToolStripMenuItem.Name = "projectNotesToolStripMenuItem";
+            this.projectNotesToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.projectNotesToolStripMenuItem.Text = "&Project Notes";
+            this.projectNotesToolStripMenuItem.Click += new System.EventHandler(this.projectNotesToolStripMenuItem_Click);
             // 
             // StoryEditor
             // 
@@ -1765,6 +1774,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem viewTransliteratorInternationalBtConfigureToolStripMenuItem;
         private ToolStripMenuItem viewTransliteratorFreeTranslationConfigureToolStripMenuItem;
         private ToolStripMenuItem storyOverrideTasks;
+        private ToolStripMenuItem projectNotesToolStripMenuItem;
     }
 
 #if UsingHtmlDisplayForConNotes

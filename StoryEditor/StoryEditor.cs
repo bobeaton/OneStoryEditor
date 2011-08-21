@@ -508,11 +508,7 @@ namespace OneStoryProjectEditor
                 copyEnglishBackTranslationToolStripMenuItem.Visible =
                 deleteFreeTranslationToolStripMenuItem.Visible =
                 copyFreeTranslationMenuItem.Visible =
-                deleteTestToolStripMenuItem.Visible =
-                /* viewVernacularLangFieldMenuItem.Visible =
-                viewNationalLangFieldMenuItem.Visible =
-                viewEnglishBTFieldMenuItem.Visible = */
-                                                        true;
+                deleteTestToolStripMenuItem.Visible = true;
         }
 
         protected void ClearState()
@@ -731,15 +727,24 @@ namespace OneStoryProjectEditor
                 if (!String.IsNullOrEmpty(Properties.Settings.Default.LastStoryWorkedOn) && comboBoxStorySelector.Items.Contains(Properties.Settings.Default.LastStoryWorkedOn))
                     strStoryToLoad = Properties.Settings.Default.LastStoryWorkedOn;
 
+                UpdateUIMenusWithShortCuts();
+
+                // at least temporarily reset the 'Use for all stories' flag so that 
+                //  we don't not reset the view for this new project settings (which
+                //  calls SetViews during the SelectedItem handler below)
+                bool bUseForAllStories = useSameSettingsForAllStoriesToolStripMenuItem.Checked;
+                useSameSettingsForAllStoriesToolStripMenuItem.Checked = false;
+
                 if (!String.IsNullOrEmpty(strStoryToLoad) && comboBoxStorySelector.Items.Contains(strStoryToLoad))
                     comboBoxStorySelector.SelectedItem = strStoryToLoad;
 
-                UpdateUIMenusWithShortCuts();
+                // reset the 'use for all stories' flag to whatever it used to be
+                useSameSettingsForAllStoriesToolStripMenuItem.Checked = bUseForAllStories;
 
                 Text = GetFrameTitle(true);
 
                 // show the chorus notes at load time
-                InitProjectNotes(projSettings, LoggedOnMember.Name);
+                // InitProjectNotes(projSettings, LoggedOnMember.Name);
             }
             catch (StoryProjectData.BackOutWithNoUIException)
             {
@@ -3819,13 +3824,17 @@ namespace OneStoryProjectEditor
                     && (TheCurrentStory != null)
                     && (TheCurrentStory.Verses.Count > 0));
 
-            if ((StoryProject != null) && (StoryProject.ProjSettings != null))
-            {
+            if ((StoryProject == null) || (StoryProject.ProjSettings == null)) 
+                return;
+
+            viewVernacularLangFieldMenuItem.Checked =
                 viewVernacularLangFieldMenuItem.Visible = StoryProject.ProjSettings.Vernacular.HasData;
+            viewNationalLangFieldMenuItem.Checked =
                 viewNationalLangFieldMenuItem.Visible = StoryProject.ProjSettings.NationalBT.HasData;
+            viewEnglishBTFieldMenuItem.Checked =
                 viewEnglishBTFieldMenuItem.Visible = StoryProject.ProjSettings.InternationalBT.HasData;
+            viewFreeTranslationToolStripMenuItem.Checked = 
                 viewFreeTranslationToolStripMenuItem.Visible = StoryProject.ProjSettings.FreeTranslation.HasData;
-            }
         }
 
         private void showHideFieldsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3936,6 +3945,8 @@ namespace OneStoryProjectEditor
                 //  we want to be able to see Coach note pane).
                 viewCoachNotesFieldMenuItem.Enabled = ((LoggedOnMember != null) &&
                                                        !LoggedOnMember.IsPfAndNotLsr);
+
+                projectNotesToolStripMenuItem.Enabled = (File.Exists(StoryProject.ProjSettings.ProjectFolder));
             }
             else
                 showHideFieldsToolStripMenuItem.Enabled =
@@ -3945,7 +3956,8 @@ namespace OneStoryProjectEditor
                     concordanceToolStripMenuItem.Enabled =
                     historicalDifferencesToolStripMenuItem.Enabled =
                     hiddenVersesToolStripMenuItem.Enabled =
-                    viewOnlyOpenConversationsMenu.Enabled = false;
+                    viewOnlyOpenConversationsMenu.Enabled = 
+                    projectNotesToolStripMenuItem.Enabled = false;
 
             if (IsInStoriesSet && (StoryProject != null))
             {
@@ -5075,6 +5087,7 @@ namespace OneStoryProjectEditor
             Modified = true;
         }
 
+        /*
         private void toolStripMenuItemSelectState_Click(object sender, EventArgs e)
         {
             if ((StoryProject == null) || (TheCurrentStory == null))
@@ -5100,6 +5113,7 @@ namespace OneStoryProjectEditor
             if (dlg.ViewStateChanged)
                 SetViewBasedOnProjectStage(TheCurrentStory.ProjStage.ProjectStage, false);
         }
+        */
 
         private void toolStripButtonFirst_Click(object sender, EventArgs e)
         {
@@ -5511,6 +5525,12 @@ namespace OneStoryProjectEditor
             {
                 Modified |= SetCitTasksForm.EditCitTasks(ref _theCurrentStory);
             }
+        }
+
+        private void projectNotesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Debug.Assert((StoryProject != null) && (StoryProject.ProjSettings != null));
+            InitProjectNotes(StoryProject.ProjSettings, LoggedOnMember.Name);
         }
     }
 }
