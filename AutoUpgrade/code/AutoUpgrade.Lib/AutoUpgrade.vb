@@ -9,6 +9,7 @@ Imports System.Security.Policy
 Imports System.Net.Security
 Imports System.Globalization
 Imports System.Windows.Forms
+Imports System.IO
 
 Namespace devX
 
@@ -709,10 +710,12 @@ Namespace devX
                 ' manifestfile to the list of files to upgrade
                 blnUpgrade = False
 
+                Dim strFilePath As String = Path.Combine(ApplicationBasePath, manFile.Name)
+
                 Select Case manFile.Action
                     Case AutoUpgrade.File.UpgradeAction.delete
                         ' For delete actions, schedule an upgrade if the file exists
-                        If IO.File.Exists(manFile.Name) Then
+                        If IO.File.Exists(strFilePath) Then
                             blnUpgrade = True
                         End If
                     Case AutoUpgrade.File.UpgradeAction.copy, AutoUpgrade.File.UpgradeAction.full
@@ -721,8 +724,8 @@ Namespace devX
                                 ' Check for upgrade by file version - this method works for Win32 
                                 ' applications with a version resource (pre-.NET) as well as .NET 
                                 ' assemblies
-                                If IO.File.Exists(manFile.Name) Then
-                                    verLocalFileVersion = New System.Version(System.Diagnostics.FileVersionInfo.GetVersionInfo(manFile.Name).FileVersion)
+                                If IO.File.Exists(strFilePath) Then
+                                    verLocalFileVersion = New System.Version(System.Diagnostics.FileVersionInfo.GetVersionInfo(strFilePath).FileVersion)
                                     If verLocalFileVersion.CompareTo(New System.Version(manFile.Version)) < 0 Then
                                         blnUpgrade = True
                                     End If
@@ -733,12 +736,12 @@ Namespace devX
                                 ' Use the file date to check for upgrade.  This is appropriate only 
                                 ' for files that do not have a version resource (help files, 
                                 ' Data files, etc)
-                                If IO.File.Exists(manFile.Name) Then
+                                If IO.File.Exists(strFilePath) Then
 #If USE_UTC Then
-                                    Dim fi As IO.FileInfo = New IO.FileInfo(manFile.Name)
+                                    Dim fi As IO.FileInfo = New IO.FileInfo(strFilePath)
                                     datLocalFileDate = fi.LastWriteTimeUtc
 #Else
-                                    datLocalFileDate = MyGetLastWriteTime(manFile.Name)
+                                    datLocalFileDate = MyGetLastWriteTime(strFilePath)
 #End If
                                     datManifestFileDate = manFile.Version
 
@@ -751,7 +754,7 @@ Namespace devX
                                     If System.Math.Abs(DateDiff(DateInterval.Minute, datLocalFileDate, datManifestFileDate)) > 185 Then
 #If DEBUG Then
                                         Dim strMsg As String = String.Format("4: name: '{0}', datLocalFileDate: '{1}', datManifestFileDate: '{2}'", _
-                                                                             manFile.Name, datLocalFileDate, datManifestFileDate)
+                                                                             strFilePath, datLocalFileDate, datManifestFileDate)
                                         System.Windows.Forms.MessageBox.Show(strMsg)
 #End If
                                         blnUpgrade = True
