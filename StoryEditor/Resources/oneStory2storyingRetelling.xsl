@@ -41,18 +41,6 @@
       <xsl:with-param name="testorId" select="$TestorID" />
     </xsl:apply-templates>
   </xsl:for-each>
-
-  <xsl:for-each select="CraftingInfo/TestsTqAnswers/TestTqAnswer">
-    <xsl:text>&cr;&cr;\co Test </xsl:text>
-    <xsl:value-of select="count(preceding-sibling::TestTqAnswer)+1"></xsl:value-of>
-    <xsl:variable name="TestorID" select="@memberID"/>
-    <xsl:text>: </xsl:text>
-    <xsl:value-of select="preceding::Member[@memberKey=$TestorID]/@name"/>
-    <xsl:apply-templates select="ancestor::story/Verses">
-      <xsl:with-param name="chapNo" select="$chapNo" />
-      <xsl:with-param name="testorId" select="$TestorID" />
-    </xsl:apply-templates>
-  </xsl:for-each>
 </xsl:template> 
    
     <xsl:template match="Verses">

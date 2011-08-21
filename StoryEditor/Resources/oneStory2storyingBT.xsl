@@ -118,19 +118,20 @@
   ]]>
   </msxsl:script>
 
+  <!-- uncomment these and comment the next bit to manually debug the xslt
   <xsl:variable name="storySet">
     <xsl:text>Stories</xsl:text>
   </xsl:variable>
   <xsl:variable name="pathToRunningFolder">
     <xsl:text>C:\src\StoryEditor\output\Release\StageTransitions.xml</xsl:text>
   </xsl:variable>
-  <!--
+  -->
+
   <xsl:param name="storySet"/>
   <xsl:variable name="pathToRunningFolder">
-    <xsl:text>{0}\Release\StageTransitions.xml</xsl:text>
+    <xsl:text>{0}\StageTransitions.xml</xsl:text>
   </xsl:variable>
-  -->
-  
+
   <xsl:output method="text" encoding="UTF-8" indent="no"/>
     <xsl:strip-space elements="*"/>
 
@@ -332,7 +333,10 @@
       <xsl:text>&cr;\ans</xsl:text>
       <xsl:value-of select="preceding::Languages/LanguageInfo[@lang='Vernacular']/@code"/>
       <xsl:text> T</xsl:text>
-      <xsl:number value="position()" format="1"/>
+      <!--since we have three possible records for each answer (for each of the three
+          possible languages - even when a particular project doesn't have those
+          languages - then the position is position() / 3 + 1-->
+      <xsl:number value="((position() - 1) div 3) + 1" format="1"/>
       <xsl:text>: </xsl:text>
       <xsl:value-of select="."/>
     </xsl:if>
@@ -342,7 +346,7 @@
       <xsl:text>&cr;\ans</xsl:text>
       <xsl:value-of select="preceding::Languages/LanguageInfo[@lang='NationalBt']/@code"/>
       <xsl:text> T</xsl:text>
-      <xsl:number value="position()" format="1"/>
+      <xsl:number value="((position() - 1) div 3) + 1" format="1"/>
       <xsl:text>: </xsl:text>
       <xsl:value-of select="."/>
     </xsl:if>
@@ -352,7 +356,7 @@
       <xsl:text>&cr;\ans</xsl:text>
       <xsl:value-of select="preceding::Languages/LanguageInfo[@lang='InternationalBt']/@code"/>
       <xsl:text> T</xsl:text>
-      <xsl:number value="position()" format="1"/>
+      <xsl:number value="((position() - 1) div 3) + 1" format="1"/>
       <xsl:text>: </xsl:text>
       <xsl:value-of select="."/>
     </xsl:if>
