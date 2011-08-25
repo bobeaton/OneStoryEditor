@@ -4420,10 +4420,21 @@ namespace OneStoryProjectEditor
         private void toTheInternetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Debug.Assert(StoryProject.ProjSettings != null);
-            Program.QueryHgRepoParameters(StoryProject.ProjSettings.ProjectFolder,
-                                          StoryProject.ProjSettings.ProjectName,
+
+            var strProjectFolder = StoryProject.ProjSettings.ProjectFolder;
+            var strProjectName = StoryProject.ProjSettings.ProjectName;
+            Program.QueryHgRepoParameters(strProjectFolder,
+                                          strProjectName,
                                           LoggedOnMember);
-            Program.SyncWithRepository(StoryProject.ProjSettings.ProjectFolder, true);
+
+            // clean up any existing open project
+            if (!SaveAndCloseProject())
+                return;
+
+            Program.SyncWithRepository(strProjectFolder, true);
+
+            var projSettings = new ProjectSettings(strProjectFolder, strProjectName, true);
+            OpenProject(projSettings);
         }
 
         private void toAThumbdriveToolStripMenuItem_Click(object sender, EventArgs e)
