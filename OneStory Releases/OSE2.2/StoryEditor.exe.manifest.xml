@@ -4,7 +4,7 @@
   <ApplicationExecutable />
   <ApplicationName>OneStory Editor AutoUpdater</ApplicationName>
   <FullUpgradeFileName />
-  <OffsetFromUctWhereManifestWasOriginallyCreated>2011-08-20T18:57:02.4010000-05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+  <OffsetFromUctWhereManifestWasOriginallyCreated>2011-08-25T17:27:43.6870000-05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
   <ManifestFiles>
     <File name="AIGuesserEC.dll" method="version" action="copy" version="4.0.0.8" optional="false" size="90112">AdaptIt Encoding Converters</File>
     <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="1.0.4249.32201" optional="false" size="25088">AutoUpgrade Lib</File>
@@ -13,7 +13,7 @@
     <File name="LibChorus.dll" method="version" action="copy" version="1.1.0.6" optional="false" size="258560">Chorus</File>
     <File name="OseResources.dll" method="version" action="copy" version="2.2.0.1" optional="false" size="51200">OseResources</File>
     <File name="StageTransitions.xml" method="date" action="copy" version="Saturday, July 30, 2011 3:45:46 PM" optional="false" size="88220" />
-    <File name="StoryEditor.exe" method="version" action="copy" version="2.2.0.14" optional="false" size="1422336">OneStory Editor</File>
+    <File name="StoryEditor.exe" method="version" action="copy" version="2.2.0.15" optional="false" size="1422336">OneStory Editor</File>
   </ManifestFiles>
   <SourcePath />
   <UpgradeFiles />
