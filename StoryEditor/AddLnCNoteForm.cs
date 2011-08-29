@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using NetLoc;
 using Palaso.UI.WindowsForms.Keyboarding;
 
 namespace OneStoryProjectEditor
@@ -9,15 +10,25 @@ namespace OneStoryProjectEditor
         public LnCNote TheLnCNote;
 
         readonly StoryProjectData _storyProject;
+#if UnhookParatextBiblicalTerms
         BiblicalTermsList _btl;
+#endif
+        private AddLnCNoteForm()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
 
         public AddLnCNoteForm(StoryEditor theSE, LnCNote theLnC)
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
+
             TheLnCNote = theLnC;
             _storyProject = theSE.StoryProject;
+#if UnhookParatextBiblicalTerms
             _btl = BiblicalTermsList.GetBiblicalTerms(_storyProject.ProjSettings.ProjectFolder);
-
+#endif
             if (theLnC == null)
                 return;
 
@@ -29,7 +40,23 @@ namespace OneStoryProjectEditor
                 labelInternationalBT, textBoxInternationalBT);
 
             textBoxNotes.Text = theLnC.Notes;
+
+            var strHelpString = Localizer.Str("Enter the word(s) you want to search for. You can search for more than one word at a time by separating them by commas. For all words beginning with \"xyz\" use \"xyz*\" ; ending with \"xyz\" use \"*xyz\"; containing \"xyz\" use \"*xyz*\". Multiple word search phrases are allowed, for example \"John the Baptist\" (enclose in double-quotes)");
+            var strTooltip = Localizer.Str("Enter the different spellings of this word separated by commas. Press F1 for further instructions on how to enter data in this field.");
+
+            SetHelpStrings(textBoxVernacular, strHelpString, strTooltip);
+            SetHelpStrings(textBoxNationalBT, strHelpString, strTooltip);
+            SetHelpStrings(textBoxInternationalBT, strHelpString, strTooltip);
+
+#if UnhookParatextBiblicalTerms
             textBoxKeyTerms.Text = theLnC.GetKeyTermsGlosses(_btl);
+#endif
+        }
+
+        private void SetHelpStrings(Control ctrl, string strHelpString, string strTooltip)
+        {
+            helpProvider.SetHelpString(ctrl, strHelpString);
+            toolTip.SetToolTip(ctrl, strTooltip);
         }
 
         public AddLnCNoteForm(StoryEditor theSE, string strToSearchForVernacular, 
@@ -77,17 +104,15 @@ namespace OneStoryProjectEditor
         {
             if (String.IsNullOrEmpty(textBoxInternationalBT.Text))
             {
-                MessageBox.Show(String.Format(Properties.Resources.IDS_MustHave,
-                                              "gloss"),
-                                OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(Localizer.Str("You must enter the gloss"),
+                                StoryEditor.OseCaption);
                 return;
             }
 
             if (String.IsNullOrEmpty(textBoxVernacular.Text))
             {
-                MessageBox.Show(String.Format(Properties.Resources.IDS_MustHave,
-                                              "word in the story language"),
-                                OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(Localizer.Str("You must enter the word in the story language"),
+                                StoryEditor.OseCaption);
                 return;
             }
 
@@ -114,7 +139,7 @@ namespace OneStoryProjectEditor
         {
             KeyboardController.DeactivateKeyboard();
         }
-
+        /*
         private void buttonKeyTermSelect_Click(object sender, EventArgs e)
         {
             if (_btl == null)
@@ -127,5 +152,6 @@ namespace OneStoryProjectEditor
                 textBoxKeyTerms.Text = TheLnCNote.GetKeyTermsGlosses(_btl);
             }
         }
+        */
     }
 }

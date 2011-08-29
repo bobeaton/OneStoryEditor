@@ -7,6 +7,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Text;
 using ECInterfaces;
+using NetLoc;
 using SilEncConverters40;
 
 namespace OneStoryProjectEditor
@@ -688,9 +689,9 @@ namespace OneStoryProjectEditor
                             UserTypes.ConsultantInTraining | 
                             UserTypes.IndependentConsultant))
                 {
-                    MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_WhichUserEdits,
+                    MessageBox.Show(String.Format(LoginAsProperUserMessage,
                                                   CstrIndependentConsultantDisplay),
-                                    OseResources.Properties.Resources.IDS_Caption);
+                                    StoryEditor.OseCaption);
                 }
             }
 
@@ -698,21 +699,41 @@ namespace OneStoryProjectEditor
             {
                 if (!IsUser(MemberType, UserTypes.ProjectFacilitator))
                 {
-                    MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_WhichUserEdits,
+                    MessageBox.Show(String.Format(LoginAsProperUserMessage,
                                                   CstrProjectFacilitatorDisplay),
-                                    OseResources.Properties.Resources.IDS_Caption);
+                                    StoryEditor.OseCaption);
                 }
                 else if (MemberGuid != theCurrentStory.CraftingInfo.ProjectFacilitator.MemberId)
                 {
-                    MessageBox.Show(OseResources.Properties.Resources.IDS_NotTheRightProjFac,
-                                    OseResources.Properties.Resources.IDS_Caption);
+                    MessageBox.Show(NotTheRightProjFacMessage,
+                                    StoryEditor.OseCaption);
                 }
             }
 
             else if (!IsUser(MemberType, eMemberWithEditToken))
             {
                 MessageBox.Show(GetWrongMemberTypeWarning(eMemberWithEditToken),
-                                OseResources.Properties.Resources.IDS_Caption);
+                                StoryEditor.OseCaption);
+            }
+        }
+
+        public static string NotTheRightProjFacMessage
+        {
+            get
+            {
+                return
+                    Localizer.Str(
+                        "You will not be able to make any changes to this story, because you are not the Project Facilitator assigned to it. If you are the new Project Facilitator for the story, then click 'Story', 'Story Information' and click the 'Change' link to the right of the line that says 'Project Facilitator' to choose your name to be assigned to it");
+            }
+        }
+
+        private static string LoginAsProperUserMessage
+        {
+            get
+            {
+                return
+                    Localizer.Str(
+                        "Right now, only a '{0}' can make changes in the Story pane. If you're a {0}, click 'Project', 'Login' to login");
             }
         }
 
@@ -749,13 +770,13 @@ namespace OneStoryProjectEditor
         public static string GetWrongMemberTypeWarning(UserTypes eMemberTypeWithEditToken)
         {
             if (IsUser(eMemberTypeWithEditToken, UserTypes.ProjectFacilitator))
-                return OseResources.Properties.Resources.IDS_WrongPf;
+                return NotTheRightProjFacMessage;
 
             // rewrite the name so it applies for either type of consultant
             if (IsUser(eMemberTypeWithEditToken, UserTypes.ConsultantInTraining))
                 eMemberTypeWithEditToken = UserTypes.IndependentConsultant;
 
-            return String.Format(OseResources.Properties.Resources.IDS_WhichUserEdits,
+            return String.Format(LoginAsProperUserMessage,
                                  GetMemberTypeAsDisplayString(eMemberTypeWithEditToken));
         }
 
@@ -826,8 +847,8 @@ namespace OneStoryProjectEditor
             foreach (NewDataSet.MemberRow aMemberRow in theMembersRow.GetMemberRows())
                 if (ContainsKey(aMemberRow.name))  // Throw away any duplicates
                 {
-                    MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_DuplicateMemberName,
-                                                  aMemberRow.name), OseResources.Properties.Resources.IDS_Caption);
+                    MessageBox.Show(String.Format(Localizer.Str("It appears that some other team member has added a duplicate member with the name '{0}', but only one is allowed! The latter one will be discarded"),
+                                                  aMemberRow.name), StoryEditor.OseCaption);
                 }
                 else
                     Add(aMemberRow.name, new TeamMemberData(aMemberRow));

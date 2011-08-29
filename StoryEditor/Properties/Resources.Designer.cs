@@ -162,6 +162,15 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to OneStory Editor Projects.
+        /// </summary>
+        internal static string DefMyDocsSubfolder {
+            get {
+                return ResourceManager.GetString("DefMyDocsSubfolder", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap DeleteHS {
             get {
                 object obj = ResourceManager.GetObject("DeleteHS", resourceCulture);
@@ -197,46 +206,433 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; onClick=&quot;{1}&quot;&gt;{2}&lt;/button&gt;.
+        /// </summary>
+        internal static string HTML_Button {
+            get {
+                return ResourceManager.GetString("HTML_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; style=&quot;position:relative; left:20px; height:20px; width:20px;&quot; oncontextmenu=&quot;return showContextMenu(this);&quot;&gt;{1}&lt;/button&gt;.
+        /// </summary>
+        internal static string HTML_ButtonRightAlignCtxMenu {
+            get {
+                return ResourceManager.GetString("HTML_ButtonRightAlignCtxMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;script&gt;
+        ///    function OnBibRefJump(link) {
+        ///        window.external.OnBibRefJump(link.name);
+        ///        return false; // cause the href navigation to not happen
+        ///    }
+        ///    function OnVerseLineJump(link) {
+        ///        window.external.OnVerseLineJump(link.name);
+        ///        return false; // cause the href navigation to not happen
+        ///    }
+        ///    function OnKeyDown() {
+        ///        if (window.event.keyCode == 116) {
+        ///            // let the form handle it
+        ///            window.external.LoadDocument();
+        ///
+        ///            // disable [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string HTML_DOM_Prefix {
+            get {
+                return ResourceManager.GetString("HTML_DOM_Prefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;script type=&quot;text/javascript&quot;&gt;
+        ///function OnBibRefJump(btn)
+        ///{
+        ///  window.external.OnBibRefJump(btn.id);
+        ///  return false; // cause the href navigation to not happen
+        ///}
+        ///function OnVerseLineJump(link)
+        ///{
+        ///  window.external.OnVerseLineJump(link.name);
+        ///  return false; // cause the href navigation to not happen
+        ///}
+        ///function OnKeyDown()
+        ///{
+        ///  if (window.event.keyCode == 116)
+        ///  {
+        ///    // let the form handle it
+        ///    window.external.LoadDocument();
+        ///
+        ///    // disable the propagation of the F5 event
+        ///    window.even [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string HTML_DOM_PrefixPresentation {
+            get {
+                return ResourceManager.GetString("HTML_DOM_PrefixPresentation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;script type=&quot;text/javascript&quot;&gt;
+        ///
+        ////************************************************************************************************************
+        ///(C) www.dhtmlgoodies.com, October 2005
+        ///
+        ///This is a script from www.dhtmlgoodies.com. You will find this and a lot of other scripts at our website.	
+        ///
+        ///Terms of use:
+        ///You are free to use this script as long as the copyright message is kept intact. However, you may not
+        ///redistribute, sell or repost it without our permission.
+        ///
+        ///Thank you!
+        ///
+        ///www.dhtmlgoodies.com
+        ///A [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string HTML_DOM_PrefixStoryBt {
+            get {
+                return ResourceManager.GetString("HTML_DOM_PrefixStoryBt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;em&gt;{0}&lt;/em&gt;.
+        /// </summary>
+        internal static string HTML_EmphasizedText {
+            get {
+                return ResourceManager.GetString("HTML_EmphasizedText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;html&gt;
+        ///{0}
+        ///&lt;head&gt;
+        ///{1}
+        ///&lt;/head&gt;
+        ///&lt;body onKeyDown=&quot;return OnKeyDown();&quot; onscroll=&quot;window.external.OnScroll()&quot;&gt;
+        ///{2}
+        ///&lt;/body&gt;
+        ///&lt;/html&gt;.
+        /// </summary>
+        internal static string HTML_Header {
+            get {
+                return ResourceManager.GetString("HTML_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;html&gt;
+        ///{0}
+        ///&lt;head&gt;
+        ///{1}
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///{2}
+        ///&lt;/body&gt;
+        ///&lt;/html&gt;.
+        /// </summary>
+        internal static string HTML_HeaderPresentation {
+            get {
+                return ResourceManager.GetString("HTML_HeaderPresentation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;html&gt;
+        ///{0}
+        ///&lt;head&gt;
+        ///{1}
+        ///&lt;/head&gt;
+        ///&lt;body onKeyDown=&quot;return OnKeyDown();&quot; onscroll=&quot;window.external.OnScroll();&quot;&gt;
+        ///&lt;ul id=&quot;contextMenu&quot;&gt;
+        ///	&lt;li&gt;&lt;a href=&quot;#&quot; onclick=&quot;window.external.InsertNewVerseBefore(nVerseIndex);&quot;&gt;Insert new verse before this one&lt;/a&gt;&lt;/li&gt;
+        ///	&lt;li&gt;&lt;a href=&quot;#&quot; onclick=&quot;window.external.AddNewVerseAfter(nVerseIndex);&quot;&gt;Add new verse after this one&lt;/a&gt;&lt;/li&gt;
+        ///	&lt;li&gt;&lt;a href=&quot;#&quot; onclick=&quot;window.external.HideVerse(nVerseIndex);&quot;&gt;Hide verse&lt;/a&gt;&lt;/li&gt;
+        ///	&lt;li&gt;&lt;a href=&quot;#&quot; onclick=&quot;window.external.DeleteVerse [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string HTML_HeaderStoryBt {
+            get {
+                return ResourceManager.GetString("HTML_HeaderStoryBt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;a href=&quot;{0}&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt; .
+        /// </summary>
+        internal static string HTML_HttpLink {
+            get {
+                return ResourceManager.GetString("HTML_HttpLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .{0} {{
+        ///      font-family: &quot;{1}&quot;;
+        ///      font-size: {2} pt;
+        ///      color: {3};
+        ///      direction: {4};
+        ///      text-align: {5};
+        ///  }}.
+        /// </summary>
+        internal static string HTML_LangStyle {
+            get {
+                return ResourceManager.GetString("HTML_LangStyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;a href=&quot;conNote.jumpToLine&quot; name=&quot;{0}&quot; onClick=&quot;return OnVerseLineJump(this);&quot;&gt;{1}&lt;/a&gt;.
+        /// </summary>
+        internal static string HTML_LinkJumpLine {
+            get {
+                return ResourceManager.GetString("HTML_LinkJumpLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;a href=&quot;bibleViewer.setReference&quot; name=&quot;{0}&quot; onClick=&quot;return OnBibRefJump(this);&quot;&gt;{0}&lt;/a&gt;.
+        /// </summary>
+        internal static string HTML_LinkJumpTargetBibleReference {
+            get {
+                return ResourceManager.GetString("HTML_LinkJumpTargetBibleReference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p id=&quot;{0}&quot; class=&quot;{1}&quot;&gt;{2}&lt;/p&gt;.
+        /// </summary>
+        internal static string HTML_ParagraphText {
+            get {
+                return ResourceManager.GetString("HTML_ParagraphText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;style TYPE=&quot;text/css&quot;&gt;
+        ///  body    {{ margin:0 }}
+        ///  textarea {{ 
+        ///      width:100%; 
+        ///      overflow:visible
+        ///  }}
+        ///  table {{
+        ///   font-size: {0};
+        ///  }}
+        ///  button 
+        ///  {{
+        ///    font-size: {1};
+        ///    padding-bottom: 0;
+        ///    padding-top: 0;
+        ///  }}      
+        ///{2}
+        ///  #contextMenu {{	/* The menu container */
+        ///    border:1px solid #202867;	/* Border around the entire menu */
+        ///    background-color:#FFF;	/* White background color of the menu */
+        ///    margin:0px;
+        ///    padding:0px;
+        ///    width:300px;	/* Width of context menu  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string HTML_StyleDefinition {
+            get {
+                return ResourceManager.GetString("HTML_StyleDefinition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to   &lt;table style=&quot;width:100%;&quot; border=&quot;1&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;
+        ///  {0}
+        ///  &lt;/table&gt;.
+        /// </summary>
+        internal static string HTML_Table {
+            get {
+                return ResourceManager.GetString("HTML_Table", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;td&gt;{0}&lt;/td&gt;.
+        /// </summary>
+        internal static string HTML_TableCell {
+            get {
+                return ResourceManager.GetString("HTML_TableCell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;td width=&quot;100%&quot; BGCOLOR={0}&gt;{1}&lt;/td&gt;.
+        /// </summary>
+        internal static string HTML_TableCellForTextArea {
+            get {
+                return ResourceManager.GetString("HTML_TableCellForTextArea", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;td id=&quot;{0}&quot;&gt;{1}&lt;/td&gt;.
+        /// </summary>
+        internal static string HTML_TableCellId {
+            get {
+                return ResourceManager.GetString("HTML_TableCellId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;td NOWRAP&gt;{0}&lt;/td&gt;.
+        /// </summary>
+        internal static string HTML_TableCellNoWrap {
+            get {
+                return ResourceManager.GetString("HTML_TableCellNoWrap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;td align=&quot;right&quot;&gt;{0}&lt;/td&gt;.
+        /// </summary>
+        internal static string HTML_TableCellRightAlign {
+            get {
+                return ResourceManager.GetString("HTML_TableCellRightAlign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;td width=&quot;{0}%&quot;&gt;{1}&lt;/td&gt;.
+        /// </summary>
+        internal static string HTML_TableCellWidth {
+            get {
+                return ResourceManager.GetString("HTML_TableCellWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;td width=&quot;{0}%&quot; valign=&quot;top&quot;&gt;{1}&lt;/td&gt;.
+        /// </summary>
+        internal static string HTML_TableCellWidthAlignTop {
+            get {
+                return ResourceManager.GetString("HTML_TableCellWidthAlignTop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;td id=&quot;{0}&quot; width=&quot;{1}%&quot;&gt;{2}&lt;/td&gt;.
+        /// </summary>
+        internal static string HTML_TableCellWidthId {
+            get {
+                return ResourceManager.GetString("HTML_TableCellWidthId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;td width=&quot;{0}&quot;&gt;{1}&lt;/td&gt;.
+        /// </summary>
+        internal static string HTML_TableCellWidthPixels {
+            get {
+                return ResourceManager.GetString("HTML_TableCellWidthPixels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;td id=&quot;{0}&quot; width=&quot;{1}%&quot; colspan=&quot;{2}&quot;&gt;{3}&lt;/td&gt;.
+        /// </summary>
+        internal static string HTML_TableCellWidthSpanId {
+            get {
+                return ResourceManager.GetString("HTML_TableCellWidthSpanId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;td colspan=&quot;{0}&quot;&gt;{1}&lt;/td&gt;.
+        /// </summary>
+        internal static string HTML_TableCellWithSpan {
+            get {
+                return ResourceManager.GetString("HTML_TableCellWithSpan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;td width=&quot;{0}%&quot; colspan=&quot;{1}&quot;&gt;{2}&lt;/td&gt;.
+        /// </summary>
+        internal static string HTML_TableCellWithSpanAndWidth {
+            get {
+                return ResourceManager.GetString("HTML_TableCellWithSpanAndWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to         &lt;table style=&quot;width:100%;&quot;&gt;
+        ///        {0}
+        ///        &lt;/table&gt;
+        ///.
+        /// </summary>
+        internal static string HTML_TableNoBorder {
+            get {
+                return ResourceManager.GetString("HTML_TableNoBorder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to   &lt;tr&gt;
+        ///    {0}
+        ///  &lt;/tr&gt;
+        ///    .
+        /// </summary>
+        internal static string HTML_TableRow {
+            get {
+                return ResourceManager.GetString("HTML_TableRow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;tr BGCOLOR=&quot;{0}&quot;&gt;{1}&lt;/tr&gt;.
+        /// </summary>
+        internal static string HTML_TableRowColor {
+            get {
+                return ResourceManager.GetString("HTML_TableRowColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;tr id=&quot;{0}&quot;&gt;{1}&lt;/tr&gt;    .
+        /// </summary>
+        internal static string HTML_TableRowId {
+            get {
+                return ResourceManager.GetString("HTML_TableRowId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;tr id=&quot;{0}&quot; BGCOLOR=&quot;{1}&quot;&gt;{2}&lt;/tr&gt;    .
+        /// </summary>
+        internal static string HTML_TableRowIdColor {
+            get {
+                return ResourceManager.GetString("HTML_TableRowIdColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; class=&quot;{1}&quot; onKeyUp=&quot;return window.external.TextareaOnKeyUp(this.id, this.value);&quot;&gt;{2}&lt;/textarea&gt;.
+        /// </summary>
+        internal static string HTML_Textarea {
+            get {
+                return ResourceManager.GetString("HTML_Textarea", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; class=&quot;{1}&quot; onKeyUp=&quot;return window.external.TextareaOnKeyUp(this.id, this.value);&quot; ondragover=&quot;window.event.returnValue=false&quot; ondrop=&quot;window.external.CopyScriptureReference(this.id)&quot; onselect=&quot;this.focus();&quot;&gt;{2}&lt;/textarea&gt;.
+        /// </summary>
+        internal static string HTML_TextareaWithRefDrop {
+            get {
+                return ResourceManager.GetString("HTML_TextareaWithRefDrop", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap Hyperlink {
             get {
                 object obj = ResourceManager.GetObject("Hyperlink", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You already have a project with the name &apos;{1}&apos; that is in another location. If you create this new project with the same name, then you won&apos;t be able to access the earlier project that is located in the &apos;{2}&apos; folder.{0}{0}Do you want to continue creating the new project and lose the reference to the earlier project (it won&apos;t be deleted if you do)?.
-        /// </summary>
-        internal static string IDS_AboutToStrandProject {
-            get {
-                return ResourceManager.GetString("IDS_AboutToStrandProject", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Follow these steps to use the Adapt It program to translate the story from {1} into {2}:{0}{0}1) Switch to the Adapt It program using Alt+Tab keys{0}2) Select the &apos;{3}&apos; project and click the &apos;Next&apos; button (if a file is already open in Adapt It, then choose the &apos;File&apos; menu, &apos;Close Project&apos; command and then the &apos;File&apos; menu, &apos;Start Working&apos; command first).{0}3) Select the &apos;{4}.xls&apos; document to open and press the &apos;Finished&apos; button.{0}4) When you see the {1} in the adaptation window, then translate it into {2}.  [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string IDS_AdaptationInstructions {
-            get {
-                return ResourceManager.GetString("IDS_AdaptationInstructions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0}5) When you&apos;re finished, return to this window and click the &apos;Yes&apos; button to re-import the translated English text back into the English fields.{0}{0}Have you finished translating the story to English and are ready to import it into the English fields?.
-        /// </summary>
-        internal static string IDS_AdaptationInstructionsContinue {
-            get {
-                return ResourceManager.GetString("IDS_AdaptationInstructionsContinue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There&apos;s something missing in the Adapt It configuration for {0} (e.g. no Converter name in the text box above when the type set to &apos;Local...&apos; or &apos;Shared Adapt It project&apos;). Try to configure it again or set it to &apos;None&apos;.
-        /// </summary>
-        internal static string IDS_AdaptItConfigurationIsBad {
-            get {
-                return ResourceManager.GetString("IDS_AdaptItConfigurationIsBad", resourceCulture);
             }
         }
         
@@ -246,24 +642,6 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_AdaptItConverterDoesntExist {
             get {
                 return ResourceManager.GetString("IDS_AdaptItConverterDoesntExist", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The Adapt It file for the project &apos;{0}&apos;, story &apos;{1}&apos; already exists. If you want to delete that file and do the English translation of the story all over again, then click &apos;Yes&apos;. If you just want to try to import the existing file again, choose &apos;No&apos;. Otherwise, click &apos;Cancel&apos; to stop this command..
-        /// </summary>
-        internal static string IDS_AdaptItFileAlreadyExists {
-            get {
-                return ResourceManager.GetString("IDS_AdaptItFileAlreadyExists", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to From &amp;{0} to {1}.
-        /// </summary>
-        internal static string IDS_AdaptItFromTo {
-            get {
-                return ResourceManager.GetString("IDS_AdaptItFromTo", resourceCulture);
             }
         }
         
@@ -304,83 +682,11 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You can&apos;t use the same UNS for two different tests of the same story. Please select a different UNS (or just put their results in the existing boxes for test &apos;{0}&apos;).
-        /// </summary>
-        internal static string IDS_AddTestSameUNS {
-            get {
-                return ResourceManager.GetString("IDS_AddTestSameUNS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Have you entered all of your testing questions? If not, then click &apos;Cancel&apos; and finish entering all of the testing questions first. Then click &apos;OK&apos; to add boxes for the answers to the testing questions..
-        /// </summary>
-        internal static string IDS_AreAllTestingQuestionsEnteredQuery {
-            get {
-                return ResourceManager.GetString("IDS_AreAllTestingQuestionsEnteredQuery", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Talk with your project consultant before creating an &apos;Outside English back-translator&apos; member on your team. The role of &apos;Outside English back-translator&apos; is only used when the team doesn&apos;t have anyone to do an English back-translation and they arrange with some other team to do their English BT for them. If your team is doing its own English back-translations, then don&apos;t create an &apos;Outside English back-translator&apos; member (you would do it as the Project Facilitator). .
-        /// </summary>
-        internal static string IDS_AreYouSureYouWantToHaveAnEnglishBter {
-            get {
-                return ResourceManager.GetString("IDS_AreYouSureYouWantToHaveAnEnglishBter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Browse for the Network folder where the shared Adapt It repository is located.
-        /// </summary>
-        internal static string IDS_BrowseForNetworkFolder {
-            get {
-                return ResourceManager.GetString("IDS_BrowseForNetworkFolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to You can only delete a key term from the editable key term (i.e. &quot;My Biblical Terms&quot;) list, which is not currently selected..
         /// </summary>
         internal static string IDS_CanDeleteOnlyFromMyBiblicalTerms {
             get {
                 return ResourceManager.GetString("IDS_CanDeleteOnlyFromMyBiblicalTerms", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sorry, you can only modify editable text in consultant or coach notes!.
-        /// </summary>
-        internal static string IDS_CanOnlyChangeConNoteTextareas {
-            get {
-                return ResourceManager.GetString("IDS_CanOnlyChangeConNoteTextareas", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The consultant has not allowed you to enter Anchors at this time.
-        /// </summary>
-        internal static string IDS_CantAddAnchors {
-            get {
-                return ResourceManager.GetString("IDS_CantAddAnchors", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The consultant has not allowed you to enter testing questions at this time.
-        /// </summary>
-        internal static string IDS_CantAddTQs {
-            get {
-                return ResourceManager.GetString("IDS_CantAddTQs", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to merge &apos;{0}&apos; into &apos;{1}&apos; because in the story &apos;{2}&apos;, {3}.
-        /// </summary>
-        internal static string IDS_CantChangeMember {
-            get {
-                return ResourceManager.GetString("IDS_CantChangeMember", resourceCulture);
             }
         }
         
@@ -394,56 +700,11 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to export to Toolbox! Cause: {0} {1}.
+        ///   Looks up a localized string similar to OneStory Project Editor.
         /// </summary>
-        internal static string IDS_CantExport {
+        internal static string IDS_Caption {
             get {
-                return ResourceManager.GetString("IDS_CantExport", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Did you want the project facilitator to do 1 or 2 {0} tests?.
-        /// </summary>
-        internal static string IDS_CantHaveBoth1And2 {
-            get {
-                return ResourceManager.GetString("IDS_CantHaveBoth1And2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The consultant is requiring you to do a test with the story testing questions, but there are no answers entered into the story. Click the &apos;Tasks&apos;, &apos;Add boxes for Answers&apos; button and enter the UNS&apos;s answers..
-        /// </summary>
-        internal static string IDS_CantHaveNoAnswers {
-            get {
-                return ResourceManager.GetString("IDS_CantHaveNoAnswers", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The consultant is requiring you to do a retelling test, but there are none entered into the story. Click the &apos;Tasks&apos;, &apos;Add boxes for Retellings&apos; button and enter the retelling test results..
-        /// </summary>
-        internal static string IDS_CantHaveNoRetellings {
-            get {
-                return ResourceManager.GetString("IDS_CantHaveNoRetellings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You chose the local project folder. You have to browse for a network drive on which to associate the current project.
-        /// </summary>
-        internal static string IDS_CantPushToTheLocalRepo {
-            get {
-                return ResourceManager.GetString("IDS_CantPushToTheLocalRepo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to OSE can&apos;t automatically rearrange the story lines now because that would result in the loss of other information (e.g. Anchors, Testing Questions, and/or Consultant Notes). If you delete these other items, then you could use this command again.
-        /// </summary>
-        internal static string IDS_CantSplitIntoLines {
-            get {
-                return ResourceManager.GetString("IDS_CantSplitIntoLines", resourceCulture);
+                return ResourceManager.GetString("IDS_Caption", resourceCulture);
             }
         }
         
@@ -466,69 +727,6 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Choose the Adapt It Lookup transducer.
-        /// </summary>
-        internal static string IDS_ChooseAdaptItEncConverter {
-            get {
-                return ResourceManager.GetString("IDS_ChooseAdaptItEncConverter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Choose the {0} working on the story &apos;{1}&apos;.
-        /// </summary>
-        internal static string IDS_ChooseMemberStory {
-            get {
-                return ResourceManager.GetString("IDS_ChooseMemberStory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Choose the Story Crafter.
-        /// </summary>
-        internal static string IDS_ChooseTheStoryCrafter {
-            get {
-                return ResourceManager.GetString("IDS_ChooseTheStoryCrafter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Commentary.
-        /// </summary>
-        internal static string IDS_CommentaryHeader {
-            get {
-                return ResourceManager.GetString("IDS_CommentaryHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There&apos;s a new version of the program available. Would you like to upgrade now?.
-        /// </summary>
-        internal static string IDS_ConfirmAutoUpgrade {
-            get {
-                return ResourceManager.GetString("IDS_ConfirmAutoUpgrade", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to delete the {0}?.
-        /// </summary>
-        internal static string IDS_ConfirmDeleteAllVerseLines {
-            get {
-                return ResourceManager.GetString("IDS_ConfirmDeleteAllVerseLines", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to delete the selected items?.
-        /// </summary>
-        internal static string IDS_ConfirmDeleteItems {
-            get {
-                return ResourceManager.GetString("IDS_ConfirmDeleteItems", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete the key term:{0}{1}.
         /// </summary>
         internal static string IDS_ConfirmDeleteKeyTerm {
@@ -538,92 +736,11 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to delete the term:{0}{1}.
-        /// </summary>
-        internal static string IDS_ConfirmDeleteLnCNote {
-            get {
-                return ResourceManager.GetString("IDS_ConfirmDeleteLnCNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to All of the information associated with &apos;{0}&apos; is now associated with &apos;{1}&apos;. Click &apos;Yes&apos; to delete the record for &apos;{0}&apos;..
-        /// </summary>
-        internal static string IDS_ConfirmDeleteMember {
-            get {
-                return ResourceManager.GetString("IDS_ConfirmDeleteMember", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to remove all of the retelling results for .
-        /// </summary>
-        internal static string IDS_ConfirmDeleteRetellings {
-            get {
-                return ResourceManager.GetString("IDS_ConfirmDeleteRetellings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The file that stores the view settings must be deleted to upgrade to the new format (these customizations were done via &apos;Select State&apos;, &apos;Advanced&apos; button, and then right-click on a state button to check or uncheck view fields for a given state). Because of this, it means that you will need to redo the settings..
         /// </summary>
         internal static string IDS_ConfirmDeleteStateTransitions {
             get {
                 return ResourceManager.GetString("IDS_ConfirmDeleteStateTransitions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to delete the &apos;{0}&apos; story?.
-        /// </summary>
-        internal static string IDS_ConfirmDeleteStory {
-            get {
-                return ResourceManager.GetString("IDS_ConfirmDeleteStory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to remove all of the story question test results for .
-        /// </summary>
-        internal static string IDS_ConfirmDeleteTQs {
-            get {
-                return ResourceManager.GetString("IDS_ConfirmDeleteTQs", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Click &apos;Yes&apos; to override the &apos;{0}&apos; {1} for yourself (&apos;{2}&apos;) only. Click &apos;No&apos; to make this change apply to every member of the team (if you all are switching to a new {1})..
-        /// </summary>
-        internal static string IDS_ConfirmOverride {
-            get {
-                return ResourceManager.GetString("IDS_ConfirmOverride", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to change the state of this story bypassing the normal checks (i.e. is the right person logged in, have they answered all their questions, etc). This is an advanced command and can easily result in a conflict if it&apos;s possible that two people will be editing the story at the same time. You should only use this command if you are sure that no one else will be editing this story prior to first synchronizing with the changes you are about to make..
-        /// </summary>
-        internal static string IDS_ConfirmStateChangeOverride {
-            get {
-                return ResourceManager.GetString("IDS_ConfirmStateChangeOverride", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to change this member&apos;s name? [If you are trying to add a new member, then do it through the &apos;Project&apos;, &apos;Login&apos; window instead. Clicking &apos;Yes&apos; here will permanently remove the record for &apos;{0}&apos; and replace it with this new information for &apos;{1}&apos;].
-        /// </summary>
-        internal static string IDS_ConfirmTeamMemberNameChange {
-            get {
-                return ResourceManager.GetString("IDS_ConfirmTeamMemberNameChange", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You should connect to the internet now so we can download the latest version of the file (in case some of your team made changes).
-        /// </summary>
-        internal static string IDS_ConnectToInternet {
-            get {
-                return ResourceManager.GetString("IDS_ConnectToInternet", resourceCulture);
             }
         }
         
@@ -661,11 +778,12 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The &apos;{1}&apos; language field of the {2} in line &apos;{3}&apos; is empty. Did you forget it?{0}{0}(if you don&apos;t mean to enter data in the &apos;{1}&apos; field, then click &apos;Project&apos;, &apos;Settings&apos; and on the &apos;Languages&apos; tab, uncheck the box for that language in the &apos;{2}s&apos; column).
+        ///   Looks up a localized string similar to {\rtf1\adeflang1081\ansi\ansicpg1252\uc1\adeff0\deff0\stshfdbch0\stshfloch0\stshfhich0\stshfbi0\deflang1033\deflangfe1033{\fonttbl{\f0\froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f312\froman\fcharset238\fprq2 Times New Roman CE;}{\f313\froman\fcharset204\fprq2 Times New Roman Cyr;}
+        ///{\f315\froman\fcharset161\fprq2 Times New Roman Greek;}{\f316\froman\fcharset162\fprq2 Times New Roman Tur;}{\f317\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew);}{\f318\fbidi \froman\fchar [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string IDS_DataMissing {
+        internal static string IDS_DefaultPanoramaFrontMatter {
             get {
-                return ResourceManager.GetString("IDS_DataMissing", resourceCulture);
+                return ResourceManager.GetString("IDS_DefaultPanoramaFrontMatter", resourceCulture);
             }
         }
         
@@ -675,78 +793,6 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_DefaultRepoServer {
             get {
                 return ResourceManager.GetString("IDS_DefaultRepoServer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Choose the item(s) to delete and then click the Delete button.
-        /// </summary>
-        internal static string IDS_DeleteItemFrameTitle {
-            get {
-                return ResourceManager.GetString("IDS_DeleteItemFrameTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to delete this line (and all associated consultant notes, etc)?.
-        /// </summary>
-        internal static string IDS_DeleteVerseQuery {
-            get {
-                return ResourceManager.GetString("IDS_DeleteVerseQuery", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to In line {0} of the {1} pane, there&apos;s an empty box labeled &apos;{2}&apos;, into which you are supposed to enter a response. Did you forget it?.
-        /// </summary>
-        internal static string IDS_DidntAnswerQuestion {
-            get {
-                return ResourceManager.GetString("IDS_DidntAnswerQuestion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t configure these settings until after the project file is opened. Try again later..
-        /// </summary>
-        internal static string IDS_DoAfterOpen {
-            get {
-                return ResourceManager.GetString("IDS_DoAfterOpen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The consultant hasn&apos;t given you permission to edit the &apos;{0}&apos; language fields.
-        /// </summary>
-        internal static string IDS_DontHaveTaskPermission {
-            get {
-                return ResourceManager.GetString("IDS_DontHaveTaskPermission", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The consultant is requiring you to do {0} more {1} test(s).
-        /// </summary>
-        internal static string IDS_DoXMoreTqTests {
-            get {
-                return ResourceManager.GetString("IDS_DoXMoreTqTests", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ‘{0}’ has set the story ‘{1}’ from project &apos;{2}&apos; to your turn.
-        /// </summary>
-        internal static string IDS_EmailDetails {
-            get {
-                return ResourceManager.GetString("IDS_EmailDetails", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0}{0}Most recent (open) Story line comments:{1}.
-        /// </summary>
-        internal static string IDS_EmailLastComments {
-            get {
-                return ResourceManager.GetString("IDS_EmailLastComments", resourceCulture);
             }
         }
         
@@ -771,96 +817,6 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter the correct spelling.
-        /// </summary>
-        internal static string IDS_EnterCorrectedSpelling {
-            get {
-                return ResourceManager.GetString("IDS_EnterCorrectedSpelling", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enter the name you want to give this project (e.g. the language name)..
-        /// </summary>
-        internal static string IDS_EnterProjectName {
-            get {
-                return ResourceManager.GetString("IDS_EnterProjectName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;type the name of a story to create and hit Enter&gt;.
-        /// </summary>
-        internal static string IDS_EnterStoryName {
-            get {
-                return ResourceManager.GetString("IDS_EnterStoryName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enter the name of the story to add.
-        /// </summary>
-        internal static string IDS_EnterStoryToAdd {
-            get {
-                return ResourceManager.GetString("IDS_EnterStoryToAdd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &quot;The data from Adapt It doesn&apos;t appear to match what&apos;s in the story.{0}In line number {3}, I was expecting \&quot;{4}\&quot;, but got \&quot;{5}\&quot; instead.{0}If you&apos;ve made changes in the {1} or the {2} back-translation, then you need to do the back-translation in Adapt It again.&quot;.
-        /// </summary>
-        internal static string IDS_ErrorInAdaptation {
-            get {
-                return ResourceManager.GetString("IDS_ErrorInAdaptation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to (Press the Esc key to dismiss this help window).
-        /// </summary>
-        internal static string IDS_EscapeToDismiss {
-            get {
-                return ResourceManager.GetString("IDS_EscapeToDismiss", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The project has been exported to the folder &apos;{0}\Toolbox&apos;. Click &apos;Yes&apos; to launch Toolbox and open that project..
-        /// </summary>
-        internal static string IDS_ExportedToolboxMessage {
-            get {
-                return ResourceManager.GetString("IDS_ExportedToolboxMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The &apos;{0}&apos; field of line &apos;{1}&apos; is empty, but the &apos;{2}&apos; field of that same line is not. Did you forget to enter the back-translation?.
-        /// </summary>
-        internal static string IDS_FieldCantBeEmpty {
-            get {
-                return ResourceManager.GetString("IDS_FieldCantBeEmpty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The project file &apos;{0}&apos; is locked. Is it read-only? Or opened in some other program? Unlock it and try again. Or try to save it as a different name..
-        /// </summary>
-        internal static string IDS_FileLockedMessage {
-            get {
-                return ResourceManager.GetString("IDS_FileLockedMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to String not found!.
-        /// </summary>
-        internal static string IDS_FindStringNotFound {
-            get {
-                return ResourceManager.GetString("IDS_FindStringNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &amp;From {0} (for Discourse Charting).
         /// </summary>
         internal static string IDS_FromStoryForDiscourseCharting {
@@ -879,11 +835,11 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The &apos;{0}&apos; field of line &apos;{1}&apos; is empty. Click &apos;Yes&apos; to hide the line? Click &apos;No&apos; to ignore and continue..
+        ///   Looks up a localized string similar to The project file has an ill-formed Anchor! Wasn&apos;t expecting to see &apos;{0}&apos;. Contact bob_eaton@sall.com and mention which the project name..
         /// </summary>
-        internal static string IDS_HideEmptyLine {
+        internal static string IDS_IllFormedJumpTarget {
             get {
-                return ResourceManager.GetString("IDS_HideEmptyLine", resourceCulture);
+                return ResourceManager.GetString("IDS_IllFormedJumpTarget", resourceCulture);
             }
         }
         
@@ -897,24 +853,6 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An automated message has been put into your email&apos;s Outbox to inform {0} that it is now his/her turn to work on the story. When you&apos;re finished, you should click &apos;Project&apos;, &apos;Send/Receive&apos; to synchronize your changes to the Internet repository (or thumbdrive) and then do a Send/Receive of your email as well, so the other person gets the message.
-        /// </summary>
-        internal static string IDS_InformToDoSendReceive {
-            get {
-                return ResourceManager.GetString("IDS_InformToDoSendReceive", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Is this a story from the Bible?.
-        /// </summary>
-        internal static string IDS_IsThisStoryFromTheBible {
-            get {
-                return ResourceManager.GetString("IDS_IsThisStoryFromTheBible", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Unable to process Key Terms: cause: {0}{0}{1}.
         /// </summary>
         internal static string IDS_KeyTermsProblem {
@@ -924,47 +862,11 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} &amp;language fields.
-        /// </summary>
-        internal static string IDS_LanguageFields {
-            get {
-                return ResourceManager.GetString("IDS_LanguageFields", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Located in folder &apos;{0}&apos;.
-        /// </summary>
-        internal static string IDS_LocatedInFolder {
-            get {
-                return ResourceManager.GetString("IDS_LocatedInFolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to You will need to log in as a coach to be able to respond to the CIT/LSR comments.
         /// </summary>
         internal static string IDS_LoginAsCoach {
             get {
                 return ResourceManager.GetString("IDS_LoginAsCoach", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You have added a UNS in order to identify, for example, which UNS did the back translation or a particular test. However, you as the Project Facilitator should still be logged in to enter the UNS&apos;s comments. So select your *Project Facilitator* member name and click &apos;Login&apos; again.
-        /// </summary>
-        internal static string IDS_LoginAsProjectFacilitator {
-            get {
-                return ResourceManager.GetString("IDS_LoginAsProjectFacilitator", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You have to be logged in as a &apos;Project Facilitator&apos; to add stories. To login, click &apos;Project&apos;, &apos;Login&apos;.
-        /// </summary>
-        internal static string IDS_LogInAsProjFac {
-            get {
-                return ResourceManager.GetString("IDS_LogInAsProjFac", resourceCulture);
             }
         }
         
@@ -987,56 +889,11 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  -- ({0} logged in as &apos;{1}&apos;).
+        ///   Looks up a localized string similar to Stories.
         /// </summary>
-        internal static string IDS_MainFrameTitleSuffix {
+        internal static string IDS_MainStoriesSet {
             get {
-                return ResourceManager.GetString("IDS_MainFrameTitleSuffix", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There&apos;s a new version of OSE available. To upgrade, click &apos;Advanced&apos;, &apos;Program Updates&apos;, &apos;Check now&apos;.
-        /// </summary>
-        internal static string IDS_MentionNewUpdateAvailable {
-            get {
-                return ResourceManager.GetString("IDS_MentionNewUpdateAvailable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The &apos;{0}&apos; folder is now the root folder for OneStory Editor projects. You can use Windows Explorer to move the projects (sub-folders) in &apos;{1}&apos; to &apos;{0}&apos;. Then click the &quot;Project&quot; menu and choose the &quot;Browse for project file&quot; command to re-load your projects from the new location..
-        /// </summary>
-        internal static string IDS_MoveProjectsToNewProjectFolder {
-            get {
-                return ResourceManager.GetString("IDS_MoveProjectsToNewProjectFolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to If you&apos;re going to have the project facilitator do story inference testing, then you probably need to allow them to &apos;{0}&apos; also.
-        /// </summary>
-        internal static string IDS_MustAllowAddingTestQuestions {
-            get {
-                return ResourceManager.GetString("IDS_MustAllowAddingTestQuestions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to If you require the project facilitator to &apos;{0}&apos;, then you&apos;ll also need to allow the &apos;{1}&apos; task?.
-        /// </summary>
-        internal static string IDS_MustAllowRequirement {
-            get {
-                return ResourceManager.GetString("IDS_MustAllowRequirement", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Oops. You have to allow a task in order to require it. Please check the box in the Allowed Tasks list for &apos;{0}&apos;.
-        /// </summary>
-        internal static string IDS_MustAllowToRequireTask {
-            get {
-                return ResourceManager.GetString("IDS_MustAllowToRequireTask", resourceCulture);
+                return ResourceManager.GetString("IDS_MainStoriesSet", resourceCulture);
             }
         }
         
@@ -1046,51 +903,6 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_MustBeCloneRepo {
             get {
                 return ResourceManager.GetString("IDS_MustBeCloneRepo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You have to be in the state for entering the {0} back-translation to do this command. Click the &apos;Next State&apos; button until you get to that state and retry..
-        /// </summary>
-        internal static string IDS_MustBeInBTState {
-            get {
-                return ResourceManager.GetString("IDS_MustBeInBTState", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You must enter the {0}.
-        /// </summary>
-        internal static string IDS_MustHave {
-            get {
-                return ResourceManager.GetString("IDS_MustHave", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A project must have at least one language selected.
-        /// </summary>
-        internal static string IDS_MustHaveAtLeastOneLanguage {
-            get {
-                return ResourceManager.GetString("IDS_MustHaveAtLeastOneLanguage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The coach is requiring you to &apos;{0}&apos;.
-        /// </summary>
-        internal static string IDS_MustPassToCoach {
-            get {
-                return ResourceManager.GetString("IDS_MustPassToCoach", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} back-translation of the story to the clipboard.
-        /// </summary>
-        internal static string IDS_NationalBtOfStory {
-            get {
-                return ResourceManager.GetString("IDS_NationalBtOfStory", resourceCulture);
             }
         }
         
@@ -1124,33 +936,6 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Line &apos;{0}&apos; doesn&apos;t have an anchor. Did you forget it?.
-        /// </summary>
-        internal static string IDS_NoAnchor {
-            get {
-                return ResourceManager.GetString("IDS_NoAnchor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Your story doesn&apos;t have multiple lines! Did you forget to do: &apos;Story&apos;, &apos;Split into lines&apos;?.
-        /// </summary>
-        internal static string IDS_NoMultipleLines {
-            get {
-                return ResourceManager.GetString("IDS_NoMultipleLines", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There are no program updates!.
-        /// </summary>
-        internal static string IDS_NoProgramUpdates {
-            get {
-                return ResourceManager.GetString("IDS_NoProgramUpdates", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to No project file was found at the internet repository: {0}{0}{1}{0}{0}Are you sure it there is one in the repository yet?.
         /// </summary>
         internal static string IDS_NoProjectFromInternet {
@@ -1160,43 +945,106 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nothing to search for!.
+        ///   Looks up a localized string similar to  was visible, but now is hidden.
         /// </summary>
-        internal static string IDS_NoSearchString {
+        internal static string IDS_NowIsHidden {
             get {
-                return ResourceManager.GetString("IDS_NoSearchString", resourceCulture);
+                return ResourceManager.GetString("IDS_NowIsHidden", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This conversation isn&apos;t empty! Instead of deleting it, it would be better to just hide it so it will be left around for history. Click &apos;Yes&apos; to hide the conversation or click &apos;No&apos; to delete it?.
+        ///   Looks up a localized string similar to Enter the name of the story to add.
         /// </summary>
-        internal static string IDS_NoteNotEmptyHideQuery {
+        internal static string IDS_OBSOLETEEnterStoryToAdd {
             get {
-                return ResourceManager.GetString("IDS_NoteNotEmptyHideQuery", resourceCulture);
+                return ResourceManager.GetString("IDS_OBSOLETEEnterStoryToAdd", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You should have at least half as many Story Testing Questions as lines in the story. Please add at least {0} more testing question(s). (right-click on the &apos;line options&apos; button and choose &apos;Add a story testing question&apos;)&quot;.
+        ///   Looks up a localized string similar to You have to log in to continue. Click &apos;Project&apos;, &apos;Login&apos; and choose or add your name..
         /// </summary>
-        internal static string IDS_NotEnoughTqs {
+        internal static string IDS_OBSOLETEHaveToLogInToContinue {
             get {
-                return ResourceManager.GetString("IDS_NotEnoughTqs", resourceCulture);
+                return ResourceManager.GetString("IDS_OBSOLETEHaveToLogInToContinue", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is no state transition history for this story.
+        ///   Looks up a localized string similar to Is this a story from the Bible?.
         /// </summary>
-        internal static string IDS_NoTransitionHistory {
+        internal static string IDS_OBSOLETEIsThisStoryFromTheBible {
             get {
-                return ResourceManager.GetString("IDS_NoTransitionHistory", resourceCulture);
+                return ResourceManager.GetString("IDS_OBSOLETEIsThisStoryFromTheBible", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.2/StoryEditor.exe.manifest.xml.
+        ///   Looks up a localized string similar to Located in folder &apos;{0}&apos;.
+        /// </summary>
+        internal static string IDS_OBSOLETELocatedInFolder {
+            get {
+                return ResourceManager.GetString("IDS_OBSOLETELocatedInFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}  Press F1 for instructions.
+        /// </summary>
+        internal static string IDS_OBSOLETEPressF1ForInstructions {
+            get {
+                return ResourceManager.GetString("IDS_OBSOLETEPressF1ForInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Old Stories.
+        /// </summary>
+        internal static string IDS_ObsoleteStoriesSet {
+            get {
+                return ResourceManager.GetString("IDS_ObsoleteStoriesSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Story.
+        /// </summary>
+        internal static string IDS_OBSOLETEStory {
+            get {
+                return ResourceManager.GetString("IDS_OBSOLETEStory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click &apos;Yes&apos; to confirm. If you click &apos;Yes&apos;, then you won&apos;t be able to make further changes to the story until it is returned to you. If you want to make any change first, then click &apos;No&apos;..
+        /// </summary>
+        internal static string IDS_OBSOLETETerminalTransitionMessage {
+            get {
+                return ResourceManager.GetString("IDS_OBSOLETETerminalTransitionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to create a project without a project name!.
+        /// </summary>
+        internal static string IDS_OBSOLETEUnableToCreateProjectWithoutName {
+            get {
+                return ResourceManager.GetString("IDS_OBSOLETEUnableToCreateProjectWithoutName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to find the story &apos;{0}&apos;. Would you like to add a new story with that name?.
+        /// </summary>
+        internal static string IDS_OBSOLETEUnableToFindStoryAdd {
+            get {
+                return ResourceManager.GetString("IDS_OBSOLETEUnableToFindStoryAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.3/StoryEditor.exe.manifest.xml.
         /// </summary>
         internal static string IDS_OSEUpgradeServer {
             get {
@@ -1205,7 +1053,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.3/StoryEditor.exe.manifest.xml.
+        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.4/StoryEditor.exe.manifest.xml.
         /// </summary>
         internal static string IDS_OSEUpgradeServerNextMajorUpgrade {
             get {
@@ -1214,245 +1062,29 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You already have a project with the name, &apos;{0}&apos;. Do you want to delete the existing one?.
+        ///   Looks up a localized string similar to The project file is corrupted. No &apos;StoryCrafterMemberID&apos; record found. Send to bob_eaton@sall.com for help..
         /// </summary>
-        internal static string IDS_OverwriteProject {
+        internal static string IDS_ProjectFileCorrupted {
             get {
-                return ResourceManager.GetString("IDS_OverwriteProject", resourceCulture);
+                return ResourceManager.GetString("IDS_ProjectFileCorrupted", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copy the selected story back to the &quot;Stories&quot; tab list.
+        ///   Looks up a localized string similar to The project file is corrupted. No &apos;CraftingInfo&apos; record found. Send to bob_eaton@sall.com for help..
         /// </summary>
-        internal static string IDS_PanoramaViewCopyBackToStories {
+        internal static string IDS_ProjectFileCorruptedNoCraftingInfo {
             get {
-                return ResourceManager.GetString("IDS_PanoramaViewCopyBackToStories", resourceCulture);
+                return ResourceManager.GetString("IDS_ProjectFileCorruptedNoCraftingInfo", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copy the selected story to the &quot;Old Stories&quot; tab list. Then you can use the &apos;View&apos; menu, &apos;View Old Stories&apos; command (from the main window) to view stories in the &apos;Old Stories&apos; list..
+        ///   Looks up a localized string similar to The project file you&apos;re trying to open (i.e. &apos;{0}&apos;) was lasted edited by an earlier version of the OneStory editor. I can automatically upgrade the project file to be readable by this newer version, but it will make it inaccessible to the earlier version. So if the rest of the team (Project Facilitators, Consultant, etc) have all: a) done a &apos;Project&apos;, &apos;Send/receive&apos; to send all of their outstanding changes, and b) upgraded to the new version of OSE, then if you want the project file to be converted to the n [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string IDS_PanoramaViewCopyToOldStories {
+        internal static string IDS_QueryConvertProjectFile1_3to1_4 {
             get {
-                return ResourceManager.GetString("IDS_PanoramaViewCopyToOldStories", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enter &amp;Anchors.
-        /// </summary>
-        internal static string IDS_PfButtonLabelAnchors {
-            get {
-                return ResourceManager.GetString("IDS_PfButtonLabelAnchors", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enter &amp;Free Translation (UNS BT).
-        /// </summary>
-        internal static string IDS_PfButtonLabelFreeTranslation {
-            get {
-                return ResourceManager.GetString("IDS_PfButtonLabelFreeTranslation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enter &amp;English BT.
-        /// </summary>
-        internal static string IDS_PfButtonLabelInternationalBt {
-            get {
-                return ResourceManager.GetString("IDS_PfButtonLabelInternationalBt", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enter &amp;National/Regional BT.
-        /// </summary>
-        internal static string IDS_PfButtonLabelNationalBt {
-            get {
-                return ResourceManager.GetString("IDS_PfButtonLabelNationalBt", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enter &amp;Testing Questions.
-        /// </summary>
-        internal static string IDS_PfButtonLabelTestQuestions {
-            get {
-                return ResourceManager.GetString("IDS_PfButtonLabelTestQuestions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enter Story Language (&amp;Vernacular).
-        /// </summary>
-        internal static string IDS_PfButtonLabelVernacular {
-            get {
-                return ResourceManager.GetString("IDS_PfButtonLabelVernacular", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You can view the {0} fields, but you don&apos;t have the edit privilege to make changes (the {1} currently has the edit privilege).
-        /// </summary>
-        internal static string IDS_PfNoEditToken {
-            get {
-                return ResourceManager.GetString("IDS_PfNoEditToken", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You can view the {0} fields, but the consultant hasn&apos;t given you permission to make changes to them.
-        /// </summary>
-        internal static string IDS_PfNotAllowedToModified {
-            get {
-                return ResourceManager.GetString("IDS_PfNotAllowedToModified", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You&apos;ve added boxes for all of the required {0} tests.
-        /// </summary>
-        internal static string IDS_PfRequiredTestsDone {
-            get {
-                return ResourceManager.GetString("IDS_PfRequiredTestsDone", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The consultant is requiring you to show results for {1} {0} test(s).
-        /// </summary>
-        internal static string IDS_PfRequiredToDoXTests {
-            get {
-                return ResourceManager.GetString("IDS_PfRequiredToDoXTests", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0}  Press F1 for instructions.
-        /// </summary>
-        internal static string IDS_PressF1ForInstructions {
-            get {
-                return ResourceManager.GetString("IDS_PressF1ForInstructions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to An update to the OneStory Editor has just been downloaded. Would you like to install it now? (recommended).
-        /// </summary>
-        internal static string IDS_QueryAboutUpdateProgram {
-            get {
-                return ResourceManager.GetString("IDS_QueryAboutUpdateProgram", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Click &apos;Yes&apos; to create an Adapt It project to use for back-translation from &apos;{0}&apos; to &apos;{1}&apos;. Click &apos;No&apos; to browse for an existing Adapt It project instead.
-        /// </summary>
-        internal static string IDS_QueryCreateAdaptItProject {
-            get {
-                return ResourceManager.GetString("IDS_QueryCreateAdaptItProject", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Is this repository on the internet (click &apos;Yes&apos;) or a network shared folder (click &apos;No&apos;)?.
-        /// </summary>
-        internal static string IDS_QueryHgType {
-            get {
-                return ResourceManager.GetString("IDS_QueryHgType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Is the shared Adapt It project on your computer now? (click &apos;Yes&apos; to browse for it; click &apos;No&apos; to enter the repository information for it).
-        /// </summary>
-        internal static string IDS_QueryIfAiProjectNeedsToBePulled {
-            get {
-                return ResourceManager.GetString("IDS_QueryIfAiProjectNeedsToBePulled", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; has these additional roles: &apos;{1}&apos;. Would you like to add those roles to &apos;{2}&apos; also?.
-        /// </summary>
-        internal static string IDS_QueryMergeMultipleRoles {
-            get {
-                return ResourceManager.GetString("IDS_QueryMergeMultipleRoles", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to How many times did the UNS hear the story before giving this retelling?.
-        /// </summary>
-        internal static string IDS_QueryNumOfTimeHeard {
-            get {
-                return ResourceManager.GetString("IDS_QueryNumOfTimeHeard", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Browse for the project folder on the thumbdrive.
-        /// </summary>
-        internal static string IDS_QueryProjectFolderOnThumbDrive {
-            get {
-                return ResourceManager.GetString("IDS_QueryProjectFolderOnThumbDrive", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The shared Adapt It project for this field is not on the local computer. Please enter the necessary information in the next window to download it from the internet (i.e. the repository server, username and password). These should be in an email message you received previously.
-        /// </summary>
-        internal static string IDS_QueryPullSharedAiProject {
-            get {
-                return ResourceManager.GetString("IDS_QueryPullSharedAiProject", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Is the shared Adapt It project in the &apos;{0}&apos; folder?.
-        /// </summary>
-        internal static string IDS_QuerySharedAiProject {
-            get {
-                return ResourceManager.GetString("IDS_QuerySharedAiProject", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Browse to the shared network folder where the project will be stored (i.e. the path to parent folder in which the program will create a &apos;{0}&apos; folder in order to put the &apos;{1}&apos; sub-folder for this project).
-        /// </summary>
-        internal static string IDS_QuerySharedNetworkFolder {
-            get {
-                return ResourceManager.GetString("IDS_QuerySharedNetworkFolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The &apos;{0}&apos; field of line &apos;{1}&apos; has multiple sentences. Click &apos;Yes&apos; to have them separated into their own lines. Click &apos;No&apos; to ignore and continue..
-        /// </summary>
-        internal static string IDS_QuerySplitMultipleLines {
-            get {
-                return ResourceManager.GetString("IDS_QuerySplitMultipleLines", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You may need to click the &lt;Space&gt; button to put a space before opening quotes.
-        /// </summary>
-        internal static string IDS_ReorderClickSpaceTip {
-            get {
-                return ResourceManager.GetString("IDS_ReorderClickSpaceTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to the UNS &apos;{0}&apos; is already used. That would result in the same UNS being used for two different tests. To correct this, go to that story and click &apos;Story&apos;, &apos;Story Information&apos; and change the test associated with &apos;{0}&apos; to someone else and try to merge them again.
-        /// </summary>
-        internal static string IDS_ReplaceUnsException {
-            get {
-                return ResourceManager.GetString("IDS_ReplaceUnsException", resourceCulture);
+                return ResourceManager.GetString("IDS_QueryConvertProjectFile1_3to1_4", resourceCulture);
             }
         }
         
@@ -1466,83 +1098,11 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Would you like to save changes?.
-        /// </summary>
-        internal static string IDS_SaveChanges {
-            get {
-                return ResourceManager.GetString("IDS_SaveChanges", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to A key term or its status has changed. Do you wish to save these changes?.
         /// </summary>
         internal static string IDS_SaveKeyTermsPrompt {
             get {
                 return ResourceManager.GetString("IDS_SaveKeyTermsPrompt", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Would you like to start searching from the beginning of the story?.
-        /// </summary>
-        internal static string IDS_StartFromBeginning {
-            get {
-                return ResourceManager.GetString("IDS_StartFromBeginning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Story.
-        /// </summary>
-        internal static string IDS_Story {
-            get {
-                return ResourceManager.GetString("IDS_Story", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Story: .
-        /// </summary>
-        internal static string IDS_StoryColon {
-            get {
-                return ResourceManager.GetString("IDS_StoryColon", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Click to choose another team member.
-        /// </summary>
-        internal static string IDS_StoryInformationTooltipLinkChange {
-            get {
-                return ResourceManager.GetString("IDS_StoryInformationTooltipLinkChange", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Click to edit the contact or bio data for this team member.
-        /// </summary>
-        internal static string IDS_StoryInformationTooltipLinkView {
-            get {
-                return ResourceManager.GetString("IDS_StoryInformationTooltipLinkView", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;{0} back-translation fields.
-        /// </summary>
-        internal static string IDS_StoryLanguageField {
-            get {
-                return ResourceManager.GetString("IDS_StoryLanguageField", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} story lines to the clipboard.
-        /// </summary>
-        internal static string IDS_StoryText {
-            get {
-                return ResourceManager.GetString("IDS_StoryText", resourceCulture);
             }
         }
         
@@ -1609,74 +1169,11 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Click &apos;Yes&apos; to confirm. If you click &apos;Yes&apos;, then you won&apos;t be able to make further changes to the story until it is returned to you. If you want to make any change first, then click &apos;No&apos;..
-        /// </summary>
-        internal static string IDS_TerminalTransitionMessage {
-            get {
-                return ResourceManager.GetString("IDS_TerminalTransitionMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This story isn&apos;t in revision &apos;{0}&apos;.
-        /// </summary>
-        internal static string IDS_ThisStoryNotInThisRevision {
-            get {
-                return ResourceManager.GetString("IDS_ThisStoryNotInThisRevision", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There are unapproved comments! Set to Coach&apos;s turn instead to get them approved or they won&apos;t be visible to the Project Facilitator.
-        /// </summary>
-        internal static string IDS_ToolTipAboutUnapprovedComments {
-            get {
-                return ResourceManager.GetString("IDS_ToolTipAboutUnapprovedComments", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to Send/Receive the AdaptIt project &apos;{1}&apos; from the requested server{0}{2}{0}{3}.
-        /// </summary>
-        internal static string IDS_UnableToConfigureSharedAiProject {
-            get {
-                return ResourceManager.GetString("IDS_UnableToConfigureSharedAiProject", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Unable to continue! Cause: {0}.
         /// </summary>
         internal static string IDS_UnableToContinue {
             get {
                 return ResourceManager.GetString("IDS_UnableToContinue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to copy text to the clipboard!{0}{0}{1}{0}{0}{2}.
-        /// </summary>
-        internal static string IDS_UnableToCopyText {
-            get {
-                return ResourceManager.GetString("IDS_UnableToCopyText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to create a project without a project name!.
-        /// </summary>
-        internal static string IDS_UnableToCreateProjectWithoutName {
-            get {
-                return ResourceManager.GetString("IDS_UnableToCreateProjectWithoutName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to find the story &apos;{0}&apos;. Would you like to add a new story with that name?.
-        /// </summary>
-        internal static string IDS_UnableToFindStoryAdd {
-            get {
-                return ResourceManager.GetString("IDS_UnableToFindStoryAdd", resourceCulture);
             }
         }
         
@@ -1735,15 +1232,6 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Click &apos;Yes&apos; to add a single answer box for this testing question only. Click &apos;No&apos; to add answer boxes for all lines of the story. Click &apos;Cancel&apos; to do nothing..
-        /// </summary>
-        internal static string IDS_VerifyAddSingleTest {
-            get {
-                return ResourceManager.GetString("IDS_VerifyAddSingleTest", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Click &apos;Ignore&apos; to overwrite the existing &apos;My Biblical Terms&apos; list with the contents of the &apos;{0}&apos; list. Otherwise, click &apos;Retry&apos; to merge the contents of the &apos;{0}&apos; list into the existing &apos;My Biblical Terms&apos; list..
         /// </summary>
         internal static string IDS_VerifyOverwriteMyBiblicalTerms {
@@ -1753,65 +1241,11 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This line isn&apos;t empty! Instead of deleting it, it would be better to just hide it so it will be left around to know what it used to be.{0}{0}Click &apos;Yes&apos; to hide the line or click &apos;No&apos; to delete it?.
-        /// </summary>
-        internal static string IDS_VerseNotEmptyHideQuery {
-            get {
-                return ResourceManager.GetString("IDS_VerseNotEmptyHideQuery", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This program uses the internet to update itself and download the latest versions of the project file(s). Please connect to the Internet..
-        /// </summary>
-        internal static string IDS_WarnAboutNoInternet {
-            get {
-                return ResourceManager.GetString("IDS_WarnAboutNoInternet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to You don&apos;t have at least half as many story testing questions as lines in the story. Unless you have prior permission from your consultant, you should click Cancel and add at least {0} more testing question(s). (right-click on the &apos;line options&apos; button and choose &apos;Add a story testing question&apos;). Otherwise, click &apos;Yes&apos; to continue on to the next state..
         /// </summary>
         internal static string IDS_WarnAboutNotEnoughTqs {
             get {
                 return ResourceManager.GetString("IDS_WarnAboutNotEnoughTqs", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You already have this L&amp;C note for the word &apos;{0}&apos;! See &apos;View&apos;, &apos;L&amp;C Notes&apos;.
-        /// </summary>
-        internal static string IDS_WarnAboutSimilarLnCNote {
-            get {
-                return ResourceManager.GetString("IDS_WarnAboutSimilarLnCNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There are one or more comments in the Consultant Notes pane by the CIT (or LSR) that haven&apos;t been approved. Click &apos;Yes&apos; to ignore them and continue on, or click &apos;No&apos; to cancel so you can go back and approve/get them approved.
-        /// </summary>
-        internal static string IDS_WarnAboutUnapprovedComments {
-            get {
-                return ResourceManager.GetString("IDS_WarnAboutUnapprovedComments", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There are one or more questions in the Coach Note pane which haven&apos;t been responded to by a Coach. Click &apos;Yes&apos; to ignore them and continue changing to the project facilitator&apos;s turn or click &apos;No&apos; to cancel so you can go back and respond to them.
-        /// </summary>
-        internal static string IDS_WarnAboutUnrespondedToComments {
-            get {
-                return ResourceManager.GetString("IDS_WarnAboutUnrespondedToComments", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You have to enter at least a name and indicate a role (even if you&apos;re &apos;Just Looking&apos;)!.
-        /// </summary>
-        internal static string IDS_WarnNeedNameAndRole {
-            get {
-                return ResourceManager.GetString("IDS_WarnNeedNameAndRole", resourceCulture);
             }
         }
         

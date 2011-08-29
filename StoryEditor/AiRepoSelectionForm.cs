@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Chorus.UI.Clone;
+using NetLoc;
 using SilEncConverters40;
 
 namespace OneStoryProjectEditor
@@ -20,6 +21,8 @@ namespace OneStoryProjectEditor
         public AiRepoSelectionForm()
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
+
             foreach (string strServerLabel in Program.MapServerToUrlHost.Keys)
                 comboBoxServer.Items.Add(strServerLabel);
         }
@@ -100,7 +103,7 @@ namespace OneStoryProjectEditor
         {
             var dlg = new FolderBrowserDialog
                           {
-                              Description = Properties.Resources.IDS_BrowseForNetworkFolder
+                              Description = Localizer.Str("Browse for the Network folder where the shared Adapt It repository is located")
                           };
 
             if (dlg.ShowDialog() == DialogResult.OK)
@@ -274,7 +277,7 @@ namespace OneStoryProjectEditor
                 textBoxProjectName.SelectionLength = match.Length;
 
                 toolTip.Show(
-                    "Enter the project name of the repository on the internet (e.g. aikb-hindi-english). Length between 2 and 20 characters. Only lower case letters (a-z), numbers and dashes are allowed AND the repository must have already been created by the repository administrator (bob_eaton@sall.com)",
+                    Localizer.Str("Enter the project name of the repository on the internet (e.g. aikb-hindi-english). Length between 2 and 20 characters. Only lower case letters (a-z), numbers and dashes are allowed AND the repository must have already been created by the repository administrator (bob_eaton@sall.com)"),
                     textBoxProjectName);
             } 
             UpdateLabels();

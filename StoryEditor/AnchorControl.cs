@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -114,8 +115,8 @@ namespace OneStoryProjectEditor
                     && !TasksPf.IsTaskOn(theSE.TheCurrentStory.TasksAllowedPf, 
                                          TasksPf.TaskSettings.Anchors))
                 {
-                    MessageBox.Show(Properties.Resources.IDS_CantAddAnchors,
-                                    OseResources.Properties.Resources.IDS_Caption);
+                    MessageBox.Show(Localizer.Str("The consultant has not allowed you to enter Anchors at this time"),
+                                    StoryEditor.OseCaption);
                     return;
                 }
 
@@ -160,7 +161,7 @@ namespace OneStoryProjectEditor
                 /*
                 if (_mapAnchorsToTextBoxes.ContainsKey(m_theLastButtonClicked))
                 {
-                    DialogResult res = MessageBox.Show(String.Format("The anchor you are about to delete has exegetical or cultural note(s) attached to it. These will be deleted also. Click 'OK' to continue with the deletion.{0}{0}[if you would rather have kept them, say associated to another anchor, then tell bob_eaton@sall.com and he may implement that feature. For now, you can copy the note and paste it into a new note added to a new or existing anchor (right-click on the anchor and choose 'Add Exegetical/Cultural Note'). Then come back here and delete this anchor]", Environment.NewLine),  OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.OKCancel);
+                    DialogResult res = MessageBox.Show(String.Format("The anchor you are about to delete has exegetical or cultural note(s) attached to it. These will be deleted also. Click 'OK' to continue with the deletion.{0}{0}[if you would rather have kept them, say associated to another anchor, then tell bob_eaton@sall.com and he may implement that feature. For now, you can copy the note and paste it into a new note added to a new or existing anchor (right-click on the anchor and choose 'Add Exegetical/Cultural Note'). Then come back here and delete this anchor]", Environment.NewLine),  StoryEditor.OseCaption, MessageBoxButtons.OKCancel);
                     if (res != DialogResult.OK)
                         return;
 
@@ -186,7 +187,7 @@ namespace OneStoryProjectEditor
                 theSE.Modified = true;
             }
             else
-                MessageBox.Show("Right-click on one of the buttons to choose which one to delete",  OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show("Right-click on one of the buttons to choose which one to delete",  StoryEditor.OseCaption);
         }
 
         private void addCommentToolStripMenuItem_Click(object sender, EventArgs e)
@@ -216,7 +217,7 @@ namespace OneStoryProjectEditor
                 }
             }
             else
-                MessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to",  OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to",  StoryEditor.OseCaption);
         }
 
         private void toolStripAnchors_MouseDown(object sender, MouseEventArgs e)
@@ -237,7 +238,6 @@ namespace OneStoryProjectEditor
             AdjustHeightWithSuspendLayout(null);
             theSE.Modified = true;
         }
-        */
 
         internal static BiblicalKeyTermsForm m_dlgKeyTerms = null;
 
@@ -272,7 +272,7 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 MessageBox.Show(String.Format(Properties.Resources.IDS_KeyTermsProblem,
-                    Environment.NewLine, ex.Message), OseResources.Properties.Resources.IDS_Caption);
+                    Environment.NewLine, ex.Message), StoryEditor.OseCaption);
                 return;
             }
         }
@@ -296,6 +296,7 @@ namespace OneStoryProjectEditor
                 return liToUse;
             }
         }
+        */
 
         private void addConsultantCoachNoteOnThisAnchorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -318,7 +319,7 @@ namespace OneStoryProjectEditor
                 theSE.SendNoteToCorrectPane(_ctrlVerse.VerseNumber, strNote, false);
             }
             else
-                MessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to", OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to", StoryEditor.OseCaption);
         }
 
         private const string CstrNullAnchor = "No Anchor";

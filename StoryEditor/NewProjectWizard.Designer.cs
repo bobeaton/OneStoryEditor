@@ -1479,9 +1479,9 @@
             this.labelAdaptItVernacularToNationalBt.AutoSize = true;
             this.labelAdaptItVernacularToNationalBt.Location = new System.Drawing.Point(3, 30);
             this.labelAdaptItVernacularToNationalBt.Name = "labelAdaptItVernacularToNationalBt";
-            this.labelAdaptItVernacularToNationalBt.Size = new System.Drawing.Size(130, 13);
+            this.labelAdaptItVernacularToNationalBt.Size = new System.Drawing.Size(279, 13);
             this.labelAdaptItVernacularToNationalBt.TabIndex = 3;
-            this.labelAdaptItVernacularToNationalBt.Text = "Use AdaptIt for X to Y BT:";
+            this.labelAdaptItVernacularToNationalBt.Text = "Use AdaptIt for X to Y BT: <no need to localize/translate>";
             // 
             // labelAdaptItVernacularToInternationalBt
             // 
@@ -1489,9 +1489,9 @@
             this.labelAdaptItVernacularToInternationalBt.AutoSize = true;
             this.labelAdaptItVernacularToInternationalBt.Location = new System.Drawing.Point(3, 104);
             this.labelAdaptItVernacularToInternationalBt.Name = "labelAdaptItVernacularToInternationalBt";
-            this.labelAdaptItVernacularToInternationalBt.Size = new System.Drawing.Size(130, 13);
+            this.labelAdaptItVernacularToInternationalBt.Size = new System.Drawing.Size(279, 13);
             this.labelAdaptItVernacularToInternationalBt.TabIndex = 4;
-            this.labelAdaptItVernacularToInternationalBt.Text = "Use AdaptIt for X to Y BT:";
+            this.labelAdaptItVernacularToInternationalBt.Text = "Use AdaptIt for X to Y BT: <no need to localize/translate>";
             // 
             // labelAdaptItNationalBtToInternationalBt
             // 
@@ -1499,19 +1499,19 @@
             this.labelAdaptItNationalBtToInternationalBt.AutoSize = true;
             this.labelAdaptItNationalBtToInternationalBt.Location = new System.Drawing.Point(3, 178);
             this.labelAdaptItNationalBtToInternationalBt.Name = "labelAdaptItNationalBtToInternationalBt";
-            this.labelAdaptItNationalBtToInternationalBt.Size = new System.Drawing.Size(130, 13);
+            this.labelAdaptItNationalBtToInternationalBt.Size = new System.Drawing.Size(279, 13);
             this.labelAdaptItNationalBtToInternationalBt.TabIndex = 5;
-            this.labelAdaptItNationalBtToInternationalBt.Text = "Use AdaptIt for X to Y BT:";
+            this.labelAdaptItNationalBtToInternationalBt.Text = "Use AdaptIt for X to Y BT: <no need to localize/translate>";
             // 
             // adaptItConfigCtrlVernacularToNationalBt
             // 
             this.adaptItConfigCtrlVernacularToNationalBt.AdaptItConfiguration = null;
             this.adaptItConfigCtrlVernacularToNationalBt.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.adaptItConfigCtrlVernacularToNationalBt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.adaptItConfigCtrlVernacularToNationalBt.Location = new System.Drawing.Point(136, 0);
+            this.adaptItConfigCtrlVernacularToNationalBt.Location = new System.Drawing.Point(285, 0);
             this.adaptItConfigCtrlVernacularToNationalBt.Margin = new System.Windows.Forms.Padding(0);
             this.adaptItConfigCtrlVernacularToNationalBt.Name = "adaptItConfigCtrlVernacularToNationalBt";
-            this.adaptItConfigCtrlVernacularToNationalBt.Size = new System.Drawing.Size(589, 74);
+            this.adaptItConfigCtrlVernacularToNationalBt.Size = new System.Drawing.Size(440, 74);
             this.adaptItConfigCtrlVernacularToNationalBt.SourceLanguageName = null;
             this.adaptItConfigCtrlVernacularToNationalBt.TabIndex = 6;
             this.adaptItConfigCtrlVernacularToNationalBt.TargetLanguageName = null;
@@ -1521,10 +1521,10 @@
             this.adaptItConfigCtrlVernacularToInternationalBt.AdaptItConfiguration = null;
             this.adaptItConfigCtrlVernacularToInternationalBt.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.adaptItConfigCtrlVernacularToInternationalBt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.adaptItConfigCtrlVernacularToInternationalBt.Location = new System.Drawing.Point(136, 74);
+            this.adaptItConfigCtrlVernacularToInternationalBt.Location = new System.Drawing.Point(285, 74);
             this.adaptItConfigCtrlVernacularToInternationalBt.Margin = new System.Windows.Forms.Padding(0);
             this.adaptItConfigCtrlVernacularToInternationalBt.Name = "adaptItConfigCtrlVernacularToInternationalBt";
-            this.adaptItConfigCtrlVernacularToInternationalBt.Size = new System.Drawing.Size(589, 74);
+            this.adaptItConfigCtrlVernacularToInternationalBt.Size = new System.Drawing.Size(440, 74);
             this.adaptItConfigCtrlVernacularToInternationalBt.SourceLanguageName = null;
             this.adaptItConfigCtrlVernacularToInternationalBt.TabIndex = 7;
             this.adaptItConfigCtrlVernacularToInternationalBt.TargetLanguageName = null;
@@ -1534,10 +1534,10 @@
             this.adaptItConfigCtrlNationalBtToInternationalBt.AdaptItConfiguration = null;
             this.adaptItConfigCtrlNationalBtToInternationalBt.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.adaptItConfigCtrlNationalBtToInternationalBt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.adaptItConfigCtrlNationalBtToInternationalBt.Location = new System.Drawing.Point(136, 148);
+            this.adaptItConfigCtrlNationalBtToInternationalBt.Location = new System.Drawing.Point(285, 148);
             this.adaptItConfigCtrlNationalBtToInternationalBt.Margin = new System.Windows.Forms.Padding(0);
             this.adaptItConfigCtrlNationalBtToInternationalBt.Name = "adaptItConfigCtrlNationalBtToInternationalBt";
-            this.adaptItConfigCtrlNationalBtToInternationalBt.Size = new System.Drawing.Size(589, 74);
+            this.adaptItConfigCtrlNationalBtToInternationalBt.Size = new System.Drawing.Size(440, 74);
             this.adaptItConfigCtrlNationalBtToInternationalBt.SourceLanguageName = null;
             this.adaptItConfigCtrlNationalBtToInternationalBt.TabIndex = 8;
             this.adaptItConfigCtrlNationalBtToInternationalBt.TargetLanguageName = null;

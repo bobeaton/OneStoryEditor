@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
+using NetLoc;
 using Palaso.UI.WindowsForms.Keyboarding;
 
 namespace OneStoryProjectEditor
@@ -214,7 +215,7 @@ namespace OneStoryProjectEditor
                             || !CheckForTaskPermission((li = projSettings.FreeTranslation), StoryEditor.TextFieldType.FreeTranslation, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.FreeTranslationFields)))
                         {
                             throw new ApplicationException(
-                                String.Format(Properties.Resources.IDS_DontHaveTaskPermission,
+                                String.Format(Localizer.Str("The consultant hasn't given you permission to edit the '{0}' language fields"),
                                               li.LangName));
                         }
                     }
@@ -539,7 +540,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(ex.Message, StoryEditor.OseCaption);
             }
         }
 
@@ -585,7 +586,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(ex.Message, StoryEditor.OseCaption);
             }
         }
 
@@ -645,8 +646,7 @@ namespace OneStoryProjectEditor
             if (tsi != null)
             {
                 var note = (LnCNote)tsi.Tag;
-                var dlg = new AddLnCNoteForm(_ctrlVerseParent.TheSE, note)
-                                {Text = LnCNotesForm.CstrEditLnCNote};
+                var dlg = new AddLnCNoteForm(_ctrlVerseParent.TheSE, note) {Text = Localizer.Str("Edit L&C Note")};
                 if ((dlg.ShowDialog() == DialogResult.OK) && (note != null))
                     _ctrlVerseParent.TheSE.Modified = true;
             }

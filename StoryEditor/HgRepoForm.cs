@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -15,6 +16,7 @@ namespace OneStoryProjectEditor
             : base(true)
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
         }
 
         public string ProjectName { get; set; }

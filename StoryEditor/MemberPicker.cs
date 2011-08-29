@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -15,6 +16,12 @@ namespace OneStoryProjectEditor
         protected TeamMemberData _dataSelectedMember = null;
         protected TeamMemberData.UserTypes _eWantedType = TeamMemberData.UserTypes.Undefined;
 
+        private MemberPicker()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
+
         public MemberPicker(StoryProjectData theStoryProjectData, 
             TeamMemberData.UserTypes eWantedType)
             : base(true)
@@ -23,6 +30,7 @@ namespace OneStoryProjectEditor
             _eWantedType = eWantedType;
 
             InitializeComponent();
+            Localizer.Ctrl(this);
         }
 
         public new DialogResult ShowDialog()

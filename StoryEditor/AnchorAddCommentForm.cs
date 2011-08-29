@@ -1,19 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
     public partial class AnchorAddCommentForm : Form
     {
+        private AnchorAddCommentForm()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
+
         public AnchorAddCommentForm(string strJumpTarget, string strComment)
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
+
             this.labelJumpTarget.Text = strJumpTarget;
             CommentText = strComment;
         }

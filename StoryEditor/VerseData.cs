@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using System.Text;
+using NetLoc;
 using SilEncConverters40;
 
 namespace OneStoryProjectEditor
@@ -665,7 +666,7 @@ namespace OneStoryProjectEditor
                                                StoryLine.FreeTranslation.ToString());
             }
 
-            string strStoryLineRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
+            string strStoryLineRow = String.Format(Properties.Resources.HTML_TableRow,
                                                    strRow);
 
             if (viewItemToInsureOn.IsViewItemOn(ViewSettings.ItemToInsureOn.AnchorFields))
@@ -850,24 +851,24 @@ namespace OneStoryProjectEditor
         protected string FinishPresentationHtml(string strStoryLineRow, string strHtml,
             bool bChildIsHidden)
         {
-            strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRow,
-                                    String.Format(OseResources.Properties.Resources.HTML_TableCell,
+            strHtml = String.Format(Properties.Resources.HTML_TableRow,
+                                    String.Format(Properties.Resources.HTML_TableCell,
                                                   String.Format(
-                                                      OseResources.Properties.Resources.HTML_Table,
+                                                      Properties.Resources.HTML_Table,
                                                       strStoryLineRow))) + strHtml;
 
-            strStoryLineRow = String.Format(OseResources.Properties.Resources.HTML_TableCell,
-                                            String.Format(OseResources.Properties.Resources.HTML_TableNoBorder, strHtml));
+            strStoryLineRow = String.Format(Properties.Resources.HTML_TableCell,
+                                            String.Format(Properties.Resources.HTML_TableNoBorder, strHtml));
 
             // color changes if hidden
             if (bChildIsHidden)
             {
-                strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRowColor,
+                strHtml = String.Format(Properties.Resources.HTML_TableRowColor,
                                                 "#F0E68C", strStoryLineRow);
             }
             else
             {
-                strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                strHtml = String.Format(Properties.Resources.HTML_TableRow,
                                                 strStoryLineRow);
             }
 
@@ -879,8 +880,8 @@ namespace OneStoryProjectEditor
         private static string FormatLanguageColumn(int nVerseIndex, int nNumCols,
             string strFieldName, string strLangStyleClassName, string strValue)
         {
-            return String.Format(OseResources.Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
-                                        String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
+            return String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
+                                        String.Format(Properties.Resources.HTML_ParagraphText,
                                                       TextareaId(nVerseIndex, strFieldName),
                                                       strLangStyleClassName,
                                                       strValue));
@@ -1403,19 +1404,19 @@ namespace OneStoryProjectEditor
             // add a row indicating which languages are in what columns
             string strHtml = null;
             if (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField))
-                strHtml += String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                strHtml += String.Format(Properties.Resources.HTML_TableCell,
                                          projectSettings.Vernacular.LangName);
             if (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField))
-                strHtml += String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                strHtml += String.Format(Properties.Resources.HTML_TableCell,
                                          projectSettings.NationalBT.LangName);
             if (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField))
-                strHtml += String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                strHtml += String.Format(Properties.Resources.HTML_TableCell,
                                          projectSettings.InternationalBT.LangName);
             if (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField))
-                strHtml += String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                strHtml += String.Format(Properties.Resources.HTML_TableCell,
                                          projectSettings.FreeTranslation.LangName);
 
-            strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRow,
+            strHtml = String.Format(Properties.Resources.HTML_TableRow,
                                      strHtml);
 
             for (int i = 1; i <= Count; i++)
@@ -1426,7 +1427,7 @@ namespace OneStoryProjectEditor
                     strHtml += GetHeaderRow("Ln: " + i,
                                             (aVerseData.IsVisible)
                                                 ? null
-                                                : OseResources.Properties.Resources.IDS_HiddenLabel, i,
+                                                : Properties.Resources.IDS_HiddenLabel, i,
                                             true, nColSpan);
 
                     strHtml += aVerseData.StoryBtHtml(projectSettings, membersData, 
@@ -1434,7 +1435,7 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            return String.Format(OseResources.Properties.Resources.HTML_Table, strHtml);
+            return String.Format(Properties.Resources.HTML_Table, strHtml);
         }
         */
 
@@ -1544,7 +1545,17 @@ namespace OneStoryProjectEditor
                     i++;
                 }
 
-            return String.Format(OseResources.Properties.Resources.HTML_Table, strHtml);
+            return String.Format(Properties.Resources.HTML_Table, strHtml);
+        }
+
+        public static string HiddenString
+        {
+            get { return Localizer.Str("(Hidden)"); }
+        }
+
+        public static string HiddenStringSpace
+        {
+            get { return " " + HiddenString; }
         }
 
         private static string DetermineHiddenLabel(bool isVisible, VerseData theChildVerse)
@@ -1555,14 +1566,14 @@ namespace OneStoryProjectEditor
                 if (theChildVerse != null)
                 {
                     if (!isVisible && !theChildVerse.IsVisible)
-                        str = OseResources.Properties.Resources.IDS_HiddenLabel;
+                        str = HiddenStringSpace;
                     else if (!isVisible)
-                        str = OseResources.Properties.Resources.IDS_WasHidden;
+                        str = Localizer.Str(" was hidden, but now is visible");
                     else
-                        str = OseResources.Properties.Resources.IDS_NowIsHidden;
+                        str = Properties.Resources.IDS_NowIsHidden;
                 }
                 else
-                    str = OseResources.Properties.Resources.IDS_HiddenLabel;
+                    str = HiddenStringSpace;
             }
             return str;
         }
@@ -1579,17 +1590,17 @@ namespace OneStoryProjectEditor
 
         protected string GetHeaderRow(string strHeader, string strHeaderAdd, int nVerseIndex, bool bShowButton, int nColSpan)
         {
-            string strLink = String.Format(OseResources.Properties.Resources.HTML_LinkJumpLine,
+            string strLink = String.Format(Properties.Resources.HTML_LinkJumpLine,
                                            nVerseIndex, strHeader) + strHeaderAdd;
 
             string strButton = null;
             if (bShowButton)
-                strButton = String.Format(OseResources.Properties.Resources.HTML_ButtonRightAlignCtxMenu,
+                strButton = String.Format(Properties.Resources.HTML_ButtonRightAlignCtxMenu,
                                           nVerseIndex, // ButtonId(nVerseIndex),
                                           " ");
 
-            string strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRowColor, "#AACCFF",
-                                           String.Format(OseResources.Properties.Resources.HTML_TableCellWidthSpanId,
+            string strHtml = String.Format(Properties.Resources.HTML_TableRowColor, "#AACCFF",
+                                           String.Format(Properties.Resources.HTML_TableCellWidthSpanId,
                                                          LineId(nVerseIndex),
                                                          100,
                                                          nColSpan,
@@ -1619,19 +1630,19 @@ namespace OneStoryProjectEditor
             string strHtmlButtons = null;
             if (theCNsDC.HasAddNotePrivilege(LoggedOnMember, strThePfMemberId))
             {
-                strHtmlButtons += String.Format(OseResources.Properties.Resources.HTML_Button,
+                strHtmlButtons += String.Format(Properties.Resources.HTML_Button,
                                                 nVerseIndex,
                                                 "return window.external.OnAddNote(this.id, null, false);",
                                                 "Add Note");
 
-                strHtmlButtons += String.Format(OseResources.Properties.Resources.HTML_Button,
+                strHtmlButtons += String.Format(Properties.Resources.HTML_Button,
                                                 NoteToSelfButtonId(nVerseIndex),
                                                 "return window.external.OnAddNoteToSelf(this.id, null);",
                                                 "Add Note to Self");
             }
 
             if (bShowOnlyOpenConversations)
-                strHtmlButtons = String.Format(OseResources.Properties.Resources.HTML_Button,
+                strHtmlButtons = String.Format(Properties.Resources.HTML_Button,
                                                ButtonId(nVerseIndex),
                                                "return window.external.OnShowHideOpenConversations(this.id);",
                                                (theCNsDC.ShowOpenConversations)
@@ -1639,19 +1650,19 @@ namespace OneStoryProjectEditor
                                                    : CstrShowOpenShowAll)
                                  + strHtmlButtons;  // to have 'Add Note' come last
 
-            string strLink = String.Format(OseResources.Properties.Resources.HTML_LinkJumpLine,
+            string strLink = String.Format(Properties.Resources.HTML_LinkJumpLine,
                                            nVerseIndex, strHeader);
             if (!bVerseVisible)
-                strLink += OseResources.Properties.Resources.IDS_HiddenLabel;
+                strLink += VersesData.HiddenStringSpace;
 
-            return String.Format(OseResources.Properties.Resources.HTML_TableRowIdColor,
+            return String.Format(Properties.Resources.HTML_TableRowIdColor,
                                  RowId(nVerseIndex),
                                  "#AACCFF",
                                  String.Format("{0}{1}",
-                                               String.Format(OseResources.Properties.Resources.HTML_TableCellId,
+                                               String.Format(Properties.Resources.HTML_TableCellId,
                                                              LineId(nVerseIndex),
                                                              strLink),
-                                               String.Format(OseResources.Properties.Resources.HTML_TableCellRightAlign,
+                                               String.Format(Properties.Resources.HTML_TableCellRightAlign,
                                                              strHtmlButtons)));
         }
 
@@ -1710,7 +1721,7 @@ namespace OneStoryProjectEditor
                                                            bShowOnlyOpenConversations, i);
             }
 
-            return String.Format(OseResources.Properties.Resources.HTML_Table, strHtml);
+            return String.Format(Properties.Resources.HTML_Table, strHtml);
         }
 
         public string CoachNotesHtml(object htmlConNoteCtrl,
@@ -1755,7 +1766,7 @@ namespace OneStoryProjectEditor
                                                       bShowOnlyOpenConversations, i);
             }
 
-            return String.Format(OseResources.Properties.Resources.HTML_Table, strHtml);
+            return String.Format(Properties.Resources.HTML_Table, strHtml);
         }
 
         public void IndexSearch(VerseData.SearchLookInProperties findProperties,

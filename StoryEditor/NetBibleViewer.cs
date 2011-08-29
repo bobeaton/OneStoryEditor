@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -447,7 +448,7 @@ namespace OneStoryProjectEditor
                     continue;
 
                 sb.Append(String.Format(CstrHtmlLineFormatCommentaryHeader,
-                    Properties.Resources.IDS_CommentaryHeader + i, swm.Description()));
+                    CommentaryHeader + i, swm.Description()));
 
                 sb.Append(String.Format(CstrHtmlLineFormatCommentary, strVerseHtml));
             }
@@ -461,13 +462,18 @@ namespace OneStoryProjectEditor
             var theSE = FindForm() as StoryEditor;
             var dlg = new HtmlForm
                           {
-                              Text = Properties.Resources.IDS_CommentaryHeader,
+                              Text = CommentaryHeader,
                               ClientText = sb.ToString(),
                               TheSE = theSE,
                               NumberOfResources = i
                           };
 
             dlg.Show();
+        }
+
+        public static string CommentaryHeader
+        {
+            get { return Localizer.Str("Commentary"); }
         }
 
         private string strIdToScrollTo = null;

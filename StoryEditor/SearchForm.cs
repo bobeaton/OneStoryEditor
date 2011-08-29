@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -16,6 +16,7 @@ namespace OneStoryProjectEditor
         public SearchForm()
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
 
             ReadFromConfig(ref FindProperties, this);
 
@@ -70,7 +71,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+                Program.ShowException(ex);
             }
         }
 
@@ -173,7 +174,8 @@ namespace OneStoryProjectEditor
             string strToSearchFor = UpdateComboBox(comboBoxFindWhat);
             if (String.IsNullOrEmpty(strToSearchFor))
             {
-                MessageBox.Show(Properties.Resources.IDS_NoSearchString, OseResources.Properties.Resources.IDS_Caption); 
+                MessageBox.Show(Localizer.Str("Nothing to search for!"),
+                                StoryEditor.OseCaption);
                 return;
             }
 
@@ -310,8 +312,8 @@ namespace OneStoryProjectEditor
                     }
 
                     // otherwise, see if the user wants to start over from 0
-                    if (MessageBox.Show(Properties.Resources.IDS_StartFromBeginning, 
-                        OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+                    if (MessageBox.Show(Localizer.Str("Would you like to start searching from the beginning of the story?"), 
+                        StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                     {
                         nCtxBoxIndex = 0;
 
@@ -341,8 +343,8 @@ namespace OneStoryProjectEditor
             }
 
             // otherwise, see if the user wants to start over from 0.0
-            if (MessageBox.Show(Properties.Resources.IDS_StartFromBeginning,
-                OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            if (MessageBox.Show(Localizer.Str("Would you like to start searching from the beginning of the story?"),
+                StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
             {
                 LastStoryIndex = LastCtxBoxIndex = LastCharIndex = 0;
                 DoFindNext();
@@ -352,8 +354,8 @@ namespace OneStoryProjectEditor
         protected void ShowNotFound()
         {
             Console.Beep();
-            MessageBox.Show(Properties.Resources.IDS_FindStringNotFound,
-                            OseResources.Properties.Resources.IDS_Caption);
+            MessageBox.Show(Localizer.Str("String not found!"),
+                            StoryEditor.OseCaption);
 
             // but if we find nothing once, then just start over wherever it makes sense 
             //  next time
@@ -596,7 +598,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(ex.Message, StoryEditor.OseCaption);
             }
         }
 
@@ -607,7 +609,8 @@ namespace OneStoryProjectEditor
             string strFindWhat = UpdateComboBox(comboBoxFindWhat);
             if (String.IsNullOrEmpty(strFindWhat))
             {
-                MessageBox.Show(Properties.Resources.IDS_NoSearchString, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(Localizer.Str("Nothing to search for!"),
+                                StoryEditor.OseCaption);
                 return;
             }
 
@@ -648,8 +651,9 @@ namespace OneStoryProjectEditor
                     if (ctrl.IsParagraphElement(LastStringTransferSearched.HtmlElementId))
                     {
                         // paragraphs are not replaceable
-                        MessageBox.Show(Properties.Resources.IDS_CanOnlyChangeConNoteTextareas,
-                            OseResources.Properties.Resources.IDS_Caption);
+                        MessageBox.Show(
+                            Localizer.Str("Sorry, you can only modify editable text in consultant or coach notes!"),
+                            StoryEditor.OseCaption);
                         return;
                     }
 

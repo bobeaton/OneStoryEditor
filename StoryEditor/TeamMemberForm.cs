@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
+using NetLoc;
 using Palaso.UI.WindowsForms.Keyboarding;
 
 namespace OneStoryProjectEditor
@@ -95,7 +96,7 @@ namespace OneStoryProjectEditor
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message,  OseResources.Properties.Resources.IDS_Caption);
+                        MessageBox.Show(ex.Message,  StoryEditor.OseCaption);
                         return false;
                     }
 
@@ -126,8 +127,8 @@ namespace OneStoryProjectEditor
                             if (!String.IsNullOrEmpty(_projSettings.Vernacular.DefaultKeyboard)
                                 && (strKeyboard != _projSettings.Vernacular.DefaultKeyboard))
                             {
-                                DialogResult res = MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_ConfirmKeyboardOverride,
-                                    _projSettings.Vernacular.LangName, _tmdLastMember.Name), OseResources.Properties.Resources.IDS_Caption,
+                                DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmKeyboardOverride,
+                                    _projSettings.Vernacular.LangName, _tmdLastMember.Name), StoryEditor.OseCaption,
                                     MessageBoxButtons.YesNoCancel);
 
                                 if (res == DialogResult.Yes)
@@ -167,8 +168,8 @@ namespace OneStoryProjectEditor
                             if(!String.IsNullOrEmpty(_projSettings.NationalBT.DefaultKeyboard)
                                 && (strKeyboard != _projSettings.NationalBT.DefaultKeyboard))
                             {
-                                DialogResult res = MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_ConfirmKeyboardOverride,
-                                    _projSettings.Vernacular.LangName, _tmdLastMember.Name), OseResources.Properties.Resources.IDS_Caption,
+                                DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmKeyboardOverride,
+                                    _projSettings.Vernacular.LangName, _tmdLastMember.Name), StoryEditor.OseCaption,
                                     MessageBoxButtons.YesNoCancel);
 
                                 if (res == DialogResult.Yes)
@@ -262,8 +263,8 @@ namespace OneStoryProjectEditor
             if ((buttonOK.Text == CstrDefaultOKLabel)
                 && (eAllowedLoginRoleFilter == TeamMemberData.UserTypes.Undefined))
             {
-                MessageBox.Show(Properties.Resources.IDS_LoginAsProjectFacilitator,
-                                OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(Localizer.Str("You have added a UNS in order to identify, for example, which UNS did the back translation or a particular test. However, you as the Project Facilitator should still be logged in to enter the UNS's comments. So select your *Project Facilitator* member name and click 'Login' again"),
+                                StoryEditor.OseCaption);
                 return;
             }
 
@@ -444,7 +445,7 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 if (ex.Message == "Only TrueType fonts are supported. This is not a TrueType font.")
-                    MessageBox.Show("Since you just added this font, you have to restart the program for it to work", OseResources.Properties.Resources.IDS_Caption);
+                    MessageBox.Show("Since you just added this font, you have to restart the program for it to work", StoryEditor.OseCaption);
             }
         }
 
@@ -467,7 +468,7 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 if (ex.Message == "Only TrueType fonts are supported. This is not a TrueType font.")
-                    MessageBox.Show("Since you just added this font, you have to restart the program for it to work", OseResources.Properties.Resources.IDS_Caption);
+                    MessageBox.Show("Since you just added this font, you have to restart the program for it to work", StoryEditor.OseCaption);
             }
         }
 
@@ -488,7 +489,7 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 if (ex.Message == "Only TrueType fonts are supported. This is not a TrueType font.")
-                    MessageBox.Show("Since you just added this font, you have to restart the program for it to work", OseResources.Properties.Resources.IDS_Caption);
+                    MessageBox.Show("Since you just added this font, you have to restart the program for it to work", StoryEditor.OseCaption);
             }
         }
         */
@@ -561,12 +562,12 @@ namespace OneStoryProjectEditor
                 dlg.SelectedMember.MemberType &= ~eRole;
                 if (dlg.SelectedMember.MemberType != TeamMemberData.UserTypes.Undefined)
                 {
-                    res = MessageBox.Show(String.Format(Properties.Resources.IDS_QueryMergeMultipleRoles,
+                    res = MessageBox.Show(String.Format(Localizer.Str("'{0}' has these additional roles: '{1}'. Would you like to add those roles to '{2}' also?"),
                                                         _dataTeamMembers.GetNameFromMemberId(strOldMemberGuid),
                                                         TeamMemberData.GetMemberTypeAsDisplayString(
                                                             dlg.SelectedMember.MemberType),
                                                         _dataTeamMembers.GetNameFromMemberId(theMemberData.MemberGuid)),
-                                          OseResources.Properties.Resources.IDS_Caption,
+                                          StoryEditor.OseCaption,
                                           MessageBoxButtons.YesNoCancel);
                     if (res != DialogResult.Yes)
                         return;
@@ -588,10 +589,10 @@ namespace OneStoryProjectEditor
                         System.Diagnostics.Debug.Assert(false);
                 }
 
-                res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteMember,
+                res = MessageBox.Show(String.Format(Localizer.Str("All of the information associated with member '{0}' is now associated with member '{1}'. Click 'Yes' to delete the record for '{0}'"),
                                                     dlg.SelectedMember.Name,
                                                     theMemberData.Name),
-                                      OseResources.Properties.Resources.IDS_Caption,
+                                      StoryEditor.OseCaption,
                                       MessageBoxButtons.YesNoCancel);
 
                 if (res != DialogResult.Yes)
@@ -608,7 +609,7 @@ namespace OneStoryProjectEditor
             }
             catch (StoryProjectData.ReplaceMemberException ex)
             {
-                var strErrorMsg = String.Format(Properties.Resources.IDS_CantChangeMember,
+                var strErrorMsg = String.Format(Localizer.Str("Unable to merge member '{0}' into member '{1}' because in story '{2}', {3}"),
                                                 _dataTeamMembers.GetNameFromMemberId(
                                                     strOldMemberGuid),
                                                 _dataTeamMembers.GetNameFromMemberId(
@@ -617,7 +618,7 @@ namespace OneStoryProjectEditor
                                                 String.Format(ex.Format,
                                                               _dataTeamMembers.GetNameFromMemberId(
                                                                   ex.MemberGuid)));
-                MessageBox.Show(strErrorMsg, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
             }
         }
 

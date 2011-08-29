@@ -75,10 +75,7 @@ namespace OneStoryProjectEditor
             VerseData verseData = Verse(nVerseIndex);
             if (verseData.HasData)
             {
-                DialogResult res = MessageBox.Show(
-                    String.Format(Properties.Resources.IDS_VerseNotEmptyHideQuery,
-                    Environment.NewLine), OseResources.Properties.Resources.IDS_Caption, 
-                    MessageBoxButtons.YesNoCancel);
+                DialogResult res = VerseBtControl.QueryAboutHidingVerseInstead();
 
                 if (res == DialogResult.Yes)
                 {
@@ -90,10 +87,7 @@ namespace OneStoryProjectEditor
                     return;
             }
 
-            if (MessageBox.Show(
-                Properties.Resources.IDS_DeleteVerseQuery,
-                OseResources.Properties.Resources.IDS_Caption,
-                MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            if (VerseBtControl.UserConfirmDeletion)
             {
                 theSE.DeleteVerse(verseData);
             }
@@ -171,7 +165,7 @@ namespace OneStoryProjectEditor
 
             // update the status bar (in case we previously put an error there
             StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theSE.theCurrentStory.ProjStage.ProjectStage];
-            theSE.SetStatusBar(String.Format("{0}  Press F1 for instructions", st.StageDisplayString));
+            theSE.SetDefaultStatusBar(st.StageDisplayString);
 
             return true;
         }

@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Palaso.UI.WindowsForms.Keyboarding;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
     public partial class NewProjectWizard : TopForm
     {
-        protected const string CstrDefaultFontTooltip =
-                    "Click here to choose the font, size, and color of the font to use for this language{0}Currently, Font: {1}, Size: {2}, {3}";
-        protected const string CstrFinishButtonText = "&Finish";
-        protected const string CstrNextButtonText = "&Next";
-
         protected StoryProjectData _storyProjectData;
         public TeamMemberData LoggedInMember;
 
@@ -22,10 +17,17 @@ namespace OneStoryProjectEditor
         private bool _bStartedWithInternationalBt;
         private bool _bStartedWithFreeTranslation;
 
+        private NewProjectWizard()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
+
         public NewProjectWizard(StoryProjectData storyProjectData)
             : base(true)
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
 
             _storyProjectData = storyProjectData;
 
@@ -99,7 +101,7 @@ namespace OneStoryProjectEditor
             if (tabControl.SelectedTab == tabPageProjectName)
             {
                 if (String.IsNullOrEmpty(ProjectName))
-                    throw new UserException(Properties.Resources.IDS_UnableToCreateProjectWithoutName,
+                    throw new UserException(Localizer.Str("Unable to create a project without a project name!"),
                         textBoxProjectName, tabPageProjectName);
 
                 if (ProjSettings == null)
@@ -109,9 +111,7 @@ namespace OneStoryProjectEditor
                     string strFilename = ProjectSettings.GetDefaultProjectFilePath(ProjectName);
                     if (File.Exists(strFilename))
                     {
-                        DialogResult res =
-                            MessageBox.Show(String.Format(Properties.Resources.IDS_OverwriteProject, ProjectName),
-                                            OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                        DialogResult res = StoryEditor.QueryOverwriteProject(ProjectName);
                         if (res != DialogResult.Yes)
                             return;
 
@@ -180,7 +180,7 @@ namespace OneStoryProjectEditor
                     && !checkBoxLanguageInternationalBT.Checked
                     && !checkBoxLanguageFreeTranslation.Checked)
                 {
-                    throw new UserException(Properties.Resources.IDS_MustHaveAtLeastOneLanguage,
+                    throw new UserException(Localizer.Str("A project must have at least one language selected"),
                         checkBoxLanguageInternationalBT, tabPageLanguages);
                 }
 
@@ -220,12 +220,11 @@ namespace OneStoryProjectEditor
                                              checkBoxLanguageInternationalBT,
                                              TasksPf.TaskSettings.InternationalBtFields);
 
-                const string CstrEnglish = "English";
                 if (checkBoxLanguageInternationalBT.Checked)
                 {
                     if (String.IsNullOrEmpty(textBoxLanguageNameEnglishBT.Text)
                         && !ProjSettings.InternationalBT.HasData)
-                        textBoxLanguageNameEnglishBT.Text = CstrEnglish;
+                        textBoxLanguageNameEnglishBT.Text = ProjectSettings.DefInternationalLanguageName;
                 }
                 else
                 {
@@ -244,11 +243,12 @@ namespace OneStoryProjectEditor
                 {
                     if (String.IsNullOrEmpty(textBoxLanguageNameFreeTranslation.Text)
                         && !ProjSettings.FreeTranslation.HasData)
-                        textBoxLanguageNameFreeTranslation.Text = CstrEnglish;
+                        textBoxLanguageNameFreeTranslation.Text = ProjectSettings.DefInternationalLanguageName;
                     
                     // make them different...
-                    if (textBoxLanguageNameEnglishBT.Text == CstrEnglish)
-                        textBoxLanguageNameFreeTranslation.Text = CstrEnglish + " FT";
+                    if (textBoxLanguageNameEnglishBT.Text == ProjectSettings.DefInternationalLanguageName)
+                        textBoxLanguageNameFreeTranslation.Text = ProjectSettings.DefInternationalLanguageName + 
+                            Localizer.Str(" FT");
                 }
                 else
                     ProjSettings.FreeTranslation.HasData = false;
@@ -466,11 +466,14 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(tlp.GetControlFromPosition(1, 3) is Button);
             Button btnFont = tlp.GetControlFromPosition(1, 3) as Button;
 
-            toolTip.SetToolTip(btnFont, String.Format(CstrDefaultFontTooltip,
-                                                       Environment.NewLine, 
-                                                       languageInfo.DefaultFontName,
-                                                       languageInfo.DefaultFontSize,
-                                                       languageInfo.FontColor));
+            toolTip.SetToolTip(btnFont,
+                               String.Format(
+                                   Localizer.Str(
+                                       "Click here to choose the font, size, and color of the font to use for this language{0}Currently, Font: {1}, Size: {2}, {3}"),
+                                   Environment.NewLine,
+                                   languageInfo.DefaultFontName,
+                                   languageInfo.DefaultFontSize,
+                                   languageInfo.FontColor));
 
             if (languageInfo.HasData)
             {
@@ -546,21 +549,22 @@ namespace OneStoryProjectEditor
             {
                 tabControl.SelectedTab = ex.Tab;
                 ex.Control.Focus();
-                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(ex.Message, StoryEditor.OseCaption);
             }
             finally
             {
                 _bEnableTabSelection = false;
                 if (tabControl.SelectedIndex != (tabControl.TabPages.Count - 1))
-                    buttonNext.Text = CstrNextButtonText;   // just in case we're going backwards from the last tab
+                    buttonNext.Text = Localizer.Str("&Next");
             }
         }
 
         private void buttonNext_Click(object sender, EventArgs e)
         {
+            var strFinishButtonText = Localizer.Str("&Finish");
             try
             {
-                if (buttonNext.Text == CstrFinishButtonText)
+                if (buttonNext.Text == strFinishButtonText)
                 {
                     FinishEdit();
                 }
@@ -576,13 +580,13 @@ namespace OneStoryProjectEditor
                     tabControl.SelectedTab = ex.Tab;
                 if (ex.Control != null)
                     ex.Control.Focus();
-                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(ex.Message, StoryEditor.OseCaption);
             }
             finally
             {
                 _bEnableTabSelection = false;
                 if (tabControl.SelectedIndex == (tabControl.TabPages.Count - 1))
-                    buttonNext.Text = CstrFinishButtonText;
+                    buttonNext.Text = strFinishButtonText;
             }
         }
 
@@ -658,7 +662,10 @@ namespace OneStoryProjectEditor
                 //  without one
                 if (String.IsNullOrEmpty(conf.ConverterName))
                     throw new UserException(
-                        String.Format(Properties.Resources.IDS_AdaptItConfigurationIsBad, strWhichLanguages),
+                        String.Format(
+                            Localizer.Str(
+                                "There's something missing in the Adapt It configuration for {0} (e.g. no Converter name in the text box above when the type set to 'Local...' or 'Shared Adapt It project'). Try to configure it again or set it to 'None'"),
+                            strWhichLanguages),
                         null, null);
             }
         }
@@ -680,10 +687,7 @@ namespace OneStoryProjectEditor
                 if (!String.IsNullOrEmpty(li.DefaultKeyboard)
                     && (strKeyboard != li.DefaultKeyboard))
                 {
-                    DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmOverride,
-                        li.LangName, "keyboard", LoggedInMember.Name), OseResources.Properties.Resources.IDS_Caption,
-                        MessageBoxButtons.YesNoCancel);
-
+                    var res = QueryOverride(li.LangName, Localizer.Str("keyboard"));
                     if (res == DialogResult.Yes)
                         strKeyboardOverride = strKeyboard;
                     else if (res == DialogResult.No)
@@ -702,10 +706,7 @@ namespace OneStoryProjectEditor
 
                 if (li.DefaultRtl != cbRtl.Checked)
                 {
-                    DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmOverride,
-                        "Right-to-left", "value", LoggedInMember.Name), OseResources.Properties.Resources.IDS_Caption,
-                        MessageBoxButtons.YesNoCancel);
-
+                    DialogResult res = QueryOverride(Localizer.Str("Right-to-left"), Localizer.Str("value"));
                     if (res == DialogResult.Yes)
                         bRtfOverride = true;
                     else if (res == DialogResult.No)
@@ -723,18 +724,27 @@ namespace OneStoryProjectEditor
             else
                 li.DefaultRtl = cbRtl.Checked;
 
-            li.LangName = ThrowIfTextNullOrEmpty(textBoxLanguageName, "Language Name");
-            li.LangCode = ThrowIfTextNullOrEmpty(textBoxEthCode, "Ethnologue Code");
-            li.FullStop = ThrowIfTextNullOrEmpty(textBoxSentFullStop, "Sentence Final Punctuation");
+            li.LangName = ThrowIfTextNullOrEmpty(textBoxLanguageName, Localizer.Str("Language Name"));
+            li.LangCode = ThrowIfTextNullOrEmpty(textBoxEthCode, Localizer.Str("Ethnologue Code"));
+            li.FullStop = ThrowIfTextNullOrEmpty(textBoxSentFullStop, Localizer.Str("Sentence Final Punctuation"));
 
             tabControl.SelectedIndex++;
+        }
+
+        private DialogResult QueryOverride(string strProperty, string strValue)
+        {
+            return MessageBox.Show(String.Format(Localizer.Str("Click 'Yes' to override the '{0}' {1} for yourself ('{2}') only. Click 'No' to make this change apply to every member of the team (if you all are switching to a new {1})"),
+                                                 strProperty, strValue, LoggedInMember.Name),
+                                   StoryEditor.OseCaption,
+                                   MessageBoxButtons.YesNoCancel);
         }
 
         protected string ThrowIfTextNullOrEmpty(TextBox tb, string strErrorMessage)
         {
             if (String.IsNullOrEmpty(tb.Text))
-                throw new UserException(String.Format("You have to configure the {0} first", strErrorMessage),
-                    tb, tabControl.SelectedTab);
+                throw new UserException(String.Format(Localizer.Str("You have to configure the {0} first"),
+                                                      strErrorMessage),
+                                        tb, tabControl.SelectedTab);
             return tb.Text;
         }
 
@@ -872,7 +882,7 @@ namespace OneStoryProjectEditor
                 // if this user is saying that there's an external BTer, then query for it.
                 var dlg = new MemberPicker(_storyProjectData, TeamMemberData.UserTypes.EnglishBackTranslator)
                                        {
-                                           Text = "Choose the member that will do English BTs"
+                                           Text = Localizer.Str("Choose the member that will do English BTs")
                                        };
                 if (dlg.ShowDialog() == DialogResult.OK)
                     return;
@@ -891,7 +901,7 @@ namespace OneStoryProjectEditor
                 //  appear to be one, then query for it.
                 var dlg = new MemberPicker(_storyProjectData, TeamMemberData.UserTypes.IndependentConsultant)
                 {
-                    Text = "Choose the member that is the independent consultant"
+                    Text = Localizer.Str("Choose the member that is the independent consultant")
                 };
                 if (dlg.ShowDialog() == DialogResult.OK)
                     return;
@@ -1036,10 +1046,7 @@ namespace OneStoryProjectEditor
                             && ((fontDialog.Font.Name != li.DefaultFontName) ||
                             fontDialog.Font.Size != li.DefaultFontSize))
                         {
-                            DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmOverride,
-                                li.DefaultFontName, "font", LoggedInMember.Name), OseResources.Properties.Resources.IDS_Caption,
-                                MessageBoxButtons.YesNoCancel);
-
+                            DialogResult res = QueryOverride(li.DefaultFontName, Localizer.Str("font"));
                             if (res == DialogResult.Yes)
                             {
                                 strOverrideFont = fontDialog.Font.Name;
@@ -1074,7 +1081,9 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 if (ex.Message == "Only TrueType fonts are supported. This is not a TrueType font.")
-                    MessageBox.Show("Since you just added this font, you have to restart the program for it to work", OseResources.Properties.Resources.IDS_Caption);
+                    MessageBox.Show(
+                        Localizer.Str("Since you just added this font, you have to restart the program for it to work"),
+                        StoryEditor.OseCaption);
             }
         }
 

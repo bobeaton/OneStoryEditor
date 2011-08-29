@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using mshtml;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -102,9 +103,8 @@ namespace OneStoryProjectEditor
 
             if (theCNDC.HasData)
             {
-                DialogResult res = MessageBox.Show(
-                    Properties.Resources.IDS_NoteNotEmptyHideQuery,
-                    OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                DialogResult res = MessageBox.Show(Localizer.Str("This conversation isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around for history. Click 'Yes' to hide the conversation or click 'No' to delete it?"),
+                    StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
 
                 if (res == DialogResult.Yes)
                     return OnClickHide(strId);
@@ -349,7 +349,7 @@ namespace OneStoryProjectEditor
 
             // update the status bar (in case we previously put an error there
             StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theSE.TheCurrentStory.ProjStage.ProjectStage];
-            theSE.SetStatusBar(String.Format("{0}  Press F1 for instructions", st.StageDisplayString));
+            theSE.SetDefaultStatusBar(st.StageDisplayString);
 
             return true;
         }
@@ -390,7 +390,7 @@ namespace OneStoryProjectEditor
             {
                 if (theSE == null)
                     throw new ApplicationException(
-                        "Unable to edit the file! Restart the program and if it persists, contact bob_eaton@sall.com");
+                        Localizer.Str("Unable to edit the file! Restart the program and if it persists, contact bob_eaton@sall.com"));
 
                 if (!theSE.IsInStoriesSet)
                     throw theSE.CantEditOldStoriesEx;
@@ -414,7 +414,7 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 if (theSE != null)
-                    theSE.SetStatusBar(String.Format("Error: {0}", ex.Message));
+                    theSE.SetStatusBar(String.Format(Localizer.Str("Error: {0}"), ex.Message));
                 return false;
             }
 
@@ -432,7 +432,7 @@ namespace OneStoryProjectEditor
             // if we're not given anything to put in the box, at least put in the logged
             //  in member's initials and re
             if (String.IsNullOrEmpty(strNote) && (theSE.LoggedOnMember != null))
-                strNote = StoryEditor.GetInitials(theSE.LoggedOnMember.Name) + ": Re: ";
+                strNote = StoryEditor.GetInitials(theSE.LoggedOnMember.Name) + Localizer.Str(": Re: ");
 
             StrIdToScrollTo = GetTopRowId;
             ConsultNoteDataConverter cndc =
@@ -520,8 +520,8 @@ namespace OneStoryProjectEditor
                     IHTMLSelectionObject selection = htmlDocument.selection;
                     if (selection.type.ToLower() != "text")
                     {
-                        MessageBox.Show(Properties.Resources.IDS_CanOnlyChangeConNoteTextareas,
-                            OseResources.Properties.Resources.IDS_Caption);
+                        MessageBox.Show(Localizer.Str("Sorry, you can only modify editable text in consultant or coach notes!"),
+                            StoryEditor.OseCaption);
                     }
                     else
                     {
@@ -668,7 +668,7 @@ namespace OneStoryProjectEditor
                                                         TheSE.StoryProject.ProjSettings,
                                                         TheSE.LoggedOnMember,
                                                         TheSE.StoryProject.TeamMembers,
-                                                        TheSE.hiddenVersesToolStripMenuItem.Checked,
+                                                        TheSE.viewHiddenVersesMenu.Checked,
                                                         TheSE.viewOnlyOpenConversationsMenu.Checked);
             DocumentText = strHtml;
             LineNumberLink.Visible = true;
@@ -676,7 +676,7 @@ namespace OneStoryProjectEditor
 
         public override string PaneLabel()
         {
-            return "Consultant Notes";
+            return Localizer.Str("Consultant Notes");
         }
 
         public override ConsultNotesDataConverter DataConverter(int nVerseIndex)
@@ -712,7 +712,7 @@ namespace OneStoryProjectEditor
                                                    TheSE.StoryProject.ProjSettings,
                                                    TheSE.LoggedOnMember,
                                                    TheSE.StoryProject.TeamMembers,
-                                                   TheSE.hiddenVersesToolStripMenuItem.Checked,
+                                                   TheSE.viewHiddenVersesMenu.Checked,
                                                    TheSE.viewOnlyOpenConversationsMenu.Checked);
             DocumentText = strHtml;
             LineNumberLink.Visible = true;
@@ -720,7 +720,7 @@ namespace OneStoryProjectEditor
 
         public override string PaneLabel()
         {
-            return "Coach Notes";
+            return Localizer.Str("Coach Notes");
         }
 
         public override ConsultNotesDataConverter DataConverter(int nVerseIndex)

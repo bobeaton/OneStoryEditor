@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -178,18 +174,14 @@ namespace OneStoryProjectEditor
             if (TasksPf.IsTaskOn(tasksRequired, TasksPf.TaskSettings.Retellings)
                 && (TasksPf.IsTaskOn(tasksRequired, TasksPf.TaskSettings.Retellings2)))
             {
-                MessageBox.Show(String.Format(Properties.Resources.IDS_CantHaveBoth1And2,
-                                              "retelling"),
-                                OseResources.Properties.Resources.IDS_Caption);
+                WarnAboutIncompatibityInTestRequirement(Localizer.Str("retelling"));
                 return false;
             }
-            
+
             if (TasksPf.IsTaskOn(tasksRequired, TasksPf.TaskSettings.Answers)
                      && (TasksPf.IsTaskOn(tasksRequired, TasksPf.TaskSettings.Answers2)))
             {
-                MessageBox.Show(String.Format(Properties.Resources.IDS_CantHaveBoth1And2,
-                                              "story question"),
-                                OseResources.Properties.Resources.IDS_Caption);
+                WarnAboutIncompatibityInTestRequirement(Localizer.Str("story question"));
                 return false;
             }
 
@@ -221,9 +213,9 @@ namespace OneStoryProjectEditor
                                       ref strFieldToAllow) &&
                  !String.IsNullOrEmpty(strFieldRequired = CstrAnswers2)))
             {
-                MessageBox.Show(String.Format(Properties.Resources.IDS_MustAllowRequirement,
+                MessageBox.Show(String.Format(Localizer.Str("If you require the project facilitator to '{0}', then you'll also need to allow the '{1}' task?"),
                                               strFieldRequired, strFieldToAllow),
-                                OseResources.Properties.Resources.IDS_Caption);
+                                StoryEditor.OseCaption);
                 return false;
             }
             
@@ -233,13 +225,20 @@ namespace OneStoryProjectEditor
                  !TasksPf.IsTaskOn(tasksAllowed,
                                    TasksPf.TaskSettings.TestQuestions))
             {
-                MessageBox.Show(String.Format(Properties.Resources.IDS_MustAllowAddingTestQuestions,
+                MessageBox.Show(String.Format(Localizer.Str("If you're going to have the project facilitator do story inference testing, then you probably need to allow them to '{0}' also"),
                                               CstrTestQuestion),
-                                OseResources.Properties.Resources.IDS_Caption);
+                                StoryEditor.OseCaption);
                 return false;
             }
 
             return true;
+        }
+
+        private static void WarnAboutIncompatibityInTestRequirement(string strTestType)
+        {
+            MessageBox.Show(String.Format(Localizer.Str("Did you want the project facilitator to do 1 or 2 {0} tests?"),
+                                          strTestType),
+                            StoryEditor.OseCaption);
         }
 
         private bool CheckForRequirements(TasksPf.TaskSettings tasksRequired,

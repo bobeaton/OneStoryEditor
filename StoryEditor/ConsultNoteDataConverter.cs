@@ -611,7 +611,7 @@ namespace OneStoryProjectEditor
                 Color clrRow;
                 if (IsFromMentor(aCI))
                 {
-                    strRow += String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                    strRow += String.Format(Properties.Resources.HTML_TableCell,
                                             MentorLabel(theCommentor,
                                                         theStoryPfMemberId));
                     clrRow = CommentColor(theCommentor, theStoryPfMemberId);
@@ -619,7 +619,7 @@ namespace OneStoryProjectEditor
                 else
                 {
                     System.Diagnostics.Debug.Assert(IsFromMentee(aCI));
-                    strRow += String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                    strRow += String.Format(Properties.Resources.HTML_TableCell,
                                             MenteeLabel(theCommentor,
                                                         theStoryPfMemberId));
                     clrRow = ResponseColor(theCommentor, theStoryPfMemberId);
@@ -647,14 +647,14 @@ namespace OneStoryProjectEditor
                                                                     ? AdjustSlightly(clrFrame)
                                                                     : clrFrame));
                     strHtmlElementId = TextareaId(nVerseIndex, nConversationIndex);
-                    strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellForTextArea,
+                    strRow += String.Format(Properties.Resources.HTML_TableCellForTextArea,
                                             strFrameColor,
-                                            String.Format(OseResources.Properties.Resources.HTML_TextareaWithRefDrop,
+                                            String.Format(Properties.Resources.HTML_TextareaWithRefDrop,
                                                           strHtmlElementId,
                                                           StoryData.CstrLangInternationalBtStyleClassName,
                                                           aCI));
 
-                    strHtmlTable += String.Format(OseResources.Properties.Resources.HTML_TableRowIdColor,
+                    strHtmlTable += String.Format(Properties.Resources.HTML_TableRowIdColor,
                                                   TextareaRowId(nVerseIndex, nConversationIndex),
                                                   strColor,
                                                   strRow);
@@ -672,13 +672,13 @@ namespace OneStoryProjectEditor
                         strHyperlinkedText = RegexHttpRef.Replace(strHyperlinkedText, HttpReferenceFound);
                     }
 
-                    strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellWidth, 100,
-                                            String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
+                    strRow += String.Format(Properties.Resources.HTML_TableCellWidth, 100,
+                                            String.Format(Properties.Resources.HTML_ParagraphText,
                                                           strHtmlElementId,
                                                           StoryData.CstrLangInternationalBtStyleClassName,
                                                           strHyperlinkedText));
 
-                    strHtmlTable += String.Format(OseResources.Properties.Resources.HTML_TableRowIdColor,
+                    strHtmlTable += String.Format(Properties.Resources.HTML_TableRowIdColor,
                                                   TextareaReadonlyRowId(nVerseIndex, nConversationIndex, i),
                                                   strColor,
                                                   strRow);
@@ -689,16 +689,16 @@ namespace OneStoryProjectEditor
                 aCI.HtmlConNoteCtrl = htmlConNoteCtrl;
             }
 
-            string strEmbeddedTable = String.Format(OseResources.Properties.Resources.HTML_Table,
+            string strEmbeddedTable = String.Format(Properties.Resources.HTML_Table,
                                                     strHtmlTable);
             if (Visible)
                 strColor = "#CCFFAA";
             else
                 strColor = "#F0E68C";
-            strHtml += String.Format(OseResources.Properties.Resources.HTML_TableRowIdColor,
+            strHtml += String.Format(Properties.Resources.HTML_TableRowIdColor,
                                      ConversationTableRowId(nVerseIndex, nConversationIndex),
                                      strColor,
-                                     String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, 5,
+                                     String.Format(Properties.Resources.HTML_TableCellWithSpan, 5,
                                                    strEmbeddedTable));
 
             return strHtml;
@@ -772,12 +772,12 @@ namespace OneStoryProjectEditor
                     OtherwiseDoesntHaveaTurn(loggedOnMember, theStory, theTeamMembers) ||
                     AllowButtonsOverride))
             {
-                strRow += String.Format(OseResources.Properties.Resources.HTML_Button,
+                strRow += String.Format(Properties.Resources.HTML_Button,
                                         ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexDelete),
                                         "return window.external.OnClickDelete(this.id);",
                                         "Delete");
 
-                strRow += String.Format(OseResources.Properties.Resources.HTML_Button,
+                strRow += String.Format(Properties.Resources.HTML_Button,
                                         ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexHide),
                                         "return window.external.OnClickHide(this.id);",
                                         (Visible) ? CstrButtonLabelHide : CstrButtonLabelUnhide);
@@ -799,14 +799,14 @@ namespace OneStoryProjectEditor
                         strScriptCall = "return window.external.OnConvertToMentorNote(this.id);";
                     }
 
-                    strRow += String.Format(OseResources.Properties.Resources.HTML_Button,
+                    strRow += String.Format(Properties.Resources.HTML_Button,
                                             ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexConvertToMentoreeNote),
                                             strScriptCall, "Change to note");
                 }
                 else
                 {
                     // otherwise, add an 'End Conversation' button
-                    strRow += String.Format(OseResources.Properties.Resources.HTML_Button,
+                    strRow += String.Format(Properties.Resources.HTML_Button,
                                             ButtonId(nVerseIndex, nConversationIndex,
                                                      CnBtnIndexEndConversation),
                                             "return window.external.OnClickEndConversation(this.id);",
@@ -822,7 +822,7 @@ namespace OneStoryProjectEditor
                 if (HasNoteApprovalAuthority(loggedOnMember, theTeamMembers) && 
                     (loggedOnMember.IsEditAllowed(theStory) || 
                         CoachWithoutaTurn(loggedOnMember, theTeamMembers)))
-                    strRow += String.Format(OseResources.Properties.Resources.HTML_Button,
+                    strRow += String.Format(Properties.Resources.HTML_Button,
                                             ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexApproveNote),
                                             "return window.external.OnApproveNote(this.id);",
                                             "Approve Note");
@@ -831,16 +831,16 @@ namespace OneStoryProjectEditor
             }
 
             if (!Visible)
-                strRow += "(Hidden)";
+                strRow += VersesData.HiddenString;
 
-            strRow = String.Format(OseResources.Properties.Resources.HTML_TableCell, strRow);
+            strRow = String.Format(Properties.Resources.HTML_TableCell, strRow);
 
             // color changes if hidden
             string strColor = "#FFFFFF";    // default white background
             if (!Visible)
                 strColor = "#F0E68C";
 
-            return String.Format(OseResources.Properties.Resources.HTML_TableRowIdColor,
+            return String.Format(Properties.Resources.HTML_TableRowIdColor,
                                  ButtonRowId(nVerseIndex, nConversationIndex),
                                  strColor,
                                  strRow);
@@ -895,7 +895,7 @@ namespace OneStoryProjectEditor
         static string BibleReferenceFound(Match m)
         {
             // Get the matched string.
-            string str = String.Format(OseResources.Properties.Resources.HTML_LinkJumpTargetBibleReference, 
+            string str = String.Format(Properties.Resources.HTML_LinkJumpTargetBibleReference, 
                 m);
             return str;
         }
@@ -903,7 +903,7 @@ namespace OneStoryProjectEditor
         static string LineReferenceFound(Match m)
         {
             // Get the matched string.
-            string str = String.Format(OseResources.Properties.Resources.HTML_LinkJumpLine,
+            string str = String.Format(Properties.Resources.HTML_LinkJumpLine,
                                        m.Groups[3], m);
             return str;
         }
@@ -911,14 +911,14 @@ namespace OneStoryProjectEditor
         static string HttpReferenceFound(Match m)
         {
             // Get the matched string.
-            string str = String.Format(OseResources.Properties.Resources.HTML_HttpLink,
+            string str = String.Format(Properties.Resources.HTML_HttpLink,
                                        m.Groups[1]);
             return str;
         }
 
         static string EmphasizedTextFound(Match m)
         {
-            string str = String.Format(OseResources.Properties.Resources.HTML_EmphasizedText,
+            string str = String.Format(Properties.Resources.HTML_EmphasizedText,
                 m.Groups[1]);
             return str;
         }
@@ -1323,9 +1323,9 @@ namespace OneStoryProjectEditor
             if (bShowOnlyOpenConversations)
                 nSpan++;
 
-            return String.Format(OseResources.Properties.Resources.HTML_TableRowColor, strColor,
-                    String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, nSpan,
-                        String.Format(OseResources.Properties.Resources.HTML_TableNoBorder, strHtml)));
+            return String.Format(Properties.Resources.HTML_TableRowColor, strColor,
+                    String.Format(Properties.Resources.HTML_TableCellWithSpan, nSpan,
+                        String.Format(Properties.Resources.HTML_TableNoBorder, strHtml)));
         }
 
         public void AllowButtonsOverride()

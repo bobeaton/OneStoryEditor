@@ -14,12 +14,14 @@ using System.IO;
 using System.Xml.XPath;
 using System.Xml.Xsl;
 using ECInterfaces;
+using OneStoryProjectEditor.Properties;
 using Palaso.UI.WindowsForms.Keyboarding;
 using SilEncConverters40;
 using System.Diagnostics;               // Process
 using Palaso.Reporting;
 using Control=System.Windows.Forms.Control;
 using Timer=System.Windows.Forms.Timer;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -98,7 +100,7 @@ namespace OneStoryProjectEditor
         protected TimeSpan tsBackupTime = new TimeSpan(1, 0, 0);
 
         private NoteForm m_dlgNotes;
-        private HtmlDisplayForm m_dlgHistDiffDlg;
+        private RevisionHistoryForm m_dlgHistDiffDlg;
         private PrintForm m_dlgPrintForm;
 
         public enum TextFieldType
@@ -109,6 +111,13 @@ namespace OneStoryProjectEditor
             FreeTranslation
         }
 
+        // needed by NetLoc
+        private StoryEditor()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
+
         public StoryEditor(string strStoriesSet, string strProjectFilePath)
         {
             myFocusTimer.Tick += TimeToSetFocus;
@@ -117,13 +126,17 @@ namespace OneStoryProjectEditor
             _strStoriesSet = strStoriesSet;
 
             InitializeComponent();
+            Localizer.Ctrl(this);
 
-            panoramaToolStripMenuItem.Visible = IsInStoriesSet;
-            useSameSettingsForAllStoriesToolStripMenuItem.Checked = Properties.Settings.Default.LastUseForAllStories;
-            enabledToolStripMenuItem.Checked = Properties.Settings.Default.AutoSaveTimeoutEnabled;
-            asSilentlyAsPossibleToolStripMenuItem.Checked = Properties.Settings.Default.DoAutoSaveSilently;
+            this.linkLabelConsultantNotes.Text = CstrFirstVerse;
+            this.linkLabelCoachNotes.Text = CstrFirstVerse;
 
-            if (enabledToolStripMenuItem.Checked)
+            panoramaToolStripMenu.Visible = IsInStoriesSet;
+            viewUseSameSettingsForAllStoriesMenu.Checked = Properties.Settings.Default.LastUseForAllStories;
+            advancedSaveTimeoutEnabledMenu.Checked = Properties.Settings.Default.AutoSaveTimeoutEnabled;
+            advancedSaveTimeoutAsSilentlyAsPossibleMenu.Checked = Properties.Settings.Default.DoAutoSaveSilently;
+
+            if (advancedSaveTimeoutEnabledMenu.Checked)
             {
                 //autosave timer goes off every 5 minutes.
                 mySaveTimer.Tick += TimeToSave;
@@ -137,7 +150,8 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(String.Format(Properties.Resources.IDS_NeedToReboot, Environment.NewLine, ex.Message), OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(String.Format(Properties.Resources.IDS_NeedToReboot, Environment.NewLine, ex.Message),
+                                StoryEditor.OseCaption);
             }
 
             if (!String.IsNullOrEmpty(strProjectFilePath) && File.Exists(strProjectFilePath))
@@ -195,8 +209,8 @@ namespace OneStoryProjectEditor
 
                 //  info the user about the new release available
                 if (autoUpgrade != null)
-                    MessageBox.Show(Properties.Resources.IDS_MentionNewUpdateAvailable,
-                                    OseResources.Properties.Resources.IDS_Caption);
+                    MessageBox.Show(Localizer.Str("There's a new version of OSE available. To upgrade, click 'Advanced', 'Program Updates', 'Check now'"),
+                                    StoryEditor.OseCaption);
             }
             catch (Exception ex)
             {
@@ -252,8 +266,8 @@ namespace OneStoryProjectEditor
                 {
                     DialogResult res = DialogResult.Yes;
 
-                    if (!asSilentlyAsPossibleToolStripMenuItem.Checked)
-                        res = MessageBox.Show(Properties.Resources.IDS_SaveChanges, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                    if (!advancedSaveTimeoutAsSilentlyAsPossibleMenu.Checked)
+                        res = QuerySave();
 
                     if (res == DialogResult.Yes)
                     {
@@ -264,6 +278,14 @@ namespace OneStoryProjectEditor
             }
 
             mySaveTimer.Start();
+        }
+
+        private DialogResult QuerySave()
+        {
+            DialogResult res = MessageBox.Show(Localizer.Str("Would you like to save changes?"),
+                                               StoryEditor.OseCaption,
+                                               MessageBoxButtons.YesNoCancel);
+            return res;
         }
 
         internal StoriesData TheCurrentStoriesSet
@@ -277,12 +299,12 @@ namespace OneStoryProjectEditor
 
         internal bool IsInStoriesSet
         {
-            get { return (_strStoriesSet != OseResources.Properties.Resources.IDS_ObsoleteStoriesSet); }
+            get { return (_strStoriesSet != Properties.Resources.IDS_ObsoleteStoriesSet); }
         }
 
         internal ApplicationException CantEditOldStoriesEx
         {
-            get { return new ApplicationException("The stories are not editable in the 'Old Stories' set"); }
+            get { return new ApplicationException(Localizer.Str("The stories are not editable in the 'Old Stories' set")); }
         }
 
         // this is now browse for project in non-default location.
@@ -319,7 +341,7 @@ namespace OneStoryProjectEditor
                         string strFilename = ProjectSettings.GetDefaultProjectFilePath(strProjectName);
                         if (File.Exists(strFilename))
                         {
-                            DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_OverwriteProject, strProjectName), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                            DialogResult res = QueryOverwriteProject(strProjectName);
                             if (res != DialogResult.Yes)
                                 throw StoryProjectData.BackOutWithNoUI;
 
@@ -344,9 +366,19 @@ namespace OneStoryProjectEditor
                 string strErrorMsg = String.Format(Properties.Resources.IDS_UnableToOpenProjectFile,
                     Environment.NewLine, strProjectName,
                     ((ex.InnerException != null) ? ex.InnerException.Message : ""), ex.Message);
-                MessageBox.Show(strErrorMsg, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
                 return;
             }
+        }
+
+        public static DialogResult QueryOverwriteProject(string strProjectName)
+        {
+            return MessageBox.Show(
+                String.Format(
+                    Localizer.Str(
+                        "You already have a project with the name, '{0}'. Do you want to delete the existing one?"),
+                    strProjectName), StoryEditor.OseCaption,
+                MessageBoxButtons.YesNoCancel);
         }
 
         private void projectFromTheInternetToolStripMenuItem_Click(object sender, EventArgs e)
@@ -380,7 +412,7 @@ namespace OneStoryProjectEditor
                 {
                     string strErrorMsg = String.Format(Properties.Resources.IDS_NoProjectFromInternet,
                                                        Environment.NewLine, strFullUrl);
-                    MessageBox.Show(strErrorMsg, OseResources.Properties.Resources.IDS_Caption);
+                    MessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
                 }
             }
         }
@@ -409,22 +441,24 @@ namespace OneStoryProjectEditor
             var dlg = new FolderBrowserDialog
                           {
                               Description =
-                                  String.Format(Properties.Resources.IDS_QuerySharedNetworkFolder,
-                                                OseResources.Properties.Resources.DefMyDocsSubfolder,
-                                                StoryProject.ProjSettings.ProjectName)
+                                  String.Format(
+                                      Localizer.Str(
+                                          "Browse to the shared network folder where the project will be stored (i.e. the path to parent folder in which the program will create a '{0}' folder in order to put the '{1}' sub-folder for this project)"),
+                                      Properties.Resources.DefMyDocsSubfolder,
+                                      StoryProject.ProjSettings.ProjectName)
                           };
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 string strSharedNetworkFolder = Path.Combine(dlg.SelectedPath,
                                                              Path.Combine(
-                                                                 OseResources.Properties.Resources.DefMyDocsSubfolder,
+                                                                 Properties.Resources.DefMyDocsSubfolder,
                                                                  StoryProject.ProjSettings.ProjectName));
 
                 if (strSharedNetworkFolder.ToLower() == StoryProject.ProjSettings.ProjectFolder.ToLower())
                 {
-                    MessageBox.Show(Properties.Resources.IDS_CantPushToTheLocalRepo,
-                                    OseResources.Properties.Resources.IDS_Caption);
+                    MessageBox.Show(Localizer.Str("You chose the local project folder. You have to browse for a network drive on which to associate the current project"),
+                                    StoryEditor.OseCaption);
                     return;
                 }
 
@@ -452,13 +486,13 @@ namespace OneStoryProjectEditor
                     else
                     {
                         MessageBox.Show(Properties.Resources.IDS_MustBeCloneRepo,
-                                        OseResources.Properties.Resources.IDS_Caption);
+                                        StoryEditor.OseCaption);
                     }
                 }
                 else
                 {
                     MessageBox.Show(Properties.Resources.IDS_CantPushToTheLocalRepo,
-                                    OseResources.Properties.Resources.IDS_Caption);
+                                    StoryEditor.OseCaption);
                 }
             }
 #endif
@@ -500,15 +534,15 @@ namespace OneStoryProjectEditor
         protected void ReInitMenuVisibility()
         {
             // some that might have been made invisible need to be given a fair chance for next time
-            copyStoryToolStripMenuItem.Visible =
-                deleteStoryVersesToolStripMenuItem.Visible =
-                deleteStoryNationalBackTranslationToolStripMenuItem.Visible =
-                copyNationalBackTranslationToolStripMenuItem.Visible =
-                deleteEnglishBacktranslationToolStripMenuItem.Visible =
-                copyEnglishBackTranslationToolStripMenuItem.Visible =
-                deleteFreeTranslationToolStripMenuItem.Visible =
-                copyFreeTranslationMenuItem.Visible =
-                deleteTestToolStripMenuItem.Visible = true;
+            editCopyStoryMenu.Visible =
+                editDeleteStoryLinesMenu.Visible =
+                editDeleteNationalBtMenu.Visible =
+                editCopyNationalBtMenu.Visible =
+                editDeleteEnglishBtMenu.Visible =
+                editCopyEnglishBtMenu.Visible =
+                editDeleteFreeTranslationMenu.Visible =
+                editCopyFreeTranslationMenu.Visible =
+                editDeleteTestToolStripMenu.Visible = true;
         }
 
         protected void ClearState()
@@ -518,14 +552,14 @@ namespace OneStoryProjectEditor
             TheCurrentStory = null;
             StoryStageLogic.stateTransitions = null;
             comboBoxStorySelector.Items.Clear();
-            comboBoxStorySelector.Text = Properties.Resources.IDS_EnterStoryName;
-            textBoxStoryVerse.Text = Properties.Resources.IDS_Story;
+            comboBoxStorySelector.Text = Localizer.Str("<type the name of a story to create and hit Enter>");
+            textBoxStoryVerse.Text = Localizer.Str("Story");
 
-            if (!useSameSettingsForAllStoriesToolStripMenuItem.Checked)
+            if (!viewUseSameSettingsForAllStoriesMenu.Checked)
             {
-                viewConsultantNoteFieldMenuItem.Checked =
-                    viewCoachNotesFieldMenuItem.Checked =
-                    viewNetBibleMenuItem.Checked = false;
+                viewConsultantNotesMenu.Checked =
+                    viewCoachNotesMenu.Checked =
+                    viewBibleMenu.Checked = false;
             }
         }
 
@@ -576,7 +610,7 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 MessageBox.Show(String.Format(Properties.Resources.IDS_UnableToOpenMemberList,
-                    Environment.NewLine, ex.Message), OseResources.Properties.Resources.IDS_Caption);
+                    Environment.NewLine, ex.Message), StoryEditor.OseCaption);
             }
 
             return false;
@@ -732,14 +766,14 @@ namespace OneStoryProjectEditor
                 // at least temporarily reset the 'Use for all stories' flag so that 
                 //  we don't not reset the view for this new project settings (which
                 //  calls SetViews during the SelectedItem handler below)
-                bool bUseForAllStories = useSameSettingsForAllStoriesToolStripMenuItem.Checked;
-                useSameSettingsForAllStoriesToolStripMenuItem.Checked = false;
+                bool bUseForAllStories = viewUseSameSettingsForAllStoriesMenu.Checked;
+                viewUseSameSettingsForAllStoriesMenu.Checked = false;
 
                 if (!String.IsNullOrEmpty(strStoryToLoad) && comboBoxStorySelector.Items.Contains(strStoryToLoad))
                     comboBoxStorySelector.SelectedItem = strStoryToLoad;
 
                 // reset the 'use for all stories' flag to whatever it used to be
-                useSameSettingsForAllStoriesToolStripMenuItem.Checked = bUseForAllStories;
+                viewUseSameSettingsForAllStoriesMenu.Checked = bUseForAllStories;
 
                 Text = GetFrameTitle(true);
 
@@ -760,7 +794,7 @@ namespace OneStoryProjectEditor
                 string strErrorMsg = String.Format(Properties.Resources.IDS_UnableToOpenProjectFile,
                     Environment.NewLine, projSettings.ProjectName,
                     ((ex.InnerException != null) ? ex.InnerException.Message : ""), ex.Message);
-                MessageBox.Show(strErrorMsg, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
             }
         }
 
@@ -779,13 +813,13 @@ namespace OneStoryProjectEditor
             if ((StoryProject == null)
                 || (StoryProject.ProjSettings == null)
                 || (String.IsNullOrEmpty(StoryProject.ProjSettings.ProjectName)))
-                return OseResources.Properties.Resources.IDS_Caption;
+                return StoryEditor.OseCaption;
 
             string strTitle = String.Format(TitleFormat,
                                             StoryProject.ProjSettings.ProjectName);
 
             if (bAddLogin && (LoggedOnMember != null))
-                strTitle += String.Format(Properties.Resources.IDS_MainFrameTitleSuffix,
+                strTitle += String.Format(Localizer.Str(" -- ({0} logged in as '{1}')"),
                                           LoggedOnMember.Name,
                                           TeamMemberData.GetMemberTypeAsDisplayString(LoggedOnMember.MemberType));
 
@@ -841,7 +875,10 @@ namespace OneStoryProjectEditor
                 || !TeamMemberData.IsUser(LoggedOnMember.MemberType,
                                           TeamMemberData.UserTypes.ProjectFacilitator))
             {
-                MessageBox.Show(Properties.Resources.IDS_LogInAsProjFac, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(
+                    Localizer.Str(
+                        "You have to be logged in as a 'Project Facilitator' to add stories. To login, click 'Project', 'Login'"),
+                    StoryEditor.OseCaption);
                 return false;
             }
             return true;
@@ -858,7 +895,9 @@ namespace OneStoryProjectEditor
             }
 
             // ask the user for what story they want to add (i.e. the name)
-            strStoryName = Microsoft.VisualBasic.Interaction.InputBox(Properties.Resources.IDS_EnterStoryToAdd, OseResources.Properties.Resources.IDS_Caption, null, 300, 200);
+            strStoryName =
+                Microsoft.VisualBasic.Interaction.InputBox(Localizer.Str("Enter the name of the story to add"),
+                                                           StoryEditor.OseCaption, null, 300, 200);
             if (!String.IsNullOrEmpty(strStoryName))
             {
                 if (TheCurrentStoriesSet.Count > 0)
@@ -911,7 +950,7 @@ namespace OneStoryProjectEditor
                 if (StoryProject == null)
                     if (!InitNewStoryProjectObject())
                     {
-                        comboBoxStorySelector.Text = Properties.Resources.IDS_EnterStoryName;
+                        comboBoxStorySelector.Text = Localizer.Str("<type the name of a story to create and hit Enter>");
                         return;
                     }
 
@@ -919,7 +958,7 @@ namespace OneStoryProjectEditor
 
                 if (!CheckForProjFac())
                 {
-                    comboBoxStorySelector.Text = Properties.Resources.IDS_EnterStoryName;
+                    comboBoxStorySelector.Text = Localizer.Str("<type the name of a story to create and hit Enter>");
                     dtLastKey = DateTime.Now;
                     return;
                 }
@@ -938,13 +977,15 @@ namespace OneStoryProjectEditor
 
                 if (theStory == null)
                 {
-                    if (MessageBox.Show(String.Format(Properties.Resources.IDS_UnableToFindStoryAdd, strStoryToLoad), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+                    if (MessageBox.Show(String.Format(Localizer.Str("Unable to find the story '{0}'. Would you like to add a new story with that name?"),
+                                                      strStoryToLoad),
+                                                      StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                     {
                         Debug.Assert(!comboBoxStorySelector.Items.Contains(strStoryToLoad));
                         InsertNewStory(strStoryToLoad, nInsertIndex);
                     }
                     else
-                        comboBoxStorySelector.Text = Properties.Resources.IDS_EnterStoryName;
+                        comboBoxStorySelector.Text = Localizer.Str("<type the name of a story to create and hit Enter>");
                 }
                 else
                     comboBoxStorySelector.SelectedItem = theStory.Name;
@@ -959,15 +1000,17 @@ namespace OneStoryProjectEditor
             // query for the crafter
             var dlg = new MemberPicker(StoryProject, TeamMemberData.UserTypes.Crafter)
             {
-                Text = "Choose the crafter that crafted this story"
+                Text = Localizer.Str("Choose the crafter that crafted this story")
             };
-            dlg.Text = Properties.Resources.IDS_ChooseTheStoryCrafter;
+
             if ((dlg.ShowDialog() != DialogResult.OK) || (dlg.SelectedMember == null))
                 return;
 
             string strCrafterGuid = dlg.SelectedMember.MemberGuid;
 
-            DialogResult res = MessageBox.Show(Properties.Resources.IDS_IsThisStoryFromTheBible, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+            DialogResult res = MessageBox.Show(Localizer.Str("Is this a story from the Bible?"),
+                                               StoryEditor.OseCaption,
+                                               MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Cancel)
                 return;
 
@@ -1050,7 +1093,7 @@ namespace OneStoryProjectEditor
             }
 
             // initialize the text box showing the storying they're editing
-            textBoxStoryVerse.Text = Properties.Resources.IDS_StoryColon + TheCurrentStory.Name;
+            textBoxStoryVerse.Text = Localizer.Str("Story") + ": " + TheCurrentStory.Name;
 
             // initialize the project stage details (which might hide certain views)
             //  (do this *after* initializing the whole thing, because if we save, we'll
@@ -1080,7 +1123,7 @@ namespace OneStoryProjectEditor
             if (TeamMemberData.IsUser(LoggedOnMember.MemberType,
                                       TeamMemberData.UserTypes.ProjectFacilitator))
             {
-                viewCoachNotesFieldMenuItem.Checked = false;
+                viewCoachNotesMenu.Checked = false;
             }
 
             if (_bNagOnce)
@@ -1128,14 +1171,14 @@ namespace OneStoryProjectEditor
             InitializeTransliterators();
 
             // either add the general testing question line (or a button)
-            if (viewGeneralTestingQuestionMenuItem.Checked)
+            if (viewGeneralTestingsQuestionMenu.Checked)
                 InitVerseControls(theVerses.FirstVerse, nVerseIndex++);
             else
                 AddDropTargetToFlowLayout(nVerseIndex++);
 
             foreach (VerseData aVerse in theVerses)
             {
-                if (aVerse.IsVisible || hiddenVersesToolStripMenuItem.Checked)
+                if (aVerse.IsVisible || viewHiddenVersesMenu.Checked)
                 {
                     InitVerseControls(aVerse, nVerseIndex);
 
@@ -1227,14 +1270,14 @@ namespace OneStoryProjectEditor
             InitializeTransliterators();
 
             // add either the general testing question line or a button
-            if (viewGeneralTestingQuestionMenuItem.Checked)
+            if (viewGeneralTestingsQuestionMenu.Checked)
                 InitVerseControls(TheCurrentStory.Verses.FirstVerse, nVerseIndex++);
             else
                 AddDropTargetToFlowLayout(nVerseIndex++);
 
             foreach (VerseData aVerse in TheCurrentStory.Verses)
             {
-                if (aVerse.IsVisible || hiddenVersesToolStripMenuItem.Checked)
+                if (aVerse.IsVisible || viewHiddenVersesMenu.Checked)
                     InitVerseControls(aVerse, nVerseIndex);
 
                 // skip numbers, though, if we have hidden verses so that the verse nums
@@ -1441,7 +1484,7 @@ namespace OneStoryProjectEditor
             }
 
             // the ConNote controls have a zeroth line, so the index is one greater
-            if (viewConsultantNoteFieldMenuItem.Checked && bSyncConsultantNotePane)
+            if (viewConsultantNotesMenu.Checked && bSyncConsultantNotePane)
             {
 #if UsingHtmlDisplayForConNotes
                 htmlConsultantNotesControl.ScrollToVerse(nVerseIndex);
@@ -1457,7 +1500,7 @@ namespace OneStoryProjectEditor
 #endif
             }
 
-            if (viewCoachNotesFieldMenuItem.Checked && bSyncCoachNotePane)
+            if (viewCoachNotesMenu.Checked && bSyncCoachNotePane)
             {
 #if UsingHtmlDisplayForConNotes
                 htmlCoachNotesControl.ScrollToVerse(nVerseIndex);
@@ -1477,7 +1520,7 @@ namespace OneStoryProjectEditor
         public void AddNoteAbout(VerseControl ctrlParent, bool bNoteToSelf)
         {
             Debug.Assert(LoggedOnMember != null);
-            string strNote = GetInitials(LoggedOnMember.Name) + ": Re:";
+            string strNote = GetInitials(LoggedOnMember.Name) + Localizer.Str(": Re:");
             if (ctrlParent is VerseBtControl)
             {
                 VerseBtControl ctrl = ctrlParent as VerseBtControl;
@@ -1487,25 +1530,25 @@ namespace OneStoryProjectEditor
                 if (IsInStoryLine(ctrl))
                 {
                     // get selected text from all visible Story line controls
-                    if (viewVernacularLangFieldMenuItem.Checked)
+                    if (viewVernacularLangMenu.Checked)
                     {
                         string str = ctrl._verseData.StoryLine.Vernacular.TextBox.SelectedText.Trim();
                         if (!String.IsNullOrEmpty(str))
                             strNote += String.Format(" /{0}/", str);
                     }
-                    if (viewNationalLangFieldMenuItem.Checked)
+                    if (viewNationalLangMenu.Checked)
                     {
                         string str = ctrl._verseData.StoryLine.NationalBt.TextBox.SelectedText.Trim();
                         if (!String.IsNullOrEmpty(str))
                             strNote += String.Format(" /{0}/", str);
                     }
-                    if (viewEnglishBTFieldMenuItem.Checked)
+                    if (viewEnglishBtMenu.Checked)
                     {
                         string str = ctrl._verseData.StoryLine.InternationalBt.TextBox.SelectedText.Trim();
                         if (!String.IsNullOrEmpty(str))
                             strNote += String.Format(" '{0}'", str);
                     }
-                    if (viewFreeTranslationToolStripMenuItem.Checked)
+                    if (viewFreeTranslationMenu.Checked)
                     {
                         string str = ctrl._verseData.StoryLine.FreeTranslation.TextBox.SelectedText.Trim();
                         if (!String.IsNullOrEmpty(str))
@@ -1545,7 +1588,7 @@ namespace OneStoryProjectEditor
             // otherwise, just get the selected text out of the one box that was 
             //  right-clicked in.
             {
-                if (viewCoachNotesFieldMenuItem.Checked)
+                if (viewCoachNotesMenu.Checked)
                 {
                     if (!String.IsNullOrEmpty(CtrlTextBox._inTextBox._strLabel))
                         strNote += CtrlTextBox._inTextBox._strLabel;
@@ -1607,19 +1650,19 @@ namespace OneStoryProjectEditor
 
                 strNote += strLabel;
                 // get selected text from all visible Story line controls
-                if (StoryProject.ProjSettings.ShowTestQuestions.Vernacular && viewVernacularLangFieldMenuItem.Checked)
+                if (StoryProject.ProjSettings.ShowTestQuestions.Vernacular && viewVernacularLangMenu.Checked)
                 {
                     string str = testQuestionData.TestQuestionLine.Vernacular.TextBox.SelectedText.Trim();
                     if (!String.IsNullOrEmpty(str))
                         strNote += String.Format(" /{0}/", str);
                 }
-                if (StoryProject.ProjSettings.ShowTestQuestions.NationalBt && viewNationalLangFieldMenuItem.Checked)
+                if (StoryProject.ProjSettings.ShowTestQuestions.NationalBt && viewNationalLangMenu.Checked)
                 {
                     string str = testQuestionData.TestQuestionLine.NationalBt.TextBox.SelectedText.Trim();
                     if (!String.IsNullOrEmpty(str))
                         strNote += String.Format(" /{0}/", str);
                 }
-                if (StoryProject.ProjSettings.ShowTestQuestions.InternationalBt && viewEnglishBTFieldMenuItem.Checked)
+                if (StoryProject.ProjSettings.ShowTestQuestions.InternationalBt && viewEnglishBtMenu.Checked)
                 {
                     string str = testQuestionData.TestQuestionLine.InternationalBt.TextBox.SelectedText.Trim();
                     if (!String.IsNullOrEmpty(str))
@@ -1632,19 +1675,19 @@ namespace OneStoryProjectEditor
 
                 strNote += strLabel;
                 // get selected text from all visible Story line controls
-                if (StoryProject.ProjSettings.ShowRetellings.Vernacular && viewVernacularLangFieldMenuItem.Checked)
+                if (StoryProject.ProjSettings.ShowRetellings.Vernacular && viewVernacularLangMenu.Checked)
                 {
                     string str = retellingData.Vernacular.TextBox.SelectedText.Trim();
                     if (!String.IsNullOrEmpty(str))
                         strNote += String.Format(" /{0}/", str);
                 }
-                if (StoryProject.ProjSettings.ShowRetellings.NationalBt && viewNationalLangFieldMenuItem.Checked)
+                if (StoryProject.ProjSettings.ShowRetellings.NationalBt && viewNationalLangMenu.Checked)
                 {
                     string str = retellingData.NationalBt.TextBox.SelectedText.Trim();
                     if (!String.IsNullOrEmpty(str))
                         strNote += String.Format(" /{0}/", str);
                 }
-                if (StoryProject.ProjSettings.ShowRetellings.InternationalBt && viewEnglishBTFieldMenuItem.Checked)
+                if (StoryProject.ProjSettings.ShowRetellings.InternationalBt && viewEnglishBtMenu.Checked)
                 {
                     string str = retellingData.InternationalBt.TextBox.SelectedText.Trim();
                     if (!String.IsNullOrEmpty(str))
@@ -1659,19 +1702,19 @@ namespace OneStoryProjectEditor
 
                 strNote += strLabel;
                 // get selected text from all visible Story line controls
-                if (StoryProject.ProjSettings.ShowAnswers.Vernacular && viewVernacularLangFieldMenuItem.Checked)
+                if (StoryProject.ProjSettings.ShowAnswers.Vernacular && viewVernacularLangMenu.Checked)
                 {
                     string str = answerData.Vernacular.TextBox.SelectedText.Trim();
                     if (!String.IsNullOrEmpty(str))
                         strNote += String.Format(" /{0}/", str);
                 }
-                if (StoryProject.ProjSettings.ShowAnswers.NationalBt && viewNationalLangFieldMenuItem.Checked)
+                if (StoryProject.ProjSettings.ShowAnswers.NationalBt && viewNationalLangMenu.Checked)
                 {
                     string str = answerData.NationalBt.TextBox.SelectedText.Trim();
                     if (!String.IsNullOrEmpty(str))
                         strNote += String.Format(" /{0}/", str);
                 }
-                if (StoryProject.ProjSettings.ShowAnswers.InternationalBt && viewEnglishBTFieldMenuItem.Checked)
+                if (StoryProject.ProjSettings.ShowAnswers.InternationalBt && viewEnglishBtMenu.Checked)
                 {
                     string str = answerData.InternationalBt.TextBox.SelectedText.Trim();
                     if (!String.IsNullOrEmpty(str))
@@ -1776,8 +1819,8 @@ namespace OneStoryProjectEditor
             if (TeamMemberData.IsUser(LoggedOnMember.MemberType,
                                       TeamMemberData.UserTypes.Coach))
             {
-                if (!viewCoachNotesFieldMenuItem.Checked)
-                    viewCoachNotesFieldMenuItem.Checked = true;
+                if (!viewCoachNotesMenu.Checked)
+                    viewCoachNotesMenu.Checked = true;
 
 #if UsingHtmlDisplayForConNotes
                 htmlCoachNotesControl.OnAddNote(nVerseIndex, strNote, bNoteToSelf);
@@ -1823,8 +1866,8 @@ namespace OneStoryProjectEditor
             }
             else
             {
-                if (!viewConsultantNoteFieldMenuItem.Checked)
-                    viewConsultantNoteFieldMenuItem.Checked = true;
+                if (!viewConsultantNotesMenu.Checked)
+                    viewConsultantNotesMenu.Checked = true;
 
 #if UsingHtmlDisplayForConNotes
                 htmlConsultantNotesControl.OnAddNote(nVerseIndex, strNote, bNoteToSelf);
@@ -1945,7 +1988,7 @@ namespace OneStoryProjectEditor
             StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[eStage];
             Debug.Assert(st != null);
 
-            if (!useSameSettingsForAllStoriesToolStripMenuItem.Checked)
+            if (!viewUseSameSettingsForAllStoriesMenu.Checked)
             {
                 // in case the caller is just about to call InitAllPanes anyway, we don't
                 //  want the screen to thrash, so have the ability to disable the thrashing.
@@ -1962,7 +2005,18 @@ namespace OneStoryProjectEditor
             }
 
             helpProvider.SetHelpString(this, st.StageInstructions);
-            SetStatusBar(String.Format(Properties.Resources.IDS_PressF1ForInstructions, st.StageDisplayString));
+            SetDefaultStatusBar(st.StageDisplayString);
+        }
+
+        public static void SetDefaultStatusBar(ToolStripStatusLabel tssl, string strState)
+        {
+            SetStatusStripLabel(tssl, String.Format(Localizer.Str("{0}  Press F1 for instructions"),
+                                                    strState));
+        }
+
+        public void SetDefaultStatusBar(string strState)
+        {
+            SetDefaultStatusBar(statusLabel, strState);
         }
 
         protected Button AddDropTargetToFlowLayout(int nVerseIndex)
@@ -2030,7 +2084,7 @@ namespace OneStoryProjectEditor
         {
             int nIndex = flowLayoutPanelVerses.Controls.IndexOf(aVerseCtrl);
             int nOffset = 0;
-            if (viewGeneralTestingQuestionMenuItem.Checked)
+            if (viewGeneralTestingsQuestionMenu.Checked)
                 nOffset++;
 
             for (int i = nOffset; i < flowLayoutPanelVerses.Controls.Count; i += 2)
@@ -2065,7 +2119,7 @@ namespace OneStoryProjectEditor
         internal void SetNetBibleVerse(string strScriptureReference)
         {
             if (splitContainerUpDown.Panel2Collapsed)
-                viewNetBibleMenuItem.Checked = true;
+                viewBibleMenu.Checked = true;
 
             if (!netBibleViewer.checkBoxAutoHide.Checked && splitContainerUpDown.IsMinimized)
             {
@@ -2126,7 +2180,7 @@ namespace OneStoryProjectEditor
 #endif
                 }
 
-                DialogResult res = MessageBox.Show(Properties.Resources.IDS_SaveChanges, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                DialogResult res = QuerySave();
                 if (res == DialogResult.Cancel)
                     return false;
                 if (res == DialogResult.No)
@@ -2140,7 +2194,7 @@ namespace OneStoryProjectEditor
 
             // do cleanup, because this is always called before starting something new (new file or empty project)
             ClearFlowControls();
-            textBoxStoryVerse.Text = Properties.Resources.IDS_Story;
+            textBoxStoryVerse.Text = Localizer.Str("Story");
             return true;
         }
 
@@ -2180,7 +2234,8 @@ namespace OneStoryProjectEditor
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(String.Format(ex.Message, strFilename), OseResources.Properties.Resources.IDS_Caption);
+                    MessageBox.Show(String.Format(ex.Message, strFilename),
+                                    StoryEditor.OseCaption);
                     return;
                 }
                 tmLastSync = DateTime.Now;
@@ -2258,7 +2313,12 @@ namespace OneStoryProjectEditor
             }
             catch (UnauthorizedAccessException)
             {
-                MessageBox.Show(String.Format(Properties.Resources.IDS_FileLockedMessage, strFilename), OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(
+                    String.Format(
+                        Localizer.Str(
+                            "The project file '{0}' is locked. Is it read-only? Or opened in some other program? Unlock it and try again. Or try to save it as a different name"),
+                        strFilename),
+                    StoryEditor.OseCaption);
                 return;
             }
             catch (Exception ex)
@@ -2404,48 +2464,49 @@ namespace OneStoryProjectEditor
         {
             if (IsInStoriesSet)
             {
-                recentProjectsToolStripMenuItem.DropDownItems.Clear();
+                projectRecentProjectsMenu.DropDownItems.Clear();
                 Debug.Assert(Properties.Settings.Default.RecentProjects.Count == Properties.Settings.Default.RecentProjectPaths.Count);
                 for (int i = 0; i < Properties.Settings.Default.RecentProjects.Count; i++)
                 {
                     string strRecentFile = Properties.Settings.Default.RecentProjects[i];
-                    ToolStripItem tsi = recentProjectsToolStripMenuItem.DropDownItems.Add(strRecentFile, null, recentProjectsToolStripMenuItem_Click);
-                    tsi.ToolTipText = String.Format(Properties.Resources.IDS_LocatedInFolder, Properties.Settings.Default.RecentProjectPaths[i]);
+                    ToolStripItem tsi = projectRecentProjectsMenu.DropDownItems.Add(strRecentFile, null, recentProjectsToolStripMenuItem_Click);
+                    tsi.ToolTipText = String.Format(Localizer.Str("Located in folder '{0}'"),
+                                                    Properties.Settings.Default.RecentProjectPaths[i]);
                 }
 
-                recentProjectsToolStripMenuItem.Enabled = (recentProjectsToolStripMenuItem.DropDownItems.Count > 0);
+                projectRecentProjectsMenu.Enabled = (projectRecentProjectsMenu.DropDownItems.Count > 0);
 
-                toTheInternetToolStripMenuItem.Enabled =
-                    projectFromASharedNetworkDriveToolStripMenu.Enabled =
+                projectToTheInternetMenu.Enabled =
+                    projectFromASharedNetworkDriveMenu.Enabled =
                         ((StoryProject != null) && (StoryProject.ProjSettings != null));
 
-                saveToolStripMenuItem.Enabled = Modified;
+                projectSaveProjectMenu.Enabled = Modified;
 
-                exportToToolboxToolStripMenuItem.Enabled =
-                    projectSettingsToolStripMenuItem.Enabled = ((StoryProject != null)
+                projectExportToToolboxMenu.Enabled =
+                    projectSettingsMenu.Enabled = ((StoryProject != null)
                         && (StoryProject.ProjSettings != null)
                         && (LoggedOnMember != null));
 
-                projectLoginToolStripMenuItem.Enabled = (StoryProject != null);
+                projectLoginMenu.Enabled = (StoryProject != null);
 
                 if ((StoryProject != null) && (StoryProject.ProjSettings != null))
-                    sendReceiveToolStripMenuItem.Enabled = !String.IsNullOrEmpty(StoryProject.ProjSettings.HgRepoUrlHost);
+                    projectSendReceiveMenu.Enabled = !String.IsNullOrEmpty(StoryProject.ProjSettings.HgRepoUrlHost);
                 else
-                    sendReceiveToolStripMenuItem.Enabled = false;
+                    projectSendReceiveMenu.Enabled = false;
             }
             else
             {
-                toTheInternetToolStripMenuItem.Enabled =
-                    projectFromASharedNetworkDriveToolStripMenu.Enabled =
-                    recentProjectsToolStripMenuItem.Enabled =
-                    saveToolStripMenuItem.Enabled =
-                    browseForProjectToolStripMenuItem.Enabled =
-                    projectSettingsToolStripMenuItem.Enabled =
-                    projectLoginToolStripMenuItem.Enabled =
-                    sendReceiveToolStripMenuItem.Enabled = false;
+                projectToTheInternetMenu.Enabled =
+                    projectFromASharedNetworkDriveMenu.Enabled =
+                    projectRecentProjectsMenu.Enabled =
+                    projectSaveProjectMenu.Enabled =
+                    projectBrowseForProjectFileMenu.Enabled =
+                    projectSettingsMenu.Enabled =
+                    projectLoginMenu.Enabled =
+                    projectSendReceiveMenu.Enabled = false;
             }
 
-            printPreviewToolStripMenuItem.Enabled = (StoryProject != null);
+            projectPrintMenu.Enabled = (StoryProject != null);
         }
 
         private void recentProjectsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2479,7 +2540,12 @@ namespace OneStoryProjectEditor
 
         internal void SetStatusBar(string strText)
         {
-            statusLabel.Text = strText;
+            SetStatusStripLabel(statusLabel, strText);
+        }
+
+        public static void SetStatusStripLabel(ToolStripStatusLabel tssl, string strText)
+        {
+            tssl.Text = strText;
         }
 
         internal void ResetStatusBar()
@@ -2488,7 +2554,7 @@ namespace OneStoryProjectEditor
                 return;
 
             StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[TheCurrentStory.ProjStage.ProjectStage];
-            SetStatusBar(String.Format("{0}  Press F1 for instructions", st.StageDisplayString));
+            SetDefaultStatusBar(st.StageDisplayString);
         }
 
         /*
@@ -2565,7 +2631,7 @@ namespace OneStoryProjectEditor
                                 String.Format(Properties.Resources.IDS_TerminalTransitionMessage,
                                 TeamMemberData.GetMemberTypeAsDisplayString(theNewST.MemberTypeWithEditToken),
                                 theNewST.StageDisplayString),
-                             OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                             StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                             return;
 
                     theCurrentStory.ProjStage.ProjectStage = theNewST.CurrentStage;
@@ -2624,7 +2690,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(ex.Message, StoryEditor.OseCaption);
                 return false;
             }
 
@@ -2632,7 +2698,7 @@ namespace OneStoryProjectEditor
                 && (stateToSet == StoryStageLogic.ProjectStages.eTeamFinalApproval))
             {
                 MessageBox.Show(Properties.Resources.IDS_GoBackwardsYoungMan,
-                                OseResources.Properties.Resources.IDS_Caption);
+                                StoryEditor.OseCaption);
                 return false;
             }
 
@@ -2645,8 +2711,7 @@ namespace OneStoryProjectEditor
                 bool bReqSave = false;
                 if (TheCurrentStory.ProjStage.IsTerminalTransition(eNextState))
                 {
-                    if (MessageBox.Show(Properties.Resources.IDS_TerminalTransitionMessage,
-                                        OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                    if (!QueryTerminalTransition)
                         return false;
 
                     tmLastSync = DateTime.Now - tsBackupTime;   // triggers a repository story when we ask if they want to save
@@ -2689,13 +2754,13 @@ namespace OneStoryProjectEditor
 
         private void storyToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
-            enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Enabled = ((TheCurrentStory != null) &&
+            storyStoryInformationMenu.Enabled = ((TheCurrentStory != null) &&
                                                                           (TheCurrentStory.CraftingInfo != null));
 
-            deleteStoryToolStripMenuItem.Enabled =
-                storyCopyWithNewNameToolStripMenuItem.Enabled = (TheCurrentStory != null);
+            storyDeleteStoryMenu.Enabled =
+                storyCopyWithNewNameMenu.Enabled = (TheCurrentStory != null);
 
-            insertNewStoryToolStripMenuItem.Enabled = addNewStoryAfterToolStripMenuItem.Enabled =
+            panoramaInsertNewStoryMenu.Enabled = panoramaAddNewStoryAfterMenu.Enabled =
                 (IsInStoriesSet && (StoryProject != null) && (LoggedOnMember != null));
 
             // if there's a story that has more than no verses, AND if it's a bible
@@ -2708,77 +2773,82 @@ namespace OneStoryProjectEditor
                         (TheCurrentStory.ProjStage.ProjectStage < StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory))))
             {
                 // then we can do splitting and collapsing of the story
-                splitIntoLinesToolStripMenuItem.Enabled =
-                    realignStoryVersesToolStripMenuItem.Enabled = true;
+                storySplitIntoLinesMenu.Enabled =
+                    storyRealignStoryLinesMenu.Enabled = true;
 
                 if (TheCurrentStory.Verses.Count == 1)
-                    splitIntoLinesToolStripMenuItem.Text = "S&plit into Lines";
+                    storySplitIntoLinesMenu.Text = Localizer.Str("S&plit into Lines");
                 else
-                    splitIntoLinesToolStripMenuItem.Text = "&Collapse into 1 line";
+                    storySplitIntoLinesMenu.Text = Localizer.Str("&Collapse into 1 line");
             }
             else
-                splitIntoLinesToolStripMenuItem.Enabled =
-                    realignStoryVersesToolStripMenuItem.Enabled = false;
+                storySplitIntoLinesMenu.Enabled =
+                    storyRealignStoryLinesMenu.Enabled = false;
 
             if ((StoryProject != null)
                 && (StoryProject.ProjSettings != null)
                 && (TheCurrentStory != null)
                 && (TheCurrentStory.Verses.Count > 0))
             {
-                useAdaptItForBacktranslationToolStripMenuItem.Enabled = true;
+                storyUseAdaptItForBackTranslationMenu.Enabled = true;
                 bool bAnySharedProjects = false;
                 if (StoryProject.ProjSettings.VernacularToNationalBt != null)
                 {
-                    storyAdaptItVernacularToNationalMenuItem.Text = String.Format(
-                        Properties.Resources.IDS_AdaptItFromTo,
-                        StoryProject.ProjSettings.Vernacular.LangName,
-                        StoryProject.ProjSettings.NationalBT.LangName);
-                    storyAdaptItVernacularToNationalMenuItem.Visible = true;
+                    storyAdaptItVernacularToNationalMenu.Text =
+                        FromLangToLang(StoryProject.ProjSettings.Vernacular.LangName,
+                                       StoryProject.ProjSettings.NationalBT.LangName);
+
+                    storyAdaptItVernacularToNationalMenu.Visible = true;
                     bAnySharedProjects |= (StoryProject.ProjSettings.VernacularToNationalBt.ProjectType ==
                                            ProjectSettings.AdaptItConfiguration.AdaptItProjectType.SharedAiProject);
                 }
                 else
-                    storyAdaptItVernacularToNationalMenuItem.Visible = false;
+                    storyAdaptItVernacularToNationalMenu.Visible = false;
 
                 // if (StoryProject.ProjSettings.Vernacular.HasData && StoryProject.ProjSettings.InternationalBT.HasData)
                 if (StoryProject.ProjSettings.VernacularToInternationalBt != null)
                 {
-                    storyAdaptItVernacularToEnglishMenuItem.Text = String.Format(Properties.Resources.IDS_AdaptItFromTo,
-                                                                                 StoryProject.ProjSettings.Vernacular.
-                                                                                     LangName,
-                                                                                 StoryProject.ProjSettings.
-                                                                                     InternationalBT.LangName);
-                    storyAdaptItVernacularToEnglishMenuItem.Visible = true;
+                    storyAdaptItVernacularToEnglishMenu.Text =
+                        FromLangToLang(StoryProject.ProjSettings.Vernacular.LangName,
+                                       StoryProject.ProjSettings.InternationalBT.LangName);
+
+                    storyAdaptItVernacularToEnglishMenu.Visible = true;
                     bAnySharedProjects |= (StoryProject.ProjSettings.VernacularToInternationalBt.ProjectType ==
                                            ProjectSettings.AdaptItConfiguration.AdaptItProjectType.SharedAiProject);
                 }
                 else
-                    storyAdaptItVernacularToEnglishMenuItem.Visible = false;
+                    storyAdaptItVernacularToEnglishMenu.Visible = false;
 
                 // if (StoryProject.ProjSettings.NationalBT.HasData && StoryProject.ProjSettings.InternationalBT.HasData)
                 if (StoryProject.ProjSettings.NationalBtToInternationalBt != null)
                 {
-                    storyAdaptItNationalToEnglishMenuItem.Text = String.Format(Properties.Resources.IDS_AdaptItFromTo,
-                                                                               StoryProject.ProjSettings.NationalBT.
-                                                                                   LangName,
-                                                                               StoryProject.ProjSettings.InternationalBT
-                                                                                   .LangName);
-                    storyAdaptItNationalToEnglishMenuItem.Visible = true;
+                    storyAdaptItNationalToEnglishMenu.Text =
+                        FromLangToLang(StoryProject.ProjSettings.NationalBT.LangName,
+                                       StoryProject.ProjSettings.InternationalBT.LangName);
+
+                    storyAdaptItNationalToEnglishMenu.Visible = true;
                     bAnySharedProjects |= (StoryProject.ProjSettings.NationalBtToInternationalBt.ProjectType ==
                                            ProjectSettings.AdaptItConfiguration.AdaptItProjectType.SharedAiProject);
                 }
                 else
-                    storyAdaptItNationalToEnglishMenuItem.Visible = false;
+                    storyAdaptItNationalToEnglishMenu.Visible = false;
 
-                synchronizeSharedAdaptItProjectsToolStripMenuItem.Visible = bAnySharedProjects;
+                storySynchronizeSharedAdaptItProjectsMenu.Visible = bAnySharedProjects;
 
-                storyOverrideTasks.Enabled = ((_theCurrentStory != null) &&
+                storyOverrideTasksMenu.Enabled = ((_theCurrentStory != null) &&
                                               TeamMemberData.IsUser(_theCurrentStory.ProjStage.MemberTypeWithEditToken,
                                                                     TeamMemberData.UserTypes.ProjectFacilitator |
                                                                     TeamMemberData.UserTypes.ConsultantInTraining));
             }
             else
-                useAdaptItForBacktranslationToolStripMenuItem.Enabled = false;
+                storyUseAdaptItForBackTranslationMenu.Enabled = false;
+        }
+
+        private static string FromLangToLang(string strFromLang, string strToLang)
+        {
+            return String.Format(Localizer.Str("From &{0} to {1}"),
+                                 strFromLang,
+                                 strToLang);
         }
 
         private void enterTheReasonThisStoryIsInTheSetToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2789,7 +2859,7 @@ namespace OneStoryProjectEditor
         private void panoramaToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             Debug.Assert(IsInStoriesSet);
-            toolStripMenuItemShowPanorama.Enabled = (StoryProject != null);
+            panoramaShowMenu.Enabled = (StoryProject != null);
         }
 
         internal void toolStripMenuItemShowPanorama_Click(object sender, EventArgs e)
@@ -2851,9 +2921,7 @@ namespace OneStoryProjectEditor
                 return;
 
             // make sure the user really wants to do this
-            if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteStory,
-                TheCurrentStory.Name), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel)
-                != DialogResult.Yes)
+            if (QueryDeleteStory(TheCurrentStory.Name))
                 return;
 
             TheCurrentStoriesSet.RemoveAt(nIndex);
@@ -2872,11 +2940,20 @@ namespace OneStoryProjectEditor
             Modified = true;
         }
 
+        public static bool QueryDeleteStory(string strName)
+        {
+            return (MessageBox.Show(String.Format(Localizer.Str("Are you sure you want to delete the '{0}' story?"),
+                                                  strName),
+                                    StoryEditor.OseCaption,
+                                    MessageBoxButtons.YesNoCancel)
+                    != DialogResult.Yes);
+        }
+
         private void StoryEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (Modified)
             {
-                DialogResult res = MessageBox.Show(Properties.Resources.IDS_SaveChanges, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                DialogResult res = QuerySave();
                 if (res == DialogResult.Cancel)
                 {
                     e.Cancel = true;
@@ -2905,64 +2982,66 @@ namespace OneStoryProjectEditor
         private void editToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             bool bSomeVerses = ((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
-            editFindToolStripMenuItem.Enabled =
-                copyToolStripMenuItem.Enabled =
-                copyNationalBackTranslationToolStripMenuItem.Enabled =
-                copyEnglishBackTranslationToolStripMenuItem.Enabled =
-                copyFreeTranslationMenuItem.Enabled = bSomeVerses;
+            editFindMenu.Enabled =
+                editCopyToolStripMenu.Enabled =
+                editCopyNationalBtMenu.Enabled =
+                editCopyEnglishBtMenu.Enabled =
+                editCopyFreeTranslationMenu.Enabled = bSomeVerses;
 
-            deleteBackTranslationToolStripMenuItem.Enabled =
-                deleteStoryNationalBackTranslationToolStripMenuItem.Enabled =
-                deleteEnglishBacktranslationToolStripMenuItem.Enabled =
-                deleteFreeTranslationToolStripMenuItem.Enabled =
+            editDeleteToolStripMenu.Enabled =
+                editDeleteNationalBtMenu.Enabled =
+                editDeleteEnglishBtMenu.Enabled =
+                editDeleteFreeTranslationMenu.Enabled =
                     (IsInStoriesSet && bSomeVerses);
 
-            editAddRetellingTestResultsToolStripMenuItem.Enabled =
-                editAddInferenceTestResultsToolStripMenuItem.Enabled =
-                addgeneralTestQuestionToolStripMenuItem.Enabled =
+            editAddRetellingTestResultsMenu.Enabled =
+                editAddInferenceTestResultsMenu.Enabled =
+                editAddGeneralTestQuestionMenu.Enabled =
                     (IsInStoriesSet
                         && bSomeVerses
                         && TheCurrentStory.CraftingInfo.IsBiblicalStory);
 
-            pasteToolStripMenuItem.Enabled = (CtrlTextBox._inTextBox != null);
+            editPasteMenu.Enabled = (CtrlTextBox._inTextBox != null);
 
-            editCopySelectionToolStripMenuItem.Enabled = ((CtrlTextBox._inTextBox != null) && (!String.IsNullOrEmpty(CtrlTextBox._inTextBox.SelectedText)));
+            editCopySelectionMenu.Enabled = ((CtrlTextBox._inTextBox != null) && (!String.IsNullOrEmpty(CtrlTextBox._inTextBox.SelectedText)));
 
             if ((StoryProject != null) && (StoryProject.ProjSettings != null) && (TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0))
             {
                 if (StoryProject.ProjSettings.Vernacular.HasData)
-                    copyStoryToolStripMenuItem.Text = String.Format(Properties.Resources.IDS_StoryText, StoryProject.ProjSettings.Vernacular.LangName);
+                    editCopyStoryMenu.Text = String.Format(Localizer.Str("{0} story lines to the clipboard"),
+                                                           StoryProject.ProjSettings.Vernacular.LangName);
                 else
                 {
-                    copyStoryToolStripMenuItem.Visible =
-                        deleteStoryVersesToolStripMenuItem.Visible = false;
+                    editCopyStoryMenu.Visible =
+                        editDeleteStoryLinesMenu.Visible = false;
                 }
 
                 if (StoryProject.ProjSettings.NationalBT.HasData)
                 {
-                    copyNationalBackTranslationToolStripMenuItem.Text =
-                        deleteStoryNationalBackTranslationToolStripMenuItem.Text =
-                        String.Format(Properties.Resources.IDS_NationalBtOfStory, StoryProject.ProjSettings.NationalBT.LangName);
+                    editCopyNationalBtMenu.Text =
+                        editDeleteNationalBtMenu.Text =
+                        String.Format(Localizer.Str("{0} back-translation of the story to the clipboard"),
+                                      StoryProject.ProjSettings.NationalBT.LangName);
                 }
                 else
-                    deleteStoryNationalBackTranslationToolStripMenuItem.Visible = copyNationalBackTranslationToolStripMenuItem.Visible = false;
+                    editDeleteNationalBtMenu.Visible = editCopyNationalBtMenu.Visible = false;
 
                 if (!StoryProject.ProjSettings.InternationalBT.HasData)
-                    deleteEnglishBacktranslationToolStripMenuItem.Visible =
-                        copyEnglishBackTranslationToolStripMenuItem.Visible = false;
+                    editDeleteEnglishBtMenu.Visible =
+                        editCopyEnglishBtMenu.Visible = false;
 
                 if (!StoryProject.ProjSettings.FreeTranslation.HasData)
-                    deleteFreeTranslationToolStripMenuItem.Visible =
-                        copyFreeTranslationMenuItem.Visible = false;
+                    editDeleteFreeTranslationMenu.Visible =
+                        editCopyFreeTranslationMenu.Visible = false;
 
-                deleteTestToolStripMenuItem.DropDownItems.Clear();
+                editDeleteTestToolStripMenu.DropDownItems.Clear();
                 if ((TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count > 0)
                     || (TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count > 0))
                 {
                     for (int nTest = 0; nTest < TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count; nTest++)
                     {
                         string strUnsGuid = TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings[nTest].MemberId;
-                        AddDeleteTestSubmenu(deleteTestToolStripMenuItem,
+                        AddDeleteTestSubmenu(editDeleteTestToolStripMenu,
                                              String.Format("Retelling Test {0} done by {1}", nTest + 1,
                                                            StoryProject.GetMemberNameFromMemberGuid(strUnsGuid)),
                                              nTest, OnRemoveRetellingTest);
@@ -2970,14 +3049,14 @@ namespace OneStoryProjectEditor
                     for (int nTest = 0; nTest < TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count; nTest++)
                     {
                         string strUnsGuid = TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTest].MemberId;
-                        AddDeleteTestSubmenu(deleteTestToolStripMenuItem,
+                        AddDeleteTestSubmenu(editDeleteTestToolStripMenu,
                                              String.Format("Story Question Testing {0} done by {1}", nTest + 1,
                                                            StoryProject.GetMemberNameFromMemberGuid(strUnsGuid)),
                                              nTest, OnRemoveInferenceTest);
                     }
                 }
                 else
-                    deleteTestToolStripMenuItem.Visible = false;
+                    editDeleteTestToolStripMenu.Visible = false;
             }
 
             UpdateUIMenusWithShortCuts();
@@ -2999,8 +3078,8 @@ namespace OneStoryProjectEditor
             if (!CheckEndOfStateTransition.CheckForCountOfTestingQuestions(TheCurrentStory, this))
                 return false;
 
-            if (MessageBox.Show(Properties.Resources.IDS_AreAllTestingQuestionsEnteredQuery,
-                                OseResources.Properties.Resources.IDS_Caption,
+            if (MessageBox.Show(Localizer.Str("Have you entered all of your testing questions? If not, then click 'Cancel' and finish entering all of the testing questions first. Then click 'OK' to add boxes for the answers to the testing questions"),
+                                StoryEditor.OseCaption,
                                 MessageBoxButtons.OKCancel) == DialogResult.Cancel)
                 return false;
 
@@ -3018,9 +3097,11 @@ namespace OneStoryProjectEditor
                 return false;
 
             // also need to query for the number of times the UNS heard the story
-            string strAnswer = Microsoft.VisualBasic.Interaction.InputBox(Properties.Resources.IDS_QueryNumOfTimeHeard,
-                                                                          OseResources.Properties.Resources.IDS_Caption,
-                                                                          "3", 300, 200);
+            string strAnswer =
+                Microsoft.VisualBasic.Interaction.InputBox(
+                    Localizer.Str("How many times did the UNS hear the story before giving this retelling?"),
+                    StoryEditor.OseCaption,
+                    "3", 300, 200);
 
             strAnswer = String.Format(Properties.Resources.IDS_RetellingCommentFormat,
                                       DateTime.Now.ToString("yyyy-MMM-dd"), strAnswer);
@@ -3033,7 +3114,7 @@ namespace OneStoryProjectEditor
                 TheCurrentStory.CountRetellingsTests--; // to show we've added one
 
             // just in case it wasn't showing
-            viewRetellingFieldMenuItem.Checked = true;
+            viewRetellingsMenu.Checked = true;
 
             Modified = true;
             return true;
@@ -3060,7 +3141,7 @@ namespace OneStoryProjectEditor
                 TheCurrentStory.CountTestingQuestionTests--;    // to show we've added one
 
             // just in case it isn't currently showing
-            viewStoryTestingQuestionAnswerMenuItem.Checked = true;
+            viewStoryTestingQuestionAnswersMenu.Checked = true;
 
             Modified = true;
             return true;
@@ -3077,11 +3158,7 @@ namespace OneStoryProjectEditor
                 foreach (var ti in testInfo)
                     if (ti.MemberId == strUnsGuid)
                     {
-                        string strError = String.Format(Properties.Resources.IDS_AddTestSameUNS,
-                                                        StoryProject.GetMemberNameFromMemberGuid(ti.MemberId));
-                        DialogResult res = MessageBox.Show(strError,
-                                                           OseResources.Properties.Resources.IDS_Caption,
-                                                           MessageBoxButtons.OKCancel);
+                        DialogResult res = QueryNewUns(StoryProject.GetMemberNameFromMemberGuid(ti.MemberId));
                         if (res == DialogResult.Cancel)
                             return false;
                         strUnsGuid = null;
@@ -3091,12 +3168,27 @@ namespace OneStoryProjectEditor
             return true;
         }
 
+        public static string NewUnsMessage(string strTestIdentifier)
+        {
+            return String.Format(
+                Localizer.Str(
+                    "You can't use the same UNS for two different tests of the same story. Please select a different UNS (or just put their results in the existing boxes for test '{0}')"),
+                strTestIdentifier);
+        }
+
+        private static DialogResult QueryNewUns(string strTestIdentifier)
+        {
+            return MessageBox.Show(NewUnsMessage(strTestIdentifier),
+                                   StoryEditor.OseCaption,
+                                   MessageBoxButtons.OKCancel);
+        }
+
         internal bool AddSingleTestResult(TestQuestionData theTq, out LineMemberData theNewAnswer)
         {
             /* don't bother... they just misunderstand the question anyway
             // let's first just make sure that this isn't the wrong request
             DialogResult res = MessageBox.Show(Properties.Resources.IDS_VerifyAddSingleTest,
-                                               OseResources.Properties.Resources.IDS_Caption,
+                                               StoryEditor.OseCaption,
                                                MessageBoxButtons.YesNoCancel);
 
             if (res == DialogResult.No)
@@ -3118,10 +3210,7 @@ namespace OneStoryProjectEditor
             if (theNewAnswer != null)
             {
                 int nIndex = TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.IndexOf(theNewAnswer.MemberId);
-                MessageBox.Show(String.Format(Properties.Resources.IDS_AddTestSameUNS,
-                                              String.Format(theTq.Answers.LabelTextFormat, nIndex + 1)),
-                                OseResources.Properties.Resources.IDS_Caption,
-                                MessageBoxButtons.OKCancel);
+                QueryNewUns(String.Format(theTq.Answers.LabelTextFormat, nIndex + 1));
                 return false;
             }
 
@@ -3138,7 +3227,7 @@ namespace OneStoryProjectEditor
             theNewAnswer = theTq.Answers.TryAddNewLine(strUnsGuid);
 
             // make sure the answers field is open in case it's not
-            viewStoryTestingQuestionAnswerMenuItem.Checked = true;
+            viewStoryTestingQuestionAnswersMenu.Checked = true;
             Modified = true;
             return true;
         }
@@ -3187,7 +3276,7 @@ namespace OneStoryProjectEditor
             {
                 var dlg = new MemberPicker(theStoryProjectData, TeamMemberData.UserTypes.UNS)
                               {
-                                  Text = "Choose the UNS that gave answers for this test"
+                                  Text = Localizer.Str("Choose the UNS that gave answers for this test")
                               };
                 DialogResult res = dlg.ShowDialog();
                 if (res == DialogResult.OK)
@@ -3215,8 +3304,9 @@ namespace OneStoryProjectEditor
             string strUnsGuid = TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings[nTestNum].MemberId;
             string strTestorName = StoryProject.GetMemberNameFromMemberGuid(strUnsGuid);
 
-            if (MessageBox.Show(Properties.Resources.IDS_ConfirmDeleteRetellings + strTestorName,
-                                OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) !=
+            if (MessageBox.Show(Localizer.Str("Are you sure you want to remove all of the retelling results for ") +
+                                strTestorName,
+                                StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) !=
                 DialogResult.Yes)
                 return false;
 
@@ -3241,8 +3331,9 @@ namespace OneStoryProjectEditor
             string strUnsGuid = TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTestNum].MemberId;
             string strTestorName = StoryProject.GetMemberNameFromMemberGuid(strUnsGuid);
 
-            if (MessageBox.Show(Properties.Resources.IDS_ConfirmDeleteTQs + strTestorName,
-                                OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) !=
+            if (MessageBox.Show(Localizer.Str("Are you sure you want to remove all of the story question test results for ") +
+                                strTestorName,
+                                StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) !=
                 DialogResult.Yes)
                 return false;
 
@@ -3257,7 +3348,7 @@ namespace OneStoryProjectEditor
                 Name = strText,
                 Text = strText,
                 Tag = nTestNum,
-                ToolTipText = "Delete the answers to the testing questions and the retellings associated with this testing helper (UNS). The text boxes will be deleted completely."
+                ToolTipText = Localizer.Str("Delete the answers to the testing questions and the retellings associated with this testing helper (UNS). The text boxes will be deleted completely.")
             };
             tsmSub.Click += theEH;
             tsm.DropDown.Items.Add(tsmSub);
@@ -3382,10 +3473,11 @@ namespace OneStoryProjectEditor
                             return;
                     }
 
-                string strErrorMsg = String.Format(Properties.Resources.IDS_UnableToCopyText,
-                    Environment.NewLine, ex.Message,
-                    ((ex.InnerException != null) ? ex.InnerException.Message : ""));
-                MessageBox.Show(strErrorMsg, OseResources.Properties.Resources.IDS_Caption);
+                string strErrorMsg =
+                    String.Format(Localizer.Str("Unable to copy text to the clipboard!{0}{0}{1}{0}{0}{2}"),
+                                  Environment.NewLine, ex.Message,
+                                  ((ex.InnerException != null) ? ex.InnerException.Message : ""));
+                MessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
             }
         }
 
@@ -3433,88 +3525,60 @@ namespace OneStoryProjectEditor
         }
         */
 
-        private void deleteStoryVersesToolStripMenuItem_Click(object sender, EventArgs e)
+        private delegate void ResetValue(LineData lineData);
+        private static void DeleteVernacular(LineData lineData)
+        {
+            lineData.Vernacular.SetValue(null);
+        }
+        private static void DeleteNationalBt(LineData lineData)
+        {
+            lineData.NationalBt.SetValue(null);
+        }
+        private static void DeleteInternationalBt(LineData lineData)
+        {
+            lineData.InternationalBt.SetValue(null);
+        }
+        private static void DeleteFreeTranslation(LineData lineData)
+        {
+            lineData.FreeTranslation.SetValue(null);
+        }
+
+        private void DeleteFieldData(object sender, ResetValue delegateResetValue)
         {
             Debug.Assert((TheCurrentStory != null) && (sender is ToolStripItem));
 
-            ToolStripItem tsi = sender as ToolStripItem;
+            var tsi = sender as ToolStripItem;
             if (tsi != null)
-                if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteAllVerseLines,
-                                                  tsi.Text.Replace("&", null)), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+                if (MessageBox.Show(String.Format(Localizer.Str("Are you sure you want to delete the {0}?"),
+                                                  tsi.Text.Replace("&", null)), StoryEditor.OseCaption,
+                                    MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                 {
-                    foreach (VerseData aVerse in TheCurrentStory.Verses)
-                        aVerse.StoryLine.Vernacular.SetValue(null);
+                    foreach (var aVerse in TheCurrentStory.Verses)
+                        delegateResetValue(aVerse.StoryLine);
                     ReInitVerseControls();
                     Modified = true;
                 }
+        }
+
+        private void deleteStoryVersesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DeleteFieldData(sender, DeleteVernacular);
         }
 
         private void deleteStoryNationalBackTranslationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Debug.Assert((TheCurrentStory != null) && (sender is ToolStripItem));
-
-            ToolStripItem tsi = sender as ToolStripItem;
-            if (tsi != null)
-                if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteAllVerseLines,
-                                                  tsi.Text.Replace("&", null)), OseResources.Properties.Resources.IDS_Caption,
-                                    MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
-                {
-                    foreach (VerseData aVerse in TheCurrentStory.Verses)
-                        aVerse.StoryLine.NationalBt.SetValue(null);
-                    ReInitVerseControls();
-                    Modified = true;
-                }
+            DeleteFieldData(sender, DeleteNationalBt);
         }
 
         private void deleteEnglishBacktranslationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Debug.Assert((TheCurrentStory != null) && (sender is ToolStripItem));
-
-            ToolStripItem tsi = sender as ToolStripItem;
-            if (tsi != null)
-                if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteAllVerseLines,
-                                                  tsi.Text.Replace("&", null)), OseResources.Properties.Resources.IDS_Caption,
-                                    MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
-                {
-                    foreach (VerseData aVerse in TheCurrentStory.Verses)
-                        aVerse.StoryLine.InternationalBt.SetValue(null);
-                    ReInitVerseControls();
-                    Modified = true;
-                }
+            DeleteFieldData(sender, DeleteInternationalBt);
         }
 
         private void deleteFreeTranslationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Debug.Assert((TheCurrentStory != null) && (sender is ToolStripItem));
-
-            ToolStripItem tsi = sender as ToolStripItem;
-            if (tsi != null)
-                if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteAllVerseLines,
-                                                  tsi.Text.Replace("&", null)), OseResources.Properties.Resources.IDS_Caption,
-                                    MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
-                {
-                    foreach (VerseData aVerse in TheCurrentStory.Verses)
-                        aVerse.StoryLine.FreeTranslation.SetValue(null);
-                    ReInitVerseControls();
-                    Modified = true;
-                }
+            DeleteFieldData(sender, DeleteFreeTranslation);
         }
-        /*
-        private void exportNationalBacktranslationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // iterate thru the verses and copy them to the clipboard
-            Debug.Assert((theCurrentStory != null) && (theCurrentStory.Verses.Count > 0));
-
-            string strStory = theCurrentStory.Verses[0].StoryLine.NationalBt.ToString();
-            for (int i = 1; i < theCurrentStory.Verses.Count; i++)
-            {
-                VerseData aVerse = theCurrentStory.Verses[i];
-                strStory += ' ' + aVerse.StoryLine.NationalBt.ToString();
-            }
-
-            GlossInAdaptIt(strStory, AdaptItGlossing.GlossType.eNationalToEnglish);
-        }
-        */
 
         protected void GlossInAdaptIt(string strStoryText, ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection)
         {
@@ -3539,8 +3603,13 @@ namespace OneStoryProjectEditor
             DialogResult res = DialogResult.Yes;
             if (File.Exists(strAdaptationFilespec))
             {
-                res = MessageBox.Show(String.Format(Properties.Resources.IDS_AdaptItFileAlreadyExists,
-                    strProjectName, TheCurrentStory.Name), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                res =
+                    MessageBox.Show(
+                        String.Format(
+                            Localizer.Str(
+                                "The Adapt It file for the project '{0}', story '{1}' already exists. If you want to delete that file and do the English translation of the story all over again, then click 'Yes'. If you just want to try to import the existing file again, choose 'No'. Otherwise, click 'Cancel' to stop this command."),
+                            strProjectName, TheCurrentStory.Name), StoryEditor.OseCaption,
+                        MessageBoxButtons.YesNoCancel);
 
                 if (res == DialogResult.Cancel)
                     return;
@@ -3654,11 +3723,11 @@ namespace OneStoryProjectEditor
                 //  kb file in a way that facilitates minimal diffs
                 Program.HaveCalledAdaptIt = true;
 
-                res = MessageBox.Show(String.Format(Properties.Resources.IDS_AdaptationInstructions,
+                res = MessageBox.Show(String.Format(Localizer.Str("Follow these steps to use the Adapt It program to translate the story from {1} into {2}:{0}{0}1) Switch to the Adapt It program using Alt+Tab keys{0}2) Select the '{3}' project and click the 'Next' button (if a file is already open in Adapt It, then choose the 'File' menu, 'Close Project' command and then the 'File' menu, 'Start Working' command first).{0}3) Select the '{4}.xls' document to open and press the 'Finished' button.{0}4) When you see the {1} in the adaptation window, then translate it into {2}. {0}5) When you're finished, return to this window and click the 'Yes' button to import the back-translated {2} text into the {2} fields.{0}{0}Have you finished back-translating the {1} to {2} in Adapt It, and are ready to import it back into the OneStory Editor?"),
                                                     Environment.NewLine, liSourceLang.LangName,
                                                     liTargetLang.LangName, strProjectName,
                                                     TheCurrentStory.Name),
-                                      OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                                      StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
 
                 if (res != DialogResult.Yes)
                     return;
@@ -3705,17 +3774,19 @@ namespace OneStoryProjectEditor
                         {
                             string strSourceKey = xpIterator.Current.GetAttribute("k", navigator.NamespaceURI);
                             if (strSourceKey != strSourceWord)
-                                throw new ApplicationException(String.Format(Properties.Resources.IDS_ErrorInAdaptation,
-                                                                             Environment.NewLine, liSourceLang.LangName,
-                                                                             liTargetLang.LangName, nVerseNum + 1, strSourceKey,
-                                                                             strSourceWord));
+                                ThrowAdaptationException(liSourceLang.LangName,
+                                                         liTargetLang.LangName,
+                                                         nVerseNum,
+                                                         strSourceKey,
+                                                         strSourceWord);
 
                             string strTargetKey = xpIterator.Current.GetAttribute("a", navigator.NamespaceURI);
                             if ((strTargetWord.IndexOf('%') == -1) && (strTargetWord != strTargetKey))
-                                throw new ApplicationException(String.Format(Properties.Resources.IDS_ErrorInAdaptation,
-                                                                             Environment.NewLine, liSourceLang.LangName,
-                                                                             liTargetLang.LangName, nVerseNum + 1, strTargetKey,
-                                                                             strTargetWord));
+                                ThrowAdaptationException(liSourceLang.LangName,
+                                                         liTargetLang.LangName,
+                                                         nVerseNum,
+                                                         strTargetKey,
+                                                         strTargetWord);
 
                             strTargetWord = xpIterator.Current.GetAttribute("t", navigator.NamespaceURI);
                             strTargetBT += strTargetWord + ' ';
@@ -3733,22 +3804,31 @@ namespace OneStoryProjectEditor
 
                 Modified = true;
                 if ((eBtDirection == ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt)
-                    && !viewNationalLangFieldMenuItem.Checked)
+                    && !viewNationalLangMenu.Checked)
                 {
-                    viewNationalLangFieldMenuItem.Checked = true;
+                    viewNationalLangMenu.Checked = true;
                 }
                 else if ((eBtDirection != ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt)
-                    && !viewEnglishBTFieldMenuItem.Checked)
+                    && !viewEnglishBtMenu.Checked)
                 {
-                    viewEnglishBTFieldMenuItem.Checked = true;
+                    viewEnglishBtMenu.Checked = true;
                 }
                 else
                     ReInitVerseControls();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(ex.Message, StoryEditor.OseCaption);
             }
+        }
+
+        private static void ThrowAdaptationException(string strSourceLanguageName,
+            string strTargetLanguageName, int nVerseNum, string strKey, string strWord)
+        {
+            throw new ApplicationException(String.Format(Localizer.Str("The data from Adapt It doesn't appear to match what's in the story.{0}In line number {3}, I was expecting \"{4}\", but got \"{5}\" instead.{0}If you've made changes in the {1} or the {2} back-translation, then you need to do the back-translation in Adapt It again."),
+                                                         Environment.NewLine, strSourceLanguageName,
+                                                         strTargetLanguageName, nVerseNum + 1, strKey,
+                                                         strWord));
         }
 
         private static void ReleaseProcess(Process aProcess)
@@ -3814,53 +3894,53 @@ namespace OneStoryProjectEditor
 
         protected void UpdateUIMenusWithShortCuts()
         {
-            refreshToolStripMenuItem.Enabled = (TheCurrentStory != null);
+            viewRefreshMenu.Enabled = (TheCurrentStory != null);
 
-            editFindToolStripMenuItem.Enabled =
-                findNextToolStripMenuItem.Enabled =
-                replaceToolStripMenuItem.Enabled =
+            editFindMenu.Enabled =
+                editFindNextMenu.Enabled =
+                editReplaceMenu.Enabled =
                     ((StoryProject != null)
                     && (StoryProject.ProjSettings != null)
                     && (TheCurrentStory != null)
                     && (TheCurrentStory.Verses.Count > 0));
 
-            if ((StoryProject == null) || (StoryProject.ProjSettings == null)) 
+            if ((StoryProject == null) || (StoryProject.ProjSettings == null))
                 return;
 
-            viewVernacularLangFieldMenuItem.Checked =
-                viewVernacularLangFieldMenuItem.Visible = StoryProject.ProjSettings.Vernacular.HasData;
-            viewNationalLangFieldMenuItem.Checked =
-                viewNationalLangFieldMenuItem.Visible = StoryProject.ProjSettings.NationalBT.HasData;
-            viewEnglishBTFieldMenuItem.Checked =
-                viewEnglishBTFieldMenuItem.Visible = StoryProject.ProjSettings.InternationalBT.HasData;
-            viewFreeTranslationToolStripMenuItem.Checked = 
-                viewFreeTranslationToolStripMenuItem.Visible = StoryProject.ProjSettings.FreeTranslation.HasData;
+            viewVernacularLangMenu.Checked =
+                viewVernacularLangMenu.Visible = StoryProject.ProjSettings.Vernacular.HasData;
+            viewNationalLangMenu.Checked =
+                viewNationalLangMenu.Visible = StoryProject.ProjSettings.NationalBT.HasData;
+            viewEnglishBtMenu.Checked =
+                viewEnglishBtMenu.Visible = StoryProject.ProjSettings.InternationalBT.HasData;
+            viewFreeTranslationMenu.Checked =
+                viewFreeTranslationMenu.Visible = StoryProject.ProjSettings.FreeTranslation.HasData;
         }
 
         private void showHideFieldsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var dlg = new ViewEnableForm(this, StoryProject.ProjSettings, TheCurrentStory,
-                                         useSameSettingsForAllStoriesToolStripMenuItem.Checked)
+                                         viewUseSameSettingsForAllStoriesMenu.Checked)
                           {
                               ViewSettings = new VerseData.ViewSettings
                                   (
                                   StoryProject.ProjSettings,
-                                  viewVernacularLangFieldMenuItem.Checked,
-                                  viewNationalLangFieldMenuItem.Checked,
-                                  viewEnglishBTFieldMenuItem.Checked,
-                                  viewFreeTranslationToolStripMenuItem.Checked,
-                                  viewAnchorFieldMenuItem.Checked,
+                                  viewVernacularLangMenu.Checked,
+                                  viewNationalLangMenu.Checked,
+                                  viewEnglishBtMenu.Checked,
+                                  viewFreeTranslationMenu.Checked,
+                                  viewAnchorsMenu.Checked,
                                   viewExegeticalHelps.Checked,
-                                  viewStoryTestingQuestionMenuItem.Checked,
-                                  viewStoryTestingQuestionAnswerMenuItem.Checked,
-                                  viewRetellingFieldMenuItem.Checked,
-                                  viewConsultantNoteFieldMenuItem.Checked,
-                                  viewCoachNotesFieldMenuItem.Checked,
-                                  viewNetBibleMenuItem.Checked,
+                                  viewStoryTestingQuestionsMenu.Checked,
+                                  viewStoryTestingQuestionAnswersMenu.Checked,
+                                  viewRetellingsMenu.Checked,
+                                  viewConsultantNotesMenu.Checked,
+                                  viewCoachNotesMenu.Checked,
+                                  viewBibleMenu.Checked,
                                   true,
-                                  hiddenVersesToolStripMenuItem.Checked,
+                                  viewHiddenVersesMenu.Checked,
                                   viewOnlyOpenConversationsMenu.Checked,
-                                  viewGeneralTestingQuestionMenuItem.Checked,
+                                  viewGeneralTestingsQuestionMenu.Checked,
                                   null,
                                   null,
                                   null,
@@ -3870,9 +3950,9 @@ namespace OneStoryProjectEditor
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 // have to turn this off, or these new settings won't work
-                useSameSettingsForAllStoriesToolStripMenuItem.Checked = false;
+                viewUseSameSettingsForAllStoriesMenu.Checked = false;
                 NavigateTo(TheCurrentStory.Name, dlg.ViewSettings, true, CtrlTextBox._inTextBox);
-                useSameSettingsForAllStoriesToolStripMenuItem.Checked = dlg.UseForAllStories;
+                viewUseSameSettingsForAllStoriesMenu.Checked = dlg.UseForAllStories;
             }
         }
 
@@ -3882,103 +3962,105 @@ namespace OneStoryProjectEditor
 
             if ((StoryProject != null) && (StoryProject.ProjSettings != null))
             {
-                showHideFieldsToolStripMenuItem.Enabled =
-                    historicalDifferencesToolStripMenuItem.Enabled =
-                    hiddenVersesToolStripMenuItem.Enabled =
+                viewShowHideFieldsMenu.Enabled =
+                    viewHistoricalDifferencesMenu.Enabled =
+                    viewHiddenVersesMenu.Enabled =
                     viewOnlyOpenConversationsMenu.Enabled = (TheCurrentStory != null);
 
                 if (StoryProject.ProjSettings.Vernacular.HasData)
                 {
-                    viewVernacularLangFieldMenuItem.Text = String.Format(Properties.Resources.IDS_LanguageFields,
-                                                                         StoryProject.ProjSettings.Vernacular.LangName);
-                    viewVernacularLangFieldMenuItem.Enabled = (TheCurrentStory != null);
+                    viewVernacularLangMenu.Text = String.Format(Localizer.Str("{0} &language fields"),
+                                                                StoryProject.ProjSettings.Vernacular.LangName);
+                    viewVernacularLangMenu.Enabled = (TheCurrentStory != null);
                 }
                 else
-                    viewVernacularLangFieldMenuItem.Checked =
-                        viewVernacularLangFieldMenuItem.Visible = false;
+                    viewVernacularLangMenu.Checked =
+                        viewVernacularLangMenu.Visible = false;
 
                 if (StoryProject.ProjSettings.NationalBT.HasData)
                 {
-                    viewNationalLangFieldMenuItem.Text = String.Format(Properties.Resources.IDS_StoryLanguageField,
-                                                                       StoryProject.ProjSettings.NationalBT.LangName);
+                    viewNationalLangMenu.Text = String.Format(Localizer.Str("&{0} back-translation fields"),
+                                                              StoryProject.ProjSettings.NationalBT.LangName);
 
-                    viewNationalLangFieldMenuItem.Enabled = (TheCurrentStory != null);
+                    viewNationalLangMenu.Enabled = (TheCurrentStory != null);
                 }
                 else
-                    viewNationalLangFieldMenuItem.Checked =
-                        viewNationalLangFieldMenuItem.Visible = false;
+                    viewNationalLangMenu.Checked =
+                        viewNationalLangMenu.Visible = false;
 
                 if (StoryProject.ProjSettings.InternationalBT.HasData)
-                    viewEnglishBTFieldMenuItem.Enabled = (TheCurrentStory != null);
+                    viewEnglishBtMenu.Enabled = (TheCurrentStory != null);
                 else
-                    viewEnglishBTFieldMenuItem.Checked =
-                        viewEnglishBTFieldMenuItem.Visible = false;
+                    viewEnglishBtMenu.Checked =
+                        viewEnglishBtMenu.Visible = false;
 
                 if (StoryProject.ProjSettings.FreeTranslation.HasData)
-                    viewFreeTranslationToolStripMenuItem.Enabled = (TheCurrentStory != null);
+                    viewFreeTranslationMenu.Enabled = (TheCurrentStory != null);
                 else
-                    viewFreeTranslationToolStripMenuItem.Checked =
-                        viewFreeTranslationToolStripMenuItem.Visible = false;
+                    viewFreeTranslationMenu.Checked =
+                        viewFreeTranslationMenu.Visible = false;
 
-                viewConsultantNoteFieldMenuItem.Enabled =
+                viewConsultantNotesMenu.Enabled =
                     viewExegeticalHelps.Enabled =
-                    stateTransitionHistoryToolStripMenuItem.Enabled = (TheCurrentStory != null);
+                    viewStateTransitionHistoryMenu.Enabled = (TheCurrentStory != null);
 
                 // this have the added requirement that it be a biblical story
-                viewAnchorFieldMenuItem.Enabled =
-                    viewGeneralTestingQuestionMenuItem.Enabled =
-                    viewStoryTestingQuestionAnswerMenuItem.Enabled =
-                    viewStoryTestingQuestionMenuItem.Enabled =
-                    viewRetellingFieldMenuItem.Enabled =
+                viewAnchorsMenu.Enabled =
+                    viewGeneralTestingsQuestionMenu.Enabled =
+                    viewStoryTestingQuestionAnswersMenu.Enabled =
+                    viewStoryTestingQuestionsMenu.Enabled =
+                    viewRetellingsMenu.Enabled =
                     (TheCurrentStory != null) && TheCurrentStory.CraftingInfo.IsBiblicalStory;
 
-                viewTransliterationsToolStripMenuItem.Enabled = (StoryProject.ProjSettings.Vernacular.HasData ||
+                viewTransliterationsToolStripMenu.Enabled = (StoryProject.ProjSettings.Vernacular.HasData ||
                                                                  StoryProject.ProjSettings.NationalBT.HasData ||
                                                                  StoryProject.ProjSettings.InternationalBT.HasData ||
                                                                  StoryProject.ProjSettings.FreeTranslation.HasData);
 
                 viewLnCNotesMenu.Enabled =
-                    concordanceToolStripMenuItem.Enabled = true;
+                    viewConcordanceMenu.Enabled = true;
 
                 // the coach pane shouldn't be visible except to Consultants and Coach
                 //  (here we want to use "!=" for PF, because if he's also a LSR, then
                 //  we want to be able to see Coach note pane).
-                viewCoachNotesFieldMenuItem.Enabled = ((LoggedOnMember != null) &&
-                                                       !LoggedOnMember.IsPfAndNotLsr);
+                viewCoachNotesMenu.Enabled = ((LoggedOnMember != null) &&
+                                              !LoggedOnMember.IsPfAndNotLsr);
 
-                projectNotesToolStripMenuItem.Enabled = (File.Exists(StoryProject.ProjSettings.ProjectFolder));
+                viewProjectNotesMenu.Enabled = (File.Exists(StoryProject.ProjSettings.ProjectFolder));
             }
             else
-                showHideFieldsToolStripMenuItem.Enabled =
-                    viewTransliterationsToolStripMenuItem.Enabled =
-                    stateTransitionHistoryToolStripMenuItem.Enabled =
+                viewShowHideFieldsMenu.Enabled =
+                    viewTransliterationsToolStripMenu.Enabled =
+                    viewStateTransitionHistoryMenu.Enabled =
                     viewLnCNotesMenu.Enabled =
-                    concordanceToolStripMenuItem.Enabled =
-                    historicalDifferencesToolStripMenuItem.Enabled =
-                    hiddenVersesToolStripMenuItem.Enabled =
-                    viewOnlyOpenConversationsMenu.Enabled = 
-                    projectNotesToolStripMenuItem.Enabled = false;
+                    viewConcordanceMenu.Enabled =
+                    viewHistoricalDifferencesMenu.Enabled =
+                    viewHiddenVersesMenu.Enabled =
+                    viewOnlyOpenConversationsMenu.Enabled =
+                    viewProjectNotesMenu.Enabled = false;
 
             if (IsInStoriesSet && (StoryProject != null))
             {
-                if (StoryProject[OseResources.Properties.Resources.IDS_ObsoleteStoriesSet] != null)
+                if (StoryProject[Properties.Resources.IDS_ObsoleteStoriesSet] != null)
                 {
-                    viewOldStoriesToolStripMenuItem.DropDownItems.Clear();
-                    foreach (StoryData aStory in StoryProject[OseResources.Properties.Resources.IDS_ObsoleteStoriesSet])
-                        viewOldStoriesToolStripMenuItem.DropDownItems.Add(aStory.Name, null, onClickViewOldStory).ToolTipText =
-                            "View older (obsolete) versions of the stories (that were earlier stored in the 'Old Stories' list from the 'Panorama View' window--see 'Panorama' menu, 'Show' command)";
+                    viewOldStoriesMenu.DropDownItems.Clear();
+                    foreach (StoryData aStory in StoryProject[Properties.Resources.IDS_ObsoleteStoriesSet])
+                        viewOldStoriesMenu.DropDownItems.Add(aStory.Name, null, onClickViewOldStory).ToolTipText =
+                            Localizer.Str("View older (obsolete) versions of the stories (that were earlier stored in the 'Old Stories' list from the 'Panorama View' window--see 'Panorama' menu, 'Show' command)");
                 }
             }
             else
-                viewOldStoriesToolStripMenuItem.Enabled = false;
+                viewOldStoriesMenu.Enabled = false;
         }
 
         private void onClickViewOldStory(object sender, EventArgs e)
         {
             ToolStripItem tsi = sender as ToolStripItem;
-            StoryEditor theOldStoryEditor = new StoryEditor(OseResources.Properties.Resources.IDS_ObsoleteStoriesSet, null);
-            theOldStoryEditor.StoryProject = StoryProject;
-            theOldStoryEditor.LoggedOnMember = LoggedOnMember;
+            StoryEditor theOldStoryEditor = new StoryEditor(Properties.Resources.IDS_ObsoleteStoriesSet, null)
+                                                {
+                                                    StoryProject = StoryProject,
+                                                    LoggedOnMember = LoggedOnMember
+                                                };
             theOldStoryEditor.Show();
             theOldStoryEditor.LoadComboBox();
             theOldStoryEditor.comboBoxStorySelector.SelectedItem = tsi.Text;
@@ -4051,14 +4133,7 @@ namespace OneStoryProjectEditor
         {
             Debug.Assert((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
 
-            if (WillBeLossInVerse(TheCurrentStory.Verses))
-            {
-                MessageBox.Show(Properties.Resources.IDS_CantSplitIntoLines,
-                                OseResources.Properties.Resources.IDS_Caption);
-                return;
-            }
-
-            if (!CheckForSaveDirtyFile())    // ought to do a save before this so we don't cause them to lose anything.
+            if (!CheckForLostData())
                 return;
 
             // first 'collapse into 1 line'
@@ -4099,19 +4174,26 @@ namespace OneStoryProjectEditor
             InitAllPanes();
         }
 
+        private bool CheckForLostData()
+        {
+            if (WillBeLossInVerse(TheCurrentStory.Verses))
+            {
+                MessageBox.Show(
+                    Localizer.Str(
+                        "OSE can't automatically rearrange the story lines now because that would result in the loss of other information (e.g. Anchors, Testing Questions, and/or Consultant Notes). If you delete these other items, then you could use this command again"),
+                    StoryEditor.OseCaption);
+                return false;
+            }
+
+            return CheckForSaveDirtyFile();
+        }
+
         private void splitIntoLinesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Debug.Assert((TheCurrentStory != null)
                 && (TheCurrentStory.Verses.Count > 0));
 
-            if (WillBeLossInVerse(TheCurrentStory.Verses))
-            {
-                MessageBox.Show(Properties.Resources.IDS_CantSplitIntoLines,
-                                OseResources.Properties.Resources.IDS_Caption);
-                return;
-            }
-
-            if (!CheckForSaveDirtyFile())    // ought to do a save before this so we don't cause them to lose anything.
+            if (!CheckForLostData())
                 return;
 
             if (TheCurrentStory.Verses.Count == 1)
@@ -4191,7 +4273,7 @@ namespace OneStoryProjectEditor
 
             bool bSomethingChanged = false;
             _bDisableReInitVerseControls = true;
-            bSomethingChanged |= InsureVisible(viewVernacularLangFieldMenuItem,
+            bSomethingChanged |= InsureVisible(viewVernacularLangMenu,
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.VernacularLangField),
                                                bDoOffToo);
@@ -4199,7 +4281,7 @@ namespace OneStoryProjectEditor
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.VernacularTransliterationField),
                                                bDoOffToo);
-            bSomethingChanged |= InsureVisible(viewNationalLangFieldMenuItem,
+            bSomethingChanged |= InsureVisible(viewNationalLangMenu,
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField),
                                                bDoOffToo);
@@ -4207,7 +4289,7 @@ namespace OneStoryProjectEditor
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.NationalBtTransliterationField),
                                                bDoOffToo);
-            bSomethingChanged |= InsureVisible(viewEnglishBTFieldMenuItem,
+            bSomethingChanged |= InsureVisible(viewEnglishBtMenu,
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.InternationalBtField),
                                                bDoOffToo);
@@ -4215,7 +4297,7 @@ namespace OneStoryProjectEditor
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.InternationalBtTransliterationField),
                                                bDoOffToo);
-            bSomethingChanged |= InsureVisible(viewFreeTranslationToolStripMenuItem,
+            bSomethingChanged |= InsureVisible(viewFreeTranslationMenu,
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField),
                                                bDoOffToo);
@@ -4223,7 +4305,7 @@ namespace OneStoryProjectEditor
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.FreeTranslationTransliterationField),
                                                bDoOffToo);
-            bSomethingChanged |= InsureVisible(viewAnchorFieldMenuItem,
+            bSomethingChanged |= InsureVisible(viewAnchorsMenu,
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.AnchorFields),
                                                bDoOffToo);
@@ -4231,38 +4313,38 @@ namespace OneStoryProjectEditor
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.ExegeticalHelps),
                                                bDoOffToo);
-            bSomethingChanged |= InsureVisible(viewGeneralTestingQuestionMenuItem,
+            bSomethingChanged |= InsureVisible(viewGeneralTestingsQuestionMenu,
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions),
                                                bDoOffToo);
-            bSomethingChanged |= InsureVisible(viewStoryTestingQuestionMenuItem,
+            bSomethingChanged |= InsureVisible(viewStoryTestingQuestionsMenu,
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.
                                                        StoryTestingQuestions),
                                                bDoOffToo);
-            bSomethingChanged |= InsureVisible(viewStoryTestingQuestionAnswerMenuItem,
+            bSomethingChanged |= InsureVisible(viewStoryTestingQuestionAnswersMenu,
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.
                                                        StoryTestingQuestionAnswers),
                                                bDoOffToo);
-            bSomethingChanged |= InsureVisible(viewRetellingFieldMenuItem,
+            bSomethingChanged |= InsureVisible(viewRetellingsMenu,
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.RetellingFields),
                                                bDoOffToo);
-            bSomethingChanged |= InsureVisible(viewConsultantNoteFieldMenuItem,
+            bSomethingChanged |= InsureVisible(viewConsultantNotesMenu,
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields),
                                                bDoOffToo);
-            bSomethingChanged |= InsureVisible(viewCoachNotesFieldMenuItem,
+            bSomethingChanged |= InsureVisible(viewCoachNotesMenu,
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields),
                                                bDoOffToo);
-            bSomethingChanged |= InsureVisible(viewNetBibleMenuItem,
+            bSomethingChanged |= InsureVisible(viewBibleMenu,
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.BibleViewer),
                                                bDoOffToo);
 
-            bSomethingChanged |= InsureVisible(hiddenVersesToolStripMenuItem,
+            bSomethingChanged |= InsureVisible(viewHiddenVersesMenu,
                                                viewItemToInsureOn.IsViewItemOn(
                                                    VerseData.ViewSettings.ItemToInsureOn.HiddenStuff),
                                                bDoOffToo);
@@ -4381,11 +4463,13 @@ namespace OneStoryProjectEditor
 
         private void changeProjectFolderRootToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog dlg = new FolderBrowserDialog
+            var dlg = new FolderBrowserDialog
                           {
                               Description =
-                                  String.Format("Browse to the folder where you want the program to create the '{0}' folder",
-                                                OseResources.Properties.Resources.DefMyDocsSubfolder)
+                                  String.Format(
+                                      Localizer.Str(
+                                          "Browse to the folder where you want the program to create the '{0}' folder"),
+                                      Properties.Resources.DefMyDocsSubfolder)
                           };
             if (dlg.ShowDialog() == DialogResult.OK)
             {
@@ -4411,9 +4495,9 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.RecentProjectPaths.Clear();
                 Properties.Settings.Default.Save();
 
-                string strMessage = String.Format(Properties.Resources.IDS_MoveProjectsToNewProjectFolder,
+                string strMessage = String.Format(Localizer.Str("The '{0}' folder is now the root folder for OneStory Editor projects. You can use Windows Explorer to move the projects (sub-folders) in '{1}' to '{0}'. Then click the 'Project' menu and choose the 'Browse for project file' command to re-load your projects from the new location"),
                                                   ProjectSettings.OneStoryProjectFolderRoot, strOldProjectPath);
-                MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(strMessage, StoryEditor.OseCaption);
             }
         }
 
@@ -4448,7 +4532,7 @@ namespace OneStoryProjectEditor
                 var dlg = new FolderBrowserDialog
                               {
                                   Description =
-                                      String.Format(Properties.Resources.IDS_QueryProjectFolderOnThumbDrive)
+                                      String.Format(Localizer.Str("Browse for the project folder on the thumbdrive"))
                               };
 
                 if (dlg.ShowDialog() != DialogResult.OK)
@@ -4594,10 +4678,10 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                string strErrorMsg = String.Format(Properties.Resources.IDS_CantExport,
+                string strErrorMsg = String.Format(Localizer.Str("Unable to export to Toolbox! Cause: {0} {1}"),
                     ex.Message,
                     ((ex.InnerException != null) ? ex.InnerException.Message : ""));
-                MessageBox.Show(strErrorMsg, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
             }
 
             Cursor = Cursors.Default;
@@ -4664,9 +4748,9 @@ namespace OneStoryProjectEditor
             // do the StoryNotes.typ file
             CreateTbxFileWithPathFixup(strSrcFolder, strDestFolder, CstrStoryNotesTypFilename);
 
-            DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ExportedToolboxMessage,
+            DialogResult res = MessageBox.Show(String.Format(Localizer.Str(@"The project has been exported to the folder '{0}\Toolbox'. Click 'Yes' to launch Toolbox and open that project."),
                                                              StoryProject.ProjSettings.ProjectFolder),
-                                               OseResources.Properties.Resources.IDS_Caption,
+                                               StoryEditor.OseCaption,
                                                MessageBoxButtons.YesNoCancel);
 
             if (res == DialogResult.Yes)
@@ -4742,7 +4826,7 @@ namespace OneStoryProjectEditor
                 // update the status bar (in case we previously put an error there
                 StoryStageLogic.StateTransition st =
                     StoryStageLogic.stateTransitions[TheCurrentStory.ProjStage.ProjectStage];
-                SetStatusBar(String.Format(Properties.Resources.IDS_PressF1ForInstructions, st.StageDisplayString));
+                SetDefaultStatusBar(st.StageDisplayString);
             }
         }
 
@@ -4764,7 +4848,7 @@ namespace OneStoryProjectEditor
         private DirectableEncConverter GetDec(string strLangName)
         {
             var aEc = DirectableEncConverter.EncConverters.AutoSelectWithTitle(ConvType.Unicode_to_from_Unicode,
-                                                                               "Choose the transliterator for " +
+                                                                               Localizer.Str("Choose the transliterator for ") +
                                                                                strLangName);
             Modified = true;
             return (aEc != null)
@@ -4906,7 +4990,22 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private const string CstrFirstVerse = "Story (Ln: 0)";
+        public static string CstrFirstVerse
+        {
+            get { return Localizer.Str("Story (Ln: 0)"); }
+        }
+
+        public static bool QueryTerminalTransition
+        {
+            get
+            {
+                return (MessageBox.Show(
+                    Localizer.Str(
+                        "Click 'Yes' to confirm. If you click 'Yes', then you won't be able to make further changes to the story until it is returned to you. If you want to make any change first, then click 'No'"),
+                    StoryEditor.OseCaption,
+                    MessageBoxButtons.YesNoCancel) == DialogResult.Yes);
+            }
+        }
 
         private void contextMenuStripVerseList_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -4920,9 +5019,9 @@ namespace OneStoryProjectEditor
                 for (int i = 0; i < TheCurrentStory.Verses.Count; i++)
                 {
                     VerseData aVerse = TheCurrentStory.Verses[i];
-                    string strMenuText = "Ln: " + (i + 1);
+                    string strMenuText = Localizer.Str("Ln: ") + (i + 1);
                     if (!aVerse.IsVisible)
-                        strMenuText += OseResources.Properties.Resources.IDS_HiddenLabel;
+                        strMenuText += VersesData.HiddenStringSpace;
                     contextMenuStripVerseList.Items.Add(strMenuText, null,
                         onClickVerseNumber);
                 }
@@ -4937,10 +5036,11 @@ namespace OneStoryProjectEditor
                 nVerseNumber = 0;
             else
             {
-                if (strMenuText.IndexOf(OseResources.Properties.Resources.IDS_HiddenLabel) > 0)
+                var str = VersesData.HiddenStringSpace;
+                if (strMenuText.IndexOf(str) > 0)
                 {
-                    strMenuText = strMenuText.Substring(0, strMenuText.Length - OseResources.Properties.Resources.IDS_HiddenLabel.Length);
-                    hiddenVersesToolStripMenuItem.Checked = true;
+                    strMenuText = strMenuText.Substring(0, strMenuText.Length - str.Length);
+                    viewHiddenVersesMenu.Checked = true;
                 }
                 int nIndex = strMenuText.IndexOf(' ');
                 Debug.Assert(nIndex != -1);
@@ -4951,13 +5051,13 @@ namespace OneStoryProjectEditor
 
         private void historicalDifferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            m_dlgHistDiffDlg = new HtmlDisplayForm(this, TheCurrentStory);
+            m_dlgHistDiffDlg = new RevisionHistoryForm(this, TheCurrentStory);
             m_dlgHistDiffDlg.Show();
         }
 
         private void useSameSettingsForAllStoriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.LastUseForAllStories = useSameSettingsForAllStoriesToolStripMenuItem.Checked;
+            Properties.Settings.Default.LastUseForAllStories = viewUseSameSettingsForAllStoriesMenu.Checked;
             Properties.Settings.Default.Save();
         }
 
@@ -5047,22 +5147,22 @@ namespace OneStoryProjectEditor
             ref string strVernacular, ref string strNationalBt,
             ref string strInternationalBt, ref string strFreeTranslation)
         {
-            if (viewVernacularLangFieldMenuItem.Checked &&
+            if (viewVernacularLangMenu.Checked &&
                 (lineData.Vernacular.TextBox != null))
             {
                 strVernacular = GrabTrimSelectedText(lineData.Vernacular.TextBox);
             }
-            if (viewNationalLangFieldMenuItem.Checked &&
+            if (viewNationalLangMenu.Checked &&
                 (lineData.NationalBt.TextBox != null))
             {
                 strNationalBt = GrabTrimSelectedText(lineData.NationalBt.TextBox);
             }
-            if (viewEnglishBTFieldMenuItem.Checked &&
+            if (viewEnglishBtMenu.Checked &&
                 (lineData.InternationalBt.TextBox != null))
             {
                 strInternationalBt = GrabTrimSelectedText(lineData.InternationalBt.TextBox);
             }
-            if (viewFreeTranslationToolStripMenuItem.Checked &&
+            if (viewFreeTranslationMenu.Checked &&
                 (lineData.FreeTranslation.TextBox != null))
             {
                 strFreeTranslation = GrabTrimSelectedText(lineData.FreeTranslation.TextBox);
@@ -5173,8 +5273,7 @@ namespace OneStoryProjectEditor
         {
             if (!TheCurrentStory.TransitionHistory.HasData)
             {
-                MessageBox.Show(Properties.Resources.IDS_NoTransitionHistory,
-                                OseResources.Properties.Resources.IDS_Caption);
+                WarnNoTransitionHistory();
                 return;
             }
 
@@ -5182,15 +5281,35 @@ namespace OneStoryProjectEditor
             dlg.ShowDialog();
         }
 
+        public static void WarnNoTransitionHistory()
+        {
+            MessageBox.Show(Localizer.Str("There is no state transition history for this story"),
+                            StoryEditor.OseCaption);
+        }
+
         private void changeStateWithoutChecksToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // locate the window near the cursor...
             Point ptTooltip = Cursor.Position;
 
-            if (MessageBox.Show(Properties.Resources.IDS_ConfirmStateChangeOverride,
-                OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+            if (MessageBox.Show(Localizer.Str("Are you sure you want to change the state of this story bypassing the normal checks (i.e. is the right person logged in, have they answered all their questions, etc). This is an advanced command and can easily result in a conflict if it's possible that two people will be editing the story at the same time. You should only use this command if you are sure that no one else will be editing this story prior to first synchronizing with the changes you are about to make"),
+                StoryEditor.OseCaption,
+                MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                 return;
 
+            OverrideLocalizeStateInfo(ptTooltip);
+        }
+
+        private void advancedOverrideLocalizeStateViewSettingsMenu_Click(object sender, EventArgs e)
+        {
+            // locate the window near the cursor...
+            Point ptTooltip = Cursor.Position;
+
+            OverrideLocalizeStateInfo(ptTooltip);
+        }
+
+        private void OverrideLocalizeStateInfo(Point ptTooltip)
+        {
             var dlg = new StageEditorForm(StoryProject, TheCurrentStory, ptTooltip, true);
             if (dlg.ShowDialog() == DialogResult.OK)
             {
@@ -5199,10 +5318,10 @@ namespace OneStoryProjectEditor
                     return;
 
                 SetNextStateAdvancedOverride(dlg.NextState,
-                    TheCurrentStory.ProjStage.IsTerminalTransition(dlg.NextState));
+                                             TheCurrentStory.ProjStage.IsTerminalTransition(dlg.NextState));
             }
 
-            // even if we don't change the state, we might 
+                // even if we don't change the state, we might 
             else if (dlg.ViewStateChanged)
             {
                 SetViewBasedOnProjectStage(TheCurrentStory.ProjStage.ProjectStage, false);
@@ -5212,8 +5331,11 @@ namespace OneStoryProjectEditor
 
         private void advancedToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
-            changeStateWithoutChecksToolStripMenuItem.Enabled = ((StoryProject != null) && (TheCurrentStory != null));
-            newToolStripMenuItem.Enabled = IsInStoriesSet;
+            advancedChangeStateWithoutChecksMenu.Enabled =
+                advancedOverrideLocalizeStateViewSettingsMenu.Enabled =
+                ((StoryProject != null) && (TheCurrentStory != null));
+
+            advancedNewProjectMenu.Enabled = IsInStoriesSet;
         }
 
         private void checkForProgramUpdatesNowToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5246,8 +5368,8 @@ namespace OneStoryProjectEditor
                     InitAllPanes();
 
                 // if it returns here without throwing an exception, it means there were no updates
-                MessageBox.Show(Properties.Resources.IDS_NoProgramUpdates,
-                                OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(Localizer.Str("There are no program updates!"),
+                                StoryEditor.OseCaption);
             }
             catch (Program.RestartException)
             {
@@ -5258,7 +5380,7 @@ namespace OneStoryProjectEditor
                 string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
                 if (ex.InnerException != null)
                     strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
-                MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(strMessage, StoryEditor.OseCaption);
             }
             finally
             {
@@ -5268,20 +5390,20 @@ namespace OneStoryProjectEditor
 
         private void programUpdatesToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
-            automaticallyCheckAtStartupToolStripMenuItem.Checked =
+            advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.Checked =
                 Properties.Settings.Default.AutoCheckForProgramUpdatesAtStartup;
         }
 
         private void automaticallyCheckAtStartupToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
             Properties.Settings.Default.AutoCheckForProgramUpdatesAtStartup =
-                automaticallyCheckAtStartupToolStripMenuItem.Checked;
+                advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.Checked;
             Properties.Settings.Default.Save();
         }
 
         private void enabledToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
-            if (enabledToolStripMenuItem.Checked)
+            if (advancedSaveTimeoutEnabledMenu.Checked)
             {
                 //autosave timer goes off every 5 minutes.
                 mySaveTimer.Tick += TimeToSave;
@@ -5293,7 +5415,7 @@ namespace OneStoryProjectEditor
                 mySaveTimer.Stop();
             }
 
-            Properties.Settings.Default.AutoSaveTimeoutEnabled = enabledToolStripMenuItem.Checked;
+            Properties.Settings.Default.AutoSaveTimeoutEnabled = advancedSaveTimeoutEnabledMenu.Checked;
             Properties.Settings.Default.Save();
         }
 
@@ -5323,7 +5445,7 @@ namespace OneStoryProjectEditor
                     Properties.Settings.Default.RecentProjects.RemoveAt(nIndex);
                     Properties.Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
                     Properties.Settings.Default.Save();
-                    MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+                    MessageBox.Show(ex.Message, StoryEditor.OseCaption);
                 }
             }
             catch (Program.RestartException)
@@ -5364,7 +5486,7 @@ namespace OneStoryProjectEditor
 
         public void CheckBiblePaneCursorPosition()
         {
-            if (!_bAutoHide || !viewNetBibleMenuItem.Checked)
+            if (!_bAutoHide || !viewBibleMenu.Checked)
                 return;
 
             Point locationNetBibleViewer = netBibleViewer.PointToScreen(netBibleViewer.Location);
@@ -5391,14 +5513,24 @@ namespace OneStoryProjectEditor
             if (((int)TheCurrentStory.ProjStage.ProjectStage)
                 < (int)StoryStageLogic.ProjectStages.eProjFacTypeNationalBT)
             {
-                MessageBox.Show(String.Format(Properties.Resources.IDS_MustBeInBTState,
-                                              StoryProject.ProjSettings.NationalBT.LangName),
-                                OseResources.Properties.Resources.IDS_Caption);
-                return;
+                MoveToNationalBtState();
             }
 
             string strStory = GetFullStoryContentsVernacular;
             GlossInAdaptIt(strStory, ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt);
+        }
+
+        public void MoveToNationalBtState()
+        {
+            if (TeamMemberData.IsUser(LoggedOnMember.MemberType,
+                                      TeamMemberData.UserTypes.ProjectFacilitator))
+            {
+                SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacTypeNationalBT, false);
+            }
+            else
+            {
+                viewNationalLangMenu.Checked = true;
+            }
         }
 
         private void storyAdaptItVernacularToEnglishMenuItem_Click(object sender, EventArgs e)
@@ -5409,14 +5541,24 @@ namespace OneStoryProjectEditor
             if (((int)TheCurrentStory.ProjStage.ProjectStage)
                 < (int)StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
             {
-                MessageBox.Show(String.Format(Properties.Resources.IDS_MustBeInBTState,
-                                              StoryProject.ProjSettings.InternationalBT.LangName),
-                                OseResources.Properties.Resources.IDS_Caption);
-                return;
+                MoveToInternationalBtState();
             }
 
             string strStory = GetFullStoryContentsVernacular;
             GlossInAdaptIt(strStory, ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToInternationalBt);
+        }
+
+        public void MoveToInternationalBtState()
+        {
+            if (TeamMemberData.IsUser(LoggedOnMember.MemberType,
+                                      TeamMemberData.UserTypes.ProjectFacilitator))
+            {
+                SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT, false);
+            }
+            else
+            {
+                viewEnglishBtMenu.Checked = true;
+            }
         }
 
         private void storyAdaptItNationalToEnglishMenuItem_Click(object sender, EventArgs e)
@@ -5427,10 +5569,7 @@ namespace OneStoryProjectEditor
             if (((int)TheCurrentStory.ProjStage.ProjectStage)
                 < (int)StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
             {
-                MessageBox.Show(String.Format(Properties.Resources.IDS_MustBeInBTState,
-                                              StoryProject.ProjSettings.InternationalBT.LangName),
-                                OseResources.Properties.Resources.IDS_Caption);
-                return;
+                MoveToInternationalBtState();
             }
 
             string strStory = GetFullStoryContentsNationalBTText;
@@ -5487,7 +5626,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                SetStatusBar(String.Format("Error: {0}", ex.Message));
+                SetStatusBar(String.Format(Localizer.Str("Error: {0}"), ex.Message));
                 return false;
             }
 
@@ -5502,7 +5641,7 @@ namespace OneStoryProjectEditor
             TheCurrentStory.Verses.FirstVerse.TestQuestions.AddTestQuestion();
 
             // just in case it wasn't showing
-            viewGeneralTestingQuestionMenuItem.Checked = true;
+            viewGeneralTestingsQuestionMenu.Checked = true;
             ReInitVerseControls();
             Modified = true;
         }
@@ -5542,6 +5681,18 @@ namespace OneStoryProjectEditor
         {
             Debug.Assert((StoryProject != null) && (StoryProject.ProjSettings != null));
             InitProjectNotes(StoryProject.ProjSettings, LoggedOnMember.Name);
+        }
+
+        private void localizationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var localizationEditor = new LocDataEditorForm(Localizer.Default,
+                                                           new[] { "OneStoryProjectEditor" });
+            localizationEditor.ShowDialog();
+        }
+
+        public static string OseCaption
+        {
+            get { return Localizer.Str("OneStory Project Editor"); }
         }
     }
 }

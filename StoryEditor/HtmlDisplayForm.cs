@@ -9,22 +9,30 @@ using System.Xml;
 using Chorus.Utilities;
 using Chorus.VcsDrivers.Mercurial;
 using ECInterfaces;
+using NetLoc;
 using SilEncConverters40;
 
 namespace OneStoryProjectEditor
 {
-    public partial class HtmlDisplayForm : TopForm
+    public partial class RevisionHistoryForm : TopForm
     {
         HgRepository _repository;
         List<Revision> _lstRevisions;
         string _strStoryToDiff, _strLastState, _strProjectFolder;
 
-        public HtmlDisplayForm(StoryEditor theSE, StoryData storyData)
+        private RevisionHistoryForm()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
+
+        public RevisionHistoryForm(StoryEditor theSE, StoryData storyData)
             : base(true)
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
 
-            Text = String.Format("Revision History: {0}", theSE.TheCurrentStory.Name);
+            Text = String.Format(Localizer.Str("Revision History: {0}"), theSE.TheCurrentStory.Name);
             _strStoryToDiff = storyData.guid;
             _strProjectFolder = theSE.StoryProject.ProjSettings.ProjectFolder;
 
@@ -52,7 +60,7 @@ namespace OneStoryProjectEditor
                                              theSE.viewTransliterationFreeTranslation,
                                              theSE.LoggedOnMember.TransliteratorFreeTranslation);
 
-            checkBoxShowHidden.Checked = theSE.hiddenVersesToolStripMenuItem.Checked;
+            checkBoxShowHidden.Checked = theSE.viewHiddenVersesMenu.Checked;
 
             try
             {
@@ -65,10 +73,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
-                if (ex.InnerException != null)
-                    strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
-                MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption);
+                Program.ShowException(ex);
             }
             
             htmlStoryBtControl.TheSE = theSE;
@@ -152,9 +157,9 @@ namespace OneStoryProjectEditor
                     catch
                     {
                         // throw means that story isn't in this revision
-                        MessageBox.Show(String.Format(Properties.Resources.IDS_ThisStoryNotInThisRevision,
-                            ri.Revision.Number.LocalRevisionNumber),
-                                        OseResources.Properties.Resources.IDS_Caption);
+                        MessageBox.Show(String.Format(Localizer.Str("This story isn't in revision '{0}'"),
+                                                      ri.Revision.Number.LocalRevisionNumber),
+                                        StoryEditor.OseCaption);
                     }
                 }
             }
@@ -171,7 +176,7 @@ namespace OneStoryProjectEditor
         private void backgroundWorkerCheckRevisions_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker bg = sender as BackgroundWorker;
-            HtmlDisplayForm form = e.Argument as HtmlDisplayForm;
+            RevisionHistoryForm form = e.Argument as RevisionHistoryForm;
             try
             {
                 int nCount = form._lstRevisions.Count;

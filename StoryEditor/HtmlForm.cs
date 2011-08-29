@@ -93,7 +93,7 @@ namespace OneStoryProjectEditor
             if (webBrowser.Document != null)
             {
                 HtmlDocument doc = webBrowser.Document;
-                HtmlElement elem = doc.GetElementById(Properties.Resources.IDS_CommentaryHeader + nElemName.ToString());
+                HtmlElement elem = doc.GetElementById(NetBibleViewer.CommentaryHeader + nElemName.ToString());
                 if (elem != null)
                     elem.ScrollIntoView(true);
             }

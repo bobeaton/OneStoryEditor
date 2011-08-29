@@ -45,10 +45,10 @@
             this.checkBoxLangTransliterateFreeTranslation = new System.Windows.Forms.CheckBox();
             this.checkBoxAnchors = new System.Windows.Forms.CheckBox();
             this.checkBoxExegeticalHelpNote = new System.Windows.Forms.CheckBox();
+            this.checkBoxRetellings = new System.Windows.Forms.CheckBox();
             this.checkBoxGeneralTestingQuestions = new System.Windows.Forms.CheckBox();
             this.checkBoxStoryTestingQuestions = new System.Windows.Forms.CheckBox();
             this.checkBoxAnswers = new System.Windows.Forms.CheckBox();
-            this.checkBoxRetellings = new System.Windows.Forms.CheckBox();
             this.checkBoxShowHidden = new System.Windows.Forms.CheckBox();
             this.checkBoxSelectAll = new System.Windows.Forms.CheckBox();
             this.tabControl = new System.Windows.Forms.TabControl();
@@ -167,9 +167,9 @@
             this.checkBoxLangVernacular.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxLangVernacular.Location = new System.Drawing.Point(3, 26);
             this.checkBoxLangVernacular.Name = "checkBoxLangVernacular";
-            this.checkBoxLangVernacular.Size = new System.Drawing.Size(101, 17);
+            this.checkBoxLangVernacular.Size = new System.Drawing.Size(205, 17);
             this.checkBoxLangVernacular.TabIndex = 0;
-            this.checkBoxLangVernacular.Text = "LangVernacular";
+            this.checkBoxLangVernacular.Text = "LangVernacular <no need to localize>";
             this.checkBoxLangVernacular.UseVisualStyleBackColor = true;
             // 
             // checkBoxLangTransliterateVernacular
@@ -191,9 +191,9 @@
             this.checkBoxLangNationalBT.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxLangNationalBT.Location = new System.Drawing.Point(3, 72);
             this.checkBoxLangNationalBT.Name = "checkBoxLangNationalBT";
-            this.checkBoxLangNationalBT.Size = new System.Drawing.Size(103, 17);
+            this.checkBoxLangNationalBT.Size = new System.Drawing.Size(207, 17);
             this.checkBoxLangNationalBT.TabIndex = 1;
-            this.checkBoxLangNationalBT.Text = "LangNationalBT";
+            this.checkBoxLangNationalBT.Text = "LangNationalBT <no need to localize>";
             this.checkBoxLangNationalBT.UseVisualStyleBackColor = true;
             // 
             // checkBoxLangTransliterateNationalBT
@@ -280,6 +280,18 @@
             this.checkBoxExegeticalHelpNote.Text = "&Exegetical/cultural notes";
             this.checkBoxExegeticalHelpNote.UseVisualStyleBackColor = true;
             // 
+            // checkBoxRetellings
+            // 
+            this.checkBoxRetellings.AutoSize = true;
+            this.checkBoxRetellings.Checked = true;
+            this.checkBoxRetellings.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxRetellings.Location = new System.Drawing.Point(3, 256);
+            this.checkBoxRetellings.Name = "checkBoxRetellings";
+            this.checkBoxRetellings.Size = new System.Drawing.Size(72, 17);
+            this.checkBoxRetellings.TabIndex = 5;
+            this.checkBoxRetellings.Text = "&Retellings";
+            this.checkBoxRetellings.UseVisualStyleBackColor = true;
+            // 
             // checkBoxGeneralTestingQuestions
             // 
             this.checkBoxGeneralTestingQuestions.AutoSize = true;
@@ -315,18 +327,6 @@
             this.checkBoxAnswers.TabIndex = 8;
             this.checkBoxAnswers.Text = "Story test question &answers";
             this.checkBoxAnswers.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxRetellings
-            // 
-            this.checkBoxRetellings.AutoSize = true;
-            this.checkBoxRetellings.Checked = true;
-            this.checkBoxRetellings.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxRetellings.Location = new System.Drawing.Point(3, 256);
-            this.checkBoxRetellings.Name = "checkBoxRetellings";
-            this.checkBoxRetellings.Size = new System.Drawing.Size(72, 17);
-            this.checkBoxRetellings.TabIndex = 5;
-            this.checkBoxRetellings.Text = "&Retellings";
-            this.checkBoxRetellings.UseVisualStyleBackColor = true;
             // 
             // checkBoxShowHidden
             // 

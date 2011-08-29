@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using ECInterfaces;
+using NetLoc;
 using OneStoryProjectEditor.Properties;
 using SilEncConverters40;
 
@@ -59,17 +60,17 @@ namespace OneStoryProjectEditor
 
             // if the user is requesting one of the story lines (vernacular, nationalBT, or English), then...
             if (!IsGeneralQuestionsLine &&
-                    (theSE.viewVernacularLangFieldMenuItem.Checked 
-                    || theSE.viewNationalLangFieldMenuItem.Checked 
-                    || theSE.viewEnglishBTFieldMenuItem.Checked
-                    || theSE.viewFreeTranslationToolStripMenuItem.Checked))
+                    (theSE.viewVernacularLangMenu.Checked 
+                    || theSE.viewNationalLangMenu.Checked 
+                    || theSE.viewEnglishBtMenu.Checked
+                    || theSE.viewFreeTranslationMenu.Checked))
             {
                 // ask that control to do the Update View
                 InitStoryLine(theSE, _verseData, m_nNumRows);
                 m_nNumRows++;
             }
 
-            if (!IsGeneralQuestionsLine && theSE.viewAnchorFieldMenuItem.Checked)
+            if (!IsGeneralQuestionsLine && theSE.viewAnchorsMenu.Checked)
             {
                 AnchorsData anAnchorsData = _verseData.Anchors;
                 if (anAnchorsData != null)
@@ -85,23 +86,23 @@ namespace OneStoryProjectEditor
                     SetExegeticalHelpControls(TheSE.StoryProject.ProjSettings.InternationalBT, 
                         anExHelpNoteData, ref m_nNumRows);
 
-            if (!IsGeneralQuestionsLine && theSE.viewRetellingFieldMenuItem.Checked)
+            if (!IsGeneralQuestionsLine && theSE.viewRetellingsMenu.Checked)
             {
                 if (_verseData.Retellings.Count > 0)
                 {
                     InitRetellings(_verseData.Retellings, m_nNumRows, 
                         theSE.TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
                         TheSE.StoryProject.ProjSettings,
-                        (theSE.viewVernacularLangFieldMenuItem.Checked && TheSE.StoryProject.ProjSettings.ShowRetellings.Vernacular),
-                        (theSE.viewNationalLangFieldMenuItem.Checked && TheSE.StoryProject.ProjSettings.ShowRetellings.NationalBt),
-                        (theSE.viewEnglishBTFieldMenuItem.Checked && TheSE.StoryProject.ProjSettings.ShowRetellings.InternationalBt));
+                        (theSE.viewVernacularLangMenu.Checked && TheSE.StoryProject.ProjSettings.ShowRetellings.Vernacular),
+                        (theSE.viewNationalLangMenu.Checked && TheSE.StoryProject.ProjSettings.ShowRetellings.NationalBt),
+                        (theSE.viewEnglishBtMenu.Checked && TheSE.StoryProject.ProjSettings.ShowRetellings.InternationalBt));
                     m_nNumRows++;
                 }
             }
 
-            if (theSE.viewStoryTestingQuestionMenuItem.Checked
-                || theSE.viewGeneralTestingQuestionMenuItem.Checked
-                || theSE.viewStoryTestingQuestionAnswerMenuItem.Checked)
+            if (theSE.viewStoryTestingQuestionsMenu.Checked
+                || theSE.viewGeneralTestingsQuestionMenu.Checked
+                || theSE.viewStoryTestingQuestionAnswersMenu.Checked)
             {
                 if (_verseData.TestQuestions.Count > 0)
                 {
@@ -264,17 +265,17 @@ namespace OneStoryProjectEditor
                 && TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator)
                 && !TasksPf.IsTaskOn(theSE.TheCurrentStory.TasksAllowedPf, TasksPf.TaskSettings.TestQuestions))
             {
-                MessageBox.Show(Resources.IDS_CantAddTQs, 
-                                OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(Localizer.Str("The consultant has not allowed you to enter testing questions at this time"), 
+                                StoryEditor.OseCaption);
                 return;
             }
 
             _verseData.TestQuestions.AddTestQuestion();
             theSE.Modified = true;
-            if (IsGeneralQuestionsLine && !theSE.viewGeneralTestingQuestionMenuItem.Checked)
-                theSE.viewGeneralTestingQuestionMenuItem.Checked = true;
-            if (!IsGeneralQuestionsLine && !theSE.viewStoryTestingQuestionMenuItem.Checked)
-                theSE.viewStoryTestingQuestionMenuItem.Checked = true;
+            if (IsGeneralQuestionsLine && !theSE.viewGeneralTestingsQuestionMenu.Checked)
+                theSE.viewGeneralTestingsQuestionMenu.Checked = true;
+            if (!IsGeneralQuestionsLine && !theSE.viewStoryTestingQuestionsMenu.Checked)
+                theSE.viewStoryTestingQuestionsMenu.Checked = true;
             else
                 UpdateViewOfThisVerse(theSE);
         }
@@ -337,7 +338,7 @@ namespace OneStoryProjectEditor
 
             var dlg = new CutItemPicker(_verseData, theSE.TheCurrentStory.Verses, theSE, true)
                           {
-                              Text = Resources.IDS_DeleteItemFrameTitle
+                              Text = Localizer.Str("Choose the item(s) to delete and then click the Delete button")
                           };
             if (dlg.ShowDialog() == DialogResult.OK)
             {
@@ -633,10 +634,7 @@ namespace OneStoryProjectEditor
 
             if (_verseData.HasData)
             {
-                DialogResult res = MessageBox.Show(
-                    String.Format(Resources.IDS_VerseNotEmptyHideQuery,
-                                  Environment.NewLine),
-                    OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                DialogResult res = QueryAboutHidingVerseInstead();
 
                 if (res == DialogResult.Yes)
                 {
@@ -648,12 +646,28 @@ namespace OneStoryProjectEditor
                     return;
             }
 
-            if (MessageBox.Show(
-                Properties.Resources.IDS_DeleteVerseQuery, 
-                OseResources.Properties.Resources.IDS_Caption, 
-                MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            if (UserConfirmDeletion)
             {
                 theSE.DeleteVerse(_verseData);
+            }
+        }
+
+        public static DialogResult QueryAboutHidingVerseInstead()
+        {
+            return MessageBox.Show(
+                String.Format(Localizer.Str("This line isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around to know what it used to be.{0}{0}Click 'Yes' to hide the line or click 'No' to delete it?"),
+                              Environment.NewLine),
+                StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
+        }
+
+        public static bool UserConfirmDeletion
+        {
+            get
+            {
+                return (MessageBox.Show(
+                    Localizer.Str("Are you sure you want to delete this line (and all associated consultant notes, etc)?"),
+                    StoryEditor.OseCaption,
+                    MessageBoxButtons.YesNoCancel) == DialogResult.Yes);
             }
         }
 

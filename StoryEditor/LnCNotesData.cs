@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -114,7 +115,7 @@ namespace OneStoryProjectEditor
                            CheckForSimilarity(aLncNote.VernacularRendering, strToSearchForVernacular, ref strMatch))
                     select new AddLnCNoteForm(theSe, aLncNote)
                                {
-                                   Text = String.Format(Properties.Resources.IDS_WarnAboutSimilarLnCNote, strMatch)
+                                   Text = String.Format(Localizer.Str("You already have this L&C note for the word '{0}'! See 'View', 'L&C Notes'"), strMatch)
                                }).Select(dlg => dlg.ShowDialog()).FirstOrDefault();
         }
 
@@ -156,6 +157,7 @@ namespace OneStoryProjectEditor
             }
         }
 
+#if UnhookParatextBiblicalTerms
         public List<Term> GetKeyTerms(BiblicalTermsList btl)
         {
             return astrKeyTermId.Select(s => btl.GetIfPresent(s)).ToList();
@@ -174,6 +176,7 @@ namespace OneStoryProjectEditor
             foreach (Term term in list)
                 astrKeyTermId.Add(term.Id);
         }
+#endif
 
         public XElement GetXml
         {

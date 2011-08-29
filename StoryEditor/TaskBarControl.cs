@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -14,6 +15,7 @@ namespace OneStoryProjectEditor
         public TaskBarControl()
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
         }
 
         public void Initialize(StoryEditor theSe, StoryProjectData theStoryProjectData, 
@@ -107,25 +109,31 @@ namespace OneStoryProjectEditor
             bool bAreUnapprovedNotes = TheStory.AreUnapprovedConsultantNotes;
             if (TheSe.StoryProject.TeamMembers.HasOutsideEnglishBTer)
             {
-                buttonSendToEnglishBter.Visible = true;
-                if (bAreUnapprovedNotes)
-                    toolTip.SetToolTip(buttonSendToEnglishBter, 
-                        Properties.Resources.IDS_ToolTipAboutUnapprovedComments);
+                CheckPfEbtrSetButtonTooltip(buttonSendToEnglishBter, true, bAreUnapprovedNotes);
             }
             else
             {
-                buttonReturnToProjectFacilitator.Visible = (TasksCit.IsTaskOn(TheStory.TasksAllowedCit,
-                                                                              TasksCit.TaskSettings.
-                                                                                  SendToProjectFacilitatorForRevision));
-                if (bAreUnapprovedNotes)
-                    toolTip.SetToolTip(buttonReturnToProjectFacilitator,
-                        Properties.Resources.IDS_ToolTipAboutUnapprovedComments);
+                CheckPfEbtrSetButtonTooltip(buttonReturnToProjectFacilitator,
+                                            TasksCit.IsTaskOn(TheStory.TasksAllowedCit,
+                                                              TasksCit.TaskSettings.
+                                                                  SendToProjectFacilitatorForRevision),
+                                            bAreUnapprovedNotes);
             }
 
             buttonSendToCoach.Visible = (TasksCit.IsTaskOn(TheStory.TasksAllowedCit,
                                                            TasksCit.TaskSettings.SendToCoachForReview));
 
             _checker = new ConsultantInTrainingRequirementsCheck(TheSe, TheStory);
+        }
+
+        private void CheckPfEbtrSetButtonTooltip(Button btn, bool bVisible, 
+            bool bAreUnapprovedNotes)
+        {
+            btn.Visible = bVisible;
+            if (bAreUnapprovedNotes)
+                toolTip.SetToolTip(btn,
+                                   Localizer.Str(
+                                       "There are unapproved comments! Set to Coach's turn instead to get them approved or they won't be visible to the Project Facilitator"));
         }
 
         private void SetIndependentConsultantButtons()
@@ -151,16 +159,9 @@ namespace OneStoryProjectEditor
         {
             if (!bEditAllowed)
                 btn.Visible = false;
-                /* people didn't want to see 'View' anything as a 'task'
-                toolTip.SetToolTip(btn, String.Format(Properties.Resources.IDS_PfNoEditToken,
-                                                      strTooltipFormat,
-                                                      TeamMemberData.GetMemberWithEditTokenAsDisplayString(
-                                                          TheSe.StoryProject.TeamMembers,
-                                                          TheSe.theCurrentStory.ProjStage.MemberTypeWithEditToken)));
-                */
 
             else if (!TasksPf.IsTaskOn(TheStory.TasksAllowedPf, taskToCheck))
-                toolTip.SetToolTip(btn, String.Format(Properties.Resources.IDS_PfNotAllowedToModified,
+                toolTip.SetToolTip(btn, String.Format(Localizer.Str("You can view the {0} fields, but the consultant hasn't given you permission to make changes to them"),
                                                       strTooltipFormat));
 
             else
@@ -197,57 +198,54 @@ namespace OneStoryProjectEditor
                                  bEditAllowed,
                                  projSettings.Vernacular.HasData,
                                  TasksPf.TaskSettings.VernacularLangFields,
-                                 "story language",
-                                 Properties.Resources.IDS_PfButtonLabelVernacular);
+                                 Localizer.Str("story language"),
+                                 Localizer.Str("Enter Story Language (&Vernacular)"));
 
             SetButtonsAndTooltip(buttonNationalBt,
                                  bEditAllowed,
                                  projSettings.NationalBT.HasData,
                                  TasksPf.TaskSettings.NationalBtLangFields,
-                                 "national language bt",
-                                 Properties.Resources.IDS_PfButtonLabelNationalBt);
+                                 Localizer.Str("national language BT"),
+                                 Localizer.Str("Enter &National/Regional BT"));
 
             SetButtonsAndTooltip(buttonInternationalBt,
                                  bEditAllowed,
                                  projSettings.InternationalBT.HasData,
                                  TasksPf.TaskSettings.InternationalBtFields,
-                                 "English bt",
-                                 Properties.Resources.IDS_PfButtonLabelInternationalBt);
+                                 Localizer.Str("English BT"),
+                                 Localizer.Str("Enter &English BT"));
 
             SetButtonsAndTooltip(buttonFreeTranslation,
                                  bEditAllowed,
                                  projSettings.FreeTranslation.HasData,
                                  TasksPf.TaskSettings.FreeTranslationFields,
-                                 "free translation",
-                                 Properties.Resources.IDS_PfButtonLabelFreeTranslation);
+                                 Localizer.Str("free translation"),
+                                 Localizer.Str("Enter &Free Translation (UNS BT)"));
 
             SetButtonsAndTooltip(buttonAnchors,
                                  bEditAllowed,
                                  true,
                                  TasksPf.TaskSettings.Anchors,
-                                 "anchor",
-                                 Properties.Resources.IDS_PfButtonLabelAnchors);
+                                 Localizer.Str("anchor"),
+                                 Localizer.Str("Enter &Anchors"));
 
-            const string cstrRetelling = "retelling";
             SetButtonsAndTooltip(buttonAddRetellingBoxes,
                                  bEditAllowed,
                                  true,
                                  TasksPf.TaskSettings.Retellings | TasksPf.TaskSettings.Retellings2,
-                                 cstrRetelling,
+                                 LocalizeRetelling,
                                  null);
 
             // then enable it whether there are any more tests to do
             if (TasksPf.IsTaskOn(TheStory.TasksRequiredPf, TasksPf.TaskSettings.Retellings | TasksPf.TaskSettings.Retellings2))
             {
-                if ((TheStory.CountRetellingsTests > 0) || 
+                if ((TheStory.CountRetellingsTests > 0) ||
                     (TasksPf.IsTaskOn(TheStory.TasksAllowedPf, TasksPf.TaskSettings.Retellings | TasksPf.TaskSettings.Retellings2)))
-                    toolTip.SetToolTip(buttonAddRetellingBoxes, String.Format(Properties.Resources.IDS_PfRequiredToDoXTests,
-                        cstrRetelling,
-                        TheStory.CountRetellingsTests));
+                    toolTip.SetToolTip(buttonAddRetellingBoxes, TooltipRequiredTasksToDo(LocalizeRetelling,
+                                                                                         TheStory.CountRetellingsTests));
                 else
                 {
-                    toolTip.SetToolTip(buttonAddRetellingBoxes, String.Format(Properties.Resources.IDS_PfRequiredTestsDone,
-                        cstrRetelling));
+                    toolTip.SetToolTip(buttonAddRetellingBoxes, TooltipRequiredTasksDone(LocalizeRetelling));
                     buttonAddRetellingBoxes.Enabled = false;
                 }
             }
@@ -256,30 +254,27 @@ namespace OneStoryProjectEditor
                                  bEditAllowed,
                                  true,
                                  TasksPf.TaskSettings.TestQuestions,
-                                 "story testing question",
-                                 Properties.Resources.IDS_PfButtonLabelTestQuestions);
+                                 Localizer.Str("story testing question"),
+                                 Localizer.Str("Enter &Testing Questions"));
             
             SetButtonsAndTooltip(buttonAddBoxesForAnswers,
                                  bEditAllowed,
                                  true,
                                  TasksPf.TaskSettings.Answers | TasksPf.TaskSettings.Answers2,
-                                 "answer",
+                                 Localizer.Str("answer"),
                                  null);
-
-            const string cstrStoryQuestionLabel = "story question";
 
             if (TasksPf.IsTaskOn(TheStory.TasksRequiredPf, TasksPf.TaskSettings.Answers | TasksPf.TaskSettings.Answers2))
             {
                 // then enable it whether there are any more tests to do
                 if ((TheStory.CountTestingQuestionTests > 0) ||
                     (TasksPf.IsTaskOn(TheStory.TasksAllowedPf, TasksPf.TaskSettings.Answers | TasksPf.TaskSettings.Answers2)))
-                    toolTip.SetToolTip(buttonAddBoxesForAnswers, String.Format(Properties.Resources.IDS_PfRequiredToDoXTests,
-                        cstrStoryQuestionLabel,
-                        TheStory.CountTestingQuestionTests));
+                    toolTip.SetToolTip(buttonAddBoxesForAnswers, TooltipRequiredTasksToDo(LocalizeStoryQuestion,
+                                                                                          TheStory.
+                                                                                              CountTestingQuestionTests));
                 else
                 {
-                    toolTip.SetToolTip(buttonAddBoxesForAnswers, String.Format(Properties.Resources.IDS_PfRequiredTestsDone,
-                        cstrStoryQuestionLabel));
+                    toolTip.SetToolTip(buttonAddBoxesForAnswers, TooltipRequiredTasksDone(LocalizeStoryQuestion));
                     buttonAddBoxesForAnswers.Enabled = false;
                 }
             }
@@ -293,6 +288,28 @@ namespace OneStoryProjectEditor
                 buttonSendToConsultant.Visible = true;
 
             _checker = new ProjectFacilitatorRequirementsCheck(TheSe, theStory);
+        }
+
+        private static string TooltipRequiredTasksToDo(string strTestType, int nTestCount)
+        {
+            return String.Format(Localizer.Str("The consultant is requiring you to show results for {1} {0} test(s)"),
+                                 strTestType, nTestCount);
+        }
+
+        private static string TooltipRequiredTasksDone(string strTestType)
+        {
+            return String.Format(Localizer.Str("You've added boxes for all of the required {0} tests"),
+                                 strTestType);
+        }
+
+        private static string LocalizeRetelling
+        {
+            get { return Localizer.Str("retelling"); }
+        }
+
+        private static string LocalizeStoryQuestion
+        {
+            get { return Localizer.Str("story question"); }
         }
 
         private void buttonAddStory_Click(object sender, EventArgs e)
@@ -315,7 +332,7 @@ namespace OneStoryProjectEditor
             }
             else
             {
-                TheSe.viewVernacularLangFieldMenuItem.Checked = true;
+                TheSe.viewVernacularLangMenu.Checked = true;
             }
         }
 
@@ -323,30 +340,14 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
-            if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
-                TeamMemberData.UserTypes.ProjectFacilitator))
-            {
-                TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacTypeNationalBT, false);
-            }
-            else
-            {
-                TheSe.viewNationalLangFieldMenuItem.Checked = true;
-            }
+            TheSe.MoveToNationalBtState();
         }
 
         private void buttonInternationalBt_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
-            if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType, 
-                TeamMemberData.UserTypes.ProjectFacilitator))
-            {
-                TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT, false);
-            }
-            else
-            {
-                TheSe.viewEnglishBTFieldMenuItem.Checked = true;
-            }
+            TheSe.MoveToInternationalBtState();
         }
 
         private void buttonFreeTranslation_Click(object sender, EventArgs e)
@@ -360,7 +361,7 @@ namespace OneStoryProjectEditor
             }
             else
             {
-                TheSe.viewFreeTranslationToolStripMenuItem.Checked = true;
+                TheSe.viewFreeTranslationMenu.Checked = true;
             }
         }
 
@@ -375,9 +376,9 @@ namespace OneStoryProjectEditor
             }
             else
             {
-                TheSe.viewAnchorFieldMenuItem.Checked = 
+                TheSe.viewAnchorsMenu.Checked = 
                     TheSe.viewExegeticalHelps.Checked =     // this kind of goes with anchors
-                    TheSe.viewNetBibleMenuItem.Checked = true;
+                    TheSe.viewBibleMenu.Checked = true;
             }
         }
 
@@ -392,7 +393,7 @@ namespace OneStoryProjectEditor
             }
             else
             {
-                TheSe.viewRetellingFieldMenuItem.Checked = true;
+                TheSe.viewRetellingsMenu.Checked = true;
             }
         }
 
@@ -417,7 +418,7 @@ namespace OneStoryProjectEditor
             }
             else
             {
-                TheSe.viewStoryTestingQuestionMenuItem.Checked = true;
+                TheSe.viewStoryTestingQuestionsMenu.Checked = true;
             }
         }
 
@@ -432,8 +433,8 @@ namespace OneStoryProjectEditor
             }
             else
             {
-                TheSe.viewStoryTestingQuestionMenuItem.Checked = 
-                    TheSe.viewStoryTestingQuestionAnswerMenuItem.Checked = true;
+                TheSe.viewStoryTestingQuestionsMenu.Checked = 
+                    TheSe.viewStoryTestingQuestionAnswersMenu.Checked = true;
             }
         }
         
@@ -525,7 +526,7 @@ namespace OneStoryProjectEditor
                     return;
             }
 
-            // if this is a "manage with coaching" situation, then reset the 
+            // if this is a 'manage with coaching' situation, then reset the 
             //  'Set to Coach's turn' requirement. [That requirement will have been so
             //  removed that the CIT could send it to the PF in the first place, and the 
             //  nature of a CIT is that he always must send to the coach anyway]
@@ -559,7 +560,7 @@ namespace OneStoryProjectEditor
                 return;
 
             // e.g. ‘Bob Eaton’ has set the story ‘01 creation’ to your turn
-            string strDetails = String.Format(Properties.Resources.IDS_EmailDetails,
+            string strDetails = String.Format(Localizer.Str("‘{0}’ has set the story ‘{1}’ from project '{2}' to your turn"),
                                               loggedOnMember.Name, 
                                               theStory.Name,
                                               theProject.ProjSettings.ProjectName);
@@ -579,14 +580,14 @@ namespace OneStoryProjectEditor
                                                   strDetails);
 
             if (!String.IsNullOrEmpty(strFinalComments))
-                strMessageBody += String.Format(Properties.Resources.IDS_EmailLastComments,
+                strMessageBody += String.Format("{0}{0}Most recent (open) Story line comments:{1}",
                                                 Environment.NewLine,
                                                 strFinalComments);
 
             try
             {
                 Program.SendEmail(member.Email, strSubjectLine, strMessageBody);
-                MessageBox.Show(String.Format(Properties.Resources.IDS_InformToDoSendReceive,
+                MessageBox.Show(String.Format(Localizer.Str("An automated message has been put into your email's Outbox to inform {0} that it is now his/her turn to work on the story. When you're finished, you should click 'Project', 'Send/Receive' to synchronize your changes to the Internet repository (or thumbdrive) and then do a Send/Receive of your email as well, so the other person gets the message"),
                                               member.Name));
             }
             catch (Exception ex)
@@ -606,8 +607,7 @@ namespace OneStoryProjectEditor
             if (!_checker.CheckIfRequirementsAreMet(true))
                 return false;
 
-            if (MessageBox.Show(Properties.Resources.IDS_TerminalTransitionMessage,
-                                OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+            if (!StoryEditor.QueryTerminalTransition)
                 return false;
 
             return true;
@@ -649,9 +649,9 @@ namespace OneStoryProjectEditor
                 TasksCit.IsTaskOn(TheStory.TasksRequiredCit,
                                   TasksCit.TaskSettings.SendToCoachForReview))
             {
-                MessageBox.Show(String.Format(Properties.Resources.IDS_MustPassToCoach,
+                MessageBox.Show(String.Format(Localizer.Str("The coach is requiring you to '{0}'"),
                                               SetCitTasksForm.CstrSendToCoach),
-                                OseResources.Properties.Resources.IDS_Caption);
+                                StoryEditor.OseCaption);
                 return false;
             }
 
@@ -670,16 +670,16 @@ namespace OneStoryProjectEditor
                 TheSe.StoryProject.TeamMembers.HasIndependentConsultant &&
                 TheStory.AreUnrespondedToCoachNoteComments)
             {
-                DialogResult res = MessageBox.Show(Properties.Resources.IDS_WarnAboutUnrespondedToComments,
-                                                   OseResources.Properties.Resources.IDS_Caption,
+                DialogResult res = MessageBox.Show(Localizer.Str("There are one or more questions in the Coach Note pane which haven't been responded to by a Coach. Click 'Yes' to ignore them and continue changing to the project facilitator's turn or click 'No' to cancel so you can go back and respond to them"),
+                                                   StoryEditor.OseCaption,
                                                    MessageBoxButtons.YesNoCancel);
                 if (res != DialogResult.Yes)
                 {
                     if (res == DialogResult.No)
                     {
-                        TheSe.viewCoachNotesFieldMenuItem.Checked = true;
+                        TheSe.viewCoachNotesMenu.Checked = true;
                         MessageBox.Show(Properties.Resources.IDS_LoginAsCoach,
-                                        OseResources.Properties.Resources.IDS_Caption);
+                                        StoryEditor.OseCaption);
                     }
                     return false;
                 }
@@ -706,13 +706,13 @@ namespace OneStoryProjectEditor
         {
             if (TheStory.AreUnapprovedConsultantNotes)
             {
-                DialogResult res = MessageBox.Show(Properties.Resources.IDS_WarnAboutUnapprovedComments,
-                                                   OseResources.Properties.Resources.IDS_Caption,
+                DialogResult res = MessageBox.Show(Localizer.Str("There are one or more comments in the Consultant Notes pane by the CIT (or LSR) that haven't been approved. Click 'Yes' to ignore them and continue on, or click 'No' to cancel so you can go back and approve/get them approved"),
+                                                   StoryEditor.OseCaption,
                                                    MessageBoxButtons.YesNoCancel);
                 if (res != DialogResult.Yes)
                 {
                     if (res == DialogResult.No)
-                        TheSe.viewConsultantNoteFieldMenuItem.Checked = true;
+                        TheSe.viewConsultantNotesMenu.Checked = true;
                     return false;
                 }
             }
@@ -814,7 +814,7 @@ namespace OneStoryProjectEditor
                                          TheStory.TasksRequiredPf,
                                          TheStory.CraftingInfo.IsBiblicalStory)
                           {
-                              Text = "Tasks for Project Facilitator",
+                              Text = Localizer.Str("Tasks for Project Facilitator"),
                               Readonly = true
                           };
 
@@ -826,7 +826,7 @@ namespace OneStoryProjectEditor
             var dlg = new SetCitTasksForm(TheStory.TasksAllowedCit,
                                           TheStory.TasksRequiredCit)
                           {
-                              Text = "Tasks for CIT",
+                              Text = Localizer.Str("Tasks for CIT"),
                               Readonly = true
                           };
 

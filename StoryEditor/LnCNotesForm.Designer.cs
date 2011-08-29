@@ -163,7 +163,6 @@ namespace OneStoryProjectEditor
             this.toolStripButtonKeyTermSearch.Text = "Search";
             this.toolStripButtonKeyTermSearch.ToolTipText = "Click this button to search the stories for this term";
             this.toolStripButtonKeyTermSearch.Visible = false;
-            this.toolStripButtonKeyTermSearch.Click += new System.EventHandler(this.toolStripButtonKeyTermSearch_Click);
             // 
             // LnCNotesForm
             // 

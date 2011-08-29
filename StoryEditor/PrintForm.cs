@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using ECInterfaces;
+using NetLoc;
 using SilEncConverters40;
 
 namespace OneStoryProjectEditor
@@ -11,10 +12,18 @@ namespace OneStoryProjectEditor
     {
         private StoryEditor _theSE;
 
+        private PrintForm()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
+
         public PrintForm(StoryEditor theSE)
         {
             _theSE = theSE;
             InitializeComponent();
+            Localizer.Ctrl(this);
+
             htmlStoryBt.TheSE = theSE;  // so it can do anchor jumps
 
             foreach (StoryData aStory in _theSE.TheCurrentStoriesSet)
@@ -45,7 +54,7 @@ namespace OneStoryProjectEditor
                                              theSE.viewTransliterationFreeTranslation,
                                              theSE.LoggedOnMember.TransliteratorFreeTranslation);
 
-            checkBoxShowHidden.Checked = _theSE.hiddenVersesToolStripMenuItem.Checked;
+            checkBoxShowHidden.Checked = _theSE.viewHiddenVersesMenu.Checked;
         }
 
         private void tabControl_Selected(object sender, TabControlEventArgs e)
@@ -175,8 +184,8 @@ namespace OneStoryProjectEditor
             }
 
             checkBoxSelectAll.Text = (cb.CheckState == CheckState.Checked)
-                ? "&Deselect All" 
-                : "&Select All";
+                ? Localizer.Str("&Deselect All")
+                : Localizer.Str("&Select All");
         }
 
         private void checkBoxSelectAllFields_CheckStateChanged(object sender, EventArgs e)
@@ -188,7 +197,7 @@ namespace OneStoryProjectEditor
             if (cb.CheckState == CheckState.Indeterminate)
             {
                 SetViewSettings(Properties.Settings.Default.LastPrintSettings);
-                checkBoxSelectAllFields.Text = "&Last Settings";
+                checkBoxSelectAllFields.Text = Localizer.Str("&Last Settings");
             }
             else
             {
@@ -205,8 +214,8 @@ namespace OneStoryProjectEditor
                     checkBoxFrontMatter.Checked = bIsChecked;
 
                 checkBoxSelectAllFields.Text = (bIsChecked)
-                    ? "&Deselect All"
-                    : "&Select All";
+                    ? Localizer.Str("&Deselect All")
+                    : Localizer.Str("&Select All");
             }
         }
 

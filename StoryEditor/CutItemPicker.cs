@@ -3,24 +3,32 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
     public partial class CutItemPicker : TopForm
     {
         private const string CstrNodeTestingQuestions = "TestingQuestions";
-        // private const string CstrNodeAnchors = "Anchors";
         private const string CstrNodeCulturalNotes = "CulturalNotes";
         private const string CstrNodeConsultantNotes = "ConsultantNotes";
         private const string CstrNodeCoachNotes = "CoachNotes";
 
         private VerseData _verseSource;
 
+        private CutItemPicker()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
+
         public CutItemPicker(VerseData verseSource, VersesData theVerses, 
             StoryEditor theSE, bool bDeleteOnly)
             : base(true)
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
+
             _verseSource = verseSource;
             TheSE = theSE;
 
@@ -29,7 +37,7 @@ namespace OneStoryProjectEditor
             if (bDeleteOnly)
             {
                 // add the 'delete' button
-                AddLineButton("Delete", null, 0, null);
+                AddLineButton(Localizer.Str("Delete"), null, 0, null);
 
                 // start them all out initially as unchecked
                 foreach (TreeNode node in treeViewItems.Nodes)
@@ -42,7 +50,7 @@ namespace OneStoryProjectEditor
             else
             {
                 // now list the verses in the current story
-                string strLine = "Story (Ln 0)";
+                string strLine = StoryEditor.CstrFirstVerse;
                 AddLineButton(strLine, null, 0, theVerses.FirstVerse);
 
                 for (int i = 1; i <= theVerses.Count; i++)
@@ -51,7 +59,7 @@ namespace OneStoryProjectEditor
                     if (aVerseData == _verseSource)
                         continue;
 
-                    strLine = "Ln: " + i;
+                    strLine = Localizer.Str("Ln: ") + i;
                     string strToolTip = StringForTooltip(aVerseData);
                     AddLineButton(strLine, strToolTip, i, aVerseData);
                 }
@@ -62,13 +70,15 @@ namespace OneStoryProjectEditor
             StoryEditor theSE)
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
+            
             _verseSource = verseSource;
             TheSE = theSE;
 
             InitializeFromVerse(verseSource);
 
             // now list the verses in the current story
-            string strLine = "Ln: " + nIndex;
+            string strLine = Localizer.Str("Ln: ") + nIndex;
             string strToolTip = StringForTooltip(verseDest);
             AddLineButton(strLine, strToolTip, nIndex, verseDest);
         }
@@ -78,6 +88,7 @@ namespace OneStoryProjectEditor
         private void InitializeFromVerse(VerseData verseSource)
         {
             TreeNode nodeItems = treeViewItems.Nodes[CstrNodeTestingQuestions];
+            nodeItems.Text = Localizer.Str("Testing Questions (tst)");
             AddTestQuestionNodes(verseSource.TestQuestions, nodeItems);
 
 #if AllowMovingAnchors
@@ -85,14 +96,16 @@ namespace OneStoryProjectEditor
             nodeItems = treeViewItems.Nodes[CstrNodeAnchors];
             AddAnchorNodes(verseSource.Anchors, nodeItems);
 #endif
-
             nodeItems = treeViewItems.Nodes[CstrNodeCulturalNotes];
+            nodeItems.Text = Localizer.Str("Cultural and Exegetical Notes (cn)");
             AddExegeticalHelpNodes(verseSource.ExegeticalHelpNotes, nodeItems);
 
             nodeItems = treeViewItems.Nodes[CstrNodeConsultantNotes];
+            nodeItems.Text = Localizer.Str("Consultant Notes");
             AddConNoteNodes(verseSource.ConsultantNotes, nodeItems);
             
             nodeItems = treeViewItems.Nodes[CstrNodeCoachNotes];
+            nodeItems.Text = Localizer.Str("Coach Notes");
             AddConNoteNodes(verseSource.CoachNotes, nodeItems);
 
             treeViewItems.ExpandAll();
@@ -204,8 +217,8 @@ namespace OneStoryProjectEditor
             if (verseDest == null)
             {
                 // means delete... confirm
-                if (MessageBox.Show(Properties.Resources.IDS_ConfirmDeleteItems, 
-                    OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                if (MessageBox.Show(Localizer.Str("Are you sure you want to delete the selected items?"), 
+                    StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                     return;
             }
 

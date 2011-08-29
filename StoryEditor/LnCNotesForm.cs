@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -15,16 +16,21 @@ namespace OneStoryProjectEditor
         private const int CnColumnVernacularBT = 1;
         private const int CnColumnNotes = 2;
 
-        private const string CstrAddLnCNote = "Add L&C Note";
-        internal const string CstrEditLnCNote = "Edit L&C Note";
-
         private StoryEditor _theSE;
         private int _nHeight;
+
+        private LnCNotesForm()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
 
         public LnCNotesForm(StoryEditor theSE)
             : base(true)
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
+
             _theSE = theSE;
             ColumnGloss.DefaultCellStyle.Font = theSE.StoryProject.ProjSettings.InternationalBT.FontToUse;
             _nHeight = ColumnGloss.DefaultCellStyle.Font.Height;
@@ -61,7 +67,7 @@ namespace OneStoryProjectEditor
                 return;
 
             var theRow = dataGridViewLnCNotes.Rows[e.RowIndex];
-            EditLnCNote(theRow, CstrEditLnCNote);
+            EditLnCNote(theRow, Localizer.Str("Edit L&C Note"));
         }
 
         private void EditLnCNote(DataGridViewRow theRow, string strTitle)
@@ -96,7 +102,7 @@ namespace OneStoryProjectEditor
 
             int nSelectedRowIndex = dataGridViewLnCNotes.SelectedCells[0].RowIndex;
             DataGridViewRow theRow = dataGridViewLnCNotes.Rows[nSelectedRowIndex];
-            EditLnCNote(theRow, CstrAddLnCNote);
+            EditLnCNote(theRow, Localizer.Str("Add L&C Note"));
         }
 
         private void toolStripButtonDeleteKeyTerm_Click(object sender, EventArgs e)
@@ -111,10 +117,10 @@ namespace OneStoryProjectEditor
                 DataGridViewRow theRow = dataGridViewLnCNotes.Rows[nSelectedRowIndex];
                 string strValue = (string)theRow.Cells[CnColumnInternationalBT].Value;
                 // make sure the user really wants to do this
-                if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteLnCNote,
+                if (MessageBox.Show(String.Format(Localizer.Str("Are you sure you want to delete the L&C Note:{0}{1}"),
                                                   Environment.NewLine,
                                                   strValue),
-                                    OseResources.Properties.Resources.IDS_Caption, 
+                                    StoryEditor.OseCaption, 
                                     MessageBoxButtons.YesNoCancel)
                     != DialogResult.Yes)
                     return;
@@ -163,7 +169,7 @@ namespace OneStoryProjectEditor
                 */
             }
         }
-
+        /*
         private void toolStripButtonKeyTermSearch_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Assert(dataGridViewLnCNotes.SelectedCells.Count < 2);   // 1 or 0
@@ -180,5 +186,6 @@ namespace OneStoryProjectEditor
                 dlg.Show();
             }
         }
+        */
     }
 }

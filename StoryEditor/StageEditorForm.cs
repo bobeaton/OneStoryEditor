@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -16,9 +17,16 @@ namespace OneStoryProjectEditor
             = new Dictionary<StoryStageLogic.ProjectStages, DataGridViewButtonCell>();
         protected List<DataGridViewButtonCell> _lstOfAllowedTransitions = new List<DataGridViewButtonCell>();
 
+        private StageEditorForm()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
+
         public StageEditorForm(StoryProjectData storyProjectData, StoryData theCurrentStory, Point ptStatusBar, bool bBypassRestrictions)
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
 
             _storyProjectData = storyProjectData;
             _theCurrentStory = theCurrentStory;
@@ -324,8 +332,7 @@ namespace OneStoryProjectEditor
                 System.Diagnostics.Debug.WriteLine(String.Format("dataGridViewStates_CellMouseEnter: cell: {0}.{1}: {2}",
                     theCell.ColumnIndex, theCell.RowIndex, st.StageDisplayString));
 
-                toolStripStatusLabel.Text = String.Format(Properties.Resources.IDS_PressF1ForInstructions,
-                    st.StageDisplayString);
+                StoryEditor.SetDefaultStatusBar(toolStripStatusLabel, st.StageDisplayString);
             }
         }
 
@@ -353,8 +360,10 @@ namespace OneStoryProjectEditor
 
                 helpProvider.ResetShowHelp(dataGridViewStates);
                 Help.ShowPopup(dataGridViewStates, String.Format("{1}{0}{2}{0}{3}", Environment.NewLine,
-                    st.StageDisplayString, st.StageInstructions, Properties.Resources.IDS_EscapeToDismiss), 
-                    hlpevent.MousePos);
+                                                                 st.StageDisplayString, st.StageInstructions,
+                                                                 Localizer.Str(
+                                                                     "(Press the Esc key to dismiss this help window)")),
+                               hlpevent.MousePos);
                 hlpevent.Handled = true;
             }
         }

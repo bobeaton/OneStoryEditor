@@ -117,12 +117,12 @@ namespace OneStoryProjectEditor
             {
                 ExegeticalHelpNoteData anExHelpNoteData = this[i];
                 string strHtmlElementId = TextareaId(nVerseIndex, nAnchorNumber, i, CstrFieldNameExegeticalHelp);
-                strHtml += String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                strHtml += String.Format(Properties.Resources.HTML_TableRow,
                                          String.Format("{0}{1}",
-                                                       String.Format(OseResources.Properties.Resources.HTML_TableCell, "cn:"),
-                                                       String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
+                                                       String.Format(Properties.Resources.HTML_TableCell, "cn:"),
+                                                       String.Format(Properties.Resources.HTML_TableCellWidth,
                                                                      100,
-                                                                     String.Format(OseResources.Properties.Resources.HTML_TextareaWithRefDrop,
+                                                                     String.Format(Properties.Resources.HTML_TextareaWithRefDrop,
                                                                                    strHtmlElementId,
                                                                                    StoryData.
                                                                                        CstrLangInternationalBtStyleClassName,
@@ -171,12 +171,12 @@ namespace OneStoryProjectEditor
             {
                 string strExegeticalHelpNote = astrExegeticalHelpNotes[i];
                 string strHtmlElementId = String.Format("paragraphExHelp{0}_{1}", nVerseIndex, i);
-                strHtml += String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                strHtml += String.Format(Properties.Resources.HTML_TableRow,
                                          String.Format("{0}{1}",
-                                                       String.Format(OseResources.Properties.Resources.HTML_TableCell, "cn:"),
-                                                       String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
+                                                       String.Format(Properties.Resources.HTML_TableCell, "cn:"),
+                                                       String.Format(Properties.Resources.HTML_TableCellWidth,
                                                                      100,
-                                                                     String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
+                                                                     String.Format(Properties.Resources.HTML_ParagraphText,
                                                                                    strHtmlElementId,
                                                                                    StoryData.
                                                                                        CstrLangInternationalBtStyleClassName,
@@ -184,9 +184,9 @@ namespace OneStoryProjectEditor
             }
 
             // make a sub-table out of all this
-            return String.Format(OseResources.Properties.Resources.HTML_TableRow,
-                                 String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, nNumCols,
-                                               String.Format(OseResources.Properties.Resources.HTML_Table,
+            return String.Format(Properties.Resources.HTML_TableRow,
+                                 String.Format(Properties.Resources.HTML_TableCellWithSpan, nNumCols,
+                                               String.Format(Properties.Resources.HTML_Table,
                                                              strHtml)));
         }
     }

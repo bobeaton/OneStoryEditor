@@ -30,12 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnchorAddCommentForm));
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.labelScriptureReference = new System.Windows.Forms.Label();
             this.labelJumpTarget = new System.Windows.Forms.Label();
             this.labelComment = new System.Windows.Forms.Label();
             this.textBoxAnchorComment = new System.Windows.Forms.TextBox();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
-            this.labelScriptureReference = new System.Windows.Forms.Label();
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,6 +62,16 @@
             this.tableLayoutPanel.Size = new System.Drawing.Size(585, 103);
             this.tableLayoutPanel.TabIndex = 0;
             // 
+            // labelScriptureReference
+            // 
+            this.labelScriptureReference.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelScriptureReference.AutoSize = true;
+            this.labelScriptureReference.Location = new System.Drawing.Point(13, 10);
+            this.labelScriptureReference.Name = "labelScriptureReference";
+            this.labelScriptureReference.Size = new System.Drawing.Size(105, 13);
+            this.labelScriptureReference.TabIndex = 0;
+            this.labelScriptureReference.Text = "Scripture Reference:";
+            // 
             // labelJumpTarget
             // 
             this.labelJumpTarget.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -69,9 +79,9 @@
             this.tableLayoutPanel.SetColumnSpan(this.labelJumpTarget, 2);
             this.labelJumpTarget.Location = new System.Drawing.Point(124, 10);
             this.labelJumpTarget.Name = "labelJumpTarget";
-            this.labelJumpTarget.Size = new System.Drawing.Size(35, 13);
+            this.labelJumpTarget.Size = new System.Drawing.Size(153, 13);
             this.labelJumpTarget.TabIndex = 1;
-            this.labelJumpTarget.Text = "label1";
+            this.labelJumpTarget.Text = "<no need to localize/translate>";
             // 
             // labelComment
             // 
@@ -113,16 +123,6 @@
             this.buttonSave.Text = "&Save";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-            // 
-            // labelScriptureReference
-            // 
-            this.labelScriptureReference.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.labelScriptureReference.AutoSize = true;
-            this.labelScriptureReference.Location = new System.Drawing.Point(13, 10);
-            this.labelScriptureReference.Name = "labelScriptureReference";
-            this.labelScriptureReference.Size = new System.Drawing.Size(105, 13);
-            this.labelScriptureReference.TabIndex = 0;
-            this.labelScriptureReference.Text = "Scripture Reference:";
             // 
             // AnchorAddCommentForm
             // 

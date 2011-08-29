@@ -5,7 +5,6 @@ using System.Xml;
 using System.Xml.XPath;
 using System.IO;
 using System.Windows.Forms;
-using OseResources;
 
 namespace OneStoryProjectEditor
 {
@@ -274,7 +273,7 @@ namespace OneStoryProjectEditor
                     if (varProjectStateVersion == null)
                         FixupTo2_0(doc, navigator, manager);
                     else if (varProjectStateVersion.ToString().CompareTo(XmlDataVersion) > 0)
-                        throw new ApplicationException(OseResources.Properties.Resources.IDS_GetNewVersion);
+                        throw new ApplicationException(Properties.Resources.IDS_GetNewVersion);
 #endif
 
                     XPathNodeIterator xpStageTransition = navigator.Select(String.Format("/{0}/{1}", 
@@ -620,7 +619,7 @@ namespace OneStoryProjectEditor
             {
                 // the vern should be visible if it is configured and either it's supposed to be visible (based on the
                 //  state information) OR it's the only one in existance--i.e. an English story project)
-                theSE.viewVernacularLangFieldMenuItem.Checked = (theSE.StoryProject.ProjSettings.Vernacular.HasData
+                theSE.viewVernacularLangMenu.Checked = (theSE.StoryProject.ProjSettings.Vernacular.HasData
                     && (IsVernacularVisible 
                         || (!theSE.StoryProject.ProjSettings.NationalBT.HasData
                         && !theSE.StoryProject.ProjSettings.InternationalBT.HasData
@@ -628,7 +627,7 @@ namespace OneStoryProjectEditor
 
                 // the National BT should be visible if it is configured and either it's supposed to be visible (based on the
                 //  state information) OR it's the only one in existance--i.e. an EnglishBT-only project)
-                theSE.viewNationalLangFieldMenuItem.Checked = (theSE.StoryProject.ProjSettings.NationalBT.HasData
+                theSE.viewNationalLangMenu.Checked = (theSE.StoryProject.ProjSettings.NationalBT.HasData
                     && (IsNationalBTVisible
                         || (!theSE.StoryProject.ProjSettings.Vernacular.HasData
                         && !theSE.StoryProject.ProjSettings.InternationalBT.HasData
@@ -636,7 +635,7 @@ namespace OneStoryProjectEditor
 
                 // the English BT should be visible if it is configured and either it's supposed to be visible (based on the
                 //  state information) OR it's the only one in existance--i.e. an EnglishBT-only project)
-                theSE.viewEnglishBTFieldMenuItem.Checked = (theSE.StoryProject.ProjSettings.InternationalBT.HasData
+                theSE.viewEnglishBtMenu.Checked = (theSE.StoryProject.ProjSettings.InternationalBT.HasData
                     &&  (IsEnglishBTVisible 
                         || (!theSE.StoryProject.ProjSettings.Vernacular.HasData
                         && !theSE.StoryProject.ProjSettings.NationalBT.HasData
@@ -645,7 +644,7 @@ namespace OneStoryProjectEditor
                 // the Free translation should be visible if it is configured and either it's supposed to be visible 
                 //  (based on the state information) OR it's the only one in existance--i.e. a Free Translation-only 
                 //  project)
-                theSE.viewFreeTranslationToolStripMenuItem.Checked = (theSE.StoryProject.ProjSettings.FreeTranslation.HasData
+                theSE.viewFreeTranslationMenu.Checked = (theSE.StoryProject.ProjSettings.FreeTranslation.HasData
                     && (IsFreeTranslationVisible
                         || (!theSE.StoryProject.ProjSettings.Vernacular.HasData
                         && !theSE.StoryProject.ProjSettings.NationalBT.HasData
@@ -655,22 +654,22 @@ namespace OneStoryProjectEditor
                 bool bBiblicalStory = ((theSE.TheCurrentStory == null) ||
                                        theSE.TheCurrentStory.CraftingInfo.IsBiblicalStory);
 
-                theSE.viewAnchorFieldMenuItem.Checked = 
+                theSE.viewAnchorsMenu.Checked = 
                     IsAnchorVisible && bBiblicalStory;
 
                 theSE.viewExegeticalHelps.Checked = // this kindof goes with anchors
                     IsAnchorVisible;    // but doesn't require a biblical story
 
-                theSE.viewStoryTestingQuestionMenuItem.Checked = IsStoryTestingQuestionVisible && bBiblicalStory;
-                theSE.viewStoryTestingQuestionAnswerMenuItem.Checked = IsStoryTestingQuestionAnswersVisible && bBiblicalStory;
-                theSE.viewRetellingFieldMenuItem.Checked = IsRetellingVisible && bBiblicalStory;
-                theSE.viewConsultantNoteFieldMenuItem.Checked = IsConsultantNotesVisible;
+                theSE.viewStoryTestingQuestionsMenu.Checked = IsStoryTestingQuestionVisible && bBiblicalStory;
+                theSE.viewStoryTestingQuestionAnswersMenu.Checked = IsStoryTestingQuestionAnswersVisible && bBiblicalStory;
+                theSE.viewRetellingsMenu.Checked = IsRetellingVisible && bBiblicalStory;
+                theSE.viewConsultantNotesMenu.Checked = IsConsultantNotesVisible;
                 
                 // disable the coach window also if the proj fac is logged in.
                 //  (here we want to use "!=" for PF, because if he's also a LSR, then
                 //  we want to be able to see Coach note pane).
                 //  also no need if this isn't a mentoring project
-                theSE.viewCoachNotesFieldMenuItem.Checked = IsCoachNotesVisible &&
+                theSE.viewCoachNotesMenu.Checked = IsCoachNotesVisible &&
                     (theSE.LoggedOnMember != null) &&
                     (!TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType,
                                             TeamMemberData.UserTypes.ProjectFacilitator) ||
@@ -678,7 +677,7 @@ namespace OneStoryProjectEditor
                                            TeamMemberData.UserTypes.FirstPassMentor)) &&
                      !theSE.StoryProject.TeamMembers.HasIndependentConsultant;
 
-                theSE.viewNetBibleMenuItem.Checked = IsNetBibleVisible && bBiblicalStory;
+                theSE.viewBibleMenu.Checked = IsNetBibleVisible && bBiblicalStory;
             }
 #endif
             public const string CstrElementLabelProjectStates = "ProjectStates";

@@ -116,43 +116,34 @@
             // 
             this.textBoxWordsToSearchForVernacular.AcceptsReturn = true;
             this.textBoxWordsToSearchForVernacular.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.helpProvider.SetHelpString(this.textBoxWordsToSearchForVernacular, resources.GetString("textBoxWordsToSearchForVernacular.HelpString"));
+            this.helpProvider.SetHelpString(this.textBoxWordsToSearchForVernacular, "");
             this.textBoxWordsToSearchForVernacular.Location = new System.Drawing.Point(84, 16);
             this.textBoxWordsToSearchForVernacular.Name = "textBoxWordsToSearchForVernacular";
             this.helpProvider.SetShowHelp(this.textBoxWordsToSearchForVernacular, true);
             this.textBoxWordsToSearchForVernacular.Size = new System.Drawing.Size(159, 20);
             this.textBoxWordsToSearchForVernacular.TabIndex = 0;
-            this.textBoxWordsToSearchForVernacular.Text = "word1, word2, \"phrase 3\"";
-            this.toolTip.SetToolTip(this.textBoxWordsToSearchForVernacular, "Enter the word(s) to search. Press F1 for further instructions on how to enter da" +
-                    "ta in this field.");
             // 
             // textBoxWordsToSearchForNationalBT
             // 
             this.textBoxWordsToSearchForNationalBT.AcceptsReturn = true;
             this.textBoxWordsToSearchForNationalBT.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.helpProvider.SetHelpString(this.textBoxWordsToSearchForNationalBT, resources.GetString("textBoxWordsToSearchForNationalBT.HelpString"));
+            this.helpProvider.SetHelpString(this.textBoxWordsToSearchForNationalBT, "");
             this.textBoxWordsToSearchForNationalBT.Location = new System.Drawing.Point(249, 16);
             this.textBoxWordsToSearchForNationalBT.Name = "textBoxWordsToSearchForNationalBT";
             this.helpProvider.SetShowHelp(this.textBoxWordsToSearchForNationalBT, true);
             this.textBoxWordsToSearchForNationalBT.Size = new System.Drawing.Size(159, 20);
             this.textBoxWordsToSearchForNationalBT.TabIndex = 0;
-            this.textBoxWordsToSearchForNationalBT.Text = "word1, word2, \"phrase 3\"";
-            this.toolTip.SetToolTip(this.textBoxWordsToSearchForNationalBT, "Enter the word(s) to search. Press F1 for further instructions on how to enter da" +
-                    "ta in this field.");
             // 
             // textBoxWordsToSearchForInternationalBT
             // 
             this.textBoxWordsToSearchForInternationalBT.AcceptsReturn = true;
             this.textBoxWordsToSearchForInternationalBT.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.helpProvider.SetHelpString(this.textBoxWordsToSearchForInternationalBT, resources.GetString("textBoxWordsToSearchForInternationalBT.HelpString"));
+            this.helpProvider.SetHelpString(this.textBoxWordsToSearchForInternationalBT, "");
             this.textBoxWordsToSearchForInternationalBT.Location = new System.Drawing.Point(414, 16);
             this.textBoxWordsToSearchForInternationalBT.Name = "textBoxWordsToSearchForInternationalBT";
             this.helpProvider.SetShowHelp(this.textBoxWordsToSearchForInternationalBT, true);
             this.textBoxWordsToSearchForInternationalBT.Size = new System.Drawing.Size(159, 20);
             this.textBoxWordsToSearchForInternationalBT.TabIndex = 0;
-            this.textBoxWordsToSearchForInternationalBT.Text = "word1, word2, \"phrase 3\"";
-            this.toolTip.SetToolTip(this.textBoxWordsToSearchForInternationalBT, "Enter the word(s) to search. Press F1 for further instructions on how to enter da" +
-                    "ta in this field.");
             // 
             // webBrowser
             // 
@@ -220,13 +211,12 @@
             // 
             this.textBoxWordsToSearchForFreeTranslation.AcceptsReturn = true;
             this.textBoxWordsToSearchForFreeTranslation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.helpProvider.SetHelpString(this.textBoxWordsToSearchForFreeTranslation, resources.GetString("textBoxWordsToSearchForFreeTranslation.HelpString"));
+            this.helpProvider.SetHelpString(this.textBoxWordsToSearchForFreeTranslation, "");
             this.textBoxWordsToSearchForFreeTranslation.Location = new System.Drawing.Point(579, 16);
             this.textBoxWordsToSearchForFreeTranslation.Name = "textBoxWordsToSearchForFreeTranslation";
             this.helpProvider.SetShowHelp(this.textBoxWordsToSearchForFreeTranslation, true);
             this.textBoxWordsToSearchForFreeTranslation.Size = new System.Drawing.Size(162, 20);
             this.textBoxWordsToSearchForFreeTranslation.TabIndex = 0;
-            this.textBoxWordsToSearchForFreeTranslation.Text = "word1, word2, \"phrase 3\"";
             // 
             // ConcordanceForm
             // 

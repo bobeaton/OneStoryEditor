@@ -335,5 +335,8 @@ DoAdaptingBeforeGlossing_InVerticalEdit	1</Value>
     <Setting Name="ExegeticalHelpNoteColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">0, 192, 192</Value>
     </Setting>
+    <Setting Name="LastLocalizationId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">en</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

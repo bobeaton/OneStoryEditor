@@ -90,9 +90,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(560, 435);
+            this.Controls.Add(this.listBoxUNSs);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonAddNewMember);
-            this.Controls.Add(this.listBoxUNSs);
             this.Controls.Add(this.buttonOK);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MemberPicker";

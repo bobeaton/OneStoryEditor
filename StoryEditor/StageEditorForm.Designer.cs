@@ -31,13 +31,13 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StageEditorForm));
             this.dataGridViewStates = new System.Windows.Forms.DataGridView();
-            this.helpProvider = new System.Windows.Forms.HelpProvider();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ColumnProjectFacilitatorStages = new System.Windows.Forms.DataGridViewButtonColumn();
             this.ColumnEnglishBackTranslator = new System.Windows.Forms.DataGridViewButtonColumn();
             this.ColumnConsultantInTraining = new System.Windows.Forms.DataGridViewButtonColumn();
             this.ColumnCoach = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.helpProvider = new System.Windows.Forms.HelpProvider();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStates)).BeginInit();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -78,23 +78,6 @@
             this.dataGridViewStates.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewStates_CellMouseEnter);
             this.dataGridViewStates.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.dataGridViewStates_HelpRequested);
             // 
-            // statusStrip
-            // 
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 304);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(867, 22);
-            this.statusStrip.TabIndex = 2;
-            this.statusStrip.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabel
-            // 
-            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(426, 17);
-            this.toolStripStatusLabel.Text = "Press F1 for Instructions (with the mouse cursor hovering over the desired state)" +
-                "";
-            // 
             // ColumnProjectFacilitatorStages
             // 
             this.ColumnProjectFacilitatorStages.HeaderText = "Project Facilitator";
@@ -119,6 +102,23 @@
             this.ColumnCoach.Name = "ColumnCoach";
             this.ColumnCoach.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
+            // statusStrip
+            // 
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel});
+            this.statusStrip.Location = new System.Drawing.Point(0, 304);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(867, 22);
+            this.statusStrip.TabIndex = 2;
+            this.statusStrip.Text = "<no need to localize/translate>";
+            // 
+            // toolStripStatusLabel
+            // 
+            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(426, 17);
+            this.toolStripStatusLabel.Text = "Press F1 for Instructions (with the mouse cursor hovering over the desired state)" +
+                "";
+            // 
             // StageEditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -135,8 +135,8 @@
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "To go forward, click a green state button. To go backwards (for revisions), click" +
-                " a red state button. Right-click to edit instructions";
+            this.Text = "Click on a state button to change to that state. Right-click on a state button to" +
+                " edit default view fields for the state and the instructions";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStates)).EndInit();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();

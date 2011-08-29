@@ -126,7 +126,7 @@ namespace OneStoryProjectEditor
                 catch (Exception)
                 {
                     throw new ApplicationException(
-                        String.Format(OseResources.Properties.Resources.IDS_IllFormedJumpTarget, strBookCode));
+                        String.Format(Properties.Resources.IDS_IllFormedJumpTarget, strBookCode));
                 }
                 
                 return strBookCode + JumpTarget.Substring(nIndexSpace);
@@ -163,7 +163,7 @@ namespace OneStoryProjectEditor
                     && (JumpTarget != ToolTipText))
                     strButtonLabel += CstrTooltipIndicator; // give an indication that there's a tooltip
 
-                return String.Format(OseResources.Properties.Resources.HTML_Button,
+                return String.Format(Properties.Resources.HTML_Button,
                                         JumpTarget,
                                         "return OnBibRefJump(this);",
                                         strButtonLabel);
@@ -245,7 +245,7 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            return String.Format(OseResources.Properties.Resources.HTML_Button,
+            return String.Format(Properties.Resources.HTML_Button,
                                     JumpTarget,
                                     "return OnBibRefJump(this);",
                                     strButtonLabel);
@@ -264,7 +264,7 @@ namespace OneStoryProjectEditor
                 astrExegeticalHelpNotes.Add(Diff.HtmlDiff(null, ToolTipText, true));
             }
 
-            return String.Format(OseResources.Properties.Resources.HTML_Button,
+            return String.Format(Properties.Resources.HTML_Button,
                                     JumpTarget,
                                     "return OnBibRefJump(this);",
                                     strButtonLabel);
@@ -348,14 +348,14 @@ namespace OneStoryProjectEditor
                 strRow += anchorData.Html;
 
             // make a cell out of the buttons
-            string strHtmlCell = String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
+            string strHtmlCell = String.Format(Properties.Resources.HTML_TableCellWidth,
                                                100, 
                                                strRow);
 
             // add combine with the 'anc:' header cell into a Table Row
-            string strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRow,
+            string strHtml = String.Format(Properties.Resources.HTML_TableRow,
                                            String.Format("{0}{1}",
-                                                         String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                                                         String.Format(Properties.Resources.HTML_TableCell,
                                                                        "anc:"),
                                                          strHtmlCell));
 
@@ -368,9 +368,9 @@ namespace OneStoryProjectEditor
             }
 
             // make a sub-table out of all this
-            strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRow,
-                                    String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, nNumCols,
-                                                  String.Format(OseResources.Properties.Resources.HTML_Table,
+            strHtml = String.Format(Properties.Resources.HTML_TableRow,
+                                    String.Format(Properties.Resources.HTML_TableCellWithSpan, nNumCols,
+                                                  String.Format(Properties.Resources.HTML_Table,
                                                                 strHtml)));
 
             return strHtml;
@@ -411,14 +411,14 @@ namespace OneStoryProjectEditor
                 return strRow;
 
             // make a cell out of the buttons
-            string strHtmlCell = String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
+            string strHtmlCell = String.Format(Properties.Resources.HTML_TableCellWidth,
                                                100,
                                                strRow);
 
             // add combine with the 'anc:' header cell into a Table Row
-            return String.Format(OseResources.Properties.Resources.HTML_TableRow,
+            return String.Format(Properties.Resources.HTML_TableRow,
                                  String.Format("{0}{1}",
-                                               String.Format(OseResources.Properties.Resources.HTML_TableCell,
+                                               String.Format(Properties.Resources.HTML_TableCell,
                                                              "anc:"),
                                                strHtmlCell));
         }

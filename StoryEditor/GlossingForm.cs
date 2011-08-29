@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using ECInterfaces;                 // for IEncConverter
+using NetLoc;
 using SilEncConverters40;           // for AdaptItEncConverter
 
 namespace OneStoryProjectEditor
@@ -19,12 +20,19 @@ namespace OneStoryProjectEditor
         public List<string> TargetStringsInBetween;
         protected ProjectSettings.LanguageInfo liSourceLang, liTargetLang;
 
+        private GlossingForm()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
+
         public GlossingForm(ProjectSettings projSettings, string strSentence, 
             ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection,
             TeamMemberData loggedOnMember)
             : base(true)
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
             try
             {
                 m_theEC = AdaptItGlossing.InitLookupAdapter(projSettings, eBtDirection, loggedOnMember,
@@ -41,7 +49,7 @@ namespace OneStoryProjectEditor
             m_theEC.SplitAndConvert(strSentence, out SourceWords, out SourceStringsInBetween, 
                 out TargetWords, out TargetStringsInBetween);
             if (SourceWords.Count == 0)
-                throw new ApplicationException("No sentence to gloss!");
+                throw new ApplicationException(Localizer.Str("No sentence to gloss!"));
 
             if (liSourceLang.DoRtl)
                 flowLayoutPanel.FlowDirection = FlowDirection.RightToLeft;
@@ -81,11 +89,11 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(String.Format("adding {0}->{1} gave the error: {2}",
+                MessageBox.Show(String.Format(Localizer.Str("adding {0}->{1} gave the error: {2}"),
                                               strSourceWord,
                                               strTargetWord,
                                               ex.Message),
-                                OseResources.Properties.Resources.IDS_Caption);
+                                StoryEditor.OseCaption);
                 return;
             }
 
@@ -198,7 +206,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+                Program.ShowException(ex);
             }
         }
 
@@ -212,7 +220,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+                Program.ShowException(ex);
             }
         }
 
@@ -236,7 +244,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+                Program.ShowException(ex);
             }
         }
     }

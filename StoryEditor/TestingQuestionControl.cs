@@ -44,8 +44,8 @@ namespace OneStoryProjectEditor
             int nNumColumns = 0;
             string strTestNumberLabel = String.Format(TestQuestionData.CstrTestQuestionsLabelFormat,
                                                       nIndex + 1);
-            if (theSE.viewStoryTestingQuestionMenuItem.Checked
-                || theSE.viewGeneralTestingQuestionMenuItem.Checked)
+            if (theSE.viewStoryTestingQuestionsMenu.Checked
+                || theSE.viewGeneralTestingsQuestionMenu.Checked)
             {
                 // show the row label
                 var label = new Label
@@ -65,7 +65,7 @@ namespace OneStoryProjectEditor
 
                 // insert the vernacular representation of the testing question
                 CtrlTextBox ctrlTextBoxVernacular = null;
-                if (theSE.viewVernacularLangFieldMenuItem.Checked 
+                if (theSE.viewVernacularLangMenu.Checked 
                     && theSE.StoryProject.ProjSettings.ShowTestQuestions.Vernacular)
                 {
                     InsertColumn(nNumColumns);
@@ -82,7 +82,7 @@ namespace OneStoryProjectEditor
 
 #if !LimitWhenToShow
                 CtrlTextBox ctrlTextBoxNationalBT = null;
-                if (theSE.viewNationalLangFieldMenuItem.Checked
+                if (theSE.viewNationalLangMenu.Checked
                     && theSE.StoryProject.ProjSettings.ShowTestQuestions.NationalBt)
 #else
                 // the only time we show the National BT is if there's an "other" English BTr (who will
@@ -108,7 +108,7 @@ namespace OneStoryProjectEditor
                 }
 
 #if !LimitWhenToShow
-                if (theSE.viewEnglishBTFieldMenuItem.Checked
+                if (theSE.viewEnglishBtMenu.Checked
                     && theSE.StoryProject.ProjSettings.ShowTestQuestions.InternationalBt)
 #else
                 if (theSE.viewEnglishBTFieldMenuItem.Checked
@@ -138,7 +138,7 @@ namespace OneStoryProjectEditor
             }
 
             // add a row so we can display a multiple line control with the answers
-            if (theSE.viewStoryTestingQuestionAnswerMenuItem.Checked 
+            if (theSE.viewStoryTestingQuestionAnswersMenu.Checked 
                 && (_aTQData.Answers != null) && (_aTQData.Answers.Count > 0))
             {
                 System.Diagnostics.Debug.Assert(theSE.TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count >= _aTQData.Answers.Count);
@@ -146,9 +146,9 @@ namespace OneStoryProjectEditor
                     _aTQData.Answers, theSE.StoryProject.ProjSettings,
                     theSE.TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
                     strTestNumberLabel,
-                    (theSE.StoryProject.ProjSettings.ShowAnswers.Vernacular && theSE.viewVernacularLangFieldMenuItem.Checked),
-                    (theSE.StoryProject.ProjSettings.ShowAnswers.NationalBt && theSE.viewNationalLangFieldMenuItem.Checked),
-                    (theSE.StoryProject.ProjSettings.ShowAnswers.InternationalBt && theSE.viewEnglishBTFieldMenuItem.Checked),
+                    (theSE.StoryProject.ProjSettings.ShowAnswers.Vernacular && theSE.viewVernacularLangMenu.Checked),
+                    (theSE.StoryProject.ProjSettings.ShowAnswers.NationalBt && theSE.viewNationalLangMenu.Checked),
+                    (theSE.StoryProject.ProjSettings.ShowAnswers.InternationalBt && theSE.viewEnglishBtMenu.Checked),
                     Properties.Settings.Default.AnswersVernacularColor,
                     Properties.Settings.Default.AnswersNationalBtColor,
                     Properties.Settings.Default.AnswersInternationalBtColor)

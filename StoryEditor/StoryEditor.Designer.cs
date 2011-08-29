@@ -36,79 +36,80 @@ namespace OneStoryProjectEditor
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StoryEditor));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
-            this.projectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.recentProjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sendReceiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.closeProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectRecentProjectsMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectSendReceiveMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectCloseProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectSaveProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.browseForProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.projectFromTheInternetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toTheInternetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toAThumbdriveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.projectFromASharedNetworkDriveToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectBrowseForProjectFileMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectFromTheInternetMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectToTheInternetMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectToAThumbdriveMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectFromASharedNetworkDriveMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.projectSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.projectLoginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportToToolboxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectSettingsMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectLoginMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectExportToToolboxMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.printPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectPrintMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editCopySelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyNationalBackTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyEnglishBackTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyFreeTranslationMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteBackTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteStoryVersesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteStoryNationalBackTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteEnglishBacktranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteFreeTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectExitMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editCopyToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editCopySelectionMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editCopyStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editCopyNationalBtMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editCopyEnglishBtMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editCopyFreeTranslationMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editPasteMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editDeleteToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editDeleteStoryLinesMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editDeleteNationalBtMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editDeleteEnglishBtMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editDeleteFreeTranslationMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editDeleteTestToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-            this.editFindToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.findNextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.replaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editFindMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editFindNextMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editReplaceMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
-            this.editAddRetellingTestResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editAddInferenceTestResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addgeneralTestQuestionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editAddRetellingTestResultsMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editAddInferenceTestResultsMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editAddGeneralTestQuestionMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showHideFieldsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.useSameSettingsForAllStoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewShowHideFieldsMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewUseSameSettingsForAllStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.viewVernacularLangFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewNationalLangFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewEnglishBTFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewFreeTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewAnchorFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewVernacularLangMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewNationalLangMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewEnglishBtMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewFreeTranslationMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewAnchorsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewExegeticalHelps = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewGeneralTestingQuestionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewStoryTestingQuestionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewStoryTestingQuestionAnswerMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewRetellingFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewGeneralTestingsQuestionMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewStoryTestingQuestionsMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewStoryTestingQuestionAnswersMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewRetellingsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.viewConsultantNoteFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewCoachNotesFieldMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewConsultantNotesMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewCoachNotesMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.viewNetBibleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewBibleMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewRefreshMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
-            this.historicalDifferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewHistoricalDifferencesMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewLnCNotesMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.concordanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.stateTransitionHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewOldStoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewConcordanceMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewStateTransitionHistoryMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewProjectNotesMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewOldStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.hiddenVersesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewHiddenVersesMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewOnlyOpenConversationsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
-            this.viewTransliterationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewTransliterationsToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewTransliterationVernacular = new System.Windows.Forms.ToolStripMenuItem();
             this.viewTransliteratorVernacularConfigureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewTransliterationNationalBT = new System.Windows.Forms.ToolStripMenuItem();
@@ -118,52 +119,46 @@ namespace OneStoryProjectEditor
             this.viewTransliterationFreeTranslation = new System.Windows.Forms.ToolStripMenuItem();
             this.viewTransliteratorFreeTranslationConfigureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBoxStorySelector = new System.Windows.Forms.ToolStripComboBox();
-            this.storyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.storyCopyWithNewNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splitIntoLinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.realignStoryVersesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.storyOverrideTasks = new System.Windows.Forms.ToolStripMenuItem();
+            this.storyToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.storyStoryInformationMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.storyDeleteStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.storyCopyWithNewNameMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.storySplitIntoLinesMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.storyRealignStoryLinesMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.storyOverrideTasksMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
-            this.useAdaptItForBacktranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.storyAdaptItVernacularToNationalMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.storyAdaptItVernacularToEnglishMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.storyAdaptItNationalToEnglishMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.synchronizeSharedAdaptItProjectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panoramaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.insertNewStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addNewStoryAfterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemShowPanorama = new System.Windows.Forms.ToolStripMenuItem();
-            this.advancedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.changeProjectFolderRootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resetStoredInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.changeStateWithoutChecksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.programUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.automaticallyCheckAtStartupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkForProgramUpdatesNowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkNowForNextMajorUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveTimeoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.enabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.asSilentlyAsPossibleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.storyUseAdaptItForBackTranslationMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.storyAdaptItVernacularToNationalMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.storyAdaptItVernacularToEnglishMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.storyAdaptItNationalToEnglishMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
+            this.storySynchronizeSharedAdaptItProjectsMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.panoramaToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.panoramaInsertNewStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.panoramaAddNewStoryAfterMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.panoramaShowMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedLocalizationMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedNewProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedChangeProjectFolderRootMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedResetStoredInformationMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedChangeStateWithoutChecksMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedProgramUpdatesToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedProgramUpdatesCheckNowMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedProgramUpdatesCheckNowForNextMajorUpdateMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedSaveTimeoutToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedSaveTimeoutEnabledMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedSaveTimeoutAsSilentlyAsPossibleMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.splitContainerLeftRight = new System.Windows.Forms.SplitContainer();
-            this.splitContainerUpDown = new OneStoryProjectEditor.MinimizableSplitterContainer();
-            this.linkLabelTasks = new System.Windows.Forms.LinkLabel();
-            this.linkLabelVerseBT = new System.Windows.Forms.LinkLabel();
             this.contextMenuStripVerseList = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
-            this.textBoxStoryVerse = new System.Windows.Forms.TextBox();
-            this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.splitContainerMentorNotes = new System.Windows.Forms.SplitContainer();
             this.linkLabelConsultantNotes = new System.Windows.Forms.LinkLabel();
-            this.htmlConsultantNotesControl = new OneStoryProjectEditor.HtmlConsultantNotesControl();
             this.textBoxConsultantNotesTable = new System.Windows.Forms.TextBox();
             this.linkLabelCoachNotes = new System.Windows.Forms.LinkLabel();
-            this.htmlCoachNotesControl = new OneStoryProjectEditor.HtmlCoachNotesControl();
             this.textBoxCoachNotes = new System.Windows.Forms.TextBox();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.toolStripRecordNavigation = new System.Windows.Forms.ToolStrip();
@@ -172,342 +167,353 @@ namespace OneStoryProjectEditor
             this.toolStripButtonPrevious = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonNext = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonLast = new System.Windows.Forms.ToolStripButton();
-            this.buttonsStoryStage = new System.Windows.Forms.ToolStripSplitButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.projectNotesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedOverrideLocalizeStateViewSettingsMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitContainerUpDown = new OneStoryProjectEditor.MinimizableSplitterContainer();
+            this.linkLabelTasks = new System.Windows.Forms.LinkLabel();
+            this.linkLabelVerseBT = new System.Windows.Forms.LinkLabel();
+            this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
+            this.textBoxStoryVerse = new System.Windows.Forms.TextBox();
+            this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
+            this.htmlConsultantNotesControl = new OneStoryProjectEditor.HtmlConsultantNotesControl();
+            this.htmlCoachNotesControl = new OneStoryProjectEditor.HtmlCoachNotesControl();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
             this.splitContainerLeftRight.SuspendLayout();
-            this.splitContainerUpDown.Panel1.SuspendLayout();
-            this.splitContainerUpDown.Panel2.SuspendLayout();
-            this.splitContainerUpDown.SuspendLayout();
             this.splitContainerMentorNotes.Panel1.SuspendLayout();
             this.splitContainerMentorNotes.Panel2.SuspendLayout();
             this.splitContainerMentorNotes.SuspendLayout();
             this.toolStripRecordNavigation.SuspendLayout();
             this.statusStrip.SuspendLayout();
+            this.splitContainerUpDown.Panel1.SuspendLayout();
+            this.splitContainerUpDown.Panel2.SuspendLayout();
+            this.splitContainerUpDown.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.projectToolStripMenuItem,
-            this.editToolStripMenuItem,
+            this.projectToolStripMenu,
+            this.editToolStripMenu,
             this.viewToolStripMenuItem,
             this.comboBoxStorySelector,
-            this.storyToolStripMenuItem,
-            this.panoramaToolStripMenuItem,
-            this.advancedToolStripMenuItem,
-            this.aboutToolStripMenuItem});
+            this.storyToolStripMenu,
+            this.panoramaToolStripMenu,
+            this.advancedToolStripMenu,
+            this.aboutToolStripMenu});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(881, 31);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
-            // projectToolStripMenuItem
+            // projectToolStripMenu
             // 
-            this.projectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.recentProjectsToolStripMenuItem,
-            this.sendReceiveToolStripMenuItem,
-            this.closeProjectToolStripMenuItem,
-            this.saveToolStripMenuItem,
+            this.projectToolStripMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.projectRecentProjectsMenu,
+            this.projectSendReceiveMenu,
+            this.projectCloseProjectMenu,
+            this.projectSaveProjectMenu,
             this.toolStripSeparator1,
-            this.browseForProjectToolStripMenuItem,
-            this.projectFromTheInternetToolStripMenuItem,
-            this.toTheInternetToolStripMenuItem,
-            this.toAThumbdriveToolStripMenuItem,
-            this.projectFromASharedNetworkDriveToolStripMenu,
+            this.projectBrowseForProjectFileMenu,
+            this.projectFromTheInternetMenu,
+            this.projectToTheInternetMenu,
+            this.projectToAThumbdriveMenu,
+            this.projectFromASharedNetworkDriveMenu,
             this.toolStripSeparator4,
-            this.projectSettingsToolStripMenuItem,
-            this.projectLoginToolStripMenuItem,
-            this.exportToToolboxToolStripMenuItem,
+            this.projectSettingsMenu,
+            this.projectLoginMenu,
+            this.projectExportToToolboxMenu,
             this.toolStripSeparator2,
-            this.printPreviewToolStripMenuItem,
+            this.projectPrintMenu,
             this.toolStripSeparator12,
-            this.exitToolStripMenuItem});
-            this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
-            this.projectToolStripMenuItem.Size = new System.Drawing.Size(56, 27);
-            this.projectToolStripMenuItem.Text = "&Project";
-            this.projectToolStripMenuItem.DropDownOpening += new System.EventHandler(this.projectToolStripMenuItem_DropDownOpening);
+            this.projectExitMenu});
+            this.projectToolStripMenu.Name = "projectToolStripMenu";
+            this.projectToolStripMenu.Size = new System.Drawing.Size(56, 27);
+            this.projectToolStripMenu.Text = "&Project";
+            this.projectToolStripMenu.DropDownOpening += new System.EventHandler(this.projectToolStripMenuItem_DropDownOpening);
             // 
-            // recentProjectsToolStripMenuItem
+            // projectRecentProjectsMenu
             // 
-            this.recentProjectsToolStripMenuItem.Name = "recentProjectsToolStripMenuItem";
-            this.recentProjectsToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.recentProjectsToolStripMenuItem.Text = "&Recent projects";
-            this.recentProjectsToolStripMenuItem.ToolTipText = "This shows the projects that have at one time or other been opened on this machin" +
+            this.projectRecentProjectsMenu.Name = "projectRecentProjectsMenu";
+            this.projectRecentProjectsMenu.Size = new System.Drawing.Size(286, 22);
+            this.projectRecentProjectsMenu.Text = "&Recent projects";
+            this.projectRecentProjectsMenu.ToolTipText = "This shows the projects that have at one time or other been opened on this machin" +
                 "e";
             // 
-            // sendReceiveToolStripMenuItem
+            // projectSendReceiveMenu
             // 
-            this.sendReceiveToolStripMenuItem.Name = "sendReceiveToolStripMenuItem";
-            this.sendReceiveToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.sendReceiveToolStripMenuItem.Text = "Sen&d/Receive";
-            this.sendReceiveToolStripMenuItem.ToolTipText = "Click to synchronize this project with the Internet (or thumbdrive) repository";
-            this.sendReceiveToolStripMenuItem.Click += new System.EventHandler(this.sendReceiveToolStripMenuItem_Click);
+            this.projectSendReceiveMenu.Name = "projectSendReceiveMenu";
+            this.projectSendReceiveMenu.Size = new System.Drawing.Size(286, 22);
+            this.projectSendReceiveMenu.Text = "Sen&d/Receive...";
+            this.projectSendReceiveMenu.ToolTipText = "Click to synchronize this project with the Internet (or thumbdrive) repository";
+            this.projectSendReceiveMenu.Click += new System.EventHandler(this.sendReceiveToolStripMenuItem_Click);
             // 
-            // closeProjectToolStripMenuItem
+            // projectCloseProjectMenu
             // 
-            this.closeProjectToolStripMenuItem.Name = "closeProjectToolStripMenuItem";
-            this.closeProjectToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.closeProjectToolStripMenuItem.Text = "&Close project";
-            this.closeProjectToolStripMenuItem.Click += new System.EventHandler(this.closeProjectToolStripMenuItem_Click);
+            this.projectCloseProjectMenu.Name = "projectCloseProjectMenu";
+            this.projectCloseProjectMenu.Size = new System.Drawing.Size(286, 22);
+            this.projectCloseProjectMenu.Text = "&Close project";
+            this.projectCloseProjectMenu.ToolTipText = "Click to save the OneStory project";
+            this.projectCloseProjectMenu.Click += new System.EventHandler(this.closeProjectToolStripMenuItem_Click);
             // 
-            // saveToolStripMenuItem
+            // projectSaveProjectMenu
             // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.saveToolStripMenuItem.Text = "&Save Project";
-            this.saveToolStripMenuItem.ToolTipText = "Click to save the OneStory project";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            this.projectSaveProjectMenu.Name = "projectSaveProjectMenu";
+            this.projectSaveProjectMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.projectSaveProjectMenu.Size = new System.Drawing.Size(286, 22);
+            this.projectSaveProjectMenu.Text = "&Save project";
+            this.projectSaveProjectMenu.ToolTipText = "Click to save the OneStory project";
+            this.projectSaveProjectMenu.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(274, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(283, 6);
             // 
-            // browseForProjectToolStripMenuItem
+            // projectBrowseForProjectFileMenu
             // 
-            this.browseForProjectToolStripMenuItem.Name = "browseForProjectToolStripMenuItem";
-            this.browseForProjectToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.browseForProjectToolStripMenuItem.Text = "&Browse for project file";
-            this.browseForProjectToolStripMenuItem.ToolTipText = "Click this option to open an existing OneStory project that is not in the default" +
-                " project directory.";
-            this.browseForProjectToolStripMenuItem.Click += new System.EventHandler(this.browseForProjectToolStripMenuItem_Click);
+            this.projectBrowseForProjectFileMenu.Name = "projectBrowseForProjectFileMenu";
+            this.projectBrowseForProjectFileMenu.Size = new System.Drawing.Size(286, 22);
+            this.projectBrowseForProjectFileMenu.Text = "&Browse for project file";
+            this.projectBrowseForProjectFileMenu.ToolTipText = "Click this option to open an existing OneStory project";
+            this.projectBrowseForProjectFileMenu.Click += new System.EventHandler(this.browseForProjectToolStripMenuItem_Click);
             // 
-            // projectFromTheInternetToolStripMenuItem
+            // projectFromTheInternetMenu
             // 
-            this.projectFromTheInternetToolStripMenuItem.Name = "projectFromTheInternetToolStripMenuItem";
-            this.projectFromTheInternetToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.projectFromTheInternetToolStripMenuItem.Text = "&From the Internet";
-            this.projectFromTheInternetToolStripMenuItem.ToolTipText = "Click here to enter an Internet address to get a project from (e.g. if your team " +
-                "mates have already uploaded it to the internet repository)";
-            this.projectFromTheInternetToolStripMenuItem.Click += new System.EventHandler(this.projectFromTheInternetToolStripMenuItem_Click);
+            this.projectFromTheInternetMenu.Name = "projectFromTheInternetMenu";
+            this.projectFromTheInternetMenu.Size = new System.Drawing.Size(286, 22);
+            this.projectFromTheInternetMenu.Text = "&From the Internet...";
+            this.projectFromTheInternetMenu.ToolTipText = "Click here to enter an Internet address to get a project from (e.g. if a team mat" +
+                "e has already uploaded it to the internet repository)";
+            this.projectFromTheInternetMenu.Click += new System.EventHandler(this.projectFromTheInternetToolStripMenuItem_Click);
             // 
-            // toTheInternetToolStripMenuItem
+            // projectToTheInternetMenu
             // 
-            this.toTheInternetToolStripMenuItem.Name = "toTheInternetToolStripMenuItem";
-            this.toTheInternetToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.toTheInternetToolStripMenuItem.Text = "&To the Internet";
-            this.toTheInternetToolStripMenuItem.ToolTipText = "Click here to enter the Internet address of the repository to send this project t" +
-                "o (e.g. if someone has created a repository for this project)";
-            this.toTheInternetToolStripMenuItem.Click += new System.EventHandler(this.toTheInternetToolStripMenuItem_Click);
+            this.projectToTheInternetMenu.Name = "projectToTheInternetMenu";
+            this.projectToTheInternetMenu.Size = new System.Drawing.Size(286, 22);
+            this.projectToTheInternetMenu.Text = "&To the Internet...";
+            this.projectToTheInternetMenu.ToolTipText = "Click here to enter the Internet address of the repository to send this project t" +
+                "o (e.g. if you have created a new project and want to \"push\" it to an existing i" +
+                "nternet repository)";
+            this.projectToTheInternetMenu.Click += new System.EventHandler(this.toTheInternetToolStripMenuItem_Click);
             // 
-            // toAThumbdriveToolStripMenuItem
+            // projectToAThumbdriveMenu
             // 
-            this.toAThumbdriveToolStripMenuItem.Name = "toAThumbdriveToolStripMenuItem";
-            this.toAThumbdriveToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.toAThumbdriveToolStripMenuItem.Text = "Transfer via thum&bdrive";
-            this.toAThumbdriveToolStripMenuItem.Click += new System.EventHandler(this.toAThumbdriveToolStripMenuItem_Click);
+            this.projectToAThumbdriveMenu.Name = "projectToAThumbdriveMenu";
+            this.projectToAThumbdriveMenu.Size = new System.Drawing.Size(286, 22);
+            this.projectToAThumbdriveMenu.Text = "Transfer via thum&bdrive...";
+            this.projectToAThumbdriveMenu.ToolTipText = resources.GetString("projectToAThumbdriveMenu.ToolTipText");
+            this.projectToAThumbdriveMenu.Click += new System.EventHandler(this.toAThumbdriveToolStripMenuItem_Click);
             // 
-            // projectFromASharedNetworkDriveToolStripMenu
+            // projectFromASharedNetworkDriveMenu
             // 
-            this.projectFromASharedNetworkDriveToolStripMenu.Name = "projectFromASharedNetworkDriveToolStripMenu";
-            this.projectFromASharedNetworkDriveToolStripMenu.Size = new System.Drawing.Size(277, 22);
-            this.projectFromASharedNetworkDriveToolStripMenu.Text = "&Associate with a shared network folder";
-            this.projectFromASharedNetworkDriveToolStripMenu.ToolTipText = "Click here to associate this project with a repository on a network drive (e.g. f" +
+            this.projectFromASharedNetworkDriveMenu.Name = "projectFromASharedNetworkDriveMenu";
+            this.projectFromASharedNetworkDriveMenu.Size = new System.Drawing.Size(286, 22);
+            this.projectFromASharedNetworkDriveMenu.Text = "&Associate with a shared network folder...";
+            this.projectFromASharedNetworkDriveMenu.ToolTipText = "Click here to associate this project with a repository on a network drive (e.g. f" +
                 "or working together at a workshop where Internet connectivity is difficult).";
-            this.projectFromASharedNetworkDriveToolStripMenu.Click += new System.EventHandler(this.projectFromASharedNetworkDriveToolStripMenu_Click);
+            this.projectFromASharedNetworkDriveMenu.Click += new System.EventHandler(this.projectFromASharedNetworkDriveToolStripMenu_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(274, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(283, 6);
             // 
-            // projectSettingsToolStripMenuItem
+            // projectSettingsMenu
             // 
-            this.projectSettingsToolStripMenuItem.Name = "projectSettingsToolStripMenuItem";
-            this.projectSettingsToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.projectSettingsToolStripMenuItem.Text = "Se&ttings";
-            this.projectSettingsToolStripMenuItem.ToolTipText = "Click this option to go to the Project Settings dialog in order to either log in " +
-                "as a team member, add a new team member, or edit the language properties (fonts," +
-                " keyboards, etc)";
-            this.projectSettingsToolStripMenuItem.Click += new System.EventHandler(this.projectSettingsToolStripMenuItem_Click);
+            this.projectSettingsMenu.Name = "projectSettingsMenu";
+            this.projectSettingsMenu.Size = new System.Drawing.Size(286, 22);
+            this.projectSettingsMenu.Text = "Se&ttings...";
+            this.projectSettingsMenu.ToolTipText = "Click here to open the Project Settings dialog in order to edit the language prop" +
+                "erties (fonts, keyboards, etc) or other project configuration information";
+            this.projectSettingsMenu.Click += new System.EventHandler(this.projectSettingsToolStripMenuItem_Click);
             // 
-            // projectLoginToolStripMenuItem
+            // projectLoginMenu
             // 
-            this.projectLoginToolStripMenuItem.Name = "projectLoginToolStripMenuItem";
-            this.projectLoginToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.projectLoginToolStripMenuItem.Text = "&Login";
-            this.projectLoginToolStripMenuItem.ToolTipText = "Click to login with a specific name/role";
-            this.projectLoginToolStripMenuItem.Click += new System.EventHandler(this.projectLoginToolStripMenuItem_Click);
+            this.projectLoginMenu.Name = "projectLoginMenu";
+            this.projectLoginMenu.Size = new System.Drawing.Size(286, 22);
+            this.projectLoginMenu.Text = "&Login...";
+            this.projectLoginMenu.ToolTipText = "Click to login as a specific member name";
+            this.projectLoginMenu.Click += new System.EventHandler(this.projectLoginToolStripMenuItem_Click);
             // 
-            // exportToToolboxToolStripMenuItem
+            // projectExportToToolboxMenu
             // 
-            this.exportToToolboxToolStripMenuItem.Name = "exportToToolboxToolStripMenuItem";
-            this.exportToToolboxToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.exportToToolboxToolStripMenuItem.Text = "E&xport to Toolbox";
-            this.exportToToolboxToolStripMenuItem.Click += new System.EventHandler(this.exportToToolboxToolStripMenuItem_Click);
+            this.projectExportToToolboxMenu.Name = "projectExportToToolboxMenu";
+            this.projectExportToToolboxMenu.Size = new System.Drawing.Size(286, 22);
+            this.projectExportToToolboxMenu.Text = "E&xport to Toolbox";
+            this.projectExportToToolboxMenu.ToolTipText = "Click here to export the OneStory Editor project to a Toolbox readable format (in" +
+                " the \'Toolbox\' sub-folder of the OSE project folder)";
+            this.projectExportToToolboxMenu.Click += new System.EventHandler(this.exportToToolboxToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(274, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(283, 6);
             // 
-            // printPreviewToolStripMenuItem
+            // projectPrintMenu
             // 
-            this.printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
-            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.printPreviewToolStripMenuItem.Text = "&Print";
-            this.printPreviewToolStripMenuItem.ToolTipText = "Click here to configure a print preview of the stories that can then be printed";
-            this.printPreviewToolStripMenuItem.Click += new System.EventHandler(this.printPreviewToolStripMenuItem_Click);
+            this.projectPrintMenu.Name = "projectPrintMenu";
+            this.projectPrintMenu.Size = new System.Drawing.Size(286, 22);
+            this.projectPrintMenu.Text = "&Print...";
+            this.projectPrintMenu.ToolTipText = "Click here to configure a print preview of the stories that can then be printed o" +
+                "r saved in HTML format";
+            this.projectPrintMenu.Click += new System.EventHandler(this.printPreviewToolStripMenuItem_Click);
             // 
             // toolStripSeparator12
             // 
             this.toolStripSeparator12.Name = "toolStripSeparator12";
-            this.toolStripSeparator12.Size = new System.Drawing.Size(274, 6);
+            this.toolStripSeparator12.Size = new System.Drawing.Size(283, 6);
             // 
-            // exitToolStripMenuItem
+            // projectExitMenu
             // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.exitToolStripMenuItem.Text = "&Exit";
-            this.exitToolStripMenuItem.ToolTipText = "Click to exit the program and synchronize with the internet repository";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.projectExitMenu.Name = "projectExitMenu";
+            this.projectExitMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.projectExitMenu.Size = new System.Drawing.Size(286, 22);
+            this.projectExitMenu.Text = "&Exit";
+            this.projectExitMenu.ToolTipText = "Click to exit the program and synchronize with the internet repositories";
+            this.projectExitMenu.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
-            // editToolStripMenuItem
+            // editToolStripMenu
             // 
-            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.copyToolStripMenuItem,
-            this.pasteToolStripMenuItem,
-            this.deleteBackTranslationToolStripMenuItem,
+            this.editToolStripMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editCopyToolStripMenu,
+            this.editPasteMenu,
+            this.editDeleteToolStripMenu,
             this.toolStripSeparator9,
-            this.editFindToolStripMenuItem,
-            this.findNextToolStripMenuItem,
-            this.replaceToolStripMenuItem,
+            this.editFindMenu,
+            this.editFindNextMenu,
+            this.editReplaceMenu,
             this.toolStripSeparator10,
-            this.editAddRetellingTestResultsToolStripMenuItem,
-            this.editAddInferenceTestResultsToolStripMenuItem,
-            this.addgeneralTestQuestionToolStripMenuItem});
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 27);
-            this.editToolStripMenuItem.Text = "&Edit";
-            this.editToolStripMenuItem.DropDownOpening += new System.EventHandler(this.editToolStripMenuItem_DropDownOpening);
+            this.editAddRetellingTestResultsMenu,
+            this.editAddInferenceTestResultsMenu,
+            this.editAddGeneralTestQuestionMenu});
+            this.editToolStripMenu.Name = "editToolStripMenu";
+            this.editToolStripMenu.Size = new System.Drawing.Size(39, 27);
+            this.editToolStripMenu.Text = "&Edit";
+            this.editToolStripMenu.DropDownOpening += new System.EventHandler(this.editToolStripMenuItem_DropDownOpening);
             // 
-            // copyToolStripMenuItem
+            // editCopyToolStripMenu
             // 
-            this.copyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.editCopySelectionToolStripMenuItem,
-            this.copyStoryToolStripMenuItem,
-            this.copyNationalBackTranslationToolStripMenuItem,
-            this.copyEnglishBackTranslationToolStripMenuItem,
-            this.copyFreeTranslationMenuItem});
-            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
-            this.copyToolStripMenuItem.Text = "&Copy";
+            this.editCopyToolStripMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editCopySelectionMenu,
+            this.editCopyStoryMenu,
+            this.editCopyNationalBtMenu,
+            this.editCopyEnglishBtMenu,
+            this.editCopyFreeTranslationMenu});
+            this.editCopyToolStripMenu.Name = "editCopyToolStripMenu";
+            this.editCopyToolStripMenu.Size = new System.Drawing.Size(269, 22);
+            this.editCopyToolStripMenu.Text = "&Copy";
             // 
-            // editCopySelectionToolStripMenuItem
+            // editCopySelectionMenu
             // 
-            this.editCopySelectionToolStripMenuItem.Name = "editCopySelectionToolStripMenuItem";
-            this.editCopySelectionToolStripMenuItem.Size = new System.Drawing.Size(386, 22);
-            this.editCopySelectionToolStripMenuItem.Text = "Sele&ction";
-            this.editCopySelectionToolStripMenuItem.ToolTipText = "Copy the selected text from the active text box to the clipboard";
-            this.editCopySelectionToolStripMenuItem.Click += new System.EventHandler(this.editCopySelectionToolStripMenuItem_Click);
+            this.editCopySelectionMenu.Name = "editCopySelectionMenu";
+            this.editCopySelectionMenu.Size = new System.Drawing.Size(386, 22);
+            this.editCopySelectionMenu.Text = "Sele&ction";
+            this.editCopySelectionMenu.ToolTipText = "Copy the selected text from the active text box to the clipboard";
+            this.editCopySelectionMenu.Click += new System.EventHandler(this.editCopySelectionToolStripMenuItem_Click);
             // 
-            // copyStoryToolStripMenuItem
+            // editCopyStoryMenu
             // 
-            this.copyStoryToolStripMenuItem.Name = "copyStoryToolStripMenuItem";
-            this.copyStoryToolStripMenuItem.Size = new System.Drawing.Size(386, 22);
-            this.copyStoryToolStripMenuItem.Text = "&Story";
-            this.copyStoryToolStripMenuItem.ToolTipText = "Copy all of the lines of text in the story language into one big paragraph of tex" +
+            this.editCopyStoryMenu.Name = "editCopyStoryMenu";
+            this.editCopyStoryMenu.Size = new System.Drawing.Size(386, 22);
+            this.editCopyStoryMenu.Text = "&Story";
+            this.editCopyStoryMenu.ToolTipText = "Copy all of the lines of text in the story language into one big paragraph of tex" +
                 "t";
-            this.copyStoryToolStripMenuItem.Click += new System.EventHandler(this.copyStoryToolStripMenuItem_Click);
+            this.editCopyStoryMenu.Click += new System.EventHandler(this.copyStoryToolStripMenuItem_Click);
             // 
-            // copyNationalBackTranslationToolStripMenuItem
+            // editCopyNationalBtMenu
             // 
-            this.copyNationalBackTranslationToolStripMenuItem.Name = "copyNationalBackTranslationToolStripMenuItem";
-            this.copyNationalBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(386, 22);
-            this.copyNationalBackTranslationToolStripMenuItem.Text = "&National back-translation";
-            this.copyNationalBackTranslationToolStripMenuItem.ToolTipText = "Copy all of the lines of text in the National back-translation language into one " +
+            this.editCopyNationalBtMenu.Name = "editCopyNationalBtMenu";
+            this.editCopyNationalBtMenu.Size = new System.Drawing.Size(386, 22);
+            this.editCopyNationalBtMenu.Text = "&National back-translation";
+            this.editCopyNationalBtMenu.ToolTipText = "Copy all of the lines of text in the National back-translation language into one " +
                 "big paragraph of text";
-            this.copyNationalBackTranslationToolStripMenuItem.Click += new System.EventHandler(this.copyNationalBackTranslationToolStripMenuItem_Click);
+            this.editCopyNationalBtMenu.Click += new System.EventHandler(this.copyNationalBackTranslationToolStripMenuItem_Click);
             // 
-            // copyEnglishBackTranslationToolStripMenuItem
+            // editCopyEnglishBtMenu
             // 
-            this.copyEnglishBackTranslationToolStripMenuItem.Name = "copyEnglishBackTranslationToolStripMenuItem";
-            this.copyEnglishBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(386, 22);
-            this.copyEnglishBackTranslationToolStripMenuItem.Text = "&English back-translation of the whole story to the clipboard";
-            this.copyEnglishBackTranslationToolStripMenuItem.ToolTipText = "Copy all of the lines of text in the English back-translation into one big paragr" +
+            this.editCopyEnglishBtMenu.Name = "editCopyEnglishBtMenu";
+            this.editCopyEnglishBtMenu.Size = new System.Drawing.Size(386, 22);
+            this.editCopyEnglishBtMenu.Text = "&English back-translation of the whole story to the clipboard";
+            this.editCopyEnglishBtMenu.ToolTipText = "Copy all of the lines of text in the English back-translation into one big paragr" +
                 "aph of text";
-            this.copyEnglishBackTranslationToolStripMenuItem.Click += new System.EventHandler(this.copyEnglishBackTranslationToolStripMenuItem_Click);
+            this.editCopyEnglishBtMenu.Click += new System.EventHandler(this.copyEnglishBackTranslationToolStripMenuItem_Click);
             // 
-            // copyFreeTranslationMenuItem
+            // editCopyFreeTranslationMenu
             // 
-            this.copyFreeTranslationMenuItem.Name = "copyFreeTranslationMenuItem";
-            this.copyFreeTranslationMenuItem.Size = new System.Drawing.Size(386, 22);
-            this.copyFreeTranslationMenuItem.Text = "&Free translation of the whole story to the clipboard";
-            this.copyFreeTranslationMenuItem.ToolTipText = "Copy all of the lines of text in the Free translation into one big paragraph of t" +
+            this.editCopyFreeTranslationMenu.Name = "editCopyFreeTranslationMenu";
+            this.editCopyFreeTranslationMenu.Size = new System.Drawing.Size(386, 22);
+            this.editCopyFreeTranslationMenu.Text = "&Free translation of the whole story to the clipboard";
+            this.editCopyFreeTranslationMenu.ToolTipText = "Copy all of the lines of text in the Free translation into one big paragraph of t" +
                 "ext";
-            this.copyFreeTranslationMenuItem.Click += new System.EventHandler(this.copyFreeTranslationMenuItem_Click);
+            this.editCopyFreeTranslationMenu.Click += new System.EventHandler(this.copyFreeTranslationMenuItem_Click);
             // 
-            // pasteToolStripMenuItem
+            // editPasteMenu
             // 
-            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
-            this.pasteToolStripMenuItem.Text = "&Paste";
-            this.pasteToolStripMenuItem.ToolTipText = "Paste the contents of the clipboard into the currently selected text box";
-            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
+            this.editPasteMenu.Name = "editPasteMenu";
+            this.editPasteMenu.Size = new System.Drawing.Size(269, 22);
+            this.editPasteMenu.Text = "&Paste";
+            this.editPasteMenu.ToolTipText = "Paste the contents of the clipboard into the currently selected text box";
+            this.editPasteMenu.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
-            // deleteBackTranslationToolStripMenuItem
+            // editDeleteToolStripMenu
             // 
-            this.deleteBackTranslationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.deleteStoryVersesToolStripMenuItem,
-            this.deleteStoryNationalBackTranslationToolStripMenuItem,
-            this.deleteEnglishBacktranslationToolStripMenuItem,
-            this.deleteFreeTranslationToolStripMenuItem,
-            this.deleteTestToolStripMenuItem});
-            this.deleteBackTranslationToolStripMenuItem.Name = "deleteBackTranslationToolStripMenuItem";
-            this.deleteBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
-            this.deleteBackTranslationToolStripMenuItem.Text = "&Delete";
+            this.editDeleteToolStripMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editDeleteStoryLinesMenu,
+            this.editDeleteNationalBtMenu,
+            this.editDeleteEnglishBtMenu,
+            this.editDeleteFreeTranslationMenu,
+            this.editDeleteTestToolStripMenu});
+            this.editDeleteToolStripMenu.Name = "editDeleteToolStripMenu";
+            this.editDeleteToolStripMenu.Size = new System.Drawing.Size(269, 22);
+            this.editDeleteToolStripMenu.Text = "&Delete";
             // 
-            // deleteStoryVersesToolStripMenuItem
+            // editDeleteStoryLinesMenu
             // 
-            this.deleteStoryVersesToolStripMenuItem.Name = "deleteStoryVersesToolStripMenuItem";
-            this.deleteStoryVersesToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
-            this.deleteStoryVersesToolStripMenuItem.Text = "&Story (all lines)";
-            this.deleteStoryVersesToolStripMenuItem.ToolTipText = "Delete the contents of all of the text boxes of the story in the story language (" +
+            this.editDeleteStoryLinesMenu.Name = "editDeleteStoryLinesMenu";
+            this.editDeleteStoryLinesMenu.Size = new System.Drawing.Size(310, 22);
+            this.editDeleteStoryLinesMenu.Text = "&Story (all lines)";
+            this.editDeleteStoryLinesMenu.ToolTipText = "Delete the contents of all of the text boxes of the story in the story language (" +
                 "the lines will remain, but just be emptied)";
-            this.deleteStoryVersesToolStripMenuItem.Click += new System.EventHandler(this.deleteStoryVersesToolStripMenuItem_Click);
+            this.editDeleteStoryLinesMenu.Click += new System.EventHandler(this.deleteStoryVersesToolStripMenuItem_Click);
             // 
-            // deleteStoryNationalBackTranslationToolStripMenuItem
+            // editDeleteNationalBtMenu
             // 
-            this.deleteStoryNationalBackTranslationToolStripMenuItem.Name = "deleteStoryNationalBackTranslationToolStripMenuItem";
-            this.deleteStoryNationalBackTranslationToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
-            this.deleteStoryNationalBackTranslationToolStripMenuItem.Text = "&National language back-translation (all lines)";
-            this.deleteStoryNationalBackTranslationToolStripMenuItem.ToolTipText = "Delete the contents of all of the text boxes of the national back-translation of " +
+            this.editDeleteNationalBtMenu.Name = "editDeleteNationalBtMenu";
+            this.editDeleteNationalBtMenu.Size = new System.Drawing.Size(310, 22);
+            this.editDeleteNationalBtMenu.Text = "&National language back-translation (all lines)";
+            this.editDeleteNationalBtMenu.ToolTipText = "Delete the contents of all of the text boxes of the national back-translation of " +
                 "the story (the lines will remain, but just be emptied)";
-            this.deleteStoryNationalBackTranslationToolStripMenuItem.Click += new System.EventHandler(this.deleteStoryNationalBackTranslationToolStripMenuItem_Click);
+            this.editDeleteNationalBtMenu.Click += new System.EventHandler(this.deleteStoryNationalBackTranslationToolStripMenuItem_Click);
             // 
-            // deleteEnglishBacktranslationToolStripMenuItem
+            // editDeleteEnglishBtMenu
             // 
-            this.deleteEnglishBacktranslationToolStripMenuItem.Name = "deleteEnglishBacktranslationToolStripMenuItem";
-            this.deleteEnglishBacktranslationToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
-            this.deleteEnglishBacktranslationToolStripMenuItem.Text = "&English back-translation (all lines)";
-            this.deleteEnglishBacktranslationToolStripMenuItem.ToolTipText = "Delete the contents of all of the text boxes of the English back-translation of t" +
+            this.editDeleteEnglishBtMenu.Name = "editDeleteEnglishBtMenu";
+            this.editDeleteEnglishBtMenu.Size = new System.Drawing.Size(310, 22);
+            this.editDeleteEnglishBtMenu.Text = "&English back-translation (all lines)";
+            this.editDeleteEnglishBtMenu.ToolTipText = "Delete the contents of all of the text boxes of the English back-translation of t" +
                 "he story (the lines will remain, but just be emptied)";
-            this.deleteEnglishBacktranslationToolStripMenuItem.Click += new System.EventHandler(this.deleteEnglishBacktranslationToolStripMenuItem_Click);
+            this.editDeleteEnglishBtMenu.Click += new System.EventHandler(this.deleteEnglishBacktranslationToolStripMenuItem_Click);
             // 
-            // deleteFreeTranslationToolStripMenuItem
+            // editDeleteFreeTranslationMenu
             // 
-            this.deleteFreeTranslationToolStripMenuItem.Name = "deleteFreeTranslationToolStripMenuItem";
-            this.deleteFreeTranslationToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
-            this.deleteFreeTranslationToolStripMenuItem.Text = "&Free translation (all lines)";
-            this.deleteFreeTranslationToolStripMenuItem.ToolTipText = "Delete the contents of all of the text boxes of the Free translation of the story" +
+            this.editDeleteFreeTranslationMenu.Name = "editDeleteFreeTranslationMenu";
+            this.editDeleteFreeTranslationMenu.Size = new System.Drawing.Size(310, 22);
+            this.editDeleteFreeTranslationMenu.Text = "&Free translation (all lines)";
+            this.editDeleteFreeTranslationMenu.ToolTipText = "Delete the contents of all of the text boxes of the Free translation of the story" +
                 " (the lines will remain, but just be emptied)";
-            this.deleteFreeTranslationToolStripMenuItem.Click += new System.EventHandler(this.deleteFreeTranslationToolStripMenuItem_Click);
+            this.editDeleteFreeTranslationMenu.Click += new System.EventHandler(this.deleteFreeTranslationToolStripMenuItem_Click);
             // 
-            // deleteTestToolStripMenuItem
+            // editDeleteTestToolStripMenu
             // 
-            this.deleteTestToolStripMenuItem.Name = "deleteTestToolStripMenuItem";
-            this.deleteTestToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
-            this.deleteTestToolStripMenuItem.Text = "&Test";
-            this.deleteTestToolStripMenuItem.ToolTipText = "Delete the answers to the testing questions and the retellings associated with a " +
+            this.editDeleteTestToolStripMenu.Name = "editDeleteTestToolStripMenu";
+            this.editDeleteTestToolStripMenu.Size = new System.Drawing.Size(310, 22);
+            this.editDeleteTestToolStripMenu.Text = "&Test";
+            this.editDeleteTestToolStripMenu.ToolTipText = "Delete the answers to the testing questions and the retellings associated with a " +
                 "particular testing helper (UNS). The text boxes will be deleted completely";
             // 
             // toolStripSeparator9
@@ -515,176 +521,176 @@ namespace OneStoryProjectEditor
             this.toolStripSeparator9.Name = "toolStripSeparator9";
             this.toolStripSeparator9.Size = new System.Drawing.Size(266, 6);
             // 
-            // editFindToolStripMenuItem
+            // editFindMenu
             // 
-            this.editFindToolStripMenuItem.Enabled = false;
-            this.editFindToolStripMenuItem.Name = "editFindToolStripMenuItem";
-            this.editFindToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.editFindToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
-            this.editFindToolStripMenuItem.Text = "&Find";
-            this.editFindToolStripMenuItem.Click += new System.EventHandler(this.editFindToolStripMenuItem_Click);
+            this.editFindMenu.Enabled = false;
+            this.editFindMenu.Name = "editFindMenu";
+            this.editFindMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.editFindMenu.Size = new System.Drawing.Size(269, 22);
+            this.editFindMenu.Text = "&Find";
+            this.editFindMenu.Click += new System.EventHandler(this.editFindToolStripMenuItem_Click);
             // 
-            // findNextToolStripMenuItem
+            // editFindNextMenu
             // 
-            this.findNextToolStripMenuItem.Enabled = false;
-            this.findNextToolStripMenuItem.Name = "findNextToolStripMenuItem";
-            this.findNextToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
-            this.findNextToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
-            this.findNextToolStripMenuItem.Text = "Find &Next";
-            this.findNextToolStripMenuItem.Click += new System.EventHandler(this.findNextToolStripMenuItem_Click);
+            this.editFindNextMenu.Enabled = false;
+            this.editFindNextMenu.Name = "editFindNextMenu";
+            this.editFindNextMenu.ShortcutKeys = System.Windows.Forms.Keys.F3;
+            this.editFindNextMenu.Size = new System.Drawing.Size(269, 22);
+            this.editFindNextMenu.Text = "Find &Next";
+            this.editFindNextMenu.Click += new System.EventHandler(this.findNextToolStripMenuItem_Click);
             // 
-            // replaceToolStripMenuItem
+            // editReplaceMenu
             // 
-            this.replaceToolStripMenuItem.Enabled = false;
-            this.replaceToolStripMenuItem.Name = "replaceToolStripMenuItem";
-            this.replaceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
-            this.replaceToolStripMenuItem.Text = "&Replace";
-            this.replaceToolStripMenuItem.Click += new System.EventHandler(this.replaceToolStripMenuItem_Click);
+            this.editReplaceMenu.Enabled = false;
+            this.editReplaceMenu.Name = "editReplaceMenu";
+            this.editReplaceMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+            this.editReplaceMenu.Size = new System.Drawing.Size(269, 22);
+            this.editReplaceMenu.Text = "&Replace";
+            this.editReplaceMenu.Click += new System.EventHandler(this.replaceToolStripMenuItem_Click);
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
             this.toolStripSeparator10.Size = new System.Drawing.Size(266, 6);
             // 
-            // editAddRetellingTestResultsToolStripMenuItem
+            // editAddRetellingTestResultsMenu
             // 
-            this.editAddRetellingTestResultsToolStripMenuItem.Name = "editAddRetellingTestResultsToolStripMenuItem";
-            this.editAddRetellingTestResultsToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
-            this.editAddRetellingTestResultsToolStripMenuItem.Text = "&Add retelling test boxes";
-            this.editAddRetellingTestResultsToolStripMenuItem.ToolTipText = "Click here to add boxes for the retellings of the story";
-            this.editAddRetellingTestResultsToolStripMenuItem.Click += new System.EventHandler(this.editAddTestResultsToolStripMenuItem_Click);
+            this.editAddRetellingTestResultsMenu.Name = "editAddRetellingTestResultsMenu";
+            this.editAddRetellingTestResultsMenu.Size = new System.Drawing.Size(269, 22);
+            this.editAddRetellingTestResultsMenu.Text = "&Add retelling test boxes";
+            this.editAddRetellingTestResultsMenu.ToolTipText = "Click here to add boxes for the retellings of the story";
+            this.editAddRetellingTestResultsMenu.Click += new System.EventHandler(this.editAddTestResultsToolStripMenuItem_Click);
             // 
-            // editAddInferenceTestResultsToolStripMenuItem
+            // editAddInferenceTestResultsMenu
             // 
-            this.editAddInferenceTestResultsToolStripMenuItem.Name = "editAddInferenceTestResultsToolStripMenuItem";
-            this.editAddInferenceTestResultsToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
-            this.editAddInferenceTestResultsToolStripMenuItem.Text = "Add &story test question answer boxes";
-            this.editAddInferenceTestResultsToolStripMenuItem.ToolTipText = "Click here to add boxes for the answers to the testing questions";
-            this.editAddInferenceTestResultsToolStripMenuItem.Click += new System.EventHandler(this.editAddInferenceTestResultsToolStripMenuItem_Click);
+            this.editAddInferenceTestResultsMenu.Name = "editAddInferenceTestResultsMenu";
+            this.editAddInferenceTestResultsMenu.Size = new System.Drawing.Size(269, 22);
+            this.editAddInferenceTestResultsMenu.Text = "Add &story test question answer boxes";
+            this.editAddInferenceTestResultsMenu.ToolTipText = "Click here to add boxes for the answers to the testing questions";
+            this.editAddInferenceTestResultsMenu.Click += new System.EventHandler(this.editAddInferenceTestResultsToolStripMenuItem_Click);
             // 
-            // addgeneralTestQuestionToolStripMenuItem
+            // editAddGeneralTestQuestionMenu
             // 
-            this.addgeneralTestQuestionToolStripMenuItem.Name = "addgeneralTestQuestionToolStripMenuItem";
-            this.addgeneralTestQuestionToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
-            this.addgeneralTestQuestionToolStripMenuItem.Text = "Add &general test question";
-            this.addgeneralTestQuestionToolStripMenuItem.Click += new System.EventHandler(this.addgeneralTestQuestionToolStripMenuItem_Click);
+            this.editAddGeneralTestQuestionMenu.Name = "editAddGeneralTestQuestionMenu";
+            this.editAddGeneralTestQuestionMenu.Size = new System.Drawing.Size(269, 22);
+            this.editAddGeneralTestQuestionMenu.Text = "Add &general test question";
+            this.editAddGeneralTestQuestionMenu.Click += new System.EventHandler(this.addgeneralTestQuestionToolStripMenuItem_Click);
             // 
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showHideFieldsToolStripMenuItem,
-            this.useSameSettingsForAllStoriesToolStripMenuItem,
+            this.viewShowHideFieldsMenu,
+            this.viewUseSameSettingsForAllStoriesMenu,
             this.toolStripSeparator5,
-            this.viewVernacularLangFieldMenuItem,
-            this.viewNationalLangFieldMenuItem,
-            this.viewEnglishBTFieldMenuItem,
-            this.viewFreeTranslationToolStripMenuItem,
-            this.viewAnchorFieldMenuItem,
+            this.viewVernacularLangMenu,
+            this.viewNationalLangMenu,
+            this.viewEnglishBtMenu,
+            this.viewFreeTranslationMenu,
+            this.viewAnchorsMenu,
             this.viewExegeticalHelps,
-            this.viewGeneralTestingQuestionMenuItem,
-            this.viewStoryTestingQuestionMenuItem,
-            this.viewStoryTestingQuestionAnswerMenuItem,
-            this.viewRetellingFieldMenuItem,
+            this.viewGeneralTestingsQuestionMenu,
+            this.viewStoryTestingQuestionsMenu,
+            this.viewStoryTestingQuestionAnswersMenu,
+            this.viewRetellingsMenu,
             this.toolStripSeparator6,
-            this.viewConsultantNoteFieldMenuItem,
-            this.viewCoachNotesFieldMenuItem,
+            this.viewConsultantNotesMenu,
+            this.viewCoachNotesMenu,
             this.toolStripSeparator3,
-            this.viewNetBibleMenuItem,
+            this.viewBibleMenu,
             this.toolStripSeparator7,
-            this.refreshToolStripMenuItem,
+            this.viewRefreshMenu,
             this.toolStripSeparator8,
-            this.historicalDifferencesToolStripMenuItem,
+            this.viewHistoricalDifferencesMenu,
             this.viewLnCNotesMenu,
-            this.concordanceToolStripMenuItem,
-            this.stateTransitionHistoryToolStripMenuItem,
-            this.projectNotesToolStripMenuItem,
-            this.viewOldStoriesToolStripMenuItem,
+            this.viewConcordanceMenu,
+            this.viewStateTransitionHistoryMenu,
+            this.viewProjectNotesMenu,
+            this.viewOldStoriesMenu,
             this.toolStripSeparator11,
-            this.hiddenVersesToolStripMenuItem,
+            this.viewHiddenVersesMenu,
             this.viewOnlyOpenConversationsMenu,
             this.toolStripSeparator13,
-            this.viewTransliterationsToolStripMenuItem});
+            this.viewTransliterationsToolStripMenu});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 27);
             this.viewToolStripMenuItem.Text = "&View";
             this.viewToolStripMenuItem.DropDownOpening += new System.EventHandler(this.viewToolStripMenuItem_DropDownOpening);
             // 
-            // showHideFieldsToolStripMenuItem
+            // viewShowHideFieldsMenu
             // 
-            this.showHideFieldsToolStripMenuItem.Name = "showHideFieldsToolStripMenuItem";
-            this.showHideFieldsToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.showHideFieldsToolStripMenuItem.Text = "&Show/Hide multiple fields at once";
-            this.showHideFieldsToolStripMenuItem.Click += new System.EventHandler(this.showHideFieldsToolStripMenuItem_Click);
+            this.viewShowHideFieldsMenu.Name = "viewShowHideFieldsMenu";
+            this.viewShowHideFieldsMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewShowHideFieldsMenu.Text = "&Show/Hide multiple fields at once...";
+            this.viewShowHideFieldsMenu.Click += new System.EventHandler(this.showHideFieldsToolStripMenuItem_Click);
             // 
-            // useSameSettingsForAllStoriesToolStripMenuItem
+            // viewUseSameSettingsForAllStoriesMenu
             // 
-            this.useSameSettingsForAllStoriesToolStripMenuItem.CheckOnClick = true;
-            this.useSameSettingsForAllStoriesToolStripMenuItem.Name = "useSameSettingsForAllStoriesToolStripMenuItem";
-            this.useSameSettingsForAllStoriesToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.useSameSettingsForAllStoriesToolStripMenuItem.Text = "&Use same settings for all stories";
-            this.useSameSettingsForAllStoriesToolStripMenuItem.Click += new System.EventHandler(this.useSameSettingsForAllStoriesToolStripMenuItem_Click);
+            this.viewUseSameSettingsForAllStoriesMenu.CheckOnClick = true;
+            this.viewUseSameSettingsForAllStoriesMenu.Name = "viewUseSameSettingsForAllStoriesMenu";
+            this.viewUseSameSettingsForAllStoriesMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewUseSameSettingsForAllStoriesMenu.Text = "&Use same settings for all stories";
+            this.viewUseSameSettingsForAllStoriesMenu.Click += new System.EventHandler(this.useSameSettingsForAllStoriesToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(281, 6);
             // 
-            // viewVernacularLangFieldMenuItem
+            // viewVernacularLangMenu
             // 
-            this.viewVernacularLangFieldMenuItem.Checked = true;
-            this.viewVernacularLangFieldMenuItem.CheckOnClick = true;
-            this.viewVernacularLangFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewVernacularLangFieldMenuItem.Name = "viewVernacularLangFieldMenuItem";
-            this.viewVernacularLangFieldMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.viewVernacularLangFieldMenuItem.Text = "Story &Language field";
-            this.viewVernacularLangFieldMenuItem.ToolTipText = "Show the text boxes for the story lines in the story language";
-            this.viewVernacularLangFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
+            this.viewVernacularLangMenu.Checked = true;
+            this.viewVernacularLangMenu.CheckOnClick = true;
+            this.viewVernacularLangMenu.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewVernacularLangMenu.Name = "viewVernacularLangMenu";
+            this.viewVernacularLangMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewVernacularLangMenu.Text = "Story &Language field";
+            this.viewVernacularLangMenu.ToolTipText = "Show the text boxes for the story lines in the story language";
+            this.viewVernacularLangMenu.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
-            // viewNationalLangFieldMenuItem
+            // viewNationalLangMenu
             // 
-            this.viewNationalLangFieldMenuItem.Checked = true;
-            this.viewNationalLangFieldMenuItem.CheckOnClick = true;
-            this.viewNationalLangFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewNationalLangFieldMenuItem.Name = "viewNationalLangFieldMenuItem";
-            this.viewNationalLangFieldMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.viewNationalLangFieldMenuItem.Text = "National language &back translation field";
-            this.viewNationalLangFieldMenuItem.ToolTipText = "Show the text boxes for the national language back-translation of the story lines" +
+            this.viewNationalLangMenu.Checked = true;
+            this.viewNationalLangMenu.CheckOnClick = true;
+            this.viewNationalLangMenu.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewNationalLangMenu.Name = "viewNationalLangMenu";
+            this.viewNationalLangMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewNationalLangMenu.Text = "National language &back translation field";
+            this.viewNationalLangMenu.ToolTipText = "Show the text boxes for the national language back-translation of the story lines" +
                 "";
-            this.viewNationalLangFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
+            this.viewNationalLangMenu.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
-            // viewEnglishBTFieldMenuItem
+            // viewEnglishBtMenu
             // 
-            this.viewEnglishBTFieldMenuItem.Checked = true;
-            this.viewEnglishBTFieldMenuItem.CheckOnClick = true;
-            this.viewEnglishBTFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewEnglishBTFieldMenuItem.Name = "viewEnglishBTFieldMenuItem";
-            this.viewEnglishBTFieldMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.viewEnglishBTFieldMenuItem.Text = "&English back translation fields";
-            this.viewEnglishBTFieldMenuItem.ToolTipText = "Show the text boxes for the English language back-translation of the story lines";
-            this.viewEnglishBTFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
+            this.viewEnglishBtMenu.Checked = true;
+            this.viewEnglishBtMenu.CheckOnClick = true;
+            this.viewEnglishBtMenu.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewEnglishBtMenu.Name = "viewEnglishBtMenu";
+            this.viewEnglishBtMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewEnglishBtMenu.Text = "&English back translation fields";
+            this.viewEnglishBtMenu.ToolTipText = "Show the text boxes for the English language back-translation of the story lines";
+            this.viewEnglishBtMenu.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
-            // viewFreeTranslationToolStripMenuItem
+            // viewFreeTranslationMenu
             // 
-            this.viewFreeTranslationToolStripMenuItem.Checked = true;
-            this.viewFreeTranslationToolStripMenuItem.CheckOnClick = true;
-            this.viewFreeTranslationToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewFreeTranslationToolStripMenuItem.Name = "viewFreeTranslationToolStripMenuItem";
-            this.viewFreeTranslationToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.viewFreeTranslationToolStripMenuItem.Text = "&Free Translation";
-            this.viewFreeTranslationToolStripMenuItem.ToolTipText = "Show the text boxes for the Free Translation of the story lines";
-            this.viewFreeTranslationToolStripMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
+            this.viewFreeTranslationMenu.Checked = true;
+            this.viewFreeTranslationMenu.CheckOnClick = true;
+            this.viewFreeTranslationMenu.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewFreeTranslationMenu.Name = "viewFreeTranslationMenu";
+            this.viewFreeTranslationMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewFreeTranslationMenu.Text = "&Free Translation";
+            this.viewFreeTranslationMenu.ToolTipText = "Show the text boxes for the Free Translation of the story lines";
+            this.viewFreeTranslationMenu.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
-            // viewAnchorFieldMenuItem
+            // viewAnchorsMenu
             // 
-            this.viewAnchorFieldMenuItem.Checked = true;
-            this.viewAnchorFieldMenuItem.CheckOnClick = true;
-            this.viewAnchorFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewAnchorFieldMenuItem.Name = "viewAnchorFieldMenuItem";
-            this.viewAnchorFieldMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.viewAnchorFieldMenuItem.Text = "&Anchors";
-            this.viewAnchorFieldMenuItem.ToolTipText = "Show the Anchor toolbar";
-            this.viewAnchorFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
+            this.viewAnchorsMenu.Checked = true;
+            this.viewAnchorsMenu.CheckOnClick = true;
+            this.viewAnchorsMenu.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewAnchorsMenu.Name = "viewAnchorsMenu";
+            this.viewAnchorsMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewAnchorsMenu.Text = "&Anchors";
+            this.viewAnchorsMenu.ToolTipText = "Show the Anchor toolbar";
+            this.viewAnchorsMenu.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
             // viewExegeticalHelps
             // 
@@ -697,149 +703,156 @@ namespace OneStoryProjectEditor
             this.viewExegeticalHelps.ToolTipText = "Show the Anchor toolbar";
             this.viewExegeticalHelps.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
-            // viewGeneralTestingQuestionMenuItem
+            // viewGeneralTestingsQuestionMenu
             // 
-            this.viewGeneralTestingQuestionMenuItem.CheckOnClick = true;
-            this.viewGeneralTestingQuestionMenuItem.Name = "viewGeneralTestingQuestionMenuItem";
-            this.viewGeneralTestingQuestionMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.viewGeneralTestingQuestionMenuItem.Text = "&General testing questions";
-            this.viewGeneralTestingQuestionMenuItem.ToolTipText = "Show the text boxes for the testing questions";
-            this.viewGeneralTestingQuestionMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
+            this.viewGeneralTestingsQuestionMenu.CheckOnClick = true;
+            this.viewGeneralTestingsQuestionMenu.Name = "viewGeneralTestingsQuestionMenu";
+            this.viewGeneralTestingsQuestionMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewGeneralTestingsQuestionMenu.Text = "&General testing questions";
+            this.viewGeneralTestingsQuestionMenu.ToolTipText = "Show the text boxes for the testing questions";
+            this.viewGeneralTestingsQuestionMenu.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
-            // viewStoryTestingQuestionMenuItem
+            // viewStoryTestingQuestionsMenu
             // 
-            this.viewStoryTestingQuestionMenuItem.Checked = true;
-            this.viewStoryTestingQuestionMenuItem.CheckOnClick = true;
-            this.viewStoryTestingQuestionMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewStoryTestingQuestionMenuItem.Name = "viewStoryTestingQuestionMenuItem";
-            this.viewStoryTestingQuestionMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.viewStoryTestingQuestionMenuItem.Text = "Story &testing questions";
-            this.viewStoryTestingQuestionMenuItem.ToolTipText = "Show the text boxes for the testing questions";
-            this.viewStoryTestingQuestionMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
+            this.viewStoryTestingQuestionsMenu.Checked = true;
+            this.viewStoryTestingQuestionsMenu.CheckOnClick = true;
+            this.viewStoryTestingQuestionsMenu.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewStoryTestingQuestionsMenu.Name = "viewStoryTestingQuestionsMenu";
+            this.viewStoryTestingQuestionsMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewStoryTestingQuestionsMenu.Text = "Story &testing questions";
+            this.viewStoryTestingQuestionsMenu.ToolTipText = "Show the text boxes for the testing questions";
+            this.viewStoryTestingQuestionsMenu.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
-            // viewStoryTestingQuestionAnswerMenuItem
+            // viewStoryTestingQuestionAnswersMenu
             // 
-            this.viewStoryTestingQuestionAnswerMenuItem.Checked = true;
-            this.viewStoryTestingQuestionAnswerMenuItem.CheckOnClick = true;
-            this.viewStoryTestingQuestionAnswerMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewStoryTestingQuestionAnswerMenuItem.Name = "viewStoryTestingQuestionAnswerMenuItem";
-            this.viewStoryTestingQuestionAnswerMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.viewStoryTestingQuestionAnswerMenuItem.Text = "Ans&wers";
-            this.viewStoryTestingQuestionAnswerMenuItem.ToolTipText = "Show the text boxes for the UNS\'s answers to testing questions";
-            this.viewStoryTestingQuestionAnswerMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
+            this.viewStoryTestingQuestionAnswersMenu.Checked = true;
+            this.viewStoryTestingQuestionAnswersMenu.CheckOnClick = true;
+            this.viewStoryTestingQuestionAnswersMenu.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewStoryTestingQuestionAnswersMenu.Name = "viewStoryTestingQuestionAnswersMenu";
+            this.viewStoryTestingQuestionAnswersMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewStoryTestingQuestionAnswersMenu.Text = "Ans&wers";
+            this.viewStoryTestingQuestionAnswersMenu.ToolTipText = "Show the text boxes for the UNS\'s answers to testing questions";
+            this.viewStoryTestingQuestionAnswersMenu.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
-            // viewRetellingFieldMenuItem
+            // viewRetellingsMenu
             // 
-            this.viewRetellingFieldMenuItem.Checked = true;
-            this.viewRetellingFieldMenuItem.CheckOnClick = true;
-            this.viewRetellingFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewRetellingFieldMenuItem.Name = "viewRetellingFieldMenuItem";
-            this.viewRetellingFieldMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.viewRetellingFieldMenuItem.Text = "&Retellings";
-            this.viewRetellingFieldMenuItem.ToolTipText = "Show the text boxes for the UNS retelling responses";
-            this.viewRetellingFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
+            this.viewRetellingsMenu.Checked = true;
+            this.viewRetellingsMenu.CheckOnClick = true;
+            this.viewRetellingsMenu.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewRetellingsMenu.Name = "viewRetellingsMenu";
+            this.viewRetellingsMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewRetellingsMenu.Text = "&Retellings";
+            this.viewRetellingsMenu.ToolTipText = "Show the text boxes for the UNS retelling responses";
+            this.viewRetellingsMenu.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(281, 6);
             // 
-            // viewConsultantNoteFieldMenuItem
+            // viewConsultantNotesMenu
             // 
-            this.viewConsultantNoteFieldMenuItem.Checked = true;
-            this.viewConsultantNoteFieldMenuItem.CheckOnClick = true;
-            this.viewConsultantNoteFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewConsultantNoteFieldMenuItem.Name = "viewConsultantNoteFieldMenuItem";
-            this.viewConsultantNoteFieldMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.viewConsultantNoteFieldMenuItem.Text = "&Consultant notes";
-            this.viewConsultantNoteFieldMenuItem.ToolTipText = "Show the Consultant Notes pane";
-            this.viewConsultantNoteFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewConsultantNoteFieldMenuItem_CheckedChanged);
+            this.viewConsultantNotesMenu.Checked = true;
+            this.viewConsultantNotesMenu.CheckOnClick = true;
+            this.viewConsultantNotesMenu.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewConsultantNotesMenu.Name = "viewConsultantNotesMenu";
+            this.viewConsultantNotesMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewConsultantNotesMenu.Text = "&Consultant notes";
+            this.viewConsultantNotesMenu.ToolTipText = "Show the Consultant Notes pane";
+            this.viewConsultantNotesMenu.CheckedChanged += new System.EventHandler(this.viewConsultantNoteFieldMenuItem_CheckedChanged);
             // 
-            // viewCoachNotesFieldMenuItem
+            // viewCoachNotesMenu
             // 
-            this.viewCoachNotesFieldMenuItem.Checked = true;
-            this.viewCoachNotesFieldMenuItem.CheckOnClick = true;
-            this.viewCoachNotesFieldMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewCoachNotesFieldMenuItem.Name = "viewCoachNotesFieldMenuItem";
-            this.viewCoachNotesFieldMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.viewCoachNotesFieldMenuItem.Text = "Coach &notes";
-            this.viewCoachNotesFieldMenuItem.ToolTipText = "Show the Coach Notes pane";
-            this.viewCoachNotesFieldMenuItem.CheckedChanged += new System.EventHandler(this.viewCoachNotesFieldMenuItem_CheckedChanged);
+            this.viewCoachNotesMenu.Checked = true;
+            this.viewCoachNotesMenu.CheckOnClick = true;
+            this.viewCoachNotesMenu.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewCoachNotesMenu.Name = "viewCoachNotesMenu";
+            this.viewCoachNotesMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewCoachNotesMenu.Text = "Coach &notes";
+            this.viewCoachNotesMenu.ToolTipText = "Show the Coach Notes pane";
+            this.viewCoachNotesMenu.CheckedChanged += new System.EventHandler(this.viewCoachNotesFieldMenuItem_CheckedChanged);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(281, 6);
             // 
-            // viewNetBibleMenuItem
+            // viewBibleMenu
             // 
-            this.viewNetBibleMenuItem.Checked = true;
-            this.viewNetBibleMenuItem.CheckOnClick = true;
-            this.viewNetBibleMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.viewNetBibleMenuItem.Name = "viewNetBibleMenuItem";
-            this.viewNetBibleMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.viewNetBibleMenuItem.Text = "&Bible viewer";
-            this.viewNetBibleMenuItem.ToolTipText = "Show the Bible Viewer pane";
-            this.viewNetBibleMenuItem.CheckedChanged += new System.EventHandler(this.viewNetBibleMenuItem_CheckedChanged);
+            this.viewBibleMenu.Checked = true;
+            this.viewBibleMenu.CheckOnClick = true;
+            this.viewBibleMenu.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewBibleMenu.Name = "viewBibleMenu";
+            this.viewBibleMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewBibleMenu.Text = "&Bible viewer";
+            this.viewBibleMenu.ToolTipText = "Show the Bible Viewer pane";
+            this.viewBibleMenu.CheckedChanged += new System.EventHandler(this.viewNetBibleMenuItem_CheckedChanged);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
             this.toolStripSeparator7.Size = new System.Drawing.Size(281, 6);
             // 
-            // refreshToolStripMenuItem
+            // viewRefreshMenu
             // 
-            this.refreshToolStripMenuItem.Enabled = false;
-            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.refreshToolStripMenuItem.Text = "Re&fresh";
-            this.refreshToolStripMenuItem.ToolTipText = "Refresh the screen (if it doesn\'t look like it updated something properly)";
-            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
+            this.viewRefreshMenu.Enabled = false;
+            this.viewRefreshMenu.Name = "viewRefreshMenu";
+            this.viewRefreshMenu.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.viewRefreshMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewRefreshMenu.Text = "Re&fresh";
+            this.viewRefreshMenu.ToolTipText = "Refresh the screen (if it doesn\'t look like it updated something properly)";
+            this.viewRefreshMenu.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
             this.toolStripSeparator8.Size = new System.Drawing.Size(281, 6);
             // 
-            // historicalDifferencesToolStripMenuItem
+            // viewHistoricalDifferencesMenu
             // 
-            this.historicalDifferencesToolStripMenuItem.Name = "historicalDifferencesToolStripMenuItem";
-            this.historicalDifferencesToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.historicalDifferencesToolStripMenuItem.Text = "Historical di&fferences";
-            this.historicalDifferencesToolStripMenuItem.ToolTipText = "Click to launch the Revision History dialog to compare different, saved versions " +
+            this.viewHistoricalDifferencesMenu.Name = "viewHistoricalDifferencesMenu";
+            this.viewHistoricalDifferencesMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewHistoricalDifferencesMenu.Text = "Historical di&fferences...";
+            this.viewHistoricalDifferencesMenu.ToolTipText = "Click to launch the Revision History dialog to compare different, saved versions " +
                 "of this story";
-            this.historicalDifferencesToolStripMenuItem.Click += new System.EventHandler(this.historicalDifferencesToolStripMenuItem_Click);
+            this.viewHistoricalDifferencesMenu.Click += new System.EventHandler(this.historicalDifferencesToolStripMenuItem_Click);
             // 
             // viewLnCNotesMenu
             // 
             this.viewLnCNotesMenu.Name = "viewLnCNotesMenu";
             this.viewLnCNotesMenu.Size = new System.Drawing.Size(284, 22);
-            this.viewLnCNotesMenu.Text = "L && C Notes";
+            this.viewLnCNotesMenu.Text = "L && C Notes...";
             this.viewLnCNotesMenu.Click += new System.EventHandler(this.viewLnCNotesMenu_Click);
             // 
-            // concordanceToolStripMenuItem
+            // viewConcordanceMenu
             // 
-            this.concordanceToolStripMenuItem.Name = "concordanceToolStripMenuItem";
-            this.concordanceToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.concordanceToolStripMenuItem.Text = "Concor&dance";
-            this.concordanceToolStripMenuItem.ToolTipText = "Click to launch the Concordance dialog to search for the occurrances of words in " +
+            this.viewConcordanceMenu.Name = "viewConcordanceMenu";
+            this.viewConcordanceMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewConcordanceMenu.Text = "Concor&dance...";
+            this.viewConcordanceMenu.ToolTipText = "Click to launch the Concordance dialog to search for the occurrences of words in " +
                 "the story";
-            this.concordanceToolStripMenuItem.Click += new System.EventHandler(this.concordanceToolStripMenuItem_Click);
+            this.viewConcordanceMenu.Click += new System.EventHandler(this.concordanceToolStripMenuItem_Click);
             // 
-            // stateTransitionHistoryToolStripMenuItem
+            // viewStateTransitionHistoryMenu
             // 
-            this.stateTransitionHistoryToolStripMenuItem.Name = "stateTransitionHistoryToolStripMenuItem";
-            this.stateTransitionHistoryToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.stateTransitionHistoryToolStripMenuItem.Text = "&State Transition History";
-            this.stateTransitionHistoryToolStripMenuItem.Click += new System.EventHandler(this.stateTransitionHistoryToolStripMenuItem_Click);
+            this.viewStateTransitionHistoryMenu.Name = "viewStateTransitionHistoryMenu";
+            this.viewStateTransitionHistoryMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewStateTransitionHistoryMenu.Text = "&State Transition History...";
+            this.viewStateTransitionHistoryMenu.Click += new System.EventHandler(this.stateTransitionHistoryToolStripMenuItem_Click);
             // 
-            // viewOldStoriesToolStripMenuItem
+            // viewProjectNotesMenu
             // 
-            this.viewOldStoriesToolStripMenuItem.Name = "viewOldStoriesToolStripMenuItem";
-            this.viewOldStoriesToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.viewOldStoriesToolStripMenuItem.Text = "&Old Stories";
-            this.viewOldStoriesToolStripMenuItem.ToolTipText = "View older (obsolete) versions of the stories (that were earlier stored in the \'O" +
+            this.viewProjectNotesMenu.Name = "viewProjectNotesMenu";
+            this.viewProjectNotesMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewProjectNotesMenu.Text = "&Project Notes...";
+            this.viewProjectNotesMenu.Click += new System.EventHandler(this.projectNotesToolStripMenuItem_Click);
+            // 
+            // viewOldStoriesMenu
+            // 
+            this.viewOldStoriesMenu.Name = "viewOldStoriesMenu";
+            this.viewOldStoriesMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewOldStoriesMenu.Text = "&Old Stories...";
+            this.viewOldStoriesMenu.ToolTipText = "View older (obsolete) versions of the stories (that were earlier stored in the \'O" +
                 "ld Stories\' list from the \'Panorama View\' window--see \'Panorama\' menu, \'Show\' co" +
                 "mmand)";
             // 
@@ -848,14 +861,14 @@ namespace OneStoryProjectEditor
             this.toolStripSeparator11.Name = "toolStripSeparator11";
             this.toolStripSeparator11.Size = new System.Drawing.Size(281, 6);
             // 
-            // hiddenVersesToolStripMenuItem
+            // viewHiddenVersesMenu
             // 
-            this.hiddenVersesToolStripMenuItem.CheckOnClick = true;
-            this.hiddenVersesToolStripMenuItem.Name = "hiddenVersesToolStripMenuItem";
-            this.hiddenVersesToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.hiddenVersesToolStripMenuItem.Text = "H&idden lines";
-            this.hiddenVersesToolStripMenuItem.ToolTipText = "Check this menu to show hidden lines and hidden consultant note comments";
-            this.hiddenVersesToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.hiddenVersesToolStripMenuItem_CheckStateChanged);
+            this.viewHiddenVersesMenu.CheckOnClick = true;
+            this.viewHiddenVersesMenu.Name = "viewHiddenVersesMenu";
+            this.viewHiddenVersesMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewHiddenVersesMenu.Text = "H&idden lines";
+            this.viewHiddenVersesMenu.ToolTipText = "Check this menu to show hidden lines and hidden consultant note comments";
+            this.viewHiddenVersesMenu.CheckStateChanged += new System.EventHandler(this.hiddenVersesToolStripMenuItem_CheckStateChanged);
             // 
             // viewOnlyOpenConversationsMenu
             // 
@@ -872,17 +885,17 @@ namespace OneStoryProjectEditor
             this.toolStripSeparator13.Name = "toolStripSeparator13";
             this.toolStripSeparator13.Size = new System.Drawing.Size(281, 6);
             // 
-            // viewTransliterationsToolStripMenuItem
+            // viewTransliterationsToolStripMenu
             // 
-            this.viewTransliterationsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewTransliterationsToolStripMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewTransliterationVernacular,
             this.viewTransliterationNationalBT,
             this.viewTransliterationInternationalBt,
             this.viewTransliterationFreeTranslation});
-            this.viewTransliterationsToolStripMenuItem.Name = "viewTransliterationsToolStripMenuItem";
-            this.viewTransliterationsToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.viewTransliterationsToolStripMenuItem.Text = "&Transliterations";
-            this.viewTransliterationsToolStripMenuItem.DropDownOpening += new System.EventHandler(this.viewTransliterationsToolStripMenuItem_DropDownOpening);
+            this.viewTransliterationsToolStripMenu.Name = "viewTransliterationsToolStripMenu";
+            this.viewTransliterationsToolStripMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewTransliterationsToolStripMenu.Text = "&Transliterations";
+            this.viewTransliterationsToolStripMenu.DropDownOpening += new System.EventHandler(this.viewTransliterationsToolStripMenuItem_DropDownOpening);
             // 
             // viewTransliterationVernacular
             // 
@@ -892,13 +905,14 @@ namespace OneStoryProjectEditor
             this.viewTransliterationVernacular.Name = "viewTransliterationVernacular";
             this.viewTransliterationVernacular.Size = new System.Drawing.Size(158, 22);
             this.viewTransliterationVernacular.Text = "Story Language";
+            this.viewTransliterationVernacular.ToolTipText = "Check this menu to turn on a transliterator for the story language boxes";
             this.viewTransliterationVernacular.Click += new System.EventHandler(this.viewTransliterationVernacular_Click);
             // 
             // viewTransliteratorVernacularConfigureToolStripMenuItem
             // 
             this.viewTransliteratorVernacularConfigureToolStripMenuItem.Name = "viewTransliteratorVernacularConfigureToolStripMenuItem";
-            this.viewTransliteratorVernacularConfigureToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
-            this.viewTransliteratorVernacularConfigureToolStripMenuItem.Text = "&Configure";
+            this.viewTransliteratorVernacularConfigureToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.viewTransliteratorVernacularConfigureToolStripMenuItem.Text = "&Configure...";
             this.viewTransliteratorVernacularConfigureToolStripMenuItem.Click += new System.EventHandler(this.viewTransliteratorVernacularConfigureToolStripMenuItem_Click);
             // 
             // viewTransliterationNationalBT
@@ -909,13 +923,14 @@ namespace OneStoryProjectEditor
             this.viewTransliterationNationalBT.Name = "viewTransliterationNationalBT";
             this.viewTransliterationNationalBT.Size = new System.Drawing.Size(158, 22);
             this.viewTransliterationNationalBT.Text = "National BT";
+            this.viewTransliterationNationalBT.ToolTipText = "Check this menu to turn on a transliterator for the national language BT boxes";
             this.viewTransliterationNationalBT.Click += new System.EventHandler(this.viewTransliterationNationalBT_Click);
             // 
             // viewTransliteratorNationalBTConfigureToolStripMenuItem
             // 
             this.viewTransliteratorNationalBTConfigureToolStripMenuItem.Name = "viewTransliteratorNationalBTConfigureToolStripMenuItem";
-            this.viewTransliteratorNationalBTConfigureToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
-            this.viewTransliteratorNationalBTConfigureToolStripMenuItem.Text = "&Configure";
+            this.viewTransliteratorNationalBTConfigureToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.viewTransliteratorNationalBTConfigureToolStripMenuItem.Text = "&Configure...";
             this.viewTransliteratorNationalBTConfigureToolStripMenuItem.Click += new System.EventHandler(this.viewTransliteratorNationalBTConfigureToolStripMenuItem_Click);
             // 
             // viewTransliterationInternationalBt
@@ -926,13 +941,15 @@ namespace OneStoryProjectEditor
             this.viewTransliterationInternationalBt.Name = "viewTransliterationInternationalBt";
             this.viewTransliterationInternationalBt.Size = new System.Drawing.Size(158, 22);
             this.viewTransliterationInternationalBt.Text = "International BT";
+            this.viewTransliterationInternationalBt.ToolTipText = "Check this menu to turn on a transliterator for the International/English languag" +
+                "e boxes";
             this.viewTransliterationInternationalBt.Click += new System.EventHandler(this.viewTransliterationInternationalBt_Click);
             // 
             // viewTransliteratorInternationalBtConfigureToolStripMenuItem
             // 
             this.viewTransliteratorInternationalBtConfigureToolStripMenuItem.Name = "viewTransliteratorInternationalBtConfigureToolStripMenuItem";
-            this.viewTransliteratorInternationalBtConfigureToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
-            this.viewTransliteratorInternationalBtConfigureToolStripMenuItem.Text = "&Configure";
+            this.viewTransliteratorInternationalBtConfigureToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.viewTransliteratorInternationalBtConfigureToolStripMenuItem.Text = "&Configure...";
             this.viewTransliteratorInternationalBtConfigureToolStripMenuItem.Click += new System.EventHandler(this.viewTransliteratorInternationalBtConfigureToolStripMenuItem_Click);
             // 
             // viewTransliterationFreeTranslation
@@ -943,13 +960,15 @@ namespace OneStoryProjectEditor
             this.viewTransliterationFreeTranslation.Name = "viewTransliterationFreeTranslation";
             this.viewTransliterationFreeTranslation.Size = new System.Drawing.Size(158, 22);
             this.viewTransliterationFreeTranslation.Text = "Free Translation";
+            this.viewTransliterationFreeTranslation.ToolTipText = "Check this menu to turn on a transliterator for the Free Translation language box" +
+                "es";
             this.viewTransliterationFreeTranslation.Click += new System.EventHandler(this.viewTransliterationFreeTranslation_Click);
             // 
             // viewTransliteratorFreeTranslationConfigureToolStripMenuItem
             // 
             this.viewTransliteratorFreeTranslationConfigureToolStripMenuItem.Name = "viewTransliteratorFreeTranslationConfigureToolStripMenuItem";
-            this.viewTransliteratorFreeTranslationConfigureToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
-            this.viewTransliteratorFreeTranslationConfigureToolStripMenuItem.Text = "&Configure";
+            this.viewTransliteratorFreeTranslationConfigureToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.viewTransliteratorFreeTranslationConfigureToolStripMenuItem.Text = "&Configure...";
             this.viewTransliteratorFreeTranslationConfigureToolStripMenuItem.Click += new System.EventHandler(this.viewTransliteratorFreeTranslationConfigureToolStripMenuItem_Click);
             // 
             // comboBoxStorySelector
@@ -966,267 +985,293 @@ namespace OneStoryProjectEditor
             this.comboBoxStorySelector.SelectedIndexChanged += new System.EventHandler(this.LoadStory);
             this.comboBoxStorySelector.KeyUp += new System.Windows.Forms.KeyEventHandler(this.comboBoxStorySelector_KeyUp);
             // 
-            // storyToolStripMenuItem
+            // storyToolStripMenu
             // 
-            this.storyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem,
-            this.deleteStoryToolStripMenuItem,
-            this.storyCopyWithNewNameToolStripMenuItem,
-            this.splitIntoLinesToolStripMenuItem,
-            this.realignStoryVersesToolStripMenuItem,
-            this.storyOverrideTasks,
+            this.storyToolStripMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.storyStoryInformationMenu,
+            this.storyDeleteStoryMenu,
+            this.storyCopyWithNewNameMenu,
+            this.storySplitIntoLinesMenu,
+            this.storyRealignStoryLinesMenu,
+            this.storyOverrideTasksMenu,
             this.toolStripSeparator14,
-            this.useAdaptItForBacktranslationToolStripMenuItem});
-            this.storyToolStripMenuItem.Name = "storyToolStripMenuItem";
-            this.storyToolStripMenuItem.Size = new System.Drawing.Size(46, 27);
-            this.storyToolStripMenuItem.Text = "&Story";
-            this.storyToolStripMenuItem.DropDownOpening += new System.EventHandler(this.storyToolStripMenuItem_DropDownOpening);
+            this.storyUseAdaptItForBackTranslationMenu});
+            this.storyToolStripMenu.Name = "storyToolStripMenu";
+            this.storyToolStripMenu.Size = new System.Drawing.Size(46, 27);
+            this.storyToolStripMenu.Text = "&Story";
+            this.storyToolStripMenu.DropDownOpening += new System.EventHandler(this.storyToolStripMenuItem_DropDownOpening);
             // 
-            // enterTheReasonThisStoryIsInTheSetToolStripMenuItem
+            // storyStoryInformationMenu
             // 
-            this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Name = "enterTheReasonThisStoryIsInTheSetToolStripMenuItem";
-            this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
-            this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Text = "S&tory Information";
-            this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem.ToolTipText = "Enter information about this story, such as the reason it\'s in the set, the resou" +
+            this.storyStoryInformationMenu.Name = "storyStoryInformationMenu";
+            this.storyStoryInformationMenu.Size = new System.Drawing.Size(245, 22);
+            this.storyStoryInformationMenu.Text = "S&tory Information...";
+            this.storyStoryInformationMenu.ToolTipText = "Enter information about this story, such as the reason it\'s in the set, the resou" +
                 "rces used, etc.";
-            this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem.Click += new System.EventHandler(this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem_Click);
+            this.storyStoryInformationMenu.Click += new System.EventHandler(this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem_Click);
             // 
-            // deleteStoryToolStripMenuItem
+            // storyDeleteStoryMenu
             // 
-            this.deleteStoryToolStripMenuItem.Name = "deleteStoryToolStripMenuItem";
-            this.deleteStoryToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
-            this.deleteStoryToolStripMenuItem.Text = "&Delete story";
-            this.deleteStoryToolStripMenuItem.ToolTipText = "Click to delete the story currently shown";
-            this.deleteStoryToolStripMenuItem.Click += new System.EventHandler(this.deleteStoryToolStripMenuItem_Click);
+            this.storyDeleteStoryMenu.Name = "storyDeleteStoryMenu";
+            this.storyDeleteStoryMenu.Size = new System.Drawing.Size(245, 22);
+            this.storyDeleteStoryMenu.Text = "&Delete story";
+            this.storyDeleteStoryMenu.ToolTipText = "Click to delete the current story";
+            this.storyDeleteStoryMenu.Click += new System.EventHandler(this.deleteStoryToolStripMenuItem_Click);
             // 
-            // storyCopyWithNewNameToolStripMenuItem
+            // storyCopyWithNewNameMenu
             // 
-            this.storyCopyWithNewNameToolStripMenuItem.Name = "storyCopyWithNewNameToolStripMenuItem";
-            this.storyCopyWithNewNameToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
-            this.storyCopyWithNewNameToolStripMenuItem.Text = "&Copy with new name";
-            this.storyCopyWithNewNameToolStripMenuItem.ToolTipText = "Click to make a duplicate copy of the current story with a new name";
-            this.storyCopyWithNewNameToolStripMenuItem.Click += new System.EventHandler(this.storyCopyWithNewNameToolStripMenuItem_Click);
+            this.storyCopyWithNewNameMenu.Name = "storyCopyWithNewNameMenu";
+            this.storyCopyWithNewNameMenu.Size = new System.Drawing.Size(245, 22);
+            this.storyCopyWithNewNameMenu.Text = "&Copy with new name";
+            this.storyCopyWithNewNameMenu.ToolTipText = "Click to make a duplicate copy of the current story with a new name";
+            this.storyCopyWithNewNameMenu.Click += new System.EventHandler(this.storyCopyWithNewNameToolStripMenuItem_Click);
             // 
-            // splitIntoLinesToolStripMenuItem
+            // storySplitIntoLinesMenu
             // 
-            this.splitIntoLinesToolStripMenuItem.Name = "splitIntoLinesToolStripMenuItem";
-            this.splitIntoLinesToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
-            this.splitIntoLinesToolStripMenuItem.Text = "S&plit into Lines";
-            this.splitIntoLinesToolStripMenuItem.Click += new System.EventHandler(this.splitIntoLinesToolStripMenuItem_Click);
+            this.storySplitIntoLinesMenu.Name = "storySplitIntoLinesMenu";
+            this.storySplitIntoLinesMenu.Size = new System.Drawing.Size(245, 22);
+            this.storySplitIntoLinesMenu.Text = "S&plit into Lines";
+            this.storySplitIntoLinesMenu.ToolTipText = "Click to split a paragraph of text into lines based on sentence final punctuation" +
+                " (alternates with \'Collapse into 1 line\' menu)";
+            this.storySplitIntoLinesMenu.Click += new System.EventHandler(this.splitIntoLinesToolStripMenuItem_Click);
             // 
-            // realignStoryVersesToolStripMenuItem
+            // storyRealignStoryLinesMenu
             // 
-            this.realignStoryVersesToolStripMenuItem.Name = "realignStoryVersesToolStripMenuItem";
-            this.realignStoryVersesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
-            this.realignStoryVersesToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
-            this.realignStoryVersesToolStripMenuItem.Text = "&Re-align story lines";
-            this.realignStoryVersesToolStripMenuItem.Click += new System.EventHandler(this.realignStoryVersesToolStripMenuItem_Click);
+            this.storyRealignStoryLinesMenu.Name = "storyRealignStoryLinesMenu";
+            this.storyRealignStoryLinesMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
+            this.storyRealignStoryLinesMenu.Size = new System.Drawing.Size(245, 22);
+            this.storyRealignStoryLinesMenu.Text = "&Re-align story lines";
+            this.storyRealignStoryLinesMenu.ToolTipText = "Click to collapse the lines into a paragraph of text followed by \"Split into line" +
+                "s\"";
+            this.storyRealignStoryLinesMenu.Click += new System.EventHandler(this.realignStoryVersesToolStripMenuItem_Click);
             // 
-            // storyOverrideTasks
+            // storyOverrideTasksMenu
             // 
-            this.storyOverrideTasks.Name = "storyOverrideTasks";
-            this.storyOverrideTasks.Size = new System.Drawing.Size(245, 22);
-            this.storyOverrideTasks.Text = "&Override Tasks";
-            this.storyOverrideTasks.Click += new System.EventHandler(this.storyOverrideTasks_Click);
+            this.storyOverrideTasksMenu.Name = "storyOverrideTasksMenu";
+            this.storyOverrideTasksMenu.Size = new System.Drawing.Size(245, 22);
+            this.storyOverrideTasksMenu.Text = "&Override Tasks...";
+            this.storyOverrideTasksMenu.ToolTipText = "Click to override the Allowed and Required Tasks for the current story (e.g. if t" +
+                "he consultant accidentally checked a task you\'re not supposed to do or didn\'t al" +
+                "low a task that you are supposed to do)";
+            this.storyOverrideTasksMenu.Click += new System.EventHandler(this.storyOverrideTasks_Click);
             // 
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
             this.toolStripSeparator14.Size = new System.Drawing.Size(242, 6);
             // 
-            // useAdaptItForBacktranslationToolStripMenuItem
+            // storyUseAdaptItForBackTranslationMenu
             // 
-            this.useAdaptItForBacktranslationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.storyAdaptItVernacularToNationalMenuItem,
-            this.storyAdaptItVernacularToEnglishMenuItem,
-            this.storyAdaptItNationalToEnglishMenuItem,
-            this.synchronizeSharedAdaptItProjectsToolStripMenuItem});
-            this.useAdaptItForBacktranslationToolStripMenuItem.Name = "useAdaptItForBacktranslationToolStripMenuItem";
-            this.useAdaptItForBacktranslationToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
-            this.useAdaptItForBacktranslationToolStripMenuItem.Text = "&Use Adapt It for back-translation";
+            this.storyUseAdaptItForBackTranslationMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.storyAdaptItVernacularToNationalMenu,
+            this.storyAdaptItVernacularToEnglishMenu,
+            this.storyAdaptItNationalToEnglishMenu,
+            this.toolStripSeparator15,
+            this.storySynchronizeSharedAdaptItProjectsMenu});
+            this.storyUseAdaptItForBackTranslationMenu.Name = "storyUseAdaptItForBackTranslationMenu";
+            this.storyUseAdaptItForBackTranslationMenu.Size = new System.Drawing.Size(245, 22);
+            this.storyUseAdaptItForBackTranslationMenu.Text = "&Use Adapt It for back-translation";
             // 
-            // storyAdaptItVernacularToNationalMenuItem
+            // storyAdaptItVernacularToNationalMenu
             // 
-            this.storyAdaptItVernacularToNationalMenuItem.Name = "storyAdaptItVernacularToNationalMenuItem";
-            this.storyAdaptItVernacularToNationalMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.storyAdaptItVernacularToNationalMenuItem.Text = "&Story language to National language";
-            this.storyAdaptItVernacularToNationalMenuItem.Click += new System.EventHandler(this.storyAdaptItVernacularToNationalMenuItem_Click);
+            this.storyAdaptItVernacularToNationalMenu.Name = "storyAdaptItVernacularToNationalMenu";
+            this.storyAdaptItVernacularToNationalMenu.Size = new System.Drawing.Size(267, 22);
+            this.storyAdaptItVernacularToNationalMenu.Text = "&Story language to National language";
+            this.storyAdaptItVernacularToNationalMenu.Click += new System.EventHandler(this.storyAdaptItVernacularToNationalMenuItem_Click);
             // 
-            // storyAdaptItVernacularToEnglishMenuItem
+            // storyAdaptItVernacularToEnglishMenu
             // 
-            this.storyAdaptItVernacularToEnglishMenuItem.Name = "storyAdaptItVernacularToEnglishMenuItem";
-            this.storyAdaptItVernacularToEnglishMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.storyAdaptItVernacularToEnglishMenuItem.Text = "Story &language to English";
-            this.storyAdaptItVernacularToEnglishMenuItem.Click += new System.EventHandler(this.storyAdaptItVernacularToEnglishMenuItem_Click);
+            this.storyAdaptItVernacularToEnglishMenu.Name = "storyAdaptItVernacularToEnglishMenu";
+            this.storyAdaptItVernacularToEnglishMenu.Size = new System.Drawing.Size(267, 22);
+            this.storyAdaptItVernacularToEnglishMenu.Text = "Story &language to English";
+            this.storyAdaptItVernacularToEnglishMenu.Click += new System.EventHandler(this.storyAdaptItVernacularToEnglishMenuItem_Click);
             // 
-            // storyAdaptItNationalToEnglishMenuItem
+            // storyAdaptItNationalToEnglishMenu
             // 
-            this.storyAdaptItNationalToEnglishMenuItem.Name = "storyAdaptItNationalToEnglishMenuItem";
-            this.storyAdaptItNationalToEnglishMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.storyAdaptItNationalToEnglishMenuItem.Text = "National language to English";
-            this.storyAdaptItNationalToEnglishMenuItem.Click += new System.EventHandler(this.storyAdaptItNationalToEnglishMenuItem_Click);
+            this.storyAdaptItNationalToEnglishMenu.Name = "storyAdaptItNationalToEnglishMenu";
+            this.storyAdaptItNationalToEnglishMenu.Size = new System.Drawing.Size(267, 22);
+            this.storyAdaptItNationalToEnglishMenu.Text = "National language to &English";
+            this.storyAdaptItNationalToEnglishMenu.Click += new System.EventHandler(this.storyAdaptItNationalToEnglishMenuItem_Click);
             // 
-            // synchronizeSharedAdaptItProjectsToolStripMenuItem
+            // toolStripSeparator15
             // 
-            this.synchronizeSharedAdaptItProjectsToolStripMenuItem.Name = "synchronizeSharedAdaptItProjectsToolStripMenuItem";
-            this.synchronizeSharedAdaptItProjectsToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.synchronizeSharedAdaptItProjectsToolStripMenuItem.Text = "Synchronize Shared Adapt It projects";
-            this.synchronizeSharedAdaptItProjectsToolStripMenuItem.Click += new System.EventHandler(this.synchronizeSharedAdaptItProjectsToolStripMenuItem_Click);
+            this.toolStripSeparator15.Name = "toolStripSeparator15";
+            this.toolStripSeparator15.Size = new System.Drawing.Size(264, 6);
             // 
-            // panoramaToolStripMenuItem
+            // storySynchronizeSharedAdaptItProjectsMenu
             // 
-            this.panoramaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.insertNewStoryToolStripMenuItem,
-            this.addNewStoryAfterToolStripMenuItem,
-            this.toolStripMenuItemShowPanorama});
-            this.panoramaToolStripMenuItem.Name = "panoramaToolStripMenuItem";
-            this.panoramaToolStripMenuItem.Size = new System.Drawing.Size(73, 27);
-            this.panoramaToolStripMenuItem.Text = "Pa&norama";
-            this.panoramaToolStripMenuItem.DropDownOpening += new System.EventHandler(this.panoramaToolStripMenuItem_DropDownOpening);
+            this.storySynchronizeSharedAdaptItProjectsMenu.Name = "storySynchronizeSharedAdaptItProjectsMenu";
+            this.storySynchronizeSharedAdaptItProjectsMenu.Size = new System.Drawing.Size(267, 22);
+            this.storySynchronizeSharedAdaptItProjectsMenu.Text = "Synchronize Shared Adapt It &projects";
+            this.storySynchronizeSharedAdaptItProjectsMenu.ToolTipText = "Click to Send/Receive the shared Adapt It repository";
+            this.storySynchronizeSharedAdaptItProjectsMenu.Click += new System.EventHandler(this.synchronizeSharedAdaptItProjectsToolStripMenuItem_Click);
             // 
-            // insertNewStoryToolStripMenuItem
+            // panoramaToolStripMenu
             // 
-            this.insertNewStoryToolStripMenuItem.Name = "insertNewStoryToolStripMenuItem";
-            this.insertNewStoryToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
-            this.insertNewStoryToolStripMenuItem.Text = "&Insert new story before current";
-            this.insertNewStoryToolStripMenuItem.ToolTipText = "Click to insert a new, empty story before the one currently shown";
-            this.insertNewStoryToolStripMenuItem.Click += new System.EventHandler(this.insertNewStoryToolStripMenuItem_Click);
+            this.panoramaToolStripMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.panoramaShowMenu,
+            this.panoramaInsertNewStoryMenu,
+            this.panoramaAddNewStoryAfterMenu});
+            this.panoramaToolStripMenu.Name = "panoramaToolStripMenu";
+            this.panoramaToolStripMenu.Size = new System.Drawing.Size(73, 27);
+            this.panoramaToolStripMenu.Text = "Pa&norama";
+            this.panoramaToolStripMenu.DropDownOpening += new System.EventHandler(this.panoramaToolStripMenuItem_DropDownOpening);
             // 
-            // addNewStoryAfterToolStripMenuItem
+            // panoramaInsertNewStoryMenu
             // 
-            this.addNewStoryAfterToolStripMenuItem.Name = "addNewStoryAfterToolStripMenuItem";
-            this.addNewStoryAfterToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
-            this.addNewStoryAfterToolStripMenuItem.Text = "&Add new story after current";
-            this.addNewStoryAfterToolStripMenuItem.ToolTipText = "Click to add a new, empty story after the one currently shown";
-            this.addNewStoryAfterToolStripMenuItem.Click += new System.EventHandler(this.addNewStoryAfterToolStripMenuItem_Click);
+            this.panoramaInsertNewStoryMenu.Name = "panoramaInsertNewStoryMenu";
+            this.panoramaInsertNewStoryMenu.Size = new System.Drawing.Size(235, 22);
+            this.panoramaInsertNewStoryMenu.Text = "&Insert new story before current";
+            this.panoramaInsertNewStoryMenu.ToolTipText = "Click to insert a new, empty story before the one currently shown";
+            this.panoramaInsertNewStoryMenu.Click += new System.EventHandler(this.insertNewStoryToolStripMenuItem_Click);
             // 
-            // toolStripMenuItemShowPanorama
+            // panoramaAddNewStoryAfterMenu
             // 
-            this.toolStripMenuItemShowPanorama.Name = "toolStripMenuItemShowPanorama";
-            this.toolStripMenuItemShowPanorama.Size = new System.Drawing.Size(235, 22);
-            this.toolStripMenuItemShowPanorama.Text = "&Show";
-            this.toolStripMenuItemShowPanorama.ToolTipText = "Show the Panorama View window to see all the stories in the set and their current" +
+            this.panoramaAddNewStoryAfterMenu.Name = "panoramaAddNewStoryAfterMenu";
+            this.panoramaAddNewStoryAfterMenu.Size = new System.Drawing.Size(235, 22);
+            this.panoramaAddNewStoryAfterMenu.Text = "&Add new story after current";
+            this.panoramaAddNewStoryAfterMenu.ToolTipText = "Click to add a new, empty story after the one currently shown";
+            this.panoramaAddNewStoryAfterMenu.Click += new System.EventHandler(this.addNewStoryAfterToolStripMenuItem_Click);
+            // 
+            // panoramaShowMenu
+            // 
+            this.panoramaShowMenu.Name = "panoramaShowMenu";
+            this.panoramaShowMenu.Size = new System.Drawing.Size(235, 22);
+            this.panoramaShowMenu.Text = "&Show...";
+            this.panoramaShowMenu.ToolTipText = "Show the Panorama View window to see all the stories in the set and their current" +
                 " state";
-            this.toolStripMenuItemShowPanorama.Click += new System.EventHandler(this.toolStripMenuItemShowPanorama_Click);
+            this.panoramaShowMenu.Click += new System.EventHandler(this.toolStripMenuItemShowPanorama_Click);
             // 
-            // advancedToolStripMenuItem
+            // advancedToolStripMenu
             // 
-            this.advancedToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newToolStripMenuItem,
-            this.changeProjectFolderRootToolStripMenuItem,
-            this.resetStoredInformationToolStripMenuItem,
-            this.changeStateWithoutChecksToolStripMenuItem,
-            this.programUpdatesToolStripMenuItem,
-            this.saveTimeoutToolStripMenuItem});
-            this.advancedToolStripMenuItem.Name = "advancedToolStripMenuItem";
-            this.advancedToolStripMenuItem.Size = new System.Drawing.Size(72, 27);
-            this.advancedToolStripMenuItem.Text = "A&dvanced";
-            this.advancedToolStripMenuItem.DropDownOpening += new System.EventHandler(this.advancedToolStripMenuItem_DropDownOpening);
+            this.advancedToolStripMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.advancedProgramUpdatesToolStripMenu,
+            this.advancedLocalizationMenu,
+            this.advancedOverrideLocalizeStateViewSettingsMenu,
+            this.advancedNewProjectMenu,
+            this.advancedChangeStateWithoutChecksMenu,
+            this.advancedSaveTimeoutToolStripMenu,
+            this.advancedResetStoredInformationMenu,
+            this.advancedChangeProjectFolderRootMenu});
+            this.advancedToolStripMenu.Name = "advancedToolStripMenu";
+            this.advancedToolStripMenu.Size = new System.Drawing.Size(72, 27);
+            this.advancedToolStripMenu.Text = "A&dvanced";
+            this.advancedToolStripMenu.DropDownOpening += new System.EventHandler(this.advancedToolStripMenuItem_DropDownOpening);
             // 
-            // newToolStripMenuItem
+            // advancedLocalizationMenu
             // 
-            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.ShowShortcutKeys = false;
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
-            this.newToolStripMenuItem.Text = "&New Project";
-            this.newToolStripMenuItem.ToolTipText = "Click to create a new OneStory project";
-            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            this.advancedLocalizationMenu.Name = "advancedLocalizationMenu";
+            this.advancedLocalizationMenu.Size = new System.Drawing.Size(274, 22);
+            this.advancedLocalizationMenu.Text = "&Localization...";
+            this.advancedLocalizationMenu.ToolTipText = "Click this to change or translate the user interface language";
+            this.advancedLocalizationMenu.Click += new System.EventHandler(this.localizationToolStripMenuItem_Click);
             // 
-            // changeProjectFolderRootToolStripMenuItem
+            // advancedNewProjectMenu
             // 
-            this.changeProjectFolderRootToolStripMenuItem.Name = "changeProjectFolderRootToolStripMenuItem";
-            this.changeProjectFolderRootToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
-            this.changeProjectFolderRootToolStripMenuItem.Text = "Change &Project Folder Root";
-            this.changeProjectFolderRootToolStripMenuItem.Click += new System.EventHandler(this.changeProjectFolderRootToolStripMenuItem_Click);
+            this.advancedNewProjectMenu.Name = "advancedNewProjectMenu";
+            this.advancedNewProjectMenu.ShowShortcutKeys = false;
+            this.advancedNewProjectMenu.Size = new System.Drawing.Size(274, 22);
+            this.advancedNewProjectMenu.Text = "&New Project...";
+            this.advancedNewProjectMenu.ToolTipText = "Click to create a new OneStory project";
+            this.advancedNewProjectMenu.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
-            // resetStoredInformationToolStripMenuItem
+            // advancedChangeProjectFolderRootMenu
             // 
-            this.resetStoredInformationToolStripMenuItem.Name = "resetStoredInformationToolStripMenuItem";
-            this.resetStoredInformationToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
-            this.resetStoredInformationToolStripMenuItem.Text = "&Reset Stored Information";
-            this.resetStoredInformationToolStripMenuItem.ToolTipText = resources.GetString("resetStoredInformationToolStripMenuItem.ToolTipText");
-            this.resetStoredInformationToolStripMenuItem.Click += new System.EventHandler(this.resetStoredInformationToolStripMenuItem_Click);
+            this.advancedChangeProjectFolderRootMenu.Name = "advancedChangeProjectFolderRootMenu";
+            this.advancedChangeProjectFolderRootMenu.Size = new System.Drawing.Size(274, 22);
+            this.advancedChangeProjectFolderRootMenu.Text = "Change &Project Folder Root";
+            this.advancedChangeProjectFolderRootMenu.ToolTipText = "Click this to use a different location for the root folder (i.e. \"OneStory Editor" +
+                " Projects\") besides in your \"My Documents\" folder";
+            this.advancedChangeProjectFolderRootMenu.Click += new System.EventHandler(this.changeProjectFolderRootToolStripMenuItem_Click);
             // 
-            // changeStateWithoutChecksToolStripMenuItem
+            // advancedResetStoredInformationMenu
             // 
-            this.changeStateWithoutChecksToolStripMenuItem.Name = "changeStateWithoutChecksToolStripMenuItem";
-            this.changeStateWithoutChecksToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
-            this.changeStateWithoutChecksToolStripMenuItem.Text = "Change &State without checks";
-            this.changeStateWithoutChecksToolStripMenuItem.ToolTipText = resources.GetString("changeStateWithoutChecksToolStripMenuItem.ToolTipText");
-            this.changeStateWithoutChecksToolStripMenuItem.Click += new System.EventHandler(this.changeStateWithoutChecksToolStripMenuItem_Click);
+            this.advancedResetStoredInformationMenu.Name = "advancedResetStoredInformationMenu";
+            this.advancedResetStoredInformationMenu.Size = new System.Drawing.Size(274, 22);
+            this.advancedResetStoredInformationMenu.Text = "&Reset Stored Information";
+            this.advancedResetStoredInformationMenu.ToolTipText = resources.GetString("advancedResetStoredInformationMenu.ToolTipText");
+            this.advancedResetStoredInformationMenu.Click += new System.EventHandler(this.resetStoredInformationToolStripMenuItem_Click);
             // 
-            // programUpdatesToolStripMenuItem
+            // advancedChangeStateWithoutChecksMenu
             // 
-            this.programUpdatesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.automaticallyCheckAtStartupToolStripMenuItem,
-            this.checkForProgramUpdatesNowToolStripMenuItem,
-            this.checkNowForNextMajorUpdateToolStripMenuItem});
-            this.programUpdatesToolStripMenuItem.Name = "programUpdatesToolStripMenuItem";
-            this.programUpdatesToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
-            this.programUpdatesToolStripMenuItem.Text = "Program &Updates";
-            this.programUpdatesToolStripMenuItem.DropDownOpening += new System.EventHandler(this.programUpdatesToolStripMenuItem_DropDownOpening);
+            this.advancedChangeStateWithoutChecksMenu.Name = "advancedChangeStateWithoutChecksMenu";
+            this.advancedChangeStateWithoutChecksMenu.Size = new System.Drawing.Size(274, 22);
+            this.advancedChangeStateWithoutChecksMenu.Text = "Change &State without checks...";
+            this.advancedChangeStateWithoutChecksMenu.ToolTipText = resources.GetString("advancedChangeStateWithoutChecksMenu.ToolTipText");
+            this.advancedChangeStateWithoutChecksMenu.Click += new System.EventHandler(this.changeStateWithoutChecksToolStripMenuItem_Click);
             // 
-            // automaticallyCheckAtStartupToolStripMenuItem
+            // advancedProgramUpdatesToolStripMenu
             // 
-            this.automaticallyCheckAtStartupToolStripMenuItem.CheckOnClick = true;
-            this.automaticallyCheckAtStartupToolStripMenuItem.Name = "automaticallyCheckAtStartupToolStripMenuItem";
-            this.automaticallyCheckAtStartupToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
-            this.automaticallyCheckAtStartupToolStripMenuItem.Text = "&Automatically check at startup";
-            this.automaticallyCheckAtStartupToolStripMenuItem.ToolTipText = "Uncheck this menu to stop the program from automatically checking for program upd" +
+            this.advancedProgramUpdatesToolStripMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu,
+            this.advancedProgramUpdatesCheckNowMenu,
+            this.advancedProgramUpdatesCheckNowForNextMajorUpdateMenu});
+            this.advancedProgramUpdatesToolStripMenu.Name = "advancedProgramUpdatesToolStripMenu";
+            this.advancedProgramUpdatesToolStripMenu.Size = new System.Drawing.Size(274, 22);
+            this.advancedProgramUpdatesToolStripMenu.Text = "Program &Updates";
+            this.advancedProgramUpdatesToolStripMenu.DropDownOpening += new System.EventHandler(this.programUpdatesToolStripMenuItem_DropDownOpening);
+            // 
+            // advancedProgramUpdatesAutomaticallyCheckAtStartupMenu
+            // 
+            this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.CheckOnClick = true;
+            this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.Name = "advancedProgramUpdatesAutomaticallyCheckAtStartupMenu";
+            this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.Size = new System.Drawing.Size(250, 22);
+            this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.Text = "&Automatically check at startup";
+            this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.ToolTipText = "Uncheck this menu to stop the program from automatically checking for program upd" +
                 "ates when the program is started (this can save startup time)";
-            this.automaticallyCheckAtStartupToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.automaticallyCheckAtStartupToolStripMenuItem_CheckStateChanged);
+            this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.CheckStateChanged += new System.EventHandler(this.automaticallyCheckAtStartupToolStripMenuItem_CheckStateChanged);
             // 
-            // checkForProgramUpdatesNowToolStripMenuItem
+            // advancedProgramUpdatesCheckNowMenu
             // 
-            this.checkForProgramUpdatesNowToolStripMenuItem.Name = "checkForProgramUpdatesNowToolStripMenuItem";
-            this.checkForProgramUpdatesNowToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
-            this.checkForProgramUpdatesNowToolStripMenuItem.Text = "&Check now";
-            this.checkForProgramUpdatesNowToolStripMenuItem.ToolTipText = "Click this menu to have the program manually check for program updates";
-            this.checkForProgramUpdatesNowToolStripMenuItem.Click += new System.EventHandler(this.checkForProgramUpdatesNowToolStripMenuItem_Click);
+            this.advancedProgramUpdatesCheckNowMenu.Name = "advancedProgramUpdatesCheckNowMenu";
+            this.advancedProgramUpdatesCheckNowMenu.Size = new System.Drawing.Size(250, 22);
+            this.advancedProgramUpdatesCheckNowMenu.Text = "&Check now";
+            this.advancedProgramUpdatesCheckNowMenu.ToolTipText = "Click this menu to have the program manually check for program updates";
+            this.advancedProgramUpdatesCheckNowMenu.Click += new System.EventHandler(this.checkForProgramUpdatesNowToolStripMenuItem_Click);
             // 
-            // checkNowForNextMajorUpdateToolStripMenuItem
+            // advancedProgramUpdatesCheckNowForNextMajorUpdateMenu
             // 
-            this.checkNowForNextMajorUpdateToolStripMenuItem.Name = "checkNowForNextMajorUpdateToolStripMenuItem";
-            this.checkNowForNextMajorUpdateToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
-            this.checkNowForNextMajorUpdateToolStripMenuItem.Text = "Check now for next &major update";
-            this.checkNowForNextMajorUpdateToolStripMenuItem.ToolTipText = "Click this menu to have the program check if the next major update (which wouldn\'" +
-                "t be installed automatically by default) is available";
-            this.checkNowForNextMajorUpdateToolStripMenuItem.Click += new System.EventHandler(this.checkNowForNextMajorUpdateToolStripMenuItem_Click);
+            this.advancedProgramUpdatesCheckNowForNextMajorUpdateMenu.Name = "advancedProgramUpdatesCheckNowForNextMajorUpdateMenu";
+            this.advancedProgramUpdatesCheckNowForNextMajorUpdateMenu.Size = new System.Drawing.Size(250, 22);
+            this.advancedProgramUpdatesCheckNowForNextMajorUpdateMenu.Text = "Check now for next &major update";
+            this.advancedProgramUpdatesCheckNowForNextMajorUpdateMenu.ToolTipText = "Click this menu to have the program check if the next major update is available (" +
+                "which wouldn\'t otherwise be installed by default)";
+            this.advancedProgramUpdatesCheckNowForNextMajorUpdateMenu.Click += new System.EventHandler(this.checkNowForNextMajorUpdateToolStripMenuItem_Click);
             // 
-            // saveTimeoutToolStripMenuItem
+            // advancedSaveTimeoutToolStripMenu
             // 
-            this.saveTimeoutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.enabledToolStripMenuItem,
-            this.asSilentlyAsPossibleToolStripMenuItem});
-            this.saveTimeoutToolStripMenuItem.Name = "saveTimeoutToolStripMenuItem";
-            this.saveTimeoutToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
-            this.saveTimeoutToolStripMenuItem.Text = "Save &Timeout";
+            this.advancedSaveTimeoutToolStripMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.advancedSaveTimeoutEnabledMenu,
+            this.advancedSaveTimeoutAsSilentlyAsPossibleMenu});
+            this.advancedSaveTimeoutToolStripMenu.Name = "advancedSaveTimeoutToolStripMenu";
+            this.advancedSaveTimeoutToolStripMenu.Size = new System.Drawing.Size(274, 22);
+            this.advancedSaveTimeoutToolStripMenu.Text = "Save &Timeout";
             // 
-            // enabledToolStripMenuItem
+            // advancedSaveTimeoutEnabledMenu
             // 
-            this.enabledToolStripMenuItem.CheckOnClick = true;
-            this.enabledToolStripMenuItem.Name = "enabledToolStripMenuItem";
-            this.enabledToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.enabledToolStripMenuItem.Text = "&Enabled";
-            this.enabledToolStripMenuItem.ToolTipText = "This menu enables a 5 minute timeout to remind you to save (disable at your own r" +
+            this.advancedSaveTimeoutEnabledMenu.CheckOnClick = true;
+            this.advancedSaveTimeoutEnabledMenu.Name = "advancedSaveTimeoutEnabledMenu";
+            this.advancedSaveTimeoutEnabledMenu.Size = new System.Drawing.Size(187, 22);
+            this.advancedSaveTimeoutEnabledMenu.Text = "&Enabled";
+            this.advancedSaveTimeoutEnabledMenu.ToolTipText = "This menu enables a 5 minute timeout to remind you to save (disable at your own r" +
                 "isk)";
-            this.enabledToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.enabledToolStripMenuItem_CheckStateChanged);
+            this.advancedSaveTimeoutEnabledMenu.CheckStateChanged += new System.EventHandler(this.enabledToolStripMenuItem_CheckStateChanged);
             // 
-            // asSilentlyAsPossibleToolStripMenuItem
+            // advancedSaveTimeoutAsSilentlyAsPossibleMenu
             // 
-            this.asSilentlyAsPossibleToolStripMenuItem.CheckOnClick = true;
-            this.asSilentlyAsPossibleToolStripMenuItem.Name = "asSilentlyAsPossibleToolStripMenuItem";
-            this.asSilentlyAsPossibleToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.asSilentlyAsPossibleToolStripMenuItem.Text = "&As silently as possible";
-            this.asSilentlyAsPossibleToolStripMenuItem.ToolTipText = "This menu indicates whether the program will query you (unchecked) or not (checke" +
+            this.advancedSaveTimeoutAsSilentlyAsPossibleMenu.CheckOnClick = true;
+            this.advancedSaveTimeoutAsSilentlyAsPossibleMenu.Name = "advancedSaveTimeoutAsSilentlyAsPossibleMenu";
+            this.advancedSaveTimeoutAsSilentlyAsPossibleMenu.Size = new System.Drawing.Size(187, 22);
+            this.advancedSaveTimeoutAsSilentlyAsPossibleMenu.Text = "&As silently as possible";
+            this.advancedSaveTimeoutAsSilentlyAsPossibleMenu.ToolTipText = "This menu indicates whether the program will query you (unchecked) or not (checke" +
                 "d) to do the save";
             // 
-            // aboutToolStripMenuItem
+            // aboutToolStripMenu
             // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 27);
-            this.aboutToolStripMenuItem.Text = "&About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            this.aboutToolStripMenu.Name = "aboutToolStripMenu";
+            this.aboutToolStripMenu.Size = new System.Drawing.Size(52, 27);
+            this.aboutToolStripMenu.Text = "&About";
+            this.aboutToolStripMenu.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // openFileDialog
             // 
@@ -1239,7 +1284,7 @@ namespace OneStoryProjectEditor
             this.saveFileDialog.DefaultExt = "onestory";
             this.saveFileDialog.FileName = "StoryProjectName";
             this.saveFileDialog.Filter = "OneStory Project file|*.onestory";
-            this.saveFileDialog.Title = "Open OneStory Project File";
+            this.saveFileDialog.Title = "Save OneStory Project File";
             // 
             // splitContainerLeftRight
             // 
@@ -1261,103 +1306,11 @@ namespace OneStoryProjectEditor
             this.splitContainerLeftRight.SplitterDistance = 453;
             this.splitContainerLeftRight.TabIndex = 2;
             // 
-            // splitContainerUpDown
-            // 
-            this.splitContainerUpDown.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.splitContainerUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerUpDown.Location = new System.Drawing.Point(0, 0);
-            this.splitContainerUpDown.Name = "splitContainerUpDown";
-            this.splitContainerUpDown.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainerUpDown.Panel1
-            // 
-            this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelTasks);
-            this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelVerseBT);
-            this.splitContainerUpDown.Panel1.Controls.Add(this.flowLayoutPanelVerses);
-            this.splitContainerUpDown.Panel1.Controls.Add(this.textBoxStoryVerse);
-            // 
-            // splitContainerUpDown.Panel2
-            // 
-            this.splitContainerUpDown.Panel2.Controls.Add(this.netBibleViewer);
-            this.splitContainerUpDown.Size = new System.Drawing.Size(453, 613);
-            this.splitContainerUpDown.SplitterDistance = 391;
-            this.splitContainerUpDown.TabIndex = 2;
-            // 
-            // linkLabelTasks
-            // 
-            this.linkLabelTasks.AutoSize = true;
-            this.linkLabelTasks.Location = new System.Drawing.Point(63, 5);
-            this.linkLabelTasks.Name = "linkLabelTasks";
-            this.linkLabelTasks.Size = new System.Drawing.Size(36, 13);
-            this.linkLabelTasks.TabIndex = 4;
-            this.linkLabelTasks.TabStop = true;
-            this.linkLabelTasks.Tag = 1;
-            this.linkLabelTasks.Text = "Tasks";
-            this.linkLabelTasks.Visible = false;
-            this.linkLabelTasks.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelTasks_LinkClicked);
-            // 
-            // linkLabelVerseBT
-            // 
-            this.linkLabelVerseBT.AutoSize = true;
-            this.linkLabelVerseBT.ContextMenuStrip = this.contextMenuStripVerseList;
-            this.helpProvider.SetHelpString(this.linkLabelVerseBT, "Click here to jump to the indicated line number. You can also right-click on this" +
-                    " to get a list of all lines to jump to.");
-            this.linkLabelVerseBT.Location = new System.Drawing.Point(11, 5);
-            this.linkLabelVerseBT.Name = "linkLabelVerseBT";
-            this.helpProvider.SetShowHelp(this.linkLabelVerseBT, true);
-            this.linkLabelVerseBT.Size = new System.Drawing.Size(31, 13);
-            this.linkLabelVerseBT.TabIndex = 4;
-            this.linkLabelVerseBT.TabStop = true;
-            this.linkLabelVerseBT.Tag = 1;
-            this.linkLabelVerseBT.Text = "Ln: 1";
-            this.linkLabelVerseBT.Visible = false;
-            this.linkLabelVerseBT.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelVerseBT_LinkClicked);
-            // 
             // contextMenuStripVerseList
             // 
             this.contextMenuStripVerseList.Name = "contextMenuStripVerseList";
             this.contextMenuStripVerseList.Size = new System.Drawing.Size(61, 4);
             this.contextMenuStripVerseList.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripVerseList_Opening);
-            // 
-            // flowLayoutPanelVerses
-            // 
-            this.flowLayoutPanelVerses.AutoScroll = true;
-            this.flowLayoutPanelVerses.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanelVerses.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelVerses.LastControlIntoView = null;
-            this.flowLayoutPanelVerses.LineNumberLink = null;
-            this.flowLayoutPanelVerses.Location = new System.Drawing.Point(0, 23);
-            this.flowLayoutPanelVerses.Name = "flowLayoutPanelVerses";
-            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(451, 366);
-            this.flowLayoutPanelVerses.TabIndex = 1;
-            this.flowLayoutPanelVerses.WrapContents = false;
-            this.flowLayoutPanelVerses.MouseMove += new System.Windows.Forms.MouseEventHandler(this.CheckBiblePaneCursorPositionMouseMove);
-            // 
-            // textBoxStoryVerse
-            // 
-            this.textBoxStoryVerse.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxStoryVerse.Dock = System.Windows.Forms.DockStyle.Top;
-            this.textBoxStoryVerse.Enabled = false;
-            this.textBoxStoryVerse.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxStoryVerse.Location = new System.Drawing.Point(0, 0);
-            this.textBoxStoryVerse.Name = "textBoxStoryVerse";
-            this.textBoxStoryVerse.ReadOnly = true;
-            this.textBoxStoryVerse.Size = new System.Drawing.Size(451, 23);
-            this.textBoxStoryVerse.TabIndex = 3;
-            this.textBoxStoryVerse.TabStop = false;
-            this.textBoxStoryVerse.Text = "Story/BT";
-            this.textBoxStoryVerse.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // netBibleViewer
-            // 
-            this.netBibleViewer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.netBibleViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.netBibleViewer.Location = new System.Drawing.Point(0, 0);
-            this.netBibleViewer.Margin = new System.Windows.Forms.Padding(0);
-            this.netBibleViewer.Name = "netBibleViewer";
-            this.netBibleViewer.ScriptureReference = "gen 1:1";
-            this.netBibleViewer.Size = new System.Drawing.Size(451, 216);
-            this.netBibleViewer.TabIndex = 0;
             // 
             // splitContainerMentorNotes
             // 
@@ -1399,18 +1352,6 @@ namespace OneStoryProjectEditor
             this.linkLabelConsultantNotes.Visible = false;
             this.linkLabelConsultantNotes.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelConsultantNotes_LinkClicked);
             // 
-            // htmlConsultantNotesControl
-            // 
-            this.htmlConsultantNotesControl.AllowWebBrowserDrop = false;
-            this.htmlConsultantNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlConsultantNotesControl.Location = new System.Drawing.Point(0, 23);
-            this.htmlConsultantNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
-            this.htmlConsultantNotesControl.Name = "htmlConsultantNotesControl";
-            this.htmlConsultantNotesControl.Size = new System.Drawing.Size(422, 331);
-            this.htmlConsultantNotesControl.StoryData = null;
-            this.htmlConsultantNotesControl.TabIndex = 2;
-            this.htmlConsultantNotesControl.TheSE = null;
-            // 
             // textBoxConsultantNotesTable
             // 
             this.textBoxConsultantNotesTable.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -1443,18 +1384,6 @@ namespace OneStoryProjectEditor
             this.linkLabelCoachNotes.Visible = false;
             this.linkLabelCoachNotes.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelCoachNotes_LinkClicked);
             // 
-            // htmlCoachNotesControl
-            // 
-            this.htmlCoachNotesControl.AllowWebBrowserDrop = false;
-            this.htmlCoachNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlCoachNotesControl.Location = new System.Drawing.Point(0, 23);
-            this.htmlCoachNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
-            this.htmlCoachNotesControl.Name = "htmlCoachNotesControl";
-            this.htmlCoachNotesControl.Size = new System.Drawing.Size(422, 228);
-            this.htmlCoachNotesControl.StoryData = null;
-            this.htmlCoachNotesControl.TabIndex = 3;
-            this.htmlCoachNotesControl.TheSE = null;
-            // 
             // textBoxCoachNotes
             // 
             this.textBoxCoachNotes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -1485,7 +1414,7 @@ namespace OneStoryProjectEditor
             this.toolStripRecordNavigation.Name = "toolStripRecordNavigation";
             this.toolStripRecordNavigation.Size = new System.Drawing.Size(118, 25);
             this.toolStripRecordNavigation.TabIndex = 3;
-            this.toolStripRecordNavigation.Text = "toolStrip1";
+            this.toolStripRecordNavigation.Text = "<no need to localize/translate>";
             // 
             // toolStripButtonShowPanoramaStories
             // 
@@ -1546,19 +1475,6 @@ namespace OneStoryProjectEditor
                 "fields visible)";
             this.toolStripButtonLast.Click += new System.EventHandler(this.toolStripButtonLast_Click);
             // 
-            // buttonsStoryStage
-            // 
-            this.buttonsStoryStage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.buttonsStoryStage.DropDownButtonWidth = 0;
-            this.buttonsStoryStage.Image = ((System.Drawing.Image)(resources.GetObject("buttonsStoryStage.Image")));
-            this.buttonsStoryStage.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.buttonsStoryStage.Name = "buttonsStoryStage";
-            this.buttonsStoryStage.Size = new System.Drawing.Size(65, 20);
-            this.buttonsStoryStage.Text = "Next State";
-            this.buttonsStoryStage.ToolTipText = "Use the \'Select State\' menu to move to a previous state";
-            this.buttonsStoryStage.Visible = false;
-            this.buttonsStoryStage.Click += new System.EventHandler(this.buttonsStoryStage_Click);
-            // 
             // statusLabel
             // 
             this.statusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
@@ -1573,25 +1489,142 @@ namespace OneStoryProjectEditor
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.buttonsStoryStage,
             this.statusLabel});
             this.statusStrip.Location = new System.Drawing.Point(0, 644);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(881, 22);
             this.statusStrip.TabIndex = 1;
-            this.statusStrip.Text = "statusStrip1";
+            this.statusStrip.Text = "<no need to localize/translate>";
             // 
             // backgroundWorker
             // 
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
             // 
-            // projectNotesToolStripMenuItem
+            // advancedOverrideLocalizeStateViewSettingsMenu
             // 
-            this.projectNotesToolStripMenuItem.Name = "projectNotesToolStripMenuItem";
-            this.projectNotesToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.projectNotesToolStripMenuItem.Text = "&Project Notes";
-            this.projectNotesToolStripMenuItem.Click += new System.EventHandler(this.projectNotesToolStripMenuItem_Click);
+            this.advancedOverrideLocalizeStateViewSettingsMenu.Name = "advancedOverrideLocalizeStateViewSettingsMenu";
+            this.advancedOverrideLocalizeStateViewSettingsMenu.Size = new System.Drawing.Size(274, 22);
+            this.advancedOverrideLocalizeStateViewSettingsMenu.Text = "&Override/Localize state view settings...";
+            this.advancedOverrideLocalizeStateViewSettingsMenu.ToolTipText = "Click to see the state table in which you can override the default view fields an" +
+                "d localize the status bar message and instructions for the various states";
+            this.advancedOverrideLocalizeStateViewSettingsMenu.Click += new System.EventHandler(this.advancedOverrideLocalizeStateViewSettingsMenu_Click);
+            // 
+            // splitContainerUpDown
+            // 
+            this.splitContainerUpDown.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splitContainerUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerUpDown.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerUpDown.Name = "splitContainerUpDown";
+            this.splitContainerUpDown.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainerUpDown.Panel1
+            // 
+            this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelTasks);
+            this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelVerseBT);
+            this.splitContainerUpDown.Panel1.Controls.Add(this.flowLayoutPanelVerses);
+            this.splitContainerUpDown.Panel1.Controls.Add(this.textBoxStoryVerse);
+            // 
+            // splitContainerUpDown.Panel2
+            // 
+            this.splitContainerUpDown.Panel2.Controls.Add(this.netBibleViewer);
+            this.splitContainerUpDown.Size = new System.Drawing.Size(453, 613);
+            this.splitContainerUpDown.SplitterDistance = 391;
+            this.splitContainerUpDown.TabIndex = 2;
+            // 
+            // linkLabelTasks
+            // 
+            this.linkLabelTasks.AutoSize = true;
+            this.linkLabelTasks.Location = new System.Drawing.Point(63, 5);
+            this.linkLabelTasks.Name = "linkLabelTasks";
+            this.linkLabelTasks.Size = new System.Drawing.Size(36, 13);
+            this.linkLabelTasks.TabIndex = 4;
+            this.linkLabelTasks.TabStop = true;
+            this.linkLabelTasks.Tag = 1;
+            this.linkLabelTasks.Text = "Tasks";
+            this.linkLabelTasks.Visible = false;
+            this.linkLabelTasks.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelTasks_LinkClicked);
+            // 
+            // linkLabelVerseBT
+            // 
+            this.linkLabelVerseBT.AutoSize = true;
+            this.linkLabelVerseBT.ContextMenuStrip = this.contextMenuStripVerseList;
+            this.helpProvider.SetHelpString(this.linkLabelVerseBT, "Click here to jump to the indicated line number. You can also right-click on this" +
+                    " to get a list of all lines to jump to.");
+            this.linkLabelVerseBT.Location = new System.Drawing.Point(11, 5);
+            this.linkLabelVerseBT.Name = "linkLabelVerseBT";
+            this.helpProvider.SetShowHelp(this.linkLabelVerseBT, true);
+            this.linkLabelVerseBT.Size = new System.Drawing.Size(31, 13);
+            this.linkLabelVerseBT.TabIndex = 4;
+            this.linkLabelVerseBT.TabStop = true;
+            this.linkLabelVerseBT.Tag = 1;
+            this.linkLabelVerseBT.Text = "Ln: 1";
+            this.linkLabelVerseBT.Visible = false;
+            this.linkLabelVerseBT.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelVerseBT_LinkClicked);
+            // 
+            // flowLayoutPanelVerses
+            // 
+            this.flowLayoutPanelVerses.AutoScroll = true;
+            this.flowLayoutPanelVerses.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanelVerses.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanelVerses.LastControlIntoView = null;
+            this.flowLayoutPanelVerses.LineNumberLink = null;
+            this.flowLayoutPanelVerses.Location = new System.Drawing.Point(0, 23);
+            this.flowLayoutPanelVerses.Name = "flowLayoutPanelVerses";
+            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(451, 366);
+            this.flowLayoutPanelVerses.TabIndex = 1;
+            this.flowLayoutPanelVerses.WrapContents = false;
+            this.flowLayoutPanelVerses.MouseMove += new System.Windows.Forms.MouseEventHandler(this.CheckBiblePaneCursorPositionMouseMove);
+            // 
+            // textBoxStoryVerse
+            // 
+            this.textBoxStoryVerse.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxStoryVerse.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textBoxStoryVerse.Enabled = false;
+            this.textBoxStoryVerse.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxStoryVerse.Location = new System.Drawing.Point(0, 0);
+            this.textBoxStoryVerse.Name = "textBoxStoryVerse";
+            this.textBoxStoryVerse.ReadOnly = true;
+            this.textBoxStoryVerse.Size = new System.Drawing.Size(451, 23);
+            this.textBoxStoryVerse.TabIndex = 3;
+            this.textBoxStoryVerse.TabStop = false;
+            this.textBoxStoryVerse.Text = "Story/BT";
+            this.textBoxStoryVerse.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // netBibleViewer
+            // 
+            this.netBibleViewer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.netBibleViewer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.netBibleViewer.Location = new System.Drawing.Point(0, 0);
+            this.netBibleViewer.Margin = new System.Windows.Forms.Padding(0);
+            this.netBibleViewer.Name = "netBibleViewer";
+            this.netBibleViewer.ScriptureReference = "gen 1:1";
+            this.netBibleViewer.Size = new System.Drawing.Size(451, 216);
+            this.netBibleViewer.TabIndex = 0;
+            // 
+            // htmlConsultantNotesControl
+            // 
+            this.htmlConsultantNotesControl.AllowWebBrowserDrop = false;
+            this.htmlConsultantNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlConsultantNotesControl.Location = new System.Drawing.Point(0, 23);
+            this.htmlConsultantNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
+            this.htmlConsultantNotesControl.Name = "htmlConsultantNotesControl";
+            this.htmlConsultantNotesControl.Size = new System.Drawing.Size(422, 331);
+            this.htmlConsultantNotesControl.StoryData = null;
+            this.htmlConsultantNotesControl.TabIndex = 2;
+            this.htmlConsultantNotesControl.TheSE = null;
+            // 
+            // htmlCoachNotesControl
+            // 
+            this.htmlCoachNotesControl.AllowWebBrowserDrop = false;
+            this.htmlCoachNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlCoachNotesControl.Location = new System.Drawing.Point(0, 23);
+            this.htmlCoachNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
+            this.htmlCoachNotesControl.Name = "htmlCoachNotesControl";
+            this.htmlCoachNotesControl.Size = new System.Drawing.Size(422, 228);
+            this.htmlCoachNotesControl.StoryData = null;
+            this.htmlCoachNotesControl.TabIndex = 3;
+            this.htmlCoachNotesControl.TheSE = null;
             // 
             // StoryEditor
             // 
@@ -1613,10 +1646,6 @@ namespace OneStoryProjectEditor
             this.splitContainerLeftRight.Panel1.ResumeLayout(false);
             this.splitContainerLeftRight.Panel2.ResumeLayout(false);
             this.splitContainerLeftRight.ResumeLayout(false);
-            this.splitContainerUpDown.Panel1.ResumeLayout(false);
-            this.splitContainerUpDown.Panel1.PerformLayout();
-            this.splitContainerUpDown.Panel2.ResumeLayout(false);
-            this.splitContainerUpDown.ResumeLayout(false);
             this.splitContainerMentorNotes.Panel1.ResumeLayout(false);
             this.splitContainerMentorNotes.Panel1.PerformLayout();
             this.splitContainerMentorNotes.Panel2.ResumeLayout(false);
@@ -1626,6 +1655,10 @@ namespace OneStoryProjectEditor
             this.toolStripRecordNavigation.PerformLayout();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
+            this.splitContainerUpDown.Panel1.ResumeLayout(false);
+            this.splitContainerUpDown.Panel1.PerformLayout();
+            this.splitContainerUpDown.Panel2.ResumeLayout(false);
+            this.splitContainerUpDown.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1634,12 +1667,12 @@ namespace OneStoryProjectEditor
         #endregion
 
         private MenuStrip menuStrip;
-        private ToolStripMenuItem projectToolStripMenuItem;
-        private ToolStripMenuItem browseForProjectToolStripMenuItem;
-        private ToolStripMenuItem saveToolStripMenuItem;
-        private ToolStripMenuItem exitToolStripMenuItem;
+        private ToolStripMenuItem projectToolStripMenu;
+        private ToolStripMenuItem projectBrowseForProjectFileMenu;
+        private ToolStripMenuItem projectSaveProjectMenu;
+        private ToolStripMenuItem projectExitMenu;
         private ToolStripSeparator toolStripSeparator1;
-        private ToolStripMenuItem projectSettingsToolStripMenuItem;
+        private ToolStripMenuItem projectSettingsMenu;
         private ToolStripSeparator toolStripSeparator2;
         private OpenFileDialog openFileDialog;
         private SaveFileDialog saveFileDialog;
@@ -1649,15 +1682,15 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem viewToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator5;
         private ToolStripSeparator toolStripSeparator6;
-        internal ToolStripMenuItem viewVernacularLangFieldMenuItem;
-        internal ToolStripMenuItem viewNationalLangFieldMenuItem;
-        internal ToolStripMenuItem viewEnglishBTFieldMenuItem;
-        internal ToolStripMenuItem viewAnchorFieldMenuItem;
-        internal ToolStripMenuItem viewStoryTestingQuestionMenuItem;
-        internal ToolStripMenuItem viewRetellingFieldMenuItem;
-        internal ToolStripMenuItem viewConsultantNoteFieldMenuItem;
-        internal ToolStripMenuItem viewNetBibleMenuItem;
-        internal ToolStripMenuItem viewCoachNotesFieldMenuItem;
+        internal ToolStripMenuItem viewVernacularLangMenu;
+        internal ToolStripMenuItem viewNationalLangMenu;
+        internal ToolStripMenuItem viewEnglishBtMenu;
+        internal ToolStripMenuItem viewAnchorsMenu;
+        internal ToolStripMenuItem viewStoryTestingQuestionsMenu;
+        internal ToolStripMenuItem viewRetellingsMenu;
+        internal ToolStripMenuItem viewConsultantNotesMenu;
+        internal ToolStripMenuItem viewBibleMenu;
+        internal ToolStripMenuItem viewCoachNotesMenu;
         private NetBibleViewer netBibleViewer;
         private ToolStripSeparator toolStripSeparator3;
         private SplitContainer splitContainerMentorNotes;
@@ -1665,56 +1698,56 @@ namespace OneStoryProjectEditor
         private TextBox textBoxCoachNotes;
         private TextBox textBoxStoryVerse;
         private ToolStripComboBox comboBoxStorySelector;
-        private ToolStripMenuItem newToolStripMenuItem;
-        private ToolStripMenuItem recentProjectsToolStripMenuItem;
+        private ToolStripMenuItem advancedNewProjectMenu;
+        private ToolStripMenuItem projectRecentProjectsMenu;
         private ToolStripSeparator toolStripSeparator4;
         private HelpProvider helpProvider;
-        private ToolStripMenuItem insertNewStoryToolStripMenuItem;
-        private ToolStripMenuItem deleteStoryToolStripMenuItem;
-        private ToolStripMenuItem addNewStoryAfterToolStripMenuItem;
-        private ToolStripMenuItem enterTheReasonThisStoryIsInTheSetToolStripMenuItem;
-        private ToolStripMenuItem storyToolStripMenuItem;
-        private ToolStripMenuItem editToolStripMenuItem;
-        private ToolStripMenuItem copyToolStripMenuItem;
-        private ToolStripMenuItem copyStoryToolStripMenuItem;
-        private ToolStripMenuItem copyNationalBackTranslationToolStripMenuItem;
-        private ToolStripMenuItem copyEnglishBackTranslationToolStripMenuItem;
-        private ToolStripMenuItem deleteBackTranslationToolStripMenuItem;
-        private ToolStripMenuItem deleteStoryNationalBackTranslationToolStripMenuItem;
-        private ToolStripMenuItem deleteEnglishBacktranslationToolStripMenuItem;
+        private ToolStripMenuItem panoramaInsertNewStoryMenu;
+        private ToolStripMenuItem storyDeleteStoryMenu;
+        private ToolStripMenuItem panoramaAddNewStoryAfterMenu;
+        private ToolStripMenuItem storyStoryInformationMenu;
+        private ToolStripMenuItem storyToolStripMenu;
+        private ToolStripMenuItem editToolStripMenu;
+        private ToolStripMenuItem editCopyToolStripMenu;
+        private ToolStripMenuItem editCopyStoryMenu;
+        private ToolStripMenuItem editCopyNationalBtMenu;
+        private ToolStripMenuItem editCopyEnglishBtMenu;
+        private ToolStripMenuItem editDeleteToolStripMenu;
+        private ToolStripMenuItem editDeleteNationalBtMenu;
+        private ToolStripMenuItem editDeleteEnglishBtMenu;
         private ToolStripSeparator toolStripSeparator7;
-        private ToolStripMenuItem refreshToolStripMenuItem;
-        private ToolStripMenuItem pasteToolStripMenuItem;
-        private ToolStripMenuItem splitIntoLinesToolStripMenuItem;
-        private ToolStripMenuItem aboutToolStripMenuItem;
+        private ToolStripMenuItem viewRefreshMenu;
+        private ToolStripMenuItem editPasteMenu;
+        private ToolStripMenuItem storySplitIntoLinesMenu;
+        private ToolStripMenuItem aboutToolStripMenu;
         private ToolStripSeparator toolStripSeparator8;
-        private ToolStripMenuItem viewOldStoriesToolStripMenuItem;
-        private ToolStripMenuItem deleteStoryVersesToolStripMenuItem;
-        private ToolStripMenuItem deleteTestToolStripMenuItem;
-        private ToolStripMenuItem toolStripMenuItemShowPanorama;
-        private ToolStripMenuItem panoramaToolStripMenuItem;
-        private ToolStripMenuItem editAddRetellingTestResultsToolStripMenuItem;
-        private ToolStripMenuItem editCopySelectionToolStripMenuItem;
-        private ToolStripMenuItem projectFromTheInternetToolStripMenuItem;
+        private ToolStripMenuItem viewOldStoriesMenu;
+        private ToolStripMenuItem editDeleteStoryLinesMenu;
+        private ToolStripMenuItem editDeleteTestToolStripMenu;
+        private ToolStripMenuItem panoramaShowMenu;
+        private ToolStripMenuItem panoramaToolStripMenu;
+        private ToolStripMenuItem editAddRetellingTestResultsMenu;
+        private ToolStripMenuItem editCopySelectionMenu;
+        private ToolStripMenuItem projectFromTheInternetMenu;
         private ToolStripSeparator toolStripSeparator9;
         private ToolStripSeparator toolStripSeparator10;
-        private ToolStripMenuItem editFindToolStripMenuItem;
-        private ToolStripMenuItem findNextToolStripMenuItem;
-        private ToolStripMenuItem replaceToolStripMenuItem;
-        private ToolStripMenuItem advancedToolStripMenuItem;
-        private ToolStripMenuItem changeProjectFolderRootToolStripMenuItem;
-        private ToolStripMenuItem projectFromASharedNetworkDriveToolStripMenu;
-        private ToolStripMenuItem realignStoryVersesToolStripMenuItem;
-        private ToolStripMenuItem toTheInternetToolStripMenuItem;
-        private ToolStripMenuItem storyCopyWithNewNameToolStripMenuItem;
-        private ToolStripMenuItem projectLoginToolStripMenuItem;
+        private ToolStripMenuItem editFindMenu;
+        private ToolStripMenuItem editFindNextMenu;
+        private ToolStripMenuItem editReplaceMenu;
+        private ToolStripMenuItem advancedToolStripMenu;
+        private ToolStripMenuItem advancedChangeProjectFolderRootMenu;
+        private ToolStripMenuItem projectFromASharedNetworkDriveMenu;
+        private ToolStripMenuItem storyRealignStoryLinesMenu;
+        private ToolStripMenuItem projectToTheInternetMenu;
+        private ToolStripMenuItem storyCopyWithNewNameMenu;
+        private ToolStripMenuItem projectLoginMenu;
         private ToolStripSeparator toolStripSeparator11;
-        internal ToolStripMenuItem hiddenVersesToolStripMenuItem;
-        private ToolStripMenuItem exportToToolboxToolStripMenuItem;
-        private ToolStripMenuItem showHideFieldsToolStripMenuItem;
+        internal ToolStripMenuItem viewHiddenVersesMenu;
+        private ToolStripMenuItem projectExportToToolboxMenu;
+        private ToolStripMenuItem viewShowHideFieldsMenu;
         internal HtmlConsultantNotesControl htmlConsultantNotesControl;
         internal HtmlCoachNotesControl htmlCoachNotesControl;
-        private ToolStripMenuItem viewTransliterationsToolStripMenuItem;
+        private ToolStripMenuItem viewTransliterationsToolStripMenu;
         internal ToolStripMenuItem viewTransliterationVernacular;
         internal ToolStripMenuItem viewTransliterationNationalBT;
         internal ToolStripMenuItem viewTransliterationInternationalBt;
@@ -1726,55 +1759,57 @@ namespace OneStoryProjectEditor
         internal LinkLabel linkLabelVerseBT;
         internal LinkLabel linkLabelTasks;
         private ContextMenuStrip contextMenuStripVerseList;
-        private ToolStripMenuItem resetStoredInformationToolStripMenuItem;
-        private ToolStripMenuItem historicalDifferencesToolStripMenuItem;
-        private ToolStripMenuItem useSameSettingsForAllStoriesToolStripMenuItem;
-        private ToolStripMenuItem printPreviewToolStripMenuItem;
+        private ToolStripMenuItem advancedResetStoredInformationMenu;
+        private ToolStripMenuItem viewHistoricalDifferencesMenu;
+        private ToolStripMenuItem viewUseSameSettingsForAllStoriesMenu;
+        private ToolStripMenuItem projectPrintMenu;
         private ToolStripSeparator toolStripSeparator12;
-        internal ToolStripMenuItem viewStoryTestingQuestionAnswerMenuItem;
-        private ToolStripMenuItem concordanceToolStripMenuItem;
+        internal ToolStripMenuItem viewStoryTestingQuestionAnswersMenu;
+        private ToolStripMenuItem viewConcordanceMenu;
         private ToolStrip toolStripRecordNavigation;
         private ToolStripButton toolStripButtonFirst;
         private ToolStripButton toolStripButtonPrevious;
         private ToolStripButton toolStripButtonNext;
         private ToolStripButton toolStripButtonLast;
-        private ToolStripSplitButton buttonsStoryStage;
         private ToolStripStatusLabel statusLabel;
         private StatusStrip statusStrip;
         private ToolStripSeparator toolStripSeparator13;
         internal ToolStripMenuItem viewOnlyOpenConversationsMenu;
-        private ToolStripMenuItem stateTransitionHistoryToolStripMenuItem;
-        private ToolStripMenuItem changeStateWithoutChecksToolStripMenuItem;
-        private ToolStripMenuItem programUpdatesToolStripMenuItem;
-        private ToolStripMenuItem automaticallyCheckAtStartupToolStripMenuItem;
-        private ToolStripMenuItem checkForProgramUpdatesNowToolStripMenuItem;
-        private ToolStripMenuItem saveTimeoutToolStripMenuItem;
-        private ToolStripMenuItem enabledToolStripMenuItem;
-        private ToolStripMenuItem asSilentlyAsPossibleToolStripMenuItem;
-        private ToolStripMenuItem sendReceiveToolStripMenuItem;
+        private ToolStripMenuItem viewStateTransitionHistoryMenu;
+        private ToolStripMenuItem advancedChangeStateWithoutChecksMenu;
+        private ToolStripMenuItem advancedProgramUpdatesToolStripMenu;
+        private ToolStripMenuItem advancedProgramUpdatesAutomaticallyCheckAtStartupMenu;
+        private ToolStripMenuItem advancedProgramUpdatesCheckNowMenu;
+        private ToolStripMenuItem advancedSaveTimeoutToolStripMenu;
+        private ToolStripMenuItem advancedSaveTimeoutEnabledMenu;
+        private ToolStripMenuItem advancedSaveTimeoutAsSilentlyAsPossibleMenu;
+        private ToolStripMenuItem projectSendReceiveMenu;
         private ToolStripMenuItem viewLnCNotesMenu;
         private ToolStripSeparator toolStripSeparator14;
-        private ToolStripMenuItem useAdaptItForBacktranslationToolStripMenuItem;
-        private ToolStripMenuItem storyAdaptItVernacularToNationalMenuItem;
-        private ToolStripMenuItem storyAdaptItVernacularToEnglishMenuItem;
-        private ToolStripMenuItem storyAdaptItNationalToEnglishMenuItem;
-        internal ToolStripMenuItem viewFreeTranslationToolStripMenuItem;
-        private ToolStripMenuItem copyFreeTranslationMenuItem;
-        private ToolStripMenuItem deleteFreeTranslationToolStripMenuItem;
-        private ToolStripMenuItem editAddInferenceTestResultsToolStripMenuItem;
-        private ToolStripMenuItem synchronizeSharedAdaptItProjectsToolStripMenuItem;
-        private ToolStripMenuItem addgeneralTestQuestionToolStripMenuItem;
-        internal ToolStripMenuItem viewGeneralTestingQuestionMenuItem;
-        private ToolStripMenuItem toAThumbdriveToolStripMenuItem;
-        private ToolStripMenuItem closeProjectToolStripMenuItem;
+        private ToolStripMenuItem storyUseAdaptItForBackTranslationMenu;
+        private ToolStripMenuItem storyAdaptItVernacularToNationalMenu;
+        private ToolStripMenuItem storyAdaptItVernacularToEnglishMenu;
+        private ToolStripMenuItem storyAdaptItNationalToEnglishMenu;
+        internal ToolStripMenuItem viewFreeTranslationMenu;
+        private ToolStripMenuItem editCopyFreeTranslationMenu;
+        private ToolStripMenuItem editDeleteFreeTranslationMenu;
+        private ToolStripMenuItem editAddInferenceTestResultsMenu;
+        private ToolStripMenuItem storySynchronizeSharedAdaptItProjectsMenu;
+        private ToolStripMenuItem editAddGeneralTestQuestionMenu;
+        internal ToolStripMenuItem viewGeneralTestingsQuestionMenu;
+        private ToolStripMenuItem projectToAThumbdriveMenu;
+        private ToolStripMenuItem projectCloseProjectMenu;
         internal ToolStripMenuItem viewExegeticalHelps;
         private System.ComponentModel.BackgroundWorker backgroundWorker;
         private ToolStripButton toolStripButtonShowPanoramaStories;
-        private ToolStripMenuItem checkNowForNextMajorUpdateToolStripMenuItem;
+        private ToolStripMenuItem advancedProgramUpdatesCheckNowForNextMajorUpdateMenu;
         private ToolStripMenuItem viewTransliteratorInternationalBtConfigureToolStripMenuItem;
         private ToolStripMenuItem viewTransliteratorFreeTranslationConfigureToolStripMenuItem;
-        private ToolStripMenuItem storyOverrideTasks;
-        private ToolStripMenuItem projectNotesToolStripMenuItem;
+        private ToolStripMenuItem storyOverrideTasksMenu;
+        private ToolStripMenuItem viewProjectNotesMenu;
+        private ToolStripMenuItem advancedLocalizationMenu;
+        private ToolStripSeparator toolStripSeparator15;
+        private ToolStripMenuItem advancedOverrideLocalizeStateViewSettingsMenu;
     }
 
 #if UsingHtmlDisplayForConNotes

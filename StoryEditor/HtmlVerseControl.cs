@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -38,7 +39,7 @@ namespace OneStoryProjectEditor
                                               VersesData.CstrZerothLineNameConNotes,
                                               VersesData.CstrZerothLineNameConNotes.Length))
             {
-                LineNumberLink.Text = "Story (Ln: 0)";
+                LineNumberLink.Text = StoryEditor.CstrFirstVerse;
                 LineNumberLink.Tag = 0;
             }
             else
@@ -47,7 +48,7 @@ namespace OneStoryProjectEditor
                 int nIndex = elemLnPrev.InnerText.IndexOf(' ');
                 System.Diagnostics.Debug.Assert(nIndex != -1);
                 string strLineNumber = elemLnPrev.InnerText.Substring(nIndex + 1);
-                if ((nIndex = strLineNumber.IndexOf(OseResources.Properties.Resources.IDS_HiddenLabel)) != -1)
+                if ((nIndex = strLineNumber.IndexOf(VersesData.HiddenStringSpace)) != -1)
                     strLineNumber = strLineNumber.Substring(0, nIndex);
                 LineNumberLink.Tag = Convert.ToInt32(strLineNumber);
             }
@@ -168,7 +169,7 @@ namespace OneStoryProjectEditor
             {
                 if (theSE == null)
                     throw new ApplicationException(
-                        "Unable to edit the file! Restart the program and if it persists, contact bob_eaton@sall.com");
+                        Localizer.Str("Unable to edit the file! Restart the program and if it persists, contact bob_eaton@sall.com"));
 
                 if (!theSE.IsInStoriesSet)
                     throw theSE.CantEditOldStoriesEx;
@@ -178,7 +179,7 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 if (theSE != null)
-                    theSE.SetStatusBar(String.Format("Error: {0}", ex.Message));
+                    theSE.SetStatusBar(String.Format(Localizer.Str("Error: {0}"), ex.Message));
                 return false;
             }
 

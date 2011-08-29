@@ -11,8 +11,8 @@ using System.Resources;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SIL")]
 [assembly: AssemblyProduct("OneStory Editor")]
-[assembly: AssemblyCopyright("Copyright © SIL 2010")]
-[assembly: AssemblyTrademark("Copyright © SIL 2010")]
+[assembly: AssemblyCopyright("Copyright © SIL 2010-2011")]
+[assembly: AssemblyTrademark("Copyright © SIL 2010-2011")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -33,6 +33,6 @@ using System.Resources;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.2.0.0")]
-[assembly: AssemblyFileVersion("2.2.0.15")]
+[assembly: AssemblyVersion("2.3.0.0")]
+[assembly: AssemblyFileVersion("2.3.0.0")]
 [assembly: NeutralResourcesLanguageAttribute("en")]

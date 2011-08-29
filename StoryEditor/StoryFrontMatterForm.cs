@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -117,8 +118,8 @@ namespace OneStoryProjectEditor
             if (member != null)
                 InitToolboxTextTip(member, row.TbxName);
             row.TbxComment.Text = testor.MemberComment;
-            toolTip.SetToolTip(row.LinkLabelView, Properties.Resources.IDS_StoryInformationTooltipLinkView);
-            toolTip.SetToolTip(row.LinkLabelChange, Properties.Resources.IDS_StoryInformationTooltipLinkChange);
+            toolTip.SetToolTip(row.LinkLabelView, StoryInformationTooltipLinkView);
+            toolTip.SetToolTip(row.LinkLabelChange, StoryInformationTooltipLinkChange);
         }
 
         internal const string CstrDeleteTest = "Delete";
@@ -145,14 +146,24 @@ namespace OneStoryProjectEditor
                     InitToolboxTextTip(member, tbName);
                 tbComment.Text = memberInfo.MemberComment;
             }
-            toolTip.SetToolTip(linkView, Properties.Resources.IDS_StoryInformationTooltipLinkView);
-            toolTip.SetToolTip(linkChange, Properties.Resources.IDS_StoryInformationTooltipLinkChange);
+            toolTip.SetToolTip(linkView, StoryInformationTooltipLinkView);
+            toolTip.SetToolTip(linkChange, StoryInformationTooltipLinkChange);
         }
 
         private void InitToolboxTextTip(TeamMemberData tmd, TextBox tbName)
         {
             tbName.Text = tmd.Name;
             toolTip.SetToolTip(tbName, tmd.BioData);
+        }
+
+        private static string StoryInformationTooltipLinkView
+        {
+            get { return Localizer.Str("Click to edit the contact or bio data for this team member"); }
+        }
+
+        private static string StoryInformationTooltipLinkChange
+        {
+            get { return Localizer.Str("Click to choose another team member"); }
         }
 
         private void linkLabelViewForProjectFacilitator_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -489,8 +500,7 @@ namespace OneStoryProjectEditor
                 !String.IsNullOrEmpty(aRow.TbxName.Text)))
             {
                 if (lstUnsGuids.Contains(aRow.TbxName.Text))
-                    throw new ApplicationException(String.Format(Properties.Resources.IDS_AddTestSameUNS,
-                                                                 aRow.TbxName.Text));
+                    throw new ApplicationException(StoryEditor.NewUnsMessage(aRow.TbxName.Text));
                 lstUnsGuids.Add(aRow.TbxName.Text);
             }
         }

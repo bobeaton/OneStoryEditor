@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -50,11 +51,9 @@ namespace OneStoryProjectEditor
                         {
                             if (lstSentences.Count > 1)
                             {
-                                DialogResult res = MessageBox.Show(
-                                    String.Format(Properties.Resources.IDS_QuerySplitMultipleLines,
-                                                  theStoryProjectData.ProjSettings.Vernacular.LangName,
-                                            nVerseNumber), OseResources.Properties.Resources.IDS_Caption,
-                                    MessageBoxButtons.YesNoCancel);
+                                DialogResult res =
+                                    QuerySplitIntoLines(theStoryProjectData.ProjSettings.Vernacular.LangName,
+                                                        nVerseNumber);
                                 if (res == DialogResult.Cancel)
                                     return false;
 
@@ -94,7 +93,7 @@ namespace OneStoryProjectEditor
                 (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose)
                 || String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ResourcesUsed)))
             {
-                MessageBox.Show(String.Format("In the following window, type in the purpose of the story (why you have it in your panorama) and list the resources you used to craft the story", Environment.NewLine), OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(String.Format("In the following window, type in the purpose of the story (why you have it in your panorama) and list the resources you used to craft the story", Environment.NewLine), StoryEditor.OseCaption);
                 theSE.QueryStoryPurpose();
             }
 
@@ -130,6 +129,15 @@ namespace OneStoryProjectEditor
                 theSE._bAutoHide = false;
 
             return true;
+        }
+
+        public static DialogResult QuerySplitIntoLines(string strLanguageName, int nVerseNumber)
+        {
+            return MessageBox.Show(
+                String.Format(Localizer.Str("The '{0}' field of line '{1}' has multiple sentences. Click 'Yes' to have them separated into their own lines. Click 'No' to ignore and continue"),
+                              strLanguageName, nVerseNumber),
+                StoryEditor.OseCaption,
+                MessageBoxButtons.YesNoCancel);
         }
 
         public static bool ProjFacTypeNationalBT(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
@@ -190,7 +198,7 @@ namespace OneStoryProjectEditor
                             MessageBox.Show(String.Format(Properties.Resources.IDS_UseStoryCollapse,
                                                           nVerseNumber,
                                                           theStoryProjectData.ProjSettings.NationalBT.LangName),
-                                            OseResources.Properties.Resources.IDS_Caption);
+                                            StoryEditor.OseCaption);
                             return false;
                         }
                     }
@@ -306,7 +314,7 @@ namespace OneStoryProjectEditor
                             MessageBox.Show(String.Format(Properties.Resources.IDS_UseStoryCollapse,
                                                           nVerseNumber,
                                                           theStoryProjectData.ProjSettings.InternationalBT.LangName),
-                                            OseResources.Properties.Resources.IDS_Caption);
+                                            StoryEditor.OseCaption);
                             return false;
                         }
                     }
@@ -408,7 +416,7 @@ namespace OneStoryProjectEditor
                             MessageBox.Show(String.Format(Properties.Resources.IDS_UseStoryCollapse,
                                                           nVerseNumber,
                                                           theStoryProjectData.ProjSettings.FreeTranslation.LangName),
-                                            OseResources.Properties.Resources.IDS_Caption);
+                                            StoryEditor.OseCaption);
                             return false;
                         }
                     }
@@ -514,7 +522,7 @@ namespace OneStoryProjectEditor
         {
             theSE.SetStatusBar(strStatusMessage);
             Console.Beep();
-            MessageBox.Show(strStatusMessage, OseResources.Properties.Resources.IDS_Caption);
+            MessageBox.Show(strStatusMessage, StoryEditor.OseCaption);
         }
 
         public static bool ProjFacAddAnchors(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
@@ -543,9 +551,7 @@ namespace OneStoryProjectEditor
                 {
                     if (aVerseData.Anchors.Count == 0)
                     {
-                        ShowError(theSE,
-                                  String.Format("Error: Line {0} doesn't have an anchor. Did you forget it?",
-                                                nVerseNumber));
+                        ShowError(theSE, ProjectFacilitatorRequirementsCheck.NoAnchorMessage(nVerseNumber));
                         theSE.FocusOnVerse(nVerseNumber, true, true);
                         return false;
                     }
@@ -562,7 +568,7 @@ namespace OneStoryProjectEditor
             if (!bHasAnyKeyTermBeenChecked)
             {
                 DialogResult res = MessageBox.Show(Properties.Resources.IDS_CheckOnKeyTerms,
-                                               OseResources.Properties.Resources.IDS_Caption, 
+                                               StoryEditor.OseCaption, 
                                                MessageBoxButtons.RetryCancel);
                 if (res == DialogResult.Cancel)
                     return false;
@@ -614,7 +620,7 @@ namespace OneStoryProjectEditor
                 return true;
 
             DialogResult res = MessageBox.Show(Properties.Resources.IDS_CheckForSkipToUnsCheck,
-                                               OseResources.Properties.Resources.IDS_Caption,
+                                               StoryEditor.OseCaption,
                                                MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Cancel)
                 return false;
@@ -657,13 +663,16 @@ namespace OneStoryProjectEditor
 #if !NotRelaxTqCountRequirement
                 DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_WarnAboutNotEnoughTqs,
                                                                  nNumLacking),
-                                                   OseResources.Properties.Resources.IDS_Caption,
+                                                   StoryEditor.OseCaption,
                                                    MessageBoxButtons.YesNoCancel);
                 
                 if (res != DialogResult.Yes)
 #else
                 ShowError(theSE,
-                          String.Format(Properties.Resources.IDS_NotEnoughTqs, nNumLacking));
+                          String.Format(
+                              Localizer.Str(
+                                  "You should have at least half as many Story Testing Questions as lines in the story. Please add at least {0} more testing question(s). (right-click on the 'line options' button and choose 'Add a story testing question')"),
+                              nNumLacking));
 #endif
                     return false;
             }
@@ -1126,16 +1135,26 @@ namespace OneStoryProjectEditor
                                  null);
 
                 TeamMemberData theCommentor = theLastCi.Commentor(theSE.StoryProject.TeamMembers);
-                string strErrorMsg = String.Format(
-                    Properties.Resources.IDS_DidntAnswerQuestion,
-                    nVerseNumber,
-                    paneConNote.PaneLabel(),
-                    aConNote.MentorLabel(theCommentor, theStory.CraftingInfo.ProjectFacilitator.MemberId));
+                string strErrorMsg = WarnDidntAnswerQuestion(nVerseNumber,
+                                                             paneConNote.PaneLabel(),
+                                                             aConNote.MentorLabel(theCommentor,
+                                                                                  theStory.CraftingInfo.
+                                                                                      ProjectFacilitator.MemberId));
                 ShowErrorFocus(theSE, paneConNote, nVerseNumber, strErrorMsg);
                 return false;
             }
 
             return true;
+        }
+
+        private static string WarnDidntAnswerQuestion(int nVerseNumber, 
+            string strPaneLabel, string strLabel)
+        {
+            return String.Format(
+                Localizer.Str("In line {0} of the {1} pane, there's an empty box labeled '{2}', into which you are supposed to enter a response. Did you forget it?"),
+                nVerseNumber,
+                strPaneLabel,
+                strLabel);
         }
 
         static bool CheckThatMenteeAnsweredMentorsQuestions(StoryEditor theSE, 
@@ -1159,12 +1178,11 @@ namespace OneStoryProjectEditor
                                  null);
 
                 TeamMemberData theCommentor = theLastCi.Commentor(theSE.StoryProject.TeamMembers);
-                string strErrorMsg = String.Format(
-                    Properties.Resources.IDS_DidntAnswerQuestion,
-                    nVerseNumber,
-                    paneConNote.PaneLabel(),
-                    aConNote.MenteeLabel(theCommentor, theStory.CraftingInfo.ProjectFacilitator.MemberId));
-
+                string strErrorMsg = WarnDidntAnswerQuestion(nVerseNumber,
+                                                             paneConNote.PaneLabel(),
+                                                             aConNote.MenteeLabel(theCommentor,
+                                                                                  theStory.CraftingInfo.
+                                                                                      ProjectFacilitator.MemberId));
                 ShowErrorFocus(theSE, paneConNote, nVerseNumber, strErrorMsg);
                 return false;
             }
@@ -1361,7 +1379,7 @@ namespace OneStoryProjectEditor
         private static bool QueryPrepareForRetellingBoxes(StoryEditor theSE)
         {
             DialogResult res = MessageBox.Show(Properties.Resources.IDS_AddRetellingTestQuery,
-                                               OseResources.Properties.Resources.IDS_Caption,
+                                               StoryEditor.OseCaption,
                                                MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Cancel)
                 return false;
@@ -1411,7 +1429,7 @@ namespace OneStoryProjectEditor
 
             // add the answer lines to the verses for test n
             DialogResult res = MessageBox.Show(Properties.Resources.IDS_AddInferenceTestQuery,
-                                               OseResources.Properties.Resources.IDS_Caption,
+                                               StoryEditor.OseCaption,
                                                MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Cancel)
                 return false;
@@ -1463,7 +1481,7 @@ namespace OneStoryProjectEditor
             DialogResult res =
                 MessageBox.Show(
                     Properties.Resources.IDS_AddAnotherTestQuery,
-                    OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                    StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
 
             if (res == DialogResult.Cancel)
                 return false;
@@ -1810,7 +1828,7 @@ namespace OneStoryProjectEditor
             Console.WriteLine(String.Format("Checking if stage 'ProjFacReadyForTest2' work is finished: Name: {0}", theCurrentStory.Name));
 
             // add the story question answer lines and retelling lines to the verses for test n
-            DialogResult res = MessageBox.Show(OseResources.Properties.Resources.IDS_AddTestQuery, OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+            DialogResult res = MessageBox.Show(Properties.Resources.IDS_AddTestQuery, StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Cancel)
                 return false;
 
@@ -1842,7 +1860,7 @@ namespace OneStoryProjectEditor
                 return false;
 
             // see if they want to enter results for the next UNS test
-            DialogResult res = MessageBox.Show("Click 'Yes' to create the boxes for entering the next UNS's answers to the testing questions", OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+            DialogResult res = MessageBox.Show("Click 'Yes' to create the boxes for entering the next UNS's answers to the testing questions", StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Yes)
                 theSE.AddTest();
             else if (res == DialogResult.Cancel)

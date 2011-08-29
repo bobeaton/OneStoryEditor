@@ -36,7 +36,7 @@ namespace OneStoryProjectEditor
 
             int nNumColumns = 0;
             CtrlTextBox ctrlTextBoxVernacular = null;
-            if (aSE.viewVernacularLangFieldMenuItem.Checked)
+            if (aSE.viewVernacularLangMenu.Checked)
             {
                 InsertColumn(nNumColumns);
 #if ShowLabelRow
@@ -61,7 +61,7 @@ namespace OneStoryProjectEditor
             }
 
             CtrlTextBox ctrlTextBoxNationalBT = null;
-            if (aSE.viewNationalLangFieldMenuItem.Checked)
+            if (aSE.viewNationalLangMenu.Checked)
             {
                 InsertColumn(nNumColumns);
 
@@ -88,7 +88,7 @@ namespace OneStoryProjectEditor
                     ctrlTextBoxVernacular.NationalBtSibling = ctrlTextBoxNationalBT;
             }
 
-            if (aSE.viewEnglishBTFieldMenuItem.Checked)
+            if (aSE.viewEnglishBtMenu.Checked)
             {
                 InsertColumn(nNumColumns);
 
@@ -116,7 +116,7 @@ namespace OneStoryProjectEditor
                     ctrlTextBoxNationalBT.EnglishBtSibling = ctrlTextBoxEnglishBT;
             }
 
-            if (aSE.viewFreeTranslationToolStripMenuItem.Checked)
+            if (aSE.viewFreeTranslationMenu.Checked)
             {
                 InsertColumn(nNumColumns);
 

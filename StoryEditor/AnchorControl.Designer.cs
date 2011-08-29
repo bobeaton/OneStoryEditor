@@ -99,14 +99,6 @@
             this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem.Text = "Add &Consultant/Coach Note on this Anchor";
             this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem.Click += new System.EventHandler(this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem_Click);
             // 
-            // editKeyTermsToolStripMenuItem
-            // 
-            this.editKeyTermsToolStripMenuItem.Name = "editKeyTermsToolStripMenuItem";
-            this.editKeyTermsToolStripMenuItem.Size = new System.Drawing.Size(306, 22);
-            this.editKeyTermsToolStripMenuItem.Text = "Edit &Key Terms";
-            this.editKeyTermsToolStripMenuItem.Visible = false;
-            this.editKeyTermsToolStripMenuItem.Click += new System.EventHandler(this.editKeyTermsToolStripMenuItem_Click);
-            // 
             // insertNullAnchorToolStripMenuItem
             // 
             this.insertNullAnchorToolStripMenuItem.Name = "insertNullAnchorToolStripMenuItem";

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -32,21 +33,25 @@ namespace OneStoryProjectEditor
         protected ProjectSettings.LanguageInfo MainLang { get; set; }
         protected Font _fontForDev = new Font("Arial Unicode MS", 11);
         protected TermRenderingsList renderings;
-        TermLocalizations termLocalizations;
+        // TermLocalizations termLocalizations;
 
         protected const int CnColumnGloss = 0;
         protected const int CnColumnRenderings = 1;
         protected const int CnColumnNotes = 2;
+
+        private PanoramaView()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
 
         public PanoramaView(StoryProjectData storyProject)
             : base(true)
         {
             _storyProject = storyProject;
             InitializeComponent();
+            Localizer.Ctrl(this);
             
-            // not really using key terms anymore
-            tabControlSets.TabPages.Remove(tabPageKeyTerms);
-
             richTextBoxPanoramaFrontMatter.Rtf = storyProject.PanoramaFrontMatter;
             _bInCtor = false;   // prevent the _TextChanged during ctor
             dataGridViewPanorama.Columns[CnColumnStoryName].DefaultCellStyle.Font =
@@ -203,7 +208,7 @@ namespace OneStoryProjectEditor
             if (_theStoryBeingEdited == null)
             {
                 MessageBox.Show(Properties.Resources.IDS_CantEditPanoramaView,
-                                OseResources.Properties.Resources.IDS_Caption);
+                                StoryEditor.OseCaption);
                 return;
             }
 
@@ -238,7 +243,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(ex.Message, StoryEditor.OseCaption);
             }
             finally
             {
@@ -339,19 +344,19 @@ namespace OneStoryProjectEditor
             if (tabControlSets.SelectedTab == tabPagePanorama)
             {
                 // copy it to the 'old stories' set
-                CopyStoryToOtherStoriesSet(OseResources.Properties.Resources.IDS_ObsoleteStoriesSet);
+                CopyStoryToOtherStoriesSet(Properties.Resources.IDS_ObsoleteStoriesSet);
             }
             else if (tabControlSets.SelectedTab == tabPageObsolete)
             {
                 // copy it back!
-                CopyStoryToOtherStoriesSet(OseResources.Properties.Resources.IDS_MainStoriesSet);
+                CopyStoryToOtherStoriesSet(Properties.Resources.IDS_MainStoriesSet);
             }
         }
 
         private void CopyStoryToOtherStoriesSet(string strDestSet)
         {
-            System.Diagnostics.Debug.Assert((strDestSet == OseResources.Properties.Resources.IDS_ObsoleteStoriesSet)
-                || (strDestSet == OseResources.Properties.Resources.IDS_MainStoriesSet));
+            System.Diagnostics.Debug.Assert((strDestSet == Properties.Resources.IDS_ObsoleteStoriesSet)
+                || (strDestSet == Properties.Resources.IDS_MainStoriesSet));
 
             int nSelectedRowIndex = dataGridViewPanorama.SelectedCells[0].RowIndex;
             if (nSelectedRowIndex <= dataGridViewPanorama.Rows.Count - 1)
@@ -401,10 +406,7 @@ namespace OneStoryProjectEditor
                     return;
 
                 // make sure the user really wants to do this
-                if (MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmDeleteStory,
-                                                  strName),
-                                    OseResources.Properties.Resources.IDS_Caption, 
-                                    MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                if (StoryEditor.QueryDeleteStory(strName))
                     return;
 
                 _stories.Remove(theSd);
@@ -419,7 +421,9 @@ namespace OneStoryProjectEditor
             }
         }
 
+        /*
         BiblicalTermsList _biblicalTerms;
+        */
 
         private void tabControlSets_Selected(object sender, TabControlEventArgs e)
         {
@@ -430,6 +434,7 @@ namespace OneStoryProjectEditor
                 {
                     InitStoriesTab(tab);
                 }
+                /*
                 else if (tab == tabPageKeyTerms)
                 {
                     Cursor = Cursors.WaitCursor;
@@ -479,6 +484,7 @@ namespace OneStoryProjectEditor
                     }
                     Cursor = Cursors.Default;
                 }
+                */
             }
         }
 
@@ -486,13 +492,13 @@ namespace OneStoryProjectEditor
         {
             if (tab == tabPagePanorama)
             {
-                _stories = _storyProject[OseResources.Properties.Resources.IDS_MainStoriesSet];
-                toolTip.SetToolTip(buttonCopyToOldStories, Properties.Resources.IDS_PanoramaViewCopyToOldStories);
+                _stories = _storyProject[Properties.Resources.IDS_MainStoriesSet];
+                toolTip.SetToolTip(buttonCopyToOldStories, Localizer.Str("Copy the selected story to the 'Old Stories' tab list. Then you can use the 'View' menu, 'View Old Stories' command (from the main window) to view stories in the 'Old Stories' list"));
             }
             else if (tab == tabPageObsolete)
             {
-                _stories = _storyProject[OseResources.Properties.Resources.IDS_ObsoleteStoriesSet];
-                toolTip.SetToolTip(buttonCopyToOldStories, Properties.Resources.IDS_PanoramaViewCopyBackToStories);
+                _stories = _storyProject[Properties.Resources.IDS_ObsoleteStoriesSet];
+                toolTip.SetToolTip(buttonCopyToOldStories, Localizer.Str("Copy the selected story back to the 'Stories' tab list"));
             }
             InitParentTab(tab);
             InitGrid();
@@ -515,7 +521,7 @@ namespace OneStoryProjectEditor
                 Modified = true;
             }
         }
-
+        /*
         private void EditRenderings(DataGridViewRow theRow, string strId)
         {
             System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strId));
@@ -554,6 +560,7 @@ namespace OneStoryProjectEditor
             string strId = theRow.Tag as string;
             EditRenderings(theRow, strId);
         }
+        */
 
         private void PanoramaView_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -584,8 +591,7 @@ namespace OneStoryProjectEditor
 
             if (!theSD.TransitionHistory.HasData)
             {
-                MessageBox.Show(Properties.Resources.IDS_NoTransitionHistory,
-                                OseResources.Properties.Resources.IDS_Caption);
+                StoryEditor.WarnNoTransitionHistory();
                 return;
             }
 

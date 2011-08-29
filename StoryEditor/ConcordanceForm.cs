@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -14,11 +15,19 @@ namespace OneStoryProjectEditor
         public string InternationalForm { get; set; }
         public string FreeTranslationForm { get; set; }
 
+        private ConcordanceForm()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
+
         public ConcordanceForm(StoryEditor theSE, string strToSearchForVernacular, 
             string strToSearchForNationalBT, string strToSearchForInternationalBT,
             string strToSearchForFreeTranslation)
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
+
             _theSE = theSE;
             _storyProject = theSE.StoryProject;
             VernacularForm = TrimIfNeeded(strToSearchForVernacular);
@@ -36,17 +45,31 @@ namespace OneStoryProjectEditor
                             labelFreeTranslation, textBoxWordsToSearchForFreeTranslation);
 
             if (labelFreeTranslation.Visible)
-                labelFreeTranslation.Text = "Free Translation";
+                labelFreeTranslation.Text = Localizer.Str("Free Translation");
+
+            var strHelpString = Localizer.Str("Enter the word(s) you want to search for. You can search for more than one word at a time by separating them by commas. For all words beginning with \"xyz\" use \"xyz*\" ; ending with \"xyz\" use \"*xyz\"; containing \"xyz\" use \"*xyz*\". Multiple word search phrases are allowed, for example \"John the Baptist\" (enclose in double-quotes)");
+            var strTooltip = Localizer.Str("Enter the word(s) to search. Press F1 for further instructions on how to enter data in this field.");
+
+            SetHelpStrings(textBoxWordsToSearchForVernacular, strHelpString, strTooltip);
+            SetHelpStrings(textBoxWordsToSearchForNationalBT, strHelpString, strTooltip);
+            SetHelpStrings(textBoxWordsToSearchForInternationalBT, strHelpString, strTooltip);
+            SetHelpStrings(textBoxWordsToSearchForFreeTranslation, strHelpString, strTooltip);
 
             htmlBuilder = new BiblicalTermsHTMLBuilder(_storyProject.ProjSettings);
             buttonBeginSearch_Click(null, null);
+        }
+
+        private void SetHelpStrings(Control ctrl, string strHelpString, string strTooltip)
+        {
+            helpProvider.SetHelpString(ctrl, strHelpString);
+            toolTip.SetToolTip(ctrl, strTooltip);
         }
 
         private void buttonBeginSearch_Click(object sender, EventArgs e)
         {
             htmlBuilder.SearchVerseText(_storyProject,
                                         progressBarLoadingKeyTerms,
-                                        _theSE.hiddenVersesToolStripMenuItem.Checked,
+                                        _theSE.viewHiddenVersesMenu.Checked,
                                         // if the user is *showing* hidden verses, then search in them
                                         textBoxWordsToSearchForVernacular.Text,
                                         _theSE.viewTransliterationVernacular.Checked
@@ -84,7 +107,7 @@ namespace OneStoryProjectEditor
             if (li.HasData)
             {
                 lbl.Visible = tb.Visible = true;
-                lbl.Text = String.Format(Properties.Resources.IDS_LanguageFields,
+                lbl.Text = String.Format(Localizer.Str("{0} &language fields"),
                                          li.LangName);
                 tb.Font = li.FontToUse;
                 tb.ForeColor = li.FontColor;

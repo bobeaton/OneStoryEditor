@@ -8,6 +8,7 @@ using System.Xml.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Xsl;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -320,7 +321,7 @@ namespace OneStoryProjectEditor
             {
                 var str = QueryForMember(storyProjectData, eMemberType,
                                          String.Format(
-                                             Properties.Resources.IDS_ChooseMemberStory,
+                                             Localizer.Str("Choose the {0} working on the story '{1}'"),
                                              TeamMemberData.GetMemberTypeAsDisplayString(eMemberType),
                                              Name));
                 MemberIdInfo.SetCreateIfEmpty(ref member, str, true);
@@ -477,9 +478,9 @@ namespace OneStoryProjectEditor
 
         public static string AddHtmlHtmlDocOutside(string strHtmlInside, ProjectSettings projSettings)
         {
-            return String.Format(OseResources.Properties.Resources.HTML_HeaderPresentation,
+            return String.Format(Properties.Resources.HTML_HeaderPresentation,
                                  StylePrefix(projSettings),
-                                 OseResources.Properties.Resources.HTML_DOM_PrefixPresentation,
+                                 Properties.Resources.HTML_DOM_PrefixPresentation,
                                  strHtmlInside);
         }
 
@@ -525,9 +526,9 @@ namespace OneStoryProjectEditor
             }
 
             // make a sub-table out of all this
-            strHtml = String.Format(OseResources.Properties.Resources.HTML_TableRow,
-                                    String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, nNumCols,
-                                                  String.Format(OseResources.Properties.Resources.HTML_Table,
+            strHtml = String.Format(Properties.Resources.HTML_TableRow,
+                                    String.Format(Properties.Resources.HTML_TableCellWithSpan, nNumCols,
+                                                  String.Format(Properties.Resources.HTML_Table,
                                                                 strHtml)));
 
             // occasionally, we just want to print the header stuff (without lines)
@@ -570,7 +571,7 @@ namespace OneStoryProjectEditor
             if (projSettings.FreeTranslation.HasData)
                 strLangStyles += projSettings.FreeTranslation.HtmlStyle(CstrLangFreeTranslationStyleClassName);
 
-            return String.Format(OseResources.Properties.Resources.HTML_StyleDefinition,
+            return String.Format(Properties.Resources.HTML_StyleDefinition,
                                  Properties.Settings.Default.ConNoteTableFontSize,
                                  Properties.Settings.Default.ConNoteButtonFontSize,
                                  strLangStyles);
@@ -583,9 +584,9 @@ namespace OneStoryProjectEditor
             string strHtml = Verses.ConsultantNotesHtml(htmlConNoteCtrl, LoggedOnMember, 
                 teamMembers, this, bViewHidden, bShowOnlyOpenConversations);
 
-            return String.Format(OseResources.Properties.Resources.HTML_Header,
+            return String.Format(Properties.Resources.HTML_Header,
                 StylePrefix(projSettings),
-                OseResources.Properties.Resources.HTML_DOM_Prefix, 
+                Properties.Resources.HTML_DOM_Prefix, 
                 strHtml);
         }
 
@@ -596,9 +597,9 @@ namespace OneStoryProjectEditor
             string strHtml = Verses.CoachNotesHtml(htmlConNoteCtrl, LoggedOnMember, 
                 teamMembers, this, bViewHidden, bShowOnlyOpenConversations);
 
-            return String.Format(OseResources.Properties.Resources.HTML_Header,
+            return String.Format(Properties.Resources.HTML_Header,
                 StylePrefix(projSettings),
-                OseResources.Properties.Resources.HTML_DOM_Prefix,
+                Properties.Resources.HTML_DOM_Prefix,
                 strHtml);
         }
 
@@ -926,20 +927,20 @@ namespace OneStoryProjectEditor
             if (String.IsNullOrEmpty(strName))
                 strName = "-";  // so it's not nothing (or the HTML shows without a cell frame)
 
-            return String.Format(OseResources.Properties.Resources.HTML_TableRow,
-                                 String.Format(OseResources.Properties.Resources.HTML_TableCellNoWrap,
+            return String.Format(Properties.Resources.HTML_TableRow,
+                                 String.Format(Properties.Resources.HTML_TableCellNoWrap,
                                                strLabel) +
-                                 String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
+                                 String.Format(Properties.Resources.HTML_TableCellWidth,
                                                40,
                                                String.Format(
-                                                   OseResources.Properties.Resources.HTML_ParagraphText,
+                                                   Properties.Resources.HTML_ParagraphText,
                                                    strLabel,
                                                    StoryData.CstrLangInternationalBtStyleClassName,
                                                    strName)) +
-                                 String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
+                                 String.Format(Properties.Resources.HTML_TableCellWidth,
                                                60,
                                                String.Format(
-                                                   OseResources.Properties.Resources.HTML_ParagraphText,
+                                                   Properties.Resources.HTML_ParagraphText,
                                                    strLabel + "_Comment",
                                                    StoryData.CstrLangInternationalBtStyleClassName,
                                                    strComment)));
@@ -950,14 +951,14 @@ namespace OneStoryProjectEditor
             if (String.IsNullOrEmpty(strName))
                 strName = "-";  // so it's not nothing (or the HTML shows without a cell frame)
 
-            return String.Format(OseResources.Properties.Resources.HTML_TableRow,
-                                 String.Format(OseResources.Properties.Resources.HTML_TableCellNoWrap,
+            return String.Format(Properties.Resources.HTML_TableRow,
+                                 String.Format(Properties.Resources.HTML_TableCellNoWrap,
                                                strLabel) +
                                  String.Format(
-                                     OseResources.Properties.Resources.HTML_TableCellWithSpanAndWidth,
+                                     Properties.Resources.HTML_TableCellWithSpanAndWidth,
                                      100,
                                      2,
-                                     String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
+                                     String.Format(Properties.Resources.HTML_ParagraphText,
                                                    strLabel,
                                                    StoryData.
                                                        CstrLangInternationalBtStyleClassName,
@@ -1126,7 +1127,7 @@ namespace OneStoryProjectEditor
                                                         : theRow.StoryCrafter_text);
                 }
                 else
-                    throw new ApplicationException(OseResources.Properties.Resources.IDS_ProjectFileCorrupted);
+                    throw new ApplicationException(Properties.Resources.IDS_ProjectFileCorrupted);
 
                 NewDataSet.ProjectFacilitatorRow[] thePfRows = theCIR.GetProjectFacilitatorRows();
                 if (thePfRows.Length == 1)
@@ -1210,7 +1211,7 @@ namespace OneStoryProjectEditor
                 }
             }
             else
-                throw new ApplicationException(OseResources.Properties.Resources.IDS_ProjectFileCorruptedNoCraftingInfo);
+                throw new ApplicationException(Properties.Resources.IDS_ProjectFileCorruptedNoCraftingInfo);
         }
 
         public CraftingInfoData(CraftingInfoData rhs)
@@ -1505,13 +1506,13 @@ namespace OneStoryProjectEditor
             if (String.IsNullOrEmpty(strName))
                 strName = "-";  // so it's not nothing (or the HTML shows without a cell frame)
 
-            return String.Format(OseResources.Properties.Resources.HTML_TableRow,
+            return String.Format(Properties.Resources.HTML_TableRow,
                                  String.Format("{0}{1}",
-                                               String.Format(OseResources.Properties.Resources.HTML_TableCellNoWrap,
+                                               String.Format(Properties.Resources.HTML_TableCellNoWrap,
                                                              strLabel),
-                                               String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
+                                               String.Format(Properties.Resources.HTML_TableCellWidth,
                                                              100,
-                                                             String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
+                                                             String.Format(Properties.Resources.HTML_ParagraphText,
                                                                            strLabel,
                                                                            StoryData.
                                                                               CstrLangInternationalBtStyleClassName,
@@ -1538,7 +1539,7 @@ namespace OneStoryProjectEditor
                 throw new StoryProjectData.ReplaceMemberException
                           {
                               MemberGuid = strNewMemberGuid,
-                              Format = Properties.Resources.IDS_ReplaceUnsException
+                              Format = Localizer.Str("the UNS '{0}' is already used. That would result in the same UNS being used for two different tests. To correct this, go to that story and click 'Story', 'Story Information' and change the test associated with '{0}' to someone else and try to merge them again")
                           };
             }
 
@@ -1697,11 +1698,11 @@ namespace OneStoryProjectEditor
         {
             TeamMembers = new TeamMembersData();
             LnCNotes = new LnCNotesData();
-            PanoramaFrontMatter = OseResources.Properties.Resources.IDS_DefaultPanoramaFrontMatter;
+            PanoramaFrontMatter = Properties.Resources.IDS_DefaultPanoramaFrontMatter;
 
             // start with to stories sets (the current one and the obsolete ones)
-            Add(OseResources.Properties.Resources.IDS_MainStoriesSet, new StoriesData(OseResources.Properties.Resources.IDS_MainStoriesSet));
-            Add(OseResources.Properties.Resources.IDS_ObsoleteStoriesSet, new StoriesData(OseResources.Properties.Resources.IDS_ObsoleteStoriesSet));
+            Add(Properties.Resources.IDS_MainStoriesSet, new StoriesData(Properties.Resources.IDS_MainStoriesSet));
+            Add(Properties.Resources.IDS_ObsoleteStoriesSet, new StoriesData(Properties.Resources.IDS_ObsoleteStoriesSet));
         }
 
         static bool bProjectConvertWarnedOnce;
@@ -1716,7 +1717,7 @@ namespace OneStoryProjectEditor
                 projFile.StoryProject.AddStoryProjectRow(XmlDataVersion,
                                                          ProjSettings.ProjectName,
                                                          ProjSettings.HgRepoUrlHost,
-                                                         OseResources.Properties.Resources.
+                                                         Properties.Resources.
                                                              IDS_DefaultPanoramaFrontMatter);
             else
             {
@@ -1728,8 +1729,8 @@ namespace OneStoryProjectEditor
                 if (projFile.StoryProject[0].version.CompareTo("1.3") == 0)
                 {
                     // see if the user wants us to upgrade this one
-                    if (MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_QueryConvertProjectFile1_3to1_4,
-                        ProjSettings.ProjectName), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                    if (MessageBox.Show(String.Format(Properties.Resources.IDS_QueryConvertProjectFile1_3to1_4,
+                        ProjSettings.ProjectName), StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                         throw BackOutWithNoUI;
 
                     // convert the 1.3 file to 1.4 using xslt
@@ -1741,8 +1742,8 @@ namespace OneStoryProjectEditor
                 {
                     // see if the user wants us to upgrade this one
                     if (!bProjectConvertWarnedOnce)
-                        if (MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_QueryConvertProjectFile1_3to1_4,
-                            ProjSettings.ProjectName), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                        if (MessageBox.Show(String.Format(Properties.Resources.IDS_QueryConvertProjectFile1_3to1_4,
+                            ProjSettings.ProjectName), StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                             throw BackOutWithNoUI;
 
                     // convert the 1.3 file to 1.4 using xslt
@@ -1752,14 +1753,14 @@ namespace OneStoryProjectEditor
 
                 else if (projFile.StoryProject[0].version.CompareTo(XmlDataVersion) > 0)
                 {
-                    MessageBox.Show(OseResources.Properties.Resources.IDS_GetNewVersion, OseResources.Properties.Resources.IDS_Caption);
+                    MessageBox.Show(Localizer.Str("One of the team members is using a newer version of OSE to edit the file, which is not compatible with the version you are using. You might try, \"Advanced\", \"Program Updates\", \"Check now\" or \"Check now for next major update\" or you may have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the \"Setup OneStory Editor.zip\" file"), StoryEditor.OseCaption);
                     throw BackOutWithNoUI;
                 }
             }
 
             PanoramaFrontMatter = projFile.StoryProject[0].PanoramaFrontMatter;
             if (String.IsNullOrEmpty(PanoramaFrontMatter))
-                PanoramaFrontMatter = OseResources.Properties.Resources.IDS_DefaultPanoramaFrontMatter;
+                PanoramaFrontMatter = Properties.Resources.IDS_DefaultPanoramaFrontMatter;
 
             ProjSettings.HgRepoUrlHost = !projFile.StoryProject[0].IsHgRepoUrlHostNull()
                                               ? projFile.StoryProject[0].HgRepoUrlHost
@@ -1767,9 +1768,9 @@ namespace OneStoryProjectEditor
 
             if (projFile.stories.Count == 0)
             {
-                projFile.stories.AddstoriesRow(OseResources.Properties.Resources.IDS_MainStoriesSet,
+                projFile.stories.AddstoriesRow(Properties.Resources.IDS_MainStoriesSet,
                     projFile.StoryProject[0]);
-                projFile.stories.AddstoriesRow(OseResources.Properties.Resources.IDS_ObsoleteStoriesSet,
+                projFile.stories.AddstoriesRow(Properties.Resources.IDS_ObsoleteStoriesSet,
                     projFile.StoryProject[0]);
             }
 
@@ -1813,7 +1814,7 @@ namespace OneStoryProjectEditor
             if (File.Exists(strStateTransitions))
             {
                 if (MessageBox.Show(Properties.Resources.IDS_ConfirmDeleteStateTransitions,
-                    OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+                    StoryEditor.OseCaption, MessageBoxButtons.OKCancel) == DialogResult.Cancel)
                     throw BackOutWithNoUI;
 
                 File.Delete(strStateTransitions);
@@ -1933,38 +1934,6 @@ namespace OneStoryProjectEditor
         }
 
 #if !DataDllBuild
-        /*
-        internal static string QueryProjectName()
-        {
-            bool bDoItAgain;
-            string strProjectName = null;
-            do
-            {
-                bDoItAgain = false;
-                strProjectName = Microsoft.VisualBasic.Interaction.InputBox(OseResources.Properties.Resources.IDS_EnterProjectName, OseResources.Properties.Resources.IDS_Caption, strProjectName, 300, 200);
-                if (String.IsNullOrEmpty(strProjectName))
-                    throw new ApplicationException(OseResources.Properties.Resources.IDS_UnableToCreateProjectWithoutName);
-
-                // See if there's already a project with this name (which may be elsewhere)
-                for (int i = 0; i < Properties.Settings.Default.RecentProjects.Count; i++)
-                {
-                    string strProject = Properties.Settings.Default.RecentProjects[i];
-                    if (strProject == strProjectName)
-                    {
-                        string strProjectFolder = Properties.Settings.Default.RecentProjectPaths[i];
-                        DialogResult res = MessageBox.Show(String.Format(OseResources.Properties.Resources.IDS_AboutToStrandProject, Environment.NewLine, strProjectName, strProjectFolder), OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
-                        if (res == DialogResult.Cancel)
-                            throw BackOutWithNoUI;
-                        if (res == DialogResult.No)
-                            bDoItAgain = true;
-                        break;
-                    }
-                }
-            } while (bDoItAgain);
-            return strProjectName;
-        }
-        */
-
         internal TeamMemberData GetLogin(ref bool bModified)
         {
             // look at the last person to log in and see if we ought to automatically log them in again
@@ -2043,7 +2012,10 @@ namespace OneStoryProjectEditor
             if (res != DialogResult.OK)
             {
                 if (bUseLoginLabel && bLoginRequired)
-                    MessageBox.Show(OseResources.Properties.Resources.IDS_HaveToLogInToContinue, OseResources.Properties.Resources.IDS_Caption);
+                    MessageBox.Show(
+                        Localizer.Str(
+                            "You have to log in to continue. Click 'Project', 'Login' and choose or add your name"),
+                        StoryEditor.OseCaption);
 
                 throw BackOutWithNoUI;
             }

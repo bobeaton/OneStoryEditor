@@ -186,7 +186,7 @@ namespace OneStoryProjectEditor
                         (theSE.LoggedOnMember.MemberGuid !=
                          theSE.TheCurrentStory.CraftingInfo.ProjectFacilitator.MemberId)))
                 {
-                    throw new ApplicationException(OseResources.Properties.Resources.IDS_NotTheRightProjFac);
+                    throw new ApplicationException(TeamMemberData.NotTheRightProjFacMessage);
                 }
             }
             catch (Exception ex)

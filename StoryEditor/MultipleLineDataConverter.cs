@@ -161,13 +161,13 @@ namespace OneStoryProjectEditor
             string strRow = null;
             for (int i = 0; i < Count; i++)
             {
-                strRow += String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                strRow += String.Format(Properties.Resources.HTML_TableRow,
                                         String.Format("{0}{1}",
-                                                      String.Format(OseResources.Properties.Resources.HTML_TableCellNoWrap,
+                                                      String.Format(Properties.Resources.HTML_TableCellNoWrap,
                                                                     String.Format(LabelTextFormat, i + 1)),
-                                                      String.Format(OseResources.Properties.Resources.HTML_TableCellWidth,
+                                                      String.Format(Properties.Resources.HTML_TableCellWidth,
                                                                     100,
-                                                                    String.Format(OseResources.Properties.Resources.HTML_Textarea,
+                                                                    String.Format(Properties.Resources.HTML_Textarea,
                                                                                   TextareaId(InstanceElementName, nVerseIndex, i),
                                                                                   StoryData.
                                                                                       CstrLangInternationalBtStyleClassName,
@@ -175,9 +175,9 @@ namespace OneStoryProjectEditor
             }
 
             // make a sub-table out of all this
-            strRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
-                                    String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, nNumCols,
-                                                  String.Format(OseResources.Properties.Resources.HTML_Table,
+            strRow = String.Format(Properties.Resources.HTML_TableRow,
+                                    String.Format(Properties.Resources.HTML_TableCellWithSpan, nNumCols,
+                                                  String.Format(Properties.Resources.HTML_Table,
                                                                 strRow)));
             return strRow;
         }
@@ -194,15 +194,15 @@ namespace OneStoryProjectEditor
             string strRow = null;
             for (int i = 0; i < Count; i++)
             {
-                strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellNoWrap,
+                strRow += String.Format(Properties.Resources.HTML_TableCellNoWrap,
                                         String.Format(LabelTextFormat, i + 1));
 
                 LineData theLine = this[i];
                 if (bShowVernacular)
                 {
-                    strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellWidthAlignTop,
+                    strRow += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop,
                                             100/nNumTestQuestionCols,
-                                            String.Format(OseResources.Properties.Resources.HTML_Textarea,
+                                            String.Format(Properties.Resources.HTML_Textarea,
                                                           TextareaId(InstanceElementName, nVerseIndex, i,
                                                                      LineData.CstrAttributeLangVernacular),
                                                           StoryData.CstrLangVernacularStyleClassName,
@@ -211,9 +211,9 @@ namespace OneStoryProjectEditor
 
                 if (bShowNationalBT)
                 {
-                    strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellWidthAlignTop,
+                    strRow += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop,
                                             100/nNumTestQuestionCols,
-                                            String.Format(OseResources.Properties.Resources.HTML_Textarea,
+                                            String.Format(Properties.Resources.HTML_Textarea,
                                                           TextareaId(InstanceElementName, nVerseIndex, i,
                                                                      LineData.CstrAttributeLangNationalBt),
                                                           StoryData.CstrLangNationalBtStyleClassName,
@@ -222,23 +222,23 @@ namespace OneStoryProjectEditor
 
                 if (bShowEnglishBT)
                 {
-                    strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellWidthAlignTop,
+                    strRow += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop,
                                             100/nNumTestQuestionCols,
-                                            String.Format(OseResources.Properties.Resources.HTML_Textarea,
+                                            String.Format(Properties.Resources.HTML_Textarea,
                                                           TextareaId(InstanceElementName, nVerseIndex, i,
                                                                      LineData.CstrAttributeLangInternationalBt),
                                                           StoryData.CstrLangInternationalBtStyleClassName,
                                                           theLine.InternationalBt));
                 }
 
-                strRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
+                strRow = String.Format(Properties.Resources.HTML_TableRow,
                                        strRow);
             }
 
             // make a sub-table out of all this
-            strRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
-                                    String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, nAnswerCols,
-                                                  String.Format(OseResources.Properties.Resources.HTML_Table,
+            strRow = String.Format(Properties.Resources.HTML_TableRow,
+                                    String.Format(Properties.Resources.HTML_TableCellWithSpan, nAnswerCols,
+                                                  String.Format(Properties.Resources.HTML_Table,
                                                                 strRow)));
             return strRow;
         }
@@ -333,9 +333,9 @@ namespace OneStoryProjectEditor
             if (!String.IsNullOrEmpty(strRow))
             {
                 // make a sub-table out of all this
-                strRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
-                                        String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, nNumCols,
-                                                      String.Format(OseResources.Properties.Resources.HTML_Table,
+                strRow = String.Format(Properties.Resources.HTML_TableRow,
+                                        String.Format(Properties.Resources.HTML_TableCellWithSpan, nNumCols,
+                                                      String.Format(Properties.Resources.HTML_Table,
                                                                     strRow)));
             }
             return strRow;
@@ -363,9 +363,9 @@ namespace OneStoryProjectEditor
             if (!String.IsNullOrEmpty(strRow))
             {
                 // make a sub-table out of all this
-                strRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
-                                        String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, nNumCols,
-                                                      String.Format(OseResources.Properties.Resources.HTML_Table,
+                strRow = String.Format(Properties.Resources.HTML_TableRow,
+                                        String.Format(Properties.Resources.HTML_TableCellWithSpan, nNumCols,
+                                                      String.Format(Properties.Resources.HTML_Table,
                                                                     strRow)));
             }
             return strRow;
@@ -375,7 +375,7 @@ namespace OneStoryProjectEditor
             string strVernacular, string strNationalBT, string strInternationalBT,
             bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT)
         {
-            string strRow = String.Format(OseResources.Properties.Resources.HTML_TableCellNoWrap,
+            string strRow = String.Format(Properties.Resources.HTML_TableCellNoWrap,
                                           String.Format(LabelTextFormat, nTestNum + 1));
 
             int nNumCols = 0;
@@ -387,8 +387,8 @@ namespace OneStoryProjectEditor
             {
                 if (String.IsNullOrEmpty(strVernacular))
                     strVernacular = "-";  // give it something so we don't have no cell there.
-                strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellWidthAlignTop, 100/nNumCols,
-                                        String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
+                strRow += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100/nNumCols,
+                                        String.Format(Properties.Resources.HTML_ParagraphText,
                                                       TextareaId(InstanceElementName, nVerseIndex, nTestNum,
                                                                  LineData.CstrAttributeLangVernacular),
                                                       StoryData.CstrLangVernacularStyleClassName,
@@ -399,8 +399,8 @@ namespace OneStoryProjectEditor
             {
                 if (String.IsNullOrEmpty(strNationalBT))
                     strNationalBT = "-";  // give it something so we don't have no cell there.
-                strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
-                                        String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
+                strRow += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
+                                        String.Format(Properties.Resources.HTML_ParagraphText,
                                                       TextareaId(InstanceElementName, nVerseIndex, nTestNum,
                                                                  LineData.CstrAttributeLangNationalBt),
                                                       StoryData.CstrLangNationalBtStyleClassName,
@@ -411,8 +411,8 @@ namespace OneStoryProjectEditor
             {
                 if (String.IsNullOrEmpty(strInternationalBT))
                     strInternationalBT = "-";  // give it something so we don't have no cell there.
-                strRow += String.Format(OseResources.Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
-                                        String.Format(OseResources.Properties.Resources.HTML_ParagraphText,
+                strRow += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
+                                        String.Format(Properties.Resources.HTML_ParagraphText,
                                                       TextareaId(InstanceElementName, nVerseIndex, nTestNum,
                                                                  LineData.CstrAttributeLangInternationalBt),
                                                       StoryData.CstrLangInternationalBtStyleClassName,
@@ -421,9 +421,9 @@ namespace OneStoryProjectEditor
 
             // make a sub-table out of all this
             // TODO: I think nNumCols here is wrong. It should be the column count of the parent
-            strRow = String.Format(OseResources.Properties.Resources.HTML_TableRow,
-                                    String.Format(OseResources.Properties.Resources.HTML_TableCellWithSpan, nNumCols,
-                                                  String.Format(OseResources.Properties.Resources.HTML_Table,
+            strRow = String.Format(Properties.Resources.HTML_TableRow,
+                                    String.Format(Properties.Resources.HTML_TableCellWithSpan, nNumCols,
+                                                  String.Format(Properties.Resources.HTML_Table,
                                                                 strRow)));
             return strRow;
         }

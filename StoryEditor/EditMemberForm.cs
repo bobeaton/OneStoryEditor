@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -8,11 +9,18 @@ namespace OneStoryProjectEditor
         private readonly TeamMemberData _theMemberData;
         private readonly ProjectSettings _theProjSettings;
 
+        private EditMemberForm()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
+
         public EditMemberForm(TeamMemberData theMemberData, 
             ProjectSettings theProjSettings, bool bAllowNameRoleEdits)
             : base(true)
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
 
             _theMemberData = theMemberData;
             _theProjSettings = theProjSettings;
@@ -34,7 +42,7 @@ namespace OneStoryProjectEditor
             if (!bAllowNameRoleEdits)
             {
                 textBoxName.Enabled = groupBoxRole.Enabled = false;
-                Text = "View Member Information (to edit, use 'Project', 'Login', 'Edit Member')";
+                Text = Localizer.Str("View Member Information (to edit, use 'Project', 'Login', 'Edit Member')");
             }
         }
 
@@ -46,9 +54,9 @@ namespace OneStoryProjectEditor
                 if (MemberName != _theMemberData.Name)
                 {
                     // make sure this isn't a mistake.
-                    res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmTeamMemberNameChange,
+                    res = MessageBox.Show(String.Format(Localizer.Str("Are you sure you want to change this member's name? [If you are trying to add a new member, then do it through the 'Project', 'Login' window instead. Clicking 'Yes' here will permanently remove the record for '{0}' and replace it with this new information for '{1}']"),
                                                         _theMemberData.Name, MemberName),
-                                          OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel);
+                                          StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
                     if (res != DialogResult.Yes)
                         return res;
                 }
@@ -71,8 +79,9 @@ namespace OneStoryProjectEditor
                 || (MemberType == TeamMemberData.UserTypes.Undefined))
             {
                 MessageBox.Show(
-                    Properties.Resources.IDS_WarnNeedNameAndRole,
-                    OseResources.Properties.Resources.IDS_Caption);
+                    Localizer.Str(
+                        "You have to enter at least a name and indicate a role (even if you're 'Just Looking')!"),
+                    StoryEditor.OseCaption);
                 return;
             }
 
@@ -205,7 +214,10 @@ namespace OneStoryProjectEditor
 
         private void radioButtonEnglishBackTranslator_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(Properties.Resources.IDS_AreYouSureYouWantToHaveAnEnglishBter, OseResources.Properties.Resources.IDS_Caption);
+            MessageBox.Show(
+                Localizer.Str(
+                    "Talk with your project consultant before creating an 'Outside English back-translator' member on your team. The role of 'Outside English back-translator' is only used when the team doesn't have anyone to do an English back-translation and they arrange with some other team to do their English BT for them. If your team is doing its own English back-translations, then don't create an 'Outside English back-translator' member (you would do it as the Project Facilitator)"),
+                StoryEditor.OseCaption);
             radioButton_CheckedChanged(sender, e);
         }
 
@@ -225,8 +237,8 @@ namespace OneStoryProjectEditor
         {
             if (_theProjSettings == null)
             {
-                MessageBox.Show(Properties.Resources.IDS_DoAfterOpen,
-                                OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(Localizer.Str("Can't configure these settings until after the project file is opened. Try again later"),
+                                StoryEditor.OseCaption);
                 return;
             }
 
@@ -241,7 +253,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(ex.Message, StoryEditor.OseCaption);
             }
         }
 
@@ -308,7 +320,7 @@ namespace OneStoryProjectEditor
 
         private string GetDefaultTaskTitleText
         {
-            get { return String.Format("Set Default Tasks for {0}", textBoxName.Text); }
+            get { return String.Format(Localizer.Str("Set Default Tasks for {0}"), textBoxName.Text); }
         }
 
         private void checkBoxRole_CheckedChanged(object sender, EventArgs e)

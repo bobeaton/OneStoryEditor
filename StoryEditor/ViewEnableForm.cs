@@ -42,7 +42,7 @@ namespace OneStoryProjectEditor
 
             checkBoxUseForAllStories.Checked = bUseForAllStories;
 
-            checkBoxShowHidden.Checked = theSe.hiddenVersesToolStripMenuItem.Checked;
+            checkBoxShowHidden.Checked = theSe.viewHiddenVersesMenu.Checked;
 
             checkBoxOpenConNotesOnly.Checked = theSe.viewOnlyOpenConversationsMenu.Checked;
         }

@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using Chorus.UI.Clone;
 using ECInterfaces;
+using NetLoc;
 using SilEncConverters40;
 
 namespace OneStoryProjectEditor
@@ -40,6 +41,7 @@ namespace OneStoryProjectEditor
         public AdaptItConfigControl()
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
         }
 
         private ProjectSettings.AdaptItConfiguration _adaptItConfiguration;
@@ -168,9 +170,9 @@ namespace OneStoryProjectEditor
             }
 
             // otherwise, let's see if the user wants us to create it or browse for it
-            DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_QueryCreateAdaptItProject,
+            DialogResult res = MessageBox.Show(String.Format(Localizer.Str("Click 'Yes' to create an Adapt It project to use for back-translation from '{0}' to '{1}'. Click 'No' to browse for an existing Adapt It project instead"),
                                                              SourceLanguageName, TargetLanguageName),
-                                               OseResources.Properties.Resources.IDS_Caption,
+                                               StoryEditor.OseCaption,
                                                MessageBoxButtons.YesNoCancel);
             
             // 'Yes' means the user is asking us to create the AI project
@@ -229,8 +231,8 @@ namespace OneStoryProjectEditor
 
         private void DoSharedAiProjectClick()
         {
-            DialogResult res = MessageBox.Show(Properties.Resources.IDS_QueryIfAiProjectNeedsToBePulled,
-                                               OseResources.Properties.Resources.IDS_Caption,
+            DialogResult res = MessageBox.Show(Localizer.Str("Is the shared Adapt It project on your computer now? (click 'Yes' to browse for it; click 'No' to enter the repository information for it)"),
+                                               StoryEditor.OseCaption,
                                                MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Cancel)
                 return;
@@ -269,9 +271,9 @@ namespace OneStoryProjectEditor
                         AdaptItConverterName = theEc.Name;
                         strProjectFolder =
                             AdaptItGlossing.GetAiProjectFolderFromConverterIdentifier(theEc.ConverterIdentifier);
-                        res = MessageBox.Show(String.Format(Properties.Resources.IDS_QuerySharedAiProject,
+                        res = MessageBox.Show(String.Format(Localizer.Str("Is the shared Adapt It project in the '{0}' folder?"),
                                                             strProjectFolder),
-                                              OseResources.Properties.Resources.IDS_Caption,
+                                              StoryEditor.OseCaption,
                                               MessageBoxButtons.YesNoCancel);
                         if (res == DialogResult.Cancel)
                             return;
@@ -337,10 +339,10 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                string strErrorMsg = String.Format(Properties.Resources.IDS_UnableToConfigureSharedAiProject,
+                string strErrorMsg = String.Format(Localizer.Str("Unable to Send/Receive the AdaptIt project '{1}' from the requested server{0}{2}{0}{3}"),
                     Environment.NewLine, _strAdaptItProjectName,
                     ((ex.InnerException != null) ? ex.InnerException.Message : ""), ex.Message);
-                MessageBox.Show(strErrorMsg, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
             }
         }
 

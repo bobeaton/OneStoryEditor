@@ -236,10 +236,12 @@ namespace OneStoryProjectEditor
             }
             referenceVariables["Text"] = text;
 
+            /*
             if (bShowStatusBmp && projectNum == 0)
                 referenceVariables["StatusBMP"] = RenderingStatus(renderingFound, renderingDenied, strVerseReference);
             else
-                referenceVariables["StatusBMP"] = "";
+            */
+            referenceVariables["StatusBMP"] = "";
         }
 
         internal static string ConstructUrlFromReference(StoryProjectData theSPD, string reference)
@@ -248,7 +250,7 @@ namespace OneStoryProjectEditor
             int nLineNum;
             ParseReference(reference, out strStoryName, out nLineNum, out strAnchor);
 
-            StoryData theStory = theSPD[OseResources.Properties.Resources.IDS_MainStoriesSet].GetStoryFromName(strStoryName);
+            StoryData theStory = theSPD[Properties.Resources.IDS_MainStoriesSet].GetStoryFromName(strStoryName);
             System.Diagnostics.Debug.Assert((theStory != null) && ((nLineNum - 1) < theStory.Verses.Count));
             return OneStoryUrlBuilder.Url(
                                    theSPD.ProjSettings.ProjectName,
@@ -291,6 +293,7 @@ namespace OneStoryProjectEditor
             catch { }
         }
 
+        /*
         private static string RenderingStatus(bool renderingFound, bool renderingDenied, string reference)
 		{
 			if (renderingFound) 
@@ -323,6 +326,7 @@ namespace OneStoryProjectEditor
 
 			return result;
 		}
+        */
 
         private static Regex RegexForMatch(string strRendering)
         {
@@ -419,7 +423,7 @@ namespace OneStoryProjectEditor
                 arrRegexFreeTranslation = GetRegexs(BuildFakeReferences(nColumnIndex, strSearchPatternsFreeTranslation));
 
             // get the current stories only (not the obsolete ones)
-            StoriesData theStories = theSpd[OseResources.Properties.Resources.IDS_MainStoriesSet];
+            StoriesData theStories = theSpd[Properties.Resources.IDS_MainStoriesSet];
             progressBarLoadingKeyTerms.Maximum = theStories.Count;
             progressBarLoadingKeyTerms.Value = 0;
             progressBarLoadingKeyTerms.Visible = true;  // in case we're repeating
@@ -496,7 +500,7 @@ namespace OneStoryProjectEditor
 	        mapReferenceToVerseTextList = new Dictionary<string, List<string>>();
 
 	        // get the current stories only (not the obsolete ones)
-	        StoriesData theStories = theSPD[OseResources.Properties.Resources.IDS_MainStoriesSet];
+	        StoriesData theStories = theSPD[Properties.Resources.IDS_MainStoriesSet];
 	        progressBarLoadingKeyTerms.Maximum = theStories.Count;
 	        progressBarLoadingKeyTerms.Value = 0;
 
@@ -564,6 +568,7 @@ namespace OneStoryProjectEditor
 			return val;
 		}
 
+        /*
 		public void BuildRenderings(string strProjectFolder, string termId)
 		{
 			termRenderingsList = new List<TermRendering>();
@@ -572,12 +577,12 @@ namespace OneStoryProjectEditor
             for (int i = 0; i < scrTextNames.Count; i++)
             {
                 string name = scrTextNames[i];
-                /* until we have a "TermRenderingsList" xml file for this project, we can't use this feature
-                 * the BiblicalTermsEn.xml in the BiblicalTerms folder is *not* one of these and won't work.
-                string strPath = strProjectFolder;
-                if (i > 0)
-                    strPath = BiblicalTermsList.DefaultBiblicalTermsFileFolder;
-                */
+                // until we have a "TermRenderingsList" xml file for this project, we can't use this feature
+                // the BiblicalTermsEn.xml in the BiblicalTerms folder is *not* one of these and won't work.
+                //string strPath = strProjectFolder;
+                //if (i > 0)
+                //    strPath = BiblicalTermsList.DefaultBiblicalTermsFileFolder;
+                //
                 TermRenderingsList termRenderings = TermRenderingsList.GetTermRenderings(strProjectFolder, name);
                 TermRendering termRendering = termRenderings.GetRendering(termId);
                 termRenderingsList.Add(termRendering);
@@ -590,8 +595,9 @@ namespace OneStoryProjectEditor
                 ++projectNum;
             }
 		}
+        */
 
-		/// <summary>
+        /// <summary>
 		/// Build the HTML text for a list of references.
 		/// </summary>
 		/// <param name="references">verses to show in list</param>

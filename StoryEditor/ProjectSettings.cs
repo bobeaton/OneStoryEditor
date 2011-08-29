@@ -11,7 +11,10 @@ using Chorus.UI.Sync;
 using Chorus.Utilities;
 using Chorus.VcsDrivers;
 using Chorus.VcsDrivers.Mercurial;
-using Microsoft.Win32;                  // for RegistryKey
+using Microsoft.Win32;
+using NetLoc;
+
+// for RegistryKey
 
 namespace OneStoryProjectEditor
 {
@@ -25,8 +28,13 @@ namespace OneStoryProjectEditor
         // default is to have all 3, but the user might disable one or the other bt languages
         public LanguageInfo Vernacular = new LanguageInfo(LineData.CstrAttributeLangVernacular, new Font("Arial Unicode MS", 12), Color.Maroon);
         public LanguageInfo NationalBT = new LanguageInfo(LineData.CstrAttributeLangNationalBt, new Font("Arial Unicode MS", 12), Color.Green);
-        public LanguageInfo InternationalBT = new LanguageInfo(LineData.CstrAttributeLangInternationalBt, "English", "en", new Font("Times New Roman", 10), Color.Blue);
-        public LanguageInfo FreeTranslation = new LanguageInfo(LineData.CstrAttributeLangFreeTranslation, "English", "en", new Font("Times New Roman", 10), Color.ForestGreen);
+        public LanguageInfo InternationalBT = new LanguageInfo(LineData.CstrAttributeLangInternationalBt, DefInternationalLanguageName, "en", new Font("Times New Roman", 10), Color.Blue);
+        public LanguageInfo FreeTranslation = new LanguageInfo(LineData.CstrAttributeLangFreeTranslation, DefInternationalLanguageName, "en", new Font("Times New Roman", 10), Color.ForestGreen);
+
+        public static string DefInternationalLanguageName
+        {
+            get { return Localizer.Str("English"); }
+        }
 
         public AdaptItConfiguration VernacularToNationalBt;
         public AdaptItConfiguration VernacularToInternationalBt;
@@ -297,8 +305,8 @@ namespace OneStoryProjectEditor
                     if (!Program.AreAdaptItHgParametersSet(RepoProjectName) 
                         || !Directory.Exists(strProjectFolder))
                     {
-                        if (MessageBox.Show(Properties.Resources.IDS_QueryPullSharedAiProject,
-                                            OseResources.Properties.Resources.IDS_Caption,
+                        if (MessageBox.Show(Localizer.Str("The shared Adapt It project for this field is not on the local computer. Please enter the necessary information in the next window to download it from the internet (i.e. the repository server, username and password). These should be in an email message you received previously"),
+                                            StoryEditor.OseCaption,
                                             MessageBoxButtons.OKCancel) == DialogResult.Cancel)
                             return;
 
@@ -480,7 +488,7 @@ namespace OneStoryProjectEditor
 
             public string HtmlStyle(string strLangCat)
             {
-                string strHtmlStyle = String.Format(OseResources.Properties.Resources.HTML_LangStyle,
+                string strHtmlStyle = String.Format(Properties.Resources.HTML_LangStyle,
                     strLangCat,
                     FontToUse.Name,
                     FontToUse.SizeInPoints,
@@ -574,7 +582,7 @@ namespace OneStoryProjectEditor
                     strDefaultProjectFolderRoot = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
                 string strPath = Path.Combine(strDefaultProjectFolderRoot,
-                    OseResources.Properties.Resources.DefMyDocsSubfolder);
+                    Properties.Resources.DefMyDocsSubfolder);
 
                 return strPath;
             }
@@ -743,10 +751,7 @@ namespace OneStoryProjectEditor
             var nullProgress = new NullProgress();
             var repo = new HgRepository(strProjectFolder, nullProgress);
             if (!repo.GetCanConnectToRemote(strRepoUrl, nullProgress))
-                if (MessageBox.Show(Properties.Resources.IDS_ConnectToInternet,
-                                    OseResources.Properties.Resources.IDS_Caption,
-                                    MessageBoxButtons.OKCancel) ==
-                    DialogResult.Cancel)
+                if (Program.UserCancelledNotConnectToInternetWarning)
                 {
                     return;
                 }

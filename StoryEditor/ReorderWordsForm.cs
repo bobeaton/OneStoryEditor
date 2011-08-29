@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using NetLoc;
 using SilEncConverters40;
 
 namespace OneStoryProjectEditor
@@ -25,9 +26,18 @@ namespace OneStoryProjectEditor
 
         private const string CstrSpace = "<Space>";
         private Font _font;
+
+        private ReorderWordsForm()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
+
         public ReorderWordsForm(CtrlTextBox ctrlTextBox)
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
+
             _font = ctrlTextBox.Font;
             char[] achToIgnore = VersesData.GetSplitChars(ctrlTextBox._strFullStop);
             string[] astrWords = ctrlTextBox.MyStringTransfer.GetWords(achToIgnore);

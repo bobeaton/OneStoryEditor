@@ -712,30 +712,18 @@ eater Panorama
 \par }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
 \par }}</value>
   </data>
-  <data name="IDS_DuplicateMemberName" xml:space="preserve">
-    <value>It appears that some other team member has added a duplicate member with the name '{0}', but only one is allowed! The latter one will be discarded.</value>
-  </data>
-  <data name="IDS_GetNewVersion" xml:space="preserve">
-    <value>One of the team members is using a newer version of OSE to edit the file, which is not compatible with the version you are using. You might try, "Advanced", "Program Updates", "Check now" or "Check now for next major update" or you may have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the "Setup OneStory Editor.zip" file.</value>
-  </data>
-  <data name="IDS_HaveToLogInToContinue" xml:space="preserve">
-    <value>You have to log in to continue. Click 'Project', 'Login' and choose or add your name.</value>
-    <comment>काम करने के लिए आपको लॉग-इन करना है। 'Project' मेनू, 'Login' पर क्‍लिक करो और अपना नाम चुनकर 'लॉग-इन' बटन दबाओ।</comment>
-  </data>
-  <data name="IDS_HiddenLabel" xml:space="preserve">
-    <value> (Hidden)</value>
-  </data>
   <data name="IDS_IllFormedJumpTarget" xml:space="preserve">
     <value>The project file has an ill-formed Anchor! Wasn't expecting to see '{0}'. Contact bob_eaton@sall.com and mention which the project name.</value>
   </data>
   <data name="IDS_MainStoriesSet" xml:space="preserve">
     <value>Stories</value>
   </data>
-  <data name="IDS_NotTheRightProjFac" xml:space="preserve">
-    <value>You will not be able to make any changes to this story, because you are not the Project Facilitator assigned to it. If you are the new Project Facilitator for the story, then click "Story", "Story Information" and right-click on the "..." button to the right of the line that says "Project Facilitator"to choose your name to be assigned to it</value>
-  </data>
   <data name="IDS_NowIsHidden" xml:space="preserve">
     <value> was visible, but now is hidden</value>
+  </data>
+  <data name="IDS_OBSOLETEHaveToLogInToContinue" xml:space="preserve">
+    <value>You have to log in to continue. Click 'Project', 'Login' and choose or add your name.</value>
+    <comment>काम करने के लिए आपको लॉग-इन करना है। 'Project' मेनू, 'Login' पर क्‍लिक करो और अपना नाम चुनकर 'लॉग-इन' बटन दबाओ।</comment>
   </data>
   <data name="IDS_ObsoleteStoriesSet" xml:space="preserve">
     <value>Old Stories</value>
@@ -748,14 +736,5 @@ eater Panorama
   </data>
   <data name="IDS_QueryConvertProjectFile1_3to1_4" xml:space="preserve">
     <value>The project file you're trying to open (i.e. '{0}') was lasted edited by an earlier version of the OneStory editor. I can automatically upgrade the project file to be readable by this newer version, but it will make it inaccessible to the earlier version. So if the rest of the team (Project Facilitators, Consultant, etc) have all: a) done a 'Project', 'Send/receive' to send all of their outstanding changes, and b) upgraded to the new version of OSE, then if you want the project file to be converted to the new format, click 'Yes'</value>
-  </data>
-  <data name="IDS_WasHidden" xml:space="preserve">
-    <value> was hidden, but now is visible</value>
-  </data>
-  <data name="IDS_WhichUserEdits" xml:space="preserve">
-    <value>Right now, only a '{0}' can make changes in the Story pane. If you're a {0}, click 'Project', 'Login' to login</value>
-  </data>
-  <data name="IDS_WrongPf" xml:space="preserve">
-    <value>Right now, only the Project Facilitator assigned to this story can make changes in the Story pane (see 'Story', 'Story Information')</value>
   </data>
 </root>

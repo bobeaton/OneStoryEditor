@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -178,10 +179,9 @@ namespace OneStoryProjectEditor
             // the first/easiest check is that the count of question tests should be 0
             if (theStory.CountTestingQuestionTests > 0)
             {
-                throw new ExceptionWithViewToTurnOn(String.Format(Properties.Resources.IDS_DoXMoreTqTests,
-                                                                  theStory.CountTestingQuestionTests,
-                                                                  "story question"))
-                          {ViewToTurnOn = TheSe.viewStoryTestingQuestionAnswerMenuItem};
+                ThrowViewExceptionLackingTests(theStory.CountTestingQuestionTests,
+                                   Localizer.Str("story question"),
+                                   TheSe.viewStoryTestingQuestionAnswersMenu);
             }
 
             for (int nVerseNumber = 1; nVerseNumber <= theStory.Verses.Count; nVerseNumber++)
@@ -199,18 +199,34 @@ namespace OneStoryProjectEditor
                         || !HasProperData(projSettings.ShowAnswers.NationalBt, (li = projSettings.NationalBT), theAnswerData.NationalBt)
                         || !HasProperData(projSettings.ShowAnswers.InternationalBt, (li = projSettings.InternationalBT), theAnswerData.InternationalBt))
                     {
-                        throw new ExceptionWithViewToTurnOn(String.Format(Properties.Resources.IDS_DataMissing,
-                                                                          Environment.NewLine,
-                                                                          li.LangName,
-                                                                          "Answer",
-                                                                          nVerseNumber))
-                                  {
-                                      ViewToTurnOn = TheSe.viewStoryTestingQuestionAnswerMenuItem,
-                                      VerseToScrollTo = nVerseNumber
-                                  };
+                        ThrowExceptionDataMissing(TheSe.viewStoryTestingQuestionAnswersMenu,
+                                                  nVerseNumber, li.LangName,
+                                                  Localizer.Str("Answer"));
                     }
                 }
             }
+        }
+
+        private static void ThrowExceptionDataMissing(ToolStripMenuItem tsmi, int nVerseNumber, string strLangName,
+            string strDataType)
+        {
+            throw new ExceptionWithViewToTurnOn(String.Format(Localizer.Str("The '{1}' language field of the {2} in line '{3}' is empty. Did you forget it?{0}{0}(if you don't mean to enter data in the '{1}' field, then click 'Project', 'Settings' and on the 'Languages' tab, uncheck the box for that language in the '{2}s' column)"),
+                                                              Environment.NewLine,
+                                                              strLangName,
+                                                              strDataType,
+                                                              nVerseNumber))
+                      {
+                          ViewToTurnOn = tsmi,
+                          VerseToScrollTo = nVerseNumber
+                      };
+        }
+
+        private static void ThrowViewExceptionLackingTests(int nCountOfTests, string strTestType, 
+            ToolStripMenuItem tsmi)
+        {
+            throw new ExceptionWithViewToTurnOn(String.Format(Localizer.Str("The consultant is requiring you to do {0} more {1} test(s)"),
+                                                              nCountOfTests, strTestType)) 
+                                                              {ViewToTurnOn = tsmi};
         }
 
         private static void CheckForCompletionRetelling(StoryEditor theSe, StoryProjectData theStoryProjectData, 
@@ -223,10 +239,9 @@ namespace OneStoryProjectEditor
             // the first/easiest check is that the count of retelling tests should be 0
             if (theStory.CountRetellingsTests > 0)
             {
-                throw new ExceptionWithViewToTurnOn(String.Format(Properties.Resources.IDS_DoXMoreTqTests,
-                                                                  theStory.CountRetellingsTests,
-                                                                  "retelling"))
-                          {ViewToTurnOn = theSe.viewRetellingFieldMenuItem};
+                ThrowViewExceptionLackingTests(theStory.CountRetellingsTests,
+                                   Localizer.Str("retelling"),
+                                   theSe.viewRetellingsMenu);
             }
 
             // make sure the TQs that are there are filled in for all requested languages
@@ -246,15 +261,9 @@ namespace OneStoryProjectEditor
                         || !HasProperData(projSettings.ShowRetellings.NationalBt, (li = projSettings.NationalBT), theRetellingData.NationalBt)
                         || !HasProperData(projSettings.ShowRetellings.InternationalBt, (li = projSettings.InternationalBT), theRetellingData.InternationalBt))
                     {
-                        throw new ExceptionWithViewToTurnOn(String.Format(Properties.Resources.IDS_DataMissing,
-                                                                          Environment.NewLine,
-                                                                          li.LangName,
-                                                                          "Retelling",
-                                                                          nVerseNumber))
-                                  {
-                                      ViewToTurnOn = theSe.viewRetellingFieldMenuItem,
-                                      VerseToScrollTo = nVerseNumber
-                                  };
+                        ThrowExceptionDataMissing(theSe.viewRetellingsMenu,
+                                                  nVerseNumber, li.LangName,
+                                                  Localizer.Str("Retelling"));
                     }
                 }
             }
@@ -301,15 +310,9 @@ namespace OneStoryProjectEditor
                         !HasProperData(projSettings.ShowTestQuestions.InternationalBt, (li = projSettings.InternationalBT),
                                        theTqData.InternationalBt))
                     {
-                        throw new ExceptionWithViewToTurnOn(String.Format(Properties.Resources.IDS_DataMissing,
-                                                                          Environment.NewLine,
-                                                                          li.LangName,
-                                                                          "Test Question",
-                                                                          nVerseNumber))
-                                  {
-                                      ViewToTurnOn = theSe.viewStoryTestingQuestionMenuItem,
-                                      VerseToScrollTo = nVerseNumber
-                                  };
+                        ThrowExceptionDataMissing(theSe.viewStoryTestingQuestionsMenu,
+                                                  nVerseNumber, li.LangName,
+                                                  Localizer.Str("Test Question"));
                     }
                 }
             }
@@ -332,16 +335,21 @@ namespace OneStoryProjectEditor
                 {
                     if (aVerseData.Anchors.Count == 0)
                     {
-                        throw new ExceptionWithViewToTurnOn(String.Format(Properties.Resources.IDS_NoAnchor,
-                                                                          nVerseNumber))
+                        throw new ExceptionWithViewToTurnOn(NoAnchorMessage(nVerseNumber))
                                   {
-                                      ViewToTurnOn = theSe.viewAnchorFieldMenuItem,
+                                      ViewToTurnOn = theSe.viewAnchorsMenu,
                                       VerseToScrollTo = nVerseNumber
                                   };
                     }
                 }
                 nVerseNumber++;
             }
+        }
+
+        public static string NoAnchorMessage(int nVerseNumber)
+        {
+            return String.Format(Localizer.Str("Line '{0}' doesn't have an anchor. Did you forget it?"),
+                                 nVerseNumber);
         }
 
         private bool CheckForCompletion(StoryEditor theSe, 
@@ -390,7 +398,8 @@ namespace OneStoryProjectEditor
 
                         CheckEndOfStateTransition.ShowErrorFocus(theSe, stCheck.TextBox,
                                                                  String.Format(
-                                                                     Properties.Resources.IDS_FieldCantBeEmpty,
+                                                                     Localizer.Str(
+                                                                         "The '{0}' field of line '{1}' is empty, but the '{2}' field of that same line is not. Did you forget to enter the back-translation?"),
                                                                      liCheck.LangName, nVerseNumber, liHighest.LangName));
                         return false;
                     }
@@ -418,7 +427,8 @@ namespace OneStoryProjectEditor
             // if there are no verses... that can't be good
             if (theStory.Verses.Count < 2)
             {
-                CheckEndOfStateTransition.ShowError(theSe, Properties.Resources.IDS_NoMultipleLines);
+                CheckEndOfStateTransition.ShowError(theSe,
+                    Localizer.Str("Your story doesn't have multiple lines! Did you forget to do: 'Story', 'Split into lines'?"));
                 return false;
             }
 
@@ -445,11 +455,7 @@ namespace OneStoryProjectEditor
                             //  (but only if they haven't already said 'no' for this line)
                             if (lstSentences.Count > 1)
                             {
-                                DialogResult res = MessageBox.Show(
-                                    String.Format(Properties.Resources.IDS_QuerySplitMultipleLines,
-                                                  li.LangName, nVerseNumber),
-                                    OseResources.Properties.Resources.IDS_Caption,
-                                    MessageBoxButtons.YesNoCancel);
+                                DialogResult res = CheckEndOfStateTransition.QuerySplitIntoLines(li.LangName, nVerseNumber);
 
                                 // cancel stops the process ('no' just means I don't care 
                                 //  that there's multiple sentences/line)
@@ -492,9 +498,11 @@ namespace OneStoryProjectEditor
                             if (fieldToCheck == fieldHighest)
                             {
                                 DialogResult res = MessageBox.Show(
-                                    String.Format(Properties.Resources.IDS_HideEmptyLine,
-                                                  li.LangName, nVerseNumber),
-                                    OseResources.Properties.Resources.IDS_Caption,
+                                    String.Format(
+                                        Localizer.Str(
+                                            "The '{0}' field of line '{1}' is empty. Click 'Yes' to hide the line? Click 'No' to ignore and continue"),
+                                        li.LangName, nVerseNumber),
+                                    StoryEditor.OseCaption,
                                     MessageBoxButtons.YesNoCancel);
 
                                 if (res == DialogResult.Cancel)

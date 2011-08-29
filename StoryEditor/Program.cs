@@ -12,6 +12,7 @@ using Chorus.Utilities;
 using Chorus.VcsDrivers;
 using Chorus.VcsDrivers.Mercurial;
 using devX;
+using NetLoc;
 using Palaso.Email;
 using Palaso.Reporting;
 using SilEncConverters40;
@@ -76,7 +77,15 @@ namespace OneStoryProjectEditor
                     {
                         strFilePathToOpen = args[0];
                     }
-                    Application.Run(new StoryEditor(OseResources.Properties.Resources.IDS_MainStoriesSet, strFilePathToOpen));
+
+                    var strPathToLocData = Path.Combine(ProjectSettings.OneStoryProjectFolderRoot,
+                                                        "LocData");
+                    Localizer.Default = new Localizer(strPathToLocData,
+                                                      Properties.Settings.Default.LastLocalizationId);
+                    Application.Run(new StoryEditor(Properties.Resources.IDS_MainStoriesSet, strFilePathToOpen));
+
+                    Properties.Settings.Default.LastLocalizationId = Localizer.Default.LanguageId;
+                    Properties.Settings.Default.Save();
                 }
             }
             catch (RestartException)
@@ -88,7 +97,7 @@ namespace OneStoryProjectEditor
                 string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
                 if (ex.InnerException != null)
                     strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
-                MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(strMessage, StoryEditor.OseCaption);
             }
         }
 
@@ -118,8 +127,8 @@ namespace OneStoryProjectEditor
             {
                 // if this is the automatic check at startup, then at 
                 //  least confirm this is what the user wants to do.
-                if (!bThrowErrors && (MessageBox.Show(Properties.Resources.IDS_ConfirmAutoUpgrade, 
-                        OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes))
+                if (!bThrowErrors && (MessageBox.Show(Localizer.Str("There's a new version of the program available. Would you like to upgrade now?"), 
+                        StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes))
                 {
                     return;
                 }
@@ -302,7 +311,7 @@ namespace OneStoryProjectEditor
                 strErrorMsg += String.Format("{0}{0}{1}",
                                             Environment.NewLine,
                                             ex.InnerException.Message);
-            MessageBox.Show(strErrorMsg, OseResources.Properties.Resources.IDS_Caption);
+            MessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
         }
 
         public static void SetHgParametersNetworkDrive(string strProjectFolder, string strProjectName, string strUrl)
@@ -330,7 +339,7 @@ namespace OneStoryProjectEditor
                 string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
                 if (ex.InnerException != null)
                     strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
-                MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(strMessage, StoryEditor.OseCaption);
             }
         }
 
@@ -397,7 +406,7 @@ namespace OneStoryProjectEditor
                 string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
                 if (ex.InnerException != null)
                     strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
-                MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(strMessage, StoryEditor.OseCaption);
             }
         }
 
@@ -429,7 +438,7 @@ namespace OneStoryProjectEditor
                 string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
                 if (ex.InnerException != null)
                     strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
-                MessageBox.Show(strMessage, OseResources.Properties.Resources.IDS_Caption);
+                MessageBox.Show(strMessage, StoryEditor.OseCaption);
             }
         }
 
@@ -495,10 +504,7 @@ namespace OneStoryProjectEditor
                     var nullProgress = new NullProgress();
                     var repo = new HgRepository(strProjectFolder, nullProgress);
                     if (!repo.GetCanConnectToRemote(strRepoUrl, nullProgress))
-                        if (MessageBox.Show(Properties.Resources.IDS_ConnectToInternet,
-                                            OseResources.Properties.Resources.IDS_Caption,
-                                            MessageBoxButtons.OKCancel) ==
-                            DialogResult.Cancel)
+                        if (UserCancelledNotConnectToInternetWarning)
                         {
                             strRepoUrl = null;
                             if (String.IsNullOrEmpty(strSharedNetworkUrl))
@@ -540,6 +546,17 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public static bool UserCancelledNotConnectToInternetWarning
+        {
+            get
+            {
+                return (MessageBox.Show(Localizer.Str("You should connect to the internet now so we can download the latest version of the file (in case some of your team made changes)"),
+                                        StoryEditor.OseCaption,
+                                        MessageBoxButtons.OKCancel) ==
+                        DialogResult.Cancel);
+            }
+        }
+
         public static bool HaveCalledAdaptIt;
 
         // e.g. http://bobeaton:helpmepld@hg-private.languagedepot.org/aikb-{0}-{1}
@@ -577,10 +594,7 @@ namespace OneStoryProjectEditor
                     var nullProgress = new NullProgress();
                     var repo = new HgRepository(strProjectFolder, nullProgress);
                     if (!repo.GetCanConnectToRemote(strRepoUrl, nullProgress))
-                        if (MessageBox.Show(Properties.Resources.IDS_ConnectToInternet,
-                                             OseResources.Properties.Resources.IDS_Caption,
-                                             MessageBoxButtons.OKCancel) ==
-                             DialogResult.Cancel)
+                        if (UserCancelledNotConnectToInternetWarning)
                         {
                             strRepoUrl = null;
                             if (String.IsNullOrEmpty(strSharedNetworkUrl))
@@ -824,7 +838,7 @@ namespace OneStoryProjectEditor
         {
             if (li.HasData)
             {
-                cbLang.Text = String.Format(Properties.Resources.IDS_LanguageFields,
+                cbLang.Text = String.Format(Localizer.Str("{0} &language fields"),
                                             li.LangName);
                 if (dec != null)
                 {

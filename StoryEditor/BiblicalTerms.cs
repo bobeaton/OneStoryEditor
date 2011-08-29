@@ -1,3 +1,5 @@
+#define UnhookParatextKeyBiblicalTerms
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +8,9 @@ using System.Xml.Serialization;
 using System.IO;
 using NetLoc;
 using Paratext;
+#if !UnhookParatextKeyBiblicalTerms
 using Paratext.BiblicalTerms;
+#endif
 
 // This information regards Biblical terms.
 // This information is project and UI language independant.
@@ -14,6 +18,7 @@ using Paratext.BiblicalTerms;
 
 namespace OneStoryProjectEditor
 {
+#if !UnhookParatextKeyBiblicalTerms
 	/// <summary>
 	/// Terms found in the source language texts.
 	/// Reinier created this. 
@@ -59,7 +64,8 @@ namespace OneStoryProjectEditor
 	        }
             set { versification = value; }
 	    }
-
+        
+        /*
 	    public static string GetCaptionFromFileName(string fileName)
 	    {
             if (fileName.EndsWith("\\BiblicalTerms.xml"))
@@ -73,6 +79,7 @@ namespace OneStoryProjectEditor
 
             return Path.GetFileNameWithoutExtension(fileName);
 	    }
+        */
 
 	    private int containsCategories = -1;
 
@@ -246,6 +253,7 @@ namespace OneStoryProjectEditor
         private static BiblicalTermsList biblicalTerms;  // Singleton instance of this class.
         public static string biblicalTermsPath = Properties.Settings.Default.BiblicalTermsPath;
 
+#if !UnhookParatextKeyBiblicalTerms
         public static void SelectTermsList(string strProjectFolder)
         {
             var dialog = new SelectTermsListForm(biblicalTermsPath, strProjectFolder);
@@ -289,6 +297,7 @@ namespace OneStoryProjectEditor
 
             OnBiblicalTermsListChanged();
         }
+#endif
 
         private static void ForceReloadOfTerms()
         {
@@ -449,8 +458,9 @@ namespace OneStoryProjectEditor
             OnBiblicalTermsListChanged();
         }
 	}
+#endif
 
-	/// <summary>
+    /// <summary>
 	/// A Biblical term. Contains no localizable data (see TermLocalization)
 	/// </summary>
 	public class Term : IComparable<Term>
@@ -466,13 +476,13 @@ namespace OneStoryProjectEditor
 		private List<Verse> references;
 		private string origID;
 		private int index;
-
+        /*
         public override string ToString()
         {
             return String.Format("Id = '{0}', Gloss = '{1}'",
                 Lemma, (String.IsNullOrEmpty(LocalGloss)) ? Gloss : LocalGloss);
         }
-
+        */
 		public static readonly string[] AllCategoryIds = 
 			{   "KT" /*Keyterm*/, 
 				"PN" /*Proper Name*/,
@@ -603,6 +613,7 @@ namespace OneStoryProjectEditor
             set { localGloss = value; }
         }
 
+        /*
 		/// <summary>
 		/// Get the gloss for the term in the current UI language.
 		/// </summary>
@@ -617,7 +628,8 @@ namespace OneStoryProjectEditor
 				return TermLocalizations.Localizations.GetTermLocalization(id).Gloss;
 			}
 		}
-		
+		*/
+
 		/// <summary>
 		/// Index of this term in original XML file.
 		/// Used to resort terms into original order.
@@ -628,7 +640,7 @@ namespace OneStoryProjectEditor
 			get { return index; }
 			set { index = value; }
 		}
-
+        /*
 		/// <summary>
 		/// Get the notes for the term in the current UI language.
 		/// </summary>
@@ -641,7 +653,7 @@ namespace OneStoryProjectEditor
 				return notes.Trim();
 			}
 		}
-
+        */
         private ScrVers versification;
 
         [XmlIgnore]

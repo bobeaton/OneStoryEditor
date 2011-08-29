@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -14,6 +9,7 @@ namespace OneStoryProjectEditor
         public CorrectSourceWordForm()
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
         }
 
         public string CorrectedWord
