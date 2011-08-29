@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<AutoUpgrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.devx.com/schemas/autoupgrade/1.0">
+  <ApplicationBasePath />
+  <ApplicationExecutable />
+  <ApplicationName>OneStory Editor AutoUpdater</ApplicationName>
+  <FullUpgradeFileName />
+  <OffsetFromUctWhereManifestWasOriginallyCreated>2011-08-29T12:55:54.0240000-05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+  <ManifestFiles>
+    <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="1.0.4249.32201" optional="false" size="25088">AutoUpgrade Lib</File>
+  </ManifestFiles>
+  <SourcePath />
+  <UpgradeFiles />
+</AutoUpgrade>

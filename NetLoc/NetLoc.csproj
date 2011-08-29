@@ -1,0 +1,233 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EF711727-8A5D-429B-8E2F-8F1818B15255}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NetLoc</RootNamespace>
+    <AssemblyName>NetLoc</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkSubset>Client</TargetFrameworkSubset>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'RepositoryDebug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\RepositoryDebug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\output\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\output\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'RepositoryDebug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\RepositoryDebug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddLanguageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddLanguageForm.designer.cs">
+      <DependentUpon>AddLanguageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AutoTranslator.cs" />
+    <Compile Include="DataGridView2.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GoogleAPI\Core\CoreHelper.cs" />
+    <Compile Include="GoogleAPI\Core\GapiException.cs" />
+    <Compile Include="GoogleAPI\Core\Rfc822DateTime.cs" />
+    <Compile Include="GoogleAPI\Json\JsonArray.cs" />
+    <Compile Include="GoogleAPI\Json\JsonBoolean.cs" />
+    <Compile Include="GoogleAPI\Json\JsonException.cs" />
+    <Compile Include="GoogleAPI\Json\JsonHelper.cs" />
+    <Compile Include="GoogleAPI\Json\JsonNumber.cs" />
+    <Compile Include="GoogleAPI\Json\JsonObject.cs" />
+    <Compile Include="GoogleAPI\Json\JsonString.cs" />
+    <Compile Include="GoogleAPI\Json\JsonValue.cs" />
+    <Compile Include="GoogleAPI\Language\Language.cs" />
+    <Compile Include="GoogleAPI\Language\Translate.cs" />
+    <Compile Include="ILReader.cs" />
+    <Compile Include="Localizer.cs" />
+    <Compile Include="LocData.Designer.cs" />
+    <Compile Include="LocDataControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LocDataControl.designer.cs">
+      <DependentUpon>LocDataControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LocDataEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LocDataEditorForm.designer.cs">
+      <DependentUpon>LocDataEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LocKey.cs" />
+    <Compile Include="LocLanguage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ScreenCapture.cs" />
+    <Compile Include="ScreenCaptureForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScreenCaptureForm.Designer.cs">
+      <DependentUpon>ScreenCaptureForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectLanguageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectLanguageForm.Designer.cs">
+      <DependentUpon>SelectLanguageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\com.microsofttranslator.api\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AddLanguageForm.resx">
+      <DependentUpon>AddLanguageForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LocDataControl.resx">
+      <DependentUpon>LocDataControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LocDataEditorForm.resx">
+      <DependentUpon>LocDataEditorForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScreenCaptureForm.resx">
+      <DependentUpon>ScreenCaptureForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectLanguageForm.resx">
+      <DependentUpon>SelectLanguageForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="LocData.xsc">
+      <DependentUpon>LocData.xsd</DependentUpon>
+    </None>
+    <None Include="LocData.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="LocData.xss">
+      <DependentUpon>LocData.xsd</DependentUpon>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\com.microsofttranslator.api\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\com.microsofttranslator.api\Soap.wsdl" />
+    <None Include="Web References\com.microsofttranslator.api\Soap.xsd" />
+    <None Include="Web References\com.microsofttranslator.api\Soap0.xsd" />
+    <None Include="Web References\com.microsofttranslator.api\Soap1.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://api.microsofttranslator.com/V1/SOAP.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\com.microsofttranslator.api\</RelPath>
+      <UpdateFromURL>http://api.microsofttranslator.com/V1/SOAP.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>NetLoc_com_microsofttranslator_api_Soap</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

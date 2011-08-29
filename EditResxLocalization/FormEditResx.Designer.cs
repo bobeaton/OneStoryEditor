@@ -52,6 +52,7 @@ namespace EditResxLocalization
             this.ColumnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnEnValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnTranslation = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.localizationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -133,7 +134,7 @@ namespace EditResxLocalization
             // menuFileNew
             // 
             this.menuFileNew.Name = "menuFileNew";
-            this.menuFileNew.Size = new System.Drawing.Size(152, 22);
+            this.menuFileNew.Size = new System.Drawing.Size(138, 22);
             this.menuFileNew.Text = global::EditResxLocalization.Properties.Resources.IDS__New;
             this.menuFileNew.ToolTipText = "Create a new (empty) Localization File (*.elf)";
             this.menuFileNew.Click += new System.EventHandler(this.MenuFileNewClick);
@@ -141,7 +142,7 @@ namespace EditResxLocalization
             // menuFileOpen
             // 
             this.menuFileOpen.Name = "menuFileOpen";
-            this.menuFileOpen.Size = new System.Drawing.Size(152, 22);
+            this.menuFileOpen.Size = new System.Drawing.Size(138, 22);
             this.menuFileOpen.Text = global::EditResxLocalization.Properties.Resources.IDS__Open;
             this.menuFileOpen.ToolTipText = "Open a Localization File (*.elf)";
             this.menuFileOpen.Click += new System.EventHandler(this.MenuFileOpenClick);
@@ -150,7 +151,7 @@ namespace EditResxLocalization
             // 
             this.menuFileSave.Name = "menuFileSave";
             this.menuFileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.menuFileSave.Size = new System.Drawing.Size(152, 22);
+            this.menuFileSave.Size = new System.Drawing.Size(138, 22);
             this.menuFileSave.Text = global::EditResxLocalization.Properties.Resources.IDS__Save;
             this.menuFileSave.ToolTipText = "Save the Localization File (*.elf)";
             this.menuFileSave.Click += new System.EventHandler(this.MenuFileSaveClick);
@@ -158,7 +159,7 @@ namespace EditResxLocalization
             // menuFileSaveAs
             // 
             this.menuFileSaveAs.Name = "menuFileSaveAs";
-            this.menuFileSaveAs.Size = new System.Drawing.Size(152, 22);
+            this.menuFileSaveAs.Size = new System.Drawing.Size(138, 22);
             this.menuFileSaveAs.Text = global::EditResxLocalization.Properties.Resources.IDS_Save__As;
             this.menuFileSaveAs.ToolTipText = "Save the Localization File (*.elf) with a new name";
             this.menuFileSaveAs.Click += new System.EventHandler(this.MenuFileSaveAsClick);
@@ -188,7 +189,7 @@ namespace EditResxLocalization
             // menuImportMergeFromResx
             // 
             this.menuImportMergeFromResx.Name = "menuImportMergeFromResx";
-            this.menuImportMergeFromResx.Size = new System.Drawing.Size(152, 22);
+            this.menuImportMergeFromResx.Size = new System.Drawing.Size(133, 22);
             this.menuImportMergeFromResx.Text = global::EditResxLocalization.Properties.Resources.IDS__From___resx;
             this.menuImportMergeFromResx.ToolTipText = "Import and merge the information in a .resx file into the current Localization Fi" +
                 "le";
@@ -196,6 +197,8 @@ namespace EditResxLocalization
             // 
             // menuLanguage
             // 
+            this.menuLanguage.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.localizationToolStripMenuItem});
             this.menuLanguage.Name = "menuLanguage";
             this.menuLanguage.Size = new System.Drawing.Size(71, 20);
             this.menuLanguage.Text = "&Language";
@@ -235,6 +238,13 @@ namespace EditResxLocalization
             this.ColumnTranslation.FillWeight = 200F;
             this.ColumnTranslation.HeaderText = "Translation";
             this.ColumnTranslation.Name = "ColumnTranslation";
+            // 
+            // localizationToolStripMenuItem
+            // 
+            this.localizationToolStripMenuItem.Name = "localizationToolStripMenuItem";
+            this.localizationToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.localizationToolStripMenuItem.Text = "Localization...";
+            this.localizationToolStripMenuItem.Click += new System.EventHandler(this.localizationToolStripMenuItem_Click);
             // 
             // FormEditResx
             // 
@@ -277,6 +287,7 @@ namespace EditResxLocalization
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnId;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnEnValue;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTranslation;
+        private System.Windows.Forms.ToolStripMenuItem localizationToolStripMenuItem;
     }
 }
 

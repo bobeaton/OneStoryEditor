@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace EditResxLocalization
 {
@@ -15,7 +17,16 @@ namespace EditResxLocalization
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            var strPathToLocData = Path.Combine(Application.UserAppDataPath,
+                                                "LocData");
+            Localizer.Default = new Localizer(strPathToLocData,
+                                              Properties.Settings.Default.LastLocalizationId);
+
             Application.Run(new FormEditResx());
+
+            Properties.Settings.Default.LastLocalizationId = Localizer.Default.LanguageId;
+            Properties.Settings.Default.Save();
         }
 
         public static void ShowException(Exception ex)

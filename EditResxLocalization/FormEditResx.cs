@@ -8,6 +8,8 @@ using System.Xml;
 using System.Xml.Xsl;
 #if DEBUG
 using Chorus.merge.xml.generic;
+using NetLoc;
+
 #endif
 
 namespace EditResxLocalization
@@ -23,6 +25,8 @@ namespace EditResxLocalization
         public FormEditResx()
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
+
 #if DebuggingDeserialize
             _elf = new EditableLocalization(true);
             _elf.Languages[0].SendEmailOnUpdate.Add("pete_dembrowski@hotmail.com");
@@ -247,6 +251,16 @@ namespace EditResxLocalization
             return (from value in entry.Values 
                     where value.Lang == strId 
                     select !value.NeedsUpdating).FirstOrDefault();
+        }
+
+        private void localizationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var localizationEditor = new LocDataEditorForm(Localizer.Default,
+                                                           new [] {"EditResxLocalization"});
+            if (localizationEditor.ShowDialog() == DialogResult.OK)
+            {
+                
+            }
         }
     }
 }
