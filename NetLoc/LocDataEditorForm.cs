@@ -33,7 +33,7 @@ namespace NetLoc
         /// </summary>
         /// <param name="localizer">Localizer to use. Use Localizer.Default for the default localizer</param>
         /// <param name="namespaces">list of namespaces of all classes to localize. Wild-cards ok (e.g. SomeSpace*). None for
-        /// all namespaces but System<param>
+        ///   all namespaces but System<param>
         public LocDataEditorForm(Localizer localizer, params string[] namespaces)
         {
             InitializeComponent();
@@ -97,6 +97,7 @@ namespace NetLoc
 
         private void uiFileClose_Click(object sender, EventArgs e)
         {
+            _bWasClosedViaFileClose = true;
             this.Close();
         }
 
@@ -109,11 +110,29 @@ namespace NetLoc
             form.Dispose();
         }
 
+        public delegate void CallOnFileClose(bool bWasViaFileClose);
+        public CallOnFileClose DelegateCallOnClose;
+        private bool _bWasClosedViaFileClose;
+
         private void LocDataEditorForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            uiLocDataControl.Unbind();
-            localizer.Save();
+            // if the user clicks the X in the upper right, just hide this form
+            //  whereas if they use 'File', 'Close', then close it for real.
+            if (_bWasClosedViaFileClose)
+            {
+                uiLocDataControl.Unbind();
+                localizer.Save();
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+
+            // either way we want to update
             localizer.Update();
+
+            if (DelegateCallOnClose != null)
+                DelegateCallOnClose(_bWasClosedViaFileClose);
         }
 
         private void uiFileDeleteLanguage_DropDownOpening(object sender, EventArgs e)
