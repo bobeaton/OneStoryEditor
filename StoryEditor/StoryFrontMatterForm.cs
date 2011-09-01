@@ -16,6 +16,12 @@ namespace OneStoryProjectEditor
         private readonly TestRows _rowsAnswers = new TestRows();
         private TestRows _rowsToDelete = new TestRows();
 
+        private StoryFrontMatterForm()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
+
         public StoryFrontMatterForm(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory)
             : base(true)
         {
@@ -24,6 +30,7 @@ namespace OneStoryProjectEditor
             _theCurrentStory = theCurrentStory;
 
             InitializeComponent();
+            Localizer.Ctrl(this);
 
             textBoxStoryPurpose.Text = theCurrentStory.CraftingInfo.StoryPurpose;
             textBoxResourcesUsed.Text = theCurrentStory.CraftingInfo.ResourcesUsed;
@@ -69,23 +76,23 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.SuspendLayout();
             SuspendLayout();
 
-            InitializeTestRows(theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
+            InitializeTestRows(theCurrentStory.CraftingInfo.TestersToCommentsRetellings,
                 _rowsRetellings,
-                "Retelling Test &");
+                Localizer.Str("Retelling Test &"));
 
-            InitializeTestRows(theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
+            InitializeTestRows(theCurrentStory.CraftingInfo.TestersToCommentsTqAnswers,
                 _rowsAnswers,
-                "Story Question Test &");
+                Localizer.Str("Story Question Test &"));
 
             tableLayoutPanel.ResumeLayout(false);
             tableLayoutPanel.PerformLayout();
             ResumeLayout(false);
 
-            Text = String.Format("Story Information for '{0}'", theCurrentStory.Name);
+            Text = String.Format(Localizer.Str("Story Information for '{0}'"), theCurrentStory.Name);
 
             Modified = false;
             buttonOK.Enabled = false;
-            buttonCancel.Text = "Close";
+            buttonCancel.Text = Localizer.Str("Close");
         }
 
         private void InitializeTestRows(TestInfo testInfo, TestRows rows, 
@@ -94,13 +101,13 @@ namespace OneStoryProjectEditor
             for (int i = 1; i <= testInfo.Count; i++)
             {
                 var row = new ControlRow(cstrLabel + i);
-                var testor = testInfo[i - 1];
-                InitTestorRow(row, testor);
+                var tester = testInfo[i - 1];
+                InitTesterRow(row, tester);
                 rows.Add(row);
             }
         }
 
-        private void InitTestorRow(ControlRow row, MemberIdInfo testor)
+        private void InitTesterRow(ControlRow row, MemberIdInfo tester)
         {
             // add the row of controls to the table layout panel
             int nRow = tableLayoutPanel.RowCount;
@@ -114,16 +121,23 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.RowCount++;
             
             // now initialize it with data
-            var member = _theStoryProjectData.GetMemberFromId(testor.MemberId);
+            var member = _theStoryProjectData.GetMemberFromId(tester.MemberId);
             if (member != null)
                 InitToolboxTextTip(member, row.TbxName);
-            row.TbxComment.Text = testor.MemberComment;
+            row.TbxComment.Text = tester.MemberComment;
             toolTip.SetToolTip(row.LinkLabelView, StoryInformationTooltipLinkView);
             toolTip.SetToolTip(row.LinkLabelChange, StoryInformationTooltipLinkChange);
         }
 
-        internal const string CstrDeleteTest = "Delete";
-        internal const string CstrUndeleteTest = "Undelete";
+        internal static string CstrDeleteTest
+        {
+            get { return Localizer.Str("Delete"); }
+        }
+
+        internal static string CstrUndeleteTest
+        {
+            get { return Localizer.Str("Undelete"); }
+        }
 
         private void InitToolboxTextTip(MemberIdInfo memberInfo, Label lbl, 
             TextBox tbName, TextBox tbComment, LinkLabel linkView, LinkLabel linkChange, 
@@ -391,10 +405,10 @@ namespace OneStoryProjectEditor
 
             PurgeDeletedTests(ref Modified);
 
-            ProcessTestCommentChanges(_theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
+            ProcessTestCommentChanges(_theCurrentStory.CraftingInfo.TestersToCommentsRetellings,
                 _rowsRetellings, ref Modified);
 
-            ProcessTestCommentChanges(_theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
+            ProcessTestCommentChanges(_theCurrentStory.CraftingInfo.TestersToCommentsTqAnswers,
                 _rowsAnswers, ref Modified);
 
             try
@@ -402,19 +416,19 @@ namespace OneStoryProjectEditor
                 _rowsRetellings.CheckForDuplicateUns();
                 _rowsAnswers.CheckForDuplicateUns();
 
-                _theCurrentStory.CraftingInfo.TestorsToCommentsRetellings =
-                    _rowsRetellings.ChangeTestors(
-                        _theCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
-                        _theCurrentStory.ChangeRetellingTestor,
-                        _theCurrentStory.Verses.ChangeRetellingTestorGuid,
+                _theCurrentStory.CraftingInfo.TestersToCommentsRetellings =
+                    _rowsRetellings.ChangeTesters(
+                        _theCurrentStory.CraftingInfo.TestersToCommentsRetellings,
+                        _theCurrentStory.ChangeRetellingTester,
+                        _theCurrentStory.Verses.ChangeRetellingTesterGuid,
                         _theStoryProjectData.TeamMembers,
                         ref Modified);
 
-                _theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers =
-                    _rowsAnswers.ChangeTestors(
-                        _theCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
-                        _theCurrentStory.ChangeTqAnswersTestor,
-                        _theCurrentStory.Verses.ChangeTqAnswersTestorGuid,
+                _theCurrentStory.CraftingInfo.TestersToCommentsTqAnswers =
+                    _rowsAnswers.ChangeTesters(
+                        _theCurrentStory.CraftingInfo.TestersToCommentsTqAnswers,
+                        _theCurrentStory.ChangeTqAnswersTester,
+                        _theCurrentStory.Verses.ChangeTqAnswersTesterGuid,
                         _theStoryProjectData.TeamMembers,
                         ref Modified);
             }
@@ -467,13 +481,13 @@ namespace OneStoryProjectEditor
             }
         }
         
-        private static void GetChangeToComment(MemberIdInfo testorInfo, TextBox tb, 
+        private static void GetChangeToComment(MemberIdInfo testerInfo, TextBox tb, 
             ref bool bModified)
         {
-            if (MemberIdInfo.Configured(testorInfo) && 
-                (tb.Text != testorInfo.MemberComment))
+            if (MemberIdInfo.Configured(testerInfo) && 
+                (tb.Text != testerInfo.MemberComment))
             {
-                testorInfo.MemberComment = tb.Text;
+                testerInfo.MemberComment = tb.Text;
                 bModified = true;
             }
         }
@@ -505,9 +519,9 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public delegate void ChangeTestorMethod(TeamMembersData teamMembersData,
+        public delegate void ChangeTesterMethod(TeamMembersData teamMembersData,
             int nIndex, string strNewGuid, ref TestInfo testInfoNew);
-        public delegate void ChangeTestorGuid(string strOldGuid, string strNewGuid);
+        public delegate void ChangeTesterGuid(string strOldGuid, string strNewGuid);
 
         // here's a scenario to avoid: the user is changing UNS#2 to be UNS#1 and
         //  UNS#2 to be someone else (or accidentally leaving USE#2 as both).
@@ -521,43 +535,43 @@ namespace OneStoryProjectEditor
         //          #2 = 68b690f6   #2 = f4450160
         // so if the person is already there in another test, we'll use his *name* as
         //  the guid temporarily and then afterwards will "Adjust" those back to the guid
-        public TestInfo ChangeTestors(TestInfo testInfo, ChangeTestorMethod changeMethod,
-            ChangeTestorGuid changeTestorGuid, TeamMembersData teamMembersData, 
+        public TestInfo ChangeTesters(TestInfo testInfo, ChangeTesterMethod changeMethod,
+            ChangeTesterGuid changeTesterGuid, TeamMembersData teamMembersData, 
             ref bool bModified)
         {
             var testInfoNew = new TestInfo();
             for (int i = 0; i < Count; i++)
             {
                 var aRow = this[i];
-                ChangeTestor(aRow.TbxName, i, testInfo, changeMethod, teamMembersData,
+                ChangeTester(aRow.TbxName, i, testInfo, changeMethod, teamMembersData,
                              ref testInfoNew, ref bModified);
             }
-            return AdjustForSwap(testInfoNew, teamMembersData, changeTestorGuid);
+            return AdjustForSwap(testInfoNew, teamMembersData, changeTesterGuid);
         }
 
         private static TestInfo AdjustForSwap(TestInfo testInfo, 
-            TeamMembersData teamMembersData, ChangeTestorGuid changeTestorGuid)
+            TeamMembersData teamMembersData, ChangeTesterGuid changeTesterGuid)
         {
-            foreach (var aTestor in testInfo)
-                if (teamMembersData.ContainsKey(aTestor.MemberId))
+            foreach (var aTester in testInfo)
+                if (teamMembersData.ContainsKey(aTester.MemberId))
                 {
                     // this means we had temporarily used the member's *name* as their
                     //  guid (in the case where the person was already in the list, 
                     //  we couldn't just change the guid due to the 'swap' problem--
-                    //  see StoryData.ChangeTestor for details)
-                    var member = teamMembersData[aTestor.MemberId];
-                    changeTestorGuid(aTestor.MemberId, member.MemberGuid);
-                    aTestor.MemberId = member.MemberGuid;
+                    //  see StoryData.ChangeTester for details)
+                    var member = teamMembersData[aTester.MemberId];
+                    changeTesterGuid(aTester.MemberId, member.MemberGuid);
+                    aTester.MemberId = member.MemberGuid;
                 }
             return testInfo;
         }
 
-        private static void ChangeTestor(TextBox tb, int nIndex, TestInfo testInfo,
-            ChangeTestorMethod changeMethod, TeamMembersData teamMembersData, 
+        private static void ChangeTester(TextBox tb, int nIndex, TestInfo testInfo,
+            ChangeTesterMethod changeMethod, TeamMembersData teamMembersData, 
             ref TestInfo testInfoNew, ref bool bModified)
         {
             TeamMemberData theNewUns;
-            if (ChangeTestor(tb, nIndex, testInfo, teamMembersData, out theNewUns, 
+            if (ChangeTester(tb, nIndex, testInfo, teamMembersData, out theNewUns, 
                 ref bModified))
             {
                 changeMethod(teamMembersData, nIndex, theNewUns.MemberGuid, 
@@ -565,7 +579,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private static bool ChangeTestor(TextBox tb, int nIndex, TestInfo testInfoCurrent,
+        private static bool ChangeTester(TextBox tb, int nIndex, TestInfo testInfoCurrent,
             TeamMembersData teamMembersData, out TeamMemberData theNewUns, 
             ref bool bModified)
         {
@@ -576,8 +590,8 @@ namespace OneStoryProjectEditor
             }
             else if (testInfoCurrent.Count > nIndex)
             {
-                var testorInfo = testInfoCurrent[nIndex];
-                theNewUns = teamMembersData.GetMemberFromId(testorInfo.MemberId);
+                var testerInfo = testInfoCurrent[nIndex];
+                theNewUns = teamMembersData.GetMemberFromId(testerInfo.MemberId);
             }
             else
             {
@@ -623,14 +637,14 @@ namespace OneStoryProjectEditor
             LinkLabelView = new LinkLabel
                                 {
                                     Anchor = AnchorStyles.Left,
-                                    Text = "Edit",
+                                    Text = Localizer.Str("Edit"),
                                     AutoSize = true
                                 };
             LinkLabelView.Click += OnLinkClickView;
             LinkLabelChange = new LinkLabel
                                   {
                                       Anchor = AnchorStyles.Left,
-                                      Text = "Change",
+                                      Text = Localizer.Str("Change"),
                                       AutoSize = true
                                   };
             LinkLabelChange.Click += OnLinkClickChange;

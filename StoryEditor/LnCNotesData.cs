@@ -115,7 +115,7 @@ namespace OneStoryProjectEditor
                            CheckForSimilarity(aLncNote.VernacularRendering, strToSearchForVernacular, ref strMatch))
                     select new AddLnCNoteForm(theSe, aLncNote)
                                {
-                                   Text = String.Format(Localizer.Str("You already have this L&C note for the word '{0}'! See 'View', 'L&C Notes'"), strMatch)
+                                   Text = String.Format(Localizer.Str("You already have this L & C note for the word '{0}'! See 'View', 'L&C Notes'"), strMatch)
                                }).Select(dlg => dlg.ShowDialog()).FirstOrDefault();
         }
 

@@ -115,9 +115,9 @@
             // toolStripStatusLabel
             // 
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(426, 17);
-            this.toolStripStatusLabel.Text = "Press F1 for Instructions (with the mouse cursor hovering over the desired state)" +
-                "";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(437, 17);
+            this.toolStripStatusLabel.Text = "Press F1 for Instructions (with the mouse cursor hovering over the desired button" +
+                ")";
             // 
             // StageEditorForm
             // 
@@ -135,8 +135,8 @@
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Click on a state button to change to that state. Right-click on a state button to" +
-                " edit default view fields for the state and the instructions";
+            this.Text = "Click on a button to change to that turn. Right-click on a button to edit default" +
+                " field viewing information and instructions for the turn";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStates)).EndInit();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();

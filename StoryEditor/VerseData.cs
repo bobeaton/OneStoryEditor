@@ -817,7 +817,7 @@ namespace OneStoryProjectEditor
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
             {
                 strHtml += Retellings.PresentationHtml(nVerseIndex, nNumCols,
-                                                       craftingInfo.TestorsToCommentsRetellings,
+                                                       craftingInfo.TestersToCommentsRetellings,
                                                        (theChildVerse != null) ? theChildVerse.Retellings : null,
                                                        bPrintPreview, false,
                                                        viewSettings.IsViewItemOn(
@@ -833,7 +833,7 @@ namespace OneStoryProjectEditor
                 (IsFirstVerse && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.GeneralTestQuestions)))
             {
                 strHtml += TestQuestions.PresentationHtml(nVerseIndex, nNumCols, viewSettings,
-                                                          craftingInfo.TestorsToCommentsTqAnswers,
+                                                          craftingInfo.TestersToCommentsTqAnswers,
                                                           (theChildVerse != null) ? theChildVerse.TestQuestions : null,
                                                           bPrintPreview, IsFirstVerse);
             }
@@ -959,7 +959,7 @@ namespace OneStoryProjectEditor
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
             {
                 strHtml += Retellings.PresentationHtmlAsAddition(nVerseIndex, nNumCols,
-                                                                 craftingInfo.TestorsToCommentsRetellings,
+                                                                 craftingInfo.TestersToCommentsRetellings,
                                                                  viewSettings.IsViewItemOn(
                                                                      ViewSettings.ItemToInsureOn.RetellingsVernacular),
                                                                  viewSettings.IsViewItemOn(
@@ -974,7 +974,7 @@ namespace OneStoryProjectEditor
                 (IsFirstVerse && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.GeneralTestQuestions)))
             {
                 strHtml += TestQuestions.PresentationHtmlAsAddition(nVerseIndex, nNumCols, viewSettings,
-                                                                    craftingInfo.TestorsToCommentsTqAnswers,
+                                                                    craftingInfo.TestersToCommentsTqAnswers,
                                                                     bHasOutsideEnglishBTer);
             }
 
@@ -1782,14 +1782,14 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public void ChangeRetellingTestorGuid(string strOldGuid, string strNewGuid)
+        public void ChangeRetellingTesterGuid(string strOldGuid, string strNewGuid)
         {
             // no retellings in FirstVerse.ReplaceRetellingUns(strOldGuid, strNewGuid);
             foreach (var aVerse in this)
                 aVerse.ReplaceRetellingUns(strOldGuid, strNewGuid);
         }
 
-        public void ChangeTqAnswersTestorGuid(string strOldGuid, string strNewGuid)
+        public void ChangeTqAnswersTesterGuid(string strOldGuid, string strNewGuid)
         {
             FirstVerse.ReplaceAnswersUns(strOldGuid, strNewGuid);
             foreach (var aVerse in this)

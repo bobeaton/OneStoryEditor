@@ -67,12 +67,50 @@ namespace OneStoryProjectEditor
         internal const string CstrJustLooking = "JustLooking"; // gives full access, but no change privileges
         */
 
-        protected const string CstrEnglishBackTranslatorDisplay = "English Back Translator";
-        protected const string CstrFirstPassMentorDisplay = "Language Specialty Reviewer";
-        internal const string CstrConsultantInTrainingDisplay = "Consultant in Training";
-        internal const string CstrIndependentConsultantDisplay = "Consultant";
-        internal const string CstrProjectFacilitatorDisplay = "Project Facilitator";
-        private const string CstrJustLookingDisplay = "Just Looking";
+        protected static string CstrEnglishBackTranslatorDisplay
+        {
+            get { return Localizer.Str("English Back Translator"); }
+        }
+
+        protected static string CstrFirstPassMentorDisplay
+        {
+            get { return Localizer.Str("Language Specialty Reviewer"); }
+        }
+
+        internal static string CstrConsultantInTrainingDisplay
+        {
+            get { return Localizer.Str("Consultant in Training"); }
+        }
+
+        internal static string CstrIndependentConsultantDisplay
+        {
+            get { return Localizer.Str("Consultant"); }
+        }
+
+        internal static string CstrProjectFacilitatorDisplay
+        {
+            get { return Localizer.Str("Project Facilitator"); }
+        }
+
+        private static string CstrCrafterDisplay
+        {
+            get { return Localizer.Str("Crafter"); }
+        }
+
+        private static string CstrUnsDisplay
+        {
+            get { return Localizer.Str("UNS"); }
+        }
+
+        private static string CstrCoachDisplay
+        {
+            get { return Localizer.Str("Coach"); }
+        }
+
+        private static string CstrJustLookingDisplay
+        {
+            get { return Localizer.Str("Just Looking"); }
+        }
 
         public string Name;
         public UserTypes MemberType = UserTypes.Undefined;
@@ -419,8 +457,17 @@ namespace OneStoryProjectEditor
                     eRoles |= UserTypes.ProjectFacilitator;
                 else if (strRole == CstrJustLookingDisplay)
                     eRoles |= UserTypes.JustLooking;
+                else if (strRole == CstrCrafterDisplay)
+                    eRoles |= UserTypes.Crafter;
+                else if (strRole == CstrUnsDisplay)
+                    eRoles |= UserTypes.UNS;
+                else if (strRole == CstrCoachDisplay)
+                    eRoles |= UserTypes.Coach;
                 else
+                {
+                    System.Diagnostics.Debug.Assert(false); // shouldn't happen
                     eRoles |= GetMemberType(strRole);
+                }
             }
 
             return eRoles;
@@ -442,11 +489,11 @@ namespace OneStoryProjectEditor
             if (IsUser(eMemberType, UserTypes.JustLooking))
                 lst.Add(CstrJustLookingDisplay);
             if (IsUser(eMemberType, UserTypes.Crafter))
-                lst.Add(UserTypes.Crafter.ToString());
+                lst.Add(CstrCrafterDisplay);
             if (IsUser(eMemberType, UserTypes.UNS))
-                lst.Add(UserTypes.UNS.ToString());
+                lst.Add(CstrUnsDisplay);
             if (IsUser(eMemberType, UserTypes.Coach))
-                lst.Add(UserTypes.Coach.ToString());
+                lst.Add(CstrCoachDisplay);
 
             if (lst.Count == 0)
                 return null;

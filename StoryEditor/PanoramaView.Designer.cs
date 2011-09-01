@@ -200,7 +200,7 @@
             // 
             // ColumnTimeInState
             // 
-            this.ColumnTimeInState.HeaderText = "Time in Stage";
+            this.ColumnTimeInState.HeaderText = "Time in Turn";
             this.ColumnTimeInState.Name = "ColumnTimeInState";
             this.ColumnTimeInState.ReadOnly = true;
             this.ColumnTimeInState.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;

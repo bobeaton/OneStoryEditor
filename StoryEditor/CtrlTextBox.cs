@@ -452,22 +452,85 @@ namespace OneStoryProjectEditor
             return false;
         }
 
-        protected const string CstrAddNoteOnSelected = "&Add note on selected text";
-        protected const string CstrAddNoteToSelfOnSelected = "Add no&te to self on selected text";
-        protected const string CstrJumpToReference = "&Jump to Bible reference";
-        protected const string CstrConcordanceSearch = "Concordance &search";
-        protected const string CstrAddLnCNote = "Add &L&&C note";
-        protected const string CstrCutSelected = "C&ut";
-        protected const string CstrCopySelected = "&Copy";
-        protected const string CstrCopyOriginalSelected = "Copy &original text (before transliteration)";
-        protected const string CstrPasteSelected = "&Paste";
-        protected const string CstrUndo = "U&ndo";
-        protected const string CstrAddAnswerBox = "Add ans&wer box";
-        protected const string CstrRemAnswerBox = "Remove ans&wer box";
-        protected const string CstrRemAnswerChangeUns = "Change UN&S";
-        protected const string CstrReorderWords = "&Reorder words";
-        protected const string CstrGlossTextToNational = "&Back-translate to national language";
-        protected const string CstrGlossTextToEnglish = "Back-translate to &English";
+        protected string CstrAddNoteOnSelected
+        {
+            get { return Localizer.Str("&Add note on selected text"); }
+        }
+
+        protected string CstrAddNoteToSelfOnSelected
+        {
+            get { return Localizer.Str("Add no&te to self on selected text"); }
+        }
+
+        protected string CstrJumpToReference
+        {
+            get { return Localizer.Str("&Jump to Bible reference"); }
+        }
+
+        protected string CstrConcordanceSearch
+        {
+            get { return Localizer.Str("Concordance &search"); }
+        }
+
+        protected string CstrAddLnCNote
+        {
+            get { return Localizer.Str("Add &L && C note"); }
+        }
+
+        protected string CstrCutSelected
+        {
+            get { return Localizer.Str("C&ut"); }
+        }
+
+        protected string CstrCopySelected
+        {
+            get { return Localizer.Str("&Copy"); }
+        }
+
+        protected string CstrCopyOriginalSelected
+        {
+            get { return Localizer.Str("Copy &original text (before transliteration)"); }
+        }
+
+        protected string CstrPasteSelected
+        {
+            get { return Localizer.Str("&Paste"); }
+        }
+
+        protected string CstrUndo
+        {
+            get { return Localizer.Str("U&ndo"); }
+        }
+
+        protected string CstrAddAnswerBox
+        {
+            get { return Localizer.Str("Add ans&wer box"); }
+        }
+
+        protected string CstrRemAnswerBox
+        {
+            get { return Localizer.Str("Remove ans&wer box"); }
+        }
+
+        protected string CstrRemAnswerChangeUns
+        {
+            get { return Localizer.Str("Change UN&S"); }
+        }
+
+        protected string CstrReorderWords
+        {
+            get { return Localizer.Str("&Reorder words"); }
+        }
+
+        protected string CstrGlossTextToNational
+        {
+            get { return Localizer.Str("&Back-translate to national language"); }
+        }
+
+        protected string CstrGlossTextToEnglish
+        {
+            get { return Localizer.Str("Back-translate to &English"); }
+        }
 
         protected void InitComponent(string strLabel)
         {
@@ -646,7 +709,7 @@ namespace OneStoryProjectEditor
             if (tsi != null)
             {
                 var note = (LnCNote)tsi.Tag;
-                var dlg = new AddLnCNoteForm(_ctrlVerseParent.TheSE, note) {Text = Localizer.Str("Edit L&C Note")};
+                var dlg = new AddLnCNoteForm(_ctrlVerseParent.TheSE, note) {Text = Localizer.Str("Edit L & C Note")};
                 if ((dlg.ShowDialog() == DialogResult.OK) && (note != null))
                     _ctrlVerseParent.TheSE.Modified = true;
             }

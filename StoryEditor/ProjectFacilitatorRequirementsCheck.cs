@@ -312,7 +312,7 @@ namespace OneStoryProjectEditor
                     {
                         ThrowExceptionDataMissing(theSe.viewStoryTestingQuestionsMenu,
                                                   nVerseNumber, li.LangName,
-                                                  Localizer.Str("Test Question"));
+                                                  Localizer.Str("Testing Question"));
                     }
                 }
             }

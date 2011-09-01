@@ -56,17 +56,17 @@
             this.checkBoxRetellings = new System.Windows.Forms.CheckBox();
             this.checkBoxShowHidden = new System.Windows.Forms.CheckBox();
             this.dataGridViewRevisions = new System.Windows.Forms.DataGridView();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.tabPageDisplayChangeReport = new System.Windows.Forms.TabPage();
+            this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
+            this.backgroundWorkerCheckRevisions = new System.ComponentModel.BackgroundWorker();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.ColumnOldParent = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ColumnNewChild = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ColumnRevNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnPerson = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnState = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.tabPageDisplayChangeReport = new System.Windows.Forms.TabPage();
-            this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
-            this.backgroundWorkerCheckRevisions = new System.ComponentModel.BackgroundWorker();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tabControl.SuspendLayout();
             this.tabPageSelectReportOptions.SuspendLayout();
             this.tableLayoutPanelSettings.SuspendLayout();
@@ -137,9 +137,9 @@
             this.radioButtonShowAllWithState.AutoSize = true;
             this.radioButtonShowAllWithState.Location = new System.Drawing.Point(6, 64);
             this.radioButtonShowAllWithState.Name = "radioButtonShowAllWithState";
-            this.radioButtonShowAllWithState.Size = new System.Drawing.Size(174, 17);
+            this.radioButtonShowAllWithState.Size = new System.Drawing.Size(169, 17);
             this.radioButtonShowAllWithState.TabIndex = 1;
-            this.radioButtonShowAllWithState.Text = "&Show All (with state information)";
+            this.radioButtonShowAllWithState.Text = "&Show All (with turn information)";
             this.toolTip.SetToolTip(this.radioButtonShowAllWithState, resources.GetString("radioButtonShowAllWithState.ToolTip"));
             this.radioButtonShowAllWithState.UseVisualStyleBackColor = true;
             this.radioButtonShowAllWithState.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
@@ -163,10 +163,10 @@
             this.radioButtonRevsByChangeOfState.Checked = true;
             this.radioButtonRevsByChangeOfState.Location = new System.Drawing.Point(6, 19);
             this.radioButtonRevsByChangeOfState.Name = "radioButtonRevsByChangeOfState";
-            this.radioButtonRevsByChangeOfState.Size = new System.Drawing.Size(100, 17);
+            this.radioButtonRevsByChangeOfState.Size = new System.Drawing.Size(95, 17);
             this.radioButtonRevsByChangeOfState.TabIndex = 0;
             this.radioButtonRevsByChangeOfState.TabStop = true;
-            this.radioButtonRevsByChangeOfState.Text = "&Change of state";
+            this.radioButtonRevsByChangeOfState.Text = "&Change of turn";
             this.toolTip.SetToolTip(this.radioButtonRevsByChangeOfState, resources.GetString("radioButtonRevsByChangeOfState.ToolTip"));
             this.radioButtonRevsByChangeOfState.UseVisualStyleBackColor = true;
             this.radioButtonRevsByChangeOfState.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
@@ -434,47 +434,6 @@
             this.dataGridViewRevisions.TabIndex = 2;
             this.dataGridViewRevisions.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewRevisions_CellClick);
             // 
-            // ColumnOldParent
-            // 
-            this.ColumnOldParent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ColumnOldParent.FillWeight = 35F;
-            this.ColumnOldParent.HeaderText = "Old";
-            this.ColumnOldParent.Name = "ColumnOldParent";
-            this.ColumnOldParent.Width = 35;
-            // 
-            // ColumnNewChild
-            // 
-            this.ColumnNewChild.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ColumnNewChild.FillWeight = 35F;
-            this.ColumnNewChild.HeaderText = "New";
-            this.ColumnNewChild.Name = "ColumnNewChild";
-            this.ColumnNewChild.Width = 35;
-            // 
-            // ColumnRevNumber
-            // 
-            this.ColumnRevNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.ColumnRevNumber.HeaderText = "Revision";
-            this.ColumnRevNumber.Name = "ColumnRevNumber";
-            this.ColumnRevNumber.Width = 73;
-            // 
-            // ColumnDate
-            // 
-            this.ColumnDate.FillWeight = 106.4044F;
-            this.ColumnDate.HeaderText = "Date";
-            this.ColumnDate.Name = "ColumnDate";
-            // 
-            // ColumnPerson
-            // 
-            this.ColumnPerson.FillWeight = 106.4044F;
-            this.ColumnPerson.HeaderText = "Person";
-            this.ColumnPerson.Name = "ColumnPerson";
-            // 
-            // ColumnState
-            // 
-            this.ColumnState.FillWeight = 106.4044F;
-            this.ColumnState.HeaderText = "State";
-            this.ColumnState.Name = "ColumnState";
-            // 
             // progressBar
             // 
             this.tableLayoutPanelSettings.SetColumnSpan(this.progressBar, 2);
@@ -516,6 +475,47 @@
             this.backgroundWorkerCheckRevisions.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerCheckRevisions_DoWork);
             this.backgroundWorkerCheckRevisions.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerCheckRevisions_RunWorkerCompleted);
             this.backgroundWorkerCheckRevisions.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorkerCheckRevisions_ProgressChanged);
+            // 
+            // ColumnOldParent
+            // 
+            this.ColumnOldParent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColumnOldParent.FillWeight = 35F;
+            this.ColumnOldParent.HeaderText = "Old";
+            this.ColumnOldParent.Name = "ColumnOldParent";
+            this.ColumnOldParent.Width = 35;
+            // 
+            // ColumnNewChild
+            // 
+            this.ColumnNewChild.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.ColumnNewChild.FillWeight = 35F;
+            this.ColumnNewChild.HeaderText = "New";
+            this.ColumnNewChild.Name = "ColumnNewChild";
+            this.ColumnNewChild.Width = 35;
+            // 
+            // ColumnRevNumber
+            // 
+            this.ColumnRevNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ColumnRevNumber.HeaderText = "Revision";
+            this.ColumnRevNumber.Name = "ColumnRevNumber";
+            this.ColumnRevNumber.Width = 73;
+            // 
+            // ColumnDate
+            // 
+            this.ColumnDate.FillWeight = 106.4044F;
+            this.ColumnDate.HeaderText = "Date";
+            this.ColumnDate.Name = "ColumnDate";
+            // 
+            // ColumnPerson
+            // 
+            this.ColumnPerson.FillWeight = 106.4044F;
+            this.ColumnPerson.HeaderText = "Person";
+            this.ColumnPerson.Name = "ColumnPerson";
+            // 
+            // ColumnState
+            // 
+            this.ColumnState.FillWeight = 106.4044F;
+            this.ColumnState.HeaderText = "Turn";
+            this.ColumnState.Name = "ColumnState";
             // 
             // RevisionHistoryForm
             // 
@@ -564,12 +564,6 @@
         private System.ComponentModel.BackgroundWorker backgroundWorkerCheckRevisions;
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.ToolTip toolTip;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnOldParent;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnNewChild;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnRevNumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPerson;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnState;
         private System.Windows.Forms.CheckBox checkBoxFrontMatter;
         private System.Windows.Forms.CheckBox checkBoxAnswers;
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateVernacular;
@@ -580,5 +574,11 @@
         private System.Windows.Forms.CheckBox checkBoxExegeticalHelps;
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateInternationalBt;
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateFreeTranslation;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnOldParent;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnNewChild;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnRevNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPerson;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnState;
     }
 }

@@ -121,13 +121,16 @@
     <value>17, 17</value>
   </metadata>
   <data name="advancedChangeStateWithoutChecksMenu.ToolTipText" xml:space="preserve">
-    <value>Click this button to change the state of this story bypassing the normal checks. WARNING: if not used properly, this command can cause a loss of data. All other team members *must* synchronize with the project before making any further changes to this story</value>
+    <value>Click here to display the 'turn table' in which you can change whose turn this story is in, bypassing the normal 'change turn' checks. WARNING: if not used properly, this command can cause a loss of data. All other team members should synchronize with the project as soon as possible to make sure no data is lost</value>
   </data>
   <data name="advancedResetStoredInformationMenu.ToolTipText" xml:space="preserve">
     <value>Click this to delete the current user's information store (e.g. Recent Project, Transliteration settings, etc). This might be necessary, for example, if the project will no longer synchronize--e.g. if the Internet button is disabled</value>
   </data>
   <data name="projectToAThumbdriveMenu.ToolTipText" xml:space="preserve">
     <value>Click here to bring up the Send/Receive dialog to transfer the current project to a Thumbdrive (e.g. if you don't have an internet repository or want to transfer the project to another user without an internet connection)</value>
+  </data>
+  <data name="storyOverrideTasksMenu.ToolTipText" xml:space="preserve">
+    <value>Click to override the Allowed and Required Tasks for the current story (e.g. to be used with the agreement of the consultant, if, for example, the consultant accidentally checked a task you're not supposed to do or didn't allow a task that you are supposed to do)</value>
   </data>
   <metadata name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>119, 17</value>

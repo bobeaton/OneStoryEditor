@@ -10,16 +10,15 @@ namespace OneStoryProjectEditor
 {
     public partial class TeamMemberForm : TopForm
     {
-        /*
-        protected const string CstrDefaultFontTooltipVernacular =
-            "Click here to choose the font, size, and color of the Story language text{0}Currently, Font: {1}, Color: {2}, RTL: {3}";
-        protected const string CstrDefaultFontTooltipNationalBT =
-            "Click here to choose the font, size, and color of the National language back-translation text{0}Currently, Font: {1}, Color: {2}, RTL: {3}";
-        protected const string CstrDefaultFontTooltipInternationalBT =
-            "Click here to choose the font, size, and color of the English language back-translation text{0}Currently, Font: {1}, Color: {2}, RTL: {3}";
-        */
-        private const string CstrDefaultOKLabel = "&Login";
-        private const string CstrReturnLabel = "&Return";
+        private string CstrDefaultOKLabel
+        {
+            get { return Localizer.Str("&Login"); }
+        }
+
+        private string CstrReturnLabel
+        {
+            get { return Localizer.Str("&Return"); }
+        }
 
         private readonly TeamMembersData _dataTeamMembers;
         private readonly ProjectSettings _theProjSettings;
@@ -30,6 +29,12 @@ namespace OneStoryProjectEditor
 
         public bool Modified;
 
+        private TeamMemberForm()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
+
         public TeamMemberForm(TeamMembersData dataTeamMembers, bool bUseLoginLabel,
             ProjectSettings theProjSettings, StoryProjectData theStoryProjectData)
             : base(true)
@@ -39,7 +44,8 @@ namespace OneStoryProjectEditor
             _theStoryProjectData = theStoryProjectData;
 
             InitializeComponent();
-            
+            Localizer.Ctrl(this);
+
             foreach (TeamMemberData aMember in _dataTeamMembers.Values)
                 listBoxTeamMembers.Items.Add(GetListBoxItem(aMember));
 
@@ -49,7 +55,7 @@ namespace OneStoryProjectEditor
             if (!bUseLoginLabel)
             {
                 buttonOK.Text = CstrReturnLabel;
-                toolTip.SetToolTip(buttonOK, "Click to return to the previous window");
+                toolTip.SetToolTip(buttonOK, Localizer.Str("Click to return to the previous window"));
             }
         }
 
@@ -87,127 +93,6 @@ namespace OneStoryProjectEditor
             }
         }
         
-        /*
-                private bool DoAccept()
-                {
-                    try
-                    {
-                        FinishEdit();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message,  StoryEditor.OseCaption);
-                        return false;
-                    }
-
-                    return true;
-                }
-
-                protected string ThrowIfNullOrEmpty(string strValue, string strErrorMessage)
-                {
-                    if (String.IsNullOrEmpty(strValue))
-                        throw new ApplicationException(String.Format("You have to configure the {0} first", strErrorMessage));
-                    return strValue;
-                }
-
-                protected void FinishEdit()
-                {
-                    // the only time you can *not* have a BT language is if the vernacular is "English"
-                    if ((!checkBoxVernacular.Checked || (textBoxVernacular.Text != "English")) && !checkBoxEnglishBT.Checked && !checkBoxNationalLangBT.Checked)
-                        throw new ApplicationException("You must have at least a back-translation language! Either a national language back-translation or English. Check one of the boxes that begins 'Project will use a *** BT?'");
-
-                    // update the language information as well (in case that was changed also)
-                    if (checkBoxVernacular.Checked)
-                    {
-                        // if there is a default keyboard (from before) and the user has chosen another one, then see if they mean to 
-                        //  change it for everyone or just themselves (then we can make sure that they are who we think we are)
-                        string strKeyboard = (string)comboBoxKeyboardVernacular.SelectedItem;
-                        if (_tmdLastMember != null)
-                        {
-                            if (!String.IsNullOrEmpty(_projSettings.Vernacular.DefaultKeyboard)
-                                && (strKeyboard != _projSettings.Vernacular.DefaultKeyboard))
-                            {
-                                DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmKeyboardOverride,
-                                    _projSettings.Vernacular.LangName, _tmdLastMember.Name), StoryEditor.OseCaption,
-                                    MessageBoxButtons.YesNoCancel);
-
-                                if (res == DialogResult.Yes)
-                                    _tmdLastMember.OverrideVernacularKeyboard = strKeyboard;
-                                else if (res == DialogResult.No)
-                                {
-                                    _projSettings.Vernacular.DefaultKeyboard = strKeyboard;
-                                    _tmdLastMember.OverrideVernacularKeyboard = null;   // if there was an override, it should go away
-                                }
-                                else
-                                    return;
-                            }
-                            else
-                            {
-                                _projSettings.Vernacular.DefaultKeyboard = strKeyboard;
-                                _tmdLastMember.OverrideVernacularKeyboard = null;   // if there was an override, it should go away
-                            }
-                        }
-                        else
-                            _projSettings.Vernacular.DefaultKeyboard = strKeyboard;
-
-                        _projSettings.Vernacular.LangName = ThrowIfNullOrEmpty(textBoxVernacular.Text, "Story language name");
-                        _projSettings.Vernacular.LangCode = ThrowIfNullOrEmpty(textBoxVernacularEthCode.Text, "Story language Ethn. code");
-                        _projSettings.Vernacular.FullStop = ThrowIfNullOrEmpty(textBoxVernSentFullStop.Text, "Story language sentence final punctuation");
-                        _projSettings.Vernacular.IsRTL = checkBoxVernacularRTL.Checked;
-                    }
-                    else
-                        _projSettings.Vernacular.HasData = false;
-
-                    if (checkBoxNationalLangBT.Checked)
-                    {
-                        // if there is a default keyboard (from before) and the user has chosen another one, then see if they mean to 
-                        //  change it for everyone or just themselves (then we can make sure that they are who we think we are)
-                        string strKeyboard = (string)comboBoxKeyboardNationalBT.SelectedItem;
-                        if (_tmdLastMember != null)
-                        {
-                            if(!String.IsNullOrEmpty(_projSettings.NationalBT.DefaultKeyboard)
-                                && (strKeyboard != _projSettings.NationalBT.DefaultKeyboard))
-                            {
-                                DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_ConfirmKeyboardOverride,
-                                    _projSettings.Vernacular.LangName, _tmdLastMember.Name), StoryEditor.OseCaption,
-                                    MessageBoxButtons.YesNoCancel);
-
-                                if (res == DialogResult.Yes)
-                                    _tmdLastMember.OverrideNationalBTKeyboard = strKeyboard;
-                                else if (res == DialogResult.No)
-                                {
-                                    _projSettings.NationalBT.DefaultKeyboard = strKeyboard;
-                                    _tmdLastMember.OverrideNationalBTKeyboard = null;
-                                }
-                                else
-                                    return;
-                            }
-                            else
-                            {
-                                _projSettings.NationalBT.DefaultKeyboard = strKeyboard;
-                                _tmdLastMember.OverrideNationalBTKeyboard = null;
-                            }
-                        }
-                        else
-                            _projSettings.NationalBT.DefaultKeyboard = strKeyboard;
-
-                        _projSettings.NationalBT.LangName = ThrowIfNullOrEmpty(textBoxNationalBTLanguage.Text, "National BT language name");
-                        _projSettings.NationalBT.LangCode = ThrowIfNullOrEmpty(textBoxNationalBTEthCode.Text, "National BT language Ethn. code");
-                        _projSettings.NationalBT.FullStop = ThrowIfNullOrEmpty(textBoxNationalBTSentFullStop.Text, "National BT language sentence final punctuation");
-                        _projSettings.NationalBT.IsRTL = checkBoxNationalRTL.Checked;
-                    }
-                    else
-                        _projSettings.NationalBT.HasData = false;
-
-                    if (!checkBoxEnglishBT.Checked)
-                        // don't set via 'Checked' because HasData should only be set if false
-                        _projSettings.InternationalBT.HasData = false; 
-
-                    // English was done by the font dialog handler
-
-                    Modified = false;
-                }
-                */
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
@@ -294,7 +179,7 @@ namespace OneStoryProjectEditor
                 if (listBoxTeamMembers.Items.Contains(strItem) ||
                     _dataTeamMembers.ContainsKey(dlg.MemberName))
                 {
-                    MessageBox.Show(String.Format("Oops... you already have a member with the name, '{0}'. If you meant to edit that member, then select the name in the listbox and click the 'Edit Member' button", dlg.MemberName));
+                    MessageBox.Show(String.Format(Localizer.Str("Oops... you already have a member with the name, '{0}'. If you meant to edit that member, then select the name in the listbox and click the 'Edit Member' button"), dlg.MemberName));
                     return;
                 }
                 
@@ -367,7 +252,7 @@ namespace OneStoryProjectEditor
             if ((dlg.MemberName != m_strSelectedMemberName) 
                 && _dataTeamMembers.ContainsKey(dlg.MemberName))
             {
-                MessageBox.Show(String.Format("Oops... you already have a member with the name, '{0}'. If you meant to edit that member, then select the name in the listbox and click the 'Edit Member' button.", dlg.MemberName));
+                MessageBox.Show(String.Format(Localizer.Str("Oops... you already have a member with the name, '{0}'. If you meant to edit that member, then select the name in the listbox and click the 'Edit Member' button."), dlg.MemberName));
             }
             else
                 theMemberData.Name = dlg.MemberName;
@@ -406,104 +291,10 @@ namespace OneStoryProjectEditor
             _dataTeamMembers.Remove(SelectedMemberName);
             m_mapNewMembersThisSession.Remove(SelectedMemberName);
         }
-        /*
-        private void tabControlProjectMetaData_Selected(object sender, TabControlEventArgs e)
-        {
-            if (e.TabPage == tabPageMemberList)
-            {
-                Console.WriteLine("tabPageMemberList Selected");
-
-                // if the user made some changes and then is moving away from the tab, 
-                //  then do an implicit Accept
-                if (Modified)
-                    if (!DoAccept())
-                        tabControlProjectMetaData.SelectedTab = tabPageLanguageInfo;
-            }
-        }
-
-        void textBox_TextChanged(object sender, System.EventArgs e)
-        {
-            Modified = true;
-        }
-
-        private void buttonVernacularFont_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                fontDialog.Font = _projSettings.Vernacular.LangFont;
-                fontDialog.Color = _projSettings.Vernacular.FontColor;
-                if (fontDialog.ShowDialog() == DialogResult.OK)
-                {
-                    _projSettings.Vernacular.LangFont = fontDialog.Font;
-                    _projSettings.Vernacular.FontName = null;  // clear it out so we use the value in LangFont
-                    _projSettings.Vernacular.FontColor = fontDialog.Color;
-                    textBoxVernSentFullStop.Font = fontDialog.Font;
-                    textBoxVernSentFullStop.ForeColor = fontDialog.Color;
-                    Modified = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                if (ex.Message == "Only TrueType fonts are supported. This is not a TrueType font.")
-                    MessageBox.Show("Since you just added this font, you have to restart the program for it to work", StoryEditor.OseCaption);
-            }
-        }
-
-        private void buttonNationalBTFont_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                fontDialog.Font = _projSettings.NationalBT.LangFont;
-                fontDialog.Color = _projSettings.NationalBT.FontColor;
-                if (fontDialog.ShowDialog() == DialogResult.OK)
-                {
-                    _projSettings.NationalBT.LangFont = fontDialog.Font;
-                    _projSettings.NationalBT.FontName = null;  // clear it out so we use the value in LangFont
-                    _projSettings.NationalBT.FontColor = fontDialog.Color;
-                    textBoxNationalBTSentFullStop.Font = fontDialog.Font;
-                    textBoxNationalBTSentFullStop.ForeColor = fontDialog.Color;
-                    Modified = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                if (ex.Message == "Only TrueType fonts are supported. This is not a TrueType font.")
-                    MessageBox.Show("Since you just added this font, you have to restart the program for it to work", StoryEditor.OseCaption);
-            }
-        }
-
-        private void buttonInternationalBTFont_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                fontDialog.Font = _projSettings.InternationalBT.LangFont;
-                fontDialog.Color = _projSettings.InternationalBT.FontColor;
-                if (fontDialog.ShowDialog() == DialogResult.OK)
-                {
-                    _projSettings.InternationalBT.LangFont = fontDialog.Font;
-                    _projSettings.InternationalBT.FontName = null; // clear it out so we use the value in LangFont
-                    _projSettings.InternationalBT.FontColor = fontDialog.Color;
-                    Modified = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                if (ex.Message == "Only TrueType fonts are supported. This is not a TrueType font.")
-                    MessageBox.Show("Since you just added this font, you have to restart the program for it to work", StoryEditor.OseCaption);
-            }
-        }
-        */
         private void listBoxTeamMembers_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             buttonOK_Click(sender, e);
         }
-
-        /*
-        private void listBoxMemberRoles_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            buttonOK_Click(sender, e);
-        }
-        */
 
         private void buttonMergeUns_Click(object sender, EventArgs e)
         {
@@ -541,7 +332,7 @@ namespace OneStoryProjectEditor
             var dlg = new MemberPicker(_theStoryProjectData, eRole)
                           {
                               Text =
-                                  String.Format("Choose the {0} to merge into the record for '{1}'",
+                                  String.Format(Localizer.Str("Choose the {0} to merge into the record for '{1}'"),
                                                 TeamMemberData.GetMemberTypeAsDisplayString(eRole),
                                                 theMemberData.Name),
                               ItemToBlock = theMemberData.Name
@@ -631,148 +422,5 @@ namespace OneStoryProjectEditor
             if (TeamMemberData.IsUser(eRoles, TeamMemberData.UserTypes.UNS))
                 _theStoryProjectData.ReplaceUns(strOldMemberGuid, strNewMemberGuid);
         }
-
-        /*
-        private void textBoxVernacular_Leave(object sender, EventArgs e)
-        {
-            ProposeEthnologueCode(textBoxVernacular.Text, textBoxVernacularEthCode);
-        }
-
-        private void textBoxNationalBTLanguage_Leave(object sender, EventArgs e)
-        {
-            ProposeEthnologueCode(textBoxNationalBTLanguage.Text, textBoxNationalBTEthCode);
-        }
-
-        string _strLangCodesFile = null;
-
-        protected void ProposeEthnologueCode(string strLanguageName, TextBox tbLanguageCode)
-        {
-            if (!String.IsNullOrEmpty(tbLanguageCode.Text))  // only have to suggest if we don't have a value
-                return;
-
-            if (_strLangCodesFile == null)
-                _strLangCodesFile = File.ReadAllText(PathToLangCodesFile);
-
-            int nIndex = _strLangCodesFile.IndexOf(String.Format("\t{0}{1}", strLanguageName, Environment.NewLine));
-            const int CnOffset = 8;
-            if (nIndex >= CnOffset)
-            {
-                nIndex -= CnOffset;    // back up to the beginning of the line;
-                int nLength = 1 // for the tab
-                    + strLanguageName.Length + CnOffset;
-                string strEntry = _strLangCodesFile.Substring(nIndex, nLength);
-                
-                // now, grab off just the code, which goes from the beginning of the line to the first tab.
-                nIndex = strEntry.IndexOf('\t');
-                string strCode = strEntry.Substring(0, nIndex);
-                tbLanguageCode.Text = strCode;
-            }
-        }
-
-        protected const string CstrLangCodesFilename = "LanguageCodes.tab";
-
-        protected string PathToLangCodesFile
-        {
-            get
-            {
-                // try the same folder as we're executing out of
-                string strCurrentFolder = System.Reflection.Assembly.GetExecutingAssembly().GetModules()[0].FullyQualifiedName;
-                strCurrentFolder = Path.GetDirectoryName(strCurrentFolder);
-                string strFileToCheck = Path.Combine(strCurrentFolder, CstrLangCodesFilename);
-#if DEBUG
-                if (!File.Exists(strFileToCheck))
-                    // on dev machines, this file is in the "..\..\src\EC\TECkit Mapping Editor" folder
-                    strFileToCheck = @"C:\src\StoryEditor\StoryEditor\" + CstrLangCodesFilename;
-#endif
-                System.Diagnostics.Debug.Assert(File.Exists(strFileToCheck), String.Format("Can't find: {0}! You'll need to re-install or contact bob_eaton@sall.com", strFileToCheck));
-
-                return strFileToCheck;
-            }
-        }
-
-        private void textBoxVernSentFullStop_Enter(object sender, EventArgs e)
-        {
-            SetKeyboard((string)comboBoxKeyboardVernacular.SelectedItem);
-        }
-
-        private void textBoxNationalBTSentFullStop_Enter(object sender, EventArgs e)
-        {
-            SetKeyboard((string)comboBoxKeyboardNationalBT.SelectedItem);
-        }
-
-        protected void SetKeyboard(string strKeybaordToSet)
-        {
-            if (!String.IsNullOrEmpty(strKeybaordToSet))
-                KeyboardController.ActivateKeyboard(strKeybaordToSet);
-        }
-
-        private void textBoxSentFullStop_Leave(object sender, EventArgs e)
-        {
-            KeyboardController.DeactivateKeyboard();
-        }
-
-        private void checkBoxVernacular_CheckedChanged(object sender, EventArgs e)
-        {
-            textBoxVernacular.Enabled =
-                textBoxVernacularEthCode.Enabled =
-                comboBoxKeyboardVernacular.Enabled =
-                textBoxVernSentFullStop.Enabled =
-                buttonVernacularFont.Enabled =
-                checkBoxVernacularRTL.Enabled = checkBoxVernacular.Checked;
-        }
-
-        private void checkBoxNationalLangBT_CheckedChanged(object sender, EventArgs e)
-        {
-            textBoxNationalBTLanguage.Enabled =
-                textBoxNationalBTEthCode.Enabled =
-                comboBoxKeyboardNationalBT.Enabled =
-                textBoxNationalBTSentFullStop.Enabled =
-                buttonNationalBTFont.Enabled =
-                checkBoxNationalRTL.Enabled = checkBoxNationalLangBT.Checked;
-        }
-
-        private void checkBoxEnglishBT_CheckedChanged(object sender, EventArgs e)
-        {
-            buttonInternationalBTFont.Enabled = checkBoxEnglishBT.Checked;
-        }
-
-        private void textBoxVernacular_TextChanged(object sender, EventArgs e)
-        {
-            Modified = true;
-
-            // if the user retypes the language name, then clobber the eth code as well
-            //  (so we'll guess again)
-            textBoxVernacularEthCode.Text = null;
-        }
-
-        private void textBoxNationalBTLanguage_TextChanged(object sender, EventArgs e)
-        {
-            Modified = true;
-
-            // if the user retypes the language name, then clobber the eth code as well
-            //  (so we'll guess again)
-            textBoxNationalBTEthCode.Text = null;
-        }
-
-        private void comboBoxKeyboard_DragDrop(object sender, DragEventArgs e)
-        {
-            // initialize the keyboard combo list (in case the user just added it while
-            //  we were open
-            System.Diagnostics.Debug.Assert(sender is ComboBox);
-            ComboBox cb = (ComboBox)sender;
-            cb.Items.Clear();
-            foreach (KeyboardController.KeyboardDescriptor keyboard in
-                KeyboardController.GetAvailableKeyboards(KeyboardController.Engines.All))
-            {
-                cb.Items.Add(keyboard.Name);
-            }
-        }
-
-        private void buttonStateConfig_Click(object sender, EventArgs e)
-        {
-            var dlg = new StageEditorForm(_storyProjectData);
-            dlg.ShowDialog();
-        }
-        */
     }
 }

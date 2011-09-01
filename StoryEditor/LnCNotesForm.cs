@@ -67,7 +67,7 @@ namespace OneStoryProjectEditor
                 return;
 
             var theRow = dataGridViewLnCNotes.Rows[e.RowIndex];
-            EditLnCNote(theRow, Localizer.Str("Edit L&C Note"));
+            EditLnCNote(theRow, Localizer.Str("Edit L & C Note"));
         }
 
         private void EditLnCNote(DataGridViewRow theRow, string strTitle)
@@ -102,7 +102,7 @@ namespace OneStoryProjectEditor
 
             int nSelectedRowIndex = dataGridViewLnCNotes.SelectedCells[0].RowIndex;
             DataGridViewRow theRow = dataGridViewLnCNotes.Rows[nSelectedRowIndex];
-            EditLnCNote(theRow, Localizer.Str("Add L&C Note"));
+            EditLnCNote(theRow, Localizer.Str("Add L & C Note"));
         }
 
         private void toolStripButtonDeleteKeyTerm_Click(object sender, EventArgs e)
@@ -117,7 +117,7 @@ namespace OneStoryProjectEditor
                 DataGridViewRow theRow = dataGridViewLnCNotes.Rows[nSelectedRowIndex];
                 string strValue = (string)theRow.Cells[CnColumnInternationalBT].Value;
                 // make sure the user really wants to do this
-                if (MessageBox.Show(String.Format(Localizer.Str("Are you sure you want to delete the L&C Note:{0}{1}"),
+                if (MessageBox.Show(String.Format(Localizer.Str("Are you sure you want to delete the L & C Note:{0}{1}"),
                                                   Environment.NewLine,
                                                   strValue),
                                     StoryEditor.OseCaption, 

@@ -155,6 +155,7 @@ namespace OneStoryProjectEditor
             Verses = new VersesData(rhs.Verses);
         }
 
+        protected const string CstrElementNameStory = "story";
         protected const string CstrAttributeName = "name";
         protected const string CstrAttributeStage = "stage";
         protected const string CstrAttributeGuid = "guid";
@@ -173,7 +174,7 @@ namespace OneStoryProjectEditor
                 System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(ProjStage.ProjectStage.ToString())
                                                 && !String.IsNullOrEmpty(guid));
 
-                var elemStory = new XElement("story",
+                var elemStory = new XElement(CstrElementNameStory,
                                              new XAttribute(CstrAttributeName, Name),
                                              new XAttribute(CstrAttributeStage, ProjStage.ToString()),
                                              new XAttribute(CstrAttributeLabelTasksAllowedPf,
@@ -202,33 +203,33 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public void ChangeRetellingTestor(TeamMembersData teamMembersData, int nTestIndex, 
+        public void ChangeRetellingTester(TeamMembersData teamMembersData, int nTestIndex, 
             string strNewGuid, ref TestInfo testInfoNew)
         {
-            // first see if UNS being "added" is already there (i.e. it's just a change
+            // first see if UNS being 'added' is already there (i.e. it's just a change
             //  of index)
             string strOldGuid = null;
-            if (ChangeTestor(teamMembersData, CraftingInfo.TestorsToCommentsRetellings,
+            if (ChangeTester(teamMembersData, CraftingInfo.TestersToCommentsRetellings,
                     nTestIndex, ref testInfoNew, ref strOldGuid, ref strNewGuid))
             {
-                Verses.ChangeRetellingTestorGuid(strOldGuid, strNewGuid);
+                Verses.ChangeRetellingTesterGuid(strOldGuid, strNewGuid);
             }
         }
 
-        public void ChangeTqAnswersTestor(TeamMembersData teamMembersData, int nTestIndex, 
+        public void ChangeTqAnswersTester(TeamMembersData teamMembersData, int nTestIndex, 
             string strNewGuid, ref TestInfo testInfoNew)
         {
-            // first see if UNS being "added" is already there (i.e. it's just a change
+            // first see if UNS being 'added' is already there (i.e. it's just a change
             //  of index)
             string strOldGuid = null;
-            if (ChangeTestor(teamMembersData, CraftingInfo.TestorsToCommentsTqAnswers,
+            if (ChangeTester(teamMembersData, CraftingInfo.TestersToCommentsTqAnswers,
                     nTestIndex, ref testInfoNew, ref strOldGuid, ref strNewGuid))
             {
-                Verses.ChangeTqAnswersTestorGuid(strOldGuid, strNewGuid);
+                Verses.ChangeTqAnswersTesterGuid(strOldGuid, strNewGuid);
             }
         }
 
-        private static bool ChangeTestor(TeamMembersData teamMembersData, 
+        private static bool ChangeTester(TeamMembersData teamMembersData, 
             TestInfo testInfo, int nTestIndex, ref TestInfo testInfoNew, 
             ref string strOldGuid, ref string strNewGuid)
         {
@@ -236,13 +237,13 @@ namespace OneStoryProjectEditor
             MemberIdInfo memberIdInfo;
             if (testInfo.Count > nTestIndex)
             {
-                var oldTestorInfo = testInfo[nTestIndex];
-                if (oldTestorInfo.MemberId != strNewGuid)
+                var oldTesterInfo = testInfo[nTestIndex];
+                if (oldTesterInfo.MemberId != strNewGuid)
                 {
-                    strOldGuid = oldTestorInfo.MemberId;
+                    strOldGuid = oldTesterInfo.MemberId;
                     
                     // if the new guid is already in the list (i.e. the person is being
-                    //  moved to another index), then we have to do the "swap" algorithm 
+                    //  moved to another index), then we have to do the 'swap' algorithm 
                     //  (i.e. a->c, b->a, c->b) so we don't end up having (if temporarily) 
                     //  two sets of results for one UNS, since we can't distinguish 
                     //  between them to split them up again. So 'c' will be the member's 
@@ -251,12 +252,12 @@ namespace OneStoryProjectEditor
                     if (testInfo.Contains(strNewGuid))
                         strNewGuid = teamMembersData.GetNameFromMemberId(strNewGuid);
 
-                    memberIdInfo = new MemberIdInfo(strNewGuid, oldTestorInfo.MemberComment);
+                    memberIdInfo = new MemberIdInfo(strNewGuid, oldTesterInfo.MemberComment);
                     bRet = true;
                 }
                 else
                 {
-                    memberIdInfo = oldTestorInfo;
+                    memberIdInfo = oldTesterInfo;
                 }
             }
             else
@@ -358,7 +359,7 @@ namespace OneStoryProjectEditor
                 bModified = true;
             }
 
-            // for the coach, we only need this if it's a "manage with coaching" situation
+            // for the coach, we only need this if it's a 'manage with coaching' situation
             // but again, this isn't strictly necessary until there are Coach Notes
             //  so avoid the 'barage of questions' when a PF adds a new story.
             if (bNeedCoach) /* || 
@@ -502,7 +503,7 @@ namespace OneStoryProjectEditor
             if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryFrontMatter))
             {
                 bool bIsPrinting = (child == null);
-                strHtml += CraftingInfoData.PresentationHtmlRow("Story Name", Name,
+                strHtml += CraftingInfoData.PresentationHtmlRow(Localizer.Str("Story Name"), Name,
                                                                 (bIsPrinting)
                                                                     ? null
                                                                     : child.Name,
@@ -517,7 +518,7 @@ namespace OneStoryProjectEditor
                     st = StoryStageLogic.stateTransitions[child.ProjStage.ProjectStage];
                     strChildStage = st.StageDisplayString;
                 }
-                strHtml += CraftingInfoData.PresentationHtmlRow("Story Stage",
+                strHtml += CraftingInfoData.PresentationHtmlRow(Localizer.Str("Story Turn"),
                                                                 strParentStage,
                                                                 strChildStage,
                                                                 bIsPrinting);
@@ -668,7 +669,7 @@ namespace OneStoryProjectEditor
                 aVerseData.RemoveRetelling(strUnsGuid);
 
             // and remove the entry from the 'database' of tests
-            CraftingInfo.TestorsToCommentsRetellings.RemoveAt(nTestNum);
+            CraftingInfo.TestersToCommentsRetellings.RemoveAt(nTestNum);
         }
 
         public void DeleteAnswerTestResults(int nTestNum, string strUnsGuid)
@@ -681,7 +682,7 @@ namespace OneStoryProjectEditor
                 aVerseData.RemoveTestQuestionAnswer(strUnsGuid);
 
             // and remove the entry from the 'database' of tests
-            CraftingInfo.TestorsToCommentsTqAnswers.RemoveAt(nTestNum);
+            CraftingInfo.TestersToCommentsTqAnswers.RemoveAt(nTestNum);
         }
     }
 
@@ -808,9 +809,9 @@ namespace OneStoryProjectEditor
     {
         public const string CstrAttributeMemberID = "memberID";
 
-        public MemberIdInfo(string strTestorGuid, string strTestComment)
+        public MemberIdInfo(string strTesterGuid, string strTestComment)
         {
-            MemberId = strTestorGuid;
+            MemberId = strTesterGuid;
             MemberComment = strTestComment;
         }
 
@@ -981,15 +982,15 @@ namespace OneStoryProjectEditor
 
         public bool Contains(string strGuid)
         {
-            return this.Any(testorInfo => testorInfo.MemberId == strGuid);
+            return this.Any(testerInfo => testerInfo.MemberId == strGuid);
         }
 
         public int IndexOf(string strGuid)
         {
             for (int i = 0; i < Count; i++)
             {
-                var testorInfo = this[i];
-                if (testorInfo.MemberId == strGuid)
+                var testerInfo = this[i];
+                if (testerInfo.MemberId == strGuid)
                     return i;
             }
             return -1;
@@ -1011,10 +1012,10 @@ namespace OneStoryProjectEditor
 
         public void WriteXml(string strCollectionLabel, string strElementLabel, XElement elemCraftingInfo)
         {
-            var elemTestors = new XElement(strCollectionLabel);
-            foreach (MemberIdInfo testorInfo in this)
-                testorInfo.WriteXml(strElementLabel, elemTestors);
-            elemCraftingInfo.Add(elemTestors);
+            var elemTesters = new XElement(strCollectionLabel);
+            foreach (MemberIdInfo testerInfo in this)
+                testerInfo.WriteXml(strElementLabel, elemTesters);
+            elemCraftingInfo.Add(elemTesters);
         }
 
         public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
@@ -1022,8 +1023,8 @@ namespace OneStoryProjectEditor
             int nIndex = IndexOf(strOldUnsGuid);
             if (nIndex != -1)
             {
-                var testor = this[nIndex];
-                testor.MemberId = strNewUnsGuid;
+                var tester = this[nIndex];
+                tester.MemberId = strNewUnsGuid;
             }
         }
 
@@ -1034,28 +1035,28 @@ namespace OneStoryProjectEditor
             int i = 1;
             for (; i <= Count; i++)
             {
-                var parentTestor = this[i - 1];
+                var parentTester = this[i - 1];
 
                 // get the child tests that match this one (since we now allow users to
                 //  reassign UNSs to a particular test, the only thing that makes sense
                 //  is a child of the same test number (i.e. same index; not memberId)
-                // var childMatch = FindChildEquivalentTestorInChild(parentTestor, child);
+                // var childMatch = FindChildEquivalentTesterInChild(parentTester, child);
                 var childMatch = ((child != null) && (child.Count >= i))
                                      ? child[i - 1]
                                      : null;
 
                 strRow += MemberIdInfo.PresentationHtmlRow(teamMembers,
                                                            String.Format(strLabelFormat, i), 
-                                                           parentTestor, childMatch,
+                                                           parentTester, childMatch,
                                                            (child == null));
             }
 
             if (child != null)
                 while (i <= child.Count)
                 {
-                    var childTestor = child[i - 1];
+                    var childTester = child[i - 1];
                     strRow += MemberIdInfo.PresentationHtmlRow(teamMembers,
-                        String.Format(strLabelFormat, i++), null, childTestor, true);
+                        String.Format(strLabelFormat, i++), null, childTester, true);
                 }
 
             return strRow;
@@ -1073,8 +1074,8 @@ namespace OneStoryProjectEditor
         public string StoryPurpose;
         public string ResourcesUsed;
         public string MiscellaneousStoryInfo;
-        public TestInfo TestorsToCommentsRetellings = new TestInfo();
-        public TestInfo TestorsToCommentsTqAnswers = new TestInfo();
+        public TestInfo TestersToCommentsRetellings = new TestInfo();
+        public TestInfo TestersToCommentsTqAnswers = new TestInfo();
         public bool IsBiblicalStory = true;
 
         public CraftingInfoData(string strCrafterMemberGuid, string strLoggedOnMemberGuid, bool bIsBiblicalStory)
@@ -1104,8 +1105,8 @@ namespace OneStoryProjectEditor
             MiscellaneousStoryInfo = ((elem = node.SelectSingleNode(CstrElementLabelMiscellaneousStoryInfo)) != null)
                 ? elem.InnerText
                 : null;
-            TestorsToCommentsRetellings.Add(node, CstrElementLabelTestsRetellings, CstrElementLabelTestRetelling);
-            TestorsToCommentsTqAnswers.Add(node, CstrElementLabelTestsTqAnswers, CstrElementLabelTestTqAnswer);
+            TestersToCommentsRetellings.Add(node, CstrElementLabelTestsRetellings, CstrElementLabelTestRetelling);
+            TestersToCommentsTqAnswers.Add(node, CstrElementLabelTestsTqAnswers, CstrElementLabelTestTqAnswer);
         }
 
         public CraftingInfoData(NewDataSet.storyRow theStoryRow)
@@ -1193,7 +1194,7 @@ namespace OneStoryProjectEditor
                 {
                     NewDataSet.TestRetellingRow[] aTReRs = aTsReRs[0].GetTestRetellingRows();
                     foreach (NewDataSet.TestRetellingRow aTReR in aTReRs)
-                        TestorsToCommentsRetellings.Add(new MemberIdInfo(aTReR.memberID,
+                        TestersToCommentsRetellings.Add(new MemberIdInfo(aTReR.memberID,
                                                                        (aTReR.IsTestRetelling_textNull())
                                                                            ? null
                                                                            : aTReR.TestRetelling_text));
@@ -1204,7 +1205,7 @@ namespace OneStoryProjectEditor
                 {
                     NewDataSet.TestTqAnswerRow[] aTReRs = aTsAnRs[0].GetTestTqAnswerRows();
                     foreach (NewDataSet.TestTqAnswerRow aTReR in aTReRs)
-                        TestorsToCommentsTqAnswers.Add(new MemberIdInfo(aTReR.memberID,
+                        TestersToCommentsTqAnswers.Add(new MemberIdInfo(aTReR.memberID,
                                                                        (aTReR.IsTestTqAnswer_textNull())
                                                                            ? null
                                                                            : aTReR.TestTqAnswer_text));
@@ -1238,8 +1239,8 @@ namespace OneStoryProjectEditor
             ResourcesUsed = rhs.ResourcesUsed;
             MiscellaneousStoryInfo = rhs.MiscellaneousStoryInfo;
             IsBiblicalStory = rhs.IsBiblicalStory;
-            TestorsToCommentsRetellings = new TestInfo(rhs.TestorsToCommentsRetellings);
-            TestorsToCommentsTqAnswers = new TestInfo(rhs.TestorsToCommentsTqAnswers);
+            TestersToCommentsRetellings = new TestInfo(rhs.TestersToCommentsRetellings);
+            TestersToCommentsTqAnswers = new TestInfo(rhs.TestersToCommentsTqAnswers);
         }
 
         public const string CstrElementLabelCraftingInfo = "CraftingInfo";
@@ -1299,16 +1300,16 @@ namespace OneStoryProjectEditor
                 if (!String.IsNullOrEmpty(MiscellaneousStoryInfo))
                     elemCraftingInfo.Add(new XElement(CstrElementLabelMiscellaneousStoryInfo, MiscellaneousStoryInfo));
 
-                if (TestorsToCommentsRetellings.Count > 0)
+                if (TestersToCommentsRetellings.Count > 0)
                 {
-                    TestorsToCommentsRetellings.WriteXml(CstrElementLabelTestsRetellings,
+                    TestersToCommentsRetellings.WriteXml(CstrElementLabelTestsRetellings,
                                                          CstrElementLabelTestRetelling,
                                                          elemCraftingInfo);
                 }
 
-                if (TestorsToCommentsTqAnswers.Count > 0)
+                if (TestersToCommentsTqAnswers.Count > 0)
                 {
-                    TestorsToCommentsTqAnswers.WriteXml(CstrElementLabelTestsTqAnswers,
+                    TestersToCommentsTqAnswers.WriteXml(CstrElementLabelTestsTqAnswers,
                                                         CstrElementLabelTestTqAnswer,
                                                         elemCraftingInfo);
                 }
@@ -1321,204 +1322,70 @@ namespace OneStoryProjectEditor
         {
             string strRow = null;
             bool bIsPrinting = (child == null); // child doesn't exist means printing
-            strRow += MemberIdInfo.PresentationHtmlRow(teamMembers, "Story Crafter", StoryCrafter,
+            strRow += MemberIdInfo.PresentationHtmlRow(teamMembers, Localizer.Str("Story Crafter"), StoryCrafter,
                                                        (bIsPrinting)
                                                            ? null
                                                            : child.StoryCrafter,
                                                        bIsPrinting);
-            strRow += MemberIdInfo.PresentationHtmlRow(teamMembers, "Project Facilitator", ProjectFacilitator,
+            strRow += MemberIdInfo.PresentationHtmlRow(teamMembers, Localizer.Str("Project Facilitator"), ProjectFacilitator,
                                                        (bIsPrinting)
                                                            ? null
                                                            : child.ProjectFacilitator,
                                                        bIsPrinting);
-            strRow += MemberIdInfo.PresentationHtmlRow(teamMembers, "Consultant", Consultant,
+            strRow += MemberIdInfo.PresentationHtmlRow(teamMembers, Localizer.Str("Consultant"), Consultant,
                                                        (bIsPrinting)
                                                            ? null
                                                            : child.Consultant,
                                                        bIsPrinting);
             if (Coach != null)
-                strRow += MemberIdInfo.PresentationHtmlRow(teamMembers, "Coach", Coach,
+                strRow += MemberIdInfo.PresentationHtmlRow(teamMembers, Localizer.Str("Coach"), Coach,
                                                            (bIsPrinting)
                                                                ? null
                                                                : child.Coach,
                                                            bIsPrinting);
-            strRow += PresentationHtmlRow("Story Purpose", StoryPurpose,
+            strRow += PresentationHtmlRow(Localizer.Str("Story Purpose"), StoryPurpose,
                                           (bIsPrinting)
                                               ? null
                                               : child.StoryPurpose,
                                           bIsPrinting);
-            strRow += PresentationHtmlRow("Resources Used", ResourcesUsed,
+            strRow += PresentationHtmlRow(Localizer.Str("Resources Used"), ResourcesUsed,
                                           (bIsPrinting)
                                               ? null
                                               : child.ResourcesUsed,
                                           bIsPrinting);
-            strRow += PresentationHtmlRow("Miscellaneous Comments", MiscellaneousStoryInfo,
+            strRow += PresentationHtmlRow(Localizer.Str("Miscellaneous Comments"), MiscellaneousStoryInfo,
                                           (bIsPrinting)
                                               ? null
                                               : child.MiscellaneousStoryInfo,
                                           bIsPrinting);
-            strRow += MemberIdInfo.PresentationHtmlRow(teamMembers, "Back Translator", BackTranslator,
+            strRow += MemberIdInfo.PresentationHtmlRow(teamMembers, Localizer.Str("Back Translator"), BackTranslator,
                                                        (bIsPrinting)
                                                            ? null
                                                            : child.BackTranslator,
                                                        bIsPrinting);
-            strRow += MemberIdInfo.PresentationHtmlRow(teamMembers, "English Back-Translator", OutsideEnglishBackTranslator,
+            strRow += MemberIdInfo.PresentationHtmlRow(teamMembers, Localizer.Str("English Back-Translator"), OutsideEnglishBackTranslator,
                                                        (bIsPrinting)
                                                            ? null
                                                            : child.OutsideEnglishBackTranslator,
                                                        bIsPrinting);
             
-            strRow += TestorsToCommentsRetellings.PresentationHtml(teamMembers,
-                                                                   "Retelling Testor {0}",
+            strRow += TestersToCommentsRetellings.PresentationHtml(teamMembers,
+                                                                   Localizer.Str("Retelling tester {0}"),
                                                                    ((child != null) &&
-                                                                    (child.TestorsToCommentsRetellings != null)
-                                                                        ? child.TestorsToCommentsRetellings
+                                                                    (child.TestersToCommentsRetellings != null)
+                                                                        ? child.TestersToCommentsRetellings
                                                                         : null));
 
-            strRow += TestorsToCommentsTqAnswers.PresentationHtml(teamMembers,
-                                                                   "Story testing {0}",
+            strRow += TestersToCommentsTqAnswers.PresentationHtml(teamMembers,
+                                                                   Localizer.Str("Story question tester {0}"),
                                                                    ((child != null) &&
-                                                                    (child.TestorsToCommentsTqAnswers != null)
-                                                                        ? child.TestorsToCommentsTqAnswers
+                                                                    (child.TestersToCommentsTqAnswers != null)
+                                                                        ? child.TestersToCommentsTqAnswers
                                                                         : null));
-
-            /*
-            int nInsertCount = 0;
-            int i = 1;
-            string strLabelFormat = "Retelling Testor {0}";
-            while (i <= TestorsToCommentsRetellings.Count)
-            {
-                int nTestNumber = i + nInsertCount;
-                var parentTestor = TestorsToCommentsRetellings[i - 1];
-
-                // get the child tests that match this one
-                var childMatch = FindChildEquivalentRetellings(parentTestor, child);
-
-                // see if there were any child verses that weren't processed
-                if (MemberIdInfo.Configured(childMatch))
-                {
-                    System.Diagnostics.Debug.Assert(child != null);
-                    bool bFoundOne = false;
-                    for (int j = i; j < child.TestorsToCommentsRetellings.IndexOf(childMatch); j++)
-                    {
-                        var childPassedBy = child.TestorsToCommentsRetellings[j - 1];
-                        strRow += MemberIdInfo.PresentationHtmlRow(teamMembers, 
-                            String.Format(strLabelFormat, nTestNumber), 
-                            null, childPassedBy);
-                        bFoundOne = true;
-                        nInsertCount++;
-                    }
-
-                    if (bFoundOne)
-                        continue;
-                }
-
-                strRow += PresentationHtmlRow(teamMembers, 
-                    String.Format(strLabelFormat, nTestNumber), strTestor, false);
-
-                // if there is a child, but we couldn't find the equivalent testor...
-                if ((child != null) && String.IsNullOrEmpty(strChildMatch) && (child.TestorsToCommentsRetellings.Count >= i))
-                {
-                    // this means the original testor (which we just showed as deleted) 
-                    //  was replaced by whatever is the same verse in the child collection
-                    strChildMatch = child.TestorsToCommentsRetellings[i - 1].MemberId;
-                    strRow += PresentationHtmlRow(teamMembers, String.Format(strLabelFormat, nTestNumber), strChildMatch, true);
-                }
-
-                i++;    // do this here in case we redo one (from 'continue' above)
-            }
-
-            if (child != null)
-                while (i <= child.TestorsToCommentsRetellings.Count)
-                {
-                    string strChildTestor = child.TestorsToCommentsRetellings[i - 1].MemberId;
-                    int nTestNumber = i + nInsertCount;
-                    strRow += PresentationHtmlRow(teamMembers, String.Format(strLabelFormat, nTestNumber), strChildTestor, true);
-                    i++;
-                }
-
-            strLabelFormat = "Story testing {0}";
-            while (i <= TestorsToCommentsRetellings.Count)
-            {
-                int nTestNumber = i + nInsertCount;
-                string strTestor = TestorsToCommentsRetellings[i - 1].MemberId;
-
-                // get the child tests that match this one
-                string strChildMatch = FindChildEquivalentAnswers(strTestor, child);
-
-                // see if there were any child verses that weren't processed
-                if (!String.IsNullOrEmpty(strChildMatch))
-                {
-                    bool bFoundOne = false;
-                    // the <= in the test led us to an infinite loop
-                    // for (int j = i; j <= child.TestorsToCommentsRetellings.IndexOf(strChildMatch); j++)
-                    for (int j = i; j < child.TestorsToCommentsRetellings.IndexOf(strChildMatch); j++)
-                    {
-                        string strChildPassedBy = child.TestorsToCommentsRetellings[j - 1].MemberId;
-                        strRow += PresentationHtmlRow(teamMembers, String.Format(strLabelFormat, nTestNumber), strChildPassedBy, true);
-                        bFoundOne = true;
-                        nInsertCount++;
-                    }
-
-                    if (bFoundOne)
-                        continue;
-                }
-
-                strRow += PresentationHtmlRow(teamMembers, String.Format(strLabelFormat, nTestNumber), strTestor, false);
-
-                // if there is a child, but we couldn't find the equivalent testor...
-                if ((child != null) && String.IsNullOrEmpty(strChildMatch) && (child.TestorsToCommentsRetellings.Count >= i))
-                {
-                    // this means the original testor (which we just showed as deleted) 
-                    //  was replaced by whatever is the same verse in the child collection
-                    strChildMatch = child.TestorsToCommentsRetellings[i - 1].MemberId;
-                    strRow += PresentationHtmlRow(teamMembers, String.Format(strLabelFormat, nTestNumber), strChildMatch, true);
-                }
-
-                i++;    // do this here in case we redo one (from 'continue' above)
-            }
-
-            if (child != null)
-                while (i <= child.TestorsToCommentsRetellings.Count)
-                {
-                    string strChildTestor = child.TestorsToCommentsRetellings[i - 1].MemberId;
-                    int nTestNumber = i + nInsertCount;
-                    strRow += PresentationHtmlRow(teamMembers, String.Format(strLabelFormat, nTestNumber), strChildTestor, true);
-                    i++;
-                }
-            */
 
             return strRow;
         }
 
-        /*
-        private string PresentationHtmlRow(TeamMembersData teamMembers, string strLabel, 
-            string strMemberId, bool bFromChild)
-        {
-            string strName = null;
-            if ((teamMembers != null) && !String.IsNullOrEmpty(strMemberId))
-            {
-                strName = teamMembers.GetNameFromMemberId(strMemberId);
-                if (bFromChild)
-                    strName = Diff.HtmlDiff(null, strName, true);
-            }
-
-            if (String.IsNullOrEmpty(strName))
-                strName = "-";  // so it's not nothing (or the HTML shows without a cell frame)
-
-            return String.Format(Properties.Resources.HTML_TableRow,
-                                 String.Format("{0}{1}",
-                                               String.Format(Properties.Resources.HTML_TableCellNoWrap,
-                                                             strLabel),
-                                               String.Format(Properties.Resources.HTML_TableCellWidth,
-                                                             100,
-                                                             String.Format(Properties.Resources.HTML_ParagraphText,
-                                                                           strLabel,
-                                                                           StoryData.
-                                                                              CstrLangInternationalBtStyleClassName,
-                                                                           strName))));
-        }
-        */
 
         public static string PresentationHtmlRow(string strLabel, 
             string strParentComment, string strChildComment, bool bIsPrinting)
@@ -1533,8 +1400,8 @@ namespace OneStoryProjectEditor
         {
             // before we do *any* changing, we have to verify that this isn't going 
             //  to put us in a bad situation: the same UNS twice for the same story
-            if (TestorsToCommentsRetellings.Contains(strNewMemberGuid)
-                || TestorsToCommentsTqAnswers.Contains(strNewMemberGuid))
+            if (TestersToCommentsRetellings.Contains(strNewMemberGuid)
+                || TestersToCommentsTqAnswers.Contains(strNewMemberGuid))
             {
                 throw new StoryProjectData.ReplaceMemberException
                           {
@@ -1545,8 +1412,8 @@ namespace OneStoryProjectEditor
 
             if (MemberIdInfo.SafeGetMemberId(BackTranslator) == strOldMemberGuid)
                 MemberIdInfo.SetCreateIfEmpty(ref BackTranslator, strNewMemberGuid, true);
-            TestorsToCommentsRetellings.ReplaceUns(strOldMemberGuid, strNewMemberGuid);
-            TestorsToCommentsTqAnswers.ReplaceUns(strOldMemberGuid, strNewMemberGuid);
+            TestersToCommentsRetellings.ReplaceUns(strOldMemberGuid, strNewMemberGuid);
+            TestersToCommentsTqAnswers.ReplaceUns(strOldMemberGuid, strNewMemberGuid);
         }
 
         public string ReplaceProjectFacilitator(string strNewMemberGuid)
@@ -1881,7 +1748,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        // if this is "new", then we won't have a project name yet, so query the user for it
+        // if this is 'new', then we won't have a project name yet, so query the user for it
         public bool InitializeProjectSettings(TeamMemberData loggedOnMember)
         {
             bool bRet = false;
@@ -1889,7 +1756,7 @@ namespace OneStoryProjectEditor
             var dlg = new NewProjectWizard(this) 
             { 
                 LoggedInMember = loggedOnMember,
-                Text = "Edit Project Settings"
+                Text = Localizer.Str("Edit Project Settings")
             };
             if (dlg.ShowDialog() != DialogResult.OK)
                 throw BackOutWithNoUI;
@@ -1996,11 +1863,11 @@ namespace OneStoryProjectEditor
             {
                 try
                 {
-                    // if we did find the "last member" in the list, but couldn't accept it without question
+                    // if we did find the 'last member' in the list, but couldn't accept it without question
                     //  (e.g. because the role was different), then at least pre-select the member
                     dlg.SelectedMember = TeamMemberForm.GetListBoxItem(strMemberName, eRole);
                 }
-                catch { }    // might fail if the "last user" on this machine is opening this project file for the first time... just ignore
+                catch { }    // might fail if the 'last user' on this machine is opening this project file for the first time... just ignore
             }
 
             var res = dlg.ShowDialog();
@@ -2068,7 +1935,7 @@ namespace OneStoryProjectEditor
             {
                 System.Diagnostics.Debug.Assert(TeamMembers != null);
 
-                // the role "English Back-translator" only has meaning if there's another
+                // the role 'English Back-translator' only has meaning if there's another
                 //  language involved.
                 return TeamMembers.Values.Any(aTM => 
                     TeamMemberData.IsUser(aTM.MemberType, 

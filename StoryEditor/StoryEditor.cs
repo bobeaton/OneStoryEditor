@@ -1425,7 +1425,7 @@ namespace OneStoryProjectEditor
                 var verse = new VerseData();
 
                 // add boxes for retellings just in case
-                foreach (var testInfo in TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings)
+                foreach (var testInfo in TheCurrentStory.CraftingInfo.TestersToCommentsRetellings)
                     verse.Retellings.TryAddNewLine(testInfo.MemberId);
 
                 lstNewVerses.Add(verse);
@@ -1737,10 +1737,10 @@ namespace OneStoryProjectEditor
             // there are two cases we have to treat specially:
             //  1) it's 'ans 0' (because somehow the member id was removed)
             //  2) there's no 'ans 1' (in which case 'ans 2' is the zeroth element)
-            string strTestorId = GetTestorId(strTestNumber,
-                                             TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
+            string strTesterId = GetTesterId(strTestNumber,
+                                             TheCurrentStory.CraftingInfo.TestersToCommentsRetellings,
                                              retellings);
-            return retellings.TryGetValue(strTestorId);
+            return retellings.TryGetValue(strTesterId);
         }
 
         internal LineMemberData GetTqAnswerData(string strLabel, VerseBtControl ctrl,
@@ -1754,13 +1754,13 @@ namespace OneStoryProjectEditor
             // there are two cases we have to treat specially:
             //  1) it's 'ans 0' (because somehow the member id was removed)
             //  2) there's no 'ans 1' (in which case 'ans 2' is the zeroth element)
-            string strTestorId = GetTestorId(strTestNumber,
-                                             TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
+            string strTesterId = GetTesterId(strTestNumber,
+                                             TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers,
                                              answers);
-            return answers.TryGetValue(strTestorId);
+            return answers.TryGetValue(strTesterId);
         }
 
-        private static string GetTestorId(string strTestNumber, TestInfo testInfo,
+        private static string GetTesterId(string strTestNumber, TestInfo testInfo,
             IEnumerable<LineMemberData> answersData)
         {
             int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
@@ -1778,8 +1778,8 @@ namespace OneStoryProjectEditor
             }
             else
             {
-                var testor = testInfo[nTestNumber];
-                strMemberId = testor.MemberId;
+                var tester = testInfo[nTestNumber];
+                strMemberId = tester.MemberId;
             }
             return strMemberId;
         }
@@ -3035,20 +3035,20 @@ namespace OneStoryProjectEditor
                         editCopyFreeTranslationMenu.Visible = false;
 
                 editDeleteTestToolStripMenu.DropDownItems.Clear();
-                if ((TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count > 0)
-                    || (TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count > 0))
+                if ((TheCurrentStory.CraftingInfo.TestersToCommentsRetellings.Count > 0)
+                    || (TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.Count > 0))
                 {
-                    for (int nTest = 0; nTest < TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count; nTest++)
+                    for (int nTest = 0; nTest < TheCurrentStory.CraftingInfo.TestersToCommentsRetellings.Count; nTest++)
                     {
-                        string strUnsGuid = TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings[nTest].MemberId;
+                        string strUnsGuid = TheCurrentStory.CraftingInfo.TestersToCommentsRetellings[nTest].MemberId;
                         AddDeleteTestSubmenu(editDeleteTestToolStripMenu,
                                              String.Format("Retelling Test {0} done by {1}", nTest + 1,
                                                            StoryProject.GetMemberNameFromMemberGuid(strUnsGuid)),
                                              nTest, OnRemoveRetellingTest);
                     }
-                    for (int nTest = 0; nTest < TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count; nTest++)
+                    for (int nTest = 0; nTest < TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.Count; nTest++)
                     {
-                        string strUnsGuid = TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTest].MemberId;
+                        string strUnsGuid = TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers[nTest].MemberId;
                         AddDeleteTestSubmenu(editDeleteTestToolStripMenu,
                                              String.Format("Story Question Testing {0} done by {1}", nTest + 1,
                                                            StoryProject.GetMemberNameFromMemberGuid(strUnsGuid)),
@@ -3092,7 +3092,7 @@ namespace OneStoryProjectEditor
         {
             // query for the UNSs that will be doing this test
             string strUnsGuid = null;
-            if (!GetUniqueTestor(TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
+            if (!GetUniqueTester(TheCurrentStory.CraftingInfo.TestersToCommentsRetellings,
                 ref strUnsGuid))
                 return false;
 
@@ -3106,7 +3106,7 @@ namespace OneStoryProjectEditor
             strAnswer = String.Format(Properties.Resources.IDS_RetellingCommentFormat,
                                       DateTime.Now.ToString("yyyy-MMM-dd"), strAnswer);
             var toi = new MemberIdInfo(strUnsGuid, strAnswer);
-            TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Add(toi);
+            TheCurrentStory.CraftingInfo.TestersToCommentsRetellings.Add(toi);
             foreach (VerseData aVerseData in TheCurrentStory.Verses)
                 aVerseData.Retellings.TryAddNewLine(strUnsGuid);
 
@@ -3124,14 +3124,14 @@ namespace OneStoryProjectEditor
         {
             // query for the UNSs that will be doing this test
             string strUnsGuid = null;
-            if (!GetUniqueTestor(TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers,
+            if (!GetUniqueTester(TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers,
                 ref strUnsGuid))
                 return false;
 
             string strAnswer = String.Format(Properties.Resources.IDS_InferenceCommentFormat,
                                              DateTime.Now.ToString("yyyy-MMM-dd"));
             var toi = new MemberIdInfo(strUnsGuid, strAnswer);
-            TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Add(toi);
+            TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.Add(toi);
 
             foreach (VerseData aVerseData in TheCurrentStory.Verses)
                 foreach (TestQuestionData aTQ in aVerseData.TestQuestions)
@@ -3147,11 +3147,11 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        private bool GetUniqueTestor(TestInfo testInfo, ref string strUnsGuid)
+        private bool GetUniqueTester(TestInfo testInfo, ref string strUnsGuid)
         {
             while (String.IsNullOrEmpty(strUnsGuid))
             {
-                strUnsGuid = QueryForUnsTestor(StoryProject);
+                strUnsGuid = QueryForUnsTester(StoryProject);
                 if (String.IsNullOrEmpty(strUnsGuid))
                     return false;
 
@@ -3199,7 +3199,7 @@ namespace OneStoryProjectEditor
             */
             // so they want to just add a single box for this TQ's answer for a new UNS.
             // query for the UNSs that will be doing this test
-            string strUnsGuid = QueryForUnsTestor(StoryProject);
+            string strUnsGuid = QueryForUnsTester(StoryProject);
             if (String.IsNullOrEmpty(strUnsGuid))
             {
                 theNewAnswer = null;
@@ -3209,17 +3209,17 @@ namespace OneStoryProjectEditor
             theNewAnswer = theTq.Answers.TryGetValue(strUnsGuid);
             if (theNewAnswer != null)
             {
-                int nIndex = TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.IndexOf(theNewAnswer.MemberId);
+                int nIndex = TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.IndexOf(theNewAnswer.MemberId);
                 QueryNewUns(String.Format(theTq.Answers.LabelTextFormat, nIndex + 1));
                 return false;
             }
 
             // okay, so the selected UNS doesn't already have an Answer entry for this
             //  TQ. Now see if (s)he has been added to the story level list
-            if (!TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Contains(strUnsGuid))
+            if (!TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.Contains(strUnsGuid))
             {
                 // this means that this UNS has never been added for this story. Add now
-                TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Add(new MemberIdInfo(strUnsGuid, null));
+                TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.Add(new MemberIdInfo(strUnsGuid, null));
             }
 
             // by now, the user-chosen UNS *is* in the CraftingInfo list and *isn't* in
@@ -3253,10 +3253,10 @@ namespace OneStoryProjectEditor
                 //  reference to it
                 if (!TheCurrentStory.DoesReferenceTqUns(answerData.MemberId))
                 {
-                    int nTestNum = TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.IndexOf(answerData.MemberId);
+                    int nTestNum = TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.IndexOf(answerData.MemberId);
                     if (nTestNum >= 0)
                     {
-                        TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.RemoveAt(nTestNum);
+                        TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.RemoveAt(nTestNum);
 
                         // since we have removed a UNS from the test, now all 'ans N' values
                         //  may change for other verses as well. So repaint all
@@ -3269,7 +3269,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        protected string QueryForUnsTestor(StoryProjectData theStoryProjectData)
+        protected string QueryForUnsTester(StoryProjectData theStoryProjectData)
         {
             string strUnsGuid = null;
             while (String.IsNullOrEmpty(strUnsGuid))
@@ -3300,12 +3300,12 @@ namespace OneStoryProjectEditor
 
         public bool QueryForAndDeleteRetellingTest(int nTestNum)
         {
-            Debug.Assert((nTestNum >= 0) && (nTestNum < TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings.Count));
-            string strUnsGuid = TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings[nTestNum].MemberId;
-            string strTestorName = StoryProject.GetMemberNameFromMemberGuid(strUnsGuid);
+            Debug.Assert((nTestNum >= 0) && (nTestNum < TheCurrentStory.CraftingInfo.TestersToCommentsRetellings.Count));
+            string strUnsGuid = TheCurrentStory.CraftingInfo.TestersToCommentsRetellings[nTestNum].MemberId;
+            string strTesterName = StoryProject.GetMemberNameFromMemberGuid(strUnsGuid);
 
             if (MessageBox.Show(Localizer.Str("Are you sure you want to remove all of the retelling results for ") +
-                                strTestorName,
+                                strTesterName,
                                 StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) !=
                 DialogResult.Yes)
                 return false;
@@ -3327,12 +3327,12 @@ namespace OneStoryProjectEditor
 
         public bool QueryForAndDeleteAnswerTest(int nTestNum)
         {
-            Debug.Assert((nTestNum >= 0) && (nTestNum < TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers.Count));
-            string strUnsGuid = TheCurrentStory.CraftingInfo.TestorsToCommentsTqAnswers[nTestNum].MemberId;
-            string strTestorName = StoryProject.GetMemberNameFromMemberGuid(strUnsGuid);
+            Debug.Assert((nTestNum >= 0) && (nTestNum < TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.Count));
+            string strUnsGuid = TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers[nTestNum].MemberId;
+            string strTesterName = StoryProject.GetMemberNameFromMemberGuid(strUnsGuid);
 
             if (MessageBox.Show(Localizer.Str("Are you sure you want to remove all of the story question test results for ") +
-                                strTestorName,
+                                strTesterName,
                                 StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) !=
                 DialogResult.Yes)
                 return false;
@@ -5283,7 +5283,7 @@ namespace OneStoryProjectEditor
 
         public static void WarnNoTransitionHistory()
         {
-            MessageBox.Show(Localizer.Str("There is no state transition history for this story"),
+            MessageBox.Show(Localizer.Str("There is no turn transition history for this story"),
                             StoryEditor.OseCaption);
         }
 
@@ -5292,7 +5292,7 @@ namespace OneStoryProjectEditor
             // locate the window near the cursor...
             Point ptTooltip = Cursor.Position;
 
-            if (MessageBox.Show(Localizer.Str("Are you sure you want to change the state of this story bypassing the normal checks (i.e. is the right person logged in, have they answered all their questions, etc). This is an advanced command and can easily result in a conflict if it's possible that two people will be editing the story at the same time. You should only use this command if you are sure that no one else will be editing this story prior to first synchronizing with the changes you are about to make"),
+            if (MessageBox.Show(Localizer.Str("Are you sure you want to change the turn of this story bypassing the normal checks (i.e. is the right person logged in, have they answered all their questions, etc). This is an advanced command and can easily result in a conflict if it's possible that two people will be editing the story at the same time. You should only use this command if you are sure that no one else will be editing this story prior to first synchronizing with the changes you are about to make"),
                 StoryEditor.OseCaption,
                 MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                 return;
@@ -5683,11 +5683,25 @@ namespace OneStoryProjectEditor
             InitProjectNotes(StoryProject.ProjSettings, LoggedOnMember.Name);
         }
 
+        private LocDataEditorForm _localizationEditor;
+
         private void localizationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var localizationEditor = new LocDataEditorForm(Localizer.Default,
-                                                           new[] { "OneStoryProjectEditor" });
-            localizationEditor.ShowDialog();
+            if (_localizationEditor == null)
+                _localizationEditor = new LocDataEditorForm(Localizer.Default,
+                                                            new[] {"OneStoryProjectEditor"})
+                                          {DelegateCallOnClose = OnCloseLocalizationDialog};
+            _localizationEditor.Show();
+        }
+
+        private void OnCloseLocalizationDialog(bool bWasViaFileClose)
+        {
+            // for us, if the user does "File", "Close", then totally Dispose if it
+            //  otherwise, just hide it
+            if (bWasViaFileClose)
+                _localizationEditor = null;
+            else
+                _localizationEditor.Hide();
         }
 
         public static string OseCaption

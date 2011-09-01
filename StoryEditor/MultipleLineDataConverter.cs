@@ -242,7 +242,8 @@ namespace OneStoryProjectEditor
                                                                 strRow)));
             return strRow;
         }
-        public string PresentationHtml(int nVerseIndex, int nNumCols, TestInfo astrTestors,
+
+        public string PresentationHtml(int nVerseIndex, int nNumCols, TestInfo astrTesters,
             MultipleLineDataConverter child, bool bPrintPreview, bool bProcessingTheChild,
             bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT)
         {
@@ -252,7 +253,7 @@ namespace OneStoryProjectEditor
             {
                 LineMemberData theParentLineData = this[i];
                 string strMemberId = theParentLineData.MemberId;
-                nTestNum = astrTestors.IndexOf(strMemberId);
+                nTestNum = astrTesters.IndexOf(strMemberId);
 
                 bool bFound = false;
                 LineMemberData theChildLineData = null;
@@ -320,7 +321,7 @@ namespace OneStoryProjectEditor
                 {
                     LineMemberData theChildLineData = child[j];
                     string strMemberId = theChildLineData.MemberId;
-                    nTestNum = astrTestors.IndexOf(strMemberId);
+                    nTestNum = astrTesters.IndexOf(strMemberId);
                     string strVernacular = Diff.HtmlDiff(null, theChildLineData.Vernacular);
                     string strNationalBT = Diff.HtmlDiff(null, theChildLineData.NationalBt);
                     string strInternationalBT = Diff.HtmlDiff(null, theChildLineData.InternationalBt);
@@ -342,7 +343,7 @@ namespace OneStoryProjectEditor
         }
 
 
-        public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols, TestInfo astrTestors,
+        public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols, TestInfo astrTesters,
             bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT)
         {
             string strRow = null;
@@ -351,7 +352,7 @@ namespace OneStoryProjectEditor
             {
                 LineMemberData theLineData = this[i];
                 string strMemberId = theLineData.MemberId;
-                nTestNum = astrTestors.IndexOf(strMemberId);
+                nTestNum = astrTesters.IndexOf(strMemberId);
                 string strVernacular = Diff.HtmlDiff(null, theLineData.Vernacular);
                 string strNationalBT = Diff.HtmlDiff(null, theLineData.NationalBt);
                 string strEnglishBT = Diff.HtmlDiff(null, theLineData.InternationalBt);

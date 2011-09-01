@@ -201,7 +201,7 @@
             this.Controls.Add(this.buttonOK);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddLnCNoteForm";
-            this.Text = "Add L&C Note";
+            this.Text = "Add L & C Note";
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
             this.ResumeLayout(false);

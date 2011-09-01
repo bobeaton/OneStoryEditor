@@ -112,7 +112,7 @@ namespace OneStoryProjectEditor
             this.toolStripButtonAddLnCNote.Name = "toolStripButtonAddLnCNote";
             this.toolStripButtonAddLnCNote.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonAddLnCNote.Text = "Add L && C Note";
-            this.toolStripButtonAddLnCNote.ToolTipText = "Click this button to add a L&C Note";
+            this.toolStripButtonAddLnCNote.ToolTipText = "Click this button to add a L & C Note";
             this.toolStripButtonAddLnCNote.Click += new System.EventHandler(this.toolStripButtonAddLnCNote_Click);
             // 
             // toolStripButtonEditLnCNote
@@ -122,8 +122,8 @@ namespace OneStoryProjectEditor
             this.toolStripButtonEditLnCNote.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonEditLnCNote.Name = "toolStripButtonEditLnCNote";
             this.toolStripButtonEditLnCNote.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonEditLnCNote.Text = "Edit L&&C Note";
-            this.toolStripButtonEditLnCNote.ToolTipText = "Click this button to edit the selected L&C Note";
+            this.toolStripButtonEditLnCNote.Text = "Edit L && C Note";
+            this.toolStripButtonEditLnCNote.ToolTipText = "Click this button to edit the selected L & C Note";
             this.toolStripButtonEditLnCNote.Click += new System.EventHandler(this.toolStripButtonEditLnCNote_Click);
             // 
             // toolStripButtonDeleteKeyTerm
@@ -133,8 +133,8 @@ namespace OneStoryProjectEditor
             this.toolStripButtonDeleteKeyTerm.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonDeleteKeyTerm.Name = "toolStripButtonDeleteKeyTerm";
             this.toolStripButtonDeleteKeyTerm.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonDeleteKeyTerm.Text = "Delete Selected L&&C Note";
-            this.toolStripButtonDeleteKeyTerm.ToolTipText = "Click this button to delete the selected L&C Note";
+            this.toolStripButtonDeleteKeyTerm.Text = "Delete Selected L && C Note";
+            this.toolStripButtonDeleteKeyTerm.ToolTipText = "Click this button to delete the selected L & C Note";
             this.toolStripButtonDeleteKeyTerm.Click += new System.EventHandler(this.toolStripButtonDeleteKeyTerm_Click);
             // 
             // toolStripSeparator1

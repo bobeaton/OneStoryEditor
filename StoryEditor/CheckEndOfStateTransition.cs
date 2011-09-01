@@ -1492,7 +1492,7 @@ namespace OneStoryProjectEditor
 
                 // this will go:
                 //  ProjFacEnterRetellingOfTest1 (to get answer from UNS_1), then
-                //  ProjFacEnterAnswersToStoryQuestionsOfTest1 (to get retelling from UNS_1), then (while Testor.Count < 2) back to:
+                //  ProjFacEnterAnswersToStoryQuestionsOfTest1 (to get retelling from UNS_1), then (while Tester.Count < 2) back to:
                 //  ProjFacEnterRetellingOfTest1, etc.
                 eProposedNextState = StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest1;
             }

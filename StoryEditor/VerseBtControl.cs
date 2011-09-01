@@ -91,7 +91,7 @@ namespace OneStoryProjectEditor
                 if (_verseData.Retellings.Count > 0)
                 {
                     InitRetellings(_verseData.Retellings, m_nNumRows, 
-                        theSE.TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
+                        theSE.TheCurrentStory.CraftingInfo.TestersToCommentsRetellings,
                         TheSE.StoryProject.ProjSettings,
                         (theSE.viewVernacularLangMenu.Checked && TheSE.StoryProject.ProjSettings.ShowRetellings.Vernacular),
                         (theSE.viewNationalLangMenu.Checked && TheSE.StoryProject.ProjSettings.ShowRetellings.NationalBt),
@@ -500,131 +500,6 @@ namespace OneStoryProjectEditor
             PerformLayout();
             theSE.Modified = true;
         }
-
-        /*
-        protected ToolStripMenuItem AddHeadSubmenu(string strHeading, EventHandler tsm_Click)
-        {
-            ToolStripMenuItem tsm = new ToolStripMenuItem();
-            tsm.Name = strHeading;
-            tsm.Text = strHeading;
-            tsm.Click += tsm_Click;
-            removeToolStripMenuItem.DropDown.Items.Add(tsm);
-            return tsm;
-        }
-
-        protected const string CstrAddAnswerPrefix = "For the question: ";
-        protected void AddAnswerSubmenu(string strText, int nIndex)
-        {
-            ToolStripMenuItem tsm = new ToolStripMenuItem
-                                        {
-                                            Name = strText,
-                                            Size = new System.Drawing.Size(202, 22),
-                                            Text = CstrAddAnswerPrefix + strText,
-                                            Tag = nIndex
-                                        };
-            tsm.Click += addTestQuestionAnswerToolStripMenuItem_Click;
-            addTestQuestionAnswerToolStripMenuItem.DropDown.Items.Add(tsm);
-        }
-
-        private void addTestQuestionAnswerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // the only function of the button here is to add a slot to type a con note
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE))
-                return;
-
-            ToolStripMenuItem tsm = (ToolStripMenuItem)sender;
-
-            //have to query for the UNS that this test is from (if we don't already have it).
-            System.Diagnostics.Debug.Assert((theSE != null) && (theSE.theCurrentStory != null) && (theSE.theCurrentStory.CraftingInfo != null));
-            System.Diagnostics.Debug.Assert(theSE.theCurrentStory.CraftingInfo.Testors.Count == _verseData.TestQuestions.Count);
-            System.Diagnostics.Debug.Assert((tsm.Tag != null) && (tsm.Tag is int) && (((int)tsm.Tag) < _verseData.TestQuestions.Count));
-            TestQuestionData tqd = _verseData.TestQuestions[(int)tsm.Tag];
-            System.Diagnostics.Debug.Assert(CstrAddAnswerPrefix + tqd.QuestionVernacular.ToString() == tsm.Text);
-            byte nNewIndex = (byte)tqd.Answers.Count;
-            while (((nNewIndex >= theSE.theCurrentStory.CraftingInfo.Testors.Count) || String.IsNullOrEmpty(theSE.theCurrentStory.CraftingInfo.Testors[nNewIndex])))
-            {
-                MemberPicker dlg = new MemberPicker(theSE.StoryProject, TeamMemberData.UserTypes.eUNS);
-                dlg.Text = "Choose the UNS that gave these answers";
-                if (dlg.ShowDialog() == DialogResult.Cancel)
-                    return;
-
-                tqd.Answers.TryAddNewLine(dlg.SelectedMember.MemberGuid);
-                break;
-            }
-
-            UpdateViewOfThisVerse();
-        }
-
-        private void addRetellingToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            /*
-            StoryEditor theSE = (StoryEditor)FindForm();
-
-            // gotta query for the UNS
-            if (String.IsNullOrEmpty(_strUnsMemberId))
-            {
-                System.Diagnostics.Debug.Assert(theSE.Stories != null);
-                MemberPicker dlg = new MemberPicker(theSE.Stories, TeamMemberData.UserTypes.eUNS);
-                if (dlg.ShowDialog() == DialogResult.OK)
-                    _strUnsMemberId = dlg.SelectedMember.MemberGuid;
-            }
-
-            if (String.IsNullOrEmpty(_strUnsMemberId))
-                return;
-
-            _verseData.Retellings.TryAddNewLine(_strUnsMemberId);
-
-            // this is kind of sledge-hammer-y... but it works
-            theSE.ReInitVerseControls();
-            */
-        /*
-  }
-
-        private void pasteTestingQuestionToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Debug.Assert(_myTQClipboard != null);
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE))
-                return;
-
-            _verseData.TestQuestions.Add(_myTQClipboard);
-            UpdateViewOfThisVerse(theSE);
-            theSE.Modified = true;
-        }
-
-        private void pasteConsultantNoteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE))
-                return;
-
-            PasteConNote(_myConNoteClipboard, _verseData.ConsultantNotes,
-                theSE.htmlConsultantNotesControl);
-            theSE.Modified = true;
-        }
-
-        private void pasteCoachNoteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE))
-                return;
-
-            PasteConNote(_myCoachNoteClipboard, _verseData.CoachNotes,
-                theSE.htmlCoachNotesControl);
-            theSE.Modified = true;
-        }
-
-        private void PasteConNote(ConsultNoteDataConverter theCNDC, 
-            ICollection<ConsultNoteDataConverter> theCNsDC, HtmlConNoteControl ctrlHtml)
-        {
-            System.Diagnostics.Debug.Assert(theCNDC != null);
-            theCNsDC.Add(theCNDC);
-            ctrlHtml.LoadDocument();
-            Application.DoEvents();
-            ctrlHtml.ScrollToVerse(VerseNumber);
-        }
-  */
 
         private void deleteTheWholeVerseToolStripMenuItem_Click(object sender, EventArgs e)
         {
