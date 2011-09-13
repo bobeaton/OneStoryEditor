@@ -108,13 +108,14 @@ namespace OneStoryProjectEditor
         public NetBibleViewer()
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
 
-            InitDropDown("Law", 0, 5);
-            InitDropDown("History", 5, 17);
-            InitDropDown("Poetry", 17, 22);
-            InitDropDown("Prophets", 22, 39);
-            InitDropDown("Gospels", 39, 43);
-            InitDropDown("Epistles+", 43, 66);
+            InitDropDown(Localizer.Str("Law"), 0, 5);
+            InitDropDown(Localizer.Str("History"), 5, 17);
+            InitDropDown(Localizer.Str("Poetry"), 17, 22);
+            InitDropDown(Localizer.Str("Prophets"), 22, 39);
+            InitDropDown(Localizer.Str("Gospels"), 39, 43);
+            InitDropDown(Localizer.Str("Epistles+"), 43, 66);
 
             domainUpDownBookNames.ContextMenuStrip = contextMenuStripBibleBooks;
             checkBoxAutoHide.Checked = Properties.Settings.Default.AutoHideBiblePane;
@@ -256,7 +257,7 @@ namespace OneStoryProjectEditor
         {
             if (radioButtonShowOtherSwordResources.Checked)
             {
-                ViewSwordOptionsForm dlg = new ViewSwordOptionsForm(ref lstBibleResources);
+                var dlg = new ViewSwordOptionsForm(ref lstBibleResources);
                 RadioButton rbOn = null;
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
@@ -369,7 +370,7 @@ namespace OneStoryProjectEditor
                     // get the verse and remove any line break signals
                     string strVerseHtml = moduleVersion.RenderText(keyWholeOfChapter).Replace(verseLineBreak, null);
                     if (String.IsNullOrEmpty(strVerseHtml))
-                        strVerseHtml = "Passage not available in this version";
+                        strVerseHtml = Localizer.Str("Passage not available in this version");
 
                     // insert a button (for drag-drop) and the HTML into a table format
                     // kindof a cheat, but I don't mind (this should be done better...)
@@ -454,7 +455,7 @@ namespace OneStoryProjectEditor
             }
 
             if (sb.Length == CstrHtmlTableBegin.Length)
-                sb.Append("No commentary on this passage (you might want to install another \"Sword Project commentary\")");
+                sb.Append(Localizer.Str("No commentary on this passage (you might want to install another \"Sword Project commentary\")"));
 
             // delimit the table
             sb.Append(CstrHtmlTableEnd);

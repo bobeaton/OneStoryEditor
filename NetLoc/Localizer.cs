@@ -1224,7 +1224,8 @@ namespace NetLoc
                 //  are terrible for languages like Hindi, etc.
                 // p.s. not doing 'Form', because that affects embedded controls
                 //  as well, and that's not helpful (at least to my app -- rde)
-                if (localizer.LocLanguage.Font != null)
+                if ((localizer.LocLanguage != null) && 
+                    (localizer.LocLanguage.Font != null))
                 {
                     if (obj is ToolStripItem)
                         (obj as ToolStripItem).Font = localizer.LocLanguage.Font;

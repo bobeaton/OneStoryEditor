@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -16,12 +17,20 @@ namespace OneStoryProjectEditor
         protected List<NetBibleViewer.SwordResource> _lstBibleResources;
         protected int _nIndexOfNetBible = -1;
         protected bool _bInCtor;
+
+        private ViewSwordOptionsForm()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
+
         public ViewSwordOptionsForm(ref List<NetBibleViewer.SwordResource> lstBibleResources)
             : base(true)
         {
             _lstBibleResources = lstBibleResources;
 
             InitializeComponent();
+            Localizer.Ctrl(this);
 
             _bInCtor = true;
             for (int i = 0; i < lstBibleResources.Count; i++)

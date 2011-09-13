@@ -420,7 +420,7 @@ namespace OneStoryProjectEditor
             ctrl.TargetLanguageName = strTargetName;
             ctrl.AdaptItConfiguration = aiProjectConfig;
             label.Text =
-                String.Format(Properties.Resources.IDS_UseAiComboBoxText,
+                String.Format(Localizer.Str("{0} to {1} adaptation:"),
                               strSourceName,
                               strTargetName);
         }

@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System.Text;
 using System.Drawing;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -244,14 +245,7 @@ namespace OneStoryProjectEditor
                     !IsNoteToSelf && 
                     LoggedOnMentoreeHasResponsePrivilege(loggedOnMember, theStory));
         }
-        /*
-        // do this here, because we need to sub-class it to allow for FirstPassMentor working as well in addition to CIT
-        public virtual void ThrowIfWrongEditor(TeamMemberData.UserTypes eLoggedOnMember, TeamMemberData.UserTypes eRequiredEditor)
-        {
-            if (IsWrongEditor(eLoggedOnMember, eRequiredEditor))
-                throw new ApplicationException(String.Format("Only a '{0}' can edit this field", TeamMemberData.GetMemberTypeAsDisplayString(eRequiredEditor)));
-        }
-        */
+
         protected bool IsMentorLoggedOn(TeamMemberData loggedOnMember)
         {
             return (TeamMemberData.IsUser(loggedOnMember.MemberType,
@@ -475,10 +469,40 @@ namespace OneStoryProjectEditor
             return String.Format("convtblrow_{0}_{1}", nVerseIndex, nConversationIndex);
         }
 
-        public const string CstrButtonLabelHide = "Hide";
-        public const string CstrButtonLabelUnhide = "Unhide";
-        public const string CstrButtonLabelConversationReopen = "Reopen conversation";
-        public const string CstrButtonLabelConversationEnd = "End conversation";
+        public static string CstrButtonLabelHide
+        {
+            get { return Localizer.Str("Hide"); }
+        }
+
+        public static string CstrButtonLabelUnhide
+        {
+            get { return Localizer.Str("Unhide"); }
+        }
+
+        public static string CstrButtonLabelConversationReopen
+        {
+            get { return Localizer.Str("Reopen conversation"); }
+        }
+
+        public static string CstrButtonLabelConversationEnd
+        {
+            get { return Localizer.Str("End conversation"); }
+        }
+        
+        public static string CstrCitLabel
+        {
+            get { return Localizer.Str("cit:"); }
+        }
+
+        public static string CstrLsrLabel
+        {
+            get { return Localizer.Str("lsr:"); }
+        }
+
+        public static string CstrConLabel
+        {
+            get { return Localizer.Str("con:"); }
+        }
 
         public bool IsEditable(TeamMemberData loggedOnMember, 
             TeamMembersData theTeamMembers, StoryData theStory)
@@ -570,9 +594,19 @@ namespace OneStoryProjectEditor
         }
 
         readonly static Regex RegexBibRef = new Regex(@"\b(([a-zA-Z]{3,4}|[1-3][a-zA-Z]{2,5}) \d{1,3}:\d{1,3})\b", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
-        readonly static Regex RegexLineRef = new Regex(@"\b((Ln|ln|line) ([1-9][0-9]?))\b", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+        static Regex _regexLineRef = new Regex(@"\b((ln|line) ([1-9][0-9]?))\b", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         readonly static Regex RegexItalics = new Regex(@"\*\b(.+?)\b\*", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         readonly static Regex RegexHttpRef = new Regex(@"((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?)", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+
+        public static void OnLocalizationChange()
+        {
+            // since 'ln' might be localized differently, rebuild the regex for making
+            //  a hot link from a "ln x" occurrance
+            string strLine = String.Format(@"\b(({0}|{1}) ([1-9][0-9]?))\b",
+                                           Localizer.Str("ln"),
+                                           Localizer.Str("line"));
+            _regexLineRef = new Regex(strLine, RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+        }
 
         public string Html(object htmlConNoteCtrl, 
             TeamMembersData theTeamMembers, TeamMemberData loggedOnMember, 
@@ -580,7 +614,7 @@ namespace OneStoryProjectEditor
         {
             // don't show anything if
             //  a) there's nothing to show
-            //  b) it's someone's note to self and the logged on member is not "self"
+            //  b) it's someone's note to self and the logged on member is not 'self'
             //  c) it's a note in need of approval, but neither the person who initiated
             //      the note, nor the one with the ability to approve it, nor one with
             //      the ability to view such notes is logged on.
@@ -667,7 +701,7 @@ namespace OneStoryProjectEditor
                     {
                         strHyperlinkedText = aCI.ToString().Replace("\r\n", "<br />");   // regexParagraph.Replace(aCI.ToString(), ParagraphFound);
                         strHyperlinkedText = RegexBibRef.Replace(strHyperlinkedText, BibleReferenceFound);
-                        strHyperlinkedText = RegexLineRef.Replace(strHyperlinkedText, LineReferenceFound);
+                        strHyperlinkedText = _regexLineRef.Replace(strHyperlinkedText, LineReferenceFound);
                         strHyperlinkedText = RegexItalics.Replace(strHyperlinkedText, EmphasizedTextFound);
                         strHyperlinkedText = RegexHttpRef.Replace(strHyperlinkedText, HttpReferenceFound);
                     }
@@ -775,14 +809,14 @@ namespace OneStoryProjectEditor
                 strRow += String.Format(Properties.Resources.HTML_Button,
                                         ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexDelete),
                                         "return window.external.OnClickDelete(this.id);",
-                                        "Delete");
+                                        StoryFrontMatterForm.CstrDeleteTest);
 
                 strRow += String.Format(Properties.Resources.HTML_Button,
                                         ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexHide),
                                         "return window.external.OnClickHide(this.id);",
                                         (Visible) ? CstrButtonLabelHide : CstrButtonLabelUnhide);
 
-                // allow the person who created a "note to self" to convert it to a note to 
+                // allow the person who created a 'note to self' to convert it to a note to 
                 //  the mentoree
                 if (IsNoteToLoggedOnMemberSelf(loggedOnMember))
                 {
@@ -801,7 +835,7 @@ namespace OneStoryProjectEditor
 
                     strRow += String.Format(Properties.Resources.HTML_Button,
                                             ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexConvertToMentoreeNote),
-                                            strScriptCall, "Change to note");
+                                            strScriptCall, Localizer.Str("Change to note"));
                 }
                 else
                 {
@@ -825,9 +859,9 @@ namespace OneStoryProjectEditor
                     strRow += String.Format(Properties.Resources.HTML_Button,
                                             ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexApproveNote),
                                             "return window.external.OnApproveNote(this.id);",
-                                            "Approve Note");
+                                            Localizer.Str("Approve Note"));
                 else
-                    strRow += "(Awaiting approval)";
+                    strRow += Localizer.Str("(Awaiting approval)");
             }
 
             if (!Visible)
@@ -1009,18 +1043,18 @@ namespace OneStoryProjectEditor
         {
             return TeamMemberData.IsUser(theCommentor.MemberType,
                                          TeamMemberData.UserTypes.ConsultantInTraining)
-                       ? "cit:"
+                       ? CstrCitLabel
                        : IsMemberAnLsrThatIsntAlsoTheStoryPf(theCommentor, theStoryPfMemberId)
-                             ? "lsr:" // language specialty reviewer
-                             : "con:";
+                             ? CstrLsrLabel // language specialty reviewer
+                             : CstrConLabel;
         }
 
         public override string MenteeLabel(TeamMemberData theCommentor,
             string theStoryPfMemberId)
         {
             return IsMemberAnLsrThatIsntAlsoTheStoryPf(theCommentor, theStoryPfMemberId)
-                       ? "lsr:" // language specialty reviewer
-                       : "prf:";
+                       ? CstrLsrLabel // language specialty reviewer
+                       : Localizer.Str("prf:");
         }
 
         protected override string InstanceElementName
@@ -1163,7 +1197,7 @@ namespace OneStoryProjectEditor
         public override string MentorLabel(TeamMemberData theCommentor,
             string theStoryPfMemberId)
         {
-            return "cch:";
+            return Localizer.Str("cch:");
         }
 
         public override string MenteeLabel(TeamMemberData theCommentor,
@@ -1171,10 +1205,10 @@ namespace OneStoryProjectEditor
         {
             return TeamMemberData.IsUser(theCommentor.MemberType,
                                          TeamMemberData.UserTypes.ConsultantInTraining)
-                       ? "cit:"
+                       ? CstrCitLabel
                        : IsMemberAnLsrThatIsntAlsoTheStoryPf(theCommentor, theStoryPfMemberId)
-                             ? "lsr:" // language specialty reviewer
-                             : "con:";
+                             ? CstrLsrLabel // language specialty reviewer
+                             : CstrConLabel;
         }
 
         protected override string InstanceElementName
@@ -1244,30 +1278,11 @@ namespace OneStoryProjectEditor
             StoryData theStory, TeamMemberData LoggedOnMemberType,
             TeamMembersData theTeamMembers)
         {
-            // in this case, we're not "adding" one, per se, but possibly editing
+            // in this case, we're not 'adding' one, per se, but possibly editing
             //  the last one. So the 'note to self' is defined by the last Ci
             aCNDC.InsureExtraBox(theStory, LoggedOnMemberType, theTeamMembers, null,
                 aCNDC.IsNoteToSelf);
         }
-
-        /*
-        public delegate void UpdateStatusBar(string strStatus);
-        // if the coach tries to add a note in the consultant's pane, that should fail.
-        // (but it's okay for a project facilitator to add one if they have a question
-        //  for the consultant)
-        public bool CheckAddNotePrivilege(UpdateStatusBar pUpdateStatusBar, 
-            TeamMemberData.UserTypes eLoggedOnMember)
-        {
-            if (!HasAddNotePrivilege(eLoggedOnMember))
-            {
-                pUpdateStatusBar("Error: " + String.Format("You must be logged in as a '{0}' or a '{1}' to add a note here",
-                    TeamMemberData.GetMemberTypeAsDisplayString(MentorType),
-                    TeamMemberData.GetMemberTypeAsDisplayString(MenteeType)));
-                return false;
-            }
-            return true;
-        }
-        */
 
         public virtual bool HasAddNotePrivilege(TeamMemberData loggedOnMember, 
             string strThePfMemberId)

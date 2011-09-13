@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
-using ECInterfaces;
 using NetLoc;
 using OneStoryProjectEditor.Properties;
 using SilEncConverters40;
@@ -30,6 +27,12 @@ namespace OneStoryProjectEditor
 
         private bool IsGeneralQuestionsLine;
 
+        private VerseBtControl()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
+
         public VerseBtControl(StoryEditor theSE, LineFlowLayoutPanel parentFlowLayoutPanel,
             VerseData dataVerse, int nVerseNumber)
             : base(theSE.TheCurrentStory.ProjStage, nVerseNumber, theSE, 
@@ -38,6 +41,7 @@ namespace OneStoryProjectEditor
             _verseData = dataVerse;
             _myExegeticalHelpNotes = dataVerse.ExegeticalHelpNotes;
             InitializeComponent();
+            Localizer.Ctrl(this);
 
             IsGeneralQuestionsLine = (VerseNumber == 0);
 
@@ -161,15 +165,15 @@ namespace OneStoryProjectEditor
         {
             int nLayoutRow = nNumRows++;
 
-            Label labelExegeticalHelp = new Label
-            {
-                Anchor = AnchorStyles.Left,
-                AutoSize = true,
-                Name = CstrFieldNameExegeticalHelpLabel + nLayoutRow.ToString(),
-                Text = "cn:"
-            };
+            var labelExegeticalHelp = new Label
+                                          {
+                                              Anchor = AnchorStyles.Left,
+                                              AutoSize = true,
+                                              Name = CstrFieldNameExegeticalHelpLabel + nLayoutRow.ToString(),
+                                              Text = ExegeticalHelpNotesData.CstrCnLable
+                                          };
 
-            CtrlTextBox tb = new CtrlTextBox(
+            var tb = new CtrlTextBox(
                 CstrFieldNameExegeticalHelp + nLayoutRow, this, this, strQuote,
                 li, labelExegeticalHelp.Text, StoryEditor.TextFieldType.InternationalBt,
                 Properties.Settings.Default.ExegeticalHelpNoteColor);
@@ -289,7 +293,7 @@ namespace OneStoryProjectEditor
 
             if (IsGeneralQuestionsLine)
             {
-                menuAddTestQuestion.Text = "Add a &general testing question";
+                menuAddTestQuestion.Text = Localizer.Str("Add a &general testing question");
                 hideVerseToolStripMenuItem.Visible = 
                     deleteTheWholeVerseToolStripMenuItem.Visible = 
                     addANewVerseToolStripMenuItem.Visible = 
@@ -300,9 +304,9 @@ namespace OneStoryProjectEditor
             }
 
             else if (_verseData.IsVisible)
-                hideVerseToolStripMenuItem.Text = "&Hide line";
+                hideVerseToolStripMenuItem.Text = Localizer.Str("&Hide line");
             else
-                hideVerseToolStripMenuItem.Text = "&Unhide line";
+                hideVerseToolStripMenuItem.Text = Localizer.Str("&Unhide line");
 
             moveSelectedTextToANewLineToolStripMenuItem.Enabled =
                 tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine);

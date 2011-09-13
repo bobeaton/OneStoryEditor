@@ -1,16 +1,25 @@
 ﻿using System;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
     public partial class ViewEnableForm : Form
     {
         private readonly ProjectSettings _projSettings;
+
+        private ViewEnableForm()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
+
         public ViewEnableForm(StoryEditor theSe, ProjectSettings projSettings,
             StoryData theCurrentStory, bool bUseForAllStories)
         {
             _projSettings = projSettings;
             InitializeComponent();
+            Localizer.Ctrl(this);
 
             Program.InitializeLangCheckBoxes(projSettings.Vernacular,
                                              checkBoxLangVernacular,

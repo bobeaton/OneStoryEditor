@@ -1071,8 +1071,6 @@ namespace OneStoryProjectEditor
 
     public class VersesData : List<VerseData>
     {
-        internal const string CstrZerothLineNameConNotes = "Story:";
-        internal const string CstrZerothLineNameBtPane = "Gen Qs:";
         public VerseData FirstVerse;    // full-story oriented line (no BT) for ConNotes
 
         public VersesData(NewDataSet.storyRow theStoryRow, NewDataSet projFile)
@@ -1201,62 +1199,48 @@ namespace OneStoryProjectEditor
         {
             string strCount = null;
             if (projSettings.Vernacular.HasData)
-                strCount = GetWordCountVernacular(projSettings);
+                strCount = GetWordCount(projSettings.Vernacular, NumOfWordsVernacular);
             else if (projSettings.NationalBT.HasData)
-                strCount = GetWordCountNationalBT(projSettings);
+                strCount = GetWordCount(projSettings.NationalBT, NumOfWordsNationalBt);
             else if (projSettings.InternationalBT.HasData)
-                strCount = GetWordCountInternationalBT(projSettings);
+                strCount = GetWordCount(projSettings.InternationalBT, NumOfWordsInternationalBt);
             else if (projSettings.FreeTranslation.HasData)
-                strCount = GetWordCountFreeTranslation(projSettings);
+                strCount = GetWordCount(projSettings.FreeTranslation, NumOfWordsFreeTranslation);
             return strCount;
         }
 
-        protected string GetWordCountVernacular(ProjectSettings projSettings)
-        {
-            ProjectSettings.LanguageInfo li = projSettings.Vernacular;
-            char[] achToIgnore = GetSplitChars(li.FullStop);
+        private delegate int GetNumOfWords(LineData lineData, char[] achToIgnore);
 
-            int nCount = 0;
-            foreach (VerseData aVerse in this)
-                if (aVerse.IsVisible)
-                    nCount += aVerse.StoryLine.Vernacular.NumOfWords(achToIgnore);
+        private string GetWordCount(ProjectSettings.LanguageInfo li, 
+            GetNumOfWords delegateGetCount)
+        {
+            var achToIgnore = GetSplitChars(li.FullStop);
+
+            var nCount = this.Where(aVerse =>
+                                    aVerse.IsVisible).Sum(aVerse =>
+                                                          delegateGetCount(aVerse.StoryLine,
+                                                                           achToIgnore));
             return String.Format("{0} (in {1})", nCount, li.LangName);
         }
 
-        protected string GetWordCountNationalBT(ProjectSettings projSettings)
+        private static int NumOfWordsVernacular(LineData lineData, char[] achToIgnore)
         {
-            ProjectSettings.LanguageInfo li = projSettings.NationalBT;
-            char[] achToIgnore = GetSplitChars(li.FullStop);
-
-            int nCount = 0;
-            foreach (VerseData aVerse in this)
-                if (aVerse.IsVisible)
-                    nCount += aVerse.StoryLine.NationalBt.NumOfWords(achToIgnore);
-            return String.Format("{0} (in {1})", nCount, li.LangName);
+            return lineData.Vernacular.NumOfWords(achToIgnore);
         }
 
-        protected string GetWordCountInternationalBT(ProjectSettings projSettings)
+        private static int NumOfWordsNationalBt(LineData lineData, char[] achToIgnore)
         {
-            ProjectSettings.LanguageInfo li = projSettings.InternationalBT;
-            char[] achToIgnore = GetSplitChars(li.FullStop);
-
-            int nCount = 0;
-            foreach (VerseData aVerse in this)
-                if (aVerse.IsVisible)
-                    nCount += aVerse.StoryLine.InternationalBt.NumOfWords(achToIgnore);
-            return String.Format("{0} (in {1})", nCount, li.LangName);
+            return lineData.NationalBt.NumOfWords(achToIgnore);
         }
 
-        protected string GetWordCountFreeTranslation(ProjectSettings projSettings)
+        private static int NumOfWordsInternationalBt(LineData lineData, char[] achToIgnore)
         {
-            ProjectSettings.LanguageInfo li = projSettings.FreeTranslation;
-            char[] achToIgnore = GetSplitChars(li.FullStop);
+            return lineData.InternationalBt.NumOfWords(achToIgnore);
+        }
 
-            int nCount = 0;
-            foreach (VerseData aVerse in this)
-                if (aVerse.IsVisible)
-                    nCount += aVerse.StoryLine.FreeTranslation.NumOfWords(achToIgnore);
-            return String.Format("{0} (in {1})", nCount, li.LangName);
+        private static int NumOfWordsFreeTranslation(LineData lineData, char[] achToIgnore)
+        {
+            return lineData.FreeTranslation.NumOfWords(achToIgnore);
         }
 
         public static char[] GetSplitChars(string strFullStop)
@@ -1278,11 +1262,6 @@ namespace OneStoryProjectEditor
                 nColSpan++;
             return nColSpan;
         }
-
-        /*
-        internal static char[] achQuotesRightEdge = new[] { '"', '\'', '\u2019', '\u201d', '\u201E' };
-        internal static char[] achQuotesLeftEdge = new[] { '\u2018', '\u201B', '\u201C', '\u201F' };
-        */
 
         internal static char[] achQuotes
         {
@@ -1394,50 +1373,11 @@ namespace OneStoryProjectEditor
         }
 
         internal const string CstrWhiteSpace = "\r\n ";
-        /*
-        public string StoryBtHtml(ProjectSettings projectSettings, bool bViewHidden,
-            StoryStageLogic stageLogic, TeamMembersData membersData, TeamMemberData loggedOnMember,
-            VerseData.ViewSettings viewItemToInsureOn)
+
+        internal static string LinePrefix
         {
-            int nColSpan = CalculateColumns(viewItemToInsureOn);
-
-            // add a row indicating which languages are in what columns
-            string strHtml = null;
-            if (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField))
-                strHtml += String.Format(Properties.Resources.HTML_TableCell,
-                                         projectSettings.Vernacular.LangName);
-            if (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBTLangField))
-                strHtml += String.Format(Properties.Resources.HTML_TableCell,
-                                         projectSettings.NationalBT.LangName);
-            if (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.EnglishBTField))
-                strHtml += String.Format(Properties.Resources.HTML_TableCell,
-                                         projectSettings.InternationalBT.LangName);
-            if (viewItemToInsureOn.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField))
-                strHtml += String.Format(Properties.Resources.HTML_TableCell,
-                                         projectSettings.FreeTranslation.LangName);
-
-            strHtml = String.Format(Properties.Resources.HTML_TableRow,
-                                     strHtml);
-
-            for (int i = 1; i <= Count; i++)
-            {
-                VerseData aVerseData = this[i - 1];
-                if (aVerseData.IsVisible || bViewHidden)
-                {
-                    strHtml += GetHeaderRow("Ln: " + i,
-                                            (aVerseData.IsVisible)
-                                                ? null
-                                                : Properties.Resources.IDS_HiddenLabel, i,
-                                            true, nColSpan);
-
-                    strHtml += aVerseData.StoryBtHtml(projectSettings, membersData, 
-                        stageLogic, loggedOnMember, i, viewItemToInsureOn, nColSpan);
-                }
-            }
-
-            return String.Format(Properties.Resources.HTML_Table, strHtml);
+            get { return Localizer.Str("Ln: "); }
         }
-        */
 
         protected VerseData FindChildEquivalent(VerseData theParentVerse, VersesData child)
         {
@@ -1462,7 +1402,7 @@ namespace OneStoryProjectEditor
                 var theChildFirstVerse = ((child != null) && (child.FirstVerse != null))
                                              ? child.FirstVerse
                                              : null;
-                strHtml += GetHeaderRow("General Testing Qs: ", null, 0, false, nNumCols);
+                strHtml += GetHeaderRow(Localizer.Str("General Testing Qs: "), null, 0, false, nNumCols);
                 strHtml += FirstVerse.PresentationHtml(0, nNumCols, craftingInfo,
                                                        viewSettings, theChildFirstVerse,
                                                        (child == null));
@@ -1486,7 +1426,7 @@ namespace OneStoryProjectEditor
                     string strHeaderAdd = DetermineHiddenLabel(aVerseData.IsVisible, theChildVerse);
 
                     int nLineIndex = i + nInsertCount;
-                    strHtml += GetHeaderRow("Ln: " + nLineIndex, strHeaderAdd, nLineIndex, false, nNumCols);
+                    strHtml += GetHeaderRow(LinePrefix + nLineIndex, strHeaderAdd, nLineIndex, false, nNumCols);
 
                     if (theChildVerse != null)
                     {
@@ -1536,7 +1476,7 @@ namespace OneStoryProjectEditor
                     {
                         int nLineIndex = i + nInsertCount;
                         string strHeaderAdd = DetermineHiddenLabel(aVerseData.IsVisible, null);
-                        strHtml += GetHeaderRow("Ln: " + nLineIndex, strHeaderAdd, nLineIndex, false, nNumCols);
+                        strHtml += GetHeaderRow(LinePrefix + nLineIndex, strHeaderAdd, nLineIndex, false, nNumCols);
 
                         strHtml += aVerseData.PresentationHtmlAsAddition(nLineIndex, nNumCols,
                                                                          craftingInfo, viewSettings,
@@ -1619,8 +1559,15 @@ namespace OneStoryProjectEditor
             return String.Format("row_{0}", nVerseIndex);
         }
 
-        internal const string CstrShowOpenHideClosed = "Hide Closed";
-        internal const string CstrShowOpenShowAll = "Show All";
+        internal static string CstrShowOpenHideClosed
+        {
+            get { return Localizer.Str("Hide Closed"); }
+        }
+
+        internal static string CstrShowOpenShowAll
+        {
+            get { return Localizer.Str("Show All"); }
+        }
 
         protected string GetHeaderRow(string strHeader, int nVerseIndex,
             bool bVerseVisible, bool bShowOnlyOpenConversations,
@@ -1633,12 +1580,12 @@ namespace OneStoryProjectEditor
                 strHtmlButtons += String.Format(Properties.Resources.HTML_Button,
                                                 nVerseIndex,
                                                 "return window.external.OnAddNote(this.id, null, false);",
-                                                "Add Note");
+                                                Localizer.Str("Add Note"));
 
                 strHtmlButtons += String.Format(Properties.Resources.HTML_Button,
                                                 NoteToSelfButtonId(nVerseIndex),
                                                 "return window.external.OnAddNoteToSelf(this.id, null);",
-                                                "Add Note to Self");
+                                                Localizer.Str("Add Note to Self"));
             }
 
             if (bShowOnlyOpenConversations)
@@ -1676,6 +1623,16 @@ namespace OneStoryProjectEditor
                     verseData.CoachNotes.ShowOpenConversations = false;
         }
 
+        internal static string CstrZerothLineNameConNotes
+        {
+            get { return Localizer.Str("Story:"); }
+        }
+
+        internal static string CstrZerothLineNameBtPane
+        {
+            get { return Localizer.Str("Gen Qs:"); }
+        }
+
         public string ConsultantNotesHtml(object htmlConNoteCtrl,
             TeamMemberData LoggedOnMember, TeamMembersData teamMembers,
             StoryData theStory, bool bViewHidden, bool bShowOnlyOpenConversations)
@@ -1705,7 +1662,7 @@ namespace OneStoryProjectEditor
                 if (!aVerseData.IsVisible && !bViewHidden)
                     continue;
 
-                strHtml += GetHeaderRow("Ln: " + i, i,
+                strHtml += GetHeaderRow(LinePrefix + i, i,
                                         aVerseData.IsVisible,
                                         bShowOnlyOpenConversations,
                                         aVerseData.ConsultantNotes,
@@ -1750,7 +1707,7 @@ namespace OneStoryProjectEditor
                 if (!aVerseData.IsVisible && !bViewHidden)
                     continue;
 
-                strHtml += GetHeaderRow("Ln: " + i, i,
+                strHtml += GetHeaderRow(LinePrefix + i, i,
                                         aVerseData.IsVisible,
                                         bShowOnlyOpenConversations,
                                         aVerseData.CoachNotes,

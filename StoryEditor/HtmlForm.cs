@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -33,6 +34,8 @@ namespace OneStoryProjectEditor
         public HtmlForm()
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
+
             webBrowser.ObjectForScripting = this;
         }
 

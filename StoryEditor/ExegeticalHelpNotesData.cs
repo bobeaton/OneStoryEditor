@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
 using System.Text;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -119,7 +120,7 @@ namespace OneStoryProjectEditor
                 string strHtmlElementId = TextareaId(nVerseIndex, nAnchorNumber, i, CstrFieldNameExegeticalHelp);
                 strHtml += String.Format(Properties.Resources.HTML_TableRow,
                                          String.Format("{0}{1}",
-                                                       String.Format(Properties.Resources.HTML_TableCell, "cn:"),
+                                                       String.Format(Properties.Resources.HTML_TableCell, CstrCnLable),
                                                        String.Format(Properties.Resources.HTML_TableCellWidth,
                                                                      100,
                                                                      String.Format(Properties.Resources.HTML_TextareaWithRefDrop,
@@ -129,6 +130,11 @@ namespace OneStoryProjectEditor
                                                                                    anExHelpNoteData))));
             }
             return strHtml;
+        }
+
+        public static string CstrCnLable
+        {
+            get { return Localizer.Str("cn:"); }
         }
 
         public void PresentationHtml(ExegeticalHelpNotesData child, ref List<string> astrExegeticalHelpNotes)
@@ -173,7 +179,7 @@ namespace OneStoryProjectEditor
                 string strHtmlElementId = String.Format("paragraphExHelp{0}_{1}", nVerseIndex, i);
                 strHtml += String.Format(Properties.Resources.HTML_TableRow,
                                          String.Format("{0}{1}",
-                                                       String.Format(Properties.Resources.HTML_TableCell, "cn:"),
+                                                       String.Format(Properties.Resources.HTML_TableCell, CstrCnLable),
                                                        String.Format(Properties.Resources.HTML_TableCellWidth,
                                                                      100,
                                                                      String.Format(Properties.Resources.HTML_ParagraphText,

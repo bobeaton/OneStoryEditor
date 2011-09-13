@@ -37,7 +37,7 @@ namespace OneStoryProjectEditor
             if (bDeleteOnly)
             {
                 // add the 'delete' button
-                AddLineButton(Localizer.Str("Delete"), null, 0, null);
+                AddLineButton(StoryFrontMatterForm.CstrDeleteTest, null, 0, null);
 
                 // start them all out initially as unchecked
                 foreach (TreeNode node in treeViewItems.Nodes)
@@ -59,7 +59,7 @@ namespace OneStoryProjectEditor
                     if (aVerseData == _verseSource)
                         continue;
 
-                    strLine = Localizer.Str("Ln: ") + i;
+                    strLine = VersesData.LinePrefix + i;
                     string strToolTip = StringForTooltip(aVerseData);
                     AddLineButton(strLine, strToolTip, i, aVerseData);
                 }
@@ -78,7 +78,7 @@ namespace OneStoryProjectEditor
             InitializeFromVerse(verseSource);
 
             // now list the verses in the current story
-            string strLine = Localizer.Str("Ln: ") + nIndex;
+            string strLine = VersesData.LinePrefix + nIndex;
             string strToolTip = StringForTooltip(verseDest);
             AddLineButton(strLine, strToolTip, nIndex, verseDest);
         }

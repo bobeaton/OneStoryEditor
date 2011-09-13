@@ -23,36 +23,6 @@ namespace OneStoryProjectEditor
         protected ThrowIfNotCorrectEditor _delegateRequiredEditorCheck;
         protected TeamMemberData.UserTypes _eRequiredEditor = TeamMemberData.UserTypes.Undefined;
 
-        /* old method for MultiLine and 'cn' lines, but it wasn't working well
-        public CtrlTextBox(string strName, VerseControl ctrlVerseParent, Font font,
-            ResizableControl ctrlParent, StringTransfer stData, string strLabel)
-        {
-            InitComponent();
-            Name = strName;
-            Font = font;
-            _strLabel = strLabel;
-            stData.SetAssociation(this);
-            TextChanged += new EventHandler(ctrlParent.textBox_TextChanged);
-            System.Diagnostics.Debug.Assert(ctrlParent.StageLogic != null);
-            _ctrlVerseParent = ctrlVerseParent;
-        }
-
-        // was used by the ConNotes, which are now done differently
-        public CtrlTextBox(string strName, VerseControl ctrlVerseParent, ResizableControl ctrlParent, StringTransfer stData,
-            ThrowIfNotCorrectEditor delegateRequiredEditorCheck, TeamMemberData.UserTypes eRequiredEditor)
-        {
-            InitComponent();
-            Font = new Font("Arial Unicode MS", 12);
-            Name = strName;
-            stData.SetAssociation(this);
-            TextChanged += new EventHandler(ctrlParent.textBox_TextChanged);
-            System.Diagnostics.Debug.Assert(ctrlParent.StageLogic != null);
-            _ctrlVerseParent = ctrlVerseParent;
-            _delegateRequiredEditorCheck = delegateRequiredEditorCheck; // call to check if the proper member is logged in!
-            _eRequiredEditor = eRequiredEditor;
-        }
-        */
-
         public CtrlTextBox(string strName, VerseControl ctrlVerseParent, 
             ResizableControl ctrlParent, StringTransfer stData,
             ProjectSettings.LanguageInfo li, string strLabel,

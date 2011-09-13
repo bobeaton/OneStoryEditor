@@ -194,7 +194,7 @@ namespace OneStoryProjectEditor
         {
             HandleMouseUp(bChange, textBoxProjectFacilitator,
                           TeamMemberData.UserTypes.ProjectFacilitator,
-                          "Choose the Project Facilitator for this story");
+                          Localizer.Str("Choose the Project Facilitator for this story"));
         }
 
         private void linkLabelViewForConsultant_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -212,7 +212,7 @@ namespace OneStoryProjectEditor
             HandleMouseUp(bChange, textBoxConsultant,
                           TeamMemberData.UserTypes.ConsultantInTraining |
                           TeamMemberData.UserTypes.IndependentConsultant,
-                          "Choose the Consultant/CIT for this story");
+                          Localizer.Str("Choose the Consultant/CIT for this story"));
         }
 
         private void linkLabelViewForCoach_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -229,7 +229,7 @@ namespace OneStoryProjectEditor
         {
             HandleMouseUp(bChange, textBoxCoach,
                           TeamMemberData.UserTypes.Coach,
-                          "Choose the Coach for this story");
+                          Localizer.Str("Choose the Coach for this story"));
         }
 
         private void linkLabelViewForStoryCrafter_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -246,7 +246,7 @@ namespace OneStoryProjectEditor
         {
             HandleMouseUp(bChange, textBoxStoryCrafter,
                           TeamMemberData.UserTypes.Crafter,
-                          "Choose the crafter for this story");
+                          Localizer.Str("Choose the crafter for this story"));
         }
 
         protected void HandleMouseUp(bool bRightButton, TextBox textBox,
@@ -297,14 +297,14 @@ namespace OneStoryProjectEditor
         {
             HandleMouseUp(bChange, textBoxUnsBackTranslator,
                           TeamMemberData.UserTypes.UNS,
-                          "Choose the back-translator for this story");
+                          Localizer.Str("Choose the back-translator for this story"));
         }
 
         public void HandleUnsTestMouseUp(bool bChange, TextBox tb)
         {
             HandleMouseUp(bChange, tb,
                           TeamMemberData.UserTypes.UNS,
-                          "Choose the UNS that took this test");
+                          Localizer.Str("Choose the UNS that took this test"));
         }
 
         public void DeleteTestClicked(ControlRow row)
@@ -501,7 +501,7 @@ namespace OneStoryProjectEditor
         {
             Modified = true;
             buttonOK.Enabled = true;
-            buttonCancel.Text = "Cancel";
+            buttonCancel.Text = Localizer.Str("Cancel");
         }
     }
 
@@ -527,14 +527,14 @@ namespace OneStoryProjectEditor
         //  UNS#2 to be someone else (or accidentally leaving USE#2 as both).
         // Because of the way the change is done (by re-writing the guids), we
         //  have to make sure we don't change them in the wrong order--i.e. the 
-        //  "swap" problem (a->c, b->a, and c->b)
+        //  'swap' problem (a->c, b->a, and c->b)
         // suppose: Before          After
         //          #1 = f4450160   #1 = 68b690f6
         //          #2 = 68b690f6   #2 = 214f9152
         // or worse
         //          #2 = 68b690f6   #2 = f4450160
         // so if the person is already there in another test, we'll use his *name* as
-        //  the guid temporarily and then afterwards will "Adjust" those back to the guid
+        //  the guid temporarily and then afterwards will 'Adjust' those back to the guid
         public TestInfo ChangeTesters(TestInfo testInfo, ChangeTesterMethod changeMethod,
             ChangeTesterGuid changeTesterGuid, TeamMembersData teamMembersData, 
             ref bool bModified)

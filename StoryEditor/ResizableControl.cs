@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -208,12 +209,16 @@ namespace OneStoryProjectEditor
 
     public class VerseControl : ResizableControl
     {
-        protected const string CstrVerseName = "ln: ";
+        protected static string CstrVerseName
+        {
+            get { return Localizer.Str("ln: "); }
+        }
+
         internal int VerseNumber = -1;
         internal StoryEditor TheSE = null;
         protected LineFlowLayoutPanel ParentFlowLayoutPanel;
 
-        private VerseControl()
+        protected VerseControl()
         {
         }
 

@@ -6,18 +6,63 @@ namespace OneStoryProjectEditor
 {
     public partial class SetPfTasksForm : SetTasksForm
     {
-        private const string CstrVernacularLangFields = "Edit story language";
-        private const string CstrNationalBtLangFields = "Edit national/regional BT language";
-        private const string CstrInternationalBtFields = "Edit English BT language";
-        private const string CstrFreeTranslationFields = "Edit free translation";
-        private const string CstrAnchors = "Add Anchors";
-        private const string CstrRetellingTest1 = "Do 1 more retelling test";
-        private const string CstrRetellingTest2 = "Do 2 more retelling tests";
-        private const string CstrTestQuestion = "Add story testing questions";
-        private const string CstrAnswers1 = "Do 1 more story question test";
-        private const string CstrAnswers2 = "Do 2 more story question tests";
+        private static string CstrVernacularLangFields
+        {
+            get { return Localizer.Str("Edit story language"); }
+        }
+
+        private static string CstrNationalBtLangFields
+        {
+            get { return Localizer.Str("Edit national/regional BT language"); }
+        }
+
+        private static string CstrInternationalBtFields
+        {
+            get { return Localizer.Str("Edit English BT language"); }
+        }
+
+        private static string CstrFreeTranslationFields
+        {
+            get { return Localizer.Str("Edit free translation"); }
+        }
+
+        private static string CstrAnchors
+        {
+            get { return Localizer.Str("Add Anchors"); }
+        }
+
+        private static string CstrRetellingTest1
+        {
+            get { return Localizer.Str("Do 1 more retelling test"); }
+        }
+
+        private static string CstrRetellingTest2
+        {
+            get { return Localizer.Str("Do 2 more retelling tests"); }
+        }
+
+        private static string CstrTestQuestion
+        {
+            get { return Localizer.Str("Add story testing questions"); }
+        }
+
+        private static string CstrAnswers1
+        {
+            get { return Localizer.Str("Do 1 more story question test"); }
+        }
+
+        private static string CstrAnswers2
+        {
+            get { return Localizer.Str("Do 2 more story question tests"); }
+        }
 
         private readonly ProjectSettings _projSettings;
+
+        private SetPfTasksForm()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
 
         public SetPfTasksForm(ProjectSettings projSettings)
         {
@@ -29,6 +74,7 @@ namespace OneStoryProjectEditor
             bool bIsBiblicalStory)
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
 
             if (projSettings.Vernacular.HasData)
             {
@@ -104,7 +150,7 @@ namespace OneStoryProjectEditor
                                          theStory.TasksAllowedPf, theStory.TasksRequiredPf,
                                          theStory.CraftingInfo.IsBiblicalStory)
             {
-                Text = String.Format("Set tasks for the Project Facilitator ({0}) to do on story: {1}",
+                Text = String.Format(Localizer.Str("Set tasks for the Project Facilitator ({0}) to do on story: {1}"),
                                      theSe.StoryProject.GetMemberNameFromMemberGuid(
                                          theStory.CraftingInfo.ProjectFacilitator.MemberId),
                                      theStory.Name)
@@ -120,44 +166,52 @@ namespace OneStoryProjectEditor
 
         private static TasksPf.TaskSettings ReadCheckedStates(CheckedListBox checkedListBox)
         {
-            TasksPf.TaskSettings taskAllowed = TasksPf.TaskSettings.None;
+            var taskAllowed = TasksPf.TaskSettings.None;
             foreach (string strCheckedItem in checkedListBox.CheckedItems)
             {
-                switch (strCheckedItem)
+                if (strCheckedItem == CstrVernacularLangFields)
                 {
-                    case CstrVernacularLangFields:
-                        taskAllowed |= TasksPf.TaskSettings.VernacularLangFields;
-                        break;
-                    case CstrNationalBtLangFields:
-                        taskAllowed |= TasksPf.TaskSettings.NationalBtLangFields;
-                        break;
-                    case CstrInternationalBtFields:
-                        taskAllowed |= TasksPf.TaskSettings.InternationalBtFields;
-                        break;
-                    case CstrFreeTranslationFields:
-                        taskAllowed |= TasksPf.TaskSettings.FreeTranslationFields;
-                        break;
-                    case CstrAnchors:
-                        taskAllowed |= TasksPf.TaskSettings.Anchors;
-                        break;
-                    case CstrRetellingTest1:
-                        taskAllowed |= TasksPf.TaskSettings.Retellings;
-                        break;
-                    case CstrRetellingTest2:
-                        taskAllowed |= TasksPf.TaskSettings.Retellings2;
-                        break;
-                    case CstrTestQuestion:
-                        taskAllowed |= TasksPf.TaskSettings.TestQuestions;
-                        break;
-                    case CstrAnswers1:
-                        taskAllowed |= TasksPf.TaskSettings.Answers;
-                        break;
-                    case CstrAnswers2:
-                        taskAllowed |= TasksPf.TaskSettings.Answers2;
-                        break;
-                    default:
-                        System.Diagnostics.Debug.Assert(false);
-                        break;
+                    taskAllowed |= TasksPf.TaskSettings.VernacularLangFields;
+                }
+                else if (strCheckedItem == CstrNationalBtLangFields)
+                {
+                    taskAllowed |= TasksPf.TaskSettings.NationalBtLangFields;
+                }
+                else if (strCheckedItem == CstrInternationalBtFields)
+                {
+                    taskAllowed |= TasksPf.TaskSettings.InternationalBtFields;
+                }
+                else if (strCheckedItem == CstrFreeTranslationFields)
+                {
+                    taskAllowed |= TasksPf.TaskSettings.FreeTranslationFields;
+                }
+                else if (strCheckedItem == CstrAnchors)
+                {
+                    taskAllowed |= TasksPf.TaskSettings.Anchors;
+                }
+                else if (strCheckedItem == CstrRetellingTest1)
+                {
+                    taskAllowed |= TasksPf.TaskSettings.Retellings;
+                }
+                else if (strCheckedItem == CstrRetellingTest2)
+                {
+                    taskAllowed |= TasksPf.TaskSettings.Retellings2;
+                }
+                else if (strCheckedItem == CstrTestQuestion)
+                {
+                    taskAllowed |= TasksPf.TaskSettings.TestQuestions;
+                }
+                else if (strCheckedItem == CstrAnswers1)
+                {
+                    taskAllowed |= TasksPf.TaskSettings.Answers;
+                }
+                else if (strCheckedItem == CstrAnswers2)
+                {
+                    taskAllowed |= TasksPf.TaskSettings.Answers2;
+                }
+                else
+                {
+                    System.Diagnostics.Debug.Assert(false);
                 }
             }
             return taskAllowed;

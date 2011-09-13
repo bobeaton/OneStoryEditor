@@ -5019,7 +5019,7 @@ namespace OneStoryProjectEditor
                 for (int i = 0; i < TheCurrentStory.Verses.Count; i++)
                 {
                     VerseData aVerse = TheCurrentStory.Verses[i];
-                    string strMenuText = Localizer.Str("Ln: ") + (i + 1);
+                    string strMenuText = VersesData.LinePrefix + (i + 1);
                     if (!aVerse.IsVisible)
                         strMenuText += VersesData.HiddenStringSpace;
                     contextMenuStripVerseList.Items.Add(strMenuText, null,
@@ -5689,8 +5689,12 @@ namespace OneStoryProjectEditor
         {
             if (_localizationEditor == null)
                 _localizationEditor = new LocDataEditorForm(Localizer.Default,
-                                                            new[] {"OneStoryProjectEditor"})
-                                          {DelegateCallOnClose = OnCloseLocalizationDialog};
+                                                            new[]
+                                                                {
+                                                                    "OneStoryProjectEditor",
+                                                                    "Chorus.UI.Sync.SyncDialog",
+                                                                    "System.Windows.Forms.MessageBox"
+                                                                }) {DelegateCallOnClose = OnCloseLocalizationDialog};
             _localizationEditor.Show();
         }
 
@@ -5698,10 +5702,18 @@ namespace OneStoryProjectEditor
         {
             // for us, if the user does "File", "Close", then totally Dispose if it
             //  otherwise, just hide it
+            OnLocalizationChange();
             if (bWasViaFileClose)
                 _localizationEditor = null;
             else
                 _localizationEditor.Hide();
+        }
+
+        // global scope variables that might need to be updated whenever the localization
+        //  changes
+        private static void OnLocalizationChange()
+        {
+            ConsultNoteDataConverter.OnLocalizationChange();
         }
 
         public static string OseCaption
