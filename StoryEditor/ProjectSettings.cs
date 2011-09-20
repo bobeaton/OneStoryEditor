@@ -305,7 +305,7 @@ namespace OneStoryProjectEditor
                     if (!Program.AreAdaptItHgParametersSet(RepoProjectName) 
                         || !Directory.Exists(strProjectFolder))
                     {
-                        if (MessageBox.Show(Localizer.Str("The shared Adapt It project for this field is not on the local computer. Please enter the necessary information in the next window to download it from the internet (i.e. the repository server, username and password). These should be in an email message you received previously"),
+                        if (LocalizableMessageBox.Show(Localizer.Str("The shared Adapt It project for this field is not on the local computer. Please enter the necessary information in the next window to download it from the internet (i.e. the repository server, username and password). These should be in an email message you received previously"),
                                             StoryEditor.OseCaption,
                                             MessageBoxButtons.OKCancel) == DialogResult.Cancel)
                             return;

@@ -174,7 +174,7 @@ namespace OneStoryProjectEditor
             string strToSearchFor = UpdateComboBox(comboBoxFindWhat);
             if (String.IsNullOrEmpty(strToSearchFor))
             {
-                MessageBox.Show(Localizer.Str("Nothing to search for!"),
+                LocalizableMessageBox.Show(Localizer.Str("Nothing to search for!"),
                                 StoryEditor.OseCaption);
                 return;
             }
@@ -312,7 +312,7 @@ namespace OneStoryProjectEditor
                     }
 
                     // otherwise, see if the user wants to start over from 0
-                    if (MessageBox.Show(Localizer.Str("Would you like to start searching from the beginning of the story?"), 
+                    if (LocalizableMessageBox.Show(Localizer.Str("Would you like to start searching from the beginning of the story?"), 
                         StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                     {
                         nCtxBoxIndex = 0;
@@ -343,7 +343,7 @@ namespace OneStoryProjectEditor
             }
 
             // otherwise, see if the user wants to start over from 0.0
-            if (MessageBox.Show(Localizer.Str("Would you like to start searching from the beginning of the story?"),
+            if (LocalizableMessageBox.Show(Localizer.Str("Would you like to start searching from the beginning of the story?"),
                 StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
             {
                 LastStoryIndex = LastCtxBoxIndex = LastCharIndex = 0;
@@ -354,7 +354,7 @@ namespace OneStoryProjectEditor
         protected void ShowNotFound()
         {
             Console.Beep();
-            MessageBox.Show(Localizer.Str("String not found!"),
+            LocalizableMessageBox.Show(Localizer.Str("String not found!"),
                             StoryEditor.OseCaption);
 
             // but if we find nothing once, then just start over wherever it makes sense 
@@ -598,7 +598,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(ex.Message, StoryEditor.OseCaption);
             }
         }
 
@@ -609,7 +609,7 @@ namespace OneStoryProjectEditor
             string strFindWhat = UpdateComboBox(comboBoxFindWhat);
             if (String.IsNullOrEmpty(strFindWhat))
             {
-                MessageBox.Show(Localizer.Str("Nothing to search for!"),
+                LocalizableMessageBox.Show(Localizer.Str("Nothing to search for!"),
                                 StoryEditor.OseCaption);
                 return;
             }
@@ -651,7 +651,7 @@ namespace OneStoryProjectEditor
                     if (ctrl.IsParagraphElement(LastStringTransferSearched.HtmlElementId))
                     {
                         // paragraphs are not replaceable
-                        MessageBox.Show(
+                        LocalizableMessageBox.Show(
                             Localizer.Str("Sorry, you can only modify editable text in consultant or coach notes!"),
                             StoryEditor.OseCaption);
                         return;

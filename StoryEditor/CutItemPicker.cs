@@ -217,7 +217,7 @@ namespace OneStoryProjectEditor
             if (verseDest == null)
             {
                 // means delete... confirm
-                if (MessageBox.Show(Localizer.Str("Are you sure you want to delete the selected items?"), 
+                if (LocalizableMessageBox.Show(Localizer.Str("Are you sure you want to delete the selected items?"), 
                     StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                     return;
             }

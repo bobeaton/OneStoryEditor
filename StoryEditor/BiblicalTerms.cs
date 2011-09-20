@@ -419,7 +419,7 @@ namespace OneStoryProjectEditor
                 }
                 catch (Exception exc)
                 {
-                    MessageBox.Show(path + ": " + exc.Message);
+                    LocalizableMessageBox.Show(path + ": " + exc.Message);
                     return null;
                 }
             }

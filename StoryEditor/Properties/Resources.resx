@@ -130,10 +130,6 @@
   <data name="IDS_CanDeleteOnlyFromMyBiblicalTerms" xml:space="preserve">
     <value>You can only delete a key term from the editable key term (i.e. "My Biblical Terms") list, which is not currently selected.</value>
   </data>
-  <data name="IDS_OBSOLETETerminalTransitionMessage" xml:space="preserve">
-    <value>Click 'Yes' to confirm. If you click 'Yes', then you won't be able to make further changes to the story until it is returned to you. If you want to make any change first, then click 'No'.</value>
-    <comment>अगर इस स्‍टेट में जाएं, तो इसके बाद आप इस कहानी को तब तक नहीं बदल सकते हैं, जब तक {0} अपने काम इस पर पूरा नहीं किया। क्‍या आप पक्‍का हैं कि अगले स्‍टेट (अनिकि '{1}' स्‍टेट) में जाएँ?</comment>
-  </data>
   <data name="Hyperlink" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Hyperlink.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -190,16 +186,8 @@
   <data name="DeleteHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DeleteHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="IDS_OBSOLETEPressF1ForInstructions" xml:space="preserve">
-    <value>{0}  Press F1 for instructions</value>
-    <comment>{0}  निर्देश मिलने के लिए 'F1' बटन दबाओ</comment>
-  </data>
   <data name="BuilderDialog_moveup1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BuilderDialog_moveup.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IDS_OBSOLETEUnableToCreateProjectWithoutName" xml:space="preserve">
-    <value>Unable to create a project without a project name!</value>
-    <comment>प्रोजैक्ट नाम के बिना नया प्रोजैक्ट नहीं बन सकता है!</comment>
   </data>
   <data name="CopyHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CopyHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -248,10 +236,6 @@ of the team before overwriting a list</value>
   </data>
   <data name="DataContainer_MoveFirstHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DataContainer_MoveFirstHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IDS_OBSOLETEUnableToFindStoryAdd" xml:space="preserve">
-    <value>Unable to find the story '{0}'. Would you like to add a new story with that name?</value>
-    <comment>'{0}' नामक कहानी नहीं है। क्‍या उस नाम की नई कहानी जोड़ दिया जाए?</comment>
   </data>
   <data name="AddTableHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AddTableHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -692,20 +676,8 @@ for more extensive study materials.&lt;/p&gt;
   <data name="DragDropHandle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DragDropHandle.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="IDS_OBSOLETEIsThisStoryFromTheBible" xml:space="preserve">
-    <value>Is this a story from the Bible?</value>
-    <comment>क्‍या यह कहानी बाइबल से है?</comment>
-  </data>
   <data name="IDS_GoBackwardsYoungMan" xml:space="preserve">
     <value>This story has already reached the final state. If you mean to go to some previous state, click the 'Select State' menu at the top of the window and choose the previous state you want to go to.</value>
-  </data>
-  <data name="IDS_OBSOLETEEnterStoryToAdd" xml:space="preserve">
-    <value>Enter the name of the story to add</value>
-    <comment>नई कहानी का नाम यहीं टाइप करके 'ऐटर' बटन दबाओ</comment>
-  </data>
-  <data name="IDS_OBSOLETEStory" xml:space="preserve">
-    <value>Story</value>
-    <comment>कहानी</comment>
   </data>
   <data name="IDS_NetBibleDonateMessage" xml:space="preserve">
     <value>&lt;html xmlns:v="urn:schemas-microsoft-com:vml"
@@ -1347,10 +1319,6 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
 
 &lt;/html&gt;</value>
   </data>
-  <data name="IDS_OBSOLETELocatedInFolder" xml:space="preserve">
-    <value>Located in folder '{0}'</value>
-    <comment>जो '{0}' फ़ोलडर में है</comment>
-  </data>
   <data name="IDS_FromStoryForDiscourseCharting" xml:space="preserve">
     <value>&amp;From {0} (for Discourse Charting)</value>
   </data>
@@ -1800,12 +1768,6 @@ and in the resulting window click on the next (green) state.
   </data>
   <data name="_1_4_to_1_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\1.4 to 1.5.xslt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="IDS_InferenceCommentFormat" xml:space="preserve">
-    <value>Test done on: {0}</value>
-  </data>
-  <data name="IDS_RetellingCommentFormat" xml:space="preserve">
-    <value>Test done on: {0}. UNS heard the story {1} times.</value>
   </data>
   <data name="IDS_WarnAboutNotEnoughTqs" xml:space="preserve">
     <value>You don't have at least half as many story testing questions as lines in the story. Unless you have prior permission from your consultant, you should click Cancel and add at least {0} more testing question(s). (right-click on the 'line options' button and choose 'Add a story testing question'). Otherwise, click 'Yes' to continue on to the next state.</value>
@@ -2316,10 +2278,6 @@ initContextMenu();
   <data name="HTML_TextareaWithRefDrop" xml:space="preserve">
     <value>&lt;textarea id="{0}" class="{1}" onKeyUp="return window.external.TextareaOnKeyUp(this.id, this.value);" ondragover="window.event.returnValue=false" ondrop="window.external.CopyScriptureReference(this.id)" onselect="this.focus();"&gt;{2}&lt;/textarea&gt;</value>
   </data>
-  <data name="IDS_Caption" xml:space="preserve">
-    <value>OneStory Project Editor</value>
-    <comment>"एक-कहानी" प्रोजैक्‍ट ऐडिटर</comment>
-  </data>
   <data name="IDS_DefaultPanoramaFrontMatter" xml:space="preserve">
     <value>{\rtf1\adeflang1081\ansi\ansicpg1252\uc1\adeff0\deff0\stshfdbch0\stshfloch0\stshfhich0\stshfbi0\deflang1033\deflangfe1033{\fonttbl{\f0\froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f312\froman\fcharset238\fprq2 Times New Roman CE;}{\f313\froman\fcharset204\fprq2 Times New Roman Cyr;}
 {\f315\froman\fcharset161\fprq2 Times New Roman Greek;}{\f316\froman\fcharset162\fprq2 Times New Roman Tur;}{\f317\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew);}{\f318\fbidi \froman\fcharset178\fprq2 Times New Roman (Arabic);}
@@ -2430,13 +2388,6 @@ eater Panorama
   </data>
   <data name="IDS_MainStoriesSet" xml:space="preserve">
     <value>Stories</value>
-  </data>
-  <data name="IDS_NowIsHidden" xml:space="preserve">
-    <value> was visible, but now is hidden</value>
-  </data>
-  <data name="IDS_OBSOLETEHaveToLogInToContinue" xml:space="preserve">
-    <value>You have to log in to continue. Click 'Project', 'Login' and choose or add your name.</value>
-    <comment>काम करने के लिए आपको लॉग-इन करना है। 'Project' मेनू, 'Login' पर क्‍लिक करो और अपना नाम चुनकर 'लॉग-इन' बटन दबाओ।</comment>
   </data>
   <data name="IDS_ObsoleteStoriesSet" xml:space="preserve">
     <value>Old Stories</value>

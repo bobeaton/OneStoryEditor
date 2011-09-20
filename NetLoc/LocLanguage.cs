@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
@@ -114,6 +115,13 @@ namespace NetLoc
                     FontSize = value.Size;
                 }
             }
+        }
+
+        public void SetFont(Control control)
+        {
+            var font = Font;
+            if (font != null)
+                control.Font = font;
         }
     }
 

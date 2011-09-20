@@ -170,7 +170,7 @@ namespace OneStoryProjectEditor
             }
 
             // otherwise, let's see if the user wants us to create it or browse for it
-            DialogResult res = MessageBox.Show(String.Format(Localizer.Str("Click 'Yes' to create an Adapt It project to use for back-translation from '{0}' to '{1}'. Click 'No' to browse for an existing Adapt It project instead"),
+            DialogResult res = LocalizableMessageBox.Show(String.Format(Localizer.Str("Click 'Yes' to create an Adapt It project to use for back-translation from '{0}' to '{1}'. Click 'No' to browse for an existing Adapt It project instead"),
                                                              SourceLanguageName, TargetLanguageName),
                                                StoryEditor.OseCaption,
                                                MessageBoxButtons.YesNoCancel);
@@ -231,7 +231,7 @@ namespace OneStoryProjectEditor
 
         private void DoSharedAiProjectClick()
         {
-            DialogResult res = MessageBox.Show(Localizer.Str("Is the shared Adapt It project on your computer now? (click 'Yes' to browse for it; click 'No' to enter the repository information for it)"),
+            DialogResult res = LocalizableMessageBox.Show(Localizer.Str("Is the shared Adapt It project on your computer now? (click 'Yes' to browse for it; click 'No' to enter the repository information for it)"),
                                                StoryEditor.OseCaption,
                                                MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Cancel)
@@ -271,7 +271,7 @@ namespace OneStoryProjectEditor
                         AdaptItConverterName = theEc.Name;
                         strProjectFolder =
                             AdaptItGlossing.GetAiProjectFolderFromConverterIdentifier(theEc.ConverterIdentifier);
-                        res = MessageBox.Show(String.Format(Localizer.Str("Is the shared Adapt It project in the '{0}' folder?"),
+                        res = LocalizableMessageBox.Show(String.Format(Localizer.Str("Is the shared Adapt It project in the '{0}' folder?"),
                                                             strProjectFolder),
                                               StoryEditor.OseCaption,
                                               MessageBoxButtons.YesNoCancel);
@@ -342,7 +342,7 @@ namespace OneStoryProjectEditor
                 string strErrorMsg = String.Format(Localizer.Str("Unable to Send/Receive the AdaptIt project '{1}' from the requested server{0}{2}{0}{3}"),
                     Environment.NewLine, _strAdaptItProjectName,
                     ((ex.InnerException != null) ? ex.InnerException.Message : ""), ex.Message);
-                MessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
             }
         }
 

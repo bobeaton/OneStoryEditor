@@ -89,7 +89,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(String.Format(Localizer.Str("adding {0}->{1} gave the error: {2}"),
+                LocalizableMessageBox.Show(String.Format(Localizer.Str("adding {0}->{1} gave the error: {2}"),
                                               strSourceWord,
                                               strTargetWord,
                                               ex.Message),

@@ -207,7 +207,7 @@ namespace OneStoryProjectEditor
 
             if (_theStoryBeingEdited == null)
             {
-                MessageBox.Show(Properties.Resources.IDS_CantEditPanoramaView,
+                LocalizableMessageBox.Show(Properties.Resources.IDS_CantEditPanoramaView,
                                 StoryEditor.OseCaption);
                 return;
             }
@@ -243,7 +243,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(ex.Message, StoryEditor.OseCaption);
             }
             finally
             {

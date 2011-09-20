@@ -38,7 +38,7 @@ namespace OneStoryProjectEditor
             foreach (int nIndex in
                 checkedListBoxRequiredTasks.CheckedIndices.Cast<int>().Where(nIndex => !checkedListBoxAllowedTasks.GetItemChecked(nIndex)))
             {
-                MessageBox.Show(String.Format(Localizer.Str("You have to allow a task in order to require it. Please check the box in the Allowed Tasks list for '{0}'"),
+                LocalizableMessageBox.Show(String.Format(Localizer.Str("You have to allow a task in order to require it. Please check the box in the Allowed Tasks list for '{0}'"),
                                               checkedListBoxRequiredTasks.Items[nIndex]),
                                 StoryEditor.OseCaption);
                 return false;

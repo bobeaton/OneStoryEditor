@@ -117,7 +117,7 @@ namespace OneStoryProjectEditor
                 DataGridViewRow theRow = dataGridViewLnCNotes.Rows[nSelectedRowIndex];
                 string strValue = (string)theRow.Cells[CnColumnInternationalBT].Value;
                 // make sure the user really wants to do this
-                if (MessageBox.Show(String.Format(Localizer.Str("Are you sure you want to delete the L & C Note:{0}{1}"),
+                if (LocalizableMessageBox.Show(String.Format(Localizer.Str("Are you sure you want to delete the L & C Note:{0}{1}"),
                                                   Environment.NewLine,
                                                   strValue),
                                     StoryEditor.OseCaption, 

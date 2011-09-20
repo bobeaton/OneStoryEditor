@@ -497,7 +497,7 @@ namespace OneStoryProjectEditor
                             //  the other check
                             if (fieldToCheck == fieldHighest)
                             {
-                                DialogResult res = MessageBox.Show(
+                                DialogResult res = LocalizableMessageBox.Show(
                                     String.Format(
                                         Localizer.Str(
                                             "The '{0}' field of line '{1}' is empty. Click 'Yes' to hide the line? Click 'No' to ignore and continue"),

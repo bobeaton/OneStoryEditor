@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.ComponentModel;
@@ -291,7 +292,11 @@ namespace NetLoc
 				LanguageId = languageId;
 			else
 				LanguageId = CultureInfo.CurrentCulture.Name.Substring(0, 2);
-		}
+
+            //Register manager for the MessageBox.Show localization
+            MessageBoxManager.Unregister();
+            MessageBoxManager.Register();
+        }
 
 		private string GetLocLanguagePath(string langId)
 		{
@@ -472,12 +477,8 @@ namespace NetLoc
         /// </summary>
         public void Update()
         {
-            List<LocUpdater> newLocUpdaters = new List<LocUpdater>(locUpdaters.Count);
-            for (int i = 0; i < locUpdaters.Count; i++)
-            {
-                if (locUpdaters[i].Update(this))
-                    newLocUpdaters.Add(locUpdaters[i]);
-            }
+            var newLocUpdaters = new List<LocUpdater>(locUpdaters.Count);
+            newLocUpdaters.AddRange(locUpdaters.Where(t => t.Update(this)));
 
             locUpdaters = newLocUpdaters;
 

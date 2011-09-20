@@ -573,7 +573,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(ex.Message, StoryEditor.OseCaption);
             }
         }
 
@@ -619,7 +619,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(ex.Message, StoryEditor.OseCaption);
             }
         }
 

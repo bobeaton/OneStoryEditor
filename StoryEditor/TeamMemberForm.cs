@@ -46,6 +46,7 @@ namespace OneStoryProjectEditor
             InitializeComponent();
             Localizer.Ctrl(this);
 
+            Localizer.Default.LocLanguage.SetFont(listBoxTeamMembers);
             foreach (TeamMemberData aMember in _dataTeamMembers.Values)
                 listBoxTeamMembers.Items.Add(GetListBoxItem(aMember));
 
@@ -148,7 +149,7 @@ namespace OneStoryProjectEditor
             if ((buttonOK.Text == CstrDefaultOKLabel)
                 && (eAllowedLoginRoleFilter == TeamMemberData.UserTypes.Undefined))
             {
-                MessageBox.Show(Localizer.Str("You have added a UNS in order to identify, for example, which UNS did the back translation or a particular test. However, you as the Project Facilitator should still be logged in to enter the UNS's comments. So select your *Project Facilitator* member name and click 'Login' again"),
+                LocalizableMessageBox.Show(Localizer.Str("You have added a UNS in order to identify, for example, which UNS did the back translation or a particular test. However, you as the Project Facilitator should still be logged in to enter the UNS's comments. So select your *Project Facilitator* member name and click 'Login' again"),
                                 StoryEditor.OseCaption);
                 return;
             }
@@ -179,7 +180,11 @@ namespace OneStoryProjectEditor
                 if (listBoxTeamMembers.Items.Contains(strItem) ||
                     _dataTeamMembers.ContainsKey(dlg.MemberName))
                 {
-                    MessageBox.Show(String.Format(Localizer.Str("Oops... you already have a member with the name, '{0}'. If you meant to edit that member, then select the name in the listbox and click the 'Edit Member' button"), dlg.MemberName));
+                    LocalizableMessageBox.Show(
+                        String.Format(
+                            Localizer.Str(
+                                "Oops... you already have a member with the name, '{0}'. If you meant to edit that member, then select the name in the listbox and click the 'Edit Member' button"),
+                            dlg.MemberName), StoryEditor.OseCaption);
                     return;
                 }
                 
@@ -252,7 +257,11 @@ namespace OneStoryProjectEditor
             if ((dlg.MemberName != m_strSelectedMemberName) 
                 && _dataTeamMembers.ContainsKey(dlg.MemberName))
             {
-                MessageBox.Show(String.Format(Localizer.Str("Oops... you already have a member with the name, '{0}'. If you meant to edit that member, then select the name in the listbox and click the 'Edit Member' button."), dlg.MemberName));
+                LocalizableMessageBox.Show(
+                    String.Format(
+                        Localizer.Str(
+                            "Oops... you already have a member with the name, '{0}'. If you meant to edit that member, then select the name in the listbox and click the 'Edit Member' button."),
+                        dlg.MemberName), StoryEditor.OseCaption);
             }
             else
                 theMemberData.Name = dlg.MemberName;
@@ -353,7 +362,7 @@ namespace OneStoryProjectEditor
                 dlg.SelectedMember.MemberType &= ~eRole;
                 if (dlg.SelectedMember.MemberType != TeamMemberData.UserTypes.Undefined)
                 {
-                    res = MessageBox.Show(String.Format(Localizer.Str("'{0}' has these additional roles: '{1}'. Would you like to add those roles to '{2}' also?"),
+                    res = LocalizableMessageBox.Show(String.Format(Localizer.Str("'{0}' has these additional roles: '{1}'. Would you like to add those roles to '{2}' also?"),
                                                         _dataTeamMembers.GetNameFromMemberId(strOldMemberGuid),
                                                         TeamMemberData.GetMemberTypeAsDisplayString(
                                                             dlg.SelectedMember.MemberType),
@@ -380,7 +389,7 @@ namespace OneStoryProjectEditor
                         System.Diagnostics.Debug.Assert(false);
                 }
 
-                res = MessageBox.Show(String.Format(Localizer.Str("All of the information associated with member '{0}' is now associated with member '{1}'. Click 'Yes' to delete the record for '{0}'"),
+                res = LocalizableMessageBox.Show(String.Format(Localizer.Str("All of the information associated with member '{0}' is now associated with member '{1}'. Click 'Yes' to delete the record for '{0}'"),
                                                     dlg.SelectedMember.Name,
                                                     theMemberData.Name),
                                       StoryEditor.OseCaption,
@@ -409,7 +418,7 @@ namespace OneStoryProjectEditor
                                                 String.Format(ex.Format,
                                                               _dataTeamMembers.GetNameFromMemberId(
                                                                   ex.MemberGuid)));
-                MessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
             }
         }
 

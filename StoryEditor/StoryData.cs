@@ -264,7 +264,7 @@ namespace OneStoryProjectEditor
             {
                 Debug.Assert(false); // can this happen?
                 // default comment for both
-                string strComment = String.Format(Properties.Resources.IDS_InferenceCommentFormat,
+                string strComment = String.Format(StoryEditor.InferenceTestCommentFormat,
                                                   DateTime.Now.ToString("yyyy-MMM-dd"));
                 memberIdInfo = new MemberIdInfo(strNewGuid, strComment);
             }
@@ -1596,7 +1596,7 @@ namespace OneStoryProjectEditor
                 if (projFile.StoryProject[0].version.CompareTo("1.3") == 0)
                 {
                     // see if the user wants us to upgrade this one
-                    if (MessageBox.Show(String.Format(Properties.Resources.IDS_QueryConvertProjectFile1_3to1_4,
+                    if (LocalizableMessageBox.Show(String.Format(Properties.Resources.IDS_QueryConvertProjectFile1_3to1_4,
                         ProjSettings.ProjectName), StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                         throw BackOutWithNoUI;
 
@@ -1609,7 +1609,7 @@ namespace OneStoryProjectEditor
                 {
                     // see if the user wants us to upgrade this one
                     if (!bProjectConvertWarnedOnce)
-                        if (MessageBox.Show(String.Format(Properties.Resources.IDS_QueryConvertProjectFile1_3to1_4,
+                        if (LocalizableMessageBox.Show(String.Format(Properties.Resources.IDS_QueryConvertProjectFile1_3to1_4,
                             ProjSettings.ProjectName), StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                             throw BackOutWithNoUI;
 
@@ -1620,7 +1620,7 @@ namespace OneStoryProjectEditor
 
                 else if (projFile.StoryProject[0].version.CompareTo(XmlDataVersion) > 0)
                 {
-                    MessageBox.Show(Localizer.Str("One of the team members is using a newer version of OSE to edit the file, which is not compatible with the version you are using. You might try, \"Advanced\", \"Program Updates\", \"Check now\" or \"Check now for next major update\" or you may have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the \"Setup OneStory Editor.zip\" file"), StoryEditor.OseCaption);
+                    LocalizableMessageBox.Show(Localizer.Str("One of the team members is using a newer version of OSE to edit the file, which is not compatible with the version you are using. You might try, \"Advanced\", \"Program Updates\", \"Check now\" or \"Check now for next major update\" or you may have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the \"Setup OneStory Editor.zip\" file"), StoryEditor.OseCaption);
                     throw BackOutWithNoUI;
                 }
             }
@@ -1680,7 +1680,7 @@ namespace OneStoryProjectEditor
             string strStateTransitions = Path.Combine(strProjectFolder, StoryStageLogic.StateTransitions.CstrStateTransitionsXmlFilename);
             if (File.Exists(strStateTransitions))
             {
-                if (MessageBox.Show(Properties.Resources.IDS_ConfirmDeleteStateTransitions,
+                if (LocalizableMessageBox.Show(Properties.Resources.IDS_ConfirmDeleteStateTransitions,
                     StoryEditor.OseCaption, MessageBoxButtons.OKCancel) == DialogResult.Cancel)
                     throw BackOutWithNoUI;
 
@@ -1879,7 +1879,7 @@ namespace OneStoryProjectEditor
             if (res != DialogResult.OK)
             {
                 if (bUseLoginLabel && bLoginRequired)
-                    MessageBox.Show(
+                    LocalizableMessageBox.Show(
                         Localizer.Str(
                             "You have to log in to continue. Click 'Project', 'Login' and choose or add your name"),
                         StoryEditor.OseCaption);

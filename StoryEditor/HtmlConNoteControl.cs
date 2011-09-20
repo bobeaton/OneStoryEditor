@@ -103,7 +103,7 @@ namespace OneStoryProjectEditor
 
             if (theCNDC.HasData)
             {
-                DialogResult res = MessageBox.Show(Localizer.Str("This conversation isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around for history. Click 'Yes' to hide the conversation or click 'No' to delete it?"),
+                DialogResult res = LocalizableMessageBox.Show(Localizer.Str("This conversation isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around for history. Click 'Yes' to hide the conversation or click 'No' to delete it?"),
                     StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
 
                 if (res == DialogResult.Yes)
@@ -520,7 +520,7 @@ namespace OneStoryProjectEditor
                     IHTMLSelectionObject selection = htmlDocument.selection;
                     if (selection.type.ToLower() != "text")
                     {
-                        MessageBox.Show(Localizer.Str("Sorry, you can only modify editable text in consultant or coach notes!"),
+                        LocalizableMessageBox.Show(Localizer.Str("Sorry, you can only modify editable text in consultant or coach notes!"),
                             StoryEditor.OseCaption);
                     }
                     else

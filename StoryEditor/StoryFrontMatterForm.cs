@@ -620,7 +620,8 @@ namespace OneStoryProjectEditor
                         {
                             Anchor = AnchorStyles.Left,
                             AutoSize = true,
-                            Text = strLabel + ":"
+                            Text = strLabel + ":",
+                            Font = Localizer.Default.LocLanguage.Font
                         };
             TbxName = new TextBox
                           {
@@ -638,21 +639,24 @@ namespace OneStoryProjectEditor
                                 {
                                     Anchor = AnchorStyles.Left,
                                     Text = Localizer.Str("Edit"),
-                                    AutoSize = true
+                                    AutoSize = true,
+                                    Font = Localizer.Default.LocLanguage.Font
                                 };
             LinkLabelView.Click += OnLinkClickView;
             LinkLabelChange = new LinkLabel
                                   {
                                       Anchor = AnchorStyles.Left,
                                       Text = Localizer.Str("Change"),
-                                      AutoSize = true
+                                      AutoSize = true,
+                                      Font = Localizer.Default.LocLanguage.Font
                                   };
             LinkLabelChange.Click += OnLinkClickChange;
             LinkLabelDelete = new LinkLabel
                                   {
                                       Anchor = AnchorStyles.Left,
                                       Text = StoryFrontMatterForm.CstrDeleteTest,
-                                      AutoSize = true
+                                      AutoSize = true,
+                                      Font = Localizer.Default.LocLanguage.Font
                                   };
             LinkLabelDelete.Click += OnLinkClickDelete;
         }

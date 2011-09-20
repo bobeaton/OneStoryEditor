@@ -99,8 +99,8 @@
             this.addNewVersesAfterToolStripMenuItem,
             this.hideVerseToolStripMenuItem,
             this.deleteTheWholeVerseToolStripMenuItem,
-            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem,
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem,
+            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem,
             this.copyVerseToClipboardToolStripMenuItem,
             this.toolStripSeparator1,
             this.splitStoryToolStripMenuItem});
@@ -297,8 +297,7 @@
             this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
             this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Text = "Paste line from clipboard and insert af&ter this line";
             this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.ToolTipText = "Use this to paste a previously copied line (see \'Copy line to clipboard\' command)" +
-                ". The copied line will be inserted before this line (see \'Paste line from clipbo" +
-                "ard\' commands)";
+                ". The copied line will be inserted after this line";
             this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Click += new System.EventHandler(this.pasteVerseFromClipboardAfterThisOneToolStripMenuItem_Click);
             // 
             // pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem
@@ -307,7 +306,8 @@
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem.Text = "&Paste line from clipboard and insert before this line";
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem.ToolTipText = "Use this to paste a previously copied line (see \'Copy line to clipboard\' command)" +
-                ". The copied line will be inserted after this line.";
+                ". The copied line will be inserted before this line (see \'Paste line from clipbo" +
+                "ard\' commands)";
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem.Click += new System.EventHandler(this.pasteVerseFromClipboardToolStripMenuItem_Click);
             // 
             // copyVerseToClipboardToolStripMenuItem

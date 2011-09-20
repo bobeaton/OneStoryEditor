@@ -269,7 +269,7 @@ namespace OneStoryProjectEditor
                 && TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator)
                 && !TasksPf.IsTaskOn(theSE.TheCurrentStory.TasksAllowedPf, TasksPf.TaskSettings.TestQuestions))
             {
-                MessageBox.Show(Localizer.Str("The consultant has not allowed you to enter testing questions at this time"), 
+                LocalizableMessageBox.Show(Localizer.Str("The consultant has not allowed you to enter testing questions at this time"), 
                                 StoryEditor.OseCaption);
                 return;
             }
@@ -533,7 +533,7 @@ namespace OneStoryProjectEditor
 
         public static DialogResult QueryAboutHidingVerseInstead()
         {
-            return MessageBox.Show(
+            return LocalizableMessageBox.Show(
                 String.Format(Localizer.Str("This line isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around to know what it used to be.{0}{0}Click 'Yes' to hide the line or click 'No' to delete it?"),
                               Environment.NewLine),
                 StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
@@ -543,7 +543,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return (MessageBox.Show(
+                return (LocalizableMessageBox.Show(
                     Localizer.Str("Are you sure you want to delete this line (and all associated consultant notes, etc)?"),
                     StoryEditor.OseCaption,
                     MessageBoxButtons.YesNoCancel) == DialogResult.Yes);

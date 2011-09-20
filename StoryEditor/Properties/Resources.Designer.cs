@@ -700,15 +700,6 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to OneStory Project Editor.
-        /// </summary>
-        internal static string IDS_Caption {
-            get {
-                return ResourceManager.GetString("IDS_Caption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Click &apos;Yes&apos; to enter UNS test results now or click &apos;No&apos; to send the story to the consultant first for checking..
         /// </summary>
         internal static string IDS_CheckForSkipToUnsCheck {
@@ -844,15 +835,6 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Test done on: {0}.
-        /// </summary>
-        internal static string IDS_InferenceCommentFormat {
-            get {
-                return ResourceManager.GetString("IDS_InferenceCommentFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Unable to process Key Terms: cause: {0}{0}{1}.
         /// </summary>
         internal static string IDS_KeyTermsProblem {
@@ -945,101 +927,11 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  was visible, but now is hidden.
-        /// </summary>
-        internal static string IDS_NowIsHidden {
-            get {
-                return ResourceManager.GetString("IDS_NowIsHidden", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enter the name of the story to add.
-        /// </summary>
-        internal static string IDS_OBSOLETEEnterStoryToAdd {
-            get {
-                return ResourceManager.GetString("IDS_OBSOLETEEnterStoryToAdd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You have to log in to continue. Click &apos;Project&apos;, &apos;Login&apos; and choose or add your name..
-        /// </summary>
-        internal static string IDS_OBSOLETEHaveToLogInToContinue {
-            get {
-                return ResourceManager.GetString("IDS_OBSOLETEHaveToLogInToContinue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Is this a story from the Bible?.
-        /// </summary>
-        internal static string IDS_OBSOLETEIsThisStoryFromTheBible {
-            get {
-                return ResourceManager.GetString("IDS_OBSOLETEIsThisStoryFromTheBible", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Located in folder &apos;{0}&apos;.
-        /// </summary>
-        internal static string IDS_OBSOLETELocatedInFolder {
-            get {
-                return ResourceManager.GetString("IDS_OBSOLETELocatedInFolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0}  Press F1 for instructions.
-        /// </summary>
-        internal static string IDS_OBSOLETEPressF1ForInstructions {
-            get {
-                return ResourceManager.GetString("IDS_OBSOLETEPressF1ForInstructions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Old Stories.
         /// </summary>
         internal static string IDS_ObsoleteStoriesSet {
             get {
                 return ResourceManager.GetString("IDS_ObsoleteStoriesSet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Story.
-        /// </summary>
-        internal static string IDS_OBSOLETEStory {
-            get {
-                return ResourceManager.GetString("IDS_OBSOLETEStory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Click &apos;Yes&apos; to confirm. If you click &apos;Yes&apos;, then you won&apos;t be able to make further changes to the story until it is returned to you. If you want to make any change first, then click &apos;No&apos;..
-        /// </summary>
-        internal static string IDS_OBSOLETETerminalTransitionMessage {
-            get {
-                return ResourceManager.GetString("IDS_OBSOLETETerminalTransitionMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to create a project without a project name!.
-        /// </summary>
-        internal static string IDS_OBSOLETEUnableToCreateProjectWithoutName {
-            get {
-                return ResourceManager.GetString("IDS_OBSOLETEUnableToCreateProjectWithoutName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to find the story &apos;{0}&apos;. Would you like to add a new story with that name?.
-        /// </summary>
-        internal static string IDS_OBSOLETEUnableToFindStoryAdd {
-            get {
-                return ResourceManager.GetString("IDS_OBSOLETEUnableToFindStoryAdd", resourceCulture);
             }
         }
         
@@ -1085,15 +977,6 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_QueryConvertProjectFile1_3to1_4 {
             get {
                 return ResourceManager.GetString("IDS_QueryConvertProjectFile1_3to1_4", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Test done on: {0}. UNS heard the story {1} times..
-        /// </summary>
-        internal static string IDS_RetellingCommentFormat {
-            get {
-                return ResourceManager.GetString("IDS_RetellingCommentFormat", resourceCulture);
             }
         }
         

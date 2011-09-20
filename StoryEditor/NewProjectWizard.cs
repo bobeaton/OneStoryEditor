@@ -549,7 +549,7 @@ namespace OneStoryProjectEditor
             {
                 tabControl.SelectedTab = ex.Tab;
                 ex.Control.Focus();
-                MessageBox.Show(ex.Message, StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(ex.Message, StoryEditor.OseCaption);
             }
             finally
             {
@@ -580,7 +580,7 @@ namespace OneStoryProjectEditor
                     tabControl.SelectedTab = ex.Tab;
                 if (ex.Control != null)
                     ex.Control.Focus();
-                MessageBox.Show(ex.Message, StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(ex.Message, StoryEditor.OseCaption);
             }
             finally
             {
@@ -733,7 +733,7 @@ namespace OneStoryProjectEditor
 
         private DialogResult QueryOverride(string strProperty, string strValue)
         {
-            return MessageBox.Show(String.Format(Localizer.Str("Click 'Yes' to override the '{0}' {1} for yourself ('{2}') only. Click 'No' to make this change apply to every member of the team (if you all are switching to a new {1})"),
+            return LocalizableMessageBox.Show(String.Format(Localizer.Str("Click 'Yes' to override the '{0}' {1} for yourself ('{2}') only. Click 'No' to make this change apply to every member of the team (if you all are switching to a new {1})"),
                                                  strProperty, strValue, LoggedInMember.Name),
                                    StoryEditor.OseCaption,
                                    MessageBoxButtons.YesNoCancel);
@@ -1081,7 +1081,7 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 if (ex.Message == "Only TrueType fonts are supported. This is not a TrueType font.")
-                    MessageBox.Show(
+                    LocalizableMessageBox.Show(
                         Localizer.Str("Since you just added this font, you have to restart the program for it to work"),
                         StoryEditor.OseCaption);
             }

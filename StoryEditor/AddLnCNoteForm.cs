@@ -104,14 +104,14 @@ namespace OneStoryProjectEditor
         {
             if (String.IsNullOrEmpty(textBoxInternationalBT.Text))
             {
-                MessageBox.Show(Localizer.Str("You must enter the gloss"),
+                LocalizableMessageBox.Show(Localizer.Str("You must enter the gloss"),
                                 StoryEditor.OseCaption);
                 return;
             }
 
             if (String.IsNullOrEmpty(textBoxVernacular.Text))
             {
-                MessageBox.Show(Localizer.Str("You must enter the word in the story language"),
+                LocalizableMessageBox.Show(Localizer.Str("You must enter the word in the story language"),
                                 StoryEditor.OseCaption);
                 return;
             }

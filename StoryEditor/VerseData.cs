@@ -1510,7 +1510,7 @@ namespace OneStoryProjectEditor
                     else if (!isVisible)
                         str = Localizer.Str(" was hidden, but now is visible");
                     else
-                        str = Properties.Resources.IDS_NowIsHidden;
+                        str = Localizer.Str(" was visible, but now is hidden");
                 }
                 else
                     str = HiddenStringSpace;

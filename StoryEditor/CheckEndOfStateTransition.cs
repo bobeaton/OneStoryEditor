@@ -93,7 +93,7 @@ namespace OneStoryProjectEditor
                 (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose)
                 || String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ResourcesUsed)))
             {
-                MessageBox.Show(String.Format("In the following window, type in the purpose of the story (why you have it in your panorama) and list the resources you used to craft the story", Environment.NewLine), StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(String.Format("In the following window, type in the purpose of the story (why you have it in your panorama) and list the resources you used to craft the story", Environment.NewLine), StoryEditor.OseCaption);
                 theSE.QueryStoryPurpose();
             }
 
@@ -133,7 +133,7 @@ namespace OneStoryProjectEditor
 
         public static DialogResult QuerySplitIntoLines(string strLanguageName, int nVerseNumber)
         {
-            return MessageBox.Show(
+            return LocalizableMessageBox.Show(
                 String.Format(Localizer.Str("The '{0}' field of line '{1}' has multiple sentences. Click 'Yes' to have them separated into their own lines. Click 'No' to ignore and continue"),
                               strLanguageName, nVerseNumber),
                 StoryEditor.OseCaption,
@@ -195,7 +195,7 @@ namespace OneStoryProjectEditor
 
                         else if (lstSentences.Count > 1)
                         {
-                            MessageBox.Show(String.Format(Properties.Resources.IDS_UseStoryCollapse,
+                            LocalizableMessageBox.Show(String.Format(Properties.Resources.IDS_UseStoryCollapse,
                                                           nVerseNumber,
                                                           theStoryProjectData.ProjSettings.NationalBT.LangName),
                                             StoryEditor.OseCaption);
@@ -311,7 +311,7 @@ namespace OneStoryProjectEditor
 
                         if (lstSentences.Count > 1)
                         {
-                            MessageBox.Show(String.Format(Properties.Resources.IDS_UseStoryCollapse,
+                            LocalizableMessageBox.Show(String.Format(Properties.Resources.IDS_UseStoryCollapse,
                                                           nVerseNumber,
                                                           theStoryProjectData.ProjSettings.InternationalBT.LangName),
                                             StoryEditor.OseCaption);
@@ -413,7 +413,7 @@ namespace OneStoryProjectEditor
 
                         if (lstSentences.Count > 1)
                         {
-                            MessageBox.Show(String.Format(Properties.Resources.IDS_UseStoryCollapse,
+                            LocalizableMessageBox.Show(String.Format(Properties.Resources.IDS_UseStoryCollapse,
                                                           nVerseNumber,
                                                           theStoryProjectData.ProjSettings.FreeTranslation.LangName),
                                             StoryEditor.OseCaption);
@@ -522,7 +522,7 @@ namespace OneStoryProjectEditor
         {
             theSE.SetStatusBar(strStatusMessage);
             Console.Beep();
-            MessageBox.Show(strStatusMessage, StoryEditor.OseCaption);
+            LocalizableMessageBox.Show(strStatusMessage, StoryEditor.OseCaption);
         }
 
         public static bool ProjFacAddAnchors(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref StoryStageLogic.ProjectStages eProposedNextState)
@@ -567,7 +567,7 @@ namespace OneStoryProjectEditor
             /* Not doing 'key terms' anymore. using L&C Notes instead
             if (!bHasAnyKeyTermBeenChecked)
             {
-                DialogResult res = MessageBox.Show(Properties.Resources.IDS_CheckOnKeyTerms,
+                DialogResult res = LocalizableMessageBox.Show(Properties.Resources.IDS_CheckOnKeyTerms,
                                                StoryEditor.OseCaption, 
                                                MessageBoxButtons.RetryCancel);
                 if (res == DialogResult.Cancel)
@@ -619,7 +619,7 @@ namespace OneStoryProjectEditor
             if (!theSE._bByNextStateButton)
                 return true;
 
-            DialogResult res = MessageBox.Show(Properties.Resources.IDS_CheckForSkipToUnsCheck,
+            DialogResult res = LocalizableMessageBox.Show(Properties.Resources.IDS_CheckForSkipToUnsCheck,
                                                StoryEditor.OseCaption,
                                                MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Cancel)
@@ -661,7 +661,7 @@ namespace OneStoryProjectEditor
             {
                 int nNumLacking = ((nNumOfVerses + 1) / 2) - nNumOfTQs;
 #if !NotRelaxTqCountRequirement
-                DialogResult res = MessageBox.Show(String.Format(Properties.Resources.IDS_WarnAboutNotEnoughTqs,
+                DialogResult res = LocalizableMessageBox.Show(String.Format(Properties.Resources.IDS_WarnAboutNotEnoughTqs,
                                                                  nNumLacking),
                                                    StoryEditor.OseCaption,
                                                    MessageBoxButtons.YesNoCancel);
@@ -1378,7 +1378,7 @@ namespace OneStoryProjectEditor
 
         private static bool QueryPrepareForRetellingBoxes(StoryEditor theSE)
         {
-            DialogResult res = MessageBox.Show(Properties.Resources.IDS_AddRetellingTestQuery,
+            DialogResult res = LocalizableMessageBox.Show(Properties.Resources.IDS_AddRetellingTestQuery,
                                                StoryEditor.OseCaption,
                                                MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Cancel)
@@ -1428,7 +1428,7 @@ namespace OneStoryProjectEditor
             }
 
             // add the answer lines to the verses for test n
-            DialogResult res = MessageBox.Show(Properties.Resources.IDS_AddInferenceTestQuery,
+            DialogResult res = LocalizableMessageBox.Show(Properties.Resources.IDS_AddInferenceTestQuery,
                                                StoryEditor.OseCaption,
                                                MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Cancel)
@@ -1479,7 +1479,7 @@ namespace OneStoryProjectEditor
 
             // if they've only done one test, then ask them to do another (but don't force them)
             DialogResult res =
-                MessageBox.Show(
+                LocalizableMessageBox.Show(
                     Properties.Resources.IDS_AddAnotherTestQuery,
                     StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
 
@@ -1828,7 +1828,7 @@ namespace OneStoryProjectEditor
             Console.WriteLine(String.Format("Checking if stage 'ProjFacReadyForTest2' work is finished: Name: {0}", theCurrentStory.Name));
 
             // add the story question answer lines and retelling lines to the verses for test n
-            DialogResult res = MessageBox.Show(Properties.Resources.IDS_AddTestQuery, StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
+            DialogResult res = LocalizableMessageBox.Show(Properties.Resources.IDS_AddTestQuery, StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Cancel)
                 return false;
 
@@ -1860,7 +1860,7 @@ namespace OneStoryProjectEditor
                 return false;
 
             // see if they want to enter results for the next UNS test
-            DialogResult res = MessageBox.Show("Click 'Yes' to create the boxes for entering the next UNS's answers to the testing questions", StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
+            DialogResult res = LocalizableMessageBox.Show("Click 'Yes' to create the boxes for entering the next UNS's answers to the testing questions", StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Yes)
                 theSE.AddTest();
             else if (res == DialogResult.Cancel)

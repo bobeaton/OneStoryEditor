@@ -157,7 +157,7 @@ namespace OneStoryProjectEditor
                     catch
                     {
                         // throw means that story isn't in this revision
-                        MessageBox.Show(String.Format(Localizer.Str("This story isn't in revision '{0}'"),
+                        LocalizableMessageBox.Show(String.Format(Localizer.Str("This story isn't in revision '{0}'"),
                                                       ri.Revision.Number.LocalRevisionNumber),
                                         StoryEditor.OseCaption);
                     }

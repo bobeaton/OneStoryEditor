@@ -97,7 +97,7 @@ namespace OneStoryProjectEditor
                 string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
                 if (ex.InnerException != null)
                     strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
-                MessageBox.Show(strMessage, StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(strMessage, StoryEditor.OseCaption);
             }
         }
 
@@ -127,7 +127,7 @@ namespace OneStoryProjectEditor
             {
                 // if this is the automatic check at startup, then at 
                 //  least confirm this is what the user wants to do.
-                if (!bThrowErrors && (MessageBox.Show(Localizer.Str("There's a new version of the program available. Would you like to upgrade now?"), 
+                if (!bThrowErrors && (LocalizableMessageBox.Show(Localizer.Str("There's a new version of the program available. Would you like to upgrade now?"), 
                         StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes))
                 {
                     return;
@@ -311,7 +311,7 @@ namespace OneStoryProjectEditor
                 strErrorMsg += String.Format("{0}{0}{1}",
                                             Environment.NewLine,
                                             ex.InnerException.Message);
-            MessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
+            LocalizableMessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
         }
 
         public static void SetHgParametersNetworkDrive(string strProjectFolder, string strProjectName, string strUrl)
@@ -339,7 +339,7 @@ namespace OneStoryProjectEditor
                 string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
                 if (ex.InnerException != null)
                     strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
-                MessageBox.Show(strMessage, StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(strMessage, StoryEditor.OseCaption);
             }
         }
 
@@ -406,7 +406,7 @@ namespace OneStoryProjectEditor
                 string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
                 if (ex.InnerException != null)
                     strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
-                MessageBox.Show(strMessage, StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(strMessage, StoryEditor.OseCaption);
             }
         }
 
@@ -438,7 +438,7 @@ namespace OneStoryProjectEditor
                 string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
                 if (ex.InnerException != null)
                     strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
-                MessageBox.Show(strMessage, StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(strMessage, StoryEditor.OseCaption);
             }
         }
 
@@ -550,7 +550,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return (MessageBox.Show(Localizer.Str("You should connect to the internet now so we can download the latest version of the file (in case some of your team made changes)"),
+                return (LocalizableMessageBox.Show(Localizer.Str("You should connect to the internet now so we can download the latest version of the file (in case some of your team made changes)"),
                                         StoryEditor.OseCaption,
                                         MessageBoxButtons.OKCancel) ==
                         DialogResult.Cancel);

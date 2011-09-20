@@ -736,7 +736,7 @@ namespace OneStoryProjectEditor
                             UserTypes.ConsultantInTraining | 
                             UserTypes.IndependentConsultant))
                 {
-                    MessageBox.Show(String.Format(LoginAsProperUserMessage,
+                    LocalizableMessageBox.Show(String.Format(LoginAsProperUserMessage,
                                                   CstrIndependentConsultantDisplay),
                                     StoryEditor.OseCaption);
                 }
@@ -746,20 +746,20 @@ namespace OneStoryProjectEditor
             {
                 if (!IsUser(MemberType, UserTypes.ProjectFacilitator))
                 {
-                    MessageBox.Show(String.Format(LoginAsProperUserMessage,
+                    LocalizableMessageBox.Show(String.Format(LoginAsProperUserMessage,
                                                   CstrProjectFacilitatorDisplay),
                                     StoryEditor.OseCaption);
                 }
                 else if (MemberGuid != theCurrentStory.CraftingInfo.ProjectFacilitator.MemberId)
                 {
-                    MessageBox.Show(NotTheRightProjFacMessage,
+                    LocalizableMessageBox.Show(NotTheRightProjFacMessage,
                                     StoryEditor.OseCaption);
                 }
             }
 
             else if (!IsUser(MemberType, eMemberWithEditToken))
             {
-                MessageBox.Show(GetWrongMemberTypeWarning(eMemberWithEditToken),
+                LocalizableMessageBox.Show(GetWrongMemberTypeWarning(eMemberWithEditToken),
                                 StoryEditor.OseCaption);
             }
         }
@@ -894,7 +894,7 @@ namespace OneStoryProjectEditor
             foreach (NewDataSet.MemberRow aMemberRow in theMembersRow.GetMemberRows())
                 if (ContainsKey(aMemberRow.name))  // Throw away any duplicates
                 {
-                    MessageBox.Show(String.Format(Localizer.Str("It appears that some other team member has added a duplicate member with the name '{0}', but only one is allowed! The latter one will be discarded"),
+                    LocalizableMessageBox.Show(String.Format(Localizer.Str("It appears that some other team member has added a duplicate member with the name '{0}', but only one is allowed! The latter one will be discarded"),
                                                   aMemberRow.name), StoryEditor.OseCaption);
                 }
                 else

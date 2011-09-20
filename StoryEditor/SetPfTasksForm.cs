@@ -267,7 +267,7 @@ namespace OneStoryProjectEditor
                                       ref strFieldToAllow) &&
                  !String.IsNullOrEmpty(strFieldRequired = CstrAnswers2)))
             {
-                MessageBox.Show(String.Format(Localizer.Str("If you require the project facilitator to '{0}', then you'll also need to allow the '{1}' task?"),
+                LocalizableMessageBox.Show(String.Format(Localizer.Str("If you require the project facilitator to '{0}', then you'll also need to allow the '{1}' task?"),
                                               strFieldRequired, strFieldToAllow),
                                 StoryEditor.OseCaption);
                 return false;
@@ -279,7 +279,7 @@ namespace OneStoryProjectEditor
                  !TasksPf.IsTaskOn(tasksAllowed,
                                    TasksPf.TaskSettings.TestQuestions))
             {
-                MessageBox.Show(String.Format(Localizer.Str("If you're going to have the project facilitator do story inference testing, then you probably need to allow them to '{0}' also"),
+                LocalizableMessageBox.Show(String.Format(Localizer.Str("If you're going to have the project facilitator do story inference testing, then you probably need to allow them to '{0}' also"),
                                               CstrTestQuestion),
                                 StoryEditor.OseCaption);
                 return false;
@@ -290,7 +290,7 @@ namespace OneStoryProjectEditor
 
         private static void WarnAboutIncompatibityInTestRequirement(string strTestType)
         {
-            MessageBox.Show(String.Format(Localizer.Str("Did you want the project facilitator to do 1 or 2 {0} tests?"),
+            LocalizableMessageBox.Show(String.Format(Localizer.Str("Did you want the project facilitator to do 1 or 2 {0} tests?"),
                                           strTestType),
                             StoryEditor.OseCaption);
         }

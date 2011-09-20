@@ -587,8 +587,11 @@ namespace OneStoryProjectEditor
             try
             {
                 Program.SendEmail(member.Email, strSubjectLine, strMessageBody);
-                MessageBox.Show(String.Format(Localizer.Str("An automated message has been put into your email's Outbox to inform {0} that it is now his/her turn to work on the story. When you're finished, you should click 'Project', 'Send/Receive' to synchronize your changes to the Internet repository (or thumbdrive) and then do a Send/Receive of your email as well, so the other person gets the message"),
-                                              member.Name));
+                LocalizableMessageBox.Show(
+                    String.Format(
+                        Localizer.Str(
+                            "An automated message has been put into your email's Outbox to inform {0} that it is now his/her turn to work on the story. When you're finished, you should click 'Project', 'Send/Receive' to synchronize your changes to the Internet repository (or thumbdrive) and then do a Send/Receive of your email as well, so the other person gets the message"),
+                        member.Name), StoryEditor.OseCaption);
             }
             catch (Exception ex)
             {
@@ -649,7 +652,7 @@ namespace OneStoryProjectEditor
                 TasksCit.IsTaskOn(TheStory.TasksRequiredCit,
                                   TasksCit.TaskSettings.SendToCoachForReview))
             {
-                MessageBox.Show(String.Format(Localizer.Str("The coach is requiring you to '{0}'"),
+                LocalizableMessageBox.Show(String.Format(Localizer.Str("The coach is requiring you to '{0}'"),
                                               SetCitTasksForm.CstrSendToCoach),
                                 StoryEditor.OseCaption);
                 return false;
@@ -670,7 +673,7 @@ namespace OneStoryProjectEditor
                 TheSe.StoryProject.TeamMembers.HasIndependentConsultant &&
                 TheStory.AreUnrespondedToCoachNoteComments)
             {
-                DialogResult res = MessageBox.Show(Localizer.Str("There are one or more questions in the Coach Note pane which haven't been responded to by a Coach. Click 'Yes' to ignore them and continue changing to the project facilitator's turn or click 'No' to cancel so you can go back and respond to them"),
+                DialogResult res = LocalizableMessageBox.Show(Localizer.Str("There are one or more questions in the Coach Note pane which haven't been responded to by a Coach. Click 'Yes' to ignore them and continue changing to the project facilitator's turn or click 'No' to cancel so you can go back and respond to them"),
                                                    StoryEditor.OseCaption,
                                                    MessageBoxButtons.YesNoCancel);
                 if (res != DialogResult.Yes)
@@ -678,7 +681,7 @@ namespace OneStoryProjectEditor
                     if (res == DialogResult.No)
                     {
                         TheSe.viewCoachNotesMenu.Checked = true;
-                        MessageBox.Show(Properties.Resources.IDS_LoginAsCoach,
+                        LocalizableMessageBox.Show(Properties.Resources.IDS_LoginAsCoach,
                                         StoryEditor.OseCaption);
                     }
                     return false;
@@ -706,7 +709,7 @@ namespace OneStoryProjectEditor
         {
             if (TheStory.AreUnapprovedConsultantNotes)
             {
-                DialogResult res = MessageBox.Show(Localizer.Str("There are one or more comments in the Consultant Notes pane by the CIT (or LSR) that haven't been approved. Click 'Yes' to ignore them and continue on, or click 'No' to cancel so you can go back and approve/get them approved"),
+                DialogResult res = LocalizableMessageBox.Show(Localizer.Str("There are one or more comments in the Consultant Notes pane by the CIT (or LSR) that haven't been approved. Click 'Yes' to ignore them and continue on, or click 'No' to cancel so you can go back and approve/get them approved"),
                                                    StoryEditor.OseCaption,
                                                    MessageBoxButtons.YesNoCancel);
                 if (res != DialogResult.Yes)

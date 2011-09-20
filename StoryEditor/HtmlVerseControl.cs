@@ -46,7 +46,8 @@ namespace OneStoryProjectEditor
             {
                 LineNumberLink.Text = elemLnPrev.InnerText;
                 int nIndex = elemLnPrev.InnerText.IndexOf(' ');
-                System.Diagnostics.Debug.Assert(nIndex != -1);
+                if (nIndex == -1) 
+                    return;
                 string strLineNumber = elemLnPrev.InnerText.Substring(nIndex + 1);
                 if ((nIndex = strLineNumber.IndexOf(VersesData.HiddenStringSpace)) != -1)
                     strLineNumber = strLineNumber.Substring(0, nIndex);
