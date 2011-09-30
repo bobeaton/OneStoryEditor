@@ -35,7 +35,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.buttonOK = new System.Windows.Forms.Button();
             this.textBoxStateName = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.textBoxInstructions = new System.Windows.Forms.TextBox();
             this.flowLayoutPanelViews = new System.Windows.Forms.FlowLayoutPanel();
             this.checkBoxVernacular = new System.Windows.Forms.CheckBox();
@@ -48,9 +47,11 @@
             this.checkBoxConsultantNotes = new System.Windows.Forms.CheckBox();
             this.checkBoxCoachNotes = new System.Windows.Forms.CheckBox();
             this.checkBoxBiblePane = new System.Windows.Forms.CheckBox();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.textBoxTransitionDescription = new System.Windows.Forms.TextBox();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.checkBoxGeneralTestingQuestions = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel.SuspendLayout();
             this.flowLayoutPanelViews.SuspendLayout();
             this.SuspendLayout();
@@ -126,16 +127,6 @@
             this.textBoxStateName.Size = new System.Drawing.Size(514, 29);
             this.textBoxStateName.TabIndex = 3;
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 70);
-            this.label2.Name = "label2";
-            this.label2.Padding = new System.Windows.Forms.Padding(3);
-            this.label2.Size = new System.Drawing.Size(70, 19);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Instructions:";
-            // 
             // textBoxInstructions
             // 
             this.textBoxInstructions.AcceptsReturn = true;
@@ -154,6 +145,7 @@
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxNationalBT);
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxEnglishBT);
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxAnchors);
+            this.flowLayoutPanelViews.Controls.Add(this.checkBoxGeneralTestingQuestions);
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxStoryTestingQuestions);
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxStoryTestingQuestionAnswers);
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxRetelling);
@@ -220,33 +212,31 @@
             // checkBoxStoryTestingQuestions
             // 
             this.checkBoxStoryTestingQuestions.AutoSize = true;
-            this.checkBoxStoryTestingQuestions.Location = new System.Drawing.Point(166, 3);
+            this.checkBoxStoryTestingQuestions.Location = new System.Drawing.Point(166, 26);
             this.checkBoxStoryTestingQuestions.Name = "checkBoxStoryTestingQuestions";
             this.checkBoxStoryTestingQuestions.Size = new System.Drawing.Size(168, 17);
             this.checkBoxStoryTestingQuestions.TabIndex = 4;
             this.checkBoxStoryTestingQuestions.Text = "Show Story Testing &Questions";
-            this.toolTip.SetToolTip(this.checkBoxStoryTestingQuestions, "Check this box to have the story testing questions visible when in th" +
-                    "is state");
+            this.toolTip.SetToolTip(this.checkBoxStoryTestingQuestions, "Check this box to have the story testing questions visible when in this state");
             this.checkBoxStoryTestingQuestions.UseVisualStyleBackColor = true;
             this.checkBoxStoryTestingQuestions.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
             // checkBoxStoryTestingQuestionAnswers
             // 
             this.checkBoxStoryTestingQuestionAnswers.AutoSize = true;
-            this.checkBoxStoryTestingQuestionAnswers.Location = new System.Drawing.Point(166, 26);
+            this.checkBoxStoryTestingQuestionAnswers.Location = new System.Drawing.Point(166, 49);
             this.checkBoxStoryTestingQuestionAnswers.Name = "checkBoxStoryTestingQuestionAnswers";
             this.checkBoxStoryTestingQuestionAnswers.Size = new System.Drawing.Size(206, 17);
             this.checkBoxStoryTestingQuestionAnswers.TabIndex = 9;
             this.checkBoxStoryTestingQuestionAnswers.Text = "Show Story Testing Question &Answers";
-            this.toolTip.SetToolTip(this.checkBoxStoryTestingQuestionAnswers, "Check this box to have the story testing questions visible when in th" +
-                    "is state");
+            this.toolTip.SetToolTip(this.checkBoxStoryTestingQuestionAnswers, "Check this box to have the story testing questions visible when in this state");
             this.checkBoxStoryTestingQuestionAnswers.UseVisualStyleBackColor = true;
             this.checkBoxStoryTestingQuestionAnswers.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 
             // checkBoxRetelling
             // 
             this.checkBoxRetelling.AutoSize = true;
-            this.checkBoxRetelling.Location = new System.Drawing.Point(166, 49);
+            this.checkBoxRetelling.Location = new System.Drawing.Point(166, 72);
             this.checkBoxRetelling.Name = "checkBoxRetelling";
             this.checkBoxRetelling.Size = new System.Drawing.Size(102, 17);
             this.checkBoxRetelling.TabIndex = 5;
@@ -258,7 +248,7 @@
             // checkBoxConsultantNotes
             // 
             this.checkBoxConsultantNotes.AutoSize = true;
-            this.checkBoxConsultantNotes.Location = new System.Drawing.Point(166, 72);
+            this.checkBoxConsultantNotes.Location = new System.Drawing.Point(378, 3);
             this.checkBoxConsultantNotes.Name = "checkBoxConsultantNotes";
             this.checkBoxConsultantNotes.Size = new System.Drawing.Size(137, 17);
             this.checkBoxConsultantNotes.TabIndex = 6;
@@ -270,7 +260,7 @@
             // checkBoxCoachNotes
             // 
             this.checkBoxCoachNotes.AutoSize = true;
-            this.checkBoxCoachNotes.Location = new System.Drawing.Point(378, 3);
+            this.checkBoxCoachNotes.Location = new System.Drawing.Point(378, 26);
             this.checkBoxCoachNotes.Name = "checkBoxCoachNotes";
             this.checkBoxCoachNotes.Size = new System.Drawing.Size(118, 17);
             this.checkBoxCoachNotes.TabIndex = 7;
@@ -282,7 +272,7 @@
             // checkBoxBiblePane
             // 
             this.checkBoxBiblePane.AutoSize = true;
-            this.checkBoxBiblePane.Location = new System.Drawing.Point(378, 26);
+            this.checkBoxBiblePane.Location = new System.Drawing.Point(378, 49);
             this.checkBoxBiblePane.Name = "checkBoxBiblePane";
             this.checkBoxBiblePane.Size = new System.Drawing.Size(107, 17);
             this.checkBoxBiblePane.TabIndex = 8;
@@ -301,6 +291,16 @@
             this.label3.TabIndex = 7;
             this.label3.Text = "&Transition Description:";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 70);
+            this.label2.Name = "label2";
+            this.label2.Padding = new System.Windows.Forms.Padding(3);
+            this.label2.Size = new System.Drawing.Size(70, 19);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Instructions:";
+            // 
             // textBoxTransitionDescription
             // 
             this.tableLayoutPanel.SetColumnSpan(this.textBoxTransitionDescription, 2);
@@ -310,6 +310,17 @@
             this.textBoxTransitionDescription.Name = "textBoxTransitionDescription";
             this.textBoxTransitionDescription.Size = new System.Drawing.Size(514, 29);
             this.textBoxTransitionDescription.TabIndex = 3;
+            // 
+            // checkBoxGeneralTestingQuestions
+            // 
+            this.checkBoxGeneralTestingQuestions.AutoSize = true;
+            this.checkBoxGeneralTestingQuestions.Location = new System.Drawing.Point(166, 3);
+            this.checkBoxGeneralTestingQuestions.Name = "checkBoxGeneralTestingQuestions";
+            this.checkBoxGeneralTestingQuestions.Size = new System.Drawing.Size(181, 17);
+            this.checkBoxGeneralTestingQuestions.TabIndex = 10;
+            this.checkBoxGeneralTestingQuestions.Text = "Show General Testing &Questions";
+            this.toolTip.SetToolTip(this.checkBoxGeneralTestingQuestions, "Check this box to have the story testing questions visible when in this state");
+            this.checkBoxGeneralTestingQuestions.UseVisualStyleBackColor = true;
             // 
             // StateEditorForm
             // 
@@ -353,5 +364,6 @@
         private System.Windows.Forms.CheckBox checkBoxStoryTestingQuestionAnswers;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBoxTransitionDescription;
+        private System.Windows.Forms.CheckBox checkBoxGeneralTestingQuestions;
     }
 }

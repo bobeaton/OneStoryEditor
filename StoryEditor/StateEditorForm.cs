@@ -26,6 +26,7 @@ namespace OneStoryProjectEditor
             checkBoxNationalBT.Checked = stateTransition.IsNationalBTVisible;
             checkBoxEnglishBT.Checked = stateTransition.IsEnglishBTVisible;
             checkBoxAnchors.Checked = stateTransition.IsAnchorVisible;
+            checkBoxGeneralTestingQuestions.Checked = stateTransition.IsGeneralTqsVisible;
             checkBoxStoryTestingQuestions.Checked = stateTransition.IsStoryTestingQuestionVisible;
             checkBoxStoryTestingQuestionAnswers.Checked = stateTransition.IsStoryTestingQuestionAnswersVisible;
             checkBoxRetelling.Checked = stateTransition.IsRetellingVisible;
@@ -45,6 +46,7 @@ namespace OneStoryProjectEditor
             _stateTransition.IsNationalBTVisible = checkBoxNationalBT.Checked;
             _stateTransition.IsEnglishBTVisible = checkBoxEnglishBT.Checked;
             _stateTransition.IsAnchorVisible = checkBoxAnchors.Checked;
+            _stateTransition.IsGeneralTqsVisible = checkBoxGeneralTestingQuestions.Checked;
             _stateTransition.IsStoryTestingQuestionVisible = checkBoxStoryTestingQuestions.Checked;
             _stateTransition.IsStoryTestingQuestionAnswersVisible = checkBoxStoryTestingQuestionAnswers.Checked;
             _stateTransition.IsRetellingVisible = checkBoxRetelling.Checked;

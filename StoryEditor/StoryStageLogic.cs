@@ -197,7 +197,7 @@ namespace OneStoryProjectEditor
                     // try the same folder as we're executing out of
                     string strFileToCheck = Path.Combine(StoryProjectData.GetRunningFolder, 
                         CstrStateTransitionsXmlFilename);
-#if DEBUG
+#if DEBUGBOB
                     if (!File.Exists(strFileToCheck))
                         // on dev machines, this file is in the "..\..\src\EC\TECkit Mapping Editor" folder
                         strFileToCheck = @"C:\src\StoryEditor\StoryEditor\" + CstrStateTransitionsXmlFilename;
@@ -395,6 +395,7 @@ namespace OneStoryProjectEditor
                             st.IsEnglishBTVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewEnglishBTField, navigator.NamespaceURI) == "true");
                             st.IsFreeTranslationVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewFreeTranslationField, navigator.NamespaceURI) == "true");
                             st.IsAnchorVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewAnchorField, navigator.NamespaceURI) == "true");
+                            st.IsGeneralTqsVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewGeneralTestingQuestions, navigator.NamespaceURI) == "true");
                             st.IsStoryTestingQuestionVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewStoryTestingQuestions, navigator.NamespaceURI) == "true");
                             st.IsStoryTestingQuestionAnswersVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewStoryTestingAnswers, navigator.NamespaceURI) == "true");
                             st.IsRetellingVisible = (xpNextElement.Current.GetAttribute(StateTransition.CstrAttributeLabelViewRetellingField, navigator.NamespaceURI) == "true");
@@ -541,6 +542,7 @@ namespace OneStoryProjectEditor
             internal bool IsConsultantNotesVisible { get; set; }
             internal bool IsCoachNotesVisible { get; set; }
             internal bool IsNetBibleVisible { get; set; }
+            internal bool IsGeneralTqsVisible { get; set; }
 
             internal ProjectStages DefaultNextState(StoryProjectData storyProjectData,
                 StoryData theCurrentStory)
@@ -660,6 +662,7 @@ namespace OneStoryProjectEditor
                 theSE.viewExegeticalHelps.Checked = // this kindof goes with anchors
                     IsAnchorVisible;    // but doesn't require a biblical story
 
+                theSE.viewGeneralTestingsQuestionMenu.Checked = IsGeneralTqsVisible && bBiblicalStory;
                 theSE.viewStoryTestingQuestionsMenu.Checked = IsStoryTestingQuestionVisible && bBiblicalStory;
                 theSE.viewStoryTestingQuestionAnswersMenu.Checked = IsStoryTestingQuestionAnswersVisible && bBiblicalStory;
                 theSE.viewRetellingsMenu.Checked = IsRetellingVisible && bBiblicalStory;
@@ -704,6 +707,7 @@ namespace OneStoryProjectEditor
             public const string CstrAttributeLabelViewEnglishBTField = "viewEnglishBTField";
             public const string CstrAttributeLabelViewFreeTranslationField = "viewFreeTranslationField";
             public const string CstrAttributeLabelViewAnchorField = "viewAnchorField";
+            public const string CstrAttributeLabelViewGeneralTestingQuestions = "viewGeneralTestingQuestions";
             public const string CstrAttributeLabelViewStoryTestingQuestions = "viewStoryTestingQuestions";
             public const string CstrAttributeLabelViewStoryTestingAnswers = "viewStoryTestingAnswers";
             public const string CstrAttributeLabelViewRetellingField = "viewRetellingField";
@@ -760,6 +764,7 @@ namespace OneStoryProjectEditor
                                 new XAttribute(CstrAttributeLabelViewEnglishBTField, IsEnglishBTVisible),
                                 new XAttribute(CstrAttributeLabelViewFreeTranslationField, IsFreeTranslationVisible),
                                 new XAttribute(CstrAttributeLabelViewAnchorField, IsAnchorVisible),
+                                new XAttribute(CstrAttributeLabelViewGeneralTestingQuestions, IsGeneralTqsVisible),
                                 new XAttribute(CstrAttributeLabelViewStoryTestingQuestions, IsStoryTestingQuestionVisible),
                                 new XAttribute(CstrAttributeLabelViewStoryTestingAnswers, IsStoryTestingQuestionAnswersVisible),
                                 new XAttribute(CstrAttributeLabelViewRetellingField, IsRetellingVisible),
