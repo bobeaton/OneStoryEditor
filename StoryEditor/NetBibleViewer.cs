@@ -193,6 +193,13 @@ namespace OneStoryProjectEditor
                     }
                     else
                         lstBibleResources.Add(new SwordResource(strModuleName, strModuleDesc, false));
+
+                    string strUnlockKey;
+                    if (Program.MapSwordModuleToEncoding.TryGetValue(strModuleName, out strUnlockKey))
+                    {
+                        strUnlockKey = EncryptionClass.Decrypt(strUnlockKey);
+                        manager.setCipherKey(strModuleName, strUnlockKey);
+                    }
                 }
                 else
                 {
@@ -541,7 +548,7 @@ namespace OneStoryProjectEditor
             if (Directory.Exists(strSwordProjectPath) && !lst.Contains(strSwordProjectPath))
                 lst.Add(strSwordProjectPath);
 
-#if DEBUG
+#if DEBUGBOB
             string strWorkingFolder = @"C:\src\StoryEditor\StoryEditor";
 #else
             string strWorkingFolder = StoryProjectData.GetRunningFolder;
