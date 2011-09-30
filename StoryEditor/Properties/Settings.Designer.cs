@@ -922,10 +922,13 @@ namespace OneStoryProjectEditor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
-            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
-            "tring>KEJADIAN</string>\r\n  <string>DZnWNke9ScuB5IThEtS8txhiXMgy+5Ca</string>\r\n</" +
-            "ArrayOfString>")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>BIMK04</string>
+  <string>DZnWNke9ScuB5IThEtS8txhiXMgy+5Ca</string>
+  <string>TBI74</string>
+  <string>DZnWNke9ScuB5IThEtS8txhiXMgy+5Ca</string>
+</ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection SwordModuleToUnlockKey {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["SwordModuleToUnlockKey"]));
