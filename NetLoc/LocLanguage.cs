@@ -113,6 +113,7 @@ namespace NetLoc
                 {
                     FontName = value.Name;
                     FontSize = value.Size;
+                    _font = null;
                 }
             }
         }
