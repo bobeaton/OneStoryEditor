@@ -514,6 +514,7 @@
         <xs:attribute name="ProjectType" type="AdaptItProjectType" use="required" />
         <xs:attribute name="BtDirection" type="AdaptItBtDirection" use="required" />
         <xs:attribute name="ConverterName" type="xs:string" use="required" />
+        <xs:attribute name="ProjectFolderName" type="xs:string" use="optional" />
         <xs:attribute name="RepoProjectName" type="xs:string" use="optional" />
         <xs:attribute name="RepositoryServer" type="xs:string" use="optional" />
         <xs:attribute name="NetworkRepositoryPath" type="xs:string" use="optional" />
