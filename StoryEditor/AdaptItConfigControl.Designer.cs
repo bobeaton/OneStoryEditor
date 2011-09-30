@@ -44,8 +44,6 @@
             // 
             // tableLayoutPanel
             // 
-            this.tableLayoutPanel.AutoSize = true;
-            this.tableLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableLayoutPanel.ColumnCount = 2;
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -60,12 +58,11 @@
             this.tableLayoutPanel.RowCount = 2;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(456, 74);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(456, 103);
             this.tableLayoutPanel.TabIndex = 0;
             // 
             // groupBox
             // 
-            this.groupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.groupBox.Controls.Add(this.radioButtonShared);
             this.groupBox.Controls.Add(this.radioButtonLocal);
             this.groupBox.Controls.Add(this.radioButtonNone);
@@ -81,7 +78,7 @@
             // radioButtonShared
             // 
             this.radioButtonShared.AutoSize = true;
-            this.radioButtonShared.Location = new System.Drawing.Point(197, 17);
+            this.radioButtonShared.Location = new System.Drawing.Point(250, 17);
             this.radioButtonShared.Name = "radioButtonShared";
             this.radioButtonShared.Size = new System.Drawing.Size(134, 17);
             this.radioButtonShared.TabIndex = 2;
@@ -95,7 +92,7 @@
             // radioButtonLocal
             // 
             this.radioButtonLocal.AutoSize = true;
-            this.radioButtonLocal.Location = new System.Drawing.Point(64, 17);
+            this.radioButtonLocal.Location = new System.Drawing.Point(81, 17);
             this.radioButtonLocal.Name = "radioButtonLocal";
             this.radioButtonLocal.Size = new System.Drawing.Size(126, 17);
             this.radioButtonLocal.TabIndex = 1;
@@ -140,19 +137,16 @@
             // 
             // AdaptItConfigControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.tableLayoutPanel);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "AdaptItConfigControl";
-            this.Size = new System.Drawing.Size(456, 74);
+            this.Size = new System.Drawing.Size(456, 103);
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
             this.groupBox.ResumeLayout(false);
             this.groupBox.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

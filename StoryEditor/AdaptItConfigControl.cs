@@ -49,7 +49,8 @@ namespace OneStoryProjectEditor
         { 
             get
             {
-                if (AdaptItProjectType == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.None)
+                var eType = AdaptItProjectType;
+                if (eType == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.None)
                     return null;
 
                 if (_adaptItConfiguration == null)
@@ -58,7 +59,8 @@ namespace OneStoryProjectEditor
                 _adaptItConfiguration.BtDirection = BtDirection;    // from parent
                 _adaptItConfiguration.ProjectType = AdaptItProjectType; // from user
                 _adaptItConfiguration.ConverterName = AdaptItConverterName;
-                _adaptItConfiguration.RepoProjectName = GetProjectNameOrDefault;
+                _adaptItConfiguration.ProjectFolderName = _strAdaptItProjectFolderName;
+                _adaptItConfiguration.RepoProjectName = GetProjectNameOrDefault(eType);
                 _adaptItConfiguration.RepositoryServer = _strAdaptItRepositoryServer;
                 _adaptItConfiguration.NetworkRepositoryPath = _strAdaptItNetworkRepositoryPath;
                 return _adaptItConfiguration;
@@ -69,6 +71,7 @@ namespace OneStoryProjectEditor
                 if (_adaptItConfiguration != null)
                 {
                     AdaptItConverterName = _adaptItConfiguration.ConverterName;
+                    _strAdaptItProjectFolderName = _adaptItConfiguration.ProjectFolderName;
                     _strAdaptItProjectName = _adaptItConfiguration.RepoProjectName;
                     _strAdaptItRepositoryServer = _adaptItConfiguration.RepositoryServer;
                     _strAdaptItNetworkRepositoryPath = _adaptItConfiguration.NetworkRepositoryPath;
@@ -87,7 +90,7 @@ namespace OneStoryProjectEditor
 
         private void InitSharedOnlyFieldDefaults()
         {
-            _strAdaptItProjectName = GetProjectNameOrDefault;
+            _strAdaptItProjectName = GetProjectNameOrDefault(AdaptItProjectType);
             _strAdaptItRepositoryServer = Properties.Resources.IDS_DefaultRepoServer;
         }
 
@@ -104,24 +107,23 @@ namespace OneStoryProjectEditor
             set { textBoxProjectPath.Text = value; }
         }
 
+        private string _strAdaptItProjectFolderName;
         private string _strAdaptItProjectName;
         private string _strAdaptItRepositoryServer;
         private string _strAdaptItNetworkRepositoryPath;
 
-        private string GetProjectNameOrDefault
+        private string GetProjectNameOrDefault(ProjectSettings.AdaptItConfiguration.AdaptItProjectType eType)
         {
-            get
+            if (String.IsNullOrEmpty(_strAdaptItProjectName)
+                && !String.IsNullOrEmpty(SourceLanguageName)
+                && !String.IsNullOrEmpty(TargetLanguageName)
+                && (eType == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.SharedAiProject))
             {
-                if (String.IsNullOrEmpty(_strAdaptItProjectName)
-                    && !String.IsNullOrEmpty(SourceLanguageName)
-                    && !String.IsNullOrEmpty(TargetLanguageName))
-                {
-                    _strAdaptItProjectName = String.Format(Properties.Resources.AdaptItProjectRepositoryFormat,
-                                                           SourceLanguageName.ToLower(), 
-                                                           TargetLanguageName.ToLower());
-                }
-                return _strAdaptItProjectName;
+                _strAdaptItProjectName = String.Format(Properties.Resources.AdaptItProjectRepositoryFormat,
+                                                       SourceLanguageName.ToLower(), 
+                                                       TargetLanguageName.ToLower());
             }
+            return _strAdaptItProjectName;
         }
 
         private ProjectSettings.AdaptItConfiguration.AdaptItProjectType AdaptItProjectType
@@ -150,10 +152,10 @@ namespace OneStoryProjectEditor
             ResetSharedOnlyFields();
             // first let's see if an AI Lookup transducer already exists with the
             //  proper name
-            string strAiProjectFolder = AdaptItGlossing.AdaptItProjectFolder(SourceLanguageName, TargetLanguageName);
+            string strAiProjectFolder = AdaptItGlossing.AdaptItProjectFolder(null, SourceLanguageName, TargetLanguageName);
             if (Directory.Exists(strAiProjectFolder))
             {
-                string strConverterSpec = AdaptItGlossing.AdaptItLookupFileSpec(SourceLanguageName, TargetLanguageName);
+                string strConverterSpec = AdaptItGlossing.AdaptItLookupFileSpec(null, SourceLanguageName, TargetLanguageName);
                 if (File.Exists(strConverterSpec))
                 {
                     string strConverterName = AdaptItGlossing.AdaptItLookupConverterName(SourceLanguageName, TargetLanguageName);
@@ -163,6 +165,9 @@ namespace OneStoryProjectEditor
                         if (theEc is AdaptItEncConverter)
                         {
                             AdaptItConverterName = theEc.Name;
+                            _strAdaptItProjectFolderName =
+                                Path.GetFileNameWithoutExtension(
+                                    AdaptItGlossing.GetAiProjectFolderFromConverterIdentifier(theEc.ConverterIdentifier));
                             return;
                         }
                     }
@@ -185,6 +190,9 @@ namespace OneStoryProjectEditor
                                                                   Parent.LoggedInMember,
                                                                   out liSource, out liTarget);
                     AdaptItConverterName = theEc.Name;
+                    _strAdaptItProjectFolderName =
+                        Path.GetFileNameWithoutExtension(
+                            AdaptItGlossing.GetAiProjectFolderFromConverterIdentifier(theEc.ConverterIdentifier));
                 }
                 catch (Exception ex)
                 {
@@ -244,10 +252,10 @@ namespace OneStoryProjectEditor
                 if (String.IsNullOrEmpty(strProjectFolder))
                     return;
 
-                string strAiProjectName = Path.GetFileNameWithoutExtension(strProjectFolder);
-                string strConverterName = "Lookup in " + strAiProjectName;
+                _strAdaptItProjectFolderName = Path.GetFileNameWithoutExtension(strProjectFolder);
+                string strConverterName = "Lookup in " + _strAdaptItProjectFolderName;
                 string strConverterSpec = Path.Combine(strProjectFolder,
-                                                       strAiProjectName + ".xml");
+                                                       _strAdaptItProjectFolderName + ".xml");
                 theECs.AddConversionMap(strConverterName, strConverterSpec,
                     ConvType.Unicode_to_from_Unicode, EncConverters.strTypeSILadaptit,
                     "UNICODE", "UNICODE", ProcessTypeFlags.DontKnow);
@@ -282,6 +290,7 @@ namespace OneStoryProjectEditor
                             theEc = null;
 
                         // the 'yes' case falls through and skips the next if statement
+                        _strAdaptItProjectFolderName = Path.GetFileNameWithoutExtension(strProjectFolder);
                     }
                 }
 
@@ -296,6 +305,9 @@ namespace OneStoryProjectEditor
                                                "UNICODE", "UNICODE"))
                     {
                         AdaptItConverterName = theEc.Name;
+                        _strAdaptItProjectFolderName =
+                            Path.GetFileNameWithoutExtension(
+                                AdaptItGlossing.GetAiProjectFolderFromConverterIdentifier(theEc.ConverterIdentifier));
                     }
                     else
                         return;
@@ -310,6 +322,8 @@ namespace OneStoryProjectEditor
                 // now we know which local AI project it is and it's EncConverter, but now
                 //  we need to possibly push the project.
                 DoPushPull(out strProjectFolder);
+                if (!String.IsNullOrEmpty(strProjectFolder))
+                    _strAdaptItProjectFolderName = Path.GetFileNameWithoutExtension(strProjectFolder);
             }
         }
 

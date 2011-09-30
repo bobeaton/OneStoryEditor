@@ -8,34 +8,53 @@ namespace OneStoryProjectEditor
 {
     public class AdaptItGlossing
     {
-        protected static string AdaptItGlossingLookupFileSpec(string strSourceLangName, string strTargetLangName)
+        /// <summary>
+        /// returns something like 
+        /// </summary>
+        /// <param name="strProjectFolderName"></param>
+        /// <param name="strSourceLangName"></param>
+        /// <param name="strTargetLangName"></param>
+        /// <returns></returns>
+        protected static string AdaptItGlossingLookupFileSpec(string strProjectFolderName, 
+            string strSourceLangName, string strTargetLangName)
         {
-            return Path.Combine(AdaptItProjectFolder(strSourceLangName, strTargetLangName),
+            return Path.Combine(AdaptItProjectFolder(strProjectFolderName, strSourceLangName, strTargetLangName),
                 "Glossing.xml");
         }
 
-        protected static string AdaptItProjectFolderName(string strSourceLangName, string strTargetLangName)
+        protected static string AdaptItProjectFolderName(string strProjectFolderName, 
+            string strSourceLangName, string strTargetLangName)
         {
-            return String.Format(@"{0} to {1} adaptations", strSourceLangName, strTargetLangName);
+            return String.IsNullOrEmpty(strProjectFolderName)
+                       ? String.Format(@"{0} to {1} adaptations", strSourceLangName, strTargetLangName)
+                       : strProjectFolderName;
         }
 
-        protected static string AdaptationFileName(string strSourceLangName, string strTargetLangName)
+        protected static string AdaptationFileName(string strProjectFolderName, 
+            string strSourceLangName, string strTargetLangName)
         {
-            return String.Format(@"{0}.xml", AdaptItProjectFolderName(strSourceLangName, strTargetLangName));
+            return String.Format(@"{0}.xml",
+                                 AdaptItProjectFolderName(strProjectFolderName, strSourceLangName, strTargetLangName));
         }
 
-        public static string AdaptItLookupFileSpec(string strSourceLangName, string strTargetLangName)
+        public static string AdaptItLookupFileSpec(string strProjectFolderName, 
+            string strSourceLangName, string strTargetLangName)
         {
-            return Path.Combine(AdaptItProjectFolder(strSourceLangName, strTargetLangName),
-                AdaptationFileName(strSourceLangName, strTargetLangName));
+            return Path.Combine(AdaptItProjectFolder(strProjectFolderName, strSourceLangName, strTargetLangName),
+                                AdaptationFileName(strProjectFolderName, strSourceLangName, strTargetLangName));
         }
 
-        protected static string AdaptItProjectFileSpec(string strSourceLangName, string strTargetLangName)
+        protected static string AdaptItProjectFileSpec(string strProjectFolderName, 
+            string strSourceLangName, string strTargetLangName)
         {
-            return Path.Combine(AdaptItProjectFolder(strSourceLangName, strTargetLangName),
-                "AI-ProjectConfiguration.aic");
+            return Path.Combine(AdaptItProjectFolder(strProjectFolderName, strSourceLangName, strTargetLangName),
+                                "AI-ProjectConfiguration.aic");
         }
 
+        /// <summary>
+        /// returns something like: <My Documents>\Adapt It Unicode Work
+        /// which is the root folder in the user's my documents folder for all adapt it projects
+        /// </summary>
         public static string AdaptItWorkFolder
         {
             get
@@ -45,17 +64,41 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public static string AdaptItProjectFolder(string strSourceLangName, string strTargetLangName)
+        /// <summary>
+        /// returns something like: <My Documents>\Adapt It Unicode Work\Bundelkhandi to English adaptations
+        /// which is the project folder for the Adapt It project
+        /// </summary>
+        /// <param name="strSourceLangName"></param>
+        /// <param name="strTargetLangName"></param>
+        /// <returns></returns>
+        public static string AdaptItProjectFolder(string strProjectFolderName, 
+            string strSourceLangName, string strTargetLangName)
         {
-            return Path.Combine(AdaptItWorkFolder, AdaptItProjectFolderName(strSourceLangName, strTargetLangName));
+            return Path.Combine(AdaptItWorkFolder,
+                                AdaptItProjectFolderName(strProjectFolderName, strSourceLangName, strTargetLangName));
         }
 
-        public static string AdaptItProjectAdaptationsFolder(string strSourceLangName, string strTargetLangName)
+        /// <summary>
+        /// returns something like, <My Documents>\Adapt It Unicode Work\Bundelkhandi to English adaptations\Adaptations
+        /// which contains the adaptations done in Adapt It (only used if the user has called to AI to
+        /// do glossing; not in the OSE glossing tool)
+        /// </summary>
+        /// <param name="strSourceLangName"></param>
+        /// <param name="strTargetLangName"></param>
+        /// <returns></returns>
+        public static string AdaptItProjectAdaptationsFolder(string strProjectFolderName, 
+            string strSourceLangName, string strTargetLangName)
         {
-            return Path.Combine(AdaptItProjectFolder(strSourceLangName, strTargetLangName),
-                "Adaptations");
+            return Path.Combine(AdaptItProjectFolder(strProjectFolderName, strSourceLangName, strTargetLangName),
+                                "Adaptations");
         }
 
+        /// <summary>
+        /// returns something like: "Lookup in {0} to {1} adaptations", which is the EncConverter friendly name for the project
+        /// </summary>
+        /// <param name="strSourceLangName"></param>
+        /// <param name="strTargetLangName"></param>
+        /// <returns></returns>
         public static string AdaptItLookupConverterName(string strSourceLangName, string strTargetLangName)
         {
             return String.Format(@"Lookup in {0} to {1} adaptations",
@@ -69,7 +112,7 @@ namespace OneStoryProjectEditor
             TeamMemberData loggedOnMember, out ProjectSettings.LanguageInfo liSourceLang, 
             out ProjectSettings.LanguageInfo liTargetLang)
         {
-            string strName = null;
+            string strName = null, strProjectFolder = null;
             ProjectSettings.AdaptItConfiguration adaptItConfiguration = null;
             switch (eBtDirection)
             {
@@ -77,6 +120,7 @@ namespace OneStoryProjectEditor
                     if ((proj.VernacularToNationalBt != null) && !String.IsNullOrEmpty(proj.VernacularToNationalBt.ConverterName))
                     {
                         strName = proj.VernacularToNationalBt.ConverterName;
+                        strProjectFolder = proj.VernacularToNationalBt.ProjectFolderName;
                         adaptItConfiguration = proj.VernacularToNationalBt;
                     }
                     liSourceLang = proj.Vernacular;
@@ -87,6 +131,7 @@ namespace OneStoryProjectEditor
                     if ((proj.VernacularToInternationalBt != null) && !String.IsNullOrEmpty(proj.VernacularToInternationalBt.ConverterName))
                     {
                         strName = proj.VernacularToInternationalBt.ConverterName;
+                        strProjectFolder = proj.VernacularToInternationalBt.ProjectFolderName;
                         adaptItConfiguration = proj.VernacularToInternationalBt;
                     }
                     liSourceLang = proj.Vernacular;
@@ -97,6 +142,7 @@ namespace OneStoryProjectEditor
                     if ((proj.NationalBtToInternationalBt != null) && !String.IsNullOrEmpty(proj.NationalBtToInternationalBt.ConverterName))
                     {
                         strName = proj.NationalBtToInternationalBt.ConverterName;
+                        strProjectFolder = proj.NationalBtToInternationalBt.ProjectFolderName;
                         adaptItConfiguration = proj.NationalBtToInternationalBt;
                     }
                     liSourceLang = proj.NationalBT;         // this is a whole nuther national to English project
@@ -115,18 +161,20 @@ namespace OneStoryProjectEditor
             if (mapNameToTheEc == null)
                 mapNameToTheEc = new Dictionary<string, AdaptItEncConverter>();
 
-            string strConverterSpec = AdaptItLookupFileSpec(liSourceLang.LangName, liTargetLang.LangName);
+            string strConverterSpec = AdaptItLookupFileSpec(strProjectFolder, liSourceLang.LangName, liTargetLang.LangName);
             if ((adaptItConfiguration != null) 
                 && (adaptItConfiguration.ProjectType == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.SharedAiProject))
             {
-                string strProjectFolder = Path.GetDirectoryName(strConverterSpec);
+                strProjectFolder = Path.GetDirectoryName(strConverterSpec);
                 adaptItConfiguration.CheckForSync(strProjectFolder, loggedOnMember);
             }
             else
             {
                 // just in case the project doesn't exist yet and nothing's been 
                 //  configured (i.e. else case)
-                WriteAdaptItProjectFiles(liSourceLang, liTargetLang, proj.InternationalBT); // move this to AIGuesserEC project when it's mature.
+                strProjectFolder = AdaptItProjectFolderName(strProjectFolder, liSourceLang.LangName,
+                                                            liTargetLang.LangName);
+                WriteAdaptItProjectFiles(strProjectFolder, liSourceLang, liTargetLang, proj.InternationalBT); // move this to AIGuesserEC project when it's mature.
             }
 
             AdaptItEncConverter theEc;
@@ -171,15 +219,17 @@ namespace OneStoryProjectEditor
                 GetAiProjectFolderFromConverterIdentifier(strConverterIdentifier));
         }
 
-        protected static void WriteAdaptItProjectFiles(ProjectSettings.LanguageInfo liSourceLang,
-            ProjectSettings.LanguageInfo liTargetLang, ProjectSettings.LanguageInfo liNavigation)
+        protected static void WriteAdaptItProjectFiles(string strProjectFolderName, 
+            ProjectSettings.LanguageInfo liSourceLang,
+            ProjectSettings.LanguageInfo liTargetLang, 
+            ProjectSettings.LanguageInfo liNavigation)
         {
             // create folders...
-            if (!Directory.Exists(AdaptItProjectAdaptationsFolder(liSourceLang.LangName, liTargetLang.LangName)))
-                Directory.CreateDirectory(AdaptItProjectAdaptationsFolder(liSourceLang.LangName, liTargetLang.LangName));
+            if (!Directory.Exists(AdaptItProjectAdaptationsFolder(strProjectFolderName, liSourceLang.LangName, liTargetLang.LangName)))
+                Directory.CreateDirectory(AdaptItProjectAdaptationsFolder(strProjectFolderName, liSourceLang.LangName, liTargetLang.LangName));
 
             // create Project file
-            if (!File.Exists(AdaptItProjectFileSpec(liSourceLang.LangName, liTargetLang.LangName)))
+            if (!File.Exists(AdaptItProjectFileSpec(strProjectFolderName, liSourceLang.LangName, liTargetLang.LangName)))
             {
                 string strSourcePunct, strTargetPunct;
                 AiPunctuation(liSourceLang.FullStop, liTargetLang.FullStop, 
@@ -196,22 +246,22 @@ namespace OneStoryProjectEditor
                     strTargetPunct,
                     (liSourceLang.DoRtl) ? "1" : "0",
                     (liTargetLang.DoRtl) ? "1" : "0");
-                File.WriteAllText(AdaptItProjectFileSpec(liSourceLang.LangName, liTargetLang.LangName), strProjectFileContents);
+                File.WriteAllText(AdaptItProjectFileSpec(strProjectFolderName, liSourceLang.LangName, liTargetLang.LangName), strProjectFileContents);
             }
 
             // create main KB
-            if (!File.Exists(AdaptItLookupFileSpec(liSourceLang.LangName, liTargetLang.LangName)))
+            if (!File.Exists(AdaptItLookupFileSpec(strProjectFolderName, liSourceLang.LangName, liTargetLang.LangName)))
             {
                 string strFormat = Properties.Settings.Default.DefaultAIKBFile;
                 string strKBContents = String.Format(strFormat, liSourceLang.LangName, liTargetLang.LangName);
-                File.WriteAllText(AdaptItLookupFileSpec(liSourceLang.LangName, liTargetLang.LangName), strKBContents);
+                File.WriteAllText(AdaptItLookupFileSpec(strProjectFolderName, liSourceLang.LangName, liTargetLang.LangName), strKBContents);
             }
 
-            if (!File.Exists(AdaptItGlossingLookupFileSpec(liSourceLang.LangName, liTargetLang.LangName)))
+            if (!File.Exists(AdaptItGlossingLookupFileSpec(strProjectFolderName, liSourceLang.LangName, liTargetLang.LangName)))
             {
                 string strFormat = Properties.Settings.Default.DefaultAIKBFile;
                 string strKBContents = String.Format(strFormat, liSourceLang.LangName, liTargetLang.LangName);
-                File.WriteAllText(AdaptItGlossingLookupFileSpec(liSourceLang.LangName, liTargetLang.LangName), strKBContents);
+                File.WriteAllText(AdaptItGlossingLookupFileSpec(strProjectFolderName, liSourceLang.LangName, liTargetLang.LangName), strKBContents);
             }
         }
 
