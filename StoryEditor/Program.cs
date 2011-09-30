@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -12,6 +13,7 @@ using Chorus.Utilities;
 using Chorus.VcsDrivers;
 using Chorus.VcsDrivers.Mercurial;
 using devX;
+using MAPIEx;
 using NetLoc;
 using Palaso.Email;
 using Palaso.Reporting;
@@ -82,6 +84,10 @@ namespace OneStoryProjectEditor
                                                         "LocData");
                     Localizer.Default = new Localizer(strPathToLocData,
                                                       Properties.Settings.Default.LastLocalizationId);
+                    Localizer.LocalizerStrUseStack = false;
+                    if (Properties.Settings.Default.LastLocalizationId != "en")
+                        ConsultNoteDataConverter.OnLocalizationChange();
+
                     Application.Run(new StoryEditor(Properties.Resources.IDS_MainStoriesSet, strFilePathToOpen));
 
                     Properties.Settings.Default.LastLocalizationId = Localizer.Default.LanguageId;
@@ -189,6 +195,7 @@ namespace OneStoryProjectEditor
 
             MapServerToUrlHost = ArrayToDictionary(Properties.Settings.Default.AdaptItDefaultServerLabels);
             MapSwordModuleToFont = ArrayToDictionary(Properties.Settings.Default.SwordModuleToFont);
+            MapSwordModuleToEncoding = ArrayToDictionary(Properties.Settings.Default.SwordModuleToUnlockKey);
         }
 
         private static void SetupErrorHandling()
@@ -202,12 +209,41 @@ namespace OneStoryProjectEditor
         public static void SendEmail(string strEmailAddress, string strSubjectLine, 
             string strBodyText)
         {
+#if !MapiPlus
+            if (!NetMAPI.Init())
+                return;
+
+            var mapi = new NetMAPI();
+            if (mapi.Login())
+            {
+                var strSenderEmail = new StringBuilder(NetMAPI.DefaultBufferSize);
+                mapi.GetProfileEmail(strSenderEmail);
+                if (mapi.OpenMessageStore())
+                {
+                    if (mapi.OpenOutbox())
+                    {
+                        var message = new MAPIMessage();
+                        if (message.Create(mapi, MAPIMessage.Importance.IMPORTANCE_NORMAL))
+                        {
+                            message.SetSender(StoryEditor.OseCaption, strSenderEmail.ToString());
+                            message.SetSubject(strSubjectLine);
+                            message.SetBody(strBodyText);
+                            message.AddRecipient(strEmailAddress);
+                            message.Send();
+                        }
+                    }
+                }
+                mapi.Logout();
+            }
+            NetMAPI.Term();
+#else
             var emailProvider = EmailProviderFactory.PreferredEmailProvider();
             var emailMessage = emailProvider.CreateMessage();
             emailMessage.To.Add(strEmailAddress);
             emailMessage.Subject = strSubjectLine;
             emailMessage.Body = strBodyText;
             emailMessage.Send(emailProvider);
+#endif
         }
 
         static List<string> _astrProjectForSync = new List<string>();
@@ -219,6 +255,7 @@ namespace OneStoryProjectEditor
         static Dictionary<string, string> _mapProjectNameToAiHgNetworkUrl;
         public static Dictionary<string, string> MapServerToUrlHost;
         public static Dictionary<string, string> MapSwordModuleToFont;
+        public static Dictionary<string, string> MapSwordModuleToEncoding;
         
         public const string CstrInternetName = "Internet";
         public const string CstrNetworkDriveName = "Network Drive";
