@@ -526,6 +526,20 @@ namespace OneStoryProjectEditor
                     return;
             }
 
+            // if the consultant isn't configured yet (e.g. a new story), but there's 
+            //  only one potential consultant, then go ahead and pre-load it... or (s)he
+            //  won't get an email from below
+            if (!MemberIdInfo.Configured(TheStory.CraftingInfo.Consultant))
+            {
+                string strMentor =
+                    TheSe.StoryProject.TeamMembers.MemberIdOfOneAndOnlyMemberType(
+                        TeamMemberData.UserTypes.ConsultantInTraining |
+                        TeamMemberData.UserTypes.IndependentConsultant);
+                if (!String.IsNullOrEmpty(strMentor))
+                    MemberIdInfo.SetCreateIfEmpty(ref TheStory.CraftingInfo.Consultant,
+                                                  strMentor, false);
+            }
+
             // if this is a 'manage with coaching' situation, then reset the 
             //  'Set to Coach's turn' requirement. [That requirement will have been so
             //  removed that the CIT could send it to the PF in the first place, and the 
@@ -751,6 +765,19 @@ namespace OneStoryProjectEditor
                 return;
 
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eCoachReviewRound2Notes, true);
+
+            // if the consultant isn't configured yet (e.g. a new story), but there's 
+            //  only one potential consultant, then go ahead and pre-load it... or (s)he
+            //  won't get an email from below
+            if (!MemberIdInfo.Configured(TheStory.CraftingInfo.Coach))
+            {
+                string strMentor =
+                    TheSe.StoryProject.TeamMembers.MemberIdOfOneAndOnlyMemberType(
+                        TeamMemberData.UserTypes.Coach);
+                if (!String.IsNullOrEmpty(strMentor))
+                    MemberIdInfo.SetCreateIfEmpty(ref TheStory.CraftingInfo.Coach,
+                                                  strMentor, false);
+            }
 
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
                 TheStory.CraftingInfo.Coach,
