@@ -183,7 +183,7 @@ namespace OneStoryProjectEditor
                 catch { }   // this was only a bene anyway, so just ignore it
             }
 
-#if !DEBUG
+#if !DEBUGBOB
             if (Properties.Settings.Default.AutoCheckForProgramUpdatesAtStartup)
                 backgroundWorker.RunWorkerAsync();
 #endif
@@ -1150,6 +1150,10 @@ namespace OneStoryProjectEditor
 #if UsingHtmlDisplayForConNotes
             flowLayoutPanelVerses.LineNumberLink = linkLabelVerseBT;
             linkLabelVerseBT.Visible = true;
+
+            if (Localizer.Default.LocLanguage.Font != null)
+                StoryProject.ProjSettings.Localization.FontToUse = Localizer.Default.LocLanguage.Font;
+
             htmlConsultantNotesControl.TheSE = this;
             htmlConsultantNotesControl.StoryData = TheCurrentStory;
             htmlConsultantNotesControl.LineNumberLink = linkLabelConsultantNotes;
@@ -2256,7 +2260,7 @@ namespace OneStoryProjectEditor
             string strTempFilename = strFilename + CstrExtraExtnToAvoidClobberingFilesWithFailedSaves;
             doc.Save(strTempFilename);
 
-#if DEBUG
+#if DEBUGBOB
             // always do the reload test in debug mode
             bDoReloadTest = true;
 #endif
@@ -2841,7 +2845,8 @@ namespace OneStoryProjectEditor
                                                                     TeamMemberData.UserTypes.ConsultantInTraining));
             }
             else
-                storyUseAdaptItForBackTranslationMenu.Enabled = false;
+                storyOverrideTasksMenu.Enabled = 
+                    storyUseAdaptItForBackTranslationMenu.Enabled = false;
         }
 
         private static string FromLangToLang(string strFromLang, string strToLang)
@@ -4466,6 +4471,7 @@ namespace OneStoryProjectEditor
             InitAllPanes();
             if (m_frmFind != null)
                 m_frmFind.ResetSearchParameters();
+            Localizer.Default.Update();
         }
 
         private void replaceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4628,11 +4634,7 @@ namespace OneStoryProjectEditor
                 //  input to the transformer
                 MemoryStream streamData = new MemoryStream(Encoding.UTF8.GetBytes(GetXml.ToString()));
 
-#if DEBUG
-                string strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\oneStory2storyingBT.xsl");
-#else
                 string strXslt = Properties.Resources.oneStory2storyingBT;
-#endif
                 // the 'document()' function in this Xslt needs the full path to the 
                 //  running folder
                 string strPathRunningFolder = StoryProjectData.GetRunningFolder;
@@ -4648,27 +4650,15 @@ namespace OneStoryProjectEditor
                 strTbxStoriesBTFilePath = GetTbxDestPath("OldStoriesBT.txt");
                 ExportToToolbox(strXslt, streamData, strTbxStoriesBTFilePath, "Old Stories");
 
-#if DEBUG
-                strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\oneStory2storyingRetelling.xsl");
-#else
                 strXslt = Properties.Resources.oneStory2storyingRetelling;
-#endif
                 ExportToToolbox(strXslt, streamData,
                     GetTbxDestPath("TestRetellings.txt"), null);
 
-#if DEBUG
-                strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\oneStory2ConNotes.xsl");
-#else
                 strXslt = Properties.Resources.oneStory2ConNotes;
-#endif
                 ExportToToolbox(strXslt, streamData,
                     GetTbxDestPath("ProjectConNotes.txt"), null);
 
-#if DEBUG
-                strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\oneStory2CoachNotes.xsl");
-#else
                 strXslt = Properties.Resources.oneStory2CoachNotes;
-#endif
                 ExportToToolbox(strXslt, streamData,
                     GetTbxDestPath("CoachingNotes.txt"), null);
 
@@ -4682,11 +4672,7 @@ namespace OneStoryProjectEditor
                     string strFileContents = File.ReadAllText(strKeyTermDb);
                     streamData = new MemoryStream(Encoding.UTF8.GetBytes(strFileContents));
 
-#if DEBUG
-                    strXslt = File.ReadAllText(@"C:\src\StoryEditor\StoryEditor\Resources\oneStory2KeyTerms.xsl");
-#else
                     strXslt = Properties.Resources.oneStory2KeyTerms;
-#endif
                     // the 'document()' function in this Xslt needs the full path to the 
                     //  running folder
                     strXslt = strXslt.Replace("{0}", strPathRunningFolder);
@@ -4721,11 +4707,7 @@ namespace OneStoryProjectEditor
             // copy all of the files that are in [TARGETDIR]Toolbox into the same
             //  folder (but don't overwrite) so we can have a full, modifiable project
             string strDestFolder = GetTbxDestPath("");
-#if DEBUG
-            string strSrcFolder = @"C:\src\StoryEditor\StoryEditor\Toolbox";
-#else
             string strSrcFolder = StoryProjectData.GetRunningFolder + @"\Toolbox";
-#endif
             string[] astrSrcFiles = Directory.GetFiles(strSrcFolder);
             foreach (string strSrcFile in astrSrcFiles)
             {
@@ -4758,7 +4740,7 @@ namespace OneStoryProjectEditor
 
             strStoryBTFilename = strDestFolder + CstrStoryBtTypFilename;
             if (!File.Exists(strStoryBTFilename))
-#if DEBUG
+#if DEBUGBOB
             {
             }
             else
@@ -4793,7 +4775,7 @@ namespace OneStoryProjectEditor
             // now get the destination address
             strTbxFileFilename = strDestFolder + strTbxFilename;
             if (!File.Exists(strTbxFileFilename))
-#if DEBUG
+#if DEBUGBOB
             {
             }
             else
@@ -5067,7 +5049,8 @@ namespace OneStoryProjectEditor
                     viewHiddenVersesMenu.Checked = true;
                 }
                 int nIndex = strMenuText.IndexOf(' ');
-                Debug.Assert(nIndex != -1);
+                if (nIndex == -1)
+                    return; // must be an error in the localization
                 nVerseNumber = Convert.ToInt32(strMenuText.Substring(nIndex + 1));
             }
             FocusOnVerse(nVerseNumber, true, true);

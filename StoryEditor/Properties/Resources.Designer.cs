@@ -216,6 +216,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; class=&quot;{1}&quot; onClick=&quot;{2}&quot;&gt;{3}&lt;/button&gt;.
+        /// </summary>
+        internal static string HTML_ButtonClass {
+            get {
+                return ResourceManager.GetString("HTML_ButtonClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; style=&quot;position:relative; left:20px; height:20px; width:20px;&quot; oncontextmenu=&quot;return showContextMenu(this);&quot;&gt;{1}&lt;/button&gt;.
         /// </summary>
         internal static string HTML_ButtonRightAlignCtxMenu {
@@ -385,7 +394,19 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;a href=&quot;conNote.jumpToLine&quot; name=&quot;{0}&quot; onClick=&quot;return OnVerseLineJump(this);&quot;&gt;{1}&lt;/a&gt;.
+        ///   Looks up a localized string similar to .{0} {{
+        ///      font-family: &quot;{1}&quot;;
+        ///      font-size: {2} pt;
+        ///  }}.
+        /// </summary>
+        internal static string HTML_LangStyleCenter {
+            get {
+                return ResourceManager.GetString("HTML_LangStyleCenter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;a href=&quot;conNote.jumpToLine&quot; name=&quot;{0}&quot; class=&quot;{1}&quot; onClick=&quot;return OnVerseLineJump(this);&quot;&gt;{2}&lt;/a&gt;.
         /// </summary>
         internal static string HTML_LinkJumpLine {
             get {
@@ -458,6 +479,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string HTML_TableCell {
             get {
                 return ResourceManager.GetString("HTML_TableCell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;td class=&quot;{0}&quot;&gt;&lt;font color=&quot;{1}&quot;&gt;{2}&lt;/font&gt;&lt;/td&gt;.
+        /// </summary>
+        internal static string HTML_TableCellClass {
+            get {
+                return ResourceManager.GetString("HTML_TableCellClass", resourceCulture);
             }
         }
         

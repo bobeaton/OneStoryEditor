@@ -45,12 +45,16 @@ namespace OneStoryProjectEditor
 
             IsGeneralQuestionsLine = (VerseNumber == 0);
 
+            InsertColumn(1);
             tableLayoutPanel.Controls.Add(labelReference, 0, 0);
-            tableLayoutPanel.Controls.Add(buttonDragDropHandle, 1, 0);
+            tableLayoutPanel.Controls.Add(buttonDragDropHandle, 2, 0);
+            tableLayoutPanel.SetColumnSpan(labelReference, 2);
             if (IsGeneralQuestionsLine)
                 labelReference.Text = VersesData.CstrZerothLineNameBtPane;
             else
-                labelReference.Text = CstrVerseName + VerseNumber;
+                labelReference.Text = VersesData.LinePrefix + VerseNumber;
+
+            Localizer.Default.LocLanguage.SetFont(labelReference);
 
             InitControls(theSE);
         }
@@ -141,7 +145,7 @@ namespace OneStoryProjectEditor
                                      };
 
             InsertRow(nLayoutRow);
-            tableLayoutPanel.SetColumnSpan(aStoryLineCtrl, 2);
+            tableLayoutPanel.SetColumnSpan(aStoryLineCtrl, 3);
             tableLayoutPanel.Controls.Add(aStoryLineCtrl, 0, nLayoutRow);
         }
 
@@ -156,7 +160,7 @@ namespace OneStoryProjectEditor
                                    };
 
             InsertRow(nLayoutRow);
-            tableLayoutPanel.SetColumnSpan(anAnchorCtrl, 2);
+            tableLayoutPanel.SetColumnSpan(anAnchorCtrl, 3);
             tableLayoutPanel.Controls.Add(anAnchorCtrl, 0, nLayoutRow);
         }
 
@@ -201,7 +205,7 @@ namespace OneStoryProjectEditor
                                       {Name = CstrFieldNameRetellings, ParentControl = this};
 
             InsertRow(nLayoutRow);
-            tableLayoutPanel.SetColumnSpan(aRetellingsCtrl, 2);
+            tableLayoutPanel.SetColumnSpan(aRetellingsCtrl, 3);
             tableLayoutPanel.Controls.Add(aRetellingsCtrl, 0, nLayoutRow);
         }
 
@@ -219,7 +223,7 @@ namespace OneStoryProjectEditor
 
             int nRowIndex = nLayoutRow + i;
             InsertRow(nRowIndex);
-            tableLayoutPanel.SetColumnSpan(aTestingQuestionCtrl, 2);
+            tableLayoutPanel.SetColumnSpan(aTestingQuestionCtrl, 3);
             tableLayoutPanel.Controls.Add(aTestingQuestionCtrl, 0, nRowIndex);
         }
 
@@ -288,8 +292,7 @@ namespace OneStoryProjectEditor
         {
             // if this is a Biblical story, we have to add a few menu items
             StoryEditor theSE = (StoryEditor)FindForm();
-            if (theSE.TheCurrentStory.CraftingInfo.IsBiblicalStory)
-                contextMenuStrip.Items.Insert(3, menuAddTestQuestion);
+            menuAddTestQuestion.Visible = theSE.TheCurrentStory.CraftingInfo.IsBiblicalStory;
 
             if (IsGeneralQuestionsLine)
             {

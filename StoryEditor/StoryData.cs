@@ -559,6 +559,8 @@ namespace OneStoryProjectEditor
         public const string CstrLangNationalBtStyleClassName = "LangNationalBT";
         public const string CstrLangInternationalBtStyleClassName = "LangInternationalBT";
         public const string CstrLangFreeTranslationStyleClassName = "LangFreeTranslation";
+        public const string CstrLangLocalizationStyleClassName = "LocalizationStyle";
+        public const string CstrLangLocalizationEdgeStyleClassName = "LocalizationEdgeStyle";
 
         public static string StylePrefix(ProjectSettings projSettings)
         {
@@ -571,6 +573,16 @@ namespace OneStoryProjectEditor
                 strLangStyles += projSettings.InternationalBT.HtmlStyle(CstrLangInternationalBtStyleClassName);
             if (projSettings.FreeTranslation.HasData)
                 strLangStyles += projSettings.FreeTranslation.HtmlStyle(CstrLangFreeTranslationStyleClassName);
+            if ((Localizer.Default != null) &&
+                (Localizer.Default.LocLanguage != null) &&
+                (Localizer.Default.LocLanguage.Font != null))
+            {
+                strLangStyles += String.Format(Properties.Resources.HTML_LangStyleCenter,
+                                               CstrLangLocalizationStyleClassName,
+                                               Localizer.Default.LocLanguage.Font.Name,
+                                               Localizer.Default.LocLanguage.Font.SizeInPoints);
+                strLangStyles += projSettings.Localization.HtmlStyle(CstrLangLocalizationEdgeStyleClassName);
+            }
 
             return String.Format(Properties.Resources.HTML_StyleDefinition,
                                  Properties.Settings.Default.ConNoteTableFontSize,

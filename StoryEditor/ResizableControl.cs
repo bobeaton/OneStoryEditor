@@ -209,11 +209,6 @@ namespace OneStoryProjectEditor
 
     public class VerseControl : ResizableControl
     {
-        protected static string CstrVerseName
-        {
-            get { return Localizer.Str("ln: "); }
-        }
-
         internal int VerseNumber = -1;
         internal StoryEditor TheSE = null;
         protected LineFlowLayoutPanel ParentFlowLayoutPanel;

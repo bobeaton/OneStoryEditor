@@ -82,7 +82,7 @@ namespace OneStoryProjectEditor
                 ((elemLnPrev = doc.Body) != null) &&
                 (nScrollTop = elemLnPrev.ScrollTop) >= 0)
             {
-#if DEBUG
+#if DEBUGBOB
                 // in debug, dump out the position of all the rows that have IDs
                 HtmlWindow window = doc.Window;
                 var domwindow = (mshtml.IHTMLWindow3)window.DomWindow;

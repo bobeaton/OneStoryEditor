@@ -93,6 +93,7 @@
             this.moveSelectedTextToANewLineToolStripMenuItem,
             this.moveItemsToolStripMenuItem,
             this.deleteItemsToolStripMenuItem,
+            this.menuAddTestQuestion,
             this.addExegeticalCulturalNoteBelowToolStripMenuItem,
             this.toolStripSeparator2,
             this.addANewVerseToolStripMenuItem,

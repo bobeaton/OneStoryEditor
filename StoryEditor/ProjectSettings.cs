@@ -30,6 +30,7 @@ namespace OneStoryProjectEditor
         public LanguageInfo NationalBT = new LanguageInfo(LineData.CstrAttributeLangNationalBt, new Font("Arial Unicode MS", 12), Color.Green);
         public LanguageInfo InternationalBT = new LanguageInfo(LineData.CstrAttributeLangInternationalBt, DefInternationalLanguageName, "en", new Font("Times New Roman", 10), Color.Blue);
         public LanguageInfo FreeTranslation = new LanguageInfo(LineData.CstrAttributeLangFreeTranslation, DefInternationalLanguageName, "en", new Font("Times New Roman", 10), Color.ForestGreen);
+        public LanguageInfo Localization = new LanguageInfo(LineData.CstrAttributeLangLocalization, new Font("Microsoft Sans Serif", 9), Color.Blue);
 
         public static string DefInternationalLanguageName
         {
@@ -224,6 +225,7 @@ namespace OneStoryProjectEditor
         public const string CstrAttributeLabelProjectType = "ProjectType";
         public const string CstrAttributeLabelBtDirection = "BtDirection";
         public const string CstrAttributeLabelConverterName = "ConverterName";
+        public const string CstrAttributeLabelProjectFolderName = "ProjectFolderName";
         public const string CstrAttributeLabelRepoProjectName = "RepoProjectName";
         public const string CstrAttributeLabelRepositoryServer = "RepositoryServer";
         public const string CstrAttributeLabelNetworkRepositoryPath = "NetworkRepositoryPath";
@@ -249,6 +251,9 @@ namespace OneStoryProjectEditor
                 ProjectType = (AdaptItProjectType)Enum.Parse(typeof(AdaptItProjectType), aAiConfigRow.ProjectType);
                 BtDirection = (AdaptItBtDirection)Enum.Parse(typeof(AdaptItBtDirection), aAiConfigRow.BtDirection);
                 ConverterName = aAiConfigRow.ConverterName;
+                if (!aAiConfigRow.IsProjectFolderNameNull())
+                    ProjectFolderName = aAiConfigRow.ProjectFolderName;
+
                 if (!aAiConfigRow.IsRepoProjectNameNull())
                     RepoProjectName = aAiConfigRow.RepoProjectName;
 
@@ -262,6 +267,7 @@ namespace OneStoryProjectEditor
             public AdaptItProjectType ProjectType { get; set; }
             public AdaptItBtDirection BtDirection { get; set; }
             public string ConverterName { get; set; }
+            public string ProjectFolderName { get; set; }
             public string RepoProjectName { get; set; }
             public string RepositoryServer { get; set; }
             public string NetworkRepositoryPath { get; set; }
@@ -280,6 +286,9 @@ namespace OneStoryProjectEditor
                                             new XAttribute(CstrAttributeLabelBtDirection, BtDirection.ToString()),
                                             new XAttribute(CstrAttributeLabelProjectType, ProjectType.ToString()),
                                             new XAttribute(CstrAttributeLabelConverterName, ConverterName));
+
+                    if (!String.IsNullOrEmpty(ProjectFolderName))
+                        elem.Add(new XAttribute(CstrAttributeLabelProjectFolderName, ProjectFolderName));
 
                     if (!String.IsNullOrEmpty(RepoProjectName))
                         elem.Add(new XAttribute(CstrAttributeLabelRepoProjectName, RepoProjectName));

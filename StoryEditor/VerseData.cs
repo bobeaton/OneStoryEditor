@@ -26,6 +26,7 @@ namespace OneStoryProjectEditor
         public const string CstrAttributeLangNationalBt = "NationalBt";
         public const string CstrAttributeLangInternationalBt = "InternationalBt";
         public const string CstrAttributeLangFreeTranslation = "FreeTranslation";
+        public const string CstrAttributeLangLocalization = "Localization";
 
         public void SetValue(string strLangAttribute, string strValue)
         {
@@ -1531,7 +1532,9 @@ namespace OneStoryProjectEditor
         protected string GetHeaderRow(string strHeader, string strHeaderAdd, int nVerseIndex, bool bShowButton, int nColSpan)
         {
             string strLink = String.Format(Properties.Resources.HTML_LinkJumpLine,
-                                           nVerseIndex, strHeader) + strHeaderAdd;
+                                           nVerseIndex, 
+                                           StoryData.CstrLangLocalizationStyleClassName,
+                                           strHeader) + strHeaderAdd;
 
             string strButton = null;
             if (bShowButton)
@@ -1577,20 +1580,23 @@ namespace OneStoryProjectEditor
             string strHtmlButtons = null;
             if (theCNsDC.HasAddNotePrivilege(LoggedOnMember, strThePfMemberId))
             {
-                strHtmlButtons += String.Format(Properties.Resources.HTML_Button,
+                strHtmlButtons += String.Format(Properties.Resources.HTML_ButtonClass,
                                                 nVerseIndex,
+                                                StoryData.CstrLangLocalizationStyleClassName,
                                                 "return window.external.OnAddNote(this.id, null, false);",
                                                 Localizer.Str("Add Note"));
 
-                strHtmlButtons += String.Format(Properties.Resources.HTML_Button,
+                strHtmlButtons += String.Format(Properties.Resources.HTML_ButtonClass,
                                                 NoteToSelfButtonId(nVerseIndex),
+                                                StoryData.CstrLangLocalizationStyleClassName,
                                                 "return window.external.OnAddNoteToSelf(this.id, null);",
                                                 Localizer.Str("Add Note to Self"));
             }
 
             if (bShowOnlyOpenConversations)
-                strHtmlButtons = String.Format(Properties.Resources.HTML_Button,
+                strHtmlButtons = String.Format(Properties.Resources.HTML_ButtonClass,
                                                ButtonId(nVerseIndex),
+                                               StoryData.CstrLangLocalizationStyleClassName,
                                                "return window.external.OnShowHideOpenConversations(this.id);",
                                                (theCNsDC.ShowOpenConversations)
                                                    ? CstrShowOpenHideClosed
@@ -1598,7 +1604,9 @@ namespace OneStoryProjectEditor
                                  + strHtmlButtons;  // to have 'Add Note' come last
 
             string strLink = String.Format(Properties.Resources.HTML_LinkJumpLine,
-                                           nVerseIndex, strHeader);
+                                           nVerseIndex,
+                                           StoryData.CstrLangLocalizationStyleClassName,
+                                           strHeader);
             if (!bVerseVisible)
                 strLink += VersesData.HiddenStringSpace;
 

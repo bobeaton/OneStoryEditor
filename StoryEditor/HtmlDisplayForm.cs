@@ -127,7 +127,7 @@ namespace OneStoryProjectEditor
                     e.Cancel = true;
                     return;
                 }
-#if DEBUG
+#if DEBUGBOB
                 // throw the results into a file that I can use WinCmp to compare
                 File.WriteAllText(@"C:\src\StoryEditor\XMLFile1.xml", htmlStoryBtControl.ParentStory.GetXml.ToString(), Encoding.UTF8);
                 File.WriteAllText(@"C:\src\StoryEditor\XMLFile2.xml", htmlStoryBtControl.StoryData.GetXml.ToString(), Encoding.UTF8);

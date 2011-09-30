@@ -962,7 +962,7 @@ namespace OneStoryProjectEditor
                 string strCurrentFolder = System.Reflection.Assembly.GetExecutingAssembly().GetModules()[0].FullyQualifiedName;
                 strCurrentFolder = Path.GetDirectoryName(strCurrentFolder);
                 string strFileToCheck = Path.Combine(strCurrentFolder, CstrLangCodesFilename);
-#if DEBUG
+#if DEBUGBOB
                 if (!File.Exists(strFileToCheck))
                     // on dev machines, this file is in the "..\..\src\EC\TECkit Mapping Editor" folder
                     strFileToCheck = @"C:\src\StoryEditor\StoryEditor\" + CstrLangCodesFilename;
@@ -1000,11 +1000,11 @@ namespace OneStoryProjectEditor
                 e.Cancel = true;
         }
 
-        protected void SetKeyboard(string strKeybaordToSet)
+        protected void SetKeyboard(string strKeyboardToSet)
         {
-#if !DEBUG
-            if (!String.IsNullOrEmpty(strKeybaordToSet))
-                KeyboardController.ActivateKeyboard(strKeybaordToSet);
+#if !DEBUGBOB
+            if (!String.IsNullOrEmpty(strKeyboardToSet))
+                KeyboardController.ActivateKeyboard(strKeyboardToSet);
 #endif
         }
 
@@ -1141,7 +1141,7 @@ namespace OneStoryProjectEditor
 
         private void textBoxSentFullStop_Leave(object sender, EventArgs e)
         {
-#if !DEBUG
+#if !DEBUGBOB
             KeyboardController.DeactivateKeyboard();
 #endif
         }

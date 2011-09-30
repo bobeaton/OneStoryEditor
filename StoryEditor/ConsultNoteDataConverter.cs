@@ -593,8 +593,9 @@ namespace OneStoryProjectEditor
                    IsMenteeNoteToSelf(aCi);
         }
 
+        private const string CstrLineRefRegex = @"\b((ln|line{0}) ([1-9][0-9]?))\b";
         readonly static Regex RegexBibRef = new Regex(@"\b(([a-zA-Z]{3,4}|[1-3][a-zA-Z]{2,5}) \d{1,3}:\d{1,3})\b", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
-        static Regex _regexLineRef = new Regex(@"\b((ln|line) ([1-9][0-9]?))\b", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+        private static Regex _regexLineRef = new Regex(String.Format(CstrLineRefRegex, ""), RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         readonly static Regex RegexItalics = new Regex(@"\*\b(.+?)\b\*", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         readonly static Regex RegexHttpRef = new Regex(@"((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?)", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
 
@@ -602,9 +603,10 @@ namespace OneStoryProjectEditor
         {
             // since 'ln' might be localized differently, rebuild the regex for making
             //  a hot link from a "ln x" occurrance
-            string strLine = String.Format(@"\b(({0}|{1}) ([1-9][0-9]?))\b",
-                                           Localizer.Str("ln"),
-                                           Localizer.Str("line"));
+            string strLine = String.Format(CstrLineRefRegex,
+                                           String.Format("|{0}|{1}",
+                                                         Localizer.Str("ln"),
+                                                         Localizer.Str("line")));
             _regexLineRef = new Regex(strLine, RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         }
 
@@ -645,18 +647,22 @@ namespace OneStoryProjectEditor
                 Color clrRow;
                 if (IsFromMentor(aCI))
                 {
-                    strRow += String.Format(Properties.Resources.HTML_TableCell,
+                    clrRow = CommentColor(theCommentor, theStoryPfMemberId);
+                    strRow += String.Format(Properties.Resources.HTML_TableCellClass,
+                                            StoryData.CstrLangLocalizationStyleClassName,
+                                            VerseData.HtmlColor(Color.DodgerBlue),
                                             MentorLabel(theCommentor,
                                                         theStoryPfMemberId));
-                    clrRow = CommentColor(theCommentor, theStoryPfMemberId);
                 }
                 else
                 {
                     System.Diagnostics.Debug.Assert(IsFromMentee(aCI));
-                    strRow += String.Format(Properties.Resources.HTML_TableCell,
+                    clrRow = ResponseColor(theCommentor, theStoryPfMemberId);
+                    strRow += String.Format(Properties.Resources.HTML_TableCellClass,
+                                            StoryData.CstrLangLocalizationStyleClassName,
+                                            VerseData.HtmlColor(Color.ForestGreen),
                                             MenteeLabel(theCommentor,
                                                         theStoryPfMemberId));
-                    clrRow = ResponseColor(theCommentor, theStoryPfMemberId);
                 }
 
                 if (IsaNoteToSelf(aCI))
@@ -806,13 +812,15 @@ namespace OneStoryProjectEditor
                     OtherwiseDoesntHaveaTurn(loggedOnMember, theStory, theTeamMembers) ||
                     AllowButtonsOverride))
             {
-                strRow += String.Format(Properties.Resources.HTML_Button,
+                strRow += String.Format(Properties.Resources.HTML_ButtonClass,
                                         ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexDelete),
+                                        StoryData.CstrLangLocalizationStyleClassName,
                                         "return window.external.OnClickDelete(this.id);",
                                         StoryFrontMatterForm.CstrDeleteTest);
 
-                strRow += String.Format(Properties.Resources.HTML_Button,
+                strRow += String.Format(Properties.Resources.HTML_ButtonClass,
                                         ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexHide),
+                                        StoryData.CstrLangLocalizationStyleClassName,
                                         "return window.external.OnClickHide(this.id);",
                                         (Visible) ? CstrButtonLabelHide : CstrButtonLabelUnhide);
 
@@ -833,16 +841,18 @@ namespace OneStoryProjectEditor
                         strScriptCall = "return window.external.OnConvertToMentorNote(this.id);";
                     }
 
-                    strRow += String.Format(Properties.Resources.HTML_Button,
+                    strRow += String.Format(Properties.Resources.HTML_ButtonClass,
                                             ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexConvertToMentoreeNote),
+                                            StoryData.CstrLangLocalizationStyleClassName,
                                             strScriptCall, Localizer.Str("Change to note"));
                 }
                 else
                 {
                     // otherwise, add an 'End Conversation' button
-                    strRow += String.Format(Properties.Resources.HTML_Button,
+                    strRow += String.Format(Properties.Resources.HTML_ButtonClass,
                                             ButtonId(nVerseIndex, nConversationIndex,
                                                      CnBtnIndexEndConversation),
+                                            StoryData.CstrLangLocalizationStyleClassName,
                                             "return window.external.OnClickEndConversation(this.id);",
                                             (IsFinished)
                                                 ? CstrButtonLabelConversationReopen
@@ -856,8 +866,9 @@ namespace OneStoryProjectEditor
                 if (HasNoteApprovalAuthority(loggedOnMember, theTeamMembers) && 
                     (loggedOnMember.IsEditAllowed(theStory) || 
                         CoachWithoutaTurn(loggedOnMember, theTeamMembers)))
-                    strRow += String.Format(Properties.Resources.HTML_Button,
+                    strRow += String.Format(Properties.Resources.HTML_ButtonClass,
                                             ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexApproveNote),
+                                            StoryData.CstrLangLocalizationStyleClassName,
                                             "return window.external.OnApproveNote(this.id);",
                                             Localizer.Str("Approve Note"));
                 else
@@ -938,7 +949,9 @@ namespace OneStoryProjectEditor
         {
             // Get the matched string.
             string str = String.Format(Properties.Resources.HTML_LinkJumpLine,
-                                       m.Groups[3], m);
+                                       m.Groups[3], 
+                                       StoryData.CstrLangLocalizationStyleClassName,
+                                       m);
             return str;
         }
 
