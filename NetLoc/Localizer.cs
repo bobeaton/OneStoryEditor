@@ -58,7 +58,9 @@ namespace NetLoc
 
 		public bool EnableLocalizeHotkey = true;	// True to have forms capture Shift+Ctrl+Alt+L
 
-		static List<LocKey> capturedKeys = new List<LocKey>();	// Keys that are captured when Ctrl is called
+        static public bool LocalizerStrUseStack = true;	// True to Localizer.Str use call stack for key
+        
+        static List<LocKey> capturedKeys = new List<LocKey>();	// Keys that are captured when Ctrl is called
 		static Type captureType;								// Type of control to capture for. Null for none
 
         public static readonly PropertyInfo ControlTextProp = typeof(Control).GetProperty("Text");
@@ -110,28 +112,41 @@ namespace NetLoc
 		/// <returns>localized value</returns>
         public static string Str(string str)
         {
+            /*
+            sw.WriteLine("###Localizer.Str({0});", str);
+            sw.Flush();
+            */
             if (Default == null)
                 return str;
 
-            // Create a stack trace to find calling method	
-            StackTrace trace = new StackTrace();
-            MethodBase callingMethod = trace.GetFrame(1).GetMethod();
-
             LocKey key;
 
-            // If anonymous (mangled) names, just use namespace
-            if (callingMethod.DeclaringType.Name.Contains("<") ||
-                callingMethod.Name.Contains("<"))
-                key = new LocKey(string.Format("{0}.\"{1}\"",
-                    callingMethod.DeclaringType.Namespace,
-                    str), str);
-            else
-                key = new LocKey(string.Format("{0}.{1}.{2}.\"{3}\"",
-                    callingMethod.DeclaringType.Namespace,
-                    callingMethod.DeclaringType.Name,
-                    callingMethod.Name,
-                    str), str);
+            if (LocalizerStrUseStack)
+            {
+                // Create a stack trace to find calling method	
+                StackTrace trace = new StackTrace();
+                MethodBase callingMethod = trace.GetFrame(1).GetMethod();
 
+                // If anonymous (mangled) names, just use namespace
+                if (callingMethod.DeclaringType.Name.Contains("<") ||
+                    callingMethod.Name.Contains("<"))
+                    key = new LocKey(string.Format("{0}.\"{1}\"",
+                                                   callingMethod.DeclaringType.Namespace,
+                                                   str), str);
+                else
+                    key = new LocKey(string.Format("{0}.{1}.{2}.\"{3}\"",
+                                                   callingMethod.DeclaringType.Namespace,
+                                                   callingMethod.DeclaringType.Name,
+                                                   callingMethod.Name,
+                                                   str), str);
+            }
+            else
+                key = new LocKey("\"" + str + "\"", str);
+            
+            /*
+		    sw.WriteLine("###key[{0}]={1}", key.Path, Default[key]);
+            sw.Flush();
+            */
             return Default[key];
         }
 
@@ -240,8 +255,9 @@ namespace NetLoc
                 return;
             }
         }
-
-
+        /*
+        static StreamWriter sw=new StreamWriter("debugit.txt");
+        */
 	    /// <summary>
 		/// Creates a localizer which uses the current country code as language id
 		/// </summary>
@@ -477,8 +493,13 @@ namespace NetLoc
         /// </summary>
         public void Update()
         {
-            var newLocUpdaters = new List<LocUpdater>(locUpdaters.Count);
-            newLocUpdaters.AddRange(locUpdaters.Where(t => t.Update(this)));
+            List<LocUpdater> newLocUpdaters = new List<LocUpdater>(locUpdaters.Count);
+
+            for (int i = 0; i < locUpdaters.Count; i++)
+            {
+                if (locUpdaters[i].Update(this))
+                    newLocUpdaters.Add(locUpdaters[i]);
+            }
 
             locUpdaters = newLocUpdaters;
 
@@ -926,18 +947,23 @@ namespace NetLoc
                     foreach (string str in ILReader.FindStringCalls(
                         method, typeof(Localizer).GetMethod("Str", new Type[] { typeof(string) })))
                     {
-                        // If anonymous (mangled) names, just use namespace
-                        if (method.DeclaringType.Name.Contains("<") ||
-                            method.Name.Contains("<"))
-                            allKeys.Add(new LocKey(string.Format("{0}.\"{1}\"",
-                                    method.DeclaringType.Namespace,
-                                    str), str));
+                        if (LocalizerStrUseStack)
+                        {
+                            // If anonymous (mangled) names, just use namespace
+                            if (method.DeclaringType.Name.Contains("<") ||
+                                method.Name.Contains("<"))
+                                allKeys.Add(new LocKey(string.Format("{0}.\"{1}\"",
+                                                                     method.DeclaringType.Namespace,
+                                                                     str), str));
+                            else
+                                allKeys.Add(new LocKey(string.Format("{0}.{1}.{2}.\"{3}\"",
+                                                                     method.DeclaringType.Namespace,
+                                                                     method.DeclaringType.Name,
+                                                                     method.Name,
+                                                                     str), str));
+                        }
                         else
-                            allKeys.Add(new LocKey(string.Format("{0}.{1}.{2}.\"{3}\"",
-                                method.DeclaringType.Namespace,
-                                method.DeclaringType.Name,
-                                method.Name,
-                                str), str));
+                            allKeys.Add(new LocKey("\"" + str + "\"", str));
                     }
                 }
                 catch (FileNotFoundException)
@@ -958,11 +984,16 @@ namespace NetLoc
                     foreach (string str in ILReader.FindStringCalls(
                         constr, typeof(Localizer).GetMethod("Str", new Type[] { typeof(string) })))
                     {
-                        allKeys.Add(new LocKey(string.Format("{0}.{1}.{2}.\"{3}\"",
-                            constr.DeclaringType.Namespace,
-                            constr.DeclaringType.Name,
-                            constr.Name,
-                            str), str));
+                        if (LocalizerStrUseStack)
+                        {
+                            allKeys.Add(new LocKey(string.Format("{0}.{1}.{2}.\"{3}\"",
+                                                                 constr.DeclaringType.Namespace,
+                                                                 constr.DeclaringType.Name,
+                                                                 constr.Name,
+                                                                 str), str));
+                        }
+                        else
+                            allKeys.Add(new LocKey("\"" + str + "\"", str));
                     }
                 }
                 catch (FileNotFoundException)

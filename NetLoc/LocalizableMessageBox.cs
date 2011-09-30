@@ -13,6 +13,7 @@ namespace NetLoc
         public LocalizableMessageBox()
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
         }
 
         public static DialogResult Show(string strMessage, string strCaption, 
@@ -21,9 +22,12 @@ namespace NetLoc
             var dlg = new LocalizableMessageBox
                           {
                               labelMessage = {Text = strMessage},
-                              Text = strCaption,
-                              Font = Localizer.Default.LocLanguage.Font
+                              Text = strCaption
                           };
+
+            if (Localizer.Default.LocLanguage.Font != null)
+                dlg.Font = Localizer.Default.LocLanguage.Font;
+
             switch (buttons)
             {
                 case MessageBoxButtons.OKCancel:
@@ -79,9 +83,12 @@ namespace NetLoc
                           {
                               labelMessage = {Text = strMessage},
                               buttonRightMost = {Text = LabelOk},
-                              Text = strCaption,
-                              Font = Localizer.Default.LocLanguage.Font
+                              Text = strCaption
                           };
+
+            if (Localizer.Default.LocLanguage.Font != null)
+                dlg.Font = Localizer.Default.LocLanguage.Font;
+
             dlg.AcceptButton = dlg.buttonRightMost;
             return dlg.ShowDialog();
         }
@@ -95,9 +102,12 @@ namespace NetLoc
                               textBoxInput = {Text = strDefaultValue, Visible = true},
                               buttonRightMost = {Text = LabelCancel},
                               buttonMiddle = {Text = LabelOk, Visible = true},
-                              Text = strCaption,
-                              Font = Localizer.Default.LocLanguage.Font
+                              Text = strCaption
                           };
+
+            if (Localizer.Default.LocLanguage.Font != null)
+                dlg.Font = Localizer.Default.LocLanguage.Font;
+
             dlg.CancelButton = dlg.buttonRightMost;
             dlg.AcceptButton = dlg.buttonMiddle;
             return (dlg.ShowDialog() == DialogResult.OK)
