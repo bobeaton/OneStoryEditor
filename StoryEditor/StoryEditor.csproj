@@ -103,6 +103,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\NetLoc.dll</HintPath>
     </Reference>
+    <Reference Include="NetMAPI, Version=1.0.4289.26745, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="Palaso, Version=1.2.490.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\Palaso.dll</HintPath>
