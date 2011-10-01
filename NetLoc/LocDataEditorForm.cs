@@ -20,6 +20,14 @@ namespace NetLoc
         {
             InitializeComponent();
 
+            // if we're launched again, then if we had a delegate to call on close
+            //  the call it now
+            if (DelegateCallOnClose != null)
+            {
+                DelegateCallOnClose(true);
+                DelegateCallOnClose = null;
+            }
+
             this.localizer = localizer;
             this.locKeys = locKeys;
             if (localizer.Icon != null)
@@ -110,25 +118,37 @@ namespace NetLoc
             form.Dispose();
         }
 
+        /*
+        // if the caller wants to allow this dialog to remain active, he can provide a 
+        //  function to call when this dialog is closing and do something like this:
+        private void OnCloseLocalizationDialog(bool bWasViaFileClose)
+        {
+            // if the user does "File", "Close", then totally Dispose if it
+            //  otherwise, just hide it (so it doesn't take so long to come up
+            //  next time
+            if (bWasViaFileClose)
+                _localizationEditor = null;
+            else
+                _localizationEditor.Hide();
+        }
+        // then if the upper-right 'x' box is clicked, it will just hide the window
+        // and if the user does "File", "Close", then it will close completely.
+        */
         public delegate void CallOnFileClose(bool bWasViaFileClose);
-        public CallOnFileClose DelegateCallOnClose;
+        public static CallOnFileClose DelegateCallOnClose;
         private bool _bWasClosedViaFileClose;
 
         private void LocDataEditorForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             // if the user clicks the X in the upper right, just hide this form
             //  whereas if they use 'File', 'Close', then close it for real.
-            if (_bWasClosedViaFileClose)
-            {
+            if (_bWasClosedViaFileClose || (DelegateCallOnClose == null))
                 uiLocDataControl.Unbind();
-                localizer.Save();
-            }
             else
-            {
                 e.Cancel = true;
-            }
 
-            // either way we want to update
+            // either way we want to save and update
+            localizer.Save();
             localizer.Update();
 
             if (DelegateCallOnClose != null)

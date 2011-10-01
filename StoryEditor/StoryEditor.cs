@@ -5701,7 +5701,8 @@ namespace OneStoryProjectEditor
                                                                     "OneStoryProjectEditor",
                                                                     "Chorus.UI.Sync.SyncDialog",
                                                                     "NetLoc"
-                                                                }) {DelegateCallOnClose = OnCloseLocalizationDialog};
+                                                                });
+            LocDataEditorForm.DelegateCallOnClose = OnCloseLocalizationDialog;
             _localizationEditor.Show();
         }
 
