@@ -127,83 +127,17 @@
             // domainUpDownBookNames
             // 
             this.domainUpDownBookNames.AutoSize = true;
-            this.domainUpDownBookNames.Items.Add("Gen");
-            this.domainUpDownBookNames.Items.Add("Exod");
-            this.domainUpDownBookNames.Items.Add("Lev");
-            this.domainUpDownBookNames.Items.Add("Num");
-            this.domainUpDownBookNames.Items.Add("Deut");
-            this.domainUpDownBookNames.Items.Add("Josh");
-            this.domainUpDownBookNames.Items.Add("Judg");
-            this.domainUpDownBookNames.Items.Add("Ruth");
-            this.domainUpDownBookNames.Items.Add("1Sam");
-            this.domainUpDownBookNames.Items.Add("2Sam");
-            this.domainUpDownBookNames.Items.Add("1Kgs");
-            this.domainUpDownBookNames.Items.Add("2Kgs");
-            this.domainUpDownBookNames.Items.Add("1Chr");
-            this.domainUpDownBookNames.Items.Add("2Chr");
-            this.domainUpDownBookNames.Items.Add("Ezra");
-            this.domainUpDownBookNames.Items.Add("Neh");
-            this.domainUpDownBookNames.Items.Add("Esth");
-            this.domainUpDownBookNames.Items.Add("Job");
-            this.domainUpDownBookNames.Items.Add("Ps");
-            this.domainUpDownBookNames.Items.Add("Prov");
-            this.domainUpDownBookNames.Items.Add("Eccl");
-            this.domainUpDownBookNames.Items.Add("Song");
-            this.domainUpDownBookNames.Items.Add("Isa");
-            this.domainUpDownBookNames.Items.Add("Jer");
-            this.domainUpDownBookNames.Items.Add("Lam");
-            this.domainUpDownBookNames.Items.Add("Ezek");
-            this.domainUpDownBookNames.Items.Add("Dan");
-            this.domainUpDownBookNames.Items.Add("Hos");
-            this.domainUpDownBookNames.Items.Add("Joel");
-            this.domainUpDownBookNames.Items.Add("Amos");
-            this.domainUpDownBookNames.Items.Add("Obad");
-            this.domainUpDownBookNames.Items.Add("Jonah");
-            this.domainUpDownBookNames.Items.Add("Mic");
-            this.domainUpDownBookNames.Items.Add("Nah");
-            this.domainUpDownBookNames.Items.Add("Hab");
-            this.domainUpDownBookNames.Items.Add("Zeph");
-            this.domainUpDownBookNames.Items.Add("Hag");
-            this.domainUpDownBookNames.Items.Add("Zech");
-            this.domainUpDownBookNames.Items.Add("Mal");
-            this.domainUpDownBookNames.Items.Add("Matt");
-            this.domainUpDownBookNames.Items.Add("Mark");
-            this.domainUpDownBookNames.Items.Add("Luke");
-            this.domainUpDownBookNames.Items.Add("John");
-            this.domainUpDownBookNames.Items.Add("Acts");
-            this.domainUpDownBookNames.Items.Add("Rom");
-            this.domainUpDownBookNames.Items.Add("1Cor");
-            this.domainUpDownBookNames.Items.Add("2Cor");
-            this.domainUpDownBookNames.Items.Add("Gal");
-            this.domainUpDownBookNames.Items.Add("Eph");
-            this.domainUpDownBookNames.Items.Add("Phil");
-            this.domainUpDownBookNames.Items.Add("Col");
-            this.domainUpDownBookNames.Items.Add("1Thess");
-            this.domainUpDownBookNames.Items.Add("2Thess");
-            this.domainUpDownBookNames.Items.Add("1Tim");
-            this.domainUpDownBookNames.Items.Add("2Tim");
-            this.domainUpDownBookNames.Items.Add("Titus");
-            this.domainUpDownBookNames.Items.Add("Phlm");
-            this.domainUpDownBookNames.Items.Add("Heb");
-            this.domainUpDownBookNames.Items.Add("Jas");
-            this.domainUpDownBookNames.Items.Add("1Pet");
-            this.domainUpDownBookNames.Items.Add("2Pet");
-            this.domainUpDownBookNames.Items.Add("1John");
-            this.domainUpDownBookNames.Items.Add("2John");
-            this.domainUpDownBookNames.Items.Add("3John");
-            this.domainUpDownBookNames.Items.Add("Jude");
-            this.domainUpDownBookNames.Items.Add("Rev");
             this.domainUpDownBookNames.Location = new System.Drawing.Point(0, 0);
             this.domainUpDownBookNames.Margin = new System.Windows.Forms.Padding(0);
             this.domainUpDownBookNames.Name = "domainUpDownBookNames";
-            this.domainUpDownBookNames.Size = new System.Drawing.Size(58, 20);
+            this.domainUpDownBookNames.Size = new System.Drawing.Size(16, 20);
             this.domainUpDownBookNames.TabIndex = 0;
             this.domainUpDownBookNames.Text = "Gen";
             this.domainUpDownBookNames.SelectedItemChanged += new System.EventHandler(this.domainUpDownBookNames_SelectedItemChanged);
             // 
             // numericUpDownChapterNumber
             // 
-            this.numericUpDownChapterNumber.Location = new System.Drawing.Point(58, 0);
+            this.numericUpDownChapterNumber.Location = new System.Drawing.Point(16, 0);
             this.numericUpDownChapterNumber.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDownChapterNumber.Minimum = new decimal(new int[] {
             1,
@@ -223,7 +157,7 @@
             // 
             // numericUpDownVerseNumber
             // 
-            this.numericUpDownVerseNumber.Location = new System.Drawing.Point(111, 0);
+            this.numericUpDownVerseNumber.Location = new System.Drawing.Point(69, 0);
             this.numericUpDownVerseNumber.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDownVerseNumber.Minimum = new decimal(new int[] {
             1,
@@ -245,7 +179,7 @@
             // 
             this.buttonPreviousReference.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonPreviousReference.Image = global::OneStoryProjectEditor.Properties.Resources.DataContainer_MovePreviousHS;
-            this.buttonPreviousReference.Location = new System.Drawing.Point(152, 0);
+            this.buttonPreviousReference.Location = new System.Drawing.Point(110, 0);
             this.buttonPreviousReference.Margin = new System.Windows.Forms.Padding(0);
             this.buttonPreviousReference.Name = "buttonPreviousReference";
             this.buttonPreviousReference.Size = new System.Drawing.Size(22, 20);
@@ -257,7 +191,7 @@
             // 
             this.buttonNextReference.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonNextReference.Image = global::OneStoryProjectEditor.Properties.Resources.DataContainer_MoveNextHS;
-            this.buttonNextReference.Location = new System.Drawing.Point(174, 0);
+            this.buttonNextReference.Location = new System.Drawing.Point(132, 0);
             this.buttonNextReference.Margin = new System.Windows.Forms.Padding(0);
             this.buttonNextReference.Name = "buttonNextReference";
             this.buttonNextReference.Size = new System.Drawing.Size(22, 20);
@@ -270,11 +204,11 @@
             this.textBoxNetFlixViewer.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxNetFlixViewer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxNetFlixViewer.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxNetFlixViewer.Location = new System.Drawing.Point(196, 0);
+            this.textBoxNetFlixViewer.Location = new System.Drawing.Point(154, 0);
             this.textBoxNetFlixViewer.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxNetFlixViewer.Name = "textBoxNetFlixViewer";
             this.textBoxNetFlixViewer.ReadOnly = true;
-            this.textBoxNetFlixViewer.Size = new System.Drawing.Size(316, 16);
+            this.textBoxNetFlixViewer.Size = new System.Drawing.Size(358, 16);
             this.textBoxNetFlixViewer.TabIndex = 6;
             this.textBoxNetFlixViewer.TabStop = false;
             this.textBoxNetFlixViewer.Text = "Bible";

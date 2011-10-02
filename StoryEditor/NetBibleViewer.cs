@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using NetLoc;
@@ -103,6 +104,8 @@ namespace OneStoryProjectEditor
             "NETtext"   // probably more to come...
         };
 
+        internal static Dictionary<string, string> MapBookNames;
+
         #endregion
 
         public NetBibleViewer()
@@ -110,29 +113,116 @@ namespace OneStoryProjectEditor
             InitializeComponent();
             Localizer.Ctrl(this);
 
+            OnLocalizationChange();
+            domainUpDownBookNames.ContextMenuStrip = contextMenuStripBibleBooks;
+            checkBoxAutoHide.Checked = Properties.Settings.Default.AutoHideBiblePane;
+        }
+
+        /// <summary>
+        /// version for post-launch, which updates other bits as well
+        /// </summary>
+        public void OnLocalizationChange()
+        {
+            OnLocalizationChangeStatic();
+
+            domainUpDownBookNames.Items.Clear();
+            foreach (var mapBookName in MapBookNames)
+                domainUpDownBookNames.Items.Add(mapBookName.Value);
+
+            contextMenuStripBibleBooks.Items.Clear();
             InitDropDown(Localizer.Str("Law"), 0, 5);
             InitDropDown(Localizer.Str("History"), 5, 17);
             InitDropDown(Localizer.Str("Poetry"), 17, 22);
             InitDropDown(Localizer.Str("Prophets"), 22, 39);
             InitDropDown(Localizer.Str("Gospels"), 39, 43);
             InitDropDown(Localizer.Str("Epistles+"), 43, 66);
+        }
 
-            domainUpDownBookNames.ContextMenuStrip = contextMenuStripBibleBooks;
-            checkBoxAutoHide.Checked = Properties.Settings.Default.AutoHideBiblePane;
+        public static void OnLocalizationChangeStatic()
+        {
+            // must be done non-statically, so we'll have already loaded the new Default
+            MapBookNames = new Dictionary<string, string>
+                               {
+                                   {"Gen", Localizer.Str("Gen")},
+                                   {"Exod", Localizer.Str("Exod")},
+                                   {"Lev", Localizer.Str("Lev")},
+                                   {"Num", Localizer.Str("Num")},
+                                   {"Deut", Localizer.Str("Deut")},
+                                   {"Josh", Localizer.Str("Josh")},
+                                   {"Judg", Localizer.Str("Judg")},
+                                   {"Ruth", Localizer.Str("Ruth")},
+                                   {"1Sam", Localizer.Str("1Sam")},
+                                   {"2Sam", Localizer.Str("2Sam")},
+                                   {"1Kgs", Localizer.Str("1Kgs")},
+                                   {"2Kgs", Localizer.Str("2Kgs")},
+                                   {"1Chr", Localizer.Str("1Chr")},
+                                   {"2Chr", Localizer.Str("2Chr")},
+                                   {"Ezra", Localizer.Str("Ezra")},
+                                   {"Neh", Localizer.Str("Neh")},
+                                   {"Esth", Localizer.Str("Esth")},
+                                   {"Job", Localizer.Str("Job")},
+                                   {"Ps", Localizer.Str("Ps")},
+                                   {"Prov", Localizer.Str("Prov")},
+                                   {"Eccl", Localizer.Str("Eccl")},
+                                   {"Song", Localizer.Str("Song")},
+                                   {"Isa", Localizer.Str("Isa")},
+                                   {"Jer", Localizer.Str("Jer")},
+                                   {"Lam", Localizer.Str("Lam")},
+                                   {"Ezek", Localizer.Str("Ezek")},
+                                   {"Dan", Localizer.Str("Dan")},
+                                   {"Hos", Localizer.Str("Hos")},
+                                   {"Joel", Localizer.Str("Joel")},
+                                   {"Amos", Localizer.Str("Amos")},
+                                   {"Obad", Localizer.Str("Obad")},
+                                   {"Jonah", Localizer.Str("Jonah")},
+                                   {"Mic", Localizer.Str("Mic")},
+                                   {"Nah", Localizer.Str("Nah")},
+                                   {"Hab", Localizer.Str("Hab")},
+                                   {"Zeph", Localizer.Str("Zeph")},
+                                   {"Hag", Localizer.Str("Hag")},
+                                   {"Zech", Localizer.Str("Zech")},
+                                   {"Mal", Localizer.Str("Mal")},
+                                   {"Matt", Localizer.Str("Matt")},
+                                   {"Mark", Localizer.Str("Mark")},
+                                   {"Luke", Localizer.Str("Luke")},
+                                   {"John", Localizer.Str("John")},
+                                   {"Acts", Localizer.Str("Acts")},
+                                   {"Rom", Localizer.Str("Rom")},
+                                   {"1Cor", Localizer.Str("1Cor")},
+                                   {"2Cor", Localizer.Str("2Cor")},
+                                   {"Gal", Localizer.Str("Gal")},
+                                   {"Eph", Localizer.Str("Eph")},
+                                   {"Phil", Localizer.Str("Phil")},
+                                   {"Col", Localizer.Str("Col")},
+                                   {"1Thess", Localizer.Str("1Thess")},
+                                   {"2Thess", Localizer.Str("2Thess")},
+                                   {"1Tim", Localizer.Str("1Tim")},
+                                   {"2Tim", Localizer.Str("2Tim")},
+                                   {"Titus", Localizer.Str("Titus")},
+                                   {"Phlm", Localizer.Str("Phlm")},
+                                   {"Heb", Localizer.Str("Heb")},
+                                   {"Jas", Localizer.Str("Jas")},
+                                   {"1Pet", Localizer.Str("1Pet")},
+                                   {"2Pet", Localizer.Str("2Pet")},
+                                   {"1John", Localizer.Str("1John")},
+                                   {"2John", Localizer.Str("2John")},
+                                   {"3John", Localizer.Str("3John")},
+                                   {"Jude", Localizer.Str("Jude")},
+                                   {"Rev", Localizer.Str("Rev")}
+                               };
         }
 
         void InitDropDown(string strDropDownName, int nStart, int nEnd)
         {
-            ToolStripMenuItem tsmi = new ToolStripMenuItem(strDropDownName);
+            var tsmi = new ToolStripMenuItem(strDropDownName);
             contextMenuStripBibleBooks.Items.Add(tsmi);
             for (int i = nStart; i < nEnd; i++)
                 tsmi.DropDown.Items.Add((string)domainUpDownBookNames.Items[i], null, BibleBookCtx_Click);
-
         }
 
         void BibleBookCtx_Click(object sender, EventArgs e)
         {
-            ToolStripItem tsi = (ToolStripItem)sender;
+            var tsi = (ToolStripItem)sender;
             domainUpDownBookNames.SelectedItem = tsi.Text;
         }
 
@@ -142,12 +232,39 @@ namespace OneStoryProjectEditor
         {
             if (manager == null)
                 InitializeSword();
+            domainUpDownBookNames.SelectedIndex = 0;
         }
 
         public string ScriptureReference
         {
             get { return m_strScriptureReference; }
             set { m_strScriptureReference = value; }
+        }
+
+        /// <summary>
+        /// returns "Gen" if ScriptureReference were "Gen 1:1"
+        /// </summary>
+        public string ScriptureReferenceBookName
+        {
+            get
+            {
+                var str = ScriptureReference;
+                int nIndex = str.LastIndexOf(' ');  // use 'last' in case of multi-word names
+                return (nIndex == -1) ? str : str.Substring(0, nIndex);
+            }
+        }
+
+        /// <summary>
+        /// returns " 1:1" if ScriptureReference were "Gen 1:1" (yes with a space)
+        /// </summary>
+        public string ScriptureReferenceChapVerse
+        {
+            get
+            {
+                var str = ScriptureReference;
+                int nIndex = str.LastIndexOf(' ');  // use 'last' in case of multi-word names
+                return (nIndex == -1) ? str : str.Substring(nIndex);
+            }
         }
 
         #region "Code for Sword support"
@@ -194,6 +311,7 @@ namespace OneStoryProjectEditor
                     else
                         lstBibleResources.Add(new SwordResource(strModuleName, strModuleDesc, false));
 
+                    // if the module has encryption, then get the decrypt key
                     string strUnlockKey;
                     if (Program.MapSwordModuleToEncoding.TryGetValue(strModuleName, out strUnlockKey))
                     {
@@ -235,21 +353,23 @@ namespace OneStoryProjectEditor
 
             if (tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + moduleToStartWith] is RadioButton)
             {
-                RadioButton rb = (RadioButton)tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + moduleToStartWith];
+                var rb = (RadioButton)tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + moduleToStartWith];
+                _bInitializing = true;
                 rb.Checked = true;
+                _bInitializing = false;
             }
         }
 
         protected RadioButton InitSwordResourceRadioButton(string strModuleName, string strModuleDescription)
         {
-            RadioButton rb = new RadioButton
-                                 {
-                                     AutoSize = true,
-                                     Name = CstrRadioButtonPrefix + strModuleName,
-                                     Text = strModuleName,
-                                     UseVisualStyleBackColor = true,
-                                     Margin = new Padding(0)
-                                 };
+            var rb = new RadioButton
+                         {
+                             AutoSize = true,
+                             Name = CstrRadioButtonPrefix + strModuleName,
+                             Text = strModuleName,
+                             UseVisualStyleBackColor = true,
+                             Margin = new Padding(0)
+                         };
             toolTip.SetToolTip(rb, strModuleDescription);
             rb.CheckedChanged += rb_CheckedChanged;
             rb.MouseMove += CheckBiblePaneCursorPosition_MouseMove;
@@ -262,55 +382,56 @@ namespace OneStoryProjectEditor
 
         private void radioButtonShowOtherSwordResources_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButtonShowOtherSwordResources.Checked)
+            if (!radioButtonShowOtherSwordResources.Checked) 
+                return;
+
+            var dlg = new ViewSwordOptionsForm(ref lstBibleResources);
+            RadioButton rbOn = null;
+            if (dlg.ShowDialog() == DialogResult.OK)
             {
-                var dlg = new ViewSwordOptionsForm(ref lstBibleResources);
-                RadioButton rbOn = null;
-                if (dlg.ShowDialog() == DialogResult.OK)
+                foreach (SwordResource aSR in lstBibleResources)
                 {
-                    foreach (SwordResource aSR in lstBibleResources)
+                    if (aSR.Loaded)
                     {
-                        if (aSR.Loaded)
-                        {
-                            if (tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + aSR.Name] == null)
-                                // means the user selected it, but it's not there. So add it
-                                rbOn = InitSwordResourceRadioButton(aSR.Name, aSR.Description);
-                            else
-                                rbOn = (RadioButton)tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + aSR.Name];
-
-                            // add this one to the user's list of used modules
-                            if (!Properties.Settings.Default.SwordModulesUsed.Contains(aSR.Name))
-                                Properties.Settings.Default.SwordModulesUsed.Add(aSR.Name);
-                        }
+                        if (tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + aSR.Name] == null)
+                            // means the user selected it, but it's not there. So add it
+                            rbOn = InitSwordResourceRadioButton(aSR.Name, aSR.Description);
                         else
-                        {
-                            if (tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + aSR.Name] != null)
-                            {
-                                // means the user deselected it and it's there. So remove it.
-                                tableLayoutPanelSpinControls.Controls.RemoveByKey(CstrRadioButtonPrefix + aSR.Name);
-                            }
+                            rbOn = (RadioButton)tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + aSR.Name];
 
-                            // remove this one to the user's list of used modules
-                            if (Properties.Settings.Default.SwordModulesUsed.Contains(aSR.Name))
-                                Properties.Settings.Default.SwordModulesUsed.Remove(aSR.Name);
+                        // add this one to the user's list of used modules
+                        if (!Properties.Settings.Default.SwordModulesUsed.Contains(aSR.Name))
+                            Properties.Settings.Default.SwordModulesUsed.Add(aSR.Name);
+                    }
+                    else
+                    {
+                        if (tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + aSR.Name] != null)
+                        {
+                            // means the user deselected it and it's there. So remove it.
+                            tableLayoutPanelSpinControls.Controls.RemoveByKey(CstrRadioButtonPrefix + aSR.Name);
                         }
+
+                        // remove this one to the user's list of used modules
+                        if (Properties.Settings.Default.SwordModulesUsed.Contains(aSR.Name))
+                            Properties.Settings.Default.SwordModulesUsed.Remove(aSR.Name);
                     }
                 }
-
-                if (rbOn != null)
-                    rbOn.Checked = true;
             }
+
+            if (rbOn != null)
+                rbOn.Checked = true;
         }
+
+        private bool _bInitializing = false;
 
         private void rb_CheckedChanged(object sender, EventArgs e)
         {
-            RadioButton rb = (RadioButton)sender;
-            if (rb.Checked)
-            {
-                TurnOnResource(rb.Text);
-                Properties.Settings.Default.LastSwordModuleUsed = rb.Text;
-                Properties.Settings.Default.Save();
-            }
+            var rb = (RadioButton)sender;
+            if (_bInitializing || !rb.Checked)
+                return;
+            TurnOnResource(rb.Text);
+            Properties.Settings.Default.LastSwordModuleUsed = rb.Text;
+            Properties.Settings.Default.Save();
         }
 
         protected void TurnOnResource(string strModuleName)
@@ -324,7 +445,7 @@ namespace OneStoryProjectEditor
         }
 
 
-        // the anchor comes in as, for example, "gen 1:1"
+        // the anchor comes in as, for example, "Gen 1:1"
         // this form is usually called from outside
         public void DisplayVerses(string strScriptureReference)
         {
@@ -332,7 +453,8 @@ namespace OneStoryProjectEditor
                 && (m_astrReferences.Count >= (m_nReferenceArrayIndex + 2))
                 && (m_astrReferences[m_nReferenceArrayIndex] != strScriptureReference))
             {
-                m_astrReferences.RemoveRange(m_nReferenceArrayIndex + 1, m_astrReferences.Count - m_nReferenceArrayIndex - 1);
+                m_astrReferences.RemoveRange(m_nReferenceArrayIndex + 1,
+                                             m_astrReferences.Count - m_nReferenceArrayIndex - 1);
             }
             
             // don't add this if it's already at the head
@@ -357,7 +479,25 @@ namespace OneStoryProjectEditor
 
         protected void DisplayVerses()
         {
-            var keyVerse = new VerseKey(ScriptureReference);
+            // first see if we're being given the localized version and convert it
+            //  back to 'en' (Sword needs it this way)
+            var scriptureReferenceBookName = ScriptureReferenceBookName;
+            if (!MapBookNames.ContainsKey(scriptureReferenceBookName) && 
+                MapBookNames.ContainsValue(scriptureReferenceBookName))
+            {
+                string reference = scriptureReferenceBookName;
+                foreach (var mapBookName in
+                    MapBookNames.Where(mapBookName => 
+                        reference == mapBookName.Value))
+                {
+                    scriptureReferenceBookName = mapBookName.Key;
+                    break;
+                }
+            }
+
+            var strScriptureReference = scriptureReferenceBookName + ScriptureReferenceChapVerse;
+
+            var keyVerse = new VerseKey(strScriptureReference);
             int nBook = keyVerse.Book();
             int nChapter = keyVerse.Chapter();
             int nVerse = keyVerse.Verse();
@@ -380,7 +520,6 @@ namespace OneStoryProjectEditor
                         strVerseHtml = Localizer.Str("Passage not available in this version");
 
                     // insert a button (for drag-drop) and the HTML into a table format
-                    // kindof a cheat, but I don't mind (this should be done better...)
                     string strFontName, strModuleVersion = moduleVersion.Name();
                     if (Program.MapSwordModuleToFont.TryGetValue(strModuleVersion, out strFontName))
                     {
@@ -392,7 +531,6 @@ namespace OneStoryProjectEditor
                         strVerseHtml = String.Format(CstrAddFontFormat, strVerseHtml, strFontName);
                     }
 
-                    string strButtonLabel;
                     /*
                      * This was a nice idea (of making the selected verse bold), but then
                      * we need to re-do the DocumentText each time
@@ -401,7 +539,7 @@ namespace OneStoryProjectEditor
                             keyWholeOfChapter.getShortText());
                     else
                     */
-                    strButtonLabel = keyWholeOfChapter.getShortText();
+                    string strButtonLabel = ScriptureReferenceBookName + ScriptureReferenceChapVerse;
                     string strLineHtml = String.Format(CstrHtmlLineFormat, 
                         keyWholeOfChapter.Verse(),
                         strButtonLabel, 
@@ -636,15 +774,15 @@ namespace OneStoryProjectEditor
         protected bool m_bDisableInterrupts = false;
         protected void CallUpdateUpDowns()
         {
-            if (!m_bDisableInterrupts)
-            {
-                string strScriptureReference = String.Format("{0} {1}:{2}",
-                    domainUpDownBookNames.SelectedItem,
-                    numericUpDownChapterNumber.Value,
-                    numericUpDownVerseNumber.Value);
+            if (m_bDisableInterrupts) 
+                return;
 
-                DisplayVerses(strScriptureReference);
-            }
+            var strScriptureReference = String.Format("{0} {1}:{2}",
+                                                      domainUpDownBookNames.SelectedItem,
+                                                      numericUpDownChapterNumber.Value,
+                                                      numericUpDownVerseNumber.Value);
+
+            DisplayVerses(strScriptureReference);
         }
 
         private void domainUpDownBookNames_SelectedItemChanged(object sender, EventArgs e)

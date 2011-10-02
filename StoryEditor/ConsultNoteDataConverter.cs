@@ -594,7 +594,12 @@ namespace OneStoryProjectEditor
         }
 
         private const string CstrLineRefRegex = @"\b((ln|line{0}) ([1-9][0-9]?))\b";
-        readonly static Regex RegexBibRef = new Regex(@"\b(([a-zA-Z]{3,4}|[1-3][a-zA-Z]{2,5}) \d{1,3}:\d{1,3})\b", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+        private const string CstrBibRefRegexFormat = @"\b(({0}) \d{1,3}:\d{1,3})\b";
+        private const string CstrBibRefRegexEnSimplification = "[a-zA-Z]{3,4}|[1-3][a-zA-Z]{2,5}";
+
+        private static Regex _regexBibRef =
+            new Regex(CstrBibRefRegexFormat.Replace("{0}", CstrBibRefRegexEnSimplification),
+                      RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         private static Regex _regexLineRef = new Regex(String.Format(CstrLineRefRegex, ""), RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         readonly static Regex RegexItalics = new Regex(@"\*\b(.+?)\b\*", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         readonly static Regex RegexHttpRef = new Regex(@"((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?)", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
@@ -608,6 +613,15 @@ namespace OneStoryProjectEditor
                                                          Localizer.Str("ln"),
                                                          Localizer.Str("line")));
             _regexLineRef = new Regex(strLine, RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+            strLine = CstrBibRefRegexEnSimplification;
+            if (Localizer.Default.LanguageId != "en")
+            {
+                // for non-en localizations, also add all the localized strings
+                strLine = NetBibleViewer.MapBookNames.Aggregate(strLine, 
+                    (current, mapBookName) => current + ("|" + mapBookName.Value));
+            }
+
+            _regexBibRef = new Regex(CstrBibRefRegexFormat.Replace("{0}", strLine), RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         }
 
         public string Html(object htmlConNoteCtrl, 
@@ -706,7 +720,7 @@ namespace OneStoryProjectEditor
                     if (aCI.HasData)
                     {
                         strHyperlinkedText = aCI.ToString().Replace("\r\n", "<br />");   // regexParagraph.Replace(aCI.ToString(), ParagraphFound);
-                        strHyperlinkedText = RegexBibRef.Replace(strHyperlinkedText, BibleReferenceFound);
+                        strHyperlinkedText = _regexBibRef.Replace(strHyperlinkedText, BibleReferenceFound);
                         strHyperlinkedText = _regexLineRef.Replace(strHyperlinkedText, LineReferenceFound);
                         strHyperlinkedText = RegexItalics.Replace(strHyperlinkedText, EmphasizedTextFound);
                         strHyperlinkedText = RegexHttpRef.Replace(strHyperlinkedText, HttpReferenceFound);

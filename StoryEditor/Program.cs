@@ -86,7 +86,7 @@ namespace OneStoryProjectEditor
                                                       Properties.Settings.Default.LastLocalizationId);
                     Localizer.LocalizerStrUseStack = false;
                     if (Properties.Settings.Default.LastLocalizationId != "en")
-                        ConsultNoteDataConverter.OnLocalizationChange();
+                        StoryEditor.OnLocalizationChangeStatic();
 
                     Application.Run(new StoryEditor(Properties.Resources.IDS_MainStoriesSet, strFilePathToOpen));
 

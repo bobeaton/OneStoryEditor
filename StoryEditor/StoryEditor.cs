@@ -5719,8 +5719,15 @@ namespace OneStoryProjectEditor
 
         // global scope variables that might need to be updated whenever the localization
         //  changes
-        private static void OnLocalizationChange()
+        public static void OnLocalizationChangeStatic()
         {
+            NetBibleViewer.OnLocalizationChangeStatic();
+            ConsultNoteDataConverter.OnLocalizationChange();
+        }
+
+        public void OnLocalizationChange()
+        {
+            netBibleViewer.OnLocalizationChange();
             ConsultNoteDataConverter.OnLocalizationChange();
         }
 

@@ -1410,7 +1410,7 @@ namespace OneStoryProjectEditor
             this.netBibleViewer.Location = new System.Drawing.Point(0, 0);
             this.netBibleViewer.Margin = new System.Windows.Forms.Padding(0);
             this.netBibleViewer.Name = "netBibleViewer";
-            this.netBibleViewer.ScriptureReference = "gen 1:1";
+            this.netBibleViewer.ScriptureReference = "Gen 1:1";
             this.netBibleViewer.Size = new System.Drawing.Size(451, 216);
             this.netBibleViewer.TabIndex = 0;
             // 
