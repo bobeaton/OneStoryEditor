@@ -35,8 +35,8 @@
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addCommentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editKeyTermsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertNullAnchorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editKeyTermsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripAnchorOptions.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -107,6 +107,12 @@
             this.insertNullAnchorToolStripMenuItem.ToolTipText = "Use this to add an empty anchor for lines of the story that don\'t really have a b" +
                 "iblical anchor";
             this.insertNullAnchorToolStripMenuItem.Click += new System.EventHandler(this.insertNullAnchorToolStripMenuItem_Click);
+            // 
+            // editKeyTermsToolStripMenuItem
+            // 
+            this.editKeyTermsToolStripMenuItem.Name = "editKeyTermsToolStripMenuItem";
+            this.editKeyTermsToolStripMenuItem.Size = new System.Drawing.Size(306, 22);
+            this.editKeyTermsToolStripMenuItem.Visible = false;
             // 
             // AnchorControl
             // 
