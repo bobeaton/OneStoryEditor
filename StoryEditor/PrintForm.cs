@@ -162,6 +162,12 @@ namespace OneStoryProjectEditor
                 cb.Checked = viewSettings.IsViewItemOn(eItem);
         }
 
+        private static void SetCheckedState(CheckBox cb, bool bChecked)
+        {
+            if (cb.Visible)
+                cb.Checked = bChecked;
+        }
+
         private void buttonPrint_Click(object sender, EventArgs e)
         {
             htmlStoryBt.ShowPrintPreviewDialog();
@@ -202,12 +208,16 @@ namespace OneStoryProjectEditor
             else
             {
                 bool bIsChecked = (cb.CheckState == CheckState.Checked);
-                checkBoxLangVernacular.Checked =
-                    checkBoxLangNationalBT.Checked =
-                    checkBoxLangInternationalBT.Checked =
-                    checkBoxAnchors.Checked =
-                    checkBoxExegeticalHelpNote.Checked = 
-                    checkBoxGeneralTestingQuestions.Checked = 
+
+                // the language boxes are done differently (because they're only
+                //  checked if it's visible (and therefore configured)
+                SetCheckedState(checkBoxLangVernacular, bIsChecked);
+                SetCheckedState(checkBoxLangNationalBT, bIsChecked);
+                SetCheckedState(checkBoxLangInternationalBT, bIsChecked);
+
+                checkBoxAnchors.Checked =
+                    checkBoxExegeticalHelpNote.Checked =
+                    checkBoxGeneralTestingQuestions.Checked =
                     checkBoxStoryTestingQuestions.Checked =
                     checkBoxAnswers.Checked =
                     checkBoxRetellings.Checked =
