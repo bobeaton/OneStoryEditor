@@ -432,7 +432,7 @@ namespace OneStoryProjectEditor
             // if we're not given anything to put in the box, at least put in the logged
             //  in member's initials and re
             if (String.IsNullOrEmpty(strNote) && (theSE.LoggedOnMember != null))
-                strNote = StoryEditor.GetInitials(theSE.LoggedOnMember.Name) + Localizer.Str(": Re: ");
+                strNote = StoryEditor.GetInitials(theSE.LoggedOnMember.Name) + StoryEditor.StrRegarding;
 
             StrIdToScrollTo = GetTopRowId;
             ConsultNoteDataConverter cndc =

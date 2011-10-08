@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -485,7 +486,11 @@ namespace OneStoryProjectEditor
 
         public const string CstrElementLableRetellings = "Retellings";
         public const string CstrElementLableRetelling = "Retelling";
-        public const string CstrRetellingLabelFormat = "ret {0}:";
+        
+        public static string RetellingLabelFormat
+        {
+            get { return Localizer.Str("ret {0}:"); }
+        }
 
         public override sealed string CollectionElementName
         {
@@ -499,7 +504,7 @@ namespace OneStoryProjectEditor
 
         public override string LabelTextFormat
         {
-            get { return CstrRetellingLabelFormat; }
+            get { return RetellingLabelFormat; }
         }
 
         protected override VerseData.ViewSettings.ItemToInsureOn AssociatedViewMenu
@@ -548,7 +553,11 @@ namespace OneStoryProjectEditor
 
         public const string CstrElementLableAnswers = "Answers";
         public const string CstrElementLableAnswer = "Answer";
-        public const string CstrAnswersLabelFormat = "ans {0}:";
+        
+        public static string AnswersLabelFormat
+        {
+            get { return Localizer.Str("ans {0}:"); }
+        }
 
         public override sealed string CollectionElementName
         {
@@ -562,7 +571,7 @@ namespace OneStoryProjectEditor
 
         public override string LabelTextFormat
         {
-            get { return CstrAnswersLabelFormat; }
+            get { return AnswersLabelFormat; }
         }
 
         protected override VerseData.ViewSettings.ItemToInsureOn AssociatedViewMenu

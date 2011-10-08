@@ -5,6 +5,7 @@ using System.Xml.Linq;
 using System.Text;
 using System.Text.RegularExpressions;   // for Regex
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
@@ -340,43 +341,6 @@ namespace OneStoryProjectEditor
             }
         }
 
-        /* don't thinks this is used (and it doesn't work)
-        public string Html(int nVerseIndex, int nNumCols)
-        {
-            string strRow = null;
-            foreach (AnchorData anchorData in this)
-                strRow += anchorData.Html;
-
-            // make a cell out of the buttons
-            string strHtmlCell = String.Format(Properties.Resources.HTML_TableCellWidth,
-                                               100, 
-                                               strRow);
-
-            // add combine with the 'anc:' header cell into a Table Row
-            string strHtml = String.Format(Properties.Resources.HTML_TableRow,
-                                           String.Format("{0}{1}",
-                                                         String.Format(Properties.Resources.HTML_TableCell,
-                                                                       "anc:"),
-                                                         strHtmlCell));
-
-            // add exegetical comments as their own rows
-            for (int i = 0; i < Count; i++)
-            {
-                AnchorData anchorData = this[i];
-                if (anchorData.ExegeticalHelpNotes.Count > 0)
-                    strHtml += anchorData.ExegeticalHelpNotes.Html(nVerseIndex, i);
-            }
-
-            // make a sub-table out of all this
-            strHtml = String.Format(Properties.Resources.HTML_TableRow,
-                                    String.Format(Properties.Resources.HTML_TableCellWithSpan, nNumCols,
-                                                  String.Format(Properties.Resources.HTML_Table,
-                                                                strHtml)));
-
-            return strHtml;
-        }
-        */
-
         public string PresentationHtml(int nVerseIndex, int nNumCols,
             AnchorsData childAnchorsData, bool bPrintPreview, 
             ref List<string> astrExegeticalHelpNotes)
@@ -419,8 +383,13 @@ namespace OneStoryProjectEditor
             return String.Format(Properties.Resources.HTML_TableRow,
                                  String.Format("{0}{1}",
                                                String.Format(Properties.Resources.HTML_TableCell,
-                                                             "anc:"),
+                                                             AnchorLabel),
                                                strHtmlCell));
+        }
+
+        public static string AnchorLabel
+        {
+            get { return Localizer.Str("anc:"); }
         }
     }
 }

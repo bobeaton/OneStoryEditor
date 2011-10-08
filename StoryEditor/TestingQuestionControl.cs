@@ -42,7 +42,7 @@ namespace OneStoryProjectEditor
                 RemoveColumn(tableLayoutPanel.ColumnCount - 1);
 
             int nNumColumns = 0;
-            string strTestNumberLabel = String.Format(TestQuestionData.CstrTestQuestionsLabelFormat,
+            string strTestNumberLabel = String.Format(TestQuestionData.TestQuestionsLabelFormat,
                                                       nIndex + 1);
             if (theSE.viewStoryTestingQuestionsMenu.Checked
                 || theSE.viewGeneralTestingsQuestionMenu.Checked)

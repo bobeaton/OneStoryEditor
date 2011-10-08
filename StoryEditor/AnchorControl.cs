@@ -16,6 +16,11 @@ namespace OneStoryProjectEditor
         protected AnchorsData _myAnchorsData;
         // protected Dictionary<ToolStripButton, List<TextBox>> _mapAnchorsToTextBoxes = new Dictionary<ToolStripButton, List<TextBox>>();
 
+        public AnchorControl()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
         public AnchorControl(VerseControl ctrlVerse, StoryStageLogic storyStageLogic,
             AnchorsData anAnchorsData)
             : base(storyStageLogic)
@@ -23,10 +28,12 @@ namespace OneStoryProjectEditor
             _ctrlVerse = ctrlVerse;
             _myAnchorsData = anAnchorsData;
             InitializeComponent();
+            Localizer.Ctrl(this);
 
             tableLayoutPanel.SuspendLayout();
             SuspendLayout();
 
+            labelAnchor.Text = AnchorsData.AnchorLabel;
             tableLayoutPanel.Controls.Add(labelAnchor, 0, 0);
             tableLayoutPanel.Controls.Add(toolStripAnchors, 1, 0);
 
@@ -225,79 +232,6 @@ namespace OneStoryProjectEditor
             m_theLastButtonClicked = null;
         }
 
-        /*
-        private void addExegeticalCulturalNoteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // the only function of the button here is to add a slot to type a con note
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE))
-                return;
-
-            ExegeticalHelpNoteData anEHN = _myExegeticalHelpNotes.AddExegeticalHelpNote("Re: " + ((m_theLastButtonClicked != null) ? m_theLastButtonClicked.Text : null));
-            SetExegeticalHelpControls(_ctrlVerse, _li, anEHN, ref m_nNumRows);
-            AdjustHeightWithSuspendLayout(null);
-            theSE.Modified = true;
-        }
-
-        internal static BiblicalKeyTermsForm m_dlgKeyTerms = null;
-
-        private void editKeyTermsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // the only function of the button here is to add a slot to type a con note
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE))
-                return;
-
-            try
-            {
-                // if the language code changed (such that we'll need to build a new key terms db)
-                ProjectSettings.LanguageInfo liMainLang = WhichLangInfoToUseForKeyTerms;
-                if ((m_dlgKeyTerms != null) &&
-                    ((m_dlgKeyTerms.MainLang.LangCode != liMainLang.LangCode)
-                    || (m_dlgKeyTerms._projSettings.ProjectFolder != theSE.StoryProject.ProjSettings.ProjectFolder)))
-                {
-                    m_dlgKeyTerms = null;
-                }
-
-                if (m_dlgKeyTerms == null)
-                {
-                    Debug.Assert(theSE.StoryProject.ProjSettings.Vernacular.HasData
-                        || theSE.StoryProject.ProjSettings.NationalBT.HasData
-                        || theSE.StoryProject.ProjSettings.InternationalBT.HasData);
-
-                    m_dlgKeyTerms = new BiblicalKeyTermsForm(theSE, theSE.StoryProject.ProjSettings, liMainLang);
-                }
-                m_dlgKeyTerms.Show(_myAnchorsData, theSE.StoryProject);
-            }
-            catch (Exception ex)
-            {
-                LocalizableMessageBox.Show(String.Format(Properties.Resources.IDS_KeyTermsProblem,
-                    Environment.NewLine, ex.Message), StoryEditor.OseCaption);
-                return;
-            }
-        }
-
-        protected ProjectSettings.LanguageInfo WhichLangInfoToUseForKeyTerms
-        {
-            get
-            {
-                // the only function of the button here is to add a slot to type a con note
-                StoryEditor theSE;
-                if (!CheckForProperEditToken(out theSE))
-                    return null;
-
-                ProjectSettings.LanguageInfo liToUse;
-                if (theSE.StoryProject.ProjSettings.Vernacular.HasData)
-                    liToUse = theSE.StoryProject.ProjSettings.Vernacular;
-                else if (theSE.StoryProject.ProjSettings.NationalBT.HasData)
-                    liToUse = theSE.StoryProject.ProjSettings.NationalBT;
-                else
-                    liToUse = theSE.StoryProject.ProjSettings.InternationalBT;
-                return liToUse;
-            }
-        }
-        */
-
         private void addConsultantCoachNoteOnThisAnchorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // the only function of the button here is to add a slot to type a con note
@@ -308,7 +242,7 @@ namespace OneStoryProjectEditor
             if (m_theLastButtonClicked != null)
             {
                 Debug.Assert(theSE.LoggedOnMember != null);
-                string strNote = StoryEditor.GetInitials(theSE.LoggedOnMember.Name) + ": Re: anc: ";
+                string strNote = StoryEditor.GetInitials(theSE.LoggedOnMember.Name) + StoryEditor.StrRegarding + AnchorsData.AnchorLabel + " ";
                 strNote += m_theLastButtonClicked.Text;
 
                 if (m_theLastButtonClicked.ToolTipText != m_theLastButtonClicked.Text)

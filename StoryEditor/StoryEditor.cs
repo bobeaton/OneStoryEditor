@@ -1524,7 +1524,7 @@ namespace OneStoryProjectEditor
         public void AddNoteAbout(VerseControl ctrlParent, bool bNoteToSelf)
         {
             Debug.Assert(LoggedOnMember != null);
-            string strNote = GetInitials(LoggedOnMember.Name) + Localizer.Str(": Re:");
+            string strNote = GetInitials(LoggedOnMember.Name) + StrRegarding; 
             if (ctrlParent is VerseBtControl)
             {
                 VerseBtControl ctrl = ctrlParent as VerseBtControl;
@@ -1607,6 +1607,11 @@ namespace OneStoryProjectEditor
             SendNoteToCorrectPane(ctrlParent.VerseNumber, strNote, bNoteToSelf);
         }
 
+        public static string StrRegarding
+        {
+            get { return Localizer.Str(": Re: "); }
+        }
+
         private bool IsInStoryLine(VerseBtControl ctrl)
         {
             return (CtrlTextBox._inTextBox == ctrl._verseData.StoryLine.Vernacular.TextBox)
@@ -1626,23 +1631,26 @@ namespace OneStoryProjectEditor
 
         private static bool IsFirstCharsEqual(string strLhs, string strRhs)
         {
-            const int cnLengthToCompare = 4;
-            return IsFirstCharsEqual(strLhs, strRhs, cnLengthToCompare);
+            int nCompareLen = 4;
+            if (strRhs.Contains(' '))
+                nCompareLen = strRhs.IndexOf(' ') + 1;
+
+            return IsFirstCharsEqual(strLhs, strRhs, nCompareLen);
         }
 
         internal static bool IsTestQuestionBox(string strLabel)
         {
-            return IsFirstCharsEqual(strLabel, TestQuestionData.CstrTestQuestionsLabelFormat);
+            return IsFirstCharsEqual(strLabel, TestQuestionData.TestQuestionsLabelFormat);
         }
 
         internal static bool IsRetellingBox(string strLabel)
         {
-            return IsFirstCharsEqual(strLabel, RetellingsData.CstrRetellingLabelFormat);
+            return IsFirstCharsEqual(strLabel, RetellingsData.RetellingLabelFormat);
         }
 
         internal static bool IsTqAnswerBox(string strLabel)
         {
-            return IsFirstCharsEqual(strLabel, AnswersData.CstrAnswersLabelFormat);
+            return IsFirstCharsEqual(strLabel, AnswersData.AnswersLabelFormat);
         }
 
         private void AddExtraInfoBasedOnLabel(string strLabel, VerseBtControl ctrl,
@@ -1732,7 +1740,10 @@ namespace OneStoryProjectEditor
         private LineMemberData GetRetellingData(string strLabel, VerseBtControl ctrl)
         {
             RetellingsData retellings = ctrl._verseData.Retellings;
-            string strTestNumber = strLabel.Substring(4, 1);
+
+            Debug.Assert(strLabel.Contains(' '));
+            int nIndex = strLabel.LastIndexOf(' ');
+            string strTestNumber = strLabel.Substring(nIndex + 1, 1);
 
             // there are two cases we have to treat specially:
             //  1) it's 'ret 0' (because somehow the member id was removed)
@@ -1753,7 +1764,9 @@ namespace OneStoryProjectEditor
             // e.g. "ans 1:tst 1:"
             TestQuestionData testQuestionData = GetTestQuestionDataFromAnswerLabel(strLabel, ctrl);
             answers = testQuestionData.Answers;
-            string strTestNumber = strLabel.Substring(4, 1);
+            Debug.Assert(strLabel.Contains(' '));
+            int nIndex = strLabel.LastIndexOf(' ');
+            string strTestNumber = strLabel.Substring(nIndex + 1, 1);
 
             // there are two cases we have to treat specially:
             //  1) it's 'ans 0' (because somehow the member id was removed)
@@ -1790,8 +1803,10 @@ namespace OneStoryProjectEditor
 
         internal static TestQuestionData GetTestQuestionData(string strLabel, VerseBtControl ctrl)
         {
-            // e.g. "tst 1:"
-            string strTestNumber = strLabel.Substring(4, 1);
+            // e.g. "tst 1:" (but may be localized)
+            Debug.Assert(strLabel.Contains(' '));
+            int nIndex = strLabel.LastIndexOf(' ');
+            string strTestNumber = strLabel.Substring(nIndex + 1, 1);
             int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
             return ctrl._verseData.TestQuestions[nTestNumber];
         }
@@ -1799,7 +1814,9 @@ namespace OneStoryProjectEditor
         internal static TestQuestionData GetTestQuestionDataFromAnswerLabel(string strLabel, VerseBtControl ctrl)
         {
             // e.g. "ans 1:tst 1:"
-            string strTestNumber = strLabel.Substring(10, 1);
+            Debug.Assert(strLabel.Contains(' '));
+            int nIndex = strLabel.LastIndexOf(' ');
+            string strTestNumber = strLabel.Substring(nIndex + 1, 1);
             int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
             return ctrl._verseData.TestQuestions[nTestNumber];
         }

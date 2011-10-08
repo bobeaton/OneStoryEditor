@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
+using NetLoc;
 using SilEncConverters40;
 
 namespace OneStoryProjectEditor
@@ -99,7 +100,10 @@ namespace OneStoryProjectEditor
                 Answers.IndexSearch(findProperties, ref lstBoxesToSearch);
         }
 
-        public const string CstrTestQuestionsLabelFormat = "tst {0}:";
+        public static string TestQuestionsLabelFormat
+        {
+            get { return Localizer.Str("tst {0}:"); }
+        }
 
         public static string TextareaId(int nVerseIndex, int nTQNum, string strTextElementName)
         {
@@ -111,7 +115,7 @@ namespace OneStoryProjectEditor
             bool bShowVernacular, bool bShowNationalBT, bool bShowEnglishBT)
         {
             string strRow = String.Format(Properties.Resources.HTML_TableCell,
-                                          String.Format(CstrTestQuestionsLabelFormat, nTQNum + 1));
+                                          String.Format(TestQuestionsLabelFormat, nTQNum + 1));
 
             if (bShowVernacular)
             {
@@ -182,7 +186,7 @@ namespace OneStoryProjectEditor
                 (bIsFirstVerse && viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions)))
             {
                 string strRow = String.Format(Properties.Resources.HTML_TableCell,
-                                              String.Format(CstrTestQuestionsLabelFormat, nTQNum + 1));
+                                              String.Format(TestQuestionsLabelFormat, nTQNum + 1));
                 if (bShowVernacular)
                 {
                     DirectableEncConverter transliterator = viewSettings.TransliteratorVernacular;
@@ -248,7 +252,7 @@ namespace OneStoryProjectEditor
             if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions))
             {
                 string strRow = String.Format(Properties.Resources.HTML_TableCell,
-                                              String.Format(CstrTestQuestionsLabelFormat,
+                                              String.Format(TestQuestionsLabelFormat,
                                                             nTQNum + 1));
                 if (bShowVernacular)
                 {
