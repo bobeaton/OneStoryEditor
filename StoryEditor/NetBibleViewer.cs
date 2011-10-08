@@ -113,7 +113,7 @@ namespace OneStoryProjectEditor
             InitializeComponent();
             Localizer.Ctrl(this);
 
-            OnLocalizationChange();
+            OnLocalizationChange(false);
             domainUpDownBookNames.ContextMenuStrip = contextMenuStripBibleBooks;
             checkBoxAutoHide.Checked = Properties.Settings.Default.AutoHideBiblePane;
         }
@@ -121,9 +121,10 @@ namespace OneStoryProjectEditor
         /// <summary>
         /// version for post-launch, which updates other bits as well
         /// </summary>
-        public void OnLocalizationChange()
+        public void OnLocalizationChange(bool bRequery)
         {
-            OnLocalizationChangeStatic();
+            if (bRequery || (MapBookNames == null))
+                OnLocalizationChangeStatic();
 
             domainUpDownBookNames.Items.Clear();
             foreach (var mapBookName in MapBookNames)
@@ -136,6 +137,12 @@ namespace OneStoryProjectEditor
             InitDropDown(Localizer.Str("Prophets"), 22, 39);
             InitDropDown(Localizer.Str("Gospels"), 39, 43);
             InitDropDown(Localizer.Str("Epistles+"), 43, 66);
+
+            if (bRequery)
+            {
+                m_nChapter = 0; // to trigger a repaint
+                DisplayVerses(domainUpDownBookNames.Items[0] + " 1:1");
+            }
         }
 
         public static void OnLocalizationChangeStatic()
@@ -539,7 +546,10 @@ namespace OneStoryProjectEditor
                             keyWholeOfChapter.getShortText());
                     else
                     */
-                    string strButtonLabel = ScriptureReferenceBookName + ScriptureReferenceChapVerse;
+                    string strButtonLabel = String.Format("{0} {1}:{2}",
+                                                          ScriptureReferenceBookName,
+                                                          nChapter, keyWholeOfChapter.Verse());
+
                     string strLineHtml = String.Format(CstrHtmlLineFormat, 
                         keyWholeOfChapter.Verse(),
                         strButtonLabel, 
@@ -777,12 +787,17 @@ namespace OneStoryProjectEditor
             if (m_bDisableInterrupts) 
                 return;
 
-            var strScriptureReference = String.Format("{0} {1}:{2}",
+            // sometimes this happens with nothing selected... ignore those
+            var strSelectedBookName = domainUpDownBookNames.SelectedItem as string;
+            if (!String.IsNullOrEmpty(strSelectedBookName))
+            {
+                var strScriptureReference = String.Format("{0} {1}:{2}",
                                                       domainUpDownBookNames.SelectedItem,
                                                       numericUpDownChapterNumber.Value,
                                                       numericUpDownVerseNumber.Value);
 
-            DisplayVerses(strScriptureReference);
+                DisplayVerses(strScriptureReference);
+            }
         }
 
         private void domainUpDownBookNames_SelectedItemChanged(object sender, EventArgs e)

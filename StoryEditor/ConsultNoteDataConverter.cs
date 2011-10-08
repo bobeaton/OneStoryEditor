@@ -617,6 +617,7 @@ namespace OneStoryProjectEditor
             if (Localizer.Default.LanguageId != "en")
             {
                 // for non-en localizations, also add all the localized strings
+                System.Diagnostics.Debug.Assert(NetBibleViewer.MapBookNames != null);
                 strLine = NetBibleViewer.MapBookNames.Aggregate(strLine, 
                     (current, mapBookName) => current + ("|" + mapBookName.Value));
             }

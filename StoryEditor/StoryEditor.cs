@@ -2114,7 +2114,7 @@ namespace OneStoryProjectEditor
         protected void InitializeNetBibleViewer()
         {
             netBibleViewer.InitNetBibleViewer();
-            string strLastRef = "gen 1:5";
+            string strLastRef = "Gen 1:5";
             if (!String.IsNullOrEmpty(Properties.Settings.Default.LastNetBibleReference))
                 strLastRef = Properties.Settings.Default.LastNetBibleReference;
             SetNetBibleVerse(strLastRef);
@@ -2980,9 +2980,12 @@ namespace OneStoryProjectEditor
             // do the sync'ing now before the main window goes away (or users are too quick
             //  to try to launch it again, before the first instance actually goes away)
             //  also, this could be time consuming.
-            Cursor = Cursors.WaitCursor;
-            Program.SyncBeforeClose(false);
-            Cursor = Cursors.Default;
+            if (!_bRestarting)
+            {
+                Cursor = Cursors.WaitCursor;
+                Program.SyncBeforeClose(false);
+                Cursor = Cursors.Default;
+            }
 
             m_frmFind = null;
         }
@@ -5355,6 +5358,8 @@ namespace OneStoryProjectEditor
             CheckForUpgrade(Properties.Resources.IDS_OSEUpgradeServerNextMajorUpgrade);
         }
 
+        private bool _bRestarting;
+
         private void CheckForUpgrade(string strManifestUrl)
         {
             Cursor = Cursors.WaitCursor;
@@ -5380,6 +5385,7 @@ namespace OneStoryProjectEditor
             }
             catch (Program.RestartException)
             {
+                _bRestarting = true;
                 Close();
             }
             catch (Exception ex)
@@ -5727,8 +5733,11 @@ namespace OneStoryProjectEditor
 
         public void OnLocalizationChange()
         {
-            netBibleViewer.OnLocalizationChange();
+            netBibleViewer.OnLocalizationChange(true);
             ConsultNoteDataConverter.OnLocalizationChange();
+
+            Properties.Settings.Default.LastLocalizationId = Localizer.Default.LanguageId;
+            Properties.Settings.Default.Save();
         }
 
         public static string OseCaption

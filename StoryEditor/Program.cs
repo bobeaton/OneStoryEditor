@@ -89,9 +89,6 @@ namespace OneStoryProjectEditor
                         StoryEditor.OnLocalizationChangeStatic();
 
                     Application.Run(new StoryEditor(Properties.Resources.IDS_MainStoriesSet, strFilePathToOpen));
-
-                    Properties.Settings.Default.LastLocalizationId = Localizer.Default.LanguageId;
-                    Properties.Settings.Default.Save();
                 }
             }
             catch (RestartException)
