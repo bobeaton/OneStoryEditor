@@ -4,7 +4,7 @@
   <ApplicationExecutable />
   <ApplicationName>OneStory Editor AutoUpdater</ApplicationName>
   <FullUpgradeFileName />
-  <OffsetFromUctWhereManifestWasOriginallyCreated>2011-10-10T06:26:59.3930000-05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+  <OffsetFromUctWhereManifestWasOriginallyCreated>2011-10-10T06:39:46.3740000-05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
   <ManifestFiles>
     <File name="AIGuesserEC.dll" method="version" action="copy" version="4.0.1.0" optional="false" size="90624">AdaptIt Encoding Converters</File>
     <File name="AIGuesserEC.tlb" method="date" action="copy" version="Sunday, October 09, 2011 10:14:53 PM" optional="false" size="16804" />
@@ -21,6 +21,12 @@
     <File name="SilEncConverters40.tlb" method="date" action="copy" version="Monday, September 12, 2011 8:54:23 AM" optional="false" size="18892" />
     <File name="StageTransitions.xml" method="date" action="copy" version="Saturday, July 30, 2011 3:45:46 PM" optional="false" size="88220" />
     <File name="StoryEditor.exe" method="version" action="copy" version="2.3.0.11" optional="false" size="1330176">OneStory Editor</File>
+    <File name="EC\Plugins\AI 4.0.0.0 Plugin Details.xml" method="date" action="copy" version="Thursday, January 20, 2011 6:06:48 PM" optional="false" size="1062" />
+    <File name="EC\Plugins\EC 4.0.0.0 Plugin Details.xml" method="date" action="copy" version="Thursday, January 20, 2011 6:06:48 PM" optional="false" size="3051" />
+    <File name="EC\Plugins\IcuEC40 3.1.0.0 Plugin Details.xml" method="date" action="copy" version="Thursday, May 20, 2010 11:18:54 AM" optional="false" size="1202" />
+    <File name="EC\Plugins\PerlEC510 3.1.0.0 Plugin Details.xml" method="date" action="copy" version="Thursday, May 20, 2010 11:18:54 AM" optional="false" size="537" />
+    <File name="EC\Plugins\PythonEC25 3.1.0.0 Plugin Details.xml" method="date" action="copy" version="Thursday, May 20, 2010 11:18:54 AM" optional="false" size="558" />
+    <File name="EC\Plugins\SIEC 4.0.0.0 Plugin Details.xml" method="date" action="copy" version="Thursday, January 20, 2011 6:06:48 PM" optional="false" size="627" />
   </ManifestFiles>
   <SourcePath />
   <UpgradeFiles />

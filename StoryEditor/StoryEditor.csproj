@@ -82,10 +82,9 @@
       <ExecutableExtension>.exe</ExecutableExtension>
       <HintPath>..\DepDLLs\Chorus.exe</HintPath>
     </Reference>
-    <Reference Include="ECInterfaces, Version=3.1.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
+    <Reference Include="ECInterfaces, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DepDLLs\ECInterfaces.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\WW\Lib\release\ECInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="HtmlEditor, Version=7.0.100.5147, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
