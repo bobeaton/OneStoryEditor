@@ -206,41 +206,44 @@ namespace OneStoryProjectEditor
         public static void SendEmail(string strEmailAddress, string strSubjectLine, 
             string strBodyText)
         {
-#if !MapiPlus
-            if (!NetMAPI.Init())
-                return;
-
-            var mapi = new NetMAPI();
-            if (mapi.Login())
+            if (Properties.Settings.Default.UseMapiPlus)
             {
-                var strSenderEmail = new StringBuilder(NetMAPI.DefaultBufferSize);
-                mapi.GetProfileEmail(strSenderEmail);
-                if (mapi.OpenMessageStore())
+                if (!NetMAPI.Init())
+                    return;
+
+                var mapi = new NetMAPI();
+                if (mapi.Login())
                 {
-                    if (mapi.OpenOutbox())
+                    var strSenderEmail = new StringBuilder(NetMAPI.DefaultBufferSize);
+                    mapi.GetProfileEmail(strSenderEmail);
+                    if (mapi.OpenMessageStore())
                     {
-                        var message = new MAPIMessage();
-                        if (message.Create(mapi, MAPIMessage.Importance.IMPORTANCE_NORMAL))
+                        if (mapi.OpenOutbox())
                         {
-                            message.SetSender(StoryEditor.OseCaption, strSenderEmail.ToString());
-                            message.SetSubject(strSubjectLine);
-                            message.SetBody(strBodyText);
-                            message.AddRecipient(strEmailAddress);
-                            message.Send();
+                            var message = new MAPIMessage();
+                            if (message.Create(mapi, MAPIMessage.Importance.IMPORTANCE_NORMAL))
+                            {
+                                message.SetSender(StoryEditor.OseCaption, strSenderEmail.ToString());
+                                message.SetSubject(strSubjectLine);
+                                message.SetBody(strBodyText);
+                                message.AddRecipient(strEmailAddress);
+                                message.Send();
+                            }
                         }
                     }
+                    mapi.Logout();
                 }
-                mapi.Logout();
+                NetMAPI.Term();
             }
-            NetMAPI.Term();
-#else
-            var emailProvider = EmailProviderFactory.PreferredEmailProvider();
-            var emailMessage = emailProvider.CreateMessage();
-            emailMessage.To.Add(strEmailAddress);
-            emailMessage.Subject = strSubjectLine;
-            emailMessage.Body = strBodyText;
-            emailMessage.Send(emailProvider);
-#endif
+            else
+            {
+                var emailProvider = EmailProviderFactory.PreferredEmailProvider();
+                var emailMessage = emailProvider.CreateMessage();
+                emailMessage.To.Add(strEmailAddress);
+                emailMessage.Subject = strSubjectLine;
+                emailMessage.Body = strBodyText;
+                emailMessage.Send(emailProvider);
+            }
         }
 
         static List<string> _astrProjectForSync = new List<string>();

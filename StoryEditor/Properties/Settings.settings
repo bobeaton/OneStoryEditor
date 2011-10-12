@@ -347,5 +347,8 @@ DoAdaptingBeforeGlossing_InVerticalEdit	1</Value>
   &lt;string&gt;DZnWNke9ScuB5IThEtS8txhiXMgy+5Ca&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
+    <Setting Name="UseMapiPlus" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

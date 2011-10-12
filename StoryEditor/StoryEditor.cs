@@ -5363,6 +5363,7 @@ namespace OneStoryProjectEditor
                 ((StoryProject != null) && (TheCurrentStory != null));
 
             advancedNewProjectMenu.Enabled = IsInStoriesSet;
+            advancedEmailMenu.Checked = Settings.Default.UseMapiPlus;
         }
 
         private void checkForProgramUpdatesNowToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5760,6 +5761,15 @@ namespace OneStoryProjectEditor
         public static string OseCaption
         {
             get { return Localizer.Str("OneStory Project Editor"); }
+        }
+
+        private void advancedEmailMenu_Click(object sender, EventArgs e)
+        {
+            if (sender != null)
+            {
+                Settings.Default.UseMapiPlus = (sender as ToolStripMenuItem).Checked;
+                Properties.Settings.Default.Save();
+            }
         }
     }
 }
