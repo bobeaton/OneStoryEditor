@@ -45,6 +45,7 @@ namespace OneStoryProjectEditor
 
             IsGeneralQuestionsLine = (VerseNumber == 0);
 
+            // add another column so that the label Reference doesn't try to wrap
             InsertColumn(1);
             tableLayoutPanel.Controls.Add(labelReference, 0, 0);
             tableLayoutPanel.Controls.Add(buttonDragDropHandle, 2, 0);
@@ -186,6 +187,7 @@ namespace OneStoryProjectEditor
             InsertRow(nLayoutRow);
             tableLayoutPanel.Controls.Add(labelExegeticalHelp, 0, nLayoutRow);
             tableLayoutPanel.Controls.Add(tb, 1, nLayoutRow);
+            tableLayoutPanel.SetColumnSpan(tb, 2);
         }
 
         protected void InitRetellings(RetellingsData aRetellingsData, int nLayoutRow,
