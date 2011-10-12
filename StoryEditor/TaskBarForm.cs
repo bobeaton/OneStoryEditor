@@ -6,16 +6,24 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using NetLoc;
 
 namespace OneStoryProjectEditor
 {
     public partial class TaskBarForm : Form
     {
-        public TaskBarForm(StoryEditor theSE, StoryProjectData theStoryProjectData, 
+        private TaskBarForm()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
+
+        public TaskBarForm(StoryEditor theSe, StoryProjectData theStoryProjectData, 
             StoryData theStory)
         {
             InitializeComponent();
-            taskBarControl.Initialize(theSE, theStoryProjectData, theStory);
+            Localizer.Ctrl(this);
+            taskBarControl.Initialize(theSe, theStoryProjectData, theStory);
         }
     }
 }

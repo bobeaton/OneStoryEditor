@@ -53,16 +53,11 @@ namespace OneStoryProjectEditor
 #endif
         }
 
-        private void SetHelpStrings(Control ctrl, string strHelpString, string strTooltip)
-        {
-            helpProvider.SetHelpString(ctrl, strHelpString);
-            toolTip.SetToolTip(ctrl, strTooltip);
-        }
-
         public AddLnCNoteForm(StoryEditor theSE, string strToSearchForVernacular, 
             string strToSearchForNationalBT, string strToSearchForInternationalBT)
         {
             InitializeComponent();
+            Localizer.Ctrl(this);
 
             _storyProject = theSE.StoryProject;
             TheLnCNote = new LnCNote();
@@ -73,6 +68,12 @@ namespace OneStoryProjectEditor
                 labelNationalBT, textBoxNationalBT);
             InitSearchBoxes(true, _storyProject.ProjSettings.InternationalBT, strToSearchForInternationalBT,
                 labelInternationalBT, textBoxInternationalBT);
+        }
+
+        private void SetHelpStrings(Control ctrl, string strHelpString, string strTooltip)
+        {
+            helpProvider.SetHelpString(ctrl, strHelpString);
+            toolTip.SetToolTip(ctrl, strTooltip);
         }
 
         private int _nRowIndex = 0;
