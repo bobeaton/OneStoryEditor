@@ -53,7 +53,7 @@ namespace OneStoryProjectEditor
 #endif
         }
 
-        public AddLnCNoteForm(StoryEditor theSE, string strToSearchForVernacular, 
+        public AddLnCNoteForm(StoryEditor theSE, string strToSearchForVernacular,
             string strToSearchForNationalBT, string strToSearchForInternationalBT)
         {
             InitializeComponent();
@@ -66,7 +66,7 @@ namespace OneStoryProjectEditor
                 labelVernacular, textBoxVernacular);
             InitSearchBoxes(false, _storyProject.ProjSettings.NationalBT, strToSearchForNationalBT,
                 labelNationalBT, textBoxNationalBT);
-            InitSearchBoxes(true, _storyProject.ProjSettings.InternationalBT, strToSearchForInternationalBT,
+            InitSearchBoxes(false, _storyProject.ProjSettings.InternationalBT, strToSearchForInternationalBT,
                 labelInternationalBT, textBoxInternationalBT);
         }
 
@@ -77,7 +77,7 @@ namespace OneStoryProjectEditor
         }
 
         private int _nRowIndex = 0;
-        private void InitSearchBoxes(bool bDoForSure, ProjectSettings.LanguageInfo li, 
+        private void InitSearchBoxes(bool bDoForSure, ProjectSettings.LanguageInfo li,
             string strToStartWith, Control lbl, Control tb)
         {
             if (bDoForSure || li.HasData)
@@ -98,7 +98,7 @@ namespace OneStoryProjectEditor
                 lbl.Visible = tb.Visible = false;
                 tableLayoutPanel.RowStyles[_nRowIndex] = new RowStyle(SizeType.Absolute, 0);
             }
-            _nRowIndex++;            
+            _nRowIndex++;
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
