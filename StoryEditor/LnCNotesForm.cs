@@ -12,12 +12,13 @@ namespace OneStoryProjectEditor
 {
     public partial class LnCNotesForm : TopForm
     {
-        private const int CnColumnInternationalBT = 0;
-        private const int CnColumnVernacularBT = 1;
+        private const int CnColumnGloss = 0;
+        private const int CnColumnVernacular = 1;
         private const int CnColumnNotes = 2;
 
         private StoryEditor _theSE;
         private int _nHeight;
+        private bool _bUsingInternationalBtForMeaning;
 
         private LnCNotesForm()
         {
@@ -32,10 +33,39 @@ namespace OneStoryProjectEditor
             Localizer.Ctrl(this);
 
             _theSE = theSE;
-            ColumnGloss.DefaultCellStyle.Font = theSE.StoryProject.ProjSettings.InternationalBT.FontToUse;
+
+            // the problem we have is that the L&C Notes (grid) window shows
+            //  two columns for a) the Story language rendering and b) the gloss, 
+            //  so it's good for us to require both. But for the latter, which 
+            //  field do we use? If there's no EnglishBT field (cf. the 
+            //  Indonesian situation), then...
+            //  Here's what I'm thinking (where 'X' indicates the language is
+            //  configured in the project and '-' means it's not):
+            //
+            //      Scenario:   1   2       3       4       5       6
+            //  Story           X   X       X       [c]     [c]     [c]
+            //  NationalBt      -   X[b]    X/-     X[b]    X       
+            //  InternationalBt [a] -       X[b]            X[b]    X[b]
+            //
+            // where: 
+            //  'a' indicates that even though the project doesn't use IBT, it
+            //      will be used for the 'meaning' field
+            //  'b' the lowest BT language (i.e. NBT > EBT) will serve for the gloss field
+            //  'c' even though the project doesn't use Story language, we still 
+            //      need it to represent the rendering of the L&C term
+            // so, use IBT field for first column (meaning/gloss) if either the
+            //  international BT field is configured to be used *OR* if there is
+            //  not BT field at all.
+            _bUsingInternationalBtForMeaning = (theSE.StoryProject.ProjSettings.InternationalBT.HasData ||
+                                                !theSE.StoryProject.ProjSettings.NationalBT.HasData);
+
+            ColumnGloss.DefaultCellStyle.Font = (_bUsingInternationalBtForMeaning)
+                                                    ? theSE.StoryProject.ProjSettings.InternationalBT.FontToUse
+                                                    : theSE.StoryProject.ProjSettings.NationalBT.FontToUse;
+
             _nHeight = ColumnGloss.DefaultCellStyle.Font.Height;
             ColumnRenderings.DefaultCellStyle.Font = theSE.StoryProject.ProjSettings.Vernacular.FontToUse;
-            _nHeight = Math.Max(_nHeight, ColumnRenderings.DefaultCellStyle.Font.Height);
+            _nHeight = Math.Max(_nHeight, ColumnRenderings.DefaultCellStyle.Font.Height) + 4;
             InitTable(theSE.StoryProject.LnCNotes);
         }
 
@@ -50,7 +80,9 @@ namespace OneStoryProjectEditor
         {
             var aObjs = new object[]
                             {
-                                aLnCNote.InternationalBtRendering,
+                                (_bUsingInternationalBtForMeaning)
+                                    ? aLnCNote.InternationalBtRendering
+                                    : aLnCNote.NationalBtRendering,
                                 aLnCNote.VernacularRendering,
                                 aLnCNote.Notes
                             };
@@ -74,13 +106,15 @@ namespace OneStoryProjectEditor
         {
             var theLnCNote = theRow.Tag as LnCNote;
             var dlg = new AddLnCNoteForm(_theSE, theLnCNote) {Text = strTitle};
-            if ((dlg.ShowDialog() == DialogResult.OK) && (theLnCNote != null))
-            {
-                theRow.Cells[CnColumnInternationalBT].Value = theLnCNote.InternationalBtRendering;
-                theRow.Cells[CnColumnVernacularBT].Value = theLnCNote.VernacularRendering;
-                theRow.Cells[CnColumnNotes].Value = theLnCNote.Notes;
-                _theSE.Modified = true;
-            }
+            if ((dlg.ShowDialog() != DialogResult.OK) || (theLnCNote == null)) 
+                return;
+
+            theRow.Cells[CnColumnGloss].Value = (_bUsingInternationalBtForMeaning)
+                                                    ? theLnCNote.InternationalBtRendering
+                                                    : theLnCNote.NationalBtRendering;
+            theRow.Cells[CnColumnVernacular].Value = theLnCNote.VernacularRendering;
+            theRow.Cells[CnColumnNotes].Value = theLnCNote.Notes;
+            _theSE.Modified = true;
         }
 
         private void toolStripButtonAddLnCNote_Click(object sender, EventArgs e)
@@ -115,9 +149,9 @@ namespace OneStoryProjectEditor
             if (nSelectedRowIndex <= dataGridViewLnCNotes.Rows.Count - 1)
             {
                 DataGridViewRow theRow = dataGridViewLnCNotes.Rows[nSelectedRowIndex];
-                string strValue = (string)theRow.Cells[CnColumnInternationalBT].Value;
+                string strValue = (string)theRow.Cells[CnColumnGloss].Value;
                 // make sure the user really wants to do this
-                if (LocalizableMessageBox.Show(String.Format(Localizer.Str("Are you sure you want to delete the L & C Note:{0}{1}"),
+                if (LocalizableMessageBox.Show(String.Format(Localizer.Str("Are you sure you want to delete the L && C Note:{0}{1}"),
                                                   Environment.NewLine,
                                                   strValue),
                                     StoryEditor.OseCaption, 
@@ -150,6 +184,7 @@ namespace OneStoryProjectEditor
             {
                 DataGridViewRow theRow = dataGridViewLnCNotes.Rows[nSelectedRowIndex];
                 var theLnCNote = theRow.Tag as LnCNote;
+                System.Diagnostics.Debug.Assert(theLnCNote != null);
                 var dlg = new ConcordanceForm(_theSE, theLnCNote.VernacularRendering,
                     theLnCNote.NationalBtRendering, theLnCNote.InternationalBtRendering,
                     null);

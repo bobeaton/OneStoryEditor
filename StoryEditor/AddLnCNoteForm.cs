@@ -19,6 +19,11 @@ namespace OneStoryProjectEditor
             Localizer.Ctrl(this);
         }
 
+        /// <summary>
+        /// For use when editing the L&C note
+        /// </summary>
+        /// <param name="theSE"></param>
+        /// <param name="theLnC"></param>
         public AddLnCNoteForm(StoryEditor theSE, LnCNote theLnC)
         {
             InitializeComponent();
@@ -32,12 +37,99 @@ namespace OneStoryProjectEditor
             if (theLnC == null)
                 return;
 
-            InitSearchBoxes(true, _storyProject.ProjSettings.Vernacular, theLnC.VernacularRendering,
-                labelVernacular, textBoxVernacular);
-            InitSearchBoxes(false, _storyProject.ProjSettings.NationalBT, theLnC.NationalBtRendering,
-                labelNationalBT, textBoxNationalBT);
-            InitSearchBoxes(true, _storyProject.ProjSettings.InternationalBT, theLnC.InternationalBtRendering,
-                labelInternationalBT, textBoxInternationalBT);
+            CtorCommon(theLnC);
+        }
+
+        /// <summary>
+        /// For use when adding a new one based on selected strings
+        /// </summary>
+        /// <param name="theSE"></param>
+        /// <param name="strToSearchForVernacular"></param>
+        /// <param name="strToSearchForNationalBT"></param>
+        /// <param name="strToSearchForInternationalBT"></param>
+        public AddLnCNoteForm(StoryEditor theSE, string strToSearchForVernacular,
+            string strToSearchForNationalBT, string strToSearchForInternationalBT)
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+
+            _storyProject = theSE.StoryProject;
+            TheLnCNote = new LnCNote
+            {
+                VernacularRendering = strToSearchForVernacular,
+                NationalBtRendering = strToSearchForNationalBT,
+                InternationalBtRendering = strToSearchForInternationalBT,
+            };
+
+            CtorCommon(TheLnCNote);
+        }
+
+        private TextBox GlossField { get; set; }
+
+        private void CtorCommon(LnCNote theLnC)
+        {
+            InitSearchBoxes(true,
+                            _storyProject.ProjSettings.Vernacular,
+                            theLnC.VernacularRendering,
+                            labelVernacular,
+                            textBoxVernacular);
+
+            // the problem we have is that the L&C Notes (grid) window shows
+            //  two columns for a) the Story language rendering and b) the gloss, 
+            //  so it's good for us to require both. But for the latter, which 
+            //  field do we use? If there's no EnglishBT field (cf. the 
+            //  Indonesian situation), then...
+            //  Here's what I'm thinking (where 'X' indicates the language is
+            //  configured in the project and '-' means it's not):
+            //
+            //      Scenario:   1   2       3       4       5       6
+            //  Story           X   X       X       [c]     [c]     [c]
+            //  NationalBt      -   X[b]    X/-     X[b]    X       
+            //  InternationalBt [a] -       X[b]            X[b]    X[b]
+            //
+            // where: 
+            //  'a' indicates that even though the project doesn't use IBT, it
+            //      will be used for the 'meaning' field
+            //  'b' the lowest BT language (i.e. NBT > EBT) will serve for the gloss field
+            //  'c' even though the project doesn't use Story language, we still 
+            //      need it to represent the rendering of the L&C term
+            bool bMeaningFieldRequired = false;
+            if (!_storyProject.ProjSettings.NationalBT.HasData)
+            {
+                if (!_storyProject.ProjSettings.InternationalBT.HasData)
+                {
+                    // just a story field, so now *require* the International field
+                    //  as the meaning/gloss field
+                    bMeaningFieldRequired = true;
+                    labelInternationalBT.Text = Localizer.Str("Gloss");
+                }
+                GlossField = textBoxInternationalBT;
+            }
+            else // is a NationalBt
+            {
+                GlossField = (_storyProject.ProjSettings.InternationalBT.HasData)
+                                 ? textBoxInternationalBT
+                                 : textBoxNationalBT;
+            }
+
+            // so now GlossField tells us which field must be non-null (for the 
+            //  'Gloss' field in L&C Notes tab) and bMeaningFieldRequired tells
+            //  us whether scenario 1 is applying in which we need to force
+            //  the IBT field to show
+            InitSearchBoxes(false,
+                            _storyProject.ProjSettings.NationalBT,
+                            theLnC.NationalBtRendering,
+                            labelNationalBT,
+                            textBoxNationalBT);
+
+            // we *have* to have a 2nd field for the 'gloss' column in the 
+            //  L&C notes grid window, so if there's no National or International
+            //  BT fields, then use this field for the 'gloss'
+            InitSearchBoxes(bMeaningFieldRequired,
+                            _storyProject.ProjSettings.InternationalBT,
+                            theLnC.InternationalBtRendering,
+                            labelInternationalBT,
+                            textBoxInternationalBT);
 
             textBoxNotes.Text = theLnC.Notes;
 
@@ -53,30 +145,14 @@ namespace OneStoryProjectEditor
 #endif
         }
 
-        public AddLnCNoteForm(StoryEditor theSE, string strToSearchForVernacular,
-            string strToSearchForNationalBT, string strToSearchForInternationalBT)
-        {
-            InitializeComponent();
-            Localizer.Ctrl(this);
-
-            _storyProject = theSE.StoryProject;
-            TheLnCNote = new LnCNote();
-
-            InitSearchBoxes(true, _storyProject.ProjSettings.Vernacular, strToSearchForVernacular,
-                labelVernacular, textBoxVernacular);
-            InitSearchBoxes(false, _storyProject.ProjSettings.NationalBT, strToSearchForNationalBT,
-                labelNationalBT, textBoxNationalBT);
-            InitSearchBoxes(false, _storyProject.ProjSettings.InternationalBT, strToSearchForInternationalBT,
-                labelInternationalBT, textBoxInternationalBT);
-        }
-
-        private void SetHelpStrings(Control ctrl, string strHelpString, string strTooltip)
+        private void SetHelpStrings(Control ctrl, string strHelpString, 
+            string strTooltip)
         {
             helpProvider.SetHelpString(ctrl, strHelpString);
             toolTip.SetToolTip(ctrl, strTooltip);
         }
 
-        private int _nRowIndex = 0;
+        private int _nRowIndex;
         private void InitSearchBoxes(bool bDoForSure, ProjectSettings.LanguageInfo li,
             string strToStartWith, Control lbl, Control tb)
         {
@@ -103,7 +179,7 @@ namespace OneStoryProjectEditor
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(textBoxInternationalBT.Text))
+            if (String.IsNullOrEmpty(GlossField.Text))
             {
                 LocalizableMessageBox.Show(Localizer.Str("You must enter the gloss"),
                                 StoryEditor.OseCaption);
