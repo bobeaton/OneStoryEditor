@@ -1438,9 +1438,19 @@ namespace OneStoryProjectEditor
                             VerseData aPassedByChild = child[j - 1];
                             if (!aPassedByChild.IsDiffProcessed)
                             {
+                                if (bFoundOne)
+                                {
+                                    // add the line header... but only on the 2nd and ff time through this j loop
+                                    //  (the first time was caught above) -- i.e. in case we've got multiple new
+                                    //  lines in the child that would otherwise be passed by
+                                    strHeaderAdd = DetermineHiddenLabel(aPassedByChild.IsVisible, null);
+                                    strHtml += GetHeaderRow(LinePrefix + j, strHeaderAdd, nLineIndex, false, nNumCols);
+                                }
+
                                 strHtml += aPassedByChild.PresentationHtmlAsAddition(nLineIndex,
-                                    nNumCols, craftingInfo, viewSettings,
-                                    bHasOutsideEnglishBTer);
+                                                                                     nNumCols, craftingInfo,
+                                                                                     viewSettings,
+                                                                                     bHasOutsideEnglishBTer);
                                 bFoundOne = true;
                                 nInsertCount++;
                             }
