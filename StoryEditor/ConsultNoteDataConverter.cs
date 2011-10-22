@@ -69,7 +69,7 @@ namespace OneStoryProjectEditor
             if (!String.IsNullOrEmpty(MemberID))
                 elem.Add(new XAttribute(CstrAttributeLabelMemberId, MemberID));
 
-            elem.Add(new XAttribute(CstrAttributeLabelTimeStamp, TimeStamp.ToString("s")),
+            elem.Add(new XAttribute(CstrAttributeLabelTimeStamp, StoryData.ToUniversalTime(TimeStamp)),
                      this.ToString());
             
             return elem;
@@ -1029,7 +1029,7 @@ namespace OneStoryProjectEditor
                                          : aNoteRow.memberID,
                                      (aNoteRow.IstimeStampNull())
                                          ? DateTime.Now
-                                         : aNoteRow.timeStamp));
+                                         : aNoteRow.timeStamp.ToLocalTime()));
 
             // make sure that there are at least two (we can't save them if they're empty)
             System.Diagnostics.Debug.Assert(Count != 0, "It looks like you have an empty Consultant Note field that shouldn't be there. For now, you can just 'Ignore' this error (but perhaps let bob_eaton@sall.com know)");
@@ -1172,7 +1172,7 @@ namespace OneStoryProjectEditor
                                          : aNoteRow.memberID,
                                      (aNoteRow.IstimeStampNull())
                                          ? DateTime.Now
-                                         : aNoteRow.timeStamp));
+                                         : aNoteRow.timeStamp.ToLocalTime()));
         }
 
         public CoachNoteData(StoryData theStory, TeamMemberData loggedOnMember, 
