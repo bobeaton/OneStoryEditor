@@ -1754,6 +1754,7 @@ namespace OneStoryProjectEditor
         {
             RetellingsData retellings = ctrl._verseData.Retellings;
 
+            // e.g. 'ret 1:'
             Debug.Assert(strLabel.Contains(' '));
             int nIndex = strLabel.LastIndexOf(' ');
             string strTestNumber = strLabel.Substring(nIndex + 1, 1);
@@ -1778,7 +1779,13 @@ namespace OneStoryProjectEditor
             TestQuestionData testQuestionData = GetTestQuestionDataFromAnswerLabel(strLabel, ctrl);
             answers = testQuestionData.Answers;
             Debug.Assert(strLabel.Contains(' '));
-            int nIndex = strLabel.LastIndexOf(' ');
+
+            // at one time, I had this as "LastIndexOf", but then it found the
+            //  TQ # rather than the test (i.e. ans) number, so it needs to be
+            //  IndexOf... but there's an issue with localization. If the person
+            //  uses multiple words for 'ans', then it'd be the last of those 
+            //  spaces...
+            int nIndex = strLabel.IndexOf(' ');
             string strTestNumber = strLabel.Substring(nIndex + 1, 1);
 
             // there are two cases we have to treat specially:
