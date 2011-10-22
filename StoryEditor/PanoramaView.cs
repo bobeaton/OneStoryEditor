@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using NetLoc;
 
@@ -32,7 +27,7 @@ namespace OneStoryProjectEditor
         protected bool _bInCtor = true;
         protected ProjectSettings.LanguageInfo MainLang { get; set; }
         protected Font _fontForDev = new Font("Arial Unicode MS", 11);
-        protected TermRenderingsList renderings;
+        // protected TermRenderingsList renderings;
         // TermLocalizations termLocalizations;
 
         protected const int CnColumnGloss = 0;
@@ -65,7 +60,7 @@ namespace OneStoryProjectEditor
                 MainLang = _storyProject.ProjSettings.InternationalBT;
         }
 
-        public new DialogResult ShowDialog()
+        public DialogResult ShowDialog(bool bInitNonBiblicalTab)
         {
             if (Properties.Settings.Default.PanoramaViewDlgHeight != 0)
             {
@@ -74,10 +69,13 @@ namespace OneStoryProjectEditor
                         Properties.Settings.Default.PanoramaViewDlgHeight));
             }
 
-            InitStoriesTab(tabPagePanorama);
-            tabControlSets.SelectTab(tabPagePanorama);
+            var tab = (bInitNonBiblicalTab)
+                          ? tabPageNonBibStories
+                          : tabPagePanorama;
+            InitStoriesTab(tab);
+            tabControlSets.SelectTab(tab);
 
-            return base.ShowDialog();
+            return ShowDialog();
         }
 
         public bool Modified = false;
@@ -335,57 +333,148 @@ namespace OneStoryProjectEditor
             }
         }
 
-        void buttonCopyToOldStories_Click(object sender, System.EventArgs e)
+        private void ButtonCopyToOldStoriesClick(object sender, EventArgs e)
+        {
+            contextMenuMove.Show(Cursor.Position);
+        }
+
+        private void ContextMenuMoveOpening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (tabControlSets.SelectedTab == tabPagePanorama)
+            {
+                System.Diagnostics.Debug.Assert((contextMenuMove.Items[0].Name == "moveToStoriesMenu") &&
+                                                (contextMenuMove.Items[1].Name == "copyToStoriesMenu"));
+                contextMenuMove.Items[0].Enabled =
+                    contextMenuMove.Items[1].Enabled = false;
+                contextMenuMove.Items[2].Enabled =
+                    contextMenuMove.Items[3].Enabled = true;
+                contextMenuMove.Items[4].Enabled =
+                    contextMenuMove.Items[5].Enabled = true;
+            }
+            else if (tabControlSets.SelectedTab == tabPageNonBibStories)
+            {
+                System.Diagnostics.Debug.Assert((contextMenuMove.Items[2].Name == "moveToNonBibStoriesMenu") &&
+                                                (contextMenuMove.Items[3].Name == "copyToNonBibStoriesMenu"));
+                contextMenuMove.Items[0].Enabled =
+                    contextMenuMove.Items[1].Enabled = true;
+                contextMenuMove.Items[2].Enabled =
+                    contextMenuMove.Items[3].Enabled = false;
+                contextMenuMove.Items[4].Enabled =
+                    contextMenuMove.Items[5].Enabled = true;
+            }
+            else if (tabControlSets.SelectedTab == tabPageOldStories)
+            {
+                System.Diagnostics.Debug.Assert((contextMenuMove.Items[4].Name == "moveToOldStoriesMenu") &&
+                                                (contextMenuMove.Items[5].Name == "copyToOldStoriesMenu"));
+                contextMenuMove.Items[0].Enabled =
+                    contextMenuMove.Items[1].Enabled = true;
+                contextMenuMove.Items[2].Enabled =
+                    contextMenuMove.Items[3].Enabled = true;
+                contextMenuMove.Items[4].Enabled =
+                    contextMenuMove.Items[5].Enabled = false;
+            }
+        }
+
+        private static string CstrMoved
+        {
+            get { return Localizer.Str("moved"); }
+        }
+
+        private static string CstrCopied
+        {
+            get { return Localizer.Str("copied"); }
+        }
+
+        private void CopyToStoriesMenuClick(object sender, EventArgs e)
+        {
+            MoveCopyStoryToOtherStoriesSet(Properties.Resources.IDS_MainStoriesSet,
+                                           false, true, true);
+        }
+
+        private void MoveToStoriesMenuClick(object sender, EventArgs e)
+        {
+            MoveCopyStoryToOtherStoriesSet(Properties.Resources.IDS_MainStoriesSet,
+                                           true, true, true);
+        }
+
+        private void CopyToNonBibStoriesMenuClick(object sender, EventArgs e)
+        {
+            MoveCopyStoryToOtherStoriesSet(Properties.Resources.IDS_NonBibStoriesSet,
+                                           false, true, false);
+        }
+
+        private void MoveToNonBibStoriesMenuClick(object sender, EventArgs e)
+        {
+            MoveCopyStoryToOtherStoriesSet(Properties.Resources.IDS_NonBibStoriesSet,
+                                           true, true, false);
+        }
+
+        private void CopyToOldStoriesMenuClick(object sender, EventArgs e)
+        {
+            MoveCopyStoryToOtherStoriesSet(Properties.Resources.IDS_ObsoleteStoriesSet,
+                                           false, false, false);
+        }
+
+        private void MoveToOldStoriesMenuClick(object sender, EventArgs e)
+        {
+            MoveCopyStoryToOtherStoriesSet(Properties.Resources.IDS_ObsoleteStoriesSet,
+                                           true, false, false);
+        }
+
+        private void MoveCopyStoryToOtherStoriesSet(string strDestSet, bool bMove,
+            bool bAdjustCraftingInfo, bool bIsBiblicalStory)
         {
             System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedCells.Count < 2);   // 1 or 0
             if (dataGridViewPanorama.SelectedCells.Count != 1)
                 return;
 
-            if (tabControlSets.SelectedTab == tabPagePanorama)
-            {
-                // copy it to the 'old stories' set
-                CopyStoryToOtherStoriesSet(Properties.Resources.IDS_ObsoleteStoriesSet);
-            }
-            else if (tabControlSets.SelectedTab == tabPageObsolete)
-            {
-                // copy it back!
-                CopyStoryToOtherStoriesSet(Properties.Resources.IDS_MainStoriesSet);
-            }
-        }
-
-        private void CopyStoryToOtherStoriesSet(string strDestSet)
-        {
             System.Diagnostics.Debug.Assert((strDestSet == Properties.Resources.IDS_ObsoleteStoriesSet)
-                || (strDestSet == Properties.Resources.IDS_MainStoriesSet));
+                || (strDestSet == Properties.Resources.IDS_MainStoriesSet)
+                || (strDestSet == Properties.Resources.IDS_NonBibStoriesSet));
 
             int nSelectedRowIndex = dataGridViewPanorama.SelectedCells[0].RowIndex;
-            if (nSelectedRowIndex <= dataGridViewPanorama.Rows.Count - 1)
+            if (nSelectedRowIndex > dataGridViewPanorama.Rows.Count - 1)
+                return;
+
+            DataGridViewRow theRow = dataGridViewPanorama.Rows[nSelectedRowIndex];
+            DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
+            if (theNameCell.Value == null)
+                return; // shouldn't happen, but...
+
+            var strName = theNameCell.Value as String;
+
+            var theOrigSd = _stories.GetStoryFromName(strName);
+            if (theOrigSd == null)
+                return;
+
+            var theSd = theOrigSd;
+            // if moving, then we have to remove it out of the current list
+            if (bMove)
+                RemoveStoryFromCurrentList(nSelectedRowIndex, theSd);
+            else
+                // if copying, then it needs its own guids
+                theSd = new StoryData(theOrigSd);
+
+            if (bAdjustCraftingInfo)
+                theSd.CraftingInfo.IsBiblicalStory = bIsBiblicalStory;
+
+            int n = 1;
+            if (_storyProject[strDestSet].Contains(theSd))
             {
-                DataGridViewRow theRow = dataGridViewPanorama.Rows[nSelectedRowIndex];
-                DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
-                if (theNameCell.Value == null)
-                    return; // shouldn't happen, but...
-
-                var strName = theNameCell.Value as String;
-
-                var theOrigSd = _stories.GetStoryFromName(strName);
-                if (theOrigSd == null)
-                    return;
-
-                var theSD = new StoryData(theOrigSd);
-                int n = 1;
-                if (_storyProject[strDestSet].Contains(theSD))
-                {
-                    while (_storyProject[strDestSet].Contains(theSD))
-                        theSD.Name = String.Format("{0}.{1}", strName, n++);
-                    theSD.guid = Guid.NewGuid().ToString();
-                }
-                _storyProject[strDestSet].Add(theSD);
-                Modified = true;
+                while (_storyProject[strDestSet].Contains(theSd))
+                    theSd.Name = String.Format("{0}.{1}", strName, n++);
+                theSd.guid = Guid.NewGuid().ToString();
             }
+            _storyProject[strDestSet].Add(theSd);
+            LocalizableMessageBox.Show(String.Format(Localizer.Str("The story '{0}' has been {1} to the '{2}' list"),
+                                                     theSd.Name,
+                                                     (bMove) ? CstrMoved : CstrCopied,
+                                                     strDestSet),
+                                       StoryEditor.OseCaption);
+            Modified = true;
         }
 
-        private void buttonDelete_Click(object sender, EventArgs e)
+        private void ButtonDeleteClick(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedCells.Count < 2);   // 1 or 0
             if (dataGridViewPanorama.SelectedCells.Count != 1)
@@ -409,28 +498,31 @@ namespace OneStoryProjectEditor
                 if (StoryEditor.QueryDeleteStory(strName))
                     return;
 
-                _stories.Remove(theSd);
-                InitGrid();
-                if (nSelectedRowIndex >= dataGridViewPanorama.Rows.Count)
-                    nSelectedRowIndex--;
-
-                if ((nSelectedRowIndex >= 0) && (nSelectedRowIndex < dataGridViewPanorama.Rows.Count))
-                    dataGridViewPanorama.Rows[nSelectedRowIndex].Selected = true;
+                RemoveStoryFromCurrentList(nSelectedRowIndex, theSd);
 
                 Modified = true;
             }
         }
 
-        /*
-        BiblicalTermsList _biblicalTerms;
-        */
+        private void RemoveStoryFromCurrentList(int nSelectedRowIndex, StoryData theSd)
+        {
+            _stories.Remove(theSd);
+            InitGrid();
+            if (nSelectedRowIndex >= dataGridViewPanorama.Rows.Count)
+                nSelectedRowIndex--;
 
-        private void tabControlSets_Selected(object sender, TabControlEventArgs e)
+            if ((nSelectedRowIndex >= 0) && (nSelectedRowIndex < dataGridViewPanorama.Rows.Count))
+                dataGridViewPanorama.Rows[nSelectedRowIndex].Selected = true;
+        }
+
+        private void TabControlSetsSelected(object sender, TabControlEventArgs e)
         {
             TabPage tab = e.TabPage;
             if (tab != null)
             {
-                if ((tab == tabPagePanorama) || (tab == tabPageObsolete))
+                if ((tab == tabPagePanorama) 
+                    || (tab == tabPageNonBibStories)
+                    || (tab == tabPageOldStories))
                 {
                     InitStoriesTab(tab);
                 }
@@ -493,12 +585,14 @@ namespace OneStoryProjectEditor
             if (tab == tabPagePanorama)
             {
                 _stories = _storyProject[Properties.Resources.IDS_MainStoriesSet];
-                toolTip.SetToolTip(buttonCopyToOldStories, Localizer.Str("Copy the selected story to the 'Old Stories' tab list. Then you can use the 'View' menu, 'View Old Stories' command (from the main window) to view stories in the 'Old Stories' list"));
             }
-            else if (tab == tabPageObsolete)
+            else if (tab == tabPageNonBibStories)
+            {
+                _stories = _storyProject[Properties.Resources.IDS_NonBibStoriesSet];
+            }
+            else if (tab == tabPageOldStories)
             {
                 _stories = _storyProject[Properties.Resources.IDS_ObsoleteStoriesSet];
-                toolTip.SetToolTip(buttonCopyToOldStories, Localizer.Str("Copy the selected story back to the 'Stories' tab list"));
             }
             InitParentTab(tab);
             InitGrid();
@@ -507,10 +601,9 @@ namespace OneStoryProjectEditor
         protected void InitParentTab(TabPage tab)
         {
             tableLayoutPanel.Parent = tab;
-            // buttonCopyToOldStories.Enabled = (tab != tabPageObsolete);
         }
 
-        private void richTextBoxPanoramaFrontMatter_TextChanged(object sender, EventArgs e)
+        private void RichTextBoxPanoramaFrontMatterTextChanged(object sender, EventArgs e)
         {
             // skip this supposed change unless we're not in the ctor (the setting of 
             //  the Rtf value in the ctor is falsely triggering this call, but that's not
@@ -562,11 +655,12 @@ namespace OneStoryProjectEditor
         }
         */
 
-        private void PanoramaView_FormClosing(object sender, FormClosingEventArgs e)
+        private void PanoramaViewFormClosing(object sender, FormClosingEventArgs e)
         {
+            /*
             if (renderings != null)
                 renderings.PromptForSave(_storyProject.ProjSettings.ProjectFolder);
-
+            */
             Properties.Settings.Default.PanoramaViewDlgLocation = Location;
             Properties.Settings.Default.PanoramaViewDlgHeight = Bounds.Height;
             Properties.Settings.Default.PanoramaViewDlgWidth = Bounds.Width;
@@ -602,6 +696,24 @@ namespace OneStoryProjectEditor
         #region obsolete code
         /*
         protected DataGridViewRow m_rowLast = null;
+        
+        void buttonCopyToOldStories_Click(object sender, System.EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedCells.Count < 2);   // 1 or 0
+            if (dataGridViewPanorama.SelectedCells.Count != 1)
+                return;
+
+            if (tabControlSets.SelectedTab == tabPagePanorama)
+            {
+                // copy it to the 'old stories' set
+                CopyStoryToOtherStoriesSet(Properties.Resources.IDS_ObsoleteStoriesSet);
+            }
+            else if (tabControlSets.SelectedTab == tabPageOldStories)
+            {
+                // copy it back!
+                CopyStoryToOtherStoriesSet(Properties.Resources.IDS_MainStoriesSet);
+            }
+        }
 
         private void contextMenuStripProjectStages_Opening(object sender, CancelEventArgs e)
         {

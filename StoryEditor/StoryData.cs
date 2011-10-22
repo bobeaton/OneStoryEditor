@@ -190,7 +190,7 @@ namespace OneStoryProjectEditor
                                              new XAttribute(CstrAttributeLabelCountTestingQuestionTests,
                                                             CountTestingQuestionTests),
                                              new XAttribute(CstrAttributeGuid, guid),
-                                             new XAttribute(CstrAttributeTimeStamp, StageTimeStamp.ToString("s")),
+                                             new XAttribute(CstrAttributeTimeStamp, ToUniversalTime(StageTimeStamp)),
                                              CraftingInfo.GetXml);
 
                 if (TransitionHistory.HasData)
@@ -201,6 +201,16 @@ namespace OneStoryProjectEditor
 
                 return elemStory;
             }
+        }
+
+        public static string ToUniversalTime(DateTime dateTime)
+        {
+            // weird: "s" gives "yyyy-mm-ddThh:mm:ss"
+            //        "u" gives "yyyy-mm-dd hh:mm:ssZ"
+            //  but the standard is:
+            //                  "yyyy-mm-ddThh:mm:ssZ"
+            var strUtc = dateTime.ToUniversalTime().ToString("u");
+            return strUtc.Replace(' ', 'T');
         }
 
         public void ChangeRetellingTester(TeamMembersData teamMembersData, int nTestIndex, 
@@ -802,11 +812,12 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                XElement elem = new XElement(CstrElemLabelStateTransition,
-                                             new XAttribute(CstrAttrNameLoggedInMemberId, LoggedInMemberId),
-                                             new XAttribute(CstrAttrNameFromState, FromState.ToString().Substring(1)),
-                                             new XAttribute(CstrAttrNameToState, ToState.ToString().Substring(1)),
-                                             new XAttribute(CstrAttrNameTransitionDateTime, TransitionDateTime.ToString("s")));
+                var elem = new XElement(CstrElemLabelStateTransition,
+                                        new XAttribute(CstrAttrNameLoggedInMemberId, LoggedInMemberId),
+                                        new XAttribute(CstrAttrNameFromState, FromState.ToString().Substring(1)),
+                                        new XAttribute(CstrAttrNameToState, ToState.ToString().Substring(1)),
+                                        new XAttribute(CstrAttrNameTransitionDateTime,
+                                                       StoryData.ToUniversalTime(TransitionDateTime)));
                 
                 // this one might be null
                 if (!String.IsNullOrEmpty(WindowsUserName))
@@ -1581,6 +1592,7 @@ namespace OneStoryProjectEditor
 
             // start with to stories sets (the current one and the obsolete ones)
             Add(Properties.Resources.IDS_MainStoriesSet, new StoriesData(Properties.Resources.IDS_MainStoriesSet));
+            Add(Properties.Resources.IDS_NonBibStoriesSet, new StoriesData(Properties.Resources.IDS_NonBibStoriesSet));
             Add(Properties.Resources.IDS_ObsoleteStoriesSet, new StoriesData(Properties.Resources.IDS_ObsoleteStoriesSet));
         }
 
@@ -1652,6 +1664,10 @@ namespace OneStoryProjectEditor
                 projFile.stories.AddstoriesRow(Properties.Resources.IDS_ObsoleteStoriesSet,
                     projFile.StoryProject[0]);
             }
+                // new 'non-biblical' stories set added in 2.4
+            else if (projFile.stories.Count == 2)
+                projFile.stories.AddstoriesRow(Properties.Resources.IDS_NonBibStoriesSet,
+                    projFile.StoryProject[0]);
 
             TeamMembers = new TeamMembersData(projFile);
             ProjSettings.SerializeProjectSettings(projFile);

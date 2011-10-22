@@ -297,9 +297,13 @@ namespace OneStoryProjectEditor
             }
         }
 
+        /// <summary>
+        /// returns true if in either the Stories or Non-biblical stories sets
+        /// (but not if in the old stories set)
+        /// </summary>
         internal bool IsInStoriesSet
         {
-            get { return (_strStoriesSet != Properties.Resources.IDS_ObsoleteStoriesSet); }
+            get { return (_strStoriesSet != Resources.IDS_ObsoleteStoriesSet); }
         }
 
         internal ApplicationException CantEditOldStoriesEx
@@ -550,7 +554,7 @@ namespace OneStoryProjectEditor
             ClearFlowControls();
             CtrlTextBox._inTextBox = null;
             TheCurrentStory = null;
-            StoryStageLogic.stateTransitions = null;
+            // turning off in 2.4... StoryStageLogic.stateTransitions = null;
             comboBoxStorySelector.Items.Clear();
             comboBoxStorySelector.Text = Localizer.Str("<type the name of a story to create and hit Enter>");
             textBoxStoryVerse.Text = Localizer.Str("Story");
@@ -710,7 +714,7 @@ namespace OneStoryProjectEditor
                 TeamMemberData.GetHgParameters(LoggedOnMember, out strUsername, out strPassword);
 
                 // can't allow a sync if two instances are running with the same project
-                Program.InsureSingleInstanceOfProgramName(TitleFormat, strProjectName);
+                Program.InsureSingleInstanceOfProgramName(strProjectName);
 
                 // clean up any existing open projects
                 if (!SaveAndCloseProject())
@@ -736,13 +740,13 @@ namespace OneStoryProjectEditor
 
             UpdateRecentlyUsedLists(projSettings);
 
-            Program.InsureSingleInstanceOfProgramName(TitleFormat, projSettings.ProjectName);
+            Program.InsureSingleInstanceOfProgramName(projSettings.ProjectName);
 
             try
             {
 
                 // serialize in the file
-                NewDataSet projFile = new NewDataSet();
+                var projFile = new NewDataSet();
                 projFile.ReadXml(projSettings.ProjectFilePath);
 
                 // get the data into another structure that we use internally (more flexible)
@@ -802,9 +806,12 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return IsInStoriesSet
-                           ? Properties.Resources.IDS_MainFrameTitle
-                           : Properties.Resources.IDS_MainFrameTitleOldStories;
+                var strTitleFormat = Localizer.Str("OneStory Editor -- {0} Story Project");
+                if (viewNonBiblicalStoriesMenu.Checked)
+                    strTitleFormat += Localizer.Str(" -- Viewing non-biblical stories");
+                else if (!IsInStoriesSet)
+                    strTitleFormat += Localizer.Str(" -- Viewing Old Stories");
+                return strTitleFormat;
             }
         }
 
@@ -840,6 +847,7 @@ namespace OneStoryProjectEditor
         protected void LoadComboBox()
         {
             // populate the combo boxes with all the existing story names
+            comboBoxStorySelector.Items.Clear();
             foreach (StoryData aStory in TheCurrentStoriesSet)
                 comboBoxStorySelector.Items.Add(aStory.Name);
         }
@@ -1008,19 +1016,24 @@ namespace OneStoryProjectEditor
 
             string strCrafterGuid = dlg.SelectedMember.MemberGuid;
 
+            /*
+             * now the biblical or non-biblical-ness of a story is based on which
+             * is visible
             DialogResult res = LocalizableMessageBox.Show(Localizer.Str("Is this a story from the Bible?"),
                                                StoryEditor.OseCaption,
                                                MessageBoxButtons.YesNoCancel);
             if (res == DialogResult.Cancel)
                 return;
-
+            */
             Debug.Assert(TeamMemberData.IsUser(LoggedOnMember.MemberType,
                                                TeamMemberData.UserTypes.ProjectFacilitator));
             Debug.Assert(StoryProject.TeamMembers != null);
-            StoryData theNewStory = new StoryData(strStoryName, strCrafterGuid,
-                LoggedOnMember.MemberGuid,
-                (res == DialogResult.Yes),
-                StoryProject);
+            bool bIsBiblicalStory = (_strStoriesSet == Resources.IDS_MainStoriesSet);
+            var theNewStory = new StoryData(strStoryName, strCrafterGuid,
+                                            LoggedOnMember.MemberGuid,
+                                            bIsBiblicalStory,
+                                            StoryProject);
+            
             InsertNewStoryAdjustComboBox(theNewStory, nIndexToInsert);
         }
 
@@ -1079,8 +1092,8 @@ namespace OneStoryProjectEditor
             Debug.Assert(TheCurrentStory != null);
             if (IsInStoriesSet)
             {
-                Properties.Settings.Default.LastStoryWorkedOn = TheCurrentStory.Name;
-                Properties.Settings.Default.Save();
+                Settings.Default.LastStoryWorkedOn = TheCurrentStory.Name;
+                Settings.Default.Save();
 
                 // see if we have proper Member IDs on all connote conversation comments
                 if (!TheCurrentStory.CheckForConNotesParticipants(StoryProject, ref Modified))
@@ -2781,8 +2794,11 @@ namespace OneStoryProjectEditor
             storyDeleteStoryMenu.Enabled =
                 storyCopyWithNewNameMenu.Enabled = (TheCurrentStory != null);
 
-            panoramaInsertNewStoryMenu.Enabled = panoramaAddNewStoryAfterMenu.Enabled =
-                (IsInStoriesSet && (StoryProject != null) && (LoggedOnMember != null));
+            panoramaInsertNewStoryMenu.Enabled =
+                panoramaAddNewStoryAfterMenu.Enabled =
+                ((StoryProject != null) &&
+                 IsInStoriesSet &&
+                 (LoggedOnMember != null));
 
             // if there's a story that has more than no verses, AND if it's a bible
             //  story and before the add anchors stage or a non-biblical story and
@@ -2895,8 +2911,8 @@ namespace OneStoryProjectEditor
             // keep track of the index of the current story (in case it gets deleted)
             int nIndex = (TheCurrentStory != null) ? TheCurrentStoriesSet.IndexOf(TheCurrentStory) : -1;
 
-            PanoramaView dlg = new PanoramaView(StoryProject);
-            dlg.ShowDialog();
+            var dlg = new PanoramaView(StoryProject);
+            dlg.ShowDialog(viewNonBiblicalStoriesMenu.Checked);
 
             if (dlg.Modified)
             {
@@ -2925,8 +2941,14 @@ namespace OneStoryProjectEditor
                 // if we get here, it's because we deleted the current story
                 if (TheCurrentStoriesSet.Count == 0)
                 {
-                    // if they deleted them all, then just close the project
-                    ClearState();
+                    // if they deleted them all, then 
+                    //  if this was the non-bib story set, then switch to the
+                    //  other)
+                    if (viewNonBiblicalStoriesMenu.Checked)
+                        viewNonBiblicalStoriesMenu.Checked = false;
+                    else
+                        // just close the project
+                        ClearState();
                 }
                 else if ((nIndex >= 0) && (nIndex < TheCurrentStoriesSet.Count))
                     comboBoxStorySelector.SelectedItem = comboBoxStorySelector.Text =
@@ -2960,8 +2982,16 @@ namespace OneStoryProjectEditor
                 comboBoxStorySelector.SelectedItem = comboBoxStorySelector.Text =
                     TheCurrentStoriesSet[nIndex].Name;
             }
-            else
-                ClearState();
+            else if (TheCurrentStoriesSet.Count == 0)
+            {
+                // if we were looking at the non-bib stories, then revert to the
+                //  other set
+                if (viewNonBiblicalStoriesMenu.Checked)
+                    viewNonBiblicalStoriesMenu.Checked = false;
+                else
+                    // otherwise, just close the project
+                    ClearState();
+            }
             Modified = true;
         }
 
@@ -3934,6 +3964,7 @@ namespace OneStoryProjectEditor
                 viewEnglishBtMenu.Visible = StoryProject.ProjSettings.InternationalBT.HasData;
             viewFreeTranslationMenu.Checked =
                 viewFreeTranslationMenu.Visible = StoryProject.ProjSettings.FreeTranslation.HasData;
+            viewNonBiblicalStoriesMenu.Checked = false;
             UpdateUIMenusWithShortCuts();
         }
 
@@ -4075,7 +4106,7 @@ namespace OneStoryProjectEditor
                 viewCoachNotesMenu.Enabled = ((LoggedOnMember != null) &&
                                               !LoggedOnMember.IsPfAndNotLsr);
 
-                viewProjectNotesMenu.Enabled = (File.Exists(StoryProject.ProjSettings.ProjectFolder));
+                viewProjectNotesMenu.Enabled = (Directory.Exists(StoryProject.ProjSettings.ProjectFolder));
             }
             else
                 viewShowHideFieldsMenu.Enabled =
@@ -4088,18 +4119,52 @@ namespace OneStoryProjectEditor
                     viewOnlyOpenConversationsMenu.Enabled =
                     viewProjectNotesMenu.Enabled = false;
 
-            if (IsInStoriesSet && (StoryProject != null))
+            if (StoryProject != null)
             {
-                if (StoryProject[Properties.Resources.IDS_ObsoleteStoriesSet] != null)
+                if (IsInStoriesSet)
                 {
-                    viewOldStoriesMenu.DropDownItems.Clear();
-                    foreach (StoryData aStory in StoryProject[Properties.Resources.IDS_ObsoleteStoriesSet])
-                        viewOldStoriesMenu.DropDownItems.Add(aStory.Name, null, onClickViewOldStory).ToolTipText =
-                            Localizer.Str("View older (obsolete) versions of the stories (that were earlier stored in the 'Old Stories' list from the 'Panorama View' window--see 'Panorama' menu, 'Show' command)");
+                    if (StoryProject[Resources.IDS_ObsoleteStoriesSet] != null)
+                    {
+                        viewOldStoriesMenu.Enabled = true;
+                        viewOldStoriesMenu.DropDownItems.Clear();
+                        foreach (StoryData aStory in StoryProject[Properties.Resources.IDS_ObsoleteStoriesSet])
+                            viewOldStoriesMenu.DropDownItems.Add(aStory.Name, null, onClickViewOldStory).ToolTipText =
+                                Localizer.Str(
+                                    "View older (obsolete) versions of the stories (that were earlier stored in the 'Old Stories' list from the 'Panorama View' window--see 'Panorama' menu, 'Show' command)");
+                    }
+
+                    // have to enable the NonBiblicalStories view (so we can possibly
+                    //  switch back to the main set
+                    Debug.Assert(StoryProject[Resources.IDS_NonBibStoriesSet] != null);
+                    viewNonBiblicalStoriesMenu.Enabled = true;
                 }
+                else
+                    viewOldStoriesMenu.Enabled = false;
             }
             else
-                viewOldStoriesMenu.Enabled = false;
+                viewOldStoriesMenu.Enabled =
+                    viewNonBiblicalStoriesMenu.Checked =
+                    viewNonBiblicalStoriesMenu.Enabled = false;
+        }
+
+        private void ViewNonBiblicalStoriesMenuCheckedChanged(object sender, EventArgs e)
+        {
+            if (_strStoriesSet == Resources.IDS_MainStoriesSet)
+                _strStoriesSet = Resources.IDS_NonBibStoriesSet;
+            else if (_strStoriesSet == Resources.IDS_NonBibStoriesSet)
+                _strStoriesSet = Resources.IDS_MainStoriesSet;
+            else
+            {
+                Debug.Assert(false, "invalid assumption");
+                return;
+            }
+
+            LoadComboBox();
+            if (comboBoxStorySelector.Items.Count > 0)
+                comboBoxStorySelector.SelectedIndex = 0;
+            else
+                ClearState();
+            Text = GetFrameTitle(true);
         }
 
         private void onClickViewOldStory(object sender, EventArgs e)

@@ -1,4 +1,6 @@
-﻿namespace OneStoryProjectEditor
+﻿using System.Windows.Forms;
+
+namespace OneStoryProjectEditor
 {
     partial class PanoramaView
     {
@@ -33,9 +35,17 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.buttonMoveDown = new System.Windows.Forms.Button();
             this.buttonCopyToOldStories = new System.Windows.Forms.Button();
+            this.contextMenuMove = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.moveToStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyToStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveToNonBibStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyToNonBibStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveToOldStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyToOldStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonDelete = new System.Windows.Forms.Button();
             this.buttonMoveUp = new System.Windows.Forms.Button();
-            this.tabPageObsolete = new System.Windows.Forms.TabPage();
+            this.tabPageOldStories = new System.Windows.Forms.TabPage();
+            this.tabPageNonBibStories = new System.Windows.Forms.TabPage();
             this.tabPagePanorama = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.dataGridViewPanorama = new System.Windows.Forms.DataGridView();
@@ -49,6 +59,7 @@
             this.tabPageFrontMatter = new System.Windows.Forms.TabPage();
             this.richTextBoxPanoramaFrontMatter = new System.Windows.Forms.RichTextBox();
             this.tabControlSets = new System.Windows.Forms.TabControl();
+            this.contextMenuMove.SuspendLayout();
             this.tabPagePanorama.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPanorama)).BeginInit();
@@ -71,16 +82,71 @@
             // buttonCopyToOldStories
             // 
             this.buttonCopyToOldStories.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.buttonCopyToOldStories.ContextMenuStrip = this.contextMenuMove;
+            this.buttonCopyToOldStories.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonCopyToOldStories.Image = global::OneStoryProjectEditor.Properties.Resources.CopyHS;
             this.buttonCopyToOldStories.Location = new System.Drawing.Point(819, 237);
             this.buttonCopyToOldStories.Name = "buttonCopyToOldStories";
             this.buttonCopyToOldStories.Size = new System.Drawing.Size(26, 23);
             this.buttonCopyToOldStories.TabIndex = 3;
-            this.toolTip.SetToolTip(this.buttonCopyToOldStories, "Copy the selected story to the \"Old Stories\" list. Then you can use the \'View\' me" +
-                    "nu, \'Old Stories\' menu (from the main window) to view stories in the \'Old Storie" +
-                    "s\' list");
+            this.toolTip.SetToolTip(this.buttonCopyToOldStories, "Copy the selected story to one of the other lists");
             this.buttonCopyToOldStories.UseVisualStyleBackColor = true;
-            this.buttonCopyToOldStories.Click += new System.EventHandler(this.buttonCopyToOldStories_Click);
+            this.buttonCopyToOldStories.Click += new System.EventHandler(this.ButtonCopyToOldStoriesClick);
+            // 
+            // contextMenuMove
+            // 
+            this.contextMenuMove.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.moveToStoriesMenu,
+            this.copyToStoriesMenu,
+            this.moveToNonBibStoriesMenu,
+            this.copyToNonBibStoriesMenu,
+            this.moveToOldStoriesMenu,
+            this.copyToOldStoriesMenu});
+            this.contextMenuMove.Name = "contextMenuMove";
+            this.contextMenuMove.Size = new System.Drawing.Size(327, 158);
+            this.contextMenuMove.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuMoveOpening);
+            // 
+            // moveToStoriesMenu
+            // 
+            this.moveToStoriesMenu.Name = "moveToStoriesMenu";
+            this.moveToStoriesMenu.Size = new System.Drawing.Size(326, 22);
+            this.moveToStoriesMenu.Text = "Move selected story to \'&Stories\' tab";
+            this.moveToStoriesMenu.Click += new System.EventHandler(this.MoveToStoriesMenuClick);
+            // 
+            // copyToStoriesMenu
+            // 
+            this.copyToStoriesMenu.Name = "copyToStoriesMenu";
+            this.copyToStoriesMenu.Size = new System.Drawing.Size(326, 22);
+            this.copyToStoriesMenu.Text = "Copy selected story to \'&Stories\' tab";
+            this.copyToStoriesMenu.Click += new System.EventHandler(this.CopyToStoriesMenuClick);
+            // 
+            // moveToNonBibStoriesMenu
+            // 
+            this.moveToNonBibStoriesMenu.Name = "moveToNonBibStoriesMenu";
+            this.moveToNonBibStoriesMenu.Size = new System.Drawing.Size(326, 22);
+            this.moveToNonBibStoriesMenu.Text = "Move selected story to \'&Non-Biblical Stories\' tab";
+            this.moveToNonBibStoriesMenu.Click += new System.EventHandler(this.MoveToNonBibStoriesMenuClick);
+            // 
+            // copyToNonBibStoriesMenu
+            // 
+            this.copyToNonBibStoriesMenu.Name = "copyToNonBibStoriesMenu";
+            this.copyToNonBibStoriesMenu.Size = new System.Drawing.Size(326, 22);
+            this.copyToNonBibStoriesMenu.Text = "Copy selected story to \'&Non-Biblical Stories\' tab";
+            this.copyToNonBibStoriesMenu.Click += new System.EventHandler(this.CopyToNonBibStoriesMenuClick);
+            // 
+            // moveToOldStoriesMenu
+            // 
+            this.moveToOldStoriesMenu.Name = "moveToOldStoriesMenu";
+            this.moveToOldStoriesMenu.Size = new System.Drawing.Size(326, 22);
+            this.moveToOldStoriesMenu.Text = "Move selected story to \'&Old Stories\' tab";
+            this.moveToOldStoriesMenu.Click += new System.EventHandler(this.MoveToOldStoriesMenuClick);
+            // 
+            // copyToOldStoriesMenu
+            // 
+            this.copyToOldStoriesMenu.Name = "copyToOldStoriesMenu";
+            this.copyToOldStoriesMenu.Size = new System.Drawing.Size(326, 22);
+            this.copyToOldStoriesMenu.Text = "Copy selected story to \'&Old Stories\' tab";
+            this.copyToOldStoriesMenu.Click += new System.EventHandler(this.CopyToOldStoriesMenuClick);
             // 
             // buttonDelete
             // 
@@ -92,7 +158,7 @@
             this.buttonDelete.TabIndex = 2;
             this.toolTip.SetToolTip(this.buttonDelete, "Delete the selected story");
             this.buttonDelete.UseVisualStyleBackColor = true;
-            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
+            this.buttonDelete.Click += new System.EventHandler(this.ButtonDeleteClick);
             // 
             // buttonMoveUp
             // 
@@ -106,15 +172,25 @@
             this.buttonMoveUp.UseVisualStyleBackColor = true;
             this.buttonMoveUp.Click += new System.EventHandler(this.buttonMoveUp_Click);
             // 
-            // tabPageObsolete
+            // tabPageOldStories
             // 
-            this.tabPageObsolete.Location = new System.Drawing.Point(4, 22);
-            this.tabPageObsolete.Name = "tabPageObsolete";
-            this.tabPageObsolete.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageObsolete.Size = new System.Drawing.Size(854, 474);
-            this.tabPageObsolete.TabIndex = 2;
-            this.tabPageObsolete.Text = "Old Stories";
-            this.tabPageObsolete.UseVisualStyleBackColor = true;
+            this.tabPageOldStories.Location = new System.Drawing.Point(4, 22);
+            this.tabPageOldStories.Name = "tabPageOldStories";
+            this.tabPageOldStories.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageOldStories.Size = new System.Drawing.Size(854, 474);
+            this.tabPageOldStories.TabIndex = 3;
+            this.tabPageOldStories.Text = "Old Stories";
+            this.tabPageOldStories.UseVisualStyleBackColor = true;
+            // 
+            // tabPageNonBibStories
+            // 
+            this.tabPageNonBibStories.Location = new System.Drawing.Point(4, 22);
+            this.tabPageNonBibStories.Name = "tabPageNonBibStories";
+            this.tabPageNonBibStories.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageNonBibStories.Size = new System.Drawing.Size(854, 474);
+            this.tabPageNonBibStories.TabIndex = 2;
+            this.tabPageNonBibStories.Text = "Non-Biblical Stories";
+            this.tabPageNonBibStories.UseVisualStyleBackColor = true;
             // 
             // tabPagePanorama
             // 
@@ -250,20 +326,21 @@
             this.richTextBoxPanoramaFrontMatter.Size = new System.Drawing.Size(848, 468);
             this.richTextBoxPanoramaFrontMatter.TabIndex = 0;
             this.richTextBoxPanoramaFrontMatter.Text = "";
-            this.richTextBoxPanoramaFrontMatter.TextChanged += new System.EventHandler(this.richTextBoxPanoramaFrontMatter_TextChanged);
+            this.richTextBoxPanoramaFrontMatter.TextChanged += new System.EventHandler(this.RichTextBoxPanoramaFrontMatterTextChanged);
             // 
             // tabControlSets
             // 
             this.tabControlSets.Controls.Add(this.tabPageFrontMatter);
             this.tabControlSets.Controls.Add(this.tabPagePanorama);
-            this.tabControlSets.Controls.Add(this.tabPageObsolete);
+            this.tabControlSets.Controls.Add(this.tabPageNonBibStories);
+            this.tabControlSets.Controls.Add(this.tabPageOldStories);
             this.tabControlSets.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlSets.Location = new System.Drawing.Point(0, 0);
             this.tabControlSets.Name = "tabControlSets";
             this.tabControlSets.SelectedIndex = 0;
             this.tabControlSets.Size = new System.Drawing.Size(862, 500);
             this.tabControlSets.TabIndex = 4;
-            this.tabControlSets.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControlSets_Selected);
+            this.tabControlSets.Selected += new System.Windows.Forms.TabControlEventHandler(this.TabControlSetsSelected);
             // 
             // PanoramaView
             // 
@@ -274,7 +351,8 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PanoramaView";
             this.Text = "Panorama View";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PanoramaView_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PanoramaViewFormClosing);
+            this.contextMenuMove.ResumeLayout(false);
             this.tabPagePanorama.ResumeLayout(false);
             this.tableLayoutPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPanorama)).EndInit();
@@ -287,7 +365,8 @@
         #endregion
 
         private System.Windows.Forms.ToolTip toolTip;
-        private System.Windows.Forms.TabPage tabPageObsolete;
+        private System.Windows.Forms.TabPage tabPageNonBibStories;
+        private System.Windows.Forms.TabPage tabPageOldStories;
         private System.Windows.Forms.TabPage tabPagePanorama;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private System.Windows.Forms.DataGridView dataGridViewPanorama;
@@ -305,5 +384,12 @@
         private System.Windows.Forms.TabPage tabPageFrontMatter;
         private System.Windows.Forms.RichTextBox richTextBoxPanoramaFrontMatter;
         private System.Windows.Forms.TabControl tabControlSets;
+        private ContextMenuStrip contextMenuMove;
+        private ToolStripMenuItem copyToNonBibStoriesMenu;
+        private ToolStripMenuItem copyToOldStoriesMenu;
+        private ToolStripMenuItem copyToStoriesMenu;
+        private ToolStripMenuItem moveToStoriesMenu;
+        private ToolStripMenuItem moveToNonBibStoriesMenu;
+        private ToolStripMenuItem moveToOldStoriesMenu;
     }
 }

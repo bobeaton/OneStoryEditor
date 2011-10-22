@@ -80,7 +80,6 @@ namespace OneStoryProjectEditor
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewShowHideFieldsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewUseSameSettingsForAllStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.viewVernacularLangMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewNationalLangMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewEnglishBtMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -104,6 +103,7 @@ namespace OneStoryProjectEditor
             this.viewConcordanceMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewStateTransitionHistoryMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewProjectNotesMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewNonBiblicalStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewOldStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.viewHiddenVersesMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -151,6 +151,7 @@ namespace OneStoryProjectEditor
             this.advancedSaveTimeoutAsSilentlyAsPossibleMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedResetStoredInformationMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedChangeProjectFolderRootMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedEmailMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -171,7 +172,8 @@ namespace OneStoryProjectEditor
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.advancedEmailMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.splitContainerUpDown = new OneStoryProjectEditor.MinimizableSplitterContainer();
             this.linkLabelTasks = new System.Windows.Forms.LinkLabel();
             this.linkLabelVerseBT = new System.Windows.Forms.LinkLabel();
@@ -580,9 +582,11 @@ namespace OneStoryProjectEditor
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewNonBiblicalStoriesMenu,
+            this.toolStripSeparator5,
             this.viewShowHideFieldsMenu,
             this.viewUseSameSettingsForAllStoriesMenu,
-            this.toolStripSeparator5,
+            this.toolStripSeparator16,
             this.viewVernacularLangMenu,
             this.viewNationalLangMenu,
             this.viewEnglishBtMenu,
@@ -631,11 +635,6 @@ namespace OneStoryProjectEditor
             this.viewUseSameSettingsForAllStoriesMenu.Size = new System.Drawing.Size(284, 22);
             this.viewUseSameSettingsForAllStoriesMenu.Text = "&Use same settings for all stories";
             this.viewUseSameSettingsForAllStoriesMenu.Click += new System.EventHandler(this.useSameSettingsForAllStoriesToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(281, 6);
             // 
             // viewVernacularLangMenu
             // 
@@ -849,6 +848,16 @@ namespace OneStoryProjectEditor
             this.viewProjectNotesMenu.Size = new System.Drawing.Size(284, 22);
             this.viewProjectNotesMenu.Text = "&Project Notes...";
             this.viewProjectNotesMenu.Click += new System.EventHandler(this.projectNotesToolStripMenuItem_Click);
+            // 
+            // viewNonBiblicalStoriesMenu
+            // 
+            this.viewNonBiblicalStoriesMenu.CheckOnClick = true;
+            this.viewNonBiblicalStoriesMenu.Name = "viewNonBiblicalStoriesMenu";
+            this.viewNonBiblicalStoriesMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewNonBiblicalStoriesMenu.Text = "&Non-biblical Stories...";
+            this.viewNonBiblicalStoriesMenu.ToolTipText = "Check this menu to edit the set of non-biblical stories (uncheck for biblical sto" +
+                "ries)";
+            this.viewNonBiblicalStoriesMenu.CheckedChanged += new System.EventHandler(this.ViewNonBiblicalStoriesMenuCheckedChanged);
             // 
             // viewOldStoriesMenu
             // 
@@ -1278,6 +1287,17 @@ namespace OneStoryProjectEditor
                 " Projects\") besides in your \"My Documents\" folder";
             this.advancedChangeProjectFolderRootMenu.Click += new System.EventHandler(this.changeProjectFolderRootToolStripMenuItem_Click);
             // 
+            // advancedEmailMenu
+            // 
+            this.advancedEmailMenu.Checked = true;
+            this.advancedEmailMenu.CheckOnClick = true;
+            this.advancedEmailMenu.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.advancedEmailMenu.Name = "advancedEmailMenu";
+            this.advancedEmailMenu.Size = new System.Drawing.Size(314, 22);
+            this.advancedEmailMenu.Text = "&Email via MAPI+";
+            this.advancedEmailMenu.ToolTipText = resources.GetString("advancedEmailMenu.ToolTipText");
+            this.advancedEmailMenu.Click += new System.EventHandler(this.advancedEmailMenu_Click);
+            // 
             // aboutToolStripMenu
             // 
             this.aboutToolStripMenu.Name = "aboutToolStripMenu";
@@ -1513,16 +1533,15 @@ namespace OneStoryProjectEditor
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
             // 
-            // advancedEmailMenu
+            // toolStripSeparator16
             // 
-            this.advancedEmailMenu.Checked = true;
-            this.advancedEmailMenu.CheckOnClick = true;
-            this.advancedEmailMenu.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.advancedEmailMenu.Name = "advancedEmailMenu";
-            this.advancedEmailMenu.Size = new System.Drawing.Size(314, 22);
-            this.advancedEmailMenu.Text = "&Email via MAPI+";
-            this.advancedEmailMenu.ToolTipText = resources.GetString("advancedEmailMenu.ToolTipText");
-            this.advancedEmailMenu.Click += new System.EventHandler(this.advancedEmailMenu_Click);
+            this.toolStripSeparator16.Name = "toolStripSeparator16";
+            this.toolStripSeparator16.Size = new System.Drawing.Size(281, 6);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(281, 6);
             // 
             // splitContainerUpDown
             // 
@@ -1694,7 +1713,6 @@ namespace OneStoryProjectEditor
         internal SplitContainer splitContainerLeftRight;
         internal MinimizableSplitterContainer splitContainerUpDown;
         private ToolStripMenuItem viewToolStripMenuItem;
-        private ToolStripSeparator toolStripSeparator5;
         private ToolStripSeparator toolStripSeparator6;
         internal ToolStripMenuItem viewVernacularLangMenu;
         internal ToolStripMenuItem viewNationalLangMenu;
@@ -1825,6 +1843,9 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator15;
         private ToolStripMenuItem advancedOverrideLocalizeStateViewSettingsMenu;
         private ToolStripMenuItem advancedEmailMenu;
+        private ToolStripMenuItem viewNonBiblicalStoriesMenu;
+        private ToolStripSeparator toolStripSeparator16;
+        private ToolStripSeparator toolStripSeparator5;
     }
 
 #if UsingHtmlDisplayForConNotes
