@@ -128,10 +128,10 @@ namespace OneStoryProjectEditor
             if (link.StartsWith("userclick:scripref"))
             {
                 string thisRef = BiblicalTermsHTMLBuilder.DecodeAsHtmlId(link.Substring(19));
-                string strStoryName, strAnchor;
+                string strStorySet, strStoryName, strAnchor;
                 int nLineNumber;
-                BiblicalTermsHTMLBuilder.ParseReference(thisRef, out strStoryName, out nLineNumber, out strAnchor);
-                _theSE.NavigateTo(strStoryName, nLineNumber, strAnchor);
+                BiblicalTermsHTMLBuilder.ParseReference(thisRef, out strStorySet, out strStoryName, out nLineNumber, out strAnchor);
+                _theSE.NavigateTo(strStorySet, strStoryName, nLineNumber, strAnchor);
                 e.Cancel = true;
             }
         }

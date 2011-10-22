@@ -244,30 +244,39 @@ namespace OneStoryProjectEditor
             referenceVariables["StatusBMP"] = "";
         }
 
-        internal static string ConstructUrlFromReference(StoryProjectData theSPD, string reference)
+        internal static string ConstructUrlFromReference(StoryProjectData theSPD, 
+            string reference)
         {
-            string strStoryName, strAnchor;
+            string strStorySet, strStoryName, strAnchor;
             int nLineNum;
-            ParseReference(reference, out strStoryName, out nLineNum, out strAnchor);
+            ParseReference(reference, out strStorySet, out strStoryName, out nLineNum, out strAnchor);
 
-            StoryData theStory = theSPD[Properties.Resources.IDS_MainStoriesSet].GetStoryFromName(strStoryName);
+            StoryData theStory = theSPD[strStorySet].GetStoryFromName(strStoryName);
             System.Diagnostics.Debug.Assert((theStory != null) && ((nLineNum - 1) < theStory.Verses.Count));
             return OneStoryUrlBuilder.Url(
                                    theSPD.ProjSettings.ProjectName,
+                                   strStorySet,
                                    theStory.guid,
                                    theStory.Verses[nLineNum - 1].guid,
                                    OneStoryUrlBuilder.FieldType.eAnchorFields, strAnchor, strAnchor);
         }
 
-        internal static void ParseReference(string strReference, out string strStoryName, out int nLineNumber, out string strAnchor)
+        internal static void ParseReference(string strReference, 
+            out string strStorySet, out string strStoryName, out int nLineNumber, 
+            out string strAnchor)
         {
-            // format for reference is: "Story: '{0}' line: {1} anchor: {2}"
-            const string CstrStoryPortion = "Story: '";
+            // format for reference is: "Set: '{0}' Story: '{1}' line: {2} anchor: {3}"
+            const string CstrStorySetPortion = "Set: '";
+            const string CstrStoryPortion = "' Story: '";
             const string CstrLinePortion = "' line: ";
             const string CstrAnchorPortion = " anchor: ";
 
-            System.Diagnostics.Debug.Assert(strReference.IndexOf(CstrStoryPortion) == 0);
-            int nIndexStoryName = CstrStoryPortion.Length;
+            System.Diagnostics.Debug.Assert((strReference.IndexOf(CstrStorySetPortion) == 0) &&
+                                            (strReference.IndexOf(CstrStoryPortion) != -1));
+            int nIndexOfStoryNameLabel = strReference.IndexOf(CstrStoryPortion);
+            int nLengthStorySetName = nIndexOfStoryNameLabel - CstrStorySetPortion.Length;
+            strStorySet = strReference.Substring(CstrStorySetPortion.Length, nLengthStorySetName);
+            int nIndexStoryName = nIndexOfStoryNameLabel + CstrStoryPortion.Length;
             int nIndexLineNumber = strReference.IndexOf(CstrLinePortion, nIndexStoryName) + CstrLinePortion.Length;
             strStoryName = strReference.Substring(nIndexStoryName, nIndexLineNumber - nIndexStoryName - CstrLinePortion.Length);
 
@@ -423,42 +432,46 @@ namespace OneStoryProjectEditor
                 arrRegexFreeTranslation = GetRegexs(BuildFakeReferences(nColumnIndex, strSearchPatternsFreeTranslation));
 
             // get the current stories only (not the obsolete ones)
-            StoriesData theStories = theSpd[Properties.Resources.IDS_MainStoriesSet];
-            progressBarLoadingKeyTerms.Maximum = theStories.Count;
+            // StoriesData theStories = theSpd[Properties.Resources.IDS_MainStoriesSet];
+            progressBarLoadingKeyTerms.Maximum = theSpd.Values.Sum(aStorySet => aStorySet.Count);
             progressBarLoadingKeyTerms.Value = 0;
             progressBarLoadingKeyTerms.Visible = true;  // in case we're repeating
-            
-            for (int nStoryNumber = 0; nStoryNumber < theStories.Count; nStoryNumber++)
+
+            foreach (var aStorySet in theSpd.Values)
             {
-                StoryData aStory = theStories[nStoryNumber];
-                for (int nVerseNumber = 0; nVerseNumber < aStory.Verses.Count; nVerseNumber++)
+                foreach (StoryData aStory in aStorySet)
                 {
-                    string strVerseReference = String.Format("Story: '{0}' line: {1}",
-                                                             aStory.Name, nVerseNumber + 1);
-
-                    VerseData aVerse = aStory.Verses[nVerseNumber];
-                    if (!aVerse.IsVisible && !bSearchHidden)
-                        continue;
-
-                    // don't need to continue checking the others if we find a hit earlier
-                    if (SearchForHit(bShowVernacular, arrRegexVernacular, aVerse.StoryLine.Vernacular, decVernacular)
-                        || SearchForHit(bShowNationalBT, arrRegexNationalBT, aVerse.StoryLine.NationalBt, decNationalBt)
-                        || SearchForHit(bShowInternationalBT, arrRegexInternationalBT, aVerse.StoryLine.InternationalBt, decInternationalBt)
-                        || SearchForHit(bShowFreeTranslation, arrRegexFreeTranslation, aVerse.StoryLine.FreeTranslation, decFreeTranslation))
+                    for (int nVerseNumber = 0; nVerseNumber < aStory.Verses.Count; nVerseNumber++)
                     {
-                        var astrVerseText = new List<string>(scrTextNames.Count);
-                        if (bShowVernacular)
-                            astrVerseText.Add(aVerse.StoryLine.Vernacular.GetValue(decVernacular));
-                        if (bShowNationalBT)
-                            astrVerseText.Add(aVerse.StoryLine.NationalBt.GetValue(decNationalBt));
-                        if (bShowInternationalBT)
-                            astrVerseText.Add(aVerse.StoryLine.InternationalBt.GetValue(decInternationalBt));
-                        if (bShowFreeTranslation)
-                            astrVerseText.Add(aVerse.StoryLine.FreeTranslation.GetValue(decFreeTranslation));
-                        mapReferenceToVerseTextList.Add(strVerseReference, astrVerseText);
+                        string strVerseReference = String.Format("Set: '{0}' Story: '{1}' line: {2}",
+                                                                 aStorySet.SetName,
+                                                                 aStory.Name,
+                                                                 nVerseNumber + 1);
+
+                        VerseData aVerse = aStory.Verses[nVerseNumber];
+                        if (!aVerse.IsVisible && !bSearchHidden)
+                            continue;
+
+                        // don't need to continue checking the others if we find a hit earlier
+                        if (SearchForHit(bShowVernacular, arrRegexVernacular, aVerse.StoryLine.Vernacular, decVernacular)
+                            || SearchForHit(bShowNationalBT, arrRegexNationalBT, aVerse.StoryLine.NationalBt, decNationalBt)
+                            || SearchForHit(bShowInternationalBT, arrRegexInternationalBT, aVerse.StoryLine.InternationalBt, decInternationalBt)
+                            || SearchForHit(bShowFreeTranslation, arrRegexFreeTranslation, aVerse.StoryLine.FreeTranslation, decFreeTranslation))
+                        {
+                            var astrVerseText = new List<string>(scrTextNames.Count);
+                            if (bShowVernacular)
+                                astrVerseText.Add(aVerse.StoryLine.Vernacular.GetValue(decVernacular));
+                            if (bShowNationalBT)
+                                astrVerseText.Add(aVerse.StoryLine.NationalBt.GetValue(decNationalBt));
+                            if (bShowInternationalBT)
+                                astrVerseText.Add(aVerse.StoryLine.InternationalBt.GetValue(decInternationalBt));
+                            if (bShowFreeTranslation)
+                                astrVerseText.Add(aVerse.StoryLine.FreeTranslation.GetValue(decFreeTranslation));
+                            mapReferenceToVerseTextList.Add(strVerseReference, astrVerseText);
+                        }
                     }
+                    progressBarLoadingKeyTerms.Value++;
                 }
-                progressBarLoadingKeyTerms.Value++;
             }
         }
 
@@ -480,7 +493,7 @@ namespace OneStoryProjectEditor
                                            regex.IsMatch(strForMatch));
             return bFoundMatch;
         }
-
+        /*
         /// <summary>
         /// Build by project by reference array of verse text for this term
         /// </summary>
@@ -544,6 +557,7 @@ namespace OneStoryProjectEditor
 	            progressBarLoadingKeyTerms.Value++;
 	        }
 	    }
+        */
 
 	    public static string FormattedNotes(TermRendering termRendering)
 		{

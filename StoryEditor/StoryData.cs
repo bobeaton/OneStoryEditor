@@ -94,7 +94,7 @@ namespace OneStoryProjectEditor
             //  (during Chorus diff presentation)
             ProjStage = new StoryStageLogic(strProjectFolder, node.Attributes[CstrAttributeStage].Value);
             guid = node.Attributes[CstrAttributeGuid].Value;
-            StageTimeStamp = DateTime.Parse(node.Attributes[CstrAttributeTimeStamp].Value);
+            StageTimeStamp = DateTime.Parse(node.Attributes[CstrAttributeTimeStamp].Value).ToLocalTime();
             CraftingInfo = new CraftingInfoData(node.SelectSingleNode(CraftingInfoData.CstrElementLabelCraftingInfo));
             TransitionHistory = new StoryStateTransitionHistory(node.SelectSingleNode(StoryStateTransitionHistory.CstrElementLabelTransitionHistory));
             Verses = new VersesData(node.SelectSingleNode(VersesData.CstrElementLabelVerses));
@@ -127,7 +127,9 @@ namespace OneStoryProjectEditor
                                             : 0;
 
             guid = theStoryRow.guid;
-            StageTimeStamp = (theStoryRow.IsstageDateTimeStampNull()) ? DateTime.Now : theStoryRow.stageDateTimeStamp;
+            StageTimeStamp = (theStoryRow.IsstageDateTimeStampNull())
+                                 ? DateTime.Now
+                                 : theStoryRow.stageDateTimeStamp.ToLocalTime();
             ProjStage = new StoryStageLogic(strProjectFolder, theStoryRow.stage);
             CraftingInfo = new CraftingInfoData(theStoryRow);
             TransitionHistory = new StoryStateTransitionHistory(theStoryRow);
@@ -786,7 +788,7 @@ namespace OneStoryProjectEditor
             LoggedInMemberId = theSTR.LoggedInMemberId;
             FromState = StoryStageLogic.GetProjectStageFromString(theSTR.FromState);
             ToState = StoryStageLogic.GetProjectStageFromString(theSTR.ToState);
-            TransitionDateTime = theSTR.TransitionDateTime;
+            TransitionDateTime = theSTR.TransitionDateTime.ToLocalTime();
             if (!theSTR.IsWindowsUserNameNull())
                 WindowsUserName = theSTR.WindowsUserName;
         }
@@ -798,7 +800,7 @@ namespace OneStoryProjectEditor
             WindowsUserName = ((attr = node.Attributes[CstrAttrNameWindowsUserName]) != null) ? attr.Value : null;
             FromState = StoryStageLogic.GetProjectStageFromString(node.Attributes[CstrAttrNameFromState].Value);
             ToState = StoryStageLogic.GetProjectStageFromString(node.Attributes[CstrAttrNameToState].Value);
-            TransitionDateTime = DateTime.Parse(node.Attributes[CstrAttrNameTransitionDateTime].Value);
+            TransitionDateTime = DateTime.Parse(node.Attributes[CstrAttrNameTransitionDateTime].Value).ToLocalTime();
         }
 
         public const string CstrElemLabelStateTransition = "StateTransition";

@@ -3034,7 +3034,7 @@ namespace OneStoryProjectEditor
             // do the sync'ing now before the main window goes away (or users are too quick
             //  to try to launch it again, before the first instance actually goes away)
             //  also, this could be time consuming.
-            if (!_bRestarting)
+            if (!_bRestarting && IsInStoriesSet)
             {
                 Cursor = Cursors.WaitCursor;
                 Program.SyncBeforeClose(false);
@@ -4176,15 +4176,22 @@ namespace OneStoryProjectEditor
 
         private void onClickViewOldStory(object sender, EventArgs e)
         {
-            ToolStripItem tsi = sender as ToolStripItem;
-            StoryEditor theOldStoryEditor = new StoryEditor(Properties.Resources.IDS_ObsoleteStoriesSet, null)
-                                                {
-                                                    StoryProject = StoryProject,
-                                                    LoggedOnMember = LoggedOnMember
-                                                };
+            var tsi = sender as ToolStripItem;
+            var strStoryName = tsi.Text;
+            LaunchOldStoryWindow(strStoryName);
+        }
+
+        private StoryEditor LaunchOldStoryWindow(string strStoryName)
+        {
+            var theOldStoryEditor = new StoryEditor(Resources.IDS_ObsoleteStoriesSet, null)
+                                        {
+                                            StoryProject = StoryProject,
+                                            LoggedOnMember = LoggedOnMember
+                                        };
             theOldStoryEditor.Show();
             theOldStoryEditor.LoadComboBox();
-            theOldStoryEditor.comboBoxStorySelector.SelectedItem = tsi.Text;
+            theOldStoryEditor.comboBoxStorySelector.SelectedItem = strStoryName;
+            return theOldStoryEditor;
         }
 
         private void editCopySelectionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4371,13 +4378,52 @@ namespace OneStoryProjectEditor
                                  aVerse.TestQuestions.HasData);
         }
 
-        public void NavigateTo(string strStoryName, int nLineIndex, string strAnchor)
+        public void NavigateTo(string strStorySet, string strStoryName, 
+            int nLineIndex, string strAnchor)
         {
+            // if it's the main set or the non-biblical story set, then make
+            //  sure it's visible. If it's the obsolete story set, then launch
+            //  it in another window (null means 'current set')
+            if (!String.IsNullOrEmpty(strStorySet) &&
+                (strStorySet != _strStoriesSet))
+            {
+                // if we every allow multiple 'story sets' (beyond the 3 we do
+                //  currently), then this will change... but for now, decide
+                //  how to switch to the other sets based on our current way of
+                //  working (i.e. viewNonBiblicalStoriesMenu is *Checked* or not
+                //  depending on which set we're viewing)
+                if (strStorySet == Resources.IDS_MainStoriesSet)
+                {
+                    // means we must be viewing Non-Biblicals, so switch
+                    Debug.Assert(viewNonBiblicalStoriesMenu.Checked);
+                    viewNonBiblicalStoriesMenu.Checked = false;
+                }
+                else if (strStorySet == Resources.IDS_NonBibStoriesSet)
+                {
+                    // means we must be viewing Biblicals, so switch
+                    Debug.Assert(!viewNonBiblicalStoriesMenu.Checked);
+                    viewNonBiblicalStoriesMenu.Checked = true;
+                }
+                else
+                {
+                    Debug.Assert(strStorySet == Resources.IDS_ObsoleteStoriesSet,
+                                 "Bad assumption that we only have these three type of story sets");
+                    var theStoryEditor = LaunchOldStoryWindow(strStoryName);
+                    theStoryEditor.NavigateToSetFocus(strAnchor, nLineIndex);
+                    return;
+                }
+            }
+
             Debug.Assert(comboBoxStorySelector.Items.Contains(strStoryName));
             comboBoxStorySelector.SelectedItem = strStoryName;
             if (strStoryName != TheCurrentStory.Name)
                 return; // must have cancelled
 
+            NavigateToSetFocus(strAnchor, nLineIndex);
+        }
+
+        private void NavigateToSetFocus(string strAnchor, int nLineIndex)
+        {
             if (!String.IsNullOrEmpty(strAnchor))
                 SetNetBibleVerse(strAnchor);
             Debug.Assert(TheCurrentStory.Verses.Count >= nLineIndex);

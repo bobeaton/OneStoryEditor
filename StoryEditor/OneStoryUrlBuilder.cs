@@ -9,6 +9,7 @@ namespace OneStoryProjectEditor
     public class OneStoryUrlBuilder
     {
         protected const string CstrOneStoryUrlHeader = "onestory://";
+        protected const string CstrStorySet = "StorySet";
         protected const string CstrStoryId = "StoryId";
         protected const string CstrLineId = "LineId";
         protected const string CstrType = "Type";
@@ -21,98 +22,47 @@ namespace OneStoryProjectEditor
         }
 
         // OneStory URL syntax
-        // onestory://<projectname>?StoryId=<storyguid>&LineId=<verseguid>&Type=<fieldtype>&TypeId=<typeguid>&TypeValue=<string>
+        // onestory://<projectname>?StorySet=<storysetname>&StoryId=<storyguid>&LineId=<verseguid>&Type=<fieldtype>&TypeId=<typeguid>&TypeValue=<string>
         // where:
         //  projectname = e.g. snwmtn-test
+        //  storysetname = e.g. "Stories" (for the main biblical stories)
         //  fieldtype = oneof{Vernacular, NationalBT, EnglishBT, Anchor, ...}
         //  num = which instances (e.g. the 1st retelling = 0)
         //  string = portion of the phrase/string that was selected
         // this method is for constructing a single FieldInfo item
-        public static string Url(string strProjectName,
+        public static string Url(string strProjectName, string strStorySet,
             string strStoryGuid, string strVerseGuid, FieldType eFieldType,
             string strItemId, string strPhrase)
         {
             string strUrl;
             if (!String.IsNullOrEmpty(strItemId))
-                strUrl = String.Format("onestory://{0}?StoryId={1}&LineId={2}&Type={3}&TypeId={4}&TypeValue={5}",
-                                       strProjectName, strStoryGuid, strVerseGuid,
+                strUrl = String.Format("onestory://{0}?StorySet={1}&StoryId={2}&LineId={3}&Type={4}&TypeId={5}&TypeValue={6}",
+                                       strProjectName, strStorySet, strStoryGuid, strVerseGuid,
                                        eFieldType, strItemId, strPhrase);
             else
-                strUrl = String.Format("onestory://{0}?StoryId={1}&LineId={2}&Type={3}",
-                                       strProjectName, strStoryGuid, strVerseGuid,
+                strUrl = String.Format("onestory://{0}?StorySet={1}&StoryId={2}&LineId={3}&Type={4}",
+                                       strProjectName, strStorySet, strStoryGuid, strVerseGuid,
                                        eFieldType);
 
             var parse = System.Web.HttpUtility.ParseQueryString(strUrl);
-            Debug.Assert(parse.AllKeys[0] == CstrOneStoryUrlHeader + strProjectName + "?" + CstrStoryId);
-            Debug.Assert(parse.GetValues(CstrOneStoryUrlHeader + strProjectName + "?" + CstrStoryId)[0] == strStoryGuid);
-            Debug.Assert(parse.AllKeys[1] == CstrLineId);
+            Debug.Assert(parse.AllKeys[0] == CstrOneStoryUrlHeader + strProjectName + "?" + CstrStorySet);
+            Debug.Assert(parse.GetValues(CstrOneStoryUrlHeader + strProjectName + "?" + CstrStorySet)[0] == strStorySet);
+            Debug.Assert(parse.AllKeys[1] == CstrStoryId);
+            Debug.Assert(parse.GetValues(CstrStoryId)[0] == strStoryGuid);
+            Debug.Assert(parse.AllKeys[2] == CstrLineId);
             Debug.Assert(parse.GetValues(CstrLineId)[0] == strVerseGuid);
-            Debug.Assert(parse.AllKeys[2] == CstrType);
+            Debug.Assert(parse.AllKeys[3] == CstrType);
             Debug.Assert(parse.GetValues(CstrType)[0] == eFieldType.ToString());
             if (!String.IsNullOrEmpty(strItemId))
             {
-                Debug.Assert(parse.AllKeys[3] == CstrTypeId);
+                Debug.Assert(parse.AllKeys[4] == CstrTypeId);
                 Debug.Assert(parse.GetValues(CstrTypeId)[0] == strItemId);
-                Debug.Assert(parse.AllKeys[4] == CstrTypeValue);
+                Debug.Assert(parse.AllKeys[5] == CstrTypeValue);
                 Debug.Assert(parse.GetValues(CstrTypeValue)[0] == strPhrase);
             }
-            /*
-#if DEBUG
-            string strTestProjectName, strTestStoryGuid, strTestVerseGuid;
-            List<FieldInfo> lstFields;
-            ParseOneStoryUrl(strUrl, out strTestProjectName, out strTestStoryGuid,
-                             out strTestVerseGuid, out lstFields);
-            Debug.Assert(strProjectName == strTestProjectName);
-            Debug.Assert(strStoryGuid == strTestStoryGuid);
-            Debug.Assert(strVerseGuid == strTestVerseGuid);
-            Debug.Assert(lstFields[0].FieldType == eFieldType);
-            Debug.Assert(lstFields[0].ItemId == strItemId);
-            Debug.Assert(lstFields[0].Phrase == strPhrase);
-#endif
-            */
+
             return strUrl;
         }
-        /*
-        public static bool ParseOneStoryUrl(string strUrl, out string strProjectName,
-            out string strStoryGuid, out string strVerseGuid, out List<FieldInfo> lstFields)
-        {
-            try
-            {
-                var parse = System.Web.HttpUtility.ParseQueryString(strUrl);
-                int nIndex = parse.AllKeys[0].IndexOf("?");
-                strProjectName = parse.AllKeys[0].Substring(CstrOneStoryUrlHeader.Length,
-                                                            nIndex - CstrOneStoryUrlHeader.Length);
-                strStoryGuid = parse.GetValues(CstrOneStoryUrlHeader + strProjectName + "?" + CstrStoryId)[0];
-                strVerseGuid = parse.GetValues(CstrLineId)[0];
-                string[] astrTypes = parse.GetValues(CstrType);
-                string[] astrTypeIds = parse.GetValues(CstrTypeId);
-                string[] astrTypeVals = parse.GetValues(CstrTypeValue);
-
-                Debug.Assert((astrTypes.Length == astrTypeIds.Length)
-                    && (astrTypeIds.Length == astrTypeVals.Length));
-
-                lstFields = new List<FieldInfo>(astrTypes.Length);
-                for (int i = 0; i < astrTypes.Length; i++)
-                {
-                    lstFields.Add(new FieldInfo(GetFieldTypeFromString(astrTypes[i]), 
-                        astrTypeIds[i], astrTypeVals[i]));
-                }
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Palaso.Reporting.ErrorReport.ReportNonFatalException(
-                    new ApplicationException(String.Format("Unable to parse URL: {0}", strUrl), ex));
-            }
-
-            strProjectName = null;
-            strStoryGuid = null;
-            strVerseGuid = null;
-            lstFields = null;
-            return false;
-        }
-        */
 
         // this method is for constructing multiple FieldInfo items
         public static string Url(string strProjectName,
