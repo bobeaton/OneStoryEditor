@@ -1792,8 +1792,8 @@ and in the resulting window click on the next (green) state.
   <data name="HTML_Button" xml:space="preserve">
     <value>&lt;button id="{0}" onClick="{1}"&gt;{2}&lt;/button&gt;</value>
   </data>
-  <data name="HTML_ButtonRightAlignCtxMenu" xml:space="preserve">
-    <value>&lt;button id="{0}" style="position:relative; left:20px; height:20px; width:20px;" oncontextmenu="return showContextMenu(this);"&gt;{1}&lt;/button&gt;</value>
+  <data name="HTML_ButtonLineOptions" xml:space="preserve">
+    <value>&lt;button id="{0}" style="height:20px; width:20px;"&gt;{1}&lt;/button&gt;</value>
   </data>
   <data name="HTML_DOM_Prefix" xml:space="preserve">
     <value>&lt;script&gt;
@@ -1877,6 +1877,11 @@ function OnKeyDown()
     window.event.returnValue = false;
     return false;
   }
+}
+function DoOnMouseUp(strId)
+{
+  window.external.OnDoOnMouseUp(strId);
+  return false;
 }
 &lt;/script&gt;</value>
   </data>
@@ -2082,6 +2087,7 @@ function textboxSelect(strId, iStart, iLen)
 &lt;body&gt;
 {2}
 &lt;/body&gt;
+{3}
 &lt;/html&gt;</value>
   </data>
   <data name="HTML_HeaderStoryBt" xml:space="preserve">
@@ -2235,9 +2241,6 @@ initContextMenu();
   </data>
   <data name="HTML_TableCellWidthPixels" xml:space="preserve">
     <value>&lt;td width="{0}"&gt;{1}&lt;/td&gt;</value>
-  </data>
-  <data name="HTML_TableCellWidthSpanId" xml:space="preserve">
-    <value>&lt;td id="{0}" width="{1}%" colspan="{2}"&gt;{3}&lt;/td&gt;</value>
   </data>
   <data name="HTML_TableCellWithSpan" xml:space="preserve">
     <value>&lt;td colspan="{0}"&gt;{1}&lt;/td&gt;</value>
@@ -2409,5 +2412,22 @@ eater Panorama
   </data>
   <data name="IDS_NonBibStoriesSet" xml:space="preserve">
     <value>Non-Biblical Stories</value>
+  </data>
+  <data name="HTML_TableCellWidthDropAnchor" xml:space="preserve">
+    <value>&lt;td id="{0}" width="{1}%" ondragover="window.event.returnValue=false" ondrop="window.external.AddScriptureReference(this.id)" &gt;{2}&lt;/td&gt;</value>
+  </data>
+  <data name="HTML_ScriptPostFix" xml:space="preserve">
+    <value>&lt;script&gt;
+var buttons = document.getElementsByTagName("button");
+for (var i=0; i &lt; buttons.length; i++)
+{
+  buttons[i].onmouseup = function(){return DoOnMouseUp(this.id);};
+}
+var textareas = document.getElementsByTagName("textarea");
+for (var i=0; i &lt; textareas.length; i++)
+{
+  textareas[i].onmouseup = function(){return DoOnMouseUp(this.id);};
+}
+&lt;/script&gt;</value>
   </data>
 </root>

@@ -67,8 +67,11 @@ namespace OneStoryProjectEditor
             {
                 StoryData aStory = _theSE.TheCurrentStoriesSet.GetStoryFromName(aCheckedStoryName.ToString());
                 if (aStory != null)
-                    strHtml += aStory.PresentationHtmlWithoutHtmlDocOutside(ViewSettings, _theSE.StoryProject.ProjSettings,
-                                                                            _theSE.StoryProject.TeamMembers, null);
+                    strHtml += aStory.PresentationHtmlWithoutHtmlDocOutside(ViewSettings,
+                                                                            _theSE.StoryProject.ProjSettings,
+                                                                            _theSE.StoryProject.TeamMembers,
+                                                                            null,
+                                                                            false);
             }
 
             htmlStoryBt.DocumentText = StoryData.AddHtmlHtmlDocOutside(strHtml, _theSE.StoryProject.ProjSettings);

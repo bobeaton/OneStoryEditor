@@ -225,11 +225,11 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; style=&quot;position:relative; left:20px; height:20px; width:20px;&quot; oncontextmenu=&quot;return showContextMenu(this);&quot;&gt;{1}&lt;/button&gt;.
+        ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; style=&quot;height:20px; width:20px;&quot;&gt;{1}&lt;/button&gt;.
         /// </summary>
-        internal static string HTML_ButtonRightAlignCtxMenu {
+        internal static string HTML_ButtonLineOptions {
             get {
-                return ResourceManager.GetString("HTML_ButtonRightAlignCtxMenu", resourceCulture);
+                return ResourceManager.GetString("HTML_ButtonLineOptions", resourceCulture);
             }
         }
         
@@ -342,6 +342,7 @@ namespace OneStoryProjectEditor.Properties {
         ///&lt;body&gt;
         ///{2}
         ///&lt;/body&gt;
+        ///{3}
         ///&lt;/html&gt;.
         /// </summary>
         internal static string HTML_HeaderPresentation {
@@ -429,6 +430,26 @@ namespace OneStoryProjectEditor.Properties {
         internal static string HTML_ParagraphText {
             get {
                 return ResourceManager.GetString("HTML_ParagraphText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;script&gt;
+        ///var buttons = document.getElementsByTagName(&quot;button&quot;);
+        ///for (var i=0; i &lt; buttons.length; i++)
+        ///{
+        ///  buttons[i].onmouseup = function(){return DoOnMouseUp(this.id);};
+        ///}
+        ///var textareas = document.getElementsByTagName(&quot;textarea&quot;);
+        ///for (var i=0; i &lt; textareas.length; i++)
+        ///{
+        ///  textareas[i].onmouseup = function(){return DoOnMouseUp(this.id);};
+        ///}
+        ///&lt;/script&gt;.
+        /// </summary>
+        internal static string HTML_ScriptPostFix {
+            get {
+                return ResourceManager.GetString("HTML_ScriptPostFix", resourceCulture);
             }
         }
         
@@ -546,6 +567,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;td id=&quot;{0}&quot; width=&quot;{1}%&quot; ondragover=&quot;window.event.returnValue=false&quot; ondrop=&quot;window.external.AddScriptureReference(this.id)&quot; &gt;{2}&lt;/td&gt;.
+        /// </summary>
+        internal static string HTML_TableCellWidthDropAnchor {
+            get {
+                return ResourceManager.GetString("HTML_TableCellWidthDropAnchor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;td id=&quot;{0}&quot; width=&quot;{1}%&quot;&gt;{2}&lt;/td&gt;.
         /// </summary>
         internal static string HTML_TableCellWidthId {
@@ -560,15 +590,6 @@ namespace OneStoryProjectEditor.Properties {
         internal static string HTML_TableCellWidthPixels {
             get {
                 return ResourceManager.GetString("HTML_TableCellWidthPixels", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;td id=&quot;{0}&quot; width=&quot;{1}%&quot; colspan=&quot;{2}&quot;&gt;{3}&lt;/td&gt;.
-        /// </summary>
-        internal static string HTML_TableCellWidthSpanId {
-            get {
-                return ResourceManager.GetString("HTML_TableCellWidthSpanId", resourceCulture);
             }
         }
         

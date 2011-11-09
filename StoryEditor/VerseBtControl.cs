@@ -9,12 +9,12 @@ namespace OneStoryProjectEditor
 {
     public partial class VerseBtControl : VerseControl
     {
-        protected const string CstrFieldNameStoryLine = "StoryLine";
-        protected const string CstrFieldNameAnchors = "Anchors";
-        protected const string CstrFieldNameExegeticalHelp = "ExegeticalHelp";
-        protected const string CstrFieldNameExegeticalHelpLabel = "ExegeticalHelpLabel";
-        protected const string CstrFieldNameRetellings = "Retellings";
-        protected const string CstrFieldNameTestQuestions = "TestQuestions";
+        public const string CstrFieldNameStoryLine = "StoryLine";
+        public const string CstrFieldNameAnchors = "Anchors";
+        public const string CstrFieldNameExegeticalHelp = "ExegeticalHelp";
+        public const string CstrFieldNameExegeticalHelpLabel = "ExegeticalHelpLabel";
+        public const string CstrFieldNameRetellings = "Retellings";
+        public const string CstrFieldNameTestQuestions = "TestQuestions";
 
         internal VerseData _verseData = null;
         protected ExegeticalHelpNotesData _myExegeticalHelpNotes;

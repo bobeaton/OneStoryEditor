@@ -51,7 +51,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\output\$(Configuration)</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;OnGecko</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -124,6 +124,10 @@
     <Reference Include="SilEncConverters40, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\SilEncConverters40.dll</HintPath>
+    </Reference>
+    <Reference Include="Skybound.Gecko, Version=1.9.2.0, Culture=neutral, PublicKeyToken=3209ac31600d1857, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Code\GeckoFX\Skybound.Gecko\bin\x86\Debug_Windows\Skybound.Gecko.dll</HintPath>
     </Reference>
     <Reference Include="SwigSword, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -224,6 +228,12 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ExegeticalHelpNotesData.cs" />
+    <Compile Include="GeckoTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GeckoTestForm.Designer.cs">
+      <DependentUpon>GeckoTestForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="GlossingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -260,11 +270,11 @@
     <Compile Include="HtmlStoryBtControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="HtmlStoryBtControl.Designer.cs">
+      <DependentUpon>HtmlStoryBtControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="HtmlVerseControl.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="HtmlVerseControl.designer.cs">
-      <DependentUpon>HtmlVerseControl.cs</DependentUpon>
     </Compile>
     <Compile Include="InstallerClass.cs">
       <SubType>Component</SubType>
@@ -446,6 +456,9 @@
       <DependentUpon>AnchorControl.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="GeckoTestForm.resx">
+      <DependentUpon>GeckoTestForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GlossingControl.resx">
       <DependentUpon>GlossingControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -461,6 +474,9 @@
     <EmbeddedResource Include="HtmlForm.resx">
       <DependentUpon>HtmlForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HtmlStoryBtControl.resx">
+      <DependentUpon>HtmlStoryBtControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LineFlowLayoutPanel.resx">
       <DependentUpon>LineFlowLayoutPanel.cs</DependentUpon>

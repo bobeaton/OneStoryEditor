@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
-using System.Text;
-using System.Text.RegularExpressions;   // for Regex
-using System.Windows.Forms;
 using NetLoc;
 
 namespace OneStoryProjectEditor
@@ -15,7 +13,7 @@ namespace OneStoryProjectEditor
         public string ToolTipText = null;
         public List<string> keyTerms = new List<string>();
 
-        public AnchorData(NewDataSet.AnchorRow theAnchorRow, NewDataSet projFile)
+        public AnchorData(NewDataSet.AnchorRow theAnchorRow)
         {
             JumpTarget = theAnchorRow.jumpTarget;
             ToolTipText = (theAnchorRow.IsAnchor_textNull()) 
@@ -155,6 +153,7 @@ namespace OneStoryProjectEditor
 
         public const string CstrTooltipIndicator = " *";
 
+        /*
         public string Html
         {
             get 
@@ -170,9 +169,11 @@ namespace OneStoryProjectEditor
                                         strButtonLabel);
             }
         }
+        */
 
-        public string PresentationHtml(AnchorsData childAnchorsData, bool bPrintPreview,
-            bool bProcessingTheChild, ref List<string> astrExegeticalHelpNotes)
+        public string PresentationHtml(AnchorsData childAnchorsData, 
+            bool bPrintPreview, bool bProcessingTheChild, 
+            ref List<string> astrExegeticalHelpNotes)
         {
             string strButtonLabel = JumpTarget;
             if (childAnchorsData != null)
@@ -288,7 +289,7 @@ namespace OneStoryProjectEditor
                 IsKeyTermChecked = theAnchorsRow.keyTermChecked;
 
             foreach (NewDataSet.AnchorRow anAnchorRow in theAnchorsRow.GetAnchorRows())
-                Add(new AnchorData(anAnchorRow, projFile));
+                Add(new AnchorData(anAnchorRow));
         }
 
         public AnchorsData(XmlNode node)
@@ -317,9 +318,20 @@ namespace OneStoryProjectEditor
 
         public AnchorData AddAnchorData(string strJumpTarget, string strComment)
         {
-            AnchorData anAD = new AnchorData(strJumpTarget, strComment);
+            foreach (var anAnchorData in this.Where(anAnchorData => 
+                anAnchorData.JumpTarget == strJumpTarget))
+            {
+                return anAnchorData;
+            }
+            var anAD = new AnchorData(strJumpTarget, strComment);
             Add(anAD);
             return anAD;
+        }
+
+        public bool Contains(string strJumpTarget)
+        {
+            return this.Any(anAnchorData => 
+                anAnchorData.JumpTarget == strJumpTarget);
         }
 
         public bool HasData
@@ -341,7 +353,32 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public string PresentationHtml(int nVerseIndex, int nNumCols,
+        public string PresentationHtml(int nVerseIndex, 
+            AnchorsData childAnchorsData, bool bPrintPreview, 
+            ref List<string> astrExegeticalHelpNotes)
+        {
+            string strHtmlCell = GetAnchorButtonsCell(nVerseIndex,
+                                                      childAnchorsData,
+                                                      bPrintPreview,
+                                                      ref astrExegeticalHelpNotes);
+
+            return FinishPresentationHtml(nVerseIndex, strHtmlCell);
+        }
+
+        public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols,
+            ref List<string> astrExegeticalHelpNotes)
+        {
+            string strRow = null;
+            foreach (AnchorData anchorData in this)
+                strRow += anchorData.PresentationHtmlAsAddition(ref astrExegeticalHelpNotes);
+
+            // make a cell out of the buttons
+            string strHtmlCell = AddCellHtml(nVerseIndex, strRow);
+
+            return FinishPresentationHtml(nVerseIndex, strHtmlCell);
+        }
+
+        public string GetAnchorButtonsCell(int nVerseIndex, 
             AnchorsData childAnchorsData, bool bPrintPreview, 
             ref List<string> astrExegeticalHelpNotes)
         {
@@ -354,37 +391,31 @@ namespace OneStoryProjectEditor
                 foreach (AnchorData anchorData in childAnchorsData)
                     strRow += anchorData.PresentationHtmlAsAddition(ref astrExegeticalHelpNotes);
 
-            return FinishPresentationHtml(nVerseIndex, nNumCols, strRow);
-        }
-
-        public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols,
-            ref List<string> astrExegeticalHelpNotes)
-        {
-            string strRow = null;
-            foreach (AnchorData anchorData in this)
-                strRow += anchorData.PresentationHtmlAsAddition(ref astrExegeticalHelpNotes);
-
-            return FinishPresentationHtml(nVerseIndex, nNumCols, strRow);
-        }
-
-        protected string FinishPresentationHtml(int nVerseIndex, int nNumCols, 
-            string strRow)
-        {
-            // stop if there was nothing
-            if (String.IsNullOrEmpty(strRow))
-                return strRow;
-
             // make a cell out of the buttons
-            string strHtmlCell = String.Format(Properties.Resources.HTML_TableCellWidth,
-                                               100,
-                                               strRow);
+            return AddCellHtml(nVerseIndex, strRow);
+        }
 
+        protected string FinishPresentationHtml(int nVerseIndex, string strHtmlCell)
+        {
             // add combine with the 'anc:' header cell into a Table Row
             return String.Format(Properties.Resources.HTML_TableRow,
                                  String.Format("{0}{1}",
                                                String.Format(Properties.Resources.HTML_TableCell,
                                                              AnchorLabel),
                                                strHtmlCell));
+        }
+
+        private string AddCellHtml(int nVerseIndex, string strRow)
+        {
+            return String.Format(Properties.Resources.HTML_TableCellWidthDropAnchor,
+                                 AnchorId(nVerseIndex),
+                                 100,
+                                 strRow);
+        }
+
+        public static string AnchorId(int nVerseIndex)
+        {
+            return String.Format("anc_{0}", nVerseIndex);
         }
 
         public static string AnchorLabel

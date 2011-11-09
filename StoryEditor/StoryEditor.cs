@@ -781,6 +781,10 @@ namespace OneStoryProjectEditor
 
                 Text = GetFrameTitle(true);
 
+#if OnGecko
+                var dlg = new GeckoTestForm(this, TheCurrentStory);
+                dlg.Show();
+#endif
                 // show the chorus notes at load time
                 // InitProjectNotes(projSettings, LoggedOnMember.Name);
             }
@@ -1167,6 +1171,11 @@ namespace OneStoryProjectEditor
             if (Localizer.Default.LocLanguage.Font != null)
                 StoryProject.ProjSettings.Localization.FontToUse = Localizer.Default.LocLanguage.Font;
 
+            htmlStoryBtControl.TheSE = this;
+            htmlStoryBtControl.StoryData = TheCurrentStory;
+            htmlStoryBtControl.LineNumberLink = linkLabelVerseBT;
+            htmlStoryBtControl.ViewSettings = CurrentViewSettings;
+
             htmlConsultantNotesControl.TheSE = this;
             htmlConsultantNotesControl.StoryData = TheCurrentStory;
             htmlConsultantNotesControl.LineNumberLink = linkLabelConsultantNotes;
@@ -1216,6 +1225,7 @@ namespace OneStoryProjectEditor
             flowLayoutPanelVerses.ResumeLayout(true);
 #if UsingHtmlDisplayForConNotes
             // ConNotes are not done in one swell-foop via an Html control
+            htmlStoryBtControl.LoadDocument();
             htmlConsultantNotesControl.LoadDocument();
             htmlCoachNotesControl.LoadDocument();
 #else
@@ -1484,6 +1494,7 @@ namespace OneStoryProjectEditor
             //  line of the ConNotes, then just skip it)
             if (nVerseIndex >= 0)
             {
+#if UsingNetCtrlsForStoryBt
                 Control ctrl = flowLayoutPanelVerses.GetControlAtVerseIndex(nVerseIndex);
                 if (ctrl == null)
                     return;
@@ -1498,6 +1509,9 @@ namespace OneStoryProjectEditor
                     flowLayoutPanelVerses.ScrollIntoView(theVerse, false);
                 else
                     flowLayoutPanelVerses.LastControlIntoView = theVerse;
+#else
+                htmlStoryBtControl.ScrollToVerse(nVerseIndex);
+#endif
             }
 
             // the ConNote controls have a zeroth line, so the index is one greater
@@ -2062,16 +2076,18 @@ namespace OneStoryProjectEditor
 
         protected Button AddDropTargetToFlowLayout(int nVerseIndex)
         {
-            Button buttonDropTarget = new Button();
-            buttonDropTarget.AllowDrop = true;
-            buttonDropTarget.Location = new System.Drawing.Point(3, 3);
-            buttonDropTarget.Name = CstrButtonDropTargetName + nVerseIndex.ToString();
-            buttonDropTarget.Size = new System.Drawing.Size(this.Panel1_Width, 10);
-            buttonDropTarget.Dock = DockStyle.Fill;
-            buttonDropTarget.TabIndex = nVerseIndex;
-            buttonDropTarget.UseVisualStyleBackColor = true;
-            buttonDropTarget.Visible = false;
-            buttonDropTarget.Tag = nVerseIndex;
+            var buttonDropTarget = new Button
+                                       {
+                                           AllowDrop = true,
+                                           Location = new Point(3, 3),
+                                           Name = CstrButtonDropTargetName + nVerseIndex.ToString(),
+                                           Size = new Size(Panel1_Width, 10),
+                                           Dock = DockStyle.Fill,
+                                           TabIndex = nVerseIndex,
+                                           UseVisualStyleBackColor = true,
+                                           Visible = false,
+                                           Tag = nVerseIndex
+                                       };
             buttonDropTarget.DragEnter += buttonDropTarget_DragEnter;
             buttonDropTarget.DragDrop += buttonDropTarget_DragDrop;
             flowLayoutPanelVerses.Controls.Add(buttonDropTarget);
@@ -4009,29 +4025,7 @@ namespace OneStoryProjectEditor
             var dlg = new ViewEnableForm(this, StoryProject.ProjSettings, TheCurrentStory,
                                          viewUseSameSettingsForAllStoriesMenu.Checked)
                           {
-                              ViewSettings = new VerseData.ViewSettings
-                                  (
-                                  StoryProject.ProjSettings,
-                                  viewVernacularLangMenu.Checked,
-                                  viewNationalLangMenu.Checked,
-                                  viewEnglishBtMenu.Checked,
-                                  viewFreeTranslationMenu.Checked,
-                                  viewAnchorsMenu.Checked,
-                                  viewExegeticalHelps.Checked,
-                                  viewStoryTestingQuestionsMenu.Checked,
-                                  viewStoryTestingQuestionAnswersMenu.Checked,
-                                  viewRetellingsMenu.Checked,
-                                  viewConsultantNotesMenu.Checked,
-                                  viewCoachNotesMenu.Checked,
-                                  viewBibleMenu.Checked,
-                                  true,
-                                  viewHiddenVersesMenu.Checked,
-                                  viewOnlyOpenConversationsMenu.Checked,
-                                  viewGeneralTestingsQuestionMenu.Checked,
-                                  null,
-                                  null,
-                                  null,
-                                  null)
+                              ViewSettings = CurrentViewSettings
                           };
 
             if (dlg.ShowDialog() == DialogResult.OK)
@@ -4040,6 +4034,36 @@ namespace OneStoryProjectEditor
                 viewUseSameSettingsForAllStoriesMenu.Checked = false;
                 NavigateTo(TheCurrentStory.Name, dlg.ViewSettings, true, CtrlTextBox._inTextBox);
                 viewUseSameSettingsForAllStoriesMenu.Checked = dlg.UseForAllStories;
+            }
+        }
+
+        private VerseData.ViewSettings CurrentViewSettings
+        {
+            get
+            {
+                return new VerseData.ViewSettings
+                    (
+                    StoryProject.ProjSettings,
+                    viewVernacularLangMenu.Checked,
+                    viewNationalLangMenu.Checked,
+                    viewEnglishBtMenu.Checked,
+                    viewFreeTranslationMenu.Checked,
+                    viewAnchorsMenu.Checked,
+                    viewExegeticalHelps.Checked,
+                    viewStoryTestingQuestionsMenu.Checked,
+                    viewStoryTestingQuestionAnswersMenu.Checked,
+                    viewRetellingsMenu.Checked,
+                    viewConsultantNotesMenu.Checked,
+                    viewCoachNotesMenu.Checked,
+                    viewBibleMenu.Checked,
+                    false,
+                    viewHiddenVersesMenu.Checked,
+                    viewOnlyOpenConversationsMenu.Checked,
+                    viewGeneralTestingsQuestionMenu.Checked,
+                    VerseBtControl.TransliteratorVernacular,
+                    VerseBtControl.TransliteratorNationalBt,
+                    VerseBtControl.TransliteratorInternationalBt,
+                    VerseBtControl.TransliteratorFreeTranslation);
             }
         }
 

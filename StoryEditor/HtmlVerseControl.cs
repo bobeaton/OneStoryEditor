@@ -8,7 +8,7 @@ using NetLoc;
 namespace OneStoryProjectEditor
 {
     [ComVisible(true)]
-    public abstract partial class HtmlVerseControl : WebBrowser
+    public class HtmlVerseControl : WebBrowser
     {
         internal LinkLabel LineNumberLink;
 
@@ -19,7 +19,7 @@ namespace OneStoryProjectEditor
 
         protected HtmlVerseControl()
         {
-            InitializeComponent();
+            DocumentCompleted += HtmlConNoteControl_DocumentCompleted;
         }
 
         public virtual void ScrollToVerse(int nVerseIndex)
@@ -124,7 +124,10 @@ namespace OneStoryProjectEditor
             return elemLnPrev;
         }
 
-        public abstract void LoadDocument();
+        public virtual void LoadDocument()
+        {
+            System.Diagnostics.Debug.Assert(false);
+        }
 
         private void HtmlConNoteControl_DocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)
         {

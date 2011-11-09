@@ -622,11 +622,6 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public static string TextareaId(int nVerseIndex, string strTextElementName)
-        {
-            return String.Format("ta_{0}_{1}", nVerseIndex, strTextElementName);
-        }
-
         public static string HtmlColor(Color clrRow)
         {
             return String.Format("#{0:X2}{1:X2}{2:X2}",
@@ -722,9 +717,12 @@ namespace OneStoryProjectEditor
         }
 
         // Html that shows the data in the StoryBt file, but in a fully read-only manner
-        public string PresentationHtml(int nVerseIndex, int nNumCols, CraftingInfoData craftingInfo,
-            ViewSettings viewSettings, VerseData theChildVerse,
-            bool bPrintPreview)
+        public string PresentationHtml(int nVerseIndex, int nNumCols, 
+            CraftingInfoData craftingInfo,
+            ViewSettings viewSettings, 
+            VerseData theChildVerse,
+            bool bPrintPreview,
+            bool bUseTextAreas)
         {
             string strRow = null;
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.VernacularLangField))
@@ -739,8 +737,13 @@ namespace OneStoryProjectEditor
                         theChildVerse.StoryLine.Vernacular);
                 }
 
-                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, LineData.CstrAttributeLangVernacular,
-                                               StoryData.CstrLangVernacularStyleClassName, str);
+                strRow += FormatLanguageColumn(nVerseIndex,
+                                               nNumCols,
+                                               VerseBtControl.CstrFieldNameStoryLine,
+                                               0,
+                                               StoryData.CstrLangVernacularStyleClassName,
+                                               str,
+                                               bUseTextAreas);
             }
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.NationalBtLangField))
@@ -755,8 +758,13 @@ namespace OneStoryProjectEditor
                         theChildVerse.StoryLine.NationalBt);
                 }
 
-                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, LineData.CstrAttributeLangNationalBt,
-                                               StoryData.CstrLangNationalBtStyleClassName, str);
+                strRow += FormatLanguageColumn(nVerseIndex,
+                                               nNumCols,
+                                               VerseBtControl.CstrFieldNameStoryLine,
+                                               0,
+                                               StoryData.CstrLangNationalBtStyleClassName,
+                                               str,
+                                               bUseTextAreas);
             }
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.InternationalBtField))
@@ -771,8 +779,13 @@ namespace OneStoryProjectEditor
                         theChildVerse.StoryLine.InternationalBt);
                 }
 
-                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, LineData.CstrAttributeLangInternationalBt,
-                                               StoryData.CstrLangInternationalBtStyleClassName, str);
+                strRow += FormatLanguageColumn(nVerseIndex,
+                                               nNumCols,
+                                               VerseBtControl.CstrFieldNameStoryLine,
+                                               0,
+                                               StoryData.CstrLangInternationalBtStyleClassName,
+                                               str,
+                                               bUseTextAreas);
             }
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.FreeTranslationField))
@@ -787,16 +800,23 @@ namespace OneStoryProjectEditor
                         theChildVerse.StoryLine.FreeTranslation);
                 }
 
-                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, LineData.CstrAttributeLangFreeTranslation,
-                                               StoryData.CstrLangFreeTranslationStyleClassName, str);
+                strRow += FormatLanguageColumn(nVerseIndex,
+                                               nNumCols,
+                                               VerseBtControl.CstrFieldNameStoryLine,
+                                               0,
+                                               StoryData.CstrLangFreeTranslationStyleClassName,
+                                               str,
+                                               bUseTextAreas);
             }
 
             string strHtml = null;
             var astrExegeticalHelpNotes = new List<string>();
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.AnchorFields))
             {
-                strHtml += Anchors.PresentationHtml(nVerseIndex, nNumCols,
-                                                    (theChildVerse != null) ? theChildVerse.Anchors : null,
+                strHtml += Anchors.PresentationHtml(nVerseIndex,
+                                                    (theChildVerse != null)
+                                                        ? theChildVerse.Anchors
+                                                        : null,
                                                     bPrintPreview,
                                                     ref astrExegeticalHelpNotes);
             }
@@ -813,7 +833,8 @@ namespace OneStoryProjectEditor
                 strHtml = ExegeticalHelpNotes.FinishPresentationHtml(strHtml,
                                                                      nVerseIndex,
                                                                      nNumCols,
-                                                                     astrExegeticalHelpNotes);
+                                                                     astrExegeticalHelpNotes,
+                                                                     bUseTextAreas);
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
             {
@@ -826,7 +847,8 @@ namespace OneStoryProjectEditor
                                                        viewSettings.IsViewItemOn(
                                                            ViewSettings.ItemToInsureOn.RetellingsNationalBT),
                                                        viewSettings.IsViewItemOn(
-                                                           ViewSettings.ItemToInsureOn.RetellingsInternationalBT));
+                                                           ViewSettings.ItemToInsureOn.RetellingsInternationalBT),
+                                                       bUseTextAreas);
             }
 
             if ((!IsFirstVerse && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
@@ -836,7 +858,8 @@ namespace OneStoryProjectEditor
                 strHtml += TestQuestions.PresentationHtml(nVerseIndex, nNumCols, viewSettings,
                                                           craftingInfo.TestersToCommentsTqAnswers,
                                                           (theChildVerse != null) ? theChildVerse.TestQuestions : null,
-                                                          bPrintPreview, IsFirstVerse);
+                                                          bPrintPreview, IsFirstVerse,
+                                                          bUseTextAreas);
             }
 
             // show the row as hidden if either we're in print preview (and it's hidden)
@@ -846,11 +869,11 @@ namespace OneStoryProjectEditor
                                      : ((theChildVerse != null) && !theChildVerse.IsVisible)
                                            ? true
                                            : false;
-            return FinishPresentationHtml(strRow, strHtml, bShowAsHidden);
+            return FinishPresentationHtml(strRow, strHtml, bShowAsHidden, bUseTextAreas);
         }
 
         protected string FinishPresentationHtml(string strStoryLineRow, string strHtml,
-            bool bChildIsHidden)
+            bool bChildIsHidden, bool bUseTextAreas)
         {
             strHtml = String.Format(Properties.Resources.HTML_TableRow,
                                     String.Format(Properties.Resources.HTML_TableCell,
@@ -858,8 +881,14 @@ namespace OneStoryProjectEditor
                                                       Properties.Resources.HTML_Table,
                                                       strStoryLineRow))) + strHtml;
 
-            strStoryLineRow = String.Format(Properties.Resources.HTML_TableCell,
-                                            String.Format(Properties.Resources.HTML_TableNoBorder, strHtml));
+            var strNoBorder = String.Format(Properties.Resources.HTML_TableNoBorder, strHtml);
+            if (bUseTextAreas)
+                strStoryLineRow = String.Format(Properties.Resources.HTML_TableCellWithSpan,
+                                                2,
+                                                strNoBorder);
+            else
+                strStoryLineRow = String.Format(Properties.Resources.HTML_TableCell,
+                                                strNoBorder);
 
             // color changes if hidden
             if (bChildIsHidden)
@@ -878,20 +907,54 @@ namespace OneStoryProjectEditor
             return strHtml;
         }
 
-        private static string FormatLanguageColumn(int nVerseIndex, int nNumCols,
-            string strFieldName, string strLangStyleClassName, string strValue)
+        public static string FormatLanguageColumn(int nVerseIndex, int nNumCols,
+            string strDataType, // e.g. story line, retelling, etc
+            int nItemNum,
+            string strLangStyleClassName, 
+            string strValue,
+            bool bUseTextAreas)
         {
-            return String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
-                                        String.Format(Properties.Resources.HTML_ParagraphText,
-                                                      TextareaId(nVerseIndex, strFieldName),
-                                                      strLangStyleClassName,
-                                                      strValue));
+            var strHtmlElement = (bUseTextAreas)
+                                     ? Properties.Resources.HTML_Textarea
+                                     : Properties.Resources.HTML_ParagraphText;
+
+            if (!bUseTextAreas && String.IsNullOrEmpty(strValue))
+                strValue = "-";  // just so there's something there (or the cell doesn't show)
+
+            return String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100/nNumCols,
+                                 String.Format(strHtmlElement,
+                                               TextareaId(nVerseIndex,
+                                                          strDataType,
+                                                          nItemNum,
+                                                          strLangStyleClassName),
+                                               strLangStyleClassName,
+                                               strValue));
         }
+
+        /// <summary>
+        /// Gets a unique id for a text area. a combination of...
+        /// </summary>
+        /// <param name="nVerseIndex">indicates verse number (0-based)</param>
+        /// <param name="strPrefix">indicates the data--e.g. StoryLine vs. Retelling, etc</param>
+        /// <param name="nItemNum">indicates a sub-item number for certain types (e.g. ret *2*)</param>
+        /// <param name="strFieldTypeName">indicates the language of the field (e.g. vernacular)</param>
+        /// <returns></returns>
+        public static string TextareaId(int nVerseIndex, string strPrefix, int nItemNum, string strFieldTypeName)
+        {
+            return String.Format("ta_{0}_{1}_{2}_{3}", nVerseIndex, strPrefix, nItemNum, strFieldTypeName);
+        }
+
+        /*
+        public static string TextareaId(int nVerseIndex, string strTextElementName)
+        {
+            return String.Format("ta_{0}_{1}", nVerseIndex, strTextElementName);
+        }
+        */
 
         // for use when the data is to be marked as an addition (i.e. yellow highlight)
         public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols,
             CraftingInfoData craftingInfo, ViewSettings viewSettings,
-            bool bHasOutsideEnglishBTer)
+            bool bHasOutsideEnglishBTer, bool bUseTextAreas)
         {
             string strRow = null;
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.VernacularLangField))
@@ -900,8 +963,13 @@ namespace OneStoryProjectEditor
                                            null,
                                            StoryLine.Vernacular);
 
-                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, LineData.CstrAttributeLangVernacular,
-                                               StoryData.CstrLangVernacularStyleClassName, str);
+                strRow += FormatLanguageColumn(nVerseIndex,
+                                               nNumCols,
+                                               VerseBtControl.CstrFieldNameStoryLine,
+                                               0,
+                                               StoryData.CstrLangVernacularStyleClassName,
+                                               str,
+                                               bUseTextAreas);
             }
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.NationalBtLangField))
@@ -910,8 +978,13 @@ namespace OneStoryProjectEditor
                                            null,
                                            StoryLine.NationalBt);
 
-                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, LineData.CstrAttributeLangNationalBt,
-                                               StoryData.CstrLangNationalBtStyleClassName, str);
+                strRow += FormatLanguageColumn(nVerseIndex,
+                                               nNumCols,
+                                               VerseBtControl.CstrFieldNameStoryLine,
+                                               0,
+                                               StoryData.CstrLangNationalBtStyleClassName,
+                                               str,
+                                               bUseTextAreas);
             }
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.InternationalBtField))
@@ -920,8 +993,13 @@ namespace OneStoryProjectEditor
                                            null,
                                            StoryLine.InternationalBt);
 
-                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, LineData.CstrAttributeLangInternationalBt,
-                                               StoryData.CstrLangInternationalBtStyleClassName, str);
+                strRow += FormatLanguageColumn(nVerseIndex,
+                                               nNumCols,
+                                               VerseBtControl.CstrFieldNameStoryLine,
+                                               0,
+                                               StoryData.CstrLangInternationalBtStyleClassName,
+                                               str,
+                                               bUseTextAreas);
             }
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.FreeTranslationField))
@@ -930,8 +1008,13 @@ namespace OneStoryProjectEditor
                                            null,
                                            StoryLine.FreeTranslation);
 
-                strRow += FormatLanguageColumn(nVerseIndex, nNumCols, LineData.CstrAttributeLangFreeTranslation,
-                                               StoryData.CstrLangFreeTranslationStyleClassName, str);
+                strRow += FormatLanguageColumn(nVerseIndex,
+                                               nNumCols,
+                                               VerseBtControl.CstrFieldNameStoryLine,
+                                               0,
+                                               StoryData.CstrLangFreeTranslationStyleClassName,
+                                               str,
+                                               bUseTextAreas);
             }
 
             string strHtml = null;
@@ -954,7 +1037,8 @@ namespace OneStoryProjectEditor
                 strHtml = ExegeticalHelpNotes.FinishPresentationHtml(strHtml,
                                                                      nVerseIndex,
                                                                      nNumCols,
-                                                                     astrExegeticalHelpNotes);
+                                                                     astrExegeticalHelpNotes,
+                                                                     bUseTextAreas);
             }
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
@@ -967,7 +1051,8 @@ namespace OneStoryProjectEditor
                                                                      ViewSettings.ItemToInsureOn.RetellingsNationalBT),
                                                                  viewSettings.IsViewItemOn(
                                                                      ViewSettings.ItemToInsureOn.
-                                                                         RetellingsInternationalBT));
+                                                                         RetellingsInternationalBT),
+                                                                 bUseTextAreas);
             }
 
             if ((!IsFirstVerse && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
@@ -976,10 +1061,11 @@ namespace OneStoryProjectEditor
             {
                 strHtml += TestQuestions.PresentationHtmlAsAddition(nVerseIndex, nNumCols, viewSettings,
                                                                     craftingInfo.TestersToCommentsTqAnswers,
-                                                                    bHasOutsideEnglishBTer);
+                                                                    bHasOutsideEnglishBTer,
+                                                                    bUseTextAreas);
             }
 
-            return FinishPresentationHtml(strRow, strHtml, !IsVisible);
+            return FinishPresentationHtml(strRow, strHtml, !IsVisible, bUseTextAreas);
         }
 
         public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
@@ -1392,8 +1478,12 @@ namespace OneStoryProjectEditor
             return null;
         }
 
-        public string PresentationHtml(CraftingInfoData craftingInfo, VersesData child,
-            int nNumCols, VerseData.ViewSettings viewSettings, bool bHasOutsideEnglishBTer)
+        public string PresentationHtml(CraftingInfoData craftingInfo, 
+            VersesData child,
+            int nNumCols, 
+            VerseData.ViewSettings viewSettings, 
+            bool bHasOutsideEnglishBTer,
+            bool bUseTextAreas)
         {
             string strHtml = null;
             // first check on line 0 (general TQs)
@@ -1403,10 +1493,12 @@ namespace OneStoryProjectEditor
                 var theChildFirstVerse = ((child != null) && (child.FirstVerse != null))
                                              ? child.FirstVerse
                                              : null;
-                strHtml += GetHeaderRow(Localizer.Str("General Testing Qs: "), null, 0, false, nNumCols);
+                strHtml += GetHeaderRow(Localizer.Str("General Testing Qs: "), null, 0, bUseTextAreas, nNumCols);
                 strHtml += FirstVerse.PresentationHtml(0, nNumCols, craftingInfo,
-                                                       viewSettings, theChildFirstVerse,
-                                                       (child == null));
+                                                       viewSettings, 
+                                                       theChildFirstVerse,
+                                                       (child == null),
+                                                       bUseTextAreas);
             }
 
             int nInsertCount = 0;
@@ -1427,7 +1519,7 @@ namespace OneStoryProjectEditor
                     string strHeaderAdd = DetermineHiddenLabel(aVerseData.IsVisible, theChildVerse);
 
                     int nLineIndex = i + nInsertCount;
-                    strHtml += GetHeaderRow(LinePrefix + nLineIndex, strHeaderAdd, nLineIndex, false, nNumCols);
+                    strHtml += GetHeaderRow(LinePrefix + nLineIndex, strHeaderAdd, nLineIndex, bUseTextAreas, nNumCols);
 
                     if (theChildVerse != null)
                     {
@@ -1448,9 +1540,11 @@ namespace OneStoryProjectEditor
                                 }
 
                                 strHtml += aPassedByChild.PresentationHtmlAsAddition(nLineIndex,
-                                                                                     nNumCols, craftingInfo,
+                                                                                     nNumCols,
+                                                                                     craftingInfo,
                                                                                      viewSettings,
-                                                                                     bHasOutsideEnglishBTer);
+                                                                                     bHasOutsideEnglishBTer,
+                                                                                     bUseTextAreas);
                                 bFoundOne = true;
                                 nInsertCount++;
                             }
@@ -1460,8 +1554,12 @@ namespace OneStoryProjectEditor
                             continue;
                     }
 
-                    strHtml += aVerseData.PresentationHtml(nLineIndex, nNumCols, craftingInfo,
-                        viewSettings, theChildVerse, (child == null));
+                    strHtml += aVerseData.PresentationHtml(nLineIndex, nNumCols, 
+                        craftingInfo,
+                        viewSettings, 
+                        theChildVerse, 
+                        (child == null),
+                        bUseTextAreas);
 
                     // if there is a child, but we couldn't find the equivalent verse...
                     if ((child != null) && (theChildVerse == null) && (child.Count >= i))
@@ -1470,9 +1568,12 @@ namespace OneStoryProjectEditor
                         //  was replaced by whatever is the same verse in the child collection
                         theChildVerse = child[i - 1];
                         if (theChildVerse.IsVisible)
-                            strHtml += theChildVerse.PresentationHtmlAsAddition(nLineIndex, nNumCols,
-                                                                                craftingInfo, viewSettings,
-                                                                                bHasOutsideEnglishBTer);
+                            strHtml += theChildVerse.PresentationHtmlAsAddition(nLineIndex,
+                                                                                nNumCols,
+                                                                                craftingInfo,
+                                                                                viewSettings,
+                                                                                bHasOutsideEnglishBTer,
+                                                                                bUseTextAreas);
                     }
                 }
 
@@ -1489,9 +1590,12 @@ namespace OneStoryProjectEditor
                         string strHeaderAdd = DetermineHiddenLabel(aVerseData.IsVisible, null);
                         strHtml += GetHeaderRow(LinePrefix + nLineIndex, strHeaderAdd, nLineIndex, false, nNumCols);
 
-                        strHtml += aVerseData.PresentationHtmlAsAddition(nLineIndex, nNumCols,
-                                                                         craftingInfo, viewSettings,
-                                                                         bHasOutsideEnglishBTer);
+                        strHtml += aVerseData.PresentationHtmlAsAddition(nLineIndex,
+                                                                         nNumCols,
+                                                                         craftingInfo,
+                                                                         viewSettings,
+                                                                         bHasOutsideEnglishBTer,
+                                                                         bUseTextAreas);
                     }
                     i++;
                 }
@@ -1539,7 +1643,8 @@ namespace OneStoryProjectEditor
             return String.Format("btnNoteToSelf_{0}", nVerseIndex);
         }
 
-        protected string GetHeaderRow(string strHeader, string strHeaderAdd, int nVerseIndex, bool bShowButton, int nColSpan)
+        protected string GetHeaderRow(string strHeader, string strHeaderAdd, 
+            int nVerseIndex, bool bShowButton, int nColSpan)
         {
             string strLink = String.Format(Properties.Resources.HTML_LinkJumpLine,
                                            nVerseIndex, 
@@ -1548,16 +1653,17 @@ namespace OneStoryProjectEditor
 
             string strButton = null;
             if (bShowButton)
-                strButton = String.Format(Properties.Resources.HTML_ButtonRightAlignCtxMenu,
-                                          nVerseIndex, // ButtonId(nVerseIndex),
-                                          " ");
+            {
+                strButton = String.Format(Properties.Resources.HTML_TableCellRightAlign,
+                                          String.Format(Properties.Resources.HTML_ButtonLineOptions,
+                                                        ButtonId(nVerseIndex),
+                                                        " "));
+            }
 
             string strHtml = String.Format(Properties.Resources.HTML_TableRowColor, "#AACCFF",
-                                           String.Format(Properties.Resources.HTML_TableCellWidthSpanId,
+                                           String.Format(Properties.Resources.HTML_TableCellId,
                                                          LineId(nVerseIndex),
-                                                         100,
-                                                         nColSpan,
-                                                         strLink + strButton));
+                                                         strLink) + strButton);
 
             return strHtml;
         }

@@ -475,17 +475,25 @@ namespace OneStoryProjectEditor
             string strHtml = null;
             if (ParentStory != null)
                 strHtml = ParentStory.PresentationHtml(viewSettings,
-                    projSettings, teamMembers, ChildStory);
+                    projSettings, teamMembers, ChildStory, false);
             else if (ChildStory != null)
                 strHtml = ChildStory.PresentationHtml(viewSettings,
-                    projSettings, teamMembers, null);
+                    projSettings, teamMembers, null, false);
             return strHtml;
         }
 
-        public string PresentationHtml(VerseData.ViewSettings viewSettings, ProjectSettings projSettings, TeamMembersData teamMembers, StoryData child)
+        public string PresentationHtml(VerseData.ViewSettings viewSettings, 
+            ProjectSettings projSettings, 
+            TeamMembersData teamMembers, 
+            StoryData child,
+            bool bUseTextAreas)
         {
-            Rainbow.HtmlDiffEngine.Added.BeginTag = "<span style=\"text-decoration: underline; color: orange\">"; 
-            string strHtml = PresentationHtmlWithoutHtmlDocOutside(viewSettings, projSettings, teamMembers, child);
+            Rainbow.HtmlDiffEngine.Added.BeginTag = "<span style=\"text-decoration: underline; color: orange\">";
+            string strHtml = PresentationHtmlWithoutHtmlDocOutside(viewSettings,
+                                                                   projSettings,
+                                                                   teamMembers,
+                                                                   child,
+                                                                   bUseTextAreas);
             return AddHtmlHtmlDocOutside(strHtml, projSettings);
         }
 
@@ -494,11 +502,16 @@ namespace OneStoryProjectEditor
             return String.Format(Properties.Resources.HTML_HeaderPresentation,
                                  StylePrefix(projSettings),
                                  Properties.Resources.HTML_DOM_PrefixPresentation,
-                                 strHtmlInside);
+                                 strHtmlInside,
+                                 Properties.Resources.HTML_ScriptPostFix);
         }
 
-        public string PresentationHtmlWithoutHtmlDocOutside(VerseData.ViewSettings viewSettings, 
-            ProjectSettings projSettings, TeamMembersData teamMembers, StoryData child)
+        public string PresentationHtmlWithoutHtmlDocOutside(
+            VerseData.ViewSettings viewSettings, 
+            ProjectSettings projSettings, 
+            TeamMembersData teamMembers, 
+            StoryData child,
+            bool bUseTextAreas)
         {
             bool bShowVernacular = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
             bool bShowNationalBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField);
@@ -556,8 +569,11 @@ namespace OneStoryProjectEditor
                 || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
             {
                 strHtml += Verses.PresentationHtml((child != null) ? child.CraftingInfo : CraftingInfo,
-                                                   (child != null) ? child.Verses : null, nNumCols, viewSettings,
-                                                   teamMembers.HasOutsideEnglishBTer);
+                                                   (child != null) ? child.Verses : null,
+                                                   nNumCols,
+                                                   viewSettings,
+                                                   teamMembers.HasOutsideEnglishBTer,
+                                                   bUseTextAreas);
             }
             else
             {

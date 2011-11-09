@@ -18,6 +18,7 @@ using NetLoc;
 using Palaso.Email;
 using Palaso.Reporting;
 using SilEncConverters40;
+using Skybound.Gecko;
 
 namespace OneStoryProjectEditor
 {
@@ -88,6 +89,9 @@ namespace OneStoryProjectEditor
                     if (Properties.Settings.Default.LastLocalizationId != "en")
                         StoryEditor.OnLocalizationChangeStatic();
 
+#if OnGecko
+                    Xpcom.Initialize(@"C:\src\StoryEditor\DepDLLs\GeckoFxbin");
+#endif
                     Application.Run(new StoryEditor(Properties.Resources.IDS_MainStoriesSet, strFilePathToOpen));
                 }
             }

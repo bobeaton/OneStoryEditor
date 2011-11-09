@@ -168,25 +168,26 @@ namespace OneStoryProjectEditor
                     astrExegeticalHelpNotes.Add(Diff.HtmlDiff(null, anChildExHelpNoteData));
         }
 
-        public string FinishPresentationHtml(string strAnchorHtml, int nVerseIndex, 
-            int nNumCols, List<string> astrExegeticalHelpNotes)
+        public string FinishPresentationHtml(string strAnchorHtml, int nVerseIndex,
+            int nNumCols, List<string> astrExegeticalHelpNotes, bool bUseTextAreas)
         {
             string strHtml = strAnchorHtml;
             // add exegetical comments as their own rows
             for (int i = 0; i < astrExegeticalHelpNotes.Count; i++)
             {
                 string strExegeticalHelpNote = astrExegeticalHelpNotes[i];
-                string strHtmlElementId = String.Format("paragraphExHelp{0}_{1}", nVerseIndex, i);
                 strHtml += String.Format(Properties.Resources.HTML_TableRow,
                                          String.Format("{0}{1}",
                                                        String.Format(Properties.Resources.HTML_TableCell, CstrCnLable),
-                                                       String.Format(Properties.Resources.HTML_TableCellWidth,
-                                                                     100,
-                                                                     String.Format(Properties.Resources.HTML_ParagraphText,
-                                                                                   strHtmlElementId,
-                                                                                   StoryData.
-                                                                                       CstrLangInternationalBtStyleClassName,
-                                                                                   strExegeticalHelpNote))));
+                                                       VerseData.FormatLanguageColumn(nVerseIndex,
+                                                                                      1,
+                                                                                      VerseBtControl.
+                                                                                          CstrFieldNameExegeticalHelp,
+                                                                                      i,
+                                                                                      StoryData.
+                                                                                          CstrLangInternationalBtStyleClassName,
+                                                                                      strExegeticalHelpNote,
+                                                                                      bUseTextAreas)));
             }
 
             // make a sub-table out of all this

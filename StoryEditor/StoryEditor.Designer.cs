@@ -78,8 +78,11 @@ namespace OneStoryProjectEditor
             this.editAddInferenceTestResultsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.editAddGeneralTestQuestionMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewNonBiblicalStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.viewShowHideFieldsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewUseSameSettingsForAllStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
             this.viewVernacularLangMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewNationalLangMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewEnglishBtMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -103,7 +106,6 @@ namespace OneStoryProjectEditor
             this.viewConcordanceMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewStateTransitionHistoryMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewProjectNotesMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewNonBiblicalStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewOldStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.viewHiddenVersesMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -172,9 +174,8 @@ namespace OneStoryProjectEditor
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.splitContainerUpDown = new OneStoryProjectEditor.MinimizableSplitterContainer();
+            this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
             this.linkLabelTasks = new System.Windows.Forms.LinkLabel();
             this.linkLabelVerseBT = new System.Windows.Forms.LinkLabel();
             this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
@@ -621,6 +622,21 @@ namespace OneStoryProjectEditor
             this.viewToolStripMenuItem.Text = "&View";
             this.viewToolStripMenuItem.DropDownOpening += new System.EventHandler(this.viewToolStripMenuItem_DropDownOpening);
             // 
+            // viewNonBiblicalStoriesMenu
+            // 
+            this.viewNonBiblicalStoriesMenu.CheckOnClick = true;
+            this.viewNonBiblicalStoriesMenu.Name = "viewNonBiblicalStoriesMenu";
+            this.viewNonBiblicalStoriesMenu.Size = new System.Drawing.Size(284, 22);
+            this.viewNonBiblicalStoriesMenu.Text = "&Non-biblical Stories...";
+            this.viewNonBiblicalStoriesMenu.ToolTipText = "Check this menu to edit the set of non-biblical stories (uncheck for biblical sto" +
+                "ries)";
+            this.viewNonBiblicalStoriesMenu.CheckedChanged += new System.EventHandler(this.ViewNonBiblicalStoriesMenuCheckedChanged);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(281, 6);
+            // 
             // viewShowHideFieldsMenu
             // 
             this.viewShowHideFieldsMenu.Name = "viewShowHideFieldsMenu";
@@ -635,6 +651,11 @@ namespace OneStoryProjectEditor
             this.viewUseSameSettingsForAllStoriesMenu.Size = new System.Drawing.Size(284, 22);
             this.viewUseSameSettingsForAllStoriesMenu.Text = "&Use same settings for all stories";
             this.viewUseSameSettingsForAllStoriesMenu.Click += new System.EventHandler(this.useSameSettingsForAllStoriesToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator16
+            // 
+            this.toolStripSeparator16.Name = "toolStripSeparator16";
+            this.toolStripSeparator16.Size = new System.Drawing.Size(281, 6);
             // 
             // viewVernacularLangMenu
             // 
@@ -848,16 +869,6 @@ namespace OneStoryProjectEditor
             this.viewProjectNotesMenu.Size = new System.Drawing.Size(284, 22);
             this.viewProjectNotesMenu.Text = "&Project Notes...";
             this.viewProjectNotesMenu.Click += new System.EventHandler(this.projectNotesToolStripMenuItem_Click);
-            // 
-            // viewNonBiblicalStoriesMenu
-            // 
-            this.viewNonBiblicalStoriesMenu.CheckOnClick = true;
-            this.viewNonBiblicalStoriesMenu.Name = "viewNonBiblicalStoriesMenu";
-            this.viewNonBiblicalStoriesMenu.Size = new System.Drawing.Size(284, 22);
-            this.viewNonBiblicalStoriesMenu.Text = "&Non-biblical Stories...";
-            this.viewNonBiblicalStoriesMenu.ToolTipText = "Check this menu to edit the set of non-biblical stories (uncheck for biblical sto" +
-                "ries)";
-            this.viewNonBiblicalStoriesMenu.CheckedChanged += new System.EventHandler(this.ViewNonBiblicalStoriesMenuCheckedChanged);
             // 
             // viewOldStoriesMenu
             // 
@@ -1533,16 +1544,6 @@ namespace OneStoryProjectEditor
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
             // 
-            // toolStripSeparator16
-            // 
-            this.toolStripSeparator16.Name = "toolStripSeparator16";
-            this.toolStripSeparator16.Size = new System.Drawing.Size(281, 6);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(281, 6);
-            // 
             // splitContainerUpDown
             // 
             this.splitContainerUpDown.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -1553,6 +1554,7 @@ namespace OneStoryProjectEditor
             // 
             // splitContainerUpDown.Panel1
             // 
+            this.splitContainerUpDown.Panel1.Controls.Add(this.htmlStoryBtControl);
             this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelTasks);
             this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelVerseBT);
             this.splitContainerUpDown.Panel1.Controls.Add(this.flowLayoutPanelVerses);
@@ -1564,6 +1566,21 @@ namespace OneStoryProjectEditor
             this.splitContainerUpDown.Size = new System.Drawing.Size(453, 613);
             this.splitContainerUpDown.SplitterDistance = 391;
             this.splitContainerUpDown.TabIndex = 2;
+            // 
+            // htmlStoryBtControl
+            // 
+            this.htmlStoryBtControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.htmlStoryBtControl.Location = new System.Drawing.Point(-1, 23);
+            this.htmlStoryBtControl.MinimumSize = new System.Drawing.Size(20, 20);
+            this.htmlStoryBtControl.Name = "htmlStoryBtControl";
+            this.htmlStoryBtControl.ParentStory = null;
+            this.htmlStoryBtControl.Size = new System.Drawing.Size(451, 269);
+            this.htmlStoryBtControl.StoryData = null;
+            this.htmlStoryBtControl.TabIndex = 5;
+            this.htmlStoryBtControl.TheSE = null;
+            this.htmlStoryBtControl.ViewSettings = null;
             // 
             // linkLabelTasks
             // 
@@ -1598,13 +1615,12 @@ namespace OneStoryProjectEditor
             // flowLayoutPanelVerses
             // 
             this.flowLayoutPanelVerses.AutoScroll = true;
-            this.flowLayoutPanelVerses.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelVerses.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelVerses.LastControlIntoView = null;
             this.flowLayoutPanelVerses.LineNumberLink = null;
-            this.flowLayoutPanelVerses.Location = new System.Drawing.Point(0, 23);
+            this.flowLayoutPanelVerses.Location = new System.Drawing.Point(0, 289);
             this.flowLayoutPanelVerses.Name = "flowLayoutPanelVerses";
-            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(451, 366);
+            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(451, 100);
             this.flowLayoutPanelVerses.TabIndex = 1;
             this.flowLayoutPanelVerses.WrapContents = false;
             this.flowLayoutPanelVerses.MouseMove += new System.Windows.Forms.MouseEventHandler(this.CheckBiblePaneCursorPositionMouseMove);
@@ -1846,6 +1862,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem viewNonBiblicalStoriesMenu;
         private ToolStripSeparator toolStripSeparator16;
         private ToolStripSeparator toolStripSeparator5;
+        private HtmlStoryBtControl htmlStoryBtControl;
     }
 
 #if UsingHtmlDisplayForConNotes

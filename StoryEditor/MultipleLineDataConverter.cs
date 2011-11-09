@@ -182,7 +182,6 @@ namespace OneStoryProjectEditor
                                                                 strRow)));
             return strRow;
         }
-        */
 
         public string Html(int nVerseIndex, int nNumTestQuestionCols, 
             bool bShowVernacular, bool bShowNationalBT, bool bShowEnglishBT)
@@ -243,10 +242,17 @@ namespace OneStoryProjectEditor
                                                                 strRow)));
             return strRow;
         }
+        */
 
-        public string PresentationHtml(int nVerseIndex, int nNumCols, TestInfo astrTesters,
-            MultipleLineDataConverter child, bool bPrintPreview, bool bProcessingTheChild,
-            bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT)
+        public string PresentationHtml(int nVerseIndex, int nNumCols, 
+            TestInfo astrTesters,
+            MultipleLineDataConverter child, 
+            bool bPrintPreview, 
+            bool bProcessingTheChild,
+            bool bShowVernacular, 
+            bool bShowNationalBT, 
+            bool bShowInternationalBT,
+            bool bUseTextAreas)
         {
             string strRow = null;
             int nTestNum = 0;
@@ -312,7 +318,8 @@ namespace OneStoryProjectEditor
 
                 strRow += PresentationHtmlRow(nVerseIndex, nTestNum,
                     strVernacular, strNationalBT, strInternationalBT,
-                    bShowVernacular, bShowNationalBT, bShowInternationalBT);
+                    bShowVernacular, bShowNationalBT, bShowInternationalBT,
+                    bUseTextAreas);
             }
 
             // finally, everything that is left in the child is new
@@ -327,8 +334,9 @@ namespace OneStoryProjectEditor
                     string strNationalBT = Diff.HtmlDiff(null, theChildLineData.NationalBt);
                     string strInternationalBT = Diff.HtmlDiff(null, theChildLineData.InternationalBt);
                     strRow += PresentationHtmlRow(nVerseIndex, nTestNum,
-                        strVernacular, strNationalBT, strInternationalBT,
-                        bShowVernacular, bShowNationalBT, bShowInternationalBT);
+                                                  strVernacular, strNationalBT, strInternationalBT,
+                                                  bShowVernacular, bShowNationalBT, bShowInternationalBT,
+                                                  bUseTextAreas);
                 }
             }
 
@@ -345,7 +353,8 @@ namespace OneStoryProjectEditor
 
 
         public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols, TestInfo astrTesters,
-            bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT)
+            bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT,
+            bool bUseTextAreas)
         {
             string strRow = null;
             int nTestNum = 0;
@@ -358,8 +367,9 @@ namespace OneStoryProjectEditor
                 string strNationalBT = Diff.HtmlDiff(null, theLineData.NationalBt);
                 string strEnglishBT = Diff.HtmlDiff(null, theLineData.InternationalBt);
                 strRow += PresentationHtmlRow(nVerseIndex, nTestNum,
-                    strVernacular, strNationalBT, strEnglishBT, 
-                    bShowVernacular, bShowNationalBT, bShowInternationalBT);
+                                              strVernacular, strNationalBT, strEnglishBT,
+                                              bShowVernacular, bShowNationalBT, bShowInternationalBT,
+                                              bUseTextAreas);
             }
 
             if (!String.IsNullOrEmpty(strRow))
@@ -375,7 +385,8 @@ namespace OneStoryProjectEditor
 
         protected string PresentationHtmlRow(int nVerseIndex, int nTestNum,
             string strVernacular, string strNationalBT, string strInternationalBT,
-            bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT)
+            bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT,
+            bool bUseTextAreas)
         {
             string strRow = String.Format(Properties.Resources.HTML_TableCellNoWrap,
                                           String.Format(LabelTextFormat, nTestNum + 1));
@@ -387,38 +398,35 @@ namespace OneStoryProjectEditor
 
             if (bShowVernacular)
             {
-                if (String.IsNullOrEmpty(strVernacular))
-                    strVernacular = "-";  // give it something so we don't have no cell there.
-                strRow += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100/nNumCols,
-                                        String.Format(Properties.Resources.HTML_ParagraphText,
-                                                      TextareaId(InstanceElementName, nVerseIndex, nTestNum,
-                                                                 LineData.CstrAttributeLangVernacular),
-                                                      StoryData.CstrLangVernacularStyleClassName,
-                                                      strVernacular));
+                strRow += VerseData.FormatLanguageColumn(nVerseIndex,
+                                                         nNumCols,
+                                                         InstanceElementName,
+                                                         nTestNum,
+                                                         StoryData.CstrLangVernacularStyleClassName,
+                                                         strVernacular,
+                                                         bUseTextAreas);
             }
 
             if (bShowNationalBT)
             {
-                if (String.IsNullOrEmpty(strNationalBT))
-                    strNationalBT = "-";  // give it something so we don't have no cell there.
-                strRow += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
-                                        String.Format(Properties.Resources.HTML_ParagraphText,
-                                                      TextareaId(InstanceElementName, nVerseIndex, nTestNum,
-                                                                 LineData.CstrAttributeLangNationalBt),
-                                                      StoryData.CstrLangNationalBtStyleClassName,
-                                                      strNationalBT));
+                strRow += VerseData.FormatLanguageColumn(nVerseIndex,
+                                                         nNumCols,
+                                                         InstanceElementName,
+                                                         nTestNum,
+                                                         StoryData.CstrLangNationalBtStyleClassName,
+                                                         strNationalBT,
+                                                         bUseTextAreas);
             }
 
             if (bShowInternationalBT)
             {
-                if (String.IsNullOrEmpty(strInternationalBT))
-                    strInternationalBT = "-";  // give it something so we don't have no cell there.
-                strRow += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
-                                        String.Format(Properties.Resources.HTML_ParagraphText,
-                                                      TextareaId(InstanceElementName, nVerseIndex, nTestNum,
-                                                                 LineData.CstrAttributeLangInternationalBt),
-                                                      StoryData.CstrLangInternationalBtStyleClassName,
-                                                      strInternationalBT));
+                strRow += VerseData.FormatLanguageColumn(nVerseIndex,
+                                                         nNumCols,
+                                                         InstanceElementName,
+                                                         nTestNum,
+                                                         StoryData.CstrLangInternationalBtStyleClassName,
+                                                         strInternationalBT,
+                                                         bUseTextAreas);
             }
 
             // make a sub-table out of all this
