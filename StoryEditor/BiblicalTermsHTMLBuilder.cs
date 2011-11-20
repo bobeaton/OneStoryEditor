@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using NetLoc;
 using Paratext;
 using System.Text.RegularExpressions;
 using SilEncConverters40;
@@ -467,7 +468,19 @@ namespace OneStoryProjectEditor
                                 astrVerseText.Add(aVerse.StoryLine.InternationalBt.GetValue(decInternationalBt));
                             if (bShowFreeTranslation)
                                 astrVerseText.Add(aVerse.StoryLine.FreeTranslation.GetValue(decFreeTranslation));
-                            mapReferenceToVerseTextList.Add(strVerseReference, astrVerseText);
+                            if (mapReferenceToVerseTextList.ContainsKey(strVerseReference))
+                            {
+                                LocalizableMessageBox.Show(
+                                    String.Format(
+                                        Localizer.Str(
+                                            "Tell bob_eaton@sall.com that your project (i.e. '{0}') has two stories by the name of '{1}' in the '{2}' story set (which shouldn't be able to happen). Ignoring the subsequent one found... you may want to rename the stories to be unique in the Panorama, Show dialog, {2} tab)"),
+                                        theSpd.ProjSettings.ProjectName,
+                                        aStory.Name,
+                                        aStorySet.SetName),
+                                    StoryEditor.OseCaption);
+                            }
+                            else
+                                mapReferenceToVerseTextList.Add(strVerseReference, astrVerseText);
                         }
                     }
                     progressBarLoadingKeyTerms.Value++;
