@@ -90,7 +90,7 @@ namespace OneStoryProjectEditor
                         StoryEditor.OnLocalizationChangeStatic();
 
 #if OnGecko
-                    Xpcom.Initialize(@"C:\src\StoryEditor\DepDLLs\GeckoFxbin");
+                    Xpcom.Initialize(@"C:\src\StoryEditor\DepDLLs\Gecko8Fxbin");
 #endif
                     Application.Run(new StoryEditor(Properties.Resources.IDS_MainStoriesSet, strFilePathToOpen));
                 }
