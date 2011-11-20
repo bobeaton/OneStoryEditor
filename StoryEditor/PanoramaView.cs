@@ -223,10 +223,24 @@ namespace OneStoryProjectEditor
 
                 if (e.ColumnIndex == CnColumnStoryName)
                 {
-                    if (_theStoryBeingEdited.Name != strCellValue)
-                        _theStoryBeingEdited.Name = strCellValue;
-                    else
+                    // if nothing's changed, then nothing to do
+                    if (_theStoryBeingEdited.Name == strCellValue)
                         return; // return unModified
+
+                    // then make sure there isn't already a story by that name
+                    if (_stories.Contains(strCellValue))
+                    {
+                        LocalizableMessageBox.Show(
+                            String.Format(
+                                Localizer.Str(
+                                    "There's already a story by the name of '{0}'. Story names must be unique, so ignoring the requested change"),
+                                strCellValue),
+                            StoryEditor.OseCaption);
+                        theCell.Value = _theStoryBeingEdited.Name;
+                        return;
+                    }
+                    else
+                        _theStoryBeingEdited.Name = strCellValue;
                 }
                 else
                 {

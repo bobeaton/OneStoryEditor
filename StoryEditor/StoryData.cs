@@ -1573,6 +1573,11 @@ namespace OneStoryProjectEditor
                 storyData.SetCommentMemberId();
             }
         }
+
+        public bool Contains(string strStoryName)
+        {
+            return this.Any(aStory => aStory.Name == strStoryName);
+        }
     }
 
     public class StoryProjectData : Dictionary<string, StoriesData>
