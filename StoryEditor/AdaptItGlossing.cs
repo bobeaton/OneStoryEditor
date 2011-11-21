@@ -167,6 +167,9 @@ namespace OneStoryProjectEditor
             {
                 strProjectFolder = Path.GetDirectoryName(strConverterSpec);
                 adaptItConfiguration.CheckForSync(strProjectFolder, loggedOnMember);
+
+                // sometimes the sync doesn't also create the Adaptation folder
+                EnsureAiFoldersExist(strProjectFolder, liSourceLang, liTargetLang);
             }
             else
             {
@@ -225,8 +228,7 @@ namespace OneStoryProjectEditor
             ProjectSettings.LanguageInfo liNavigation)
         {
             // create folders...
-            if (!Directory.Exists(AdaptItProjectAdaptationsFolder(strProjectFolderName, liSourceLang.LangName, liTargetLang.LangName)))
-                Directory.CreateDirectory(AdaptItProjectAdaptationsFolder(strProjectFolderName, liSourceLang.LangName, liTargetLang.LangName));
+            EnsureAiFoldersExist(strProjectFolderName, liSourceLang, liTargetLang);
 
             // create Project file
             if (!File.Exists(AdaptItProjectFileSpec(strProjectFolderName, liSourceLang.LangName, liTargetLang.LangName)))
@@ -263,6 +265,15 @@ namespace OneStoryProjectEditor
                 string strKBContents = String.Format(strFormat, liSourceLang.LangName, liTargetLang.LangName);
                 File.WriteAllText(AdaptItGlossingLookupFileSpec(strProjectFolderName, liSourceLang.LangName, liTargetLang.LangName), strKBContents);
             }
+        }
+
+        private static void EnsureAiFoldersExist(string strProjectFolderName, ProjectSettings.LanguageInfo liSourceLang, ProjectSettings.LanguageInfo liTargetLang)
+        {
+            var strAdaptationsFolder = AdaptItProjectAdaptationsFolder(strProjectFolderName,
+                                                                       liSourceLang.LangName,
+                                                                       liTargetLang.LangName);
+            if (!Directory.Exists(strAdaptationsFolder))
+                Directory.CreateDirectory(strAdaptationsFolder);
         }
 
         const string CstrAdaptItPunct = "?.,;:\"'!()<>{}[]“”‘’…-";
