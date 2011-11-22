@@ -472,14 +472,8 @@ namespace OneStoryProjectEditor
             if (bAdjustCraftingInfo)
                 theSd.CraftingInfo.IsBiblicalStory = bIsBiblicalStory;
 
-            int n = 1;
-            if (_storyProject[strDestSet].Contains(theSd))
-            {
-                while (_storyProject[strDestSet].Contains(theSd))
-                    theSd.Name = String.Format("{0}.{1}", strName, n++);
-                theSd.guid = Guid.NewGuid().ToString();
-            }
-            _storyProject[strDestSet].Add(theSd);
+            StoryEditor.InsertInOtherSetInsureUnique(_storyProject[strDestSet], theSd);
+
             LocalizableMessageBox.Show(String.Format(Localizer.Str("The story '{0}' has been {1} to the '{2}' list"),
                                                      theSd.Name,
                                                      (bMove) ? CstrMoved : CstrCopied,
@@ -513,6 +507,13 @@ namespace OneStoryProjectEditor
                     return;
 
                 RemoveStoryFromCurrentList(nSelectedRowIndex, theSd);
+
+                // if it isn't already in the Old Set, then just move it there
+                if (_stories.SetName != Properties.Resources.IDS_ObsoleteStoriesSet)
+                {
+                    StoryEditor.InsertInOtherSetInsureUnique(_storyProject[Properties.Resources.IDS_ObsoleteStoriesSet],
+                                                             theSd);
+                }
 
                 Modified = true;
             }

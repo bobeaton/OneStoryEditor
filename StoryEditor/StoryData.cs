@@ -1505,10 +1505,7 @@ namespace OneStoryProjectEditor
 
         public new bool Contains(StoryData theSD)
         {
-            foreach (StoryData aSD in this)
-                if (aSD.Name == theSD.Name)
-                    return true;
-            return false;
+            return this.Any(aSd => aSd.Name == theSD.Name);
         }
 
         public const string CstrElementLabelStories = "stories";

@@ -915,17 +915,20 @@ namespace OneStoryProjectEditor
                 if (TheCurrentStoriesSet.Count > 0)
                 {
                     foreach (StoryData aStory in TheCurrentStoriesSet)
+                    {
                         if (aStory.Name == strStoryName)
                         {
                             // if they already have a story by that name, just go there
                             comboBoxStorySelector.SelectedItem = strStoryName;
                             return false;
                         }
-                        else if (aStory.Name == TheCurrentStory.Name)
+                       
+                        if (aStory.Name == TheCurrentStory.Name)
                         {
                             nIndexForInsert = TheCurrentStoriesSet.IndexOf(aStory);
                             return true;
                         }
+                    }
                 }
                 else
                 {
@@ -2991,12 +2994,20 @@ namespace OneStoryProjectEditor
                 return;
 
             // make sure the user really wants to do this
-            if (QueryDeleteStory(TheCurrentStory.Name))
+            var strName = TheCurrentStory.Name;
+            if (QueryDeleteStory(strName))
                 return;
 
+            // remove it from this set and move it to Old Stories set (unless
+            //  this is the OldStories set)
             TheCurrentStoriesSet.RemoveAt(nIndex);
-            Debug.Assert(comboBoxStorySelector.Items.IndexOf(TheCurrentStory.Name) == nIndex);
-            comboBoxStorySelector.Items.Remove(TheCurrentStory.Name);
+            if (IsInStoriesSet)
+                InsertInOtherSetInsureUnique(StoryProject[Resources.IDS_ObsoleteStoriesSet],
+                                             TheCurrentStory);
+
+            // update the combox box bit
+            Debug.Assert(comboBoxStorySelector.Items.IndexOf(strName) == nIndex);
+            comboBoxStorySelector.Items.Remove(strName);
 
             if (nIndex > 0)
                 nIndex--;
@@ -3018,6 +3029,20 @@ namespace OneStoryProjectEditor
             Modified = true;
         }
 
+        public static void InsertInOtherSetInsureUnique(StoriesData theSds,
+            StoryData theStory)
+        {
+            int n = 1;
+            if (theSds.Contains(theStory))
+            {
+                var strName = theStory.Name;
+                while (theSds.Contains(theStory))
+                    theStory.Name = String.Format("{0}.{1}", strName, n++);
+                theStory.guid = Guid.NewGuid().ToString();
+            }
+            theSds.Add(theStory);
+        }
+
         public static bool QueryDeleteStory(string strName)
         {
             return (LocalizableMessageBox.Show(String.Format(Localizer.Str("Are you sure you want to delete the '{0}' story?"),
@@ -3029,6 +3054,12 @@ namespace OneStoryProjectEditor
 
         private void StoryEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
+            m_frmFind = null;
+
+            // if this is the Old Stories form, then we're done
+            if (!IsInStoriesSet)
+                return;
+
             if (Modified)
             {
                 DialogResult res = QuerySave();
@@ -3050,14 +3081,12 @@ namespace OneStoryProjectEditor
             // do the sync'ing now before the main window goes away (or users are too quick
             //  to try to launch it again, before the first instance actually goes away)
             //  also, this could be time consuming.
-            if (!_bRestarting && IsInStoriesSet)
+            if (!_bRestarting)
             {
                 Cursor = Cursors.WaitCursor;
                 Program.SyncBeforeClose(false);
                 Cursor = Cursors.Default;
             }
-
-            m_frmFind = null;
         }
 
         private void editToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
