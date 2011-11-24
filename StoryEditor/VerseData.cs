@@ -878,11 +878,11 @@ namespace OneStoryProjectEditor
             return strHtml;
         }
 
-        private static string FormatLanguageColumn(int nVerseIndex, int nNumCols,
+        public static string FormatLanguageColumn(int nVerseIndex, int nNumCols,
             string strFieldName, string strLangStyleClassName, string strValue)
         {
             return String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
-                                        String.Format(Properties.Resources.HTML_ParagraphText,
+                                        String.Format(Properties.Resources.HTML_ParagraphTextId,
                                                       TextareaId(nVerseIndex, strFieldName),
                                                       strLangStyleClassName,
                                                       strValue));

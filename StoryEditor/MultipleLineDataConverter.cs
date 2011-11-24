@@ -390,7 +390,7 @@ namespace OneStoryProjectEditor
                 if (String.IsNullOrEmpty(strVernacular))
                     strVernacular = "-";  // give it something so we don't have no cell there.
                 strRow += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100/nNumCols,
-                                        String.Format(Properties.Resources.HTML_ParagraphText,
+                                        String.Format(Properties.Resources.HTML_ParagraphTextId,
                                                       TextareaId(InstanceElementName, nVerseIndex, nTestNum,
                                                                  LineData.CstrAttributeLangVernacular),
                                                       StoryData.CstrLangVernacularStyleClassName,
@@ -402,7 +402,7 @@ namespace OneStoryProjectEditor
                 if (String.IsNullOrEmpty(strNationalBT))
                     strNationalBT = "-";  // give it something so we don't have no cell there.
                 strRow += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
-                                        String.Format(Properties.Resources.HTML_ParagraphText,
+                                        String.Format(Properties.Resources.HTML_ParagraphTextId,
                                                       TextareaId(InstanceElementName, nVerseIndex, nTestNum,
                                                                  LineData.CstrAttributeLangNationalBt),
                                                       StoryData.CstrLangNationalBtStyleClassName,
@@ -414,7 +414,7 @@ namespace OneStoryProjectEditor
                 if (String.IsNullOrEmpty(strInternationalBT))
                     strInternationalBT = "-";  // give it something so we don't have no cell there.
                 strRow += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumCols,
-                                        String.Format(Properties.Resources.HTML_ParagraphText,
+                                        String.Format(Properties.Resources.HTML_ParagraphTextId,
                                                       TextareaId(InstanceElementName, nVerseIndex, nTestNum,
                                                                  LineData.CstrAttributeLangInternationalBt),
                                                       StoryData.CstrLangInternationalBtStyleClassName,

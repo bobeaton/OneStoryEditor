@@ -2125,7 +2125,7 @@ initContextMenu();
   <data name="HTML_LinkJumpTargetBibleReference" xml:space="preserve">
     <value>&lt;a href="bibleViewer.setReference" name="{0}" onClick="return OnBibRefJump(this);"&gt;{0}&lt;/a&gt;</value>
   </data>
-  <data name="HTML_ParagraphText" xml:space="preserve">
+  <data name="HTML_ParagraphTextId" xml:space="preserve">
     <value>&lt;p id="{0}" class="{1}"&gt;{2}&lt;/p&gt;</value>
   </data>
   <data name="HTML_StyleDefinition" xml:space="preserve">
@@ -2409,5 +2409,16 @@ eater Panorama
   </data>
   <data name="IDS_NonBibStoriesSet" xml:space="preserve">
     <value>Non-Biblical Stories</value>
+  </data>
+  <data name="HTML_ParagraphText" xml:space="preserve">
+    <value>&lt;p class="{0}"&gt;{1}&lt;/p&gt;</value>
+  </data>
+  <data name="HTML_TableBorder" xml:space="preserve">
+    <value>  &lt;table style="width:100%;" border="1"&gt;
+  {0}
+  &lt;/table&gt;</value>
+  </data>
+  <data name="PrintHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PrintHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

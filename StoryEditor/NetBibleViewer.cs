@@ -74,7 +74,7 @@ namespace OneStoryProjectEditor
         SWModule moduleVersion;
         NetBibleFootnoteTooltip tooltipNBFNs;
         int m_nBook = 0, m_nChapter = 0, m_nVerse = 0;
-        protected const string CstrNetFreeModuleName = "NETfree";
+        // protected const string CstrNetFreeModuleName = "NETfree";
         protected const string CstrNetModuleName = "NET";
         protected const string CstrOtherSwordModules = "Other";
         protected const string CstrRadioButtonPrefix = "radioButton";
@@ -335,7 +335,7 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            string moduleToStartWith = CstrNetFreeModuleName;
+            string moduleToStartWith = CstrNetModuleName;
             if (!string.IsNullOrEmpty(Properties.Settings.Default.LastSwordModuleUsed))
                 moduleToStartWith = Properties.Settings.Default.LastSwordModuleUsed;
 

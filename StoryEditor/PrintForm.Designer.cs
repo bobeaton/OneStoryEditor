@@ -54,11 +54,7 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPagePrintPreviewConfig = new System.Windows.Forms.TabPage();
             this.tabPagePrintPreview = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.buttonClose = new System.Windows.Forms.Button();
-            this.buttonPrint = new System.Windows.Forms.Button();
-            this.htmlStoryBt = new OneStoryProjectEditor.HtmlStoryBtControl();
-            this.buttonSaveHtml = new System.Windows.Forms.Button();
+            this.printViewer = new OneStoryProjectEditor.PrintViewer();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.tableLayoutPanel.SuspendLayout();
             this.groupBoxViewOptions.SuspendLayout();
@@ -66,7 +62,6 @@
             this.tabControl.SuspendLayout();
             this.tabPagePrintPreviewConfig.SuspendLayout();
             this.tabPagePrintPreview.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel
@@ -377,7 +372,7 @@
             // 
             // tabPagePrintPreview
             // 
-            this.tabPagePrintPreview.Controls.Add(this.tableLayoutPanel1);
+            this.tabPagePrintPreview.Controls.Add(this.printViewer);
             this.tabPagePrintPreview.Location = new System.Drawing.Point(4, 22);
             this.tabPagePrintPreview.Name = "tabPagePrintPreview";
             this.tabPagePrintPreview.Padding = new System.Windows.Forms.Padding(3);
@@ -387,71 +382,13 @@
             this.tabPagePrintPreview.ToolTipText = "Click this tab to see the preview";
             this.tabPagePrintPreview.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel1
+            // printViewer
             // 
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.buttonClose, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.buttonPrint, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.htmlStoryBt, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.buttonSaveHtml, 0, 1);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(817, 434);
-            this.tableLayoutPanel1.TabIndex = 3;
-            // 
-            // buttonClose
-            // 
-            this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonClose.Location = new System.Drawing.Point(452, 408);
-            this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 2;
-            this.buttonClose.Text = "Close";
-            this.buttonClose.UseVisualStyleBackColor = true;
-            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
-            // 
-            // buttonPrint
-            // 
-            this.buttonPrint.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonPrint.Location = new System.Drawing.Point(371, 408);
-            this.buttonPrint.Name = "buttonPrint";
-            this.buttonPrint.Size = new System.Drawing.Size(75, 23);
-            this.buttonPrint.TabIndex = 1;
-            this.buttonPrint.Text = "&Print";
-            this.buttonPrint.UseVisualStyleBackColor = true;
-            this.buttonPrint.Click += new System.EventHandler(this.buttonPrint_Click);
-            // 
-            // htmlStoryBt
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.htmlStoryBt, 3);
-            this.htmlStoryBt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlStoryBt.Location = new System.Drawing.Point(3, 3);
-            this.htmlStoryBt.MinimumSize = new System.Drawing.Size(20, 20);
-            this.htmlStoryBt.Name = "htmlStoryBt";
-            this.htmlStoryBt.ParentStory = null;
-            this.htmlStoryBt.Size = new System.Drawing.Size(811, 399);
-            this.htmlStoryBt.StoryData = null;
-            this.htmlStoryBt.TabIndex = 0;
-            this.htmlStoryBt.TheSE = null;
-            this.htmlStoryBt.ViewSettings = null;
-            // 
-            // buttonSaveHtml
-            // 
-            this.buttonSaveHtml.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSaveHtml.Location = new System.Drawing.Point(275, 408);
-            this.buttonSaveHtml.Name = "buttonSaveHtml";
-            this.buttonSaveHtml.Size = new System.Drawing.Size(90, 23);
-            this.buttonSaveHtml.TabIndex = 3;
-            this.buttonSaveHtml.Text = "&Save (HTML)";
-            this.buttonSaveHtml.UseVisualStyleBackColor = true;
-            this.buttonSaveHtml.Click += new System.EventHandler(this.buttonSaveHtml_Click);
+            this.printViewer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.printViewer.Location = new System.Drawing.Point(3, 3);
+            this.printViewer.Name = "printViewer";
+            this.printViewer.Size = new System.Drawing.Size(817, 434);
+            this.printViewer.TabIndex = 0;
             // 
             // saveFileDialog
             // 
@@ -477,7 +414,6 @@
             this.tabControl.ResumeLayout(false);
             this.tabPagePrintPreviewConfig.ResumeLayout(false);
             this.tabPagePrintPreview.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -489,9 +425,6 @@
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPagePrintPreviewConfig;
         private System.Windows.Forms.TabPage tabPagePrintPreview;
-        private HtmlStoryBtControl htmlStoryBt;
-        private System.Windows.Forms.Button buttonClose;
-        private System.Windows.Forms.Button buttonPrint;
         private System.Windows.Forms.CheckBox checkBoxSelectAll;
         private System.Windows.Forms.GroupBox groupBoxViewOptions;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
@@ -506,14 +439,13 @@
         private System.Windows.Forms.CheckBox checkBoxSelectAllFields;
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateVernacular;
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateNationalBT;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.CheckBox checkBoxShowHidden;
         private System.Windows.Forms.CheckBox checkBoxLangFreeTranslation;
         private System.Windows.Forms.CheckBox checkBoxGeneralTestingQuestions;
         private System.Windows.Forms.CheckBox checkBoxExegeticalHelpNote;
-        private System.Windows.Forms.Button buttonSaveHtml;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateInternationalBt;
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateFreeTranslation;
+        private PrintViewer printViewer;
     }
 }

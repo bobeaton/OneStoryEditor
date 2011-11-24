@@ -424,11 +424,20 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;p id=&quot;{0}&quot; class=&quot;{1}&quot;&gt;{2}&lt;/p&gt;.
+        ///   Looks up a localized string similar to &lt;p class=&quot;{0}&quot;&gt;{1}&lt;/p&gt;.
         /// </summary>
         internal static string HTML_ParagraphText {
             get {
                 return ResourceManager.GetString("HTML_ParagraphText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p id=&quot;{0}&quot; class=&quot;{1}&quot;&gt;{2}&lt;/p&gt;.
+        /// </summary>
+        internal static string HTML_ParagraphTextId {
+            get {
+                return ResourceManager.GetString("HTML_ParagraphTextId", resourceCulture);
             }
         }
         
@@ -470,6 +479,17 @@ namespace OneStoryProjectEditor.Properties {
         internal static string HTML_Table {
             get {
                 return ResourceManager.GetString("HTML_Table", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to   &lt;table style=&quot;width:100%;&quot; border=&quot;1&quot;&gt;
+        ///  {0}
+        ///  &lt;/table&gt;.
+        /// </summary>
+        internal static string HTML_TableBorder {
+            get {
+                return ResourceManager.GetString("HTML_TableBorder", resourceCulture);
             }
         }
         
@@ -1261,6 +1281,13 @@ namespace OneStoryProjectEditor.Properties {
         internal static System.Drawing.Bitmap OpenSelectedItemHS {
             get {
                 object obj = ResourceManager.GetObject("OpenSelectedItemHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap PrintHS {
+            get {
+                object obj = ResourceManager.GetObject("PrintHS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

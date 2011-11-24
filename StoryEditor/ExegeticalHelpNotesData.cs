@@ -182,7 +182,7 @@ namespace OneStoryProjectEditor
                                                        String.Format(Properties.Resources.HTML_TableCell, CstrCnLable),
                                                        String.Format(Properties.Resources.HTML_TableCellWidth,
                                                                      100,
-                                                                     String.Format(Properties.Resources.HTML_ParagraphText,
+                                                                     String.Format(Properties.Resources.HTML_ParagraphTextId,
                                                                                    strHtmlElementId,
                                                                                    StoryData.
                                                                                        CstrLangInternationalBtStyleClassName,
