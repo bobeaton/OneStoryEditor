@@ -486,6 +486,9 @@ namespace OneStoryProjectEditor
 
         protected void DisplayVerses()
         {
+            if (moduleVersion == null)
+                return;
+
             // first see if we're being given the localized version and convert it
             //  back to 'en' (Sword needs it this way)
             var scriptureReferenceBookName = ScriptureReferenceBookName;
