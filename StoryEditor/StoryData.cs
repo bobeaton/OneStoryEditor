@@ -975,14 +975,14 @@ namespace OneStoryProjectEditor
                                  String.Format(Properties.Resources.HTML_TableCellWidth,
                                                40,
                                                String.Format(
-                                                   Properties.Resources.HTML_ParagraphText,
+                                                   Properties.Resources.HTML_ParagraphTextId,
                                                    strLabel,
                                                    StoryData.CstrLangInternationalBtStyleClassName,
                                                    strName)) +
                                  String.Format(Properties.Resources.HTML_TableCellWidth,
                                                60,
                                                String.Format(
-                                                   Properties.Resources.HTML_ParagraphText,
+                                                   Properties.Resources.HTML_ParagraphTextId,
                                                    strLabel + "_Comment",
                                                    StoryData.CstrLangInternationalBtStyleClassName,
                                                    strComment)));
@@ -1000,7 +1000,7 @@ namespace OneStoryProjectEditor
                                      Properties.Resources.HTML_TableCellWithSpanAndWidth,
                                      100,
                                      2,
-                                     String.Format(Properties.Resources.HTML_ParagraphText,
+                                     String.Format(Properties.Resources.HTML_ParagraphTextId,
                                                    strLabel,
                                                    StoryData.
                                                        CstrLangInternationalBtStyleClassName,

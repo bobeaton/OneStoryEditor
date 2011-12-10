@@ -204,6 +204,12 @@ namespace OneStoryProjectEditor
                 */
             }
         }
+
+        private void toolStripButtonPrint_Click(object sender, EventArgs e)
+        {
+            var dlg = new LnCNotePrintForm(_theSE);
+            dlg.ShowDialog();
+        }
         /*
         private void toolStripButtonKeyTermSearch_Click(object sender, EventArgs e)
         {

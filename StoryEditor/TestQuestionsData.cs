@@ -165,7 +165,7 @@ namespace OneStoryProjectEditor
             if (String.IsNullOrEmpty(str))
                 str = "-";  // just so there's something there (or the cell doesn't show)
             return String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100 / nNumTestQuestionCols,
-                                 String.Format(Properties.Resources.HTML_ParagraphText,
+                                 String.Format(Properties.Resources.HTML_ParagraphTextId,
                                                TextareaId(nVerseIndex, nTQNum, strTextAreaSuffix),
                                                strStyleClass,
                                                str));

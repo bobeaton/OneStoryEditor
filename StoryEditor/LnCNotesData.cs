@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using NetLoc;
+using SilEncConverters40;
 
 namespace OneStoryProjectEditor
 {
@@ -130,6 +131,22 @@ namespace OneStoryProjectEditor
             }
             return false;
         }
+
+        public string PresentationHtml
+        {
+            get
+            {
+                bool bShowVernacular = this.Any(theNote => !String.IsNullOrEmpty(theNote.VernacularRendering));
+                bool bShowNationalBt = this.Any(theNote => !String.IsNullOrEmpty(theNote.NationalBtRendering));
+                bool bShowInternationalBt = this.Any(theNote => !String.IsNullOrEmpty(theNote.InternationalBtRendering));
+
+                var strHtml = this.Aggregate<LnCNote, string>(null, (current, aNote) =>
+                                                                    current + aNote.PresentationHtml(bShowVernacular,
+                                                                                                     bShowNationalBt,
+                                                                                                     bShowInternationalBt));
+                return String.Format(Properties.Resources.HTML_TableBorder, strHtml);
+            }
+        }
     }
 
     public class LnCNote
@@ -139,6 +156,43 @@ namespace OneStoryProjectEditor
         public string NationalBtRendering { get; set; }
         public string InternationalBtRendering { get; set; }
         public string Notes { get; set; }
+
+        public string PresentationHtml(bool bShowVernacular, 
+            bool bShowNationalBt, bool bShowInternationalBt)
+        {
+            string strRow = null;
+            if (bShowVernacular)
+            {
+                strRow += FormatLanguageColumn(StoryData.CstrLangVernacularStyleClassName,
+                                               VernacularRendering);
+            }
+
+            if (bShowNationalBt)
+            {
+                strRow += FormatLanguageColumn(StoryData.CstrLangNationalBtStyleClassName,
+                                               NationalBtRendering);
+            }
+
+            if (bShowInternationalBt)
+            {
+                strRow += FormatLanguageColumn(StoryData.CstrLangInternationalBtStyleClassName,
+                                               InternationalBtRendering);
+            }
+
+            strRow += FormatLanguageColumn(StoryData.CstrLangFreeTranslationStyleClassName,
+                                           Notes);
+
+            return String.Format(Properties.Resources.HTML_TableRow, strRow);
+        }
+
+        private static string FormatLanguageColumn(string strLangStyleClassName, 
+            string strValue)
+        {
+            return String.Format(Properties.Resources.HTML_TableCell,
+                                 String.Format(Properties.Resources.HTML_ParagraphText,
+                                               strLangStyleClassName,
+                                               strValue));
+        }
 
         private List<string> astrKeyTermId = new List<string>();
 

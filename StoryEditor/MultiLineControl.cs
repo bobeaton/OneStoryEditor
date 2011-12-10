@@ -33,7 +33,6 @@ namespace OneStoryProjectEditor
             {
                 LineMemberData aLineData = aMLDC[nNumRows];
                 string strUnsGui = aLineData.MemberId;
-                System.Diagnostics.Debug.Assert(lstTestInfo.Contains(strUnsGui));
                 int nTest = lstTestInfo.IndexOf(strUnsGui) + 1;
                 string strLabelRow = String.Format(aMLDC.LabelTextFormat, nTest);
                 InitRow(strLabelRow, nNumRows);

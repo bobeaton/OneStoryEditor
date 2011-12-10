@@ -141,7 +141,6 @@ namespace OneStoryProjectEditor
             if (theSE.viewStoryTestingQuestionAnswersMenu.Checked 
                 && (_aTQData.Answers != null) && (_aTQData.Answers.Count > 0))
             {
-                System.Diagnostics.Debug.Assert(theSE.TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.Count >= _aTQData.Answers.Count);
                 var aAnswersCtrl = new MultiLineControl(ctrlVerse, StageLogic,
                     _aTQData.Answers, theSE.StoryProject.ProjSettings,
                     theSE.TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers,

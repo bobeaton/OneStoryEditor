@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -13,7 +13,6 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ApplicationIcon>OneStory.ico</ApplicationIcon>
-    <TargetFrameworkSubset>Full</TargetFrameworkSubset>
     <TargetZone>Custom</TargetZone>
     <GenerateManifests>false</GenerateManifests>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
@@ -47,6 +46,10 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -56,6 +59,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>..\output\$(Configuration)</OutputPath>
@@ -65,6 +69,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AIGuesserEC, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
@@ -288,6 +293,12 @@
     <Compile Include="LineFlowLayoutPanel.Designer.cs">
       <DependentUpon>LineFlowLayoutPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="LnCNotePrintForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LnCNotePrintForm.Designer.cs">
+      <DependentUpon>LnCNotePrintForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="LnCNotesData.cs" />
     <Compile Include="LnCNotesForm.cs">
       <SubType>Form</SubType>
@@ -337,6 +348,12 @@
     </Compile>
     <Compile Include="PrintForm.Designer.cs">
       <DependentUpon>PrintForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PrintViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PrintViewer.Designer.cs">
+      <DependentUpon>PrintViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="ProjectSettings.cs" />
     <Compile Include="ReorderWordsForm.cs">
@@ -481,6 +498,9 @@
     <EmbeddedResource Include="LineFlowLayoutPanel.resx">
       <DependentUpon>LineFlowLayoutPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LnCNotePrintForm.resx">
+      <DependentUpon>LnCNotePrintForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LnCNotesForm.resx">
       <DependentUpon>LnCNotesForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -508,6 +528,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PrintForm.resx">
       <DependentUpon>PrintForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrintViewer.resx">
+      <DependentUpon>PrintViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ReorderWordsForm.resx">
       <DependentUpon>ReorderWordsForm.cs</DependentUpon>
@@ -727,6 +750,8 @@
     <None Include="Resources\Arrow.jpg" />
     <None Include="Resources\search.png" />
     <Content Include="Resources\1.3 to 1.4.xslt" />
+    <None Include="Resources\Print.bmp" />
+    <None Include="Resources\PrintHS.png" />
     <Content Include="StageTransitions.xml" />
     <None Include="Properties\app.manifest" />
     <None Include="Resources\DragDropHandle.bmp" />
@@ -745,54 +770,54 @@
     <None Include="Resources\oneStory2storyingRetelling.xsl" />
     <None Include="Resources\gradient.gif">
     </None>
-    <Content Include="SWORD\modules\texts\rawtext\hinwbtc\nt">
+    <None Include="SWORD\modules\texts\rawtext\hinwbtc\nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\rawtext\hinwbtc\nt.vss">
+    </None>
+    <None Include="SWORD\modules\texts\rawtext\hinwbtc\nt.vss">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\rawtext\hinwbtc\ot">
+    </None>
+    <None Include="SWORD\modules\texts\rawtext\hinwbtc\ot">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\rawtext\hinwbtc\ot.vss">
+    </None>
+    <None Include="SWORD\modules\texts\rawtext\hinwbtc\ot.vss">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\mods.d\hinwbtc.conf">
+    </None>
+    <None Include="SWORD\mods.d\hinwbtc.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\comments\zcom\kd\ot.bzs">
+    </None>
+    <None Include="SWORD\modules\comments\zcom\kd\ot.bzs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\comments\zcom\kd\ot.bzv">
+    </None>
+    <None Include="SWORD\modules\comments\zcom\kd\ot.bzv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\comments\zcom\kd\ot.bzz">
+    </None>
+    <None Include="SWORD\modules\comments\zcom\kd\ot.bzz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\comments\zcom\mhc\nt.czs">
+    </None>
+    <None Include="SWORD\modules\comments\zcom\mhc\nt.czs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\comments\zcom\mhc\nt.czv">
+    </None>
+    <None Include="SWORD\modules\comments\zcom\mhc\nt.czv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\comments\zcom\mhc\nt.czz">
+    </None>
+    <None Include="SWORD\modules\comments\zcom\mhc\nt.czz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\comments\zcom\mhc\ot.czs">
+    </None>
+    <None Include="SWORD\modules\comments\zcom\mhc\ot.czs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\comments\zcom\mhc\ot.czv">
+    </None>
+    <None Include="SWORD\modules\comments\zcom\mhc\ot.czv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\comments\zcom\mhc\ot.czz">
+    </None>
+    <None Include="SWORD\modules\comments\zcom\mhc\ot.czz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\mods.d\kd.conf">
+    </None>
+    <None Include="SWORD\mods.d\kd.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\mods.d\mhc.conf">
+    </None>
+    <None Include="SWORD\mods.d\mhc.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
     <Content Include="Toolbox\FreeTranslation.lng">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -835,21 +860,21 @@
     <Content Include="Toolbox\Vernacular.lng">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="SWORD\mods.d\xnr.conf">
+    <None Include="SWORD\mods.d\xnr.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\rawtext\xnr\nt">
+    </None>
+    <None Include="SWORD\modules\texts\rawtext\xnr\nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\rawtext\xnr\nt.vss">
+    </None>
+    <None Include="SWORD\modules\texts\rawtext\xnr\nt.vss">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\rawtext\xnr\ot">
+    </None>
+    <None Include="SWORD\modules\texts\rawtext\xnr\ot">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\rawtext\xnr\ot.vss">
+    </None>
+    <None Include="SWORD\modules\texts\rawtext\xnr\ot.vss">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
     <Content Include="SWORD\mods.d\net.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -871,111 +896,111 @@
     <Content Include="SWORD\modules\texts\ztext\net\ot.bzz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="SWORD\modules\texts\ztext\bbe\bbe.doc">
+    <None Include="SWORD\modules\texts\ztext\bbe\bbe.doc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\bbe\nt.bzs">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\bbe\nt.bzs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\bbe\nt.bzv">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\bbe\nt.bzv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\bbe\nt.bzz">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\bbe\nt.bzz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\bbe\ot.bzs">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\bbe\ot.bzs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\bbe\ot.bzv">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\bbe\ot.bzv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\bbe\ot.bzz">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\bbe\ot.bzz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\bwe\nt.bzs">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\bwe\nt.bzs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\bwe\nt.bzv">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\bwe\nt.bzv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\bwe\nt.bzz">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\bwe\nt.bzz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\farsiopv\errata">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\farsiopv\errata">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\farsiopv\nt.bzs">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\farsiopv\nt.bzs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\farsiopv\nt.bzv">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\farsiopv\nt.bzv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\farsiopv\nt.bzz">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\farsiopv\nt.bzz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\farsiopv\ot.bzs">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\farsiopv\ot.bzs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\farsiopv\ot.bzv">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\farsiopv\ot.bzv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\farsiopv\ot.bzz">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\farsiopv\ot.bzz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\hindi\nt.bzs">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\hindi\nt.bzs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\hindi\nt.bzv">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\hindi\nt.bzv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\hindi\nt.bzz">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\hindi\nt.bzz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\hindi\ot.bzs">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\hindi\ot.bzs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\hindi\ot.bzv">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\hindi\ot.bzv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\hindi\ot.bzz">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\hindi\ot.bzz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\netfree\nt.bzs">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\netfree\nt.bzs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\netfree\nt.bzv">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\netfree\nt.bzv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\netfree\nt.bzz">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\netfree\nt.bzz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\netfree\ot.bzs">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\netfree\ot.bzs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\netfree\ot.bzv">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\netfree\ot.bzv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\netfree\ot.bzz">
+    </None>
+    <None Include="SWORD\modules\texts\ztext\netfree\ot.bzz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\mods.d\globals.conf">
+    </None>
+    <None Include="SWORD\mods.d\globals.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\mods.d\hindi.conf">
+    </None>
+    <None Include="SWORD\mods.d\hindi.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\mods.d\netfree.conf">
+    </None>
+    <None Include="SWORD\mods.d\netfree.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\mods.d\bbe.conf">
+    </None>
+    <None Include="SWORD\mods.d\bbe.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\mods.d\bwe.conf">
+    </None>
+    <None Include="SWORD\mods.d\bwe.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\mods.d\farsiopv.conf">
+    </None>
+    <None Include="SWORD\mods.d\farsiopv.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
     <Content Include="Toolbox\BibleBookCodes.TXT">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

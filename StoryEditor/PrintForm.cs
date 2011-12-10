@@ -24,7 +24,8 @@ namespace OneStoryProjectEditor
             InitializeComponent();
             Localizer.Ctrl(this);
 
-            htmlStoryBt.TheSE = theSE;  // so it can do anchor jumps
+            printViewer.webBrowser.TheSE = theSE;  // so it can do anchor jumps
+            printViewer.saveFileDialog.FileName = theSE.StoryProject.ProjSettings.ProjectName;
 
             foreach (StoryData aStory in _theSE.TheCurrentStoriesSet)
                 checkedListBoxStories.Items.Add(aStory.Name, true);
@@ -74,7 +75,7 @@ namespace OneStoryProjectEditor
                                                                             false);
             }
 
-            htmlStoryBt.DocumentText = StoryData.AddHtmlHtmlDocOutside(strHtml, _theSE.StoryProject.ProjSettings);
+            printViewer.webBrowser.DocumentText = StoryData.AddHtmlHtmlDocOutside(strHtml, _theSE.StoryProject.ProjSettings);
         }
 
         private VerseData.ViewSettings ViewSettings
@@ -171,16 +172,6 @@ namespace OneStoryProjectEditor
                 cb.Checked = bChecked;
         }
 
-        private void buttonPrint_Click(object sender, EventArgs e)
-        {
-            htmlStoryBt.ShowPrintPreviewDialog();
-        }
-
-        private void buttonClose_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
         private void checkBoxSelectAll_CheckStateChanged(object sender, EventArgs e)
         {
             CheckBox cb = sender as CheckBox;
@@ -240,16 +231,6 @@ namespace OneStoryProjectEditor
 
             Properties.Settings.Default.LastPrintSettings = ViewSettings.LongValue;
             Properties.Settings.Default.Save();
-        }
-
-        private void buttonSaveHtml_Click(object sender, EventArgs e)
-        {
-            saveFileDialog.FileName = _theSE.StoryProject.ProjSettings.ProjectName;
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string strDocumentText = htmlStoryBt.DocumentText;
-                File.WriteAllText(saveFileDialog.FileName, strDocumentText, Encoding.UTF8);
-            }
         }
     }
 }

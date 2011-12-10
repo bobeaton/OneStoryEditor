@@ -32,6 +32,9 @@ namespace OneStoryProjectEditor
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LnCNotesForm));
             this.dataGridViewLnCNotes = new System.Windows.Forms.DataGridView();
+            this.ColumnGloss = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnRenderings = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnNotes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonAddLnCNote = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonEditLnCNote = new System.Windows.Forms.ToolStripButton();
@@ -39,9 +42,8 @@ namespace OneStoryProjectEditor
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonSearch = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonKeyTermSearch = new System.Windows.Forms.ToolStripButton();
-            this.ColumnGloss = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnRenderings = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnNotes = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonPrint = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLnCNotes)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -66,6 +68,23 @@ namespace OneStoryProjectEditor
             this.dataGridViewLnCNotes.TabIndex = 1;
             this.dataGridViewLnCNotes.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewLnCNotes_CellMouseDoubleClick);
             // 
+            // ColumnGloss
+            // 
+            this.ColumnGloss.HeaderText = "Gloss";
+            this.ColumnGloss.Name = "ColumnGloss";
+            this.ColumnGloss.ReadOnly = true;
+            // 
+            // ColumnRenderings
+            // 
+            this.ColumnRenderings.HeaderText = "Renderings";
+            this.ColumnRenderings.Name = "ColumnRenderings";
+            // 
+            // ColumnNotes
+            // 
+            this.ColumnNotes.HeaderText = "Notes";
+            this.ColumnNotes.Name = "ColumnNotes";
+            this.ColumnNotes.Width = 531;
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -74,7 +93,9 @@ namespace OneStoryProjectEditor
             this.toolStripButtonDeleteKeyTerm,
             this.toolStripSeparator1,
             this.toolStripButtonSearch,
-            this.toolStripButtonKeyTermSearch});
+            this.toolStripButtonKeyTermSearch,
+            this.toolStripSeparator2,
+            this.toolStripButtonPrint});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(702, 25);
@@ -141,22 +162,21 @@ namespace OneStoryProjectEditor
             this.toolStripButtonKeyTermSearch.ToolTipText = "Click this button to search the stories for this term";
             this.toolStripButtonKeyTermSearch.Visible = false;
             // 
-            // ColumnGloss
+            // toolStripSeparator2
             // 
-            this.ColumnGloss.HeaderText = "Gloss";
-            this.ColumnGloss.Name = "ColumnGloss";
-            this.ColumnGloss.ReadOnly = true;
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
-            // ColumnRenderings
+            // toolStripButtonPrint
             // 
-            this.ColumnRenderings.HeaderText = "Renderings";
-            this.ColumnRenderings.Name = "ColumnRenderings";
-            // 
-            // ColumnNotes
-            // 
-            this.ColumnNotes.HeaderText = "Notes";
-            this.ColumnNotes.Name = "ColumnNotes";
-            this.ColumnNotes.Width = 531;
+            this.toolStripButtonPrint.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonPrint.Image = global::OneStoryProjectEditor.Properties.Resources.PrintHS;
+            this.toolStripButtonPrint.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonPrint.Name = "toolStripButtonPrint";
+            this.toolStripButtonPrint.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonPrint.Text = "Print";
+            this.toolStripButtonPrint.ToolTipText = "Click this button to print the L & C Note";
+            this.toolStripButtonPrint.Click += new System.EventHandler(this.toolStripButtonPrint_Click);
             // 
             // LnCNotesForm
             // 
@@ -191,5 +211,7 @@ namespace OneStoryProjectEditor
         private DataGridViewTextBoxColumn ColumnGloss;
         private DataGridViewTextBoxColumn ColumnRenderings;
         private DataGridViewTextBoxColumn ColumnNotes;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripButton toolStripButtonPrint;
     }
 }

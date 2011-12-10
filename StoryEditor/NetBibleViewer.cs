@@ -74,7 +74,7 @@ namespace OneStoryProjectEditor
         SWModule moduleVersion;
         NetBibleFootnoteTooltip tooltipNBFNs;
         int m_nBook = 0, m_nChapter = 0, m_nVerse = 0;
-        protected const string CstrNetFreeModuleName = "NETfree";
+        // protected const string CstrNetFreeModuleName = "NETfree";
         protected const string CstrNetModuleName = "NET";
         protected const string CstrOtherSwordModules = "Other";
         protected const string CstrRadioButtonPrefix = "radioButton";
@@ -335,7 +335,7 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            string moduleToStartWith = CstrNetFreeModuleName;
+            string moduleToStartWith = CstrNetModuleName;
             if (!string.IsNullOrEmpty(Properties.Settings.Default.LastSwordModuleUsed))
                 moduleToStartWith = Properties.Settings.Default.LastSwordModuleUsed;
 
@@ -486,6 +486,9 @@ namespace OneStoryProjectEditor
 
         protected void DisplayVerses()
         {
+            if (moduleVersion == null)
+                return;
+
             // first see if we're being given the localized version and convert it
             //  back to 'en' (Sword needs it this way)
             var scriptureReferenceBookName = ScriptureReferenceBookName;
