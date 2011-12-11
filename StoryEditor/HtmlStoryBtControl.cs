@@ -176,20 +176,20 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public void OnDoOnMouseUp(string strId)
+        public bool OnLineOptionsButton(string strId)
         {
             if (Document == null)
-                return;
+                return false;
 
             HtmlDocument doc = Document;
             var elem = doc.GetElementById(strId);
             if (elem == null)
-                return;
+                return false;
 
             if (IsLineOptionsButton(strId))
                 contextMenuStrip.Show(MousePosition);
-            else
-                MessageBox.Show(elem.InnerText, "Clicked on...");
+
+            return true;
         }
 
         private bool IsLineOptionsButton(string strId)
@@ -198,6 +198,24 @@ namespace OneStoryProjectEditor
             return ((astr.Length == 2) &&
                     (astr[0] == VersesData.ButtonId(1).Split(_achDelim)[0]));
         }
+
+        /*
+                public void OnDoOnMouseUp(string strId)
+                {
+                    if (Document == null)
+                        return;
+
+                    HtmlDocument doc = Document;
+                    var elem = doc.GetElementById(strId);
+                    if (elem == null)
+                        return;
+
+                    if (IsLineOptionsButton(strId))
+                        contextMenuStrip.Show(MousePosition);
+                    else
+                        MessageBox.Show(elem.InnerText, "Clicked on...");
+                }
+                */
 
         private VerseData GetVerseData(int nLineIndex)
         {

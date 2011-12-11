@@ -503,7 +503,7 @@ namespace OneStoryProjectEditor
                                  StylePrefix(projSettings),
                                  Properties.Resources.HTML_DOM_PrefixPresentation,
                                  strHtmlInside,
-                                 Properties.Resources.HTML_ScriptPostFix);
+                                 null); // Properties.Resources.HTML_ScriptPostFix);
         }
 
         public string PresentationHtmlWithoutHtmlDocOutside(

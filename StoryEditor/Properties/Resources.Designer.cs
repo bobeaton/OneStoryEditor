@@ -225,7 +225,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; style=&quot;height:20px; width:20px;&quot;&gt;{1}&lt;/button&gt;.
+        ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; onClick=&quot;{1}&quot; style=&quot;height:20px; width:20px;&quot;&gt;{2}&lt;/button&gt;.
         /// </summary>
         internal static string HTML_ButtonLineOptions {
             get {
@@ -263,6 +263,11 @@ namespace OneStoryProjectEditor.Properties {
         ///  window.external.OnBibRefJump(btn.id);
         ///  return false; // cause the href navigation to not happen
         ///}
+        ///function OnLineOptionsButton(btn)
+        ///{
+        ///  window.external.OnLineOptionsButton(btn.id);
+        ///  return false;
+        ///}
         ///function OnVerseLineJump(link)
         ///{
         ///  window.external.OnVerseLineJump(link.name);
@@ -272,38 +277,11 @@ namespace OneStoryProjectEditor.Properties {
         ///{
         ///  if (window.event.keyCode == 116)
         ///  {
-        ///    // let the form handle it
-        ///    window.external.LoadDocument();
-        ///
-        ///    // disable the propagation of the F5 event
-        ///    window.even [rest of string was truncated]&quot;;.
+        ///    // let the form handle  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string HTML_DOM_PrefixPresentation {
             get {
                 return ResourceManager.GetString("HTML_DOM_PrefixPresentation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;script type=&quot;text/javascript&quot;&gt;
-        ///
-        ////************************************************************************************************************
-        ///(C) www.dhtmlgoodies.com, October 2005
-        ///
-        ///This is a script from www.dhtmlgoodies.com. You will find this and a lot of other scripts at our website.	
-        ///
-        ///Terms of use:
-        ///You are free to use this script as long as the copyright message is kept intact. However, you may not
-        ///redistribute, sell or repost it without our permission.
-        ///
-        ///Thank you!
-        ///
-        ///www.dhtmlgoodies.com
-        ///A [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string HTML_DOM_PrefixStoryBt {
-            get {
-                return ResourceManager.GetString("HTML_DOM_PrefixStoryBt", resourceCulture);
             }
         }
         
@@ -479,12 +457,7 @@ namespace OneStoryProjectEditor.Properties {
         ///    padding-top: 0;
         ///  }}      
         ///{2}
-        ///  #contextMenu {{	/* The menu container */
-        ///    border:1px solid #202867;	/* Border around the entire menu */
-        ///    background-color:#FFF;	/* White background color of the menu */
-        ///    margin:0px;
-        ///    padding:0px;
-        ///    width:300px;	/* Width of context menu  [rest of string was truncated]&quot;;.
+        ///&lt;/style&gt;.
         /// </summary>
         internal static string HTML_StyleDefinition {
             get {
