@@ -499,11 +499,19 @@ namespace OneStoryProjectEditor
 
         public static string AddHtmlHtmlDocOutside(string strHtmlInside, ProjectSettings projSettings)
         {
+            /*
             return String.Format(Properties.Resources.HTML_HeaderPresentation,
                                  StylePrefix(projSettings),
-                                 Properties.Resources.HTML_DOM_PrefixPresentation,
+                                 Properties.Resources.StoryBtJs,
                                  strHtmlInside,
-                                 null); // Properties.Resources.HTML_ScriptPostFix);
+                                 Properties.Resources.StoryBtPsJs);
+            */
+            return String.Format(Properties.Resources.StoryBtHtml,
+                                 Properties.Resources.jquery_min,
+                                 Properties.Resources.StoryBtJs,
+                                 StylePrefix(projSettings),
+                                 strHtmlInside,
+                                 Properties.Resources.StoryBtPsJs);
         }
 
         public string PresentationHtmlWithoutHtmlDocOutside(
@@ -594,13 +602,13 @@ namespace OneStoryProjectEditor
         {
             string strLangStyles = null;
             if (projSettings.Vernacular.HasData)
-                strLangStyles += projSettings.Vernacular.HtmlStyle(CstrLangVernacularStyleClassName);
+                strLangStyles += projSettings.Vernacular.HtmlStyle(CstrLangVernacularStyleClassName, "Vernacular.gif");
             if (projSettings.NationalBT.HasData)
-                strLangStyles += projSettings.NationalBT.HtmlStyle(CstrLangNationalBtStyleClassName);
+                strLangStyles += projSettings.NationalBT.HtmlStyle(CstrLangNationalBtStyleClassName, "NationalBt.gif");
             if (projSettings.InternationalBT.HasData)
-                strLangStyles += projSettings.InternationalBT.HtmlStyle(CstrLangInternationalBtStyleClassName);
+                strLangStyles += projSettings.InternationalBT.HtmlStyle(CstrLangInternationalBtStyleClassName, "EnglishBt.gif");
             if (projSettings.FreeTranslation.HasData)
-                strLangStyles += projSettings.FreeTranslation.HtmlStyle(CstrLangFreeTranslationStyleClassName);
+                strLangStyles += projSettings.FreeTranslation.HtmlStyle(CstrLangFreeTranslationStyleClassName, "FreeTranslation.gif");
             if ((Localizer.Default != null) &&
                 (Localizer.Default.LocLanguage != null) &&
                 (Localizer.Default.LocLanguage.Font != null))
@@ -609,7 +617,7 @@ namespace OneStoryProjectEditor
                                                CstrLangLocalizationStyleClassName,
                                                Localizer.Default.LocLanguage.Font.Name,
                                                Localizer.Default.LocLanguage.Font.SizeInPoints);
-                strLangStyles += projSettings.Localization.HtmlStyle(CstrLangLocalizationEdgeStyleClassName);
+                strLangStyles += projSettings.Localization.HtmlStyle(CstrLangLocalizationEdgeStyleClassName, null);
             }
 
             return String.Format(Properties.Resources.HTML_StyleDefinition,

@@ -54,7 +54,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\output\$(Configuration)</OutputPath>
-    <DefineConstants>TRACE;DEBUG;OnGecko</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;UsingHtmlDisplayForStoryBt</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -218,17 +218,8 @@
     <Compile Include="AnchorAddCommentForm.Designer.cs">
       <DependentUpon>AnchorAddCommentForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AnchorControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="AnchorControl.Designer.cs">
-      <DependentUpon>AnchorControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="AnchorsData.cs" />
     <Compile Include="ConsultNoteDataConverter.cs" />
-    <Compile Include="CtrlTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="DynamicTableLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -286,12 +277,6 @@
     </Compile>
     <Compile Include="InstallerClass.Designer.cs">
       <DependentUpon>InstallerClass.cs</DependentUpon>
-    </Compile>
-    <Compile Include="LineFlowLayoutPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="LineFlowLayoutPanel.Designer.cs">
-      <DependentUpon>LineFlowLayoutPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="LnCNotePrintForm.cs">
       <SubType>Form</SubType>
@@ -363,12 +348,6 @@
       <DependentUpon>ReorderWordsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="RsaEncryptionClass.cs" />
-    <Compile Include="SearchForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SearchForm.Designer.cs">
-      <DependentUpon>SearchForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="ProjectFacilitatorRequirementsCheck.cs" />
     <Compile Include="ConsultantInTrainingRequirementsCheck.cs" />
     <Compile Include="SetCitTasksForm.cs">
@@ -420,18 +399,6 @@
       <DependentUpon>StoryProject.xsd</DependentUpon>
     </Compile>
     <Compile Include="StoryStageLogic.cs" />
-    <Compile Include="ResizableControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ResizableControl.designer.cs">
-      <DependentUpon>ResizableControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MultiLineControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="MultiLineControl.Designer.cs">
-      <DependentUpon>MultiLineControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="StoryEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -455,9 +422,6 @@
     <EmbeddedResource Include="CorrectSourceWordForm.resx">
       <DependentUpon>CorrectSourceWordForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CtrlTextBox.resx">
-      <DependentUpon>CtrlTextBox.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="CutItemPicker.resx">
       <DependentUpon>CutItemPicker.cs</DependentUpon>
     </EmbeddedResource>
@@ -467,10 +431,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AnchorAddCommentForm.resx">
       <DependentUpon>AnchorAddCommentForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AnchorControl.resx">
-      <DependentUpon>AnchorControl.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GeckoTestForm.resx">
@@ -495,18 +455,11 @@
     <EmbeddedResource Include="HtmlStoryBtControl.resx">
       <DependentUpon>HtmlStoryBtControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LineFlowLayoutPanel.resx">
-      <DependentUpon>LineFlowLayoutPanel.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="LnCNotePrintForm.resx">
       <DependentUpon>LnCNotePrintForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LnCNotesForm.resx">
       <DependentUpon>LnCNotesForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MultiLineControl.resx">
-      <DependentUpon>MultiLineControl.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NetBibleFootnoteTooltip.resx">
       <DependentUpon>NetBibleFootnoteTooltip.cs</DependentUpon>
@@ -534,13 +487,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ReorderWordsForm.resx">
       <DependentUpon>ReorderWordsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ResizableControl.resx">
-      <DependentUpon>ResizableControl.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SearchForm.resx">
-      <DependentUpon>SearchForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SetCitTasksForm.resx">
       <DependentUpon>SetCitTasksForm.cs</DependentUpon>
@@ -573,10 +519,6 @@
       <DependentUpon>StoryFrontMatterForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="StoryLineControl.resx">
-      <DependentUpon>StoryLineControl.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="TaskBarControl.resx">
       <DependentUpon>TaskBarControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -585,10 +527,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TeamMemberForm.resx">
       <DependentUpon>TeamMemberForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TestingQuestionControl.resx">
-      <DependentUpon>TestingQuestionControl.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MemberPicker.resx">
@@ -600,10 +538,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TransitionHistoryForm.resx">
       <DependentUpon>TransitionHistoryForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VerseBtControl.resx">
-      <DependentUpon>VerseBtControl.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ViewEnableForm.resx">
       <DependentUpon>ViewEnableForm.cs</DependentUpon>
@@ -627,12 +561,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="StoryLineControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="StoryLineControl.Designer.cs">
-      <DependentUpon>StoryLineControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="StringTransfer.cs" />
     <Compile Include="TaskBarControl.cs">
       <SubType>UserControl</SubType>
@@ -655,12 +583,6 @@
     </Compile>
     <Compile Include="TermRendering.cs" />
     <Compile Include="TermRenderings.cs" />
-    <Compile Include="TestingQuestionControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TestingQuestionControl.Designer.cs">
-      <DependentUpon>TestingQuestionControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="TestQuestionsData.cs" />
     <Compile Include="MemberPicker.cs">
       <SubType>Form</SubType>
@@ -679,12 +601,6 @@
     </Compile>
     <Compile Include="TransitionHistoryForm.Designer.cs">
       <DependentUpon>TransitionHistoryForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="VerseBtControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="VerseBtControl.Designer.cs">
-      <DependentUpon>VerseBtControl.cs</DependentUpon>
     </Compile>
     <Compile Include="VerseData.cs" />
     <Compile Include="ViewEnableForm.cs">
@@ -726,6 +642,21 @@
     <Content Include="BiblicalTerms\Term.PNG">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="css\StoryBt.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="html\StoryBt.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="js\jquery.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="js\StoryBt.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="js\StoryBtPs.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="LanguageCodes.tab" />
     <None Include="OneStory.ico" />
     <None Include="..\Setup OneStory Editor\SetSwordPath.wxs">
@@ -752,6 +683,18 @@
     <Content Include="Resources\1.3 to 1.4.xslt" />
     <None Include="Resources\Print.bmp" />
     <None Include="Resources\PrintHS.png" />
+    <None Include="Resources\EnglishBt.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\FreeTranslation.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\NationalBt.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Vernacular.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="StageTransitions.xml" />
     <None Include="Properties\app.manifest" />
     <None Include="Resources\DragDropHandle.bmp" />

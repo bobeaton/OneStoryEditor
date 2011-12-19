@@ -24,8 +24,7 @@ namespace OneStoryProjectEditor
             return strUnicodeName;
         }
 
-        private const string CstrSpace = "<Space>";
-        private Font _font;
+        private readonly Font _font;
 
         private ReorderWordsForm()
         {
@@ -33,14 +32,14 @@ namespace OneStoryProjectEditor
             Localizer.Ctrl(this);
         }
 
-        public ReorderWordsForm(CtrlTextBox ctrlTextBox)
+        public ReorderWordsForm(StringTransfer stringTransfer, Font font, string strFullStop)
         {
             InitializeComponent();
             Localizer.Ctrl(this);
 
-            _font = ctrlTextBox.Font;
-            char[] achToIgnore = VersesData.GetSplitChars(ctrlTextBox._strFullStop);
-            string[] astrWords = ctrlTextBox.MyStringTransfer.GetWords(achToIgnore);
+            _font = font;
+            char[] achToIgnore = VersesData.GetSplitChars(strFullStop);
+            string[] astrWords = stringTransfer.GetWords(achToIgnore);
                         
             foreach (string strWord in astrWords)
             {
@@ -61,7 +60,7 @@ namespace OneStoryProjectEditor
                 toolTip.SetToolTip(btn, GetUnicodeName(c));
             }
 
-            string strRightEdgePunctuation = ctrlTextBox._strFullStop + Properties.Settings.Default.RightEdgeQuotes;
+            string strRightEdgePunctuation = strFullStop + Properties.Settings.Default.RightEdgeQuotes;
             foreach (char c in strRightEdgePunctuation)
             {
                 Button btn = AddPunctuationButton(c.ToString(), BtnPunctuationClickRightEdge);

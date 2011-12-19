@@ -124,6 +124,7 @@ namespace OneStoryProjectEditor
 
             ssidx = ssidx ?? BoxesToSearch[TheSE.TheCurrentStory.Name];
 
+#if !UsingHtmlDisplayForStoryBt
             // check to see if we have a starting place...
             if (CtrlTextBox._inTextBox != null)
                 for (int i = 0; i < ssidx.Count; i++)
@@ -139,17 +140,19 @@ namespace OneStoryProjectEditor
                         return;
                     }
                 }
-
+#endif
             // otherwise, just start at the 0th verse of *this* story
             nStoryIndex = LastStoryIndex = BoxesToSearch.IndexOf(ssidx);
             nCtxBoxIndex = LastCtxBoxIndex = nCharIndex = LastCharIndex = 0;
         }
 
+#if !UsingHtmlDisplayForStoryBt
         protected int CaptureNextStartingCharIndex(CtrlTextBox ctb)
         {
             return ctb.SelectionStart +
                    ctb.SelectionLength;
         }
+#endif
 
         protected static string UpdateComboBox(ComboBox cb)
         {

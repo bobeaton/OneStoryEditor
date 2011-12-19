@@ -66,26 +66,26 @@ namespace OneStoryProjectEditor
             return false;
         }
 
-        public Dictionary<string,LnCNote> FindHits(string strSearchString, StoryEditor.TextFieldType eFieldType)
+        public Dictionary<string,LnCNote> FindHits(string strSearchString, StoryEditor.TextFields eFieldType)
         {
             var map = new Dictionary<string, LnCNote>();
             strSearchString = strSearchString.Trim();
 
             foreach (LnCNote anLnCnote in this)
             {
-                switch (eFieldType)
+                switch (eFieldType & StoryEditor.TextFields.Languages)
                 {
-                    case StoryEditor.TextFieldType.Vernacular:
+                    case StoryEditor.TextFields.Vernacular:
                         if (StringContains(anLnCnote.VernacularRendering, strSearchString))
                             AddWithUniqueKey(map, anLnCnote.VernacularRendering, anLnCnote);
                         break;
 
-                    case StoryEditor.TextFieldType.NationalBt:
+                    case StoryEditor.TextFields.NationalBt:
                         if (StringContains(anLnCnote.NationalBtRendering, strSearchString))
                             AddWithUniqueKey(map, anLnCnote.NationalBtRendering, anLnCnote);
                         break;
 
-                    case StoryEditor.TextFieldType.InternationalBt:
+                    case StoryEditor.TextFields.InternationalBt:
                         if (StringContains(anLnCnote.InternationalBtRendering, strSearchString))
                             AddWithUniqueKey(map, anLnCnote.InternationalBtRendering, anLnCnote);
                         break;

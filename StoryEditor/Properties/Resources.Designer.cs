@@ -199,6 +199,20 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap EnglishBt {
+            get {
+                object obj = ResourceManager.GetObject("EnglishBt", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FreeTranslation {
+            get {
+                object obj = ResourceManager.GetObject("FreeTranslation", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap gradient {
             get {
                 object obj = ResourceManager.GetObject("gradient", resourceCulture);
@@ -273,11 +287,11 @@ namespace OneStoryProjectEditor.Properties {
         ///  window.external.OnVerseLineJump(link.name);
         ///  return false; // cause the href navigation to not happen
         ///}
-        ///function OnKeyDown()
+        ///function OnKeyDown(textarea)
         ///{
         ///  if (window.event.keyCode == 116)
         ///  {
-        ///    // let the form handle  [rest of string was truncated]&quot;;.
+        ///    // let the form [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string HTML_DOM_PrefixPresentation {
             get {
@@ -315,12 +329,16 @@ namespace OneStoryProjectEditor.Properties {
         ///   Looks up a localized string similar to &lt;html&gt;
         ///{0}
         ///&lt;head&gt;
+        ///&lt;script type=&quot;text/javascript&quot;&gt;
         ///{1}
+        ///&lt;/script&gt;
         ///&lt;/head&gt;
         ///&lt;body&gt;
         ///{2}
         ///&lt;/body&gt;
+        ///&lt;script&gt;
         ///{3}
+        ///&lt;/script&gt;
         ///&lt;/html&gt;.
         /// </summary>
         internal static string HTML_HeaderPresentation {
@@ -422,17 +440,14 @@ namespace OneStoryProjectEditor.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;script&gt;
-        ///var buttons = document.getElementsByTagName(&quot;button&quot;);
-        ///for (var i=0; i &lt; buttons.length; i++)
-        ///{
-        ///  buttons[i].onmouseup = function(){return DoOnMouseUp(this.id);};
-        ///}
-        ///var textareas = document.getElementsByTagName(&quot;textarea&quot;);
+        ///var textareas = document.getElementsByTagName(&quot;input&quot;);
         ///for (var i=0; i &lt; textareas.length; i++)
         ///{
-        ///  textareas[i].onmouseup = function(){return DoOnMouseUp(this.id);};
-        ///}
-        ///&lt;/script&gt;.
+        ///  textareas[i].onchange = function(){return window.external.TextareaOnChange(this.id, this.value);};
+        ///  textareas[i].onblur = function(){return window.external.TextareaOnBlur(this.id, this.value);};
+        ///  textareas[i].onselect = function(){return CallTextareaOnSelect(this);};
+        ///  textareas[i].onfocus = function(){return window.external.TextareaOnFocus(this.id);};
+        ///  textareas[i].onkeydown = function() [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string HTML_ScriptPostFix {
             get {
@@ -441,11 +456,11 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;style TYPE=&quot;text/css&quot;&gt;
+        ///   Looks up a localized string similar to &lt;style type=&quot;text/css&quot;&gt;
         ///  body    {{ margin:0 }}
         ///  textarea {{ 
         ///      width:100%; 
-        ///      overflow:visible
+        ///      overflow:visible;
         ///  }}
         ///  table {{
         ///   font-size: {0};
@@ -456,7 +471,10 @@ namespace OneStoryProjectEditor.Properties {
         ///    padding-bottom: 0;
         ///    padding-top: 0;
         ///  }}      
-        ///{2}
+        ///  {2}
+        ///  .hasPlaceholder {{
+        ///     color: #777;
+        ///  }}
         ///&lt;/style&gt;.
         /// </summary>
         internal static string HTML_StyleDefinition {
@@ -656,7 +674,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; class=&quot;{1}&quot; onKeyUp=&quot;return window.external.TextareaOnKeyUp(this.id, this.value);&quot;&gt;{2}&lt;/textarea&gt;.
+        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; class=&quot;{1}&quot; placeholder=&quot;{2}&quot;&gt;{3}&lt;/textarea&gt;.
         /// </summary>
         internal static string HTML_Textarea {
             get {
@@ -1159,6 +1177,37 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to /*!
+        /// * jQuery JavaScript Library v1.4.2
+        /// * http://jquery.com/
+        /// *
+        /// * Copyright 2010, John Resig
+        /// * Dual licensed under the MIT or GPL Version 2 licenses.
+        /// * http://jquery.org/license
+        /// *
+        /// * Includes Sizzle.js
+        /// * http://sizzlejs.com/
+        /// * Copyright 2010, The Dojo Foundation
+        /// * Released under the MIT, BSD, and GPL Licenses.
+        /// *
+        /// * Date: Sat Feb 13 22:33:48 2010 -0500
+        /// */
+        ///(function(A,w){function ma(){if(!c.isReady){try{s.documentElement.doScroll(&quot;left&quot;)}catch(a){setTimeout(ma,1);return}c.ready()}}function Qa(a,b){b [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string jquery_min {
+            get {
+                return ResourceManager.GetString("jquery_min", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Bitmap NationalBt {
+            get {
+                object obj = ResourceManager.GetObject("NationalBt", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
         ///&lt;!DOCTYPE stylesheet [
         ///&lt;!ENTITY cr &quot;&amp;#xD;&amp;#xA;&quot;&gt;
@@ -1350,6 +1399,79 @@ namespace OneStoryProjectEditor.Properties {
         internal static string StageTransition20Update {
             get {
                 return ResourceManager.GetString("StageTransition20Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///&lt;html&gt;
+        ///    &lt;head&gt;
+        ///        &lt;title&gt;&lt;/title&gt;
+        ///        &lt;script type=&quot;text/javascript&quot;&gt;
+        ///{0}
+        ///        &lt;/script&gt;
+        ///        &lt;script type=&quot;text/javascript&quot;&gt;
+        ///{1}
+        ///        &lt;/script&gt;
+        ///{2}
+        ///    &lt;/head&gt;
+        ///    &lt;body&gt;
+        ///{3}
+        ///    &lt;/body&gt;
+        ///{4}
+        ///&lt;/html&gt;.
+        /// </summary>
+        internal static string StoryBtHtml {
+            get {
+                return ResourceManager.GetString("StoryBtHtml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to function OnBibRefJump(btn) {
+        ///    window.external.OnBibRefJump(btn.id);
+        ///    return false; // cause the href navigation to not happen
+        ///}
+        ///function OnLineOptionsButton(btn)
+        ///{
+        ///    window.external.OnLineOptionsButton(btn.id);
+        ///    return false;
+        ///}
+        ///function OnVerseLineJump(link)
+        ///{
+        ///    window.external.OnVerseLineJump(link.name);
+        ///    return false; // cause the href navigation to not happen
+        ///}
+        ///function CallOnFocus(textarea) {
+        ///    return window.external.TextareaOnFocus(textarea.id);
+        ///}
+        ///function CallOnBlur( [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string StoryBtJs {
+            get {
+                return ResourceManager.GetString("StoryBtJs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to var textareas = document.getElementsByTagName(&quot;textarea&quot;);
+        ///for (var i=0; i &lt; textareas.length; i++)
+        ///{
+        ///    textareas[i].onchange = function() { return window.external.TextareaOnChange(this.id, this.value); };
+        ///    textareas[i].onselect = function() { return CallTextareaOnSelect(this); };
+        ///}
+        ///.
+        /// </summary>
+        internal static string StoryBtPsJs {
+            get {
+                return ResourceManager.GetString("StoryBtPsJs", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Vernacular {
+            get {
+                object obj = ResourceManager.GetObject("Vernacular", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

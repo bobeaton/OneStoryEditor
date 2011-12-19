@@ -1870,7 +1870,7 @@ function OnVerseLineJump(link)
   window.external.OnVerseLineJump(link.name);
   return false; // cause the href navigation to not happen
 }
-function OnKeyDown()
+function OnKeyDown(textarea)
 {
   if (window.event.keyCode == 116)
   {
@@ -1882,11 +1882,31 @@ function OnKeyDown()
     window.event.returnValue = false;
     return false;
   }
+  else 
+  {
+    if (textarea.value == '') 
+	{
+      textarea.style.visibility = 'visible';
+    }
+    else 
+	{
+      textarea.style.visibility = 'hidden';
+    }
+  }
 }
-function DoOnMouseUp(strId)
+function CallTextareaOnSelect(textarea) 
 {
-  window.external.OnDoOnMouseUp(strId);
-  return false;
+	if (!document.selection) {
+		alert("document.selection is null");
+		return false;
+	}
+	if (!textarea.contentWindow) {
+		alert("textarea.contentWindow is null");
+		return false;
+	}
+	var allText = textarea.contentWindow.document.selection.createRange().parentElement().innerText;
+	var selText = textarea.contentWindow.document.selection.createRange().text;
+	return TextareaOnSelect(textarea.id, allText.indexof(selText), selText.length);
 }
 &lt;/script&gt;</value>
   </data>
@@ -1908,12 +1928,16 @@ function DoOnMouseUp(strId)
     <value>&lt;html&gt;
 {0}
 &lt;head&gt;
+&lt;script type="text/javascript"&gt;
 {1}
+&lt;/script&gt;
 &lt;/head&gt;
 &lt;body&gt;
 {2}
 &lt;/body&gt;
+&lt;script&gt;
 {3}
+&lt;/script&gt;
 &lt;/html&gt;</value>
   </data>
   <data name="HTML_HeaderStoryBt" xml:space="preserve">
@@ -1961,11 +1985,11 @@ initContextMenu();
     <value>&lt;p id="{0}" class="{1}"&gt;{2}&lt;/p&gt;</value>
   </data>
   <data name="HTML_StyleDefinition" xml:space="preserve">
-    <value>&lt;style TYPE="text/css"&gt;
+    <value>&lt;style type="text/css"&gt;
   body    {{ margin:0 }}
   textarea {{ 
       width:100%; 
-      overflow:visible
+      overflow:visible;
   }}
   table {{
    font-size: {0};
@@ -1976,7 +2000,10 @@ initContextMenu();
     padding-bottom: 0;
     padding-top: 0;
   }}      
-{2}
+  {2}
+  .hasPlaceholder {{
+     color: #777;
+  }}
 &lt;/style&gt;</value>
   </data>
   <data name="HTML_Table" xml:space="preserve">
@@ -2039,7 +2066,7 @@ initContextMenu();
     <value>&lt;tr id="{0}" BGCOLOR="{1}"&gt;{2}&lt;/tr&gt;    </value>
   </data>
   <data name="HTML_Textarea" xml:space="preserve">
-    <value>&lt;textarea id="{0}" class="{1}" onKeyUp="return window.external.TextareaOnKeyUp(this.id, this.value);"&gt;{2}&lt;/textarea&gt;</value>
+    <value>&lt;textarea id="{0}" class="{1}" placeholder="{2}"&gt;{3}&lt;/textarea&gt;</value>
   </data>
   <data name="HTML_TextareaWithRefDrop" xml:space="preserve">
     <value>&lt;textarea id="{0}" class="{1}" onKeyUp="return window.external.TextareaOnKeyUp(this.id, this.value);" ondragover="window.event.returnValue=false" ondrop="window.external.CopyScriptureReference(this.id)" onselect="this.focus();"&gt;{2}&lt;/textarea&gt;</value>
@@ -2187,15 +2214,14 @@ eater Panorama
   </data>
   <data name="HTML_ScriptPostFix" xml:space="preserve">
     <value>&lt;script&gt;
-var buttons = document.getElementsByTagName("button");
-for (var i=0; i &lt; buttons.length; i++)
-{
-  buttons[i].onmouseup = function(){return DoOnMouseUp(this.id);};
-}
-var textareas = document.getElementsByTagName("textarea");
+var textareas = document.getElementsByTagName("input");
 for (var i=0; i &lt; textareas.length; i++)
 {
-  textareas[i].onmouseup = function(){return DoOnMouseUp(this.id);};
+  textareas[i].onchange = function(){return window.external.TextareaOnChange(this.id, this.value);};
+  textareas[i].onblur = function(){return window.external.TextareaOnBlur(this.id, this.value);};
+  textareas[i].onselect = function(){return CallTextareaOnSelect(this);};
+  textareas[i].onfocus = function(){return window.external.TextareaOnFocus(this.id);};
+  textareas[i].onkeydown = function(){return OnKeyDown(this);};
 }
 &lt;/script&gt;</value>
   </data>
@@ -2209,5 +2235,30 @@ for (var i=0; i &lt; textareas.length; i++)
   </data>
   <data name="PrintHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PrintHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnglishBt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnglishBt.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FreeTranslation" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FreeTranslation.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NationalBt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NationalBt.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Vernacular" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Vernacular.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="StoryBtJs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\js\storybt.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="StoryBtPsJs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\js\storybtps.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="jquery_min" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\js\jquery.min.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="StoryBtHtml" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\html\storybt.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

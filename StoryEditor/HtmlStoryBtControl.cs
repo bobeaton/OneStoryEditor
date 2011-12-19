@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using NetLoc;
+using SilEncConverters40;
 
 namespace OneStoryProjectEditor
 {
@@ -11,6 +13,18 @@ namespace OneStoryProjectEditor
         public const string CstrFieldNameVernacular = "Vernacular";
         public const string CstrFieldNameNationalBt = "NationalBT";
         public const string CstrFieldNameInternationalBt = "InternationalBT";
+
+        public const string CstrFieldNameStoryLine = "StoryLine";
+        public const string CstrFieldNameAnchors = "Anchors";
+        public const string CstrFieldNameExegeticalHelp = "ExegeticalHelp";
+        public const string CstrFieldNameExegeticalHelpLabel = "ExegeticalHelpLabel";
+        public const string CstrFieldNameRetellings = "Retellings";
+        public const string CstrFieldNameTestQuestions = "TestQuestions";
+
+        public static DirectableEncConverter TransliteratorVernacular;
+        public static DirectableEncConverter TransliteratorNationalBt;
+        public static DirectableEncConverter TransliteratorInternationalBt;
+        public static DirectableEncConverter TransliteratorFreeTranslation;
 
         public VerseData.ViewSettings ViewSettings { get; set; }
         public StoryData ParentStory { get; set; }
@@ -75,6 +89,25 @@ namespace OneStoryProjectEditor
                 );
         }
 
+        public static DialogResult QueryAboutHidingVerseInstead()
+        {
+            return LocalizableMessageBox.Show(
+                String.Format(Localizer.Str("This line isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around to know what it used to be.{0}{0}Click 'Yes' to hide the line or click 'No' to delete it?"),
+                              Environment.NewLine),
+                StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
+        }
+
+        public static bool UserConfirmDeletion
+        {
+            get
+            {
+                return (LocalizableMessageBox.Show(
+                    Localizer.Str("Are you sure you want to delete this line (and all associated consultant notes, etc)?"),
+                    StoryEditor.OseCaption,
+                    MessageBoxButtons.YesNoCancel) == DialogResult.Yes);
+            }
+        }
+
         public void DeleteVerse(int nVerseIndex)
         {
             StoryEditor theSE;
@@ -84,7 +117,7 @@ namespace OneStoryProjectEditor
             VerseData verseData = Verse(nVerseIndex);
             if (verseData.HasData)
             {
-                DialogResult res = VerseBtControl.QueryAboutHidingVerseInstead();
+                DialogResult res = QueryAboutHidingVerseInstead();
 
                 if (res == DialogResult.Yes)
                 {
@@ -96,7 +129,7 @@ namespace OneStoryProjectEditor
                     return;
             }
 
-            if (VerseBtControl.UserConfirmDeletion)
+            if (UserConfirmDeletion)
             {
                 theSE.DeleteVerse(verseData);
             }
@@ -150,7 +183,36 @@ namespace OneStoryProjectEditor
             TheSE.FocusOnVerse(nVerseIndex, true, true);
         }
 
-        public bool TextareaOnKeyUp(string strId, string strText)
+        public new string GetSelectedText
+        {
+            get 
+            {
+                return GetSelectedText(GetStringTransferOfLastTextAreaInFocus);
+            }
+        }
+
+        public StringTransfer GetStringTransferOfLastTextAreaInFocus
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(LastTextareaInFocus))
+                    return null;
+
+                int nVerseIndex, nItemIndex, nSubItemIndex;
+                string strDataType, strLanguageColumn;
+                if (!GetIndicesFromId(LastTextareaInFocus, out nVerseIndex, out strDataType,
+                                      out nItemIndex, out nSubItemIndex, out strLanguageColumn))
+                    return null;
+
+
+                return GetStringTransfer(nVerseIndex, strDataType,
+                                         nItemIndex, nSubItemIndex, strLanguageColumn);
+            }
+        }
+
+        public static string LastTextareaInFocus { get; set; }
+
+        public bool TextareaOnChange(string strId, string strText)
         {
             int nVerseIndex, nItemIndex, nSubItemIndex;
             string strDataType, strLanguageColumn;
@@ -176,6 +238,22 @@ namespace OneStoryProjectEditor
             return true;
         }
 
+        public bool TextareaOnBlur(string strId, string strText)
+        {
+            return false;
+        }
+
+        public bool TextareaOnFocus(string strId)
+        {
+            LastTextareaInFocus = strId;
+            return false;
+        }
+
+        public bool TextareaOnSelect(string strId, int nStartIndex, int nLength)
+        {
+            return false;
+        }
+
         public bool OnLineOptionsButton(string strId)
         {
             if (Document == null)
@@ -194,9 +272,9 @@ namespace OneStoryProjectEditor
 
         private bool IsLineOptionsButton(string strId)
         {
-            var astr = strId.Split(_achDelim);
+            var astr = strId.Split(AchDelim);
             return ((astr.Length == 2) &&
-                    (astr[0] == VersesData.ButtonId(1).Split(_achDelim)[0]));
+                    (astr[0] == VersesData.ButtonId(1).Split(AchDelim)[0]));
         }
 
         /*
@@ -232,18 +310,18 @@ namespace OneStoryProjectEditor
             LineData lineData;
             switch(strDataType)
             {
-                case VerseBtControl.CstrFieldNameStoryLine:
+                case HtmlStoryBtControl.CstrFieldNameStoryLine:
                     lineData = verseData.StoryLine;
                     break;
 
-                case VerseBtControl.CstrFieldNameExegeticalHelp:
+                case HtmlStoryBtControl.CstrFieldNameExegeticalHelp:
                     return verseData.ExegeticalHelpNotes[nItemIndex];
 
                 case RetellingsData.CstrElementLableRetelling:
                     lineData = verseData.Retellings[nItemIndex];
                     break;
 
-                case VerseBtControl.CstrFieldNameTestQuestions:
+                case HtmlStoryBtControl.CstrFieldNameTestQuestions:
                     lineData = verseData.TestQuestions[nItemIndex].TestQuestionLine;
                     break;
 
@@ -271,7 +349,7 @@ namespace OneStoryProjectEditor
             return null;
         }
 
-        protected bool GetIndicesFromId(string strId,
+        protected static bool GetIndicesFromId(string strId,
             out int nLineIndex, out string strDataType, out int nItemIndex,
             out int nSubItemIndex, out string strLanguageColumn)
         {
@@ -284,11 +362,11 @@ namespace OneStoryProjectEditor
                 //  dataType (e.g. "Retelling", "StoryLine", etc)
                 //  itemNum (e.g. "ret *1*")
                 //  styleName (e.g. tells how to render it; font, etc)
-                string[] aVerseConversationIndices = strId.Split(_achDelim);
-                System.Diagnostics.Debug.Assert(((aVerseConversationIndices[0] == "ta") &&
+                string[] aVerseConversationIndices = strId.Split(AchDelim);
+                System.Diagnostics.Debug.Assert(((aVerseConversationIndices[0] == CstrTextAreaPrefix) &&
                                                  (aVerseConversationIndices.Length == 5))
                                                 ||
-                                                ((aVerseConversationIndices[0] == "btn") &&
+                                                ((aVerseConversationIndices[0] == CstrButtonPrefix) &&
                                                  (aVerseConversationIndices.Length == 3)));
 
                 nLineIndex = Convert.ToInt32(aVerseConversationIndices[1]);
@@ -353,7 +431,7 @@ namespace OneStoryProjectEditor
                 //  anc_<lineNum>
                 // where:
                 //  lineNum (0-GTQ line, ln 1, etc)
-                string[] aVerseConversationIndices = strId.Split(_achDelim);
+                string[] aVerseConversationIndices = strId.Split(AchDelim);
                 System.Diagnostics.Debug.Assert((aVerseConversationIndices[0] == "anc") &&
                                                 (aVerseConversationIndices.Length == 2));
 

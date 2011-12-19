@@ -14,13 +14,14 @@ namespace OneStoryProjectEditor
     {
         public string MemberId { get; set; }
 
-        public LineMemberData(LineMemberData rhs)
-            : base(rhs)
+        public LineMemberData(LineMemberData rhs, StoryEditor.TextFields whichField)
+            : base(rhs, whichField)
         {
             MemberId = rhs.MemberId;
         }
 
-        public LineMemberData(string strMemberId)
+        public LineMemberData(string strMemberId, StoryEditor.TextFields whichField)
+            : base(whichField)
         {
             MemberId = strMemberId;
         }
@@ -69,11 +70,12 @@ namespace OneStoryProjectEditor
         public abstract string LabelTextFormat { get; }
         protected abstract VerseData.ViewSettings.ItemToInsureOn AssociatedViewMenu { get; }
         protected abstract bool IsLookInPropertySet(VerseData.SearchLookInProperties findProperties);
+        protected abstract StoryEditor.TextFields WhichField { get; }
 
         protected MultipleLineDataConverter(IEnumerable<LineMemberData> rhs)
         {
             foreach (LineMemberData aLineData in rhs)
-                Add(new LineMemberData(aLineData));
+                Add(new LineMemberData(aLineData, WhichField));
         }
 
         protected MultipleLineDataConverter()
@@ -125,7 +127,7 @@ namespace OneStoryProjectEditor
             LineMemberData theLineData = TryGetValue(strMemberId);
             if (theLineData == null)
             {
-                theLineData = new LineMemberData(strMemberId);
+                theLineData = new LineMemberData(strMemberId, WhichField);
                 Add(theLineData);
             }
             return theLineData;
@@ -319,7 +321,7 @@ namespace OneStoryProjectEditor
                 strRow += PresentationHtmlRow(nVerseIndex, nTestNum,
                     strVernacular, strNationalBT, strInternationalBT,
                     bShowVernacular, bShowNationalBT, bShowInternationalBT,
-                    bUseTextAreas);
+                    theParentLineData, bUseTextAreas);
             }
 
             // finally, everything that is left in the child is new
@@ -336,7 +338,7 @@ namespace OneStoryProjectEditor
                     strRow += PresentationHtmlRow(nVerseIndex, nTestNum,
                                                   strVernacular, strNationalBT, strInternationalBT,
                                                   bShowVernacular, bShowNationalBT, bShowInternationalBT,
-                                                  bUseTextAreas);
+                                                  theChildLineData, bUseTextAreas);
                 }
             }
 
@@ -369,7 +371,7 @@ namespace OneStoryProjectEditor
                 strRow += PresentationHtmlRow(nVerseIndex, nTestNum,
                                               strVernacular, strNationalBT, strEnglishBT,
                                               bShowVernacular, bShowNationalBT, bShowInternationalBT,
-                                              bUseTextAreas);
+                                              theLineData, bUseTextAreas);
             }
 
             if (!String.IsNullOrEmpty(strRow))
@@ -386,7 +388,7 @@ namespace OneStoryProjectEditor
         protected string PresentationHtmlRow(int nVerseIndex, int nTestNum,
             string strVernacular, string strNationalBT, string strInternationalBT,
             bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT,
-            bool bUseTextAreas)
+            LineMemberData theLineOfData, bool bUseTextAreas)
         {
             string strRow = String.Format(Properties.Resources.HTML_TableCellNoWrap,
                                           String.Format(LabelTextFormat, nTestNum + 1));
@@ -398,35 +400,29 @@ namespace OneStoryProjectEditor
 
             if (bShowVernacular)
             {
-                strRow += VerseData.FormatLanguageColumn(nVerseIndex,
-                                                         nNumCols,
-                                                         InstanceElementName,
-                                                         nTestNum,
-                                                         StoryData.CstrLangVernacularStyleClassName,
-                                                         strVernacular,
-                                                         bUseTextAreas);
+                strRow += theLineOfData.Vernacular.FormatLanguageColumnHtml(nVerseIndex,
+                                                                            nTestNum,
+                                                                            nNumCols,
+                                                                            strVernacular,
+                                                                            bUseTextAreas);
             }
 
             if (bShowNationalBT)
             {
-                strRow += VerseData.FormatLanguageColumn(nVerseIndex,
-                                                         nNumCols,
-                                                         InstanceElementName,
-                                                         nTestNum,
-                                                         StoryData.CstrLangNationalBtStyleClassName,
-                                                         strNationalBT,
-                                                         bUseTextAreas);
+                strRow += theLineOfData.NationalBt.FormatLanguageColumnHtml(nVerseIndex,
+                                                                            nTestNum,
+                                                                            nNumCols,
+                                                                            strNationalBT,
+                                                                            bUseTextAreas);
             }
 
             if (bShowInternationalBT)
             {
-                strRow += VerseData.FormatLanguageColumn(nVerseIndex,
-                                                         nNumCols,
-                                                         InstanceElementName,
-                                                         nTestNum,
-                                                         StoryData.CstrLangInternationalBtStyleClassName,
-                                                         strInternationalBT,
-                                                         bUseTextAreas);
+                strRow += theLineOfData.InternationalBt.FormatLanguageColumnHtml(nVerseIndex,
+                                                                                 nTestNum,
+                                                                                 nNumCols,
+                                                                                 strInternationalBT,
+                                                                                 bUseTextAreas);
             }
 
             // make a sub-table out of all this
@@ -524,6 +520,11 @@ namespace OneStoryProjectEditor
         {
             return findProperties.Retellings;
         }
+
+        protected override StoryEditor.TextFields WhichField
+        {
+            get { return StoryEditor.TextFields.Retelling; }
+        }
     }
 
     public class AnswersData : MultipleLineDataConverter
@@ -590,6 +591,11 @@ namespace OneStoryProjectEditor
         protected override bool IsLookInPropertySet(VerseData.SearchLookInProperties findProperties)
         {
             return findProperties.TestAs;
+        }
+
+        protected override StoryEditor.TextFields WhichField
+        {
+            get { return StoryEditor.TextFields.TestQuestionAnswer; }
         }
 
         public bool DoesReferenceTqUns(string strMemberId)

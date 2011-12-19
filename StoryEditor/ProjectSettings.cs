@@ -502,15 +502,15 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            public string HtmlStyle(string strLangCat)
+            public string HtmlStyle(string strLangCat, string strBackgroundImageName)
             {
                 string strHtmlStyle = String.Format(Properties.Resources.HTML_LangStyle,
-                    strLangCat,
-                    FontToUse.Name,
-                    FontToUse.SizeInPoints,
-                    VerseData.HtmlColor(FontColor),
-                    (DoRtl) ? "rtl" : "ltr",
-                    (DoRtl) ? "right" : "left");
+                                                    strLangCat,
+                                                    FontToUse.Name,
+                                                    FontToUse.SizeInPoints,
+                                                    VerseData.HtmlColor(FontColor),
+                                                    (DoRtl) ? "rtl" : "ltr",
+                                                    (DoRtl) ? "right" : "left");
 
                 return strHtmlStyle;
             }

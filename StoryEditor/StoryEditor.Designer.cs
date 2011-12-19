@@ -178,7 +178,9 @@ namespace OneStoryProjectEditor
             this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
             this.linkLabelTasks = new System.Windows.Forms.LinkLabel();
             this.linkLabelVerseBT = new System.Windows.Forms.LinkLabel();
+#if !UsingHtmlDisplayForStoryBt
             this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
+#endif
             this.textBoxStoryVerse = new System.Windows.Forms.TextBox();
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.htmlConsultantNotesControl = new OneStoryProjectEditor.HtmlConsultantNotesControl();
@@ -1557,7 +1559,9 @@ namespace OneStoryProjectEditor
             this.splitContainerUpDown.Panel1.Controls.Add(this.htmlStoryBtControl);
             this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelTasks);
             this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelVerseBT);
+#if !UsingHtmlDisplayForStoryBt
             this.splitContainerUpDown.Panel1.Controls.Add(this.flowLayoutPanelVerses);
+#endif
             this.splitContainerUpDown.Panel1.Controls.Add(this.textBoxStoryVerse);
             // 
             // splitContainerUpDown.Panel2
@@ -1611,6 +1615,7 @@ namespace OneStoryProjectEditor
             this.linkLabelVerseBT.Text = "Ln: 1";
             this.linkLabelVerseBT.Visible = false;
             this.linkLabelVerseBT.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelVerseBT_LinkClicked);
+#if !UsingHtmlDisplayForStoryBt
             // 
             // flowLayoutPanelVerses
             // 
@@ -1624,6 +1629,7 @@ namespace OneStoryProjectEditor
             this.flowLayoutPanelVerses.TabIndex = 1;
             this.flowLayoutPanelVerses.WrapContents = false;
             this.flowLayoutPanelVerses.MouseMove += new System.Windows.Forms.MouseEventHandler(this.CheckBiblePaneCursorPositionMouseMove);
+#endif
             // 
             // textBoxStoryVerse
             // 
@@ -1725,7 +1731,9 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator2;
         private OpenFileDialog openFileDialog;
         private SaveFileDialog saveFileDialog;
+#if !UsingHtmlDisplayForStoryBt
         internal VerseBtLineFlowLayoutPanel flowLayoutPanelVerses;
+#endif
         internal SplitContainer splitContainerLeftRight;
         internal MinimizableSplitterContainer splitContainerUpDown;
         private ToolStripMenuItem viewToolStripMenuItem;

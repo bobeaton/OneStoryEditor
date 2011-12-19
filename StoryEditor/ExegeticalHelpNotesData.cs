@@ -9,20 +9,24 @@ namespace OneStoryProjectEditor
 {
     public class ExegeticalHelpNoteData : StringTransfer
     {
+        private const StoryEditor.TextFields CMyField =
+            StoryEditor.TextFields.ExegeticalNote | StoryEditor.TextFields.InternationalBt;
+
         public ExegeticalHelpNoteData(NewDataSet.ExegeticalHelpRow theExHelpNoteRow)
             : base((theExHelpNoteRow.IsExegeticalHelp_ColumnNull())
-            ? null
-            : theExHelpNoteRow.ExegeticalHelp_Column)
+                        ? null
+                        : theExHelpNoteRow.ExegeticalHelp_Column, CMyField)
         {
+            
         }
 
         public ExegeticalHelpNoteData(string strInitialText)
-            : base(strInitialText)
+            : base(strInitialText, CMyField)
         {
         }
 
         public ExegeticalHelpNoteData(ExegeticalHelpNoteData rhs)
-            : base(rhs.ToString())
+            : base(rhs.ToString(), CMyField)
         {
         }
 
@@ -105,33 +109,6 @@ namespace OneStoryProjectEditor
 
         protected const string CstrFieldNameExegeticalHelp = "ExegeticalHelp";
 
-        public static string TextareaId(int nVerseIndex, int nAnchorNumber, int nCommentNumber, string strTextElementName)
-        {
-            return String.Format("ta{0}_{1}_{2}_{3}", strTextElementName, nVerseIndex, 
-                nAnchorNumber, nCommentNumber);
-        }
-
-        public string Html(int nVerseIndex, int nAnchorNumber)
-        {
-            string strHtml = null;
-            for (int i = 0; i < Count; i++)
-            {
-                ExegeticalHelpNoteData anExHelpNoteData = this[i];
-                string strHtmlElementId = TextareaId(nVerseIndex, nAnchorNumber, i, CstrFieldNameExegeticalHelp);
-                strHtml += String.Format(Properties.Resources.HTML_TableRow,
-                                         String.Format("{0}{1}",
-                                                       String.Format(Properties.Resources.HTML_TableCell, CstrCnLable),
-                                                       String.Format(Properties.Resources.HTML_TableCellWidth,
-                                                                     100,
-                                                                     String.Format(Properties.Resources.HTML_TextareaWithRefDrop,
-                                                                                   strHtmlElementId,
-                                                                                   StoryData.
-                                                                                       CstrLangInternationalBtStyleClassName,
-                                                                                   anExHelpNoteData))));
-            }
-            return strHtml;
-        }
-
         public static string CstrCnLable
         {
             get { return Localizer.Str("cn:"); }
@@ -156,7 +133,7 @@ namespace OneStoryProjectEditor
                 if ((child != null) && !bFound)
                     // means the parent was deleted in the child version
                     astrExegeticalHelpNotes.Add(Diff.HtmlDiff(anExHelpNoteData, null));
-                
+
                 // otherwise, the parent's version is the only one
                 else
                     astrExegeticalHelpNotes.Add(anExHelpNoteData.ToString());
@@ -172,22 +149,38 @@ namespace OneStoryProjectEditor
             int nNumCols, List<string> astrExegeticalHelpNotes, bool bUseTextAreas)
         {
             string strHtml = strAnchorHtml;
-            // add exegetical comments as their own rows
-            for (int i = 0; i < astrExegeticalHelpNotes.Count; i++)
+            if (bUseTextAreas)
             {
-                string strExegeticalHelpNote = astrExegeticalHelpNotes[i];
-                strHtml += String.Format(Properties.Resources.HTML_TableRow,
-                                         String.Format("{0}{1}",
-                                                       String.Format(Properties.Resources.HTML_TableCell, CstrCnLable),
-                                                       VerseData.FormatLanguageColumn(nVerseIndex,
-                                                                                      1,
-                                                                                      VerseBtControl.
-                                                                                          CstrFieldNameExegeticalHelp,
-                                                                                      i,
-                                                                                      StoryData.
-                                                                                          CstrLangInternationalBtStyleClassName,
-                                                                                      strExegeticalHelpNote,
-                                                                                      bUseTextAreas)));
+                // this means that in the Story BT pane, so add the exe notes directly from
+                //  their StringTransfers
+                for (int i = 0; i < Count; i++)
+                {
+                    var anExHelpNote = this[i];
+                    var strNote = anExHelpNote.FormatLanguageColumnHtml(nVerseIndex,
+                                                                        i,
+                                                                        nNumCols,
+                                                                        anExHelpNote.ToString(),
+                                                                        bUseTextAreas);
+                    strHtml += String.Format(Properties.Resources.HTML_TableRow,
+                                             String.Format("{0}{1}",
+                                                           String.Format(Properties.Resources.HTML_TableCell, CstrCnLable),
+                                                           strNote));
+                }
+            }
+            else
+            {
+                // add exegetical comments as their own rows
+                foreach (var strExegeticalHelpNote in astrExegeticalHelpNotes)
+                {
+                    var strValue = (!String.IsNullOrEmpty(strExegeticalHelpNote))
+                    ? strExegeticalHelpNote
+                    : "-";  // just so there's something there (or the cell doesn't show)
+
+                    strHtml += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100/nNumCols,
+                                             String.Format(Properties.Resources.HTML_ParagraphText,
+                                                           StoryData.CstrLangInternationalBtStyleClassName,
+                                                           strValue));
+                }
             }
 
             // make a sub-table out of all this

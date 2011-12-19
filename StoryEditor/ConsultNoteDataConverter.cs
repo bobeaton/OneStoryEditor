@@ -18,8 +18,11 @@ namespace OneStoryProjectEditor
 
         public CommInstance(string strValue, 
             ConsultNoteDataConverter.CommunicationDirections direction, 
-            string strGuid, string strMemberId, DateTime timeStamp)
-            : base(strValue)
+            string strGuid, 
+            string strMemberId, 
+            DateTime timeStamp,
+            StoryEditor.TextFields myField)
+            : base(strValue, myField)
         {
             Direction = direction;
             Guid = strGuid ?? System.Guid.NewGuid().ToString();
@@ -28,7 +31,7 @@ namespace OneStoryProjectEditor
         }
 
         public CommInstance(CommInstance rhs)
-            : base(rhs.ToString())
+            : base(rhs.ToString(), rhs.WhichField)
         {
             Direction = rhs.Direction;
 
@@ -176,7 +179,8 @@ namespace OneStoryProjectEditor
                                         : MentorDirection,
                                     null,
                                     loggedOnMember.MemberGuid,
-                                    DateTime.Now);
+                                    DateTime.Now,
+                                    WhichField);
         }
 
         protected virtual CommInstance CreateMenteeNote(TeamMemberData loggedOnMember,
@@ -188,7 +192,8 @@ namespace OneStoryProjectEditor
                                         : MenteeDirection,
                                     null,
                                     loggedOnMember.MemberGuid,
-                                    DateTime.Now);
+                                    DateTime.Now,
+                                    WhichField);
         }
 
         protected virtual bool LoggedOnMentoreeHasResponsePrivilege(TeamMemberData loggedOnMember, 
@@ -322,6 +327,7 @@ namespace OneStoryProjectEditor
         public abstract CommunicationDirections MentorDirection { get; }
         public abstract CommunicationDirections MentorToSelfDirection { get; }
         public abstract CommunicationDirections MenteeToSelfDirection { get; }
+        protected abstract StoryEditor.TextFields WhichField { get; }
 
         /// <summary>
         /// This returns whether the initiator of this comment is to be interpreted
@@ -424,18 +430,14 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public const string CstrTextAreaPrefix = "ta";
-        public const string CstrParagraphPrefix = "tp";
-        public const string CstrButtonPrefix = "btn";
-
         public static string TextareaId(int nVerseIndex, int nConversationIndex)
         {
-            return String.Format("{0}_{1}_{2}", CstrTextAreaPrefix, nVerseIndex, nConversationIndex);
+            return String.Format("{0}_{1}_{2}", HtmlVerseControl.CstrTextAreaPrefix, nVerseIndex, nConversationIndex);
         }
 
         public static string TextParagraphId(int nVerseIndex, int nConversationIndex, int nCommentIndex)
         {
-            return String.Format("{0}_{1}_{2}_{3}", CstrParagraphPrefix, nVerseIndex, nConversationIndex, nCommentIndex);
+            return String.Format("{0}_{1}_{2}_{3}", HtmlVerseControl.CstrParagraphPrefix, nVerseIndex, nConversationIndex, nCommentIndex);
         }
 
         public static string TextareaRowId(int nVerseIndex, int nConversationIndex)
@@ -450,7 +452,7 @@ namespace OneStoryProjectEditor
 
         public static string ButtonId(int nVerseIndex, int nConversationIndex, int nBtnIndex)
         {
-            return String.Format("{0}_{1}_{2}_{3}", CstrButtonPrefix, nVerseIndex, nConversationIndex, nBtnIndex);
+            return String.Format("{0}_{1}_{2}_{3}", HtmlVerseControl.CstrButtonPrefix, nVerseIndex, nConversationIndex, nBtnIndex);
         }
 
         public const int CnBtnIndexDelete = 0;
@@ -741,7 +743,7 @@ namespace OneStoryProjectEditor
 
                 // keep track of the element id so we can use it during 'Search/Replace' operations
                 aCI.HtmlElementId = strHtmlElementId;
-                aCI.HtmlConNoteCtrl = htmlConNoteCtrl;
+                aCI.HtmlPane = htmlConNoteCtrl;
             }
 
             string strEmbeddedTable = String.Format(Properties.Resources.HTML_Table,
@@ -1029,7 +1031,8 @@ namespace OneStoryProjectEditor
                                          : aNoteRow.memberID,
                                      (aNoteRow.IstimeStampNull())
                                          ? DateTime.Now
-                                         : aNoteRow.timeStamp.ToLocalTime()));
+                                         : aNoteRow.timeStamp.ToLocalTime(),
+                                     WhichField));
 
             // make sure that there are at least two (we can't save them if they're empty)
             System.Diagnostics.Debug.Assert(Count != 0, "It looks like you have an empty Consultant Note field that shouldn't be there. For now, you can just 'Ignore' this error (but perhaps let bob_eaton@sall.com know)");
@@ -1059,6 +1062,11 @@ namespace OneStoryProjectEditor
         public override CommunicationDirections MenteeToSelfDirection
         {
             get { return CommunicationDirections.eProjFacToProjFac; }
+        }
+
+        protected override StoryEditor.TextFields WhichField
+        {
+            get { return StoryEditor.TextFields.ConsultantNote; }
         }
 
         public override CommunicationDirections MenteeDirection
@@ -1143,7 +1151,8 @@ namespace OneStoryProjectEditor
                                        TeamMemberData.UserTypes.FirstPassMentor);
             return (bNeedsApproval)
                        ? new CommInstance(strValue, CommunicationDirections.eConsultantToProjFacNeedsApproval, null,
-                                          loggedOnMember.MemberGuid, DateTime.Now)
+                                          loggedOnMember.MemberGuid, DateTime.Now, 
+                                          WhichField)
                        : base.CreateMentorNote(loggedOnMember, theStory, strValue, bNoteToSelf);
         }
 
@@ -1172,7 +1181,8 @@ namespace OneStoryProjectEditor
                                          : aNoteRow.memberID,
                                      (aNoteRow.IstimeStampNull())
                                          ? DateTime.Now
-                                         : aNoteRow.timeStamp.ToLocalTime()));
+                                         : aNoteRow.timeStamp.ToLocalTime(),
+                                     WhichField));
         }
 
         public CoachNoteData(StoryData theStory, TeamMemberData loggedOnMember, 
@@ -1199,6 +1209,11 @@ namespace OneStoryProjectEditor
         public override CommunicationDirections MenteeToSelfDirection
         {
             get { return CommunicationDirections.eConsultantToConsultant; }
+        }
+
+        protected override StoryEditor.TextFields WhichField
+        {
+            get { return StoryEditor.TextFields.CoachNote; }
         }
 
         protected override bool LoggedOnMentoreeHasResponsePrivilege(TeamMemberData loggedOnMember, StoryData theStory)

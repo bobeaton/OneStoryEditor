@@ -20,7 +20,7 @@ namespace OneStoryProjectEditor
             guid = theTestQuestionRow.guid;
             IsVisible = theTestQuestionRow.visible;
 
-            TestQuestionLine = new LineData();
+            TestQuestionLine = new LineData(StoryEditor.TextFields.TestQuestion);
             foreach (NewDataSet.TestQuestionLineRow aTqLine in theTestQuestionRow.GetTestQuestionLineRows())
                 TestQuestionLine.SetValue(aTqLine.lang,
                                           (aTqLine.IsTestQuestionLine_textNull())
@@ -36,7 +36,7 @@ namespace OneStoryProjectEditor
 
             XmlAttribute attr;
             IsVisible = ((attr = node.Attributes[CstrAttributeVisible]) != null) ? (attr.Value == "true") : true;
-            TestQuestionLine = new LineData(node, CstrElementLabelTestQuestionLine);
+            TestQuestionLine = new LineData(node, CstrElementLabelTestQuestionLine, StoryEditor.TextFields.TestQuestion);
             Answers = new AnswersData(node.SelectSingleNode(AnswersData.CstrElementLableAnswers));
         }
 
@@ -46,14 +46,14 @@ namespace OneStoryProjectEditor
             guid = Guid.NewGuid().ToString();   // rhs.guid;
 
             IsVisible = rhs.IsVisible;
-            TestQuestionLine = new LineData(rhs.TestQuestionLine);
+            TestQuestionLine = new LineData(rhs.TestQuestionLine, StoryEditor.TextFields.TestQuestion);
             Answers = new AnswersData(rhs.Answers);
         }
 
         public TestQuestionData()
         {
             guid = Guid.NewGuid().ToString();
-            TestQuestionLine = new LineData();
+            TestQuestionLine = new LineData(StoryEditor.TextFields.TestQuestion);
             Answers = new AnswersData();
         }
 
@@ -190,7 +190,7 @@ namespace OneStoryProjectEditor
                         break;
                     }
 
-            string strTQRow = null;
+            string strTqRow = null;
             if ((!bIsFirstVerse && viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions)) ||
                 (bIsFirstVerse && viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions)))
             {
@@ -205,12 +205,11 @@ namespace OneStoryProjectEditor
                             : Diff.HtmlDiff(transliterator, null, TestQuestionLine.Vernacular)
                         : TestQuestionLine.Vernacular.GetValue(transliterator);
 
-                    strRow += VerseData.FormatLanguageColumn(nVerseIndex,
-                                                             nNumTestQuestionCols,
-                                                             VerseBtControl.CstrFieldNameTestQuestions, nTQNum,
-                                                             StoryData.CstrLangVernacularStyleClassName,
-                                                             str,
-                                                             bUseTextAreas);
+                    strRow += TestQuestionLine.Vernacular.FormatLanguageColumnHtml(nVerseIndex,
+                                                                                   nTQNum,
+                                                                                   nNumTestQuestionCols,
+                                                                                   str,
+                                                                                   bUseTextAreas);
                 }
 
                 if (bShowNationalBt)
@@ -222,13 +221,11 @@ namespace OneStoryProjectEditor
                             : Diff.HtmlDiff(transliterator, null, TestQuestionLine.NationalBt)
                         : TestQuestionLine.NationalBt.GetValue(transliterator);
 
-                    strRow += VerseData.FormatLanguageColumn(nVerseIndex,
-                                                             nNumTestQuestionCols,
-                                                             VerseBtControl.CstrFieldNameTestQuestions,
-                                                             nTQNum,
-                                                             StoryData.CstrLangNationalBtStyleClassName,
-                                                             str,
-                                                             bUseTextAreas);
+                    strRow += TestQuestionLine.NationalBt.FormatLanguageColumnHtml(nVerseIndex,
+                                                                                   nTQNum,
+                                                                                   nNumTestQuestionCols,
+                                                                                   str,
+                                                                                   bUseTextAreas);
                 }
 
                 if (bShowEnglishBt)
@@ -240,22 +237,21 @@ namespace OneStoryProjectEditor
                             : Diff.HtmlDiff(transliterator, null, TestQuestionLine.InternationalBt)
                         : TestQuestionLine.InternationalBt.GetValue(transliterator);
 
-                    strRow += VerseData.FormatLanguageColumn(nVerseIndex,
-                                                             nNumTestQuestionCols,
-                                                             VerseBtControl.CstrFieldNameTestQuestions,
-                                                             nTQNum, StoryData.CstrLangInternationalBtStyleClassName,
-                                                             str,
-                                                             bUseTextAreas);
+                    strRow += TestQuestionLine.InternationalBt.FormatLanguageColumnHtml(nVerseIndex,
+                                                                                        nTQNum,
+                                                                                        nNumTestQuestionCols,
+                                                                                        str,
+                                                                                        bUseTextAreas);
                 }
 
-                strTQRow = String.Format(Properties.Resources.HTML_TableRow,
+                strTqRow = String.Format(Properties.Resources.HTML_TableRow,
                                                        strRow);
             }
 
             if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
             {
                 // add 1 to the number of columns so it spans properly (including the 'tst:' label)
-                strTQRow += Answers.PresentationHtml(nVerseIndex,
+                strTqRow += Answers.PresentationHtml(nVerseIndex,
                                                      nNumTestQuestionCols + 1,
                                                      astrTesters,
                                                      (theChildTQ != null) ? theChildTQ.Answers : null,
@@ -270,7 +266,7 @@ namespace OneStoryProjectEditor
                                                      bUseTextAreas);
             }
 
-            return strTQRow;
+            return strTqRow;
         }
 
         public string PresentationHtmlAsAddition(int nVerseIndex, int nTQNum, int nNumTestQuestionCols,
@@ -288,13 +284,11 @@ namespace OneStoryProjectEditor
                     DirectableEncConverter transliterator = viewSettings.TransliteratorVernacular;
                     string str = Diff.HtmlDiff(transliterator, null, TestQuestionLine.Vernacular);
 
-                    strRow += VerseData.FormatLanguageColumn(nVerseIndex,
-                                                             nNumTestQuestionCols,
-                                                             VerseBtControl.CstrFieldNameTestQuestions,
-                                                             nTQNum,
-                                                             StoryData.CstrLangVernacularStyleClassName,
-                                                             str,
-                                                             bUseTextAreas);
+                    strRow += TestQuestionLine.Vernacular.FormatLanguageColumnHtml(nVerseIndex,
+                                                                                   nTQNum,
+                                                                                   nNumTestQuestionCols,
+                                                                                   str,
+                                                                                   bUseTextAreas);
                 }
 
                 if (bShowNationalBT)
@@ -302,13 +296,11 @@ namespace OneStoryProjectEditor
                     DirectableEncConverter transliterator = viewSettings.TransliteratorNationalBT;
                     string str = Diff.HtmlDiff(transliterator, null, TestQuestionLine.NationalBt);
 
-                    strRow += VerseData.FormatLanguageColumn(nVerseIndex,
-                                                             nNumTestQuestionCols,
-                                                             VerseBtControl.CstrFieldNameTestQuestions,
-                                                             nTQNum,
-                                                             StoryData.CstrLangNationalBtStyleClassName,
-                                                             str,
-                                                             bUseTextAreas);
+                    strRow += TestQuestionLine.NationalBt.FormatLanguageColumnHtml(nVerseIndex,
+                                                                                   nTQNum,
+                                                                                   nNumTestQuestionCols,
+                                                                                   str,
+                                                                                   bUseTextAreas);
                 }
 
                 if (bShowEnglishBT)
@@ -316,13 +308,11 @@ namespace OneStoryProjectEditor
                     DirectableEncConverter transliterator = viewSettings.TransliteratorInternationalBt;
                     string str = Diff.HtmlDiff(transliterator, null, TestQuestionLine.InternationalBt);
 
-                    strRow += VerseData.FormatLanguageColumn(nVerseIndex,
-                                                             nNumTestQuestionCols,
-                                                             VerseBtControl.CstrFieldNameTestQuestions,
-                                                             nTQNum,
-                                                             StoryData.CstrLangInternationalBtStyleClassName,
-                                                             str,
-                                                             bUseTextAreas);
+                    strRow += TestQuestionLine.InternationalBt.FormatLanguageColumnHtml(nVerseIndex,
+                                                                                        nTQNum,
+                                                                                        nNumTestQuestionCols,
+                                                                                        str,
+                                                                                        bUseTextAreas);
                 }
 
                 strTQRow = String.Format(Properties.Resources.HTML_TableRow,

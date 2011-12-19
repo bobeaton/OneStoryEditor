@@ -1,15 +1,21 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using NetLoc;
+using mshtml;
 
 namespace OneStoryProjectEditor
 {
     [ComVisible(true)]
     public class HtmlVerseControl : WebBrowser
     {
+        public const string CstrTextAreaPrefix = "ta";
+        public const string CstrParagraphPrefix = "tp";
+        public const string CstrButtonPrefix = "btn";
+
         internal LinkLabel LineNumberLink;
 
         internal string StrIdToScrollTo;
@@ -126,10 +132,10 @@ namespace OneStoryProjectEditor
 
         public virtual void LoadDocument()
         {
-            System.Diagnostics.Debug.Assert(false);
+            Debug.Assert(false);
         }
 
-        private void HtmlConNoteControl_DocumentCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)
+        private void HtmlConNoteControl_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             if (!String.IsNullOrEmpty(StrIdToScrollTo))
                 ScrollToElement(StrIdToScrollTo, true);
@@ -137,13 +143,13 @@ namespace OneStoryProjectEditor
 
         protected VerseData Verse(int nVerseIndex)
         {
-            System.Diagnostics.Debug.Assert(StoryData.Verses.Count > (nVerseIndex - 1));
+            Debug.Assert(StoryData.Verses.Count > (nVerseIndex - 1));
             return (nVerseIndex == 0)
                        ? StoryData.Verses.FirstVerse
                        : StoryData.Verses[nVerseIndex - 1];
         }
 
-        private void ScrollToElement(String strElemName, bool bAlignWithTop)
+        public void ScrollToElement(String strElemName, bool bAlignWithTop)
         {
             if (Document != null)
             {
@@ -158,13 +164,21 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public void ResetDocument()
+        {
+            //reset so we don't jump to a soon-to-be-non-existant (or wrong context) place
+            StrIdToScrollTo = null;
+            if (Document != null)
+                Document.OpenNew(true);
+        }
+
         public bool OnBibRefJump(string strBibRef)
         {
             TheSE.SetNetBibleVerse(strBibRef);
             return true;
         }
 
-        protected readonly char[] _achDelim = new[] { '_' };
+        protected static readonly char[] AchDelim = new[] { '_' };
 
         protected bool CheckForProperEditToken(out StoryEditor theSE)
         {
@@ -188,6 +202,101 @@ namespace OneStoryProjectEditor
             }
 
             return true;
+        }
+
+        public string GetSelectedText(StringTransfer stringTransfer)
+        {
+            // this isn't allowed for paragraphs (it could be, but this is only currently called
+            //  when we want to do 'replace', which isn't allowed for paragraphs (as opposed to textareas)
+            Debug.Assert(IsTextareaElement(stringTransfer.HtmlElementId));
+            if (Document != null)
+            {
+                HtmlDocument doc = Document;
+                IHTMLDocument2 htmlDocument = doc.DomDocument as IHTMLDocument2;
+                if (htmlDocument != null)
+                {
+                    IHTMLSelectionObject selection = htmlDocument.selection;
+                    if (selection.type.ToLower() != "text")
+                    {
+                        LocalizableMessageBox.Show(Localizer.Str("Sorry, you can only modify editable text in consultant or coach notes!"),
+                            StoryEditor.OseCaption);
+                    }
+                    else
+                    {
+                        IHTMLTxtRange rangeSelection = selection.createRange() as IHTMLTxtRange;
+                        if (rangeSelection != null)
+                            return rangeSelection.text;
+                        // else otherwise nothing selected, so just return
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public bool IsParagraphElement(string strHtmlId)
+        {
+            return (strHtmlId.IndexOf(CstrParagraphPrefix) == 0);
+        }
+
+        public bool IsTextareaElement(string strHtmlId)
+        {
+            return (strHtmlId.IndexOf(CstrTextAreaPrefix) == 0);
+        }
+
+        public bool SetSelectedText(StringTransfer stringTransfer, string strNewValue, out int nNewEndPoint)
+        {
+            // this isn't allowed for paragraphs (it could be, but this is only currently called
+            //  when we want to do 'replace', which isn't allowed for paragraphs (as opposed to textareas)
+            Debug.Assert(IsTextareaElement(stringTransfer.HtmlElementId));
+            nNewEndPoint = 0;   // return of 0 means it didn't work.
+            if (Document != null)
+            {
+                HtmlDocument doc = Document;
+                IHTMLDocument2 htmlDocument = doc.DomDocument as IHTMLDocument2;
+                if (htmlDocument != null)
+                {
+                    object[] oaParams = new object[] { stringTransfer.HtmlElementId, strNewValue };
+                    nNewEndPoint = (int)doc.InvokeScript("textboxSetSelectionTextReturnEndPosition", oaParams);
+
+                    // zero return means it failed (e.g. the selected portion wasn't in the element thought)
+                    if (nNewEndPoint > 0)
+                    {
+                        // now we have to update the string transfer with the new value
+                        HtmlElement elem = doc.GetElementById(stringTransfer.HtmlElementId);
+                        if (elem != null)
+                            stringTransfer.SetValue(elem.InnerHtml);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public void ClearSelection(StringTransfer stringTransfer)
+        {
+            Debug.Assert(stringTransfer.HasData && !String.IsNullOrEmpty(stringTransfer.HtmlElementId));
+            if (Document != null)
+            {
+                HtmlDocument doc = Document;
+                if (IsTextareaElement(stringTransfer.HtmlElementId))
+                {
+                    IHTMLDocument2 htmlDocument = doc.DomDocument as IHTMLDocument2;
+                    if (htmlDocument != null)
+                    {
+                        IHTMLSelectionObject selection = htmlDocument.selection;
+                        selection.empty();
+                    }
+                }
+                else if (IsParagraphElement(stringTransfer.HtmlElementId))
+                {
+                    HtmlElement elem = doc.GetElementById(stringTransfer.HtmlElementId);
+                    if (elem != null)
+                        elem.InnerHtml = stringTransfer.ToString();
+                    else
+                        Debug.Assert(false, "unexpected element id in HTML");
+                }
+            }
         }
     }
 }

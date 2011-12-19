@@ -1,1215 +1,407 @@
-﻿<story name="P08 Joseph helps his family in famine" stage="ConsultantCheck2" TasksAllowedPf="VernacularLangFields, InternationalBtFields, Anchors, Retellings, TestQuestions, Answers, Retellings2, Answers2" TasksRequiredPf="VernacularLangFields, InternationalBtFields, Anchors, TestQuestions, Answers" TasksAllowedCit="SendToProjectFacilitatorForRevision, SendToCoachForReview" TasksRequiredCit="None" CountRetellingsTests="0" CountTestingQuestionTests="0" guid="b1ab2391-0187-41bf-ac18-83a3eacb6d82" stageDateTimeStamp="2011-09-11T11:48:17">
+﻿<story name="18. Isaiah (R)" stage="ConsultantCheck2" TasksAllowedPf="VernacularLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers" TasksRequiredPf="Anchors" TasksAllowedCit="SendToProjectFacilitatorForRevision, SendToCoachForReview" TasksRequiredCit="SendToCoachForReview" CountRetellingsTests="0" CountTestingQuestionTests="0" guid="9ebd03ca-1afc-47e1-837d-b0986012b6d2" stageDateTimeStamp="2011-12-03T11:44:26Z">
   <CraftingInfo NonBiblicalStory="false">
-    <StoryCrafter memberID="mem-d3a120f2-36a1-4f3a-8182-0190492ce15f"></StoryCrafter>
-    <ProjectFacilitator memberID="mem-ba2d2106-6cb9-4c67-869b-c40aa7fb9e94"></ProjectFacilitator>
-    <Consultant memberID="mem-4b47bd3c-2e4d-45f1-b669-c3977df692ae"></Consultant>
-    <StoryPurpose>This story show that how God provided the grain to the family of Joseph through him during the days of famine.</StoryPurpose>
-    <ResourcesUsed>Hindi Bible Urdu Bible Genesis movie and Picture Bible.</ResourcesUsed>
+    <StoryCrafter memberID="mem-bf647565-d895-4bb4-9754-886adacdab69" />
+    <ProjectFacilitator memberID="mem-d274b402-7acb-4074-b230-f7e46de427f5" />
+    <Consultant memberID="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" />
+    <StoryPurpose>(RD) In the story of Isaiah there is a special announcement of redemption for the people of this world. There is a definite hope for all people to deliver from sin which is declare by the prophet Isaiah. In this sinful world it is good news and positive assurance  for all human being to become righteousness through the son of God which which was spoken through vision by prophet of Isaiah. So this is quite a redemptive story for this one story project. For this reason I have added this story to our one story project.    </StoryPurpose>
+    <ResourcesUsed>Oriya Bible, Net Bible.</ResourcesUsed>
+    <MiscellaneousStoryInfo>Raghab Digal</MiscellaneousStoryInfo>
     <TestsRetellings>
-      <TestRetelling memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">Test done on: 2011-Aug-17. UNS heard the story 3 times.</TestRetelling>
-      <TestRetelling memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">Test done on: 2011-Aug-19. UNS heard the story 3 times.</TestRetelling>
+      <TestRetelling memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1">Test done on: 2011-Apr-18. UNS heard the story 5 times.</TestRetelling>
     </TestsRetellings>
     <TestsTqAnswers>
-      <TestTqAnswer memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">Test done on: 2011-Sep-11</TestTqAnswer>
-      <TestTqAnswer memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">Test done on: 2011-Sep-11</TestTqAnswer>
+      <TestTqAnswer memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1">Test done on: 2011-Apr-18</TestTqAnswer>
     </TestsTqAnswers>
   </CraftingInfo>
+  <TransitionHistory>
+    <StateTransition LoggedInMemberId="mem-d274b402-7acb-4074-b230-f7e46de427f5" FromState="ProjFacTypeVernacular" ToState="ProjFacAddAnchors" TransitionDateTime="2011-04-18T17:03:32Z" WindowsUserName="NIEA-PC\NIEA" />
+    <StateTransition LoggedInMemberId="mem-d274b402-7acb-4074-b230-f7e46de427f5" FromState="ProjFacAddAnchors" ToState="ProjFacEnterRetellingOfTest1" TransitionDateTime="2011-04-18T19:09:11Z" WindowsUserName="NIEA-PC\NIEA" />
+    <StateTransition LoggedInMemberId="mem-d274b402-7acb-4074-b230-f7e46de427f5" FromState="ProjFacEnterRetellingOfTest1" ToState="ProjFacAddStoryQuestions" TransitionDateTime="2011-04-18T20:18:49Z" WindowsUserName="NIEA-PC\NIEA" />
+    <StateTransition LoggedInMemberId="mem-d274b402-7acb-4074-b230-f7e46de427f5" FromState="ProjFacAddStoryQuestions" ToState="ProjFacEnterAnswersToStoryQuestionsOfTest1" TransitionDateTime="2011-04-18T20:41:40Z" WindowsUserName="NIEA-PC\NIEA" />
+    <StateTransition LoggedInMemberId="mem-d274b402-7acb-4074-b230-f7e46de427f5" FromState="ProjFacEnterAnswersToStoryQuestionsOfTest1" ToState="ConsultantCheck2" TransitionDateTime="2011-04-28T13:06:06Z" WindowsUserName="NIEA-PC\NIEA" />
+    <StateTransition LoggedInMemberId="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" FromState="ConsultantCheck2" ToState="ProjFacRevisesAfterUnsTest" TransitionDateTime="2011-05-10T17:52:22Z" WindowsUserName="JUDYEEEPC\Judy" />
+    <StateTransition LoggedInMemberId="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" FromState="ProjFacRevisesAfterUnsTest" ToState="ConsultantCheck2" TransitionDateTime="2011-05-10T17:53:59Z" WindowsUserName="JUDYEEEPC\Judy" />
+    <StateTransition LoggedInMemberId="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" FromState="ConsultantCheck2" ToState="ProjFacRevisesAfterUnsTest" TransitionDateTime="2011-05-10T18:13:12Z" WindowsUserName="JUDYEEEPC\Judy" />
+    <StateTransition LoggedInMemberId="mem-d274b402-7acb-4074-b230-f7e46de427f5" FromState="ProjFacRevisesAfterUnsTest" ToState="ConsultantCheck2" TransitionDateTime="2011-05-12T23:10:05Z" WindowsUserName="NIEA-PC\NIEA" />
+    <StateTransition LoggedInMemberId="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" FromState="ConsultantCheck2" ToState="ProjFacRevisesAfterUnsTest" TransitionDateTime="2011-11-26T22:28:17Z" WindowsUserName="Judy2-eeepc\Judy" />
+    <StateTransition LoggedInMemberId="mem-d274b402-7acb-4074-b230-f7e46de427f5" FromState="ProjFacRevisesAfterUnsTest" ToState="ConsultantCheck2" TransitionDateTime="2011-12-01T18:14:02Z" WindowsUserName="RAGHAB\NIEA" />
+    <StateTransition LoggedInMemberId="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" FromState="ConsultantCheck2" ToState="ProjFacRevisesAfterUnsTest" TransitionDateTime="2011-12-01T20:41:47Z" WindowsUserName="Judy2-eeepc\Judy" />
+    <StateTransition LoggedInMemberId="mem-d274b402-7acb-4074-b230-f7e46de427f5" FromState="ProjFacRevisesAfterUnsTest" ToState="ConsultantCheck2" TransitionDateTime="2011-12-03T11:44:26Z" WindowsUserName="RAGHAB\NIEA" />
+  </TransitionHistory>
   <Verses>
-    <Verse guid="0a3f4049-44ae-45e1-a8fe-3ad65092876e" first="true" />
-    <Verse guid="65336cc0-1d30-4708-a75a-2c4309483a73">
-      <StoryLine lang="Vernacular">जिस देश का युसूफ प्रधानमंत्री था, उस देश में अकाल शुरू हो गया।</StoryLine>
-      <StoryLine lang="InternationalBt">of which country Joseph was prime minister famine was started in that country.</StoryLine>
+    <Verse guid="d5685d6d-0af0-4110-b3b0-efd3d043a14a" first="true">
+      <ConsultantNotes>
+        <ConsultantConversation guid="c1bddde7-fc18-4ab4-8eff-940b1446e172" visible="false" finished="true">
+          <ConsultantNote Direction="ConsultantToProjFac" guid="a25406a2-2c9a-421c-95c5-269ae4c89452" memberID="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" timeStamp="2011-05-10T18:12:25Z">JP: Raghab, please answer my notes below, and make the appropriate adjustments to the story. Then put the story back into my turn so I can see it again before you do another test.</ConsultantNote>
+          <ConsultantNote Direction="ProjFacToConsultant" guid="ec58153f-a660-43a5-9ec7-be1e68adb1ea" memberID="mem-d274b402-7acb-4074-b230-f7e46de427f5" timeStamp="2011-05-11T11:33:32Z">RD: Thank you. I will follow your instruction here and will sent you this story before another test.</ConsultantNote>
+          <ConsultantNote Direction="ConsultantToProjFac" guid="5e6cde3a-53af-42b2-b326-d243d409cd93" memberID="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" timeStamp="2011-05-25T12:46:38Z">x</ConsultantNote>
+        </ConsultantConversation>
+        <ConsultantConversation guid="ec8f9a7d-6a5c-4204-ae70-da63190a2b43">
+          <ConsultantNote Direction="ConsultantToConsultant" guid="c0083bc7-9d28-4f2f-b004-fbcdce90d5c9" memberID="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" timeStamp="2011-05-25T12:46:56Z">JP: SAVE THIS FOR THE EXPANDED SET.  THE LINES ABOUT DAVID CAN BE OMITTED BECAUSE THERE WILL BE A WHOLE STORY ABOUT DAVID.</ConsultantNote>
+        </ConsultantConversation>
+        <ConsultantConversation guid="7c686cb3-dc6e-426a-9947-520ea0fb4474">
+          <ConsultantNote Direction="ConsultantToProjFac" guid="50595f92-0b84-4c94-9ff1-72a22618a307" memberID="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" timeStamp="2011-11-26T21:25:58Z">
+            JP: 26/nov/2011 -- Raghab, with the addition of all the new stories, you should be able to simplify this one.  I suggest you omit lines 1-10.  And in their place, use something more general like this:
+
+            Ln 1 -- After the time of Elisha, (2ki.13.20)
+            Ln 2 -- some of the people continued to worship God. (1Ki.22:43 King Jehoshaphat followed God)
+            Ln 3 -- But many of them turned away from Him  (2ki.17.09 -12 people turned against God and served idols;  2Ki.24:18 -20 Zedekiah did evil)
+            Ln 4 -- And so God raised up other prophets  (2ki.17.13 God sent prophets)
+            Ln 5 --  to call the people back to himself (2Ch.07.14  If my people...seek to please me)
+
+            ... and then begin with line 11, giving the prophecy from Isaiah.
+          </ConsultantNote>
+          <ConsultantNote Direction="ProjFacToConsultant" guid="80798b38-f9ae-4790-9cb1-90ee2c3c0355" memberID="mem-d274b402-7acb-4074-b230-f7e46de427f5" timeStamp="2011-12-01T17:21:37Z">
+            RD2: Thank you for suggesting me to correct my story. Let me inform you that, I have deleted the story lines from 1 to 10 in the story "18. Isaiah (R)" and wrote the Odiya fonts in the Odiya story lines. When I am trying to insert the respective English FT then it not allowing me to write there and in the down line indicating that "Error: the consultant has not given you permission to edit the English FT' language fields".
+            So now I am putting this story again to your turn as you have suggest me..
+          </ConsultantNote>
+          <ConsultantNote Direction="ConsultantToProjFac" guid="862806d1-bacc-4d65-a40e-d327716b4637" memberID="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" timeStamp="2011-12-01T20:39:01Z">Ok, and I've changed the setting and am putting it back into your turn.</ConsultantNote>
+          <ConsultantNote Direction="ProjFacToConsultant" guid="d04b13d2-55bc-4425-8278-255786c5bbb2" memberID="mem-d274b402-7acb-4074-b230-f7e46de427f5" timeStamp="2011-12-02T16:39:57Z">RD2: Thank you for your immediate response.</ConsultantNote>
+        </ConsultantConversation>
+        <ConsultantConversation guid="303e02d1-6b1a-4e67-a29b-d20ab70357b8">
+          <ConsultantNote Direction="ConsultantToProjFac" guid="53a31bf8-29da-4385-8261-b1591647241f" memberID="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" timeStamp="2011-11-26T21:26:59Z">JP: Please move the free translation into the English FT box, so that you can put the Adaptit literal BT into the middle box.</ConsultantNote>
+          <ConsultantNote Direction="ProjFacToConsultant" guid="d01bc934-4ebe-45dc-8886-e342e31b7245" memberID="mem-d274b402-7acb-4074-b230-f7e46de427f5" timeStamp="2011-12-01T17:21:37Z">RD2: I will do that after I get back in to my turm.</ConsultantNote>
+          <ConsultantNote Direction="ConsultantToProjFac" guid="dae941ef-1dbc-4113-95e9-793c95139d76" memberID="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" timeStamp="2011-12-01T20:39:01Z">OK</ConsultantNote>
+          <ConsultantNote Direction="ProjFacToConsultant" guid="9b1fb56c-4e5a-488a-a67f-7f9fb8138252" memberID="mem-d274b402-7acb-4074-b230-f7e46de427f5" timeStamp="2011-12-02T16:39:57Z">RD2: I have done it as you have suggested me. One thing I want to inform you that, I have made little change in the line 5 like this "as His people will return to Him" in order to keep connection with the privious line. Thank you.</ConsultantNote>
+        </ConsultantConversation>
+      </ConsultantNotes>
+    </Verse>
+    <Verse guid="c4f25945-8449-4157-9b74-98b5c4f949e0">
+      <StoryLine lang="Vernacular">ଈଲିଶାୟଙ୍କ ସମୟ ପରେ,</StoryLine>
+      <StoryLine lang="InternationalBt">of.Elisha time after,</StoryLine>
+      <StoryLine lang="FreeTranslation">After the time of Elisha,</StoryLine>
       <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 41:46">Gen 41:46</Anchor>
-        <Anchor jumpTarget="Gen 41:54">Gen 41:54</Anchor>
+        <Anchor jumpTarget="2Kgs 13:20">2Kgs 13:20</Anchor>
       </Anchors>
       <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">जिस देश का युसूफ प्रधानमंत्री था उस देश में अकाल शुरू हो गया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">Joseph was the prime minister of which country in there was famine.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">युसूफ जिस देश का प्रधानमंत्री था वहाँ अकाल शुरु हो गया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">Joseph was prime minister of which country famine was started there.</Retelling>
+        <Retelling lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
       </Retellings>
     </Verse>
-    <Verse guid="4d4d3919-2332-4ff2-a4c8-becf207ac630">
-      <StoryLine lang="Vernacular">और अकाल इतना खतरनाक था कि आस पास के देशों में भी फैल गया</StoryLine>
-      <StoryLine lang="InternationalBt">and the famine was this much dangrous that in the surrounding countries the famine was spread.</StoryLine>
+    <Verse guid="2c4faa18-9fa9-49a4-b27d-ccba07e70e3a">
+      <StoryLine lang="Vernacular">କେତେକ ଲୋକମାନେ ଈଶ୍ୱରଙ୍କର ଉପାସନା କରୁଥିଲେ,</StoryLine>
+      <StoryLine lang="InternationalBt">some people of.God worship was.doing,</StoryLine>
+      <StoryLine lang="FreeTranslation">some of the people continued to worship God</StoryLine>
       <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 41:56">Gen 41:56</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">और अकाल इतना खतरनाक था कि दुसरे देशों में भी अकाल फैल गया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">and the famine was this much dangrous that it spread in other countries too.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">और यह अकाल इतना खतरनाक था कि दुसरे देशों में भी अकाल फैल गया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">and this famine was this much dangrous that it spread in the other contries also.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="7549c33e-c8d9-427a-bf4a-5da13a6bf906">
-      <StoryLine lang="Vernacular">जिस देश में युसूफ का पिता और भाई रहते थे, उस देश में भी अकाल था।</StoryLine>
-      <StoryLine lang="InternationalBt">In the country where Joseph's father and brother lived in that country the famine was.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 41:56">Gen 41:56</Anchor>
+        <Anchor jumpTarget="1Kgs 22:43">King Jehoshaphat followed God</Anchor>
       </Anchors>
       <TestQuestions>
-        <TestQuestion visible="true" guid="075e5049-40e7-4161-9745-b37fb6cb1561">
-          <TestQuestionLine lang="Vernacular">आकेखसे जिस देश में युसूफ का पिता और भाई रहते थे उस देश में भी अकाल कैसे हो गया।</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">IYO how was ot that the famine was in the country where the father and brothers of Joseph lived?</TestQuestionLine>
+        <TestQuestion visible="true" guid="c1a24b4d-d941-4d47-9b95-1076e76eee6e">
           <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">I think it was not because of rain on the earth.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">It was the season of famine on the earth and i think specially the famine was in the family of Joseph so that they can be provided the food through Joseph.</Answer>
+            <Answer lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Answer>
+            <Answer lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Answer>
+            <Answer lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Answer>
           </Answers>
         </TestQuestion>
       </TestQuestions>
       <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">जिस देश में युसूफ के पिता और भाई रहते थे वहाँ भी अकाल था।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">in the country where Joseph's father and brothers lived there was also famine.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">जिस देश में युसूफ का परिवार रहते थे वहाँ भी अकाल था।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">in which country was the family of Joseph there was also famine.</Retelling>
+        <Retelling lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
       </Retellings>
     </Verse>
-    <Verse guid="4d49d66a-37fb-453c-b154-90753a46c9f8">
-      <StoryLine lang="Vernacular">तब उनके पिता ने अपने बेटों से कहा, “तुम क्‍या एक दुसरे का मुँह देख रहे हो?</StoryLine>
-      <StoryLine lang="InternationalBt">Their father said to his sons, "Are you looking at the faces of each other?</StoryLine>
+    <Verse guid="bac8b835-c7e5-4474-9469-bab4451dc1d1">
+      <StoryLine lang="Vernacular">କିନ୍ତୁ ସେମାନଙ୍କୁ ମଧ୍ୟରୁ ଅନେକେ ତାଙ୍କଠାରୁ ବିମୁଖ ହେଲେ ।</StoryLine>
+      <StoryLine lang="InternationalBt">but them among many.people from.Him backslide became</StoryLine>
+      <StoryLine lang="FreeTranslation">But many of them turned away from Him,</StoryLine>
       <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:1">Gen 42:1</Anchor>
+        <Anchor jumpTarget="2Kgs 17:9">2Kgs 17:9</Anchor>
+        <Anchor jumpTarget="2Kgs 17:10">2Kgs 17:10</Anchor>
+        <Anchor jumpTarget="2Kgs 17:11">2Kgs 17:11</Anchor>
+        <Anchor jumpTarget="2Kgs 17:12"> people turned against God and served idols</Anchor>
+        <Anchor jumpTarget="2Kgs 24:20">Zedekiah did evil</Anchor>
       </Anchors>
       <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">तब उनके पिता ने अपने बेटों से कहा, "तुम क्‍या एक दुसरे का मुँह देख रहे हो।द</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">Then father said his sons, "what are looking at faces of each other?</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">तब पिता ने अपने बेटों से कहा, "तुम क्‍या एक दुसरे का मूँह देख रहे हो?</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">Then father said his sons, "what are looking at the faces of each other?</Retelling>
+        <Retelling lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
       </Retellings>
     </Verse>
-    <Verse guid="e1b5cfbb-11e2-4347-825e-9d924cb8f667">
-      <StoryLine lang="Vernacular">काम के ना काज के दुश्‍मन अनाज के।</StoryLine>
-      <StoryLine lang="InternationalBt">useless and the enemy of grain.</StoryLine>
+    <Verse guid="a9c93636-3984-4329-b3fe-dddf3ee34450">
+      <StoryLine lang="Vernacular">ଏବଂ ସେଥିପାଇଁ ଈଶ୍ୱର ଅନ୍ୟ ଭବିଷ୍ୟତ ବକ୍ତାମାନଙ୍କୁ ଉଠେଇଲେ, </StoryLine>
+      <StoryLine lang="InternationalBt">and therefore God other prophets raised,</StoryLine>
+      <StoryLine lang="FreeTranslation"> And so God raised up other prophets,</StoryLine>
       <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:1">Gen 42:1 The episode in this chapter is a continuation of the story in chapter 41. The setting switches from Egypt to Canaan in the introduction in verses 1-5. Most translators will have no problem opening this chapter the same as in RSV and TEV. An example of a transition that may be used if necessary is “At this time Jacob and his family were far away in Canaan, and when he heard the news….”</Anchor>
+        <Anchor jumpTarget="2Kgs 17:13">God sent prophets</Anchor>
       </Anchors>
-      <ExegeticalHelps>
-        <ExegeticalHelp>Gen 42:1 The episode in this chapter is a continuation of the story in chapter 41. The setting switches from Egypt to Canaan in the introduction in verses 1-5. Most translators will have no problem opening this chapter the same as in RSV and TEV. An example of a transition that may be used if necessary is “At this time Jacob and his family were far away in Canaan, and when he heard the news….”</ExegeticalHelp>
-      </ExegeticalHelps>
       <TestQuestions>
-        <TestQuestion visible="true" guid="e58635aa-78db-4e33-b194-5c5f8341c3a3">
-          <TestQuestionLine lang="Vernacular">आकेखसे उनके पिता ने उनको इस तरह से क्‍यों कहा?</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">IYO why their father said them like this?</TestQuestionLine>
+        <TestQuestion visible="true" guid="3016d016-5c6c-4cf2-925e-d474a4790840">
           <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">I think they were not thinking about their family and were doing anything.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">Because they were sitting empty and were not thinking about the food for their family.</Answer>
+            <Answer lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Answer>
+            <Answer lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Answer>
+            <Answer lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Answer>
           </Answers>
         </TestQuestion>
       </TestQuestions>
       <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">काम के ना काज के दुश्‍मन अनाज के।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">useless and the enemy of grain.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">काम के ना काज के, दुश्‍मन अनाज के।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">useless and the enemy of grain.</Retelling>
+        <Retelling lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
       </Retellings>
+      <ConsultantNotes>
+        <ConsultantConversation guid="2574fb80-cbd8-4806-a4a7-5aa9b47fb28f" finished="true">
+          <ConsultantNote Direction="ConsultantToProjFac" guid="55b795ab-78cf-41b3-a367-79fb569de2b0" memberID="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" timeStamp="2011-05-08T08:21:14Z">JP: Re: 'many kings arose from his generation who worked according to command of the Lord.'.  -- Neither of the anchors (1Kgs 2:10 or 1Kgs 2:12) show that "many kings...worked according to command of the Lord".  Please find anchors for 2 or 3 kings who were descendents of David and who were good kings and add those references to the anchor box.  For each one, add a "tooltip" note telling what the anchor is for.  To do that you rightclick on the anchor and click on "Add Anchor Comment" then type the name of that good king.</ConsultantNote>
+          <ConsultantNote Direction="ProjFacToConsultant" guid="7e4f72b5-c7a8-467b-afec-c177d5736230" memberID="mem-d274b402-7acb-4074-b230-f7e46de427f5" timeStamp="2011-05-11T11:33:32Z">RD: Thank you for your comment. After your comment I came to know the real requirement for this story. Let me inform you, I have changed the anchoring and added names of the kings in the anchoring according to your instruction.</ConsultantNote>
+          <ConsultantNote Direction="ConsultantToProjFac" guid="9ea179aa-ec7b-4408-90f8-1f3c3dda7fe2" memberID="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" timeStamp="2011-11-26T21:25:20Z">(26/nov2011) -- deleting this line</ConsultantNote>
+        </ConsultantConversation>
+      </ConsultantNotes>
     </Verse>
-    <Verse guid="15d4ef72-d549-45bf-afff-ed636fe53841">
-      <StoryLine lang="Vernacular">मैंने सुना है कि मिस्र में अनाज है।</StoryLine>
-      <StoryLine lang="InternationalBt">I have heard that there is grain in Egypt.</StoryLine>
+    <Verse guid="237d972a-835c-4409-bb4f-c41aa959dab1">
+      <StoryLine lang="Vernacular">ଯେପରି କି ତାଙ୍କ ଲୋକମାନେ ତାଙ୍କ ପାଖକୁ ଫେରିଆସିବେ । </StoryLine>
+      <StoryLine lang="InternationalBt">to.people own near calling will.do for,</StoryLine>
+      <StoryLine lang="FreeTranslation">to call the people back to himself, </StoryLine>
       <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:2">Gen 42:2</Anchor>
+        <Anchor jumpTarget="2Chr 7:14">if my people, who belong to me, humble themselves, pray, seek to please me</Anchor>
       </Anchors>
       <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">क्‍योंकि मैंने सुना है कि वहाँ काफी अनाज है।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">Go! and bring some grain from Egypt because i have heard that there is enough grain.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">मैंने सुना है कि मिस्र में अनाज है।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">I have heard that there is grain in Egypt.</Retelling>
+        <Retelling lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
       </Retellings>
+      <ConsultantNotes>
+        <ConsultantConversation guid="7ad223ce-4475-472c-8ac1-3e5294f5b5d5" finished="true">
+          <ConsultantNote Direction="ConsultantToProjFac" guid="52ebd985-220e-473d-9119-38ca7c2d9d7e" memberID="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" timeStamp="2011-05-08T08:23:00Z">JP: Re: anc: 1Kgs 14:22. -- You can delete this anchor. Judah was not a king.  Please find references to 2 or 3 kings who were descendent of David who were evil and add those references to the anchor box.  For each one, add a "tooltip" note giving the name of that wicked king. (See instructions in my previous note.)</ConsultantNote>
+          <ConsultantNote Direction="ProjFacToConsultant" guid="5fd3c01d-b9c8-4820-808d-027bc3e39e91" memberID="mem-d274b402-7acb-4074-b230-f7e46de427f5" timeStamp="2011-05-11T11:33:32Z">RD: After your above comment I came to know that, which anchoring (1kgn 16:2 and 1kgn 16:3)  I had  mentioned is not quite correct. So I have deleted it and added new anchoring. Kindly see it and help me to make it correct.</ConsultantNote>
+          <ConsultantNote Direction="ConsultantToProjFac" guid="52019df0-d5f2-42d9-bac3-ebd96cb2b3d1" memberID="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" timeStamp="2011-11-26T21:25:20Z">(26/nov/2011 -- deleting this line)</ConsultantNote>
+        </ConsultantConversation>
+      </ConsultantNotes>
     </Verse>
-    <Verse guid="16fdc16d-b121-47f3-a1b7-ea84471f21bc">
-      <StoryLine lang="Vernacular">जाओ और जाकर कुछ अनाज खरीद कर ले आओ।"</StoryLine>
-      <StoryLine lang="InternationalBt">Go and buy some grain."</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:2">Gen 42:2</Anchor>
-      </Anchors>
+    <Verse guid="c6e4cb45-8e1b-4426-8470-b35c5f11623e" visible="false">
       <TestQuestions>
-        <TestQuestion visible="true" guid="d4bd8dd3-ec55-4c3d-b6be-02c8a2ca7c65">
-          <TestQuestionLine lang="Vernacular">आकेखसे उनके पिता ने कैसे सुना था कि मिस्र में अनाज है?</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">IYO How their father heard that there is grain in the Egypt?</TestQuestionLine>
+        <TestQuestion visible="true" guid="fe5d8ef9-63da-4032-b8ed-e4adb126350d">
           <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">He must have heard the new from someone.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">Because he was very careful for his family so he must have inquired from people about grain.</Answer>
+            <Answer lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Answer>
+            <Answer lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Answer>
+            <Answer lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Answer>
           </Answers>
         </TestQuestion>
       </TestQuestions>
       <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">जाओ! मिस्र से कुछ अनाज लेकर आओ</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">...</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">इसलिए जाओ और अनाज खरीद कर ले आओ।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">So go and buy some grain.</Retelling>
+        <Retelling lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+      </Retellings>
+      <ConsultantNotes>
+        <ConsultantConversation guid="ad61a9e2-2540-49ff-8806-9d257975e4ee" finished="true">
+          <ConsultantNote Direction="ConsultantToProjFac" guid="ff70d3bb-21cd-4bb7-854d-fbca806d4474" memberID="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" timeStamp="2011-05-08T08:33:46Z">JP: Re: 'For them all'. -- since this line is referring to prophecies against several evil kings, please add a couple of anchors showing that. Use "tooltips" to identify who each anchor is about.</ConsultantNote>
+          <ConsultantNote Direction="ProjFacToConsultant" guid="3a490ac8-9641-4e78-b2db-52446870e43b" memberID="mem-d274b402-7acb-4074-b230-f7e46de427f5" timeStamp="2011-05-11T11:33:32Z">RD: I tried to understand your comments and answered accordingly. I have inserted few information in the anchoring. Sorry if I not understood your comment still.</ConsultantNote>
+          <ConsultantNote Direction="ConsultantToProjFac" guid="7d8d4125-2638-44c4-be23-47096a2f4cdb" memberID="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" timeStamp="2011-11-26T21:25:20Z">Looks fine now, but (26/nov/2011 -- deleting this line)</ConsultantNote>
+        </ConsultantConversation>
+      </ConsultantNotes>
+    </Verse>
+    <Verse guid="b21e3673-3fb5-40cf-adf3-a0165ff8ac1e" visible="false">
+      <Retellings>
+        <Retelling lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
       </Retellings>
     </Verse>
-    <Verse guid="76e361c0-82fd-41b3-b0cf-58a95114bf86">
-      <StoryLine lang="Vernacular">तब छोटे भाई को छोड़ वे सारे भाई मिस्र में अनाज लेने चले गये।</StoryLine>
-      <StoryLine lang="InternationalBt">Then except younger brother all brothers went to Egypt to take grain.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:4">Gen 42:4 this i put first because accourding my line that they went except their younger brother.</Anchor>
-        <Anchor jumpTarget="Gen 42:3">Gen 42:3</Anchor>
-      </Anchors>
+    <Verse guid="22fe4ede-c20e-40fc-930f-2d993c025794" visible="false">
       <TestQuestions>
-        <TestQuestion visible="true" guid="97fe583a-47c8-4bc3-94b3-20cf7a79b298">
-          <TestQuestionLine lang="Vernacular">आकेखसे वे छोटे भाई के बिना मिस्र में क्‍यों अनाज लेने चले गये?</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">IYO Why they went to Egypt taking grain without their youger brother.</TestQuestionLine>
+        <TestQuestion visible="true" guid="a8688a46-c37f-4b17-801b-c968b8b14f38">
           <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">i think some body shoud be there to their father.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">I think 10 were enough then they thought that there is no need to go all for getting the grain.</Answer>
+            <Answer lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Answer>
+            <Answer lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Answer>
+            <Answer lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Answer>
           </Answers>
         </TestQuestion>
       </TestQuestions>
       <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">तब छोटे बेटे को छोड़कर बाकी सभी बेटे मिस्र में अनाज लेने चले गये।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">Then except younger son all sons went to take grain.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">फिर सारे भाई अनाज लेने चले गये लेकिन छोटा भाई नही गया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">Then all brothers went to take grain but younger brother did not go.</Retelling>
+        <Retelling lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+      </Retellings>
+      <ConsultantNotes>
+        <ConsultantConversation guid="f780cf86-e180-4d81-a6cd-004538bc8c94" finished="true">
+          <ConsultantNote Direction="ConsultantToProjFac" guid="591650e9-5484-42bc-9cb1-ccd951d18373" memberID="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" timeStamp="2011-05-10T17:56:11Z">JP: The two anchors from 1Kgs 14:9 are about Jeroboam.  He was not a descendent of David.  Up in lines 4 &amp; 5  the story talks about kings after David "from his generation". Does this refer to his descendents?  If so, then the anchors for line 8 will need to be about kings who were descended from David. Please find those anchors.</ConsultantNote>
+          <ConsultantNote Direction="ProjFacToConsultant" guid="cb9f5cff-d6ec-420e-9226-0db53209e8d5" memberID="mem-d274b402-7acb-4074-b230-f7e46de427f5" timeStamp="2011-05-12T13:02:51Z">RD: I came to know that, what ever anchoring (1kgn 12:15, 1kgn 14:9, 1kgn 14:10) I had inserted for this line was wrong. So now I have changed the anchoring which is related to the generation of David. I tried to input right anchoring as per your instruction . Though it became hard for me to set the right anchoring still I am learning from your comments. Kindly let me know whether this anchoring is feet or not.</ConsultantNote>
+          <ConsultantNote Direction="ConsultantToProjFac" guid="4462ecd5-488e-4371-880d-ee1dcd39ebfc" memberID="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" timeStamp="2011-11-26T21:25:20Z">26/nov/2011 - deleting this line</ConsultantNote>
+        </ConsultantConversation>
+      </ConsultantNotes>
+    </Verse>
+    <Verse guid="4c71c0cb-c8d8-43e3-aed4-6daa10217c56" visible="false">
+      <Retellings>
+        <Retelling lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
       </Retellings>
     </Verse>
-    <Verse guid="f73932c7-92fe-48a2-b962-ee11c62fa66e">
-      <StoryLine lang="Vernacular">जैसे ही वे मिस्र में पहुँचे, तो अनाज लेने की अनुमति लेने के लिए उन्‍हे युसूफ के पास जाना पड़ा।</StoryLine>
-      <StoryLine lang="InternationalBt">As soon as they reached in the Egypt, then take permission to take the grain, they had to go Joseph.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:5">Gen 42:5</Anchor>
-        <Anchor jumpTarget="Gen 42:6">Gen 42:6</Anchor>
-      </Anchors>
+    <Verse guid="e8ce091a-f34c-44cf-a91d-7987b2bad3b1" visible="false">
       <TestQuestions>
-        <TestQuestion visible="true" guid="dfe4786b-5aa6-424d-aeb2-0dea7f9a750e">
-          <TestQuestionLine lang="Vernacular">आकेखसे उन्‍हे अनाज लेने की अनुमति लेने उन्‍हें युसूफ के पास क्‍यों जाना पड़ा?</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">IYO Why they had to go to Joseph to take the permission for taking grain?</TestQuestionLine>
+        <TestQuestion visible="true" guid="f3b00803-3848-484f-b5a2-132f30278b20">
           <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">Because he was the prime minister.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">I think he was incharge of all this responsibility.</Answer>
+            <Answer lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Answer>
+            <Answer lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Answer>
+            <Answer lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Answer>
           </Answers>
         </TestQuestion>
       </TestQuestions>
       <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">जब वे मिस्र में पहुँचे तो अनाज लेने की अनुमति लेने के लिए उनको युसूफ के पास जाना पड़ा।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">When they reached to Egypt then then had to go to Joseph to take permission for taking grain. </Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">फिर जब वे मिस्र में पहुँचे तो अनाज लेने की अनुमति लेने के लिए उन्‍हें युसूफ के पास जाना पड़ा।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">Then when they reached to Egypt then they had to go to Joseph take the permission of taking grain.</Retelling>
+        <Retelling lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
       </Retellings>
+      <ConsultantNotes>
+        <ConsultantConversation guid="7b7a86b4-b079-4fc9-9493-86e261806c73" finished="true">
+          <ConsultantNote Direction="ConsultantToProjFac" guid="1e043694-d0fa-4204-b8a7-ac59f2ccd259" memberID="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" timeStamp="2011-05-10T18:03:40Z">JP: The anchors from 1Kgs 22:8 &amp; 9 are not about any "hopeful" prophecies. They are the beginning of the prophecies of doom from Micaiah.  Since you have used the word "many", it would be good to find a few more hopeful prophecies. Or, you could delete "many" and just use the ones from 1Kgs 12.   </ConsultantNote>
+          <ConsultantNote Direction="ProjFacToConsultant" guid="5184a8b5-28ed-490a-88b0-2b151022c850" memberID="mem-d274b402-7acb-4074-b230-f7e46de427f5" timeStamp="2011-05-12T13:02:51Z">RD: Thank you for your comment. I have deleted the word "many" and also the anchoring (1Kgn 22:8, 1Kgn 22:9)</ConsultantNote>
+          <ConsultantNote Direction="ConsultantToProjFac" guid="b4c4b15b-685e-4f7a-903a-9900d0154d76" memberID="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" timeStamp="2011-11-26T21:25:20Z">26/nov/2011 -- deleting this line</ConsultantNote>
+        </ConsultantConversation>
+      </ConsultantNotes>
     </Verse>
-    <Verse guid="02419642-52a5-42f8-8fe1-5464b09edc80">
-      <StoryLine lang="Vernacular">जब वे युसूफ के पास आये, तो युसूफ ने उन्‍हें देखकर पहचाल लिया।</StoryLine>
-      <StoryLine lang="InternationalBt">When they came to Joseph then seeing them Joseph recognized them.</StoryLine>
+    <Verse guid="654d072e-3d48-4d53-a975-22fab90261c6">
+      <StoryLine lang="Vernacular">ସେମାନଙ୍କ ମଧ୍ୟରୁ ଯିଶାଇୟ ମଧ୍ୟ ଜଣେ ଭବିଷ୍ୟତ ବକ୍ତା ଯିଏ କି ପରମେଶ୍ୱରଙ୍କ ଦର୍ଶନ ପାଇ କହିଲେ ଯେ,</StoryLine>
+      <StoryLine lang="InternationalBt">of.them among Isaiah also one prophet who.is of.GodP vision by.getting said.that,</StoryLine>
+      <StoryLine lang="FreeTranslation">among them Isaiah was also a prophet who told from the vision of the Lord that,</StoryLine>
       <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:6">Gen 42:6</Anchor>
-        <Anchor jumpTarget="Gen 42:7">Gen 42:7</Anchor>
-        <Anchor jumpTarget="Gen 42:8">Gen 42:8</Anchor>
+        <Anchor jumpTarget="Isa 1:1">Isa 1:1</Anchor>
       </Anchors>
       <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">जब वे युसूफ के पास आये तो युसूफ ने उन्‍हें पहचान लिया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">When they came to Joseph then Joseph recognized them.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">जब वे युसूफ के पास आये तो युसूफ ने उन्‍हें पहचान लिया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">When they came to Joseph then Joseph recognize them.</Retelling>
+        <Retelling lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1">ସେମାନଙ୍କ ମଧ୍ୟରୁ ଯିଶାଇୟ ନାମକ ଜଣେ ଭବିଷ୍ୟତ ବକ୍ତା କହିଲେ ଯେ, </Retelling>
+        <Retelling lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1">among them a prophet named  Isaiah told that,</Retelling>
       </Retellings>
+      <ConsultantNotes>
+        <ConsultantConversation guid="4fc0931e-0dd6-444e-b79c-57d3c5a50a90">
+          <ConsultantNote Direction="ProjFacToProjFac" guid="651b12bb-4b74-4859-89cd-441232ccb07a" memberID="mem-d274b402-7acb-4074-b230-f7e46de427f5" timeStamp="2011-10-28T05:31:07Z">RD: Re: </ConsultantNote>
+        </ConsultantConversation>
+      </ConsultantNotes>
     </Verse>
-    <Verse guid="fc94d167-21c4-4798-9644-89b01c163481">
-      <StoryLine lang="Vernacular">लेकिन युसूफ के भाई युसूफ को नही पहचान सके।</StoryLine>
-      <StoryLine lang="InternationalBt">But Joseph's brother could not recognized Joseph.</StoryLine>
+    <Verse guid="5e37416a-46eb-42e7-b69d-0999b6d0b835">
+      <StoryLine lang="Vernacular">ଅଗାମି ଦିନମାନଙ୍କରେ ଏକ ଶାନ୍ତିର ରାଜକୁମାର ଆସିବେ ଯିଏ କି ଦାଉଦ ରାଜାଙ୍କ ସିଂହାସନରେ ସଦା ରାଜ୍ୟ କରିବେ ।</StoryLine>
+      <StoryLine lang="InternationalBt">Coming in.the.days one of.peace prince will.come who.is David of.the.king in.throne ever kingdom will.do</StoryLine>
+      <StoryLine lang="FreeTranslation">In the coming days a prince of peace will come who will reign in the throne of king David for ever.</StoryLine>
       <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:8">Gen 42:8</Anchor>
+        <Anchor jumpTarget="Isa 9:7">Isa 9:7</Anchor>
       </Anchors>
       <TestQuestions>
-        <TestQuestion visible="true" guid="64083a4e-2348-4b49-bcfd-9defb1050370">
-          <TestQuestionLine lang="Vernacular">आकेखसे युसूफ के भाई युसूफ को क्‍यों नही पहचान पाऐ?</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">IYO Why Joseph's brother could not recognize Joseph?</TestQuestionLine>
+        <TestQuestion visible="true" guid="911a14f6-498c-4991-91ae-8e074bab1346">
+          <TestQuestionLine lang="Vernacular">“ଇଶ୍ୱରଙ୍କ ଦର୍ଶନ କହିଲେ” ଆପଣ କଣ ଭାବୁଛନ୍ତି ?</TestQuestionLine>
+          <TestQuestionLine lang="InternationalBt">What do you understand by  “vision of the Lord”?</TestQuestionLine>
           <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">I think they were seeing him after a long time.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">They were thinking that this is a prime miniter and can not be there brother Joseph and i think that they were meeting after many years.</Answer>
+            <Answer lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"> ମୁଁ ଭାବୁଛି ଯେ ଇଶ୍ୱର ନିଜେ ଏମାନଙ୍କୁ ଦେଖାକରି କଥାକହୁଥିବେ ।</Answer>
+            <Answer lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Answer>
+            <Answer lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1">I think God himself might be talking being appeared with them.</Answer>
           </Answers>
         </TestQuestion>
       </TestQuestions>
       <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">लेकिन वे युसूफ को नही पहचान सके।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">But they could not recognize Joseph.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">लेकिन वे युसूफ को नही पहचान सके।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">But they could not recognize Joseph.</Retelling>
+        <Retelling lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1">ଅଗାମି ଦିନମାନଙ୍କରେ ଏକ ଶାନ୍ତିଦାତା ଆସିବେ ଯିଏ କି ଦାଉଦଙ୍କ ସିଂହାସନରେ ରାଜ୍ୟ କରିବେ । </Retelling>
+        <Retelling lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1">In the coming days a peace giver will come who will reign in the throne of king David .</Retelling>
       </Retellings>
     </Verse>
-    <Verse guid="9eec89ca-2e82-4618-ac14-239dba12358a">
-      <StoryLine lang="Vernacular">तब उसके भाईयों ने युसूफ को माथा टेका।</StoryLine>
-      <StoryLine lang="InternationalBt">Then his brothers bow down to him.</StoryLine>
+    <Verse guid="3f38cd70-5758-472f-a65e-30468f039b8c">
+      <StoryLine lang="Vernacular">କିନ୍ତୁ ବହୁତ ଲୋକ ଏହି ଈଶ୍ୱରଙ୍କ ଦାସଙ୍କୁ ଅଗ୍ରାହ୍ୟ କରିବେ ।</StoryLine>
+      <StoryLine lang="InternationalBt">but much people it of.GodP to.servant refuse will.do</StoryLine>
+      <StoryLine lang="FreeTranslation">But many people this servant of the Lord will refuse.</StoryLine>
       <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:6">Gen 42:6</Anchor>
+        <Anchor jumpTarget="Isa 53:3">refuse</Anchor>
+        <Anchor jumpTarget="Isa 52:13">servant of the Lord</Anchor>
+      </Anchors>
+      <Retellings>
+        <Retelling lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1">କିନ୍ତୁ ବହୁତ ଲୋକ ଏହି ଅବତାର ପୁରୁଷକୁ ମାନିବେ ନାହିଁ । </Retelling>
+        <Retelling lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1">But many people will refuse  to this man of incarnation.</Retelling>
+      </Retellings>
+      <ConsultantNotes>
+        <ConsultantConversation guid="511edf7c-8f2d-47a7-aebe-d7f130cb7e10">
+          <ConsultantNote Direction="ConsultantToProjFac" guid="e7a8c2c7-acaf-4e98-a6c3-26327576d17f" memberID="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" timeStamp="2011-05-10T18:09:17Z">JP: Re: 'this son of the Lord'. -- what does this refer to? It doesn't seem to be in the anchor.</ConsultantNote>
+          <ConsultantNote Direction="ProjFacToConsultant" guid="6217472f-b3fd-4710-8f61-eaa54753dcf7" memberID="mem-d274b402-7acb-4074-b230-f7e46de427f5" timeStamp="2011-05-11T11:33:32Z">RD: Thank you for your comment. Can I write like this "But many people will refuse to the son of the Lord who is to be come". I need your valuable suggestion for this.</ConsultantNote>
+          <ConsultantNote Direction="ConsultantToProjFac" guid="b17bf2f1-72d8-4d87-b61a-6da48564619f" memberID="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" timeStamp="2011-11-26T21:25:20Z">How about if you say "this servant of the Lord" and use Isa 52:13 to anchor that part. I.e. "But many people this servant of the Lord will refuse" (Isa 53:3 refuse; Isa 52:13 servant of the Lord)</ConsultantNote>
+          <ConsultantNote Direction="ProjFacToConsultant" guid="0aeb4030-3feb-4574-b880-06bb26b870b9" memberID="mem-d274b402-7acb-4074-b230-f7e46de427f5" timeStamp="2011-12-01T17:21:37Z">RD2: It is fine and I will add in my story lines as you have mentioned me above.</ConsultantNote>
+          <ConsultantNote Direction="ConsultantToProjFac" guid="5a921e4a-09e3-462b-9b53-05cdca481f92" memberID="mem-bb3d874d-1e9d-4e63-ac1a-3f0fe635b4e0" timeStamp="2011-12-01T20:39:01Z">Ok</ConsultantNote>
+          <ConsultantNote Direction="ProjFacToConsultant" guid="3d802670-9ff9-4b4f-af36-7115a837c985" memberID="mem-d274b402-7acb-4074-b230-f7e46de427f5" timeStamp="2011-12-02T16:39:57Z">RD2: Yes Mam, I have done it.</ConsultantNote>
+        </ConsultantConversation>
+      </ConsultantNotes>
+    </Verse>
+    <Verse guid="162c62c2-576a-4baa-af06-d332bf111772">
+      <StoryLine lang="Vernacular">ତଥାପି ସେ ଆମର ଦୁଖ କଷ୍ଟ ଓ ଦୁର୍ବଳତାକୁ ନିଜର ଭାବି ନିଜ ଉପରକୁ ନେବେ ।</StoryLine>
+      <StoryLine lang="InternationalBt">still He/J our sorrows difficult and to.weaknesses of.own thinking own to.up will.take</StoryLine>
+      <StoryLine lang="FreeTranslation">Still He will take our sorrows difficulties and weaknesses upon Him.</StoryLine>
+      <Anchors keyTermChecked="false">
+        <Anchor jumpTarget="Isa 53:4">Isa 53:4</Anchor>
       </Anchors>
       <TestQuestions>
-        <TestQuestion visible="true" guid="96a5bc22-2d4e-40c6-be43-c177329c5499">
-          <TestQuestionLine lang="Vernacular">आकेखसे उसके भाईयों ने युसूफ को माथा क्‍यों टेका।</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">IYO why his brothers bow down to Joseph?</TestQuestionLine>
+        <TestQuestion visible="true" guid="49420014-8641-4e17-b97a-fad91fd2f100">
+          <TestQuestionLine lang="Vernacular">“ପରମେଶ୍ୱରଙ୍କ ପୁତ୍ରଙ୍କୁ ଅଗ୍ରାହ୍ୟ କରିବା ସତ୍ତ୍ୱେ  ସେ ଆମର ଦୁଖ, କଷ୍ଟକୁ ନିଜ ଉପରକୁ ନେବେ”  କହିଲେ ଆପଣ କଣ ଭାବୁଛନ୍ତି ?</TestQuestionLine>
+          <TestQuestionLine lang="InternationalBt">What do you understand by “In spite of the Lord will refuse to the son He will take our sorrows and difficulties”</TestQuestionLine>
           <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">Because he was the prime minister.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">We must have to do like this to our leader and minister when we meet them.</Answer>
+            <Answer lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1">ବୋଧ ହୁଏ ଏହା ଇଶ୍ୱରଙ୍କର ଏକ ଆଲୌକିକ କାର୍ଯ୍ୟ ହୋଇଥିବ ।</Answer>
+            <Answer lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Answer>
+            <Answer lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1">Probably it might be a supernatural work of the God.</Answer>
           </Answers>
         </TestQuestion>
       </TestQuestions>
       <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">तब उन्‍होने युसूफ को माथा टेका।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">Then they bow down to Joseph.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">तब उसके भाईयों ने उसे माथा टेका।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">Then his brothers bow down to him.</Retelling>
+        <Retelling lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1">ସେ ଆମ ପାପ ପାଇଁ କଷ୍ଟ ପାଇବେ ଯେପରି କି ଆମେ ଆମ ନିଜ ପାପରୁ ଉଧାର ପାଇବା </Retelling>
+        <Retelling lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1">For our sin He will face difficulties so that we will be delivered from our sin. </Retelling>
       </Retellings>
     </Verse>
-    <Verse guid="affd62de-41d2-4e9c-b531-d8d17c947763">
-      <StoryLine lang="Vernacular">उनके ऐसा करने से युसूफ को अपना बचपन का सपना याद आया।</StoryLine>
-      <StoryLine lang="InternationalBt">Their doing like this Joseph remembered his childhood drream.</StoryLine>
+    <Verse guid="2d6b73d9-5bb0-41bf-9908-0d4f8d7eec23">
+      <StoryLine lang="Vernacular">ସେ ଆମ ପାପ ପାଇଁ କଷ୍ଟ ଉଠେଇବେ ଯେପରି କି ଆମ୍ଭେ ମାନେ ପାପରୁ ଉଧାର ପାଇବା ।</StoryLine>
+      <StoryLine lang="InternationalBt">He/J our sin for will.take.difficulties so.that we.are from.sin deliver get</StoryLine>
+      <StoryLine lang="FreeTranslation">For our sin He will take difficulties so that we will be deliver from sin.</StoryLine>
       <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:9">Gen 42:9</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">उनके ऐसा करने से युसूफ को अपना बचपन का सपना याद आया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">They doing like this Joseph remembered his childhood dreams.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">उनके ऐसा करने से युसूफ को अपना बचपन का सपना याद आया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">Their doing like this Joseph remembered his childhood dreams.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="6d6a934e-9065-427a-b022-7a04544bb47e">
-      <StoryLine lang="Vernacular">लेकिन युसूफ जानबुझकर अपने भाईयों से अंजान बन गया।</StoryLine>
-      <StoryLine lang="InternationalBt">But Joseph knowingly made himself strange to his brothers,</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:7">Gen 42:7 but he pretended to be a stranger</Anchor>
+        <Anchor jumpTarget="Isa 53:5">Isa 53:5</Anchor>
       </Anchors>
       <TestQuestions>
-        <TestQuestion visible="true" guid="428b080a-5554-4983-a611-761f8f40350b">
-          <TestQuestionLine lang="Vernacular">आकेखसे युसूफ जानबुझकर क्‍यों अंजान बन गया?</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">IYO Why Joseph became unknow to them knowingly?</TestQuestionLine>
+        <TestQuestion visible="true" guid="2dc95186-8f77-430e-b0dd-b464823eb232">
+          <TestQuestionLine lang="Vernacular">“ପାପରୁ ଉଧାର ପାଇବା”  ଏହି ବିଷୟକୁ ନେଇ ଆପଣଙ୍କ  ଚିନ୍ତାଧାରା  କଣ ଅଛି ?</TestQuestionLine>
+          <TestQuestionLine lang="InternationalBt">“Deliver from sin” what is your thinking on it ?</TestQuestionLine>
           <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">He just wanted to know that how are they and still they have dishonesy in them.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">He wanted to test his brothers.</Answer>
+            <Answer lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1">ଜଗତର ପାପରୁ ଉଧାର ପାଇବା ଏହା ହିଁ ଇଶ୍ୱରଙ୍କର ଶ୍ରେଷ୍ଠ କାର୍ଯ୍ୟ  ଯାହା କି ପ୍ରତ୍ୟକ ମାନବ ପାଇଁ ଦରକାର ।</Answer>
+            <Answer lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Answer>
+            <Answer lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1">To be released from sin of the world is only the great work of the God which is needed for all human being.</Answer>
           </Answers>
         </TestQuestion>
       </TestQuestions>
       <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">लेकिन जानबुझकर युसूफ उनसे अंजान बन गया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">But knowingly Joseph made himself stranger to them.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">लेकिन युसूफ जानबुझकर उनसे अंजान बन गया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">But Joseph knowingly made himself unfamiliar with them.</Retelling>
+        <Retelling lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1">ଲୋକମାନେ ତାଙ୍କ ନାମରେ ମିଛ କହିବେ ତଥାପି ସେ କିଛି କହିବେ ନାହିଁ ।</Retelling>
+        <Retelling lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1">People will tell lie in His name still He will not say any thing.</Retelling>
       </Retellings>
     </Verse>
-    <Verse guid="68a1b5d8-5668-44f0-af02-b26bb6cd7ca4">
-      <StoryLine lang="Vernacular">और उन से पुछा, “तुम कौन हो?</StoryLine>
-      <StoryLine lang="InternationalBt">and asked them, "Who are you?</StoryLine>
+    <Verse guid="1bdf5380-2f68-4487-a9aa-bba91c53268e">
+      <StoryLine lang="Vernacular">ଲୋକମାନେ ତାଙ୍କ ଉପରେ ମିଥ୍ୟା ବିଚାର ଆଣିବେ ତଥାପି ସେ ନିଜର ମୁଖ ଖୋଲିବେ ନାହିଁ ।</StoryLine>
+      <StoryLine lang="InternationalBt">people his over false judgment will.bring still He/J of.own voice will.be.not.open</StoryLine>
+      <StoryLine lang="FreeTranslation">People will bring false judgment for Him still He will not raise His voice.</StoryLine>
       <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:7">Gen 42:7</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">और युसूफ ने उन से पुछा। "तुम कौन हो?</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">Then Joseph asked them, "who are you?</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">तब युसूफ ने उनको पुछा, "तुम कोण हो?</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">Then Joseph asked them, "who are you?</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="a40b3b3d-8eae-47b4-b969-e3da3e5d0243">
-      <StoryLine lang="Vernacular">उन्‍होने कहा, “महाराज, हम किसी दुसरे देश से यहाँ अनाज लेने आये हैं।"</StoryLine>
-      <StoryLine lang="InternationalBt">They said, "Sir we have come here from another country take grain."</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:7">Gen 42:7</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">उन्‍होने कहा, "जी हम दुसरे देश से यहाँ अनाज लेने आये हैं।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"> They said, "we have come here from other country to take grain.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">उन्‍होने कहा, "महाराज हम दुसरे देश के हैं और यहाँ अनाज लेने आये हैं।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">They said, "great king we are from other country and came here to take grain.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="b331cd32-6f0c-4e79-80fe-479d89d717ec">
-      <StoryLine lang="Vernacular">लेकिन युसूफ ने कहा,</StoryLine>
-      <StoryLine lang="InternationalBt">But Joseph said,</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:9">Gen 42:9</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">तब युसूफ ने कहा।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">Then Joseph said.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">लेकिन युसूफ ने कहा।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">But Jopseh said.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="5e91f512-943e-4897-921d-6c1eae0578eb">
-      <StoryLine lang="Vernacular">"लेकिन मुझे तो लगता है तुम कोई जासूस हो, जो हमारे देश की जासूसी करने आये हो।"</StoryLine>
-      <StoryLine lang="InternationalBt">"But it seems to me though that you are spies who came to spy out our country."</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:9">Gen 42:9</Anchor>
+        <Anchor jumpTarget="Isa 53:7">Isa 53:7</Anchor>
+        <Anchor jumpTarget="Isa 53:8">Isa 53:8</Anchor>
       </Anchors>
       <TestQuestions>
-        <TestQuestion visible="true" guid="2d0fb1d8-3c5c-40a5-8b20-38c3958ac17b">
-          <TestQuestionLine lang="Vernacular">आकेखसे युसूफ ने उनको ऐसा क्‍यों कहा होगा?</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">IYO Why must have Joseph said them like this?</TestQuestionLine>
+        <TestQuestion visible="true" guid="4ffcacda-f9cb-458f-86d0-0b9f3f4968b7">
+          <TestQuestionLine lang="Vernacular">"ସେମାନେ ତାଙ୍କ ପାଇଁ ମିଥ୍ୟା ବିଚାର ଆଣିଲେ ମଧ୍ୟ ସେ ମୁଖ ଖୋଲିବେ ନାହିଁ" ଏପ୍ରକାର କାହିଁକି ସେ ହେବେ ?</TestQuestionLine>
+          <TestQuestionLine lang="InternationalBt">“He will not raise His voice even they will bring false judgment” why He will be like this ?</TestQuestionLine>
           <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">He was trying to test them i think.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">He was doing this to test them.</Answer>
+            <Answer lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1">ଏହା ଇଶ୍ୱରଙ୍କ କୃପା ଦ୍ୱାରା କେବଳ ସମ୍ଭବ ଅଟେ ।</Answer>
+            <Answer lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Answer>
+            <Answer lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1">It is possible only due to compassion (krupa) of God.</Answer>
           </Answers>
         </TestQuestion>
       </TestQuestions>
       <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">लेकिन मुझे लगता है कि तुम जासूस हो जो हमारे देश का मुआईना करने आये हो।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">But i think that you are spies who came to survey our country.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">मुझे लगता है है तुम जासूस हो जो हमारे देश में जासूसी करने आये हो।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">But i think that you are spies who come here to see our country.</Retelling>
+        <Retelling lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1">ଲୋକମାନେ ତାଙ୍କୁ ଜିବନରେ ମାରିଦେବେ କିନ୍ତୁ ପୁନର୍ବାର ସେ ଜିବନ ପାଇବେ । </Retelling>
+        <Retelling lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1">People will kill Him to death  but again He will get life.</Retelling>
       </Retellings>
     </Verse>
-    <Verse guid="d812111c-7ea3-49ec-9c3b-43f268066f0b">
-      <StoryLine lang="Vernacular">उन्‍होने कहा, “नही, नही, महाराज, यह आप क्‍या कह रहे हैं?</StoryLine>
-      <StoryLine lang="InternationalBt">Then said, "No, no, sir what are you saying?</StoryLine>
+    <Verse guid="36300e5d-a53c-4f1a-b3b6-da611163e4e1">
+      <StoryLine lang="Vernacular">ସେମାନେ ତାଙ୍କୁ ମୃତ୍ୟୁ ଦଣ୍ଡ ଦେବେ କିନ୍ତୁ ପୁନର୍ବାର ସେ ଜିବନ ପାଇବେ ।</StoryLine>
+      <StoryLine lang="InternationalBt">they Him/J death punishment will.give but again He/J life will.get</StoryLine>
+      <StoryLine lang="FreeTranslation">They will punish Him to death but again He will get life.</StoryLine>
       <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:10">Gen 42:10</Anchor>
+        <Anchor jumpTarget="Isa 53:8">Isa 53:8</Anchor>
+        <Anchor jumpTarget="Isa 53:9">Isa 53:9</Anchor>
+        <Anchor jumpTarget="Isa 53:10">Isa 53:10</Anchor>
       </Anchors>
       <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">उन्‍होने कहा, "नही नही महाराज।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">They said, No no sir.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">उन्‍होने कहा, "नही महाराज यह आप क्‍या कह रहे हैं।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">They said, "No great king what are you saying?</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="f0611c5f-ca2d-409e-b0f6-70c287b8ce8e">
-      <StoryLine lang="Vernacular">हम कोई जासूस नही हैं, हम तो शरीफ लोग हैं।</StoryLine>
-      <StoryLine lang="InternationalBt">We are not spies, we are honest people.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:11">Gen 42:11</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">हम जासूस नही है हम तो बहुत शरीफ लोग हैं।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">we are not spies we are very honest people.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">हम जासूस नही हैं बल्‍कि हम तो शरीफ लोग हैं।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">we are not spies but we are honest people.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="c8858767-096f-41c3-8e2f-39751040fadb">
-      <StoryLine lang="Vernacular">हम एक बाप के 12 बेटे हैं, जिन में से एक नही रहा और छोटा घर में है।"</StoryLine>
-      <StoryLine lang="InternationalBt">We are 12 sons of a man among them one is no more and younger one is at home."</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:13">Gen 42:13</Anchor>
-      </Anchors>
-      <TestQuestions>
-        <TestQuestion visible="true" guid="5eeea08b-1f68-4374-a07c-9f7d0f3d2ba2">
-          <TestQuestionLine lang="Vernacular">आकेखसे उन्‍होने ऐसा क्‍यों कहा?</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">IYO why they said like this?</TestQuestionLine>
-          <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">They were telling truth to him.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">They were trying to clear Joseph that they are not as Joseph is thinking.</Answer>
-          </Answers>
-        </TestQuestion>
-      </TestQuestions>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">हम 12 भाई हैं जिन में एक नही रहा और छोटा घर में है।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">we are 12 brother among us one is no more and younger one is at home.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">हम एक पिता के 12 बेटे हैं जिन में से एक नही है और छोटा घर में है।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">We are 12 sons a father among them one is no more and younger one is at home.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="01c57023-a9f5-49bd-8930-baf65d2ddc3e">
-      <StoryLine lang="Vernacular">लेकिन फिर भी युसूफ ने उनकी एक न सुनी और उनको जेल में बंद करवा दिया।</StoryLine>
-      <StoryLine lang="InternationalBt">But Joseph did not hear their even one and put them into the jail.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:14">Gen 42:14</Anchor>
-        <Anchor jumpTarget="Gen 42:17">Gen 42:17</Anchor>
-      </Anchors>
-      <TestQuestions>
-        <TestQuestion visible="true" guid="5badde44-7320-4319-9db0-43c58e8b3bba">
-          <TestQuestionLine lang="Vernacular">आकेखसे युसूफ ने उनकी क्‍यों नही सुनी?</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">IYO Why did Joseph not listen to them?</TestQuestionLine>
-          <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">I don't why did Joseph do like this and what was running in his mind but he must have done this for some motive.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">He was trying to test them.</Answer>
-          </Answers>
-        </TestQuestion>
-      </TestQuestions>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">लेकिन फिर भी युसूफ ने उनकी एक ना सुनी और उनके जेल में बंद कर दिया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">But still Joseph did hear even their one and put them into the jail.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">लेकिन युसूफ ने उनकी एक भी नही सुनी और उनको जेल में बंद करवा दिया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">But did not hear their even one and put them in the jail.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="3ddbe7e9-7048-4ef3-acc3-14110fac596f">
-      <StoryLine lang="Vernacular">तीन दिन के बाद युसूफ ने फिर से उन्‍हे जेल से बाहर निकाला और कहा,</StoryLine>
-      <StoryLine lang="InternationalBt">After three days again Joseph released them out of the jail and said,</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:18">Gen 42:18</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">तीन दिन के बाद युसूफ ने उनके जेल से बाहर निकाला और उनसे कहा।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">After three days Joseph released them out of the jail and said.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">तीन दिन के बाद युसूफ ने उनको बाहर निकाला और कहा।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">after three days Jopseph released them out and said.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="a219042e-20bc-429a-8a94-3bd8d9a58ac5">
-      <StoryLine lang="Vernacular">"ठीक है… अगर तुम शरीफ लोग हो और अनाज लेने आये थे, तो ले जाओ।</StoryLine>
-      <StoryLine lang="InternationalBt">"Ok... if you are honest man and have come to take the grain, then take it.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:19">Gen 42:19</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">ठीक है…अगर तुम शरीफ लोग हो और यहाँ अनाज लेने आये हो तो ले जाओ।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">Ok...if you are honest man and come here to take grain then take it.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">अगर तुम शरीफ हो तो अनाज ले जाओ।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">if you are honest then take the grain.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="89f23753-4e01-4f15-9d72-2eca57504238">
-      <StoryLine lang="Vernacular">लेकिन मैं तुम्‍हारा यकीन तब तक ना करूँगा, जब तक तुम अपने छोटे भाई से मुझे नही मिलाते।</StoryLine>
-      <StoryLine lang="InternationalBt">But i will not trust you until you introduce your younger brother to me.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:20">Gen 42:20</Anchor>
-      </Anchors>
-      <TestQuestions>
-        <TestQuestion visible="true" guid="20186f6a-f2bb-469e-9c5d-c35857f021a7">
-          <TestQuestionLine lang="Vernacular">आकेखसे युसूफ ने यह शर्त क्‍यों रखी?</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">IYO Why did Joseph put this condition?</TestQuestionLine>
-          <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">He wanted to see his younger brother.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">He was willing them to bring their younger brother to him.</Answer>
-          </Answers>
-        </TestQuestion>
-      </TestQuestions>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">लेकिन मैं तब तक तुम लोगों का यकीन नही करूँगा जब तक तुम अपने छोटे भाई से मुझे नही मिलाते।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">But i will not trust you until you introduce your younger brother to me.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">लेकिन तुम्‍हारा यकीन तब तक नही करूँगा जब तक तुम अपने छोटे भाई को मेरे से नही मिलाते।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">But i will not believe you until you introduce your younger brother with me.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="fb76a219-c182-437a-8eac-51cec1817f43">
-      <StoryLine lang="Vernacular">इसलिए तुम अपने लिए अनाज ले जाओ </StoryLine>
-      <StoryLine lang="InternationalBt">So you take grain for yourselves </StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:19">Gen 42:19</Anchor>
-        <Anchor jumpTarget="Gen 42:20">Gen 42:20</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">…</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">...</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">…</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">...</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="2c180920-518a-459d-a187-e779a8f04760">
-      <StoryLine lang="Vernacular">इसलिए अगली बार जब आओ, तो अपने छोटे भाई को भी साथ लेकर आना।</StoryLine>
-      <StoryLine lang="InternationalBt">and next time when you come, then also bring our younger son with you.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:19">Gen 42:19</Anchor>
-        <Anchor jumpTarget="Gen 42:20">Gen 42:20</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">इसलिए जब अगली बार तुम आओ तो अपने छोटे भाई को भी साथ लेकर आना।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">So when you come next time then also bring your younger brother with you.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">इसलिए जब तुम अगली बार आओगे तो अपने छोटे भाई को भी साथ लाना।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">So when you will come next time then bring your younger brother also.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="0593f99b-6a52-4577-8684-7d556871cba4">
-      <StoryLine lang="Vernacular">लेकिन तब तक तुम में से एक भाई यहाँ मेरे पास रहेगा।"</StoryLine>
-      <StoryLine lang="InternationalBt">But until then among you one brother will be here with me."</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:19">Gen 42:19</Anchor>
-      </Anchors>
-      <TestQuestions>
-        <TestQuestion visible="true" guid="3e87b21b-bfed-4d75-8804-0b614a53b923">
-          <TestQuestionLine lang="Vernacular">आकेखसे उसने ऐसा क्‍यों कहा?</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">IYO Why did he say like this?</TestQuestionLine>
-          <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">He wanted to meet his younger brother so he thought if one of them will be here then they definiatly will bring their younger brother to him.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">So that they can bring their younger brother to him.</Answer>
-          </Answers>
-        </TestQuestion>
-      </TestQuestions>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">तब तक तुम में से एक भाई यहीं रहेगा।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">till then one brother from you will stay here.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">लेकिन तब तक तुम मेंसे एक भाई मेरे पास रहेगा।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">till then among you one brother will stay here to me.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="003365dd-282b-4e2e-8bc7-cb34bc3d9762">
-      <StoryLine lang="Vernacular">तब वे अनाज लेकर चले गये </StoryLine>
-      <StoryLine lang="InternationalBt">Then they took grain and went away </StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:26">Gen 42:26</Anchor>
-        <Anchor jumpTarget="Gen 42:29">Gen 42:29</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">फिर वे अनाज लेकर चले गये </Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">Then they went away by taking grain </Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">तब वे अनाज लेकर चले गये </Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">Then they went away by taking grain </Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="8d317ce0-d42d-4f93-ad9b-c49eac259500">
-      <StoryLine lang="Vernacular">और जब वे घर पहुँचे, तो उन्‍होने अपने पिता को अपनी सारी आप बीती सुनाई।</StoryLine>
-      <StoryLine lang="InternationalBt">and when they reaced home, then they told their father all their story.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:26">Gen 42:26</Anchor>
-        <Anchor jumpTarget="Gen 42:29">Gen 42:29</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">और घर पहुँचकर उन्‍होने अपने पिता को अपनी सारी आपबीती सुनाई।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">and reaching home they told their father their all story.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">और घर पहुँचकर उन्‍होने अपनी सारी आपबीती अपने पिता को सुनाई।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">and reaching home they told their all story to their father.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="74c36aac-3e4f-4c17-9eed-39e828ba678b">
-      <StoryLine lang="Vernacular">यह सुनकर उनका पिता बहुत दुखी हुआ।</StoryLine>
-      <StoryLine lang="InternationalBt">Hearing this their father was very upset.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 42:38">Gen 42:38</Anchor>
-      </Anchors>
-      <TestQuestions>
-        <TestQuestion visible="true" guid="fcf5c9db-a1ee-49b9-a974-e2502970d0dc">
-          <TestQuestionLine lang="Vernacular">यह सुनकर पिता क्‍यों दुखी हुआ?</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">Hearing this why father was upset?</TestQuestionLine>
-          <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">Because the man who was left in Egypt was his son.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">Because his son was in Egypt.</Answer>
-          </Answers>
-        </TestQuestion>
-      </TestQuestions>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">इस बात से उनका पिता बहुत दुखी हुआ।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">Because of this their father became very upset.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">इन बातों को सुनकर उनका पिता बहुत दुखी हुआ।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">Hearing these things their father became very upset.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="c9647c28-8400-4337-b84f-83293cf8f1fb">
-      <StoryLine lang="Vernacular">कुछ दिनों के बाद उनका अनाज फिर से खत्‍म हो गया।</StoryLine>
-      <StoryLine lang="InternationalBt">Some days later their grain was finished again.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 43:2">Gen 43:2</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">कुछ दिनों के बाद उनका अनाज फिर से खत्‍म हो गया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">After some days their grain was finished again.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">कुछ दिनों के बाद उनका अनाज खत्‍म हो गया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">After some days their grain was finished again.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="aa2798c3-1dae-42f4-8346-0bf7bdc35b26">
-      <StoryLine lang="Vernacular">तब उनके पिता ने उनको अनाज लाने के लिए कहा।</StoryLine>
-      <StoryLine lang="InternationalBt">and their father said to them that "go and bring grain."</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 43:2">Gen 43:2</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">तब उनके पिता ने उनको अनाज लाने के लिए कहा।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">Then their father told them to bring grain.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">तो उनके पिता ने उनको और अनाज लाने के लिए कहा।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">Then their father told them to bring more grain.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="c26a6647-db13-4c87-980c-982b6e3cec15">
-      <StoryLine lang="Vernacular">लेकिन उसके बेटे कहने लगे, "पिता जी, हमने आपको पहले ही बताया था</StoryLine>
-      <StoryLine lang="InternationalBt">but his sons began to say, "Father we told you already</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 43:3">Gen 43:3</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">तब बेटों ने कहा, "पिता जी हमने आपको पहले बताया था।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">Then sons said, "Father we already told you.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">तब उसके बेटे कहने लगे, "पिता जी हमने आपको पहले ही बताया है।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">Then his sons began to say, "father we told you before.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="a23ff672-3b06-417f-8bd0-9e5635cdf07b">
-      <StoryLine lang="Vernacular">कि उस प्रधानमंत्री ने हमें अपने छोटे भाई को भी साथ लाने के लिए कहा है।"</StoryLine>
-      <StoryLine lang="InternationalBt">that prime minister told us to bring our younger brother also with us."</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 43:3">Gen 43:3</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">कि उस प्रधानमंत्री हमें अपने छोटे भाई को भी साथ लाने को कहा है।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">that prime minister told us to bring our younger brother also.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">कि उस प्रधानमंत्री ने इस बार हमें अपने छोटे भाई को भी साथ लाने को कहा है।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">that prime minister told us to bring our younger brother also.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="879437df-6462-4a8a-9bc7-d660fcc3c148">
-      <StoryLine lang="Vernacular">तब उनके पिता ने दिल पर पत्थर रख कर अपने छोटे बेटे को भी उनके साथ भेज दिया।</StoryLine>
-      <StoryLine lang="InternationalBt">Then their father keeping stone on his heart (Idiom) sent his younger son with them.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 43:13">Gen 43:13</Anchor>
-      </Anchors>
-      <TestQuestions>
-        <TestQuestion visible="true" guid="d99bc030-5e6b-4e54-a0d4-c5d14a171813">
-          <TestQuestionLine lang="Vernacular">आकेखसे पिता ने अपने छोटे बेटे को ऐसी दशा में क्‍यों भेजा?</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">IYO Why father must have sent his son in this condition?</TestQuestionLine>
-          <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">Because he was thinking that minister has already his one son to him and don't know that why he doing like this.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">He was thinking that prime minister has called his younger son lest he can do something wrong with him.</Answer>
-          </Answers>
-        </TestQuestion>
-      </TestQuestions>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">तब पिता ने अपने दिल पर पत्‍थर रख कर अपने छोटे बेटे को भी उनके साथ भेज दिया। </Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">Then their father keeping stone on his heart also sent his younger son with them.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">तब पिता ने अपने दिल पर पत्‍थर रखकर अपने छोटे बेटे को भी उनके साथ भेज दिया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">Then father sent his younger son with them keeping on his heart.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="cf23bf4a-ccc6-4487-a4e1-c0d35c85d01a">
-      <StoryLine lang="Vernacular">वे अपने छोटे भाई को युसूफ के पास लेकर आये और जैसे ही उसने अपने छोटे भाई को देखा,</StoryLine>
-      <StoryLine lang="InternationalBt">They brought their younger brother to Joseph and as soon as Joseph saw his brother,</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 43:15">Gen 43:15</Anchor>
-        <Anchor jumpTarget="Gen 43:29">Gen 43:29</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">तब वे अपने छोटे भाई को लेकर युसूफ के पास आये और जैसे ही युसूफ ने अपने छोटे भाई को देखा।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">Then brought their younger brother to Joseph and as soon as Joseph saw his younger brother.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">जब वे अपने छोटे भाई को युसूफ के पास लेकर आये तो उसे देखकर।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">When they brought their younger brother infront of Joseph then seeing him.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="9e5f5609-d488-42a5-bd8d-79295b4c0e08">
-      <StoryLine lang="Vernacular">तो उसका मन भर आया और वह अपने कमरे में जाकर रोने लगा।</StoryLine>
-      <StoryLine lang="InternationalBt">His heart was filled with emotions and going in his room he began to cry.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 43:30">Gen 43:30</Anchor>
-      </Anchors>
-      <TestQuestions>
-        <TestQuestion visible="true" guid="9e77b11c-bd24-48c8-85f0-0bc5c078b686">
-          <TestQuestionLine lang="Vernacular">अपने छोटे भाई को देखकर युसूफ का मन क्‍यों भर आया?</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">Seeing his younger why Joseph's heart filled with emotions?</TestQuestionLine>
-          <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">Because he was seeing him after long time.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">Because he was seeing him after many years.</Answer>
-          </Answers>
-        </TestQuestion>
-      </TestQuestions>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">तो उसका मन भर आया और वह अपने कमरे में जाकर रोने लगा।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">then his heart was filled with emotions and going his room he began to cry.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">युसूफ का मन भर गया और वह अपने कमरे में जाकर रोने लगा।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">Joseph's heart was filled with emotions and he began to cry in his room.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="f269eab4-09bb-436f-99f7-627703bf2cde">
-      <StoryLine lang="Vernacular">दुसरे दिन युसूफ ने उनको अनाज देकर भेज दिया।</StoryLine>
-      <StoryLine lang="InternationalBt">Second day he sent them with grain.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 44:3">Gen 44:3</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">दुसरे दिन उसने अपने भाईयों को अनाज देकर भेज दिया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">Second day Joseph sent his brothers giving them grain.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">…</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">...</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="1b150293-a993-40ef-b504-6f39362efb1c">
-      <StoryLine lang="Vernacular">लेकिन अपने भाईयों को परखने के लिए कि यह अभी सुधरे हैं कि नही।</StoryLine>
-      <StoryLine lang="InternationalBt">But to test his brothers that are they good now or not.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 44:8">Gen 44:8</Anchor>
-      </Anchors>
-      <TestQuestions>
-        <TestQuestion visible="true" guid="13f96ab0-cb41-44c6-878d-3276eb5a1452">
-          <TestQuestionLine lang="Vernacular">आकेखसे उसने अपने भाईयों को क्‍यों परखा?</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">IYO why did he test his brothers?</TestQuestionLine>
-          <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">He just wanted test then to know that what they do if i make their younger brother my slave. Will they save him or this will be a normal thing for them.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">He wanted to know that are they good now or not.</Answer>
-          </Answers>
-        </TestQuestion>
-      </TestQuestions>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">लेकिन अपने भाईयों को परखने के लिए कि वे सुधरे गये हैं या नही।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">But to test his brothers they are good now or not.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">दुसरे दिन उसने अपने भाईयों परखना चाहा कि यह सुधरे हैं कि नही।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">Second day he wanted to test his brothers that are they good now or not.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="70267a33-a383-4e36-8899-7bc2479a359d">
-      <StoryLine lang="Vernacular">जानबुझ कर अपने छोटे भाई इलज़ाम लगाया और कहा,</StoryLine>
-      <StoryLine lang="InternationalBt">knowingly he blame his younger brother and said,</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 44:8">Gen 44:8</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">उसने जानबूझकर अपने छोटे भाई चोरी का इलज़ाम लगाया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">knowingly he blame his younger brother of stealing.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">युसूफ ने अपने छोटे भाई पर इलज़ाम लगाते हुऐ कहा।।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">Joseph blaming his younger brother said.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="5b7cc2ab-e403-44e8-bd7e-2b18dea2dac7">
-      <StoryLine lang="Vernacular">"तुम्हारे छोटे भाई ने मेरे घर चोरी की है, </StoryLine>
-      <StoryLine lang="InternationalBt">"Your younger brother stolen at my home. </StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 44:17">Gen 44:17</Anchor>
-      </Anchors>
-      <TestQuestions>
-        <TestQuestion visible="true" guid="fafdae7a-1569-4be2-94b4-559b2a917bf8">
-          <TestQuestionLine lang="Vernacular">अपने भाईयों को परखने के लिए युसूफ ने अपने भाई पर चोरी जैसा इलजाम क्‍यों लगाया?</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">To test his brothers why Joseph blame his brother of stealing?</TestQuestionLine>
-          <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">He just wanted to know that what they do.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">He was willing to see his other brothers that what they do if i will put this blame to my younger brother.</Answer>
-          </Answers>
-        </TestQuestion>
-      </TestQuestions>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">और उसने कहा, "तुम्‍हारे छोटे भाई ने मेरे घर चोरी की है।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">and he said, "your younger brother has stolen something at my home.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">"तुम्‍हारे छोटे भाई ने मेरे घर चोरी की है।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">your younger brother has done stealing at my home.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="aeb0ea8a-ae3e-461f-9d2a-0cd4a879167b">
-      <StoryLine lang="Vernacular">इसलिए यह यहाँ ग़ुलाम रहेगा।"</StoryLine>
-      <StoryLine lang="InternationalBt">So he will be here as a slave."</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 44:17">Gen 44:17</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">इसलिए यह यहाँ गुलाम रहेगा।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">So he will be slave here.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">इसलिए अब यह यहाँ गुलाम रहेगा।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">So he will be slave here.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="034bc025-6956-4d92-ab83-c3e3ef3d82d9">
-      <StoryLine lang="Vernacular">इस बात को सुनकर उसके भाई बहुत डर गये और कहने लगे,</StoryLine>
-      <StoryLine lang="InternationalBt">Hearing this his brother became afraid and began to say,</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 44:18">Gen 44:18</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">यह सुनकर उसके भाई बहुत डर गये और कहने लगे।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">Hearing this his brother became afraid and began to say.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">यह सुनकर सारे भाई डर गये और कहने लगे।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">Hearing this all brothers became afraid and began to say.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="a8025347-cd4b-4f14-9e2d-dc82cc5238ec">
-      <StoryLine lang="Vernacular">"नही महाराज, मेहरबानी करके हमारे छोटे भाई को छोड़ दीजिए।</StoryLine>
-      <StoryLine lang="InternationalBt">"No Sir, please leave our younger brother.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 44:18">Gen 44:18</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">नही महाराज कृप्‍या करके हमारे भाई को छोड़ दीजिये।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">No sir please leave our brother.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">नही महाराज ऐसा मत कीजिये।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">No great king don't do this.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="cdd21bc7-fc41-4e51-867c-e26054b7dd40">
-      <StoryLine lang="Vernacular">अगर आप कहें, तो मैं इसकी जगह पे ग़ुलाम बन जाता हूँ।</StoryLine>
-      <StoryLine lang="InternationalBt">If you say, then I be a slave instead of him.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 44:33">Gen 44:33</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">अगर आप कहें तो मैं गुलाम बन जाता हूँ।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">If you say that i become slave instead of him.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">अगर आप कहें तो हम हया गुलाम बन जाते हैं।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">if you say then we become slave here.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="06b0b98c-153b-4652-a065-a69b9ef8f6cf">
-      <StoryLine lang="Vernacular">लेकिन अपने छोटे भाई के बिना हम अपने पिता को क्‍या मुँह दिखाएगे?"</StoryLine>
-      <StoryLine lang="InternationalBt">But without our younger brother how we will show our faces to our father."</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 44:34">Gen 44:34</Anchor>
-      </Anchors>
-      <TestQuestions>
-        <TestQuestion visible="true" guid="32ac12d9-935f-4013-9ebf-efa68e4276dd">
-          <TestQuestionLine lang="Vernacular">आकेखसे वे अपने छोटे भाई के बिना अपने पिता को मुँह क्‍यों नही दिखा सकते थे?</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">IYO with their younger brother why could they not show their faces to their father?</TestQuestionLine>
-          <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">Younger son is alway dear for parents.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">I think he must be the loving son of their father.</Answer>
-          </Answers>
-        </TestQuestion>
-      </TestQuestions>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">लकिन अपने छोटे भाई के बिना हम अपने पिता को मूँह नही दिखा सकते।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">But without our younger brother we can not show our faces to our father.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">क्‍योंकि अपने छोटे भाई के बिना हम अपने पिता को मुँह नही दिखा सकते।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">because without our younger brother we can not show our faces to our father.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="b7c94394-de69-48d9-806f-3b5385e41915">
-      <StoryLine lang="Vernacular">उनकी इन बातों को सुनकर युसूफ ने अपने आप को उन पर ज़ाहिर कर दिया।</StoryLine>
-      <StoryLine lang="InternationalBt">Hearing their these things Joseph revealed himself to them.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 45:3">Gen 45:3</Anchor>
-      </Anchors>
-      <TestQuestions>
-        <TestQuestion visible="true" guid="c5d0ff4b-f65b-490e-b8d8-d975601cc5af">
-          <TestQuestionLine lang="Vernacular">आकेखसे उनकी इन बातों को सुनकर युसूफ ने अपने आप को उन पर क्‍यों ज़ाहिर कर दिया?</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">IYO hearing their these things why did Joseph reveal himself to them?</TestQuestionLine>
-          <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">I think he could not control himself more.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">His test was completed and then he decided to reveal himself to his brothers.</Answer>
-          </Answers>
-        </TestQuestion>
-      </TestQuestions>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">उनकी ऐसी बातों को सुनकर युसूफ ने अपने आप को ज़ाहिर कर दिया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">Hearing their such things Joseph revealed himself.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">उनकी इन बातों को सुनकर युसूफ जान गया कि अब यह सुधर गये हैं तो युसूफ ने अपने आप को उनको जाजिर कर दिया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">hearing their such thing Joseph came to know that now they are good so Joseph revealed himself to them.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="05876363-a37a-4e45-9438-c19d19cbb198">
-      <StoryLine lang="Vernacular">यह देखकर कि यह तो हमारा भाई युसूफ है, वे और भी डर गये।</StoryLine>
-      <StoryLine lang="InternationalBt">Seeing this that he is our brother Joseph the were afraid even more.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 45:3">Gen 45:3</Anchor>
-      </Anchors>
-      <TestQuestions>
-        <TestQuestion visible="true" guid="dd115bc7-dcee-4ae9-b29d-3f77d5453690">
-          <TestQuestionLine lang="Vernacular">वे यह देखकर क्‍यों डर गये?</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">Why they were afraid seeing this?</TestQuestionLine>
-          <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">They were thinking that Joseph will treat with them not good.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">I don't know i am confused that why they were afraid. But i think they should be happy to know it.</Answer>
-          </Answers>
-        </TestQuestion>
-      </TestQuestions>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">इस बात से वे डर गये।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">Because of this they became afraid.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">यह देखकर उसके भाई डर गये।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">seeing this their brother became afraid.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="469058f5-c9a9-4565-aed9-074db9ea1f6e">
-      <StoryLine lang="Vernacular">लेकिन युसूफ ने कहा, “डरो मत, यह परमेश्‍वर ही की योजना थी।</StoryLine>
-      <StoryLine lang="InternationalBt">But Joseph said, "Don't be afraid it was the God's plan.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 45:5">Gen 45:5</Anchor>
-      </Anchors>
-      <TestQuestions>
-        <TestQuestion visible="true" guid="55f472b4-de47-4030-9726-c86fea3862f0">
-          <TestQuestionLine lang="Vernacular">आकेखसे युसूफ ने क्‍यों कहा कि यह परमेश्‍वर ही की योजना थी?</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">IYO why did Joseph say that it was the plan of God?</TestQuestionLine>
-          <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">God wanted to save Jospeh's family.</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">Because it was really the plan of God.</Answer>
-          </Answers>
-        </TestQuestion>
-      </TestQuestions>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">लेकिन युसूफ ने कहा, "डरो नही यह परमेश्‍वर की योजना थी।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">But Jopseph said, "Don't be afraid, it was God's plan.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">लेकिन युसूफ ने कहा, "डरो मत यह परमेश्‍वर की मर्ज़ी थी।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">But Joseph said, "don't be afraid, it was God's desire.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="3dbe1838-ea35-4f16-b897-bbaf38ace6f2">
-      <StoryLine lang="Vernacular">कि अकाल के समय में अपने परिवार की रक्षा करूँ।</StoryLine>
-      <StoryLine lang="InternationalBt">and in the time of famine i can protect my family.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 45:7">Gen 45:7</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">कि अकाल के दिनों में अपने परिवार की रक्षा करूँ।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">that i can protect my family in the days of famine.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">कि मैं अकाल के दिनों में अपने परिवार की रक्षा करूँ।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">that i can protect my family in the days of famine.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="064a12f1-d5b9-4f05-a147-3b09c38dc123">
-      <StoryLine lang="Vernacular">जब वहाँ के राजा ने यह सुना कि युसूफ का परिवार यहाँ पर आया है।</StoryLine>
-      <StoryLine lang="InternationalBt">When the King of that place heard this that Joseph's family have come here.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 45:16">Gen 45:16</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">जब राजा ने सुना कि युसूफ का परिवार यहाँ आया है।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">When king heard that Joseph's family have come here.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">जब राजा को पता चला कि युसूफ का परिवार यहाँ आया है।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">When king came to know that Joseph's family have come here.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="a2c8533b-d890-4caa-91c3-8c456d5154da">
-      <StoryLine lang="Vernacular">तो उसने युसूफ के परिवार को मिस्र में ही बुला लिया।</StoryLine>
-      <StoryLine lang="InternationalBt">Then he called Joseph's family in the Egypt.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 45:17">Gen 45:17</Anchor>
-        <Anchor jumpTarget="Gen 45:18">Gen 45:18</Anchor>
-        <Anchor jumpTarget="Gen 45:19">Gen 45:19</Anchor>
-      </Anchors>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">तो उसने युसूफ के परिवार को मिस्र में ही बुला लिया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">Then he called Joseph's family in the Egypt.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">तो उसने युसूफ के परिवार को मिस्र में ही बुला लिया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">Then he called Joseph's family in the Egypt.</Retelling>
-      </Retellings>
-    </Verse>
-    <Verse guid="2ef64cea-7e9f-425e-85fe-a2d4c49093ba">
-      <StoryLine lang="Vernacular">और अकाल के सालों में वे मिस्र में ही रहे।</StoryLine>
-      <StoryLine lang="InternationalBt">and they lived in Egypt duriing the years of famine.</StoryLine>
-      <Anchors keyTermChecked="false">
-        <Anchor jumpTarget="Gen 46:1">Gen 46:1</Anchor>
-      </Anchors>
-      <TestQuestions>
-        <TestQuestion visible="true" guid="c82b13b7-cfb4-4381-951a-18e61d51ea8b">
-          <TestQuestionLine lang="Vernacular">…</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">...</TestQuestionLine>
-          <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">...</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">...</Answer>
-          </Answers>
-        </TestQuestion>
-        <TestQuestion visible="true" guid="dc0dd340-ef7d-45b8-bb81-98fcff534147">
-          <TestQuestionLine lang="Vernacular">…</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">...</TestQuestionLine>
-          <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">...</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">...</Answer>
-          </Answers>
-        </TestQuestion>
-        <TestQuestion visible="true" guid="02dde7dd-1c22-4c47-bdb4-fefbfc163aa7">
-          <TestQuestionLine lang="Vernacular">…</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">...</TestQuestionLine>
-          <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">...</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">...</Answer>
-          </Answers>
-        </TestQuestion>
-        <TestQuestion visible="true" guid="28db3182-518c-4c8f-83c2-d49f103b60c1">
-          <TestQuestionLine lang="Vernacular">…</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">...</TestQuestionLine>
-          <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">...</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">...</Answer>
-          </Answers>
-        </TestQuestion>
-        <TestQuestion visible="true" guid="fedfec7e-afa8-4cf9-88c5-0fae8e1cd1ac">
-          <TestQuestionLine lang="Vernacular">…</TestQuestionLine>
-          <TestQuestionLine lang="InternationalBt">...</TestQuestionLine>
-          <Answers>
-            <Answer lang="Vernacular" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="NationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-d7ca3226-4675-4899-8589-0e4e6ec6dc3d">...</Answer>
-            <Answer lang="Vernacular" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="NationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371"></Answer>
-            <Answer lang="InternationalBt" memberID="mem-7e511f64-711b-449f-be50-e0ab28cd5371">...</Answer>
-          </Answers>
-        </TestQuestion>
-      </TestQuestions>
-      <Retellings>
-        <Retelling lang="Vernacular" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">तब युसुफ का सारा परिवार मिस्र में आ गया।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-b47a5f07-b423-48ed-a7a8-890ac16dd6cb">Then Joseph's family came in the Egypt.</Retelling>
-        <Retelling lang="Vernacular" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">तब युसूफ का सारा परिवार मिस्र में आ गया और अकाल के दिनों में युसुफ ने अपने परिवार कि रक्षा की।</Retelling>
-        <Retelling lang="NationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131"></Retelling>
-        <Retelling lang="InternationalBt" memberID="mem-cd60f94b-8fce-46ed-b70c-aa9041bd9131">Then Joseph's whole family came in Egypt and in the days of famine Jospeh protected his family.</Retelling>
+        <Retelling lang="Vernacular" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="NationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
+        <Retelling lang="InternationalBt" memberID="mem-8f334789-7e7b-429b-bab5-4c02456dc7f1"></Retelling>
       </Retellings>
     </Verse>
   </Verses>

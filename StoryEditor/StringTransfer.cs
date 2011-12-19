@@ -1,4 +1,5 @@
 ﻿using System;
+using OneStoryProjectEditor.Properties;
 using SilEncConverters40;
 
 namespace OneStoryProjectEditor
@@ -8,14 +9,111 @@ namespace OneStoryProjectEditor
     public class StringTransfer
     {
         protected string Value;
+#if UsingHtmlDisplayForStoryBt
+        public StoryEditor.TextFields WhichField;
+
+        public string FormatLanguageColumnHtml(int nVerseIndex, 
+            int nItemNum, 
+            int nNumCols,
+            string strValue,
+            bool bUseTextAreas)
+        {
+            if (!bUseTextAreas && String.IsNullOrEmpty(strValue))
+                strValue = "-";  // just so there's something there (or the cell doesn't show)
+
+            string strHtmlElement;
+            if (bUseTextAreas)
+            {
+                strHtmlElement = String.Format(Resources.HTML_Textarea,
+                                               GetHtmlElementId(nVerseIndex, nItemNum, bUseTextAreas),
+                                               GetStyleClassName,
+                                               GetLanguageType,
+                                               strValue);
+            }
+            else
+            {
+                strHtmlElement = String.Format(Resources.HTML_ParagraphText,
+                                               GetStyleClassName,
+                                               strValue);
+            }
+
+            return String.Format(Resources.HTML_TableCellWidthAlignTop,
+                                 100/nNumCols,
+                                 strHtmlElement);
+        }
+
+        private string GetHtmlElementId(int nVerseIndex, int nItemNum, bool bUseTextAreas)
+        {
+            var strLanguageType = GetLanguageType;
+            var strId = (bUseTextAreas)
+                            ? TextareaId(nVerseIndex,
+                                         GetFieldType,
+                                         nItemNum,
+                                         strLanguageType)
+                            : TextParagraphId(nVerseIndex,
+                                              GetFieldType,
+                                              nItemNum,
+                                              strLanguageType);
+            return strId;
+        }
+
+        private string GetStyleClassName
+        {
+            get
+            {
+                System.Diagnostics.Debug.Assert(WhichField != StoryEditor.TextFields.Undefined);
+                return "Lang" + GetLanguageType;
+            }
+        }
+
+        private string GetFieldType
+        {
+            get
+            {
+                System.Diagnostics.Debug.Assert(WhichField != StoryEditor.TextFields.Undefined);
+                return (WhichField & StoryEditor.TextFields.Fields).ToString();
+            }
+        }
+
+        private string GetLanguageType
+        {
+            get
+            {
+                System.Diagnostics.Debug.Assert(WhichField != StoryEditor.TextFields.Undefined);
+                return (WhichField & StoryEditor.TextFields.Languages).ToString();
+            }
+        }
+
+        /// <summary>
+        /// Gets a unique id for a text area. a combination of...
+        /// </summary>
+        /// <param name="nVerseIndex">indicates verse number (0-based)</param>
+        /// <param name="strPrefix">indicates the data--e.g. StoryLine vs. Retelling, etc</param>
+        /// <param name="nItemNum">indicates a sub-item number for certain types (e.g. ret *2*)</param>
+        /// <param name="strFieldTypeName">indicates the language of the field (e.g. vernacular)</param>
+        /// <returns></returns>
+        public static string TextareaId(int nVerseIndex, string strPrefix, int nItemNum, string strFieldTypeName)
+        {
+            return String.Format("{0}_{1}_{2}_{3}_{4}", HtmlVerseControl.CstrTextAreaPrefix,
+                                 nVerseIndex, strPrefix, nItemNum, strFieldTypeName);
+        }
+
+        public static string TextParagraphId(int nVerseIndex, string strPrefix, int nItemNum, string strFieldTypeName)
+        {
+            return String.Format("{0}_{1}_{2}_{3}_{4}", HtmlVerseControl.CstrParagraphPrefix,
+                                 nVerseIndex, strPrefix, nItemNum, strFieldTypeName);
+        }
+
+#else
 #if !DataDllBuild
         protected CtrlTextBox _tb = null;
 #endif
-
+#endif
         public DirectableEncConverter Transliterator { get; set; }
 
-        public StringTransfer(string strValue)
+        public StringTransfer(string strValue, StoryEditor.TextFields eWhichField)
         {
+            WhichField = eWhichField;
             SetValue(strValue);
         }
 
@@ -36,6 +134,7 @@ namespace OneStoryProjectEditor
 
             return str;
         }
+#if !UsingHtmlDisplayForStoryBt
 #if !DataDllBuild
         public void SetAssociation(CtrlTextBox tb)
         {
@@ -66,12 +165,13 @@ namespace OneStoryProjectEditor
             get { return _tb; }
         }
 #endif
+#endif
 
         // if this string is associated with the ConNotes pane, then keep track
         //  of the element ID it's associated with and the pane, so we can use
         //  it during 'find'
         public string HtmlElementId;
-        public object HtmlConNoteCtrl;
+        public object HtmlPane;
 
         // make it a little non-obvious how to get the string out so we can benefit from compiler-time errors
         public override string ToString()
@@ -110,6 +210,7 @@ namespace OneStoryProjectEditor
 
         public void ExtractSelectedText(out string strSelectedText)
         {
+#if !UsingHtmlDisplayForStoryBt
 #if !DataDllBuild
             if (_tb != null)
             {
@@ -121,6 +222,7 @@ namespace OneStoryProjectEditor
                 }
             }
             else
+#endif
 #endif
                 strSelectedText = null;
         }
