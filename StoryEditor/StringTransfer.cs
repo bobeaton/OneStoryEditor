@@ -16,8 +16,11 @@ namespace OneStoryProjectEditor
             int nItemNum, 
             int nNumCols,
             string strValue,
-            bool bUseTextAreas)
+            VerseData.ViewSettings viewSettings)
         {
+            bool bUseTextAreas = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.UseTextAreas) &&
+                                 ((WhichField & viewSettings.FieldEditibility) != StoryEditor.TextFields.Undefined);
+
             if (!bUseTextAreas && String.IsNullOrEmpty(strValue))
                 strValue = "-";  // just so there's something there (or the cell doesn't show)
 
@@ -27,7 +30,6 @@ namespace OneStoryProjectEditor
                 strHtmlElement = String.Format(Resources.HTML_Textarea,
                                                GetHtmlElementId(nVerseIndex, nItemNum, bUseTextAreas),
                                                GetStyleClassName,
-                                               GetLanguageType,
                                                strValue);
             }
             else

@@ -443,11 +443,13 @@ namespace OneStoryProjectEditor
                 AnswersInternationalBT = 8388608,
                 GeneralTestQuestions = 16777216,
                 ExegeticalHelps = 33554432,
+                UseTextAreas = 67108864,
                 RetellingFields = RetellingsVernacular | RetellingsNationalBT | RetellingsInternationalBT,
                 StoryTestingQuestions = TestQuestionsVernacular | TestQuestionsNationalBT | TestQuestionsInternationalBT,
                 StoryTestingQuestionAnswers = AnswersVernacular | AnswersNationalBT | AnswersInternationalBT
             }
 
+            public StoryEditor.TextFields FieldEditibility { get; set; }
             public DirectableEncConverter TransliteratorVernacular { get; set; }
             public DirectableEncConverter TransliteratorNationalBT { get; set; }
             public DirectableEncConverter TransliteratorInternationalBt { get; set; }
@@ -497,6 +499,8 @@ namespace OneStoryProjectEditor
                 bool bHiddenStuff,
                 bool bOpenConversationsOnly,
                 bool bGeneralTestQuestions,
+                bool bUseTextAreas,
+                StoryEditor.TextFields fieldEditability,
                 DirectableEncConverter decTransliteratorVernacular,
                 DirectableEncConverter decTransliteratorNationalBT,
                 DirectableEncConverter decTransliteratorInternationalBt,
@@ -523,7 +527,9 @@ namespace OneStoryProjectEditor
                                    bStoryFrontMatter,
                                    bHiddenStuff,
                                    bOpenConversationsOnly,
-                                   bGeneralTestQuestions);
+                                   bGeneralTestQuestions,
+                                   bUseTextAreas);
+                FieldEditibility = fieldEditability;
                 TransliteratorVernacular = decTransliteratorVernacular;
                 TransliteratorNationalBT = decTransliteratorNationalBT;
                 TransliteratorInternationalBt = decTransliteratorInternationalBt;
@@ -557,7 +563,8 @@ namespace OneStoryProjectEditor
                 bool bStoryFrontMatter,
                 bool bHiddenStuff,
                 bool bOpenConNotesOnly,
-                bool bGeneralTestQuestions
+                bool bGeneralTestQuestions,
+                bool bUseTextAreas
                 )
             {
                 _itemToInsureOn = 0;
@@ -625,6 +632,8 @@ namespace OneStoryProjectEditor
                     _itemToInsureOn |= ItemToInsureOn.OpenConNotesOnly;
                 if (bGeneralTestQuestions)
                     _itemToInsureOn |= ItemToInsureOn.GeneralTestQuestions;
+                if (bUseTextAreas)
+                    _itemToInsureOn |= ItemToInsureOn.UseTextAreas;
             }
         }
 
@@ -727,8 +736,7 @@ namespace OneStoryProjectEditor
             CraftingInfoData craftingInfo,
             ViewSettings viewSettings, 
             VerseData theChildVerse,
-            bool bPrintPreview,
-            bool bUseTextAreas)
+            bool bPrintPreview)
         {
             string strRow = null;
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.VernacularLangField))
@@ -739,7 +747,7 @@ namespace OneStoryProjectEditor
                                       nNumCols,
                                       theChildVerse,
                                       bPrintPreview,
-                                      bUseTextAreas,
+                                      viewSettings,
                                       viewSettings.TransliteratorVernacular);
             }
 
@@ -751,7 +759,7 @@ namespace OneStoryProjectEditor
                                       nNumCols,
                                       theChildVerse,
                                       bPrintPreview,
-                                      bUseTextAreas,
+                                      viewSettings,
                                       viewSettings.TransliteratorNationalBT);
             }
 
@@ -763,7 +771,7 @@ namespace OneStoryProjectEditor
                                       nNumCols,
                                       theChildVerse,
                                       bPrintPreview,
-                                      bUseTextAreas,
+                                      viewSettings,
                                       viewSettings.TransliteratorInternationalBt);
             }
 
@@ -775,7 +783,7 @@ namespace OneStoryProjectEditor
                                       nNumCols,
                                       theChildVerse,
                                       bPrintPreview,
-                                      bUseTextAreas,
+                                      viewSettings,
                                       viewSettings.TransliteratorFreeTranslation);
             }
 
@@ -794,7 +802,8 @@ namespace OneStoryProjectEditor
             // this will turn cn notes into strings in the astr... list (but we don't want
             //  that if we're using text areas (since in that case, we don't do diff'ing
             //  nor print preview).
-            if (!bUseTextAreas && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.ExegeticalHelps))
+            if (!viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.UseTextAreas) && 
+                 viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.ExegeticalHelps))
                 ExegeticalHelpNotes.PresentationHtml((theChildVerse != null) ? theChildVerse.ExegeticalHelpNotes : null,
                                                      ref astrExegeticalHelpNotes);
 
@@ -807,7 +816,7 @@ namespace OneStoryProjectEditor
                                                                      nVerseIndex,
                                                                      nNumCols,
                                                                      astrExegeticalHelpNotes,
-                                                                     bUseTextAreas);
+                                                                     viewSettings);
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
             {
@@ -821,7 +830,7 @@ namespace OneStoryProjectEditor
                                                            ViewSettings.ItemToInsureOn.RetellingsNationalBT),
                                                        viewSettings.IsViewItemOn(
                                                            ViewSettings.ItemToInsureOn.RetellingsInternationalBT),
-                                                       bUseTextAreas);
+                                                       viewSettings);
             }
 
             if ((!IsFirstVerse && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
@@ -831,8 +840,7 @@ namespace OneStoryProjectEditor
                 strHtml += TestQuestions.PresentationHtml(nVerseIndex, nNumCols, viewSettings,
                                                           craftingInfo.TestersToCommentsTqAnswers,
                                                           (theChildVerse != null) ? theChildVerse.TestQuestions : null,
-                                                          bPrintPreview, IsFirstVerse,
-                                                          bUseTextAreas);
+                                                          bPrintPreview, IsFirstVerse);
             }
 
             // show the row as hidden if either we're in print preview (and it's hidden)
@@ -842,12 +850,12 @@ namespace OneStoryProjectEditor
                                      : ((theChildVerse != null) && !theChildVerse.IsVisible)
                                            ? true
                                            : false;
-            return FinishPresentationHtml(strRow, strHtml, bShowAsHidden, bUseTextAreas);
+            return FinishPresentationHtml(strRow, strHtml, bShowAsHidden, viewSettings);
         }
 
         private delegate StringTransfer ChildStringTransfer();
         private static string GetHtmlCell(StringTransfer stringTransfer, ChildStringTransfer childStringTransfer,
-            int nVerseIndex, int nNumCols, VerseData theChildVerse, bool bPrintPreview, bool bUseTextAreas, 
+            int nVerseIndex, int nNumCols, VerseData theChildVerse, bool bPrintPreview, ViewSettings viewSettings, 
             DirectableEncConverter transliterator)
         {
             string str;
@@ -864,11 +872,11 @@ namespace OneStoryProjectEditor
                                                            0,
                                                            nNumCols,
                                                            str,
-                                                           bUseTextAreas);
+                                                           viewSettings);
         }
 
         protected string FinishPresentationHtml(string strStoryLineRow, string strHtml,
-            bool bChildIsHidden, bool bUseTextAreas)
+            bool bChildIsHidden, ViewSettings viewSettings)
         {
             strHtml = String.Format(Properties.Resources.HTML_TableRow,
                                     String.Format(Properties.Resources.HTML_TableCell,
@@ -877,7 +885,7 @@ namespace OneStoryProjectEditor
                                                       strStoryLineRow))) + strHtml;
 
             var strNoBorder = String.Format(Properties.Resources.HTML_TableNoBorder, strHtml);
-            if (bUseTextAreas)
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.UseTextAreas))
                 strStoryLineRow = String.Format(Properties.Resources.HTML_TableCellWithSpan,
                                                 2,
                                                 strNoBorder);
@@ -914,7 +922,7 @@ namespace OneStoryProjectEditor
                                                 nVerseIndex,
                                                 nNumCols,
                                                 viewSettings.TransliteratorVernacular,
-                                                bUseTextAreas);
+                                                viewSettings);
             }
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.NationalBtLangField))
@@ -923,7 +931,7 @@ namespace OneStoryProjectEditor
                                                 nVerseIndex,
                                                 nNumCols,
                                                 viewSettings.TransliteratorNationalBT,
-                                                bUseTextAreas);
+                                                viewSettings);
             }
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.InternationalBtField))
@@ -932,7 +940,7 @@ namespace OneStoryProjectEditor
                                                 nVerseIndex,
                                                 nNumCols,
                                                 viewSettings.TransliteratorInternationalBt,
-                                                bUseTextAreas);
+                                                viewSettings);
             }
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.FreeTranslationField))
@@ -941,7 +949,7 @@ namespace OneStoryProjectEditor
                                                 nVerseIndex,
                                                 nNumCols,
                                                 viewSettings.TransliteratorFreeTranslation,
-                                                bUseTextAreas);
+                                                viewSettings);
             }
 
             string strHtml = null;
@@ -965,7 +973,7 @@ namespace OneStoryProjectEditor
                                                                      nVerseIndex,
                                                                      nNumCols,
                                                                      astrExegeticalHelpNotes,
-                                                                     bUseTextAreas);
+                                                                     viewSettings);
             }
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
@@ -979,7 +987,7 @@ namespace OneStoryProjectEditor
                                                                  viewSettings.IsViewItemOn(
                                                                      ViewSettings.ItemToInsureOn.
                                                                          RetellingsInternationalBT),
-                                                                 bUseTextAreas);
+                                                                 viewSettings);
             }
 
             if ((!IsFirstVerse && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
@@ -988,22 +996,21 @@ namespace OneStoryProjectEditor
             {
                 strHtml += TestQuestions.PresentationHtmlAsAddition(nVerseIndex, nNumCols, viewSettings,
                                                                     craftingInfo.TestersToCommentsTqAnswers,
-                                                                    bHasOutsideEnglishBTer,
-                                                                    bUseTextAreas);
+                                                                    bHasOutsideEnglishBTer);
             }
 
-            return FinishPresentationHtml(strRow, strHtml, !IsVisible, bUseTextAreas);
+            return FinishPresentationHtml(strRow, strHtml, !IsVisible, viewSettings);
         }
 
         private string GetHtmlCellAsAddition(StringTransfer stringTransfer, int nVerseIndex, int nNumCols, 
-            DirectableEncConverter transliterator, bool bUseTextAreas)
+            DirectableEncConverter transliterator, ViewSettings viewSettings)
         {
             string str = Diff.HtmlDiff(transliterator, null, stringTransfer);
             return stringTransfer.FormatLanguageColumnHtml(nVerseIndex,
                                                            0,
                                                            nNumCols,
                                                            str,
-                                                           bUseTextAreas);
+                                                           viewSettings);
         }
 
         public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
@@ -1432,10 +1439,10 @@ namespace OneStoryProjectEditor
             VersesData child,
             int nNumCols, 
             VerseData.ViewSettings viewSettings, 
-            bool bHasOutsideEnglishBTer,
-            bool bUseTextAreas)
+            bool bHasOutsideEnglishBTer)
         {
             string strHtml = null;
+            bool bUseTextAreas = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.UseTextAreas);
             // first check on line 0 (general TQs)
             if ((FirstVerse != null) && 
                 viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions))
@@ -1447,8 +1454,7 @@ namespace OneStoryProjectEditor
                 strHtml += FirstVerse.PresentationHtml(0, nNumCols, craftingInfo,
                                                        viewSettings, 
                                                        theChildFirstVerse,
-                                                       (child == null),
-                                                       bUseTextAreas);
+                                                       (child == null));
             }
 
             int nInsertCount = 0;
@@ -1504,12 +1510,11 @@ namespace OneStoryProjectEditor
                             continue;
                     }
 
-                    strHtml += aVerseData.PresentationHtml(nLineIndex, nNumCols, 
-                        craftingInfo,
-                        viewSettings, 
-                        theChildVerse, 
-                        (child == null),
-                        bUseTextAreas);
+                    strHtml += aVerseData.PresentationHtml(nLineIndex, nNumCols,
+                                                           craftingInfo,
+                                                           viewSettings,
+                                                           theChildVerse,
+                                                           (child == null));
 
                     // if there is a child, but we couldn't find the equivalent verse...
                     if ((child != null) && (theChildVerse == null) && (child.Count >= i))

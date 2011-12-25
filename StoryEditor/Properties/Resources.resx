@@ -2066,7 +2066,7 @@ initContextMenu();
     <value>&lt;tr id="{0}" BGCOLOR="{1}"&gt;{2}&lt;/tr&gt;    </value>
   </data>
   <data name="HTML_Textarea" xml:space="preserve">
-    <value>&lt;textarea id="{0}" class="{1}" placeholder="{2}"&gt;{3}&lt;/textarea&gt;</value>
+    <value>&lt;textarea id="{0}" class="{1}"&gt;{2}&lt;/textarea&gt;</value>
   </data>
   <data name="HTML_TextareaWithRefDrop" xml:space="preserve">
     <value>&lt;textarea id="{0}" class="{1}" onKeyUp="return window.external.TextareaOnKeyUp(this.id, this.value);" ondragover="window.event.returnValue=false" ondrop="window.external.CopyScriptureReference(this.id)" onselect="this.focus();"&gt;{2}&lt;/textarea&gt;</value>
@@ -2236,29 +2236,19 @@ for (var i=0; i &lt; textareas.length; i++)
   <data name="PrintHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PrintHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="EnglishBt" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\EnglishBt.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="FreeTranslation" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FreeTranslation.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="NationalBt" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\NationalBt.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Vernacular" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Vernacular.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="StoryBtJs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\js\storybt.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="StoryBtPsJs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\js\storybtps.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="jquery_min" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\js\jquery.min.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="StoryBtHtml" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\html\storybt.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="StoryBtPlaceholders" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\js\storybtplaceholders.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

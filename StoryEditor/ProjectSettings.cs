@@ -502,7 +502,7 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            public string HtmlStyle(string strLangCat, string strBackgroundImageName)
+            public string HtmlStyle(string strLangCat)
             {
                 string strHtmlStyle = String.Format(Properties.Resources.HTML_LangStyle,
                                                     strLangCat,
@@ -818,6 +818,37 @@ namespace OneStoryProjectEditor
             Answers = 128,
             Retellings2 = 256,
             Answers2 = 512
+        }
+
+        public static StoryEditor.TextFields FilterTextFields(StoryEditor.TextFields fieldsToFilter, TaskSettings pfAllowedTasks)
+        {
+            ResetValueIfOff(ref fieldsToFilter, StoryEditor.TextFields.Vernacular, 
+                            pfAllowedTasks, TaskSettings.VernacularLangFields);
+            ResetValueIfOff(ref fieldsToFilter, StoryEditor.TextFields.NationalBt,
+                            pfAllowedTasks, TaskSettings.NationalBtLangFields);
+            ResetValueIfOff(ref fieldsToFilter, StoryEditor.TextFields.InternationalBt,
+                            pfAllowedTasks, TaskSettings.InternationalBtFields);
+            ResetValueIfOff(ref fieldsToFilter, StoryEditor.TextFields.FreeTranslation,
+                            pfAllowedTasks, TaskSettings.FreeTranslationFields);
+
+            ResetValueIfOff(ref fieldsToFilter, StoryEditor.TextFields.Anchor,
+                            pfAllowedTasks, TaskSettings.Anchors);
+            ResetValueIfOff(ref fieldsToFilter, StoryEditor.TextFields.Retelling,
+                            pfAllowedTasks, TaskSettings.Retellings | TaskSettings.Retellings2);
+            ResetValueIfOff(ref fieldsToFilter, StoryEditor.TextFields.TestQuestion,
+                            pfAllowedTasks, TaskSettings.TestQuestions);
+            ResetValueIfOff(ref fieldsToFilter, StoryEditor.TextFields.TestQuestionAnswer,
+                            pfAllowedTasks, TaskSettings.Answers | TaskSettings.Answers2);
+            return fieldsToFilter;
+        }
+
+        private static void ResetValueIfOff(ref StoryEditor.TextFields fieldsToFilter, 
+                                            StoryEditor.TextFields fieldToTurnOff,
+                                            TaskSettings pfAllowedTasks,
+                                            TaskSettings taskToCheck)
+        {
+            if ((pfAllowedTasks & taskToCheck) == TaskSettings.None)
+                fieldsToFilter &= ~fieldToTurnOff;
         }
 
         public static bool IsTaskOn(TaskSettings value, TaskSettings flagToTest)

@@ -254,7 +254,7 @@ namespace OneStoryProjectEditor
             bool bShowVernacular, 
             bool bShowNationalBT, 
             bool bShowInternationalBT,
-            bool bUseTextAreas)
+            VerseData.ViewSettings viewSettings)
         {
             string strRow = null;
             int nTestNum = 0;
@@ -321,7 +321,7 @@ namespace OneStoryProjectEditor
                 strRow += PresentationHtmlRow(nVerseIndex, nTestNum,
                     strVernacular, strNationalBT, strInternationalBT,
                     bShowVernacular, bShowNationalBT, bShowInternationalBT,
-                    theParentLineData, bUseTextAreas);
+                    theParentLineData, viewSettings);
             }
 
             // finally, everything that is left in the child is new
@@ -338,7 +338,7 @@ namespace OneStoryProjectEditor
                     strRow += PresentationHtmlRow(nVerseIndex, nTestNum,
                                                   strVernacular, strNationalBT, strInternationalBT,
                                                   bShowVernacular, bShowNationalBT, bShowInternationalBT,
-                                                  theChildLineData, bUseTextAreas);
+                                                  theChildLineData, viewSettings);
                 }
             }
 
@@ -356,7 +356,7 @@ namespace OneStoryProjectEditor
 
         public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols, TestInfo astrTesters,
             bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT,
-            bool bUseTextAreas)
+            VerseData.ViewSettings viewSettings)
         {
             string strRow = null;
             int nTestNum = 0;
@@ -371,7 +371,7 @@ namespace OneStoryProjectEditor
                 strRow += PresentationHtmlRow(nVerseIndex, nTestNum,
                                               strVernacular, strNationalBT, strEnglishBT,
                                               bShowVernacular, bShowNationalBT, bShowInternationalBT,
-                                              theLineData, bUseTextAreas);
+                                              theLineData, viewSettings);
             }
 
             if (!String.IsNullOrEmpty(strRow))
@@ -388,7 +388,7 @@ namespace OneStoryProjectEditor
         protected string PresentationHtmlRow(int nVerseIndex, int nTestNum,
             string strVernacular, string strNationalBT, string strInternationalBT,
             bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT,
-            LineMemberData theLineOfData, bool bUseTextAreas)
+            LineMemberData theLineOfData, VerseData.ViewSettings viewSettings)
         {
             string strRow = String.Format(Properties.Resources.HTML_TableCellNoWrap,
                                           String.Format(LabelTextFormat, nTestNum + 1));
@@ -404,7 +404,7 @@ namespace OneStoryProjectEditor
                                                                             nTestNum,
                                                                             nNumCols,
                                                                             strVernacular,
-                                                                            bUseTextAreas);
+                                                                            viewSettings);
             }
 
             if (bShowNationalBT)
@@ -413,7 +413,7 @@ namespace OneStoryProjectEditor
                                                                             nTestNum,
                                                                             nNumCols,
                                                                             strNationalBT,
-                                                                            bUseTextAreas);
+                                                                            viewSettings);
             }
 
             if (bShowInternationalBT)
@@ -422,7 +422,7 @@ namespace OneStoryProjectEditor
                                                                                  nTestNum,
                                                                                  nNumCols,
                                                                                  strInternationalBT,
-                                                                                 bUseTextAreas);
+                                                                                 viewSettings);
             }
 
             // make a sub-table out of all this

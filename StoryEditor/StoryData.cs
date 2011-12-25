@@ -467,6 +467,8 @@ namespace OneStoryProjectEditor
                 false,  // hidden matter
                 false,  // only open conversations
                 true,   // General Testing questions
+                false,  // don't use textareas
+                StoryEditor.TextFields.Undefined,
                 null,   // TransliteratorVernacular
                 null,   // TransliteratorNationalBt
                 null,   // TransliteratorInternationalBt
@@ -475,25 +477,23 @@ namespace OneStoryProjectEditor
             string strHtml = null;
             if (ParentStory != null)
                 strHtml = ParentStory.PresentationHtml(viewSettings,
-                    projSettings, teamMembers, ChildStory, false);
+                    projSettings, teamMembers, ChildStory);
             else if (ChildStory != null)
                 strHtml = ChildStory.PresentationHtml(viewSettings,
-                    projSettings, teamMembers, null, false);
+                    projSettings, teamMembers, null);
             return strHtml;
         }
 
         public string PresentationHtml(VerseData.ViewSettings viewSettings, 
             ProjectSettings projSettings, 
             TeamMembersData teamMembers, 
-            StoryData child,
-            bool bUseTextAreas)
+            StoryData child)
         {
             Rainbow.HtmlDiffEngine.Added.BeginTag = "<span style=\"text-decoration: underline; color: orange\">";
             string strHtml = PresentationHtmlWithoutHtmlDocOutside(viewSettings,
                                                                    projSettings,
                                                                    teamMembers,
-                                                                   child,
-                                                                   bUseTextAreas);
+                                                                   child);
             return AddHtmlHtmlDocOutside(strHtml, projSettings);
         }
 
@@ -509,17 +509,26 @@ namespace OneStoryProjectEditor
             return String.Format(Properties.Resources.StoryBtHtml,
                                  Properties.Resources.jquery_min,
                                  Properties.Resources.StoryBtJs,
+                                 GetPlaceHolders(projSettings),
                                  StylePrefix(projSettings),
                                  strHtmlInside,
                                  Properties.Resources.StoryBtPsJs);
+        }
+
+        private static string GetPlaceHolders(ProjectSettings projSettings)
+        {
+            return String.Format(Properties.Resources.StoryBtPlaceholders,
+                                 projSettings.Vernacular.LangName,
+                                 projSettings.NationalBT.LangName,
+                                 projSettings.InternationalBT.LangName,
+                                 projSettings.FreeTranslation.LangName);
         }
 
         public string PresentationHtmlWithoutHtmlDocOutside(
             VerseData.ViewSettings viewSettings, 
             ProjectSettings projSettings, 
             TeamMembersData teamMembers, 
-            StoryData child,
-            bool bUseTextAreas)
+            StoryData child)
         {
             bool bShowVernacular = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
             bool bShowNationalBT = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField);
@@ -580,8 +589,7 @@ namespace OneStoryProjectEditor
                                                    (child != null) ? child.Verses : null,
                                                    nNumCols,
                                                    viewSettings,
-                                                   teamMembers.HasOutsideEnglishBTer,
-                                                   bUseTextAreas);
+                                                   teamMembers.HasOutsideEnglishBTer);
             }
             else
             {
@@ -602,13 +610,13 @@ namespace OneStoryProjectEditor
         {
             string strLangStyles = null;
             if (projSettings.Vernacular.HasData)
-                strLangStyles += projSettings.Vernacular.HtmlStyle(CstrLangVernacularStyleClassName, "Vernacular.gif");
+                strLangStyles += projSettings.Vernacular.HtmlStyle(CstrLangVernacularStyleClassName);
             if (projSettings.NationalBT.HasData)
-                strLangStyles += projSettings.NationalBT.HtmlStyle(CstrLangNationalBtStyleClassName, "NationalBt.gif");
+                strLangStyles += projSettings.NationalBT.HtmlStyle(CstrLangNationalBtStyleClassName);
             if (projSettings.InternationalBT.HasData)
-                strLangStyles += projSettings.InternationalBT.HtmlStyle(CstrLangInternationalBtStyleClassName, "EnglishBt.gif");
+                strLangStyles += projSettings.InternationalBT.HtmlStyle(CstrLangInternationalBtStyleClassName);
             if (projSettings.FreeTranslation.HasData)
-                strLangStyles += projSettings.FreeTranslation.HtmlStyle(CstrLangFreeTranslationStyleClassName, "FreeTranslation.gif");
+                strLangStyles += projSettings.FreeTranslation.HtmlStyle(CstrLangFreeTranslationStyleClassName);
             if ((Localizer.Default != null) &&
                 (Localizer.Default.LocLanguage != null) &&
                 (Localizer.Default.LocLanguage.Font != null))
@@ -617,7 +625,7 @@ namespace OneStoryProjectEditor
                                                CstrLangLocalizationStyleClassName,
                                                Localizer.Default.LocLanguage.Font.Name,
                                                Localizer.Default.LocLanguage.Font.SizeInPoints);
-                strLangStyles += projSettings.Localization.HtmlStyle(CstrLangLocalizationEdgeStyleClassName, null);
+                strLangStyles += projSettings.Localization.HtmlStyle(CstrLangLocalizationEdgeStyleClassName);
             }
 
             return String.Format(Properties.Resources.HTML_StyleDefinition,

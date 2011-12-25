@@ -199,20 +199,6 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap EnglishBt {
-            get {
-                object obj = ResourceManager.GetObject("EnglishBt", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap FreeTranslation {
-            get {
-                object obj = ResourceManager.GetObject("FreeTranslation", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap gradient {
             get {
                 object obj = ResourceManager.GetObject("gradient", resourceCulture);
@@ -674,7 +660,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; class=&quot;{1}&quot; placeholder=&quot;{2}&quot;&gt;{3}&lt;/textarea&gt;.
+        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; class=&quot;{1}&quot;&gt;{2}&lt;/textarea&gt;.
         /// </summary>
         internal static string HTML_Textarea {
             get {
@@ -1200,13 +1186,6 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap NationalBt {
-            get {
-                object obj = ResourceManager.GetObject("NationalBt", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
         ///&lt;!DOCTYPE stylesheet [
@@ -1412,13 +1391,14 @@ namespace OneStoryProjectEditor.Properties {
         ///        &lt;/script&gt;
         ///        &lt;script type=&quot;text/javascript&quot;&gt;
         ///{1}
-        ///        &lt;/script&gt;
         ///{2}
+        ///        &lt;/script&gt;
+        ///{3}
         ///    &lt;/head&gt;
         ///    &lt;body&gt;
-        ///{3}
-        ///    &lt;/body&gt;
         ///{4}
+        ///    &lt;/body&gt;
+        ///{5}
         ///&lt;/html&gt;.
         /// </summary>
         internal static string StoryBtHtml {
@@ -1454,24 +1434,38 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to function VernacularLanguageName() {{
+        ///    return &apos;{0}&apos;;
+        ///}}
+        ///function NationalBtLanguageName() {{
+        ///    return &apos;{1}&apos;;
+        ///}}
+        ///function InternationalBtLanguageName() {{
+        ///    return &apos;{2}&apos;;
+        ///}}
+        ///function FreeTranslationLanguageName() {{
+        ///    return &apos;{3}&apos;;
+        ///}}.
+        /// </summary>
+        internal static string StoryBtPlaceholders {
+            get {
+                return ResourceManager.GetString("StoryBtPlaceholders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to var textareas = document.getElementsByTagName(&quot;textarea&quot;);
         ///for (var i=0; i &lt; textareas.length; i++)
         ///{
         ///    textareas[i].onchange = function() { return window.external.TextareaOnChange(this.id, this.value); };
-        ///    textareas[i].onselect = function() { return CallTextareaOnSelect(this); };
+        ///    textareas[i].onselect = function () { return CallTextareaOnSelect(this); };
         ///}
+        ///$(&apos;textarea&apos;).attr(&apos;placeholder&apos;, VernacularLanguageName());
         ///.
         /// </summary>
         internal static string StoryBtPsJs {
             get {
                 return ResourceManager.GetString("StoryBtPsJs", resourceCulture);
-            }
-        }
-        
-        internal static System.Drawing.Bitmap Vernacular {
-            get {
-                object obj = ResourceManager.GetObject("Vernacular", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

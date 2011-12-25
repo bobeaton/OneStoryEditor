@@ -105,6 +105,8 @@ namespace OneStoryProjectEditor
                     checkBoxShowHidden.Checked,
                     false, // only open conversations (doesn't apply here)
                     checkBoxGeneralTestingQuestions.Checked,
+                    false,  // not using textareas...
+                    StoryEditor.TextFields.Undefined,   // ... so the 'editable ones' don't matter
                     (checkBoxLangTransliterateVernacular.Checked)
                         ? htmlStoryBtControl.TheSE.LoggedOnMember.TransliteratorVernacular
                         : null,

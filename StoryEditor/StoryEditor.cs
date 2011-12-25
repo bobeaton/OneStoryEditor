@@ -126,7 +126,9 @@ namespace OneStoryProjectEditor
 
             Languages = Vernacular | NationalBt | InternationalBt | FreeTranslation,
             Fields = StoryLine | Anchor | ExegeticalNote | Retelling | 
-                     TestQuestion | TestQuestionAnswer | ConsultantNote | CoachNote
+                     TestQuestion | TestQuestionAnswer | ConsultantNote | CoachNote,
+
+            Everything = Languages | Fields
         }
 
         // needed by NetLoc
@@ -4196,6 +4198,8 @@ namespace OneStoryProjectEditor
                     viewOnlyOpenConversationsMenu.Checked,
                     viewGeneralTestingsQuestionMenu.Checked,
 #if UsingHtmlDisplayForStoryBt
+                    CheckForProperEditToken(),
+                    CurrentFieldEditability(TheCurrentStory),
                     HtmlStoryBtControl.TransliteratorVernacular,
                     HtmlStoryBtControl.TransliteratorNationalBt,
                     HtmlStoryBtControl.TransliteratorInternationalBt,
@@ -4207,6 +4211,21 @@ namespace OneStoryProjectEditor
                     VerseBtControl.TransliteratorFreeTranslation);
 #endif
             }
+        }
+
+        private TextFields CurrentFieldEditability(StoryData theCurrentStory)
+        {
+            TextFields fields = (CheckForProperEditToken())
+                                    ? TextFields.Everything
+                                    : TextFields.Undefined;
+
+            // the PF, though, might be restricted from editing certain fields by the Consultant
+            if (LoggedOnMember.MemberType == TeamMemberData.UserTypes.ProjectFacilitator)
+            {
+                Debug.Assert(LoggedOnMember.MemberGuid == theCurrentStory.CraftingInfo.ProjectFacilitator.MemberId);
+                fields = TasksPf.FilterTextFields(fields, theCurrentStory.TasksAllowedPf);
+            }
+            return fields;
         }
 
         private void viewToolStripMenuItem_DropDownOpening(object sender, EventArgs e)

@@ -39,20 +39,16 @@ namespace OneStoryProjectEditor
         public override void LoadDocument()
         {
             string strHtml = null;
-            StoryEditor theSe;
-            bool bUseTextAreas = CheckForProperEditToken(out theSe);
             if (ParentStory != null)
                 strHtml = ParentStory.PresentationHtml(ViewSettings,
                                                        TheSE.StoryProject.ProjSettings,
                                                        TheSE.StoryProject.TeamMembers,
-                                                       StoryData,
-                                                       bUseTextAreas);
+                                                       StoryData);
             else if (StoryData != null)
                 strHtml = StoryData.PresentationHtml(ViewSettings,
                                                      TheSE.StoryProject.ProjSettings,
                                                      TheSE.StoryProject.TeamMembers,
-                                                     null,
-                                                     bUseTextAreas);
+                                                     null);
 
             DocumentText = strHtml;
         }

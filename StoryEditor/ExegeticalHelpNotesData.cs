@@ -146,10 +146,10 @@ namespace OneStoryProjectEditor
         }
 
         public string FinishPresentationHtml(string strAnchorHtml, int nVerseIndex,
-            int nNumCols, List<string> astrExegeticalHelpNotes, bool bUseTextAreas)
+            int nNumCols, List<string> astrExegeticalHelpNotes, VerseData.ViewSettings viewSettings)
         {
             string strHtml = strAnchorHtml;
-            if (bUseTextAreas)
+            if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.UseTextAreas))
             {
                 // this means that in the Story BT pane, so add the exe notes directly from
                 //  their StringTransfers
@@ -160,7 +160,7 @@ namespace OneStoryProjectEditor
                                                                         i,
                                                                         nNumCols,
                                                                         anExHelpNote.ToString(),
-                                                                        bUseTextAreas);
+                                                                        viewSettings);
                     strHtml += String.Format(Properties.Resources.HTML_TableRow,
                                              String.Format("{0}{1}",
                                                            String.Format(Properties.Resources.HTML_TableCell, CstrCnLable),

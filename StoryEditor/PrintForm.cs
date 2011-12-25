@@ -71,8 +71,7 @@ namespace OneStoryProjectEditor
                     strHtml += aStory.PresentationHtmlWithoutHtmlDocOutside(ViewSettings,
                                                                             _theSE.StoryProject.ProjSettings,
                                                                             _theSE.StoryProject.TeamMembers,
-                                                                            null,
-                                                                            false);
+                                                                            null);
             }
 
             printViewer.webBrowser.DocumentText = StoryData.AddHtmlHtmlDocOutside(strHtml, _theSE.StoryProject.ProjSettings);
@@ -105,6 +104,8 @@ namespace OneStoryProjectEditor
                     checkBoxShowHidden.Checked,
                     false, // show only open conversations (doesn't apply)
                     checkBoxGeneralTestingQuestions.Checked,
+                    false,  // UseTextAreas == false
+                    StoryEditor.TextFields.Undefined,   // if UseTextAreas is false, then it doesn't matter which ones are "editable"
                     (checkBoxLangTransliterateVernacular.Checked)
                         ? _theSE.LoggedOnMember.TransliteratorVernacular
                         : null,

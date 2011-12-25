@@ -1,4 +1,10 @@
-﻿if you configure a shared AI projects for a prject that isn't on the local machine, it doesn't pre-populate the pull box.
+﻿the story name in combobox goes away when you do a refresh
+
+don't allow sorting in the Panorama show or Historical diffs grids
+
+make it so that if the Consultant hasn't allowed a particular field, then use <p> for that rather than <textarea>
+
+if you configure a shared AI projects for a prject that isn't on the local machine, it doesn't pre-populate the pull box.
 
 When hiding lines, move any open conversations to the previous (unhidden) line to it remains open
 
