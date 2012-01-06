@@ -13,6 +13,7 @@ using Chorus.VcsDrivers;
 using Chorus.VcsDrivers.Mercurial;
 using Microsoft.Win32;
 using NetLoc;
+using Palaso.Progress.LogBox;
 
 // for RegistryKey
 

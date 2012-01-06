@@ -12,6 +12,7 @@ using Chorus.UI.Sync;
 using Chorus.Utilities;
 using Chorus.VcsDrivers;
 using Chorus.VcsDrivers.Mercurial;
+using Palaso.Progress.LogBox;
 using devX;
 using MAPIEx;
 using NetLoc;
