@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -320,8 +321,12 @@ namespace OneStoryProjectEditor
                                                        loggedOnMember.HgUsername,
                                                        loggedOnMember.HgPassword);
                     }
-                    if (!Directory.Exists(strProjectFolder))
+
+                    // if the folder doesn't exist or the repo doesn't exist...
+                    if (!Directory.Exists(strProjectFolder) ||
+                        !Directory.Exists(Path.Combine(strProjectFolder, ".hg")))
                     {
+                        // offer to clone it
                         if (LocalizableMessageBox.Show(Localizer.Str("The shared Adapt It project for this field is not on the local computer. Please enter the necessary information in the next window to download it from the internet (i.e. the repository server, username and password). These should be in an email message you received previously"),
                                             StoryEditor.OseCaption,
                                             MessageBoxButtons.OKCancel) == DialogResult.Cancel)
@@ -347,8 +352,12 @@ namespace OneStoryProjectEditor
                     strHgPassword = loggedOnMember.HgPassword;
                 }
 
-                if (!Directory.Exists(strProjectFolder))
-                    Directory.CreateDirectory(strProjectFolder);
+                // the GetClone dialog is expecting that the parent folder exist (e.g.
+                //  C:\Documents and Settings\Bob\My Documents\Adapt It Unicode Work)
+                string strAiWorkFolder = Path.GetDirectoryName(strProjectFolder);
+                Debug.Assert(strAiWorkFolder != null);
+                if (!Directory.Exists(strAiWorkFolder))
+                    Directory.CreateDirectory(strAiWorkFolder);
 
                 string strAiProjectFolderName = Path.GetFileNameWithoutExtension(strProjectFolder);
                 var model = new GetCloneFromInternetModel(AdaptItGlossing.AdaptItWorkFolder)
