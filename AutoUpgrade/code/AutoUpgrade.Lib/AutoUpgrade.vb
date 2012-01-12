@@ -10,6 +10,7 @@ Imports System.Net.Security
 Imports System.Globalization
 Imports System.Windows.Forms
 Imports System.IO
+Imports Starksoft.Net.Ftp
 
 Namespace devX
 
@@ -17,11 +18,11 @@ Namespace devX
     Public Class AutoUpgrade
 
 #Region "    Constants    "
-        Const BUFFERSIZE = 16384
-        Const SAVED_MANIFEST = "manifest.xml"
-        Const AUTOUPGRADE_XMLNS = "http://www.devx.com/schemas/autoupgrade/1.0"
-        Const LIBDLL_FILENAME = "AutoUpgrade.Lib.dll"
-        Const STUBEXE_FILENAME = "AutoUpgrade.exe"
+        Protected Const BUFFERSIZE As Int32 = 16384
+        Protected Const SAVED_MANIFEST As String = "manifest.xml"
+        Protected Const AUTOUPGRADE_XMLNS As String = "http://www.devx.com/schemas/autoupgrade/1.0"
+        Protected Const LIBDLL_FILENAME As String = "AutoUpgrade.Lib.dll"
+        Protected Const STUBEXE_FILENAME As String = "AutoUpgrade.exe"
 #End Region
 
 #Region "    Storage for Properties    "
@@ -57,8 +58,8 @@ Namespace devX
             ' This version of Create is designed for use when the manifest data is
             ' returned independantly of this class (for example, my Login webservice
             ' returns the manifest data on success in order to save a round-trip).
-            Dim upgInstance As New AutoUpgrade()
-            Dim xmlSerializer As New XmlSerializer(GetType(AutoUpgrade), AUTOUPGRADE_XMLNS)
+            Dim upgInstance As AutoUpgrade
+            Dim xmlSerializer As XmlSerializer
 
             If strManifest Is Nothing OrElse strManifest.Length = 0 Then
                 ' Manifest string is empty - return an empty AutoUpgrade object
@@ -67,6 +68,7 @@ Namespace devX
             Else
                 Try
                     ' Read properties from manifest string passed in as argument
+                    xmlSerializer = New XmlSerializer(GetType(AutoUpgrade), AUTOUPGRADE_XMLNS)
                     upgInstance = xmlSerializer.Deserialize(New IO.StringReader(strManifest))
 
                     ' We only set the SourcePath if the manifest file doesn't already 
@@ -307,7 +309,7 @@ Namespace devX
             End If
 
             strCacheFile = _
-             IO.Path.Combine(Me.UpgradeDirectory, manCurrentAutoUpgradeFile.Name)
+             IO.Path.Combine(UpgradeDirectory, manCurrentAutoUpgradeFile.Name)
 
             Select Case manCurrentAutoUpgradeFile.Action
                 Case AutoUpgrade.File.UpgradeAction.delete
@@ -339,7 +341,7 @@ Namespace devX
             ' during the upgrade
             Dim strUpgradePath As String
 
-            strUpgradePath = Me.UpgradeDirectory
+            strUpgradePath = UpgradeDirectory
 
             If blnDelete Then
                 ' If dir already exists, clear it out
@@ -395,7 +397,7 @@ Namespace devX
                                     Dim fi As IO.FileInfo = New IO.FileInfo(IO.Path.Combine(Me.UpgradeDirectory, manCurrentAutoUpgradeFile.Name))
                                     datDownloadedFileTime = fi.LastWriteTimeUtc
 #Else
-                                    datDownloadedFileTime = MyGetLastWriteTime(IO.Path.Combine(Me.UpgradeDirectory, manCurrentAutoUpgradeFile.Name))
+                                    datDownloadedFileTime = MyGetLastWriteTime(Path.Combine(UpgradeDirectory, manCurrentAutoUpgradeFile.Name))
 #End If
                                     ' bs... this used to check that the file was within a minute, but that breaks
                                     ' when the US is in DST... so we don't update these files that often, so just make it +/- an hour (technically 61 minutes)
@@ -404,7 +406,7 @@ Namespace devX
                                         RaiseEvent UpgradeProgress("The date on the downloaded file '" & manCurrentAutoUpgradeFile.Name & " - [" & datDownloadedFileTime.ToString & "]' does not match the manifest file date - [" & CType(manCurrentAutoUpgradeFile.Version, System.DateTime).ToString & "].", manCurrentAutoUpgradeFile.Name, 0, 0, mblnCancel)
                                     End If
                                 Case AutoUpgrade.File.CompareMethod.version
-                                    With System.Diagnostics.FileVersionInfo.GetVersionInfo(IO.Path.Combine(Me.UpgradeDirectory, manCurrentAutoUpgradeFile.Name))
+                                    With FileVersionInfo.GetVersionInfo(Path.Combine(UpgradeDirectory, manCurrentAutoUpgradeFile.Name))
                                         If .FileVersion <> manCurrentAutoUpgradeFile.Version Then
                                             RaiseEvent UpgradeProgress("The version of the downloaded file '" & manCurrentAutoUpgradeFile.Name & "' - [" & .FileVersion & "] does not match the manifest file - [" & manCurrentAutoUpgradeFile.Version & "].", manCurrentAutoUpgradeFile.Name, 0, 0, mblnCancel)
                                         End If
@@ -428,12 +430,12 @@ Namespace devX
             Dim strSourceFilePath As String
             Dim strLocalPath As String
             Dim dlBuffer(BUFFERSIZE) As Byte
-            Dim localFile As IO.FileStream
+            Dim localFile As IO.FileStream = Nothing
             Dim lngBytesRead As Long
 
             strSourceFilePath = Me.SourcePath & "\" & strFileName
             Dim reqFile As System.Net.WebRequest = GetWebRequest(strSourceFilePath)
-            strLocalPath = IO.Path.Combine(Me.UpgradeDirectory, strFileName)
+            strLocalPath = IO.Path.Combine(UpgradeDirectory, strFileName)
 
             Try
                 ' The localpath may be a subdirectory of UpgradeDirectory, so we have
@@ -853,22 +855,22 @@ Namespace devX
             End Try
         End Sub
 
-        Public Function RunFullInstall()
+        Public Sub RunFullInstall()
             Dim prcInstall As New System.Diagnostics.Process()
 
             ' Run the full install setup program
 
             ' UseShellExecute=true, so msi files work OK
             prcInstall.StartInfo.UseShellExecute = True
-            prcInstall.Start(Me.UpgradeDirectory & "\" & Me.FullUpgradeFileName)
+            Process.Start(UpgradeDirectory & "\" & FullUpgradeFileName)
 
 
-        End Function
+        End Sub
 
         Public Sub Save()
             ' Save the xml manifest file to the upgrade directory
             CreateUpgradeDirectory(True)
-            Me.Save(IO.Path.Combine(Me.UpgradeDirectory, SAVED_MANIFEST))
+            Me.Save(IO.Path.Combine(UpgradeDirectory, SAVED_MANIFEST))
         End Sub
 
         Public Sub Save(ByVal strFilePath As String)
@@ -915,7 +917,7 @@ Namespace devX
             With New System.Diagnostics.Process()
                 .StartInfo.FileName = _
                  IO.Path.Combine( _
-                 Me.UpgradeDirectory, STUBEXE_FILENAME)
+                 UpgradeDirectory, STUBEXE_FILENAME)
 
                 .Start()
             End With
@@ -990,6 +992,117 @@ Namespace devX
         End Property
 #End Region
 
+#Region "SwordDownload Code"
+
+        Public Const CstrModsDpath As String = "mods.d"
+        Public Const CnFtpPort As Int32 = 21
+        Public Const CstrPathSwordRemote As String = "/SWORD/"
+
+        Public Shared Function CreateSwordDownloader() As AutoUpgrade
+            Dim downloader As New AutoUpgrade()
+            downloader.CreateUpgradeDirectory(True)
+            Return downloader
+        End Function
+
+        Public Function AddModuleToManifest(ByVal ftp As FtpClient, ByVal strModsDfilename As String, _
+                                       ByVal strModsDtempFilePath As String, ByVal strModuleDataPath As String) As Boolean
+            Dim strPathSwordLocal As String = Path.Combine(UpgradeDirectory, "SWORD")
+            AddModuleToManifest(ftp, strPathSwordLocal, strModsDfilename, strModsDtempFilePath, strModuleDataPath)
+        End Function
+
+        Private Function AddModuleToManifest(ftp As FtpClient, strSwordPathLocal As String, strModsName As String,
+            strModsTempName As String, strRemoteDataFolder As String) As Boolean
+
+            ' copy the downloaded (temporary) mods file to the proper path
+            Dim strPathToModsFolder As String = Path.Combine(strSwordPathLocal, CstrModsDpath)
+            If (Not Directory.Exists(strPathToModsFolder)) Then
+                Directory.CreateDirectory(strPathToModsFolder)
+            End If
+
+            Dim strPathToMods As String = Path.Combine(strPathToModsFolder, strModsName)
+            IO.File.Copy(strModsTempName, strPathToMods, True)
+            Me.AddToManifest(UpgradeDirectory, strPathToMods)
+
+            ' create the local path for the data files
+            Dim strLocalPath As String = GetLocalPath(strSwordPathLocal, strRemoteDataFolder)
+            If (Not Directory.Exists(strLocalPath)) Then
+                Directory.CreateDirectory(strLocalPath)
+            End If
+
+            ' Get the files to it
+            ftp.GetFiles(CstrPathSwordRemote + strRemoteDataFolder, strLocalPath)
+            Dim strFiles As String() = Directory.GetFiles(strLocalPath)
+            For Each strFile As String In strFiles
+                Me.AddToManifest(UpgradeDirectory, strFile)
+            Next
+        End Function
+
+        Private Shared ReadOnly _achPathDelim() As Char = {"/"}
+
+        Private Shared Function GetLocalPath(strSwordPath As String, strModulePath As String) As String
+
+            Dim astr As String() = strModulePath.Split(_achPathDelim, StringSplitOptions.RemoveEmptyEntries)
+            For Each s As String In astr
+                strSwordPath = Path.Combine(strSwordPath, s)
+            Next
+            Return strSwordPath
+        End Function
+
+        ' strRootPath is the path to the upgrade folder (e.g. "C:\...\"
+        ' strFilepath is relative to the upgrade folder (e.g. "SWORD\mods.d\bbe.conf")
+        Public Sub AddToManifest(strRootPath As String, strFile As String)
+            Dim newFileEntry As File = New File()
+            newFileEntry.Action = File.UpgradeAction.copy
+
+            ' Store name and path relative to strPath
+            newFileEntry.Name = strFile.Substring(strRootPath.Length + 1)
+
+            ' Get other file properties
+            With FileVersionInfo.GetVersionInfo(strFile)
+                newFileEntry.Description = .FileDescription
+
+                newFileEntry.Optional = False
+                newFileEntry.Version = .FileVersion
+            End With
+
+            newFileEntry.Size = FileLen(strFile)
+
+            ' If version info was found, mark method as version, else date
+            If String.IsNullOrEmpty(newFileEntry.Version) Then
+                newFileEntry.Version = MyGetLastWriteTime(strFile).ToLongDateString & " " & MyGetLastWriteTime(strFile).ToLongTimeString
+
+                ' only store date if no version is available
+                newFileEntry.Method = AutoUpgrade.File.CompareMethod.date
+            Else
+                newFileEntry.Method = AutoUpgrade.File.CompareMethod.version
+            End If
+
+            ManifestFiles.Add(newFileEntry)
+
+        End Sub
+
+        ' Run the AutoUpgrade.EXE stub (with elevated privilege) to copy the files into the protected folder.
+        Public Overloads Sub StartModuleInstall()
+            ' save the manifest file in the upgrade cache directory 
+            Me.Save(IO.Path.Combine(UpgradeDirectory, SAVED_MANIFEST))
+
+            ' Download a new copy of AutoUpgrade.exe/AutoUpgrade.DLL
+            IO.File.Copy(Path.Combine(Me.ApplicationExecutable, STUBEXE_FILENAME), _
+                         Path.Combine(UpgradeDirectory, STUBEXE_FILENAME), True)
+            IO.File.Copy(Path.Combine(Me.ApplicationExecutable, LIBDLL_FILENAME), _
+                         Path.Combine(UpgradeDirectory, LIBDLL_FILENAME), True)
+
+            ' Run AutoUpgrade.exe
+            With New Process()
+                .StartInfo.FileName = Path.Combine(UpgradeDirectory, STUBEXE_FILENAME)
+                .Start()
+            End With
+
+        End Sub
+
+#End Region
+
+
 #Region "    FileList Class    "
         Public Class FileList
             Inherits System.Collections.ArrayList
@@ -1013,23 +1126,37 @@ Namespace devX
 #Region "    File Class    "
 
         Public Class File
-            Enum CompareMethod : version : [date]
+            Enum CompareMethod
+                version
+                [date]
             End Enum
 
-            Enum UpgradeAction : copy : full : delete
+            Enum UpgradeAction
+                copy
+                full
+                delete
             End Enum
 
 #Region "    Property storage    "
-            Private mstrName As String          ' "filename"  may include relative path information
-            Private mstrDescription As String = ""          ' human-readable description of the file
-            Private mstrMethod As CompareMethod         ' File compare method
-            Private menuAction As UpgradeAction         ' Action to perform if upgrade is required
-            Private mstrVersion As String           ' Version or last modified date (as a string)
-            Private mblnOptional As Boolean         ' Indicates whether file upgrade is optional or not
-            Private mlngFileSize As Long            ' File size for status display
+
+            Private mstrName As String
+            ' "filename"  may include relative path information
+            Private mstrDescription As String = ""
+            ' human-readable description of the file
+            Private mstrMethod As CompareMethod
+            ' File compare method
+            Private menuAction As UpgradeAction
+            ' Action to perform if upgrade is required
+            Private mstrVersion As String
+            ' Version or last modified date (as a string)
+            Private mblnOptional As Boolean
+            ' Indicates whether file upgrade is optional or not
+            Private mlngFileSize As Long
+            ' File size for status display
+
 #End Region
 
-            <Xml.Serialization.XmlAttributeAttribute("name")> _
+            <Xml.Serialization.XmlAttributeAttribute("name")>
             Public Property Name() As String
                 ' Filename of the file.  May include path relative to the application base
                 Get
@@ -1040,7 +1167,7 @@ Namespace devX
                 End Set
             End Property
 
-            <Xml.Serialization.XmlText()> _
+            <Xml.Serialization.XmlText()>
             Public Property Description() As String
                 ' Description of the file, for display to the end-user.  Optional.
                 Get
@@ -1051,7 +1178,7 @@ Namespace devX
                 End Set
             End Property
 
-            <Xml.Serialization.XmlAttributeAttribute("method")> _
+            <Xml.Serialization.XmlAttributeAttribute("method")>
             Public Property Method() As CompareMethod
                 ' Method to use when comparing new and existing versions.
                 Get
@@ -1062,7 +1189,7 @@ Namespace devX
                 End Set
             End Property
 
-            <Xml.Serialization.XmlAttributeAttribute("action")> _
+            <Xml.Serialization.XmlAttributeAttribute("action")>
             Public Property Action() As UpgradeAction
                 ' Action to perform if an upgrade is required.
                 Get
@@ -1073,7 +1200,7 @@ Namespace devX
                 End Set
             End Property
 
-            <Xml.Serialization.XmlAttributeAttribute("version")> _
+            <Xml.Serialization.XmlAttributeAttribute("version")>
             Public Property Version() As String
                 ' File version.  Required if Method=byversion.  If the file is upgraded, '
                 ' if the version does not match the file downloaded from the server, 
@@ -1090,7 +1217,7 @@ Namespace devX
                 End Set
             End Property
 
-            <Xml.Serialization.XmlAttributeAttribute("optional")> _
+            <Xml.Serialization.XmlAttributeAttribute("optional")>
             Public Property [Optional]() As Boolean
                 ' Flag to indicate that the file can be optionally upgraded.  Not used
                 ' by the automatic upgrade, but client applications can use this to 
@@ -1104,7 +1231,7 @@ Namespace devX
                 End Set
             End Property
 
-            <Xml.Serialization.XmlAttributeAttribute("size")> _
+            <Xml.Serialization.XmlAttributeAttribute("size")>
             Public Property Size() As Long
                 ' Filesize used for progress meter.  If this value is not accurate, the
                 ' progress meter will not be accurate.
@@ -1115,7 +1242,6 @@ Namespace devX
                     mlngFileSize = Value
                 End Set
             End Property
-
         End Class
 
 #End Region
@@ -1126,7 +1252,7 @@ Namespace devX
         System.ComponentModel.DesignerCategoryAttribute("code"), _
         System.Web.Services.WebServiceBindingAttribute(Name:="ManifestSoap", [Namespace]:="http://www.devx.com/ws/autoupgrade") _
         > _
-         Friend Class WebServiceClient
+        Friend Class WebServiceClient
             Inherits System.Web.Services.Protocols.SoapHttpClientProtocol
             < _
             System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.devx.com/ws/autoupgrade/Create", RequestNamespace:="http://www.devx.com/ws/autoupgrade", ResponseNamespace:="http://www.devx.com/ws/autoupgrade", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped) _
@@ -1138,7 +1264,6 @@ Namespace devX
             End Function
         End Class
 #End Region
-
     End Class
 
 #End Region
