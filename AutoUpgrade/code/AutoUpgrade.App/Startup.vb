@@ -5,7 +5,7 @@ Namespace AutoUpgrade
 		Private frmStatus As New Status()
 
         Sub main()
-            Debug.Fail("Debugging")
+            ' Debug.Fail("Debugging")
             If GetCommandLineArgs.Length > 1 Then
                 Generate()
             Else

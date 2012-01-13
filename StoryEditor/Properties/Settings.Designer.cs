@@ -949,5 +949,16 @@ namespace OneStoryProjectEditor.Properties {
                 this["UseMapiPlus"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection ListSwordModuleToRtl {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["ListSwordModuleToRtl"]));
+            }
+            set {
+                this["ListSwordModuleToRtl"] = value;
+            }
+        }
     }
 }

@@ -77,8 +77,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Starksoft.Net.Ftp">
-      <HintPath>..\..\..\DepDLLs\Starksoft.Net.Ftp.dll</HintPath>
+    <Reference Include="rdeStarksoft.Net.Ftp, Version=1.0.158.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DepDLLs\rdeStarksoft.Net.Ftp.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>

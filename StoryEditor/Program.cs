@@ -170,7 +170,9 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.RecentFindWhat = new StringCollection();
             if (Properties.Settings.Default.RecentReplaceWith == null)
                 Properties.Settings.Default.RecentReplaceWith = new StringCollection();
-            
+            if (Properties.Settings.Default.ListSwordModuleToRtl == null)
+                Properties.Settings.Default.ListSwordModuleToRtl = new StringCollection();
+
             if (Properties.Settings.Default.ProjectNameToHgUrl == null)
                 Properties.Settings.Default.ProjectNameToHgUrl = new StringCollection();
             _mapProjectNameToHgHttpUrl = ArrayToDictionary(Properties.Settings.Default.ProjectNameToHgUrl);
@@ -193,7 +195,7 @@ namespace OneStoryProjectEditor
 
             MapServerToUrlHost = ArrayToDictionary(Properties.Settings.Default.AdaptItDefaultServerLabels);
             MapSwordModuleToFont = ArrayToDictionary(Properties.Settings.Default.SwordModuleToFont);
-            MapSwordModuleToEncoding = ArrayToDictionary(Properties.Settings.Default.SwordModuleToUnlockKey);
+            MapSwordModuleToEncryption = ArrayToDictionary(Properties.Settings.Default.SwordModuleToUnlockKey);
         }
 
         private static void SetupErrorHandling()
@@ -256,7 +258,7 @@ namespace OneStoryProjectEditor
         static Dictionary<string, string> _mapProjectNameToAiHgNetworkUrl;
         public static Dictionary<string, string> MapServerToUrlHost;
         public static Dictionary<string, string> MapSwordModuleToFont;
-        public static Dictionary<string, string> MapSwordModuleToEncoding;
+        public static Dictionary<string, string> MapSwordModuleToEncryption;
         
         public const string CstrInternetName = "Internet";
         public const string CstrNetworkDriveName = "Network Drive";

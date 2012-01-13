@@ -20,11 +20,13 @@ namespace OneStoryProjectEditor
 
         #region "format strings for HTML items"
         protected const string CstrHtmlTableBegin = "<table border=\"1\">";
-        protected const string CstrHtmlLineFormat = "<tr id=\"{0}\"><td><button type=\"button\">{1}</button></td><td>{2}</td></tr>";
+        protected const string CstrHtmlButtonCell = "<td dir='{1}'><button type=\"button\">{0}</button></td>";
+        protected const string CstrHtmlTextCell = "<td dir='{1}'>{0}</td>";
+        protected const string CstrHtmlRowFormat = "<tr id=\"{0}\">{1}{2}</tr>";
         protected const string CstrHtmlLineFormatCommentaryHeader = "<tr id='{0}' BGCOLOR=\"#CCFFAA\"><td>{1}</td></tr>";
         protected const string CstrHtmlLineFormatCommentary = "<tr><td>{0}</td></tr>";
         internal const string CstrAddFontFormat = "<font face=\"{1}\">{0}</font>";
-        protected const string CstrAddDirFormat = "<p dir=\"RTL\">{0}</p>";
+        // protected const string CstrAddDirFormat = "<p dir=\"RTL\">{0}</p>";
         protected const string CstrHtmlTableEnd = "</table>";
         protected const string verseLineBreak = "<br />";
         protected const string preDocumentDOMScript = "<style> body  { margin:0 } </style>" + 
@@ -78,8 +80,6 @@ namespace OneStoryProjectEditor
         protected const string CstrNetModuleName = "NET";
         protected const string CstrOtherSwordModules = "Other";
         protected const string CstrRadioButtonPrefix = "radioButton";
-        protected const string CstrFarsiModule = "FarsiOPV";
-
 
         public class SwordResource
         {
@@ -320,7 +320,7 @@ namespace OneStoryProjectEditor
 
                     // if the module has encryption, then get the decrypt key
                     string strUnlockKey;
-                    if (Program.MapSwordModuleToEncoding.TryGetValue(strModuleName, out strUnlockKey))
+                    if (Program.MapSwordModuleToEncryption.TryGetValue(strModuleName, out strUnlockKey))
                     {
                         strUnlockKey = EncryptionClass.Decrypt(strUnlockKey);
                         manager.setCipherKey(strModuleName, strUnlockKey);
@@ -396,6 +396,12 @@ namespace OneStoryProjectEditor
             RadioButton rbOn = null;
             if (dlg.ShowDialog() == DialogResult.OK)
             {
+                // if we downloaded something, then reinit
+                if (dlg.DidDownloadModule)
+                {
+                    InitializeSword();
+                }
+
                 foreach (SwordResource aSR in lstBibleResources)
                 {
                     if (aSR.Loaded)
@@ -522,6 +528,9 @@ namespace OneStoryProjectEditor
                 // Do the whole chapter
                 var keyWholeOfChapter = new VerseKey(keyVerse);
                 keyWholeOfChapter.Verse(1);
+                string strFontName, strModuleVersion = moduleVersion.Name();
+                bool bSpecifyFont = Program.MapSwordModuleToFont.TryGetValue(strModuleVersion, out strFontName);
+                bool bDirectionRtl = Properties.Settings.Default.ListSwordModuleToRtl.Contains(strModuleVersion);
                 while ((keyWholeOfChapter.Chapter() == nChapter) && (keyWholeOfChapter.Book() == nBook) && (keyWholeOfChapter.Error() == '\0'))
                 {
                     // get the verse and remove any line break signals
@@ -529,34 +538,23 @@ namespace OneStoryProjectEditor
                     if (String.IsNullOrEmpty(strVerseHtml))
                         strVerseHtml = Localizer.Str("Passage not available in this version");
 
-                    // insert a button (for drag-drop) and the HTML into a table format
-                    string strFontName, strModuleVersion = moduleVersion.Name();
-                    if (Program.MapSwordModuleToFont.TryGetValue(strModuleVersion, out strFontName))
-                    {
-                        // can turn this into another map, but not yet.
-                        if (strModuleVersion == CstrFarsiModule)
-                        {
-                            strVerseHtml = String.Format(CstrAddDirFormat, strVerseHtml);
-                        }
+                    if (bSpecifyFont)
                         strVerseHtml = String.Format(CstrAddFontFormat, strVerseHtml, strFontName);
-                    }
 
-                    /*
-                     * This was a nice idea (of making the selected verse bold), but then
-                     * we need to re-do the DocumentText each time
-                    if (nVerse == keyWholeOfChapter.Verse())
-                        strButtonLabel = String.Format("<b>{0}</b>", 
-                            keyWholeOfChapter.getShortText());
-                    else
-                    */
                     string strButtonLabel = String.Format("{0} {1}:{2}",
                                                           ScriptureReferenceBookName,
                                                           nChapter, keyWholeOfChapter.Verse());
 
-                    string strLineHtml = String.Format(CstrHtmlLineFormat, 
+                    string strButtonCell = String.Format(CstrHtmlButtonCell,
+                                                         strButtonLabel,
+                                                         (bDirectionRtl) ? "rtl" : "ltr");
+                    string strTextCell = String.Format(CstrHtmlTextCell,
+                                                       strVerseHtml,
+                                                       (bDirectionRtl) ? "rtl" : "ltr");
+                    string strLineHtml = String.Format(CstrHtmlRowFormat, 
                         keyWholeOfChapter.Verse(),
-                        strButtonLabel, 
-                        strVerseHtml);
+                        (bDirectionRtl) ? strTextCell : strButtonCell,
+                        (bDirectionRtl) ? strButtonCell : strTextCell);
                     sb.Append(strLineHtml);
 
                     // next verse until end of chapter

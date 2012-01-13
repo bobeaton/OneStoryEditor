@@ -347,9 +347,9 @@ Namespace devX
                 ' If dir already exists, clear it out
                 If IO.Directory.Exists(strUpgradePath) Then
                     IO.Directory.Delete(strUpgradePath, True)
+                    Application.DoEvents()
                 End If
             End If
-
             ' Create directory
             If Not IO.Directory.Exists(strUpgradePath) Then
                 IO.Directory.CreateDirectory(strUpgradePath)
@@ -433,7 +433,7 @@ Namespace devX
             Dim localFile As IO.FileStream = Nothing
             Dim lngBytesRead As Long
 
-            strSourceFilePath = Me.SourcePath & "\" & strFileName
+            strSourceFilePath = Path.Combine(SourcePath, strFileName).Replace("\", "/")
             Dim reqFile As System.Net.WebRequest = GetWebRequest(strSourceFilePath)
             strLocalPath = IO.Path.Combine(UpgradeDirectory, strFileName)
 
@@ -599,6 +599,7 @@ Namespace devX
 #End If
             MyGetLastWriteTime = time
         End Function
+
         Shared Sub MySetLastWriteTime(ByVal strFilePath As String, ByVal time As DateTime)
 #If FiguringInDST Then
             Dim now As DateTime = DateTime.Now
@@ -994,47 +995,43 @@ Namespace devX
 
 #Region "SwordDownload Code"
 
-        Public Const CstrModsDpath As String = "mods.d"
-        Public Const CnFtpPort As Int32 = 21
-        Public Const CstrPathSwordRemote As String = "/SWORD/"
-
-        Public Shared Function CreateSwordDownloader() As AutoUpgrade
+        Public Shared Function CreateSwordDownloader(strSourcePath As String) As AutoUpgrade
             Dim downloader As New AutoUpgrade()
             downloader.CreateUpgradeDirectory(True)
+
+            ' We only set the SourcePath if the manifest file doesn't already 
+            ' contain one.  This way, if the host was a web service, or ASP page 
+            ' it could "redirect" clients to a different path for the 
+            ' application files by setting SourcePath in the xml manifest data
+
+            If downloader.SourcePath.Length = 0 Then
+                downloader.SourcePath = strSourcePath
+            End If
+
+            ' If the manifest file did not contain an application base path (which it
+            ' should not, when retrieved from the server - it should contain one only
+            ' when AutoUpgrade.EXE is executed from StartUpgradeStub), set it to the
+            ' application's base directory
+            If downloader.ApplicationBasePath.Length = 0 Then
+                downloader.ApplicationBasePath = AppDomain.CurrentDomain.BaseDirectory
+            End If
+
             Return downloader
         End Function
 
-        Public Function AddModuleToManifest(ByVal ftp As FtpClient, ByVal strModsDfilename As String, _
-                                       ByVal strModsDtempFilePath As String, ByVal strModuleDataPath As String) As Boolean
-            Dim strPathSwordLocal As String = Path.Combine(UpgradeDirectory, "SWORD")
-            AddModuleToManifest(ftp, strPathSwordLocal, strModsDfilename, strModsDtempFilePath, strModuleDataPath)
-        End Function
-
-        Private Function AddModuleToManifest(ftp As FtpClient, strSwordPathLocal As String, strModsName As String,
-            strModsTempName As String, strRemoteDataFolder As String) As Boolean
+        Public Function AddModuleToManifest(ftp As FtpClient, ftpItemModsD As FtpItem, strRemoteDataFolder As String) As Boolean
 
             ' copy the downloaded (temporary) mods file to the proper path
-            Dim strPathToModsFolder As String = Path.Combine(strSwordPathLocal, CstrModsDpath)
-            If (Not Directory.Exists(strPathToModsFolder)) Then
-                Directory.CreateDirectory(strPathToModsFolder)
-            End If
-
-            Dim strPathToMods As String = Path.Combine(strPathToModsFolder, strModsName)
-            IO.File.Copy(strModsTempName, strPathToMods, True)
-            Me.AddToManifest(UpgradeDirectory, strPathToMods)
-
-            ' create the local path for the data files
-            Dim strLocalPath As String = GetLocalPath(strSwordPathLocal, strRemoteDataFolder)
-            If (Not Directory.Exists(strLocalPath)) Then
-                Directory.CreateDirectory(strLocalPath)
-            End If
+            AddToManifest(UpgradeDirectory, ftpItemModsD)
 
             ' Get the files to it
-            ftp.GetFiles(CstrPathSwordRemote + strRemoteDataFolder, strLocalPath)
-            Dim strFiles As String() = Directory.GetFiles(strLocalPath)
-            For Each strFile As String In strFiles
-                Me.AddToManifest(UpgradeDirectory, strFile)
+            Dim files As FtpItemCollection = ftp.GetDirList(strRemoteDataFolder, True)
+
+            For Each file As FtpItem In files
+                ' create the local path for the data files
+                AddToManifest(UpgradeDirectory, file)
             Next
+
         End Function
 
         Private Shared ReadOnly _achPathDelim() As Char = {"/"}
@@ -1050,51 +1047,41 @@ Namespace devX
 
         ' strRootPath is the path to the upgrade folder (e.g. "C:\...\"
         ' strFilepath is relative to the upgrade folder (e.g. "SWORD\mods.d\bbe.conf")
-        Public Sub AddToManifest(strRootPath As String, strFile As String)
+        Public Sub AddToManifest(strRootPath As String, ftpFile As FtpItem)
             Dim newFileEntry As File = New File()
             newFileEntry.Action = File.UpgradeAction.copy
 
             ' Store name and path relative to strPath
+            Dim strFile As String = GetLocalPath(strRootPath, ftpFile.FullPath)
             newFileEntry.Name = strFile.Substring(strRootPath.Length + 1)
 
-            ' Get other file properties
-            With FileVersionInfo.GetVersionInfo(strFile)
-                newFileEntry.Description = .FileDescription
+            newFileEntry.Size = ftpFile.Size
 
-                newFileEntry.Optional = False
-                newFileEntry.Version = .FileVersion
-            End With
+            newFileEntry.Version = ftpFile.Modified.ToLongDateString & " " & ftpFile.Modified.ToLongTimeString
 
-            newFileEntry.Size = FileLen(strFile)
-
-            ' If version info was found, mark method as version, else date
-            If String.IsNullOrEmpty(newFileEntry.Version) Then
-                newFileEntry.Version = MyGetLastWriteTime(strFile).ToLongDateString & " " & MyGetLastWriteTime(strFile).ToLongTimeString
-
-                ' only store date if no version is available
-                newFileEntry.Method = AutoUpgrade.File.CompareMethod.date
-            Else
-                newFileEntry.Method = AutoUpgrade.File.CompareMethod.version
-            End If
+            ' only store date if no version is available
+            newFileEntry.Method = File.CompareMethod.date
 
             ManifestFiles.Add(newFileEntry)
 
         End Sub
 
         ' Run the AutoUpgrade.EXE stub (with elevated privilege) to copy the files into the protected folder.
-        Public Overloads Sub StartModuleInstall()
+        Public Sub StartModuleInstall()
             ' save the manifest file in the upgrade cache directory 
-            Me.Save(IO.Path.Combine(UpgradeDirectory, SAVED_MANIFEST))
+            ' ApplicationExecutable = Reflection.Assembly.GetEntryAssembly.Location
+            Save(Path.Combine(UpgradeDirectory, SAVED_MANIFEST))
 
             ' Download a new copy of AutoUpgrade.exe/AutoUpgrade.DLL
-            IO.File.Copy(Path.Combine(Me.ApplicationExecutable, STUBEXE_FILENAME), _
+            IO.File.Copy(Path.Combine(ApplicationBasePath, STUBEXE_FILENAME), _
                          Path.Combine(UpgradeDirectory, STUBEXE_FILENAME), True)
-            IO.File.Copy(Path.Combine(Me.ApplicationExecutable, LIBDLL_FILENAME), _
+            IO.File.Copy(Path.Combine(ApplicationBasePath, LIBDLL_FILENAME), _
                          Path.Combine(UpgradeDirectory, LIBDLL_FILENAME), True)
 
             ' Run AutoUpgrade.exe
             With New Process()
                 .StartInfo.FileName = Path.Combine(UpgradeDirectory, STUBEXE_FILENAME)
+                .WaitForExit()
                 .Start()
             End With
 

@@ -52,10 +52,11 @@ namespace OneStoryProjectEditor
             if (tabControl.SelectedTab == tabPageSeedConnect)
             {
                 FtpClient ftp = null;
+                AutoUpgrade swordDownloader = null;
                 try
                 {
                     ftp = FtpClient;
-                    var swordDownloader = AutoUpgrade.CreateSwordDownloader();
+                    swordDownloader = AutoUpgrade.CreateSwordDownloader(Properties.Resources.IDS_OSEUpgradeServerSword);
                     swordDownloader.ApplicationBasePath = StoryProjectData.GetRunningFolder;
                     foreach (int checkedIndex in checkedListBoxDownloadable.CheckedIndices)
                     {
@@ -63,16 +64,20 @@ namespace OneStoryProjectEditor
                         System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strItem) && (strItem.IndexOf(':') != -1));
                         var strShortCode = strItem.Substring(0, strItem.IndexOf(':'));
                         var data = _mapShortCodes2SwordData[strShortCode];
-                        swordDownloader.DownloadModule(ftp, data.ModsFilename,
-                                                       data.ModsTempFilePath,
-                                                       data.ModulesDataPath);
+                        swordDownloader.AddModuleToManifest(ftp, data.ModsDfile, data.ModulesDataPath);
+                        if (data.DirectionRtl && !Properties.Settings.Default.ListSwordModuleToRtl.Contains(data.SwordShortCode))
+                        {
+                            Properties.Settings.Default.ListSwordModuleToRtl.Add(data.SwordShortCode);
+                            Properties.Settings.Default.Save();
+                        }
                     }
-                    if (swordDownloader.IsUpgradeAvailable())
-                        swordDownloader.StartModuleInstall();
                 }
                 catch (Exception ex)
                 {
-                    Program.ShowException(ex);
+                    if (ex.Message.IndexOf("Unable to read data from the transport connection: A non-blocking socket operation") == 0)
+                        tabControl.SelectTab(tabPageInstalled);
+                    else
+                        Program.ShowException(ex);
                 }
                 finally
                 {
@@ -81,6 +86,13 @@ namespace OneStoryProjectEditor
                         ftp.Close();
                         ftp.Dispose();
                     }
+                }
+
+                // once we close *our* ftp connection, then see about calling AutoUpdate to do its copy of the files
+                if ((swordDownloader != null) && swordDownloader.IsUpgradeAvailable())
+                {
+                    swordDownloader.StartModuleInstall();
+                    DidDownloadModule = true;
                 }
             }
             else
@@ -92,6 +104,8 @@ namespace OneStoryProjectEditor
             DialogResult = DialogResult.OK;
             Close();
         }
+
+        public bool DidDownloadModule { get; set; }
 
         private void linkLabelLinkToSword_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -146,36 +160,9 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private static void DownloadModule(FtpClient ftp, string strSwordPathLocal, string strModsName,
-            string strModsTempName, string strRemoteDataFolder)
-        {
-            // copy the downloaded (temporary) mods file to the proper path
-            var strPathToModsFolder = Path.Combine(strSwordPathLocal, CstrPathModsD);
-            if (!Directory.Exists(strPathToModsFolder))
-                Directory.CreateDirectory(strPathToModsFolder);
-
-            var strPathToMods = Path.Combine(strPathToModsFolder, strModsName);
-            File.Copy(strModsTempName, strPathToMods, true);
-
-            // create the local path for the data files
-            var strLocalPath = GetLocalPath(strSwordPathLocal, strRemoteDataFolder);
-
-            // Get the files to it
-            ftp.GetFiles(CstrPathSwordRemote + strRemoteDataFolder, strLocalPath);
-        }
-
-        private static readonly char[] _achPathDelim = new[] { '/' };
-
-        private static string GetLocalPath(string strSwordPath, string strModulePath)
-        {
-            string[] astr = strModulePath.Split(_achPathDelim, StringSplitOptions.RemoveEmptyEntries);
-            return astr.Aggregate(strSwordPath, Path.Combine);
-        }
-
         private static readonly Regex RegexModsReaderShortCode = new Regex(@"\[(.+?)\]", RegexOptions.Compiled | RegexOptions.Singleline);
         private static readonly Regex RegexModsReaderDesc = new Regex("Description=(.+?)[\n\r]", RegexOptions.Compiled | RegexOptions.Singleline);
         private static readonly Regex RegexModsReaderDataPath = new Regex(@"DataPath=\.\/(.+?)[\n\r]", RegexOptions.Compiled | RegexOptions.Singleline);
-
         private static bool GetInformation(string strFilename, out SwordModuleData data)
         {
             data = new SwordModuleData {ModsTempFilePath = strFilename};
@@ -194,7 +181,11 @@ namespace OneStoryProjectEditor
             var strDataPath = match.Groups[1].Value;
             if (strDataPath[strDataPath.Length - 1] != '/')
                 strDataPath += '/';
-            data.ModulesDataPath = strDataPath;
+            data.ModulesDataPath = CstrPathSwordRemote + strDataPath;
+
+            const string cstrDirectionRtl = "Direction=RtoL";
+            if (strContents.IndexOf(cstrDirectionRtl) != -1)
+                data.DirectionRtl = true;
             return true;
         }
 
@@ -213,7 +204,7 @@ namespace OneStoryProjectEditor
                 try
                 {
                     ftp = FtpClient;
-                    var files = ftp.GetDirList(CstrPathSwordRemote + CstrPathModsD);
+                    var files = ftp.GetDirList(CstrPathSwordRemote + CstrPathModsD, true);
                     checkedListBoxDownloadable.Items.Clear();   // in case it's a repeat
                     _mapShortCodes2SwordData.Clear();
                     foreach (var file in files)
@@ -223,14 +214,23 @@ namespace OneStoryProjectEditor
                         SwordModuleData data;
                         if (!GetInformation(strTempFilename, out data))
                             continue;
-                        data.ModsFilename = file.Name;  // add for later use
-                        checkedListBoxDownloadable.Items.Add(String.Format("{0}: {1}", data.SwordShortCode, data.SwordDescription), false);
-                        _mapShortCodes2SwordData.Add(data.SwordShortCode, data);
+                        data.ModsDfile = file;  // add for later use
+
+                        // don't bother to add it to the list box if it's already installed with the same
+                        //  time/date stamp
+                        if (!IsAlreadyInstalled(data))
+                        {
+                            checkedListBoxDownloadable.Items.Add(String.Format("{0}: {1}", data.SwordShortCode, data.SwordDescription), false);
+                            _mapShortCodes2SwordData.Add(data.SwordShortCode, data);
+                        }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Program.ShowException(ex);
+                    if (ex.Message.IndexOf("Unable to read data from the transport connection: A non-blocking socket operation") == 0)
+                        tabControl.SelectTab(tabPageInstalled);
+                    else
+                        Program.ShowException(ex);
                 }
                 finally
                 {
@@ -243,14 +243,28 @@ namespace OneStoryProjectEditor
                 }
             }
         }
+
+        private bool IsAlreadyInstalled(SwordModuleData data)
+        {
+            if (_lstBibleResources.Any(p => p.Name == data.SwordShortCode))
+            {
+                var strLocalFilepath = Path.Combine(StoryProjectData.GetRunningFolder,
+                                                    data.ModsDfile.FullPath.Substring(1).Replace('/', '\\'));
+                System.Diagnostics.Debug.Assert(File.Exists(strLocalFilepath));
+                var dtLocal = File.GetLastWriteTime(strLocalFilepath);
+                return (Math.Abs((dtLocal - data.ModsDfile.Modified).TotalMinutes) < 3600);
+            }
+            return true;
+        }
     }
 
     public class SwordModuleData
     {
         public string SwordShortCode { get; set; }
         public string SwordDescription { get; set; }
-        public string ModsFilename { get; set; }
+        public FtpItem ModsDfile { get; set; }
         public string ModsTempFilePath { get; set; }
         public string ModulesDataPath { get; set; }
+        public bool DirectionRtl { get; set; }
     }
 }
