@@ -19,6 +19,7 @@ using Palaso.UI.WindowsForms.Keyboarding;
 using SilEncConverters40;
 using System.Diagnostics;               // Process
 using Palaso.Reporting;
+using devX;
 using Control=System.Windows.Forms.Control;
 using Timer=System.Windows.Forms.Timer;
 using NetLoc;
@@ -221,16 +222,20 @@ namespace OneStoryProjectEditor
             return;
         }
 
+        private AutoUpgrade _autoUpgrade;
+
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             try
             {
-                var autoUpgrade = e.Result as devX.AutoUpgrade;
+                _autoUpgrade = e.Result as AutoUpgrade;
 
                 //  info the user about the new release available
-                if (autoUpgrade != null)
+                if (_autoUpgrade != null)
+                {
                     LocalizableMessageBox.Show(Localizer.Str("There's a new version of OSE available. To upgrade, click 'Advanced', 'Program Updates', 'Check now'"),
-                                    StoryEditor.OseCaption);
+                                               OseCaption);
+                }
             }
             catch (Exception ex)
             {
@@ -5721,17 +5726,17 @@ namespace OneStoryProjectEditor
 
         private void checkForProgramUpdatesNowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CheckForUpgrade(Properties.Resources.IDS_OSEUpgradeServer);
+            CheckForUpgrade(_autoUpgrade, Resources.IDS_OSEUpgradeServer);
         }
 
         private void checkNowForNextMajorUpdateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CheckForUpgrade(Properties.Resources.IDS_OSEUpgradeServerNextMajorUpgrade);
+            CheckForUpgrade(null, Resources.IDS_OSEUpgradeServerNextMajorUpgrade);
         }
 
         private bool _bRestarting;
 
-        private void CheckForUpgrade(string strManifestUrl)
+        private void CheckForUpgrade(AutoUpgrade autoUpgrade, string strManifestUrl)
         {
             Cursor = Cursors.WaitCursor;
 
@@ -5743,7 +5748,7 @@ namespace OneStoryProjectEditor
 
                 // this shouldn't be needed, but it seems that occasionally, it is...
                 SuspendSaveDialog++;
-                Program.CheckForProgramUpdate(true, strManifestUrl);
+                Program.CheckForProgramUpdate(autoUpgrade, strManifestUrl);
                 SuspendSaveDialog--;
 
                 // since the call to SaveDirty will have removed them all

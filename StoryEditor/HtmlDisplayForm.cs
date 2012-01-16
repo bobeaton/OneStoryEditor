@@ -10,6 +10,7 @@ using Chorus.Utilities;
 using Chorus.VcsDrivers.Mercurial;
 using ECInterfaces;
 using NetLoc;
+using Palaso.Progress.LogBox;
 using SilEncConverters40;
 
 namespace OneStoryProjectEditor

@@ -4,13 +4,14 @@ Namespace AutoUpgrade
 	Module Startup
 		Private frmStatus As New Status()
 
-		Sub main()
-			If GetCommandLineArgs.Length > 1 Then
-				Generate()
-			Else
-				Upgrade()
-			End If
-		End Sub
+        Sub Main()
+            ' Debug.Fail("Debugging")
+            If GetCommandLineArgs.Length > 1 Then
+                Generate()
+            Else
+                Upgrade()
+            End If
+        End Sub
 
 		Sub Generate()
 			Dim upgAuto As New devX.AutoUpgrade()
@@ -62,7 +63,7 @@ Namespace AutoUpgrade
 
 					' Pause for a couple of seconds to give the original app time
 					' to shut down
-					System.Threading.Thread.CurrentThread.Sleep(2000)
+                    Threading.Thread.Sleep(2000)
 
 					' Start the upgrade.  Status messages are processed in the OnProgress event
 					AddHandler upgAuto.UpgradeProgress, AddressOf frmStatus.OnProgress

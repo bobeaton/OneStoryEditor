@@ -454,7 +454,7 @@ namespace OneStoryProjectEditor
             // initialize the keyboard combo list
             foreach (KeyboardController.KeyboardDescriptor keyboard in
                 KeyboardController.GetAvailableKeyboards(KeyboardController.Engines.All))
-                comboBoxKeyboard.Items.Add(keyboard.Name);
+                comboBoxKeyboard.Items.Add(keyboard.ShortName);
 
             System.Diagnostics.Debug.Assert(tlp.GetControlFromPosition(1, 4) is TextBox);
             TextBox tbSentFullStop = tlp.GetControlFromPosition(1, 4) as TextBox;

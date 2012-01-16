@@ -975,7 +975,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.4/StoryEditor.exe.manifest.xml.
+        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.5/StoryEditor.exe.manifest.xml.
         /// </summary>
         internal static string IDS_OSEUpgradeServer {
             get {
@@ -984,11 +984,20 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.5/StoryEditor.exe.manifest.xml.
+        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.6/StoryEditor.exe.manifest.xml.
         /// </summary>
         internal static string IDS_OSEUpgradeServerNextMajorUpgrade {
             get {
                 return ResourceManager.GetString("IDS_OSEUpgradeServerNextMajorUpgrade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org.
+        /// </summary>
+        internal static string IDS_OSEUpgradeServerSword {
+            get {
+                return ResourceManager.GetString("IDS_OSEUpgradeServerSword", resourceCulture);
             }
         }
         
