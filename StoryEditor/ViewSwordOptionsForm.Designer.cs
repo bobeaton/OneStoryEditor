@@ -45,6 +45,7 @@
             // buttonOK
             // 
             this.buttonOK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.buttonOK.AutoSize = true;
             this.buttonOK.Location = new System.Drawing.Point(171, 402);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
@@ -56,6 +57,7 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.buttonCancel.AutoSize = true;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.buttonCancel.Location = new System.Drawing.Point(253, 401);
             this.buttonCancel.Name = "buttonCancel";
@@ -63,6 +65,7 @@
             this.buttonCancel.TabIndex = 2;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // linkLabelLinkToSword
             // 
