@@ -336,8 +336,11 @@ namespace OneStoryProjectEditor
             }
 
             string moduleToStartWith = CstrNetModuleName;
-            if (!string.IsNullOrEmpty(Properties.Settings.Default.LastSwordModuleUsed))
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.LastSwordModuleUsed) &&
+                lstBibleResources.Any(m => m.Name == Properties.Settings.Default.LastSwordModuleUsed))
+            {
                 moduleToStartWith = Properties.Settings.Default.LastSwordModuleUsed;
+            }
 
             moduleVersion = manager.getModule(moduleToStartWith);
             if (moduleVersion == null)
@@ -396,12 +399,6 @@ namespace OneStoryProjectEditor
             RadioButton rbOn = null;
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                // if we downloaded something, then reinit
-                if (dlg.DidDownloadModule)
-                {
-                    InitializeSword();
-                }
-
                 foreach (SwordResource aSR in lstBibleResources)
                 {
                     if (aSR.Loaded)
