@@ -9,7 +9,6 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using Chorus.sync;
 using Chorus.UI.Sync;
-using Chorus.Utilities;
 using Chorus.VcsDrivers;
 using Chorus.VcsDrivers.Mercurial;
 using Palaso.Progress.LogBox;
@@ -89,6 +88,16 @@ namespace OneStoryProjectEditor
                     if (Properties.Settings.Default.LastLocalizationId != "en")
                         StoryEditor.OnLocalizationChangeStatic();
 
+                    // check for a ready install before doing anything
+                    if (AutoUpgrade.IsUpgradeReadyToInstall() &&
+                        (LocalizableMessageBox.Show(
+                            Localizer.Str("There is an update available. Would you like to install it now?"),
+                            StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes))
+                    {
+                        AutoUpgrade.LaunchUpgrade();
+                        return;
+                    }
+
                     Application.Run(new StoryEditor(Properties.Resources.IDS_MainStoriesSet, strFilePathToOpen));
                 }
             }
@@ -119,27 +128,30 @@ namespace OneStoryProjectEditor
         {
         }
 
-        internal static void CheckForProgramUpdate(bool bThrowErrors, string strManifestAddress)
+        internal static void CheckForProgramUpdate(AutoUpgrade autoUpgrade, string strManifestAddress)
         {
             /*
             strManifestAddress = @"ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/Testing/StoryEditor.exe.manifest.xml";
             strManifestAddress = 
                 @"\\StudioXPS-1340\src\StoryEditor\OneStory Releases\OSE1.4.0\StoryEditor.exe.manifest.xml";
             */
-            AutoUpgrade autoUpgrade = AutoUpgrade.Create(strManifestAddress, bThrowErrors);
-            if (autoUpgrade.IsUpgradeAvailable(false))
+            if (autoUpgrade == null)
             {
-                // if this is the automatic check at startup, then at 
-                //  least confirm this is what the user wants to do.
-                if (!bThrowErrors && (LocalizableMessageBox.Show(Localizer.Str("There's a new version of the program available. Would you like to upgrade now?"), 
-                        StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes))
-                {
+                autoUpgrade = AutoUpgrade.Create(strManifestAddress, true);
+                if (!autoUpgrade.IsUpgradeAvailable())
                     return;
-                }
-
-                autoUpgrade.StartUpgradeStub();
-                throw new RestartException();
             }
+
+            autoUpgrade.StartUpgradeStub();
+            throw new RestartException();
+        }
+
+        public static void DisplayNewUpdatesMessage()
+        {
+            LocalizableMessageBox.Show(
+                Localizer.Str(
+                    "There are new program updates available, which will be installed when the program next launches."),
+                StoryEditor.OseCaption);
         }
 
         private static void HgSanityCheck()

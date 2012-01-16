@@ -128,6 +128,21 @@ Namespace devX
                         upgInstance.ApplicationBasePath = AppDomain.CurrentDomain.BaseDirectory
                     End If
 
+                    ' the first time this happens after 2.4.0.2, this version of the assembly will be expecting
+                    ' the files to already be downloaded, but they won't have been...
+                    ' so if any of the files don't exist, then manually download them now
+                    Dim bSomethingNotFound As Boolean = False
+                    For Each upgradeFile As File In upgInstance.UpgradeFiles
+                        Dim strLocalPath As String = Path.Combine(UpgradeDirectory, upgradeFile.Name)
+                        If (Not IO.File.Exists(bSomethingNotFound)) Then
+                            bSomethingNotFound = True
+                        End If
+                    Next
+
+                    If (bSomethingNotFound) Then
+                        upgInstance.DownloadFiles()
+                    End If
+
                     manifestFile = Nothing
                     xmlSerializer = Nothing
                     Return upgInstance
@@ -297,6 +312,9 @@ Namespace devX
                 mlngTotalBytesRead = mlngTotalBytesRead + manCurrentAutoUpgradeFile.Size
             Next
 
+            ' finally copy over the AutoUpgrade.exe since that'll be copied back when doing Sword updates
+            IO.File.Copy(Path.Combine(UpgradeDirectory, STUBEXE_FILENAME), _
+                         Path.Combine(ApplicationBasePath, STUBEXE_FILENAME), True)
         End Sub
 
         Public Sub CommitAndRegisterSingleFile(ByVal manCurrentAutoUpgradeFile As AutoUpgrade.File)
@@ -396,6 +414,7 @@ Namespace devX
                         ' Check that the date/time or version of the downloaded file matches the
                         ' xml file.  Warn the user if it does not.
                         If Not mblnCancel Then
+                            Dim strFile As String = Path.Combine(UpgradeDirectory, manCurrentAutoUpgradeFile.Name)
                             Select Case manCurrentAutoUpgradeFile.Method
                                 Case AutoUpgrade.File.CompareMethod.date
                                     ' Compare last write time.  Allow a variance of one minute in case
@@ -405,7 +424,7 @@ Namespace devX
                                     Dim fi As IO.FileInfo = New IO.FileInfo(Path.Combine(Me.UpgradeDirectory, manCurrentAutoUpgradeFile.Name))
                                     datDownloadedFileTime = fi.LastWriteTimeUtc
 #Else
-                                    datDownloadedFileTime = MyGetLastWriteTime(Path.Combine(UpgradeDirectory, manCurrentAutoUpgradeFile.Name))
+                                    datDownloadedFileTime = MyGetLastWriteTime(strFile)
 #End If
                                     ' bs... this used to check that the file was within a minute, but that breaks
                                     ' when the US is in DST... so we don't update these files that often, so just make it +/- an hour (technically 61 minutes)
@@ -414,11 +433,15 @@ Namespace devX
                                         RaiseEvent UpgradeProgress("The date on the downloaded file '" & manCurrentAutoUpgradeFile.Name & " - [" & datDownloadedFileTime.ToString & "]' does not match the manifest file date - [" & CType(manCurrentAutoUpgradeFile.Version, System.DateTime).ToString & "].", manCurrentAutoUpgradeFile.Name, 0, 0, mblnCancel)
                                     End If
                                 Case AutoUpgrade.File.CompareMethod.version
-                                    With FileVersionInfo.GetVersionInfo(Path.Combine(UpgradeDirectory, manCurrentAutoUpgradeFile.Name))
+                                    With FileVersionInfo.GetVersionInfo(strFile)
                                         If .FileVersion <> manCurrentAutoUpgradeFile.Version Then
                                             RaiseEvent UpgradeProgress("The version of the downloaded file '" & manCurrentAutoUpgradeFile.Name & "' - [" & .FileVersion & "] does not match the manifest file - [" & manCurrentAutoUpgradeFile.Version & "].", manCurrentAutoUpgradeFile.Name, 0, 0, mblnCancel)
                                         End If
                                     End With
+                                Case File.CompareMethod.OneOff
+                                    If (Not IO.File.Exists(strFile)) Then
+                                        RaiseEvent UpgradeProgress("The non-existance of the downloaded file '" & manCurrentAutoUpgradeFile.Name & "' means we update it.", manCurrentAutoUpgradeFile.Name, 0, 0, mblnCancel)
+                                    End If
                             End Select
                         End If
                     End If
@@ -773,6 +796,11 @@ Namespace devX
                                 Else
                                     blnUpgrade = True
                                 End If
+                                ' for the OneOff case, the shear (non-)existance of the file determines whether it's upgraded or not
+                            Case File.CompareMethod.OneOff
+                                If Not IO.File.Exists(strFilePath) Then
+                                    blnUpgrade = True
+                                End If
                         End Select
                 End Select
 
@@ -1062,7 +1090,7 @@ Namespace devX
 
             newFileEntry.Version = ftpFile.Modified.ToLongDateString & " " & ftpFile.Modified.ToLongTimeString
 
-            ' only store date if no version is available
+            ' sword files will never have a version, so just use date method
             newFileEntry.Method = File.CompareMethod.date
 
             ManifestFiles.Add(newFileEntry)
@@ -1122,6 +1150,7 @@ Namespace devX
             Enum CompareMethod
                 version
                 [date]
+                OneOff
             End Enum
 
             Enum UpgradeAction
