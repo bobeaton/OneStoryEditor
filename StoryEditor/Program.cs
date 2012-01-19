@@ -867,21 +867,24 @@ namespace OneStoryProjectEditor
                 return;
 
             if (!Directory.Exists(strProjectFolder))
-                Directory.CreateDirectory(strProjectFolder);
-
-            string strProjectName = Path.GetFileNameWithoutExtension(strProjectFolder);
-
-            // if there's no repo yet, then create one (even if we aren't going
-            //  to ultimately push with an internet repo, we still want one locally)
-            var projectConfig = GetProjectFolderConfiguration(strProjectFolder);
-
-            SyncUIDialogBehaviors suidb = SyncUIDialogBehaviors.Lazy;
-            SyncUIFeatures suif = SyncUIFeatures.NormalRecommended;
-            using (var dlg = new SyncDialog(projectConfig, suidb, suif))
             {
-                dlg.UseTargetsAsSpecifiedInSyncOptions = true;
-                dlg.Text = "Synchronizing OneStory Project: " + strProjectName;
-                dlg.ShowDialog();
+            }
+            else
+            {
+                string strProjectName = Path.GetFileNameWithoutExtension(strProjectFolder);
+
+                // if there's no repo yet, then create one (even if we aren't going
+                //  to ultimately push with an internet repo, we still want one locally)
+                var projectConfig = GetProjectFolderConfiguration(strProjectFolder);
+
+                SyncUIDialogBehaviors suidb = SyncUIDialogBehaviors.Lazy;
+                SyncUIFeatures suif = SyncUIFeatures.NormalRecommended;
+                using (var dlg = new SyncDialog(projectConfig, suidb, suif))
+                {
+                    dlg.UseTargetsAsSpecifiedInSyncOptions = true;
+                    dlg.Text = "Synchronizing OneStory Project: " + strProjectName;
+                    dlg.ShowDialog();
+                }
             }
         }
 

@@ -4731,17 +4731,14 @@ namespace OneStoryProjectEditor
             {
                 // we don't know where it's to go yet, so make the user browse for it
                 // on the thumbdrive
-                var dlg = new FolderBrowserDialog
-                              {
-                                  Description =
-                                      String.Format(Localizer.Str("Browse for the project folder on the thumbdrive"))
-                              };
+                using (var dlg = new Chorus.UI.Clone.GetCloneFromUsbDialog(ProjectSettings.OneStoryProjectFolderRoot))
+                {
+                    if (dlg.ShowDialog() != DialogResult.OK)
+                        return;
 
-                if (dlg.ShowDialog() != DialogResult.OK)
-                    return;
-
-                strProjectName = Path.GetFileNameWithoutExtension(dlg.SelectedPath);
-                strProjectFolder = ProjectSettings.GetDefaultProjectPath(strProjectName);
+                    strProjectFolder = dlg.PathToNewProject;
+                    strProjectName = Path.GetFileNameWithoutExtension(strProjectFolder);
+                }
             }
             else
             {
@@ -5555,6 +5552,10 @@ namespace OneStoryProjectEditor
             }
             catch (Program.RestartException)
             {
+                // if it returns here without throwing an exception, it means there were no updates
+                LocalizableMessageBox.Show(Localizer.Str("An update has been downloaded and will be installed the next time OneStory Editor is launched"),
+                                StoryEditor.OseCaption);
+
                 _bRestarting = true;
                 Close();
             }

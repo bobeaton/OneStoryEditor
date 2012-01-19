@@ -1,4 +1,6 @@
-﻿When hiding lines, move any open conversations to the previous (unhidden) line to it remains open
+﻿asdg
+
+When hiding lines, move any open conversations to the previous (unhidden) line to it remains open
 
 Figure out why Glosing tool doesn't work the first time
 
