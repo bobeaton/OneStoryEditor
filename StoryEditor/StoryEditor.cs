@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Xml.XPath;
 using System.Xml.Xsl;
+using Chorus.UI.Clone;
 using ECInterfaces;
 using OneStoryProjectEditor.Properties;
 using Palaso.UI.WindowsForms.Keyboarding;
@@ -392,7 +393,18 @@ namespace OneStoryProjectEditor
 
         private void projectFromTheInternetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var dlg = new Chorus.UI.Clone.GetCloneFromInternetDialog(ProjectSettings.OneStoryProjectFolderRoot))
+            var model = new GetCloneFromInternetModel(ProjectSettings.OneStoryProjectFolderRoot)
+            {
+                SelectedServerLabel = Resources.IDS_DefaultRepoServer
+            };
+
+            if (LoggedOnMember != null)
+            {
+                model.AccountName = LoggedOnMember.HgUsername;
+                model.Password = LoggedOnMember.HgPassword;
+            }
+
+            using (var dlg = new GetCloneFromInternetDialog(model))
             {
                 if (DialogResult.Cancel == dlg.ShowDialog())
                     return;
