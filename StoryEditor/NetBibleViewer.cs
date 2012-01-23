@@ -889,7 +889,8 @@ namespace OneStoryProjectEditor
 
         private void buttonNextReference_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert(m_nReferenceArrayIndex < (m_astrReferences.Count - 1));
+            if (m_nReferenceArrayIndex >= (m_astrReferences.Count - 1))
+                m_nReferenceArrayIndex = Math.Max(0, m_astrReferences.Count - 2);
             ScriptureReference = m_astrReferences[++m_nReferenceArrayIndex];
             DisplayVerses();
             UpdateNextPreviousButtons();
