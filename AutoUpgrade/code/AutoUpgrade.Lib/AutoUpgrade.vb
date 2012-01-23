@@ -296,7 +296,7 @@ Namespace devX
             ' and register if required.
             Dim manCurrentAutoUpgradeFile As AutoUpgrade.File
 
-            RaiseEvent UpgradeProgress("Committing Files and performing registration actions...", "", 0, 0, mblnCancel)
+            ' RaiseEvent UpgradeProgress("Committing Files and performing registration actions...", "", 0, 0, mblnCancel)
 
             mlngTotalBytesRead = 0
             mtimStartTime = Now
@@ -305,7 +305,7 @@ Namespace devX
                 If manCurrentAutoUpgradeFile.Description.Trim.Length = 0 Then
                     manCurrentAutoUpgradeFile.Description = Path.GetFileName(manCurrentAutoUpgradeFile.Name)
                 End If
-                RaiseEvent UpgradeProgress("Committing " & manCurrentAutoUpgradeFile.Description, manCurrentAutoUpgradeFile.Name, Me.PercentComplete, Me.EstimatedTimeRemaining, mblnCancel)
+                ' RaiseEvent UpgradeProgress("Committing " & manCurrentAutoUpgradeFile.Description, manCurrentAutoUpgradeFile.Name, Me.PercentComplete, Me.EstimatedTimeRemaining, mblnCancel)
                 If mblnCancel Then Exit For
 
                 CommitAndRegisterSingleFile(manCurrentAutoUpgradeFile)
@@ -382,6 +382,8 @@ Namespace devX
             End If
         End Sub
 
+        Private frmStatus As New Status()
+
         Public Sub DownloadFiles()
             ' Download the files to be upgraded to the Upgrade cache (staging) directory
             Dim manCurrentAutoUpgradeFile As AutoUpgrade.File
@@ -390,65 +392,84 @@ Namespace devX
             CreateUpgradeDirectory()
             mlngTotalBytesRead = 0
 
+            frmStatus.Show()
+            frmStatus.Activate()
+            frmStatus.ApplicationName = ApplicationName
+            AddHandler UpgradeProgress, AddressOf frmStatus.OnProgress
+
             RaiseEvent UpgradeProgress("Starting download from " & Me.SourcePath, "", 0, 0, mblnCancel)
 
             mtimStartTime = Now
 
-            If IsFullUpgradeRequired() Then
-                ' If any of the files signalled the need for a full upgrade, just download
-                ' the upgrade installation set
-                DownloadSingleFile(Me.FullUpgradeFileName, "Full upgrade")
-            Else
-                ' Download the files
-                For Each manCurrentAutoUpgradeFile In UpgradeFiles
-                    If manCurrentAutoUpgradeFile.Action = AutoUpgrade.File.UpgradeAction.copy Then
-                        If StrComp(manCurrentAutoUpgradeFile.Name, LIBDLL_FILENAME, CompareMethod.Text) = 0 Then
-                            ' AutoUpgrade.Lib.DLL is always downloaded, this is to avoid 
-                            ' "file in use" exceptions, since it is *this* file.  If the file is
-                            ' to be upgraded, include it in the manifest file as normal, and
-                            ' CommitAndRegisterFiles will copy it to the application directory.
-                        Else
-                            DownloadSingleFile(manCurrentAutoUpgradeFile.Name, manCurrentAutoUpgradeFile.Description)
-                        End If
+            Try
 
-                        ' Check that the date/time or version of the downloaded file matches the
-                        ' xml file.  Warn the user if it does not.
-                        If Not mblnCancel Then
-                            Dim strFile As String = Path.Combine(UpgradeDirectory, manCurrentAutoUpgradeFile.Name)
-                            Select Case manCurrentAutoUpgradeFile.Method
-                                Case AutoUpgrade.File.CompareMethod.date
-                                    ' Compare last write time.  Allow a variance of one minute in case
-                                    ' the user doesn't specify milliseconds (and because on Win2k, the
-                                    ' SetFileWriteTime call seems to round to the nearest minute)
+                If IsFullUpgradeRequired() Then
+                    ' If any of the files signalled the need for a full upgrade, just download
+                    ' the upgrade installation set
+                    DownloadSingleFile(Me.FullUpgradeFileName, "Full upgrade")
+                Else
+                    ' Download the files
+                    For Each manCurrentAutoUpgradeFile In UpgradeFiles
+                        If manCurrentAutoUpgradeFile.Action = AutoUpgrade.File.UpgradeAction.copy Then
+                            If StrComp(manCurrentAutoUpgradeFile.Name, LIBDLL_FILENAME, CompareMethod.Text) = 0 Then
+                                ' AutoUpgrade.Lib.DLL is always downloaded, this is to avoid 
+                                ' "file in use" exceptions, since it is *this* file.  If the file is
+                                ' to be upgraded, include it in the manifest file as normal, and
+                                ' CommitAndRegisterFiles will copy it to the application directory.
+                            Else
+                                DownloadSingleFile(manCurrentAutoUpgradeFile.Name, manCurrentAutoUpgradeFile.Description)
+                            End If
+
+                            ' Check that the date/time or version of the downloaded file matches the
+                            ' xml file.  Warn the user if it does not.
+                            If Not mblnCancel Then
+                                Dim strFile As String = Path.Combine(UpgradeDirectory, manCurrentAutoUpgradeFile.Name)
+                                Select Case manCurrentAutoUpgradeFile.Method
+                                    Case AutoUpgrade.File.CompareMethod.date
+                                        ' Compare last write time.  Allow a variance of one minute in case
+                                        ' the user doesn't specify milliseconds (and because on Win2k, the
+                                        ' SetFileWriteTime call seems to round to the nearest minute)
 #If USE_UTC Then
                                     Dim fi As IO.FileInfo = New IO.FileInfo(Path.Combine(Me.UpgradeDirectory, manCurrentAutoUpgradeFile.Name))
                                     datDownloadedFileTime = fi.LastWriteTimeUtc
 #Else
-                                    datDownloadedFileTime = MyGetLastWriteTime(strFile)
+                                        datDownloadedFileTime = MyGetLastWriteTime(strFile)
 #End If
-                                    ' bs... this used to check that the file was within a minute, but that breaks
-                                    ' when the US is in DST... so we don't update these files that often, so just make it +/- an hour (technically 61 minutes)
-                                    ' fpos... make it 3 hours... 
-                                    If System.Math.Abs(DateDiff(DateInterval.Minute, datDownloadedFileTime, CType(manCurrentAutoUpgradeFile.Version, System.DateTime))) > 185 Then
-                                        RaiseEvent UpgradeProgress("The date on the downloaded file '" & manCurrentAutoUpgradeFile.Name & " - [" & datDownloadedFileTime.ToString & "]' does not match the manifest file date - [" & CType(manCurrentAutoUpgradeFile.Version, System.DateTime).ToString & "].", manCurrentAutoUpgradeFile.Name, 0, 0, mblnCancel)
-                                    End If
-                                Case AutoUpgrade.File.CompareMethod.version
-                                    With FileVersionInfo.GetVersionInfo(strFile)
-                                        If .FileVersion <> manCurrentAutoUpgradeFile.Version Then
-                                            RaiseEvent UpgradeProgress("The version of the downloaded file '" & manCurrentAutoUpgradeFile.Name & "' - [" & .FileVersion & "] does not match the manifest file - [" & manCurrentAutoUpgradeFile.Version & "].", manCurrentAutoUpgradeFile.Name, 0, 0, mblnCancel)
+                                        ' bs... this used to check that the file was within a minute, but that breaks
+                                        ' when the US is in DST... so we don't update these files that often, so just make it +/- an hour (technically 61 minutes)
+                                        ' fpos... make it 3 hours... 
+                                        If System.Math.Abs(DateDiff(DateInterval.Minute, datDownloadedFileTime, CType(manCurrentAutoUpgradeFile.Version, System.DateTime))) > 185 Then
+                                            RaiseEvent UpgradeProgress("The date on the downloaded file '" & manCurrentAutoUpgradeFile.Name & " - [" & datDownloadedFileTime.ToString & "]' does not match the manifest file date - [" & CType(manCurrentAutoUpgradeFile.Version, System.DateTime).ToString & "].", manCurrentAutoUpgradeFile.Name, 0, 0, mblnCancel)
                                         End If
-                                    End With
-                                Case File.CompareMethod.OneOff
-                                    If (Not IO.File.Exists(strFile)) Then
-                                        RaiseEvent UpgradeProgress("The non-existance of the downloaded file '" & manCurrentAutoUpgradeFile.Name & "' means we update it.", manCurrentAutoUpgradeFile.Name, 0, 0, mblnCancel)
-                                    End If
-                            End Select
+                                    Case AutoUpgrade.File.CompareMethod.version
+                                        With FileVersionInfo.GetVersionInfo(strFile)
+                                            If .FileVersion <> manCurrentAutoUpgradeFile.Version Then
+                                                RaiseEvent UpgradeProgress("The version of the downloaded file '" & manCurrentAutoUpgradeFile.Name & "' - [" & .FileVersion & "] does not match the manifest file - [" & manCurrentAutoUpgradeFile.Version & "].", manCurrentAutoUpgradeFile.Name, 0, 0, mblnCancel)
+                                            End If
+                                        End With
+                                    Case File.CompareMethod.OneOff
+                                        If (Not IO.File.Exists(strFile)) Then
+                                            RaiseEvent UpgradeProgress("The non-existance of the downloaded file '" & manCurrentAutoUpgradeFile.Name & "' means we update it.", manCurrentAutoUpgradeFile.Name, 0, 0, mblnCancel)
+                                        End If
+                                End Select
+                            End If
                         End If
-                    End If
 
-                    If mblnCancel Then Exit For
-                Next
-            End If
+                        If mblnCancel Then Exit For
+                    Next
+                End If
+            Catch exc As Exception
+                Dim strError As String = exc.Message
+                If Not exc.InnerException Is Nothing Then
+                    strError = strError & " - " & exc.InnerException.Message
+                End If
+                strError = strError & vbCrLf & vbCrLf & exc.ToString
+                MsgBox(strError, MsgBoxStyle.Critical, ApplicationName & " Automatic Upgrade")
+            Finally
+                ' Clean up
+                frmStatus.Close()
+                frmStatus = Nothing
+            End Try
         End Sub
 
         Private Shared Function IsFtp(ByVal resp As WebRequest) As Boolean
