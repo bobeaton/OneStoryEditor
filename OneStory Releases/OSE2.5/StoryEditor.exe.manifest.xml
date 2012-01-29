@@ -4,31 +4,10 @@
   <ApplicationExecutable />
   <ApplicationName>OneStory Editor AutoUpdater</ApplicationName>
   <FullUpgradeFileName />
-  <OffsetFromUctWhereManifestWasOriginallyCreated>2012-01-14T23:33:17.7330000-06:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+  <OffsetFromUctWhereManifestWasOriginallyCreated>2012-01-22T21:08:47.4060000-06:00</OffsetFromUctWhereManifestWasOriginallyCreated>
   <ManifestFiles>
-    <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="1.0.4396.41873" optional="false" size="27136">AutoUpgrade Lib</File>
-    <File name="Chorus.exe" method="version" action="copy" version="1.1.0.6" optional="false" size="505344">Chorus</File>
-    <File name="ChorusMerge.exe" method="version" action="copy" version="1.1.0.5" optional="false" size="5632">ChorusMerge</File>
-    <File name="LibChorus.dll" method="version" action="copy" version="1.1.0.8" optional="false" size="276480">Chorus</File>
-    <File name="Palaso.dll" method="version" action="copy" version="1.9.187.0" optional="false" size="1138688">Palaso</File>
-    <File name="PalasoUIWindowsForms.dll" method="version" action="copy" version="1.9.187.0" optional="false" size="823296">PalasoUIWindowsForms</File>
-    <File name="rdeStarksoft.Net.Ftp.dll" method="version" action="copy" version="1.0.158.0" optional="false" size="94208">Starksoft.Net.Ftp</File>
-    <File name="Starksoft.Net.Proxy.dll" method="version" action="copy" version="1.0.131.0" optional="false" size="40960">Starksoft.Net.Proxy</File>
-    <File name="StoryEditor.exe" method="version" action="copy" version="2.5.0.0" optional="false" size="1379840">OneStory Editor</File>
-    <File name="MercurialExtensions\fixutf8\.hgignore" method="OneOff" action="copy" version="Friday, January 06, 2012 11:35:42 AM" optional="false" size="25" />
-    <File name="MercurialExtensions\fixutf8\.hg_archival.txt" method="OneOff" action="copy" version="Friday, January 06, 2012 11:35:42 AM" optional="false" size="148" />
-    <File name="MercurialExtensions\fixutf8\buildcpmap.py" method="OneOff" action="copy" version="Friday, January 06, 2012 11:35:42 AM" optional="false" size="1240" />
-    <File name="MercurialExtensions\fixutf8\cpmap.pyc" method="OneOff" action="copy" version="Friday, January 06, 2012 11:35:42 AM" optional="false" size="783829" />
-    <File name="MercurialExtensions\fixutf8\fixutf8.py" method="OneOff" action="copy" version="Friday, January 06, 2012 11:35:42 AM" optional="false" size="6662" />
-    <File name="MercurialExtensions\fixutf8\fixutf8.pyc" method="OneOff" action="copy" version="Friday, January 06, 2012 11:35:42 AM" optional="false" size="8045" />
-    <File name="MercurialExtensions\fixutf8\fixutf8.pyo" method="OneOff" action="copy" version="Friday, January 06, 2012 11:35:42 AM" optional="false" size="8045" />
-    <File name="MercurialExtensions\fixutf8\osutil.py" method="OneOff" action="copy" version="Friday, January 06, 2012 11:35:42 AM" optional="false" size="1238" />
-    <File name="MercurialExtensions\fixutf8\osutil.pyc" method="OneOff" action="copy" version="Friday, January 06, 2012 11:35:42 AM" optional="false" size="1686" />
-    <File name="MercurialExtensions\fixutf8\osutil.pyo" method="OneOff" action="copy" version="Friday, January 06, 2012 11:35:42 AM" optional="false" size="1686" />
-    <File name="MercurialExtensions\fixutf8\README" method="OneOff" action="copy" version="Friday, January 06, 2012 11:35:42 AM" optional="false" size="2538" />
-    <File name="MercurialExtensions\fixutf8\win32helper.py" method="OneOff" action="copy" version="Friday, January 06, 2012 11:35:42 AM" optional="false" size="4059" />
-    <File name="MercurialExtensions\fixutf8\win32helper.pyc" method="OneOff" action="copy" version="Friday, January 06, 2012 11:35:42 AM" optional="false" size="3457" />
-    <File name="MercurialExtensions\fixutf8\win32helper.pyo" method="OneOff" action="copy" version="Friday, January 06, 2012 11:35:42 AM" optional="false" size="3457" />
+    <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="1.0.4404.11964" optional="false" size="32768">AutoUpgrade Lib</File>
+    <File name="StoryEditor.exe" method="version" action="copy" version="2.5.0.2" optional="false" size="1380352">OneStory Editor</File>
   </ManifestFiles>
   <SourcePath />
   <UpgradeFiles />

@@ -2,7 +2,6 @@ Imports System.Environment
 
 Namespace AutoUpgrade
 	Module Startup
-		Private frmStatus As New Status()
 
         Sub Main()
             ' Debug.Fail("Debugging")
@@ -51,44 +50,48 @@ Namespace AutoUpgrade
 			Dim strError As String
 
 			' Show the status form
-			frmStatus.Show()
-			frmStatus.Activate()
+            ' frmStatus.Show()
+            ' frmStatus.Activate()
+            ' Application.DoEvents()  ' get the window to repaint before going to sleep
+            ' change this to loop until the OSE process isn't running anymore
+            ' also, use the progress dialog to track the SWORD and upgrade downloads
 
 			Try
 				' Open the manifest file & create a new instance of the AutoUpgrade class
 				upgAuto = devX.AutoUpgrade.Create()
 
 				Try
-					frmStatus.ApplicationName = upgAuto.ApplicationName
+                    ' frmStatus.ApplicationName = upgAuto.ApplicationName
 
 					' Pause for a couple of seconds to give the original app time
 					' to shut down
                     Threading.Thread.Sleep(2000)
 
 					' Start the upgrade.  Status messages are processed in the OnProgress event
-					AddHandler upgAuto.UpgradeProgress, AddressOf frmStatus.OnProgress
+                    ' AddHandler upgAuto.UpgradeProgress, AddressOf frmStatus.OnProgress
 					upgAuto.Upgrade()
 
 					' Upgrade complete.  Re-run the application unless the user clicked cancel
-					If upgAuto.ApplicationExecutable.Length > 0 AndAlso frmStatus.Cancel = False Then
-						With New System.Diagnostics.Process()
-							.StartInfo.FileName = upgAuto.ApplicationExecutable
-							.Start()
-						End With
-					End If
-				Catch exc As Exception
-					strError = exc.Message
-					If Not exc.InnerException Is Nothing Then
-						strError = strError & " - " & exc.InnerException.Message
-					End If
-					strError = strError & vbCrLf & vbCrLf & exc.ToString
-					MsgBox(strError, MsgBoxStyle.Critical, upgAuto.ApplicationName & " Automatic Upgrade")
-				Finally
-					' Clean up
-					frmStatus.Close()
-					frmStatus = Nothing
-					upgAuto = Nothing
-				End Try
+                    ' If upgAuto.ApplicationExecutable.Length > 0 AndAlso frmStatus.Cancel = False Then
+                    If upgAuto.ApplicationExecutable.Length > 0 Then
+                        With New System.Diagnostics.Process()
+                            .StartInfo.FileName = upgAuto.ApplicationExecutable
+                            .Start()
+                        End With
+                    End If
+                Catch exc As Exception
+                    strError = exc.Message
+                    If Not exc.InnerException Is Nothing Then
+                        strError = strError & " - " & exc.InnerException.Message
+                    End If
+                    strError = strError & vbCrLf & vbCrLf & exc.ToString
+                    MsgBox(strError, MsgBoxStyle.Critical, upgAuto.ApplicationName & " Automatic Upgrade")
+                Finally
+                    ' Clean up
+                    ' frmStatus.Close()
+                    ' frmStatus = Nothing
+                    upgAuto = Nothing
+                End Try
 
 			Catch exc As Exception
                 ' Error creating AutoUpgrade object

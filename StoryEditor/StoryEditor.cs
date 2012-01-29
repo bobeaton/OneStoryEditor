@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Xml.XPath;
 using System.Xml.Xsl;
+using Chorus.UI.Clone;
 using ECInterfaces;
 using OneStoryProjectEditor.Properties;
 using Palaso.UI.WindowsForms.Keyboarding;
@@ -412,7 +413,18 @@ namespace OneStoryProjectEditor
 
         private void projectFromTheInternetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var dlg = new Chorus.UI.Clone.GetCloneFromInternetDialog(ProjectSettings.OneStoryProjectFolderRoot))
+            var model = new GetCloneFromInternetModel(ProjectSettings.OneStoryProjectFolderRoot)
+            {
+                SelectedServerLabel = Resources.IDS_DefaultRepoServer
+            };
+
+            if (LoggedOnMember != null)
+            {
+                model.AccountName = LoggedOnMember.HgUsername;
+                model.Password = LoggedOnMember.HgPassword;
+            }
+
+            using (var dlg = new GetCloneFromInternetDialog(model))
             {
                 if (DialogResult.Cancel == dlg.ShowDialog())
                     return;
@@ -4933,17 +4945,14 @@ namespace OneStoryProjectEditor
             {
                 // we don't know where it's to go yet, so make the user browse for it
                 // on the thumbdrive
-                var dlg = new FolderBrowserDialog
-                              {
-                                  Description =
-                                      String.Format(Localizer.Str("Browse for the project folder on the thumbdrive"))
-                              };
+                using (var dlg = new Chorus.UI.Clone.GetCloneFromUsbDialog(ProjectSettings.OneStoryProjectFolderRoot))
+                {
+                    if (dlg.ShowDialog() != DialogResult.OK)
+                        return;
 
-                if (dlg.ShowDialog() != DialogResult.OK)
-                    return;
-
-                strProjectName = Path.GetFileNameWithoutExtension(dlg.SelectedPath);
-                strProjectFolder = ProjectSettings.GetDefaultProjectPath(strProjectName);
+                    strProjectFolder = dlg.PathToNewProject;
+                    strProjectName = Path.GetFileNameWithoutExtension(strProjectFolder);
+                }
             }
             else
             {
@@ -5761,6 +5770,10 @@ namespace OneStoryProjectEditor
             }
             catch (Program.RestartException)
             {
+                // if it returns here without throwing an exception, it means there were no updates
+                LocalizableMessageBox.Show(Localizer.Str("An update has been downloaded and will be installed the next time OneStory Editor is launched"),
+                                StoryEditor.OseCaption);
+
                 _bRestarting = true;
                 Close();
             }

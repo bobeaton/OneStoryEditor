@@ -153,7 +153,7 @@ namespace OneStoryProjectEditor
             StageTimeStamp = rhs.StageTimeStamp;
             ProjStage = new StoryStageLogic(rhs.ProjStage);
             CraftingInfo = new CraftingInfoData(rhs.CraftingInfo);
-            TransitionHistory = new StoryStateTransitionHistory();  // start from scratch
+            TransitionHistory = new StoryStateTransitionHistory(rhs.TransitionHistory);
             Verses = new VersesData(rhs.Verses);
         }
 
@@ -748,6 +748,14 @@ namespace OneStoryProjectEditor
         {
         }
 
+        public StoryStateTransitionHistory(StoryStateTransitionHistory rhs)
+        {
+            foreach (var state in rhs)
+            {
+                Add(new StoryStateTransition(state));
+            }
+        }
+
         public StoryStateTransitionHistory(XmlNode node)
         {
             if (node == null)
@@ -813,6 +821,15 @@ namespace OneStoryProjectEditor
 
         public StoryStateTransition()
         {
+        }
+
+        public StoryStateTransition(StoryStateTransition rhs)
+        {
+            LoggedInMemberId = rhs.LoggedInMemberId;
+            FromState = rhs.FromState;
+            ToState = rhs.ToState;
+            TransitionDateTime = rhs.TransitionDateTime;
+            WindowsUserName = rhs.WindowsUserName;
         }
 
         public StoryStateTransition(NewDataSet.StateTransitionRow theSTR)
