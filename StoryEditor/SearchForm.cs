@@ -124,7 +124,6 @@ namespace OneStoryProjectEditor
 
             ssidx = ssidx ?? BoxesToSearch[TheSE.TheCurrentStory.Name];
 
-#if !UsingHtmlDisplayForStoryBt
             // check to see if we have a starting place...
             if (CtrlTextBox._inTextBox != null)
                 for (int i = 0; i < ssidx.Count; i++)
@@ -140,19 +139,17 @@ namespace OneStoryProjectEditor
                         return;
                     }
                 }
-#endif
+
             // otherwise, just start at the 0th verse of *this* story
             nStoryIndex = LastStoryIndex = BoxesToSearch.IndexOf(ssidx);
             nCtxBoxIndex = LastCtxBoxIndex = nCharIndex = LastCharIndex = 0;
         }
 
-#if !UsingHtmlDisplayForStoryBt
         protected int CaptureNextStartingCharIndex(CtrlTextBox ctb)
         {
             return ctb.SelectionStart +
                    ctb.SelectionLength;
         }
-#endif
 
         protected static string UpdateComboBox(ComboBox cb)
         {
@@ -247,7 +244,7 @@ namespace OneStoryProjectEditor
                         if (nLastCharIndex != 0)
                         {
                             nLastCharIndex = 0; // only do that once
-                            HtmlConNoteControl ctrl = stringTransfer.HtmlConNoteCtrl as HtmlConNoteControl;
+                            var ctrl = stringTransfer.HtmlPane as HtmlConNoteControl;
                             ctrl.ClearSelection(stringTransfer);
                         }
                     }
@@ -286,10 +283,10 @@ namespace OneStoryProjectEditor
                             stringTransfer.TextBox.Select(nFoundIndex, nLengthToSelect);
                             LastCharIndex = CaptureNextStartingCharIndex(stringTransfer.TextBox);
                         }
-                        else if (stringTransfer.HtmlConNoteCtrl != null)
+                        else if (stringTransfer.HtmlPane != null)
                         {
                             Application.DoEvents(); // give the html doc a chance to catch up
-                            var ctrl = stringTransfer.HtmlConNoteCtrl as HtmlConNoteControl;
+                            var ctrl = stringTransfer.HtmlPane as HtmlConNoteControl;
                             if (ctrl != null)
                                 ctrl.SetSelection(stringTransfer, nFoundIndex, nLengthToSelect);
                             LastCharIndex = nFoundIndex + nLengthToSelect;
@@ -648,7 +645,7 @@ namespace OneStoryProjectEditor
             }
             else if (!String.IsNullOrEmpty(LastStringTransferSearched.HtmlElementId))
             {
-                HtmlConNoteControl ctrl = LastStringTransferSearched.HtmlConNoteCtrl as HtmlConNoteControl;
+                HtmlConNoteControl ctrl = LastStringTransferSearched.HtmlPane as HtmlConNoteControl;
                 if (ctrl != null)
                 {
                     if (ctrl.IsParagraphElement(LastStringTransferSearched.HtmlElementId))

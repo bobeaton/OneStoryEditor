@@ -48,7 +48,7 @@ namespace OneStoryProjectEditor
                                                         aLineData.Vernacular, strLabelRow + strLabelSuffix, 
                                                         projSettings.Vernacular,
                                                         nNumColumns, nNumRows, 
-                                                        StoryEditor.TextFieldType.Vernacular,
+                                                        StoryEditor.TextFields.Vernacular,
                                                         clrVernacular);
                     nNumColumns++;
                 }
@@ -63,7 +63,7 @@ namespace OneStoryProjectEditor
                                                         aLineData.NationalBt, strLabelRow + strLabelSuffix, 
                                                         projSettings.NationalBT,
                                                         nNumColumns, nNumRows, 
-                                                        StoryEditor.TextFieldType.NationalBt,
+                                                        StoryEditor.TextFields.NationalBt,
                                                         clrNationalBt);
                     nNumColumns++;
 
@@ -81,7 +81,7 @@ namespace OneStoryProjectEditor
                                                                    strLabelRow + strLabelSuffix,
                                                                    projSettings.InternationalBT,
                                                                    nNumColumns, nNumRows,
-                                                                   StoryEditor.TextFieldType.InternationalBt,
+                                                                   StoryEditor.TextFields.InternationalBt,
                                                                    clrInternationalBt);
                     nNumColumns++;
 
@@ -99,7 +99,7 @@ namespace OneStoryProjectEditor
 
         protected CtrlTextBox InitTextBox(VerseControl ctrlVerse, string strTbName,
             StringTransfer strTbText, string strLabel, ProjectSettings.LanguageInfo li, int nLayoutColumn,
-            int nLayoutRow, StoryEditor.TextFieldType eFieldType, Color clrFont)
+            int nLayoutRow, StoryEditor.TextFields eFieldType, Color clrFont)
         {
             string strTextBoxName = strTbName + CstrSuffixTextBox + nLayoutRow + nLayoutColumn;
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strTextBoxName), "otherwise, fix wrong assumption");

@@ -17,7 +17,7 @@ namespace OneStoryProjectEditor
         protected ContextMenuStrip _ctxMenu;
         internal CtrlTextBox NationalBtSibling;
         internal CtrlTextBox EnglishBtSibling;
-        private StoryEditor.TextFieldType _eFieldType;
+        private StoryEditor.TextFields _eFieldType;
 
         public delegate void ThrowIfNotCorrectEditor(TeamMemberData.UserTypes eLoggedInMember, TeamMemberData.UserTypes eRequiredEditor);
         protected ThrowIfNotCorrectEditor _delegateRequiredEditorCheck;
@@ -26,7 +26,7 @@ namespace OneStoryProjectEditor
         public CtrlTextBox(string strName, VerseControl ctrlVerseParent, 
             ResizableControl ctrlParent, StringTransfer stData,
             ProjectSettings.LanguageInfo li, string strLabel,
-            StoryEditor.TextFieldType eFieldType, Color clrFont)
+            StoryEditor.TextFields eFieldType, Color clrFont)
         {
             InitComponent(strLabel);
             Init(strName, strLabel, li, stData, ctrlParent, ctrlVerseParent, eFieldType,
@@ -35,7 +35,7 @@ namespace OneStoryProjectEditor
 
         private void Init(string strName, string strLabel, ProjectSettings.LanguageInfo li, 
             StringTransfer stData, ResizableControl ctrlParent, VerseControl ctrlVerseParent,
-            StoryEditor.TextFieldType eFieldType, Color clrFont)
+            StoryEditor.TextFields eFieldType, Color clrFont)
         {
             Name = strName;
             _strLabel = strLabel;
@@ -179,10 +179,10 @@ namespace OneStoryProjectEditor
                         TeamMemberData.UserTypes.ProjectFacilitator))
                     {
                         ProjectSettings.LanguageInfo li;
-                        if (!CheckForTaskPermission((li = projSettings.Vernacular), StoryEditor.TextFieldType.Vernacular, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.VernacularLangFields))
-                            || !CheckForTaskPermission((li = projSettings.NationalBT), StoryEditor.TextFieldType.NationalBt, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.NationalBtLangFields))
-                            || !CheckForTaskPermission((li = projSettings.InternationalBT), StoryEditor.TextFieldType.InternationalBt, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.InternationalBtFields))
-                            || !CheckForTaskPermission((li = projSettings.FreeTranslation), StoryEditor.TextFieldType.FreeTranslation, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.FreeTranslationFields)))
+                        if (!CheckForTaskPermission((li = projSettings.Vernacular), StoryEditor.TextFields.Vernacular, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.VernacularLangFields))
+                            || !CheckForTaskPermission((li = projSettings.NationalBT), StoryEditor.TextFields.NationalBt, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.NationalBtLangFields))
+                            || !CheckForTaskPermission((li = projSettings.InternationalBT), StoryEditor.TextFields.InternationalBt, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.InternationalBtFields))
+                            || !CheckForTaskPermission((li = projSettings.FreeTranslation), StoryEditor.TextFields.FreeTranslation, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.FreeTranslationFields)))
                         {
                             throw new ApplicationException(
                                 String.Format(Localizer.Str("The consultant hasn't given you permission to edit the '{0}' language fields"),
@@ -209,7 +209,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private bool CheckForTaskPermission(ProjectSettings.LanguageInfo li, StoryEditor.TextFieldType eType, bool isTaskOn)
+        private bool CheckForTaskPermission(ProjectSettings.LanguageInfo li, StoryEditor.TextFields eType, bool isTaskOn)
         {
             if (_eFieldType == eType)
                 return (!li.HasData || isTaskOn);
@@ -547,7 +547,7 @@ namespace OneStoryProjectEditor
             try
             {
                 System.Diagnostics.Debug.Assert((NationalBtSibling != null) && (_ctrlVerseParent != null)
-                    && (_eFieldType == StoryEditor.TextFieldType.Vernacular));
+                    && (_eFieldType == StoryEditor.TextFields.Vernacular));
                 if (!MyStringTransfer.HasData)
                     return;
 
@@ -563,7 +563,9 @@ namespace OneStoryProjectEditor
                     _ctrlVerseParent.TheSE.Modified = true;
                     if (dlg.DoReorder)
                     {
-                        var dlgReorder = new ReorderWordsForm(NationalBtSibling);
+                        var dlgReorder = new ReorderWordsForm(NationalBtSibling.MyStringTransfer, 
+                                                              NationalBtSibling.Font,
+                                                              _ctrlVerseParent.TheSE.StoryProject.ProjSettings.NationalBT.FullStop);
                         if (dlgReorder.ShowDialog() == DialogResult.OK)
                             NationalBtSibling.Text = dlgReorder.ReorderedText;
                     }
@@ -583,12 +585,12 @@ namespace OneStoryProjectEditor
             {
                 System.Diagnostics.Debug.Assert((EnglishBtSibling != null) && (_ctrlVerseParent != null)
                                                 &&
-                                                ((_eFieldType == StoryEditor.TextFieldType.Vernacular) ||
-                                                 (_eFieldType == StoryEditor.TextFieldType.NationalBt)));
+                                                ((_eFieldType == StoryEditor.TextFields.Vernacular) ||
+                                                 (_eFieldType == StoryEditor.TextFields.NationalBt)));
                 if (!MyStringTransfer.HasData)
                     return;
                 ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection = (_eFieldType ==
-                                                                                        StoryEditor.TextFieldType.
+                                                                                        StoryEditor.TextFields.
                                                                                             Vernacular)
                                                                                            ? ProjectSettings.
                                                                                                  AdaptItConfiguration.
@@ -609,7 +611,9 @@ namespace OneStoryProjectEditor
 
                     if (dlg.DoReorder)
                     {
-                        var dlgReorder = new ReorderWordsForm(EnglishBtSibling);
+                        var dlgReorder = new ReorderWordsForm(EnglishBtSibling.MyStringTransfer,
+                            EnglishBtSibling.Font,
+                            _ctrlVerseParent.TheSE.StoryProject.ProjSettings.InternationalBT.FullStop);
                         if (dlgReorder.ShowDialog() == DialogResult.OK)
                             EnglishBtSibling.Text = dlgReorder.ReorderedText;
                     }
@@ -626,7 +630,7 @@ namespace OneStoryProjectEditor
         private void onReorderWords(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Assert(HasStringTransfer);
-            var dlg = new ReorderWordsForm(this);
+            var dlg = new ReorderWordsForm(MyStringTransfer, Font, _strFullStop);
             if (dlg.ShowDialog() == DialogResult.OK)
                 Text = dlg.ReorderedText; // should trigger an update of MyStringTransfer
         }

@@ -396,15 +396,14 @@ namespace OneStoryProjectEditor
                         ProjectSettings.LanguageInfo liCheck = GetLanguageInfo(theStoryProjectData.ProjSettings, fieldToCheck);
                         ProjectSettings.LanguageInfo liHighest = GetLanguageInfo(theStoryProjectData.ProjSettings, fieldHighest);
 
-#if UsingHtmlDisplayForStoryBt
-                        CheckEndOfStateTransition.ShowErrorFocus(theSe, nVerseNumber, stCheck.WhichField,
-#else
-                        CheckEndOfStateTransition.ShowErrorFocus(theSe, stCheck.TextBox,
-#endif
-                                                                 String.Format(
-                                                                     Localizer.Str(
-                                                                         "The '{0}' field of line '{1}' is empty, but the '{2}' field of that same line is not. Did you forget to enter the back-translation?"),
-                                                                     liCheck.LangName, nVerseNumber, liHighest.LangName));
+                        var strError = String.Format(
+                            Localizer.Str(
+                                "The '{0}' field of line '{1}' is empty, but the '{2}' field of that same line is not. Did you forget to enter the back-translation?"),
+                            liCheck.LangName, nVerseNumber, liHighest.LangName);
+                        if (theSe.UsingHtmlForStoryBtPane)
+                            CheckEndOfStateTransition.ShowErrorFocus(theSe, nVerseNumber, stCheck.WhichField, strError);
+                        else
+                            CheckEndOfStateTransition.ShowErrorFocus(theSe, stCheck.TextBox, strError);
                         return false;
                     }
                 }

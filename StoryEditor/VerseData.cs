@@ -12,7 +12,7 @@ namespace OneStoryProjectEditor
 {
     // class encapsulating one retelling or TQ answer possibly in multiple languages
     //  the List-ness of this is that there may be 3 StringTransfers for each of
-    //  the StoryEditor.TextFieldType types
+    //  the StoryEditor.TextFields types
     public class LineData
     {
         public StringTransfer Vernacular;
@@ -106,7 +106,6 @@ namespace OneStoryProjectEditor
                     itemToInsureOn | VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField);
         }
 
-#if !UsingHtmlDisplayForStoryBt
         public CtrlTextBox ExistingTextBox
         {
             get
@@ -122,7 +121,6 @@ namespace OneStoryProjectEditor
                 return null;
             }
         }
-#endif
 
         public virtual void AddXml(XElement elem, string strFieldName)
         {

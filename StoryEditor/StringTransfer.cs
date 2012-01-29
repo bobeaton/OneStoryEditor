@@ -9,7 +9,6 @@ namespace OneStoryProjectEditor
     public class StringTransfer
     {
         protected string Value;
-#if UsingHtmlDisplayForStoryBt
         public StoryEditor.TextFields WhichField;
 
         public string FormatLanguageColumnHtml(int nVerseIndex, 
@@ -106,10 +105,8 @@ namespace OneStoryProjectEditor
                                  nVerseIndex, strPrefix, nItemNum, strFieldTypeName);
         }
 
-#else
 #if !DataDllBuild
         protected CtrlTextBox _tb = null;
-#endif
 #endif
         public DirectableEncConverter Transliterator { get; set; }
 
@@ -136,7 +133,6 @@ namespace OneStoryProjectEditor
 
             return str;
         }
-#if !UsingHtmlDisplayForStoryBt
 #if !DataDllBuild
         public void SetAssociation(CtrlTextBox tb)
         {
@@ -166,7 +162,6 @@ namespace OneStoryProjectEditor
         {
             get { return _tb; }
         }
-#endif
 #endif
 
         // if this string is associated with the ConNotes pane, then keep track
@@ -212,7 +207,6 @@ namespace OneStoryProjectEditor
 
         public void ExtractSelectedText(out string strSelectedText)
         {
-#if !UsingHtmlDisplayForStoryBt
 #if !DataDllBuild
             if (_tb != null)
             {
@@ -224,7 +218,6 @@ namespace OneStoryProjectEditor
                 }
             }
             else
-#endif
 #endif
                 strSelectedText = null;
         }

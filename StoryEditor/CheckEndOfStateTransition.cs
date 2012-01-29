@@ -185,14 +185,13 @@ namespace OneStoryProjectEditor
 
                             if (aVerseData.StoryLine.Vernacular.HasData)
                             {
-#if UsingHtmlDisplayForStoryBt
-                                ShowErrorFocus(theSE, nVerseNumber, StoryEditor.TextFields.NationalBt,
-#else
-                                ShowErrorFocus(theSE, aVerseData.StoryLine.NationalBt.TextBox,
-#endif
-                                               String.Format(
-                                                   "Error: Line {0} is missing a back-translation. Did you forget it?",
-                                                   nVerseNumber));
+                                var strError =
+                                    String.Format("Error: Line {0} is missing a back-translation. Did you forget it?",
+                                                  nVerseNumber);
+                                if (theSE.UsingHtmlForStoryBtPane)
+                                    ShowErrorFocus(theSE, nVerseNumber, StoryEditor.TextFields.NationalBt, strError);
+                                else
+                                    ShowErrorFocus(theSE, aVerseData.StoryLine.NationalBt.TextBox, strError);
                                 return false;
                             }
                         }
@@ -505,14 +504,13 @@ namespace OneStoryProjectEditor
             return (lstSentences.Count > 0);
         }
 
-#if UsingHtmlDisplayForStoryBt
         public static void ShowErrorFocus(StoryEditor theSe, int nLineIndex,
             StoryEditor.TextFields whichField, string strStatusMessage)
         {
             theSe.FocusOnVerse(nLineIndex, false, false);
             ShowError(theSe, strStatusMessage);
         }
-#else
+
         public static void ShowErrorFocus(StoryEditor theSE, CtrlTextBox tb, string strStatusMessage)
         {
             if (tb != null)
@@ -522,7 +520,6 @@ namespace OneStoryProjectEditor
             }
             ShowError(theSE, strStatusMessage);
         }
-#endif
 
         public static void ShowErrorFocus(StoryEditor theSe, 
             HtmlConNoteControl paneConNote, int nVerseNumber, string strStatusMessage)
@@ -758,28 +755,28 @@ namespace OneStoryProjectEditor
                         || (lstSentences.Count == 0))
                     {
                         // light it up and let the user know they need to do something!
-#if UsingHtmlDisplayForStoryBt
-                        ShowErrorFocus(theSE, nVerseNumber, StoryEditor.TextFields.InternationalBt,
-#else
-                        ShowErrorFocus(theSE, aVerseData.StoryLine.InternationalBt.TextBox,
-#endif
-                                       String.Format(
+                        var strError = String.Format(
                                            "Error: Line {0} doesn't have any English back-translation in it. Did you forget it?",
-                                           nVerseNumber));
+                                           nVerseNumber);
+                        if (theSE.UsingHtmlForStoryBtPane)
+                            ShowErrorFocus(theSE, nVerseNumber, StoryEditor.TextFields.InternationalBt, strError);
+                        else
+                            ShowErrorFocus(theSE, aVerseData.StoryLine.InternationalBt.TextBox, strError);
+
                         return false;
                     }
 
                     if (lstSentences.Count > 1)
                     {
                         // light it up and let the user know they need to do something!
-#if UsingHtmlDisplayForStoryBt
-                        ShowErrorFocus(theSE, nVerseNumber, StoryEditor.TextFields.InternationalBt,
-#else
-                        ShowErrorFocus(theSE, aVerseData.StoryLine.InternationalBt.TextBox,
-#endif
-                                       String.Format(
-                                           "Error: Line {0} has multiple sentences in English, but only 1 in {1}. Adjust the English to match the {1}",
-                                           nVerseNumber, theStoryProjectData.ProjSettings.NationalBT.LangName));
+                        var strError = String.Format(
+                            "Error: Line {0} has multiple sentences in English, but only 1 in {1}. Adjust the English to match the {1}",
+                            nVerseNumber, theStoryProjectData.ProjSettings.NationalBT.LangName);
+                        if (theSE.UsingHtmlForStoryBtPane)
+                            ShowErrorFocus(theSE, nVerseNumber, StoryEditor.TextFields.InternationalBt, strError);
+                        else
+                            ShowErrorFocus(theSE, aVerseData.StoryLine.InternationalBt.TextBox, strError);
+
                         return false;
                     }
                 }
@@ -1152,8 +1149,7 @@ namespace OneStoryProjectEditor
                 var viewSettings = new VerseData.ViewSettings(ePane);
                 theSE.NavigateTo(theStory.Name,
                                  viewSettings,
-                                 false,
-                                 null);
+                                 false);
 
                 TeamMemberData theCommentor = theLastCi.Commentor(theSE.StoryProject.TeamMembers);
                 string strErrorMsg = WarnDidntAnswerQuestion(nVerseNumber,
@@ -1195,8 +1191,7 @@ namespace OneStoryProjectEditor
                 var viewSettings = new VerseData.ViewSettings(ePane);
                 theSE.NavigateTo(theStory.Name,
                                  viewSettings,
-                                 false,
-                                 null);
+                                 false);
 
                 TeamMemberData theCommentor = theLastCi.Commentor(theSE.StoryProject.TeamMembers);
                 string strErrorMsg = WarnDidntAnswerQuestion(nVerseNumber,
@@ -1422,16 +1417,17 @@ namespace OneStoryProjectEditor
                         foreach (LineData aLineData in aTQ.Answers)
                             if (!aLineData.HasData)
                             {
-#if UsingHtmlDisplayForStoryBt
-                                ShowErrorFocus(theSE, nVerseNumber,
-                                               StoryEditor.TextFields.TestQuestionAnswer |
-                                               StoryEditor.TextFields.Languages,
-#else
-                                ShowErrorFocus(theSE, aLineData.ExistingTextBox,
-#endif
-                                               String.Format(
-                                                   "Error: Line {0} is missing an answer to a testing question. Did you forget it?",
-                                                   nVerseNumber));
+                                var strError = String.Format(
+                                    "Error: Line {0} is missing an answer to a testing question. Did you forget it?",
+                                    nVerseNumber);
+                                if (theSE.UsingHtmlForStoryBtPane)
+                                    ShowErrorFocus(theSE, nVerseNumber,
+                                                   StoryEditor.TextFields.TestQuestionAnswer |
+                                                   StoryEditor.TextFields.Languages,
+                                                   strError);
+                                else
+                                    ShowErrorFocus(theSE, aLineData.ExistingTextBox, strError);
+
                                 return false;
                             }
                 }

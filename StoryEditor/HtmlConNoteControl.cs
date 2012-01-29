@@ -450,9 +450,11 @@ namespace OneStoryProjectEditor
 
         protected abstract void CheckUpdateMentorInfo(StoryEditor theSe);
 
-#if !UsingHtmlDisplayForStoryBt
         public void DoFind(string strId)
         {
+            if (TheSE.UsingHtmlForStoryBtPane)
+                return;
+
             int nVerseIndex, nConversationIndex, nCommentIndex;
             if (!GetIndicesFromId(strId, out nVerseIndex, out nConversationIndex, out nCommentIndex))
                 return;
@@ -464,7 +466,7 @@ namespace OneStoryProjectEditor
             SearchForm.LastStringTransferSearched = theCNDC[nCommentIndex];
             TheSE.LaunchSearchForm();
         }
-#endif
+
         private const string CstrParagraphHighlightBegin = "<span style=\"background-color:Blue; color: White\">";
         private const string CstrParagraphHighlightEnd = "</span>";
 

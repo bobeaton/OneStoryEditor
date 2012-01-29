@@ -54,7 +54,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\output\$(Configuration)</OutputPath>
-    <DefineConstants>TRACE;DEBUG;UsingHtmlDisplayForStoryBt</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -63,7 +63,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>..\output\$(Configuration)</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;UsingHtmlDisplayForStoryBt</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -186,6 +186,12 @@
     <Compile Include="AiRepoSelectionForm.Designer.cs">
       <DependentUpon>AiRepoSelectionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AnchorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AnchorControl.Designer.cs">
+      <DependentUpon>AnchorControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="BiblicalTerms.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -202,6 +208,9 @@
     </Compile>
     <Compile Include="CorrectSourceWordForm.Designer.cs">
       <DependentUpon>CorrectSourceWordForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CtrlTextBox.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="CutItemPicker.cs">
       <SubType>Form</SubType>
@@ -282,6 +291,12 @@
     <Compile Include="InstallerClass.Designer.cs">
       <DependentUpon>InstallerClass.cs</DependentUpon>
     </Compile>
+    <Compile Include="LineFlowLayoutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LineFlowLayoutPanel.Designer.cs">
+      <DependentUpon>LineFlowLayoutPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="LnCNotePrintForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -297,6 +312,12 @@
     </Compile>
     <Compile Include="MinimizableSplitterContainer.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MultiLineControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MultiLineControl.Designer.cs">
+      <DependentUpon>MultiLineControl.cs</DependentUpon>
     </Compile>
     <Compile Include="MultipleLineDataConverter.cs">
       <SubType>Code</SubType>
@@ -351,9 +372,21 @@
     <Compile Include="ReorderWordsForm.Designer.cs">
       <DependentUpon>ReorderWordsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ResizableControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ResizableControl.Designer.cs">
+      <DependentUpon>ResizableControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="RsaEncryptionClass.cs" />
     <Compile Include="ProjectFacilitatorRequirementsCheck.cs" />
     <Compile Include="ConsultantInTrainingRequirementsCheck.cs" />
+    <Compile Include="SearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SearchForm.Designer.cs">
+      <DependentUpon>SearchForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SetCitTasksForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -397,6 +430,12 @@
     <Compile Include="StoryFrontMatterForm.Designer.cs">
       <DependentUpon>StoryFrontMatterForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="StoryLineControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StoryLineControl.Designer.cs">
+      <DependentUpon>StoryLineControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="StoryProject.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -420,11 +459,17 @@
     <EmbeddedResource Include="AiRepoSelectionForm.resx">
       <DependentUpon>AiRepoSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AnchorControl.resx">
+      <DependentUpon>AnchorControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ConcordanceForm.resx">
       <DependentUpon>ConcordanceForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CorrectSourceWordForm.resx">
       <DependentUpon>CorrectSourceWordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CtrlTextBox.resx">
+      <DependentUpon>CtrlTextBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CutItemPicker.resx">
       <DependentUpon>CutItemPicker.cs</DependentUpon>
@@ -459,11 +504,17 @@
     <EmbeddedResource Include="HtmlStoryBtControl.resx">
       <DependentUpon>HtmlStoryBtControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LineFlowLayoutPanel.resx">
+      <DependentUpon>LineFlowLayoutPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LnCNotePrintForm.resx">
       <DependentUpon>LnCNotePrintForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LnCNotesForm.resx">
       <DependentUpon>LnCNotesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MultiLineControl.resx">
+      <DependentUpon>MultiLineControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NetBibleFootnoteTooltip.resx">
       <DependentUpon>NetBibleFootnoteTooltip.cs</DependentUpon>
@@ -491,6 +542,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ReorderWordsForm.resx">
       <DependentUpon>ReorderWordsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResizableControl.resx">
+      <DependentUpon>ResizableControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchForm.resx">
+      <DependentUpon>SearchForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SetCitTasksForm.resx">
       <DependentUpon>SetCitTasksForm.cs</DependentUpon>
@@ -523,6 +580,9 @@
       <DependentUpon>StoryFrontMatterForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="StoryLineControl.resx">
+      <DependentUpon>StoryLineControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TaskBarControl.resx">
       <DependentUpon>TaskBarControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -537,11 +597,17 @@
       <DependentUpon>MemberPicker.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="TestingQuestionControl.resx">
+      <DependentUpon>TestingQuestionControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TopForm.resx">
       <DependentUpon>TopForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TransitionHistoryForm.resx">
       <DependentUpon>TransitionHistoryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VerseBtControl.resx">
+      <DependentUpon>VerseBtControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ViewEnableForm.resx">
       <DependentUpon>ViewEnableForm.cs</DependentUpon>
@@ -587,6 +653,12 @@
     </Compile>
     <Compile Include="TermRendering.cs" />
     <Compile Include="TermRenderings.cs" />
+    <Compile Include="TestingQuestionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TestingQuestionControl.Designer.cs">
+      <DependentUpon>TestingQuestionControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="TestQuestionsData.cs" />
     <Compile Include="MemberPicker.cs">
       <SubType>Form</SubType>
@@ -605,6 +677,12 @@
     </Compile>
     <Compile Include="TransitionHistoryForm.Designer.cs">
       <DependentUpon>TransitionHistoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VerseBtControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="VerseBtControl.Designer.cs">
+      <DependentUpon>VerseBtControl.cs</DependentUpon>
     </Compile>
     <Compile Include="VerseData.cs" />
     <Compile Include="ViewEnableForm.cs">

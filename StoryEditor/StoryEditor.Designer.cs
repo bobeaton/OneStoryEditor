@@ -154,6 +154,7 @@ namespace OneStoryProjectEditor
             this.advancedResetStoredInformationMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedChangeProjectFolderRootMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedEmailMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedUseOldStyleStoryBtPaneMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -164,6 +165,7 @@ namespace OneStoryProjectEditor
             this.contextMenuStripVerseList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
             this.textBoxStoryVerse = new System.Windows.Forms.TextBox();
+            this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.splitContainerMentorNotes = new System.Windows.Forms.SplitContainer();
             this.linkLabelConsultantNotes = new System.Windows.Forms.LinkLabel();
@@ -182,9 +184,6 @@ namespace OneStoryProjectEditor
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
-#if !UsingHtmlDisplayForStoryBt
-#endif
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -631,7 +630,7 @@ namespace OneStoryProjectEditor
             this.viewNonBiblicalStoriesMenu.Size = new System.Drawing.Size(284, 22);
             this.viewNonBiblicalStoriesMenu.Text = "&Non-biblical Stories...";
             this.viewNonBiblicalStoriesMenu.ToolTipText = "Check this menu to edit the set of non-biblical stories (uncheck for biblical sto" +
-                "ries)";
+    "ries)";
             this.viewNonBiblicalStoriesMenu.CheckedChanged += new System.EventHandler(this.ViewNonBiblicalStoriesMenuCheckedChanged);
             // 
             // toolStripSeparator5
@@ -1176,7 +1175,8 @@ namespace OneStoryProjectEditor
             this.advancedSaveTimeoutToolStripMenu,
             this.advancedResetStoredInformationMenu,
             this.advancedChangeProjectFolderRootMenu,
-            this.advancedEmailMenu});
+            this.advancedEmailMenu,
+            this.advancedUseOldStyleStoryBtPaneMenu});
             this.advancedToolStripMenu.Name = "advancedToolStripMenu";
             this.advancedToolStripMenu.Size = new System.Drawing.Size(72, 27);
             this.advancedToolStripMenu.Text = "A&dvanced";
@@ -1311,6 +1311,16 @@ namespace OneStoryProjectEditor
             this.advancedEmailMenu.ToolTipText = resources.GetString("advancedEmailMenu.ToolTipText");
             this.advancedEmailMenu.Click += new System.EventHandler(this.advancedEmailMenu_Click);
             // 
+            // advancedUseOldStyleStoryBtPaneMenu
+            // 
+            this.advancedUseOldStyleStoryBtPaneMenu.CheckOnClick = true;
+            this.advancedUseOldStyleStoryBtPaneMenu.Name = "advancedUseOldStyleStoryBtPaneMenu";
+            this.advancedUseOldStyleStoryBtPaneMenu.Size = new System.Drawing.Size(314, 22);
+            this.advancedUseOldStyleStoryBtPaneMenu.Text = "Use old-style Story BT pane";
+            this.advancedUseOldStyleStoryBtPaneMenu.ToolTipText = "This setting switches the Story BT pane to use the old-style (and slower) control" +
+    "s for editing the Story BT data";
+            this.advancedUseOldStyleStoryBtPaneMenu.Click += new System.EventHandler(this.advancedUseOldStyleStoryBtPaneMenu_Click);
+            // 
             // aboutToolStripMenu
             // 
             this.aboutToolStripMenu.Name = "aboutToolStripMenu";
@@ -1365,6 +1375,7 @@ namespace OneStoryProjectEditor
             this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelVerseBT);
             this.splitContainerUpDown.Panel1.Controls.Add(this.flowLayoutPanelVerses);
             this.splitContainerUpDown.Panel1.Controls.Add(this.textBoxStoryVerse);
+            this.splitContainerUpDown.Panel1.Controls.Add(this.htmlStoryBtControl);
             // 
             // splitContainerUpDown.Panel2
             // 
@@ -1437,6 +1448,20 @@ namespace OneStoryProjectEditor
             this.textBoxStoryVerse.TabStop = false;
             this.textBoxStoryVerse.Text = "Story/BT";
             this.textBoxStoryVerse.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // htmlStoryBtControl
+            // 
+            this.htmlStoryBtControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlStoryBtControl.IsWebBrowserContextMenuEnabled = false;
+            this.htmlStoryBtControl.Location = new System.Drawing.Point(-1, 23);
+            this.htmlStoryBtControl.MinimumSize = new System.Drawing.Size(20, 20);
+            this.htmlStoryBtControl.Name = "htmlStoryBtControl";
+            this.htmlStoryBtControl.ParentStory = null;
+            this.htmlStoryBtControl.Size = new System.Drawing.Size(451, 269);
+            this.htmlStoryBtControl.StoryData = null;
+            this.htmlStoryBtControl.TabIndex = 5;
+            this.htmlStoryBtControl.TheSE = null;
+            this.htmlStoryBtControl.ViewSettings = null;
             // 
             // netBibleViewer
             // 
@@ -1662,26 +1687,6 @@ namespace OneStoryProjectEditor
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
             // 
-            this.splitContainerUpDown.Panel1.Controls.Add(this.htmlStoryBtControl);
-#if !UsingHtmlDisplayForStoryBt
-#endif
-            // htmlStoryBtControl
-            // 
-            this.htmlStoryBtControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.htmlStoryBtControl.Location = new System.Drawing.Point(-1, 23);
-            this.htmlStoryBtControl.MinimumSize = new System.Drawing.Size(20, 20);
-            this.htmlStoryBtControl.Name = "htmlStoryBtControl";
-            this.htmlStoryBtControl.ParentStory = null;
-            this.htmlStoryBtControl.Size = new System.Drawing.Size(451, 269);
-            this.htmlStoryBtControl.StoryData = null;
-            this.htmlStoryBtControl.TabIndex = 5;
-            this.htmlStoryBtControl.TheSE = null;
-            this.htmlStoryBtControl.ViewSettings = null;
-            // 
-#if !UsingHtmlDisplayForStoryBt
-#endif
             // StoryEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1732,9 +1737,7 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator2;
         private OpenFileDialog openFileDialog;
         private SaveFileDialog saveFileDialog;
-#if !UsingHtmlDisplayForStoryBt
         internal VerseBtLineFlowLayoutPanel flowLayoutPanelVerses;
-#endif
         internal SplitContainer splitContainerLeftRight;
         internal MinimizableSplitterContainer splitContainerUpDown;
         private ToolStripMenuItem viewToolStripMenuItem;
@@ -1872,6 +1875,7 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator16;
         private ToolStripSeparator toolStripSeparator5;
         private HtmlStoryBtControl htmlStoryBtControl;
+        private ToolStripMenuItem advancedUseOldStyleStoryBtPaneMenu;
     }
 
 #if UsingHtmlDisplayForConNotes

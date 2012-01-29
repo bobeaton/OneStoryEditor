@@ -9,7 +9,7 @@ namespace OneStoryProjectEditor
 {
     // class encapsulating one retelling or TQ answer possibly in multiple languages
     //  the List-ness of this is that there may be 3 StringTransfers for each of
-    //  the StoryEditor.TextFieldType types
+    //  the StoryEditor.TextFields types
     public class LineMemberData : LineData
     {
         public string MemberId { get; set; }
