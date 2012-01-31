@@ -12,7 +12,25 @@ namespace OneStoryProjectEditor
         public StoryEditor.TextFields WhichField;
 
         public string FormatLanguageColumnHtml(int nVerseIndex, 
+            int nNumCols,
+            string strValue,
+            VerseData.ViewSettings viewSettings)
+        {
+            return FormatLanguageColumnHtml(nVerseIndex, 0, 0, nNumCols, strValue, viewSettings);
+        }
+
+        public string FormatLanguageColumnHtml(int nVerseIndex, 
             int nItemNum, 
+            int nNumCols,
+            string strValue,
+            VerseData.ViewSettings viewSettings)
+        {
+            return FormatLanguageColumnHtml(nVerseIndex, nItemNum, 0, nNumCols, strValue, viewSettings);
+        }
+
+        public string FormatLanguageColumnHtml(int nVerseIndex, 
+            int nItemNum, 
+            int nSubItemNum,    // ans 1, 2, 3...
             int nNumCols,
             string strValue,
             VerseData.ViewSettings viewSettings)
@@ -27,7 +45,7 @@ namespace OneStoryProjectEditor
             if (bUseTextAreas)
             {
                 strHtmlElement = String.Format(Resources.HTML_Textarea,
-                                               GetHtmlElementId(nVerseIndex, nItemNum, bUseTextAreas),
+                                               GetHtmlElementId(nVerseIndex, nItemNum, nSubItemNum, bUseTextAreas),
                                                GetStyleClassName,
                                                strValue);
             }
@@ -43,13 +61,14 @@ namespace OneStoryProjectEditor
                                  strHtmlElement);
         }
 
-        private string GetHtmlElementId(int nVerseIndex, int nItemNum, bool bUseTextAreas)
+        private string GetHtmlElementId(int nVerseIndex, int nItemNum, int nSubItemNum, bool bUseTextAreas)
         {
             var strLanguageType = GetLanguageType;
             var strId = (bUseTextAreas)
                             ? TextareaId(nVerseIndex,
                                          GetFieldType,
                                          nItemNum,
+                                         nSubItemNum,
                                          strLanguageType)
                             : TextParagraphId(nVerseIndex,
                                               GetFieldType,
@@ -90,13 +109,14 @@ namespace OneStoryProjectEditor
         /// </summary>
         /// <param name="nVerseIndex">indicates verse number (0-based)</param>
         /// <param name="strPrefix">indicates the data--e.g. StoryLine vs. Retelling, etc</param>
-        /// <param name="nItemNum">indicates a sub-item number for certain types (e.g. ret *2*)</param>
+        /// <param name="nItemNum">indicates the item number for certain types (e.g. TQ *2*)</param>
+        /// <param name="nSubItemNum">indicates the sub-item number for certain types (e.g. TQ2.ans3)</param>
         /// <param name="strFieldTypeName">indicates the language of the field (e.g. vernacular)</param>
         /// <returns></returns>
-        public static string TextareaId(int nVerseIndex, string strPrefix, int nItemNum, string strFieldTypeName)
+        public static string TextareaId(int nVerseIndex, string strPrefix, int nItemNum, int nSubItemNum, string strFieldTypeName)
         {
-            return String.Format("{0}_{1}_{2}_{3}_{4}", HtmlVerseControl.CstrTextAreaPrefix,
-                                 nVerseIndex, strPrefix, nItemNum, strFieldTypeName);
+            return String.Format("{0}_{1}_{2}_{3}_{4}_{5}", HtmlVerseControl.CstrTextAreaPrefix,
+                                 nVerseIndex, strPrefix, nItemNum, nSubItemNum, strFieldTypeName);
         }
 
         public static string TextParagraphId(int nVerseIndex, string strPrefix, int nItemNum, string strFieldTypeName)

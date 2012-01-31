@@ -818,7 +818,7 @@ namespace OneStoryProjectEditor
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
             {
-                strHtml += Retellings.PresentationHtml(nVerseIndex, nNumCols,
+                strHtml += Retellings.PresentationHtml(nVerseIndex, nNumCols, 0,
                                                        craftingInfo.TestersToCommentsRetellings,
                                                        (theChildVerse != null) ? theChildVerse.Retellings : null,
                                                        bPrintPreview, false,
@@ -867,7 +867,6 @@ namespace OneStoryProjectEditor
             }
 
             return stringTransfer.FormatLanguageColumnHtml(nVerseIndex,
-                                                           0,
                                                            nNumCols,
                                                            str,
                                                            viewSettings);
@@ -976,7 +975,7 @@ namespace OneStoryProjectEditor
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
             {
-                strHtml += Retellings.PresentationHtmlAsAddition(nVerseIndex, nNumCols,
+                strHtml += Retellings.PresentationHtmlAsAddition(nVerseIndex, nNumCols, 0,
                                                                  craftingInfo.TestersToCommentsRetellings,
                                                                  viewSettings.IsViewItemOn(
                                                                      ViewSettings.ItemToInsureOn.RetellingsVernacular),
@@ -1005,7 +1004,6 @@ namespace OneStoryProjectEditor
         {
             string str = Diff.HtmlDiff(transliterator, null, stringTransfer);
             return stringTransfer.FormatLanguageColumnHtml(nVerseIndex,
-                                                           0,
                                                            nNumCols,
                                                            str,
                                                            viewSettings);

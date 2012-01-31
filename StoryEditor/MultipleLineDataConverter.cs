@@ -246,7 +246,7 @@ namespace OneStoryProjectEditor
         }
         */
 
-        public string PresentationHtml(int nVerseIndex, int nNumCols, 
+        public string PresentationHtml(int nVerseIndex, int nNumCols, int nParentNum,
             TestInfo astrTesters,
             MultipleLineDataConverter child, 
             bool bPrintPreview, 
@@ -257,7 +257,7 @@ namespace OneStoryProjectEditor
             VerseData.ViewSettings viewSettings)
         {
             string strRow = null;
-            int nTestNum = 0;
+            int nTestNum;
             for (int i = 0; i < Count; i++)
             {
                 LineMemberData theParentLineData = this[i];
@@ -318,7 +318,7 @@ namespace OneStoryProjectEditor
                     strInternationalBT = theParentLineData.InternationalBt.ToString();
                 }
 
-                strRow += PresentationHtmlRow(nVerseIndex, nTestNum,
+                strRow += PresentationHtmlRow(nVerseIndex, nParentNum, nTestNum, 
                     strVernacular, strNationalBT, strInternationalBT,
                     bShowVernacular, bShowNationalBT, bShowInternationalBT,
                     theParentLineData, viewSettings);
@@ -335,7 +335,7 @@ namespace OneStoryProjectEditor
                     string strVernacular = Diff.HtmlDiff(null, theChildLineData.Vernacular);
                     string strNationalBT = Diff.HtmlDiff(null, theChildLineData.NationalBt);
                     string strInternationalBT = Diff.HtmlDiff(null, theChildLineData.InternationalBt);
-                    strRow += PresentationHtmlRow(nVerseIndex, nTestNum,
+                    strRow += PresentationHtmlRow(nVerseIndex, nParentNum, nTestNum, 
                                                   strVernacular, strNationalBT, strInternationalBT,
                                                   bShowVernacular, bShowNationalBT, bShowInternationalBT,
                                                   theChildLineData, viewSettings);
@@ -354,21 +354,20 @@ namespace OneStoryProjectEditor
         }
 
 
-        public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols, TestInfo astrTesters,
+        public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols, int nParentNum, TestInfo astrTesters,
             bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT,
             VerseData.ViewSettings viewSettings)
         {
             string strRow = null;
-            int nTestNum = 0;
             for (int i = 0; i < Count; i++)
             {
                 LineMemberData theLineData = this[i];
                 string strMemberId = theLineData.MemberId;
-                nTestNum = astrTesters.IndexOf(strMemberId);
+                int nTestNum = astrTesters.IndexOf(strMemberId);
                 string strVernacular = Diff.HtmlDiff(null, theLineData.Vernacular);
                 string strNationalBT = Diff.HtmlDiff(null, theLineData.NationalBt);
                 string strEnglishBT = Diff.HtmlDiff(null, theLineData.InternationalBt);
-                strRow += PresentationHtmlRow(nVerseIndex, nTestNum,
+                strRow += PresentationHtmlRow(nVerseIndex, nParentNum, nTestNum,
                                               strVernacular, strNationalBT, strEnglishBT,
                                               bShowVernacular, bShowNationalBT, bShowInternationalBT,
                                               theLineData, viewSettings);
@@ -385,13 +384,13 @@ namespace OneStoryProjectEditor
             return strRow;
         }
 
-        protected string PresentationHtmlRow(int nVerseIndex, int nTestNum,
+        protected string PresentationHtmlRow(int nVerseIndex, int nItemNum, int nSubItemNum,
             string strVernacular, string strNationalBT, string strInternationalBT,
             bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT,
             LineMemberData theLineOfData, VerseData.ViewSettings viewSettings)
         {
             string strRow = String.Format(Properties.Resources.HTML_TableCellNoWrap,
-                                          String.Format(LabelTextFormat, nTestNum + 1));
+                                          String.Format(LabelTextFormat, nSubItemNum + 1));
 
             int nNumCols = 0;
             if (bShowVernacular) nNumCols++;
@@ -401,7 +400,8 @@ namespace OneStoryProjectEditor
             if (bShowVernacular)
             {
                 strRow += theLineOfData.Vernacular.FormatLanguageColumnHtml(nVerseIndex,
-                                                                            nTestNum,
+                                                                            nItemNum,
+                                                                            nSubItemNum,
                                                                             nNumCols,
                                                                             strVernacular,
                                                                             viewSettings);
@@ -410,7 +410,8 @@ namespace OneStoryProjectEditor
             if (bShowNationalBT)
             {
                 strRow += theLineOfData.NationalBt.FormatLanguageColumnHtml(nVerseIndex,
-                                                                            nTestNum,
+                                                                            nItemNum,
+                                                                            nSubItemNum,
                                                                             nNumCols,
                                                                             strNationalBT,
                                                                             viewSettings);
@@ -419,7 +420,8 @@ namespace OneStoryProjectEditor
             if (bShowInternationalBT)
             {
                 strRow += theLineOfData.InternationalBt.FormatLanguageColumnHtml(nVerseIndex,
-                                                                                 nTestNum,
+                                                                                 nItemNum,
+                                                                                 nSubItemNum,
                                                                                  nNumCols,
                                                                                  strInternationalBT,
                                                                                  viewSettings);

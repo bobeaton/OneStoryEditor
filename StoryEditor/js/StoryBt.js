@@ -44,6 +44,7 @@ $(function () {
             if ($(this).attr('placeholder') != '' && $(this).val() == $(this).attr('placeholder')) {
                 $(this).val('').removeClass('hasPlaceholder');
             }
+            CallOnFocus($(this));
         }).blur(function () {
             if ($(this).attr('placeholder') != '' && ($(this).val() == '' || $(this).val() == $(this).attr('placeholder'))) {
                 $(this).val($(this).attr('placeholder')).addClass('hasPlaceholder');

@@ -1374,8 +1374,8 @@ namespace OneStoryProjectEditor
             this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelTasks);
             this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelVerseBT);
             this.splitContainerUpDown.Panel1.Controls.Add(this.flowLayoutPanelVerses);
-            this.splitContainerUpDown.Panel1.Controls.Add(this.textBoxStoryVerse);
             this.splitContainerUpDown.Panel1.Controls.Add(this.htmlStoryBtControl);
+            this.splitContainerUpDown.Panel1.Controls.Add(this.textBoxStoryVerse);
             // 
             // splitContainerUpDown.Panel2
             // 

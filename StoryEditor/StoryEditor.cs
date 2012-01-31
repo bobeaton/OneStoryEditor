@@ -592,7 +592,7 @@ namespace OneStoryProjectEditor
         {
             ClearFlowControls();
 
-            HtmlStoryBtControl.LastTextareaInFocus = null;
+            HtmlStoryBtControl.LastTextareaInFocusId = null;
             CtrlTextBox._inTextBox = null;
             TheCurrentStory = null;
             // turning off in 2.4... StoryStageLogic.stateTransitions = null;
@@ -1170,7 +1170,7 @@ namespace OneStoryProjectEditor
             SetViewBasedOnProjectStage(TheCurrentStory.ProjStage.ProjectStage, true);
 
             // forget things:
-            HtmlStoryBtControl.LastTextareaInFocus = null;
+            HtmlStoryBtControl.LastTextareaInFocusId = null;
             CtrlTextBox._nLastVerse = -1;
 
             if (m_frmFind != null)
@@ -1296,10 +1296,10 @@ namespace OneStoryProjectEditor
 
             if (UsingHtmlForStoryBtPane)
             {
-                if (String.IsNullOrEmpty(HtmlStoryBtControl.LastTextareaInFocus) && (theVerses.Count > 0))
+                if (String.IsNullOrEmpty(HtmlStoryBtControl.LastTextareaInFocusId) && (theVerses.Count > 0))
                     FocusOnVerse(1, false, false);
                 else
-                    htmlStoryBtControl.ScrollToElement(HtmlStoryBtControl.LastTextareaInFocus, false);
+                    htmlStoryBtControl.ScrollToElement(HtmlStoryBtControl.LastTextareaInFocusId, false);
             }
             else
             {
@@ -1373,7 +1373,7 @@ namespace OneStoryProjectEditor
             if (UsingHtmlForStoryBtPane)
             {
                 htmlStoryBtControl.LoadDocument();
-                htmlStoryBtControl.ScrollToElement(HtmlStoryBtControl.LastTextareaInFocus, false);
+                htmlStoryBtControl.ScrollToElement(HtmlStoryBtControl.LastTextareaInFocusId, false);
             }
             else
             {
@@ -2386,6 +2386,7 @@ namespace OneStoryProjectEditor
             string strFilename = StoryProject.ProjSettings.ProjectFilePath;
 
             bool bSaveThisSnapshotInRepo = (DateTime.Now - tmLastSync) > tsBackupTime;
+            TriggerSaveUpdates();
             SaveFile(strFilename, bSaveThisSnapshotInRepo);
 
             if (bSaveThisSnapshotInRepo)
@@ -2402,6 +2403,14 @@ namespace OneStoryProjectEditor
                 }
                 tmLastSync = DateTime.Now;
             }
+        }
+
+        // if the user was editing and hasn't yet left the textarea, we need to trigger it now
+        //  so that we'll get the new value of the textarea
+        private void TriggerSaveUpdates()
+        {
+            if (htmlStoryBtControl != null)
+                htmlStoryBtControl.TriggerChangeUpdate();
         }
 
         protected void SaveXElement(XElement elem, string strFilename, bool bDoReloadTest)
@@ -3216,9 +3225,9 @@ namespace OneStoryProjectEditor
 
             if (UsingHtmlForStoryBtPane)
             {
-                editPasteMenu.Enabled = !String.IsNullOrEmpty(HtmlStoryBtControl.LastTextareaInFocus);
+                editPasteMenu.Enabled = !String.IsNullOrEmpty(HtmlStoryBtControl.LastTextareaInFocusId);
 
-                editCopySelectionMenu.Enabled = (!String.IsNullOrEmpty(HtmlStoryBtControl.LastTextareaInFocus) &&
+                editCopySelectionMenu.Enabled = (!String.IsNullOrEmpty(HtmlStoryBtControl.LastTextareaInFocusId) &&
                                                  (!String.IsNullOrEmpty(htmlStoryBtControl.GetSelectedText)));
             }
             else
@@ -4179,7 +4188,7 @@ namespace OneStoryProjectEditor
                 viewUseSameSettingsForAllStoriesMenu.Checked = false;
 
                 if (UsingHtmlForStoryBtPane)
-                    NavigateTo(TheCurrentStory.Name, dlg.ViewSettings, true, HtmlStoryBtControl.LastTextareaInFocus);
+                    NavigateTo(TheCurrentStory.Name, dlg.ViewSettings, true, HtmlStoryBtControl.LastTextareaInFocusId);
                 else
                     NavigateTo(TheCurrentStory.Name, dlg.ViewSettings, true, CtrlTextBox._inTextBox);
 

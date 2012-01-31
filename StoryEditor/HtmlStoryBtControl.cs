@@ -10,6 +10,7 @@ namespace OneStoryProjectEditor
     [ComVisible(true)]
     public partial class HtmlStoryBtControl : HtmlVerseControl
     {
+        /* obsolete?
         public const string CstrFieldNameVernacular = "Vernacular";
         public const string CstrFieldNameNationalBt = "NationalBT";
         public const string CstrFieldNameInternationalBt = "InternationalBT";
@@ -20,7 +21,7 @@ namespace OneStoryProjectEditor
         public const string CstrFieldNameExegeticalHelpLabel = "ExegeticalHelpLabel";
         public const string CstrFieldNameRetellings = "Retellings";
         public const string CstrFieldNameTestQuestions = "TestQuestions";
-
+        */
         public static DirectableEncConverter TransliteratorVernacular;
         public static DirectableEncConverter TransliteratorNationalBt;
         public static DirectableEncConverter TransliteratorInternationalBt;
@@ -191,12 +192,12 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                if (String.IsNullOrEmpty(LastTextareaInFocus))
+                if (String.IsNullOrEmpty(LastTextareaInFocusId))
                     return null;
 
                 int nVerseIndex, nItemIndex, nSubItemIndex;
                 string strDataType, strLanguageColumn;
-                if (!GetIndicesFromId(LastTextareaInFocus, out nVerseIndex, out strDataType,
+                if (!GetIndicesFromId(LastTextareaInFocusId, out nVerseIndex, out strDataType,
                                       out nItemIndex, out nSubItemIndex, out strLanguageColumn))
                     return null;
 
@@ -206,23 +207,38 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public static string LastTextareaInFocus { get; set; }
+        public static string LastTextareaInFocusId { get; set; }
+
+        public void TriggerChangeUpdate()
+        {
+            // we only update the StringTransfer for a textarea when the user leaves (onchange), 
+            //  so when the user saves, sometimes, we need to trigger that call.
+            if ((LastTextareaInFocusId == null) || (Document == null))
+                return;
+
+            HtmlDocument doc = Document;
+            var elem = doc.GetElementById(LastTextareaInFocusId);
+            if (elem == null)
+                return;
+            elem.InvokeMember("onchange");
+        }
+
+        public bool TextareaOnKeyUp(string strId, string strText)
+        {
+            // we'll get the value updates during OnChange, but in order to enable 
+            //  the save menu, we have to set modified
+            LastTextareaInFocusId = strId;
+            TheSE.Modified = true;
+            return true;
+        }
 
         public bool TextareaOnChange(string strId, string strText)
         {
-            int nVerseIndex, nItemIndex, nSubItemIndex;
-            string strDataType, strLanguageColumn;
-            if (!GetIndicesFromId(strId, out nVerseIndex, out strDataType,
-                out nItemIndex, out nSubItemIndex, out strLanguageColumn))
+            var stringTransfer = GetStringTransfer(strId);
+            if (stringTransfer == null) 
                 return false;
 
-            StringTransfer elem = GetStringTransfer(nVerseIndex, strDataType,
-                nItemIndex, nSubItemIndex, strLanguageColumn);
-
-            if (elem == null)
-                return false;
-
-            elem.SetValue(strText);
+            stringTransfer.SetValue(strText);
 
             // indicate that the document has changed
             TheSE.Modified = true;
@@ -234,6 +250,19 @@ namespace OneStoryProjectEditor
             return true;
         }
 
+        private StringTransfer GetStringTransfer(string strId)
+        {
+            int nVerseIndex, nItemIndex, nSubItemIndex;
+            string strDataType, strLanguageColumn;
+            if (!GetIndicesFromId(strId, out nVerseIndex, out strDataType,
+                                  out nItemIndex, out nSubItemIndex, out strLanguageColumn))
+                return null;
+
+            StringTransfer stringTransfer = GetStringTransfer(nVerseIndex, strDataType,
+                                                              nItemIndex, nSubItemIndex, strLanguageColumn);
+            return stringTransfer;
+        }
+
         public bool TextareaOnBlur(string strId, string strText)
         {
             return false;
@@ -241,7 +270,7 @@ namespace OneStoryProjectEditor
 
         public bool TextareaOnFocus(string strId)
         {
-            LastTextareaInFocus = strId;
+            LastTextareaInFocusId = strId;
             return false;
         }
 
@@ -303,25 +332,26 @@ namespace OneStoryProjectEditor
             string strLanguageColumn)
         {
             var verseData = GetVerseData(nLineIndex);
+            var fieldType = (StoryEditor.TextFields) Enum.Parse(typeof (StoryEditor.TextFields), strDataType);
             LineData lineData;
-            switch(strDataType)
+            switch (fieldType)
             {
-                case HtmlStoryBtControl.CstrFieldNameStoryLine:
+                case StoryEditor.TextFields.StoryLine:
                     lineData = verseData.StoryLine;
                     break;
 
-                case HtmlStoryBtControl.CstrFieldNameExegeticalHelp:
+                case StoryEditor.TextFields.ExegeticalNote:
                     return verseData.ExegeticalHelpNotes[nItemIndex];
 
-                case RetellingsData.CstrElementLableRetelling:
+                case StoryEditor.TextFields.Retelling:
                     lineData = verseData.Retellings[nItemIndex];
                     break;
 
-                case HtmlStoryBtControl.CstrFieldNameTestQuestions:
+                case StoryEditor.TextFields.TestQuestion:
                     lineData = verseData.TestQuestions[nItemIndex].TestQuestionLine;
                     break;
 
-                case AnswersData.CstrElementLableAnswer:
+                case StoryEditor.TextFields.TestQuestionAnswer:
                     lineData = verseData.TestQuestions[nItemIndex].Answers[nSubItemIndex];
                     break;
 
@@ -330,15 +360,16 @@ namespace OneStoryProjectEditor
             }
 
             System.Diagnostics.Debug.Assert(lineData != null);
-            switch(strLanguageColumn)
+            var languageColumn = (StoryEditor.TextFields)Enum.Parse(typeof (StoryEditor.TextFields), strLanguageColumn);
+            switch (languageColumn)
             {
-                case StoryData.CstrLangVernacularStyleClassName:
+                case StoryEditor.TextFields.Vernacular:
                     return lineData.Vernacular;
-                case StoryData.CstrLangNationalBtStyleClassName:
+                case StoryEditor.TextFields.NationalBt:
                     return lineData.NationalBt;
-                case StoryData.CstrLangInternationalBtStyleClassName:
+                case StoryEditor.TextFields.InternationalBt:
                     return lineData.InternationalBt;
-                case StoryData.CstrLangFreeTranslationStyleClassName:
+                case StoryEditor.TextFields.FreeTranslation:
                     return lineData.FreeTranslation;
             }
 
@@ -352,15 +383,16 @@ namespace OneStoryProjectEditor
             try
             {
                 // for TextAreas:
-                //  ta_<lineNum>_<dataType>_<itemNum>_<stylename>
+                //  ta_<lineNum>_<dataType>_<itemNum>_<subItemNum>_<stylename>
                 // where:
                 //  lineNum (0-GTQ line, ln 1, etc)
                 //  dataType (e.g. "Retelling", "StoryLine", etc)
-                //  itemNum (e.g. "ret *1*")
-                //  styleName (e.g. tells how to render it; font, etc)
+                //  itemNum (e.g. "TQ *1*")
+                //  subItemNum (e.g. "TQ 1.Ans *3*)
+                //  langName (e.g. Vernacular, etc)
                 string[] aVerseConversationIndices = strId.Split(AchDelim);
                 System.Diagnostics.Debug.Assert(((aVerseConversationIndices[0] == CstrTextAreaPrefix) &&
-                                                 (aVerseConversationIndices.Length == 5))
+                                                 (aVerseConversationIndices.Length == 6))
                                                 ||
                                                 ((aVerseConversationIndices[0] == CstrButtonPrefix) &&
                                                  (aVerseConversationIndices.Length == 3)));
@@ -368,8 +400,8 @@ namespace OneStoryProjectEditor
                 nLineIndex = Convert.ToInt32(aVerseConversationIndices[1]);
                 strDataType = aVerseConversationIndices[2];
                 nItemIndex = Convert.ToInt32(aVerseConversationIndices[3]);
-                nSubItemIndex = 0;
-                strLanguageColumn = aVerseConversationIndices[4];
+                nSubItemIndex = Convert.ToInt32(aVerseConversationIndices[4]);
+                strLanguageColumn = aVerseConversationIndices[5];
             }
             catch
             {

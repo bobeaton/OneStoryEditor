@@ -252,6 +252,7 @@ namespace OneStoryProjectEditor
                 // add 1 to the number of columns so it spans properly (including the 'tst:' label)
                 strTqRow += Answers.PresentationHtml(nVerseIndex,
                                                      nNumTestQuestionCols + 1,
+                                                     nTQNum,
                                                      astrTesters,
                                                      (theChildTQ != null) ? theChildTQ.Answers : null,
                                                      bPrintPreview,
@@ -321,7 +322,7 @@ namespace OneStoryProjectEditor
             if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
             {
                 // add 1 to the number of columns so it spans properly (including the 'tst:' label)
-                strTQRow += Answers.PresentationHtmlAsAddition(nVerseIndex, nNumTestQuestionCols + 1, astrTesters,
+                strTQRow += Answers.PresentationHtmlAsAddition(nVerseIndex, nNumTestQuestionCols + 1, nTQNum, astrTesters,
                                                                viewSettings.IsViewItemOn(
                                                                    VerseData.ViewSettings.ItemToInsureOn.
                                                                        AnswersVernacular),
