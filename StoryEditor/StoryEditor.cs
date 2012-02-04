@@ -2035,6 +2035,7 @@ namespace OneStoryProjectEditor
 
         internal void DeleteVerse(VerseData theVerseDataToDelete)
         {
+            MoveConNotes(theVerseDataToDelete);
             TheCurrentStory.Verses.Remove(theVerseDataToDelete);
             InitAllPanes();
             Modified = true;
@@ -2042,9 +2043,45 @@ namespace OneStoryProjectEditor
 
         internal void VisiblizeVerse(VerseData theVerseDataToVisiblize, bool bVisible)
         {
+            // if making it hidden, then put the con notes in the prev (or following) verse
+            if (!bVisible)
+                MoveConNotes(theVerseDataToVisiblize);
+
             theVerseDataToVisiblize.IsVisible = bVisible;
             InitAllPanes();
             Modified = true;
+        }
+
+        private void MoveConNotes(VerseData theVerseToMoveFrom)
+        {
+            var nIndexVerse = TheCurrentStory.Verses.IndexOf(theVerseToMoveFrom);
+            if (nIndexVerse > 0)
+                nIndexVerse--;
+            else if (TheCurrentStory.Verses.Count > 1)
+                nIndexVerse++;
+            else
+                return;
+
+            var theTargetVerse = TheCurrentStory.Verses[nIndexVerse];
+            ShiftConNotesToOtherVerse(theVerseToMoveFrom.ConsultantNotes, theTargetVerse.ConsultantNotes);
+            ShiftConNotesToOtherVerse(theVerseToMoveFrom.CoachNotes, theTargetVerse.CoachNotes);
+        }
+
+        private static void ShiftConNotesToOtherVerse(ICollection<ConsultNoteDataConverter> conNotesFrom, 
+                                                      List<ConsultNoteDataConverter> conNotesTo)
+        {
+            var strNote = Localizer.Str("Note from OSE: this conversation was moved here from a now hidden or deleted line");
+            foreach (var conNote in conNotesFrom)
+            {
+                Debug.Assert(conNote.Count > 0);
+                var firstNote = conNote[0];
+                if (firstNote.ToString().IndexOf(strNote, StringComparison.Ordinal) == -1)
+                    firstNote.SetValue(strNote +
+                                       Environment.NewLine +
+                                       firstNote);
+                conNotesTo.Add(conNote);
+            }
+            conNotesFrom.Clear();
         }
 
         internal void SetViewBasedOnProjectStage(StoryStageLogic.ProjectStages eStage,
