@@ -151,6 +151,7 @@ namespace OneStoryProjectEditor
 
         public void ScrollToElement(String strElemName, bool bAlignWithTop)
         {
+            Debug.Assert(!String.IsNullOrEmpty(strElemName));
             if (Document != null)
             {
                 HtmlDocument doc = Document;

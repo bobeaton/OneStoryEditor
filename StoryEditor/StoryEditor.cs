@@ -1373,7 +1373,8 @@ namespace OneStoryProjectEditor
             if (UsingHtmlForStoryBtPane)
             {
                 htmlStoryBtControl.LoadDocument();
-                htmlStoryBtControl.ScrollToElement(HtmlStoryBtControl.LastTextareaInFocusId, false);
+                if (!String.IsNullOrEmpty(HtmlStoryBtControl.LastTextareaInFocusId))
+                    htmlStoryBtControl.ScrollToElement(HtmlStoryBtControl.LastTextareaInFocusId, false);
             }
             else
             {

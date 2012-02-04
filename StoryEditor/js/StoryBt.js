@@ -18,20 +18,12 @@ function CallOnFocus(textarea) {
 function CallOnBlur(textarea) {
     return window.external.TextareaOnBlur(textarea.id, textarea.value);
 }
+/*
 function CallTextareaOnSelect(textarea) 
 {
-    if (!document.selection) {
-        alert("document.selection is null");
-        return false;
-    }
-    if (!textarea.contentWindow) {
-        alert("textarea.contentWindow is null");
-        return false;
-    }
-    var allText = textarea.contentWindow.document.selection.createRange().parentElement().innerText;
-    var selText = textarea.contentWindow.document.selection.createRange().text;
-    return window.external.TextareaOnSelect(textarea.id, allText.indexof(selText), selText.length);
+    return window.external.TextareaOnSelect(textarea.id);
 }
+*/
 jQuery(function () {
     jQuery.support.placeholder = false;
     var test = document.createElement('textarea');
