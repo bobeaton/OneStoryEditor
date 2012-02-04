@@ -2,16 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryEditor", "StoryEditor\StoryEditor.csproj", "{EE63B2ED-1488-491F-990A-3FA16E2DB135}"
-	ProjectSection(ProjectDependencies) = postProject
-		{46F3BE0E-71C5-4FA2-872F-3AE6C51D09A5} = {46F3BE0E-71C5-4FA2-872F-3AE6C51D09A5}
-		{DEFA9358-620F-48E2-9652-AA19A57646B9} = {DEFA9358-620F-48E2-9652-AA19A57646B9}
-	EndProjectSection
-EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AutoUpgrade.Lib", "AutoUpgrade\code\AutoUpgrade.Lib\AutoUpgrade.Lib.vbproj", "{46F3BE0E-71C5-4FA2-872F-3AE6C51D09A5}"
-EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AutoUpgrade", "AutoUpgrade\code\AutoUpgrade.App\AutoUpgrade.vbproj", "{DEFA9358-620F-48E2-9652-AA19A57646B9}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup OneStory Editor", "Setup OneStory Editor\Setup OneStory Editor.vdproj", "{3B9266DB-550A-4508-8A70-DF40855483E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,15 +13,6 @@ Global
 		{EE63B2ED-1488-491F-990A-3FA16E2DB135}.Debug|x86.Build.0 = Debug|x86
 		{EE63B2ED-1488-491F-990A-3FA16E2DB135}.Release|x86.ActiveCfg = Release|x86
 		{EE63B2ED-1488-491F-990A-3FA16E2DB135}.Release|x86.Build.0 = Release|x86
-		{46F3BE0E-71C5-4FA2-872F-3AE6C51D09A5}.Debug|x86.ActiveCfg = Debug|x86
-		{46F3BE0E-71C5-4FA2-872F-3AE6C51D09A5}.Release|x86.ActiveCfg = Release|x86
-		{46F3BE0E-71C5-4FA2-872F-3AE6C51D09A5}.Release|x86.Build.0 = Release|x86
-		{DEFA9358-620F-48E2-9652-AA19A57646B9}.Debug|x86.ActiveCfg = Debug|x86
-		{DEFA9358-620F-48E2-9652-AA19A57646B9}.Debug|x86.Build.0 = Debug|x86
-		{DEFA9358-620F-48E2-9652-AA19A57646B9}.Release|x86.ActiveCfg = Release|x86
-		{DEFA9358-620F-48E2-9652-AA19A57646B9}.Release|x86.Build.0 = Release|x86
-		{3B9266DB-550A-4508-8A70-DF40855483E8}.Debug|x86.ActiveCfg = Debug
-		{3B9266DB-550A-4508-8A70-DF40855483E8}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

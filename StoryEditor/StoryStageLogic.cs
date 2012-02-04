@@ -182,6 +182,7 @@ namespace OneStoryProjectEditor
         public class StateTransitions : Dictionary<ProjectStages, StateTransition>
         {
             public const string CstrStateTransitionsXmlFilename = "StageTransitions.xml";
+            private const string CstrStateTransitionsXmlFilenameLocalized = "StageTransitions{0}.xml";
             protected string _strProjectFolder;
 
             public StateTransitions(string strProjectFolder)
@@ -190,24 +191,6 @@ namespace OneStoryProjectEditor
                 InitStateTransitionsFromXml(_strProjectFolder);
             }
 
-            protected string DefaultPathToXmlFile
-            {
-                get
-                {
-                    // try the same folder as we're executing out of
-                    string strFileToCheck = Path.Combine(StoryProjectData.GetRunningFolder, 
-                        CstrStateTransitionsXmlFilename);
-#if DEBUGBOB
-                    if (!File.Exists(strFileToCheck))
-                        // on dev machines, this file is in the "..\..\src\EC\TECkit Mapping Editor" folder
-                        strFileToCheck = @"C:\src\StoryEditor\StoryEditor\" + CstrStateTransitionsXmlFilename;
-#endif
-                    System.Diagnostics.Debug.Assert(File.Exists(strFileToCheck), String.Format("Can't find: {0}! You'll need to re-install or contact bob_eaton@sall.com", strFileToCheck));
-
-                    return strFileToCheck;
-                }
-            }
-            
             public void SaveCustomStateTransitionsXmlFile()
             {
                 // create the root portions of the XML document and tack on the fragment we've been building
@@ -238,20 +221,48 @@ namespace OneStoryProjectEditor
             }
             
             // these are for reading the file
-            protected void GetXmlDocument(string strProjectFolder, 
+            protected void GetXmlDocument(string strProjectFolder, string strLocalizationSuffix,
                 out XmlDocument doc, out XPathNavigator navigator, out XmlNamespaceManager manager)
             {
                 doc = new XmlDocument();
 
                 // first see if we have a customized version of the StateTransitions.xml in the project folder
-                string strCustomFile = Path.Combine(strProjectFolder, CstrStateTransitionsXmlFilename);
-                if (File.Exists(strCustomFile))
-                    doc.Load(strCustomFile);
-                else
-                    doc.Load(DefaultPathToXmlFile);
+                var strStateTransitionXmlFile = DetermineStateTransitionFilepath(strProjectFolder, strLocalizationSuffix);
+                doc.Load(strStateTransitionXmlFile);
 
                 navigator = doc.CreateNavigator();
                 manager = new XmlNamespaceManager(navigator.NameTable);
+            }
+
+            private  static string DetermineStateTransitionFilepath(string strProjectFolder, string strLocalizationSuffix)
+            {
+                // The order would be (where 'project folder' is e.g. "<My Documents>\OneStory Editor Projects\<Project Name>"
+                //  and 'install folder' is e.g. "C:\Program Files\SIL\OneStory Editor 2.0"):
+                //  1 & 2) a file with the localization suffix (e.g. StateTransitionsHi.xml for a "Hindi" version, 
+                //         1st in the project folder, 2nd in the install folder)
+                //  3 & 4) a customized version of the plain file (i.e. StateTransitions.xml), 
+                //         1st in the project folder and then in the install folder).
+                string strCustomFilepath = null;
+                if (!String.IsNullOrEmpty(strLocalizationSuffix) && (strLocalizationSuffix != "en"))
+                {
+                    var strLocalizationFilename = String.Format(CstrStateTransitionsXmlFilenameLocalized,
+                                                                strLocalizationSuffix);
+                    if (TryCheckPath(strProjectFolder, strLocalizationFilename, ref strCustomFilepath) ||
+                        TryCheckPath(StoryProjectData.GetRunningFolder, strLocalizationFilename, ref strCustomFilepath))
+                        return strCustomFilepath;
+                }
+
+                // finally, if it's neither of these, then just return a possible customized base filename, or
+                // if all else fails, we should have one in the project folder
+                return TryCheckPath(strProjectFolder, CstrStateTransitionsXmlFilename, ref strCustomFilepath)
+                    ? strCustomFilepath
+                    : Path.Combine(StoryProjectData.GetRunningFolder, CstrStateTransitionsXmlFilename);
+            }
+
+            private static bool TryCheckPath(string strFolderPath, string strFilename, ref string strCustomFilepath)
+            {
+                strCustomFilepath = Path.Combine(strFolderPath, strFilename);
+                return File.Exists(strCustomFilepath);
             }
 
             protected void InitStateTransitionsFromXml(string strProjectFolder)
@@ -261,7 +272,8 @@ namespace OneStoryProjectEditor
                     XmlDocument doc;
                     XPathNavigator navigator;
                     XmlNamespaceManager manager;
-                    GetXmlDocument(strProjectFolder, out doc, out navigator, out manager);
+                    GetXmlDocument(strProjectFolder, Properties.Settings.Default.LastLocalizationId,
+                                   out doc, out navigator, out manager);
 
 #if DoUpdateTo20
                     // first see if we need to upgrade from the previous format (which
@@ -662,7 +674,8 @@ namespace OneStoryProjectEditor
                 theSE.viewExegeticalHelps.Checked = // this kindof goes with anchors
                     IsAnchorVisible;    // but doesn't require a biblical story
 
-                theSE.viewGeneralTestingsQuestionMenu.Checked = IsGeneralTqsVisible && bBiblicalStory;
+                // for GTQ line, show that *if it's not already showing* (i.e. don't reset it if it was visible)
+                theSE.viewGeneralTestingsQuestionMenu.Checked |= IsGeneralTqsVisible && bBiblicalStory;
                 theSE.viewStoryTestingQuestionsMenu.Checked = IsStoryTestingQuestionVisible && bBiblicalStory;
                 theSE.viewStoryTestingQuestionAnswersMenu.Checked = IsStoryTestingQuestionAnswersVisible && bBiblicalStory;
                 theSE.viewRetellingsMenu.Checked = IsRetellingVisible && bBiblicalStory;
