@@ -62,9 +62,9 @@ namespace OneStoryProjectEditor
                         _ftp = FtpClient;
                     swordDownloader = AutoUpgrade.CreateSwordDownloader(Properties.Resources.IDS_OSEUpgradeServerSword);
                     swordDownloader.ApplicationBasePath = StoryProjectData.GetRunningFolder;
-                    foreach (int checkedIndex in checkedListBoxDownloadable.CheckedIndices)
+                    foreach (var strItem in from int checkedIndex in checkedListBoxDownloadable.CheckedIndices 
+                                            select checkedListBoxDownloadable.Items[checkedIndex] as String)
                     {
-                        var strItem = checkedListBoxDownloadable.Items[checkedIndex] as String;
                         System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strItem) && (strItem.IndexOf(':') != -1));
                         var strShortCode = strItem.Substring(0, strItem.IndexOf(':'));
                         var data = _mapShortCodes2SwordData[strShortCode];
@@ -79,7 +79,7 @@ namespace OneStoryProjectEditor
                     CloseFtpConnection();
 
                     // once we close *our* ftp connection, then see about calling AutoUpdate to do its copy of the files
-                    if ((swordDownloader != null) && swordDownloader.IsUpgradeAvailable())
+                    if (swordDownloader.IsUpgradeAvailable())
                     {
                         swordDownloader.PrepareModuleForInstall();
                         LocalizableMessageBox.Show(

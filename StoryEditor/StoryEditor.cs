@@ -5578,7 +5578,10 @@ namespace OneStoryProjectEditor
 
         private void checkForProgramUpdatesNowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CheckForUpgrade(_autoUpgrade, Resources.IDS_OSEUpgradeServer);
+            if ((ModifierKeys & Keys.Control) == Keys.Control) 
+                CheckForUpgrade(_autoUpgrade, Resources.IDS_OSEUpgradeServerTest);
+            else
+                CheckForUpgrade(_autoUpgrade, Resources.IDS_OSEUpgradeServer);
         }
 
         private void checkNowForNextMajorUpdateToolStripMenuItem_Click(object sender, EventArgs e)
