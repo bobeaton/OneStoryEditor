@@ -11,6 +11,7 @@ Imports System.Globalization
 Imports System.Windows.Forms
 Imports System.IO
 Imports Starksoft.Net.Ftp
+Imports Ionic.Zip
 
 Namespace devX
 
@@ -23,6 +24,9 @@ Namespace devX
         Protected Const AUTOUPGRADE_XMLNS As String = "http://www.devx.com/schemas/autoupgrade/1.0"
         Protected Const LIBDLL_FILENAME As String = "AutoUpgrade.Lib.dll"
         Protected Const STUBEXE_FILENAME As String = "AutoUpgrade.exe"
+        Protected Const STUBEXE_FILENAME_NEW As String = "AutoUpgrade.new.exe"
+        Private Const ZIP_LIB As String = "Ionic.Zip.dll"
+        Private Const ZIP_ENDING As String = ".zip"
 #End Region
 
 #Region "    Storage for Properties    "
@@ -134,13 +138,13 @@ Namespace devX
                     Dim bSomethingNotFound As Boolean = False
                     For Each upgradeFile As File In upgInstance.UpgradeFiles
                         Dim strLocalPath As String = Path.Combine(UpgradeDirectory, upgradeFile.Name)
-                        If (Not IO.File.Exists(bSomethingNotFound)) Then
+                        If (Not IO.File.Exists(strLocalPath)) Then
                             bSomethingNotFound = True
                         End If
                     Next
 
                     If (bSomethingNotFound) Then
-                        upgInstance.DownloadFiles()
+                        upgInstance.DownloadFiles(False)
                     End If
 
                     manifestFile = Nothing
@@ -311,10 +315,6 @@ Namespace devX
                 CommitAndRegisterSingleFile(manCurrentAutoUpgradeFile)
                 mlngTotalBytesRead = mlngTotalBytesRead + manCurrentAutoUpgradeFile.Size
             Next
-
-            ' finally copy over the AutoUpgrade.exe since that'll be copied back when doing Sword updates
-            IO.File.Copy(Path.Combine(UpgradeDirectory, STUBEXE_FILENAME), _
-                         Path.Combine(ApplicationBasePath, STUBEXE_FILENAME), True)
         End Sub
 
         Public Sub CommitAndRegisterSingleFile(ByVal manCurrentAutoUpgradeFile As AutoUpgrade.File)
@@ -365,7 +365,7 @@ Namespace devX
             strUpgradePath = UpgradeDirectory
 
             If blnDelete Then
-                ClearOutUpgradeDirectory(strUpgradePath)
+                ClearOutDirectory(strUpgradePath)
             End If
             ' Create directory
             If Not IO.Directory.Exists(strUpgradePath) Then
@@ -373,18 +373,18 @@ Namespace devX
             End If
         End Sub
 
-        Private Sub ClearOutUpgradeDirectory(ByVal strUpgradePath As String)
+        Public Shared Sub ClearOutDirectory(ByVal strPath As String)
 
             ' If dir already exists, clear it out
-            If IO.Directory.Exists(strUpgradePath) Then
-                IO.Directory.Delete(strUpgradePath, True)
-                Application.DoEvents()
+            If ((Not String.IsNullOrEmpty(strPath)) And Directory.Exists(strPath)) Then
+                Directory.Delete(strPath, True)
+                Threading.Thread.Sleep(500) ' give this time to work
             End If
         End Sub
 
         Private frmStatus As New Status()
 
-        Public Sub DownloadFiles()
+        Public Sub DownloadFiles(bAddZip As Boolean)
             ' Download the files to be upgraded to the Upgrade cache (staging) directory
             Dim manCurrentAutoUpgradeFile As AutoUpgrade.File
             Dim datDownloadedFileTime As System.DateTime
@@ -406,7 +406,7 @@ Namespace devX
                 If IsFullUpgradeRequired() Then
                     ' If any of the files signalled the need for a full upgrade, just download
                     ' the upgrade installation set
-                    DownloadSingleFile(Me.FullUpgradeFileName, "Full upgrade")
+                    DownloadSingleFile(Me.FullUpgradeFileName, bAddZip, "Full upgrade")
                 Else
                     ' Download the files
                     For Each manCurrentAutoUpgradeFile In UpgradeFiles
@@ -417,7 +417,7 @@ Namespace devX
                                 ' to be upgraded, include it in the manifest file as normal, and
                                 ' CommitAndRegisterFiles will copy it to the application directory.
                             Else
-                                DownloadSingleFile(manCurrentAutoUpgradeFile.Name, manCurrentAutoUpgradeFile.Description)
+                                DownloadSingleFile(manCurrentAutoUpgradeFile.Name, bAddZip, manCurrentAutoUpgradeFile.Description)
                             End If
 
                             ' Check that the date/time or version of the downloaded file matches the
@@ -476,7 +476,7 @@ Namespace devX
             IsFtp = TypeOf (resp) Is FtpWebRequest
         End Function
 
-        Public Sub DownloadSingleFile(ByVal strFileName As String, Optional ByVal strDescription As String = "")
+        Public Sub DownloadSingleFile(ByVal strFileName As String, bAddZip As Boolean, Optional ByVal strDescription As String = "")
             ' Download a single file from the source to the staging directory in
             ' 16k chunks, raising UpgradeProgress events to indicate progress.
             Dim strSourceFilePath As String
@@ -486,14 +486,20 @@ Namespace devX
             Dim lngBytesRead As Long
 
             strSourceFilePath = Path.Combine(SourcePath, strFileName).Replace("\", "/")
-            Dim reqFile As System.Net.WebRequest = GetWebRequest(strSourceFilePath)
             strLocalPath = Path.Combine(UpgradeDirectory, strFileName)
+            If (bAddZip) Then
+                strSourceFilePath += ZIP_ENDING
+                strLocalPath += ZIP_ENDING
+            End If
+            Dim reqFile As System.Net.WebRequest = GetWebRequest(strSourceFilePath)
+
 
             Try
                 ' The localpath may be a subdirectory of UpgradeDirectory, so we have
                 ' to make sure it exists
-                If Not IO.Directory.Exists(Path.GetDirectoryName(strLocalPath)) Then
-                    IO.Directory.CreateDirectory(Path.GetDirectoryName(strLocalPath))
+                Dim strLocalPathFolder As String = Path.GetDirectoryName(strLocalPath)
+                If Not IO.Directory.Exists(strLocalPathFolder) Then
+                    IO.Directory.CreateDirectory(strLocalPathFolder)
                 End If
 
                 localFile = New IO.FileStream(strLocalPath, IO.FileMode.OpenOrCreate)
@@ -551,6 +557,14 @@ Namespace devX
                         Dim thenOffset As DateTimeOffset = DateTimeOffset.Parse(Me.OffsetFromUctWhereManifestWasOriginallyCreated)
 #End If
                         dateLastModified -= nowOffset.Offset - thenOffset.Offset
+
+                        ' Before setting the timestamp, we might have to unzip it
+                        If (bAddZip) Then
+                            Using zip As ZipFile = ZipFile.Read(strLocalPath)
+                                zip.ExtractAll(strLocalPathFolder)
+                            End Using
+                            strLocalPath = strLocalPath.Substring(0, strLocalPath.Length - ZIP_ENDING.Length)
+                        End If
                         MySetLastWriteTime(strLocalPath, dateLastModified)
                     Else
                         Throw New ApplicationException(String.Format("Unable to get Last-Modified date on file: {0}", localFile))
@@ -657,7 +671,7 @@ Namespace devX
             IO.File.SetLastWriteTime(strFilePath, time)
         End Sub
 
-        Public Sub GenerateManifest(ByVal strPath As String, Optional ByVal strRootPath As String = "")
+        Public Sub GenerateManifest(ByVal strPath As String, strZipPathRoot As String, Optional ByVal strRootPath As String = "")
             ' Generates the entire manifest, given a Path.  Use this function to
             ' automatically create a manifest.  This method creates entries for
             ' all files that use the copy action
@@ -667,15 +681,22 @@ Namespace devX
 
             If strRootPath.Length = 0 Then
                 strRootPath = strPath
+            Else
+                ' make sure the zip folder has this new folder level
+                Dim strFolder As String = Path.Combine(strZipPathRoot, strPath.Substring(strRootPath.Length + 1))
+                If (Not Directory.Exists(strFolder)) Then
+                    Directory.CreateDirectory(strFolder)
+                End If
             End If
 
-            For Each strFile In IO.Directory.GetFiles(strPath)
+            For Each strFile In Directory.GetFiles(strPath)
                 ' Add files to manifest, collecting info from the file system
 
-                ' Exclude AutoUpgrade.exe.  This file is only ever downloaded if needed.
+                ' Exclude AutoUpgrade.exe and the zip library package.  This file is only ever downloaded if needed.
                 ' AutoUpgrade.Lib.DLL is used by the client application, so it may need to be
                 ' updated (so we don't exclude it).
-                If Not StrComp(Path.GetFileName(strFile), "AutoUpgrade.exe", CompareMethod.Text) = 0 Then
+                Dim strFilename As String = Path.GetFileName(strFile)
+                If Not ((StrComp(strFilename, STUBEXE_FILENAME, CompareMethod.Text) = 0) Or (StrComp(strFilename, ZIP_LIB, CompareMethod.Text) = 0)) Then
                     newFileEntry = New AutoUpgrade.File()
                     newFileEntry.Action = AutoUpgrade.File.UpgradeAction.copy
 
@@ -706,13 +727,25 @@ Namespace devX
                         newFileEntry.Method = AutoUpgrade.File.CompareMethod.version
                     End If
 
+                    ' now zip it up and put the zip file in the parallel path based on strZipPath
+                    Dim strZipFilepath As String = Path.Combine(strZipPathRoot, newFileEntry.Name + ZIP_ENDING)
+                    Using zip As ZipFile = New ZipFile
+                        zip.AddFile(strFile, "")
+                        zip.Save(strZipFilepath)
+                    End Using
+
                     Me.ManifestFiles.Add(newFileEntry)
+                Else
+                    ' even if we don't compress AutoUpgrade.exe and the zip library, we should copy it to the zip folder so we
+                    ' don't forget to put it on the ftp server
+                    Dim strExeInZip As String = Path.Combine(strZipPathRoot, strFile.Substring(strPath.Length + 1))
+                    IO.File.Copy(strFile, strExeInZip, True)
                 End If
             Next
 
             ' Recurse directories
             For Each strDirectory In IO.Directory.GetDirectories(strPath)
-                GenerateManifest(strDirectory, strRootPath)
+                GenerateManifest(strDirectory, strZipPathRoot, strRootPath)
             Next
         End Sub
 
@@ -968,11 +1001,12 @@ Namespace devX
             Me.Save()
 
             ' Download a new copy of AutoUpgrade.exe/AutoUpgrade.DLL
-            DownloadSingleFile(STUBEXE_FILENAME)
-            DownloadSingleFile(LIBDLL_FILENAME)
+            DownloadSingleFile(STUBEXE_FILENAME, False)
+            DownloadSingleFile(ZIP_LIB, False)
+            DownloadSingleFile(LIBDLL_FILENAME, True)
 
             ' Download files to upgrade-cache directory
-            DownloadFiles()
+            DownloadFiles(True)
 
         End Sub
 
@@ -1122,16 +1156,34 @@ Namespace devX
         Public Sub PrepareModuleForInstall()
             ' save the manifest file in the upgrade cache directory 
             ApplicationExecutable = Reflection.Assembly.GetEntryAssembly.Location
+            If (Not Directory.Exists(UpgradeDirectory)) Then
+                Directory.CreateDirectory(UpgradeDirectory)
+            End If
             Save(Path.Combine(UpgradeDirectory, SAVED_MANIFEST))
 
-            ' Download a new copy of AutoUpgrade.exe/AutoUpgrade.DLL
-            IO.File.Copy(Path.Combine(ApplicationBasePath, STUBEXE_FILENAME), _
+            ' copy AutoUpgrade.exe/AutoUpgrade.DLL to the upgrade dir so we can run from there
+            ' check to see if there's a new version of AutoUpgrade.exe we should be using
+            Dim strNewAutoUpgradeExe As String = Path.Combine(ApplicationBasePath, STUBEXE_FILENAME_NEW)
+            Dim strFilenameToCopy As String = Path.Combine(ApplicationBasePath, STUBEXE_FILENAME)
+            If (IO.File.Exists(strNewAutoUpgradeExe)) Then
+                ' also check the version to make sure it's newer
+                Dim newFile As FileVersionInfo = FileVersionInfo.GetVersionInfo(strNewAutoUpgradeExe)
+                Dim oldFile As FileVersionInfo = FileVersionInfo.GetVersionInfo(strFilenameToCopy)
+                Dim verNewFileVersion As Version = New Version(newFile.FileVersion)
+                Dim verOldFileVersion As Version = New Version(oldFile.FileVersion)
+                MessageBox.Show(String.Format("New: {1}{0}Old: {2}", Environment.NewLine, verNewFileVersion, verOldFileVersion), "testing")
+                If (verNewFileVersion.CompareTo(verOldFileVersion) > 0) Then
+                    strFilenameToCopy = strNewAutoUpgradeExe
+                End If
+            End If
+
+            IO.File.Copy(Path.Combine(ApplicationBasePath, strFilenameToCopy), _
                          Path.Combine(UpgradeDirectory, STUBEXE_FILENAME), True)
             IO.File.Copy(Path.Combine(ApplicationBasePath, LIBDLL_FILENAME), _
                          Path.Combine(UpgradeDirectory, LIBDLL_FILENAME), True)
 
             ' Download files to upgrade-cache directory
-            DownloadFiles()
+            DownloadFiles(False)
         End Sub
 
         Public Shared Sub LaunchUpgrade()
