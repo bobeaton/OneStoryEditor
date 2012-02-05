@@ -1154,6 +1154,7 @@ Namespace devX
 
         ' Run the AutoUpgrade.EXE stub (with elevated privilege) to copy the files into the protected folder.
         Public Sub PrepareModuleForInstall()
+            CreateUpgradeDirectory()
             ' save the manifest file in the upgrade cache directory 
             ApplicationExecutable = Reflection.Assembly.GetEntryAssembly.Location
             If (Not Directory.Exists(UpgradeDirectory)) Then
