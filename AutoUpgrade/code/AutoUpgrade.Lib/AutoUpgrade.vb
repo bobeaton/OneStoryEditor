@@ -134,7 +134,7 @@ Namespace devX
                     Dim bSomethingNotFound As Boolean = False
                     For Each upgradeFile As File In upgInstance.UpgradeFiles
                         Dim strLocalPath As String = Path.Combine(UpgradeDirectory, upgradeFile.Name)
-                        If (Not IO.File.Exists(bSomethingNotFound)) Then
+                        If (Not IO.File.Exists(strLocalPath)) Then
                             bSomethingNotFound = True
                         End If
                     Next
@@ -311,10 +311,6 @@ Namespace devX
                 CommitAndRegisterSingleFile(manCurrentAutoUpgradeFile)
                 mlngTotalBytesRead = mlngTotalBytesRead + manCurrentAutoUpgradeFile.Size
             Next
-
-            ' finally copy over the AutoUpgrade.exe since that'll be copied back when doing Sword updates
-            IO.File.Copy(Path.Combine(UpgradeDirectory, STUBEXE_FILENAME), _
-                         Path.Combine(ApplicationBasePath, STUBEXE_FILENAME), True)
         End Sub
 
         Public Sub CommitAndRegisterSingleFile(ByVal manCurrentAutoUpgradeFile As AutoUpgrade.File)
@@ -379,6 +375,7 @@ Namespace devX
             If IO.Directory.Exists(strUpgradePath) Then
                 IO.Directory.Delete(strUpgradePath, True)
                 Application.DoEvents()
+                Threading.Thread.Sleep(500) ' give this time to work
             End If
         End Sub
 
@@ -1120,6 +1117,7 @@ Namespace devX
 
         ' Run the AutoUpgrade.EXE stub (with elevated privilege) to copy the files into the protected folder.
         Public Sub PrepareModuleForInstall()
+            CreateUpgradeDirectory()
             ' save the manifest file in the upgrade cache directory 
             ApplicationExecutable = Reflection.Assembly.GetEntryAssembly.Location
             Save(Path.Combine(UpgradeDirectory, SAVED_MANIFEST))
