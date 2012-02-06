@@ -5,17 +5,6 @@ don't allow sorting in the Panorama show or Historical diffs grids
 make it so that if the Consultant hasn't allowed a particular field, then use <p> for that rather than <textarea>
 
 if you configure a shared AI projects for a prject that isn't on the local machine, it doesn't pre-populate the pull box.
-
-When hiding lines, move any open conversations to the previous (unhidden) line to it remains open
-
-Figure out why Glosing tool doesn't work the first time
-
-Fix Toolbox export
-
-When adding boxes, add boxes for GTQs as well
-
-Don't allow "Do 1 (or 2) more story question tests" without 'Add story questions' being required
-
 it would be nice in L&C notes if a transliterator is being used to show the transliteration also
 
 when splitting something like "word, word", I seem to get a empty box for the word where we had a ", "

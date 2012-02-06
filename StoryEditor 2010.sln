@@ -2,7 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryEditor", "StoryEditor\StoryEditor.csproj", "{EE63B2ED-1488-491F-990A-3FA16E2DB135}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +12,7 @@ Global
 		{EE63B2ED-1488-491F-990A-3FA16E2DB135}.Debug|x86.Build.0 = Debug|x86
 		{EE63B2ED-1488-491F-990A-3FA16E2DB135}.Release|x86.ActiveCfg = Release|x86
 		{EE63B2ED-1488-491F-990A-3FA16E2DB135}.Release|x86.Build.0 = Release|x86
+		{46F3BE0E-71C5-4FA2-872F-3AE6C51D09A5}.Debug|x86.Build.0 = Debug|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

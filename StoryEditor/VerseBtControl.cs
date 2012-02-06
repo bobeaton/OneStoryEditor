@@ -549,7 +549,7 @@ namespace OneStoryProjectEditor
             get
             {
                 return (LocalizableMessageBox.Show(
-                    Localizer.Str("Are you sure you want to delete this line (and all associated consultant notes, etc)?"),
+                    Localizer.Str("Are you sure you want to delete this line?"),
                     StoryEditor.OseCaption,
                     MessageBoxButtons.YesNoCancel) == DialogResult.Yes);
             }

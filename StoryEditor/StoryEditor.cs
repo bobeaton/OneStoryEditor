@@ -678,8 +678,7 @@ namespace OneStoryProjectEditor
                         // reload the state transitions so that we can possible support a new
                         //  configuration (e.g. there might now be a FPM)
                         Debug.Assert(StoryProject.TeamMembers != null);
-                        StoryStageLogic.stateTransitions =
-                            new StoryStageLogic.StateTransitions(StoryProject.ProjSettings.ProjectFolder);
+                        ReloadStateTransitionFile();
                         ReInitMenuVisibility();
                         SetViewBasedOnProjectStage(TheCurrentStory.ProjStage.ProjectStage, true);
                         InitAllPanes(); // just in case e.g. the font or RTL value changed
@@ -689,6 +688,14 @@ namespace OneStoryProjectEditor
             catch (StoryProjectData.BackOutWithNoUIException)
             {
             }
+        }
+
+        private void ReloadStateTransitionFile()
+        {
+            StoryStageLogic.stateTransitions =
+                new StoryStageLogic.StateTransitions(((StoryProject != null) && (StoryProject.ProjSettings != null))
+                                                         ? StoryProject.ProjSettings.ProjectFolder
+                                                         : null);
         }
 
         private void projectLoginToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2126,6 +2133,7 @@ namespace OneStoryProjectEditor
 
         internal void DeleteVerse(VerseData theVerseDataToDelete)
         {
+            MoveConNotes(theVerseDataToDelete);
             TheCurrentStory.Verses.Remove(theVerseDataToDelete);
             InitAllPanes();
             Modified = true;
@@ -2133,9 +2141,45 @@ namespace OneStoryProjectEditor
 
         internal void VisiblizeVerse(VerseData theVerseDataToVisiblize, bool bVisible)
         {
+            // if making it hidden, then put the con notes in the prev (or following) verse
+            if (!bVisible)
+                MoveConNotes(theVerseDataToVisiblize);
+
             theVerseDataToVisiblize.IsVisible = bVisible;
             InitAllPanes();
             Modified = true;
+        }
+
+        private void MoveConNotes(VerseData theVerseToMoveFrom)
+        {
+            var nIndexVerse = TheCurrentStory.Verses.IndexOf(theVerseToMoveFrom);
+            if (nIndexVerse > 0)
+                nIndexVerse--;
+            else if (TheCurrentStory.Verses.Count > 1)
+                nIndexVerse++;
+            else
+                return;
+
+            var theTargetVerse = TheCurrentStory.Verses[nIndexVerse];
+            ShiftConNotesToOtherVerse(theVerseToMoveFrom.ConsultantNotes, theTargetVerse.ConsultantNotes);
+            ShiftConNotesToOtherVerse(theVerseToMoveFrom.CoachNotes, theTargetVerse.CoachNotes);
+        }
+
+        private static void ShiftConNotesToOtherVerse(ICollection<ConsultNoteDataConverter> conNotesFrom, 
+                                                      List<ConsultNoteDataConverter> conNotesTo)
+        {
+            var strNote = Localizer.Str("Note from OSE: this conversation was moved here from a now hidden or deleted line");
+            foreach (var conNote in conNotesFrom)
+            {
+                Debug.Assert(conNote.Count > 0);
+                var firstNote = conNote[0];
+                if (firstNote.ToString().IndexOf(strNote, StringComparison.Ordinal) == -1)
+                    firstNote.SetValue(strNote +
+                                       Environment.NewLine +
+                                       firstNote);
+                conNotesTo.Add(conNote);
+            }
+            conNotesFrom.Clear();
         }
 
         internal void SetViewBasedOnProjectStage(StoryStageLogic.ProjectStages eStage,
@@ -3365,9 +3409,10 @@ namespace OneStoryProjectEditor
             var toi = new MemberIdInfo(strUnsGuid, strAnswer);
             TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.Add(toi);
 
-            foreach (VerseData aVerseData in TheCurrentStory.Verses)
-                foreach (TestQuestionData aTQ in aVerseData.TestQuestions)
-                    aTQ.Answers.TryAddNewLine(strUnsGuid);
+            // add boxes for any GTQs that are present and then to all the other verses
+            AddAnswerBoxes(strUnsGuid, TheCurrentStory.Verses.FirstVerse);
+            foreach (var aVerseData in TheCurrentStory.Verses)
+                AddAnswerBoxes(strUnsGuid, aVerseData);
 
             if (TheCurrentStory.CountTestingQuestionTests > 0)
                 TheCurrentStory.CountTestingQuestionTests--;    // to show we've added one
@@ -3377,6 +3422,12 @@ namespace OneStoryProjectEditor
 
             Modified = true;
             return true;
+        }
+
+        private static void AddAnswerBoxes(string strUnsGuid, VerseData theVerseData)
+        {
+            foreach (var aTq in theVerseData.TestQuestions)
+                aTq.Answers.TryAddNewLine(strUnsGuid);
         }
 
         internal static string InferenceTestCommentFormat
@@ -5737,7 +5788,10 @@ namespace OneStoryProjectEditor
 
         private void checkForProgramUpdatesNowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CheckForUpgrade(_autoUpgrade, Resources.IDS_OSEUpgradeServer);
+            if ((ModifierKeys & Keys.Control) == Keys.Control) 
+                CheckForUpgrade(_autoUpgrade, Resources.IDS_OSEUpgradeServerTest);
+            else
+                CheckForUpgrade(_autoUpgrade, Resources.IDS_OSEUpgradeServer);
         }
 
         private void checkNowForNextMajorUpdateToolStripMenuItem_Click(object sender, EventArgs e)
@@ -6126,9 +6180,14 @@ namespace OneStoryProjectEditor
         {
             netBibleViewer.OnLocalizationChange(true);
             ConsultNoteDataConverter.OnLocalizationChange();
-
-            Properties.Settings.Default.LastLocalizationId = Localizer.Default.LanguageId;
-            Properties.Settings.Default.Save();
+            Settings.Default.LastLocalizationId = Localizer.Default.LanguageId;
+            Settings.Default.Save();
+            ReloadStateTransitionFile();
+            if ((TheCurrentStory != null) && (TheCurrentStory.ProjStage != null))
+            {
+                SetViewBasedOnProjectStage(TheCurrentStory.ProjStage.ProjectStage, true);
+                InitAllPanes(); // just in case the language changed
+            }
         }
 
         public static string OseCaption
