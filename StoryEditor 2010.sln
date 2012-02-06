@@ -10,6 +10,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AutoUpgrade.Lib", "AutoUpgr
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AutoUpgrade", "AutoUpgrade\code\AutoUpgrade.App\AutoUpgrade.vbproj", "{DEFA9358-620F-48E2-9652-AA19A57646B9}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup OneStory Editor", "Setup OneStory Editor\Setup OneStory Editor.vdproj", "{00C7302E-1C2B-472B-8BF4-E4EBA360E88D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -28,6 +30,10 @@ Global
 		{DEFA9358-620F-48E2-9652-AA19A57646B9}.Debug|x86.Build.0 = Debug|x86
 		{DEFA9358-620F-48E2-9652-AA19A57646B9}.Release|x86.ActiveCfg = Release|x86
 		{DEFA9358-620F-48E2-9652-AA19A57646B9}.Release|x86.Build.0 = Release|x86
+		{00C7302E-1C2B-472B-8BF4-E4EBA360E88D}.Debug|x86.ActiveCfg = Debug
+		{00C7302E-1C2B-472B-8BF4-E4EBA360E88D}.Debug|x86.Build.0 = Debug
+		{00C7302E-1C2B-472B-8BF4-E4EBA360E88D}.Release|x86.ActiveCfg = Release
+		{00C7302E-1C2B-472B-8BF4-E4EBA360E88D}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
