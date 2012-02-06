@@ -669,7 +669,9 @@ namespace OneStoryProjectEditor
         private void ReloadStateTransitionFile()
         {
             StoryStageLogic.stateTransitions =
-                new StoryStageLogic.StateTransitions(StoryProject.ProjSettings.ProjectFolder);
+                new StoryStageLogic.StateTransitions(((StoryProject != null) && (StoryProject.ProjSettings != null))
+                                                         ? StoryProject.ProjSettings.ProjectFolder
+                                                         : null);
         }
 
         private void projectLoginToolStripMenuItem_Click(object sender, EventArgs e)

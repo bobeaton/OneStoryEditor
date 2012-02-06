@@ -1,5 +1,3 @@
-#Const Amerocentric = True
-
 Imports System.Runtime.InteropServices
 Imports System
 Imports System.Xml.Serialization
@@ -10,6 +8,7 @@ Imports System.Net.Security
 Imports System.Globalization
 Imports System.Windows.Forms
 Imports System.IO
+Imports System.Collections.Generic
 Imports Starksoft.Net.Ftp
 Imports Ionic.Zip
 
@@ -315,6 +314,14 @@ Namespace devX
                 CommitAndRegisterSingleFile(manCurrentAutoUpgradeFile)
                 mlngTotalBytesRead = mlngTotalBytesRead + manCurrentAutoUpgradeFile.Size
             Next
+
+            ' finally, if this was the new version of AutoUpgrade, then copy over the old one
+            If ((Reflection.Assembly.GetEntryAssembly.GetName.Name.IndexOf(STUBEXE_FILENAME_NEW) = 0)) Then
+                Dim strAutoUpgradeExe As String = Path.Combine(UpgradeDirectory, STUBEXE_FILENAME)
+                If (IO.File.Exists(strAutoUpgradeExe)) Then
+                    IO.File.Copy(strAutoUpgradeExe, Path.Combine(ApplicationBasePath, STUBEXE_FILENAME), True)
+                End If
+            End If
         End Sub
 
         Public Sub CommitAndRegisterSingleFile(ByVal manCurrentAutoUpgradeFile As AutoUpgrade.File)
@@ -532,45 +539,40 @@ Namespace devX
                 localFile = Nothing
 
                 If Not mblnCancel Then
-                    ' Set the date on the downloaded file to the date of the source
-                    Dim strLstModified As String
-                    If (IsFtp(reqFile)) Then
-                        reqFile.GetResponse.Close()
-                        reqFile = GetWebRequest(strSourceFilePath)
-                        reqFile.Method = WebRequestMethods.Ftp.GetDateTimestamp
-                        Using resp As FtpWebResponse = reqFile.GetResponse
-                            strLstModified = resp.LastModified
+                    If (bAddZip) Then
+                        Using zip As ZipFile = ZipFile.Read(strLocalPath)
+                            zip.ExtractAll(strLocalPathFolder)
                         End Using
+                        IO.File.Delete(strLocalPath)
+                        ' strLocalPath = strLocalPath.Substring(0, strLocalPath.Length - ZIP_ENDING.Length)
                     Else
-                        Dim resp As WebResponse = reqFile.GetResponse()
-                        strLstModified = resp.Headers("Last-Modified")
-                    End If
-                    If Not String.IsNullOrEmpty(strLstModified) Then
-                        Dim dateLastModified As Date = Date.Parse(strLstModified)
-
-                        ' this has to be adjusted based on how far we are now from when this was created
-                        Dim nowOffset As DateTimeOffset = New DateTimeOffset(DateTime.Now)
-#If Amerocentric Then
-                        Dim cultureInfo As CultureInfo = cultureInfo.CreateSpecificCulture("en-US")
-                        Dim thenOffset As DateTimeOffset = DateTimeOffset.ParseExact(Me.OffsetFromUctWhereManifestWasOriginallyCreated, "o", cultureInfo)
-#Else
-                        Dim thenOffset As DateTimeOffset = DateTimeOffset.Parse(Me.OffsetFromUctWhereManifestWasOriginallyCreated)
-#End If
-                        dateLastModified -= nowOffset.Offset - thenOffset.Offset
-
-                        ' Before setting the timestamp, we might have to unzip it
-                        If (bAddZip) Then
-                            Using zip As ZipFile = ZipFile.Read(strLocalPath)
-                                zip.ExtractAll(strLocalPathFolder)
+                        ' Set the date on the downloaded file to the date of the source
+                        Dim strLstModified As String
+                        If (IsFtp(reqFile)) Then
+                            reqFile.GetResponse.Close()
+                            reqFile = GetWebRequest(strSourceFilePath)
+                            reqFile.Method = WebRequestMethods.Ftp.GetDateTimestamp
+                            Using resp As FtpWebResponse = reqFile.GetResponse
+                                strLstModified = resp.LastModified
                             End Using
-                            strLocalPath = strLocalPath.Substring(0, strLocalPath.Length - ZIP_ENDING.Length)
+                        Else
+                            Dim resp As WebResponse = reqFile.GetResponse()
+                            strLstModified = resp.Headers("Last-Modified")
                         End If
-                        MySetLastWriteTime(strLocalPath, dateLastModified)
-                    Else
-                        Throw New ApplicationException(String.Format("Unable to get Last-Modified date on file: {0}", localFile))
+                        If Not String.IsNullOrEmpty(strLstModified) Then
+                            Dim dateLastModified As Date = Date.Parse(strLstModified)
+
+                            ' this has to be adjusted based on how far we are now from when this was created
+                            Dim nowOffset As DateTimeOffset = New DateTimeOffset(DateTime.Now)
+                            Dim cultureInfo As CultureInfo = cultureInfo.CreateSpecificCulture("en-US")
+                            Dim thenOffset As DateTimeOffset = DateTimeOffset.ParseExact(Me.OffsetFromUctWhereManifestWasOriginallyCreated, "o", cultureInfo)
+                            dateLastModified -= nowOffset.Offset - thenOffset.Offset
+                            MySetLastWriteTime(strLocalPath, dateLastModified)
+                        Else
+                            Throw New ApplicationException(String.Format("Unable to get Last-Modified date on file: {0}", localFile))
+                        End If
                     End If
                 End If
-
             Catch exc As Exception
                 Throw New ApplicationException("Error downloading file '" & strFileName & "'", exc)
 
@@ -625,7 +627,6 @@ Namespace devX
             End Get
             Set(ByVal value As String)
                 ' e.g. 8/6/2010 9:17:27 AM -05:00
-#If Amerocentric Then
                 ' the first time we do this (since the user's machine will have the older
                 ' format), it'll fail. So be sure to back off to the older mechanism in
                 ' the catch
@@ -635,9 +636,6 @@ Namespace devX
                 Catch ex As Exception
                     mtsOffsetToUCT = DateTimeOffset.Parse(value)
                 End Try
-#Else
-                mtsOffsetToUCT = DateTimeOffset.Parse(value)
-#End If
             End Set
         End Property
 
@@ -696,7 +694,22 @@ Namespace devX
                 ' AutoUpgrade.Lib.DLL is used by the client application, so it may need to be
                 ' updated (so we don't exclude it).
                 Dim strFilename As String = Path.GetFileName(strFile)
-                If Not ((StrComp(strFilename, STUBEXE_FILENAME, CompareMethod.Text) = 0) Or (StrComp(strFilename, ZIP_LIB, CompareMethod.Text) = 0)) Then
+
+#If DEBUG Then
+                Dim lstToIgnore As List(Of String) = New List(Of String) _
+                    (New String() {"AutoUpgrade.Lib.pdb", "AutoUpgrade.Lib.xml", "AutoUpgrade.vshost.exe", _
+                                  "AutoUpgrade.pdb", "AutoUpgrade.sln", "AutoUpgrade.suo", "AutoUpgrade.xml", _
+                                   "rdeStarksoft.Net.Ftp.dll", "rdeStarksoft.Net.Ftp.pdb", "rdeStarksoft.Net.Ftp.xml", _
+                                   "Starksoft.Net.Proxy.dll", "Starksoft.Net.Proxy.pdb", "Starksoft.Net.Proxy.xml",
+                                   "_ReSharper.AutoUpgrade"})
+                If (lstToIgnore.Contains(strFilename)) Then
+                    Continue For
+                End If
+#End If
+                Dim lstToNotZip As List(Of String) = New List(Of String) _
+                    (New String() {STUBEXE_FILENAME})
+
+                If Not (lstToNotZip.Contains(strFilename)) Then
                     newFileEntry = New AutoUpgrade.File()
                     newFileEntry.Action = AutoUpgrade.File.UpgradeAction.copy
 
@@ -738,13 +751,20 @@ Namespace devX
                 Else
                     ' even if we don't compress AutoUpgrade.exe and the zip library, we should copy it to the zip folder so we
                     ' don't forget to put it on the ftp server
-                    Dim strExeInZip As String = Path.Combine(strZipPathRoot, strFile.Substring(strPath.Length + 1))
-                    IO.File.Copy(strFile, strExeInZip, True)
+                    Dim strDontZip As String = Path.Combine(strZipPathRoot, strFile.Substring(strPath.Length + 1))
+                    IO.File.Copy(strFile, strDontZip, True)
                 End If
             Next
 
             ' Recurse directories
             For Each strDirectory In IO.Directory.GetDirectories(strPath)
+#If DEBUG Then
+                Dim lstToIgnore As List(Of String) = New List(Of String) _
+                    (New String() {"client\_ReSharper.AutoUpgrade"})
+                If (lstToIgnore.Contains(strDirectory)) Then
+                    Continue For
+                End If
+#End If
                 GenerateManifest(strDirectory, strZipPathRoot, strRootPath)
             Next
         End Sub
@@ -1002,7 +1022,7 @@ Namespace devX
 
             ' Download a new copy of AutoUpgrade.exe/AutoUpgrade.DLL
             DownloadSingleFile(STUBEXE_FILENAME, False)
-            DownloadSingleFile(ZIP_LIB, False)
+            DownloadSingleFile(ZIP_LIB, True)
             DownloadSingleFile(LIBDLL_FILENAME, True)
 
             ' Download files to upgrade-cache directory
@@ -1059,8 +1079,8 @@ Namespace devX
             ' instantiated from an application), or just the base directory (when 
             ' AutoUpgrade.Lib is instantiated from a the AutoUpgrade.EXE stub)
             Get
-                If StrComp(System.Reflection.Assembly.GetEntryAssembly.GetName.Name, "AutoUpgrade", CompareMethod.Text) = 0 Then
-                    ' Caller is AutoUpgrade.exe (which is run from the cache dir), use BaseDirectory
+                If Reflection.Assembly.GetEntryAssembly.GetName.Name.IndexOf("AutoUpgrade") = 0 Then
+                    ' Caller is AutoUpgrade.exe (or AutoUpgrade.new.exe), which is run from the cache dir. So use BaseDirectory
                     Return AppDomain.CurrentDomain.BaseDirectory
                 Else
                     ' Caller is an application, append "upgrade-cache" to BaseDirectory
@@ -1188,9 +1208,13 @@ Namespace devX
         End Sub
 
         Public Shared Sub LaunchUpgrade()
-            ' Run AutoUpgrade.exe
+            ' Run AutoUpgrade.exe (or AutoUpgrade.new.exe)
+            Dim strFileToRun As String = STUBEXE_FILENAME
+            If (IO.File.Exists(Path.Combine(UpgradeDirectory, STUBEXE_FILENAME_NEW))) Then
+                strFileToRun = STUBEXE_FILENAME_NEW
+            End If
             With New Process()
-                .StartInfo.FileName = Path.Combine(UpgradeDirectory, STUBEXE_FILENAME)
+                .StartInfo.FileName = Path.Combine(UpgradeDirectory, strFileToRun)
                 .Start()
             End With
         End Sub

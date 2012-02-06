@@ -193,13 +193,16 @@ namespace OneStoryProjectEditor
 
             public void SaveCustomStateTransitionsXmlFile()
             {
+                if (String.IsNullOrEmpty(_strProjectFolder))
+                    return;
+
                 // create the root portions of the XML document and tack on the fragment we've been building
-                XDocument doc = new XDocument(
+                var doc = new XDocument(
                     new XDeclaration("1.0", "utf-8", "yes"),
                     GetXml);
 
                 // save it with an extra extn.
-                string strCustomFile = Path.Combine(_strProjectFolder, CstrStateTransitionsXmlFilename);;
+                var strCustomFile = Path.Combine(_strProjectFolder, CstrStateTransitionsXmlFilename);
                 doc.Save(strCustomFile);
             }
 
@@ -261,6 +264,8 @@ namespace OneStoryProjectEditor
 
             private static bool TryCheckPath(string strFolderPath, string strFilename, ref string strCustomFilepath)
             {
+                if (String.IsNullOrEmpty(strFolderPath))
+                    return false;
                 strCustomFilepath = Path.Combine(strFolderPath, strFilename);
                 return File.Exists(strCustomFilepath);
             }

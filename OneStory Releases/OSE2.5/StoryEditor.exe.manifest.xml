@@ -4,11 +4,11 @@
   <ApplicationExecutable />
   <ApplicationName>OneStory Editor AutoUpdater</ApplicationName>
   <FullUpgradeFileName />
-  <OffsetFromUctWhereManifestWasOriginallyCreated>2012-02-05T08:42:28.8410000-06:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+  <OffsetFromUctWhereManifestWasOriginallyCreated>2012-02-05T09:35:14.2060000-06:00</OffsetFromUctWhereManifestWasOriginallyCreated>
   <ManifestFiles>
     <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="1.0.4418.15142" optional="false" size="32768">AutoUpgrade Lib</File>
     <File name="Ionic.Zip.dll" method="version" action="copy" version="1.9.1.8" optional="false" size="462336">Ionic's Zip Library</File>
-    <File name="StoryEditor.exe" method="version" action="copy" version="2.5.0.3" optional="false" size="1381888">OneStory Editor</File>
+    <File name="StoryEditor.exe" method="version" action="copy" version="2.5.0.4" optional="false" size="1381888">OneStory Editor</File>
   </ManifestFiles>
   <SourcePath />
   <UpgradeFiles />
