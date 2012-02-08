@@ -289,17 +289,31 @@ namespace OneStoryProjectEditor
             if (elem == null)
                 return false;
 
+            int nVerseIndex;
+            var verseData = VerseDataFromLineOptionsButtonId(strId, out nVerseIndex);
+            if (verseData == null)
+                return false;
+            var verseNetCtrl = TheSE.CreateVerseBtControl(null, verseData, nVerseIndex);
+            var form = new VerseEditorForm(verseNetCtrl);
+            form.ShowDialog();
+
+            /*
             if (IsLineOptionsButton(strId))
                 contextMenuStrip.Show(MousePosition);
-
+            */
             return true;
         }
 
-        private bool IsLineOptionsButton(string strId)
+        private VerseData VerseDataFromLineOptionsButtonId(string strId, out int nVerseIndex)
         {
             var astr = strId.Split(AchDelim);
-            return ((astr.Length == 2) &&
-                    (astr[0] == VersesData.ButtonId(1).Split(AchDelim)[0]));
+            if ((astr.Length == 2) && (astr[0] == VersesData.CstrButtonPrefixLineOptionsButton))
+            {
+                nVerseIndex = Convert.ToInt32(astr[1]);
+                return GetVerseData(nVerseIndex);
+            }
+            nVerseIndex = -1;
+            return null;
         }
 
         /*
@@ -487,7 +501,6 @@ namespace OneStoryProjectEditor
 
         private void moveSelectedTextToANewLineToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
         }
 
         private void moveItemsToolStripMenuItem_Click(object sender, EventArgs e)

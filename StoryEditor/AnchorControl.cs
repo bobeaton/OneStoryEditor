@@ -82,30 +82,30 @@ namespace OneStoryProjectEditor
 
         void aButton_Click(object sender, EventArgs e)
         {
-            Form form = FindForm();
-            if ((form != null) && (form is StoryEditor))
-            {
-                var aSE = (StoryEditor)form;
-                var tssb = (ToolStripButton)sender;
+            var form = FindForm();
+            if (!(form is StoryEditor))
+                return;
 
-                // if this is the null anchor, then do nothing
-                if (tssb.Text == CstrNullAnchor)
-                    return;
+            var aSe = (StoryEditor)form;
+            var tssb = (ToolStripButton)sender;
 
-                // the button may have the extra indicator that there's a tooltip.
-                string strJumpTarget = tssb.Text;
-                int nIndLen = AnchorData.CstrTooltipIndicator.Length;
-                if (strJumpTarget.Substring(strJumpTarget.Length - nIndLen, nIndLen) == AnchorData.CstrTooltipIndicator)
-                    strJumpTarget = strJumpTarget.Substring(0, strJumpTarget.Length - nIndLen);
+            // if this is the null anchor, then do nothing
+            if (tssb.Text == CstrNullAnchor)
+                return;
 
-                aSE.SetNetBibleVerse(strJumpTarget);
-                aSE.FocusOnVerse(_ctrlVerse.VerseNumber, true, true);
+            // the button may have the extra indicator that there's a tooltip.
+            string strJumpTarget = tssb.Text;
+            int nIndLen = AnchorData.CstrTooltipIndicator.Length;
+            if (strJumpTarget.Substring(strJumpTarget.Length - nIndLen, nIndLen) == AnchorData.CstrTooltipIndicator)
+                strJumpTarget = strJumpTarget.Substring(0, strJumpTarget.Length - nIndLen);
+
+            aSe.SetNetBibleVerse(strJumpTarget);
+            aSe.FocusOnVerse(_ctrlVerse.VerseNumber, true, true);
                 
-                // if we aren't already in some text box, then set the focus on the 
-                //  parent verse form so that scroll wheel can work
-                if (CtrlTextBox._inTextBox == null)
-                    _ctrlVerse.Focus();
-            }
+            // if we aren't already in some text box, then set the focus on the 
+            //  parent verse form so that scroll wheel can work
+            if (CtrlTextBox._inTextBox == null)
+                _ctrlVerse.Focus();
         }
 
         private void toolStripAnchors_DragEnter(object sender, DragEventArgs e)

@@ -1365,13 +1365,19 @@ namespace OneStoryProjectEditor
 
         protected void InitVerseControls(VerseData aVerse, int nVerseIndex)
         {
-            var aVerseCtrl = new VerseBtControl(this, flowLayoutPanelVerses, aVerse, nVerseIndex);
-            if (!aVerse.IsVisible)
+            var aVerseCtrl = CreateVerseBtControl(flowLayoutPanelVerses, aVerse, nVerseIndex);
+            flowLayoutPanelVerses.Controls.Add(aVerseCtrl);
+            AddDropTargetToFlowLayout(nVerseIndex);
+        }
+
+        public Control CreateVerseBtControl(VerseBtLineFlowLayoutPanel verseBtLineFlowLayoutPanel, VerseData aVerseData, int nVerseIndex)
+        {
+            var aVerseCtrl = new VerseBtControl(this, verseBtLineFlowLayoutPanel, aVerseData, nVerseIndex);
+            if (!aVerseData.IsVisible)
                 aVerseCtrl.BackColor = Color.Khaki;
 
             aVerseCtrl.UpdateHeight(Panel1_Width);
-            flowLayoutPanelVerses.Controls.Add(aVerseCtrl);
-            AddDropTargetToFlowLayout(nVerseIndex);
+            return aVerseCtrl;
         }
 
         // this is for use by the consultant panes if we add or remove or hide a note

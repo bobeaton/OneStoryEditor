@@ -160,40 +160,49 @@ namespace OneStoryProjectEditor
             return bHeightChanged;
         }
 
-        internal bool CheckForProperEditToken(out StoryEditor theSE)
+        internal bool CheckForProperEditToken(out StoryEditor theSe)
         {
             if (this is VerseControl)
-                theSE = (this as VerseControl).TheSE;
+                theSe = (this as VerseControl).TheSE;
             else
-                theSE = (StoryEditor)FindForm();
+            {
+                var form = FindForm();
+                if (!(form is StoryEditor))
+                {
+                    theSe = null;
+                    return false;
+                }
+
+                theSe = (StoryEditor)form;
+            }
             try
             {
-                if (theSE == null)
+                if (theSe == null)
                     throw new ApplicationException(
                         "Unable to edit the file! Restart the program and if it persists, contact bob_eaton@sall.com");
 
-                if (!theSE.IsInStoriesSet)
-                    throw theSE.CantEditOldStoriesEx;
+                if (!theSe.IsInStoriesSet)
+                    throw theSe.CantEditOldStoriesEx;
 
-                theSE.LoggedOnMember.ThrowIfEditIsntAllowed(theSE.TheCurrentStory);
+                theSe.LoggedOnMember.ThrowIfEditIsntAllowed(theSe.TheCurrentStory);
 
                 // finally, make sure we have the right PF
                 // one more finally, don't allow it if it's blocked by the consultant
-                if ((theSE.StoryProject != null)
-                    && (theSE.TheCurrentStory != null)
-                    && (theSE.LoggedOnMember != null)
-                    && (TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType,
+                if ((theSe.StoryProject != null)
+                    && (theSe.TheCurrentStory != null)
+                    && (theSe.LoggedOnMember != null)
+                    && (TeamMemberData.IsUser(theSe.LoggedOnMember.MemberType,
                                               TeamMemberData.UserTypes.ProjectFacilitator) &&
-                        (theSE.LoggedOnMember.MemberGuid !=
-                         theSE.TheCurrentStory.CraftingInfo.ProjectFacilitator.MemberId)))
+                        (theSe.LoggedOnMember.MemberGuid !=
+                         theSe.TheCurrentStory.CraftingInfo.ProjectFacilitator.MemberId)))
                 {
                     throw new ApplicationException(TeamMemberData.NotTheRightProjFacMessage);
                 }
             }
             catch (Exception ex)
             {
-                if (theSE != null)
-                    theSE.SetStatusBar(String.Format("Error: {0}", ex.Message));
+                if (theSe != null)
+                    theSe.SetStatusBar(String.Format("Error: {0}", ex.Message));
                 return false;
             }
 

@@ -237,12 +237,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ExegeticalHelpNotesData.cs" />
-    <Compile Include="GeckoTestForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GeckoTestForm.Designer.cs">
-      <DependentUpon>GeckoTestForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="GlossingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -482,9 +476,6 @@
       <DependentUpon>AnchorAddCommentForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GeckoTestForm.resx">
-      <DependentUpon>GeckoTestForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GlossingControl.resx">
       <DependentUpon>GlossingControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -609,6 +600,9 @@
     <EmbeddedResource Include="VerseBtControl.resx">
       <DependentUpon>VerseBtControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="VerseEditorForm.resx">
+      <DependentUpon>VerseEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ViewEnableForm.resx">
       <DependentUpon>ViewEnableForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -685,6 +679,12 @@
       <DependentUpon>VerseBtControl.cs</DependentUpon>
     </Compile>
     <Compile Include="VerseData.cs" />
+    <Compile Include="VerseEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VerseEditorForm.Designer.cs">
+      <DependentUpon>VerseEditorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewEnableForm.cs">
       <SubType>Form</SubType>
     </Compile>

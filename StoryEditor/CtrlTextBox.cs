@@ -62,9 +62,11 @@ namespace OneStoryProjectEditor
 
         void CtrlTextBox_MouseMove(object sender, MouseEventArgs e)
         {
-            var theSE = (StoryEditor)_ctrlVerseParent.FindForm();
-            if (theSE != null)
-                theSE.CheckBiblePaneCursorPosition();
+            var form = _ctrlVerseParent.FindForm();
+            if (!(form is StoryEditor))
+                return;
+            var theSe = (StoryEditor)form;
+            theSe.CheckBiblePaneCursorPosition();
         }
 
         // get the string transfer associated with this box (we do this when we're about
@@ -146,18 +148,18 @@ namespace OneStoryProjectEditor
                 e.KeyData,
                 e.KeyValue));
 
-            StoryEditor theSE = (StoryEditor)_ctrlVerseParent.FindForm();
+            var form = FindForm();
+            if (!(form is StoryEditor))
+                return;
+
+            var theSe = (StoryEditor)form;
             try
             {
-                if (theSE == null)
-                    throw new ApplicationException(
-                        "Unable to edit the file! Try rebooting and if it persists, contact bob_eaton@sall.com");
-
                 // certain keys (like arrow keys), we just want to allow in any case.
-                if (!IsKeyAutomaticallyAllowed(theSE, e))
+                if (!IsKeyAutomaticallyAllowed(theSe, e))
                 {
-                    if (!theSE.IsInStoriesSet)
-                        throw theSE.CantEditOldStoriesEx;
+                    if (!theSe.IsInStoriesSet)
+                        throw theSe.CantEditOldStoriesEx;
 
                     // if the creator has defined a particular required editor (e.g. for consultant notes,
                     //  the *mentor* must be a *consultant*), then throw if we don't have one and always
@@ -165,17 +167,17 @@ namespace OneStoryProjectEditor
                     if (_delegateRequiredEditorCheck != null)    // ... i.e. a req. editor checking delegate is defined
                     {
                         // throws if failure
-                        _delegateRequiredEditorCheck(theSE.LoggedOnMember.MemberType, _eRequiredEditor);
+                        _delegateRequiredEditorCheck(theSe.LoggedOnMember.MemberType, _eRequiredEditor);
                     }
 
                     // finally, the last possible blockage is if the currently logged on member isn't the 
                     //  right editor for the state we are in (which has to do with who has the edit token)
-                    StoryData theStory = theSE.TheCurrentStory;
-                    theSE.LoggedOnMember.ThrowIfEditIsntAllowed(theStory);
+                    StoryData theStory = theSe.TheCurrentStory;
+                    theSe.LoggedOnMember.ThrowIfEditIsntAllowed(theStory);
 
                     // one more finally, don't allow it if it's blocked by the consultant
-                    ProjectSettings projSettings = theSE.StoryProject.ProjSettings;
-                    if (TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType,
+                    ProjectSettings projSettings = theSe.StoryProject.ProjSettings;
+                    if (TeamMemberData.IsUser(theSe.LoggedOnMember.MemberType,
                         TeamMemberData.UserTypes.ProjectFacilitator))
                     {
                         ProjectSettings.LanguageInfo li;
@@ -193,17 +195,17 @@ namespace OneStoryProjectEditor
 
                 // if we get here, we're all good!
                 base.OnKeyDown(e);
-                theSE.Modified = true;  // to trigger save if exit.
-                theSE.LastKeyPressedTimeStamp = DateTime.Now;   // so we can delay the autosave while typing
+                theSe.Modified = true;  // to trigger save if exit.
+                theSe.LastKeyPressedTimeStamp = DateTime.Now;   // so we can delay the autosave while typing
 
                 // update the status bar (in case we previously put an error there
-                theSE.ResetStatusBar();
+                theSe.ResetStatusBar();
             }
             catch (Exception ex)
             {
                 Console.Beep();
-                if (theSE != null)
-                    theSE.SetStatusBar(String.Format("Error: {0}", ex.Message));
+                if (theSe != null)
+                    theSe.SetStatusBar(String.Format("Error: {0}", ex.Message));
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
@@ -220,10 +222,11 @@ namespace OneStoryProjectEditor
         //  searching from' indices are no longer valid.
         protected void ClearSearchIndices()
         {
-            StoryEditor theSE = (StoryEditor)_ctrlVerseParent.FindForm();
-            if (theSE.m_frmFind != null)
-                theSE.m_frmFind.ResetSearchStartParameters();
-
+            var form = _ctrlVerseParent.FindForm();
+            if (!(form is StoryEditor))
+                return;
+            var theSe = (StoryEditor)form;
+            theSe.m_frmFind.ResetSearchStartParameters();
         }
 
         /*

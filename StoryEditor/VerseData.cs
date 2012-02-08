@@ -1584,9 +1584,10 @@ namespace OneStoryProjectEditor
             return str;
         }
 
+        public const string CstrButtonPrefixLineOptionsButton = "btnLn";
         public static string ButtonId(int nVerseIndex)
         {
-            return String.Format("btnLn_{0}", nVerseIndex);
+            return String.Format("{0}_{1}", CstrButtonPrefixLineOptionsButton, nVerseIndex);
         }
 
         public static string NoteToSelfButtonId(int nVerseIndex)

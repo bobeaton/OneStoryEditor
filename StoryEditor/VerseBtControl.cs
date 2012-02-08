@@ -244,25 +244,24 @@ namespace OneStoryProjectEditor
 
         void buttonDragDropHandle_QueryContinueDrag(object sender, System.Windows.Forms.QueryContinueDragEventArgs e)
         {
-            Form form = FindForm();
-            System.Diagnostics.Debug.Assert(form is StoryEditor);
-            if (form is StoryEditor)
-            {
-                StoryEditor theSE = (StoryEditor)form;
+            var form = FindForm();
+            if (!(form is StoryEditor))
+                return;
 
-                // this code causes the vertical scroll bar to move if the user is dragging the mouse beyond
-                //  the boundary of the flowLayout panel that these verse controls are sitting it.
-                System.Drawing.Point pt = theSE.flowLayoutPanelVerses.PointToClient(MousePosition);
-                if (theSE.flowLayoutPanelVerses.Bounds.Height < (pt.Y + 10))    // close to the bottom edge...
-                    theSE.flowLayoutPanelVerses.VerticalScroll.Value += 10;     // bump the scroll bar down
-                else if ((pt.Y < 10) && theSE.flowLayoutPanelVerses.VerticalScroll.Value > 0)   // close to the top edge, while the scroll bar position is non-zero
-                    theSE.flowLayoutPanelVerses.VerticalScroll.Value -= Math.Min(10, theSE.flowLayoutPanelVerses.VerticalScroll.Value);
+            var theSe = (StoryEditor)form;
 
-                if (e.Action != DragAction.Continue)
-                    theSE.DimDropTargetButtons();
-                else
-                    theSE.LightUpDropTargetButtons(this);
-            }
+            // this code causes the vertical scroll bar to move if the user is dragging the mouse beyond
+            //  the boundary of the flowLayout panel that these verse controls are sitting it.
+            System.Drawing.Point pt = theSe.flowLayoutPanelVerses.PointToClient(MousePosition);
+            if (theSe.flowLayoutPanelVerses.Bounds.Height < (pt.Y + 10))    // close to the bottom edge...
+                theSe.flowLayoutPanelVerses.VerticalScroll.Value += 10;     // bump the scroll bar down
+            else if ((pt.Y < 10) && theSe.flowLayoutPanelVerses.VerticalScroll.Value > 0)   // close to the top edge, while the scroll bar position is non-zero
+                theSe.flowLayoutPanelVerses.VerticalScroll.Value -= Math.Min(10, theSe.flowLayoutPanelVerses.VerticalScroll.Value);
+
+            if (e.Action != DragAction.Continue)
+                theSe.DimDropTargetButtons();
+            else
+                theSe.LightUpDropTargetButtons(this);
         }
 
         private void menuAddTestQuestion_Click(object sender, EventArgs e)
@@ -293,8 +292,12 @@ namespace OneStoryProjectEditor
         private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             // if this is a Biblical story, we have to add a few menu items
-            StoryEditor theSE = (StoryEditor)FindForm();
-            menuAddTestQuestion.Visible = theSE.TheCurrentStory.CraftingInfo.IsBiblicalStory;
+            var form = FindForm();
+            if (!(form is StoryEditor))
+                return;
+
+            var theSe = (StoryEditor)form;
+            menuAddTestQuestion.Visible = theSe.TheCurrentStory.CraftingInfo.IsBiblicalStory;
 
             if (IsGeneralQuestionsLine)
             {
