@@ -1385,6 +1385,7 @@ namespace OneStoryProjectEditor
         {
             if (UsingHtmlForStoryBtPane)
             {
+                htmlStoryBtControl.ViewSettings = CurrentViewSettings;
                 htmlStoryBtControl.LoadDocument();
                 if (!String.IsNullOrEmpty(HtmlStoryBtControl.LastTextareaInFocusId))
                     htmlStoryBtControl.ScrollToElement(HtmlStoryBtControl.LastTextareaInFocusId, false);
