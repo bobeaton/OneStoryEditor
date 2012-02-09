@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<AutoUpgrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.devx.com/schemas/autoupgrade/1.0">
+  <ApplicationBasePath />
+  <ApplicationExecutable />
+  <ApplicationName>OneStory Editor AutoUpdater</ApplicationName>
+  <FullUpgradeFileName />
+  <OffsetFromUctWhereManifestWasOriginallyCreated>2012-02-09T07:24:59.2116000-06:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+  <ManifestFiles>
+    <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="2.5.0.0" optional="false" size="34304">AutoUpgrade Lib</File>
+    <File name="Chorus.exe" method="version" action="copy" version="1.5.29.0" optional="false" size="514560">Chorus</File>
+    <File name="ChorusMerge.exe" method="version" action="copy" version="1.5.29.0" optional="false" size="5632">ChorusMerge</File>
+    <File name="Ionic.Zip.dll" method="version" action="copy" version="1.9.1.8" optional="false" size="462336">Ionic's Zip Library</File>
+    <File name="LibChorus.dll" method="version" action="copy" version="1.5.29.0" optional="false" size="335872">Chorus</File>
+    <File name="StoryEditor.exe" method="version" action="copy" version="2.6.0.0" optional="false" size="1381888">OneStory Editor</File>
+  </ManifestFiles>
+  <SourcePath />
+  <UpgradeFiles />
+</AutoUpgrade>
