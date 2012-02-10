@@ -234,6 +234,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; onClick=&quot;{1}&quot; title=&quot;{2}&quot;&gt;{3}&lt;/button&gt;.
+        /// </summary>
+        internal static string HTML_ButtonToolTip {
+            get {
+                return ResourceManager.GetString("HTML_ButtonToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;script&gt;
         ///    function OnBibRefJump(link) {
         ///        window.external.OnBibRefJump(link.name);
@@ -460,6 +469,15 @@ namespace OneStoryProjectEditor.Properties {
         ///  {2}
         ///  .hasPlaceholder {{
         ///     color: #777;
+        ///  }}
+        ///  .Retelling {{
+        ///	color: {3}
+        ///  }}
+        ///  .TestQuestion {{
+        ///	color: {4}
+        ///  }}
+        ///  .TestQuestionAnswer {{
+        ///	color: {5}
         ///  }}
         ///&lt;/style&gt;.
         /// </summary>
@@ -1416,7 +1434,9 @@ namespace OneStoryProjectEditor.Properties {
         ///    &lt;body&gt;
         ///{4}
         ///    &lt;/body&gt;
+        ///&lt;script type=&quot;text/javascript&quot;&gt;
         ///{5}
+        ///&lt;/script&gt;
         ///&lt;/html&gt;.
         /// </summary>
         internal static string StoryBtHtml {
@@ -1476,10 +1496,12 @@ namespace OneStoryProjectEditor.Properties {
         ///for (var i=0; i &lt; textareas.length; i++)
         ///{
         ///    textareas[i].onchange = function() { return window.external.TextareaOnChange(this.id, this.value); };
-        ///    textareas[i].onselect = function () { return CallTextareaOnSelect(this); };
+        ///    // textareas[i].onselect = function () { return CallTextareaOnSelect(this); };
+        ///    textareas[i].onkeyup = function() { return window.external.TextareaOnKeyUp(this.id, this.value); };
         ///}
-        ///$(&apos;textarea&apos;).attr(&apos;placeholder&apos;, VernacularLanguageName());
-        ///.
+        ///$(&apos;textarea&apos;).attr(&apos;placeholder&apos;, function () {
+        ///    if ($(this).hasClass(&apos;LangVernacular&apos;))
+        ///        return [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string StoryBtPsJs {
             get {

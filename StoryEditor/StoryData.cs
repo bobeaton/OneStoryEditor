@@ -631,7 +631,10 @@ namespace OneStoryProjectEditor
             return String.Format(Properties.Resources.HTML_StyleDefinition,
                                  Properties.Settings.Default.ConNoteTableFontSize,
                                  Properties.Settings.Default.ConNoteButtonFontSize,
-                                 strLangStyles);
+                                 strLangStyles,
+                                 VerseData.HtmlColor(Properties.Settings.Default.RetellingVernacularColor),
+                                 VerseData.HtmlColor(Properties.Settings.Default.TQVernacularColor),
+                                 VerseData.HtmlColor(Properties.Settings.Default.AnswersVernacularColor));
         }
 
         public string ConsultantNotesHtml(object htmlConNoteCtrl, 

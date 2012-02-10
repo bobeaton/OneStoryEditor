@@ -2004,6 +2004,15 @@ initContextMenu();
   .hasPlaceholder {{
      color: #777;
   }}
+  .Retelling {{
+	color: {3}
+  }}
+  .TestQuestion {{
+	color: {4}
+  }}
+  .TestQuestionAnswer {{
+	color: {5}
+  }}
 &lt;/style&gt;</value>
   </data>
   <data name="HTML_Table" xml:space="preserve">
@@ -2256,5 +2265,8 @@ for (var i=0; i &lt; textareas.length; i++)
   </data>
   <data name="StoryBtPlaceholders" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\js\storybtplaceholders.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="HTML_ButtonToolTip" xml:space="preserve">
+    <value>&lt;button id="{0}" onClick="{1}" title="{2}"&gt;{3}&lt;/button&gt;</value>
   </data>
 </root>
