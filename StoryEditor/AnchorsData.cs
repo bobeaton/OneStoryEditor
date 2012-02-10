@@ -247,9 +247,10 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            return String.Format(Properties.Resources.HTML_Button,
+            return String.Format(Properties.Resources.HTML_ButtonToolTip,
                                     JumpTarget,
                                     "return OnBibRefJump(this);",
+                                    ToolTipText,
                                     strButtonLabel);
         }
 
@@ -266,9 +267,10 @@ namespace OneStoryProjectEditor
                 astrExegeticalHelpNotes.Add(Diff.HtmlDiff(null, ToolTipText, true));
             }
 
-            return String.Format(Properties.Resources.HTML_Button,
+            return String.Format(Properties.Resources.HTML_ButtonToolTip,
                                     JumpTarget,
                                     "return OnBibRefJump(this);",
+                                    ToolTipText,
                                     strButtonLabel);
         }
     }
