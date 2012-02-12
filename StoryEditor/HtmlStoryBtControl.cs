@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using NetLoc;
@@ -10,18 +11,6 @@ namespace OneStoryProjectEditor
     [ComVisible(true)]
     public partial class HtmlStoryBtControl : HtmlVerseControl
     {
-        /* obsolete?
-        public const string CstrFieldNameVernacular = "Vernacular";
-        public const string CstrFieldNameNationalBt = "NationalBT";
-        public const string CstrFieldNameInternationalBt = "InternationalBT";
-
-        public const string CstrFieldNameStoryLine = "StoryLine";
-        public const string CstrFieldNameAnchors = "Anchors";
-        public const string CstrFieldNameExegeticalHelp = "ExegeticalHelp";
-        public const string CstrFieldNameExegeticalHelpLabel = "ExegeticalHelpLabel";
-        public const string CstrFieldNameRetellings = "Retellings";
-        public const string CstrFieldNameTestQuestions = "TestQuestions";
-        */
         public static DirectableEncConverter TransliteratorVernacular;
         public static DirectableEncConverter TransliteratorNationalBt;
         public static DirectableEncConverter TransliteratorInternationalBt;
@@ -180,6 +169,45 @@ namespace OneStoryProjectEditor
             TheSE.FocusOnVerse(nVerseIndex, true, true);
         }
 
+        public void PassArray()
+        {
+            foreach (var selectedText in GetSelectedTexts(1))
+            {
+                System.Diagnostics.Debug.WriteLine(selectedText);
+            }
+        }
+
+        public List<string> GetSelectedTexts(int nLineNumber)
+        {
+            if (Document == null)
+                return null;
+
+            HtmlDocument doc = Document;
+            
+            // before we query for the spans, we have to trigger a 'blur'
+            //  event (well, my 'fake' blur event) so the cell currently
+            //  being edited will turn it's selection into a span also
+            doc.InvokeScript("TriggerMyBlur");
+
+            var strIdLn = VersesData.LineId(nLineNumber);
+            HtmlElement elemParentLn = doc.GetElementById(strIdLn);
+            if (elemParentLn == null)
+                return null;
+
+            // get the parent <table> below which we can query for the 'spans'
+            var elemTableRoot = (elemParentLn.Parent != null) 
+                                    ? elemParentLn.Parent.Parent
+                                    : null;
+
+            if (elemTableRoot == null)
+                return null;
+
+            var spans = elemTableRoot.GetElementsByTagName("span");
+            var list = new List<string>(spans.Count);
+            list.AddRange(from HtmlElement span in spans select span.OuterHtml);
+            return list;
+        }
+
         public new string GetSelectedText
         {
             get 
@@ -261,11 +289,6 @@ namespace OneStoryProjectEditor
             StringTransfer stringTransfer = GetStringTransfer(nVerseIndex, strDataType,
                                                               nItemIndex, nSubItemIndex, strLanguageColumn);
             return stringTransfer;
-        }
-
-        public bool TextareaOnBlur(string strId, string strText)
-        {
-            return false;
         }
 
         public bool TextareaOnFocus(string strId)

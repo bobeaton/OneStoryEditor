@@ -2013,6 +2013,10 @@ initContextMenu();
   .TestQuestionAnswer {{
 	color: {5}
   }}
+  span.highlighted {{
+	background-color:#0099ff;
+	color:white;
+  }}
 &lt;/style&gt;</value>
   </data>
   <data name="HTML_Table" xml:space="preserve">

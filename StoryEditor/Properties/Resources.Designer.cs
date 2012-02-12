@@ -479,6 +479,10 @@ namespace OneStoryProjectEditor.Properties {
         ///  .TestQuestionAnswer {{
         ///	color: {5}
         ///  }}
+        ///  span.highlighted {{
+        ///	background-color:#0099ff;
+        ///	color:white;
+        ///  }}
         ///&lt;/style&gt;.
         /// </summary>
         internal static string HTML_StyleDefinition {
@@ -812,7 +816,8 @@ namespace OneStoryProjectEditor.Properties {
         ///&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
         /// &lt;o:DocumentProperties&gt;
         ///  &lt;o:Author&gt;Bob Eaton&lt;/o:Author&gt;
-        ///  &lt;o:LastAuthor&gt;Bob Eaton&lt;/o:LastAuthor&gt;        /// [rest of string was truncated]&quot;;.
+        ///  &lt;o:LastAuthor&gt;Bob Eaton&lt;/o:LastAuthor&gt;
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IDS_CopyrightInfo {
             get {
@@ -1118,7 +1123,8 @@ namespace OneStoryProjectEditor.Properties {
         ///
         ///\+mkr ans
         ///\nam Answers
-        ///\lng InternationalBT        /// [rest of string was truncated]&quot;;.
+        ///\lng InternationalBT
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IDS_TbxFile_StoryBT {
             get {
@@ -1236,7 +1242,8 @@ namespace OneStoryProjectEditor.Properties {
         ///    &lt;!-- oneStory2CoachNotes.xsl         
         ///        create by Bob Eaton based on Jim Albright&apos;s script for storyingBT 
         ///        (to handle conversion of onestory to sfm)
-        ///        2010-04-05        /// [rest of string was truncated]&quot;;.
+        ///        2010-04-05
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string oneStory2CoachNotes {
             get {
@@ -1460,10 +1467,9 @@ namespace OneStoryProjectEditor.Properties {
         ///    window.external.OnVerseLineJump(link.name);
         ///    return false; // cause the href navigation to not happen
         ///}
-        ///function CallOnFocus(textarea) {
-        ///    return window.external.TextareaOnFocus(textarea.id);
-        ///}
-        ///function CallOnBlur( [rest of string was truncated]&quot;;.
+        ///function removeSelection(jqtextarea) {
+        ///    if (jqtextarea.attr(&apos;selectedText&apos;)) {
+        ///        jqtextarea.removeAttr(&quot; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string StoryBtJs {
             get {
@@ -1496,12 +1502,13 @@ namespace OneStoryProjectEditor.Properties {
         ///for (var i=0; i &lt; textareas.length; i++)
         ///{
         ///    textareas[i].onchange = function() { return window.external.TextareaOnChange(this.id, this.value); };
-        ///    // textareas[i].onselect = function () { return CallTextareaOnSelect(this); };
         ///    textareas[i].onkeyup = function() { return window.external.TextareaOnKeyUp(this.id, this.value); };
         ///}
         ///$(&apos;textarea&apos;).attr(&apos;placeholder&apos;, function () {
         ///    if ($(this).hasClass(&apos;LangVernacular&apos;))
-        ///        return [rest of string was truncated]&quot;;.
+        ///        return VernacularLanguageName();
+        ///    else if ($(this).hasClass(&apos;LangNationalBt&apos;))
+        ///       [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string StoryBtPsJs {
             get {

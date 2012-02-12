@@ -226,7 +226,8 @@ namespace OneStoryProjectEditor
             if (!(form is StoryEditor))
                 return;
             var theSe = (StoryEditor)form;
-            theSe.m_frmFind.ResetSearchStartParameters();
+            if (theSe.m_frmFind != null)
+                theSe.m_frmFind.ResetSearchStartParameters();
         }
 
         /*
