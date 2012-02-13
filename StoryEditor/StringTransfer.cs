@@ -82,13 +82,10 @@ namespace OneStoryProjectEditor
             get
             {
                 System.Diagnostics.Debug.Assert(WhichField != StoryEditor.TextFields.Undefined);
-                string strStyleClassName = "Lang" + GetLanguageType;
-                if ((WhichField & StoryEditor.TextFields.Retelling) == StoryEditor.TextFields.Retelling)
-                    strStyleClassName += " Retelling";
-                if ((WhichField & StoryEditor.TextFields.TestQuestion) == StoryEditor.TextFields.TestQuestion)
-                    strStyleClassName += " TestQuestion";
-                if ((WhichField & StoryEditor.TextFields.TestQuestionAnswer) == StoryEditor.TextFields.TestQuestionAnswer)
-                    strStyleClassName += " TestQuestionAnswer";
+                var strStyleClassName = "Lang" + GetLanguageType;
+                var fieldsWithStyle = (WhichField & StoryEditor.TextFields.Fields);
+                if (fieldsWithStyle != StoryEditor.TextFields.Undefined)
+                    strStyleClassName += " " + fieldsWithStyle;
                 return strStyleClassName;
             }
         }

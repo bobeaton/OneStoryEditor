@@ -1974,11 +1974,7 @@ namespace OneStoryProjectEditor
         internal static string GetInitials(string name)
         {
             string[] astrNames = name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            string strInitials = null;
-            foreach (string s in astrNames)
-            {
-                strInitials += s[0];
-            }
+            string strInitials = astrNames.Aggregate<string, string>(null, (current, s) => current + s[0]);
 
             if ((strInitials != null) && (strInitials.Length == 1))
                 strInitials += astrNames[0][1];
@@ -6239,6 +6235,86 @@ namespace OneStoryProjectEditor
 
             // repaint with the new one
             InitAllPanes();
+        }
+
+        internal static string CstrAddNoteOnSelected
+        {
+            get { return Localizer.Str("&Add note on selected text"); }
+        }
+
+        internal static string CstrAddNoteToSelfOnSelected
+        {
+            get { return Localizer.Str("Add no&te to self on selected text"); }
+        }
+
+        internal static string CstrJumpToReference
+        {
+            get { return Localizer.Str("&Jump to Bible reference"); }
+        }
+
+        internal static string CstrConcordanceSearch
+        {
+            get { return Localizer.Str("Concordance &search"); }
+        }
+
+        internal static string CstrAddLnCNote
+        {
+            get { return Localizer.Str("Add &L && C note"); }
+        }
+
+        internal static string CstrCutSelected
+        {
+            get { return Localizer.Str("C&ut"); }
+        }
+
+        internal static string CstrCopySelected
+        {
+            get { return Localizer.Str("&Copy"); }
+        }
+
+        internal static string CstrCopyOriginalSelected
+        {
+            get { return Localizer.Str("Copy &original text (before transliteration)"); }
+        }
+
+        internal static string CstrPasteSelected
+        {
+            get { return Localizer.Str("&Paste"); }
+        }
+
+        internal static string CstrUndo
+        {
+            get { return Localizer.Str("U&ndo"); }
+        }
+
+        internal static string CstrAddAnswerBox
+        {
+            get { return Localizer.Str("Add ans&wer box"); }
+        }
+
+        internal static string CstrRemAnswerBox
+        {
+            get { return Localizer.Str("Remove ans&wer box"); }
+        }
+
+        internal static string CstrRemAnswerChangeUns
+        {
+            get { return Localizer.Str("Change UN&S"); }
+        }
+
+        internal static string CstrReorderWords
+        {
+            get { return Localizer.Str("&Reorder words"); }
+        }
+
+        internal static string CstrGlossTextToNational
+        {
+            get { return Localizer.Str("&Back-translate to national language"); }
+        }
+
+        internal static string CstrGlossTextToEnglish
+        {
+            get { return Localizer.Str("Back-translate to &English"); }
         }
     }
 }

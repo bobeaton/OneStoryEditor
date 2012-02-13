@@ -2013,7 +2013,7 @@ initContextMenu();
   .TestQuestionAnswer {{
 	color: {5}
   }}
-  span.highlighted {{
+  .highlight {{
 	background-color:#0099ff;
 	color:white;
   }}
@@ -2224,19 +2224,6 @@ eater Panorama
   </data>
   <data name="HTML_TableCellWidthDropAnchor" xml:space="preserve">
     <value>&lt;td id="{0}" width="{1}%" ondragover="window.event.returnValue=false" ondrop="window.external.AddScriptureReference(this.id)" &gt;{2}&lt;/td&gt;</value>
-  </data>
-  <data name="HTML_ScriptPostFix" xml:space="preserve">
-    <value>&lt;script&gt;
-var textareas = document.getElementsByTagName("input");
-for (var i=0; i &lt; textareas.length; i++)
-{
-  textareas[i].onchange = function(){return window.external.TextareaOnChange(this.id, this.value);};
-  textareas[i].onblur = function(){return window.external.TextareaOnBlur(this.id, this.value);};
-  textareas[i].onselect = function(){return CallTextareaOnSelect(this);};
-  textareas[i].onfocus = function(){return window.external.TextareaOnFocus(this.id);};
-  textareas[i].onkeydown = function(){return OnKeyDown(this);};
-}
-&lt;/script&gt;</value>
   </data>
   <data name="HTML_ParagraphText" xml:space="preserve">
     <value>&lt;p class="{0}"&gt;{1}&lt;/p&gt;</value>

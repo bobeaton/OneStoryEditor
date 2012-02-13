@@ -434,23 +434,6 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;script&gt;
-        ///var textareas = document.getElementsByTagName(&quot;input&quot;);
-        ///for (var i=0; i &lt; textareas.length; i++)
-        ///{
-        ///  textareas[i].onchange = function(){return window.external.TextareaOnChange(this.id, this.value);};
-        ///  textareas[i].onblur = function(){return window.external.TextareaOnBlur(this.id, this.value);};
-        ///  textareas[i].onselect = function(){return CallTextareaOnSelect(this);};
-        ///  textareas[i].onfocus = function(){return window.external.TextareaOnFocus(this.id);};
-        ///  textareas[i].onkeydown = function() [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string HTML_ScriptPostFix {
-            get {
-                return ResourceManager.GetString("HTML_ScriptPostFix", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &lt;style type=&quot;text/css&quot;&gt;
         ///  body    {{ margin:0 }}
         ///  textarea {{ 
@@ -479,7 +462,7 @@ namespace OneStoryProjectEditor.Properties {
         ///  .TestQuestionAnswer {{
         ///	color: {5}
         ///  }}
-        ///  span.highlighted {{
+        ///  .highlight {{
         ///	background-color:#0099ff;
         ///	color:white;
         ///  }}
@@ -816,8 +799,7 @@ namespace OneStoryProjectEditor.Properties {
         ///&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
         /// &lt;o:DocumentProperties&gt;
         ///  &lt;o:Author&gt;Bob Eaton&lt;/o:Author&gt;
-        ///  &lt;o:LastAuthor&gt;Bob Eaton&lt;/o:LastAuthor&gt;
-        /// [rest of string was truncated]&quot;;.
+        ///  &lt;o:LastAuthor&gt;Bob Eaton&lt;/o:LastAuthor&gt;        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IDS_CopyrightInfo {
             get {
@@ -1123,8 +1105,7 @@ namespace OneStoryProjectEditor.Properties {
         ///
         ///\+mkr ans
         ///\nam Answers
-        ///\lng InternationalBT
-        /// [rest of string was truncated]&quot;;.
+        ///\lng InternationalBT        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IDS_TbxFile_StoryBT {
             get {
@@ -1242,8 +1223,7 @@ namespace OneStoryProjectEditor.Properties {
         ///    &lt;!-- oneStory2CoachNotes.xsl         
         ///        create by Bob Eaton based on Jim Albright&apos;s script for storyingBT 
         ///        (to handle conversion of onestory to sfm)
-        ///        2010-04-05
-        /// [rest of string was truncated]&quot;;.
+        ///        2010-04-05        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string oneStory2CoachNotes {
             get {
@@ -1439,6 +1419,7 @@ namespace OneStoryProjectEditor.Properties {
         ///{3}
         ///    &lt;/head&gt;
         ///    &lt;body&gt;
+        ///&lt;!--&lt;textarea id=&quot;status&quot;&gt;&lt;/textarea&gt;--&gt;
         ///{4}
         ///    &lt;/body&gt;
         ///&lt;script type=&quot;text/javascript&quot;&gt;
@@ -1467,9 +1448,10 @@ namespace OneStoryProjectEditor.Properties {
         ///    window.external.OnVerseLineJump(link.name);
         ///    return false; // cause the href navigation to not happen
         ///}
-        ///function removeSelection(jqtextarea) {
-        ///    if (jqtextarea.attr(&apos;selectedText&apos;)) {
-        ///        jqtextarea.removeAttr(&quot; [rest of string was truncated]&quot;;.
+        ///function DisplayHtml(strFunction) {
+        ///    /*
+        ///    var curVal = $(&apos;#status&apos;).val();
+        ///    $(&apos;#status&apos;).val(curVal + &quot;  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string StoryBtJs {
             get {

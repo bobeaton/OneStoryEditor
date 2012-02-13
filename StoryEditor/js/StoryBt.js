@@ -1,7 +1,4 @@
 ﻿function OnBibRefJump(btn) {
-    var spans = document.getElementsByTagName("div");
-    var arr = jQuery.makeArray(spans);
-    window.external.PassArray();
     window.external.OnBibRefJump(btn.id);
     return false; // cause the href navigation to not happen
 }
@@ -29,12 +26,13 @@ function removeSelection(jqtextarea) {
 // the following code used to be in onblur (and works just
 //  fine that way in IE). But for some reason, in a 
 //  WebBrowser in a WindowsForm, the onblur is triggered
-//  even when I'm still in focus. this is called by the
-//  onfocus handler (before getting to the work of the new
-//  textarea in focus) as well as by my WindowsForm app
+//  even when the textarea is still in focus. So to work
+//  around this problem, what was in onblur is now called by 
+//  the onfocus handler (before getting to the work of the 
+//  textarea newly in focus) as well as by my WindowsForm app
 //  if the WebBrowser itself loses focus (e.g. to go to some
 //  other control in the app).
-function TriggerMyBlur() {
+function TriggerMyBlur(bTriggeredFromHere) {
     if (window.oseConfig.idLastTextareaToBlur) {
         var oldThis = document.getElementById(window.oseConfig.idLastTextareaToBlur);
         if (oldThis.selectedText) {
@@ -45,10 +43,19 @@ function TriggerMyBlur() {
             var post = (oldThis.selectionEnd < (text.length - 1))
                 ? text.substring(oldThis.selectionEnd)
                 : "";
-            $(oldThis).html(pre + "<span class='highlighted'>" + oldThis.selectedText + "</span>" + post);
+
+            // if this is being called by the app, it's possible that the selection
+            //  here is still selected. Then the process of replacing the 'html' is likely
+            //  to cause all the text in the textarea to be selected. So before doing
+            //  this replacement, go ahead and collapse the selected text. (but only
+            //  if not triggered from this html (i.e. only if triggered from the app)
+            if (!bTriggeredFromHere)
+                document.selection.empty();
+
+            $(oldThis).html(pre + "<span class='" + oldThis.className + " highlight'>" + oldThis.selectedText + "</span>" + post);
         }
+        window.oseConfig.idLastTextareaToBlur = null;
     }
-    window.oseConfig.idLastTextareaToBlur = null;
 }
 $(document).ready(function () {
     $('textarea').select(function (event) {
@@ -70,26 +77,21 @@ $(document).ready(function () {
             $(this).val($(this).attr('placeholder')).addClass('hasPlaceholder');
         }
         window.oseConfig.idLastTextareaToBlur = this.id;
-        /*
-        else if (this.selectedText) {
-        var text = $(this).val();
-        var pre = (this.selectionStart > 0)
-        ? text.substring(0, this.selectionStart)
-        : "";
-        var post = (this.selectionEnd < (text.length - 1))
-        ? text.substring(this.selectionEnd)
-        : "";
-        $(this).html(pre + "<span class='highlighted'>" + this.selectedText + "</span>" + post);
-        }
-        */
         DisplayHtml(event.type);
     }).focus(function (event) {
         if ($(this).attr('placeholder') != '' && $(this).val() == $(this).attr('placeholder')) {
             $(this).val('').removeClass('hasPlaceholder');
         }
+        // for some reason, in the WebBrowser, we continue to get
+        //  focus events even after the textarea is in focus...
+        if (window.oseConfig.idLastTextareaToFocus == this.id)
+            return;
+
+        window.oseConfig.idLastTextareaToFocus = this.id;
+
         // for some reason, in IE, the following code works
         //  fine in onblur, but in a WebBrowser in IE
-        TriggerMyBlur();
+        TriggerMyBlur(true);
 
         // now if we previously added the span (what we do
         //  during TriggerMyBlur but for this control now)
@@ -112,6 +114,14 @@ $(document).ready(function () {
         }
         // window.external.TextareaOnFocus(this.id);
         DisplayHtml(event.type);
+    }).mouseup(function (event) {
+        if (event.button == 2)  // right-clicked... 
+        {
+            // tell app to show the context menu for this control
+            window.external.ShowContextMenu(this.id);
+            // return false;
+        }
+        return true;
     });
 });
 window.oseConfig =

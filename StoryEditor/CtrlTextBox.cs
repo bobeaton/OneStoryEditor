@@ -14,7 +14,6 @@ namespace OneStoryProjectEditor
         internal string _strLabel;
         protected string _strLangName;
         internal string _strFullStop;
-        protected ContextMenuStrip _ctxMenu;
         internal CtrlTextBox NationalBtSibling;
         internal CtrlTextBox EnglishBtSibling;
         private StoryEditor.TextFields _eFieldType;
@@ -426,124 +425,50 @@ namespace OneStoryProjectEditor
             return false;
         }
 
-        protected string CstrAddNoteOnSelected
-        {
-            get { return Localizer.Str("&Add note on selected text"); }
-        }
-
-        protected string CstrAddNoteToSelfOnSelected
-        {
-            get { return Localizer.Str("Add no&te to self on selected text"); }
-        }
-
-        protected string CstrJumpToReference
-        {
-            get { return Localizer.Str("&Jump to Bible reference"); }
-        }
-
-        protected string CstrConcordanceSearch
-        {
-            get { return Localizer.Str("Concordance &search"); }
-        }
-
-        protected string CstrAddLnCNote
-        {
-            get { return Localizer.Str("Add &L && C note"); }
-        }
-
-        protected string CstrCutSelected
-        {
-            get { return Localizer.Str("C&ut"); }
-        }
-
-        protected string CstrCopySelected
-        {
-            get { return Localizer.Str("&Copy"); }
-        }
-
-        protected string CstrCopyOriginalSelected
-        {
-            get { return Localizer.Str("Copy &original text (before transliteration)"); }
-        }
-
-        protected string CstrPasteSelected
-        {
-            get { return Localizer.Str("&Paste"); }
-        }
-
-        protected string CstrUndo
-        {
-            get { return Localizer.Str("U&ndo"); }
-        }
-
-        protected string CstrAddAnswerBox
-        {
-            get { return Localizer.Str("Add ans&wer box"); }
-        }
-
-        protected string CstrRemAnswerBox
-        {
-            get { return Localizer.Str("Remove ans&wer box"); }
-        }
-
-        protected string CstrRemAnswerChangeUns
-        {
-            get { return Localizer.Str("Change UN&S"); }
-        }
-
-        protected string CstrReorderWords
-        {
-            get { return Localizer.Str("&Reorder words"); }
-        }
-
-        protected string CstrGlossTextToNational
-        {
-            get { return Localizer.Str("&Back-translate to national language"); }
-        }
-
-        protected string CstrGlossTextToEnglish
-        {
-            get { return Localizer.Str("Back-translate to &English"); }
-        }
-
         protected void InitComponent(string strLabel)
         {
-            _ctxMenu = new ContextMenuStrip();
-            _ctxMenu.Items.Add(CstrAddNoteOnSelected, null, onAddNewNote);
-            _ctxMenu.Items.Add(CstrAddNoteToSelfOnSelected, null, onAddNoteToSelf);
-            _ctxMenu.Items.Add(CstrJumpToReference, null, onJumpToBibleRef);
-            _ctxMenu.Items.Add(CstrConcordanceSearch, null, onConcordanceSearch);
-            _ctxMenu.Items.Add(CstrAddLnCNote, null, onAddLnCNote);
-            _ctxMenu.Items.Add(new ToolStripSeparator());
-            if (StoryEditor.IsTestQuestionBox(strLabel))
-            {
-                _ctxMenu.Items.Add(CstrAddAnswerBox, null, onAddAnswerBox);
-                _ctxMenu.Items.Add(new ToolStripSeparator());
-            }
-            else if (StoryEditor.IsTqAnswerBox(strLabel))
-            {
-                _ctxMenu.Items.Add(CstrRemAnswerBox, null, onRemAnswerBox);
-                _ctxMenu.Items.Add(CstrRemAnswerChangeUns, null, onChangeUns);
-                _ctxMenu.Items.Add(new ToolStripSeparator());
-            }
-
-            _ctxMenu.Items.Add(CstrGlossTextToNational, null, onGlossTextToNational);
-            _ctxMenu.Items.Add(CstrGlossTextToEnglish, null, onGlossTextToEnglish);
-            _ctxMenu.Items.Add(CstrReorderWords, null, onReorderWords);
-            _ctxMenu.Items.Add(new ToolStripSeparator());
-            _ctxMenu.Items.Add(CstrCutSelected, null, onCutSelectedText);
-            _ctxMenu.Items.Add(CstrCopySelected, null, onCopySelectedText);
-            _ctxMenu.Items.Add(CstrCopyOriginalSelected, null, onCopyOriginalText);
-            _ctxMenu.Items.Add(CstrPasteSelected, null, onPasteSelectedText);
-            _ctxMenu.Items.Add(CstrUndo, null, onUndo);
-            _ctxMenu.Opening += _ctxMenu_Opening;
-            ContextMenuStrip = _ctxMenu;
+            var ctxMenu = CreateContextMenuStrip(strLabel);
+            ContextMenuStrip = ctxMenu;
             Multiline = true;
             Dock = DockStyle.Fill;
             HideSelection = false;
             AllowDrop = true;
             MouseUp += CtrlTextBox_MouseUp;
             MouseWheel += CtrlTextBox_MouseWheel;
+        }
+
+        private ContextMenuStrip CreateContextMenuStrip(string strLabel)
+        {
+            var ctxMenu = new ContextMenuStrip();
+            ctxMenu.Items.Add(StoryEditor.CstrAddNoteOnSelected, null, onAddNewNote);
+            ctxMenu.Items.Add(StoryEditor.CstrAddNoteToSelfOnSelected, null, onAddNoteToSelf);
+            ctxMenu.Items.Add(StoryEditor.CstrJumpToReference, null, onJumpToBibleRef);
+            ctxMenu.Items.Add(StoryEditor.CstrConcordanceSearch, null, onConcordanceSearch);
+            ctxMenu.Items.Add(StoryEditor.CstrAddLnCNote, null, onAddLnCNote);
+            ctxMenu.Items.Add(new ToolStripSeparator());
+            if (StoryEditor.IsTestQuestionBox(strLabel))
+            {
+                ctxMenu.Items.Add(StoryEditor.CstrAddAnswerBox, null, onAddAnswerBox);
+                ctxMenu.Items.Add(new ToolStripSeparator());
+            }
+            else if (StoryEditor.IsTqAnswerBox(strLabel))
+            {
+                ctxMenu.Items.Add(StoryEditor.CstrRemAnswerBox, null, onRemAnswerBox);
+                ctxMenu.Items.Add(StoryEditor.CstrRemAnswerChangeUns, null, onChangeUns);
+                ctxMenu.Items.Add(new ToolStripSeparator());
+            }
+
+            ctxMenu.Items.Add(StoryEditor.CstrGlossTextToNational, null, onGlossTextToNational);
+            ctxMenu.Items.Add(StoryEditor.CstrGlossTextToEnglish, null, onGlossTextToEnglish);
+            ctxMenu.Items.Add(StoryEditor.CstrReorderWords, null, onReorderWords);
+            ctxMenu.Items.Add(new ToolStripSeparator());
+            ctxMenu.Items.Add(StoryEditor.CstrCutSelected, null, onCutSelectedText);
+            ctxMenu.Items.Add(StoryEditor.CstrCopySelected, null, onCopySelectedText);
+            ctxMenu.Items.Add(StoryEditor.CstrCopyOriginalSelected, null, onCopyOriginalText);
+            ctxMenu.Items.Add(StoryEditor.CstrPasteSelected, null, onPasteSelectedText);
+            ctxMenu.Items.Add(StoryEditor.CstrUndo, null, onUndo);
+            ctxMenu.Opening += CtxMenuOpening;
+            return ctxMenu;
         }
 
         private void onGlossTextToNational(object sender, EventArgs e)
@@ -645,27 +570,27 @@ namespace OneStoryProjectEditor
             _ctrlVerseParent.TheSE.AddLnCNote();
         }
 
-        void _ctxMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        void CtxMenuOpening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // don't ask... I'm not sure why Items.ContainsKey isn't finding this...
-            foreach (ToolStripItem x in _ctxMenu.Items)
-                if (x.Text == CstrCopyOriginalSelected)
+            foreach (ToolStripItem x in ContextMenuStrip.Items)
+                if (x.Text == StoryEditor.CstrCopyOriginalSelected)
                 {
                     x.Enabled = (HasStringTransfer && (MyStringTransfer.Transliterator != null));
                 }
-                else if (x.Text == CstrReorderWords)
+                else if (x.Text == StoryEditor.CstrReorderWords)
                 {
                     x.Enabled = HasStringTransfer;
                 }
-                else if (x.Text == CstrGlossTextToNational)
+                else if (x.Text == StoryEditor.CstrGlossTextToNational)
                 {
                     x.Visible = (NationalBtSibling != null);
                 }
-                else if (x.Text == CstrGlossTextToEnglish)
+                else if (x.Text == StoryEditor.CstrGlossTextToEnglish)
                 {
                     x.Visible = (EnglishBtSibling != null);
                 }
-                else if (x.Text == CstrAddLnCNote)
+                else if (x.Text == StoryEditor.CstrAddLnCNote)
                     CheckForLnCNoteLookup((ToolStripMenuItem)x);
         }
 

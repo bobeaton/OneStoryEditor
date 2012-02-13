@@ -24,6 +24,7 @@ namespace OneStoryProjectEditor
             InitializeComponent();
             IsWebBrowserContextMenuEnabled = false;
             ObjectForScripting = this;
+            _contextMenuTextarea = CreateContextMenuStrip();
         }
 
         public override void LoadDocument()
@@ -169,15 +170,7 @@ namespace OneStoryProjectEditor
             TheSE.FocusOnVerse(nVerseIndex, true, true);
         }
 
-        public void PassArray()
-        {
-            foreach (var selectedText in GetSelectedTexts(1))
-            {
-                System.Diagnostics.Debug.WriteLine(selectedText);
-            }
-        }
-
-        public List<string> GetSelectedTexts(int nLineNumber)
+        public List<HtmlElement> GetSelectedTexts(int nLineNumber)
         {
             if (Document == null)
                 return null;
@@ -203,8 +196,8 @@ namespace OneStoryProjectEditor
                 return null;
 
             var spans = elemTableRoot.GetElementsByTagName("span");
-            var list = new List<string>(spans.Count);
-            list.AddRange(from HtmlElement span in spans select span.OuterHtml);
+            var list = new List<HtmlElement>(spans.Count);
+            list.AddRange(spans.Cast<object>().Cast<HtmlElement>());
             return list;
         }
 
@@ -241,13 +234,13 @@ namespace OneStoryProjectEditor
         {
             // we only update the StringTransfer for a textarea when the user leaves (onchange), 
             //  so when the user saves, sometimes, we need to trigger that call.
-            if ((LastTextareaInFocusId == null) || (Document == null))
+            if (LastTextareaInFocusId == null)
                 return;
 
-            HtmlDocument doc = Document;
-            var elem = doc.GetElementById(LastTextareaInFocusId);
-            if (elem == null)
+            HtmlElement elem;
+            if (!GetHtmlElementById(LastTextareaInFocusId, out elem))
                 return;
+
             elem.InvokeMember("onchange");
         }
 
@@ -302,14 +295,37 @@ namespace OneStoryProjectEditor
             return false;
         }
 
-        public bool OnLineOptionsButton(string strId)
+        public bool GetHtmlElementById(string strId, out HtmlElement elem)
         {
             if (Document == null)
+            {
+                elem = null;
                 return false;
+            }
 
-            HtmlDocument doc = Document;
-            var elem = doc.GetElementById(strId);
-            if (elem == null)
+            var doc = Document;
+            elem = doc.GetElementById(strId);
+            return (elem != null);
+        }
+
+        public bool GetHtmlElementById(string strId, out HtmlDocument doc, out HtmlElement elem)
+        {
+            if (Document == null)
+            {
+                doc = null;
+                elem = null;
+                return false;
+            }
+
+            doc = Document;
+            elem = doc.GetElementById(strId);
+            return (elem != null);
+        }
+
+        public bool OnLineOptionsButton(string strId)
+        {
+            HtmlElement elem;
+            if (!GetHtmlElementById(strId, out elem))
                 return false;
 
             int nVerseIndex;
@@ -338,24 +354,6 @@ namespace OneStoryProjectEditor
             nVerseIndex = -1;
             return null;
         }
-
-        /*
-                public void OnDoOnMouseUp(string strId)
-                {
-                    if (Document == null)
-                        return;
-
-                    HtmlDocument doc = Document;
-                    var elem = doc.GetElementById(strId);
-                    if (elem == null)
-                        return;
-
-                    if (IsLineOptionsButton(strId))
-                        contextMenuStrip.Show(MousePosition);
-                    else
-                        MessageBox.Show(elem.InnerText, "Clicked on...");
-                }
-                */
 
         private VerseData GetVerseData(int nLineIndex)
         {
@@ -455,12 +453,9 @@ namespace OneStoryProjectEditor
             if (!GetIndicesFromId(strId, out nLineIndex))
                 return;
 
-            if (Document == null) 
-                return;
-
-            HtmlDocument doc = Document;
-            HtmlElement elem = doc.GetElementById(strId);
-            if (elem == null) 
+            HtmlElement elem;
+            HtmlDocument doc;
+            if (!GetHtmlElementById(strId, out doc, out elem))
                 return;
 
             var verseData = GetVerseData(nLineIndex);
@@ -594,6 +589,134 @@ namespace OneStoryProjectEditor
         private void contextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
 
+        }
+
+        protected readonly char[] _achDelim = new[] { '_' };
+
+        public bool IsLineOptionsButton(string strId)
+        {
+            var astr = strId.Split(_achDelim);
+            return ((astr.Length == 2) &&
+                    (astr[0] == VersesData.ButtonId(1).Split(_achDelim)[0]));
+        }
+
+        public void ShowContextMenu(string strId)
+        {
+            if (IsLineOptionsButton(strId))
+                contextMenuStripLineOptions.Show(MousePosition);
+            else if (IsButtonElement(strId))
+                ;
+            else if (IsTextareaElement(strId))
+            {
+                LastTextareaInFocusId = strId;
+                _contextMenuTextarea.Show(MousePosition);
+            }
+        }
+
+        private ContextMenuStrip _contextMenuTextarea;
+        private ContextMenuStrip CreateContextMenuStrip()
+        {
+            var ctxMenu = new ContextMenuStrip();
+            ctxMenu.Items.Add(StoryEditor.CstrAddNoteOnSelected, null, OnAddNewNote);
+            /*
+            ctxMenu.Items.Add(StoryEditor.CstrAddNoteToSelfOnSelected, null, onAddNoteToSelf);
+            ctxMenu.Items.Add(StoryEditor.CstrJumpToReference, null, onJumpToBibleRef);
+            ctxMenu.Items.Add(StoryEditor.CstrConcordanceSearch, null, onConcordanceSearch);
+            ctxMenu.Items.Add(StoryEditor.CstrAddLnCNote, null, onAddLnCNote);
+            ctxMenu.Items.Add(new ToolStripSeparator());
+            if (StoryEditor.IsTestQuestionBox(strLabel))
+            {
+                ctxMenu.Items.Add(StoryEditor.CstrAddAnswerBox, null, onAddAnswerBox);
+                ctxMenu.Items.Add(new ToolStripSeparator());
+            }
+            else if (StoryEditor.IsTqAnswerBox(strLabel))
+            {
+                ctxMenu.Items.Add(StoryEditor.CstrRemAnswerBox, null, onRemAnswerBox);
+                ctxMenu.Items.Add(StoryEditor.CstrRemAnswerChangeUns, null, onChangeUns);
+                ctxMenu.Items.Add(new ToolStripSeparator());
+            }
+
+            ctxMenu.Items.Add(StoryEditor.CstrGlossTextToNational, null, onGlossTextToNational);
+            ctxMenu.Items.Add(StoryEditor.CstrGlossTextToEnglish, null, onGlossTextToEnglish);
+            ctxMenu.Items.Add(StoryEditor.CstrReorderWords, null, onReorderWords);
+            ctxMenu.Items.Add(new ToolStripSeparator());
+            ctxMenu.Items.Add(StoryEditor.CstrCutSelected, null, onCutSelectedText);
+            ctxMenu.Items.Add(StoryEditor.CstrCopySelected, null, onCopySelectedText);
+            ctxMenu.Items.Add(StoryEditor.CstrCopyOriginalSelected, null, onCopyOriginalText);
+            ctxMenu.Items.Add(StoryEditor.CstrPasteSelected, null, onPasteSelectedText);
+            ctxMenu.Items.Add(StoryEditor.CstrUndo, null, onUndo);
+            ctxMenu.Opening += CtxMenuOpening;
+            */
+            return ctxMenu;
+        }
+
+        /*
+        void CtxMenuOpening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // don't ask... I'm not sure why Items.ContainsKey isn't finding this...
+            foreach (ToolStripItem x in ContextMenuStrip.Items)
+                if (x.Text == StoryEditor.CstrCopyOriginalSelected)
+                {
+                    x.Enabled = (HasStringTransfer && (MyStringTransfer.Transliterator != null));
+                }
+                else if (x.Text == StoryEditor.CstrReorderWords)
+                {
+                    x.Enabled = HasStringTransfer;
+                }
+                else if (x.Text == StoryEditor.CstrGlossTextToNational)
+                {
+                    x.Visible = (NationalBtSibling != null);
+                }
+                else if (x.Text == StoryEditor.CstrGlossTextToEnglish)
+                {
+                    x.Visible = (EnglishBtSibling != null);
+                }
+                else if (x.Text == StoryEditor.CstrAddLnCNote)
+                    CheckForLnCNoteLookup((ToolStripMenuItem)x);
+        }
+        */
+
+        private char[] _achSpaceDelim = new[] {' '};
+        private void OnAddNewNote(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(LastTextareaInFocusId));
+
+            int nVerseIndex, nItemIndex, nSubItemIndex;
+            string strDataType, strLanguageColumn;
+            if (!GetIndicesFromId(LastTextareaInFocusId, out nVerseIndex, out strDataType,
+                                    out nItemIndex, out nSubItemIndex, out strLanguageColumn))
+                return;
+
+            int nLastSubItemIndex = -1;
+            string strLastFieldType = null,
+                   str = String.Format("{0}: Re:", StoryEditor.GetInitials(TheSE.LoggedOnMember.Name));
+            foreach (var span in GetSelectedTexts(nVerseIndex))
+            {
+                var textarea = span.Parent;
+                System.Diagnostics.Debug.Assert(textarea != null && textarea.TagName == "TEXTAREA");
+                if (!GetIndicesFromId(textarea.Id, out nVerseIndex, out strDataType,
+                                      out nItemIndex, out nSubItemIndex, out strLanguageColumn))
+                    continue;
+
+                // if this is a new type, then add it to the stream
+                if (strLastFieldType != strDataType)
+                {
+                    if (!String.IsNullOrEmpty(strLastFieldType))
+                        str += " vs: ";
+                    str += strDataType + ":";
+                    strLastFieldType = strDataType;
+                }
+                else if (nSubItemIndex != nLastSubItemIndex)
+                {
+                    if (nLastSubItemIndex != -1)
+                        str += " &";
+                    nLastSubItemIndex = nSubItemIndex;
+                }
+                str += " " + span.OuterHtml;
+            }
+
+            // remove the highlight class so it isn't highlighted in the connnote pane
+            TheSE.SendNoteToCorrectPane(nVerseIndex, str.Replace(" highlight", null), false);
         }
     }
 }

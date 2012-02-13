@@ -245,6 +245,11 @@ namespace OneStoryProjectEditor
             return (strHtmlId.IndexOf(CstrTextAreaPrefix) == 0);
         }
 
+        public bool IsButtonElement(string strHtmlId)
+        {
+            return (strHtmlId.IndexOf(CstrButtonPrefix) == 0);
+        }
+
         public bool SetSelectedText(StringTransfer stringTransfer, string strNewValue, out int nNewEndPoint)
         {
             // this isn't allowed for paragraphs (it could be, but this is only currently called
