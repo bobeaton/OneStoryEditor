@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using System.Text;
 using System.Drawing;
 using NetLoc;
 
@@ -14,7 +13,7 @@ namespace OneStoryProjectEditor
         public ConsultNoteDataConverter.CommunicationDirections Direction;
         public string Guid;
         public DateTime TimeStamp;
-        public string MemberID;
+        public string MemberId;
 
         public CommInstance(string strValue, 
             ConsultNoteDataConverter.CommunicationDirections direction, 
@@ -26,7 +25,7 @@ namespace OneStoryProjectEditor
         {
             Direction = direction;
             Guid = strGuid ?? System.Guid.NewGuid().ToString();
-            MemberID = strMemberId;
+            MemberId = strMemberId;
             TimeStamp = timeStamp;
         }
 
@@ -37,7 +36,7 @@ namespace OneStoryProjectEditor
 
             // the guid shouldn't be replicated
             Guid = System.Guid.NewGuid().ToString();  // rhs.Guid;
-            MemberID = rhs.MemberID;
+            MemberId = rhs.MemberId;
             TimeStamp = rhs.TimeStamp;
         }
 
@@ -69,8 +68,8 @@ namespace OneStoryProjectEditor
                                 new XAttribute(CstrAttributeLabelDirection, GetDirectionString),
                                 new XAttribute(CstrAttributeLabelGuid, Guid));
 
-            if (!String.IsNullOrEmpty(MemberID))
-                elem.Add(new XAttribute(CstrAttributeLabelMemberId, MemberID));
+            if (!String.IsNullOrEmpty(MemberId))
+                elem.Add(new XAttribute(CstrAttributeLabelMemberId, MemberId));
 
             elem.Add(new XAttribute(CstrAttributeLabelTimeStamp, StoryData.ToUniversalTime(TimeStamp)),
                      this.ToString());
@@ -85,7 +84,7 @@ namespace OneStoryProjectEditor
 
         public TeamMemberData Commentor(TeamMembersData teamMembersData)
         {
-            return teamMembersData.GetMemberFromId(MemberID);
+            return teamMembersData.GetMemberFromId(MemberId);
         }
     }
 
@@ -95,6 +94,8 @@ namespace OneStoryProjectEditor
         public bool Visible = true;
         public bool IsFinished;
         public bool AllowButtonsOverride;
+        public bool DontShowButtonsOverride;
+        public CommInstance ReferringText;
 
         public enum CommunicationDirections
         {
@@ -105,13 +106,18 @@ namespace OneStoryProjectEditor
             eProjFacToProjFac,          // PF's not to self
             eConsultantToConsultant,    // consultant's note to self
             eCoachToCoach,              // coach's note to self
-            eConsultantToProjFacNeedsApproval   // for LRC or CIT notes to PF (IC or Coach must approve before they become visible to PF)
+            eConsultantToProjFacNeedsApproval,  // for LRC or CIT notes to PF (IC or Coach must approve before they become visible to PF)
+            eReferringToText
         }
 
-        protected ConsultNoteDataConverter()
+        protected ConsultNoteDataConverter(string strReferringText, TeamMemberData loggedOnMember, 
+                                           StoryEditor.TextFields conNoteType)
         {
             guid = Guid.NewGuid().ToString();
             AllowButtonsOverride = true;    // so the person can delete in case it was a mistake
+            if (!String.IsNullOrEmpty(strReferringText))
+                ReferringText = new CommInstance(strReferringText, CommunicationDirections.eReferringToText,
+                                                 null, loggedOnMember.MemberGuid, DateTime.Now, conNoteType);
         }
 
         protected ConsultNoteDataConverter(string strGuid,
@@ -128,9 +134,11 @@ namespace OneStoryProjectEditor
             guid = Guid.NewGuid().ToString();   // rhs.guid;
             Visible = rhs.Visible;
             IsFinished = rhs.IsFinished;
+            if (rhs.ReferringText != null)
+                ReferringText = new CommInstance(rhs.ReferringText);
 
-            foreach (CommInstance aCI in rhs)
-                Add(new CommInstance(aCI));
+            foreach (var aCi in rhs)
+                Add(new CommInstance(aCi));
         }
 
         protected static Dictionary<string, CommunicationDirections> CmapDirectionStringToEnumType = new Dictionary<string, CommunicationDirections>()
@@ -142,7 +150,8 @@ namespace OneStoryProjectEditor
             { "ProjFacToProjFac", CommunicationDirections.eProjFacToProjFac },
             { "ConsultantToConsultant", CommunicationDirections.eConsultantToConsultant },
             { "CoachToCoach", CommunicationDirections.eCoachToCoach },
-            { "ConsultantToProjFacNeedsApproval", CommunicationDirections.eConsultantToProjFacNeedsApproval }
+            { "ConsultantToProjFacNeedsApproval", CommunicationDirections.eConsultantToProjFacNeedsApproval },
+            { "ReferringToText", CommunicationDirections.eReferringToText }
         };
 
         protected CommunicationDirections GetDirectionFromString(string strDirectionString)
@@ -290,14 +299,14 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert(Count > 1);
             var theInitialFollowup = this[1];
-            return (loggedOnMember.MemberGuid == theInitialFollowup.MemberID);
+            return (loggedOnMember.MemberGuid == theInitialFollowup.MemberId);
         }
 
         protected virtual bool InitiatedConversation(TeamMemberData loggedOnMember)
         {
             var theInitialComment = InitialComment;
-            System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(theInitialComment.MemberID));
-            return (loggedOnMember.MemberGuid == theInitialComment.MemberID);
+            System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(theInitialComment.MemberId));
+            return (loggedOnMember.MemberGuid == theInitialComment.MemberId);
         }
 
         protected TeamMemberData InitiatedConversation(TeamMembersData teamMembersData)
@@ -422,9 +431,12 @@ namespace OneStoryProjectEditor
                 if (IsFinished)
                     eleNote.Add(new XAttribute(CstrAttributeLabelFinished, true));
 
-                foreach (CommInstance aCI in this)
-                    if (aCI.IsSavable)
-                        eleNote.Add(aCI.GetXml(SubElementName));
+                if (ReferringText != null)
+                    eleNote.Add(ReferringText.GetXml(SubElementName));
+
+                foreach (var aCi in this)
+                    if (aCi.IsSavable)
+                        eleNote.Add(aCi.GetXml(SubElementName));
 
                 return eleNote;
             }
@@ -535,7 +547,7 @@ namespace OneStoryProjectEditor
             {
                 return this.All(aCi => 
                     !IsFromMentee(aCi) || 
-                    !String.IsNullOrEmpty(aCi.MemberID)); 
+                    !String.IsNullOrEmpty(aCi.MemberId)); 
             }
         }
 
@@ -545,7 +557,7 @@ namespace OneStoryProjectEditor
             {
                 return this.All(aCi =>
                     !IsFromMentor(aCi) || 
-                    !String.IsNullOrEmpty(aCi.MemberID));
+                    !String.IsNullOrEmpty(aCi.MemberId));
             }
         }
 
@@ -577,7 +589,7 @@ namespace OneStoryProjectEditor
         protected bool IsMyNoteToSelf(CommInstance aCi, TeamMemberData loggedOnMember)
         {
             return (IsaNoteToSelf(aCi) &&
-                    (aCi.MemberID == loggedOnMember.MemberGuid));
+                    (aCi.MemberId == loggedOnMember.MemberGuid));
         }
 
         public bool IsFromMentor(CommInstance aCi)
@@ -660,32 +672,38 @@ namespace OneStoryProjectEditor
 
                 TeamMemberData theCommentor = aCI.Commentor(theTeamMembers);
 
-                string strRow = null, theStoryPfMemberId = MemberIdInfo.SafeGetMemberId(theStory.CraftingInfo.ProjectFacilitator);
+                string strRow, theStoryPfMemberId = MemberIdInfo.SafeGetMemberId(theStory.CraftingInfo.ProjectFacilitator);
                 Color clrRow;
                 if (IsFromMentor(aCI))
                 {
                     clrRow = CommentColor(theCommentor, theStoryPfMemberId);
-                    strRow += String.Format(Properties.Resources.HTML_TableCellClass,
-                                            StoryData.CstrLangLocalizationStyleClassName,
-                                            VerseData.HtmlColor(Color.DodgerBlue),
-                                            MentorLabel(theCommentor,
-                                                        theStoryPfMemberId));
+                    strRow = String.Format(Properties.Resources.HTML_TableCellClass,
+                                           StoryData.CstrLangLocalizationStyleClassName,
+                                           VerseData.HtmlColor(Color.DodgerBlue),
+                                           MentorLabel(theCommentor,
+                                                       theStoryPfMemberId));
                 }
                 else
                 {
-                    System.Diagnostics.Debug.Assert(IsFromMentee(aCI));
                     clrRow = ResponseColor(theCommentor, theStoryPfMemberId);
-                    strRow += String.Format(Properties.Resources.HTML_TableCellClass,
-                                            StoryData.CstrLangLocalizationStyleClassName,
-                                            VerseData.HtmlColor(Color.ForestGreen),
-                                            MenteeLabel(theCommentor,
-                                                        theStoryPfMemberId));
+                    strRow = String.Format(Properties.Resources.HTML_TableCellClass,
+                                           StoryData.CstrLangLocalizationStyleClassName,
+                                           VerseData.HtmlColor(Color.ForestGreen),
+                                           MenteeLabel(theCommentor,
+                                                       theStoryPfMemberId));
                 }
 
                 if (IsaNoteToSelf(aCI))
                     clrRow = AdjustSlightly(clrRow); // make it slightly different
 
                 strColor = VerseData.HtmlColor(clrRow);
+
+                string strReferringHtml = null;
+                if ((i == 0) && (ReferringText != null) && ReferringText.HasData)
+                {
+                    strReferringHtml = String.Format("<p>{0}</p>",
+                                                     SetHyperlinks(ReferringText.ToString()));
+                }
 
                 // there are two factors in deciding whether a conversation may be edited.
                 //  1) the right person is logged in and
@@ -705,7 +723,7 @@ namespace OneStoryProjectEditor
                                                                     : clrFrame));
                     strHtmlElementId = TextareaId(nVerseIndex, nConversationIndex);
                     strRow += String.Format(Properties.Resources.HTML_TableCellForTextArea,
-                                            strFrameColor,
+                                            strReferringHtml + 
                                             String.Format(Properties.Resources.HTML_TextareaWithRefDrop,
                                                           strHtmlElementId,
                                                           StoryData.CstrLangInternationalBtStyleClassName,
@@ -719,14 +737,11 @@ namespace OneStoryProjectEditor
                 else
                 {
                     strHtmlElementId = TextParagraphId(nVerseIndex, nConversationIndex, i);
-                    string strHyperlinkedText = null;
+                    string strHyperlinkedText = strReferringHtml;
                     if (aCI.HasData)
                     {
-                        strHyperlinkedText = aCI.ToString().Replace("\r\n", "<br />");   // regexParagraph.Replace(aCI.ToString(), ParagraphFound);
-                        strHyperlinkedText = _regexBibRef.Replace(strHyperlinkedText, BibleReferenceFound);
-                        strHyperlinkedText = _regexLineRef.Replace(strHyperlinkedText, LineReferenceFound);
-                        strHyperlinkedText = RegexItalics.Replace(strHyperlinkedText, EmphasizedTextFound);
-                        strHyperlinkedText = RegexHttpRef.Replace(strHyperlinkedText, HttpReferenceFound);
+                        strHyperlinkedText += aCI.ToString().Replace("\r\n", "<br />");   // regexParagraph.Replace(aCI.ToString(), ParagraphFound);
+                        strHyperlinkedText = SetHyperlinks(strHyperlinkedText);
                     }
 
                     strRow += String.Format(Properties.Resources.HTML_TableCellWidth, 100,
@@ -759,6 +774,15 @@ namespace OneStoryProjectEditor
                                                    strEmbeddedTable));
 
             return strHtml;
+        }
+
+        private static string SetHyperlinks(string strHyperlinkedText)
+        {
+            strHyperlinkedText = _regexBibRef.Replace(strHyperlinkedText, BibleReferenceFound);
+            strHyperlinkedText = _regexLineRef.Replace(strHyperlinkedText, LineReferenceFound);
+            strHyperlinkedText = RegexItalics.Replace(strHyperlinkedText, EmphasizedTextFound);
+            strHyperlinkedText = RegexHttpRef.Replace(strHyperlinkedText, HttpReferenceFound);
+            return strHyperlinkedText;
         }
 
         private static Color AdjustSlightly(Color clrRow)
@@ -824,7 +848,8 @@ namespace OneStoryProjectEditor
             //  However, for an LSR, there's never an explicit turn, so allow them to do
             //  it anytime.
             string strRow = null;
-            if (InitiatedConversation(loggedOnMember) && 
+            if (!DontShowButtonsOverride && 
+                InitiatedConversation(loggedOnMember) && 
                 (loggedOnMember.IsEditAllowed(theStory) ||
                     OtherwiseDoesntHaveaTurn(loggedOnMember, theStory, theTeamMembers) ||
                     AllowButtonsOverride))
@@ -996,9 +1021,9 @@ namespace OneStoryProjectEditor
 
         public void SetCommentMemberId(string strMentoree, string strMentor)
         {
-            foreach (var aCi in this.Where(aCi => String.IsNullOrEmpty(aCi.MemberID)))
+            foreach (var aCi in this.Where(aCi => String.IsNullOrEmpty(aCi.MemberId)))
             {
-                aCi.MemberID = (IsFromMentee(aCi))
+                aCi.MemberId = (IsFromMentee(aCi))
                                    ? strMentoree
                                    : strMentor;
             }
@@ -1007,9 +1032,9 @@ namespace OneStoryProjectEditor
         public void UpdateCommentMemberId(string strOldMemberGuid, string strNewMemberGuid)
         {
             foreach (var aComment in this.Where(aComment => 
-                aComment.MemberID == strOldMemberGuid))
+                aComment.MemberId == strOldMemberGuid))
             {
-                aComment.MemberID = strNewMemberGuid;
+                aComment.MemberId = strNewMemberGuid;
             }
         }
     }
@@ -1018,30 +1043,38 @@ namespace OneStoryProjectEditor
     {
         public ConsultantNoteData(NewDataSet.ConsultantConversationRow aConRow)
             : base (aConRow.guid, 
-            (aConRow.IsvisibleNull()) ? true : aConRow.visible,
-            (aConRow.IsfinishedNull()) ? false : aConRow.finished)
+            (aConRow.IsvisibleNull()) || aConRow.visible,
+            !(aConRow.IsfinishedNull()) && aConRow.finished)
         {
-            NewDataSet.ConsultantNoteRow[] theNoteRows = aConRow.GetConsultantNoteRows();
-            foreach (NewDataSet.ConsultantNoteRow aNoteRow in theNoteRows)
-                Add(new CommInstance(aNoteRow.ConsultantNote_text,
-                                     GetDirectionFromString(aNoteRow.Direction),
-                                     aNoteRow.guid,
-                                     (aNoteRow.IsmemberIDNull())
-                                         ? null
-                                         : aNoteRow.memberID,
-                                     (aNoteRow.IstimeStampNull())
-                                         ? DateTime.Now
-                                         : aNoteRow.timeStamp.ToLocalTime(),
-                                     WhichField));
+            var theNoteRows = aConRow.GetConsultantNoteRows();
+            foreach (var aNoteRow in theNoteRows)
+            {
+                var commDir = GetDirectionFromString(aNoteRow.Direction);
+                var commInst = new CommInstance(aNoteRow.ConsultantNote_text,
+                                                commDir,
+                                                aNoteRow.guid,
+                                                (aNoteRow.IsmemberIDNull())
+                                                    ? null
+                                                    : aNoteRow.memberID,
+                                                (aNoteRow.IstimeStampNull())
+                                                    ? DateTime.Now
+                                                    : aNoteRow.timeStamp.ToLocalTime(),
+                                                WhichField);
+                if (commDir == CommunicationDirections.eReferringToText)
+                    ReferringText = commInst;
+                else
+                    Add(commInst);
+            }
 
             // make sure that there are at least two (we can't save them if they're empty)
             System.Diagnostics.Debug.Assert(Count != 0, "It looks like you have an empty Consultant Note field that shouldn't be there. For now, you can just 'Ignore' this error (but perhaps let bob_eaton@sall.com know)");
         }
 
         public ConsultantNoteData(StoryData theStory, TeamMemberData loggedOnMember,
-            TeamMembersData theTeamMembers, string strValue, bool bNoteToSelf)
+            TeamMembersData theTeamMembers, string strReferringText, string strValue, bool bIsNoteToSelf)
+            : base(strReferringText, loggedOnMember, StoryEditor.TextFields.ConsultantNote)
         {
-            InsureExtraBox(theStory, loggedOnMember, theTeamMembers, strValue, bNoteToSelf);
+            InsureExtraBox(theStory, loggedOnMember, theTeamMembers, strValue, bIsNoteToSelf);
         }
 
         public ConsultantNoteData(ConsultNoteDataConverter rhs)
@@ -1168,25 +1201,33 @@ namespace OneStoryProjectEditor
     {
         public CoachNoteData(NewDataSet.CoachConversationRow aCoaCRow)
             : base (aCoaCRow.guid, 
-            (aCoaCRow.IsvisibleNull()) ? true : aCoaCRow.visible,
-            (aCoaCRow.IsfinishedNull()) ? false : aCoaCRow.finished)
+            (aCoaCRow.IsvisibleNull()) || aCoaCRow.visible,
+            !(aCoaCRow.IsfinishedNull()) && aCoaCRow.finished)
         {
-            NewDataSet.CoachNoteRow[] theNoteRows = aCoaCRow.GetCoachNoteRows();
-            foreach (NewDataSet.CoachNoteRow aNoteRow in theNoteRows)
-                Add(new CommInstance(aNoteRow.CoachNote_text,
-                                     GetDirectionFromString(aNoteRow.Direction),
-                                     aNoteRow.guid,
-                                     (aNoteRow.IsmemberIDNull())
-                                         ? null
-                                         : aNoteRow.memberID,
-                                     (aNoteRow.IstimeStampNull())
-                                         ? DateTime.Now
-                                         : aNoteRow.timeStamp.ToLocalTime(),
-                                     WhichField));
+            var theNoteRows = aCoaCRow.GetCoachNoteRows();
+            foreach (var aNoteRow in theNoteRows)
+            {
+                var commDir = GetDirectionFromString(aNoteRow.Direction);
+                var commInst = new CommInstance(aNoteRow.CoachNote_text,
+                                                commDir,
+                                                aNoteRow.guid,
+                                                (aNoteRow.IsmemberIDNull())
+                                                    ? null
+                                                    : aNoteRow.memberID,
+                                                (aNoteRow.IstimeStampNull())
+                                                    ? DateTime.Now
+                                                    : aNoteRow.timeStamp.ToLocalTime(),
+                                                WhichField);
+                if (commDir == CommunicationDirections.eReferringToText)
+                    ReferringText = commInst;
+                else
+                    Add(commInst);
+            }
         }
 
-        public CoachNoteData(StoryData theStory, TeamMemberData loggedOnMember, 
-            TeamMembersData theTeamMembers, string strValue, bool bNoteToSelf)
+        public CoachNoteData(StoryData theStory, TeamMemberData loggedOnMember,
+            TeamMembersData theTeamMembers, string strReferringText, string strValue, bool bNoteToSelf)
+            : base(strReferringText, loggedOnMember, StoryEditor.TextFields.CoachNote)
         {
             InsureExtraBox(theStory, loggedOnMember, theTeamMembers, strValue, bNoteToSelf);
         }
@@ -1334,9 +1375,16 @@ namespace OneStoryProjectEditor
                    (TeamMemberData.IsUser(loggedOnMember.MemberType, MenteeType));
         }
 
+        public enum ConNoteType
+        {
+            RegularNote,
+            NoteToSelf,
+            ReTextNote
+        }
+
         public abstract ConsultNoteDataConverter Add(StoryData theStory,
-            TeamMemberData LoggedOnMember, TeamMembersData theTeamMembers, 
-            string strValue, bool bNoteToSelf);
+            TeamMemberData loggedOnMember, TeamMembersData theTeamMembers,
+            string strReferringText, string strValue, bool bIsNoteToSelf);
         
         protected abstract TeamMemberData.UserTypes MentorType { get; }
         protected abstract TeamMemberData.UserTypes MenteeType { get; }
@@ -1413,14 +1461,14 @@ namespace OneStoryProjectEditor
         public ConsultantNotesData(NewDataSet.VerseRow theVerseRow, NewDataSet projFile)
             : base(CstrCollectionElementName)
         {
-            NewDataSet.ConsultantNotesRow[] theConsultantNotesRows = theVerseRow.GetConsultantNotesRows();
+            var theConsultantNotesRows = theVerseRow.GetConsultantNotesRows();
             NewDataSet.ConsultantNotesRow theConsultantNotesRow;
             if (theConsultantNotesRows.Length == 0)
                 theConsultantNotesRow = projFile.ConsultantNotes.AddConsultantNotesRow(theVerseRow);
             else
                 theConsultantNotesRow = theConsultantNotesRows[0];
 
-            foreach (NewDataSet.ConsultantConversationRow aConsultantConversationRow in theConsultantNotesRow.GetConsultantConversationRows())
+            foreach (var aConsultantConversationRow in theConsultantNotesRow.GetConsultantConversationRows())
                 Add(new ConsultantNoteData(aConsultantConversationRow));
         }
 
@@ -1445,11 +1493,15 @@ namespace OneStoryProjectEditor
         }
 
         public override ConsultNoteDataConverter Add(StoryData theStory,
-            TeamMemberData LoggedOnMember, TeamMembersData theTeamMembers,
-            string strValue, bool bNoteToSelf)
+            TeamMemberData loggedOnMember, TeamMembersData theTeamMembers,
+            string strReferringText, string strValue, bool bIsNoteToSelf)
         {
-            ConsultNoteDataConverter theNewCN = new ConsultantNoteData(theStory,
-                LoggedOnMember, theTeamMembers, strValue, bNoteToSelf);
+            var theNewCN = new ConsultantNoteData(theStory,
+                                                  loggedOnMember,
+                                                  theTeamMembers,
+                                                  strReferringText,
+                                                  strValue,
+                                                  bIsNoteToSelf);
             Add(theNewCN);
             return theNewCN;
         }
@@ -1516,12 +1568,16 @@ namespace OneStoryProjectEditor
         }
 
         public override ConsultNoteDataConverter Add(StoryData theStory,
-            TeamMemberData LoggedOnMember, TeamMembersData theTeamMembers,
-            string strValue, bool bNoteToSelf)
+            TeamMemberData loggedOnMember, TeamMembersData theTeamMembers,
+            string strReferringText, string strValue, bool bIsNoteToSelf)
         {
             // always add closest to the verse label
-            ConsultNoteDataConverter theNewCN = new CoachNoteData(theStory,
-                LoggedOnMember, theTeamMembers, strValue, bNoteToSelf);
+            var theNewCN = new CoachNoteData(theStory,
+                                             loggedOnMember,
+                                             theTeamMembers,
+                                             strReferringText,
+                                             strValue,
+                                             bIsNoteToSelf);
             Add(theNewCN);
             return theNewCN;
         }

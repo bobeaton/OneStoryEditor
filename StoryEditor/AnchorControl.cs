@@ -242,15 +242,14 @@ namespace OneStoryProjectEditor
             if (m_theLastButtonClicked != null)
             {
                 Debug.Assert(theSE.LoggedOnMember != null);
-                string strNote = StoryEditor.GetInitials(theSE.LoggedOnMember.Name) + StoryEditor.StrRegarding + AnchorsData.AnchorLabel + " ";
-                strNote += m_theLastButtonClicked.Text;
+                string strReferringText = StoryEditor.StrRegarding + AnchorsData.AnchorLabel;
+                strReferringText += m_theLastButtonClicked.Text;
 
                 if (m_theLastButtonClicked.ToolTipText != m_theLastButtonClicked.Text)
-                    strNote += String.Format(" ({0})", m_theLastButtonClicked.ToolTipText);
+                    strReferringText += String.Format(" ({0})", m_theLastButtonClicked.ToolTipText);
 
-                strNote += ". ";
-
-                theSE.SendNoteToCorrectPane(_ctrlVerse.VerseNumber, strNote, false);
+                string strNote = StoryEditor.GetInitials(theSE.LoggedOnMember.Name) + " ";
+                theSE.SendNoteToCorrectPane(_ctrlVerse.VerseNumber, strReferringText, strNote, false);
             }
             else
                 LocalizableMessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to", StoryEditor.OseCaption);

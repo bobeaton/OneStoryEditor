@@ -637,6 +637,18 @@ namespace OneStoryProjectEditor
                                  VerseData.HtmlColor(Properties.Settings.Default.AnswersVernacularColor));
         }
 
+        public string ConNoteHtml(HtmlConNoteControl htmlConNoteCtrl, ProjectSettings projSettings, int nVerseIndex,
+            TeamMemberData loggedOnMember, TeamMembersData teamMembers, ConsultNoteDataConverter theCnDc)
+        {
+            string strHtml = theCnDc.Html(htmlConNoteCtrl, teamMembers, loggedOnMember, this, nVerseIndex, 0);
+            
+            return String.Format(Properties.Resources.HTML_Header,
+                                 StylePrefix(projSettings),
+                                 Properties.Resources.HTML_DOM_Prefix,
+                                 strHtml);
+        
+}
+
         public string ConsultantNotesHtml(object htmlConNoteCtrl, 
             ProjectSettings projSettings, TeamMemberData LoggedOnMember, 
             TeamMembersData teamMembers, bool bViewHidden, bool bShowOnlyOpenConversations)
@@ -645,9 +657,9 @@ namespace OneStoryProjectEditor
                 teamMembers, this, bViewHidden, bShowOnlyOpenConversations);
 
             return String.Format(Properties.Resources.HTML_Header,
-                StylePrefix(projSettings),
-                Properties.Resources.HTML_DOM_Prefix, 
-                strHtml);
+                                 StylePrefix(projSettings),
+                                 Properties.Resources.HTML_DOM_Prefix,
+                                 strHtml);
         }
 
         public string CoachNotesHtml(object htmlConNoteCtrl, 

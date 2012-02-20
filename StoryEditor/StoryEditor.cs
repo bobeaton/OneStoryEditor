@@ -1667,10 +1667,11 @@ namespace OneStoryProjectEditor
         public void AddNoteAbout(VerseControl ctrlParent, bool bNoteToSelf)
         {
             Debug.Assert(LoggedOnMember != null);
-            string strNote = GetInitials(LoggedOnMember.Name) + StrRegarding; 
+            string strNote = null, 
+                   strInitials = GetInitials(LoggedOnMember.Name) + StrRegarding; 
             if (ctrlParent is VerseBtControl)
             {
-                VerseBtControl ctrl = ctrlParent as VerseBtControl;
+                var ctrl = ctrlParent as VerseBtControl;
                 // if the control that was right-clicked on that led us here was one
                 //  of the story lines, then take the selected portion of all story line
                 //  controls and add it.
@@ -1747,7 +1748,7 @@ namespace OneStoryProjectEditor
             }
             strNote += ". ";
 
-            SendNoteToCorrectPane(ctrlParent.VerseNumber, strNote, bNoteToSelf);
+            SendNoteToCorrectPane(ctrlParent.VerseNumber, strNote, strInitials, bNoteToSelf);
         }
 
         public static string StrRegarding
@@ -1981,7 +1982,7 @@ namespace OneStoryProjectEditor
             return strInitials;
         }
 
-        internal void SendNoteToCorrectPane(int nVerseIndex, string strNote, bool bNoteToSelf)
+        internal void SendNoteToCorrectPane(int nVerseIndex, string strReferringText, string strNote, bool bNoteToSelf)
         {
             if (TeamMemberData.IsUser(LoggedOnMember.MemberType,
                                       TeamMemberData.UserTypes.Coach))
@@ -1990,7 +1991,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesMenu.Checked = true;
 
 #if UsingHtmlDisplayForConNotes
-                htmlCoachNotesControl.OnAddNote(nVerseIndex, strNote, bNoteToSelf);
+                htmlCoachNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
 #else
                 Control ctrl = flowLayoutPanelCoachNotes.GetControlAtVerseIndex(nVerseIndex);
                 if (ctrl == null)
@@ -2037,7 +2038,7 @@ namespace OneStoryProjectEditor
                     viewConsultantNotesMenu.Checked = true;
 
 #if UsingHtmlDisplayForConNotes
-                htmlConsultantNotesControl.OnAddNote(nVerseIndex, strNote, bNoteToSelf);
+                htmlConsultantNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
 #else
                 Control ctrl = flowLayoutPanelConsultantNotes.GetControlAtVerseIndex(nVerseIndex);
                 if (ctrl == null)

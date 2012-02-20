@@ -176,6 +176,12 @@
       <DependentUpon>AdaptItConfigControl.cs</DependentUpon>
     </Compile>
     <Compile Include="AdaptItGlossing.cs" />
+    <Compile Include="AddConNoteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddConNoteForm.Designer.cs">
+      <DependentUpon>AddConNoteForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddLnCNoteForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -448,6 +454,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AdaptItConfigControl.resx">
       <DependentUpon>AdaptItConfigControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddConNoteForm.resx">
+      <DependentUpon>AddConNoteForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AddLnCNoteForm.resx">
       <DependentUpon>AddLnCNoteForm.cs</DependentUpon>

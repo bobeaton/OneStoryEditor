@@ -618,8 +618,8 @@ namespace OneStoryProjectEditor
         {
             var ctxMenu = new ContextMenuStrip();
             ctxMenu.Items.Add(StoryEditor.CstrAddNoteOnSelected, null, OnAddNewNote);
+            ctxMenu.Items.Add(StoryEditor.CstrAddNoteToSelfOnSelected, null, OnAddNoteToSelf);
             /*
-            ctxMenu.Items.Add(StoryEditor.CstrAddNoteToSelfOnSelected, null, onAddNoteToSelf);
             ctxMenu.Items.Add(StoryEditor.CstrJumpToReference, null, onJumpToBibleRef);
             ctxMenu.Items.Add(StoryEditor.CstrConcordanceSearch, null, onConcordanceSearch);
             ctxMenu.Items.Add(StoryEditor.CstrAddLnCNote, null, onAddLnCNote);
@@ -675,21 +675,30 @@ namespace OneStoryProjectEditor
                     CheckForLnCNoteLookup((ToolStripMenuItem)x);
         }
         */
+        private void OnAddNoteToSelf(object sender, EventArgs e)
+        {
+            AddNote(true);
+        }
 
-        private char[] _achSpaceDelim = new[] {' '};
         private void OnAddNewNote(object sender, EventArgs e)
+        {
+            AddNote(false);
+        }
+
+        private void AddNote(bool bNoteToSelf)
         {
             System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(LastTextareaInFocusId));
 
             int nVerseIndex, nItemIndex, nSubItemIndex;
             string strDataType, strLanguageColumn;
             if (!GetIndicesFromId(LastTextareaInFocusId, out nVerseIndex, out strDataType,
-                                    out nItemIndex, out nSubItemIndex, out strLanguageColumn))
+                                  out nItemIndex, out nSubItemIndex, out strLanguageColumn))
                 return;
 
             int nLastSubItemIndex = -1;
             string strLastFieldType = null,
-                   str = String.Format("{0}: Re:", StoryEditor.GetInitials(TheSE.LoggedOnMember.Name));
+                   strReferringText = null,
+                   strNote = String.Format("{0}: Re:", StoryEditor.GetInitials(TheSE.LoggedOnMember.Name));
             foreach (var span in GetSelectedTexts(nVerseIndex))
             {
                 var textarea = span.Parent;
@@ -702,21 +711,24 @@ namespace OneStoryProjectEditor
                 if (strLastFieldType != strDataType)
                 {
                     if (!String.IsNullOrEmpty(strLastFieldType))
-                        str += " vs: ";
-                    str += strDataType + ":";
+                        strReferringText += " vs: ";
+                    strReferringText += strDataType + ":";
                     strLastFieldType = strDataType;
                 }
                 else if (nSubItemIndex != nLastSubItemIndex)
                 {
                     if (nLastSubItemIndex != -1)
-                        str += " &";
+                        strReferringText += " &";
                     nLastSubItemIndex = nSubItemIndex;
                 }
-                str += " " + span.OuterHtml;
+                strReferringText += " " + span.OuterHtml;
             }
 
             // remove the highlight class so it isn't highlighted in the connnote pane
-            TheSE.SendNoteToCorrectPane(nVerseIndex, str.Replace(" highlight", null), false);
+            if (strReferringText != null)
+                strReferringText = strReferringText.Replace(" highlight", null);
+
+            TheSE.SendNoteToCorrectPane(nVerseIndex, strReferringText, strNote, bNoteToSelf);
         }
     }
 }

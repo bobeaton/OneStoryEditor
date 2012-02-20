@@ -164,8 +164,8 @@ namespace OneStoryProjectEditor
             this.linkLabelVerseBT = new System.Windows.Forms.LinkLabel();
             this.contextMenuStripVerseList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
-            this.textBoxStoryVerse = new System.Windows.Forms.TextBox();
             this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
+            this.textBoxStoryVerse = new System.Windows.Forms.TextBox();
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.splitContainerMentorNotes = new System.Windows.Forms.SplitContainer();
             this.linkLabelConsultantNotes = new System.Windows.Forms.LinkLabel();
@@ -1434,6 +1434,20 @@ namespace OneStoryProjectEditor
             this.flowLayoutPanelVerses.WrapContents = false;
             this.flowLayoutPanelVerses.MouseMove += new System.Windows.Forms.MouseEventHandler(this.CheckBiblePaneCursorPositionMouseMove);
             // 
+            // htmlStoryBtControl
+            // 
+            this.htmlStoryBtControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlStoryBtControl.IsWebBrowserContextMenuEnabled = false;
+            this.htmlStoryBtControl.Location = new System.Drawing.Point(0, 23);
+            this.htmlStoryBtControl.MinimumSize = new System.Drawing.Size(20, 20);
+            this.htmlStoryBtControl.Name = "htmlStoryBtControl";
+            this.htmlStoryBtControl.ParentStory = null;
+            this.htmlStoryBtControl.Size = new System.Drawing.Size(451, 366);
+            this.htmlStoryBtControl.StoryData = null;
+            this.htmlStoryBtControl.TabIndex = 5;
+            this.htmlStoryBtControl.TheSE = null;
+            this.htmlStoryBtControl.ViewSettings = null;
+            // 
             // textBoxStoryVerse
             // 
             this.textBoxStoryVerse.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -1448,20 +1462,6 @@ namespace OneStoryProjectEditor
             this.textBoxStoryVerse.TabStop = false;
             this.textBoxStoryVerse.Text = "Story/BT";
             this.textBoxStoryVerse.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // htmlStoryBtControl
-            // 
-            this.htmlStoryBtControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlStoryBtControl.IsWebBrowserContextMenuEnabled = false;
-            this.htmlStoryBtControl.Location = new System.Drawing.Point(-1, 23);
-            this.htmlStoryBtControl.MinimumSize = new System.Drawing.Size(20, 20);
-            this.htmlStoryBtControl.Name = "htmlStoryBtControl";
-            this.htmlStoryBtControl.ParentStory = null;
-            this.htmlStoryBtControl.Size = new System.Drawing.Size(451, 269);
-            this.htmlStoryBtControl.StoryData = null;
-            this.htmlStoryBtControl.TabIndex = 5;
-            this.htmlStoryBtControl.TheSE = null;
-            this.htmlStoryBtControl.ViewSettings = null;
             // 
             // netBibleViewer
             // 

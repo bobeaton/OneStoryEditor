@@ -515,7 +515,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;td width=&quot;100%&quot; BGCOLOR={0}&gt;{1}&lt;/td&gt;.
+        ///   Looks up a localized string similar to &lt;td width=&quot;100%&quot;&gt;{0}&lt;/td&gt;.
         /// </summary>
         internal static string HTML_TableCellForTextArea {
             get {
@@ -1419,7 +1419,8 @@ namespace OneStoryProjectEditor.Properties {
         ///{3}
         ///    &lt;/head&gt;
         ///    &lt;body&gt;
-        ///&lt;!--&lt;textarea id=&quot;status&quot;&gt;&lt;/textarea&gt;--&gt;
+        ///&lt;!--for debugging: &lt;textarea id=&quot;status&quot;&gt;&lt;/textarea&gt;--&gt;
+        ///&lt;textarea id=&quot;status&quot;&gt;&lt;/textarea&gt;
         ///{4}
         ///    &lt;/body&gt;
         ///&lt;script type=&quot;text/javascript&quot;&gt;
@@ -1449,9 +1450,8 @@ namespace OneStoryProjectEditor.Properties {
         ///    return false; // cause the href navigation to not happen
         ///}
         ///function DisplayHtml(strFunction) {
-        ///    /*
         ///    var curVal = $(&apos;#status&apos;).val();
-        ///    $(&apos;#status&apos;).val(curVal + &quot;  [rest of string was truncated]&quot;;.
+        ///    $(&apos;#status&apos;).val(curVal + &quot; &quot; + strF [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string StoryBtJs {
             get {
