@@ -481,6 +481,7 @@
       <xs:enumeration value="ConsultantToConsultant" />
       <xs:enumeration value="CoachToCoach" />
       <xs:enumeration value="ConsultantToProjFacNeedsApproval" />
+      <xs:enumeration value="ReferringToText" />
     </xs:restriction>
 	</xs:simpleType>
   <xs:simpleType name="AdaptItProjectType">
