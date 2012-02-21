@@ -80,8 +80,23 @@ namespace OneStoryProjectEditor
                         strFilePathToOpen = args[0];
                     }
 
+                    // if we sent some new locdata items in a recent program update, then copy them to the
+                    //  loc data folder
                     var strPathToLocData = Path.Combine(ProjectSettings.OneStoryProjectFolderRoot,
                                                         "LocData");
+                    var strRunningLocData = Path.Combine(StoryProjectData.GetRunningFolder,
+                                                         "LocData");
+                    var astrLocDataFiles = Directory.GetFiles(strRunningLocData, "*.xml");
+                    foreach (var file in astrLocDataFiles)
+                    {
+                        var filename = Path.GetFileName(file);
+                        var targetFilename = Path.Combine(strPathToLocData, filename);
+                        if (!File.Exists(targetFilename) || 
+                            (File.GetLastWriteTime(file) > File.GetLastWriteTime(targetFilename)))
+                        {
+                            File.Copy(file, targetFilename, true);
+                        }
+                    }
                     Localizer.Default = new Localizer(strPathToLocData,
                                                       Properties.Settings.Default.LastLocalizationId);
                     Localizer.LocalizerStrUseStack = false;
