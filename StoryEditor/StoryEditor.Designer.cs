@@ -182,6 +182,7 @@ namespace OneStoryProjectEditor
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.advancedUseWordBreaks = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -1173,7 +1174,8 @@ namespace OneStoryProjectEditor
             this.advancedSaveTimeoutToolStripMenu,
             this.advancedResetStoredInformationMenu,
             this.advancedChangeProjectFolderRootMenu,
-            this.advancedEmailMenu});
+            this.advancedEmailMenu,
+            this.advancedUseWordBreaks});
             this.advancedToolStripMenu.Name = "advancedToolStripMenu";
             this.advancedToolStripMenu.Size = new System.Drawing.Size(72, 27);
             this.advancedToolStripMenu.Text = "A&dvanced";
@@ -1659,6 +1661,13 @@ namespace OneStoryProjectEditor
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
             // 
+            // advancedUseWordBreaks
+            // 
+            this.advancedUseWordBreaks.CheckOnClick = true;
+            this.advancedUseWordBreaks.Name = "advancedUseWordBreaks";
+            this.advancedUseWordBreaks.Size = new System.Drawing.Size(314, 22);
+            this.advancedUseWordBreaks.Text = "Use automatic word &breaking when Glossing";
+            // 
             // StoryEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1846,6 +1855,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem viewNonBiblicalStoriesMenu;
         private ToolStripSeparator toolStripSeparator16;
         private ToolStripSeparator toolStripSeparator5;
+        internal ToolStripMenuItem advancedUseWordBreaks;
     }
 
 #if UsingHtmlDisplayForConNotes

@@ -551,10 +551,12 @@ namespace OneStoryProjectEditor
                 if (!MyStringTransfer.HasData)
                     return;
 
-                var dlg = new GlossingForm(_ctrlVerseParent.TheSE.StoryProject.ProjSettings, 
-                    MyStringTransfer.ToString(),
-                    ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt,
-                    _ctrlVerseParent.TheSE.LoggedOnMember);
+                var dlg = new GlossingForm(_ctrlVerseParent.TheSE.StoryProject.ProjSettings,
+                                           MyStringTransfer.ToString(),
+                                           ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.
+                                               VernacularToNationalBt,
+                                           _ctrlVerseParent.TheSE.LoggedOnMember,
+                                           _ctrlVerseParent.TheSE.advancedUseWordBreaks.Checked);
 
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
@@ -600,7 +602,8 @@ namespace OneStoryProjectEditor
                                                                                                  NationalBtToInternationalBt;
                 var dlg = new GlossingForm(_ctrlVerseParent.TheSE.StoryProject.ProjSettings,
                                            MyStringTransfer.ToString(), eBtDirection,
-                                           _ctrlVerseParent.TheSE.LoggedOnMember);
+                                           _ctrlVerseParent.TheSE.LoggedOnMember,
+                                           _ctrlVerseParent.TheSE.advancedUseWordBreaks.Checked);
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     EnglishBtSibling.Text = dlg.TargetSentence;

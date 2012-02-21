@@ -83,9 +83,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\AutoUpgrade.Lib.dll</HintPath>
     </Reference>
-    <Reference Include="Chorus, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Chorus, Version=1.5.29.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <ExecutableExtension>.exe</ExecutableExtension>
       <HintPath>..\DepDLLs\Chorus.exe</HintPath>
+    </Reference>
+    <Reference Include="ChorusMerge, Version=1.5.29.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\DepDLLs\ChorusMerge.exe</HintPath>
     </Reference>
     <Reference Include="ECInterfaces, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -95,7 +101,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\HtmlEditor.dll</HintPath>
     </Reference>
-    <Reference Include="LibChorus, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ICU4NETExtension, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DepDLLs\Icu\ICU4NETExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="LibChorus, Version=1.5.29.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\LibChorus.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
@@ -103,7 +114,7 @@
       <HintPath>..\..\..\Program Files\Microsoft.NET\Primary Interop Assemblies\Microsoft.mshtml.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="NetLoc, Version=7.0.100.5029, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="NetLoc, Version=7.0.100.5030, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\NetLoc.dll</HintPath>
     </Reference>
