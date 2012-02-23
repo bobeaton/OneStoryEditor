@@ -86,24 +86,29 @@ namespace OneStoryProjectEditor
                                                         "LocData");
                     var strRunningLocData = Path.Combine(StoryProjectData.GetRunningFolder,
                                                          "LocData");
-                    var astrLocDataFiles = Directory.GetFiles(strRunningLocData, "*.xml");
-                    foreach (var file in astrLocDataFiles)
+                    if (Directory.Exists(strRunningLocData))
                     {
-                        var filename = Path.GetFileName(file);
-                        var targetFilename = Path.Combine(strPathToLocData, filename);
-                        if (!File.Exists(targetFilename) || 
-                            (File.GetLastWriteTime(file) > File.GetLastWriteTime(targetFilename)))
+                        var astrLocDataFiles = Directory.GetFiles(strRunningLocData, "*.xml");
+                        foreach (var file in astrLocDataFiles)
                         {
-                            File.Copy(file, targetFilename, true);
+                            var filename = Path.GetFileName(file);
+                            var targetFilename = Path.Combine(strPathToLocData, filename);
+                            if (!File.Exists(targetFilename) ||
+                                (File.GetLastWriteTime(file) > File.GetLastWriteTime(targetFilename)))
+                            {
+                                File.Copy(file, targetFilename, true);
+                            }
                         }
                     }
+
                     Localizer.Default = new Localizer(strPathToLocData,
                                                       Properties.Settings.Default.LastLocalizationId);
                     Localizer.LocalizerStrUseStack = false;
                     if (Properties.Settings.Default.LastLocalizationId != "en")
                         StoryEditor.OnLocalizationChangeStatic();
 
-                    // check for a ready install before doing anything
+                    // after we've loaded the localization (in case the msg has to be localized), 
+                    //  check for a ready install before doing anything
                     if (AutoUpgrade.IsUpgradeReadyToInstall() &&
                         (LocalizableMessageBox.Show(
                             Localizer.Str("There is an update available. Would you like to install it now?"),
