@@ -1,0 +1,1723 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectStates version="2.0">
+  <StateTransition MemberTypeWithEditToken="ProjectFacilitator"
+                   RequiresUsingVernacular="true"
+                   stage="eProjFacTypeVernacular">
+    <StageDisplayString>Fasilitator Proyek memasukkan cerita dalam bahasa
+    cerita (bahasa daerah).</StageDisplayString>
+
+    <TransitionDisplayString>masukkanlah cerita dalam bahasa cerita (bahasa
+    daerah)</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini seharusnya Anda sudah membentuk dan
+    merekam sebuah cerita sesuai dengan cara yang telah Anda pelajari di
+    lokakarya. Sekarang Fasilitator Proyek harus mendengar rekaman cerita
+    baris demi baris, lalu mengetik cerita di kotak cerita yang ada di jendela
+    ini. Anda boleh mengetik seluruh cerita dalam satu kotak. Lalu kalau
+    semuanya sudah diketik, klik di menu "Cerita", lalu " Susun kembali
+    baris-baris cerita", supaya ceritanya terbagi dalam kalimat-kalimat,
+    sehingga setiap baris mengandung satu kalimat saja. Baris-baris tersebut
+    akan terbagi dalam kalimat-kalimat berdasarkan tanda-tanda baca di akhir
+    kalimat (".!?" dll.). Kalau bahasa cerita mempunyai tanda-tanda baca
+    khusus untuk mengakhiri kalimat selain ".!?" maka Anda harus menambahkan
+    tanda tersebut di daftar tanda baca yang terdapat di menu "Proyek",
+    "Pengaturan" di tab "Bahasa Cerita". Waktu Anda memasukkan tanda-tanda
+    baca khusus, pastikan bahwa titik '.' (yaitu tanda baca akhir kalimat yang
+    paling biasa) ditempatkan paling pertama, dan jangan memakai spasi di
+    antara tanda-tanda baca itu. Tanda baca yang pertama ini akan dipakai
+    untuk kalimat-kalimat yang tidak diakhiri dengan tanda baca (misalnya
+    kalau Anda lupa memasukkan titik, maka titik akan dimasukkan di belakang
+    kalimat secara otomatis). Kalau Anda sudah selesai, klik "Tugas" kemudian
+    "Alihkan cerita ke giliran konsultan" untuk menyerahkan cerita kepada
+    konsultan untuk diperiksa. Kalau ini adalah cerita dari Alkitab, maka akan
+    muncul sebuah jendela yang meminta Anda untuk mengetik alasan kenapa Anda
+    memilih cerita itu dalam rangkaian cerita ini. Bagaimana cerita ini sesuai
+    dengan tema panorama rangkaian cerita ini? Anda juga akan mengetik daftar
+    sumber-sumber yang Anda pakai untuk membentuk cerita ini (yaitu
+    rekaman-rekaman Alkitab, video, gambar-gambar, dsb.) </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eProjFacTypeNationalBT</AllowableTransition>
+
+      <AllowableTransition>eProjFacTypeInternationalBT</AllowableTransition>
+
+      <AllowableTransition>eProjFacAddAnchors</AllowableTransition>
+
+      <AllowableTransition>eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
+
+      <AllowableTransition>eConsultantCheckNonBiblicalStory</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <ViewSettings viewAnchorField="false" viewCoachNotesField="false"
+                  viewConsultantNoteField="false" viewEnglishBTField="false"
+                  viewFreeTranslationField="false"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="false" viewNetBible="false"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="false"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="ProjectFacilitator"
+                   RequiresUsingNationalBT="true"
+                   stage="eProjFacTypeNationalBT">
+    <StageDisplayString>Fasilitator Proyek memasukkan terjemahan balik bahasa
+    Indonesia (bahasa nasional)</StageDisplayString>
+
+    <TransitionDisplayString>masukkan terjemahan balik bahasa
+    Indonesia</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini, Anda (sebagai Fasilitator Proyek) akan
+    memasukkan terjemahan balik dari cerita dalam bahasa Indonesia, yang sudah
+    direkam. (Biasanya Anda merekam orang awam membuat terjemahan balik dalam
+    bahasa Indonesia.) Pastikan bahwa Anda mengetik terjemahan balik orang
+    awam dalam kotak di nomor baris yang sama dengan cerita, supaya baris
+    terjemahan baliknya sesuai dengan baris cerita. Anda boleh klik “Cerita” –
+    “Susun kembali baris-baris cerita” (atau tekan CTRL+F5) berulang-ulang
+    kali, untuk menyusun semua baris sampai terjemahan balik sesuai dengan
+    cerita. Kalau Anda memakai tanda baca ahkir kalimat (mis. titik) maka Anda
+    harus memakai tanda-tanda baca yang sama di terjemahan baliknya, supaya
+    baris-baris dibagi di tempat yang sama. Dengan cara ini Anda boleh
+    memastikan bahwa Anda sudah memakai tanda-tanda baca yang benar baik di
+    cerita, maupun di terjemahan baliknya. Kalau Anda sudah selesai memasukkan
+    terjemahan balik, klik "Tugas" kemudian klik langkah yang berikut.
+    </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eProjFacTypeInternationalBT</AllowableTransition>
+
+      <AllowableTransition>eProjFacTypeFreeTranslation</AllowableTransition>
+
+      <AllowableTransition>eProjFacAddAnchors</AllowableTransition>
+
+      <AllowableTransition>eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
+
+      <AllowableTransition>eConsultantCheckNonBiblicalStory</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <ViewSettings viewAnchorField="false" viewCoachNotesField="false"
+                  viewConsultantNoteField="false" viewEnglishBTField="false"
+                  viewFreeTranslationField="false"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="true" viewNetBible="false"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="false"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="ProjectFacilitator"
+                   RequiresUsingEnglishBT="true"
+                   RequiresUsingOtherEnglishBTer="false"
+                   stage="eProjFacTypeInternationalBT">
+    <StageDisplayString>Fasilitator Proyek memasukkan terjemahan balik bahasa
+    Inggris.</StageDisplayString>
+
+    <TransitionDisplayString>masukkan terjemahan balik bahasa
+    Inggris</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini, Anda (sebagai Fasilitator Proyek) akan
+    memasukkan terjemahan balik dari cerita dalam bahasa Inggris. Ada
+    proyek-proyek yang tidak perlu terjemahan balik bahasa Inggris, misalnya
+    kalau bahasa sasaran adalah bahasa daerah, dan konsultan mengerti bahasa
+    Indonesia. Kalau ada terjemahan balik dalam bahasa Indonesia atau bahasa
+    regional lainnya (mis. bahasa Melayu Ambon) yang dibuat oleh orang awam
+    (UNS), dan Konsultan tidak mengerti bahasa Indonesia, Anda boleh membuat
+    terjemahan balik bahasa Inggris (berdasarkan terjemahan balik bahasa
+    Indonesia). Anda *harus* membahas terjemahan balik yang akan dipakai di
+    proyek ini dengan konsultan sebelumnya. Kalau terjemahan balik dibuat oleh
+    orang awam (UNS), Anda sebagai Fasilitator Proyek boleh memasukkan
+    terjemahannya di OneStory Editor. Kalau perlu terjemahan balik bahasa
+    Inggris, tetapi tidak ada orang yang mengerti bahasa Inggris di tim,
+    mungkin Anda bisa memakai orang luar untuk membuat terjemahan balik bahasa
+    Indonesia ke dalam bahasa Inggris. (Ini harus disetujui oleh konsultan
+    sebelumnya). Kalau begitu Anda harus menambah orang itu di tim sebagai
+    "Penerjemah balik Bahasa Inggris dari luar" – lihatlah menu "Proyek",
+    "Pengaturan" di tab "Anggota tim" lalu masukkan tanda centang di kotaknya.
+    Sebelum itu, bahaslah dengan konsultan proyek tentang terjemahan-balik
+    yang diperlukan. Mungkin saja tidak diperlukan terjemahan balik bahasa
+    Inggris. Yang penting ada terjemahan balik yang dibuat oleh orang awam
+    (UNS), yang bisa dimengerti oleh konsultan. Kadang-kadang konsultan setuju
+    untuk tidak ada terjemahan balik yang dibuat oleh orang awam (UNS), dan
+    fasilitator akan membuat terjemahan baru. Kalau begitu mungkin konsultan
+    akan minta agar dilakukan lebih banyak uji cerita ulang. Kalau Anda sudah
+    selesai memasukkan terjemahan balik, klik "Tugas" kemudian klik langkah
+    yang berikut yaitu "Dasar Alkitab". </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eProjFacTypeFreeTranslation</AllowableTransition>
+
+      <AllowableTransition>eProjFacAddAnchors</AllowableTransition>
+
+      <AllowableTransition>eConsultantCheckNonBiblicalStory</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <ViewSettings viewAnchorField="false" viewCoachNotesField="false"
+                  viewConsultantNoteField="false" viewEnglishBTField="true"
+                  viewFreeTranslationField="false"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="true" viewNetBible="false"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="false"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="ProjectFacilitator"
+                   RequiresUsingFreeTranslation="true"
+                   stage="eProjFacTypeFreeTranslation">
+    <StageDisplayString>Fasilitator Proyek memasukkan terjemahan
+    bebas</StageDisplayString>
+
+    <TransitionDisplayString>masukkan terjemahan
+    bebas</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini, Anda (sebagai Fasilitator Proyek) akan
+    memasukkan terjemahan bebas dari cerita, biasanya dalam bahasa Indonesia.
+    Terjemahan Bebas biasanya adalah terjemahan balik yang dibuat oleh orang
+    awam, kalau kotak terjemahan balik bahasa Indonesia dipakai untuk
+    terjemahan yang dibuat dengan program AdaptIt. Kalau Anda sudah selesai
+    memasukkan terjemahan balik, klik "Tugas" kemudian klik langkah yang
+    berikut. </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eProjFacAddAnchors</AllowableTransition>
+
+      <AllowableTransition>eConsultantCheckNonBiblicalStory</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <ViewSettings viewAnchorField="false" viewCoachNotesField="false"
+                  viewConsultantNoteField="false" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="true" viewNetBible="false"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="false"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="ProjectFacilitator"
+                   RequiresBiblicalStory="true" stage="eProjFacAddAnchors">
+    <StageDisplayString>Fasilitator Proyek memasukkan Dasar
+    Alkitab.</StageDisplayString>
+
+    <TransitionDisplayString>masukkanlah dasar
+    Alkitab</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini, Anda sebagai Fasilitator Proyek akan
+    memeriksa cerita, baris demi baris, dan mencari satu atau lebih acuan
+    Alkitab di jendela Alkitab. Acuan-acuan yang dicari menjadi Dasar Alkitab
+    untuk informasi di baris cerita itu. Kalau Anda sudah menemukan di jendela
+    Alkitab (jendela bawah sebelah kiri) bagian Alkitab yang mendukung baris
+    cerita, klik di tombol yang di sebelah kiri teks ayat itu, kemudian tahan
+    tombol kiri mouse dan bawalah ayat itu ke bagian baris yang mempunyai
+    label "da:" (Dasar Alkitab). Ini adalah Bilah Dasar Alkitab untuk baris
+    ini. Kalau kursor mouse sudah di atas Bilah Dasar Alkitab, lepaslah tombol
+    mouse, dan "tombol dasar Alkitab" baru akan muncul di Bilah Dasar Alkitab
+    untuk baris itu. Kalau sudah ada tombol Dasar Alkitab di Bilah Dasar
+    Alkitab, Anda bisa klik di tombol Dasar Alkitab itu untuk pergi ke acuan
+    itu di jendela Alkitab. Anda juga bisa klik kanan di tombol Dasar Alkitab
+    itu untuk mendapat pilihan lain, misalnya untuk menambah komentar tentang
+    Dasar Alkitab itu. Komentar-komentar itu akan muncul kalau kursor mouse
+    melayang di atas tombol Dasar Alkitab tanpa di-klik. Kalau Anda sudah
+    selesai memasukkan Dasar Alkitab untuk setiap baris, klik "Tugas" kemudian
+    klik langkah yang berikut yaitu "Cerita Ulang". </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eProjFacAddStoryQuestions</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <ViewSettings viewAnchorField="true" viewCoachNotesField="false"
+                  viewConsultantNoteField="false" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="true" viewNetBible="true"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="false"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="ProjectFacilitator"
+                   RequiresBiblicalStory="true"
+                   stage="eProjFacAddStoryQuestions">
+    <StageDisplayString>Fasilitator Proyek menambahkan Pertanyaan pengujian
+    cerita.</StageDisplayString>
+
+    <TransitionDisplayString>masukkan pertanyaan pengujian
+    cerita</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini, Anda (sebagai Fasilitator Proyek) akan
+    memeriksa cerita dan menambah "Pertanyaan Pengujian Cerita" (PPC). Nanti
+    Anda akan memakai pertanyaan ini dengan Orang Awam (bahasa Inggris: UNS),
+    untuk mengetahui kesimpulan-kesimpulan apa yang ditarik oleh orang yang
+    mendengar cerita ini. PPC yang terbaik adalah pertanyaan yang membuat
+    orang awam bertanya "Kenapa?" atau "Bagaimana?" tentang isi cerita.
+    Pertanyaan-pertanyaan yang bertanya " Ada contoh-contoh apa dari hal ini?"
+    bisa juga berguna. PPC itu harus berdasarkan cerita, tetapi kita mau
+    supaya orang awam menarik kesimpulan dari pengalamannya di luar cerita.
+    Seandainya di cerita ada baris begini: "Masyarakat dibaptis lalu mereka
+    tinggalkan dosanya." Pertanyaan Pengujian Cerita yang cocok mungkin
+    "Menurut Anda, kenapa (atau bagaimana) mereka dibaptis?" atau "Menurut
+    Anda, kenapa (atau bagaimana) mereka tinggalkan dosanya?"
+    Pertanyaan-pertanyaan ini berguna karena pertanyaan ini tentang isi
+    cerita, tetapi jawabannya tidak ada di dalam cerita dan hanya berdasarkan
+    pendapat atau kesimpulan orang awam itu. Tergantung jawabannya, mungkin
+    cerita akan diubah untuk menghindari pengertian yang salah.
+    Pertanyaan-pertanyaan yang memakai kata "apa?", "siapa?", "kapan?", "di
+    mana?" biasanya kurang cocok, apalagi kalau jawabannya ada di dalam cerita
+    itu sendiri. Seandainya ada baris cerita begini: "Yesus naik gunung
+    beserta muridnya tiga orang…". Pertanyaan "Berapa murid naik gunung?"
+    bukan pertanyaan yang baik sebagai PPC, karena jawabannya ada di dalam
+    cerita. Pertanyaan-pertanyaan seperti itu bisa disebut "pertanyaan
+    tertutup". Sebaiknya kita hindari pertanyaan tertutup itu. Akan tetapi,
+    sekali-sekali pertanyaan tertutup boleh dipakai kalau salah satu baris
+    bisa memiliki dua arti. Misalnya kalau ada baris cerita "Dia katakan
+    kepada Hawa…", ada dua kemungkinan: (1) "dia" berarti Adam, (2) "dia"
+    berarti ular. Jadi untuk memastikan bahwa tidak ada salah pengertian, Anda
+    boleh tanya, "Menurut Anda, siapa yang bicara dengan Hawa?" Pertanyaan
+    yang jawabnya "Ya" atau "Tidak" juga tidak berguna, misalnya pertanyaan
+    seperti, "Apakah Yusuf menampakkan diri kepada kakak-kakaknya sebelum
+    mereka berangkat?" Pertanyaan yang bertanya tentang arti sesuatu juga
+    tidak begitu membantu kita, misalnya jangan bertanya "Apa artinya 'pesuruh
+    dari surga'? ? Contoh-contoh ini adalah pertanyaan yang kurang baik.
+    Selain itu, jangan membuat pertanyaan yang bertanya kepada orang awam
+    tentang kepercayaan mereka (mis. "Menurut Anda, apakah benar Allah
+    menciptakan dunia selama 6 hari?") Pertanyaan seperti ini tidak akan
+    membantu kita untuk mengerti kesimpulan-kesimpulan yang ditarik oleh
+    pendengar cerita. Kalau Anda membuat pertanyaan, sebaiknya
+    mempertimbangkan jawaban-jawaban apa yang mungkin diberikan oleh orang
+    awam itu. Kalau jawabannya bisa menunjukkan salah pengertian, kemungkinan
+    besar itu pertanyaan yang cukup berguna. Misalnya pertanyaan "Menurut
+    Anda, apakah manusia bisa tinggal di kandang binatang?" Kalau kita
+    bertanya begitu, jawaban apa saja tidak akan membantu kita untuk tahu
+    kalau orang awam itu telah menarik kesimpulan yang salah. PPC itu *harus*
+    ditanyakan kepada orang awam dalam bahasa cerita (bahasa daerah), bukan
+    bahasa nasional atau regional. Usahakan supaya pertanyaan itu memakai
+    kata-kata yang sama dengan kalimat dalam cerita itu sendiri. Misalnya
+    kalau ada baris cerita "Buah diberikan kepada Adam, lalu dia memakannya",
+    jangan membentuk pertanyaan begini "Menurut Anda kenapa Hawa memberikan
+    buah kepada Adam untuk makan?" (Karena di dalam cerita tidak dikatakan
+    bahwa Hawa yang memberi buah kepada Adam, jadi tidak usah memasukkannya ke
+    dalam pertanyaan.) Kalau konsultan tidak mengerti bahasa cerita, maka Anda
+    harus menerjemahkan balik pertanyaan-pertanyaan tersebut ke dalam bahasa
+    Indonesia (atau bahasa lain yang dimengerti konsultan). Hal ini sebaiknya
+    dibahas dengan konsultan sebelumnya. Kalau Anda sudah selesai memasukkan
+    Dasar Alkitab untuk setiap baris, klik "Tugas" kemudian klik tugas yang
+    berikut </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eBackTranslatorTypeInternationalBT</AllowableTransition>
+
+      <AllowableTransition>eFirstPassMentorCheck1</AllowableTransition>
+
+      <AllowableTransition
+      AllowToSkip="true">eConsultantCheckStoryInfo</AllowableTransition>
+
+      <AllowableTransition>eProjFacReadyForTest1</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <ViewSettings viewAnchorField="true" viewCoachNotesField="false"
+                  viewConsultantNoteField="false" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="true"
+                  viewNationalLangField="true" viewNetBible="true"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition DontShowTilPast="true"
+                   MemberTypeWithEditToken="ProjectFacilitator"
+                   stage="eProjFacRevisesBeforeUnsTest">
+    <StageDisplayString>Fasilitator Proyek merevisi
+    Cerita.</StageDisplayString>
+
+    <TransitionDisplayString>cerita dikirim ke fasilitator untuk diperbaiki
+    (lalu dikirim ke konsultan lagi sebelum diuji dengan orang
+    awam)</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini, Anda (sebagai Fasilitator Proyek) akan
+    memeriksa masukan-masukan yang diberikan oleh konsultan di jendela Catatan
+    Konsultan, kemudian memperbaiki cerita sebelum dites dengan orang awam.
+    Biasanya tim ada di tahap seperti ini karena konsultan mau supaya tim
+    mengubah sesuatu di dalam cerita, dan mau meninjau kembali perubahan itu
+    sebelum diuji dengan orang awam. Jadi konsultan sudah *memundurkan* cerita
+    dari tahap yang seharusnya ke tahap yang lebih awal ini, supaya Anda dapat
+    mengubahnya. Sementara Anda memeriksa komentar-komentar konsultan,
+    tentukan perubahan-perubahan yang tepat untuk setiap komentar, kemudian
+    minta pencerita (crafter) untuk merekam kembali cerita itu dan memasukkan
+    semua perbaikan yang dilakukan. Sesudah cerita direvisi oleh Anda dan oleh
+    pencerita, dan sudah ada rekaman baru, perbaharuilah kotak-kotak cerita
+    dan kotak-kotak terjemahan balik. Untuk setiap komentar konsultan (di
+    kotak "kon:" atau "ck:" – konsultan/ calon konsultan – di jendela 'Catatan
+    Konsultan') Anda harus mengetik sebuah respons di kotak "fas:"
+    (Fasilitator Proyek), walaupun respons Anda hanya "Baik" atau "Sudah"
+    saja, yang penting ada respons. Kalau Anda mau minta penjelasan, Anda
+    boleh menambah komentar baru melalui tombol "Tambah Catatan" di jendela
+    'Catatan Konsultan'. Kalau Anda sudah selesai, klik "Tugas" kemudian klik
+    tugas yang berikut. </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eBackTranslatorTypeInternationalBT</AllowableTransition>
+
+      <AllowableTransition>eFirstPassMentorCheck1</AllowableTransition>
+
+      <AllowableTransition>eConsultantCheckStoryInfo</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <ViewSettings viewAnchorField="true" viewCoachNotesField="false"
+                  viewConsultantNoteField="true" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="true" viewNetBible="true"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="EnglishBackTranslator"
+                   RequiresUsingEnglishBT="true"
+                   RequiresUsingOtherEnglishBTer="true"
+                   stage="eBackTranslatorTypeInternationalBT">
+    <StageDisplayString>Penerjemah Balik bahasa Inggris memasukkan terjemahan
+    balik bahasa Inggris. </StageDisplayString>
+
+    <TransitionDisplayString>kirim ke Penerjemah Balik bahasa Inggris
+    (kemudian ke Konsultan)</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini seseorang yang biasanya bukan anggota
+    tim pembentuk cerita akan menerjemahkan terejemahan balik bahasa Indonesia
+    (bahasa nasional) ke dalam bahasa Inggris (atau langsung dari bahasa
+    cerita kalau tidak ada terejemahan balik bahasa Indonesia). Tahap ini
+    berguna kalau tim pembentuk cerita kurang lancar dalam bahasa Inggris, dan
+    ada seseorang yang bisa terjemahkan terjemahan balik bahasa Indonesia
+    (yang dibuat oleh Orang Awam) ke dalam bahasa Inggris. Tahap ini hanya
+    terjadi kalau ada "Penerjemah Balik bahasa Inggris Luar" di tim Anda.
+    Tahap ini terjadi sesudah semua tahap-tahap Fasilitator Proyek selesai,
+    dan sebelum cerita dikirim ke Konsultan. Pada tahapa ini Anda, sebagai
+    Penerjemah Balik bahasa Inggris Luar akan menerjemahkan baris terjemahan
+    balik bahasa Indonesia (bahasa nasional) dan juga pertanyaan pengujian
+    cerita ke dalam bahasa Inggris. Kalau Anda sudah selesai, klik "Tugas"
+    kemudian "Alihkan cerita ke giliran konsultan" untuk menyerahkan cerita
+    kepada konsultan untuk diperiksa. </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eConsultantCheckNonBiblicalStory</AllowableTransition>
+
+      <AllowableTransition>eFirstPassMentorCheck1</AllowableTransition>
+
+      <AllowableTransition>eConsultantCheckStoryInfo</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eProjFacRevisesBeforeUnsTest</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="false" viewCoachNotesField="false"
+                  viewConsultantNoteField="false" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="true" viewNetBible="false"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition DontShowTilPast="true"
+                   MemberTypeWithEditToken="EnglishBackTranslator"
+                   RequiresUsingEnglishBT="true"
+                   RequiresUsingOtherEnglishBTer="true"
+                   stage="eBackTranslatorTranslateConNotesBeforeUnsTest">
+    <StageDisplayString>Penerjemah Balik bahasa Inggris menerjemahkan Catatan
+    Konsultan untuk Fasilitator Proyek </StageDisplayString>
+
+    <TransitionDisplayString>kirim ke Penerjemah Balik bahasa Inggris
+    (kemudian ke Fasilitator Proyek - untuk dikembalikan sebelum pengujian
+    dengan Orang Awam)</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini, Anda (sebagai Penerjemah Balik bahasa
+    Inggris) akan membaca masukan-masukan yang diberikan oleh Konsultan dalam
+    bahasa Inggris lalu menerjemahkannya ke dalam bahasa Indonsia untuk
+    Fasilitator Proyek. Anda boleh mengetiknya di kotak yang sama dengan
+    catatan konsultan yang asli (jangan hapus catatan yang asli itu). Tahap
+    ini dipakai kalau Konsultan mau mengalihkan cerita kepada Fasilitator
+    Proyek dan timnya *sebelum* pengujian dengan Orang Awam. Kalau Anda sudah
+    selesai menerjemahkan masukan dari Konsultan untuk Fasilitator, klik
+    "Tugas" lalu "Alihkan cerita ke giliran Fasilitator Proyek". Lalu Klik
+    "Kirim/Terima". </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eConsultantCheckNonBiblicalStory</AllowableTransition>
+
+      <AllowableTransition>eFirstPassMentorCheck1</AllowableTransition>
+
+      <AllowableTransition>eConsultantCheckStoryInfo</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eProjFacRevisesBeforeUnsTest</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="false" viewCoachNotesField="false"
+                  viewConsultantNoteField="true" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="true" viewNetBible="false"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="ConsultantInTraining, IndependentConsultant"
+                   RequiresNonBiblicalStory="true"
+                   stage="eConsultantCheckNonBiblicalStory">
+    <StageDisplayString>Consultant checks the discourse features of the
+    story</StageDisplayString>
+
+    <TransitionDisplayString>send to the consultant for
+    analysis</TransitionDisplayString>
+
+    <StageInstructions> In this stage, you (the consultant) will help the team
+    chart this story in the "Discourse Chart Helper" program. To copy the
+    story from this program to use in the Discourse Chart Helper program, you
+    can click 'Edit', 'Copy', 'Story' command and then paste the copied text
+    into the 'Workspace' area at the bottom of that Discourse Chart Helper
+    program. See the instructions in the 'Start', 'All Programs', 'SIL
+    Converters', 'Help', 'Readme for Discourse Chart Helper' program for
+    details. This is the final stage of the process for this non-biblical
+    story. </StageInstructions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
+
+      <AllowableTransition>eProjFacRevisesBeforeUnsTest</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="false" viewCoachNotesField="false"
+                  viewConsultantNoteField="false" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="true" viewNetBible="false"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="false"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="FirstPassMentor"
+                   RequiresBiblicalStory="true" RequiresFirstPassMentor="true"
+                   stage="eFirstPassMentorCheck1">
+    <StageDisplayString>First-pass mentor checks the story (pre-UNS
+    test)</StageDisplayString>
+
+    <TransitionDisplayString>send to the first pass mentor for
+    checking</TransitionDisplayString>
+
+    <StageInstructions> In this stage, you (the first-pass mentor) will check
+    the story and make any suggestions you can think of that would make the
+    story more accurate, clear, and natural. You will put your suggestions in
+    the 'Consultant Notes' pane of the editor in the boxes labeled 'cons:' You
+    can make comments related to any of the following issues: Anchors: are the
+    lines of the story supported by the anchored verses, or has the story
+    crafter mis-interpreted something? Story Flow: does the story flow nicely?
+    Story Length: is the length of the story nice? Does it seem re-tellable?
+    Translation issues: are any words translated in a way that makes you think
+    it might be mis-translated? Story matches the stated purpose: does the
+    story seem to support the purpose for which it was created? (see 'Story'
+    menu, 'Story Information' to see the 'Purpose'). The redemptive theme is
+    also supposed to be written up in the first tab of the 'Show Panorama'
+    command. Were enough resources used: look in 'Story' menu, 'Story
+    Information' again to see the list of resources used in crafting the
+    story. Where possible, there should be at least two Bible versions and two
+    visual resources (video and pictures) used when crafting a story. Story
+    Testing Questions: are the story testing questions appropriate for the
+    kind of testing that we want in a Storying project? e.g. do they cause the
+    UNS to think outside of the text--"why" and "how" questions are better
+    than "what", "who", "where", "when" kind of questions)? Have the they
+    avoided questions whose answers are "yes" and "no" or questions which ask
+    what something means? Is there a answer to the question which would be
+    beneficial for checking the inferences of the story? If there are major
+    problems with the flow and/or thematic focus (e.g. it's too long, or
+    doesn't really support the purpose mentioned), you can add a few
+    consultant notes in the Consultant Notes pane and send it back to the
+    Project Facilitator for revision (i.e. before spending a lot of time
+    checking it further and/or passing it along to the Consultant). To send it
+    back to the Project Facilitator for such changes, click the "Select State"
+    menu item and in the resulting window click on the previous (red) state
+    'Project Facilitator revises the story before returning it to the
+    Consultant'. Then close the editor (or reload the project file -- i.e.
+    "Project", "Recent Projects", "{project name}") and the project file will
+    be uploaded to the internet where it can be downloaded by the project
+    facilitator to work on changes. Otherwise, when you are finished reviewing
+    the Story and adding consultant notes in the 'Consultant Notes' pane, then
+    click the "Select State" menu item and choose the next (green) state.
+    </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eConsultantCheckStoryInfo</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
+
+      <AllowableTransition>eProjFacRevisesBeforeUnsTest</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="true" viewCoachNotesField="false"
+                  viewConsultantNoteField="true" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="true" viewNetBible="true"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="ConsultantInTraining, IndependentConsultant"
+                   RequiresBiblicalStory="true"
+                   stage="eConsultantCheckStoryInfo">
+    <StageDisplayString>Konsultan memeriksa Informasi Cerita (sebelum uji dgn
+    orang awam).</StageDisplayString>
+
+    <TransitionDisplayString>cerita dikirim ke konsultan untuk diperiksa
+    sebelum diuji dengan orang awam</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini, Anda (sebagai konsultan) akan
+    memastikan bahwa Fasilitator Proyek sudah memasukkan informasi berikut
+    dengan benar (klik menu 'Cerita', 'Informasi ttg Cerita…': - nama
+    pencerita(crafter) - tujuan cerita ini (apakah sesuai dengan Tema
+    Penebusan rangkaian cerita ini? - Lihatlah menu 'Tampilkan Panorama') -
+    sumber-sumber yang dipakai (Apakah lebih dari satu? Apakah sumber lisan?)
+    - nama orang awam yang membuat terjemahan balik dan keterangan tentang
+    dia. Anda juga boleh membaca cerita, untuk cek memeriksa kewajaran cerita
+    dan cek memeriksa apakah cerita ini memenuhi tujuan yang diharapkan. Kalau
+    ada masalah yang cukup besar tentang kewajaran cerita dan/atau tujuan
+    cerita dalam tema rangkaian cerita (misalnya cerita terlalu lama, atau
+    tidak sesuai dengan tujuan atau tema), maka Anda boleh menambah beberapa
+    komentar konsultan di jendela 'Catatan Konsultan', lalu mengirimnya
+    kembali ke Fasilitator Proyek untuk direvisi (yaitu sebelum Anda membuang
+    waktu mengeceknya memeriksanya secara lebih mendalam). Untuk mengirimnya
+    kembali ke Fasilitator Proyek (klik 'Tugas' kemudian klik 'Alihkan cerita
+    ke giliran Fasilitator'). Kemudian klik 'Proyek', 'Kirim/Terima' untuk
+    mengirim proyek kembali ke Fasilitator melalui Internet (atau USB). Kalau
+    tidak ada masalah besar, klik "Tugas" kemudian klik tugas yang berikut.
+    </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition
+      AllowToSkip="true">eConsultantCheckAnchors</AllowableTransition>
+
+      <AllowableTransition
+      AllowToSkip="true">eConsultantCheckStoryQuestions</AllowableTransition>
+
+      <AllowableTransition>eCoachReviewRound1Notes</AllowableTransition>
+
+      <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
+
+      <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eFirstPassMentorCheck1</AllowableTransition>
+
+      <AllowableTransition>eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
+
+      <AllowableTransition>eProjFacRevisesBeforeUnsTest</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="false" viewCoachNotesField="false"
+                  viewConsultantNoteField="true" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="true" viewNetBible="false"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="false"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="ConsultantInTraining, IndependentConsultant"
+                   RequiresBiblicalStory="true"
+                   stage="eConsultantCheckAnchors">
+    <StageDisplayString>Konsultan memeriksa dasar-dasar Alkitab dari cerita
+    (sebelum uji dgn orang awam).</StageDisplayString>
+
+    <TransitionDisplayString>memeriksa dasar-dasar
+    Alkitab</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini Anda (sebagai konsultan) akan memeriksa
+    dasar-dasar Alkitab yang sudah ditambahkan oleh Fasilitator Proyek untuk
+    setiap baris cerita. Dasar-dasar Alkitab yang ditampilkan di cerita,
+    sebenarnya berbentuk tombol-tombol. Kalau Anda klik di salah satu tombol
+    Dasar Alkitab, Alkitab yang terbuka di jendela Alkitab akan pergi ke acuan
+    itu. Tanggung jawab Anda adalah memeriksa setiap baris cerita dan menjaga
+    supaya tidak ada informasi di baris-baris tersebut yang tidak didukung
+    oleh ayat-ayat Alkitab yang dimasukkan oleh Fasilitator sebagai Dasar
+    Alkitab. Kalau ada informasi di baris cerita yang tidak ada di Dasar
+    Alkitab, Anda boleh menambah Dasar Alkitab sendiri, kalau Anda sudah tahu
+    ayat Alkitab yang mendukung baris itu (dan menambah Catatan Konsultan
+    supaya Fasilitator tahu bahwa Anda sudah melakukan penambahan itu), atau
+    Anda boleh menambah Catatan Konsultan untuk meminta Fasilitator menambah
+    ayat itu sebagai Dasar Alkitab. Sementara Anda mengevaluasi baris cerita,
+    dan mempertimbangkan apakah baris itu adalah tafsiran yang benar dari
+    ayat-ayat di Dasar Alkitab, dianjurkan bahwa Anda memakai sumber-sumber
+    penafsiran Alkitab (seperti di Translators Workplace). Kalau Anda
+    menemukan sumber penafsiran yang mendukung istilah atau frase yang dipakai
+    oleh pencerita (tetapi mungkin Dasar Alkitab yang dimasukkan oleh
+    Fasilitator tidak mendukungnya), maka Anda boleh menyalin sebagian dari
+    penafsiran tersebut dan menempelkannya ke dalam kotak ‘Catatan tentang
+    Penafsiran’ (klik kanan di kotak kecil di atas baris, sebelah kanan,
+    kemudian klik 'Tambah Catatan ttg Penafsiran/Budaya di bawah'). Untuk
+    mencari acuan-acuan Alkitab di jendela Alkitab, Anda boleh klik kanan di
+    kotak nama kitab (atas kiri) untuk berpindah ke kitab lain di Alkitab,
+    atau klik tanda panah di kotak tersebut untuk berpindah ke kitab atau
+    pasal yang berikut atau yang sebelumnya. Anda boleh membawa tombol dasar
+    Alkitab dengan mouse ke jendela Alkitab, untuk pergi ke acuan itu, atau ke
+    kotak Catatan Konsultan yang terbuka. Di kotak Catatan Konsultan acuan itu
+    akan nampak, dan kemudian Fasilitator Proyek akan bisa klik di acuan itu
+    dan pergi ke acuannya di jendela Alkitab juga. Kalau Anda sudah memeriksa
+    semua dasar Alkitab, silakan klik 'Tugas' kemudian klik tugas yang
+    berikut. </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition
+      AllowToSkip="true">eConsultantCheckStoryQuestions</AllowableTransition>
+
+      <AllowableTransition>eCoachReviewRound1Notes</AllowableTransition>
+
+      <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
+
+      <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eFirstPassMentorCheck1</AllowableTransition>
+
+      <AllowableTransition>eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
+
+      <AllowableTransition>eProjFacRevisesBeforeUnsTest</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="true" viewCoachNotesField="false"
+                  viewConsultantNoteField="true" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="true" viewNetBible="true"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="false"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="ConsultantInTraining, IndependentConsultant"
+                   RequiresBiblicalStory="true"
+                   stage="eConsultantCheckStoryQuestions">
+    <StageDisplayString>Konsultan memeriksa Pertanyaan pengujian cerita
+    (sebelum uji dgn orang awam).</StageDisplayString>
+
+    <TransitionDisplayString>memeriksa pertanyaan pengujian
+    cerita</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini Anda (sebagai konsultan) akan memeriksa
+    pertanyaan-pertanyaan yang sudah ditambahkan oleh Fasilitator Proyek.
+    Sementara Anda mempertimbangkan Pertanyaan Pengujian Cerita (PPC),
+    ingatlah bahwa tujuan pertanyaan itu adalah menguji kesimpulan-kesimpulan
+    yang ditarik oleh pendengar cerita. PPC yang terbaik adalah pertanyaan
+    yang membuat orang awam bertanya "Kenapa?" atau "Bagaimana?" tentang isi
+    cerita. Pertanyaan-pertanyaan yang bertanya "Ada contoh-contoh apa dari
+    hal ini?" bisa juga berguna. PPC itu harus berdasarkan cerita, tetapi kita
+    mau supaya orang awam menarik kesimpulan dari pengalamannya di luar
+    cerita. Seandainya di cerita ada baris begini: "Masyarakat dibaptis lalu
+    mereka tinggalkan dosanya." Pertanyaan Pengujian Cerita yang cocok mungkin
+    "Menurut Anda, kenapa (atau bagaimana) mereka dibaptis?" atau "Menurut
+    Anda, kenapa (atau bagaimana) mereka tinggalkan dosanya?"
+    Pertanyaan-pertanyaan ini berguna karena pertanyaan ini tentang isi
+    cerita, tetapi jawabannya tidak ada di dalam cerita dan berdasarkan
+    pendapat atau kesimpulan orang awam itu. Tergantung jawabannya, mungkin
+    cerita akan diubah untuk menghindari pengertian yang salah.
+    Pertanyaan-pertanyaan yang memakai kata "apa?", "siapa?", "kapan?", "di
+    mana?" biasanya kurang cocok, apalagi kalau jawabannya ada di dalam cerita
+    sendiri. Seandainya ada baris cerita begini: "Yesus naik gunung beserta
+    muridnya tiga orang…". Pertanyaan "Berapa murid naik gunung?" bukan
+    pertanyaan yang baik sebagai PPC, karena jawabannya ada di dalam cerita.
+    Pertanyaan-pertanyaan seperti itu bisa disebut "pertanyaan tertutup".
+    Sebaiknya kita hindari pertanyaan tertutup itu. Akan tetapi, sekali-sekali
+    pertanyaan tertutup boleh dipakai kalau salah satu baris bisa memiliki dua
+    arti. Misalnya kalau ada baris cerita "Dia katakan kepada Hawa…", ada dua
+    kemungkinan: (1) "dia" berarti Adam, (2) "dia" berarti ular. Jadi untuk
+    memastikan bahwa tidak ada salah pengertian, Anda boleh tanya, "Menurut
+    Anda, siapa yang bicara dengan Hawa?" Pertanyaan yang jawabnya "Ya" atau
+    "Tidak" juga tidak berguna, misalnya pertanyaan seperti, "Apakah Yusuf
+    menampakkan diri kepada kakak-kakaknya sebelum mereka berangkat?"
+    Pertanyaan yang bertanya tentang arti sesuatu juga tidak begitu membantu
+    kita, misalnya jangan bertanya "Apa artinya 'pesuruh dari surga'?
+    Contoh-contoh ini adalah pertanyaan yang kurang baik. Selain itu, jangan
+    membuat pertanyaan yang bertanya kepada orang awam tentang kepercayaan
+    mereka (mis. "Menurut Anda, apakah benar Allah menciptakan dunia selama 6
+    hari?") Pertanyaan seperti ini tidak akan membantu kita untuk mengerti
+    kesimpulan-kesimpulan yang ditarik oleh pendengar cerita. Sementara Anda
+    mengevaluasi pertanyaan, pertimbangkanlah selalu jawaban-jawaban apa yang
+    mungkin diberikan oleh orang awam itu. Kalau jawabannya bisa menunjukkan
+    salah pengertian, kemungkinan besar itu pertanyaan yang cukup berguna.
+    Tetapi ada pertanyaan yang tidak bisa membantu kita untuk memperbaiki
+    cerita, misalnya pertanyaan "Menurut Anda, apakah manusia bisa tinggal di
+    kandang binatang?" Kalau kita bertanya begitu, jawaban apa saja tidak akan
+    membantu kita untuk tahu kalau orang awam itu menarik kesimpulan yang
+    salah. Kalau Anda merasa bahwa salah satu pertanyaan yang dibuat adalah
+    pertanyaan yang kurang baik, masukkan catatan di jendela Catatan
+    Konsultan, dan beri usulan kepada Fasilitator Proyek untuk mengubah
+    pertanyaan tersebut. Penting sekali memberitahukan kepada Fasilitator
+    kenapa pertanyaan tersebut kurang baik, supaya dia bisa belajar apa
+    sebenarnya tujuan kita waktu kita membuat pertanyaan pengujian cerita.
+    Usulkan juga pertanyaan alternatif. Kalau Anda sudah selesai memeriksa
+    pertanyaan pengujian, silakan klik Tugas dan pilihlah tahap yang berikut.
+    Kalau di proyek ini ada Pembina yang melatih Calon Konsultan (lihat:
+    'Proyek', 'Pengaturan' di tab 'Anggota Tim'), maka giliran yang berikut
+    adalah giliran Pembina untuk mengevaluasi masukan-masukan Anda melalui
+    jendela Catatan Pembina. Anda juga boleh menambah catatan di jendela
+    tersebut, kalau Anda mau bertanya kepada Pembina (kalau jendela Catatan
+    Pembina belum nampak, klik 'Lihat', 'Catatan Pembina').
+    </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eCoachReviewRound1Notes</AllowableTransition>
+
+      <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
+
+      <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eFirstPassMentorCheck1</AllowableTransition>
+
+      <AllowableTransition>eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
+
+      <AllowableTransition>eProjFacRevisesBeforeUnsTest</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="true" viewCoachNotesField="false"
+                  viewConsultantNoteField="true" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="true"
+                  viewNationalLangField="true" viewNetBible="true"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition DontShowTilPast="true"
+                   MemberTypeWithEditToken="ConsultantInTraining, IndependentConsultant"
+                   RequiresBiblicalStory="true"
+                   RequiresManageWithCoaching="true"
+                   stage="eConsultantCauseRevisionBeforeUnsTest">
+    <StageDisplayString>Calon Konsultan merevisi masukannya untuk fasilitator
+    berdasarkan masukan yang diberikan oleh Pembina (sebelum pengujian
+    UNS)</StageDisplayString>
+
+    <TransitionDisplayString>kirim kepada Calon Konsultan untuk diperbaiki
+    (dikembalikan sebelum pengujian dengan Orang
+    Awam)</TransitionDisplayString>
+
+    <StageInstructions>Pada tahap ini, Anda (sebagai Calon Konsultan) akan
+    memeriksa masukan-masukan yang diberikan oleh Pembina di jendela Catatan
+    Pembina, kemudian, kalau perlu, memperbaiki masukan Anda kepada
+    Fasilitator Proyek. Untuk setiap komentar dari Pembina (Baris-baris "pem:"
+    di jendela Catatan Pembina), Anda harus mengetik sebuah respons di kotak
+    "ck:" (Calon Konsultan), walaupun respons Anda hanya "Baik" atau "Sudah"
+    saja, yang penting ada respons. Kalau Anda mau minta penjelasan, Anda
+    boleh menambah komentar baru melalui tombol "Tambah Catatan" di jendela
+    'Catatan Pembina'. Biasanya Calon Konsultan ada di tahap ini karena
+    Pembina belum puas dengan sesuatu di cerita dan mau supaya Fasilitator
+    Proyek dan Pencerita memperbaiki cerita sebelum masuk ke tahap pengujian
+    dengan Orang Awam. Jadi kalau Anda sudah bekerja dengan Fasilitator Proyek
+    dan dia sudah perbaiki cerita, maka Anda boleh mengalihkan cerita ke
+    giliran Pembina. Kalau belum diperbaiki, maka Anda boleh mengalihkan ke
+    giliran Fasilitator dulu, untuk diperbaiki. </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eCoachReviewRound1Notes</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eBackTranslatorTranslateConNotesBeforeUnsTest</AllowableTransition>
+
+      <AllowableTransition>eProjFacRevisesBeforeUnsTest</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="true" viewCoachNotesField="true"
+                  viewConsultantNoteField="true" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="true" viewNetBible="true"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="false"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="Coach"
+                   RequiresBiblicalStory="true"
+                   RequiresManageWithCoaching="true"
+                   stage="eCoachReviewRound1Notes">
+    <StageDisplayString>Pembina memeriksa cerita dan masukan dari Calon
+    Konsultan</StageDisplayString>
+
+    <TransitionDisplayString>kirim kepada Pembina untuk
+    diperiksa</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini Anda (sebagai Pembina) akan memeriksa
+    cerita dan Catatan Konsultan yang ditambah oleh Calon Konsultan (dan
+    mungkin Pemeriksa Bahasa khusus) di jendela Catatan Konsultan. Kalau Anda
+    mau memberikan masukan, tulis masukan itu di jendela Catatan Pembina. Klik
+    "Tambah Catatan" di baris yang bersangkutan untuk membuka kotak dengan
+    label "pem:". Ketik catatan Anda di kotak itu. Kalau Anda sudah mau kirim
+    catatan Anda kepada Calon Konsultan, klik "Tugas" lalu klik "Alihkan
+    kepada Calon Konsultan". Kotak "Tentukan tugas-tugas untuk Calon
+    Konsultan" akan muncul. Di kotak itu ada dua kolom: "Tugas-tugas yang
+    diijinkan" dan "Tugas-tugas yang diwajibkan". Masukkan atau hilangkan
+    tanda-tanda centang sesuai dengan keinginan Anda untuk Calon Konsultan.
+    Misalnya, kalau Anda masukan tanda centang di "Alihkan di giliran Pembina"
+    di kolom "Tugas-tugas yang diwajibkan" maka OSE tidak akan mengijinkan
+    Calon Konsultan mengalihkan ke fasilitator, harus ke Pembina dulu.
+    </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eConsultantReviseRound1Notes</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eConsultantCauseRevisionBeforeUnsTest</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="true" viewCoachNotesField="true"
+                  viewConsultantNoteField="true" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="false" viewNetBible="true"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="false"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="ConsultantInTraining, IndependentConsultant"
+                   RequiresBiblicalStory="true"
+                   RequiresManageWithCoaching="true"
+                   stage="eConsultantReviseRound1Notes">
+    <StageDisplayString>Calon Konsultan merevisi catatannya berdasarkan
+    masukan dari Pembina</StageDisplayString>
+
+    <TransitionDisplayString>kirim ke Calon Konsultan untuk diproses supaya
+    dia kirim ke Fasilitator Proyek untuk pengujian dengan Orang
+    Awam</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini, Anda (sebagai Konsultan) akan
+    memeriksa masukan-masukan yang diberikan oleh Pembina di jendela Catatan
+    Pembina, kemudian kalau perlu memperbaiki masukan Anda, atau tambah
+    masukan baru untuk Fasilitator dan Pencerita. Untuk setiap komentar dari
+    Pembina (Baris-baris "pem:" di jendela Catatan Pembina), Anda harus
+    mengetik sebuah respons di kotak "ck:" (Calon Konsultan), walaupun respons
+    Anda hanya "Baik" atau "Sudah" saja, yang penting ada respons. Kalau Anda
+    mau minta penjelasan, Anda boleh menambah komentar baru melalui tombol
+    "Tambah Catatan" di jendela 'Catatan Pembina'. Kalau Anda sudah selesai
+    memperbaiki masukan dan/atau tambah respons, Anda boleh mengalihkan cerita
+    kepada Pembina lagi atau langsung ke Fasilitator Proyek, sesuai dengan
+    permintaan Pembina. </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
+
+      <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eCoachReviewRound1Notes</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="true" viewCoachNotesField="true"
+                  viewConsultantNoteField="true" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="true" viewNetBible="true"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="false"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="EnglishBackTranslator"
+                   RequiresBiblicalStory="true" RequiresUsingEnglishBT="true"
+                   RequiresUsingOtherEnglishBTer="true"
+                   stage="eBackTranslatorTranslateConNotes">
+    <StageDisplayString>Penerjemah Balik bahasa Inggris menerjemahkan Catatan
+    Konsultan untuk Fasilitator Proyek</StageDisplayString>
+
+    <TransitionDisplayString>kirim ke Penerjemah Balik bahasa Inggris untuk
+    diterjemahkan (kemudian ke Fasilitator Proyek - untuk pengujian dengan
+    Orang Awam)</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini, Anda (sebagai Penerjemah Balik bahasa
+    Inggris) akan membaca masukan-masukan yang diberikan oleh Konsultan dalam
+    bahasa Inggris lalu menerjemahkannya ke dalam bahasa Indonsia untuk
+    Fasilitator Proyek. Anda boleh mengetiknya di kotak yang sama dengan
+    catatan konsultan yang asli (jangan hapus catatan yang asli itu). Kalau
+    Anda sudah selesai menerjemahkan masukan dari Konsultan untuk Fasilitator,
+    klik "Tugas" lalu "Alihkan cerita ke giliran Fasilitator Proyek". Lalu
+    Klik "Kirim/Terima". </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <ViewSettings viewAnchorField="true" viewCoachNotesField="false"
+                  viewConsultantNoteField="true" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="true" viewNetBible="true"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="ProjectFacilitator"
+                   RequiresBiblicalStory="true"
+                   stage="eProjFacReviseBasedOnRound1Notes">
+    <StageDisplayString>Fasilitator Proyek merevisi Cerita berdasarkan masukan
+    dari Konsultan.</StageDisplayString>
+
+    <TransitionDisplayString>cerita dikirim ke fasilitator untuk memeriksa
+    masukan lalu menguji dengan Orang Awam.</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini, Anda (sebagai Fasilitator Proyek) akan
+    memeriksa masukan-masukan yang diberikan oleh konsultan, di jendela
+    Catatan Konsultan, kemudian memperbaiki cerita sesuai dengan masukan
+    konsultan. Sementara Anda memeriksa komentar-komentar konsultan, tentukan
+    perubahan-perubahan yang diperlukan untuk setiap komentar. Kalau
+    perubahannya kecil saja, Anda boleh merekam kembali bagian itu saja, lalu
+    memasukkan rekaman baru itu ke rekaman yang asli. Kalau rekaman yang
+    dihasilkan ada sedikit perbedaan suara, tidak apa-apa. Seandainya di dalam
+    cerita seorang tokoh cerita mengatakan sesuatu, lalu Konsultan mengatakan
+    bahwa tidak ada dasar Alkitab untuk itu, karena tokoh itu mengatakan hal
+    lain di Alkitab, maka nanti Anda dan pencerita boleh membuat rekaman baru
+    dari hal yang seharusnya dikatakan oleh tokoh itu dan memasukkannya di
+    dalam rekaman asli. Kalau Anda memperbaiki cerita dengan cara memasukkan
+    rekaman baru ini, maka Anda juga harus memperbaharui kotak-kotak cerita
+    dan kotak-kotak terjemahan balik di jendela dokumentasi cerita di OSE.
+    Tetapi, ingatlah bahwa *rekamanlah* yang sebenarnya diubah, bukan
+    transkripsi cerita atau terjemahan baliknya. Dokumentasi cerita dan
+    terjemahan baliknya hanya menunjukkan apa yang diubah di rekaman cerita.
+    Kalau ada perubahan yang lebih besar/banyak, sesudah membahasnya dengan
+    pencerita, mintalah dia menceritakan kembali seluruh cerita dengan
+    perubahan-perubahan yang diminta. Pencerita tidak boleh melihat
+    dokumentasi sementara Anda membahas perubahan-perubahan itu dengan dia,
+    supaya dia tidak dipengaruhi, atau tidak mengikuti istilah-istilah yang
+    ada di dokumentasi itu. Tugas Anda sebagai Fasilitator adalah menjaga
+    supaya perubahan-perubahan yang diminta tetap dimasukkan ke dalam versi
+    baru. Kalau pencerita belum memasukkan perubahan yang diminta, minta dia
+    menceritakan kembali cerita itu (atau boleh juga merekam bagian yang salah
+    saja, dan memasukkan rekaman bagian itu ke dalam rekaman yang sudah ada).
+    Mungkin juga tim harus merekam cerita beberapa kali untuk memasukkan semua
+    perubahan yang diminta. Selain memperbaharui dokumentasi cerita untuk
+    versi baru, Anda harus mengetik sebuah respon untuk setiap komentar
+    konsultan (di kotak "kon:" atau "ck:" – konsultan/ calon konsultan – di
+    jendela 'Catatan Konsultan') Anda mengetiknya di kotak "fas:" (Fasilitator
+    Proyek). Setidaknya berikan respons seperti "Baik" atau "Sudah" saja, yang
+    penting ada respons. Kalau Anda mau minta penjelasan, Anda boleh menambah
+    komentar baru melalui tombol "Tambah Catatan" di jendela 'Catatan
+    Konsultan'. Kalau Anda sudah selesai, klik "Tugas" kemudian klik tugas
+    yang berikut. </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition
+      AllowToSkip="true">eProjFacOnlineReview1WithConsultant</AllowableTransition>
+
+      <AllowableTransition>eProjFacReadyForTest1</AllowableTransition>
+
+      <AllowableTransition>eBackTranslatorTypeInternationalBTTest1</AllowableTransition>
+
+      <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
+
+      <AllowableTransition>eConsultantCheck2</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eConsultantCheckStoryInfo</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="true" viewCoachNotesField="false"
+                  viewConsultantNoteField="true" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="true"
+                  viewNationalLangField="true" viewNetBible="true"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="ProjectFacilitator"
+                   RequiresBiblicalStory="true"
+                   stage="eProjFacOnlineReview1WithConsultant">
+    <StageDisplayString>Fasilitator Proyek membahas cerita secara online
+    dengan konsultan (tidak wajib).</StageDisplayString>
+
+    <TransitionDisplayString>membahas cerita dengan konsultan secara
+    online</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini, Anda (sebagai Fasilitator Proyek)
+    boleh mengatur waktu untuk membahas masukan konsultan atau pertanyaan tim
+    melalui computer secara online. Sebaiknya disepakati sebelumnya siapa saja
+    anggota tim yang akan hadir. Kalau semua masalah atau pertanyaan sudah
+    dibahas, dan dipecahkan atau dijawab, klik "Tugas" kemudian klik tugas
+    yang berikut (uji dgn Orang Awam). </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eProjFacReadyForTest1</AllowableTransition>
+
+      <AllowableTransition>eBackTranslatorTypeInternationalBTTest1</AllowableTransition>
+
+      <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
+
+      <AllowableTransition>eConsultantCheck2</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <ViewSettings viewAnchorField="true" viewCoachNotesField="false"
+                  viewConsultantNoteField="true" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="true"
+                  viewNationalLangField="true" viewNetBible="true"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="ProjectFacilitator"
+                   RequiresBiblicalStory="true" stage="eProjFacReadyForTest1">
+    <StageDisplayString>Fasilitator Proyek sudah siap untuk menguji cerita
+    dengan Orang Awam.</StageDisplayString>
+
+    <TransitionDisplayString>menguji cerita dengan Orang
+    Awam</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini, Anda (sebagai Fasilitator Proyek) akan
+    menjalankan tes pengujian dengan Orang Awam. Setiap tes pengujian dengan
+    Orang Awam mencakup: Cerita Ulang - Memutar rekaman beberapa kali supaya
+    Orang Awam mendengarnya - Minta Orang Awam untuk menceritakan kembali
+    cerita tersebut dalam kata-kata sendiri, tetapi kalau bisa jangan lupa
+    apa-apausahakan sedekat mungkin dengan semua princian yang ada di dalam
+    cerita. (Tidak usah direkam dulu.) - Memutar rekaman sekali lagi, dan
+    minta Orang Awam membandingkan cerita ulangnya dengan rekaman (supaya
+    cerita ulang diperbaiki). - Minta Orang Awam menceritakan kembali cerita
+    sekali lagi dan rekam (diulangi sampai puas). Terjemahan Balik oleh Orang
+    Awam ke dalam bahasa Indonesia (atau bahasa lain) - Memutar rekaman cerita
+    sedikit demi sedikit (dengan alat rekam kedua atau komputer, kalau
+    terjemahan baliknya akan direkam). Boleh memutar baris demi baris atau
+    kalimat demi kalimat, yang penting jangan terlalu banyak supaya Orang Awam
+    dapat menerjemahkannya. Minta Orang Awam menerjemahkan secara lisan setiap
+    bagian cerita untuk direkam (atau diketik kata demi kata oleh anggota tim
+    lainnya). Pertanyaan Pengujian Cerita - Memutar rekaman cerita seluruhnya,
+    lalu minta Orang Awam menjawab Pertanyaan Pengujian Umum, dan rekam
+    jawabannya. - Memutar rekaman cerita sampai baris di mana ada pertanyaan
+    pengujian cerita. Hentikan pemutaran lalu minta Orang Awam menjawab
+    Pertanyaan Pengujian Cerita, dan rekam jawabannya, dan seterusnya sampai
+    selesai. Kalau Anda sudah selesai, klik "Tugas" kemudian klik tugas yang
+    berikut, di mana Anda akan mendengar rekaman yang dibuat di atas dan
+    memasukkan hasil pengujian ini ke kotak-kotaknya di jendela cerita.
+    </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eProjFacEnterRetellingOfTest1</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eProjFacOnlineReview1WithConsultant</AllowableTransition>
+
+      <AllowableTransition>eProjFacAddStoryQuestions</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="false" viewCoachNotesField="false"
+                  viewConsultantNoteField="false" viewEnglishBTField="false"
+                  viewFreeTranslationField="false"
+                  viewGeneralTestingQuestions="true"
+                  viewNationalLangField="true" viewNetBible="false"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="ProjectFacilitator"
+                   RequiresBiblicalStory="true"
+                   stage="eProjFacEnterRetellingOfTest1">
+    <StageDisplayString>Fasilitator Proyek memasukkan Cerita
+    Ulang.</StageDisplayString>
+
+    <TransitionDisplayString>memasukkan cerita ulang</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini, Anda (sebagai Fasilitator Proyek) akan
+    memasukkan cerita ulang yang telah diceritakan kembali oleh Orang Awam.
+    Waktu Anda memasuki tahap ini, Anda akan ditanyakan kalau Anda mau
+    menambahkan kotak-kotak untuk hasil cerita ulang. Kalau Anda klik "Ya"
+    maka satu set kotak-kotak untuk tempat mengetik cerita ulang akan
+    ditambahkan di bawah kotak-kotak cerita. Anda boleh mengetik cerita ulang
+    dan terjemahan baliknya di dalam kotak-kotak tersebut. Biasanya cerita
+    ulang dibuat oleh setidaknya dua Orang Awam. Jadi akhirnya Anda akan perlu
+    dua (atau lebih) set kotak-kotak untuk cerita ulang, lalu cerita ulangnya
+    akan diterjemahkan kembali (ke dalam bahasa Indonesia atau bahasa lain).
+    Tetapi program OSE tidak akan mengijinkan set yang kedua untuk kotak
+    cerita ulang ditambahkan sebelum cerita ulang Orang Awam yang pertama
+    dimasukkan ke kotak-kotaknya. (Begitu juga di tahap pertanyaan pengujian,
+    jawaban Orang Awam pertama harus dimasukkan ke kotaknya sebelum Anda
+    menambahkan kotak-kotak untuk jawaban Orang Awam kedua.) Dengan cara ini
+    dipastikan bahwa tidak ada kekeliruan antara hasil uji yang pertama dan
+    yang kedua. Kalau Anda sudah memasukkan cerita ulang yang pertama, Anda
+    dapat kembali ke tahap 'Fasilitator Proyek memasukkan Cerita Ulang ' ini
+    sekali lagi, lalu klik "Ya" untuk menambahkan set kedua kotak-kotak untuk
+    hasil cek Orang Awam kedua. Kalau Anda sudah selesai memasukkan cerita
+    ulang, klik "Tugas" lalu klik tugas yang berikut. </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eProjFacEnterAnswersToStoryQuestionsOfTest1</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eProjFacOnlineReview1WithConsultant</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="false" viewCoachNotesField="false"
+                  viewConsultantNoteField="false" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="true" viewNetBible="false"
+                  viewRetellingField="true" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="false"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="ProjectFacilitator"
+                   RequiresBiblicalStory="true"
+                   stage="eProjFacEnterAnswersToStoryQuestionsOfTest1">
+    <StageDisplayString>Fasilitator Proyek memasukkan jawaban pertanyaan
+    pengujian.</StageDisplayString>
+
+    <TransitionDisplayString>memasukkan jawaban pertanyaan
+    pengujian</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini, Anda (sebagai Fasilitator Proyek) akan
+    memasukkan jawaban-jawaban Orang Awam atas pertanyaan pengujian cerita.
+    Pada waktu memulai tahap ini, satu set kotak untuk jawaban akan muncul di
+    bawah pertanyaan pengujian. Anda boleh memasukkan jawaban dari Orang Awam
+    ke dalam kotak-kotak itu. Kalau semua jawaban Orang Awam pertama sudah
+    dimasukkan, Anda sudah boleh memasukkan hasil uji (yaitu cerita ulang dan
+    jawaban-jawaban) dari Orang Awam kedua. Untuk melakukan itu Anda perlu
+    klik "Tugas" kemudian sekali lagi klik 'Fasilitator Proyek sudah siap
+    untuk mengecek cerita dengan Orang Awam'. Kalau semua hasil cek Orang Awam
+    sudah dimasukkan, maka klik "Tugas" kemudian klik tugas yang berikut.
+    </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eBackTranslatorTypeInternationalBTTest1</AllowableTransition>
+
+      <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
+
+      <AllowableTransition>eConsultantCheck2</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eProjFacReadyForTest1</AllowableTransition>
+
+      <AllowableTransition>eProjFacOnlineReview1WithConsultant</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="false" viewCoachNotesField="false"
+                  viewConsultantNoteField="false" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="true"
+                  viewNationalLangField="true" viewNetBible="false"
+                  viewRetellingField="false" viewStoryTestingAnswers="true"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition DontShowTilPast="true"
+                   MemberTypeWithEditToken="ProjectFacilitator"
+                   stage="eProjFacRevisesAfterUnsTest">
+    <StageDisplayString>Fasilitator Proyek merevisi
+    Cerita.</StageDisplayString>
+
+    <TransitionDisplayString>kirim ke Fasilitator Proyek untuk
+    diperbaiki</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini, Anda (sebagai Fasilitator Proyek) akan
+    memeriksa masukan-masukan yang diberikan oleh konsultan, di jendela
+    Catatan Konsultan, kemudian memperbaiki cerita sesuai dengan masukan
+    konsultan. Untuk mengetahui apa yang diminta oleh konsultan (misalnya
+    tambah pertanyaan pengujian, jawab komentar di Catatan Konsultan, dsb.),
+    silakan klik "Tugas" kemudian klik tombol " Alihkan cerita ke giliran
+    Konsultan". Sementara Anda memeriksa komentar-komentar konsultan, tentukan
+    perubahan-perubahan yang tepat untuk setiap komentar, kemudian minta
+    pencerita (crafter) untuk merekam kembali cerita dan memasukkan semua
+    pengubahan. Sesudah cerita direvisi oleh Anda dan oleh pencerita, dan
+    sudah ada rekaman baru, perbaharuilah kotak-kotak cerita dan kotak-kotak
+    terjemahan balik. Untuk setiap komentar konsultan (di kotak "kon:" atau
+    "ck:" – konsultan/ calon konsultan – di jendela 'Catatan Konsultan') Anda
+    harus mengetik sebuah respons di kotak "fas:" (Fasilitator Proyek),
+    walaupun respons Anda hanya "Baik" atau "Sudah" saja, yang penting ada
+    respons. Kalau Anda mau minta penjelasan, Anda boleh menambah komentar
+    baru melalui tombol "Tambah Catatan" di jendela 'Catatan Konsultan'. Kalau
+    Anda sudah selesai, klik "Tugas" lalu klik tombol " Alihkan cerita ke
+    giliran Konsultan", untuk menunjukkan bahwa revisi sudah dilakukan.
+    </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eBackTranslatorTypeInternationalBTTest1</AllowableTransition>
+
+      <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
+
+      <AllowableTransition>eConsultantCheck2</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <ViewSettings viewAnchorField="true" viewCoachNotesField="false"
+                  viewConsultantNoteField="true" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="true" viewNetBible="true"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="EnglishBackTranslator"
+                   RequiresBiblicalStory="true" RequiresUsingEnglishBT="true"
+                   RequiresUsingOtherEnglishBTer="true"
+                   stage="eBackTranslatorTypeInternationalBTTest1">
+    <StageDisplayString>Penerjemah Balik bahasa Inggris memasukkan terejemahan
+    balik bahasa Inggris dari hasil pengujian dengan Orang
+    Awam</StageDisplayString>
+
+    <TransitionDisplayString>kirim ke Penerjemah Balik bahasa Inggris untuk
+    menerjemahakan hasil pengujian dengan Orang Awam lalu mengirim ke
+    Kosultan</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini seseorang yang biasanya bukan anggota
+    tim pembentuk cerita akan menerjemahkan jawaban-jawaban dari Orang Awam ke
+    dalam bahasa Inggris, dan merevisi terejamahan cerita sesuai dengan
+    perubahan yang ada. Boleh diterjemahkan dari terjemahan balik bahasa
+    Indonesia, atau langsung dari bahasa cerita. Tahap ini hanya terjadi kalau
+    ada "Penerjemah Balik bahasa Inggris Luar" (lihat: Proyek - Pengaturan -
+    Anggota tim) di tim Anda. Tahap ini terjadi sesudah semua tahap-tahap
+    Fasilitator Proyek selesai, dan sebelum cerita dikirim ke Konsultan. Hanya
+    ada kotak-kotak untuk satu terejemahan balik untuk setiap jawaban, jadi
+    kalau sudah ada terjemahan bahasa Indonesia, maka terejemahan bahasa
+    Inggrisnya harus di masukkan ke dalam kotak yang sama dengan terjemahan
+    bahasa Indonesia. Kalau Anda sudah selesai, klik "Tugas" kemudian "Alihkan
+    cerita ke giliran konsultan" untuk menyerahkan cerita kepada konsultan
+    untuk diperiksa. Sesudah itu, jangan lupa klik "Kirim/Terima".
+    </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
+
+      <AllowableTransition>eConsultantCheck2</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eProjFacRevisesAfterUnsTest</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="false" viewCoachNotesField="false"
+                  viewConsultantNoteField="false" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="true" viewNetBible="false"
+                  viewRetellingField="false" viewStoryTestingAnswers="true"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition DontShowTilPast="true"
+                   MemberTypeWithEditToken="EnglishBackTranslator"
+                   RequiresUsingEnglishBT="true"
+                   RequiresUsingOtherEnglishBTer="true"
+                   stage="eBackTranslatorTranslateConNotesAfterUnsTest">
+    <StageDisplayString>Penerjemah Balik bahasa Inggris menerjemahkan Catatan
+    Konsultan untuk Fasilitator Proyek</StageDisplayString>
+
+    <TransitionDisplayString>kirim ke Penerjemah Balik bahasa Inggris
+    (kemudian ke Fasilitator Proyek - untuk dikembalikan tanpa pengujian
+    dengan Orang Awam)</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini, Anda (sebagai Penerjemah Balik bahasa
+    Inggris) akan membaca masukan-masukan yang diberikan oleh Konsultan dalam
+    bahasa Inggris lalu menerjemahkannya ke dalam bahasa Indonesia untuk
+    Fasilitator Proyek. Anda boleh mengetiknya di kotak yang sama dengan
+    catatan konsultan yang asli (jangan hapus catatan yang asli itu). Tahap
+    ini dipakai kalau Konsultan mau mengalihkan cerita kepada Fasilitator
+    Proyek dan timnya *sebelum* pengujian dengan Orang Awam. Kalau Anda sudah
+    selesai menerjemahkan masukan dari Konsultan untuk Fasilitator, klik
+    "Tugas" lalu "Alihkan cerita ke giliran Fasilitator Proyek". Lalu Klik
+    "Kirim/Terima". </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
+
+      <AllowableTransition>eConsultantCheck2</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eProjFacRevisesBeforeUnsTest</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="false" viewCoachNotesField="false"
+                  viewConsultantNoteField="true" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="true" viewNetBible="false"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="FirstPassMentor"
+                   RequiresBiblicalStory="true" RequiresFirstPassMentor="true"
+                   stage="eFirstPassMentorCheck2">
+    <StageDisplayString>First-pass mentor checks UNS test
+    results</StageDisplayString>
+
+    <TransitionDisplayString>send to the first pass mentor for
+    checking</TransitionDisplayString>
+
+    <StageInstructions> In this stage, you (the first-pass mentor) will check
+    the story again now that you have the answers to the story testing
+    questions and the retelling testing from the UNS(s). You should make any
+    suggestions you think would help make the story more accurate, clear, and
+    natural. You will put your suggestions in the 'Consultant Notes' pane of
+    the editor in the boxes labeled 'cons:' As before, you can make comments
+    related to any of the following issues: Anchors: are the lines of the
+    story supported by the anchored verses, or has the story crafter
+    misinterpreted something? Story Flow: does the story flow nicely? Story
+    Length: is the length of the story nice? Does it seem re-tellable?
+    Translation issues: are any words translated in a way that makes you think
+    it might be mis-translated? Story matches the stated purpose: does the
+    story seem to support the purpose for which it was created? (see 'Story'
+    menu, 'Story Information' to see the 'Purpose'). The redemptive theme is
+    also supposed to be written up in the first tab of the 'Show Panorama'
+    command. Additionally, during this state you will have UNS responses to
+    the Testing Questions and retellings of the story from the UNS test(s).
+    Review the answers that the UNS gave to the story and see if any of the
+    answers suggest that the story is unclear or misleading at any point. If
+    so, then be sure to make a comment about it in the consultant notes pane.
+    Also, look at the retelling and if it is significantly different from the
+    original story and especially if it seems more natural to you, then make a
+    suggestion about that to the crafting team as well (i.e. to consider
+    whether the retelling is a more natural way to say it and therefore
+    perhaps the original story ought to be changed). When you are finished
+    reviewing the Story and putting any consultant notes you have in the
+    'Consultant Notes' pane, then click the "Select State" menu item and in
+    the resulting window click on the next (green) state. </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eConsultantCheck2</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eBackTranslatorTranslateConNotesAfterUnsTest</AllowableTransition>
+
+      <AllowableTransition>eProjFacRevisesAfterUnsTest</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="true" viewCoachNotesField="false"
+                  viewConsultantNoteField="true" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="true" viewNetBible="true"
+                  viewRetellingField="true" viewStoryTestingAnswers="true"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="false"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="ConsultantInTraining, IndependentConsultant"
+                   RequiresBiblicalStory="true" stage="eConsultantCheck2">
+    <StageDisplayString>Konsultan memeriksa Cerita.</StageDisplayString>
+
+    <TransitionDisplayString>kirim cerita ke konsultan untuk
+    diperiksa</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini Anda (sebagai konsultan) akan memeriksa
+    cerita sekali lagi. Sekarang orang awam sudah menjawab pertanyaan
+    pengujian cerita dan sudah ada cerita ulang yang diceritakan kembali oleh
+    orang awam. Anda bertanggungjawab untuk memberi usulan-usulan yang akan
+    membantu tim untuk membuat cerita menjadi lebih tepat, jelas dan wajar.
+    Anda akan memasukkan usulan-usulan Anda di jendela Catatan Konsultan, di
+    kotak yang akan muncul waktu Anda klik "Tambah Catatan" di baris yang
+    bersangkutan. Anda boleh berkomentar tentang, antara lain: DASAR ALKITAB:
+    apakah setiap baris cerita didukung oleh ayat-ayat yang dimasukkan di
+    Dasar Alkitab, ataukah Pencerita sudah salah menafsirkan sesuatu?
+    KEWAJARAN CERITA: Periksa dan tanyakan tentang kelancaran cerita,
+    pembukaan cerita (termasuk sambungan dengan cerita sebelumnya), kata-kata
+    sambung, pemakaian kata ganti orang, cara memperkenalkan tokoh-tokoh
+    cerita yang baru, dll. Bila perlu, minta Fasilitator Proyek untuk
+    membandingkan cerita ini dengan cerita-cerita bahasa daerah yang bukan
+    dari Alkitab yang sudah direkam. PANJANG CERITA: Apakah panjang cerita
+    sesuai? Dapat diceritakan kembali? MASALAH-MASALAH TERJEMAHAN: Periksa dan
+    tanya tentang, kata kiasan, pertanyaan retoris, kata benda tidak nyata
+    (abstract nouns), kata kerja bentuk pasif, terjemahan yang wajar dan tidak
+    terlalu harfiah. TUJUAN CERITA SESUAI: Apakah cerita ini memenuhi 'Tujuan
+    Cerita' yang dimasukkan di "Informasi tentang cerita" (Menu: 'Cerita',
+    'Informasi ttg cerita', dan tujuan umum Rangkaian Cerita (Menu:
+    'Panorama', 'Tampilkan panorama' Tab: 'Bahan Depan'). PERTANYAAN
+    PENGUJIAN: Periksalah jawaban-jawaban yang diberikan oleh orang awam atas
+    pertanyaan pengujian. Apakah jawaban-jawaban itu menunjukkan bahwa cerita
+    kurang jelas atau membingungkan orang awam? Kalau ada masalah, atau Anda
+    mau bertanya, masukkan komentar atau pertanyaan tentang itu di jendela
+    Catatan Konsultan. CERITA ULANG: Periksalah cerita-cerita ulang. Apakah
+    berbeda sekali dari cerita asli? Kalau ya, apakah sepertinya cerita ulang
+    lebih wajar dari cerita asli (mungkin cerita bisa diperbaiki), ataukah
+    orang awam kurang mengerti cerita asli? Masukkan komentar atau pertanyaan
+    tentang itu. Apakah ada baris-baris yang tidak dapat diceritakan kembali,
+    oleh semua pencerita ulang? (Terlalu panjang? Belum jelas? Kurang
+    menonjol?) Tanya Fasilitator tentang hal itu juga. Kalau Anda sudah
+    selesai memeriksa cerita dan memasukkan catatan-catatan konsultan, klik
+    'Tugas' kemudian klik tombol tahap yang berikut. </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eCoachReviewRound2Notes</AllowableTransition>
+
+      <AllowableTransition>eTeamComplete</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
+
+      <AllowableTransition>eBackTranslatorTranslateConNotesAfterUnsTest</AllowableTransition>
+
+      <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
+
+      <AllowableTransition>eProjFacRevisesAfterUnsTest</AllowableTransition>
+
+      <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="true" viewCoachNotesField="false"
+                  viewConsultantNoteField="true" viewEnglishBTField="false"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="true"
+                  viewNationalLangField="true" viewNetBible="true"
+                  viewRetellingField="true" viewStoryTestingAnswers="true"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition DontShowTilPast="true"
+                   MemberTypeWithEditToken="ConsultantInTraining, IndependentConsultant"
+                   RequiresBiblicalStory="true"
+                   RequiresManageWithCoaching="true"
+                   stage="eConsultantCauseRevisionAfterUnsTest">
+    <StageDisplayString>Calon Konsultan merevisi masukannya untuk fasilitator
+    berdasarkan masukan dari Pembina</StageDisplayString>
+
+    <TransitionDisplayString>kirim kepada Calon Konsultan supaya dia minat
+    Fasilitator Proyek memperbaiki cerita (dikembalikan tanpa pengujian Orang
+    Awam)</TransitionDisplayString>
+
+    <StageInstructions>Pada tahap ini, Anda (sebagai Calon Konsultan) akan
+    memeriksa masukan-masukan yang diberikan oleh Pembina di jendela Catatan
+    Pembina, kemudian, kalau perlu, memperbaiki masukan Anda kepada
+    Fasilitator Proyek. Untuk setiap komentar dari Pembina (Baris-baris "pem:"
+    di jendela Catatan Pembina), Anda harus mengetik sebuah respons di kotak
+    "ck:" (Calon Konsultan), walaupun respons Anda hanya "Baik" atau "Sudah"
+    saja, yang penting ada respons. Kalau Anda mau minta penjelasan, Anda
+    boleh menambah komentar baru melalui tombol "Tambah Catatan" di jendela
+    'Catatan Pembina'. Biasanya Calon Konsultan ada di tahap ini karena
+    Pembina belum puas dengan sesuatu di cerita dan mau supaya Fasilitator
+    Proyek dan Pencerita memperbaiki cerita sebelum masuk ke tahap pengujian
+    dengan Orang Awam. Jadi kalau Anda sudah bekerja dengan Fasilitator Proyek
+    dan dia sudah perbaiki cerita, maka Anda boleh mengalihkan cerita ke
+    giliran Pembina. Kalau Anda diminta memperbaiki Catatan Konsultan lalu
+    langsung kirim kepada Fasilitator Proyek, maka sesudah Anda memperbaiki
+    masukan Anda, klik Tugas lalu alihkan ke Fasilitator Proyek, supaya dia
+    dan Pencerita memperbaiki cerita. </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eCoachReviewRound2Notes</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
+
+      <AllowableTransition>eBackTranslatorTranslateConNotesAfterUnsTest</AllowableTransition>
+
+      <AllowableTransition>eProjFacRevisesAfterUnsTest</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="true" viewCoachNotesField="true"
+                  viewConsultantNoteField="true" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="true" viewNetBible="true"
+                  viewRetellingField="false" viewStoryTestingAnswers="false"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="false"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="Coach"
+                   RequiresBiblicalStory="true"
+                   RequiresManageWithCoaching="true"
+                   stage="eCoachReviewRound2Notes">
+    <StageDisplayString>Pembina memeriksa cerita dan masukan dari Calon
+    Konsultan</StageDisplayString>
+
+    <TransitionDisplayString>kirim kepada Pembina untuk
+    diperiksa</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini Anda (sebagai Pembina) akan memeriksa
+    cerita dan Catatan Konsultan yang ditambah oleh Calon Konsultan (dan
+    mungkin Pemeriksa Bahasa khusus) di jendela Catatan Konsultan. Kalau Anda
+    mau memberikan masukan, tulis masukan itu di jendela Catatan Pembina. Klik
+    "Tambah Catatan" di baris yang bersangkutan untuk membuka kotak dengan
+    label "pem:". Ketik catatan Anda di kotak itu. Kalau Anda sudah mau kirim
+    catatan Anda kepada Calon Konsultan, klik "Tugas" lalu klik "Alihkan
+    kepada Calon Konsultan". Kotak "Tentukan tugas-tugas untuk Calon
+    Konsultan" akan muncul. Di kotak itu ada dua kolom: "Tugas-tugas yang
+    diijinkan" dan "Tugas-tugas yang diwajibkan". Masukkan atau hilangkan
+    tanda-tanda centang sesuai dengan keinginan Anda untuk Calon Konsultan.
+    Misalnya, kalau Anda masukan tanda centang di "Alihkan di giliran Pembina"
+    di kolom "Tugas-tugas yang diwajibkan" maka OSE tidak akan mengijinkan
+    Calon Konsultan mengalihkan ke fasilitator, harus ke Pembina dulu.
+    </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eConsultantFinalCheck</AllowableTransition>
+
+      <AllowableTransition>eTeamComplete</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eConsultantCauseRevisionAfterUnsTest</AllowableTransition>
+
+      <AllowableTransition>eConsultantReviseRound1Notes</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="true" viewCoachNotesField="true"
+                  viewConsultantNoteField="true" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="false" viewNetBible="true"
+                  viewRetellingField="true" viewStoryTestingAnswers="true"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="false"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="ConsultantInTraining, IndependentConsultant"
+                   RequiresBiblicalStory="true"
+                   RequiresManageWithCoaching="true"
+                   stage="eConsultantFinalCheck">
+    <StageDisplayString>Calon Konsultan menyelesaikan masukannya (sesudah
+    masukan terakhir dari Pembina)</StageDisplayString>
+
+    <TransitionDisplayString>kirim kepada Calon Konsultan untuk perbaikan
+    terakhir (berarti Anda setuju bahwa cerita ini boleh dipakai di
+    KPC)</TransitionDisplayString>
+
+    <StageInstructions>Pada tahap ini, Anda (sebagai Calon Konsultan) akan
+    memperbaiki masukan Anda atau tambah masukan terakhir, sesuai dengan
+    masukan terakhir dari Pembina. Kalau Anda sudah ada di tahap ini, berarti
+    Pembina sudah puas dengan cerita, dan tidak minta cerita dikembalikan
+    kepadanya. Sesudah Anda memeriksa masukan terakhir dari Pembina, kalau
+    Anda yakin cerita sudah siap dipakai di Kelompok Persekutuan Cerita (KPC),
+    maka klik Tugas, lalu klik Persetujuan Awal. Kalau Anda belum puas dengan
+    cerita, maka Anda boleh tambah masukan di Catatan Konsultan lagi, kemudian
+    klik "Tugas" dan "Alihkan ke gilirian fasilitator". </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eTeamComplete</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
+
+      <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
+
+      <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
+
+      <AllowableTransition>eProjFacRevisesAfterUnsTest</AllowableTransition>
+
+      <AllowableTransition>eCoachReviewRound2Notes</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="true" viewCoachNotesField="true"
+                  viewConsultantNoteField="true" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="false"
+                  viewNationalLangField="false" viewNetBible="true"
+                  viewRetellingField="true" viewStoryTestingAnswers="true"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="false"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="AnyEditor"
+                   RequiresBiblicalStory="true" stage="eTeamComplete">
+    <StageDisplayString>Persetujuan Awal.</StageDisplayString>
+
+    <TransitionDisplayString>memberikan persetujuan awal kepada
+    cerita</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini, cerita sudah mendapatkan persetujuan
+    awal untuk dipakai di Kelompok Persekutuan Cerita (KPC), sebagai pengujian
+    yang terakhir (apakah perlu direvisi lagi berdasarkan bagaimana cerita
+    diceritakan dan diterima di KPC?). Kalau cerita perlu diubah lagi
+    berdasarkan KPC, maka Anda boleh mengubahnya lalu mengirim ke konsultan
+    lagi, untuk diperiksa lagi. </StageInstructions>
+
+    <AllowableForewardsTransitions>
+      <AllowableTransition>eTeamFinalApproval</AllowableTransition>
+    </AllowableForewardsTransitions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eCoachReviewRound2Notes</AllowableTransition>
+
+      <AllowableTransition>eConsultantCheck2</AllowableTransition>
+
+      <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
+
+      <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
+
+      <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
+
+      <AllowableTransition>eProjFacRevisesAfterUnsTest</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="true" viewCoachNotesField="true"
+                  viewConsultantNoteField="true" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="true"
+                  viewNationalLangField="true" viewNetBible="true"
+                  viewRetellingField="true" viewStoryTestingAnswers="true"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+
+  <StateTransition MemberTypeWithEditToken="AnyEditor"
+                   RequiresBiblicalStory="true" stage="eTeamFinalApproval">
+    <StageDisplayString>Persetujuan Akhir.</StageDisplayString>
+
+    <TransitionDisplayString>memberikan persetujuan akhir kepada
+    cerita</TransitionDisplayString>
+
+    <StageInstructions> Pada tahap ini cerita sudah mendapatkan persetujuan
+    akhir dan boleh direkam! </StageInstructions>
+
+    <AllowableBackwardsTransitions>
+      <AllowableTransition>eCoachReviewRound2Notes</AllowableTransition>
+
+      <AllowableTransition>eConsultantCheck2</AllowableTransition>
+
+      <AllowableTransition>eFirstPassMentorCheck2</AllowableTransition>
+
+      <AllowableTransition>eBackTranslatorTranslateConNotes</AllowableTransition>
+
+      <AllowableTransition>eProjFacReviseBasedOnRound1Notes</AllowableTransition>
+
+      <AllowableTransition>eProjFacRevisesAfterUnsTest</AllowableTransition>
+    </AllowableBackwardsTransitions>
+
+    <ViewSettings viewAnchorField="true" viewCoachNotesField="true"
+                  viewConsultantNoteField="true" viewEnglishBTField="true"
+                  viewFreeTranslationField="true"
+                  viewGeneralTestingQuestions="true"
+                  viewNationalLangField="true" viewNetBible="true"
+                  viewRetellingField="true" viewStoryTestingAnswers="true"
+                  viewStoryTestingQuestions="true"
+                  viewVernacularLangField="true"/>
+  </StateTransition>
+</ProjectStates>
