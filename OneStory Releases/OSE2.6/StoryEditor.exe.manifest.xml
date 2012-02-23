@@ -4,13 +4,13 @@
   <ApplicationExecutable />
   <ApplicationName>OneStory Editor AutoUpdater</ApplicationName>
   <FullUpgradeFileName />
-  <OffsetFromUctWhereManifestWasOriginallyCreated>2012-02-21T07:34:23.6080000-06:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+  <OffsetFromUctWhereManifestWasOriginallyCreated>2012-02-22T08:26:59.6270000-06:00</OffsetFromUctWhereManifestWasOriginallyCreated>
   <ManifestFiles>
-    <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="2.5.0.0" optional="false" size="34304">AutoUpgrade Lib</File>
+    <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="2.5.0.1" optional="false" size="34304">AutoUpgrade Lib</File>
     <File name="Ionic.Zip.dll" method="version" action="copy" version="1.9.1.8" optional="false" size="462336">Ionic's Zip Library</File>
     <File name="StageTransitionsId.xml" method="date" action="copy" version="Tuesday, February 21, 2012 6:58:00 AM" optional="false" size="95470" />
     <File name="StoryEditor.exe" method="version" action="copy" version="2.6.0.1" optional="false" size="1381888">OneStory Editor</File>
-    <File name="LocData\id.xml" method="date" action="copy" version="Tuesday, February 21, 2012 6:59:00 AM" optional="false" size="160306" />
+    <File name="LocData\id.xml" method="date" action="copy" version="Tuesday, February 21, 2012 1:40:54 PM" optional="false" size="160306" />
   </ManifestFiles>
   <SourcePath />
   <UpgradeFiles />

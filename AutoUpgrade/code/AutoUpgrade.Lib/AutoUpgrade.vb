@@ -644,7 +644,6 @@ Namespace devX
         ' if there was a difference between the DST flag of "now" vs. when the file was saved
         Public Shared Function MyGetLastWriteTime(ByVal strFilePath As String) As DateTime
             Dim time As DateTime = IO.File.GetLastWriteTime(strFilePath)
-#If FiguringInDST Then
             Dim now As DateTime = DateTime.Now
             Dim offset As TimeSpan = New TimeSpan(1, 0, 0)
             If (now.IsDaylightSavingTime() And Not time.IsDaylightSavingTime()) Then
@@ -652,7 +651,6 @@ Namespace devX
             ElseIf (Not now.IsDaylightSavingTime() And time.IsDaylightSavingTime()) Then
                 time -= offset
             End If
-#End If
             MyGetLastWriteTime = time
         End Function
 
@@ -859,7 +857,7 @@ Namespace devX
                                     ' bs... this used to check that the file was within a minute, but that breaks
                                     ' when the US is in DST... so we don't update these files that often, so just make it +/- an hour
                                     ' fpos... use 3 hours...
-                                    If System.Math.Abs(DateDiff(DateInterval.Minute, datLocalFileDate, datManifestFileDate)) > 185 Then
+                                    If System.Math.Abs(DateDiff(DateInterval.Hour, datLocalFileDate, datManifestFileDate)) > 25 Then
 #If DEBUG Then
                                         Dim strMsg As String = String.Format("4: name: '{0}', datLocalFileDate: '{1}', datManifestFileDate: '{2}'", _
                                                                              strFilePath, datLocalFileDate, datManifestFileDate)
