@@ -743,24 +743,31 @@ namespace OneStoryProjectEditor
             FreeTranslation.InvertRtl = loggedOnMember.OverrideRtlFreeTranslation;
         }
 
-        // e.g. http://bobeaton:helpmepld@hg-private.languagedepot.org/snwmtn-test
-        // or \\Bob-StudioXPS\Backup\Storying\snwmtn-test
         public void SyncWithRepository(string strUsername, string strPassword)
         {
+            SyncWithRepository(ProjectFolder, ProjectName, HgRepoUrlHost, strUsername, strPassword,
+                Program.LookupSharedNetworkPath(ProjectFolder));
+        }
+
+        // e.g. http://bobeaton:helpmepld@hg-private.languagedepot.org/snwmtn-test
+        // or \\Bob-StudioXPS\Backup\Storying\snwmtn-test
+        public static void SyncWithRepository(string strProjectFolder, string strProjectName, string strHgRepoUrlHost,
+            string strUsername, string strPassword, string strSharedNetworkPath)
+        {
             // the project folder name has come here bogus at times...
-            if (!Directory.Exists(ProjectFolder))
+            if (!Directory.Exists(strProjectFolder))
                 return;
 
             try
             {
-                string strHgUrl = Program.FormHgUrl(HgRepoUrlHost,
+                string strHgUrl = Program.FormHgUrl(strHgRepoUrlHost,
                                                     strUsername,
                                                     strPassword,
-                                                    ProjectName);
+                                                    strProjectName);
                 if (String.IsNullOrEmpty(strHgUrl))
-                    Program.SyncWithRepository(ProjectFolder, true);
+                    Program.SyncWithRepository(strProjectFolder, true);
                 else
-                    TrySyncWithRepository(ProjectName, ProjectFolder, strHgUrl);
+                    TrySyncWithRepository(strProjectName, strProjectFolder, strHgUrl, strSharedNetworkPath);
             }
             catch (Exception ex)
             {
@@ -768,12 +775,13 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private static void TrySyncWithRepository(string strProjectName, 
-            string strProjectFolder, string strRepoUrl)
+        private static void TrySyncWithRepository(string strProjectName,
+            string strProjectFolder, string strRepoUrl, string strSharedNetworkPath)
         {
             // if there's no repo yet, then create one (even if we aren't going
             //  to ultimately push with an internet repo, we still want one locally)
             var projectConfig = Program.GetProjectFolderConfiguration(strProjectFolder);
+            /*
             var nullProgress = new NullProgress();
             var repo = new HgRepository(strProjectFolder, nullProgress);
             if (!repo.GetCanConnectToRemote(strRepoUrl, nullProgress))
@@ -781,7 +789,7 @@ namespace OneStoryProjectEditor
                 {
                     return;
                 }
-
+            */
             // for when we launch the program, just do a quick & dirty send/receive, 
             //  but for closing (or if we have a network drive also), then we want to 
             //  be more informative
@@ -791,7 +799,6 @@ namespace OneStoryProjectEditor
                 dlg.UseTargetsAsSpecifiedInSyncOptions = true;
                 if (!String.IsNullOrEmpty(strRepoUrl))
                     dlg.SyncOptions.RepositorySourcesToTry.Add(RepositoryAddress.Create(Program.CstrInternetName, strRepoUrl));
-                string strSharedNetworkPath = Program.LookupSharedNetworkPath(strProjectFolder);
                 if (!String.IsNullOrEmpty(strSharedNetworkPath))
                     dlg.SyncOptions.RepositorySourcesToTry.Add(RepositoryAddress.Create(Program.CstrNetworkDriveName, strSharedNetworkPath));
 

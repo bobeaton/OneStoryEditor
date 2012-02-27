@@ -154,6 +154,7 @@ namespace OneStoryProjectEditor
             this.advancedResetStoredInformationMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedChangeProjectFolderRootMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedEmailMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedUseWordBreaks = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -182,7 +183,6 @@ namespace OneStoryProjectEditor
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.advancedUseWordBreaks = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
@@ -1310,6 +1310,13 @@ namespace OneStoryProjectEditor
             this.advancedEmailMenu.ToolTipText = resources.GetString("advancedEmailMenu.ToolTipText");
             this.advancedEmailMenu.Click += new System.EventHandler(this.advancedEmailMenu_Click);
             // 
+            // advancedUseWordBreaks
+            // 
+            this.advancedUseWordBreaks.CheckOnClick = true;
+            this.advancedUseWordBreaks.Name = "advancedUseWordBreaks";
+            this.advancedUseWordBreaks.Size = new System.Drawing.Size(314, 22);
+            this.advancedUseWordBreaks.Text = "Use automatic word &breaking when Glossing";
+            // 
             // aboutToolStripMenu
             // 
             this.aboutToolStripMenu.Name = "aboutToolStripMenu";
@@ -1660,13 +1667,6 @@ namespace OneStoryProjectEditor
             // 
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
-            // 
-            // advancedUseWordBreaks
-            // 
-            this.advancedUseWordBreaks.CheckOnClick = true;
-            this.advancedUseWordBreaks.Name = "advancedUseWordBreaks";
-            this.advancedUseWordBreaks.Size = new System.Drawing.Size(314, 22);
-            this.advancedUseWordBreaks.Text = "Use automatic word &breaking when Glossing";
             // 
             // StoryEditor
             // 

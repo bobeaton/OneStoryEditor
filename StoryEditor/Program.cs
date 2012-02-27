@@ -96,6 +96,8 @@ namespace OneStoryProjectEditor
                             if (!File.Exists(targetFilename) ||
                                 (File.GetLastWriteTime(file) > File.GetLastWriteTime(targetFilename)))
                             {
+                                if (!Directory.Exists(strPathToLocData))
+                                    Directory.CreateDirectory(strPathToLocData);
                                 File.Copy(file, targetFilename, true);
                             }
                         }
@@ -370,6 +372,7 @@ namespace OneStoryProjectEditor
                     }
 
                 repo.SetKnownRepositoryAddresses(lstAddrs);
+                // TODO: we might want to do repo.SetIsOneDefaultSyncAddresses( address, true);
             }
             catch (Exception ex)
             {
@@ -553,6 +556,11 @@ namespace OneStoryProjectEditor
 
             try
             {
+                // sometimes, this is called without OSE actually running. In that case, we have to 
+                //  read in the settings
+                if (_mapProjectNameToHgHttpUrl == null)
+                    InitializeLocalSettingsCollections(true);
+
                 TrySyncWithRepository(strProjectFolder, bIsOpening);
             }
             catch (Exception ex)
@@ -644,14 +652,6 @@ namespace OneStoryProjectEditor
             if (!Directory.Exists(strProjectFolder))
                 Directory.CreateDirectory(strProjectFolder);
 
-            // if there's no repo yet, then create one (even if we aren't going
-            //  to ultimately push with an internet repo, we still want one locally)
-            var projectConfig = new Chorus.sync.ProjectFolderConfiguration(strProjectFolder);
-            projectConfig.IncludePatterns.Add("*.xml"); // AI KB
-            projectConfig.IncludePatterns.Add("*.ChorusNotes"); // the new conflict file
-            projectConfig.IncludePatterns.Add("*.aic");
-            projectConfig.IncludePatterns.Add("*.cct"); // possible normalization spellfixer files
-
             string strRepoUrl, strSharedNetworkUrl;
             if (GetAiHgRepoParameters(strProjectName, out strRepoUrl, out strSharedNetworkUrl))
             {
@@ -675,46 +675,13 @@ namespace OneStoryProjectEditor
                         }
                 }
 
-                if (HaveCalledAdaptIt)
-                {
-                    // AdaptIt creates the xml file in a different way than we'd like (it
-                    //  triggers a whole file change set). So before we attempt to merge, let's
-                    //  resave the file using the same approach that Chorus will use if a merge
-                    //  is done so it'll always show differences only.
-                    string strKbFilename = Path.Combine(strProjectFolder,
-                                                        Path.GetFileNameWithoutExtension(strProjectFolder) + ".xml");
-                    if (File.Exists(strKbFilename))
-                    {
-                        try
-                        {
-                            string strKbBackupFilename = strKbFilename + ".bak";
-                            File.Copy(strKbFilename, strKbBackupFilename, true);
-                            XDocument doc = XDocument.Load(strKbBackupFilename);
-                            File.Delete(strKbFilename);
-                            doc.Save(strKbFilename);
-                        }
-                        catch { }
-                    }
-                }
-
-                SyncUIDialogBehaviors suidb = SyncUIDialogBehaviors.Lazy;
-                SyncUIFeatures suif = SyncUIFeatures.NormalRecommended;
-                using (var dlg = new SyncDialog(projectConfig, suidb, suif))
-                {
-                    dlg.UseTargetsAsSpecifiedInSyncOptions = true;
-                    if (!String.IsNullOrEmpty(strRepoUrl))
-                        dlg.SyncOptions.RepositorySourcesToTry.Add(RepositoryAddress.Create(CstrInternetName, strRepoUrl));
-                    if (!String.IsNullOrEmpty(strSharedNetworkUrl))
-                        dlg.SyncOptions.RepositorySourcesToTry.Add(RepositoryAddress.Create(CstrNetworkDriveName, strSharedNetworkUrl));
-
-                    dlg.Text = "Synchronizing Adapt It Project: " + strProjectName;
-                    dlg.ShowDialog();
-                }
+                SyncWithAiRepo(strProjectFolder, strProjectName, strRepoUrl, strSharedNetworkUrl, HaveCalledAdaptIt);
             }
             else if (!bIsOpening)
             {
                 // even if the user doesn't want to go to the internet, we
                 //  at least want to back up locally (when the user closes)
+                var projectConfig = GetAiProjectFolderConfiguration(strProjectFolder);
                 using (var dlg = new SyncDialog(projectConfig,
                     SyncUIDialogBehaviors.StartImmediatelyAndCloseWhenFinished,
                     SyncUIFeatures.Minimal))
@@ -726,6 +693,71 @@ namespace OneStoryProjectEditor
                     dlg.ShowDialog();
                 }
             }
+        }
+
+        public static void SyncWithAiRepository(string strProjectFolder, string strProjectName, string strRepoUrl,
+                                                string strSharedNetworkUrl, string strHgUsername, string strHgPassword, 
+                                                bool bRewriteAdaptItKb)
+        {
+            strRepoUrl = FormHgUrl(strRepoUrl, strHgUsername, strHgPassword, strProjectName);
+            SyncWithAiRepo(strProjectFolder, strProjectName, strRepoUrl, strSharedNetworkUrl, bRewriteAdaptItKb);
+        }
+
+        private static void SyncWithAiRepo(string strProjectFolder, string strProjectName, string strRepoUrl,
+                                          string strSharedNetworkUrl, bool bRewriteAdaptItKb)
+        {
+            if (bRewriteAdaptItKb)
+            {
+                // AdaptIt creates the xml file in a different way than we'd like (it
+                //  triggers a whole file change set). So before we attempt to merge, let's
+                //  resave the file using the same approach that Chorus will use if a merge
+                //  is done so it'll always show differences only.
+                string strKbFilename = Path.Combine(strProjectFolder,
+                                                    Path.GetFileNameWithoutExtension(strProjectFolder) + ".xml");
+                if (File.Exists(strKbFilename))
+                {
+                    try
+                    {
+                        string strKbBackupFilename = strKbFilename + ".bak";
+                        File.Copy(strKbFilename, strKbBackupFilename, true);
+                        XDocument doc = XDocument.Load(strKbBackupFilename);
+                        File.Delete(strKbFilename);
+                        doc.Save(strKbFilename);
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+
+            var projectConfig = GetAiProjectFolderConfiguration(strProjectFolder);
+
+            SyncUIDialogBehaviors suidb = SyncUIDialogBehaviors.Lazy;
+            SyncUIFeatures suif = SyncUIFeatures.NormalRecommended;
+            using (var dlg = new SyncDialog(projectConfig, suidb, suif))
+            {
+                dlg.UseTargetsAsSpecifiedInSyncOptions = true;
+                if (!String.IsNullOrEmpty(strRepoUrl))
+                    dlg.SyncOptions.RepositorySourcesToTry.Add(RepositoryAddress.Create(CstrInternetName, strRepoUrl));
+                if (!String.IsNullOrEmpty(strSharedNetworkUrl))
+                    dlg.SyncOptions.RepositorySourcesToTry.Add(RepositoryAddress.Create(CstrNetworkDriveName,
+                                                                                        strSharedNetworkUrl));
+
+                dlg.Text = "Synchronizing Adapt It Project: " + strProjectName;
+                dlg.ShowDialog();
+            }
+        }
+
+        private static ProjectFolderConfiguration GetAiProjectFolderConfiguration(string strProjectFolder)
+        {
+// if there's no repo yet, then create one (even if we aren't going
+            //  to ultimately push with an internet repo, we still want one locally)
+            var projectConfig = new ProjectFolderConfiguration(strProjectFolder);
+            projectConfig.IncludePatterns.Add("*.xml"); // AI KB
+            projectConfig.IncludePatterns.Add("*.ChorusNotes"); // the new conflict file
+            projectConfig.IncludePatterns.Add("*.aic");
+            projectConfig.IncludePatterns.Add("*.cct"); // possible normalization spellfixer files
+            return projectConfig;
         }
 
         public static bool QueryHgRepoParameters(string strProjectFolder,

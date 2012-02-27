@@ -14,7 +14,7 @@ namespace OneStoryProjectEditor
     {
         internal static char[] achWordDelimiters = new[] { ' ' };
         private AdaptItEncConverter m_theEC;
-        private IcuBreakIteratorEncConverter m_theWordBreaker;
+        private static BreakIterator m_theWordBreaker;
         public List<string> SourceWords;
         public List<string> TargetWords;
         public List<string> SourceStringsInBetween;
@@ -48,15 +48,12 @@ namespace OneStoryProjectEditor
 
             if (bUseWordBreakIterator)
             {
-                m_theWordBreaker = new IcuBreakIteratorEncConverter();
-                int donecarei = 0;
-                string dontcare = null;
-                var convType = ConvType.Unicode_to_from_Unicode;
-                m_theWordBreaker.Initialize(null, " ", ref dontcare, ref dontcare, ref convType, ref donecarei, 0, 0, true);
-
                 try
                 {
-                    strSentence = m_theWordBreaker.Convert(strSentence);
+                    if (m_theWordBreaker == null)
+                        m_theWordBreaker = new BreakIterator();
+
+                    strSentence = m_theWordBreaker.AddWordBreaks(strSentence);
                 }
                 catch (Exception ex)
                 {

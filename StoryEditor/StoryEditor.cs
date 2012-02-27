@@ -5028,7 +5028,7 @@ namespace OneStoryProjectEditor
             string strTbxFilename, string strParameter)
         {
             var myProcessor = new XslCompiledTransform();
-            var xslReader = XmlReader.Create(streamXSLT, new XmlReaderSettings {ProhibitDtd = true});
+            var xslReader = XmlReader.Create(streamXSLT, new XmlReaderSettings {DtdProcessing = DtdProcessing.Prohibit});
             var xsltSettings = new XsltSettings { EnableDocumentFunction = true, EnableScript = true };
             myProcessor.Load(xslReader, xsltSettings, null);
 
@@ -5576,7 +5576,7 @@ namespace OneStoryProjectEditor
 
             advancedNewProjectMenu.Enabled = IsInStoriesSet;
             advancedEmailMenu.Checked = Settings.Default.UseMapiPlus;
-            advancedUseWordBreaks.Enabled = File.Exists("ICU4NET.dll");
+            advancedUseWordBreaks.Enabled = BreakIterator.IsAvailable;
         }
 
         private void checkForProgramUpdatesNowToolStripMenuItem_Click(object sender, EventArgs e)
