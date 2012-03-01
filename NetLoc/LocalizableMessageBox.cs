@@ -86,7 +86,7 @@ namespace NetLoc
                               Text = strCaption
                           };
 
-            if (Localizer.Default.LocLanguage.Font != null)
+            if ((Localizer.Default.LocLanguage != null) && (Localizer.Default.LocLanguage.Font != null))
                 dlg.Font = Localizer.Default.LocLanguage.Font;
 
             dlg.AcceptButton = dlg.buttonRightMost;

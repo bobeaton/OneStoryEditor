@@ -12,6 +12,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AutoUpgrade", "AutoUpgrade\
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup OneStory Editor", "Setup OneStory Editor\Setup OneStory Editor.vdproj", "{00C7302E-1C2B-472B-8BF4-E4EBA360E88D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AiChorus", "AiChorus\AiChorus.csproj", "{7F4492EE-2D7D-41AC-8FE7-C2A28A82C26C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -23,16 +25,18 @@ Global
 		{EE63B2ED-1488-491F-990A-3FA16E2DB135}.Release|x86.ActiveCfg = Release|x86
 		{EE63B2ED-1488-491F-990A-3FA16E2DB135}.Release|x86.Build.0 = Release|x86
 		{46F3BE0E-71C5-4FA2-872F-3AE6C51D09A5}.Debug|x86.ActiveCfg = Debug|x86
-		{46F3BE0E-71C5-4FA2-872F-3AE6C51D09A5}.Debug|x86.Build.0 = Debug|x86
 		{46F3BE0E-71C5-4FA2-872F-3AE6C51D09A5}.Release|x86.ActiveCfg = Release|x86
 		{46F3BE0E-71C5-4FA2-872F-3AE6C51D09A5}.Release|x86.Build.0 = Release|x86
 		{DEFA9358-620F-48E2-9652-AA19A57646B9}.Debug|x86.ActiveCfg = Debug|x86
-		{DEFA9358-620F-48E2-9652-AA19A57646B9}.Debug|x86.Build.0 = Debug|x86
 		{DEFA9358-620F-48E2-9652-AA19A57646B9}.Release|x86.ActiveCfg = Release|x86
 		{DEFA9358-620F-48E2-9652-AA19A57646B9}.Release|x86.Build.0 = Release|x86
 		{00C7302E-1C2B-472B-8BF4-E4EBA360E88D}.Debug|x86.ActiveCfg = Debug
 		{00C7302E-1C2B-472B-8BF4-E4EBA360E88D}.Release|x86.ActiveCfg = Release
 		{00C7302E-1C2B-472B-8BF4-E4EBA360E88D}.Release|x86.Build.0 = Release
+		{7F4492EE-2D7D-41AC-8FE7-C2A28A82C26C}.Debug|x86.ActiveCfg = Debug|x86
+		{7F4492EE-2D7D-41AC-8FE7-C2A28A82C26C}.Debug|x86.Build.0 = Debug|x86
+		{7F4492EE-2D7D-41AC-8FE7-C2A28A82C26C}.Release|x86.ActiveCfg = Release|x86
+		{7F4492EE-2D7D-41AC-8FE7-C2A28A82C26C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

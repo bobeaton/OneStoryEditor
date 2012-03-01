@@ -84,6 +84,9 @@ namespace OneStoryProjectEditor
                     //  loc data folder
                     var strPathToLocData = Path.Combine(ProjectSettings.OneStoryProjectFolderRoot,
                                                         "LocData");
+                    if (!Directory.Exists(strPathToLocData))
+                        Directory.CreateDirectory(strPathToLocData);
+
                     var strRunningLocData = Path.Combine(StoryProjectData.GetRunningFolder,
                                                          "LocData");
                     if (Directory.Exists(strRunningLocData))
@@ -96,8 +99,6 @@ namespace OneStoryProjectEditor
                             if (!File.Exists(targetFilename) ||
                                 (File.GetLastWriteTime(file) > File.GetLastWriteTime(targetFilename)))
                             {
-                                if (!Directory.Exists(strPathToLocData))
-                                    Directory.CreateDirectory(strPathToLocData);
                                 File.Copy(file, targetFilename, true);
                             }
                         }
@@ -178,6 +179,7 @@ namespace OneStoryProjectEditor
 
         private static void HgSanityCheck()
         {
+            Environment.CurrentDirectory = StoryProjectData.GetRunningFolder;
             var msg = HgRepository.GetEnvironmentReadinessMessage("en");
             if (!string.IsNullOrEmpty(msg))
                 throw new ApplicationException("It looks like you don't have TortoiseHg installed. Please install that first before trying to use the OneStory Editor (if you did install it, perhaps you need to reboot)");
@@ -200,6 +202,12 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.RecentProjectPaths = new StringCollection();
             if (Properties.Settings.Default.SwordModulesUsed == null)
                 Properties.Settings.Default.SwordModulesUsed = new StringCollection();
+
+            // regardless of what happens, we *have* to have the Net bible (the only one guaranteed
+            //  to be here)
+            if (!Properties.Settings.Default.SwordModulesUsed.Contains(NetBibleViewer.CstrNetModuleName))
+                Properties.Settings.Default.SwordModulesUsed.Add(NetBibleViewer.CstrNetModuleName);
+
             if (Properties.Settings.Default.RecentFindWhat == null)
                 Properties.Settings.Default.RecentFindWhat = new StringCollection();
             if (Properties.Settings.Default.RecentReplaceWith == null)
