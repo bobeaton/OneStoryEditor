@@ -55,10 +55,12 @@ namespace AiChorus
             methodSyncWithAiRepository.Invoke(theStoryEditor, oParams);
         }
 
-        internal override void DoClone()
+        internal override bool DoClone()
         {
-            base.DoClone();
+            if (!base.DoClone())
+                return false;
             Program.InitializeLookupConverter(Path.Combine(AppDataRoot, Project.FolderName));
+            return true;
         }
     }
 }

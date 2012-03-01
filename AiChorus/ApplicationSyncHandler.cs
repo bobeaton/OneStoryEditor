@@ -51,9 +51,9 @@ namespace AiChorus
 
         public abstract void DoSynchronize();
 
-        internal virtual void DoClone()
+        internal virtual bool DoClone()
         {
-            Program.CloneProject(ServerSetting, Project, AppDataRoot);
+            return Program.CloneProject(ServerSetting, Project, AppDataRoot);
         }
 
         protected static string OneStoryEditorExePath

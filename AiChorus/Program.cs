@@ -134,15 +134,18 @@ namespace AiChorus
             CloneProject(strLocalFolderName, strServerName, strAccountName, strAdaptItWorkFolder, strPassword, strProjectId);
         }
         */
-        internal static void CloneProject(ServerSetting serverSetting, Project project, string strProjectFolderRoot)
+        internal static bool CloneProject(ServerSetting serverSetting, Project project, string strProjectFolderRoot)
         {
-            CloneProject(project.FolderName, serverSetting.ServerName, serverSetting.Username,
+            return CloneProject(project.FolderName, serverSetting.ServerName, serverSetting.Username,
                          strProjectFolderRoot, serverSetting.Password, project.ProjectId);
         }
 
-        private static void CloneProject(string strLocalFolderName, string strServerName, string strAccountName,
+        private static bool CloneProject(string strLocalFolderName, string strServerName, string strAccountName,
                                          string strProjectFolderRoot, string strPassword, string strProjectId)
         {
+            if (!Directory.Exists(strProjectFolderRoot))
+                Directory.CreateDirectory(strProjectFolderRoot);
+
             var model = new GetCloneFromInternetModel(strProjectFolderRoot)
                             {
                                 ProjectId = strProjectId,
@@ -155,12 +158,13 @@ namespace AiChorus
             using (var dlg = new GetCloneFromInternetDialog(model))
             {
                 if (DialogResult.Cancel == dlg.ShowDialog())
-                    return;
+                    return false;
 
                 var strProjectFolder = dlg.PathToNewProject;
                 Settings.Default.LastProjectFolder = strProjectFolder;
                 Settings.Default.Save();
             }
+            return true;
         }
 
         public static void InitializeLookupConverter(string strProjectFolder)

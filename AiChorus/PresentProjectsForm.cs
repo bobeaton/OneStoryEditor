@@ -119,6 +119,7 @@ namespace AiChorus
                 {
                     case ApplicationSyncHandler.CstrOptionClone:
                         appSyncHandler.DoClone();
+                        InitializeDataGrid(_chorusConfigs);
                         break;
                     case ApplicationSyncHandler.CstrOptionSendReceive:
                         appSyncHandler.DoSynchronize();

@@ -25,13 +25,18 @@ namespace AiChorus
             ServerSettingsModel = model;
             _serverSettingsControl = new ServerSettingsControl(model)
                                          {
-                                             TabIndex = 0, 
+                                             TabIndex = 2, 
                                              Anchor = (AnchorStyles.Top | AnchorStyles.Left)
                                          };
             tableLayoutPanel.Controls.Add(_serverSettingsControl, 1, 0);
             tableLayoutPanel.SetColumnSpan(_serverSettingsControl, 2);
 
-            _targetFolderControl = new TargetFolderControl(model);
+            _targetFolderControl = new TargetFolderControl(model)
+                                       {
+                                           TabIndex = 3, 
+                                           Anchor = (AnchorStyles.Top | AnchorStyles.Left)
+                                       };
+
             tableLayoutPanel.Controls.Add(_targetFolderControl, 2, 0);
             tableLayoutPanel.SetColumnSpan(_targetFolderControl, 2);
 
