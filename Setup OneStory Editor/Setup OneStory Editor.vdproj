@@ -5697,7 +5697,7 @@
                 {
                     "{9EF0B969-E518-4E46-987F-47570745A589}:_6F34DACAC6334C9C8C52F8BAE3086C0A"
                     {
-                    "Name" = "8:OneStory Editor 2.0"
+                    "Name" = "8:OneStory Editor"
                     "AlwaysCreate" = "11:FALSE"
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
@@ -5710,7 +5710,7 @@
             }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_1E0B834CE697461C80146668203EA38A"
             {
-            "DefaultLocation" = "8:[ProgramFilesFolder][Manufacturer]\\OneStory Editor 2.0"
+            "DefaultLocation" = "8:[ProgramFilesFolder][Manufacturer]\\OneStory Editor"
             "Name" = "8:#1925"
             "AlwaysCreate" = "11:FALSE"
             "Condition" = "8:"
@@ -5963,16 +5963,16 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:OneStory Editor 2.6"
-        "ProductCode" = "8:{4E725C97-05E3-40F6-86C9-6EC7962550EC}"
-        "PackageCode" = "8:{6803207F-CDE0-416E-984E-5831B9087C73}"
+        "ProductName" = "8:OneStory Editor 2.9"
+        "ProductCode" = "8:{C4416549-CCB5-4316-8EB5-CC45F844E4F9}"
+        "PackageCode" = "8:{C91B8928-6336-46F8-B06B-A1A0956534CD}"
         "UpgradeCode" = "8:{92A9B369-3609-4129-A09D-5BB5BBE30AAB}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:2.6.0"
+        "ProductVersion" = "8:2.9.0"
         "Manufacturer" = "8:SIL"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -6087,7 +6087,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_3B2ACF84C98A4E8A9BF9F19987BC7382"
             {
-            "Name" = "8:OneStory Editor 2.6"
+            "Name" = "8:OneStory Editor"
             "Arguments" = "8:"
             "Description" = "8:Click this command to launch the OneStory editor"
             "ShowCmd" = "3:1"
@@ -6143,7 +6143,7 @@
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_9F02E09924A047AAA6561258485A0685"
             {
-            "Name" = "8:OneStory Editor 2.6"
+            "Name" = "8:OneStory Editor"
             "Arguments" = "8:"
             "Description" = "8:Click this command to launch the OneStory editor"
             "ShowCmd" = "3:1"
@@ -6665,7 +6665,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1415ECBE7EFB434497FFE914D4CB51DB"
             {
-            "SourcePath" = "8:..\\StoryEditor\\obj\\x86\\Debug\\StoryEditor.exe"
+            "SourcePath" = "8:..\\StoryEditor\\obj\\x86\\Release\\StoryEditor.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
@@ -6749,7 +6749,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_A96320B40E084567AB7182C8D5A06DC2"
             {
-            "SourcePath" = "8:..\\AutoUpgrade\\code\\AutoUpgrade.App\\obj\\x86\\Debug\\AutoUpgrade.exe"
+            "SourcePath" = "8:..\\AutoUpgrade\\code\\AutoUpgrade.App\\obj\\x86\\Release\\AutoUpgrade.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
