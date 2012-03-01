@@ -141,9 +141,9 @@ namespace OneStoryProjectEditor
             string s = module.RenderText(tmpKey);
 
             listType = module.getEntryAttributesMap();
-            list = listType.get(new SWBuf("Footnote"));
-            listValue = list.get(new SWBuf(NoteType));
-            string strFootnote = listValue.get(new SWBuf("body")).c_str();
+            list = listType[new SWBuf("Footnote")];
+            listValue = list[new SWBuf(NoteType)];
+            string strFootnote = listValue[new SWBuf("body")].c_str();
 
             SetDisplayText(module, strFootnote);    // module.StripText(strFootnote));
         }
