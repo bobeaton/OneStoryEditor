@@ -556,7 +556,8 @@ namespace OneStoryProjectEditor
                                            ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.
                                                VernacularToNationalBt,
                                            _ctrlVerseParent.TheSE.LoggedOnMember,
-                                           _ctrlVerseParent.TheSE.advancedUseWordBreaks.Checked);
+                                           _ctrlVerseParent.TheSE.advancedUseWordBreaks.Checked,
+                                           MyStringTransfer.Transliterator);
 
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
@@ -603,11 +604,13 @@ namespace OneStoryProjectEditor
                 var dlg = new GlossingForm(_ctrlVerseParent.TheSE.StoryProject.ProjSettings,
                                            MyStringTransfer.ToString(), eBtDirection,
                                            _ctrlVerseParent.TheSE.LoggedOnMember,
-                                           _ctrlVerseParent.TheSE.advancedUseWordBreaks.Checked);
+                                           _ctrlVerseParent.TheSE.advancedUseWordBreaks.Checked,
+                                           MyStringTransfer.Transliterator);
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     EnglishBtSibling.Text = dlg.TargetSentence;
-                    Text = dlg.SourceSentence;  // because the user may have corrected spelling
+                    if (MyStringTransfer.Transliterator == null)
+                        Text = dlg.SourceSentence;  // because the user may have corrected spelling
                     _ctrlVerseParent.TheSE.Modified = true;
 
                     if (dlg.DoReorder)

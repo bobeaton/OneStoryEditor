@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Palaso.UI.WindowsForms.Keyboarding;
+using SilEncConverters40;
 
 namespace OneStoryProjectEditor
 {
@@ -12,6 +13,8 @@ namespace OneStoryProjectEditor
         protected GlossingForm _parent;
         public const string CstrAmbiguitySeparator = "¦";
         protected string _strTargetKeyboard, _strSourceKeyboard;
+
+        public static DirectableEncConverter SourceWordTransliterator { get; set; }
 
         public GlossingControl(GlossingForm parent, 
             ProjectSettings.LanguageInfo liSource, ref string strBeforeSource, string strSourceWord, string strSourceInBetween,
@@ -39,7 +42,7 @@ namespace OneStoryProjectEditor
             textBoxSourceWord.ForeColor = liSource.FontColor;
             if (liSource.DoRtl)
                 textBoxSourceWord.RightToLeft = RightToLeft.Yes;
-            textBoxSourceWord.Text = strSourceWord;
+            SourceWord = strSourceWord;
 
             textBoxTargetWord.Font = liTarget.FontToUse;
             textBoxTargetWord.ForeColor = liTarget.FontColor;
@@ -106,12 +109,29 @@ namespace OneStoryProjectEditor
             return strInBetweenAfter;
         }
 
+        public bool IsTransliterated
+        {
+            get { return (SourceWordTransliterator != null); }
+        }
+
         public string SourceWord
         {
-            get { return textBoxSourceWord.Text; }
+            get 
+            {
+                return (IsTransliterated) 
+                            ? (string)textBoxSourceWord.Tag
+                            : textBoxSourceWord.Text; 
+            }
             set
             {
-                textBoxSourceWord.Text = value;
+                if (IsTransliterated)
+                {
+                    textBoxSourceWord.Tag = value;
+                    textBoxSourceWord.Text = SourceWordTransliterator.Convert(value);
+                }
+                else
+                    textBoxSourceWord.Text = value;
+
                 ResizeTextBoxToFitText(textBoxSourceWord);
             }
         }
@@ -273,6 +293,8 @@ namespace OneStoryProjectEditor
             const int CnFixedItemsStripForSplitting = 4;
             while (contextMenuStripForSplitting.Items.Count > CnFixedItemsStripForSplitting)
                 contextMenuStripForSplitting.Items.RemoveAt(contextMenuStripForSplitting.Items.Count - 1);
+
+            correctSpellingToolStripMenuItem.Enabled = (SourceWordTransliterator == null);
 
             if (String.IsNullOrEmpty(SourceWord))
                 return;

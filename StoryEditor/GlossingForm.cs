@@ -29,7 +29,8 @@ namespace OneStoryProjectEditor
 
         public GlossingForm(ProjectSettings projSettings, string strSentence, 
                             ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection,
-                            TeamMemberData loggedOnMember, bool bUseWordBreakIterator)
+                            TeamMemberData loggedOnMember, bool bUseWordBreakIterator,
+                            DirectableEncConverter ecSourceWordTransliterator)
             : base(true)
         {
             InitializeComponent();
@@ -70,6 +71,9 @@ namespace OneStoryProjectEditor
 
             if (liSourceLang.DoRtl)
                 flowLayoutPanel.FlowDirection = FlowDirection.RightToLeft;
+
+            // initialize the transliterator
+            GlossingControl.SourceWordTransliterator = ecSourceWordTransliterator;
 
             System.Diagnostics.Debug.Assert(SourceWords.Count == TargetWords.Count);
             string strBeforeSource = SourceStringsInBetween[0];
