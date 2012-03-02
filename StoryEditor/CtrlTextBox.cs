@@ -562,7 +562,11 @@ namespace OneStoryProjectEditor
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     NationalBtSibling.Text = dlg.TargetSentence;
-                    Text = dlg.SourceSentence;  // cause the user might have corrected some spelling
+
+                    // but only update the source data if it wasn't being transliterated
+                    if (MyStringTransfer.Transliterator == null)
+                        Text = dlg.SourceSentence;  // cause the user might have corrected some spelling
+
                     _ctrlVerseParent.TheSE.Modified = true;
                     if (dlg.DoReorder)
                     {
@@ -609,8 +613,11 @@ namespace OneStoryProjectEditor
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     EnglishBtSibling.Text = dlg.TargetSentence;
+
+                    // but only update the source data if it wasn't being transliterated
                     if (MyStringTransfer.Transliterator == null)
                         Text = dlg.SourceSentence;  // because the user may have corrected spelling
+
                     _ctrlVerseParent.TheSE.Modified = true;
 
                     if (dlg.DoReorder)
