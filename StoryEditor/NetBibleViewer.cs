@@ -20,7 +20,7 @@ namespace OneStoryProjectEditor
 
         #region "format strings for HTML items"
         protected const string CstrHtmlTableBegin = "<table border=\"1\">";
-        protected const string CstrHtmlButtonCell = "<td dir='{1}'><button type=\"button\">{0}</button></td>";
+        protected const string CstrHtmlButtonCell = "<td dir='{2}'><button id='{0}' type=\"button\">{1}</button></td>";
         protected const string CstrHtmlTextCell = "<td dir='{1}'>{0}</td>";
         protected const string CstrHtmlRowFormat = "<tr id=\"{0}\">{1}{2}</tr>";
         protected const string CstrHtmlLineFormatCommentaryHeader = "<tr id='{0}' BGCOLOR=\"#CCFFAA\"><td>{1}</td></tr>";
@@ -39,7 +39,7 @@ namespace OneStoryProjectEditor
             "" +
             "function DoOnMouseOut(button)" +
             "{" +
-            "  window.external.OnMouseOut(button.getAttribute(\"value\"));" +
+            "  window.external.OnMouseOut(button.id, button.getAttribute(\"value\"));" +
             "  return false;" +
             "}" +
             "function DoOnMouseDown()" +
@@ -49,7 +49,7 @@ namespace OneStoryProjectEditor
             "}" +
             "function DoOnMouseUp(button)" +
             "{" +
-            "  window.external.OnDoOnMouseUp(button.getAttribute(\"value\"));" +
+            "  window.external.OnDoOnMouseUp(button.id, button.getAttribute(\"value\"));" +
             "  return false;" +
             "}" +
             "</script>";
@@ -219,6 +219,15 @@ namespace OneStoryProjectEditor
                                };
         }
 
+        internal static string CheckForLocalization(string strJumpTarget)
+        {
+            var nIndex = strJumpTarget.IndexOf(' ');
+            var strBookName = strJumpTarget.Substring(0, nIndex);
+            if ((MapBookNames != null) && MapBookNames.ContainsKey(strBookName))
+                return MapBookNames[strBookName] + strJumpTarget.Substring(nIndex);
+            return strJumpTarget;
+        }
+
         void InitDropDown(string strDropDownName, int nStart, int nEnd)
         {
             var tsmi = new ToolStripMenuItem(strDropDownName);
@@ -247,6 +256,8 @@ namespace OneStoryProjectEditor
             get { return m_strScriptureReference; }
             set { m_strScriptureReference = value; }
         }
+
+        public string JumpTarget { get; set; }
 
         /// <summary>
         /// returns "Gen" if ScriptureReference were "Gen 1:1"
@@ -518,6 +529,10 @@ namespace OneStoryProjectEditor
             }
 
             var strScriptureReference = scriptureReferenceBookName + ScriptureReferenceChapVerse;
+            var strBookNameLocalized = CheckForLocalization(strScriptureReference);
+            int nIndex;
+            if ((nIndex = strBookNameLocalized.IndexOf(' ')) != -1)
+                strBookNameLocalized = strBookNameLocalized.Substring(0, nIndex);
 
             var keyVerse = new VerseKey(strScriptureReference);
             int nBook = keyVerse.Book();
@@ -547,11 +562,16 @@ namespace OneStoryProjectEditor
                     if (bSpecifyFont)
                         strVerseHtml = String.Format(CstrAddFontFormat, strVerseHtml, strFontName);
 
+                    string strButtonId = String.Format("{0} {1}:{2}",
+                                                       scriptureReferenceBookName,
+                                                       nChapter, keyWholeOfChapter.Verse());
+
                     string strButtonLabel = String.Format("{0} {1}:{2}",
-                                                          ScriptureReferenceBookName,
+                                                          strBookNameLocalized,
                                                           nChapter, keyWholeOfChapter.Verse());
 
                     string strButtonCell = String.Format(CstrHtmlButtonCell,
+                                                         strButtonId,
                                                          strButtonLabel,
                                                          (bDirectionRtl) ? "rtl" : "ltr");
                     string strTextCell = String.Format(CstrHtmlTextCell,
@@ -593,9 +613,9 @@ namespace OneStoryProjectEditor
             catch { }
         }
 
-        private void DisplayCommentary(string strScriptureReference)
+        private void DisplayCommentary(string strJumpTarget)
         {
-            VerseKey keyVerse = new VerseKey(strScriptureReference);
+            var keyVerse = new VerseKey(strJumpTarget);
 
             // Build up the string which we're going to put in the HTML viewer
             var sb = new StringBuilder(CstrHtmlTableBegin);
@@ -729,11 +749,12 @@ namespace OneStoryProjectEditor
             m_bMouseDown = true;
         }
 
-        public void OnMouseOut(string strScriptureReference)
+        public void OnMouseOut(string strJumpTarget, string strScriptureReference)
         {
             Console.WriteLine("OnMouseOut: " + strScriptureReference + ((m_bMouseDown) ? " with mouse down" : " with mouse up"));
             if (m_bMouseDown)
             {
+                JumpTarget = strJumpTarget;
                 ScriptureReference = strScriptureReference;
                 StoryEditor.SuspendSaveDialog++;
                 webBrowserNetBible.DoDragDrop(this, DragDropEffects.Link | DragDropEffects.Copy);
@@ -741,11 +762,11 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public void OnDoOnMouseUp(string strScriptureReference)
+        public void OnDoOnMouseUp(string strJumpTarget, string strScriptureReference)
         {
             m_bMouseDown = false;
 #if !DoDisplayVerse
-            DisplayCommentary(strScriptureReference);
+            DisplayCommentary(strJumpTarget);
 #else
             DisplayVerses(strScriptureReference);
             var theSE = FindForm() as StoryEditor;
