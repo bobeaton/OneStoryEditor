@@ -351,7 +351,14 @@ namespace OneStoryProjectEditor
 
             moduleVersion = manager.getModule(moduleToStartWith);
             if (moduleVersion == null)
-                throw new ApplicationException(String.Format("Can't find the Sword module '{0}'. Is Sword installed?", Properties.Settings.Default.SwordModulesUsed[0]));
+            {
+                // before giving up, let's see if adding the path helps
+                var strPath = Path.Combine(StoryProjectData.GetRunningFolder, "SWORD");
+                manager.augmentModules(strPath);
+                moduleVersion = manager.getModule(moduleToStartWith);
+                if (moduleVersion == null)
+                    throw new ApplicationException(String.Format("Can't find the Sword module '{0}'. Is Sword installed?", Properties.Settings.Default.SwordModulesUsed[0]));
+            }
 
             // Setup the active module
             // Word of Christ in red
