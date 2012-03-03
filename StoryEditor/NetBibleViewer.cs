@@ -350,15 +350,13 @@ namespace OneStoryProjectEditor
             }
 
             moduleVersion = manager.getModule(moduleToStartWith);
+            // may fail :-(
+            /*
             if (moduleVersion == null)
             {
-                // before giving up, let's see if adding the path helps
-                var strPath = Path.Combine(StoryProjectData.GetRunningFolder, "SWORD");
-                manager.augmentModules(strPath);
-                moduleVersion = manager.getModule(moduleToStartWith);
-                if (moduleVersion == null)
-                    throw new ApplicationException(String.Format("Can't find the Sword module '{0}'. Is Sword installed?", Properties.Settings.Default.SwordModulesUsed[0]));
+                throw new ApplicationException(String.Format("Can't find the Sword module '{0}'. Is Sword installed?", Properties.Settings.Default.SwordModulesUsed[0]));
             }
+            */
 
             // Setup the active module
             // Word of Christ in red
@@ -404,11 +402,8 @@ namespace OneStoryProjectEditor
             return rb;
         }
 
-        private void radioButtonShowOtherSwordResources_CheckedChanged(object sender, EventArgs e)
+        private void RadioButtonShowOtherSwordResourcesClick(object sender, EventArgs e)
         {
-            if (!radioButtonShowOtherSwordResources.Checked) 
-                return;
-
             var dlg = new ViewSwordOptionsForm(ref lstBibleResources);
             RadioButton rbOn = null;
             if (dlg.ShowDialog() == DialogResult.OK)
