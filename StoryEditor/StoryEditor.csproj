@@ -758,9 +758,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="OneStory.ico" />
-    <None Include="..\Setup OneStory Editor\SetSwordPath.wxs">
-      <Link>SetSwordPath.wxs</Link>
-    </None>
     <None Include="Resources\DeleteHS.png" />
     <None Include="Resources\BuilderDialog_moveup.png" />
     <None Include="Resources\BuilderDialog_movedown.PNG" />
@@ -783,7 +780,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\1.3 to 1.4.xslt" />
-    <None Include="Resources\Print.bmp" />
     <None Include="Resources\PrintHS.png" />
     <Content Include="StageTransitions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -886,7 +882,6 @@
     <Content Include="Toolbox\toolbox helps2.TXT">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ViewStory.xslt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
