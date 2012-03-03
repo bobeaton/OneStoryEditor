@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OneStoryProjectEditor</RootNamespace>
     <AssemblyName>StoryEditor</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ApplicationIcon>OneStory.ico</ApplicationIcon>
     <TargetZone>Custom</TargetZone>
@@ -50,6 +50,7 @@
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -88,9 +89,14 @@
       <ExecutableExtension>.exe</ExecutableExtension>
       <HintPath>..\DepDLLs\Chorus.exe</HintPath>
     </Reference>
+    <Reference Include="ChorusMerge, Version=1.5.29.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\DepDLLs\ChorusMerge.exe</HintPath>
+    </Reference>
     <Reference Include="ECInterfaces, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\WW\Lib\release\ECInterfaces.dll</HintPath>
+      <HintPath>..\DepDLLs\ECInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="HtmlEditor, Version=7.0.100.5147, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -105,12 +111,12 @@
       <HintPath>..\..\..\Program Files\Microsoft.NET\Primary Interop Assemblies\Microsoft.mshtml.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="NetLoc, Version=7.0.100.5029, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="NetLoc, Version=7.0.100.5030, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\NetLoc.dll</HintPath>
     </Reference>
-    <Reference Include="NetMAPI, Version=1.0.4289.26745, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="NetMAPI">
+      <HintPath>..\DepDLLs\NetMAPI.dll</HintPath>
     </Reference>
     <Reference Include="Palaso, Version=1.2.490.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -136,12 +142,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\SilEncConverters40.dll</HintPath>
     </Reference>
-    <Reference Include="Skybound.Gecko, Version=1.9.2.0, Culture=neutral, PublicKeyToken=3209ac31600d1857, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Code\GeckoFX\Skybound.Gecko\bin\x86\Debug_Windows\Skybound.Gecko.dll</HintPath>
-    </Reference>
-    <Reference Include="SwigSword, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="SwigSword">
+
       <HintPath>..\DepDLLs\SwigSword.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -204,6 +206,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BiblicalTermsHTMLBuilder.cs" />
+    <Compile Include="BreakIterator.cs" />
     <Compile Include="CheckEndOfStateTransition.cs" />
     <Compile Include="ConcordanceForm.cs">
       <SubType>Form</SubType>
@@ -711,6 +714,38 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="1.4 to 1.5.xslt" />
+    <Content Include="..\DepDLLs\ICU4NET.dll">
+      <Link>ICU4NET.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DepDLLs\ICU4NETExtension.dll">
+      <Link>ICU4NETExtension.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DepDLLs\Icu\icudt48.dll">
+      <Link>icudt48.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DepDLLs\Icu\icuin48.dll">
+      <Link>icuin48.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DepDLLs\Icu\icuuc48.dll">
+      <Link>icuuc48.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DepDLLs\libsword.dll">
+      <Link>libsword.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DepDLLs\libsword_csharpsword.dll">
+      <Link>libsword_csharpsword.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DepDLLs\MAPIEx.dll">
+      <Link>MAPIEx.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="BiblicalTerms\AllBiblicalTerms.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -748,7 +783,9 @@
     <Content Include="js\StoryBtPs.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="LanguageCodes.tab" />
+    <Content Include="LanguageCodes.tab">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="OneStory.ico" />
     <None Include="..\Setup OneStory Editor\SetSwordPath.wxs">
       <Link>SetSwordPath.wxs</Link>
@@ -771,10 +808,15 @@
     <None Include="Resources\DataContainer_MoveLastHS.png" />
     <None Include="Resources\Arrow.jpg" />
     <None Include="Resources\search.png" />
+    <Content Include="LocData\id.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\1.3 to 1.4.xslt" />
     <None Include="Resources\Print.bmp" />
     <None Include="Resources\PrintHS.png" />
-    <Content Include="StageTransitions.xml" />
+    <Content Include="StageTransitions.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\app.manifest" />
     <None Include="Resources\DragDropHandle.bmp" />
     <None Include="StoryProject.onestory" />
@@ -792,6 +834,9 @@
     <None Include="Resources\oneStory2storyingRetelling.xsl" />
     <None Include="Resources\gradient.gif">
     </None>
+    <Content Include="StageTransitionsId.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Toolbox\FreeTranslation.lng">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

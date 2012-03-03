@@ -155,6 +155,7 @@ namespace OneStoryProjectEditor
             this.advancedChangeProjectFolderRootMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedEmailMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedUseOldStyleStoryBtPaneMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedUseWordBreaks = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -185,12 +186,15 @@ namespace OneStoryProjectEditor
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.menuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeftRight)).BeginInit();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
             this.splitContainerLeftRight.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerUpDown)).BeginInit();
             this.splitContainerUpDown.Panel1.SuspendLayout();
             this.splitContainerUpDown.Panel2.SuspendLayout();
             this.splitContainerUpDown.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerMentorNotes)).BeginInit();
             this.splitContainerMentorNotes.Panel1.SuspendLayout();
             this.splitContainerMentorNotes.Panel2.SuspendLayout();
             this.splitContainerMentorNotes.SuspendLayout();
@@ -1176,7 +1180,8 @@ namespace OneStoryProjectEditor
             this.advancedResetStoredInformationMenu,
             this.advancedChangeProjectFolderRootMenu,
             this.advancedEmailMenu,
-            this.advancedUseOldStyleStoryBtPaneMenu});
+            this.advancedUseOldStyleStoryBtPaneMenu,
+            this.advancedUseWordBreaks});
             this.advancedToolStripMenu.Name = "advancedToolStripMenu";
             this.advancedToolStripMenu.Size = new System.Drawing.Size(72, 27);
             this.advancedToolStripMenu.Text = "A&dvanced";
@@ -1320,6 +1325,13 @@ namespace OneStoryProjectEditor
             this.advancedUseOldStyleStoryBtPaneMenu.ToolTipText = "This setting switches the Story BT pane to use the old-style (and slower) control" +
     "s for editing the Story BT data";
             this.advancedUseOldStyleStoryBtPaneMenu.Click += new System.EventHandler(this.advancedUseOldStyleStoryBtPaneMenu_Click);
+            // 
+            // advancedUseWordBreaks
+            // 
+            this.advancedUseWordBreaks.CheckOnClick = true;
+            this.advancedUseWordBreaks.Name = "advancedUseWordBreaks";
+            this.advancedUseWordBreaks.Size = new System.Drawing.Size(314, 22);
+            this.advancedUseWordBreaks.Text = "Use automatic word &breaking when Glossing";
             // 
             // aboutToolStripMenu
             // 
@@ -1706,15 +1718,18 @@ namespace OneStoryProjectEditor
             this.menuStrip.PerformLayout();
             this.splitContainerLeftRight.Panel1.ResumeLayout(false);
             this.splitContainerLeftRight.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeftRight)).EndInit();
             this.splitContainerLeftRight.ResumeLayout(false);
             this.splitContainerUpDown.Panel1.ResumeLayout(false);
             this.splitContainerUpDown.Panel1.PerformLayout();
             this.splitContainerUpDown.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerUpDown)).EndInit();
             this.splitContainerUpDown.ResumeLayout(false);
             this.splitContainerMentorNotes.Panel1.ResumeLayout(false);
             this.splitContainerMentorNotes.Panel1.PerformLayout();
             this.splitContainerMentorNotes.Panel2.ResumeLayout(false);
             this.splitContainerMentorNotes.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerMentorNotes)).EndInit();
             this.splitContainerMentorNotes.ResumeLayout(false);
             this.toolStripRecordNavigation.ResumeLayout(false);
             this.toolStripRecordNavigation.PerformLayout();
@@ -1875,6 +1890,7 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator16;
         private ToolStripSeparator toolStripSeparator5;
         private HtmlStoryBtControl htmlStoryBtControl;
+        internal ToolStripMenuItem advancedUseWordBreaks;
         private ToolStripMenuItem advancedUseOldStyleStoryBtPaneMenu;
     }
 

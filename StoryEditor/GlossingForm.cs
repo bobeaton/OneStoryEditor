@@ -14,12 +14,13 @@ namespace OneStoryProjectEditor
     {
         internal static char[] achWordDelimiters = new[] { ' ' };
         private AdaptItEncConverter m_theEC;
+        private static BreakIterator m_theWordBreaker;
         public List<string> SourceWords;
         public List<string> TargetWords;
         public List<string> SourceStringsInBetween;
         public List<string> TargetStringsInBetween;
         protected ProjectSettings.LanguageInfo liSourceLang, liTargetLang;
-
+        
         private GlossingForm()
         {
             InitializeComponent();
@@ -27,8 +28,9 @@ namespace OneStoryProjectEditor
         }
 
         public GlossingForm(ProjectSettings projSettings, string strSentence, 
-            ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection,
-            TeamMemberData loggedOnMember)
+                            ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection,
+                            TeamMemberData loggedOnMember, bool bUseWordBreakIterator,
+                            DirectableEncConverter ecSourceWordTransliterator)
             : base(true)
         {
             InitializeComponent();
@@ -44,6 +46,22 @@ namespace OneStoryProjectEditor
                 return;
             }
 
+
+            if (bUseWordBreakIterator)
+            {
+                try
+                {
+                    if (m_theWordBreaker == null)
+                        m_theWordBreaker = new BreakIterator();
+
+                    strSentence = m_theWordBreaker.AddWordBreaks(strSentence);
+                }
+                catch (Exception ex)
+                {
+                    Program.ShowException(ex);
+                }
+            }
+
             // get the EncConverter to break apart the given sentence into bundles
             SourceSentence = strSentence;
             m_theEC.SplitAndConvert(strSentence, out SourceWords, out SourceStringsInBetween, 
@@ -53,6 +71,9 @@ namespace OneStoryProjectEditor
 
             if (liSourceLang.DoRtl)
                 flowLayoutPanel.FlowDirection = FlowDirection.RightToLeft;
+
+            // initialize the transliterator
+            GlossingControl.SourceWordTransliterator = ecSourceWordTransliterator;
 
             System.Diagnostics.Debug.Assert(SourceWords.Count == TargetWords.Count);
             string strBeforeSource = SourceStringsInBetween[0];

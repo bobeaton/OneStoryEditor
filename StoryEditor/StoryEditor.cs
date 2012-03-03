@@ -5239,9 +5239,9 @@ namespace OneStoryProjectEditor
         protected void TransformedXmlDataToSfm(Stream streamXSLT, Stream streamData,
             string strTbxFilename, string strParameter)
         {
-            XslCompiledTransform myProcessor = new XslCompiledTransform();
-            XmlReader xslReader = XmlReader.Create(streamXSLT, new XmlReaderSettings() { ProhibitDtd = false });
-            XsltSettings xsltSettings = new XsltSettings { EnableDocumentFunction = true, EnableScript = true };
+            var myProcessor = new XslCompiledTransform();
+            var xslReader = XmlReader.Create(streamXSLT, new XmlReaderSettings {DtdProcessing = DtdProcessing.Prohibit});
+            var xsltSettings = new XsltSettings { EnableDocumentFunction = true, EnableScript = true };
             myProcessor.Load(xslReader, xsltSettings, null);
 
             // rewind
@@ -5788,6 +5788,7 @@ namespace OneStoryProjectEditor
 
             advancedNewProjectMenu.Enabled = IsInStoriesSet;
             advancedEmailMenu.Checked = Settings.Default.UseMapiPlus;
+            advancedUseWordBreaks.Enabled = BreakIterator.IsAvailable;
         }
 
         private void checkForProgramUpdatesNowToolStripMenuItem_Click(object sender, EventArgs e)

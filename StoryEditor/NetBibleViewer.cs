@@ -77,7 +77,7 @@ namespace OneStoryProjectEditor
         NetBibleFootnoteTooltip tooltipNBFNs;
         int m_nBook = 0, m_nChapter = 0, m_nVerse = 0;
         // protected const string CstrNetFreeModuleName = "NETfree";
-        protected const string CstrNetModuleName = "NET";
+        public const string CstrNetModuleName = "NET";
         protected const string CstrOtherSwordModules = "Other";
         protected const string CstrRadioButtonPrefix = "radioButton";
 
@@ -296,20 +296,27 @@ namespace OneStoryProjectEditor
             if (manager == null)
                 throw new ApplicationException("Unable to create the Sword utility manager");
 
-            foreach (string strPath in GetModuleLocations())
+            /*
+            var strPath = Path.Combine(StoryProjectData.GetRunningFolder, "SWORD");
+            manager.augmentModules(strPath);
+            var paths = GetModuleLocations();
+            foreach (string strPath in paths)
                 manager.augmentModules(strPath);
+            */
 
             // first determine all the possible resources available
-            int numOfModules = (int)manager.getModules().size();
+            var moduleMap = manager.getModules();
+            int numOfModules = moduleMap.Count;
             for (int i = 0; i < numOfModules; i++)
             {
-                string strModuleName = manager.getModuleAt(i).Name();
+                var moduleAt = manager.getModuleAt(i);
+                string strModuleName = moduleAt.Name();
                 if (lstModulesToSuppress.Contains(strModuleName))
                     continue;
 
                 if (manager.getModuleAt(i).Type().Equals("Biblical Texts"))
                 {
-                    string strModuleDesc = manager.getModuleAt(i).Description();
+                    string strModuleDesc = moduleAt.Description();
                     if (Properties.Settings.Default.SwordModulesUsed.Contains(strModuleName))
                     {
                         lstBibleResources.Add(new SwordResource(strModuleName, strModuleDesc, true));

@@ -2,6 +2,6 @@
 <Package Name="DisplayName" Culture="Culture" xmlns="http://schemas.microsoft.com/developer/2004/01/bootstrapper">
   <Strings>
     <String Name="Culture">en</String>
-    <String Name="DisplayName">vs90_piaredist</String>
+    <String Name="DisplayName">vs100_piaredist</String>
   </Strings>
 </Package>
