@@ -84,6 +84,10 @@ namespace OneStoryProjectEditor
                     //  loc data folder
                     var strPathToLocData = Path.Combine(ProjectSettings.OneStoryProjectFolderRoot,
                                                         "LocData");
+
+                    if (!Directory.Exists(strPathToLocData))
+                        Directory.CreateDirectory(strPathToLocData);
+
                     var strRunningLocData = Path.Combine(StoryProjectData.GetRunningFolder,
                                                          "LocData");
                     if (Directory.Exists(strRunningLocData))
