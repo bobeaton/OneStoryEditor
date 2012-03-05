@@ -36,6 +36,16 @@ namespace OneStoryProjectEditor
             {
                 ProjSettings = _storyProjectData.ProjSettings;
                 ProjectName = ProjSettings.ProjectName;
+
+                checkBoxUseDropBox.Checked = ProjSettings.UseDropbox;
+
+                string strDropboxRoot;
+                if (!StoryEditor.IsDropBoxExist(out strDropboxRoot))
+                {
+                    checkBoxUseDropBox.Enabled = false;
+                    toolTip.SetToolTip(checkBoxUseDropBox, Localizer.Str("You don't appear to have Dropbox installed!"));
+                }
+
                 string strDummy;
                 if (!String.IsNullOrEmpty(ProjSettings.HgRepoUrlHost) ||
                     Program.GetHgRepoParameters(ProjectName, out strDummy, out strDummy, out strDummy))
@@ -623,6 +633,7 @@ namespace OneStoryProjectEditor
 
             // this is now configured!
             ProjSettings.IsConfigured = true;
+            ProjSettings.UseDropbox = checkBoxUseDropBox.Checked;
             DialogResult = DialogResult.OK;
             Close();
         }

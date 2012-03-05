@@ -573,7 +573,7 @@ namespace OneStoryProjectEditor
             TheCurrentStory = null;
             // turning off in 2.4... StoryStageLogic.stateTransitions = null;
             comboBoxStorySelector.Items.Clear();
-            comboBoxStorySelector.Text = Localizer.Str("<type the name of a story to create and hit Enter>");
+            ResetStorySelectorComboBox();
             textBoxStoryVerse.Text = Localizer.Str("Story");
 
             if (!viewUseSameSettingsForAllStoriesMenu.Checked)
@@ -582,6 +582,11 @@ namespace OneStoryProjectEditor
                     viewCoachNotesMenu.Checked =
                     viewBibleMenu.Checked = false;
             }
+        }
+
+        private void ResetStorySelectorComboBox()
+        {
+            comboBoxStorySelector.Text = Localizer.Str("<type the name of a story to create and hit Enter>");
         }
 
         protected void NewProjectFile()
@@ -985,7 +990,7 @@ namespace OneStoryProjectEditor
                 if (StoryProject == null)
                     if (!InitNewStoryProjectObject())
                     {
-                        comboBoxStorySelector.Text = Localizer.Str("<type the name of a story to create and hit Enter>");
+                        ResetStorySelectorComboBox();
                         return;
                     }
 
@@ -993,7 +998,7 @@ namespace OneStoryProjectEditor
 
                 if (!CheckForProjFac())
                 {
-                    comboBoxStorySelector.Text = Localizer.Str("<type the name of a story to create and hit Enter>");
+                    ResetStorySelectorComboBox();
                     dtLastKey = DateTime.Now;
                     return;
                 }
@@ -1020,7 +1025,7 @@ namespace OneStoryProjectEditor
                         InsertNewStory(strStoryToLoad, nInsertIndex);
                     }
                     else
-                        comboBoxStorySelector.Text = Localizer.Str("<type the name of a story to create and hit Enter>");
+                        ResetStorySelectorComboBox();
                 }
                 else
                     comboBoxStorySelector.SelectedItem = theStory.Name;
@@ -3001,8 +3006,7 @@ namespace OneStoryProjectEditor
                         nIndex = -1;
 
                         // also check to see if its name has been changed
-                        if (TheCurrentStory.Name != comboBoxStorySelector.Text)
-                            comboBoxStorySelector.Text = TheCurrentStory.Name;
+                        UpdateStoryNameComboBox();
                     }
                 }
 
@@ -3027,6 +3031,12 @@ namespace OneStoryProjectEditor
 
                 Modified = true;
             }
+        }
+
+        private void UpdateStoryNameComboBox()
+        {
+            if ((TheCurrentStory != null) && (TheCurrentStory.Name != comboBoxStorySelector.Text))
+                comboBoxStorySelector.Text = TheCurrentStory.Name;
         }
 
         private void deleteStoryToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3259,6 +3269,10 @@ namespace OneStoryProjectEditor
 
             strAnswer = String.Format(Localizer.Str("Test done on: {0}. UNS heard the story {1} times."),
                                       DateTime.Now.ToString("yyyy-MMM-dd"), strAnswer);
+
+            // check for Dropbox copy
+            ShouldCopyFileToDropbox();
+
             var toi = new MemberIdInfo(strUnsGuid, strAnswer);
             TheCurrentStory.CraftingInfo.TestersToCommentsRetellings.Add(toi);
             foreach (VerseData aVerseData in TheCurrentStory.Verses)
@@ -3271,7 +3285,74 @@ namespace OneStoryProjectEditor
             viewRetellingsMenu.Checked = true;
 
             Modified = true;
+
             return true;
+        }
+        
+        internal static bool IsDropBoxExist(out string strDropboxRoot)
+        {
+            strDropboxRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                                          "Dropbox");
+            if (!Directory.Exists(strDropboxRoot))
+            {
+                strDropboxRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                                              "Dropbox");
+                return Directory.Exists(strDropboxRoot);
+            }
+            return true;
+        }
+
+        private void ShouldCopyFileToDropbox()
+        {
+            Debug.Assert((StoryProject != null) && (StoryProject.ProjSettings != null));
+            if (!StoryProject.ProjSettings.UseDropbox)
+                return;
+
+            string strDropboxRoot;
+            if (!IsDropBoxExist(out strDropboxRoot))
+                return;
+
+            var openMediaFileDlg = new OpenFileDialog
+                                       {
+                                           Filter = "Audio files|*.mp3;*.wav;*.wma|All files|*.*",
+                                           Title = Localizer.Str("Select the recording for this retelling")
+                                       };
+
+            SuspendSaveDialog++;
+            var res = openMediaFileDlg.ShowDialog();
+            SuspendSaveDialog--;
+            if (res != DialogResult.OK)
+                return;
+
+            var strTargetPath = ConcatenateToPath(strDropboxRoot,
+                                                  new List<string>
+                                                      {
+                                                          "OSE recordings",
+                                                          "private.languageDepot.org",
+                                                          StoryProject.ProjSettings.ProjectName,
+                                                          TheCurrentStory.Name,
+                                                          String.Format("Retelling {0}.mp3",
+                                                                        TheCurrentStory.CraftingInfo.
+                                                                            TestersToCommentsRetellings.
+                                                                            Count + 1)
+                                                      });
+            WriteAudioFile(openMediaFileDlg.FileName, strTargetPath);
+        }
+
+        private void WriteAudioFile(string strSourceFilepath, string strTargetFilepath)
+        {
+            // TODO: add convert capability also..
+            File.Copy(strSourceFilepath, strTargetFilepath);
+        }
+
+        internal string ConcatenateToPath(string strFolderRoot, List<string> lstFolderNames)
+        {
+            var str = lstFolderNames.Aggregate("", Path.Combine);
+            str = Path.Combine(strFolderRoot, str);
+            var strParentFolder = Path.GetDirectoryName(str);
+            if (!Directory.Exists(strParentFolder))
+                Directory.CreateDirectory(strParentFolder);
+            return str;
         }
 
         internal bool AddInferenceTest()
@@ -4707,6 +4788,7 @@ namespace OneStoryProjectEditor
             if (m_frmFind != null)
                 m_frmFind.ResetSearchParameters();
             Localizer.Default.Update();
+            UpdateStoryNameComboBox();
         }
 
         private void replaceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4840,8 +4922,7 @@ namespace OneStoryProjectEditor
             {
                 Debug.Assert(nIndexOfCurrentStory != -1);
                 nIndexOfCurrentStory = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
-                StoryData theNewStory = new StoryData(TheCurrentStory);
-                theNewStory.Name = strStoryName;
+                var theNewStory = new StoryData(TheCurrentStory) {Name = strStoryName};
                 InsertNewStoryAdjustComboBox(theNewStory, nIndexOfCurrentStory);
             }
         }

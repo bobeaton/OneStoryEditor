@@ -1451,6 +1451,7 @@ namespace OneStoryProjectEditor
             // 
             this.netBibleViewer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.netBibleViewer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.netBibleViewer.JumpTarget = null;
             this.netBibleViewer.Location = new System.Drawing.Point(0, 0);
             this.netBibleViewer.Margin = new System.Windows.Forms.Padding(0);
             this.netBibleViewer.Name = "netBibleViewer";

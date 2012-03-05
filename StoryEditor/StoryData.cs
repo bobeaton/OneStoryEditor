@@ -147,7 +147,7 @@ namespace OneStoryProjectEditor
             CountRetellingsTests = rhs.CountRetellingsTests;
             CountTestingQuestionTests = rhs.CountTestingQuestionTests;
 
-            // the guid shouldn't be replicated
+            // the guid should be replicated
             guid = Guid.NewGuid().ToString();  // rhs.guid;
 
             StageTimeStamp = rhs.StageTimeStamp;
@@ -1630,7 +1630,8 @@ namespace OneStoryProjectEditor
                                                          ProjSettings.ProjectName,
                                                          ProjSettings.HgRepoUrlHost,
                                                          Properties.Resources.
-                                                             IDS_DefaultPanoramaFrontMatter);
+                                                             IDS_DefaultPanoramaFrontMatter,
+                                                         ProjSettings.UseDropbox);
             else
             {
                 projFile.StoryProject[0].ProjectName = ProjSettings.ProjectName; // in case the user changed it.
@@ -1677,6 +1678,9 @@ namespace OneStoryProjectEditor
             ProjSettings.HgRepoUrlHost = !projFile.StoryProject[0].IsHgRepoUrlHostNull()
                                               ? projFile.StoryProject[0].HgRepoUrlHost
                                               : null;
+
+            ProjSettings.UseDropbox = !projFile.StoryProject[0].IsUseDropboxNull() &&
+                                      projFile.StoryProject[0].UseDropbox;
 
             if (projFile.stories.Count == 0)
             {
@@ -2003,6 +2007,7 @@ namespace OneStoryProjectEditor
 
         public const string CstrAttributeProjectName = "ProjectName";
         public const string CstrAttributeHgRepoUrlHost = "HgRepoUrlHost";
+        public const string CstrAttributeUseDropbox = "UseDropbox";
 
         public XElement GetXml
         {
@@ -2010,8 +2015,9 @@ namespace OneStoryProjectEditor
             {
                 var elemStoryProject =
                     new XElement("StoryProject",
-                        new XAttribute("version", XmlDataVersion),
-                        new XAttribute(CstrAttributeProjectName, ProjSettings.ProjectName));
+                                 new XAttribute("version", XmlDataVersion),
+                                 new XAttribute(CstrAttributeProjectName, ProjSettings.ProjectName),
+                                 new XAttribute(CstrAttributeUseDropbox, ProjSettings.UseDropbox));
 
                 if (!String.IsNullOrEmpty(ProjSettings.HgRepoUrlHost))
                     elemStoryProject.Add(new XAttribute(CstrAttributeHgRepoUrlHost,

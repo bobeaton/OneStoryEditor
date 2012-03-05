@@ -2438,6 +2438,8 @@ namespace OneStoryProjectEditor {
             
             private global::System.Data.DataColumn columnPanoramaFrontMatter;
             
+            private global::System.Data.DataColumn columnUseDropbox;
+            
             private global::System.Data.DataColumn columnStoryProject_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2507,6 +2509,14 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn UseDropboxColumn {
+                get {
+                    return this.columnUseDropbox;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public global::System.Data.DataColumn StoryProject_IdColumn {
                 get {
                     return this.columnStoryProject_Id;
@@ -2550,13 +2560,14 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public StoryProjectRow AddStoryProjectRow(string version, string ProjectName, string HgRepoUrlHost, string PanoramaFrontMatter) {
+            public StoryProjectRow AddStoryProjectRow(string version, string ProjectName, string HgRepoUrlHost, string PanoramaFrontMatter, bool UseDropbox) {
                 StoryProjectRow rowStoryProjectRow = ((StoryProjectRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         version,
                         ProjectName,
                         HgRepoUrlHost,
                         PanoramaFrontMatter,
+                        UseDropbox,
                         null};
                 rowStoryProjectRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowStoryProjectRow);
@@ -2584,6 +2595,7 @@ namespace OneStoryProjectEditor {
                 this.columnProjectName = base.Columns["ProjectName"];
                 this.columnHgRepoUrlHost = base.Columns["HgRepoUrlHost"];
                 this.columnPanoramaFrontMatter = base.Columns["PanoramaFrontMatter"];
+                this.columnUseDropbox = base.Columns["UseDropbox"];
                 this.columnStoryProject_Id = base.Columns["StoryProject_Id"];
             }
             
@@ -2598,6 +2610,8 @@ namespace OneStoryProjectEditor {
                 base.Columns.Add(this.columnHgRepoUrlHost);
                 this.columnPanoramaFrontMatter = new global::System.Data.DataColumn("PanoramaFrontMatter", typeof(string), null, global::System.Data.MappingType.Attribute);
                 base.Columns.Add(this.columnPanoramaFrontMatter);
+                this.columnUseDropbox = new global::System.Data.DataColumn("UseDropbox", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnUseDropbox);
                 this.columnStoryProject_Id = new global::System.Data.DataColumn("StoryProject_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
                 base.Columns.Add(this.columnStoryProject_Id);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
@@ -2608,6 +2622,7 @@ namespace OneStoryProjectEditor {
                 this.columnProjectName.Namespace = "";
                 this.columnHgRepoUrlHost.Namespace = "";
                 this.columnPanoramaFrontMatter.Namespace = "";
+                this.columnUseDropbox.Namespace = "";
                 this.columnStoryProject_Id.AutoIncrement = true;
                 this.columnStoryProject_Id.AllowDBNull = false;
                 this.columnStoryProject_Id.Unique = true;
@@ -2873,7 +2888,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentStoryProjectRowByStoryProject_Members != null)) {
-                    columnValuesArray[4] = parentStoryProjectRowByStoryProject_Members[4];
+                    columnValuesArray[4] = parentStoryProjectRowByStoryProject_Members[5];
                 }
                 rowMembersRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowMembersRow);
@@ -4099,7 +4114,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentStoryProjectRowByStoryProject_Languages != null)) {
-                    columnValuesArray[10] = parentStoryProjectRowByStoryProject_Languages[4];
+                    columnValuesArray[10] = parentStoryProjectRowByStoryProject_Languages[5];
                 }
                 rowLanguagesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowLanguagesRow);
@@ -4796,7 +4811,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentStoryProjectRowByStoryProject_AdaptItConfigurations != null)) {
-                    columnValuesArray[1] = parentStoryProjectRowByStoryProject_AdaptItConfigurations[4];
+                    columnValuesArray[1] = parentStoryProjectRowByStoryProject_AdaptItConfigurations[5];
                 }
                 rowAdaptItConfigurationsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowAdaptItConfigurationsRow);
@@ -5437,7 +5452,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentStoryProjectRowByStoryProject_LnCNotes != null)) {
-                    columnValuesArray[1] = parentStoryProjectRowByStoryProject_LnCNotes[4];
+                    columnValuesArray[1] = parentStoryProjectRowByStoryProject_LnCNotes[5];
                 }
                 rowLnCNotesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowLnCNotesRow);
@@ -6057,7 +6072,7 @@ namespace OneStoryProjectEditor {
                         null,
                         null};
                 if ((parentStoryProjectRowByStoryProject_stories != null)) {
-                    columnValuesArray[2] = parentStoryProjectRowByStoryProject_stories[4];
+                    columnValuesArray[2] = parentStoryProjectRowByStoryProject_stories[5];
                 }
                 rowstoriesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowstoriesRow);
@@ -16187,6 +16202,22 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool UseDropbox {
+                get {
+                    try {
+                        return ((bool)(this[this.tableStoryProject.UseDropboxColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UseDropbox\' in table \'StoryProject\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableStoryProject.UseDropboxColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public int StoryProject_Id {
                 get {
                     return ((int)(this[this.tableStoryProject.StoryProject_IdColumn]));
@@ -16218,6 +16249,18 @@ namespace OneStoryProjectEditor {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetPanoramaFrontMatterNull() {
                 this[this.tableStoryProject.PanoramaFrontMatterColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsUseDropboxNull() {
+                return this.IsNull(this.tableStoryProject.UseDropboxColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetUseDropboxNull() {
+                this[this.tableStoryProject.UseDropboxColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

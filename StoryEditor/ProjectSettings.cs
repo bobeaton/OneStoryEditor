@@ -26,7 +26,8 @@ namespace OneStoryProjectEditor
         protected string _strProjectFolder;
 
         public string HgRepoUrlHost;    // e.g. http://hg-private.languagedepot.org
-        
+        public bool UseDropbox;
+
         // default is to have all 3, but the user might disable one or the other bt languages
         public LanguageInfo Vernacular = new LanguageInfo(LineData.CstrAttributeLangVernacular, new Font("Arial Unicode MS", 12), Color.Maroon);
         public LanguageInfo NationalBT = new LanguageInfo(LineData.CstrAttributeLangNationalBt, new Font("Arial Unicode MS", 12), Color.Green);
@@ -115,6 +116,8 @@ namespace OneStoryProjectEditor
             HgRepoUrlHost = ((attr = node.Attributes[StoryProjectData.CstrAttributeHgRepoUrlHost]) != null)
                                  ? attr.Value
                                  : null;
+
+            UseDropbox = ((attr = node.Attributes[StoryProjectData.CstrAttributeUseDropbox]) != null) && (attr.Value == "true");
 
             Vernacular = new LanguageInfo(node.SelectSingleNode(XPathForLangInformation(LineData.CstrAttributeLangVernacular)));
             NationalBT = new LanguageInfo(node.SelectSingleNode(XPathForLangInformation(LineData.CstrAttributeLangNationalBt)));
