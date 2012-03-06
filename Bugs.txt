@@ -1,4 +1,8 @@
-﻿it would be nice in L&C notes if a transliterator is being used to show the transliteration also
+﻿In the TextPaster, offer to ignore SFM markers
+
+Moving a TQ to line 0 (GenQs) didn't work
+
+it would be nice in L&C notes if a transliterator is being used to show the transliteration also
 
 when splitting something like "word, word", I seem to get a empty box for the word where we had a ", "
 
