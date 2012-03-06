@@ -201,8 +201,16 @@ namespace OneStoryProjectEditor
                     new XDeclaration("1.0", "utf-8", "yes"),
                     GetXml);
 
+                var strLocalizationFilename = CstrStateTransitionsXmlFilename;
+                var strLocalizationSuffix = Properties.Settings.Default.LastLocalizationId;
+                if (!String.IsNullOrEmpty(strLocalizationSuffix) && (strLocalizationSuffix != "en"))
+                {
+                    strLocalizationFilename = String.Format(CstrStateTransitionsXmlFilenameLocalized,
+                                                            strLocalizationSuffix);
+                }
+
                 // save it with an extra extn.
-                var strCustomFile = Path.Combine(_strProjectFolder, CstrStateTransitionsXmlFilename);
+                var strCustomFile = Path.Combine(_strProjectFolder, strLocalizationFilename);
                 doc.Save(strCustomFile);
             }
 
