@@ -294,6 +294,11 @@ namespace OneStoryProjectEditor
         protected override void OnMouseDown(MouseEventArgs e)
         {
             KeepTrackOfLastTextBoxSelected();
+
+            if (StoryEditor.TextPaster != null)
+            {
+                StoryEditor.TextPaster.TriggerPaste(e.Button == MouseButtons.Left, _inTextBox);
+            }
             base.OnMouseDown(e);
         }
 
