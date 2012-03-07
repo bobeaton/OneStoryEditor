@@ -15,6 +15,7 @@ using Chorus.VcsDrivers.Mercurial;
 using Microsoft.Win32;
 using NetLoc;
 using Palaso.Progress.LogBox;
+using SilEncConverters40;
 
 // for RegistryKey
 
@@ -358,12 +359,12 @@ namespace OneStoryProjectEditor
                 // the GetClone dialog is expecting that the parent folder exist (e.g.
                 //  C:\Documents and Settings\Bob\My Documents\Adapt It Unicode Work)
                 string strAiWorkFolder = Path.GetDirectoryName(strProjectFolder);
-                Debug.Assert(strAiWorkFolder != null);
+                Debug.Assert((strAiWorkFolder != null) && (strAiWorkFolder == AdaptItKBReader.AdaptItWorkFolder));
                 if (!Directory.Exists(strAiWorkFolder))
                     Directory.CreateDirectory(strAiWorkFolder);
 
                 string strAiProjectFolderName = Path.GetFileNameWithoutExtension(strProjectFolder);
-                var model = new GetCloneFromInternetModel(AdaptItGlossing.AdaptItWorkFolder)
+                var model = new GetCloneFromInternetModel(strAiWorkFolder)
                 {
                     ProjectId = RepoProjectName,
                     SelectedServerLabel = RepositoryServer,

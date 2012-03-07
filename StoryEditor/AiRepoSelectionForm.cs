@@ -215,7 +215,7 @@ namespace OneStoryProjectEditor
         private bool GetAiRepoSettings(out string strAiWorkFolder, out string strProjectFolderName)
         {
             // e.g. <My Documents>\Adapt It Unicode Work
-            strAiWorkFolder = AdaptItGlossing.AdaptItWorkFolder;
+            strAiWorkFolder = AdaptItKBReader.AdaptItWorkFolder;
 
             // e.g. "Kangri to Hindi adaptations"
             strProjectFolderName = String.Format(Properties.Resources.IDS_AdaptItProjectFolderFormat,

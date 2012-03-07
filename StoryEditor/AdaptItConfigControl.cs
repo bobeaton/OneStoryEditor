@@ -152,13 +152,13 @@ namespace OneStoryProjectEditor
             ResetSharedOnlyFields();
             // first let's see if an AI Lookup transducer already exists with the
             //  proper name
-            string strAiProjectFolder = AdaptItGlossing.AdaptItProjectFolder(null, SourceLanguageName, TargetLanguageName);
+            string strAiProjectFolder = AdaptItKBReader.AdaptItProjectFolder(null, SourceLanguageName, TargetLanguageName);
             if (Directory.Exists(strAiProjectFolder))
             {
-                string strConverterSpec = AdaptItGlossing.AdaptItLookupFileSpec(null, SourceLanguageName, TargetLanguageName);
+                string strConverterSpec = AdaptItKBReader.AdaptItLookupFileSpec(null, SourceLanguageName, TargetLanguageName);
                 if (File.Exists(strConverterSpec))
                 {
-                    string strConverterName = AdaptItGlossing.AdaptItLookupConverterName(SourceLanguageName, TargetLanguageName);
+                    string strConverterName = AdaptItKBReader.AdaptItLookupConverterName(SourceLanguageName, TargetLanguageName);
                     if (theECs.ContainsKey(strConverterName))
                     {
                         IEncConverter theEc = theECs[strConverterName];
@@ -268,7 +268,7 @@ namespace OneStoryProjectEditor
                 // first let's see if an AI Lookup transducer already exists with the
                 //  proper name
                 string strProjectFolder,
-                       strConverterName = AdaptItGlossing.AdaptItLookupConverterName(SourceLanguageName,
+                       strConverterName = AdaptItKBReader.AdaptItLookupConverterName(SourceLanguageName,
                                                                                      TargetLanguageName);
                 IEncConverter theEc = null;
                 if (theECs.ContainsKey(strConverterName))

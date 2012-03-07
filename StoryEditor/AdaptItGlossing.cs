@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 using ECInterfaces;                 // for IEncConverter
 using SilEncConverters40;           // for AdaptItEncConverter
 
@@ -8,103 +10,6 @@ namespace OneStoryProjectEditor
 {
     public class AdaptItGlossing
     {
-        /// <summary>
-        /// returns something like 
-        /// </summary>
-        /// <param name="strProjectFolderName"></param>
-        /// <param name="strSourceLangName"></param>
-        /// <param name="strTargetLangName"></param>
-        /// <returns></returns>
-        protected static string AdaptItGlossingLookupFileSpec(string strProjectFolderName, 
-            string strSourceLangName, string strTargetLangName)
-        {
-            return Path.Combine(AdaptItProjectFolder(strProjectFolderName, strSourceLangName, strTargetLangName),
-                "Glossing.xml");
-        }
-
-        protected static string AdaptItProjectFolderName(string strProjectFolderName, 
-            string strSourceLangName, string strTargetLangName)
-        {
-            return String.IsNullOrEmpty(strProjectFolderName)
-                       ? String.Format(@"{0} to {1} adaptations", strSourceLangName, strTargetLangName)
-                       : strProjectFolderName;
-        }
-
-        protected static string AdaptationFileName(string strProjectFolderName, 
-            string strSourceLangName, string strTargetLangName)
-        {
-            return String.Format(@"{0}.xml",
-                                 AdaptItProjectFolderName(strProjectFolderName, strSourceLangName, strTargetLangName));
-        }
-
-        public static string AdaptItLookupFileSpec(string strProjectFolderName, 
-            string strSourceLangName, string strTargetLangName)
-        {
-            return Path.Combine(AdaptItProjectFolder(strProjectFolderName, strSourceLangName, strTargetLangName),
-                                AdaptationFileName(strProjectFolderName, strSourceLangName, strTargetLangName));
-        }
-
-        protected static string AdaptItProjectFileSpec(string strProjectFolderName, 
-            string strSourceLangName, string strTargetLangName)
-        {
-            return Path.Combine(AdaptItProjectFolder(strProjectFolderName, strSourceLangName, strTargetLangName),
-                                "AI-ProjectConfiguration.aic");
-        }
-
-        /// <summary>
-        /// returns something like: <My Documents>\Adapt It Unicode Work
-        /// which is the root folder in the user's my documents folder for all adapt it projects
-        /// </summary>
-        public static string AdaptItWorkFolder
-        {
-            get
-            {
-                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    "Adapt It Unicode Work");
-            }
-        }
-
-        /// <summary>
-        /// returns something like: <My Documents>\Adapt It Unicode Work\Bundelkhandi to English adaptations
-        /// which is the project folder for the Adapt It project
-        /// </summary>
-        /// <param name="strSourceLangName"></param>
-        /// <param name="strTargetLangName"></param>
-        /// <returns></returns>
-        public static string AdaptItProjectFolder(string strProjectFolderName, 
-            string strSourceLangName, string strTargetLangName)
-        {
-            return Path.Combine(AdaptItWorkFolder,
-                                AdaptItProjectFolderName(strProjectFolderName, strSourceLangName, strTargetLangName));
-        }
-
-        /// <summary>
-        /// returns something like, <My Documents>\Adapt It Unicode Work\Bundelkhandi to English adaptations\Adaptations
-        /// which contains the adaptations done in Adapt It (only used if the user has called to AI to
-        /// do glossing; not in the OSE glossing tool)
-        /// </summary>
-        /// <param name="strSourceLangName"></param>
-        /// <param name="strTargetLangName"></param>
-        /// <returns></returns>
-        public static string AdaptItProjectAdaptationsFolder(string strProjectFolderName, 
-            string strSourceLangName, string strTargetLangName)
-        {
-            return Path.Combine(AdaptItProjectFolder(strProjectFolderName, strSourceLangName, strTargetLangName),
-                                "Adaptations");
-        }
-
-        /// <summary>
-        /// returns something like: "Lookup in {0} to {1} adaptations", which is the EncConverter friendly name for the project
-        /// </summary>
-        /// <param name="strSourceLangName"></param>
-        /// <param name="strTargetLangName"></param>
-        /// <returns></returns>
-        public static string AdaptItLookupConverterName(string strSourceLangName, string strTargetLangName)
-        {
-            return String.Format(@"Lookup in {0} to {1} adaptations",
-                strSourceLangName, strTargetLangName);
-        }
-
         private static Dictionary<string, AdaptItEncConverter> mapNameToTheEc;
 
         public static AdaptItEncConverter InitLookupAdapter(ProjectSettings proj, 
@@ -156,12 +61,12 @@ namespace OneStoryProjectEditor
 
             // if there wasn't one configured, then just use the default
             if (String.IsNullOrEmpty(strName))
-                strName = AdaptItLookupConverterName(liSourceLang.LangName, liTargetLang.LangName);
+                strName = AdaptItKBReader.AdaptItLookupConverterName(liSourceLang.LangName, liTargetLang.LangName);
 
             if (mapNameToTheEc == null)
                 mapNameToTheEc = new Dictionary<string, AdaptItEncConverter>();
 
-            string strConverterSpec = AdaptItLookupFileSpec(strProjectFolder, liSourceLang.LangName, liTargetLang.LangName);
+            string strConverterSpec = AdaptItKBReader.AdaptItLookupFileSpec(strProjectFolder, liSourceLang.LangName, liTargetLang.LangName);
             if ((adaptItConfiguration != null) 
                 && (adaptItConfiguration.ProjectType == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.SharedAiProject))
             {
@@ -169,15 +74,13 @@ namespace OneStoryProjectEditor
                 adaptItConfiguration.CheckForSync(strProjectFolder, loggedOnMember);
 
                 // sometimes the sync doesn't also create the Adaptation folder
-                EnsureAiFoldersExist(strProjectFolder, liSourceLang, liTargetLang);
+                AdaptItKBReader.EnsureAiFoldersExist(strProjectFolder, liSourceLang.LangName, liTargetLang.LangName);
             }
             else
             {
                 // just in case the project doesn't exist yet and nothing's been 
                 //  configured (i.e. else case)
-                strProjectFolder = AdaptItProjectFolderName(strProjectFolder, liSourceLang.LangName,
-                                                            liTargetLang.LangName);
-                WriteAdaptItProjectFiles(strProjectFolder, liSourceLang, liTargetLang, proj.InternationalBT); // move this to AIGuesserEC project when it's mature.
+                WriteAdaptItProjectFiles(liSourceLang, liTargetLang, proj.InternationalBT);
             }
 
             AdaptItEncConverter theEc;
@@ -222,80 +125,35 @@ namespace OneStoryProjectEditor
                 GetAiProjectFolderFromConverterIdentifier(strConverterIdentifier));
         }
 
-        protected static void WriteAdaptItProjectFiles(string strProjectFolderName, 
-            ProjectSettings.LanguageInfo liSourceLang,
-            ProjectSettings.LanguageInfo liTargetLang, 
-            ProjectSettings.LanguageInfo liNavigation)
+        private static AdaptItKBReader.LanguageInfo FromOseLanguageInfo(ProjectSettings.LanguageInfo li)
         {
-            // create folders...
-            EnsureAiFoldersExist(strProjectFolderName, liSourceLang, liTargetLang);
-
-            // create Project file
-            if (!File.Exists(AdaptItProjectFileSpec(strProjectFolderName, liSourceLang.LangName, liTargetLang.LangName)))
-            {
-                string strSourcePunct, strTargetPunct;
-                AiPunctuation(liSourceLang.FullStop, liTargetLang.FullStop, 
-                    out strSourcePunct, out strTargetPunct);
-                string strFormat = Properties.Settings.Default.DefaultAIProjectFile;
-                string strProjectFileContents = String.Format(strFormat,
-                    liSourceLang.FontToUse.Name,
-                    liTargetLang.FontToUse.Name,
-                    liNavigation.FontToUse.Name,
-                    liSourceLang.LangName,
-                    liTargetLang.LangName,
-                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    strSourcePunct,
-                    strTargetPunct,
-                    (liSourceLang.DoRtl) ? "1" : "0",
-                    (liTargetLang.DoRtl) ? "1" : "0");
-                File.WriteAllText(AdaptItProjectFileSpec(strProjectFolderName, liSourceLang.LangName, liTargetLang.LangName), strProjectFileContents);
-            }
-
-            // create main KB
-            if (!File.Exists(AdaptItLookupFileSpec(strProjectFolderName, liSourceLang.LangName, liTargetLang.LangName)))
-            {
-                string strFormat = Properties.Settings.Default.DefaultAIKBFile;
-                string strKBContents = String.Format(strFormat, liSourceLang.LangName, liTargetLang.LangName);
-                File.WriteAllText(AdaptItLookupFileSpec(strProjectFolderName, liSourceLang.LangName, liTargetLang.LangName), strKBContents);
-            }
-
-            if (!File.Exists(AdaptItGlossingLookupFileSpec(strProjectFolderName, liSourceLang.LangName, liTargetLang.LangName)))
-            {
-                string strFormat = Properties.Settings.Default.DefaultAIKBFile;
-                string strKBContents = String.Format(strFormat, liSourceLang.LangName, liTargetLang.LangName);
-                File.WriteAllText(AdaptItGlossingLookupFileSpec(strProjectFolderName, liSourceLang.LangName, liTargetLang.LangName), strKBContents);
-            }
+            return new AdaptItKBReader.LanguageInfo
+                       {
+                           FontName = li.FontToUse.Name,
+                           LangName = li.LangName,
+                           Punctuation = AddSentenceFinalPunctuation(li.FullStop),
+                           RightToLeft = (li.DoRtl) ? RightToLeft.Yes : RightToLeft.No
+                       };
         }
 
-        private static void EnsureAiFoldersExist(string strProjectFolderName, ProjectSettings.LanguageInfo liSourceLang, ProjectSettings.LanguageInfo liTargetLang)
+        protected static void WriteAdaptItProjectFiles(ProjectSettings.LanguageInfo liSourceLang,
+                                                       ProjectSettings.LanguageInfo liTargetLang, 
+                                                       ProjectSettings.LanguageInfo liNavigation)
         {
-            var strAdaptationsFolder = AdaptItProjectAdaptationsFolder(strProjectFolderName,
-                                                                       liSourceLang.LangName,
-                                                                       liTargetLang.LangName);
-            if (!Directory.Exists(strAdaptationsFolder))
-                Directory.CreateDirectory(strAdaptationsFolder);
+            // call Ai assembly to do it (but have to convert the LangInfo types
+            var aiLiSource = FromOseLanguageInfo(liSourceLang);
+            var aiLiTarget = FromOseLanguageInfo(liTargetLang);
+            var aiLiNavigation = FromOseLanguageInfo(liNavigation);
+
+            AdaptItKBReader.WriteAdaptItProjectFiles(aiLiSource, aiLiTarget, aiLiNavigation);
         }
 
-        const string CstrAdaptItPunct = "?.,;:\"'!()<>{}[]“”‘’…-";
-            
-        private static void AiPunctuation(string strSourceSentenceFinalPuncts, string strTargetSentenceFinalPuncts, out string strSourcePunct, out string strTargetPunct)
+        private static string AddSentenceFinalPunctuation(string strSentenceFinalPuncts)
         {
-            strSourcePunct = strTargetPunct = null;
-            int nLen = Math.Min(strSourceSentenceFinalPuncts.Length, strTargetSentenceFinalPuncts.Length);
-            while(nLen-- > 0)
-            {
-                char chSrc = strSourceSentenceFinalPuncts[nLen];
-                char chTgt = strTargetSentenceFinalPuncts[nLen];
-                if ((CstrAdaptItPunct.IndexOf(chSrc) == -1)
-                    || (CstrAdaptItPunct.IndexOf(chTgt) == -1))
-                {
-                    strSourcePunct += chSrc;
-                    strTargetPunct += chTgt;
-                }
-            }
-
-            strSourcePunct = CstrAdaptItPunct + strSourcePunct;
-            strTargetPunct = CstrAdaptItPunct + strTargetPunct;
+            var strMyPunct = strSentenceFinalPuncts
+                                .Where(ch => AdaptItKBReader.CstrAdaptItPunct.IndexOf(ch) == -1)
+                                .Aggregate<char, string>(null, (current, ch) => current + ch);
+            return AdaptItKBReader.CstrAdaptItPunct + strMyPunct;
         }
     }
 }

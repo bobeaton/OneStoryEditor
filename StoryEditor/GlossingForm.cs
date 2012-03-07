@@ -13,16 +13,18 @@ namespace OneStoryProjectEditor
     public partial class GlossingForm : TopForm
     {
         internal static char[] achWordDelimiters = new[] { ' ' };
-        private AdaptItEncConverter m_theEC;
-        private static BreakIterator m_theWordBreaker;
+        private readonly AdaptItEncConverter _theEc;
+        private static BreakIterator _theWordBreaker;
         public List<string> SourceWords;
         public List<string> TargetWords;
         public List<string> SourceStringsInBetween;
         public List<string> TargetStringsInBetween;
         protected ProjectSettings.LanguageInfo liSourceLang, liTargetLang;
-        
-        private GlossingForm()
+        private bool _bUseWordBreakIterator;
+
+        private GlossingForm(bool bUseWordBreakIterator)
         {
+            _bUseWordBreakIterator = bUseWordBreakIterator;
             InitializeComponent();
             Localizer.Ctrl(this);
         }
@@ -33,12 +35,13 @@ namespace OneStoryProjectEditor
                             DirectableEncConverter ecSourceWordTransliterator)
             : base(true)
         {
+            _bUseWordBreakIterator = bUseWordBreakIterator;
             InitializeComponent();
             Localizer.Ctrl(this);
             try
             {
-                m_theEC = AdaptItGlossing.InitLookupAdapter(projSettings, eBtDirection, loggedOnMember,
-                    out liSourceLang, out liTargetLang);
+                _theEc = AdaptItGlossing.InitLookupAdapter(projSettings, eBtDirection, loggedOnMember,
+                                                           out liSourceLang, out liTargetLang);
             }
             catch (Exception ex)
             {
@@ -47,14 +50,14 @@ namespace OneStoryProjectEditor
             }
 
 
-            if (bUseWordBreakIterator)
+            if (_bUseWordBreakIterator)
             {
                 try
                 {
-                    if (m_theWordBreaker == null)
-                        m_theWordBreaker = new BreakIterator();
+                    if (_theWordBreaker == null)
+                        _theWordBreaker = new BreakIterator();
 
-                    strSentence = m_theWordBreaker.AddWordBreaks(strSentence);
+                    strSentence = _theWordBreaker.AddWordBreaks(strSentence);
                 }
                 catch (Exception ex)
                 {
@@ -64,7 +67,7 @@ namespace OneStoryProjectEditor
 
             // get the EncConverter to break apart the given sentence into bundles
             SourceSentence = strSentence;
-            m_theEC.SplitAndConvert(strSentence, out SourceWords, out SourceStringsInBetween, 
+            _theEc.SplitAndConvert(strSentence, out SourceWords, out SourceStringsInBetween, 
                 out TargetWords, out TargetStringsInBetween);
             if (SourceWords.Count == 0)
                 throw new ApplicationException(Localizer.Str("No sentence to gloss!"));
@@ -104,9 +107,9 @@ namespace OneStoryProjectEditor
                 {
                     strSourceWord = aGc.SourceWord;
                     strTargetWord = aGc.TargetWord;
-                    m_theEC.AddEntryPair(strSourceWord, strTargetWord, false);
+                    _theEc.AddEntryPair(strSourceWord, strTargetWord, false);
                 }
-                m_theEC.AddEntryPairSave();
+                _theEc.AddEntryPairSave();
             }
             catch (Exception ex)
             {
@@ -139,34 +142,37 @@ namespace OneStoryProjectEditor
         {
             int nIndex = flowLayoutPanel.Controls.IndexOf(control);
             // add the contents of this one to the next one
-            GlossingControl theNextGC = (GlossingControl)flowLayoutPanel.Controls[nIndex + 1];
-            theNextGC.SourceWord = String.Format("{0} {1}", control.SourceWord, theNextGC.SourceWord);
+            var theNextGc = (GlossingControl)flowLayoutPanel.Controls[nIndex + 1];
+            theNextGc.SourceWord = String.Format("{0}{1}{2}", 
+                control.SourceWord,
+                (_bUseWordBreakIterator) ? "" : " ",    // if word breaking, on join, we don't want the space
+                theNextGc.SourceWord);
 
             // as a general rule, the target form would just be the concatenation of the two
             //  target forms. 
-            string strTargetPhrase = String.Format("{0} {1}", control.TargetWord, theNextGC.TargetWord);
+            string strTargetPhrase = String.Format("{0} {1}", control.TargetWord, theNextGc.TargetWord);
 
             // But by combining it, we should at least see if this would result
             //  in a new form if it were converted. So let's check that.
             // and use that in any case if there were ambiguities in the original
             //  (concatenated) target forms
-            string strConvertedTarget = SafeConvert(theNextGC.SourceWord);
-            if ((strConvertedTarget != theNextGC.SourceWord) ||
+            string strConvertedTarget = SafeConvert(theNextGc.SourceWord);
+            if ((strConvertedTarget != theNextGc.SourceWord) ||
                 (strTargetPhrase.IndexOf(GlossingControl.CstrAmbiguitySeparator) != -1))
             {
                 strTargetPhrase = strConvertedTarget; // means it was converted or had ambiguities
             }
-            theNextGC.TargetWord = strTargetPhrase;
+            theNextGc.TargetWord = strTargetPhrase;
 
             flowLayoutPanel.Controls.Remove(control);
-            theNextGC.Focus();
+            theNextGc.Focus();
         }
 
         protected string SafeConvert(string strInput)
         {
             try
             {
-                return m_theEC.Convert(strInput);
+                return _theEc.Convert(strInput);
             }
             catch
             {
@@ -222,7 +228,7 @@ namespace OneStoryProjectEditor
         {
             try
             {
-                if (m_theEC.EditTargetWords(glossingControl.SourceWord))
+                if (_theEc.EditTargetWords(glossingControl.SourceWord))
                     glossingControl.TargetWord = SafeConvert(glossingControl.SourceWord);
             }
             catch (Exception ex)
@@ -235,7 +241,7 @@ namespace OneStoryProjectEditor
         {
             try
             {
-                List<string> lstSimilarWords = m_theEC.GetSimilarWords(glossingControl.SourceWord);
+                List<string> lstSimilarWords = _theEc.GetSimilarWords(glossingControl.SourceWord);
                 if (lstSimilarWords != null)
                     glossingControl.ShowSimilarWordList(lstSimilarWords);
             }
@@ -259,7 +265,7 @@ namespace OneStoryProjectEditor
         {
             try
             {
-                string strNewSourceWord = m_theEC.EditKnowledgeBase(glossingControl.SourceWord);
+                string strNewSourceWord = _theEc.EditKnowledgeBase(glossingControl.SourceWord);
                 if (!String.IsNullOrEmpty(strNewSourceWord))
                     Update(glossingControl, strNewSourceWord);
             }
