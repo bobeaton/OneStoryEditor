@@ -612,7 +612,8 @@ namespace OneStoryProjectEditor
             return String.Format(Properties.Resources.HTML_Header,
                 StylePrefix(projSettings),
                 Properties.Resources.HTML_DOM_Prefix, 
-                strHtml);
+                strHtml,
+                Properties.Resources.HTML_Script_AddTextareaMouseDown);
         }
 
         public string CoachNotesHtml(object htmlConNoteCtrl, 
@@ -625,7 +626,8 @@ namespace OneStoryProjectEditor
             return String.Format(Properties.Resources.HTML_Header,
                 StylePrefix(projSettings),
                 Properties.Resources.HTML_DOM_Prefix,
-                strHtml);
+                strHtml,
+                Properties.Resources.HTML_Script_AddTextareaMouseDown);
         }
 
         public void ReplaceUns(string strOldMemberGuid, string strNewMemberGuid)

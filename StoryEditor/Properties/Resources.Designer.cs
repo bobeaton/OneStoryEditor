@@ -332,6 +332,7 @@ namespace OneStoryProjectEditor.Properties {
         ///&lt;body onKeyDown=&quot;return OnKeyDown();&quot; onscroll=&quot;window.external.OnScroll()&quot;&gt;
         ///{2}
         ///&lt;/body&gt;
+        ///{3}
         ///&lt;/html&gt;.
         /// </summary>
         internal static string HTML_Header {
@@ -445,6 +446,20 @@ namespace OneStoryProjectEditor.Properties {
         internal static string HTML_ParagraphTextId {
             get {
                 return ResourceManager.GetString("HTML_ParagraphTextId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;script type=&quot;text/javascript&quot;&gt;
+        ///  var textareas = document.getElementsByTagName(&quot;textarea&quot;);
+        ///  for (var i=0; i &lt; textareas.length; i++) {
+        ///    textareas[i].onmousedown = function(e) { return window.external.OnTextareaMouseDown(this.id, this.value); };
+        ///  }
+        ///&lt;/script&gt;.
+        /// </summary>
+        internal static string HTML_Script_AddTextareaMouseDown {
+            get {
+                return ResourceManager.GetString("HTML_Script_AddTextareaMouseDown", resourceCulture);
             }
         }
         

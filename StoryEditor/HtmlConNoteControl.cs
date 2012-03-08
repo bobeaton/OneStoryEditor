@@ -657,6 +657,15 @@ namespace OneStoryProjectEditor
             if (Document != null)
                 Document.OpenNew(true);
         }
+
+        public void OnTextareaMouseDown(string strId, string strText)
+        {
+            if ((StoryEditor.TextPaster != null) && (Document != null))
+            {
+                var elemTextArea = Document.GetElementById(strId);
+                StoryEditor.TextPaster.TriggerPaste(true, elemTextArea);
+            }
+        }
     }
 
     [ComVisible(true)]

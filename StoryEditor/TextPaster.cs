@@ -79,6 +79,7 @@ namespace OneStoryProjectEditor
 
         private void ButtonDeleteLineClick(object sender, EventArgs e)
         {
+            _undoStack.Add(null, null);
             InitTextBoxes(++LineNumber);
         }
 
@@ -94,19 +95,16 @@ namespace OneStoryProjectEditor
 
         private void ButtonUndoLastClick(object sender, EventArgs e)
         {
-            var nLastIndex = _listUndoStack.Count - 1;
-            var val = _listUndoStack[nLastIndex];
-            _listUndoStack.RemoveAt(nLastIndex);
-            val.Item1.Text = val.Item2;
+            _undoStack.UndoLast();
             InitTextBoxes(--LineNumber);
         }
 
-        internal void TriggerPaste(bool isLeftMouse, CtrlTextBox textBox)
+        internal void TriggerPaste(bool bLeftClicked, CtrlTextBox textBox)
         {
-            if (isLeftMouse)
+            if (bLeftClicked)
             {
                 var txtCurrent = textBox.Text;
-                _listUndoStack.Add(new Tuple<TextBox, string>(textBox, txtCurrent));
+                _undoStack.Add(textBox, txtCurrent);
                 if (txtCurrent.LastOrDefault() != ' ')
                 if ((Text.Length > 0) && (Text[Text.Length - 1] != ' '))
                     txtCurrent += ' ';
@@ -121,12 +119,58 @@ namespace OneStoryProjectEditor
             }
         }
 
-        List<Tuple<TextBox, string>> _listUndoStack = new List<Tuple<TextBox, string>>();
+        internal void TriggerPaste(bool bLeftClicked, HtmlElement elemTextArea)
+        {
+            if (bLeftClicked)
+            {
+                var txtCurrent = elemTextArea.InnerText;
+                _undoStack.Add(elemTextArea, txtCurrent);
+                if (txtCurrent.LastOrDefault() != ' ')
+                    if ((Text.Length > 0) && (Text[Text.Length - 1] != ' '))
+                        txtCurrent += ' ';
+                txtCurrent += CurrentLine;
+                elemTextArea.InnerText = txtCurrent;
+                ViewNextLine();
+                Focus();    // so it gets the next keyboard input
+            }
+            else
+            {
+                ButtonUndoLastClick(null, null);
+            }
+        }
+
+        UndoStack _undoStack = new UndoStack();
 
         private void CheckBoxPauseCheckedChanged(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Assert(sender == checkBoxPause);
             StoryEditor.TextPaster = (checkBoxPause.Checked) ? null : this;
+        }
+
+        private class UndoStack : List<Tuple<object, string>>
+        {
+            public void Add(object textBox, string strText)
+            {
+                Add(new Tuple<object, string>(textBox, strText));
+            }
+
+            internal void UndoLast()
+            {
+                if (Count == 0)
+                    return;
+
+                var nLastIndex = Count - 1;
+                var val = this[nLastIndex];
+                RemoveAt(nLastIndex);
+                if (val.Item1 == null)
+                    ; // no op -- means we deleted a line of data
+                else if (val.Item1 is TextBox)
+                    (val.Item1 as TextBox).Text = val.Item2;
+                else if (val.Item1 is HtmlElement)
+                    (val.Item1 as HtmlElement).InnerText = val.Item2;
+                else
+                    System.Diagnostics.Debug.Assert(false, "oops, did we add support for something new?");
+            }
         }
     }
 }

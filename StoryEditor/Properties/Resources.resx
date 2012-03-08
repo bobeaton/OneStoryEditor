@@ -2071,6 +2071,7 @@ function textboxSelect(strId, iStart, iLen)
 &lt;body onKeyDown="return OnKeyDown();" onscroll="window.external.OnScroll()"&gt;
 {2}
 &lt;/body&gt;
+{3}
 &lt;/html&gt;</value>
   </data>
   <data name="HTML_HeaderPresentation" xml:space="preserve">
@@ -2432,5 +2433,13 @@ eater Panorama
   </data>
   <data name="Pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Pause.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HTML_Script_AddTextareaMouseDown" xml:space="preserve">
+    <value>&lt;script type="text/javascript"&gt;
+  var textareas = document.getElementsByTagName("textarea");
+  for (var i=0; i &lt; textareas.length; i++) {
+    textareas[i].onmousedown = function(e) { return window.external.OnTextareaMouseDown(this.id, this.value); };
+  }
+&lt;/script&gt;</value>
   </data>
 </root>
