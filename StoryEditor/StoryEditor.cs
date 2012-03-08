@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Xml;
@@ -105,6 +106,8 @@ namespace OneStoryProjectEditor
         private RevisionHistoryForm m_dlgHistDiffDlg;
         private PrintForm m_dlgPrintForm;
 
+        public static TextPaster TextPaster = null;
+
         [Flags]
         public enum TextFields
         {
@@ -156,9 +159,9 @@ namespace OneStoryProjectEditor
             linkLabelCoachNotes.Text = CstrFirstVerse;
 
             panoramaToolStripMenu.Visible = IsInStoriesSet;
-            viewUseSameSettingsForAllStoriesMenu.Checked = Properties.Settings.Default.LastUseForAllStories;
-            advancedSaveTimeoutEnabledMenu.Checked = Properties.Settings.Default.AutoSaveTimeoutEnabled;
-            advancedSaveTimeoutAsSilentlyAsPossibleMenu.Checked = Properties.Settings.Default.DoAutoSaveSilently;
+            viewUseSameSettingsForAllStoriesMenu.Checked = Settings.Default.LastUseForAllStories;
+            advancedSaveTimeoutEnabledMenu.Checked = Settings.Default.AutoSaveTimeoutEnabled;
+            advancedSaveTimeoutAsSilentlyAsPossibleMenu.Checked = Settings.Default.DoAutoSaveSilently;
 
             if (advancedSaveTimeoutEnabledMenu.Checked)
             {
@@ -174,8 +177,8 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                LocalizableMessageBox.Show(String.Format(Properties.Resources.IDS_NeedToReboot, Environment.NewLine, ex.Message),
-                                StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(String.Format(Resources.IDS_NeedToReboot, Environment.NewLine, ex.Message),
+                                OseCaption);
             }
 
             if (!String.IsNullOrEmpty(strProjectFilePath) && File.Exists(strProjectFilePath))
@@ -188,15 +191,15 @@ namespace OneStoryProjectEditor
             {
                 try
                 {
-                    if (String.IsNullOrEmpty(Properties.Settings.Default.LastUserType))
+                    if (String.IsNullOrEmpty(Settings.Default.LastUserType))
                         NewProjectFile();
                     else
                     {
-                        var eRole = TeamMemberData.GetMemberType(Properties.Settings.Default.LastUserType);
+                        var eRole = TeamMemberData.GetMemberType(Settings.Default.LastUserType);
                         if (TeamMemberData.IsUser(eRole, TeamMemberData.UserTypes.ProjectFacilitator)
-                            && !String.IsNullOrEmpty(Properties.Settings.Default.LastProject))
+                            && !String.IsNullOrEmpty(Settings.Default.LastProject))
                         {
-                            OpenProject(Properties.Settings.Default.LastProjectPath, Properties.Settings.Default.LastProject);
+                            OpenProject(Settings.Default.LastProjectPath, Settings.Default.LastProject);
                         }
                     }
                 }
@@ -208,15 +211,15 @@ namespace OneStoryProjectEditor
             }
 
 #if !DEBUGBOB
-            if (Properties.Settings.Default.AutoCheckForProgramUpdatesAtStartup)
+            if (Settings.Default.AutoCheckForProgramUpdatesAtStartup)
                 backgroundWorker.RunWorkerAsync();
 #endif
         }
 
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            string strManifestAddress = Properties.Resources.IDS_OSEUpgradeServer;
-            devX.AutoUpgrade autoUpgrade = devX.AutoUpgrade.Create(strManifestAddress, false);
+            string strManifestAddress = Resources.IDS_OSEUpgradeServer;
+            AutoUpgrade autoUpgrade = AutoUpgrade.Create(strManifestAddress, false);
             if (autoUpgrade.IsUpgradeAvailable(false))
                 e.Result = autoUpgrade;
             else
@@ -311,7 +314,7 @@ namespace OneStoryProjectEditor
         private DialogResult QuerySave()
         {
             DialogResult res = LocalizableMessageBox.Show(Localizer.Str("Would you like to save changes?"),
-                                               StoryEditor.OseCaption,
+                                               OseCaption,
                                                MessageBoxButtons.YesNoCancel);
             return res;
         }
@@ -395,10 +398,10 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                string strErrorMsg = String.Format(Properties.Resources.IDS_UnableToOpenProjectFile,
+                string strErrorMsg = String.Format(Resources.IDS_UnableToOpenProjectFile,
                     Environment.NewLine, strProjectName,
                     ((ex.InnerException != null) ? ex.InnerException.Message : ""), ex.Message);
-                LocalizableMessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(strErrorMsg, OseCaption);
                 return;
             }
         }
@@ -409,7 +412,7 @@ namespace OneStoryProjectEditor
                 String.Format(
                     Localizer.Str(
                         "You already have a project with the name, '{0}'. Do you want to delete the existing one?"),
-                    strProjectName), StoryEditor.OseCaption,
+                    strProjectName), OseCaption,
                 MessageBoxButtons.YesNoCancel);
         }
 
@@ -453,9 +456,9 @@ namespace OneStoryProjectEditor
                 }
                 catch (Exception)
                 {
-                    string strErrorMsg = String.Format(Properties.Resources.IDS_NoProjectFromInternet,
+                    string strErrorMsg = String.Format(Resources.IDS_NoProjectFromInternet,
                                                        Environment.NewLine, strFullUrl);
-                    LocalizableMessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
+                    LocalizableMessageBox.Show(strErrorMsg, OseCaption);
                 }
             }
         }
@@ -487,7 +490,7 @@ namespace OneStoryProjectEditor
                                   String.Format(
                                       Localizer.Str(
                                           "Browse to the shared network folder where the project will be stored (i.e. the path to parent folder in which the program will create a '{0}' folder in order to put the '{1}' sub-folder for this project)"),
-                                      Properties.Resources.DefMyDocsSubfolder,
+                                      Resources.DefMyDocsSubfolder,
                                       StoryProject.ProjSettings.ProjectName)
                           };
 
@@ -495,13 +498,13 @@ namespace OneStoryProjectEditor
             {
                 string strSharedNetworkFolder = Path.Combine(dlg.SelectedPath,
                                                              Path.Combine(
-                                                                 Properties.Resources.DefMyDocsSubfolder,
+                                                                 Resources.DefMyDocsSubfolder,
                                                                  StoryProject.ProjSettings.ProjectName));
 
                 if (strSharedNetworkFolder.ToLower() == StoryProject.ProjSettings.ProjectFolder.ToLower())
                 {
                     LocalizableMessageBox.Show(Localizer.Str("You chose the local project folder. You have to browse for a network drive on which to associate the current project"),
-                                    StoryEditor.OseCaption);
+                                    OseCaption);
                     return;
                 }
 
@@ -597,7 +600,7 @@ namespace OneStoryProjectEditor
             TheCurrentStory = null;
             // turning off in 2.4... StoryStageLogic.stateTransitions = null;
             comboBoxStorySelector.Items.Clear();
-            comboBoxStorySelector.Text = Localizer.Str("<type the name of a story to create and hit Enter>");
+            ResetStorySelectorComboBox();
             textBoxStoryVerse.Text = Localizer.Str("Story");
 
             if (!viewUseSameSettingsForAllStoriesMenu.Checked)
@@ -606,6 +609,11 @@ namespace OneStoryProjectEditor
                     viewCoachNotesMenu.Checked =
                     viewBibleMenu.Checked = false;
             }
+        }
+
+        private void ResetStorySelectorComboBox()
+        {
+            comboBoxStorySelector.Text = Localizer.Str("<type the name of a story to create and hit Enter>");
         }
 
         protected void NewProjectFile()
@@ -654,8 +662,8 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                LocalizableMessageBox.Show(String.Format(Properties.Resources.IDS_UnableToOpenMemberList,
-                    Environment.NewLine, ex.Message), StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(String.Format(Resources.IDS_UnableToOpenMemberList,
+                    Environment.NewLine, ex.Message), OseCaption);
             }
 
             return false;
@@ -735,19 +743,19 @@ namespace OneStoryProjectEditor
         protected void UpdateRecentlyUsedLists(ProjectSettings projSettings)
         {
             // update the recently-used-project-names list
-            if (Properties.Settings.Default.RecentProjects.Contains(projSettings.ProjectName))
+            if (Settings.Default.RecentProjects.Contains(projSettings.ProjectName))
             {
-                int nIndex = Properties.Settings.Default.RecentProjects.IndexOf(projSettings.ProjectName);
-                Properties.Settings.Default.RecentProjects.RemoveAt(nIndex);
-                Properties.Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
+                int nIndex = Settings.Default.RecentProjects.IndexOf(projSettings.ProjectName);
+                Settings.Default.RecentProjects.RemoveAt(nIndex);
+                Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
             }
 
-            Properties.Settings.Default.RecentProjects.Insert(0, projSettings.ProjectName);
-            Properties.Settings.Default.RecentProjectPaths.Insert(0, projSettings.ProjectFolder);
+            Settings.Default.RecentProjects.Insert(0, projSettings.ProjectName);
+            Settings.Default.RecentProjectPaths.Insert(0, projSettings.ProjectFolder);
 
-            Properties.Settings.Default.LastProject = projSettings.ProjectName;
-            Properties.Settings.Default.LastProjectPath = projSettings.ProjectFolder;
-            Properties.Settings.Default.Save();
+            Settings.Default.LastProject = projSettings.ProjectName;
+            Settings.Default.LastProjectPath = projSettings.ProjectFolder;
+            Settings.Default.Save();
         }
 
         protected void OpenProject(string strProjectFolder, string strProjectName)
@@ -810,8 +818,8 @@ namespace OneStoryProjectEditor
                 Debug.Assert(LoggedOnMember != null);
 
                 // check for project settings that might have been saved from a previous session
-                if (!String.IsNullOrEmpty(Properties.Settings.Default.LastStoryWorkedOn) && comboBoxStorySelector.Items.Contains(Properties.Settings.Default.LastStoryWorkedOn))
-                    strStoryToLoad = Properties.Settings.Default.LastStoryWorkedOn;
+                if (!String.IsNullOrEmpty(Settings.Default.LastStoryWorkedOn) && comboBoxStorySelector.Items.Contains(Settings.Default.LastStoryWorkedOn))
+                    strStoryToLoad = Settings.Default.LastStoryWorkedOn;
 
                 UpdateUiMenusAfterProjectOpen(); 
 
@@ -847,10 +855,10 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                string strErrorMsg = String.Format(Properties.Resources.IDS_UnableToOpenProjectFile,
+                string strErrorMsg = String.Format(Resources.IDS_UnableToOpenProjectFile,
                     Environment.NewLine, projSettings.ProjectName,
                     ((ex.InnerException != null) ? ex.InnerException.Message : ""), ex.Message);
-                LocalizableMessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(strErrorMsg, OseCaption);
             }
         }
 
@@ -872,7 +880,7 @@ namespace OneStoryProjectEditor
             if ((StoryProject == null)
                 || (StoryProject.ProjSettings == null)
                 || (String.IsNullOrEmpty(StoryProject.ProjSettings.ProjectName)))
-                return StoryEditor.OseCaption;
+                return OseCaption;
 
             string strTitle = String.Format(TitleFormat,
                                             StoryProject.ProjSettings.ProjectName);
@@ -938,7 +946,7 @@ namespace OneStoryProjectEditor
                 LocalizableMessageBox.Show(
                     Localizer.Str(
                         "You have to be logged in as a 'Project Facilitator' to add stories. To login, click 'Project', 'Login'"),
-                    StoryEditor.OseCaption);
+                    OseCaption);
                 return false;
             }
             return true;
@@ -957,7 +965,7 @@ namespace OneStoryProjectEditor
             // ask the user for what story they want to add (i.e. the name)
             strStoryName =
                 LocalizableMessageBox.InputBox(Localizer.Str("Enter the name of the story to add"),
-                                               StoryEditor.OseCaption, null);
+                                               OseCaption, null);
             if (!String.IsNullOrEmpty(strStoryName))
             {
                 if (TheCurrentStoriesSet.Count > 0)
@@ -1013,7 +1021,7 @@ namespace OneStoryProjectEditor
                 if (StoryProject == null)
                     if (!InitNewStoryProjectObject())
                     {
-                        comboBoxStorySelector.Text = Localizer.Str("<type the name of a story to create and hit Enter>");
+                        ResetStorySelectorComboBox();
                         return;
                     }
 
@@ -1021,7 +1029,7 @@ namespace OneStoryProjectEditor
 
                 if (!CheckForProjFac())
                 {
-                    comboBoxStorySelector.Text = Localizer.Str("<type the name of a story to create and hit Enter>");
+                    ResetStorySelectorComboBox();
                     dtLastKey = DateTime.Now;
                     return;
                 }
@@ -1042,13 +1050,13 @@ namespace OneStoryProjectEditor
                 {
                     if (LocalizableMessageBox.Show(String.Format(Localizer.Str("Unable to find the story '{0}'. Would you like to add a new story with that name?"),
                                                       strStoryToLoad),
-                                                      StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+                                                      OseCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                     {
                         Debug.Assert(!comboBoxStorySelector.Items.Contains(strStoryToLoad));
                         InsertNewStory(strStoryToLoad, nInsertIndex);
                     }
                     else
-                        comboBoxStorySelector.Text = Localizer.Str("<type the name of a story to create and hit Enter>");
+                        ResetStorySelectorComboBox();
                 }
                 else
                     comboBoxStorySelector.SelectedItem = theStory.Name;
@@ -2318,8 +2326,8 @@ namespace OneStoryProjectEditor
         {
             netBibleViewer.InitNetBibleViewer();
             string strLastRef = "Gen 1:5";
-            if (!String.IsNullOrEmpty(Properties.Settings.Default.LastNetBibleReference))
-                strLastRef = Properties.Settings.Default.LastNetBibleReference;
+            if (!String.IsNullOrEmpty(Settings.Default.LastNetBibleReference))
+                strLastRef = Settings.Default.LastNetBibleReference;
             SetNetBibleVerse(strLastRef);
         }
 
@@ -2380,7 +2388,7 @@ namespace OneStoryProjectEditor
                 {
                     KeyboardController.DeactivateKeyboard();    // ... do it manually
                 }
-                catch (System.IO.FileLoadException)
+                catch (FileLoadException)
                 {
 #if !DEBUG
                     throw;
@@ -2447,7 +2455,7 @@ namespace OneStoryProjectEditor
                 catch (Exception ex)
                 {
                     LocalizableMessageBox.Show(String.Format(ex.Message, strFilename),
-                                    StoryEditor.OseCaption);
+                                    OseCaption);
                     return;
                 }
                 tmLastSync = DateTime.Now;
@@ -2538,7 +2546,7 @@ namespace OneStoryProjectEditor
                         Localizer.Str(
                             "The project file '{0}' is locked. Is it read-only? Or opened in some other program? Unlock it and try again. Or try to save it as a different name"),
                         strFilename),
-                    StoryEditor.OseCaption);
+                    OseCaption);
                 return;
             }
             catch (Exception ex)
@@ -2686,13 +2694,13 @@ namespace OneStoryProjectEditor
             if (IsInStoriesSet)
             {
                 projectRecentProjectsMenu.DropDownItems.Clear();
-                Debug.Assert(Properties.Settings.Default.RecentProjects.Count == Properties.Settings.Default.RecentProjectPaths.Count);
-                for (int i = 0; i < Properties.Settings.Default.RecentProjects.Count; i++)
+                Debug.Assert(Settings.Default.RecentProjects.Count == Settings.Default.RecentProjectPaths.Count);
+                for (int i = 0; i < Settings.Default.RecentProjects.Count; i++)
                 {
-                    string strRecentFile = Properties.Settings.Default.RecentProjects[i];
+                    string strRecentFile = Settings.Default.RecentProjects[i];
                     ToolStripItem tsi = projectRecentProjectsMenu.DropDownItems.Add(strRecentFile, null, recentProjectsToolStripMenuItem_Click);
                     tsi.ToolTipText = String.Format(Localizer.Str("Located in folder '{0}'"),
-                                                    Properties.Settings.Default.RecentProjectPaths[i]);
+                                                    Settings.Default.RecentProjectPaths[i]);
                 }
 
                 projectRecentProjectsMenu.Enabled = (projectRecentProjectsMenu.DropDownItems.Count > 0);
@@ -2734,9 +2742,9 @@ namespace OneStoryProjectEditor
         {
             var aRecentFile = (ToolStripDropDownItem)sender;
             string strProjectName = aRecentFile.Text;
-            Debug.Assert(Properties.Settings.Default.RecentProjects.Contains(strProjectName));
-            int nIndexOfPath = Properties.Settings.Default.RecentProjects.IndexOf(strProjectName);
-            string strProjectPath = Properties.Settings.Default.RecentProjectPaths[nIndexOfPath];
+            Debug.Assert(Settings.Default.RecentProjects.Contains(strProjectName));
+            int nIndexOfPath = Settings.Default.RecentProjects.IndexOf(strProjectName);
+            string strProjectPath = Settings.Default.RecentProjectPaths[nIndexOfPath];
             DoReopen(strProjectPath, strProjectName);
         }
 
@@ -2911,15 +2919,15 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                LocalizableMessageBox.Show(ex.Message, StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(ex.Message, OseCaption);
                 return false;
             }
 
             if ((TheCurrentStory.ProjStage.ProjectStage == stateToSet)
                 && (stateToSet == StoryStageLogic.ProjectStages.eTeamFinalApproval))
             {
-                LocalizableMessageBox.Show(Properties.Resources.IDS_GoBackwardsYoungMan,
-                                StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(Resources.IDS_GoBackwardsYoungMan,
+                                OseCaption);
                 return false;
             }
 
@@ -3117,8 +3125,7 @@ namespace OneStoryProjectEditor
                         nIndex = -1;
 
                         // also check to see if its name has been changed
-                        if (TheCurrentStory.Name != comboBoxStorySelector.Text)
-                            comboBoxStorySelector.Text = TheCurrentStory.Name;
+                        UpdateStoryNameComboBox();
                     }
                 }
 
@@ -3143,6 +3150,12 @@ namespace OneStoryProjectEditor
 
                 Modified = true;
             }
+        }
+
+        private void UpdateStoryNameComboBox()
+        {
+            if ((TheCurrentStory != null) && (TheCurrentStory.Name != comboBoxStorySelector.Text))
+                comboBoxStorySelector.Text = TheCurrentStory.Name;
         }
 
         private void deleteStoryToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3208,7 +3221,7 @@ namespace OneStoryProjectEditor
         {
             return (LocalizableMessageBox.Show(String.Format(Localizer.Str("Are you sure you want to delete the '{0}' story?"),
                                                   strName),
-                                    StoryEditor.OseCaption,
+                                    OseCaption,
                                     MessageBoxButtons.YesNoCancel)
                     != DialogResult.Yes);
         }
@@ -3360,7 +3373,7 @@ namespace OneStoryProjectEditor
                 return false;
 
             if (LocalizableMessageBox.Show(Localizer.Str("Have you entered all of your testing questions? If not, then click 'Cancel' and finish entering all of the testing questions first. Then click 'OK' to add boxes for the answers to the testing questions"),
-                                StoryEditor.OseCaption,
+                                OseCaption,
                                 MessageBoxButtons.OKCancel) == DialogResult.Cancel)
                 return false;
 
@@ -3385,6 +3398,10 @@ namespace OneStoryProjectEditor
 
             strAnswer = String.Format(Localizer.Str("Test done on: {0}. UNS heard the story {1} times."),
                                       DateTime.Now.ToString("yyyy-MMM-dd"), strAnswer);
+
+            // check for Dropbox copy
+            ShouldCopyFileToDropbox();
+
             var toi = new MemberIdInfo(strUnsGuid, strAnswer);
             TheCurrentStory.CraftingInfo.TestersToCommentsRetellings.Add(toi);
             foreach (VerseData aVerseData in TheCurrentStory.Verses)
@@ -3397,7 +3414,74 @@ namespace OneStoryProjectEditor
             viewRetellingsMenu.Checked = true;
 
             Modified = true;
+
             return true;
+        }
+        
+        internal static bool IsDropBoxExist(out string strDropboxRoot)
+        {
+            strDropboxRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                                          "Dropbox");
+            if (!Directory.Exists(strDropboxRoot))
+            {
+                strDropboxRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                                              "Dropbox");
+                return Directory.Exists(strDropboxRoot);
+            }
+            return true;
+        }
+
+        private void ShouldCopyFileToDropbox()
+        {
+            Debug.Assert((StoryProject != null) && (StoryProject.ProjSettings != null));
+            if (!StoryProject.ProjSettings.UseDropbox)
+                return;
+
+            string strDropboxRoot;
+            if (!IsDropBoxExist(out strDropboxRoot))
+                return;
+
+            var openMediaFileDlg = new OpenFileDialog
+                                       {
+                                           Filter = "Audio files|*.mp3;*.wav;*.wma|All files|*.*",
+                                           Title = Localizer.Str("Select the recording for this retelling")
+                                       };
+
+            SuspendSaveDialog++;
+            var res = openMediaFileDlg.ShowDialog();
+            SuspendSaveDialog--;
+            if (res != DialogResult.OK)
+                return;
+
+            var strTargetPath = ConcatenateToPath(strDropboxRoot,
+                                                  new List<string>
+                                                      {
+                                                          "OSE recordings",
+                                                          "private.languageDepot.org",
+                                                          StoryProject.ProjSettings.ProjectName,
+                                                          TheCurrentStory.Name,
+                                                          String.Format("Retelling {0}.mp3",
+                                                                        TheCurrentStory.CraftingInfo.
+                                                                            TestersToCommentsRetellings.
+                                                                            Count + 1)
+                                                      });
+            WriteAudioFile(openMediaFileDlg.FileName, strTargetPath);
+        }
+
+        private void WriteAudioFile(string strSourceFilepath, string strTargetFilepath)
+        {
+            // TODO: add convert capability also..
+            File.Copy(strSourceFilepath, strTargetFilepath);
+        }
+
+        internal string ConcatenateToPath(string strFolderRoot, List<string> lstFolderNames)
+        {
+            var str = lstFolderNames.Aggregate("", Path.Combine);
+            str = Path.Combine(strFolderRoot, str);
+            var strParentFolder = Path.GetDirectoryName(str);
+            if (!Directory.Exists(strParentFolder))
+                Directory.CreateDirectory(strParentFolder);
+            return str;
         }
 
         internal bool AddInferenceTest()
@@ -3471,7 +3555,7 @@ namespace OneStoryProjectEditor
         private static DialogResult QueryNewUns(string strTestIdentifier)
         {
             return LocalizableMessageBox.Show(NewUnsMessage(strTestIdentifier),
-                                   StoryEditor.OseCaption,
+                                   OseCaption,
                                    MessageBoxButtons.OKCancel);
         }
 
@@ -3598,7 +3682,7 @@ namespace OneStoryProjectEditor
 
             if (LocalizableMessageBox.Show(Localizer.Str("Are you sure you want to remove all of the retelling results for ") +
                                 strTesterName,
-                                StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) !=
+                                OseCaption, MessageBoxButtons.YesNoCancel) !=
                 DialogResult.Yes)
                 return false;
 
@@ -3625,7 +3709,7 @@ namespace OneStoryProjectEditor
 
             if (LocalizableMessageBox.Show(Localizer.Str("Are you sure you want to remove all of the story question test results for ") +
                                 strTesterName,
-                                StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) !=
+                                OseCaption, MessageBoxButtons.YesNoCancel) !=
                 DialogResult.Yes)
                 return false;
 
@@ -3769,7 +3853,7 @@ namespace OneStoryProjectEditor
                     String.Format(Localizer.Str("Unable to copy text to the clipboard!{0}{0}{1}{0}{0}{2}"),
                                   Environment.NewLine, ex.Message,
                                   ((ex.InnerException != null) ? ex.InnerException.Message : ""));
-                LocalizableMessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(strErrorMsg, OseCaption);
             }
         }
 
@@ -3842,7 +3926,7 @@ namespace OneStoryProjectEditor
             var tsi = sender as ToolStripItem;
             if (tsi != null)
                 if (LocalizableMessageBox.Show(String.Format(Localizer.Str("Are you sure you want to delete the {0}?"),
-                                                  tsi.Text.Replace("&", null)), StoryEditor.OseCaption,
+                                                  tsi.Text.Replace("&", null)), OseCaption,
                                     MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                 {
                     foreach (var aVerse in TheCurrentStory.Verses)
@@ -3900,7 +3984,7 @@ namespace OneStoryProjectEditor
                         String.Format(
                             Localizer.Str(
                                 "The Adapt It file for the project '{0}', story '{1}' already exists. If you want to delete that file and do the English translation of the story all over again, then click 'Yes'. If you just want to try to import the existing file again, choose 'No'. Otherwise, click 'Cancel' to stop this command."),
-                            strProjectName, TheCurrentStory.Name), StoryEditor.OseCaption,
+                            strProjectName, TheCurrentStory.Name), OseCaption,
                         MessageBoxButtons.YesNoCancel);
 
                 if (res == DialogResult.Cancel)
@@ -4019,7 +4103,7 @@ namespace OneStoryProjectEditor
                                                     Environment.NewLine, liSourceLang.LangName,
                                                     liTargetLang.LangName, strProjectName,
                                                     TheCurrentStory.Name),
-                                      StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
+                                      OseCaption, MessageBoxButtons.YesNoCancel);
 
                 if (res != DialogResult.Yes)
                     return;
@@ -4110,7 +4194,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                LocalizableMessageBox.Show(ex.Message, StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(ex.Message, OseCaption);
             }
         }
 
@@ -4398,7 +4482,7 @@ namespace OneStoryProjectEditor
                     {
                         viewOldStoriesMenu.Enabled = true;
                         viewOldStoriesMenu.DropDownItems.Clear();
-                        foreach (StoryData aStory in StoryProject[Properties.Resources.IDS_ObsoleteStoriesSet])
+                        foreach (StoryData aStory in StoryProject[Resources.IDS_ObsoleteStoriesSet])
                             viewOldStoriesMenu.DropDownItems.Add(aStory.Name, null, onClickViewOldStory).ToolTipText =
                                 Localizer.Str(
                                     "View older (obsolete) versions of the stories (that were earlier stored in the 'Old Stories' list from the 'Panorama View' window--see 'Panorama' menu, 'Show' command)");
@@ -4592,7 +4676,7 @@ namespace OneStoryProjectEditor
                 LocalizableMessageBox.Show(
                     Localizer.Str(
                         "OSE can't automatically rearrange the story lines now because that would result in the loss of other information (e.g. Anchors, Testing Questions, and/or Consultant Notes). If you delete these other items, then you could use this command again"),
-                    StoryEditor.OseCaption);
+                    OseCaption);
                 return false;
             }
 
@@ -4769,13 +4853,11 @@ namespace OneStoryProjectEditor
                                                bDoOffToo);
             bSomethingChanged |= InsureVisible(viewStoryTestingQuestionsMenu,
                                                viewItemToInsureOn.IsViewItemOn(
-                                                   VerseData.ViewSettings.ItemToInsureOn.
-                                                       StoryTestingQuestions),
+                                                   VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions),
                                                bDoOffToo);
             bSomethingChanged |= InsureVisible(viewStoryTestingQuestionAnswersMenu,
                                                viewItemToInsureOn.IsViewItemOn(
-                                                   VerseData.ViewSettings.ItemToInsureOn.
-                                                       StoryTestingQuestionAnswers),
+                                                   VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers),
                                                bDoOffToo);
             bSomethingChanged |= InsureVisible(viewRetellingsMenu,
                                                viewItemToInsureOn.IsViewItemOn(
@@ -4851,7 +4933,7 @@ namespace OneStoryProjectEditor
 
         internal static string GetOseVersion()
         {
-            System.Reflection.Assembly assy = System.Reflection.Assembly.GetExecutingAssembly();
+            Assembly assy = Assembly.GetExecutingAssembly();
             string strLocation = assy.Location;
             if (String.IsNullOrEmpty(strLocation))
                 return null;
@@ -4867,7 +4949,7 @@ namespace OneStoryProjectEditor
             var dlg = new HtmlForm
                           {
                               Text = strHeader,
-                              ClientText = Properties.Resources.IDS_CopyrightInfo
+                              ClientText = Resources.IDS_CopyrightInfo
                           };
 
             dlg.ShowDialog();
@@ -4916,6 +4998,7 @@ namespace OneStoryProjectEditor
                 m_frmFind.ResetSearchParameters();
 
             Localizer.Default.Update();
+            UpdateStoryNameComboBox();
         }
 
         private void replaceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4946,7 +5029,7 @@ namespace OneStoryProjectEditor
                                   String.Format(
                                       Localizer.Str(
                                           "Browse to the folder where you want the program to create the '{0}' folder"),
-                                      Properties.Resources.DefMyDocsSubfolder)
+                                      Resources.DefMyDocsSubfolder)
                           };
             if (dlg.ShowDialog() == DialogResult.OK)
             {
@@ -4954,27 +5037,27 @@ namespace OneStoryProjectEditor
                 ProjectSettings.InsureOneStoryProjectFolderRootExists();
 
                 string strOldProjectPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                if (Properties.Settings.Default.RecentProjectPaths.Count > 0)
+                if (Settings.Default.RecentProjectPaths.Count > 0)
                 {
-                    foreach (string projectPath in Properties.Settings.Default.RecentProjectPaths)
+                    foreach (string projectPath in Settings.Default.RecentProjectPaths)
                     {
                         if (projectPath.IndexOf(strOldProjectPath) == 0)
                             strOldProjectPath = projectPath;
                     }
-                    strOldProjectPath = Properties.Settings.Default.RecentProjectPaths[0];
+                    strOldProjectPath = Settings.Default.RecentProjectPaths[0];
                 }
                 else
                     strOldProjectPath = Path.Combine(strOldProjectPath, "OneStory");
 
                 // clobber any recollection we had of existing projects, since they'll
                 //  now need to be "browsed" for.
-                Properties.Settings.Default.RecentProjects.Clear();
-                Properties.Settings.Default.RecentProjectPaths.Clear();
-                Properties.Settings.Default.Save();
+                Settings.Default.RecentProjects.Clear();
+                Settings.Default.RecentProjectPaths.Clear();
+                Settings.Default.Save();
 
                 string strMessage = String.Format(Localizer.Str("The '{0}' folder is now the root folder for OneStory Editor projects. You can use Windows Explorer to move the projects (sub-folders) in '{1}' to '{0}'. Then click the 'Project' menu and choose the 'Browse for project file' command to re-load your projects from the new location"),
                                                   ProjectSettings.OneStoryProjectFolderRoot, strOldProjectPath);
-                LocalizableMessageBox.Show(strMessage, StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(strMessage, OseCaption);
             }
         }
 
@@ -5006,7 +5089,7 @@ namespace OneStoryProjectEditor
             {
                 // we don't know where it's to go yet, so make the user browse for it
                 // on the thumbdrive
-                using (var dlg = new Chorus.UI.Clone.GetCloneFromUsbDialog(ProjectSettings.OneStoryProjectFolderRoot))
+                using (var dlg = new GetCloneFromUsbDialog(ProjectSettings.OneStoryProjectFolderRoot))
                 {
                     if (dlg.ShowDialog() != DialogResult.OK)
                         return;
@@ -5052,8 +5135,7 @@ namespace OneStoryProjectEditor
             {
                 Debug.Assert(nIndexOfCurrentStory != -1);
                 nIndexOfCurrentStory = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
-                StoryData theNewStory = new StoryData(TheCurrentStory);
-                theNewStory.Name = strStoryName;
+                var theNewStory = new StoryData(TheCurrentStory) {Name = strStoryName};
                 InsertNewStoryAdjustComboBox(theNewStory, nIndexOfCurrentStory);
             }
         }
@@ -5078,7 +5160,7 @@ namespace OneStoryProjectEditor
                 //  input to the transformer
                 MemoryStream streamData = new MemoryStream(Encoding.UTF8.GetBytes(GetXml.ToString()));
 
-                string strXslt = Properties.Resources.oneStory2storyingBT;
+                string strXslt = Resources.oneStory2storyingBT;
                 // the 'document()' function in this Xslt needs the full path to the 
                 //  running folder
                 string strPathRunningFolder = StoryProjectData.GetRunningFolder;
@@ -5094,15 +5176,15 @@ namespace OneStoryProjectEditor
                 strTbxStoriesBTFilePath = GetTbxDestPath("OldStoriesBT.txt");
                 ExportToToolbox(strXslt, streamData, strTbxStoriesBTFilePath, "Old Stories");
 
-                strXslt = Properties.Resources.oneStory2storyingRetelling;
+                strXslt = Resources.oneStory2storyingRetelling;
                 ExportToToolbox(strXslt, streamData,
                     GetTbxDestPath("TestRetellings.txt"), null);
 
-                strXslt = Properties.Resources.oneStory2ConNotes;
+                strXslt = Resources.oneStory2ConNotes;
                 ExportToToolbox(strXslt, streamData,
                     GetTbxDestPath("ProjectConNotes.txt"), null);
 
-                strXslt = Properties.Resources.oneStory2CoachNotes;
+                strXslt = Resources.oneStory2CoachNotes;
                 ExportToToolbox(strXslt, streamData,
                     GetTbxDestPath("CoachingNotes.txt"), null);
 
@@ -5116,7 +5198,7 @@ namespace OneStoryProjectEditor
                     string strFileContents = File.ReadAllText(strKeyTermDb);
                     streamData = new MemoryStream(Encoding.UTF8.GetBytes(strFileContents));
 
-                    strXslt = Properties.Resources.oneStory2KeyTerms;
+                    strXslt = Resources.oneStory2KeyTerms;
                     // the 'document()' function in this Xslt needs the full path to the 
                     //  running folder
                     strXslt = strXslt.Replace("{0}", strPathRunningFolder);
@@ -5126,7 +5208,7 @@ namespace OneStoryProjectEditor
                 FileInfo fiLnC = new FileInfo(strLnCNotesFilePath);
                 if (!fiLnC.Exists || fiLnC.Length == 0)
                     File.WriteAllText(strLnCNotesFilePath,
-                        Properties.Resources.IDS_TbxFile_EmptyLnC);
+                        Resources.IDS_TbxFile_EmptyLnC);
 
                 CopyDefaultToolboxProjectFiles();
             }
@@ -5135,7 +5217,7 @@ namespace OneStoryProjectEditor
                 string strErrorMsg = String.Format(Localizer.Str("Unable to export to Toolbox! Cause: {0} {1}"),
                     ex.Message,
                     ((ex.InnerException != null) ? ex.InnerException.Message : ""));
-                LocalizableMessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(strErrorMsg, OseCaption);
             }
 
             Cursor = Cursors.Default;
@@ -5200,7 +5282,7 @@ namespace OneStoryProjectEditor
 
             DialogResult res = LocalizableMessageBox.Show(String.Format(Localizer.Str(@"The project has been exported to the folder '{0}\Toolbox'. Click 'Yes' to launch Toolbox and open that project."),
                                                              StoryProject.ProjSettings.ProjectFolder),
-                                               StoryEditor.OseCaption,
+                                               OseCaption,
                                                MessageBoxButtons.YesNoCancel);
 
             if (res == DialogResult.Yes)
@@ -5260,7 +5342,7 @@ namespace OneStoryProjectEditor
             XmlWriter writer = XmlWriter.Create(strBuilder, settings);
             myProcessor.Transform(reader, xslArg, writer);
 
-            System.Diagnostics.Debug.Assert(Directory.Exists(Path.GetDirectoryName(strTbxFilename)));
+            Debug.Assert(Directory.Exists(Path.GetDirectoryName(strTbxFilename)));
 
             // overwrite existing version
             if (File.Exists(strTbxFilename))
@@ -5452,12 +5534,12 @@ namespace OneStoryProjectEditor
                 return (LocalizableMessageBox.Show(
                     Localizer.Str(
                         "Click 'Yes' to confirm. If you click 'Yes', then you won't be able to make further changes to the story until it is returned to you. If you want to make any change first, then click 'No'"),
-                    StoryEditor.OseCaption,
+                    OseCaption,
                     MessageBoxButtons.YesNoCancel) == DialogResult.Yes);
             }
         }
 
-        private void contextMenuStripVerseList_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        private void contextMenuStripVerseList_Opening(object sender, CancelEventArgs e)
         {
             contextMenuStripVerseList.Items.Clear();
             if (TheCurrentStory != null)
@@ -5508,8 +5590,8 @@ namespace OneStoryProjectEditor
 
         private void useSameSettingsForAllStoriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.LastUseForAllStories = viewUseSameSettingsForAllStoriesMenu.Checked;
-            Properties.Settings.Default.Save();
+            Settings.Default.LastUseForAllStories = viewUseSameSettingsForAllStoriesMenu.Checked;
+            Settings.Default.Save();
         }
 
         private void printPreviewToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5520,9 +5602,9 @@ namespace OneStoryProjectEditor
 
         private void resetStoredInformationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.Reset();
+            Settings.Default.Reset();
             Program.InitializeLocalSettingsCollections(false);
-            Properties.Settings.Default.Save();
+            Settings.Default.Save();
         }
 
         internal void concordanceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5735,7 +5817,7 @@ namespace OneStoryProjectEditor
         public static void WarnNoTransitionHistory()
         {
             LocalizableMessageBox.Show(Localizer.Str("There is no turn transition history for this story"),
-                            StoryEditor.OseCaption);
+                            OseCaption);
         }
 
         private void changeStateWithoutChecksToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5744,7 +5826,7 @@ namespace OneStoryProjectEditor
             Point ptTooltip = Cursor.Position;
 
             if (LocalizableMessageBox.Show(Localizer.Str("Are you sure you want to change the turn of this story bypassing the normal checks (i.e. is the right person logged in, have they answered all their questions, etc). This is an advanced command and can easily result in a conflict if it's possible that two people will be editing the story at the same time. You should only use this command if you are sure that no one else will be editing this story prior to first synchronizing with the changes you are about to make"),
-                StoryEditor.OseCaption,
+                OseCaption,
                 MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                 return;
 
@@ -5827,13 +5909,13 @@ namespace OneStoryProjectEditor
 
                 // if it returns here without throwing an exception, it means there were no updates
                 LocalizableMessageBox.Show(Localizer.Str("There are no program updates!"),
-                                StoryEditor.OseCaption);
+                                OseCaption);
             }
             catch (Program.RestartException)
             {
                 // if it returns here without throwing an exception, it means there were no updates
                 LocalizableMessageBox.Show(Localizer.Str("An update has been downloaded and will be installed the next time OneStory Editor is launched"),
-                                StoryEditor.OseCaption);
+                                OseCaption);
 
                 _bRestarting = true;
                 Close();
@@ -5843,7 +5925,7 @@ namespace OneStoryProjectEditor
                 string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
                 if (ex.InnerException != null)
                     strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
-                LocalizableMessageBox.Show(strMessage, StoryEditor.OseCaption);
+                LocalizableMessageBox.Show(strMessage, OseCaption);
             }
             finally
             {
@@ -5854,14 +5936,14 @@ namespace OneStoryProjectEditor
         private void programUpdatesToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.Checked =
-                Properties.Settings.Default.AutoCheckForProgramUpdatesAtStartup;
+                Settings.Default.AutoCheckForProgramUpdatesAtStartup;
         }
 
         private void automaticallyCheckAtStartupToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.AutoCheckForProgramUpdatesAtStartup =
+            Settings.Default.AutoCheckForProgramUpdatesAtStartup =
                 advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.Checked;
-            Properties.Settings.Default.Save();
+            Settings.Default.Save();
         }
 
         private void enabledToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
@@ -5878,8 +5960,8 @@ namespace OneStoryProjectEditor
                 mySaveTimer.Stop();
             }
 
-            Properties.Settings.Default.AutoSaveTimeoutEnabled = advancedSaveTimeoutEnabledMenu.Checked;
-            Properties.Settings.Default.Save();
+            Settings.Default.AutoSaveTimeoutEnabled = advancedSaveTimeoutEnabledMenu.Checked;
+            Settings.Default.Save();
         }
 
         private void sendReceiveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5902,13 +5984,13 @@ namespace OneStoryProjectEditor
             catch (ProjectSettings.ProjectFileNotFoundException ex)
             {
                 // the file doesn't exist anymore, so remove it from the recent used list
-                int nIndex = Properties.Settings.Default.RecentProjects.IndexOf(strProjectName);
+                int nIndex = Settings.Default.RecentProjects.IndexOf(strProjectName);
                 if (nIndex != -1)
                 {
-                    Properties.Settings.Default.RecentProjects.RemoveAt(nIndex);
-                    Properties.Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
-                    Properties.Settings.Default.Save();
-                    LocalizableMessageBox.Show(ex.Message, StoryEditor.OseCaption);
+                    Settings.Default.RecentProjects.RemoveAt(nIndex);
+                    Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
+                    Settings.Default.Save();
+                    LocalizableMessageBox.Show(ex.Message, OseCaption);
                 }
             }
             catch (Program.RestartException)
@@ -6205,8 +6287,14 @@ namespace OneStoryProjectEditor
             if (sender != null)
             {
                 Settings.Default.UseMapiPlus = (sender as ToolStripMenuItem).Checked;
-                Properties.Settings.Default.Save();
+                Settings.Default.Save();
             }
+        }
+
+        private void advancedImportHelper_Click(object sender, EventArgs e)
+        {
+            var dlg = new TextPaster(null);
+            dlg.Show();
         }
 
         private void InitStoryBtPaneControl(bool bUsingHtmlForStoryBtPane)

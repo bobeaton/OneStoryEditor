@@ -48,7 +48,8 @@ namespace OneStoryProjectEditor
 
         protected ToolStripButton InitAnchorButton(ToolStrip ts, AnchorData theAnchorData)
         {
-            string strText = theAnchorData.JumpTarget;
+            string strText = NetBibleViewer.CheckForLocalization(theAnchorData.JumpTarget);
+
             if (!String.IsNullOrEmpty(theAnchorData.ToolTipText)
                 && (theAnchorData.JumpTarget != theAnchorData.ToolTipText))
             {
@@ -93,11 +94,18 @@ namespace OneStoryProjectEditor
             if (tssb.Text == CstrNullAnchor)
                 return;
 
+#if !NewWay
             // the button may have the extra indicator that there's a tooltip.
+                //  but the tag has the jump target
+                Debug.Assert((tssb.Tag != null) && (tssb.Tag is AnchorData));
+                var anchorData = tssb.Tag as AnchorData;
+                var strJumpTarget = anchorData.JumpTarget;
+#else
             string strJumpTarget = tssb.Text;
             int nIndLen = AnchorData.CstrTooltipIndicator.Length;
             if (strJumpTarget.Substring(strJumpTarget.Length - nIndLen, nIndLen) == AnchorData.CstrTooltipIndicator)
                 strJumpTarget = strJumpTarget.Substring(0, strJumpTarget.Length - nIndLen);
+#endif
 
             aSe.SetNetBibleVerse(strJumpTarget);
             aSe.FocusOnVerse(_ctrlVerse.VerseNumber, true, true);
@@ -128,11 +136,14 @@ namespace OneStoryProjectEditor
                 }
 
                 var theNetBibleViewer = (NetBibleViewer)e.Data.GetData(typeof(NetBibleViewer));
-                if (toolStripAnchors.Items.Cast<ToolStripButton>().Any(btn => btn.Text == theNetBibleViewer.ScriptureReference))
+                if ((from ToolStripButton btn in toolStripAnchors.Items 
+                     select btn.Tag as AnchorData)
+                               .Any(anchorData => anchorData.JumpTarget == theNetBibleViewer.JumpTarget))
                 {
                     e.Effect = DragDropEffects.None;
                     return;
                 }
+
                 e.Effect = DragDropEffects.Link;
             }
         }
@@ -142,17 +153,17 @@ namespace OneStoryProjectEditor
             if (e.Data.GetDataPresent(typeof(NetBibleViewer)))
             {
                 // the only function of the button here is to add a slot to type a con note
-                StoryEditor theSE;
-                if (!CheckForProperEditToken(out theSE))
+                StoryEditor theSe;
+                if (!CheckForProperEditToken(out theSe))
                     return;
 
-                NetBibleViewer theNetBibleViewer = (NetBibleViewer)e.Data.GetData(typeof(NetBibleViewer));
-                AnchorData theAnchorData = _myAnchorsData.AddAnchorData(theNetBibleViewer.ScriptureReference, theNetBibleViewer.ScriptureReference);
+                var theNetBibleViewer = (NetBibleViewer)e.Data.GetData(typeof(NetBibleViewer));
+                var theAnchorData = _myAnchorsData.AddAnchorData(theNetBibleViewer.JumpTarget, theNetBibleViewer.JumpTarget);
                 InitAnchorButton(toolStripAnchors, theAnchorData);
 
                 // indicate that we've changed something so that we don't exit without offering
                 //  to save.
-                theSE.Modified = true;
+                theSe.Modified = true;
             }
         }
 
@@ -185,7 +196,7 @@ namespace OneStoryProjectEditor
                 */
                 toolStripAnchors.Items.RemoveByKey(m_theLastButtonClicked.Name);
                 Debug.Assert((m_theLastButtonClicked.Tag != null) && (m_theLastButtonClicked.Tag is AnchorData));
-                AnchorData theAnchorData = (AnchorData)m_theLastButtonClicked.Tag;
+                var theAnchorData = (AnchorData)m_theLastButtonClicked.Tag;
                 _myAnchorsData.Remove(theAnchorData);
                 m_theLastButtonClicked = null;
 
@@ -207,12 +218,12 @@ namespace OneStoryProjectEditor
                     return;
                 Debug.Assert(m_theLastButtonClicked.Tag is AnchorData);
 
-                AnchorAddCommentForm dlg = new AnchorAddCommentForm(m_theLastButtonClicked.Text, m_theLastButtonClicked.ToolTipText);
+                var dlg = new AnchorAddCommentForm(m_theLastButtonClicked.Text, m_theLastButtonClicked.ToolTipText);
                 DialogResult res = dlg.ShowDialog();
                 if ((res == DialogResult.OK) || (res == DialogResult.Yes))
                 {
                     Debug.Assert((m_theLastButtonClicked.Tag != null) && (m_theLastButtonClicked.Tag is AnchorData));
-                    AnchorData theAnchorData = (AnchorData)m_theLastButtonClicked.Tag;
+                    var theAnchorData = (AnchorData)m_theLastButtonClicked.Tag;
                     theAnchorData.ToolTipText = m_theLastButtonClicked.ToolTipText = dlg.CommentText;
 
                     string strJumpTarget = m_theLastButtonClicked.Text;

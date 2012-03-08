@@ -226,8 +226,8 @@
             this.radioButtonShowOtherSwordResources.TabStop = true;
             this.radioButtonShowOtherSwordResources.Text = "Other";
             this.radioButtonShowOtherSwordResources.UseVisualStyleBackColor = true;
+            this.radioButtonShowOtherSwordResources.Click += new System.EventHandler(this.RadioButtonShowOtherSwordResourcesClick);
             this.radioButtonShowOtherSwordResources.MouseMove += new System.Windows.Forms.MouseEventHandler(this.CheckBiblePaneCursorPosition_MouseMove);
-            this.radioButtonShowOtherSwordResources.CheckedChanged += new System.EventHandler(this.radioButtonShowOtherSwordResources_CheckedChanged);
             // 
             // checkBoxAutoHide
             // 
@@ -239,7 +239,7 @@
             this.checkBoxAutoHide.Size = new System.Drawing.Size(14, 14);
             this.checkBoxAutoHide.TabIndex = 3;
             this.toolTip.SetToolTip(this.checkBoxAutoHide, "Uncheck this box to have the Bible Pane automatically hide when you are typing. T" +
-                    "hen you can right-click on the box to manually open and close the Bible Pane");
+        "hen you can right-click on the box to manually open and close the Bible Pane");
             this.checkBoxAutoHide.UseMnemonic = false;
             this.checkBoxAutoHide.UseVisualStyleBackColor = true;
             this.checkBoxAutoHide.CheckStateChanged += new System.EventHandler(this.checkBoxAutoHide_CheckStateChanged);

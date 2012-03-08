@@ -9,8 +9,10 @@ Imports System.Globalization
 Imports System.Windows.Forms
 Imports System.IO
 Imports System.Collections.Generic
+Imports System.Security.Cryptography
 Imports Starksoft.Net.Ftp
 Imports Ionic.Zip
+Imports System.Text
 
 Namespace devX
 
@@ -394,7 +396,6 @@ Namespace devX
         Public Sub DownloadFiles(bAddZip As Boolean)
             ' Download the files to be upgraded to the Upgrade cache (staging) directory
             Dim manCurrentAutoUpgradeFile As AutoUpgrade.File
-            Dim datDownloadedFileTime As System.DateTime
 
             CreateUpgradeDirectory()
             mlngTotalBytesRead = 0
@@ -432,21 +433,17 @@ Namespace devX
                             If Not mblnCancel Then
                                 Dim strFile As String = Path.Combine(UpgradeDirectory, manCurrentAutoUpgradeFile.Name)
                                 Select Case manCurrentAutoUpgradeFile.Method
-                                    Case AutoUpgrade.File.CompareMethod.date
+                                    Case AutoUpgrade.File.CompareMethod.md5
                                         ' Compare last write time.  Allow a variance of one minute in case
                                         ' the user doesn't specify milliseconds (and because on Win2k, the
                                         ' SetFileWriteTime call seems to round to the nearest minute)
-#If USE_UTC Then
-                                    Dim fi As IO.FileInfo = New IO.FileInfo(Path.Combine(Me.UpgradeDirectory, manCurrentAutoUpgradeFile.Name))
-                                    datDownloadedFileTime = fi.LastWriteTimeUtc
-#Else
-                                        datDownloadedFileTime = MyGetLastWriteTime(strFile)
-#End If
+                                        Dim strMd5Hash As String = GetMd5Hash(strFile)
+
                                         ' bs... this used to check that the file was within a minute, but that breaks
                                         ' when the US is in DST... so we don't update these files that often, so just make it +/- an hour (technically 61 minutes)
                                         ' fpos... make it 3 hours... 
-                                        If System.Math.Abs(DateDiff(DateInterval.Minute, datDownloadedFileTime, CType(manCurrentAutoUpgradeFile.Version, System.DateTime))) > 185 Then
-                                            RaiseEvent UpgradeProgress("The date on the downloaded file '" & manCurrentAutoUpgradeFile.Name & " - [" & datDownloadedFileTime.ToString & "]' does not match the manifest file date - [" & CType(manCurrentAutoUpgradeFile.Version, System.DateTime).ToString & "].", manCurrentAutoUpgradeFile.Name, 0, 0, mblnCancel)
+                                        If strMd5Hash <> manCurrentAutoUpgradeFile.Version Then
+                                            RaiseEvent UpgradeProgress("The checksum of the downloaded file '" & manCurrentAutoUpgradeFile.Name & " - [" & strMd5Hash & "]' does not match the manifest md5 hash - [" & manCurrentAutoUpgradeFile.Version & "].", manCurrentAutoUpgradeFile.Name, 0, 0, mblnCancel)
                                         End If
                                     Case AutoUpgrade.File.CompareMethod.version
                                         With FileVersionInfo.GetVersionInfo(strFile)
@@ -639,6 +636,30 @@ Namespace devX
             End Set
         End Property
 
+        Private Shared ReadOnly Md5Hasher As New System.Security.Cryptography.MD5Cng
+
+        Shared Function GetMd5Hash(ByVal strFilePath As String) As String
+
+            ' Convert the input string to a byte array and compute the hash.
+            Dim input As Byte() = IO.File.ReadAllBytes(strFilePath)
+            Dim data As Byte() = Md5Hasher.ComputeHash(input)
+
+            ' Create a new Stringbuilder to collect the bytes
+            ' and create a string.
+            Dim sBuilder As New StringBuilder()
+
+            ' Loop through each byte of the hashed data 
+            ' and format each one as a hexadecimal string.
+            Dim i As Integer
+            For i = 0 To data.Length - 1
+                sBuilder.Append(data(i).ToString("x2"))
+            Next i
+
+            ' Return the hexadecimal string.
+            Return sBuilder.ToString()
+
+        End Function 'GetMd5Hash
+
         ' a different implementation of GetLastWriteTime which takes differences in DST into account
         ' (problem was that the manifest was putting the wrong timestamp on the file by one hour
         ' if there was a difference between the DST flag of "now" vs. when the file was saved
@@ -726,14 +747,9 @@ Namespace devX
 
                     ' If version info was found, mark method as version, else date
                     If String.IsNullOrEmpty(newFileEntry.Version) Then
-#If USE_UTC Then
-                        Dim fi As IO.FileInfo = New IO.FileInfo(strFile)
-                        newFileEntry.Version = fi.LastWriteTimeUtc.ToLongDateString & " " & fi.LastWriteTimeUtc.ToLongTimeString
-#Else
-                        newFileEntry.Version = MyGetLastWriteTime(strFile).ToLongDateString & " " & MyGetLastWriteTime(strFile).ToLongTimeString
-#End If
-                        ' only store date if no version is available
-                        newFileEntry.Method = AutoUpgrade.File.CompareMethod.date
+                        ' only store the md5 checksum if no version is available
+                        newFileEntry.Method = AutoUpgrade.File.CompareMethod.md5
+                        newFileEntry.Version = GetMd5Hash(strFile)
                     Else
                         newFileEntry.Method = AutoUpgrade.File.CompareMethod.version
                     End If
@@ -801,9 +817,6 @@ Namespace devX
 
             Dim verLocalFileVersion As System.Version
 
-            Dim datLocalFileDate As System.DateTime
-            Dim datManifestFileDate As System.DateTime
-
             ' Clear any existing entries (that may be accidentally set in server 
             ' manifest file) 
             UpgradeFiles.Clear()
@@ -838,31 +851,15 @@ Namespace devX
                                 Else
                                     blnUpgrade = True
                                 End If
-                            Case AutoUpgrade.File.CompareMethod.date
-                                ' Use the file date to check for upgrade.  This is appropriate only 
+                            Case AutoUpgrade.File.CompareMethod.md5
+                                ' Use the md5 checksum to check for upgrade.  This is appropriate only 
                                 ' for files that do not have a version resource (help files, 
                                 ' Data files, etc)
                                 If IO.File.Exists(strFilePath) Then
-#If USE_UTC Then
-                                    Dim fi As IO.FileInfo = New IO.FileInfo(strFilePath)
-                                    datLocalFileDate = fi.LastWriteTimeUtc
-#Else
-                                    datLocalFileDate = MyGetLastWriteTime(strFilePath)
-#End If
-                                    datManifestFileDate = manFile.Version
+                                    Dim strMd5Hash As String = GetMd5Hash(strFilePath)
+                                    Dim strMd5HashManifest As String = manFile.Version
 
-                                    ' Allow a variance of one minute in case the user doesn't specify 
-                                    ' milliseconds (and because on Win2k, the SetFileWriteTime call 
-                                    ' seems to round to the nearest minute)
-                                    ' bs... this used to check that the file was within a minute, but that breaks
-                                    ' when the US is in DST... so we don't update these files that often, so just make it +/- an hour
-                                    ' fpos... use 3 hours...
-                                    If System.Math.Abs(DateDiff(DateInterval.Hour, datLocalFileDate, datManifestFileDate)) > 25 Then
-#If DEBUG Then
-                                        Dim strMsg As String = String.Format("4: name: '{0}', datLocalFileDate: '{1}', datManifestFileDate: '{2}'", _
-                                                                             strFilePath, datLocalFileDate, datManifestFileDate)
-                                        System.Windows.Forms.MessageBox.Show(strMsg)
-#End If
+                                    If strMd5Hash <> strMd5HashManifest Then
                                         blnUpgrade = True
                                     End If
                                 Else
@@ -1161,10 +1158,10 @@ Namespace devX
 
             newFileEntry.Size = ftpFile.Size
 
-            newFileEntry.Version = ftpFile.Modified.ToLongDateString & " " & ftpFile.Modified.ToLongTimeString
+            newFileEntry.Version = GetMd5Hash(strFile)
 
             ' sword files will never have a version, so just use date method
-            newFileEntry.Method = File.CompareMethod.date
+            newFileEntry.Method = File.CompareMethod.md5
 
             ManifestFiles.Add(newFileEntry)
 
@@ -1245,8 +1242,8 @@ Namespace devX
         Public Class File
             Enum CompareMethod
                 version
-                [date]
                 OneOff
+                md5
             End Enum
 
             Enum UpgradeAction

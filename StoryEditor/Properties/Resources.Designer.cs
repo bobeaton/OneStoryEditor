@@ -185,6 +185,13 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Edit_Undo {
+            get {
+                object obj = ResourceManager.GetObject("Edit_Undo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap EditInformationHS {
             get {
                 object obj = ResourceManager.GetObject("EditInformationHS", resourceCulture);
@@ -312,6 +319,7 @@ namespace OneStoryProjectEditor.Properties {
         ///&lt;body onKeyDown=&quot;return OnKeyDown();&quot; onscroll=&quot;window.external.OnScroll()&quot;&gt;
         ///{2}
         ///&lt;/body&gt;
+        ///{3}
         ///&lt;/html&gt;.
         /// </summary>
         internal static string HTML_Header {
@@ -430,6 +438,20 @@ namespace OneStoryProjectEditor.Properties {
         internal static string HTML_ParagraphTextId {
             get {
                 return ResourceManager.GetString("HTML_ParagraphTextId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;script type=&quot;text/javascript&quot;&gt;
+        ///  var textareas = document.getElementsByTagName(&quot;textarea&quot;);
+        ///  for (var i=0; i &lt; textareas.length; i++) {
+        ///    textareas[i].onmousedown = function() { return window.external.OnTextareaMouseDown(this.id, this.value); };
+        ///  }
+        ///&lt;/script&gt;.
+        /// </summary>
+        internal static string HTML_Script_AddTextareaMouseDown {
+            get {
+                return ResourceManager.GetString("HTML_Script_AddTextareaMouseDown", resourceCulture);
             }
         }
         
@@ -1330,6 +1352,13 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Pause {
+            get {
+                object obj = ResourceManager.GetObject("Pause", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap PrintHS {
             get {
                 object obj = ResourceManager.GetObject("PrintHS", resourceCulture);
@@ -1484,13 +1513,11 @@ namespace OneStoryProjectEditor.Properties {
         ///for (var i=0; i &lt; textareas.length; i++)
         ///{
         ///    textareas[i].onchange = function() { return window.external.TextareaOnChange(this.id, this.value); };
-        ///    textareas[i].onkeyup = function() { return window.external.TextareaOnKeyUp(this.id, this.value); };
+        ///    textareas[i].onkeyup = function () { return window.external.TextareaOnKeyUp(this.id, this.value); };
+        ///    textareas[i].onmousedown = function () { return window.external.OnTextareaMouseDown(this.id, this.value); };
         ///}
         ///$(&apos;textarea&apos;).attr(&apos;placeholder&apos;, function () {
-        ///    if ($(this).hasClass(&apos;LangVernacular&apos;))
-        ///        return VernacularLanguageName();
-        ///    else if ($(this).hasClass(&apos;LangNationalBt&apos;))
-        ///       [rest of string was truncated]&quot;;.
+        ///    if ($(this).hasClass(&apos;La [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string StoryBtPsJs {
             get {

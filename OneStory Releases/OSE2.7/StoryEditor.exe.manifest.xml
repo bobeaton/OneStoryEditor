@@ -4,7 +4,7 @@
   <ApplicationExecutable />
   <ApplicationName>OneStory Editor AutoUpdater</ApplicationName>
   <FullUpgradeFileName />
-  <OffsetFromUctWhereManifestWasOriginallyCreated>2012-02-22T20:19:35.7630000-06:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+  <OffsetFromUctWhereManifestWasOriginallyCreated>2012-03-07T18:54:59.5230000+07:00</OffsetFromUctWhereManifestWasOriginallyCreated>
   <ManifestFiles>
     <File name="AIGuesserEC.dll" method="version" action="copy" version="4.0.1.2" optional="false" size="93696">AdaptIt Encoding Converters</File>
     <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="2.5.0.1" optional="false" size="34304">AutoUpgrade Lib</File>
@@ -12,10 +12,12 @@
     <File name="ChorusMerge.exe" method="version" action="copy" version="1.5.29.0" optional="false" size="5632">ChorusMerge</File>
     <File name="Ionic.Zip.dll" method="version" action="copy" version="1.9.1.8" optional="false" size="462336">Ionic's Zip Library</File>
     <File name="LibChorus.dll" method="version" action="copy" version="1.5.29.0" optional="false" size="335872">Chorus</File>
-    <File name="MAPIEx.dll" method="date" action="copy" version="Thursday, September 29, 2011 2:58:42 PM" optional="false" size="91648" />
-    <File name="StageTransitionsId.xml" method="date" action="copy" version="Tuesday, February 21, 2012 6:58:00 AM" optional="false" size="95470" />
-    <File name="StoryEditor.exe" method="version" action="copy" version="2.6.0.1" optional="false" size="1381888">OneStory Editor</File>
-    <File name="LocData\id.xml" method="date" action="copy" version="Tuesday, February 21, 2012 1:40:54 PM" optional="false" size="160306" />
+    <File name="MAPIEx.dll" method="date" action="copy" version="Saturday, March 03, 2012 8:10:32 AM" optional="false" size="91648" />
+    <File name="mfc90u.dll" method="version" action="copy" version="9.00.30729.01" optional="false" size="3783672">MFCDLL Shared Library - Retail Version</File>
+    <File name="msvcr90.dll" method="version" action="copy" version="9.00.21022.8" optional="false" size="655872">Microsoft® C Runtime Library</File>
+    <File name="StageTransitionsId.xml" method="date" action="copy" version="Saturday, March 03, 2012 8:10:32 AM" optional="false" size="95470" />
+    <File name="StoryEditor.exe" method="version" action="copy" version="2.6.0.3" optional="false" size="1381888">OneStory Editor</File>
+    <File name="LocData\id.xml" method="date" action="copy" version="Saturday, March 03, 2012 8:10:32 AM" optional="false" size="160306" />
   </ManifestFiles>
   <SourcePath />
   <UpgradeFiles />

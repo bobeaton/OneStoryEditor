@@ -146,6 +146,7 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.buttonPrevious = new System.Windows.Forms.Button();
             this.fontDialog = new System.Windows.Forms.FontDialog();
+            this.checkBoxUseDropBox = new System.Windows.Forms.CheckBox();
             this.tabControl.SuspendLayout();
             this.tabPageProjectName.SuspendLayout();
             this.tabPageInternetRepository.SuspendLayout();
@@ -167,9 +168,9 @@
             // 
             // tabControl
             // 
-            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabPageProjectName);
             this.tabControl.Controls.Add(this.tabPageInternetRepository);
             this.tabControl.Controls.Add(this.tabPageLanguages);
@@ -188,6 +189,7 @@
             // 
             // tabPageProjectName
             // 
+            this.tabPageProjectName.Controls.Add(this.checkBoxUseDropBox);
             this.tabPageProjectName.Controls.Add(this.checkBoxUseInternetRepo);
             this.tabPageProjectName.Controls.Add(this.textBoxProjectNameInstructions);
             this.tabPageProjectName.Controls.Add(this.textBoxProjectName);
@@ -212,9 +214,9 @@
             // 
             // textBoxProjectNameInstructions
             // 
-            this.textBoxProjectNameInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxProjectNameInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxProjectNameInstructions.Location = new System.Drawing.Point(17, 181);
             this.textBoxProjectNameInstructions.Multiline = true;
             this.textBoxProjectNameInstructions.Name = "textBoxProjectNameInstructions";
@@ -245,9 +247,9 @@
             // 
             // tableLayoutPanelInternetRepo
             // 
-            this.tableLayoutPanelInternetRepo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelInternetRepo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelInternetRepo.ColumnCount = 2;
             this.tableLayoutPanelInternetRepo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelInternetRepo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -276,9 +278,9 @@
             // 
             // textBoxInternetRepoInstructions
             // 
-            this.textBoxInternetRepoInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxInternetRepoInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelInternetRepo.SetColumnSpan(this.textBoxInternetRepoInstructions, 2);
             this.textBoxInternetRepoInstructions.Location = new System.Drawing.Point(3, 171);
             this.textBoxInternetRepoInstructions.Multiline = true;
@@ -657,9 +659,9 @@
             // 
             // textBox2
             // 
-            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox2.Location = new System.Drawing.Point(16, 140);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
@@ -682,9 +684,9 @@
             // 
             // tableLayoutPanelLanguageInformationVernacular
             // 
-            this.tableLayoutPanelLanguageInformationVernacular.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelLanguageInformationVernacular.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelLanguageInformationVernacular.ColumnCount = 3;
             this.tableLayoutPanelLanguageInformationVernacular.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelLanguageInformationVernacular.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -715,9 +717,9 @@
             // 
             // textBoxLanguageTabInstructionsVernacular
             // 
-            this.textBoxLanguageTabInstructionsVernacular.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxLanguageTabInstructionsVernacular.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelLanguageInformationVernacular.SetColumnSpan(this.textBoxLanguageTabInstructionsVernacular, 3);
             this.textBoxLanguageTabInstructionsVernacular.Location = new System.Drawing.Point(3, 137);
             this.textBoxLanguageTabInstructionsVernacular.Multiline = true;
@@ -816,8 +818,8 @@
             this.textBoxSentFullStopVernacular.Name = "textBoxSentFullStopVernacular";
             this.textBoxSentFullStopVernacular.Size = new System.Drawing.Size(599, 20);
             this.textBoxSentFullStopVernacular.TabIndex = 10;
-            this.textBoxSentFullStopVernacular.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
             this.textBoxSentFullStopVernacular.Enter += new System.EventHandler(this.textBoxSentFullStopVernacular_Enter);
+            this.textBoxSentFullStopVernacular.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
             // 
             // labelKeyboardVernacular
             // 
@@ -855,9 +857,9 @@
             // 
             // tableLayoutPanelLanguageInformationNationalBT
             // 
-            this.tableLayoutPanelLanguageInformationNationalBT.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelLanguageInformationNationalBT.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelLanguageInformationNationalBT.ColumnCount = 3;
             this.tableLayoutPanelLanguageInformationNationalBT.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelLanguageInformationNationalBT.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -974,8 +976,8 @@
             this.textBoxSentFullStopNationalBT.Name = "textBoxSentFullStopNationalBT";
             this.textBoxSentFullStopNationalBT.Size = new System.Drawing.Size(599, 20);
             this.textBoxSentFullStopNationalBT.TabIndex = 10;
-            this.textBoxSentFullStopNationalBT.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
             this.textBoxSentFullStopNationalBT.Enter += new System.EventHandler(this.textBoxSentFullStopNationalBT_Enter);
+            this.textBoxSentFullStopNationalBT.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
             // 
             // labelKeyboardNationalBT
             // 
@@ -1002,9 +1004,9 @@
             // 
             // textBoxLanguageTabInstructionsNationalBT
             // 
-            this.textBoxLanguageTabInstructionsNationalBT.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxLanguageTabInstructionsNationalBT.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelLanguageInformationNationalBT.SetColumnSpan(this.textBoxLanguageTabInstructionsNationalBT, 3);
             this.textBoxLanguageTabInstructionsNationalBT.Location = new System.Drawing.Point(3, 137);
             this.textBoxLanguageTabInstructionsNationalBT.Multiline = true;
@@ -1028,9 +1030,9 @@
             // 
             // tableLayoutPanelLanguageInformationEnglishBT
             // 
-            this.tableLayoutPanelLanguageInformationEnglishBT.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelLanguageInformationEnglishBT.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelLanguageInformationEnglishBT.ColumnCount = 3;
             this.tableLayoutPanelLanguageInformationEnglishBT.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelLanguageInformationEnglishBT.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -1061,9 +1063,9 @@
             // 
             // textBoxLanguageTabInstructionsEnglishBT
             // 
-            this.textBoxLanguageTabInstructionsEnglishBT.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxLanguageTabInstructionsEnglishBT.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelLanguageInformationEnglishBT.SetColumnSpan(this.textBoxLanguageTabInstructionsEnglishBT, 3);
             this.textBoxLanguageTabInstructionsEnglishBT.Location = new System.Drawing.Point(3, 137);
             this.textBoxLanguageTabInstructionsEnglishBT.Multiline = true;
@@ -1162,8 +1164,8 @@
             this.textBoxSentFullStopEnglishBT.Name = "textBoxSentFullStopEnglishBT";
             this.textBoxSentFullStopEnglishBT.Size = new System.Drawing.Size(599, 20);
             this.textBoxSentFullStopEnglishBT.TabIndex = 10;
-            this.textBoxSentFullStopEnglishBT.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
             this.textBoxSentFullStopEnglishBT.Enter += new System.EventHandler(this.textBoxSentFullStopEnglishBT_Enter);
+            this.textBoxSentFullStopEnglishBT.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
             // 
             // labelKeyboardEnglishBT
             // 
@@ -1201,9 +1203,9 @@
             // 
             // tableLayoutPanelFreeTranslation
             // 
-            this.tableLayoutPanelFreeTranslation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelFreeTranslation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelFreeTranslation.ColumnCount = 3;
             this.tableLayoutPanelFreeTranslation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelFreeTranslation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -1234,9 +1236,9 @@
             // 
             // textBoxLanguageTabInstructionsFreeTranslation
             // 
-            this.textBoxLanguageTabInstructionsFreeTranslation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxLanguageTabInstructionsFreeTranslation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelFreeTranslation.SetColumnSpan(this.textBoxLanguageTabInstructionsFreeTranslation, 3);
             this.textBoxLanguageTabInstructionsFreeTranslation.Location = new System.Drawing.Point(3, 137);
             this.textBoxLanguageTabInstructionsFreeTranslation.Multiline = true;
@@ -1335,8 +1337,8 @@
             this.textBoxSentFullStopFreeTranslation.Name = "textBoxSentFullStopFreeTranslation";
             this.textBoxSentFullStopFreeTranslation.Size = new System.Drawing.Size(599, 20);
             this.textBoxSentFullStopFreeTranslation.TabIndex = 10;
-            this.textBoxSentFullStopFreeTranslation.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
             this.textBoxSentFullStopFreeTranslation.Enter += new System.EventHandler(this.textBoxSentFullStopFreeTranslation_Enter);
+            this.textBoxSentFullStopFreeTranslation.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
             // 
             // labelKeyboardFreeTranslation
             // 
@@ -1377,9 +1379,9 @@
             // 
             // textBoxTeamMembersInstructionBox
             // 
-            this.textBoxTeamMembersInstructionBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxTeamMembersInstructionBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxTeamMembersInstructionBox.Location = new System.Drawing.Point(17, 117);
             this.textBoxTeamMembersInstructionBox.Multiline = true;
             this.textBoxTeamMembersInstructionBox.Name = "textBoxTeamMembersInstructionBox";
@@ -1450,9 +1452,9 @@
             // 
             // tlpAdaptItConfiguration
             // 
-            this.tlpAdaptItConfiguration.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tlpAdaptItConfiguration.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tlpAdaptItConfiguration.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tlpAdaptItConfiguration.ColumnCount = 2;
             this.tlpAdaptItConfiguration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -1544,9 +1546,9 @@
             // 
             // textBox1
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.Location = new System.Drawing.Point(6, 299);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
@@ -1592,6 +1594,17 @@
             // fontDialog
             // 
             this.fontDialog.ShowColor = true;
+            // 
+            // checkBoxUseDropBox
+            // 
+            this.checkBoxUseDropBox.AutoSize = true;
+            this.checkBoxUseDropBox.Location = new System.Drawing.Point(17, 85);
+            this.checkBoxUseDropBox.Name = "checkBoxUseDropBox";
+            this.checkBoxUseDropBox.Size = new System.Drawing.Size(502, 17);
+            this.checkBoxUseDropBox.TabIndex = 3;
+            this.checkBoxUseDropBox.Text = "&Do you want to put copies of audio recordings in Dropbox (e.g. to send recording" +
+    "s to the consultant)?";
+            this.checkBoxUseDropBox.UseVisualStyleBackColor = true;
             // 
             // NewProjectWizard
             // 
@@ -1756,5 +1769,6 @@
         private AdaptItConfigControl adaptItConfigCtrlVernacularToNationalBt;
         private AdaptItConfigControl adaptItConfigCtrlVernacularToInternationalBt;
         private AdaptItConfigControl adaptItConfigCtrlNationalBtToInternationalBt;
+        private System.Windows.Forms.CheckBox checkBoxUseDropBox;
     }
 }

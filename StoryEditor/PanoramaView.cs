@@ -465,9 +465,9 @@ namespace OneStoryProjectEditor
             // if moving, then we have to remove it out of the current list
             if (bMove)
                 RemoveStoryFromCurrentList(nSelectedRowIndex, theSd);
-            else
-                // if copying, then it needs its own guids
-                theSd = new StoryData(theOrigSd);
+            
+            // if copying, then it needs its own guids
+            theSd = new StoryData(theOrigSd);
 
             if (bAdjustCraftingInfo)
                 theSd.CraftingInfo.IsBiblicalStory = bIsBiblicalStory;
@@ -511,6 +511,10 @@ namespace OneStoryProjectEditor
                 // if it isn't already in the Old Set, then just move it there
                 if (_stories.SetName != Properties.Resources.IDS_ObsoleteStoriesSet)
                 {
+                    // make a copy (so it has new guids) -- this is just in case, someone simultaneously
+                    //  edits and so this isn't actually deleted which could result in two story's with the
+                    //  same guids
+                    theSd = new StoryData(theSd);
                     StoryEditor.InsertInOtherSetInsureUnique(_storyProject[Properties.Resources.IDS_ObsoleteStoriesSet],
                                                              theSd);
                 }

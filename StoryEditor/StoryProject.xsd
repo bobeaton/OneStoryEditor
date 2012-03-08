@@ -367,6 +367,7 @@
 			<xs:attribute name="ProjectName" type="xs:string" use="required" />
       <xs:attribute name="HgRepoUrlHost" type="xs:string" use="optional" />
 			<xs:attribute name="PanoramaFrontMatter" type="xs:string" />
+      <xs:attribute name="UseDropbox" type="xs:boolean" use="optional" />
 		</xs:complexType>
 		<xs:key name="MemberGuidKey" msdata:PrimaryKey="true">
 			<xs:selector xpath=".//Member" />
