@@ -92,7 +92,7 @@ namespace OneStoryProjectEditor
             InitTextBoxes(++LineNumber);
         }
 
-        private void buttonUndoLast_Click(object sender, EventArgs e)
+        private void ButtonUndoLastClick(object sender, EventArgs e)
         {
             var nLastIndex = _listUndoStack.Count - 1;
             var val = _listUndoStack[nLastIndex];
@@ -117,9 +117,16 @@ namespace OneStoryProjectEditor
             }
             else
             {
+                ButtonUndoLastClick(null, null);
             }
         }
 
         List<Tuple<TextBox, string>> _listUndoStack = new List<Tuple<TextBox, string>>();
+
+        private void CheckBoxPauseCheckedChanged(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Assert(sender == checkBoxPause);
+            StoryEditor.TextPaster = (checkBoxPause.Checked) ? null : this;
+        }
     }
 }

@@ -100,7 +100,7 @@
             this.buttonUndoLast.Text = "  &a";
             this.toolTip.SetToolTip(this.buttonUndoLast, "Click (or press Alt+A) to undo the l&ast change");
             this.buttonUndoLast.UseVisualStyleBackColor = true;
-            this.buttonUndoLast.Click += new System.EventHandler(this.buttonUndoLast_Click);
+            this.buttonUndoLast.Click += new System.EventHandler(this.ButtonUndoLastClick);
             // 
             // checkBoxPause
             // 
@@ -114,6 +114,7 @@
             this.toolTip.SetToolTip(this.checkBoxPause, "Click (or press Alt+P) to pause the pasting (e.g. if you want to move things arou" +
         "nd without a \'click\' meaning \'paste\')");
             this.checkBoxPause.UseVisualStyleBackColor = true;
+            this.checkBoxPause.CheckedChanged += new System.EventHandler(this.CheckBoxPauseCheckedChanged);
             // 
             // TextPaster
             // 
