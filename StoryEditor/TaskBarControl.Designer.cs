@@ -45,6 +45,11 @@
             this.buttonAddBoxesForAnswers = new System.Windows.Forms.Button();
             this.buttonStoryInformation = new System.Windows.Forms.Button();
             this.buttonViewPanorama = new System.Windows.Forms.Button();
+            this.buttonCopyRecordingToDropbox = new System.Windows.Forms.Button();
+            this.contextMenuDropbox = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.dropboxStory = new System.Windows.Forms.ToolStripMenuItem();
+            this.dropboxRetelling = new System.Windows.Forms.ToolStripMenuItem();
+            this.dropboxTqAnswers = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonSendToConsultant = new System.Windows.Forms.Button();
             this.buttonSendToEnglishBter = new System.Windows.Forms.Button();
             this.buttonReturnToProjectFacilitator = new System.Windows.Forms.Button();
@@ -54,6 +59,7 @@
             this.buttonMarkFinalApproval = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.flowLayoutPanelTasks.SuspendLayout();
+            this.contextMenuDropbox.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanelTasks
@@ -75,6 +81,7 @@
             this.flowLayoutPanelTasks.Controls.Add(this.buttonAddBoxesForAnswers);
             this.flowLayoutPanelTasks.Controls.Add(this.buttonStoryInformation);
             this.flowLayoutPanelTasks.Controls.Add(this.buttonViewPanorama);
+            this.flowLayoutPanelTasks.Controls.Add(this.buttonCopyRecordingToDropbox);
             this.flowLayoutPanelTasks.Controls.Add(this.buttonSendToConsultant);
             this.flowLayoutPanelTasks.Controls.Add(this.buttonSendToEnglishBter);
             this.flowLayoutPanelTasks.Controls.Add(this.buttonReturnToProjectFacilitator);
@@ -87,7 +94,7 @@
             this.flowLayoutPanelTasks.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanelTasks.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.flowLayoutPanelTasks.Name = "flowLayoutPanelTasks";
-            this.flowLayoutPanelTasks.Size = new System.Drawing.Size(216, 638);
+            this.flowLayoutPanelTasks.Size = new System.Drawing.Size(216, 667);
             this.flowLayoutPanelTasks.TabIndex = 1;
             // 
             // buttonViewTasksPf
@@ -255,9 +262,51 @@
             this.buttonViewPanorama.Visible = false;
             this.buttonViewPanorama.Click += new System.EventHandler(this.buttonViewPanorama_Click);
             // 
+            // buttonCopyRecordingToDropbox
+            // 
+            this.buttonCopyRecordingToDropbox.ContextMenuStrip = this.contextMenuDropbox;
+            this.buttonCopyRecordingToDropbox.Location = new System.Drawing.Point(3, 438);
+            this.buttonCopyRecordingToDropbox.Name = "buttonCopyRecordingToDropbox";
+            this.buttonCopyRecordingToDropbox.Size = new System.Drawing.Size(210, 23);
+            this.buttonCopyRecordingToDropbox.TabIndex = 22;
+            this.buttonCopyRecordingToDropbox.Text = "Copy Recording to &Dropbox";
+            this.buttonCopyRecordingToDropbox.UseVisualStyleBackColor = true;
+            this.buttonCopyRecordingToDropbox.Visible = false;
+            this.buttonCopyRecordingToDropbox.Click += new System.EventHandler(this.ButtonCopyRecordingToDropboxClick);
+            // 
+            // contextMenuDropbox
+            // 
+            this.contextMenuDropbox.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dropboxStory,
+            this.dropboxRetelling,
+            this.dropboxTqAnswers});
+            this.contextMenuDropbox.Name = "contextMenuDropbox";
+            this.contextMenuDropbox.Size = new System.Drawing.Size(257, 92);
+            // 
+            // dropboxStory
+            // 
+            this.dropboxStory.Name = "dropboxStory";
+            this.dropboxStory.Size = new System.Drawing.Size(256, 22);
+            this.dropboxStory.Text = "Story recording";
+            this.dropboxStory.Click += new System.EventHandler(this.DropboxStoryClick);
+            // 
+            // dropboxRetelling
+            // 
+            this.dropboxRetelling.Name = "dropboxRetelling";
+            this.dropboxRetelling.Size = new System.Drawing.Size(256, 22);
+            this.dropboxRetelling.Text = "Retelling recording";
+            this.dropboxRetelling.Click += new System.EventHandler(this.DropboxRetellingClick);
+            // 
+            // dropboxTqAnswers
+            // 
+            this.dropboxTqAnswers.Name = "dropboxTqAnswers";
+            this.dropboxTqAnswers.Size = new System.Drawing.Size(256, 22);
+            this.dropboxTqAnswers.Text = "Testing question answer recording";
+            this.dropboxTqAnswers.Click += new System.EventHandler(this.DropboxTqAnswersClick);
+            // 
             // buttonSendToConsultant
             // 
-            this.buttonSendToConsultant.Location = new System.Drawing.Point(3, 438);
+            this.buttonSendToConsultant.Location = new System.Drawing.Point(3, 467);
             this.buttonSendToConsultant.Name = "buttonSendToConsultant";
             this.buttonSendToConsultant.Size = new System.Drawing.Size(210, 23);
             this.buttonSendToConsultant.TabIndex = 11;
@@ -268,7 +317,7 @@
             // 
             // buttonSendToEnglishBter
             // 
-            this.buttonSendToEnglishBter.Location = new System.Drawing.Point(3, 467);
+            this.buttonSendToEnglishBter.Location = new System.Drawing.Point(3, 496);
             this.buttonSendToEnglishBter.Name = "buttonSendToEnglishBter";
             this.buttonSendToEnglishBter.Size = new System.Drawing.Size(210, 23);
             this.buttonSendToEnglishBter.TabIndex = 19;
@@ -279,7 +328,7 @@
             // 
             // buttonReturnToProjectFacilitator
             // 
-            this.buttonReturnToProjectFacilitator.Location = new System.Drawing.Point(3, 496);
+            this.buttonReturnToProjectFacilitator.Location = new System.Drawing.Point(3, 525);
             this.buttonReturnToProjectFacilitator.Name = "buttonReturnToProjectFacilitator";
             this.buttonReturnToProjectFacilitator.Size = new System.Drawing.Size(210, 23);
             this.buttonReturnToProjectFacilitator.TabIndex = 12;
@@ -290,7 +339,7 @@
             // 
             // buttonSendToCoach
             // 
-            this.buttonSendToCoach.Location = new System.Drawing.Point(3, 525);
+            this.buttonSendToCoach.Location = new System.Drawing.Point(3, 554);
             this.buttonSendToCoach.Name = "buttonSendToCoach";
             this.buttonSendToCoach.Size = new System.Drawing.Size(210, 23);
             this.buttonSendToCoach.TabIndex = 16;
@@ -301,7 +350,7 @@
             // 
             // buttonSendToCIT
             // 
-            this.buttonSendToCIT.Location = new System.Drawing.Point(3, 554);
+            this.buttonSendToCIT.Location = new System.Drawing.Point(3, 583);
             this.buttonSendToCIT.Name = "buttonSendToCIT";
             this.buttonSendToCIT.Size = new System.Drawing.Size(210, 23);
             this.buttonSendToCIT.TabIndex = 17;
@@ -312,7 +361,7 @@
             // 
             // buttonMarkPreliminaryApproval
             // 
-            this.buttonMarkPreliminaryApproval.Location = new System.Drawing.Point(3, 583);
+            this.buttonMarkPreliminaryApproval.Location = new System.Drawing.Point(3, 612);
             this.buttonMarkPreliminaryApproval.Name = "buttonMarkPreliminaryApproval";
             this.buttonMarkPreliminaryApproval.Size = new System.Drawing.Size(210, 23);
             this.buttonMarkPreliminaryApproval.TabIndex = 15;
@@ -323,7 +372,7 @@
             // 
             // buttonMarkFinalApproval
             // 
-            this.buttonMarkFinalApproval.Location = new System.Drawing.Point(3, 612);
+            this.buttonMarkFinalApproval.Location = new System.Drawing.Point(3, 641);
             this.buttonMarkFinalApproval.Name = "buttonMarkFinalApproval";
             this.buttonMarkFinalApproval.Size = new System.Drawing.Size(210, 23);
             this.buttonMarkFinalApproval.TabIndex = 20;
@@ -341,8 +390,9 @@
             this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.Controls.Add(this.flowLayoutPanelTasks);
             this.Name = "TaskBarControl";
-            this.Size = new System.Drawing.Size(216, 638);
+            this.Size = new System.Drawing.Size(216, 667);
             this.flowLayoutPanelTasks.ResumeLayout(false);
+            this.contextMenuDropbox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -374,5 +424,10 @@
         private System.Windows.Forms.Button buttonSendToEnglishBter;
         private System.Windows.Forms.Button buttonMarkFinalApproval;
         private System.Windows.Forms.Button buttonViewTasksCit;
+        private System.Windows.Forms.Button buttonCopyRecordingToDropbox;
+        private System.Windows.Forms.ContextMenuStrip contextMenuDropbox;
+        private System.Windows.Forms.ToolStripMenuItem dropboxStory;
+        private System.Windows.Forms.ToolStripMenuItem dropboxRetelling;
+        private System.Windows.Forms.ToolStripMenuItem dropboxTqAnswers;
     }
 }

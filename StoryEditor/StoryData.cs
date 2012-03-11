@@ -27,6 +27,7 @@ namespace OneStoryProjectEditor
         public TasksCit.TaskSettings TasksRequiredCit;
         public int CountRetellingsTests;
         public int CountTestingQuestionTests;
+        public bool JustAdded;
 
         public StoryData(string strStoryName, string strCrafterMemberGuid, 
             string strLoggedOnMemberGuid, bool bIsBiblicalStory, 
@@ -1633,7 +1634,10 @@ namespace OneStoryProjectEditor
                                                          ProjSettings.HgRepoUrlHost,
                                                          Properties.Resources.
                                                              IDS_DefaultPanoramaFrontMatter,
-                                                         ProjSettings.UseDropbox);
+                                                         ProjSettings.UseDropbox,
+                                                         ProjSettings.DropboxStory, 
+                                                         ProjSettings.DropboxRetelling,
+                                                         ProjSettings.DropboxAnswers);
             else
             {
                 projFile.StoryProject[0].ProjectName = ProjSettings.ProjectName; // in case the user changed it.
@@ -1683,6 +1687,15 @@ namespace OneStoryProjectEditor
 
             ProjSettings.UseDropbox = !projFile.StoryProject[0].IsUseDropboxNull() &&
                                       projFile.StoryProject[0].UseDropbox;
+
+            ProjSettings.DropboxStory = !projFile.StoryProject[0].IsDropboxStoryNull() &&
+                                        projFile.StoryProject[0].DropboxStory;
+
+            ProjSettings.DropboxRetelling = !projFile.StoryProject[0].IsDropboxRetellingsNull() &&
+                                            projFile.StoryProject[0].DropboxRetellings;
+
+            ProjSettings.DropboxAnswers = !projFile.StoryProject[0].IsDropboxAnswersNull() &&
+                                          projFile.StoryProject[0].DropboxAnswers;
 
             if (projFile.stories.Count == 0)
             {
@@ -2010,6 +2023,9 @@ namespace OneStoryProjectEditor
         public const string CstrAttributeProjectName = "ProjectName";
         public const string CstrAttributeHgRepoUrlHost = "HgRepoUrlHost";
         public const string CstrAttributeUseDropbox = "UseDropbox";
+        public const string CstrAttributeDropboxStory = "DropboxStory";
+        public const string CstrAttributeDropboxRetellings = "DropboxRetellings";
+        public const string CstrAttributeDropboxAnswers = "DropboxAnswers";
 
         public XElement GetXml
         {
@@ -2019,7 +2035,10 @@ namespace OneStoryProjectEditor
                     new XElement("StoryProject",
                                  new XAttribute("version", XmlDataVersion),
                                  new XAttribute(CstrAttributeProjectName, ProjSettings.ProjectName),
-                                 new XAttribute(CstrAttributeUseDropbox, ProjSettings.UseDropbox));
+                                 new XAttribute(CstrAttributeUseDropbox, ProjSettings.UseDropbox),
+                                 new XAttribute(CstrAttributeDropboxStory, ProjSettings.DropboxStory),
+                                 new XAttribute(CstrAttributeDropboxRetellings, ProjSettings.DropboxRetelling),
+                                 new XAttribute(CstrAttributeDropboxAnswers, ProjSettings.DropboxAnswers));
 
                 if (!String.IsNullOrEmpty(ProjSettings.HgRepoUrlHost))
                     elemStoryProject.Add(new XAttribute(CstrAttributeHgRepoUrlHost,

@@ -173,7 +173,7 @@ namespace OneStoryProjectEditor
         }
 
         private void SetProjectFaciliatorButtons(StoryData theStory,
-            StoryProjectData theStoryProjectData)
+                                                 StoryProjectData theStoryProjectData)
         {
             bool bEditAllowed = TheSe.LoggedOnMember.IsEditAllowed(theStory);
 
@@ -288,6 +288,14 @@ namespace OneStoryProjectEditor
                 buttonSendToConsultant.Visible = true;
 
             _checker = new ProjectFacilitatorRequirementsCheck(TheSe, theStory);
+
+            if (projSettings.UseDropbox)
+            {
+                buttonCopyRecordingToDropbox.Visible = true;
+                dropboxStory.Visible = projSettings.DropboxStory;
+                dropboxRetelling.Visible = projSettings.DropboxRetelling;
+                dropboxTqAnswers.Visible = projSettings.DropboxAnswers;
+            }
         }
 
         private static string TooltipRequiredTasksToDo(string strTestType, int nTestCount)
@@ -861,6 +869,26 @@ namespace OneStoryProjectEditor
                           };
 
             dlg.ShowDialog();
+        }
+
+        private void ButtonCopyRecordingToDropboxClick(object sender, EventArgs e)
+        {
+            contextMenuDropbox.Show(MousePosition);
+        }
+
+        private void DropboxStoryClick(object sender, EventArgs e)
+        {
+            TheSe.TriggerDropboxCopyStory();
+        }
+
+        private void DropboxRetellingClick(object sender, EventArgs e)
+        {
+            TheSe.TriggerDropboxCopyRetelling();
+        }
+
+        private void DropboxTqAnswersClick(object sender, EventArgs e)
+        {
+            TheSe.TriggerDropboxCopyAnswer();
         }
     }
 }
