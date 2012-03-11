@@ -752,6 +752,10 @@ namespace OneStoryProjectEditor
                 return;
 
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eTeamComplete, true);
+
+            SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
+                TheStory.CraftingInfo.ProjectFacilitator,
+                FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
         }
 
         private void buttonMarkFinalApproval_Click(object sender, EventArgs e)
@@ -759,6 +763,10 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eTeamFinalApproval, true);
+
+            SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
+                TheStory.CraftingInfo.ProjectFacilitator,
+                FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
         }
 
         private void buttonSendToCoach_Click(object sender, EventArgs e)
