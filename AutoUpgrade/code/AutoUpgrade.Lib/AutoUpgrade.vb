@@ -636,7 +636,7 @@ Namespace devX
             End Set
         End Property
 
-        Private Shared ReadOnly Md5Hasher As New System.Security.Cryptography.MD5Cng
+        Private Shared ReadOnly Md5Hasher As New System.Security.Cryptography.MD5CryptoServiceProvider
 
         Shared Function GetMd5Hash(ByVal strFilePath As String) As String
 
