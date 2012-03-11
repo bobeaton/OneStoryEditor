@@ -48,6 +48,9 @@ namespace OneStoryProjectEditor
                 NextNextLine = _listLines[nIndex + 2];
         }
 
+        private static bool _bAskAboutStrippingSfm = true;
+        private static bool _bStripSfms = false;
+        
         public string CurrentLine
         {
             get { return textBoxCurrentLine.Text; }
@@ -79,37 +82,61 @@ namespace OneStoryProjectEditor
 
         private void ButtonDeleteLineClick(object sender, EventArgs e)
         {
-            _undoStack.Add(null, null);
-            InitTextBoxes(++LineNumber);
-        }
-
-        internal void Undo()
-        {
-            InitTextBoxes(--LineNumber);
+            if (LineNumber < _listLines.Count)
+            {
+                _undoStack.Add(null, null);
+                InitTextBoxes(++LineNumber);
+            }
         }
 
         internal void ViewNextLine()
         {
-            InitTextBoxes(++LineNumber);
+            if (LineNumber < _listLines.Count) 
+                InitTextBoxes(++LineNumber);
         }
 
         private void ButtonUndoLastClick(object sender, EventArgs e)
         {
             _undoStack.UndoLast();
-            InitTextBoxes(--LineNumber);
+            if (LineNumber > 0)
+                InitTextBoxes(--LineNumber);
         }
 
-        internal void TriggerPaste(bool bLeftClicked, CtrlTextBox textBox)
+        private delegate void SetText(object tb, string str);
+        private void SetTextBoxText(object tb, string str)
+        {
+            var textBox = tb as TextBox;
+            textBox.Text = str;
+        }
+        private void SetTextareaText(object tb, string str)
+        {
+            var elemTextArea = tb as HtmlElement;
+            elemTextArea.InnerText = str;
+        }
+
+        private delegate string GetText(object tb);
+        private string GetTextBoxText(object tb)
+        {
+            var textBox = tb as TextBox;
+            return textBox.Text;
+        }
+        private string GetTextareaText(object tb)
+        {
+            var elemTextArea = tb as HtmlElement;
+            return elemTextArea.InnerText;
+        }
+
+        private void TriggerPaste(bool bLeftClicked, object tb, 
+            SetText setter, GetText getter)
         {
             if (bLeftClicked)
             {
-                var txtCurrent = textBox.Text;
-                _undoStack.Add(textBox, txtCurrent);
-                if (txtCurrent.LastOrDefault() != ' ')
-                if ((Text.Length > 0) && (Text[Text.Length - 1] != ' '))
+                var txtCurrent = getter(tb);
+                _undoStack.Add(tb, txtCurrent);
+                if (!String.IsNullOrEmpty(txtCurrent) && (txtCurrent[txtCurrent.Length - 1] != ' '))
                     txtCurrent += ' ';
-                txtCurrent += CurrentLine;
-                textBox.Text = txtCurrent;
+                txtCurrent += GetNextLine(true);
+                setter(tb, txtCurrent);
                 ViewNextLine();
                 Focus();    // so it gets the next keyboard input
             }
@@ -117,26 +144,48 @@ namespace OneStoryProjectEditor
             {
                 ButtonUndoLastClick(null, null);
             }
+        }
+        internal void TriggerPaste(bool bLeftClicked, CtrlTextBox textBox)
+        {
+            TriggerPaste(bLeftClicked, textBox, SetTextBoxText, GetTextBoxText);
         }
 
         internal void TriggerPaste(bool bLeftClicked, HtmlElement elemTextArea)
         {
-            if (bLeftClicked)
+            TriggerPaste(bLeftClicked, elemTextArea, SetTextareaText, GetTextareaText);
+        }
+
+        public string GetNextLine(bool bCheckForSfm)
+        {
+            var strText = CurrentLine;
+
+            if (bCheckForSfm)
             {
-                var txtCurrent = elemTextArea.InnerText;
-                _undoStack.Add(elemTextArea, txtCurrent);
-                if (txtCurrent.LastOrDefault() != ' ')
-                    if ((Text.Length > 0) && (Text[Text.Length - 1] != ' '))
-                        txtCurrent += ' ';
-                txtCurrent += CurrentLine;
-                elemTextArea.InnerText = txtCurrent;
-                ViewNextLine();
-                Focus();    // so it gets the next keyboard input
+                // if the text is SFM... ask if they want it stripped off`
+                int nIndex;
+                if (!String.IsNullOrEmpty(strText) &&
+                    (strText.Length > 1) &&
+                    (strText[0] == '\\') &&
+                    ((nIndex = strText.IndexOf(' ')) != -1))
+                {
+                    if (_bAskAboutStrippingSfm)
+                    {
+                        _bAskAboutStrippingSfm = false; // just ask once per run
+                        var res =
+                            LocalizableMessageBox.Show(
+                                Localizer.Str("This looks like SFM data. Would you like me to strip off the markers?"),
+                                StoryEditor.OseCaption,
+                                MessageBoxButtons.YesNoCancel);
+                        if (res == DialogResult.Yes)
+                            _bStripSfms = true;
+                    }
+
+                    if (_bStripSfms)
+                        strText = strText.Substring(nIndex + 1);
+                }
             }
-            else
-            {
-                ButtonUndoLastClick(null, null);
-            }
+
+            return strText;
         }
 
         UndoStack _undoStack = new UndoStack();

@@ -202,6 +202,7 @@
             // textBoxNetFlixViewer
             // 
             this.textBoxNetFlixViewer.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxNetFlixViewer.Cursor = System.Windows.Forms.Cursors.Hand;
             this.textBoxNetFlixViewer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxNetFlixViewer.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxNetFlixViewer.Location = new System.Drawing.Point(154, 0);
@@ -213,6 +214,7 @@
             this.textBoxNetFlixViewer.TabStop = false;
             this.textBoxNetFlixViewer.Text = "Bible";
             this.textBoxNetFlixViewer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBoxNetFlixViewer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.textBoxNetFlixViewer_MouseDown);
             this.textBoxNetFlixViewer.MouseMove += new System.Windows.Forms.MouseEventHandler(this.CheckBiblePaneCursorPosition_MouseMove);
             // 
             // radioButtonShowOtherSwordResources

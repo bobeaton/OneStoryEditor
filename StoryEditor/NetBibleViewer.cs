@@ -925,5 +925,39 @@ namespace OneStoryProjectEditor
             DisplayVerses();
             UpdateNextPreviousButtons();
         }
+
+        private static char[] _achTrimChars = new char[] { '.', ':', ' ', ',', ';' };
+        private void textBoxNetFlixViewer_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (StoryEditor.TextPaster == null)
+                return;
+
+            try
+            {
+                var strText = StoryEditor.TextPaster.GetNextLine(false);
+                if (strText.IndexOf(@"\anc ", StringComparison.Ordinal) == 0)
+                {
+                    strText = strText.Substring(5); // length of @"\anc "
+                    var astr = strText.Split(_achTrimChars, StringSplitOptions.RemoveEmptyEntries);
+                    if (astr.Length > 2)
+                    {
+                        var nIndex = 0;
+                        var lstVerses = new List<string>();
+                        while ((nIndex + 2) < astr.Length)
+                        {
+                            var newRef = String.Format("{0} {1}:{2}",
+                                                       astr[nIndex++],
+                                                       Convert.ToUInt32(astr[nIndex++]),
+                                                       Convert.ToUInt32(astr[nIndex++]));
+                            lstVerses.Insert(0, newRef);
+                        }
+
+                        foreach (var newRef in lstVerses)
+                            DisplayVerses(newRef);
+                    }
+                }
+            }
+            catch{} // don't make a fuss out of it if the user sends us garbage
+        }
     }
 }

@@ -141,35 +141,6 @@ namespace OneStoryProjectEditor
             TheSE.FocusOnVerse(nVerseIndex, true, true);
         }
 
-        /*
-        public bool TextareaOnKeyUp(string strId, string strText)
-        {
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE))
-                return false;
-
-            int nVerseIndex;
-            string strTextElement;
-            if (!GetIndicesFromId(strId, out nVerseIndex, out strTextElement))
-                return false;
-
-            if (strTextElement == CstrFieldNameVernacular)
-                StoryData.Verses[nVerseIndex].VernacularText.SetValue(strText);
-            else if (strTextElement == CstrFieldNameNationalBt)
-                StoryData.Verses[nVerseIndex].NationalBTText.SetValue(strText);
-            else if (strTextElement == CstrFieldNameInternationalBt)
-                StoryData.Verses[nVerseIndex].InternationalBTText.SetValue(strText);
-
-            // indicate that the document has changed
-            theSE.Modified = true;
-
-            // update the status bar (in case we previously put an error there
-            StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theSE.theCurrentStory.ProjStage.ProjectStage];
-            theSE.SetDefaultStatusBar(st.StageDisplayString);
-
-            return true;
-        }
-        */
         protected bool GetIndicesFromId(string strId,
             out int nVerseIndex, out string strTextElement)
         {
