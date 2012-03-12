@@ -212,11 +212,11 @@ namespace OneStoryProjectEditor
             Debug.Assert(IsTextareaElement(stringTransfer.HtmlElementId));
             if (Document != null)
             {
-                HtmlDocument doc = Document;
-                IHTMLDocument2 htmlDocument = doc.DomDocument as IHTMLDocument2;
+                var doc = Document;
+                var htmlDocument = doc.DomDocument as IHTMLDocument2;
                 if (htmlDocument != null)
                 {
-                    IHTMLSelectionObject selection = htmlDocument.selection;
+                    var selection = htmlDocument.selection;
                     if (selection.type.ToLower() != "text")
                     {
                         LocalizableMessageBox.Show(Localizer.Str("Sorry, you can only modify editable text in consultant or coach notes!"),
@@ -224,7 +224,7 @@ namespace OneStoryProjectEditor
                     }
                     else
                     {
-                        IHTMLTxtRange rangeSelection = selection.createRange() as IHTMLTxtRange;
+                        var rangeSelection = selection.createRange() as IHTMLTxtRange;
                         if (rangeSelection != null)
                             return rangeSelection.text;
                         // else otherwise nothing selected, so just return

@@ -165,7 +165,9 @@ namespace OneStoryProjectEditor
             {
                 try
                 {
-                    tb.Text = Transliterator.Convert(Value);
+                    tb.Text = (String.IsNullOrEmpty(Value))
+                                  ? Value
+                                  : Transliterator.SafeConvert(Value);
                 }
                 catch
                 {

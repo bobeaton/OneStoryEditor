@@ -16,6 +16,7 @@ using System.Xml.XPath;
 using System.Xml.Xsl;
 using Chorus.UI.Clone;
 using ECInterfaces;
+using Microsoft.Win32;
 using OneStoryProjectEditor.Properties;
 using Palaso.UI.WindowsForms.Keyboarding;
 using SilEncConverters40;
@@ -1102,7 +1103,7 @@ namespace OneStoryProjectEditor
             // check for Dropbox copy (after setting the 'TheCurrentStory')
             if (StoryProject.ProjSettings.DropboxStory)
             {
-                TriggerDropboxCopyStory();
+                TriggerDropboxCopyStory(true);
                 theNewStory.JustAdded = true;
             }
         }
@@ -2973,7 +2974,7 @@ namespace OneStoryProjectEditor
             if (bTriggerSnapshotSave && !TheCurrentStory.JustAdded && StoryProject.ProjSettings.DropboxStory &&
                 (LoggedOnMember.MemberType == TeamMemberData.UserTypes.ProjectFacilitator))
             {
-                TriggerDropboxCopyStory();
+                TriggerDropboxCopyStory(true);
             }
 
             // a record to our history
@@ -3412,12 +3413,6 @@ namespace OneStoryProjectEditor
             strAnswer = String.Format(Localizer.Str("Test done on: {0}. UNS heard the story {1} times."),
                                       DateTime.Now.ToString("yyyy-MMM-dd"), strAnswer);
 
-            // check for Dropbox copy
-            if (StoryProject.ProjSettings.DropboxRetelling)
-            {
-                TriggerDropboxCopyRetelling();
-            }
-
             var toi = new MemberIdInfo(strUnsGuid, strAnswer);
             TheCurrentStory.CraftingInfo.TestersToCommentsRetellings.Add(toi);
             foreach (VerseData aVerseData in TheCurrentStory.Verses)
@@ -3431,22 +3426,39 @@ namespace OneStoryProjectEditor
 
             Modified = true;
 
+            // check for Dropbox copy
+
+            var strRetellingRecording = TriggerDropboxCopyRetelling(StoryProject.ProjSettings.DropboxRetelling);
+            if (!String.IsNullOrEmpty(strRetellingRecording))
+                LaunchWordPad(strRetellingRecording);
             return true;
         }
 
-        private void ShouldCopyFileToDropbox(string strFilename)
+        private void LaunchWordPad(string strRetellingRecording)
         {
-            Debug.Assert((StoryProject != null) && (StoryProject.ProjSettings != null));
-            if (!StoryProject.ProjSettings.UseDropbox)
+            // else check in the person's registry for it
+            const string cstrWavePadRegKey = @"Software\Conduit\AppPaths\WavePad.exe";
+            var keyOneStoryHiveRoot = Registry.CurrentUser.OpenSubKey(cstrWavePadRegKey);
+            if (keyOneStoryHiveRoot == null)
                 return;
 
-            string strDropboxRoot = ProjectSettings.DropboxFolderRoot;
-            if (strDropboxRoot == null)
+            var strWavePadPath = (string)keyOneStoryHiveRoot.GetValue("AppPath");
+            if (String.IsNullOrEmpty(strWavePadPath))
                 return;
 
+            LaunchProgram(ExcapePath(strWavePadPath), ExcapePath(strRetellingRecording));
+        }
+
+        private string ExcapePath(string str)
+        {
+            return "\"" + str + "\"";
+        }
+
+        private string ShouldCopyFileToDropbox(string strFilename, bool bCopyToDropbox)
+        {
             var openMediaFileDlg = new OpenFileDialog
                                        {
-                                           Filter = "Audio files|*.mp3;*.wav;*.wma|All files|*.*",
+                                           Filter = Resources.AudioFileSearchFilter,
                                            Title = Localizer.Str("Select the recording for the ") + strFilename
                                        };
 
@@ -3454,7 +3466,21 @@ namespace OneStoryProjectEditor
             var res = openMediaFileDlg.ShowDialog();
             SuspendSaveDialog--;
             if (res != DialogResult.OK)
-                return;
+                return null;
+
+            // if we were just getting the file name (e.g. to open it in wavepad), then 
+            //  just return it.
+            if (!bCopyToDropbox)
+                return openMediaFileDlg.FileName;
+
+            // otherwise, we're copying it to dropbox
+            Debug.Assert((StoryProject != null) && (StoryProject.ProjSettings != null));
+            if (!StoryProject.ProjSettings.UseDropbox)
+                return null;
+
+            string strDropboxRoot = ProjectSettings.DropboxFolderRoot;
+            if (strDropboxRoot == null)
+                return null;
 
             var extn = Path.GetExtension(openMediaFileDlg.FileName);
             var strTargetPath = ConcatenateToPath(strDropboxRoot,
@@ -3467,6 +3493,7 @@ namespace OneStoryProjectEditor
                                                       });
             var strDropBoxFilepath = BuildDropboxFilename(strTargetPath, strFilename, extn);
             WriteAudioFile(openMediaFileDlg.FileName, strDropBoxFilepath);
+            return strDropBoxFilepath;
         }
 
         private static string BuildDropboxFilename(string strTargetPath, string strFilename, string extn)
@@ -3509,12 +3536,6 @@ namespace OneStoryProjectEditor
             var toi = new MemberIdInfo(strUnsGuid, strAnswer);
             TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.Add(toi);
 
-            // check for Dropbox copy
-            if (StoryProject.ProjSettings.DropboxAnswers)
-            {
-                TriggerDropboxCopyAnswer();
-            }
-
             // add boxes for any GTQs that are present and then to all the other verses
             AddAnswerBoxes(strUnsGuid, TheCurrentStory.Verses.FirstVerse);
             foreach (var aVerseData in TheCurrentStory.Verses)
@@ -3527,6 +3548,12 @@ namespace OneStoryProjectEditor
             viewStoryTestingQuestionAnswersMenu.Checked = true;
 
             Modified = true;
+
+            // check for Dropbox copy
+            var strAnswerRecording = TriggerDropboxCopyAnswer(StoryProject.ProjSettings.DropboxAnswers);
+            if (!String.IsNullOrEmpty(strAnswerRecording))
+                LaunchWordPad(strAnswerRecording);
+
             return true;
         }
 
@@ -5632,14 +5659,22 @@ namespace OneStoryProjectEditor
 
         internal void concordanceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string strVernacular = null, strNationalBT = null, strInternationalBT = null, strFreeTranslation = null;
-            GetSelectedLanguageText(ref strVernacular, ref strNationalBT, ref strInternationalBT, ref strFreeTranslation);
-            ConcordanceForm dlg = new ConcordanceForm(this, strVernacular, strNationalBT, strInternationalBT, strFreeTranslation);
+            string strVernacular = null, strNationalBt = null, strInternationalBt = null, strFreeTranslation = null;
+            GetSelectedLanguageText(ref strVernacular, ref strNationalBt, ref strInternationalBt, ref strFreeTranslation);
+            var dlg = new ConcordanceForm(this, strVernacular, strNationalBt, strInternationalBt, strFreeTranslation);
             dlg.Show();
         }
 
-        private void GetSelectedLanguageText(ref string strVernacular, ref string strNationalBT,
-            ref string strInternationalBT, ref string strFreeTranslation)
+        private void GetSelectedLanguageText(ref string strVernacular, ref string strNationalBt, ref string strInternationalBt, ref string strFreeTranslation)
+        {
+            if (UsingHtmlForStoryBtPane)
+                htmlStoryBtControl.GetSelectedLanguageText(out strVernacular, out strNationalBt, out strInternationalBt, out strFreeTranslation);
+            else
+                GetSelectedLanguageTextNetCtrls(ref strVernacular, ref strNationalBt, ref strInternationalBt, ref strFreeTranslation);
+        }
+
+        private void GetSelectedLanguageTextNetCtrls(ref string strVernacular, ref string strNationalBt,
+            ref string strInternationalBt, ref string strFreeTranslation)
         {
             if ((CtrlTextBox._inTextBox == null) || (CtrlTextBox._nLastVerse <= 0))
                 return;
@@ -5658,8 +5693,8 @@ namespace OneStoryProjectEditor
                 var lineData = theVerse._verseData.StoryLine;
                 GetSelectedDataFromLineData(lineData,
                                             ref strVernacular,
-                                            ref strNationalBT,
-                                            ref strInternationalBT,
+                                            ref strNationalBt,
+                                            ref strInternationalBt,
                                             ref strFreeTranslation);
             }
             else if ((CtrlTextBox._inTextBox != null) &&
@@ -5672,8 +5707,8 @@ namespace OneStoryProjectEditor
                     var lineData = testQuestionData.TestQuestionLine;
                     GetSelectedDataFromLineData(lineData,
                                                 ref strVernacular,
-                                                ref strNationalBT,
-                                                ref strInternationalBT,
+                                                ref strNationalBt,
+                                                ref strInternationalBt,
                                                 ref strFreeTranslation);
                 }
                 else if (IsRetellingBox(strLabel))
@@ -5681,8 +5716,8 @@ namespace OneStoryProjectEditor
                     LineMemberData retellingData = GetRetellingData(strLabel, theVerse);
                     GetSelectedDataFromLineData(retellingData,
                                                 ref strVernacular,
-                                                ref strNationalBT,
-                                                ref strInternationalBT,
+                                                ref strNationalBt,
+                                                ref strInternationalBt,
                                                 ref strFreeTranslation);
                 }
                 else if (IsTqAnswerBox(strLabel))
@@ -5692,8 +5727,8 @@ namespace OneStoryProjectEditor
                     var answerData = GetTqAnswerData(strLabel, theVerse, out answers);
                     GetSelectedDataFromLineData(answerData,
                                                 ref strVernacular,
-                                                ref strNationalBT,
-                                                ref strInternationalBT,
+                                                ref strNationalBt,
+                                                ref strInternationalBt,
                                                 ref strFreeTranslation);
                 }
             }
@@ -6354,24 +6389,24 @@ namespace OneStoryProjectEditor
             dlg.Show();
         }
 
-        public void TriggerDropboxCopyStory()
+        public void TriggerDropboxCopyStory(bool bCopyToDropbox)
         {
             var strFilename = Localizer.Str("Story");
-            ShouldCopyFileToDropbox(strFilename);
+            ShouldCopyFileToDropbox(strFilename, bCopyToDropbox);
         }
 
-        public void TriggerDropboxCopyRetelling()
+        public string TriggerDropboxCopyRetelling(bool bCopyToDropbox)
         {
             var strFilename = Localizer.Str("Retelling ") +
                               (TheCurrentStory.CraftingInfo.TestersToCommentsRetellings.Count + 1);
-            ShouldCopyFileToDropbox(strFilename);
+            return ShouldCopyFileToDropbox(strFilename, bCopyToDropbox);
         }
 
-        public void TriggerDropboxCopyAnswer()
+        public string TriggerDropboxCopyAnswer(bool bCopyToDropbox)
         {
             var strFilename = Localizer.Str("Inference Test Answers ") +
                               (TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.Count + 1);
-            ShouldCopyFileToDropbox(strFilename);
+            return ShouldCopyFileToDropbox(strFilename, bCopyToDropbox);
         }
 
         private void InitStoryBtPaneControl(bool bUsingHtmlForStoryBtPane)

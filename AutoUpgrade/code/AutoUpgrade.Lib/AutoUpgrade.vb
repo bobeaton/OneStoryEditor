@@ -743,8 +743,6 @@ Namespace devX
                         newFileEntry.Version = .FileVersion
                     End With
 
-                    newFileEntry.Size = FileLen(strFile)
-
                     ' If version info was found, mark method as version, else date
                     If String.IsNullOrEmpty(newFileEntry.Version) Then
                         ' only store the md5 checksum if no version is available
@@ -760,6 +758,8 @@ Namespace devX
                         zip.AddFile(strFile, "")
                         zip.Save(strZipFilepath)
                     End Using
+
+                    newFileEntry.Size = FileLen(strZipFilepath)
 
                     Me.ManifestFiles.Add(newFileEntry)
                 Else

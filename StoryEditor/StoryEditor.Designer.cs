@@ -170,8 +170,8 @@ namespace OneStoryProjectEditor
             this.linkLabelVerseBT = new System.Windows.Forms.LinkLabel();
             this.contextMenuStripVerseList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
-            this.textBoxStoryVerse = new System.Windows.Forms.TextBox();
             this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
+            this.textBoxStoryVerse = new System.Windows.Forms.TextBox();
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.splitContainerMentorNotes = new System.Windows.Forms.SplitContainer();
             this.linkLabelConsultantNotes = new System.Windows.Forms.LinkLabel();

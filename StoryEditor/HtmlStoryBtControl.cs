@@ -175,7 +175,7 @@ namespace OneStoryProjectEditor
             if (Document == null)
                 return null;
 
-            HtmlDocument doc = Document;
+            var doc = Document;
             
             // before we query for the spans, we have to trigger a 'blur'
             //  event (well, my 'fake' blur event) so the cell currently
@@ -617,10 +617,11 @@ namespace OneStoryProjectEditor
             ctxMenu.Items.Add(new ToolStripSeparator());
             ctxMenu.Items.Add(StoryEditor.CstrGlossTextToNational, null, OnGlossTextToNational);
             ctxMenu.Items.Add(StoryEditor.CstrGlossTextToEnglish, null, OnGlossTextToEnglish);
+            ctxMenu.Items.Add(StoryEditor.CstrConcordanceSearch, null, OnConcordanceSearch);
             /*
             ctxMenu.Items.Add(StoryEditor.CstrJumpToReference, null, onJumpToBibleRef);
             ctxMenu.Items.Add(StoryEditor.CstrConcordanceSearch, null, onConcordanceSearch);
-            ctxMenu.Items.Add(StoryEditor.CstrAddLnCNote, null, onAddLnCNote);
+            ctxMenu.Items.Add(StoryEditor.CstrAddLnCNote, null, OnAddLnCNote);
             ctxMenu.Items.Add(new ToolStripSeparator());
             if (StoryEditor.IsTestQuestionBox(strLabel))
             {
@@ -670,15 +671,27 @@ namespace OneStoryProjectEditor
                 }
                 else if (x.Text == StoryEditor.CstrGlossTextToNational)
                 {
-                    x.Visible = (nationalBtSiblingId != null);
+                    x.Visible = ((nationalBtSiblingId != null) && (nationalBtSiblingId != LastTextareaInFocusId));
                 }
                 else if (x.Text == StoryEditor.CstrGlossTextToEnglish)
                 {
-                    x.Visible = (englishBtSibling != null);
+                    x.Visible = ((englishBtSibling != null) && (englishBtSibling != LastTextareaInFocusId));
                 }
                 else if (x.Text == StoryEditor.CstrAddLnCNote)
+                {
                     CheckForLnCNoteLookup((ToolStripMenuItem)x);
+                }
+                else if (x.Text == StoryEditor.CstrConcordanceSearch)
+                {
+                    x.Visible = (LastTextareaInFocusId.IndexOf(StoryEditor.TextFields.StoryLine.ToString(),
+                                                               StringComparison.Ordinal) != -1);
+                }
             }
+        }
+
+        private void OnConcordanceSearch(object sender, EventArgs e)
+        {
+            TheSE.concordanceToolStripMenuItem_Click(null, null);
         }
 
         private void CheckForLnCNoteLookup(ToolStripMenuItem x)
@@ -686,7 +699,7 @@ namespace OneStoryProjectEditor
             x.DropDownItems.Clear();
             var st = GetStringTransferOfLastTextAreaInFocus;
             var mapFoundString2LnCnote = TheSE.StoryProject.LnCNotes.FindHits(GetSelectedText(st), st.WhichField);
-            foreach (KeyValuePair<string, LnCNote> kvp in mapFoundString2LnCnote)
+            foreach (var kvp in mapFoundString2LnCnote)
             {
                 var tsi = x.DropDownItems.Add(kvp.Key, null, OnLookupLnCnote);
                 tsi.Tag = kvp.Value;
@@ -786,26 +799,28 @@ namespace OneStoryProjectEditor
             }
         }
 
+        private static string GetMyVernacularSibling(string strId)
+        {
+            return GetMySibling(strId, StoryEditor.TextFields.Vernacular.ToString());
+        }
+
         private static string GetMyNationalBtSibling(string strId)
         {
-            if (String.IsNullOrEmpty(strId))
-                return null;
-
-            int nVerseIndex, nItemIndex, nSubItemIndex;
-            string strDataType, strLanguageColumn;
-            if (!GetIndicesFromId(strId, out nVerseIndex, out strDataType,
-                                    out nItemIndex, out nSubItemIndex, out strLanguageColumn))
-                return null;
-
-            if (strLanguageColumn != StoryEditor.TextFields.Vernacular.ToString())
-                return null;
-
-            return StringTransfer.TextareaId(nVerseIndex, strDataType, nItemIndex, nSubItemIndex,
-                                             StoryEditor.TextFields.NationalBt.ToString());
+            return GetMySibling(strId, StoryEditor.TextFields.NationalBt.ToString());
         }
 
         private static string GetMyInternationalBtSibling(string strId)
         {
+            return GetMySibling(strId, StoryEditor.TextFields.InternationalBt.ToString());
+        }
+
+        private static string GetMyFreeTranslationSibling(string strId)
+        {
+            return GetMySibling(strId, StoryEditor.TextFields.FreeTranslation.ToString());
+        }
+
+        private static string GetMySibling(string strId, string strSiblingName)
+        {
             if (String.IsNullOrEmpty(strId))
                 return null;
 
@@ -815,13 +830,8 @@ namespace OneStoryProjectEditor
                                     out nItemIndex, out nSubItemIndex, out strLanguageColumn))
                 return null;
 
-            if ((strLanguageColumn != StoryEditor.TextFields.Vernacular.ToString()) &&
-                (strLanguageColumn != StoryEditor.TextFields.NationalBt.ToString()))
-                return null;
-
-            return StringTransfer.TextareaId(nVerseIndex, strDataType, nItemIndex,
-                                             nSubItemIndex,
-                                             StoryEditor.TextFields.InternationalBt.ToString());
+            return StringTransfer.TextareaId(nVerseIndex, strDataType, nItemIndex, nSubItemIndex,
+                                             strSiblingName);
         }
 
         private void OnAddNoteToSelf(object sender, EventArgs e)
@@ -878,6 +888,34 @@ namespace OneStoryProjectEditor
                 strReferringText = strReferringText.Replace(" highlight", null);
 
             TheSE.SendNoteToCorrectPane(nVerseIndex, strReferringText, strNote, bNoteToSelf);
+        }
+
+        internal void GetSelectedLanguageText(out string strVernacular, out string strNationalBt,
+                                              out string strInternationalBt, out string strFreeTranslation)
+        {
+            System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(LastTextareaInFocusId));
+
+            int nVerseIndex, nItemIndex, nSubItemIndex;
+            string strDataType, strLanguageColumn;
+            if (!GetIndicesFromId(LastTextareaInFocusId, out nVerseIndex, out strDataType,
+                                  out nItemIndex, out nSubItemIndex, out strLanguageColumn))
+            {
+                strVernacular = strNationalBt = strInternationalBt = strFreeTranslation = null;
+                return;
+            }
+
+            var spans = GetSelectedTexts(nVerseIndex);
+            strVernacular = GetSpanInnerText(spans, GetMyVernacularSibling);
+            strNationalBt = GetSpanInnerText(spans, GetMyNationalBtSibling);
+            strInternationalBt = GetSpanInnerText(spans, GetMyInternationalBtSibling);
+            strFreeTranslation = GetSpanInnerText(spans, GetMyFreeTranslationSibling);
+        }
+
+        private static string GetSpanInnerText(IEnumerable<HtmlElement> spans, GetSiblingId getterSiblingId)
+        {
+            return (from span in spans 
+                    where span.Parent.Id == getterSiblingId(LastTextareaInFocusId) 
+                    select span.InnerText).FirstOrDefault();
         }
     }
 }

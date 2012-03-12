@@ -113,6 +113,15 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Audio files|*.mp3;*.wav;*.wma|All files|*.*.
+        /// </summary>
+        internal static string AudioFileSearchFilter {
+            get {
+                return ResourceManager.GetString("AudioFileSearchFilter", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap BuilderDialog_movedown1 {
             get {
                 object obj = ResourceManager.GetObject("BuilderDialog_movedown1", resourceCulture);

@@ -2093,11 +2093,24 @@ namespace OneStoryProjectEditor
                 var elemStoryProject =
                     new XElement("StoryProject",
                                  new XAttribute("version", XmlDataVersion),
-                                 new XAttribute(CstrAttributeProjectName, ProjSettings.ProjectName),
-                                 new XAttribute(CstrAttributeUseDropbox, ProjSettings.UseDropbox),
-                                 new XAttribute(CstrAttributeDropboxStory, ProjSettings.DropboxStory),
-                                 new XAttribute(CstrAttributeDropboxRetellings, ProjSettings.DropboxRetelling),
-                                 new XAttribute(CstrAttributeDropboxAnswers, ProjSettings.DropboxAnswers));
+                                 new XAttribute(CstrAttributeProjectName, ProjSettings.ProjectName));
+
+                if (ProjSettings.UseDropbox)
+                {
+                    elemStoryProject.Add(new XAttribute(CstrAttributeUseDropbox, true));
+
+                    if (ProjSettings.DropboxStory)
+                        elemStoryProject.Add(new XAttribute(CstrAttributeDropboxStory,
+                                                            ProjSettings.DropboxStory));
+
+                    if (ProjSettings.DropboxRetelling)
+                        elemStoryProject.Add(new XAttribute(CstrAttributeDropboxRetellings,
+                                                            ProjSettings.DropboxRetelling));
+
+                    if (ProjSettings.DropboxAnswers)
+                        elemStoryProject.Add(new XAttribute(CstrAttributeDropboxAnswers,
+                                                            ProjSettings.DropboxAnswers));
+                }
 
                 if (!String.IsNullOrEmpty(ProjSettings.HgRepoUrlHost))
                     elemStoryProject.Add(new XAttribute(CstrAttributeHgRepoUrlHost,
