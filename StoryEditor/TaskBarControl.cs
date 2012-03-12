@@ -886,17 +886,17 @@ namespace OneStoryProjectEditor
 
         private void DropboxStoryClick(object sender, EventArgs e)
         {
-            TheSe.TriggerDropboxCopyStory();
+            TheSe.TriggerDropboxCopyStory(true);
         }
 
         private void DropboxRetellingClick(object sender, EventArgs e)
         {
-            TheSe.TriggerDropboxCopyRetelling();
+            TheSe.TriggerDropboxCopyRetelling(true);
         }
 
         private void DropboxTqAnswersClick(object sender, EventArgs e)
         {
-            TheSe.TriggerDropboxCopyAnswer();
+            TheSe.TriggerDropboxCopyAnswer(true);
         }
     }
 }

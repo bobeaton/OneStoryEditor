@@ -2451,4 +2451,7 @@ eater Panorama
   <data name="IDS_MyDropboxReferalString" xml:space="preserve">
     <value>http://db.tt/4VwBmut</value>
   </data>
+  <data name="AudioFileSearchFilter">
+    <value xml:space="preserve">Audio files|*.mp3;*.wav;*.wma|All files|*.*</value>
+  </data>
 </root>
