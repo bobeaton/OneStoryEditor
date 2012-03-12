@@ -468,7 +468,7 @@ namespace OneStoryProjectEditor
             
             List<string> astrDontCare = null;
             string str = anchorNew.PresentationHtml(null,
-                                                    true,
+                                                    StoryData.PresentationType.Plain,
                                                     false,
                                                     ref astrDontCare);
             
@@ -586,11 +586,6 @@ namespace OneStoryProjectEditor
 
         }
 
-        private void contextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-
-        }
-
         protected readonly char[] _achDelim = new[] { '_' };
 
         public bool IsLineOptionsButton(string strId)
@@ -619,6 +614,9 @@ namespace OneStoryProjectEditor
             var ctxMenu = new ContextMenuStrip();
             ctxMenu.Items.Add(StoryEditor.CstrAddNoteOnSelected, null, OnAddNewNote);
             ctxMenu.Items.Add(StoryEditor.CstrAddNoteToSelfOnSelected, null, OnAddNoteToSelf);
+            ctxMenu.Items.Add(new ToolStripSeparator());
+            ctxMenu.Items.Add(StoryEditor.CstrGlossTextToNational, null, OnGlossTextToNational);
+            ctxMenu.Items.Add(StoryEditor.CstrGlossTextToEnglish, null, OnGlossTextToEnglish);
             /*
             ctxMenu.Items.Add(StoryEditor.CstrJumpToReference, null, onJumpToBibleRef);
             ctxMenu.Items.Add(StoryEditor.CstrConcordanceSearch, null, onConcordanceSearch);
@@ -645,36 +643,187 @@ namespace OneStoryProjectEditor
             ctxMenu.Items.Add(StoryEditor.CstrCopyOriginalSelected, null, onCopyOriginalText);
             ctxMenu.Items.Add(StoryEditor.CstrPasteSelected, null, onPasteSelectedText);
             ctxMenu.Items.Add(StoryEditor.CstrUndo, null, onUndo);
-            ctxMenu.Opening += CtxMenuOpening;
             */
+            ctxMenu.Opening += CtxMenuOpening;
             return ctxMenu;
         }
 
-        /*
         void CtxMenuOpening(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            var myStringTransfer = GetStringTransferOfLastTextAreaInFocus;
+            var hasStringTransfer = (myStringTransfer != null);
+            var nationalBtSiblingId = GetMyNationalBtSibling(LastTextareaInFocusId);
+            var englishBtSibling = GetMyInternationalBtSibling(LastTextareaInFocusId);
+            HtmlElement myElem;
+            GetHtmlElementById(LastTextareaInFocusId, out myElem);
+
             // don't ask... I'm not sure why Items.ContainsKey isn't finding this...
-            foreach (ToolStripItem x in ContextMenuStrip.Items)
+            foreach (ToolStripItem x in _contextMenuTextarea.Items)
+            {
                 if (x.Text == StoryEditor.CstrCopyOriginalSelected)
                 {
-                    x.Enabled = (HasStringTransfer && (MyStringTransfer.Transliterator != null));
+                    x.Enabled = (hasStringTransfer && (myStringTransfer.Transliterator != null));
                 }
                 else if (x.Text == StoryEditor.CstrReorderWords)
                 {
-                    x.Enabled = HasStringTransfer;
+                    x.Enabled = hasStringTransfer;
                 }
                 else if (x.Text == StoryEditor.CstrGlossTextToNational)
                 {
-                    x.Visible = (NationalBtSibling != null);
+                    x.Visible = (nationalBtSiblingId != null);
                 }
                 else if (x.Text == StoryEditor.CstrGlossTextToEnglish)
                 {
-                    x.Visible = (EnglishBtSibling != null);
+                    x.Visible = (englishBtSibling != null);
                 }
                 else if (x.Text == StoryEditor.CstrAddLnCNote)
                     CheckForLnCNoteLookup((ToolStripMenuItem)x);
+            }
         }
-        */
+
+        private void CheckForLnCNoteLookup(ToolStripMenuItem x)
+        {
+            x.DropDownItems.Clear();
+            var st = GetStringTransferOfLastTextAreaInFocus;
+            var mapFoundString2LnCnote = TheSE.StoryProject.LnCNotes.FindHits(GetSelectedText(st), st.WhichField);
+            foreach (KeyValuePair<string, LnCNote> kvp in mapFoundString2LnCnote)
+            {
+                var tsi = x.DropDownItems.Add(kvp.Key, null, OnLookupLnCnote);
+                tsi.Tag = kvp.Value;
+                tsi.Font = Font;
+            }
+        }
+
+        private void OnLookupLnCnote(object sender, EventArgs e)
+        {
+            var tsi = sender as ToolStripItem;
+            if (tsi == null)
+                return;
+
+            var note = (LnCNote)tsi.Tag;
+            var dlg = new AddLnCNoteForm(TheSE, note) { Text = Localizer.Str("Edit L & C Note") };
+            if ((dlg.ShowDialog() == DialogResult.OK) && (note != null))
+                TheSE.Modified = true;
+        }
+
+        private void OnGlossTextToNational(object sender, EventArgs e)
+        {
+            OnDoGlossing(GetMyNationalBtSibling, TheSE.StoryProject.ProjSettings.NationalBT,
+                         ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt);
+        }
+
+        private void OnGlossTextToEnglish(object sender, EventArgs e)
+        {
+            var st = GetStringTransferOfLastTextAreaInFocus;
+            OnDoGlossing(GetMyInternationalBtSibling, TheSE.StoryProject.ProjSettings.InternationalBT,
+                         ((st.WhichField & StoryEditor.TextFields.Vernacular) == StoryEditor.TextFields.Vernacular)
+                             ? ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToInternationalBt
+                             : ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.NationalBtToInternationalBt);
+        }
+
+        private delegate string GetSiblingId(string strId);
+
+        private void OnDoGlossing(GetSiblingId mySiblingIdGetter, ProjectSettings.LanguageInfo liSibling,
+            ProjectSettings.AdaptItConfiguration.AdaptItBtDirection adaptItBtDirection)
+        {
+            try
+            {
+                var siblingId = mySiblingIdGetter(LastTextareaInFocusId);
+                if (siblingId == null)
+                    return;
+
+                HtmlElement siblingElement;
+                if (!GetHtmlElementById(siblingId, out siblingElement))
+                    return;
+
+                var myStringTransfer = GetStringTransferOfLastTextAreaInFocus;
+                if (!myStringTransfer.HasData)
+                    return;
+
+                var dlg = new GlossingForm(TheSE.StoryProject.ProjSettings,
+                                           myStringTransfer.ToString(),
+                                           adaptItBtDirection,
+                                           TheSE.LoggedOnMember,
+                                           TheSE.advancedUseWordBreaks.Checked,
+                                           myStringTransfer.Transliterator);
+
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    siblingElement.InnerText = dlg.TargetSentence;
+                    siblingElement.InvokeMember("onchange"); // triggers the update to the data buffer
+
+                    // but only update the source data if it wasn't being transliterated
+                    if (myStringTransfer.Transliterator == null)
+                    {
+                        HtmlElement myElem;
+                        if (GetHtmlElementById(LastTextareaInFocusId, out myElem))
+                        {
+                            myElem.InnerText = dlg.SourceSentence; // cause the user might have corrected some spelling
+                            myElem.InvokeMember("onchange"); // triggers the update to the data buffer
+                        }
+                    }
+
+                    TheSE.Modified = true;
+                    if (dlg.DoReorder)
+                    {
+                        var siblingStringTransfer = GetStringTransfer(siblingId);
+                        var dlgReorder = new ReorderWordsForm(siblingStringTransfer,
+                                                              liSibling.FontToUse,
+                                                              liSibling.FullStop);
+                        if (dlgReorder.ShowDialog() == DialogResult.OK)
+                        {
+                            siblingElement.InnerText = dlgReorder.ReorderedText;
+                            siblingElement.InvokeMember("onchange"); // triggers the update to the data buffer
+                        }
+                    }
+
+                    siblingElement.Focus();
+                }
+            }
+            catch (Exception ex)
+            {
+                LocalizableMessageBox.Show(ex.Message, StoryEditor.OseCaption);
+            }
+        }
+
+        private static string GetMyNationalBtSibling(string strId)
+        {
+            if (String.IsNullOrEmpty(strId))
+                return null;
+
+            int nVerseIndex, nItemIndex, nSubItemIndex;
+            string strDataType, strLanguageColumn;
+            if (!GetIndicesFromId(strId, out nVerseIndex, out strDataType,
+                                    out nItemIndex, out nSubItemIndex, out strLanguageColumn))
+                return null;
+
+            if (strLanguageColumn != StoryEditor.TextFields.Vernacular.ToString())
+                return null;
+
+            return StringTransfer.TextareaId(nVerseIndex, strDataType, nItemIndex, nSubItemIndex,
+                                             StoryEditor.TextFields.NationalBt.ToString());
+        }
+
+        private static string GetMyInternationalBtSibling(string strId)
+        {
+            if (String.IsNullOrEmpty(strId))
+                return null;
+
+            int nVerseIndex, nItemIndex, nSubItemIndex;
+            string strDataType, strLanguageColumn;
+            if (!GetIndicesFromId(strId, out nVerseIndex, out strDataType,
+                                    out nItemIndex, out nSubItemIndex, out strLanguageColumn))
+                return null;
+
+            if ((strLanguageColumn != StoryEditor.TextFields.Vernacular.ToString()) &&
+                (strLanguageColumn != StoryEditor.TextFields.NationalBt.ToString()))
+                return null;
+
+            return StringTransfer.TextareaId(nVerseIndex, strDataType, nItemIndex,
+                                             nSubItemIndex,
+                                             StoryEditor.TextFields.InternationalBt.ToString());
+        }
+
         private void OnAddNoteToSelf(object sender, EventArgs e)
         {
             AddNote(true);

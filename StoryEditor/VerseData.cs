@@ -704,12 +704,12 @@ namespace OneStoryProjectEditor
         // figure out the logic of what to show for the language fields of the story line
         //  this should never be called in the scenario where there it no *this*
         protected static bool TryStoryLineStringDiff(DirectableEncConverter transliterator,
-            bool bPrintPreview, VerseData theChildVerse, StringTransfer stringTransfer,
+            StoryData.PresentationType presentationType, VerseData theChildVerse, StringTransfer stringTransfer,
             out string strValue)
         {
             strValue = null;
             // if we're not comparing two verses (e.g. print preview)...
-            bool bNoDiff = bPrintPreview;
+            bool bNoDiff = (presentationType != StoryData.PresentationType.Differencing);
             if (bNoDiff)
             {
                 // then just return the value (possibly transliterated)
@@ -734,7 +734,7 @@ namespace OneStoryProjectEditor
             CraftingInfoData craftingInfo,
             ViewSettings viewSettings, 
             VerseData theChildVerse,
-            bool bPrintPreview)
+            StoryData.PresentationType presentationType)
         {
             string strRow = null;
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.VernacularLangField))
@@ -744,7 +744,7 @@ namespace OneStoryProjectEditor
                                       nVerseIndex,
                                       nNumCols,
                                       theChildVerse,
-                                      bPrintPreview,
+                                      presentationType,
                                       viewSettings,
                                       viewSettings.TransliteratorVernacular);
             }
@@ -756,7 +756,7 @@ namespace OneStoryProjectEditor
                                       nVerseIndex,
                                       nNumCols,
                                       theChildVerse,
-                                      bPrintPreview,
+                                      presentationType,
                                       viewSettings,
                                       viewSettings.TransliteratorNationalBT);
             }
@@ -768,7 +768,7 @@ namespace OneStoryProjectEditor
                                       nVerseIndex,
                                       nNumCols,
                                       theChildVerse,
-                                      bPrintPreview,
+                                      presentationType,
                                       viewSettings,
                                       viewSettings.TransliteratorInternationalBt);
             }
@@ -780,7 +780,7 @@ namespace OneStoryProjectEditor
                                       nVerseIndex,
                                       nNumCols,
                                       theChildVerse,
-                                      bPrintPreview,
+                                      presentationType,
                                       viewSettings,
                                       viewSettings.TransliteratorFreeTranslation);
             }
@@ -793,7 +793,7 @@ namespace OneStoryProjectEditor
                                                     (theChildVerse != null)
                                                         ? theChildVerse.Anchors
                                                         : null,
-                                                    bPrintPreview,
+                                                    presentationType,
                                                     ref astrExegeticalHelpNotes);
             }
 
@@ -804,6 +804,10 @@ namespace OneStoryProjectEditor
                  viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.ExegeticalHelps))
                 ExegeticalHelpNotes.PresentationHtml((theChildVerse != null) ? theChildVerse.ExegeticalHelpNotes : null,
                                                      ref astrExegeticalHelpNotes);
+
+            // unless we're doing printing, we don't put anything else out into the display
+            if (presentationType != StoryData.PresentationType.Printing)
+                astrExegeticalHelpNotes.Clear();
 
             // the following call in either the case that we already have some html
             //  (e.g. anchors which this method will wrap in a table necessary to get
@@ -821,7 +825,7 @@ namespace OneStoryProjectEditor
                 strHtml += Retellings.PresentationHtml(nVerseIndex, nNumCols, 0,
                                                        craftingInfo.TestersToCommentsRetellings,
                                                        (theChildVerse != null) ? theChildVerse.Retellings : null,
-                                                       bPrintPreview, false,
+                                                       presentationType, false,
                                                        viewSettings.IsViewItemOn(
                                                            ViewSettings.ItemToInsureOn.RetellingsVernacular),
                                                        viewSettings.IsViewItemOn(
@@ -838,12 +842,12 @@ namespace OneStoryProjectEditor
                 strHtml += TestQuestions.PresentationHtml(nVerseIndex, nNumCols, viewSettings,
                                                           craftingInfo.TestersToCommentsTqAnswers,
                                                           (theChildVerse != null) ? theChildVerse.TestQuestions : null,
-                                                          bPrintPreview, IsFirstVerse);
+                                                          presentationType, IsFirstVerse);
             }
 
             // show the row as hidden if either we're in print preview (and it's hidden)
             //  OR based on whether the child is hidden or not
-            bool bShowAsHidden = (bPrintPreview)
+            bool bShowAsHidden = (presentationType == StoryData.PresentationType.Printing)
                                      ? !IsVisible
                                      : ((theChildVerse != null) && !theChildVerse.IsVisible)
                                            ? true
@@ -853,11 +857,11 @@ namespace OneStoryProjectEditor
 
         private delegate StringTransfer ChildStringTransfer();
         private static string GetHtmlCell(StringTransfer stringTransfer, ChildStringTransfer childStringTransfer,
-            int nVerseIndex, int nNumCols, VerseData theChildVerse, bool bPrintPreview, ViewSettings viewSettings, 
+            int nVerseIndex, int nNumCols, VerseData theChildVerse, StoryData.PresentationType presentationType, ViewSettings viewSettings, 
             DirectableEncConverter transliterator)
         {
             string str;
-            if (!TryStoryLineStringDiff(transliterator, bPrintPreview, theChildVerse,
+            if (!TryStoryLineStringDiff(transliterator, presentationType, theChildVerse,
                                         stringTransfer, out str))
             {
                 // otherise, it must be compared
@@ -1434,8 +1438,9 @@ namespace OneStoryProjectEditor
         public string PresentationHtml(CraftingInfoData craftingInfo, 
             VersesData child,
             int nNumCols, 
-            VerseData.ViewSettings viewSettings, 
-            bool bHasOutsideEnglishBTer)
+            VerseData.ViewSettings viewSettings,
+            bool bHasOutsideEnglishBTer,
+            StoryData.PresentationType presentationType)
         {
             string strHtml = null;
             bool bUseTextAreas = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.UseTextAreas);
@@ -1450,7 +1455,7 @@ namespace OneStoryProjectEditor
                 strHtml += FirstVerse.PresentationHtml(0, nNumCols, craftingInfo,
                                                        viewSettings, 
                                                        theChildFirstVerse,
-                                                       (child == null));
+                                                       presentationType);
             }
 
             int nInsertCount = 0;
@@ -1510,7 +1515,7 @@ namespace OneStoryProjectEditor
                                                            craftingInfo,
                                                            viewSettings,
                                                            theChildVerse,
-                                                           (child == null));
+                                                           presentationType);
 
                     // if there is a child, but we couldn't find the equivalent verse...
                     if ((child != null) && (theChildVerse == null) && (child.Count >= i))

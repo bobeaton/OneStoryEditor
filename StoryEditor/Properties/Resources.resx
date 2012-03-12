@@ -2083,7 +2083,8 @@ initContextMenu();
     <value>&lt;textarea id="{0}" class="{1}"&gt;{2}&lt;/textarea&gt;</value>
   </data>
   <data name="HTML_TextareaWithRefDrop" xml:space="preserve">
-    <value>&lt;textarea id="{0}" class="{1}" onKeyUp="return window.external.TextareaOnKeyUp(this.id, this.value);" ondragover="window.event.returnValue=false" ondrop="window.external.CopyScriptureReference(this.id)" onselect="this.focus();"&gt;{2}&lt;/textarea&gt;</value>
+    <value>&lt;textarea id="{0}" class="{1}"&gt;{2}&lt;/textarea&gt;</value>
+    <comment>added to HTML_Script_AddTextareaMouseDown</comment>
   </data>
   <data name="IDS_DefaultPanoramaFrontMatter" xml:space="preserve">
     <value>{\rtf1\adeflang1081\ansi\ansicpg1252\uc1\adeff0\deff0\stshfdbch0\stshfloch0\stshfhich0\stshfbi0\deflang1033\deflangfe1033{\fonttbl{\f0\froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f312\froman\fcharset238\fprq2 Times New Roman CE;}{\f313\froman\fcharset204\fprq2 Times New Roman Cyr;}
@@ -2272,7 +2273,15 @@ eater Panorama
   var textareas = document.getElementsByTagName("textarea");
   for (var i=0; i &lt; textareas.length; i++) {
     textareas[i].onmousedown = function() { return window.external.OnTextareaMouseDown(this.id, this.value); };
+	textareas[i].onkeyup = function() { return window.external.TextareaOnKeyUp(this.id, this.value); };
+	textareas[i].ondragover = function() { window.event.returnValue=false; };
+	textareas[i].ondrop = function () { window.external.CopyScriptureReference(this.id); };
+	textareas[i].onselect = function () { this.focus(); };
+	textareas[i].onchange = function () { return window.external.TextareaOnKeyUp(this.id, this.value); };
   }
 &lt;/script&gt;</value>
+  </data>
+  <data name="IDS_MyDropboxReferalString" xml:space="preserve">
+    <value>http://db.tt/4VwBmut</value>
   </data>
 </root>

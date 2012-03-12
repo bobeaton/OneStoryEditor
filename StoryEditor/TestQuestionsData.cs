@@ -176,8 +176,8 @@ namespace OneStoryProjectEditor
             int nNumTestQuestionCols, 
             VerseData.ViewSettings viewSettings, 
             bool bShowVernacular, bool bShowNationalBt, bool bShowEnglishBt, 
-            TestInfo astrTesters, TestQuestionsData child, 
-            bool bPrintPreview, bool bProcessingTheChild, bool bIsFirstVerse)
+            TestInfo astrTesters, TestQuestionsData child,
+            StoryData.PresentationType presentationType, bool bProcessingTheChild, bool bIsFirstVerse)
         {
             TestQuestionData theChildTQ = null;
             if (child != null)
@@ -198,7 +198,7 @@ namespace OneStoryProjectEditor
                 if (bShowVernacular)
                 {
                     DirectableEncConverter transliterator = viewSettings.TransliteratorVernacular;
-                    string str = (!bPrintPreview)
+                    string str = (presentationType == StoryData.PresentationType.Differencing)
                         ? (child != null)
                             ? Diff.HtmlDiff(transliterator, TestQuestionLine.Vernacular, (theChildTQ != null) ? theChildTQ.TestQuestionLine.Vernacular : null)
                             : Diff.HtmlDiff(transliterator, null, TestQuestionLine.Vernacular)
@@ -214,7 +214,7 @@ namespace OneStoryProjectEditor
                 if (bShowNationalBt)
                 {
                     DirectableEncConverter transliterator = viewSettings.TransliteratorNationalBT;
-                    string str = (!bPrintPreview)
+                    string str = (presentationType == StoryData.PresentationType.Differencing)
                         ? (child != null)
                             ? Diff.HtmlDiff(transliterator, TestQuestionLine.NationalBt, (theChildTQ != null) ? theChildTQ.TestQuestionLine.NationalBt : null)
                             : Diff.HtmlDiff(transliterator, null, TestQuestionLine.NationalBt)
@@ -230,7 +230,7 @@ namespace OneStoryProjectEditor
                 if (bShowEnglishBt)
                 {
                     DirectableEncConverter transliterator = viewSettings.TransliteratorInternationalBt;
-                    string str = (!bPrintPreview)
+                    string str = (presentationType == StoryData.PresentationType.Differencing)
                         ? (child != null)
                             ? Diff.HtmlDiff(transliterator, TestQuestionLine.InternationalBt, (theChildTQ != null) ? theChildTQ.TestQuestionLine.InternationalBt : null)
                             : Diff.HtmlDiff(transliterator, null, TestQuestionLine.InternationalBt)
@@ -255,7 +255,7 @@ namespace OneStoryProjectEditor
                                                      nTQNum,
                                                      astrTesters,
                                                      (theChildTQ != null) ? theChildTQ.Answers : null,
-                                                     bPrintPreview,
+                                                     presentationType,
                                                      bProcessingTheChild,
                                                      viewSettings.IsViewItemOn(
                                                          VerseData.ViewSettings.ItemToInsureOn.AnswersVernacular),
@@ -450,7 +450,7 @@ namespace OneStoryProjectEditor
 
         public string PresentationHtml(int nVerseIndex, int nNumCols, 
             VerseData.ViewSettings viewSettings, TestInfo astrTesters,
-            TestQuestionsData child, bool bPrintPreview, bool bIsFirstVerse)
+            TestQuestionsData child, StoryData.PresentationType presentationType, bool bIsFirstVerse)
         {
             // return nothing if there's nothing to do
             if ((!HasData && ((child == null) || !child.HasData)))
@@ -490,7 +490,7 @@ namespace OneStoryProjectEditor
                 strRow += testQuestionData.PresentationHtml(nVerseIndex, i,
                                                             nNumTestQuestionCols, viewSettings,
                                                             bShowVernacular, bShowNationalBT, bShowEnglishBT,
-                                                            astrTesters, child, bPrintPreview, false, bIsFirstVerse);
+                                                            astrTesters, child, presentationType, false, bIsFirstVerse);
             }
 
             if (child != null)

@@ -38,12 +38,15 @@ namespace OneStoryProjectEditor
                 ProjectName = ProjSettings.ProjectName;
 
                 checkBoxUseDropBox.Checked = ProjSettings.UseDropbox;
+                checkBoxDropboxStory.Checked = ProjSettings.DropboxStory;
+                checkBoxDropboxRetelling.Checked = ProjSettings.DropboxRetelling;
+                checkBoxDropboxAnswers.Checked = ProjSettings.DropboxAnswers;
 
-                string strDropboxRoot;
-                if (!StoryEditor.IsDropBoxExist(out strDropboxRoot))
+                if (checkBoxUseDropBox.Checked && (ProjectSettings.DropboxFolderRoot == null))
                 {
-                    checkBoxUseDropBox.Enabled = false;
-                    toolTip.SetToolTip(checkBoxUseDropBox, Localizer.Str("You don't appear to have Dropbox installed!"));
+                    checkBoxUseDropBox.Appearance = Appearance.Button;
+                    checkBoxUseDropBox.Text = Localizer.Str("Click here to browse for your Dropbox folder");
+                    toolTip.SetToolTip(checkBoxUseDropBox, Localizer.Str("Your consultant wants you to use Dropbox to transfer recordings, but OSE can't find your dropbox folder. Click here to browse for it or find the site to download it from"));
                 }
 
                 string strDummy;
@@ -163,6 +166,12 @@ namespace OneStoryProjectEditor
                 InitLanguageControls(tabPageLanguageFreeTranslation, ProjSettings.FreeTranslation);
                 if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideFreeTranslationKeyboard)))
                     comboBoxKeyboardFreeTranslation.SelectedItem = LoggedInMember.OverrideFreeTranslationKeyboard;
+
+                // also visibalize the dropbox settings
+                labelDropbox.Visible = checkBoxUseDropBox.Checked;
+                checkBoxDropboxStory.Visible = checkBoxUseDropBox.Checked;
+                checkBoxDropboxRetelling.Visible = checkBoxUseDropBox.Checked;
+                checkBoxDropboxAnswers.Visible = checkBoxUseDropBox.Checked;
 
                 tabControl.SelectedIndex++;
             }
@@ -295,6 +304,14 @@ namespace OneStoryProjectEditor
                                             adaptItConfigCtrlNationalBtToInternationalBt,
                                             2);
 
+                if (checkBoxUseDropBox.Checked && 
+                    !checkBoxDropboxStory.Checked &&
+                    !checkBoxDropboxRetelling.Checked &&
+                    !checkBoxDropboxAnswers.Checked)
+                {
+                    throw new UserException(Localizer.Str("You are configured to use Dropbox for recordings, but you didn't select any recording types (i.e. Story, Retelling or Answers) to prompt the user to copy. Either check at least one of the recording types or uncheck the Dropbox-related checkbox on the Project tab."),
+                        checkBoxLanguageInternationalBT, tabPageLanguages);
+                }
                 tabControl.SelectedIndex++;
             }
             else if (tabControl.SelectedTab == tabPageLanguageVernacular)
@@ -634,6 +651,10 @@ namespace OneStoryProjectEditor
             // this is now configured!
             ProjSettings.IsConfigured = true;
             ProjSettings.UseDropbox = checkBoxUseDropBox.Checked;
+            ProjSettings.DropboxStory = checkBoxDropboxStory.Checked;
+            ProjSettings.DropboxRetelling = checkBoxDropboxRetelling.Checked;
+            ProjSettings.DropboxAnswers = checkBoxDropboxAnswers.Checked;
+
             DialogResult = DialogResult.OK;
             Close();
         }
@@ -1157,9 +1178,38 @@ namespace OneStoryProjectEditor
 #endif
         }
 
-        private void comboBoxKeyboard_SelectionChangeCommitted(object sender, EventArgs e)
+        private void ComboBoxKeyboardSelectionChangeCommitted(object sender, EventArgs e)
         {
             Modified = true;
+        }
+
+        private void CheckBoxUseDropBoxClick(object sender, EventArgs e)
+        {
+            if ((checkBoxUseDropBox.Appearance != Appearance.Button) && ProjSettings.UseDropbox)
+                return;
+
+            if (ProjectSettings.DropboxFolderRoot == null)
+            {
+                var res = LocalizableMessageBox.Show(
+                    Localizer.Str(
+                        "Click 'Yes' to browse for your Dropbox folder or 'No' to go to the website where you can download it (or 'Cancel' to do nothing)"),
+                    StoryEditor.OseCaption,
+                    MessageBoxButtons.YesNoCancel);
+                if (res == DialogResult.Cancel)
+                    return;
+                if (res == DialogResult.No)
+                {
+                    System.Diagnostics.Process.Start(Properties.Resources.IDS_MyDropboxReferalString);
+                    return;
+                }
+            }
+
+            if (folderBrowserDropbox.ShowDialog() == DialogResult.OK)
+            {
+                ProjectSettings.DropboxFolderRoot = folderBrowserDropbox.SelectedPath;
+                if (ProjectSettings.DropboxFolderRoot != null)
+                    checkBoxUseDropBox.Appearance = Appearance.Normal;
+            }
         }
     }
 

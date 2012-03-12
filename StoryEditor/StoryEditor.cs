@@ -1098,6 +1098,13 @@ namespace OneStoryProjectEditor
                                             StoryProject);
             
             InsertNewStoryAdjustComboBox(theNewStory, nIndexToInsert);
+
+            // check for Dropbox copy (after setting the 'TheCurrentStory')
+            if (StoryProject.ProjSettings.DropboxStory)
+            {
+                TriggerDropboxCopyStory();
+                theNewStory.JustAdded = true;
+            }
         }
 
         protected void InsertNewStoryAdjustComboBox(StoryData theNewStory, int nIndexToInsert)
@@ -2963,6 +2970,12 @@ namespace OneStoryProjectEditor
         internal void SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages stateToSet,
             bool bTriggerSnapshotSave)
         {
+            if (bTriggerSnapshotSave && !TheCurrentStory.JustAdded && StoryProject.ProjSettings.DropboxStory &&
+                (LoggedOnMember.MemberType == TeamMemberData.UserTypes.ProjectFacilitator))
+            {
+                TriggerDropboxCopyStory();
+            }
+
             // a record to our history
             TheCurrentStory.TransitionHistory.Add(LoggedOnMember.MemberGuid,
                 TheCurrentStory.ProjStage.ProjectStage, stateToSet);
@@ -3400,7 +3413,10 @@ namespace OneStoryProjectEditor
                                       DateTime.Now.ToString("yyyy-MMM-dd"), strAnswer);
 
             // check for Dropbox copy
-            ShouldCopyFileToDropbox();
+            if (StoryProject.ProjSettings.DropboxRetelling)
+            {
+                TriggerDropboxCopyRetelling();
+            }
 
             var toi = new MemberIdInfo(strUnsGuid, strAnswer);
             TheCurrentStory.CraftingInfo.TestersToCommentsRetellings.Add(toi);
@@ -3417,34 +3433,21 @@ namespace OneStoryProjectEditor
 
             return true;
         }
-        
-        internal static bool IsDropBoxExist(out string strDropboxRoot)
-        {
-            strDropboxRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                                          "Dropbox");
-            if (!Directory.Exists(strDropboxRoot))
-            {
-                strDropboxRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                                              "Dropbox");
-                return Directory.Exists(strDropboxRoot);
-            }
-            return true;
-        }
 
-        private void ShouldCopyFileToDropbox()
+        private void ShouldCopyFileToDropbox(string strFilename)
         {
             Debug.Assert((StoryProject != null) && (StoryProject.ProjSettings != null));
             if (!StoryProject.ProjSettings.UseDropbox)
                 return;
 
-            string strDropboxRoot;
-            if (!IsDropBoxExist(out strDropboxRoot))
+            string strDropboxRoot = ProjectSettings.DropboxFolderRoot;
+            if (strDropboxRoot == null)
                 return;
 
             var openMediaFileDlg = new OpenFileDialog
                                        {
                                            Filter = "Audio files|*.mp3;*.wav;*.wma|All files|*.*",
-                                           Title = Localizer.Str("Select the recording for this retelling")
+                                           Title = Localizer.Str("Select the recording for the ") + strFilename
                                        };
 
             SuspendSaveDialog++;
@@ -3453,35 +3456,44 @@ namespace OneStoryProjectEditor
             if (res != DialogResult.OK)
                 return;
 
+            var extn = Path.GetExtension(openMediaFileDlg.FileName);
             var strTargetPath = ConcatenateToPath(strDropboxRoot,
                                                   new List<string>
                                                       {
                                                           "OSE recordings",
                                                           "private.languageDepot.org",
                                                           StoryProject.ProjSettings.ProjectName,
-                                                          TheCurrentStory.Name,
-                                                          String.Format("Retelling {0}.mp3",
-                                                                        TheCurrentStory.CraftingInfo.
-                                                                            TestersToCommentsRetellings.
-                                                                            Count + 1)
+                                                          TheCurrentStory.Name
                                                       });
-            WriteAudioFile(openMediaFileDlg.FileName, strTargetPath);
+            var strDropBoxFilepath = BuildDropboxFilename(strTargetPath, strFilename, extn);
+            WriteAudioFile(openMediaFileDlg.FileName, strDropBoxFilepath);
+        }
+
+        private static string BuildDropboxFilename(string strTargetPath, string strFilename, string extn)
+        {
+            var nVersion = 1;
+            string strName, strSpec;
+            do
+            {
+                strName = String.Format("{0} v{1}{2}", strFilename, nVersion++, extn);
+                strSpec = Path.Combine(strTargetPath, strName);
+            } while (File.Exists(strSpec));
+            return strSpec;
         }
 
         private void WriteAudioFile(string strSourceFilepath, string strTargetFilepath)
         {
             // TODO: add convert capability also..
-            File.Copy(strSourceFilepath, strTargetFilepath);
+            var strParentFolder = Path.GetDirectoryName(strTargetFilepath);
+            if (!Directory.Exists(strParentFolder))
+                Directory.CreateDirectory(strParentFolder);
+            File.Copy(strSourceFilepath, strTargetFilepath, true);
         }
 
         internal string ConcatenateToPath(string strFolderRoot, List<string> lstFolderNames)
         {
             var str = lstFolderNames.Aggregate("", Path.Combine);
-            str = Path.Combine(strFolderRoot, str);
-            var strParentFolder = Path.GetDirectoryName(str);
-            if (!Directory.Exists(strParentFolder))
-                Directory.CreateDirectory(strParentFolder);
-            return str;
+            return Path.Combine(strFolderRoot, str);
         }
 
         internal bool AddInferenceTest()
@@ -3496,6 +3508,12 @@ namespace OneStoryProjectEditor
                                              DateTime.Now.ToString("yyyy-MMM-dd"));
             var toi = new MemberIdInfo(strUnsGuid, strAnswer);
             TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.Add(toi);
+
+            // check for Dropbox copy
+            if (StoryProject.ProjSettings.DropboxAnswers)
+            {
+                TriggerDropboxCopyAnswer();
+            }
 
             // add boxes for any GTQs that are present and then to all the other verses
             AddAnswerBoxes(strUnsGuid, TheCurrentStory.Verses.FirstVerse);
@@ -4324,16 +4342,21 @@ namespace OneStoryProjectEditor
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                // have to turn this off, or these new settings won't work
-                viewUseSameSettingsForAllStoriesMenu.Checked = false;
-
-                if (UsingHtmlForStoryBtPane)
-                    NavigateTo(TheCurrentStory.Name, dlg.ViewSettings, true, HtmlStoryBtControl.LastTextareaInFocusId);
-                else
-                    NavigateTo(TheCurrentStory.Name, dlg.ViewSettings, true, CtrlTextBox._inTextBox);
-
-                viewUseSameSettingsForAllStoriesMenu.Checked = dlg.UseForAllStories;
+                SetViewSettings(dlg.ViewSettings, dlg.UseForAllStories);
             }
+        }
+
+        protected virtual void SetViewSettings(VerseData.ViewSettings viewSettings, bool bUseForAllStories)
+        {
+            // have to turn this off, or these new settings won't work
+            viewUseSameSettingsForAllStoriesMenu.Checked = false;
+
+            if (UsingHtmlForStoryBtPane)
+                NavigateTo(TheCurrentStory.Name, viewSettings, true, HtmlStoryBtControl.LastTextareaInFocusId);
+            else
+                NavigateTo(TheCurrentStory.Name, viewSettings, true, CtrlTextBox._inTextBox);
+
+            viewUseSameSettingsForAllStoriesMenu.Checked = bUseForAllStories;
         }
 
         private VerseData.ViewSettings CurrentViewSettings
@@ -5866,6 +5889,7 @@ namespace OneStoryProjectEditor
         {
             advancedChangeStateWithoutChecksMenu.Enabled =
                 advancedOverrideLocalizeStateViewSettingsMenu.Enabled =
+                advancedImportHelper.Enabled = 
                 ((StoryProject != null) && (TheCurrentStory != null));
 
             advancedNewProjectMenu.Enabled = IsInStoriesSet;
@@ -6291,10 +6315,63 @@ namespace OneStoryProjectEditor
             }
         }
 
+        private bool LanguageInUse(ProjectSettings.LanguageInfo li)
+        {
+            return ((li != null) && li.HasData);
+        }
+
         private void advancedImportHelper_Click(object sender, EventArgs e)
         {
+            // chances are that the user wants all the fields visible
+            var viewSettings = new VerseData.ViewSettings
+                (
+                StoryProject.ProjSettings,
+                LanguageInUse(StoryProject.ProjSettings.Vernacular), // viewVernacularLangMenu.Checked,
+                LanguageInUse(StoryProject.ProjSettings.NationalBT), // viewNationalLangMenu.Checked,
+                LanguageInUse(StoryProject.ProjSettings.InternationalBT), // viewEnglishBtMenu.Checked,
+                LanguageInUse(StoryProject.ProjSettings.FreeTranslation), // viewFreeTranslationMenu.Checked,
+                true, // viewAnchorsMenu.Checked,
+                true, // viewExegeticalHelps.Checked,
+                true, // viewStoryTestingQuestionsMenu.Checked,
+                true, // viewStoryTestingQuestionAnswersMenu.Checked,
+                true, // viewRetellingsMenu.Checked,
+                viewConsultantNotesMenu.Checked,
+                viewCoachNotesMenu.Checked,
+                true, // viewBibleMenu.Checked,
+                true,
+                viewHiddenVersesMenu.Checked,
+                viewOnlyOpenConversationsMenu.Checked,
+                viewGeneralTestingsQuestionMenu.Checked,
+                CheckForProperEditToken(),
+                CurrentFieldEditability(TheCurrentStory),
+                null,
+                null,
+                null,
+                null);
+            SetViewSettings(viewSettings, viewUseSameSettingsForAllStoriesMenu.Checked);
+
             var dlg = new TextPaster(null);
             dlg.Show();
+        }
+
+        public void TriggerDropboxCopyStory()
+        {
+            var strFilename = Localizer.Str("Story");
+            ShouldCopyFileToDropbox(strFilename);
+        }
+
+        public void TriggerDropboxCopyRetelling()
+        {
+            var strFilename = Localizer.Str("Retelling ") +
+                              (TheCurrentStory.CraftingInfo.TestersToCommentsRetellings.Count + 1);
+            ShouldCopyFileToDropbox(strFilename);
+        }
+
+        public void TriggerDropboxCopyAnswer()
+        {
+            var strFilename = Localizer.Str("Inference Test Answers ") +
+                              (TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.Count + 1);
+            ShouldCopyFileToDropbox(strFilename);
         }
 
         private void InitStoryBtPaneControl(bool bUsingHtmlForStoryBtPane)

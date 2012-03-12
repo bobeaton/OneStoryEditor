@@ -71,7 +71,8 @@ namespace OneStoryProjectEditor
                     strHtml += aStory.PresentationHtmlWithoutHtmlDocOutside(ViewSettings,
                                                                             _theSE.StoryProject.ProjSettings,
                                                                             _theSE.StoryProject.TeamMembers,
-                                                                            null);
+                                                                            null, 
+                                                                            StoryData.PresentationType.Printing);
             }
 
             printViewer.webBrowser.DocumentText = StoryData.AddHtmlHtmlDocOutside(strHtml, _theSE.StoryProject.ProjSettings);

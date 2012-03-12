@@ -82,7 +82,6 @@
             this.splitStoryToolStripMenuItem});
             this.contextMenuStripLineOptions.Name = "contextMenuStrip";
             this.contextMenuStripLineOptions.Size = new System.Drawing.Size(343, 324);
-            this.contextMenuStripLineOptions.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
             // 
             // moveSelectedTextToANewLineToolStripMenuItem
             // 

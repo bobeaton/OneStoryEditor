@@ -431,7 +431,10 @@ namespace OneStoryProjectEditor
 
             // if we're not given anything to put in the box, at least put in the logged
             //  in member's initials and re
-            if (String.IsNullOrEmpty(strNote) && (theSE.LoggedOnMember != null))
+            // (but not if we're pasting)
+            if (String.IsNullOrEmpty(strNote) && 
+                (theSE.LoggedOnMember != null) &&
+                (StoryEditor.TextPaster == null))
                 strNote = StoryEditor.GetInitials(theSE.LoggedOnMember.Name) + StoryEditor.StrRegarding;
 
             StrIdToScrollTo = GetTopRowId;

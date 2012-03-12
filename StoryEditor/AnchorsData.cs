@@ -171,8 +171,8 @@ namespace OneStoryProjectEditor
         }
         */
 
-        public string PresentationHtml(AnchorsData childAnchorsData, 
-            bool bPrintPreview, bool bProcessingTheChild, 
+        public string PresentationHtml(AnchorsData childAnchorsData,
+            StoryData.PresentationType presentationType, bool bProcessingTheChild, 
             ref List<string> astrExegeticalHelpNotes)
         {
             string strButtonLabel = JumpTarget;
@@ -211,7 +211,7 @@ namespace OneStoryProjectEditor
                     }
                 }
             }
-            else if (!bPrintPreview && !bProcessingTheChild)
+            else if ((presentationType == StoryData.PresentationType.Differencing) && !bProcessingTheChild)
             {
                 // this means a) we're processing with children (i.e. 2 way merge rather than just print
                 //  preview), b) but we don't *have* a child (because the original if case failed), and
@@ -224,7 +224,7 @@ namespace OneStoryProjectEditor
                     astrExegeticalHelpNotes.Add(Diff.HtmlDiff(ToolTipText, null, true));
                 }
             }
-            else if (!bPrintPreview)
+            else if (presentationType == StoryData.PresentationType.Differencing)
             {
                 // the only time we call this method without a value for childAnchorsData is when
                 //  we're processing the new stuff (i.e. what's in the child)
@@ -355,13 +355,13 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public string PresentationHtml(int nVerseIndex, 
-            AnchorsData childAnchorsData, bool bPrintPreview, 
+        public string PresentationHtml(int nVerseIndex,
+            AnchorsData childAnchorsData, StoryData.PresentationType presentationType, 
             ref List<string> astrExegeticalHelpNotes)
         {
             string strHtmlCell = GetAnchorButtonsCell(nVerseIndex,
                                                       childAnchorsData,
-                                                      bPrintPreview,
+                                                      presentationType,
                                                       ref astrExegeticalHelpNotes);
 
             return FinishPresentationHtml(nVerseIndex, strHtmlCell);
@@ -380,13 +380,13 @@ namespace OneStoryProjectEditor
             return FinishPresentationHtml(nVerseIndex, strHtmlCell);
         }
 
-        public string GetAnchorButtonsCell(int nVerseIndex, 
-            AnchorsData childAnchorsData, bool bPrintPreview, 
+        public string GetAnchorButtonsCell(int nVerseIndex,
+            AnchorsData childAnchorsData, StoryData.PresentationType presentationType, 
             ref List<string> astrExegeticalHelpNotes)
         {
             string strRow = null;
             foreach (AnchorData anchorData in this)
-                strRow += anchorData.PresentationHtml(childAnchorsData, bPrintPreview, false, ref astrExegeticalHelpNotes);
+                strRow += anchorData.PresentationHtml(childAnchorsData, presentationType, false, ref astrExegeticalHelpNotes);
 
             // now put the anchors that are in the child (as additions)
             if (childAnchorsData != null)

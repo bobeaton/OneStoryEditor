@@ -446,8 +446,9 @@ namespace OneStoryProjectEditor.Properties {
         ///  var textareas = document.getElementsByTagName(&quot;textarea&quot;);
         ///  for (var i=0; i &lt; textareas.length; i++) {
         ///    textareas[i].onmousedown = function() { return window.external.OnTextareaMouseDown(this.id, this.value); };
-        ///  }
-        ///&lt;/script&gt;.
+        ///	textareas[i].onkeyup = function() { return window.external.TextareaOnKeyUp(this.id, this.value); };
+        ///	textareas[i].ondragover = function() { window.event.returnValue=false; };
+        ///	textareas[i].ondrop = function () { window.external.CopyScriptureReference(this [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string HTML_Script_AddTextareaMouseDown {
             get {
@@ -696,7 +697,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; class=&quot;{1}&quot; onKeyUp=&quot;return window.external.TextareaOnKeyUp(this.id, this.value);&quot; ondragover=&quot;window.event.returnValue=false&quot; ondrop=&quot;window.external.CopyScriptureReference(this.id)&quot; onselect=&quot;this.focus();&quot;&gt;{2}&lt;/textarea&gt;.
+        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; class=&quot;{1}&quot;&gt;{2}&lt;/textarea&gt;.
         /// </summary>
         internal static string HTML_TextareaWithRefDrop {
             get {
@@ -942,6 +943,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_MustBeCloneRepo {
             get {
                 return ResourceManager.GetString("IDS_MustBeCloneRepo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://db.tt/4VwBmut.
+        /// </summary>
+        internal static string IDS_MyDropboxReferalString {
+            get {
+                return ResourceManager.GetString("IDS_MyDropboxReferalString", resourceCulture);
             }
         }
         

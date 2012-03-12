@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -102,7 +103,10 @@ namespace AiChorus
             GetProjectAndServerSettings(out serverSetting);
             var aObjects = new object[] {_project, serverSetting};
             ApplicationToUse = (ApplicationSyncHandler)Activator.CreateInstance(appToUse, aObjects);
-            ServerSettingsModel.ParentDirectoryToPutCloneIn = ApplicationToUse.AppDataRoot;
+            var strRootFolder = ApplicationToUse.AppDataRoot;
+            if (!Directory.Exists(strRootFolder))
+                Directory.CreateDirectory(strRootFolder);
+            ServerSettingsModel.ParentDirectoryToPutCloneIn = strRootFolder;
         }
 
         private void GetProjectAndServerSettings(out ServerSetting serverSetting)

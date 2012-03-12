@@ -31,10 +31,7 @@ namespace OneStoryProjectEditor
         /// </summary>
         private void InitializeEncConverter()
         {
-            string strPathToExe = String.Format(@"{0}\SIL\SILConverters\EncConvertersAppDataMover40.exe",
-                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
-            if (File.Exists(strPathToExe))
-                StoryEditor.LaunchProgram(strPathToExe, null);
+            var theEcs = new SilEncConverters40.EncConverters();
         }
 
         private void RunFixupProgram()

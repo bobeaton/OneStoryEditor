@@ -28,6 +28,9 @@ namespace OneStoryProjectEditor
 
         public string HgRepoUrlHost;    // e.g. http://hg-private.languagedepot.org
         public bool UseDropbox;
+        public bool DropboxStory;
+        public bool DropboxRetelling;
+        public bool DropboxAnswers;
 
         // default is to have all 3, but the user might disable one or the other bt languages
         public LanguageInfo Vernacular = new LanguageInfo(LineData.CstrAttributeLangVernacular, new Font("Arial Unicode MS", 12), Color.Maroon);
@@ -119,6 +122,9 @@ namespace OneStoryProjectEditor
                                  : null;
 
             UseDropbox = ((attr = node.Attributes[StoryProjectData.CstrAttributeUseDropbox]) != null) && (attr.Value == "true");
+            DropboxStory = ((attr = node.Attributes[StoryProjectData.CstrAttributeDropboxStory]) != null) && (attr.Value == "true");
+            DropboxRetelling = ((attr = node.Attributes[StoryProjectData.CstrAttributeDropboxRetellings]) != null) && (attr.Value == "true");
+            DropboxAnswers = ((attr = node.Attributes[StoryProjectData.CstrAttributeDropboxAnswers]) != null) && (attr.Value == "true");
 
             Vernacular = new LanguageInfo(node.SelectSingleNode(XPathForLangInformation(LineData.CstrAttributeLangVernacular)));
             NationalBT = new LanguageInfo(node.SelectSingleNode(XPathForLangInformation(LineData.CstrAttributeLangNationalBt)));
@@ -598,29 +604,58 @@ namespace OneStoryProjectEditor
         // if any of this changes, update FixupOneStoryFile::Program.cs
         protected const string OneStoryHiveRoot = @"Software\SIL\OneStory";
         protected const string CstrRootDirKey = "RootDir";
+        protected const string CstrDropBoxRoot = "Dropbox Root";
+
+        public static string DropboxFolderRoot
+        {
+            get
+            {
+                string strDropboxRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                                                     "Dropbox");
+                if (Directory.Exists(strDropboxRoot))
+                    return strDropboxRoot;
+
+                strDropboxRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                                              "Dropbox");
+                if (Directory.Exists(strDropboxRoot))
+                    return strDropboxRoot;
+
+                // else check in the person's registry for it
+                var keyOneStoryHiveRoot = Registry.CurrentUser.OpenSubKey(OneStoryHiveRoot);
+                if (keyOneStoryHiveRoot != null)
+                    return (string)keyOneStoryHiveRoot.GetValue(CstrDropBoxRoot);
+                return null;
+            }
+            set
+            {
+                var keyOneStoryHiveRoot = Registry.CurrentUser.OpenSubKey(OneStoryHiveRoot, true) ??
+                                          Registry.CurrentUser.CreateSubKey(OneStoryHiveRoot);
+                if (keyOneStoryHiveRoot != null)
+                    keyOneStoryHiveRoot.SetValue(CstrDropBoxRoot, value);
+            }
+        }
 
         public static string OneStoryProjectFolderRoot
         {
             get
             {
                 string strDefaultProjectFolderRoot = null;
-                RegistryKey keyOneStoryHiveRoot = Registry.CurrentUser.OpenSubKey(OneStoryHiveRoot);
+                var keyOneStoryHiveRoot = Registry.CurrentUser.OpenSubKey(OneStoryHiveRoot);
                 if (keyOneStoryHiveRoot != null)
                     strDefaultProjectFolderRoot = (string)keyOneStoryHiveRoot.GetValue(CstrRootDirKey);
 
                 if (String.IsNullOrEmpty(strDefaultProjectFolderRoot))
                     strDefaultProjectFolderRoot = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-                string strPath = Path.Combine(strDefaultProjectFolderRoot,
-                    Properties.Resources.DefMyDocsSubfolder);
+                var strPath = Path.Combine(strDefaultProjectFolderRoot,
+                                           Properties.Resources.DefMyDocsSubfolder);
 
                 return strPath;
             }
             set
             {
-                RegistryKey keyOneStoryHiveRoot = Registry.CurrentUser.OpenSubKey(OneStoryHiveRoot, true);
-                if (keyOneStoryHiveRoot == null)
-                    keyOneStoryHiveRoot = Registry.CurrentUser.CreateSubKey(OneStoryHiveRoot);
+                var keyOneStoryHiveRoot = Registry.CurrentUser.OpenSubKey(OneStoryHiveRoot, true) ??
+                                          Registry.CurrentUser.CreateSubKey(OneStoryHiveRoot);
                 if (keyOneStoryHiveRoot != null)
                     keyOneStoryHiveRoot.SetValue(CstrRootDirKey, value);
             }

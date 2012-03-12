@@ -248,8 +248,8 @@ namespace OneStoryProjectEditor
 
         public string PresentationHtml(int nVerseIndex, int nNumCols, int nParentNum,
             TestInfo astrTesters,
-            MultipleLineDataConverter child, 
-            bool bPrintPreview, 
+            MultipleLineDataConverter child,
+            StoryData.PresentationType presentationType, 
             bool bProcessingTheChild,
             bool bShowVernacular, 
             bool bShowNationalBT, 
@@ -292,7 +292,8 @@ namespace OneStoryProjectEditor
 
                 // but if there was a child and yet we didn't find it...
                 // OR if there wasn't a child, but there should have been (because we're processing with a child)
-                else if (((child != null) || !bPrintPreview) && !bProcessingTheChild)
+                else if (((child != null) || (presentationType == StoryData.PresentationType.Differencing)) 
+                    && !bProcessingTheChild)
                 {
                     // it means that the parent was deleted.
                     strVernacular = Diff.HtmlDiff(theParentLineData.Vernacular, null);

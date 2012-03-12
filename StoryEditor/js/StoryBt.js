@@ -13,8 +13,11 @@ function OnVerseLineJump(link)
     return false; // cause the href navigation to not happen
 }
 function DisplayHtml(strFunction) {
-    var curVal = $('#status').val();
-    $('#status').val(curVal + " " + strFunction);
+    var debugWindow = $('#osedebughtmlwindow');
+    if (debugWindow) {
+        var curVal = debugWindow.val();
+        $('#osedebughtmlwindow').val(curVal + " " + strFunction);
+    }
 }
 function removeSelection(jqtextarea) {
     if (jqtextarea.attr('selectedText')) {
