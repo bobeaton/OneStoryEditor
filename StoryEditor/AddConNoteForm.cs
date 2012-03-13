@@ -18,7 +18,7 @@ namespace OneStoryProjectEditor
             Localizer.Ctrl(this);
         }
 
-        public AddConNoteForm(Type typeConNotePane, string strHtmlNote)
+        public AddConNoteForm(Type typeConNotePane, StoryEditor theSe, StoryData storyData, string strHtmlNote)
         {
             InitializeComponent();
             Localizer.Ctrl(this);
@@ -27,6 +27,8 @@ namespace OneStoryProjectEditor
             this.SuspendLayout();
             var pane = Activator.CreateInstance(typeConNotePane) as HtmlConNoteControl;
             System.Diagnostics.Debug.Assert(pane != null);
+            pane.TheSE = theSe;
+            pane.StoryData = storyData;
             pane.Dock = DockStyle.Fill;
             tableLayoutPanel.Controls.Add(pane, 0, 1);
             tableLayoutPanel.SetColumnSpan(pane, 2);

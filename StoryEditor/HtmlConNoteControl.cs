@@ -448,7 +448,7 @@ namespace OneStoryProjectEditor
             strNote = StoryData.ConNoteHtml(this, theSE.StoryProject.ProjSettings, nVerseIndex,
                                             theSE.LoggedOnMember,
                                             theSE.StoryProject.TeamMembers, cndc);
-            var dlg = new AddConNoteForm(GetType(), strNote);
+            var dlg = new AddConNoteForm(GetType(), theSE, StoryData, strNote);
             if (dlg.ShowDialog() != DialogResult.OK)
             {
                 aCNsDC.Remove(cndc);
