@@ -126,6 +126,7 @@ $(document).ready(function () {
         }
         return true;
     });
+    $('.readonly').attr('readonly', 'readonly');
 });
 window.oseConfig =
 {

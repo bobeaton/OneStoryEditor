@@ -35,8 +35,7 @@ namespace OneStoryProjectEditor
             string strValue,
             VerseData.ViewSettings viewSettings)
         {
-            bool bUseTextAreas = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.UseTextAreas) &&
-                                 ((WhichField & viewSettings.FieldEditibility) != StoryEditor.TextFields.Undefined);
+            bool bUseTextAreas = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.UseTextAreas);
 
             if (!bUseTextAreas && String.IsNullOrEmpty(strValue))
                 strValue = "-";  // just so there's something there (or the cell doesn't show)
@@ -45,14 +44,14 @@ namespace OneStoryProjectEditor
             if (bUseTextAreas)
             {
                 strHtmlElement = String.Format(Resources.HTML_Textarea,
-                                               GetHtmlElementId(nVerseIndex, nItemNum, nSubItemNum, bUseTextAreas),
-                                               GetStyleClassName,
+                                               GetHtmlElementId(nVerseIndex, nItemNum, nSubItemNum, true),
+                                               GetStyleClassName(viewSettings.FieldEditibility),
                                                strValue);
             }
             else
             {
                 strHtmlElement = String.Format(Resources.HTML_ParagraphText,
-                                               GetStyleClassName,
+                                               GetStyleClassName(viewSettings.FieldEditibility),
                                                strValue);
             }
 
@@ -77,17 +76,20 @@ namespace OneStoryProjectEditor
             return strId;
         }
 
-        private string GetStyleClassName
+        private string GetStyleClassName(StoryEditor.TextFields fieldVisibility)
         {
-            get
-            {
-                System.Diagnostics.Debug.Assert(WhichField != StoryEditor.TextFields.Undefined);
-                var strStyleClassName = "Lang" + GetLanguageType;
-                var fieldsWithStyle = (WhichField & StoryEditor.TextFields.Fields);
-                if (fieldsWithStyle != StoryEditor.TextFields.Undefined)
-                    strStyleClassName += " " + fieldsWithStyle;
-                return strStyleClassName;
-            }
+            System.Diagnostics.Debug.Assert(WhichField != StoryEditor.TextFields.Undefined);
+            var strStyleClassName = "Lang" + GetLanguageType;
+            var fieldsWithStyle = (WhichField & StoryEditor.TextFields.Fields);
+            if (fieldsWithStyle != StoryEditor.TextFields.Undefined)
+                strStyleClassName += " " + fieldsWithStyle;
+            
+            // possibly add the 'readonly' class if the field isn't supposed to be edited
+            fieldVisibility &= StoryEditor.TextFields.Languages;
+            if ((WhichField & fieldVisibility) == StoryEditor.TextFields.Undefined)
+                strStyleClassName += " " + "readonly";
+
+            return strStyleClassName;
         }
 
         private string GetFieldType
