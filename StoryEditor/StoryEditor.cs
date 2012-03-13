@@ -1101,11 +1101,10 @@ namespace OneStoryProjectEditor
             InsertNewStoryAdjustComboBox(theNewStory, nIndexToInsert);
 
             // check for Dropbox copy (after setting the 'TheCurrentStory')
-            if (StoryProject.ProjSettings.DropboxStory)
-            {
-                TriggerDropboxCopyStory(true);
-                theNewStory.JustAdded = true;
-            }
+            var strStoryRecording = TriggerDropboxCopyStory(StoryProject.ProjSettings.DropboxStory);
+            if (!String.IsNullOrEmpty(strStoryRecording))
+                LaunchWordPad(strStoryRecording);
+            theNewStory.JustAdded = true;
         }
 
         protected void InsertNewStoryAdjustComboBox(StoryData theNewStory, int nIndexToInsert)
@@ -6389,10 +6388,10 @@ namespace OneStoryProjectEditor
             dlg.Show();
         }
 
-        public void TriggerDropboxCopyStory(bool bCopyToDropbox)
+        public string TriggerDropboxCopyStory(bool bCopyToDropbox)
         {
             var strFilename = Localizer.Str("Story");
-            ShouldCopyFileToDropbox(strFilename, bCopyToDropbox);
+            return ShouldCopyFileToDropbox(strFilename, bCopyToDropbox);
         }
 
         public string TriggerDropboxCopyRetelling(bool bCopyToDropbox)
