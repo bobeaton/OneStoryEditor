@@ -65,6 +65,16 @@ namespace OneStoryProjectEditor
             {
                 SetCoachButtons();
             }
+
+            // this was in the PF tasks, but anyone might be wanting to do this....
+            var projSettings = theStoryProjectData.ProjSettings;
+            if (projSettings.UseDropbox)
+            {
+                buttonCopyRecordingToDropbox.Visible = true;
+                dropboxStory.Visible = projSettings.DropboxStory;
+                dropboxRetelling.Visible = projSettings.DropboxRetelling;
+                dropboxTqAnswers.Visible = projSettings.DropboxAnswers;
+            }
         }
 
         private void SetEnglishBackTranslatorButtons()
@@ -288,14 +298,6 @@ namespace OneStoryProjectEditor
                 buttonSendToConsultant.Visible = true;
 
             _checker = new ProjectFacilitatorRequirementsCheck(TheSe, theStory);
-
-            if (projSettings.UseDropbox)
-            {
-                buttonCopyRecordingToDropbox.Visible = true;
-                dropboxStory.Visible = projSettings.DropboxStory;
-                dropboxRetelling.Visible = projSettings.DropboxRetelling;
-                dropboxTqAnswers.Visible = projSettings.DropboxAnswers;
-            }
         }
 
         private static string TooltipRequiredTasksToDo(string strTestType, int nTestCount)
