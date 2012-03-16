@@ -1158,10 +1158,11 @@ Namespace devX
 
             newFileEntry.Size = ftpFile.Size
 
-            newFileEntry.Version = GetMd5Hash(strFile)
+            newFileEntry.Version = Nothing
+            ' GetMd5Hash(strFile) file doesn't exist locally at this point, so can't do this
 
-            ' sword files will never have a version, so just use date method
-            newFileEntry.Method = File.CompareMethod.md5
+            ' sword files will never have a version, so just say it's a one-off (copy if not there)
+            newFileEntry.Method = File.CompareMethod.OneOff
 
             ManifestFiles.Add(newFileEntry)
 
