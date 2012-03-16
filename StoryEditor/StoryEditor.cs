@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -6174,14 +6175,14 @@ namespace OneStoryProjectEditor
         public string TriggerDropboxCopyRetelling(bool bCopyToDropbox)
         {
             var strFilename = Localizer.Str("Retelling ") +
-                              (TheCurrentStory.CraftingInfo.TestersToCommentsRetellings.Count + 1);
+                              TheCurrentStory.CraftingInfo.TestersToCommentsRetellings.Count.ToString(CultureInfo.InvariantCulture);
             return ShouldCopyFileToDropbox(strFilename, bCopyToDropbox);
         }
 
         public string TriggerDropboxCopyAnswer(bool bCopyToDropbox)
         {
             var strFilename = Localizer.Str("Inference Test Answers ") +
-                              (TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.Count + 1);
+                              TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.Count.ToString(CultureInfo.InvariantCulture);
             return ShouldCopyFileToDropbox(strFilename, bCopyToDropbox);
         }
     }
