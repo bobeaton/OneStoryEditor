@@ -2445,13 +2445,14 @@ eater Panorama
 	textareas[i].ondrop = function () { window.external.CopyScriptureReference(this.id); };
 	textareas[i].onselect = function () { this.focus(); };
 	textareas[i].onchange = function () { return window.external.TextareaOnKeyUp(this.id, this.value); };
+	textareas[i].onpaste = function () { return window.external.TextareaOnKeyUp(this.id, this.value); };
   }
 &lt;/script&gt;</value>
   </data>
   <data name="IDS_MyDropboxReferalString" xml:space="preserve">
     <value>http://db.tt/4VwBmut</value>
   </data>
-  <data name="AudioFileSearchFilter">
-    <value xml:space="preserve">Audio files|*.mp3;*.wav;*.wma|All files|*.*</value>
+  <data name="AudioFileSearchFilter" xml:space="preserve">
+    <value>Audio files|*.mp3;*.wav;*.wma|All files|*.*</value>
   </data>
 </root>
