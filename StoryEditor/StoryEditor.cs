@@ -98,6 +98,7 @@ namespace OneStoryProjectEditor
 
         internal bool Modified;
         internal Timer myFocusTimer = new Timer();
+        internal Timer myReopenTimer = new Timer();
         internal static Timer mySaveTimer = new Timer();
 
         private const int CnIntervalBetweenAutoSaveReqs = 5 * 1000 * 60;
@@ -129,7 +130,9 @@ namespace OneStoryProjectEditor
         {
             myFocusTimer.Tick += TimeToSetFocus;
             myFocusTimer.Interval = 200;
-
+            myReopenTimer.Tick += CheckForFileChanged;
+            myReopenTimer.Interval = 1000;  // check every second
+            
             _strStoriesSet = strStoriesSet;
 
             InitializeComponent();
@@ -555,6 +558,8 @@ namespace OneStoryProjectEditor
 
             if (splitContainerUpDown.IsMinimized)
                 splitContainerUpDown.Restore();
+
+            _dateTimeLastSaved = DateTime.MinValue;
         }
 
         protected void ReInitMenuVisibility()
@@ -761,6 +766,39 @@ namespace OneStoryProjectEditor
             OpenProject(projSettings);
         }
 
+        private DateTime _dateTimeLastSaved;
+        public void CheckForFileChanged(object sender, EventArgs e)
+        {
+            if ((StoryProject == null) || (StoryProject.ProjSettings == null))
+                return;
+
+            // if we just saved, then don't bother the user anymore
+            var strProjectFilePath = StoryProject.ProjSettings.ProjectFilePath;
+            var dateTimeCurrent = File.GetLastWriteTime(strProjectFilePath);
+            if (_dateTimeLastSaved == dateTimeCurrent)
+                return;
+
+            myReopenTimer.Stop();   // to prevent further calls
+
+            _dateTimeLastSaved = DateTime.MinValue;
+
+            // notify about reloading
+            if (Modified)
+                SaveXElementWithBadExtn(GetXml, strProjectFilePath);    // just in case someone complains
+
+            var res = LocalizableMessageBox.Show(
+                String.Format(Localizer.Str(
+                    "The project file mentioned below was changed outside of {2} and must be reloaded.{0}{0}'{1}'{0}{0}You will not be able to save any further changes until you reopen the project. Click 'Yes' to reopen the project now."),
+                              Environment.NewLine, strProjectFilePath, OseCaption),
+                OseCaption, MessageBoxButtons.YesNoCancel);
+
+            if (res != DialogResult.Yes)
+                return;
+
+            Modified = false;
+            projectSendReceiveMenu.PerformClick();
+        }
+
         protected void OpenProject(ProjectSettings projSettings)
         {
             // clean up any existing open projects
@@ -779,7 +817,9 @@ namespace OneStoryProjectEditor
             try
             {
                 // serialize in the file
-                var projFile = ProjectReader.ReadProjectFile(projSettings.ProjectFilePath);
+                ProjectReader projFile;
+                _dateTimeLastSaved = ProjectReader.ReadProjectFile(projSettings.ProjectFilePath, out projFile);
+                myReopenTimer.Start();
 
                 // get the data into another structure that we use internally (more flexible)
                 StoryProject = GetOldStoryProjectData(projFile, projSettings);
@@ -1497,11 +1537,17 @@ namespace OneStoryProjectEditor
             Modified = true;
         }
 
-        private void TimeToSetFocus(object sender, EventArgs e)
+        public void SetFocusTimer(int nLastVerse)
         {
-            Debug.Assert((sender != null) && (sender is Timer) && ((sender as Timer).Tag is int));
-            ((Timer)sender).Stop();
-            int nVerseIndex = (int)((Timer)sender).Tag;
+            myFocusTimer.Stop();
+            myFocusTimer.Tag = nLastVerse;
+            myFocusTimer.Start();
+        }
+
+        public void TimeToSetFocus(object sender, EventArgs e)
+        {
+            myFocusTimer.Stop();
+            var nVerseIndex = (int)myFocusTimer.Tag;
             FocusOnVerse(nVerseIndex, true, true);
         }
 
@@ -2363,17 +2409,7 @@ namespace OneStoryProjectEditor
 
         protected void SaveXElement(XElement elem, string strFilename, bool bDoReloadTest)
         {
-            // create the root portions of the XML document and tack on the fragment we've been building
-            XDocument doc = new XDocument(
-                new XDeclaration("1.0", "utf-8", "yes"),
-                elem);
-
-            if (!Directory.Exists(Path.GetDirectoryName(strFilename)))
-                Directory.CreateDirectory(Path.GetDirectoryName(strFilename));
-
-            // save it with an extra extn.
-            string strTempFilename = strFilename + CstrExtraExtnToAvoidClobberingFilesWithFailedSaves;
-            doc.Save(strTempFilename);
+            var strTempFilename = SaveXElementWithBadExtn(elem, strFilename);
 
 #if DEBUGBOB
             // always do the reload test in debug mode
@@ -2385,7 +2421,8 @@ namespace OneStoryProjectEditor
             {
                 // now try to load the xml file. it'll throw if it's malformed 
                 //  (so we won't want to put it into the repo)
-                ProjectReader.ReadProjectFile(strTempFilename);
+                ProjectReader projFile;
+                ProjectReader.ReadProjectFile(strTempFilename, out projFile);
             }
 
             // backup the last version to appdata
@@ -2397,6 +2434,24 @@ namespace OneStoryProjectEditor
             File.Delete(strFilename);
             File.Copy(strTempFilename, strFilename, true);
             File.Delete(strTempFilename);
+        }
+
+        private static string SaveXElementWithBadExtn(XElement elem, string strFilename)
+        {
+            // create the root portions of the XML document and tack on the fragment we've been building
+            var doc = new XDocument(
+                new XDeclaration("1.0", "utf-8", "yes"),
+                elem);
+
+            var strFolderPath = Path.GetDirectoryName(strFilename);
+            Debug.Assert(strFolderPath != null, "strFolderPath != null");
+            if (!Directory.Exists(strFolderPath))
+                Directory.CreateDirectory(strFolderPath);
+
+            // save it with an extra extn.
+            var strTempFilename = strFilename + CstrExtraExtnToAvoidClobberingFilesWithFailedSaves;
+            doc.Save(strTempFilename);
+            return strTempFilename;
         }
 
         protected const string CstrExtraExtnToAvoidClobberingFilesWithFailedSaves = ".bad";
@@ -2426,8 +2481,17 @@ namespace OneStoryProjectEditor
                         || String.IsNullOrEmpty(TheCurrentStory.CraftingInfo.ResourcesUsed)))
                         QueryStoryPurpose();
                 }
+                
+                if (_dateTimeLastSaved == DateTime.MinValue)
+                {
+                    LocalizableMessageBox.Show(
+                        Localizer.Str("You must reload the project before it can be saved again."), OseCaption);
+                    Modified = false;
+                    return;
+                }
 
                 SaveXElement(GetXml, strFilename, bDoReloadTest);
+                _dateTimeLastSaved = File.GetLastWriteTime(strFilename);
             }
             catch (UnauthorizedAccessException)
             {
