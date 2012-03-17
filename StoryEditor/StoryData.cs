@@ -2120,7 +2120,7 @@ namespace OneStoryProjectEditor
 
         public static ProjectReader ReadProjectFile(string strProjectFilePath)
         {
-            UniqueStoryGuids.Clear(); 
+            UniqueStoryGuids.Clear();
             var dataSet = new ProjectReader();
             dataSet.ReadXml(strProjectFilePath);
             return dataSet;
