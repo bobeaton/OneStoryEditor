@@ -761,8 +761,6 @@ namespace OneStoryProjectEditor
             OpenProject(projSettings);
         }
 
-        internal static List<string> UniqueStoryGuids = new List<string>();
-
         protected void OpenProject(ProjectSettings projSettings)
         {
             // clean up any existing open projects
@@ -780,11 +778,8 @@ namespace OneStoryProjectEditor
 
             try
             {
-                UniqueStoryGuids.Clear();
-
                 // serialize in the file
-                var projFile = new NewDataSet();
-                projFile.ReadXml(projSettings.ProjectFilePath);
+                var projFile = ProjectReader.ReadProjectFile(projSettings.ProjectFilePath);
 
                 // get the data into another structure that we use internally (more flexible)
                 StoryProject = GetOldStoryProjectData(projFile, projSettings);
@@ -2390,8 +2385,7 @@ namespace OneStoryProjectEditor
             {
                 // now try to load the xml file. it'll throw if it's malformed 
                 //  (so we won't want to put it into the repo)
-                var projFile = new NewDataSet();
-                projFile.ReadXml(strTempFilename);
+                ProjectReader.ReadProjectFile(strTempFilename);
             }
 
             // backup the last version to appdata
