@@ -761,6 +761,8 @@ namespace OneStoryProjectEditor
             OpenProject(projSettings);
         }
 
+        internal static List<string> UniqueStoryGuids = new List<string>();
+
         protected void OpenProject(ProjectSettings projSettings)
         {
             // clean up any existing open projects
@@ -778,6 +780,7 @@ namespace OneStoryProjectEditor
 
             try
             {
+                UniqueStoryGuids.Clear();
 
                 // serialize in the file
                 var projFile = new NewDataSet();
