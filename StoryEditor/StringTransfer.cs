@@ -44,7 +44,9 @@ namespace OneStoryProjectEditor
             {
                 try
                 {
-                    tb.Text = Transliterator.Convert(Value);
+                    tb.Text = (String.IsNullOrEmpty(Value))
+                                  ? Value
+                                  : Transliterator.Convert(Value);
                 }
                 catch
                 {
