@@ -770,8 +770,7 @@ namespace OneStoryProjectEditor
             {
 
                 // serialize in the file
-                var projFile = new NewDataSet();
-                projFile.ReadXml(projSettings.ProjectFilePath);
+                var projFile = ProjectReader.ReadProjectFile(projSettings.ProjectFilePath);
 
                 // get the data into another structure that we use internally (more flexible)
                 StoryProject = GetOldStoryProjectData(projFile, projSettings);
@@ -2371,8 +2370,7 @@ namespace OneStoryProjectEditor
             {
                 // now try to load the xml file. it'll throw if it's malformed 
                 //  (so we won't want to put it into the repo)
-                var projFile = new NewDataSet();
-                projFile.ReadXml(strTempFilename);
+                ProjectReader.ReadProjectFile(strTempFilename);
             }
 
             // backup the last version to appdata

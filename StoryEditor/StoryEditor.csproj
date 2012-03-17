@@ -408,7 +408,9 @@
     <Compile Include="StateEditorForm.Designer.cs">
       <DependentUpon>StateEditorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="StoryData.cs" />
+    <Compile Include="StoryData.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="StoryFrontMatterForm.cs">
       <SubType>Form</SubType>
     </Compile>

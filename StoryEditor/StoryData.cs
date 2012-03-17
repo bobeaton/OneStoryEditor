@@ -126,7 +126,21 @@ namespace OneStoryProjectEditor
                                             ? theStoryRow.CountTestingQuestionTests
                                             : 0;
 
+            // the guid is supposed to be unique, but there are some cases where the merger might actually
+            //  leave two stories with the same guid. If that happens, then just start over with a new
+            //  guid (we'll lose historical differencing, but this is the lesser of 2 evils).
             guid = theStoryRow.guid;
+            if (ProjectReader.UniqueStoryGuids.Contains(guid))
+            {
+                Debug.Assert(false, String.Format("Duplicate unique identifier for story '{1}'{0}{0}{2}",
+                                                  Environment.NewLine,
+                                                  Name,
+                                                  guid));
+                guid = Guid.NewGuid().ToString();
+            }
+
+            ProjectReader.UniqueStoryGuids.Add(guid);
+            
             StageTimeStamp = (theStoryRow.IsstageDateTimeStampNull())
                                  ? DateTime.Now
                                  : theStoryRow.stageDateTimeStamp.ToLocalTime();
@@ -2056,6 +2070,19 @@ namespace OneStoryProjectEditor
             public string MemberGuid { get; set; }
             public string StoryName { get; set; }
             public string Format { get; set; }
+        }
+    }
+
+    public class ProjectReader : NewDataSet
+    {
+        public static List<string> UniqueStoryGuids = new List<string>();
+
+        public static ProjectReader ReadProjectFile(string strProjectFilePath)
+        {
+            UniqueStoryGuids.Clear();
+            var dataSet = new ProjectReader();
+            dataSet.ReadXml(strProjectFilePath);
+            return dataSet;
         }
     }
 }
