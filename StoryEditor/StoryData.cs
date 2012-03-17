@@ -2077,12 +2077,12 @@ namespace OneStoryProjectEditor
     {
         public static List<string> UniqueStoryGuids = new List<string>();
 
-        public static ProjectReader ReadProjectFile(string strProjectFilePath)
+        public static DateTime ReadProjectFile(string strProjectFilePath, out ProjectReader projectReader)
         {
             UniqueStoryGuids.Clear();
-            var dataSet = new ProjectReader();
-            dataSet.ReadXml(strProjectFilePath);
-            return dataSet;
+            projectReader = new ProjectReader();
+            projectReader.ReadXml(strProjectFilePath);
+            return File.GetLastWriteTime(strProjectFilePath);
         }
     }
 }

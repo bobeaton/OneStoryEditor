@@ -318,10 +318,10 @@ namespace OneStoryProjectEditor
                 _nLastVerse = _ctrlVerseParent.VerseNumber;
 
                 // start a timer that will wake up shortly and set the focus to the other panes as well.
-                _ctrlVerseParent.TheSE.myFocusTimer.Tag = _ctrlVerseParent.VerseNumber;
-                _ctrlVerseParent.TheSE.myFocusTimer.Start();
+                _ctrlVerseParent.TheSE.SetFocusTimer(_nLastVerse);
             }
         }
+
         protected override void OnLeave(EventArgs e)
         {
             _inTextBox = null;
@@ -398,9 +398,7 @@ namespace OneStoryProjectEditor
             if (keyData == (Keys.Control | Keys.Down))
             {
                 // start a timer that will wake up shortly and set the focus to the other panes as well.
-                _ctrlVerseParent.TheSE.myFocusTimer.Tag = _ctrlVerseParent.VerseNumber + 1;
-                _ctrlVerseParent.TheSE.myFocusTimer.Start();
-
+                _ctrlVerseParent.TheSE.SetFocusTimer(_ctrlVerseParent.VerseNumber + 1);
                 return true;
             }
 
