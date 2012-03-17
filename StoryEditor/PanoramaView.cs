@@ -88,7 +88,17 @@ namespace OneStoryProjectEditor
 
             foreach (StoryData aSD in _stories)
             {
-                TimeSpan ts = DateTime.Now - aSD.StageTimeStamp;
+                DateTime dateTime;
+                var nCount = aSD.TransitionHistory.Count;
+                if (nCount == 0)
+                    dateTime = aSD.StageTimeStamp;
+                else
+                {
+                    var storyStateTransition = aSD.TransitionHistory[nCount - 1];
+                    dateTime = storyStateTransition.TransitionDateTime;
+                }
+
+                var ts = DateTime.Now - dateTime;
                 string strTimeInState = "";
                 if (ts.Days > 0)
                     strTimeInState += String.Format("{0} days, ", ts.Days);
