@@ -774,6 +774,9 @@ namespace OneStoryProjectEditor
 
             // if we just saved, then don't bother the user anymore
             var strProjectFilePath = StoryProject.ProjSettings.ProjectFilePath;
+            if (!File.Exists(strProjectFilePath))
+                return; // not written yet (during new project cycle)
+
             var dateTimeCurrent = File.GetLastWriteTime(strProjectFilePath);
             if (_dateTimeLastSaved == dateTimeCurrent)
                 return;
@@ -2481,8 +2484,8 @@ namespace OneStoryProjectEditor
                         || String.IsNullOrEmpty(TheCurrentStory.CraftingInfo.ResourcesUsed)))
                         QueryStoryPurpose();
                 }
-                
-                if (_dateTimeLastSaved == DateTime.MinValue)
+
+                if (File.Exists(strFilename) && (_dateTimeLastSaved == DateTime.MinValue))
                 {
                     LocalizableMessageBox.Show(
                         Localizer.Str("You must reload the project before it can be saved again."), OseCaption);
