@@ -5780,20 +5780,24 @@ namespace OneStoryProjectEditor
 
         private void checkForProgramUpdatesNowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if ((ModifierKeys & Keys.Control) == Keys.Control) 
-                CheckForUpgrade(_autoUpgrade, Resources.IDS_OSEUpgradeServerTest);
-            else
-                CheckForUpgrade(_autoUpgrade, Resources.IDS_OSEUpgradeServer);
+            CheckForUpgrade(_autoUpgrade,
+                            (ModifierKeys & Keys.Control) == Keys.Control
+                                ? Resources.IDS_OSEUpgradeServerTest
+                                : Resources.IDS_OSEUpgradeServer, false);
         }
 
         private void checkNowForNextMajorUpdateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CheckForUpgrade(null, Resources.IDS_OSEUpgradeServerNextMajorUpgrade);
+            // make sure they have the latest of the current stream
+            CheckForUpgrade(_autoUpgrade, Resources.IDS_OSEUpgradeServer, true);
+
+            // then check for the next major upgrade
+            CheckForUpgrade(null, Resources.IDS_OSEUpgradeServerNextMajorUpgrade, false);
         }
 
         private bool _bRestarting;
 
-        private void CheckForUpgrade(AutoUpgrade autoUpgrade, string strManifestUrl)
+        private void CheckForUpgrade(AutoUpgrade autoUpgrade, string strManifestUrl, bool bDontRepaintYet)
         {
             Cursor = Cursors.WaitCursor;
 
@@ -5807,6 +5811,9 @@ namespace OneStoryProjectEditor
                 SuspendSaveDialog++;
                 Program.CheckForProgramUpdate(autoUpgrade, strManifestUrl);
                 SuspendSaveDialog--;
+
+                if (bDontRepaintYet)
+                    return;
 
                 // since the call to SaveDirty will have removed them all
                 if (TheCurrentStory != null)
