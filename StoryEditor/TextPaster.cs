@@ -34,6 +34,11 @@ namespace OneStoryProjectEditor
                 StoryEditor.TextPaster = this;
                 TopMost = true;
             }
+
+            int screenHeight = Screen.PrimaryScreen.WorkingArea.Height;
+            var location = Location;
+            location.Y = screenHeight - Height;
+            Location = location;
         }
         private void InitTextBoxes(int nIndex)
         {
