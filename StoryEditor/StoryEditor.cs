@@ -154,6 +154,8 @@ namespace OneStoryProjectEditor
                 mySaveTimer.Start();
             }
 
+            openFileDialog.InitialDirectory = ProjectSettings.OneStoryProjectFolderRoot;
+
             try
             {
                 InitializeNetBibleViewer();
