@@ -27,6 +27,13 @@ namespace AiChorus
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            if (Settings.Default.UpgradeSettings)
+            {
+                Settings.Default.Upgrade();
+                Settings.Default.UpgradeSettings = false;
+                Settings.Default.Save();
+            }
+
             if (args.Length == 0)
             {
                 MessageBox.Show(Resources.UsageString, Resources.AiChorusCaption);

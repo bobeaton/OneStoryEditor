@@ -725,21 +725,23 @@ namespace OneStoryProjectEditor
             catch { }   // this might throw if the user cancels, but we don't care
         }
 
-        protected void UpdateRecentlyUsedLists(ProjectSettings projSettings)
+        private void UpdateRecentlyUsedLists(StoryProject.ProjSettings projSettings)
+
+        public void UpdateRecentlyUsedLists(string strProjectFolder, string strProjectName)
         {
             // update the recently-used-project-names list
-            if (Settings.Default.RecentProjects.Contains(projSettings.ProjectName))
+            if (Settings.Default.RecentProjects.Contains(strProjectName))
             {
-                int nIndex = Settings.Default.RecentProjects.IndexOf(projSettings.ProjectName);
+                int nIndex = Settings.Default.RecentProjects.IndexOf(strProjectName);
                 Settings.Default.RecentProjects.RemoveAt(nIndex);
                 Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
             }
 
-            Settings.Default.RecentProjects.Insert(0, projSettings.ProjectName);
-            Settings.Default.RecentProjectPaths.Insert(0, projSettings.ProjectFolder);
+            Settings.Default.RecentProjects.Insert(0, strProjectName);
+            Settings.Default.RecentProjectPaths.Insert(0, strProjectFolder);
 
-            Settings.Default.LastProject = projSettings.ProjectName;
-            Settings.Default.LastProjectPath = projSettings.ProjectFolder;
+            Settings.Default.LastProject = strProjectName;
+            Settings.Default.LastProjectPath = strProjectFolder;
             Settings.Default.Save();
         }
 

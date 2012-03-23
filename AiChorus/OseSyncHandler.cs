@@ -79,13 +79,18 @@ namespace AiChorus
                               {
                                   Path.Combine(AppDataRoot, Project.FolderName), 
                                   Project.ProjectId,
-                                  "http://hg-private.languagedepot.org",    // for now
+                                  "http://resumable.languagedepot.org",    // for now
                                   ServerSetting.Username, 
                                   ServerSetting.Password, 
                                   null                                      // shared network path
                               };
             _methodSyncWithRepository.Invoke(_theStoryEditor, oParams);
 #endif
+        }
+
+        internal override bool DoClone()
+        {
+            return base.DoClone();
         }
     }
 }

@@ -39,6 +39,8 @@ namespace AiChorus.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>LanguageDepot.org [resumable sync]</string>
+  <string>http://resumable.languagedepot.org</string>
   <string>private.languageDepot.org</string>
   <string>http://hg-private.languagedepot.org</string>
   <string>languageDepot.org</string>
@@ -50,6 +52,18 @@ namespace AiChorus.Properties {
             }
             set {
                 this["ServerLabelsToUrls"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UpgradeSettings {
+            get {
+                return ((bool)(this["UpgradeSettings"]));
+            }
+            set {
+                this["UpgradeSettings"] = value;
             }
         }
     }
