@@ -18,7 +18,7 @@ namespace OneStoryProjectEditor
         {
             // commenting out the base class call (if you do have it, then you really need
             //  to call all of them in the setup project's custom actions)
-            // base.Commit(savedState);
+            base.Commit(savedState);
             // RunFixupProgram();
             InitializeEncConverter();
         }
