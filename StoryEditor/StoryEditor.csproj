@@ -516,6 +516,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NewProjectWizard.resx">
       <DependentUpon>NewProjectWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NoteForm.resx">
       <DependentUpon>NoteForm.cs</DependentUpon>

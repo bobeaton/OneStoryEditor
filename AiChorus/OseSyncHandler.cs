@@ -15,6 +15,7 @@ namespace AiChorus
 
         private Assembly _theStoryEditor;
         private MethodInfo _methodSyncWithRepository;
+        private MethodInfo _methodUpdateRecentlyUsedLists;
 
         public OseSyncHandler(Project project, ServerSetting serverSetting)
             : base(project, serverSetting)
@@ -58,8 +59,16 @@ namespace AiChorus
                     var typeString = typeof (string);
                     var aTypeParams = new Type[] { typeString, typeString, typeString, typeString, typeString, typeString };
                     _methodSyncWithRepository = typeOseProjectSettings.GetMethod("SyncWithRepository", aTypeParams);
+
                     var propOneStoryProjectFolderRoot = typeOseProjectSettings.GetProperty("OneStoryProjectFolderRoot");
                     _appDataRoot = (string)propOneStoryProjectFolderRoot.GetValue(typeOseProjectSettings, null);
+
+                    var typeStoryEditor = _theStoryEditor.GetType("OneStoryProjectEditor.StoryEditor");
+                    if (typeStoryEditor == null)
+                        return CstrCantOpenOse;
+
+                    _methodUpdateRecentlyUsedLists = typeStoryEditor.GetMethod("UpdateRecentlyUsedLists",
+                                                                               new[] {typeString, typeString});
                 }
 
                 return _appDataRoot;
@@ -79,13 +88,26 @@ namespace AiChorus
                               {
                                   Path.Combine(AppDataRoot, Project.FolderName), 
                                   Project.ProjectId,
-                                  "http://hg-private.languagedepot.org",    // for now
+                                  "http://resumable.languagedepot.org",    // for now
                                   ServerSetting.Username, 
                                   ServerSetting.Password, 
                                   null                                      // shared network path
                               };
             _methodSyncWithRepository.Invoke(_theStoryEditor, oParams);
 #endif
+        }
+
+        internal override bool DoClone()
+        {
+            if (base.DoClone())
+            {
+                if (_methodUpdateRecentlyUsedLists != null)
+                {
+                    var oParams = new object[] {Path.Combine(AppDataRoot, Project.FolderName), Project.ProjectId};
+                    _methodUpdateRecentlyUsedLists.Invoke(_theStoryEditor, oParams);
+                }
+            }
+            return false;
         }
     }
 }

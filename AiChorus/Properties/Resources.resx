@@ -112,21 +112,21 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AiChorusCaption" xml:space="preserve">
     <value>AdaptIt Chorus</value>
   </data>
   <data name="IDS_DefaultRepoServer" xml:space="preserve">
-    <value>private.languageDepot.org</value>
+    <value>LanguageDepot.org [resumable sync]</value>
   </data>
-  <data name="UsageString">
-    <value xml:space="preserve">Usage: 'AiChorus /c' to download (clone) a project, 'AiChorus (/s)' to synchronize a project, and 'AiChorus /e' to edit the knowledge base</value>
+  <data name="UsageString" xml:space="preserve">
+    <value>Usage: 'AiChorus /f' to open the project editor, 'AiChorus /c' to download (clone) a project, 'AiChorus (/s)' to synchronize a project, and 'AiChorus /e' to edit the knowledge base</value>
   </data>
-  <data name="MustUseAiLookupConverterToEdit">
-    <value xml:space="preserve">This only works if you choose an Adapt It Lookup Converter! Do you want to try again?</value>
+  <data name="MustUseAiLookupConverterToEdit" xml:space="preserve">
+    <value>This only works if you choose an Adapt It Lookup Converter! Do you want to try again?</value>
   </data>
 </root>

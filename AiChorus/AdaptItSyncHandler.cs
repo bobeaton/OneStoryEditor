@@ -46,7 +46,7 @@ namespace AiChorus
                               {
                                   Path.Combine(AppDataRoot, Project.FolderName), 
                                   Project.ProjectId,
-                                  "http://hg-private.languagedepot.org",    // for now
+                                  "http://resumable.languagedepot.org",    // for now
                                   null,                                     // shared network path
                                   ServerSetting.Username, 
                                   ServerSetting.Password, 

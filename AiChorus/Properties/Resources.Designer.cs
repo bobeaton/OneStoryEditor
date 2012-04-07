@@ -70,7 +70,7 @@ namespace AiChorus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to private.languageDepot.org.
+        ///   Looks up a localized string similar to LanguageDepot.org [resumable sync].
         /// </summary>
         internal static string IDS_DefaultRepoServer {
             get {
@@ -88,7 +88,7 @@ namespace AiChorus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Usage: &apos;AiChorus /c&apos; to download (clone) a project, &apos;AiChorus (/s)&apos; to synchronize a project, and &apos;AiChorus /e&apos; to edit the knowledge base.
+        ///   Looks up a localized string similar to Usage: &apos;AiChorus /f&apos; to open the project editor, &apos;AiChorus /c&apos; to download (clone) a project, &apos;AiChorus (/s)&apos; to synchronize a project, and &apos;AiChorus /e&apos; to edit the knowledge base.
         /// </summary>
         internal static string UsageString {
             get {
