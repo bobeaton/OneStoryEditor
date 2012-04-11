@@ -6872,7 +6872,7 @@
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:FALSE"
-            "SourcePath" = "8:..\\Setup OneStory Bulk Resources\\SetSwordPath.msm"
+            "SourcePath" = "8:..\\DepDLLs\\SetSwordPath.msm"
                 "Properties"
                 {
                 }
