@@ -466,36 +466,36 @@ namespace OneStoryProjectEditor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Drawing.Point BiblicalTermsDlgLocation {
+        public global::System.Drawing.Point GlossingFormLocation {
             get {
-                return ((global::System.Drawing.Point)(this["BiblicalTermsDlgLocation"]));
+                return ((global::System.Drawing.Point)(this["GlossingFormLocation"]));
             }
             set {
-                this["BiblicalTermsDlgLocation"] = value;
+                this["GlossingFormLocation"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int BiblicalTermsDlgHeight {
+        public int GlossingFormHeight {
             get {
-                return ((int)(this["BiblicalTermsDlgHeight"]));
+                return ((int)(this["GlossingFormHeight"]));
             }
             set {
-                this["BiblicalTermsDlgHeight"] = value;
+                this["GlossingFormHeight"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int BiblicalTermsDlgWidth {
+        public int GlossingFormWidth {
             get {
-                return ((int)(this["BiblicalTermsDlgWidth"]));
+                return ((int)(this["GlossingFormWidth"]));
             }
             set {
-                this["BiblicalTermsDlgWidth"] = value;
+                this["GlossingFormWidth"] = value;
             }
         }
         
