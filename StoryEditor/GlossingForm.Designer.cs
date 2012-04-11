@@ -37,9 +37,9 @@
             // 
             // flowLayoutPanel
             // 
-            this.flowLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel.AutoScroll = true;
             this.flowLayoutPanel.Location = new System.Drawing.Point(13, 13);
             this.flowLayoutPanel.Name = "flowLayoutPanel";
@@ -94,6 +94,7 @@
             this.MinimizeBox = false;
             this.Name = "GlossingForm";
             this.Text = "Gloss Text";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GlossingFormFormClosing);
             this.ResumeLayout(false);
 
         }

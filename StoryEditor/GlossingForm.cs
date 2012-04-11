@@ -94,6 +94,18 @@ namespace OneStoryProjectEditor
             ((GlossingControl)flowLayoutPanel.Controls[flowLayoutPanel.Controls.Count - 1]).DisableButton();
         }
 
+        public new DialogResult ShowDialog()
+        {
+            if (Properties.Settings.Default.GlossingFormHeight != 0)
+            {
+                Bounds = new Rectangle(Properties.Settings.Default.GlossingFormLocation,
+                                       new Size(Properties.Settings.Default.GlossingFormWidth,
+                                                Properties.Settings.Default.GlossingFormHeight));
+            }
+
+            return base.ShowDialog();
+        }
+
         public string SourceSentence { get; set; }
         public string TargetSentence { get; set; }
 
@@ -273,6 +285,14 @@ namespace OneStoryProjectEditor
             {
                 Program.ShowException(ex);
             }
+        }
+
+        private void GlossingFormFormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.GlossingFormLocation = Location;
+            Properties.Settings.Default.GlossingFormHeight = Bounds.Height;
+            Properties.Settings.Default.GlossingFormWidth = Bounds.Width;
+            Properties.Settings.Default.Save();
         }
     }
 }
