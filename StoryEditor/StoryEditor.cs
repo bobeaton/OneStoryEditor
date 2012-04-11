@@ -5734,7 +5734,7 @@ namespace OneStoryProjectEditor
                 MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                 return;
 
-            OverrideLocalizeStateInfo(ptTooltip);
+            OverrideLocalizeStateInfo(ptTooltip, true);
         }
 
         private void advancedOverrideLocalizeStateViewSettingsMenu_Click(object sender, EventArgs e)
@@ -5742,12 +5742,12 @@ namespace OneStoryProjectEditor
             // locate the window near the cursor...
             Point ptTooltip = Cursor.Position;
 
-            OverrideLocalizeStateInfo(ptTooltip);
+            OverrideLocalizeStateInfo(ptTooltip, false);
         }
 
-        private void OverrideLocalizeStateInfo(Point ptTooltip)
+        private void OverrideLocalizeStateInfo(Point ptTooltip, bool bChangingState)
         {
-            var dlg = new StageEditorForm(StoryProject, TheCurrentStory, ptTooltip, true);
+            var dlg = new StageEditorForm(StoryProject, TheCurrentStory, ptTooltip, bChangingState);
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 Debug.Assert(dlg.NextState != StoryStageLogic.ProjectStages.eUndefined);

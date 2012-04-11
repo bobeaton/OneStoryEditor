@@ -12,6 +12,7 @@ namespace OneStoryProjectEditor
         protected StoryData _theCurrentStory;
 
         protected long _ticksSinceShow;
+        protected bool _bChangingState;
 
         protected Dictionary<StoryStageLogic.ProjectStages, DataGridViewButtonCell> _mapStatesToButtons
             = new Dictionary<StoryStageLogic.ProjectStages, DataGridViewButtonCell>();
@@ -23,10 +24,16 @@ namespace OneStoryProjectEditor
             Localizer.Ctrl(this);
         }
 
-        public StageEditorForm(StoryProjectData storyProjectData, StoryData theCurrentStory, Point ptStatusBar, bool bBypassRestrictions)
+        public StageEditorForm(StoryProjectData storyProjectData, StoryData theCurrentStory, Point ptStatusBar, 
+            bool bChangingState)
         {
             InitializeComponent();
             Localizer.Ctrl(this);
+            _bChangingState = bChangingState;
+
+            Text = (_bChangingState)
+                        ? Localizer.Str("Click on a button to change the story to that turn")
+                        : Localizer.Str("Click on a button to edit the default settings for which fields to show when a story is in that turn");
 
             _storyProjectData = storyProjectData;
             _theCurrentStory = theCurrentStory;
@@ -76,30 +83,10 @@ namespace OneStoryProjectEditor
                 dgbc.Style.SelectionBackColor = dgbc.Style.BackColor = Color.Yellow;
             }
 
-            if (bBypassRestrictions)
-            {
-                // when bypassing restrictions, any cell is an allowed transition
-                foreach (DataGridViewButtonCell cell in _mapStatesToButtons.Values)
-                    _lstOfAllowedTransitions.Add(cell);
-            }
-            else
-            {
-                // otherwise, only set as allowed those which are allowed in StateTransitions.xml
-                // and set the background color of the special ones (i.e. all valid next as green
-                //  and all valid prev states as red)
-                System.Diagnostics.Debug.Assert(StateTransitions.ContainsKey(theCurrentStory.ProjStage.ProjectStage));
-                StoryStageLogic.StateTransition st = StateTransitions[theCurrentStory.ProjStage.ProjectStage];
-                if (st != null)
-                {
-                    // check allowable next state
-                    CheckAllowableTransitions(storyProjectData, theCurrentStory, st.AllowableForewardsTransitions,
-                                              Color.LightGreen, true);
-
-                    // allowed previous states
-                    CheckAllowableTransitions(storyProjectData, theCurrentStory, st.AllowableBackwardsTransitions,
-                                              Color.Red, false);
-                }
-            }
+            // kind of obsolete now, but...
+            // when bypassing restrictions, any cell is an allowed transition
+            foreach (DataGridViewButtonCell cell in _mapStatesToButtons.Values)
+                _lstOfAllowedTransitions.Add(cell);
 
             // locate the window near the cursor...
             // but make sure it doesn't go off the edge
@@ -282,7 +269,7 @@ namespace OneStoryProjectEditor
             if (theCell == null)
                 return;
 
-            if (e.Button == MouseButtons.Left)
+            if (_bChangingState)
             {
                 // only those that were legitimate next or previous states will be in the _lstOfAllowedTransitions
                 if (_lstOfAllowedTransitions.Contains(theCell))
@@ -296,13 +283,13 @@ namespace OneStoryProjectEditor
                     }
                 }
             }
-            else if (e.Button == MouseButtons.Right)
+            else
             {
                 // right-click means edit the state information
-                StoryStageLogic.StateTransition st = theCell.Tag as StoryStageLogic.StateTransition;
+                var st = theCell.Tag as StoryStageLogic.StateTransition;
                 if (st != null)
                 {
-                    StateEditorForm dlg = new StateEditorForm(st);
+                    var dlg = new StateEditorForm(st);
                     if (dlg.ShowDialog() == DialogResult.OK)
                     {
                         ViewStateChanged |= dlg.ViewStateChanged;
