@@ -129,6 +129,11 @@ namespace OneStoryProjectEditor
             {
                 return;
             }
+            catch (DuplicateStoryStateTransitionException)
+            {
+                // pass this one on so it triggers an email
+                throw;
+            }
             catch (Exception ex)
             {
                 string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);

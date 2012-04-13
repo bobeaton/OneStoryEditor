@@ -737,9 +737,7 @@ namespace OneStoryProjectEditor
         public StoryStateTransitionHistory(StoryStateTransitionHistory rhs)
         {
             foreach (var state in rhs)
-            {
                 Add(new StoryStateTransition(state));
-            }
         }
 
         public StoryStateTransitionHistory(XmlNode node)
@@ -778,6 +776,21 @@ namespace OneStoryProjectEditor
                     });
         }
 
+        private new void Add(StoryStateTransition transition)
+        {
+            if (this.Any(t => (t.TransitionDateTime == transition.TransitionDateTime) &&
+                              (t.WindowsUserName == transition.WindowsUserName) &&
+                              (t.LoggedInMemberId == transition.LoggedInMemberId) &&
+                              (t.FromState == transition.FromState) &&
+                              (t.ToState == transition.ToState)))
+            {
+                // don't both adding duplicates (this shouldn't be able to happen, but it is consistently on
+                //  Vijay's (HindiMp team) computer
+                throw new DuplicateStoryStateTransitionException("Please click the button to send an email to Bob Eaton (bob_eaton@sall.com) to debug the 'multiple identical StoryStateTransition' error." + transition.GetXml);
+            }
+            base.Add(transition);
+        }
+
         public const string CstrElementLabelTransitionHistory = "TransitionHistory";
 
         public XElement GetXml
@@ -794,6 +807,13 @@ namespace OneStoryProjectEditor
         public bool HasData
         {
             get { return (Count > 0); }
+        }
+    }
+
+    public class DuplicateStoryStateTransitionException : ApplicationException
+    {
+        public DuplicateStoryStateTransitionException(string strMessage) : base(strMessage)
+        {
         }
     }
 

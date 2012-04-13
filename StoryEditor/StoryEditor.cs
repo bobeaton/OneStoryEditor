@@ -192,6 +192,11 @@ namespace OneStoryProjectEditor
                 {
                     throw;
                 }
+                catch (DuplicateStoryStateTransitionException)
+                {
+                    // pass this one on so it triggers an email
+                    throw;
+                }
                 catch { }   // this was only a bene anyway, so just ignore it
             }
 
@@ -869,6 +874,11 @@ namespace OneStoryProjectEditor
             {
                 SaveXElement(ex.XmlProjectFile, projSettings.ProjectFilePath, true);
                 OpenProject(projSettings);
+            }
+            catch (DuplicateStoryStateTransitionException)
+            {
+                // pass this one on so it triggers an email
+                throw;
             }
             catch (Exception ex)
             {
@@ -5910,6 +5920,11 @@ namespace OneStoryProjectEditor
                 // throw; if we do this, it seems it doesn't want to work (since it's
                 //  on a handler, I guess). So see if we can just close
                 Close();
+            }
+            catch (DuplicateStoryStateTransitionException)
+            {
+                // pass this one on so it triggers an email
+                throw;
             }
             catch (Exception ex)
             {
