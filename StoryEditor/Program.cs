@@ -131,6 +131,9 @@ namespace OneStoryProjectEditor
             }
             catch (DuplicateStoryStateTransitionException)
             {
+                // clobber this so it doesn't automatically try to load next time
+                Properties.Settings.Default.LastProject = null;
+                Properties.Settings.Default.Save();
                 // pass this one on so it triggers an email
                 throw;
             }
@@ -140,6 +143,10 @@ namespace OneStoryProjectEditor
                 if (ex.InnerException != null)
                     strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
                 LocalizableMessageBox.Show(strMessage, StoryEditor.OseCaption);
+
+                // clobber this so it doesn't automatically try to load next time
+                Properties.Settings.Default.LastProject = null;
+                Properties.Settings.Default.Save();
             }
         }
 
