@@ -726,6 +726,16 @@ namespace OneStoryProjectEditor
             // and remove the entry from the 'database' of tests
             CraftingInfo.TestersToCommentsTqAnswers.RemoveAt(nTestNum);
         }
+
+        public void MoveCoachNotesToConsultantNotePane()
+        {
+            Verses.MoveCoachNotesToConsultantNotePane();
+        }
+
+        internal void MoveConsultantNotesToCoachNotePane()
+        {
+            Verses.MoveConsultantNotesToCoachNotePane();
+        }
     }
 
     public class StoryStateTransitionHistory : List<StoryStateTransition>
@@ -737,9 +747,7 @@ namespace OneStoryProjectEditor
         public StoryStateTransitionHistory(StoryStateTransitionHistory rhs)
         {
             foreach (var state in rhs)
-            {
                 Add(new StoryStateTransition(state));
-            }
         }
 
         public StoryStateTransitionHistory(XmlNode node)
@@ -753,14 +761,19 @@ namespace OneStoryProjectEditor
                     Add(new StoryStateTransition(nodeStateTransition));
         }
 
+        private bool _bSuspendBigThrow;
         public StoryStateTransitionHistory(NewDataSet.storyRow theStoryRow)
         {
             NewDataSet.TransitionHistoryRow[] aTHRs = theStoryRow.GetTransitionHistoryRows();
             if (aTHRs.Length == 1)
             {
                 NewDataSet.TransitionHistoryRow theTHR = aTHRs[0];
+                
+                // don't throw in this case, because whatever the cause is, is already done
+                _bSuspendBigThrow = true;
                 foreach (NewDataSet.StateTransitionRow aSTR in theTHR.GetStateTransitionRows())
                     Add(new StoryStateTransition(aSTR));
+                _bSuspendBigThrow = false;
             }
         }
 
@@ -776,6 +789,25 @@ namespace OneStoryProjectEditor
                         TransitionDateTime = DateTime.Now,
                         WindowsUserName = (user != null) ? user.Name : null
                     });
+        }
+
+        private new void Add(StoryStateTransition transition)
+        {
+            if (this.Any(t => (t.TransitionDateTime == transition.TransitionDateTime) &&
+                              (t.WindowsUserName == transition.WindowsUserName) &&
+                              (t.LoggedInMemberId == transition.LoggedInMemberId) &&
+                              (t.FromState == transition.FromState) &&
+                              (t.ToState == transition.ToState)))
+            {
+                // don't bother adding duplicates (this shouldn't be able to happen, but it is consistently on
+                //  Vijay's (HindiMp team) computer.
+                // In the case where we're just *loading* the file, just throw away duplicates (the problem has already
+                //  happened so no point is bothering the user at this point)
+                if (!_bSuspendBigThrow)
+                    throw new DuplicateStoryStateTransitionException("Please click the button to send an email to Bob Eaton (bob_eaton@sall.com) to debug the 'multiple identical StoryStateTransition' error." + transition.GetXml);
+                return;
+            }
+            base.Add(transition);
         }
 
         public const string CstrElementLabelTransitionHistory = "TransitionHistory";
@@ -794,6 +826,13 @@ namespace OneStoryProjectEditor
         public bool HasData
         {
             get { return (Count > 0); }
+        }
+    }
+
+    public class DuplicateStoryStateTransitionException : ApplicationException
+    {
+        public DuplicateStoryStateTransitionException(string strMessage) : base(strMessage)
+        {
         }
     }
 

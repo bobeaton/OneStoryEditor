@@ -192,6 +192,11 @@ namespace OneStoryProjectEditor
                 {
                     throw;
                 }
+                catch (DuplicateStoryStateTransitionException)
+                {
+                    // pass this one on so it triggers an email
+                    throw;
+                }
                 catch { }   // this was only a bene anyway, so just ignore it
             }
 
@@ -878,6 +883,11 @@ namespace OneStoryProjectEditor
             {
                 SaveXElement(ex.XmlProjectFile, projSettings.ProjectFilePath, true);
                 OpenProject(projSettings);
+            }
+            catch (DuplicateStoryStateTransitionException)
+            {
+                // pass this one on so it triggers an email
+                throw;
             }
             catch (Exception ex)
             {
@@ -5779,7 +5789,9 @@ namespace OneStoryProjectEditor
         {
             advancedChangeStateWithoutChecksMenu.Enabled =
                 advancedOverrideLocalizeStateViewSettingsMenu.Enabled =
-                advancedImportHelper.Enabled = 
+                advancedImportHelper.Enabled =
+                advancedCoachNotesToConsultantNotesPane.Enabled =
+                advancedConsultantNotesToCoachNotesPane.Enabled = 
                 ((StoryProject != null) && (TheCurrentStory != null));
 
             advancedNewProjectMenu.Enabled = IsInStoriesSet;
@@ -5919,6 +5931,11 @@ namespace OneStoryProjectEditor
                 // throw; if we do this, it seems it doesn't want to work (since it's
                 //  on a handler, I guess). So see if we can just close
                 Close();
+            }
+            catch (DuplicateStoryStateTransitionException)
+            {
+                // pass this one on so it triggers an email
+                throw;
             }
             catch (Exception ex)
             {
@@ -6266,6 +6283,20 @@ namespace OneStoryProjectEditor
             var strFilename = Localizer.Str("Inference Test Answers ") +
                               TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.Count.ToString(CultureInfo.InvariantCulture);
             return ShouldCopyFileToDropbox(strFilename, bCopyToDropbox);
+        }
+
+        private void advancedCoachNotesToConsultantNotesPane_Click(object sender, EventArgs e)
+        {
+            TheCurrentStory.MoveCoachNotesToConsultantNotePane();
+            Modified = true;
+            InitAllPanes();
+        }
+
+        private void advancedConsultantNotesToCoachNotesPane_Click(object sender, EventArgs e)
+        {
+            TheCurrentStory.MoveConsultantNotesToCoachNotePane();
+            Modified = true;
+            InitAllPanes();
         }
     }
 }

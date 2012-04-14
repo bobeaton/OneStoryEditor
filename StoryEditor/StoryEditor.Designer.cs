@@ -160,6 +160,9 @@ namespace OneStoryProjectEditor
             this.advancedEmailMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedUseWordBreaks = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedImportHelper = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedTransferConNotes = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedCoachNotesToConsultantNotesPane = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedConsultantNotesToCoachNotesPane = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -1184,7 +1187,8 @@ namespace OneStoryProjectEditor
             this.advancedChangeProjectFolderRootMenu,
             this.advancedEmailMenu,
             this.advancedUseWordBreaks,
-            this.advancedImportHelper});
+            this.advancedImportHelper,
+            this.advancedTransferConNotes});
             this.advancedToolStripMenu.Name = "advancedToolStripMenu";
             this.advancedToolStripMenu.Size = new System.Drawing.Size(72, 27);
             this.advancedToolStripMenu.Text = "A&dvanced";
@@ -1332,6 +1336,29 @@ namespace OneStoryProjectEditor
             this.advancedImportHelper.Size = new System.Drawing.Size(314, 22);
             this.advancedImportHelper.Text = "&Import helper (text paster)";
             this.advancedImportHelper.Click += new System.EventHandler(this.advancedImportHelper_Click);
+            // 
+            // advancedTransferConNotes
+            // 
+            this.advancedTransferConNotes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.advancedCoachNotesToConsultantNotesPane,
+            this.advancedConsultantNotesToCoachNotesPane});
+            this.advancedTransferConNotes.Name = "advancedTransferConNotes";
+            this.advancedTransferConNotes.Size = new System.Drawing.Size(314, 22);
+            this.advancedTransferConNotes.Text = "&Transfer Open ConNotes";
+            // 
+            // advancedCoachNotesToConsultantNotesPane
+            // 
+            this.advancedCoachNotesToConsultantNotesPane.Name = "advancedCoachNotesToConsultantNotesPane";
+            this.advancedCoachNotesToConsultantNotesPane.Size = new System.Drawing.Size(349, 22);
+            this.advancedCoachNotesToConsultantNotesPane.Text = "Coach\'s Coach Notes to Consultant Notes pane";
+            this.advancedCoachNotesToConsultantNotesPane.Click += new System.EventHandler(this.advancedCoachNotesToConsultantNotesPane_Click);
+            // 
+            // advancedConsultantNotesToCoachNotesPane
+            // 
+            this.advancedConsultantNotesToCoachNotesPane.Name = "advancedConsultantNotesToCoachNotesPane";
+            this.advancedConsultantNotesToCoachNotesPane.Size = new System.Drawing.Size(349, 22);
+            this.advancedConsultantNotesToCoachNotesPane.Text = "Consultant\'s Consultant Notes to Coach Notes pane";
+            this.advancedConsultantNotesToCoachNotesPane.Click += new System.EventHandler(this.advancedConsultantNotesToCoachNotesPane_Click);
             // 
             // aboutToolStripMenu
             // 
@@ -1874,6 +1901,9 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator5;
         internal ToolStripMenuItem advancedUseWordBreaks;
         private ToolStripMenuItem advancedImportHelper;
+        private ToolStripMenuItem advancedTransferConNotes;
+        private ToolStripMenuItem advancedCoachNotesToConsultantNotesPane;
+        private ToolStripMenuItem advancedConsultantNotesToCoachNotesPane;
     }
 
 #if UsingHtmlDisplayForConNotes

@@ -55,6 +55,40 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public void ConvertToOtherPaneDirection()
+        {
+            switch (Direction)
+            {
+                case ConsultNoteDataConverter.CommunicationDirections.eConsultantToProjFac:
+                case ConsultNoteDataConverter.CommunicationDirections.eConsultantToProjFacNeedsApproval:
+                    Direction = ConsultNoteDataConverter.CommunicationDirections.eCoachToConsultant;
+                    return;
+                case ConsultNoteDataConverter.CommunicationDirections.eProjFacToConsultant:
+                    Direction = ConsultNoteDataConverter.CommunicationDirections.eConsultantToCoach;
+                    return;
+                case ConsultNoteDataConverter.CommunicationDirections.eConsultantToCoach:
+                    Direction = ConsultNoteDataConverter.CommunicationDirections.eProjFacToConsultant;
+                    return;
+                case ConsultNoteDataConverter.CommunicationDirections.eCoachToConsultant:
+                    Direction = ConsultNoteDataConverter.CommunicationDirections.eConsultantToProjFac;
+                    return;
+                case ConsultNoteDataConverter.CommunicationDirections.eProjFacToProjFac:
+                    Direction = ConsultNoteDataConverter.CommunicationDirections.eConsultantToConsultant;
+                    return;
+                case ConsultNoteDataConverter.CommunicationDirections.eConsultantToConsultant:
+                    // technically ambiguous, but why would a cons->cons (note to self) occur in the Coach notes pane
+                    //  so choose the one that makes sense
+                    Direction = ConsultNoteDataConverter.CommunicationDirections.eProjFacToProjFac;
+                    return;
+                case ConsultNoteDataConverter.CommunicationDirections.eCoachToCoach:
+                    Direction = ConsultNoteDataConverter.CommunicationDirections.eConsultantToConsultant;
+                    return;
+                default: 
+                    System.Diagnostics.Debug.Assert(false, "unknown ConNote conversation direction!");
+                    return;
+            }
+        }
+
         public const string CstrAttributeLabelDirection = "Direction";
         public const string CstrAttributeLabelGuid = "guid";
         public const string CstrAttributeLabelMemberId = "memberID";
@@ -1046,6 +1080,11 @@ namespace OneStoryProjectEditor
         {
         }
 
+        public static ConsultNoteDataConverter MakeFromConsultNotesDataConverter(ConsultNoteDataConverter rhs)
+        {
+            return new ConsultantNoteData(rhs);
+        }
+
         public override CommunicationDirections MentorDirection
         {
             get { return CommunicationDirections.eConsultantToProjFac; }
@@ -1184,6 +1223,11 @@ namespace OneStoryProjectEditor
         public CoachNoteData(ConsultNoteDataConverter rhs)
             : base(rhs)
         {
+        }
+
+        public static ConsultNoteDataConverter MakeFromConsultNotesDataConverter(ConsultNoteDataConverter rhs)
+        {
+            return new CoachNoteData(rhs);
         }
 
         public override CommunicationDirections MentorDirection
