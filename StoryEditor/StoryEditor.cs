@@ -1936,8 +1936,11 @@ namespace OneStoryProjectEditor
         {
             // e.g. "tst 1:" (but may be localized)
             Debug.Assert(strLabel.Contains(' '));
-            int nIndex = strLabel.LastIndexOf(' ');
-            string strTestNumber = strLabel.Substring(nIndex + 1, 1);
+            var len = 1;
+            int nIndexSc, nIndex = strLabel.LastIndexOf(' ');
+            if ((nIndexSc = strLabel.LastIndexOf(':')) != -1)
+                len = nIndexSc - nIndex - 1;
+            string strTestNumber = strLabel.Substring(nIndex + 1, len);
             int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
             return ctrl._verseData.TestQuestions[nTestNumber];
         }
@@ -1945,11 +1948,10 @@ namespace OneStoryProjectEditor
         internal static TestQuestionData GetTestQuestionDataFromAnswerLabel(string strLabel, VerseBtControl ctrl)
         {
             // e.g. "ans 1:tst 1:"
-            Debug.Assert(strLabel.Contains(' '));
-            int nIndex = strLabel.LastIndexOf(' ');
-            string strTestNumber = strLabel.Substring(nIndex + 1, 1);
-            int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
-            return ctrl._verseData.TestQuestions[nTestNumber];
+            // see if we can get just the 2nd portion
+            int nIndex = strLabel.IndexOf(':');
+            var strTstPortion = strLabel.Substring(nIndex + 1);
+            return GetTestQuestionData(strTstPortion, ctrl);
         }
 
         internal static string GetInitials(string name)
