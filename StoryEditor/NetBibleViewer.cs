@@ -224,6 +224,11 @@ namespace OneStoryProjectEditor
         internal static string CheckForLocalization(string strJumpTarget)
         {
             var nIndex = strJumpTarget.IndexOf(' ');
+
+            // don't know how this can happen, but someone did it...
+            if (nIndex < 0)
+                return strJumpTarget;
+
             var strBookName = strJumpTarget.Substring(0, nIndex);
             if ((MapBookNames != null) && MapBookNames.ContainsKey(strBookName))
                 return MapBookNames[strBookName] + strJumpTarget.Substring(nIndex);

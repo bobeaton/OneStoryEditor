@@ -120,6 +120,12 @@
   <metadata name="menuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="projectToAThumbdriveMenu.ToolTipText" xml:space="preserve">
+    <value>Click here to bring up the Send/Receive dialog to transfer the current project to a Thumbdrive (e.g. if you don't have an internet repository or want to transfer the project to another user without an internet connection)</value>
+  </data>
+  <data name="storyOverrideTasksMenu.ToolTipText" xml:space="preserve">
+    <value>Click to override the Allowed and Required Tasks for the current story (e.g. to be used with the agreement of the consultant, if, for example, the consultant accidentally checked a task you're not supposed to do or didn't allow a task that you are supposed to do)</value>
+  </data>
   <data name="advancedChangeStateWithoutChecksMenu.ToolTipText" xml:space="preserve">
     <value>Click here to display the 'turn table' in which you can change whose turn this story is in, bypassing the normal 'change turn' checks. WARNING: if not used properly, this command can cause a loss of data. All other team members should synchronize with the project as soon as possible to make sure no data is lost</value>
   </data>
@@ -128,12 +134,6 @@
   </data>
   <data name="advancedEmailMenu.ToolTipText" xml:space="preserve">
     <value>Some email clients don't work via the MAPI+ protocol. If OSE isn't properly sending email to your team members when you change turns, you can uncheck this menu and have it try via regular MAPI protocol</value>
-  </data>
-  <data name="projectToAThumbdriveMenu.ToolTipText" xml:space="preserve">
-    <value>Click here to bring up the Send/Receive dialog to transfer the current project to a Thumbdrive (e.g. if you don't have an internet repository or want to transfer the project to another user without an internet connection)</value>
-  </data>
-  <data name="storyOverrideTasksMenu.ToolTipText" xml:space="preserve">
-    <value>Click to override the Allowed and Required Tasks for the current story (e.g. to be used with the agreement of the consultant, if, for example, the consultant accidentally checked a task you're not supposed to do or didn't allow a task that you are supposed to do)</value>
   </data>
   <metadata name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>119, 17</value>
