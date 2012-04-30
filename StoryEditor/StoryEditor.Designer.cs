@@ -161,8 +161,9 @@ namespace OneStoryProjectEditor
             this.advancedUseWordBreaks = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedImportHelper = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedTransferConNotes = new System.Windows.Forms.ToolStripMenuItem();
-            this.advancedCoachNotesToConsultantNotesPane = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedConsultantNotesToCoachNotesPane = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedCoachNotesToConsultantNotesPane = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedReassignNotesToProperMember = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -1340,25 +1341,38 @@ namespace OneStoryProjectEditor
             // advancedTransferConNotes
             // 
             this.advancedTransferConNotes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.advancedConsultantNotesToCoachNotesPane,
             this.advancedCoachNotesToConsultantNotesPane,
-            this.advancedConsultantNotesToCoachNotesPane});
+            this.advancedReassignNotesToProperMember});
             this.advancedTransferConNotes.Name = "advancedTransferConNotes";
             this.advancedTransferConNotes.Size = new System.Drawing.Size(314, 22);
             this.advancedTransferConNotes.Text = "&Transfer Open ConNotes";
             // 
-            // advancedCoachNotesToConsultantNotesPane
-            // 
-            this.advancedCoachNotesToConsultantNotesPane.Name = "advancedCoachNotesToConsultantNotesPane";
-            this.advancedCoachNotesToConsultantNotesPane.Size = new System.Drawing.Size(349, 22);
-            this.advancedCoachNotesToConsultantNotesPane.Text = "Coach\'s Coach Notes to Consultant Notes pane";
-            this.advancedCoachNotesToConsultantNotesPane.Click += new System.EventHandler(this.advancedCoachNotesToConsultantNotesPane_Click);
-            // 
             // advancedConsultantNotesToCoachNotesPane
             // 
             this.advancedConsultantNotesToCoachNotesPane.Name = "advancedConsultantNotesToCoachNotesPane";
-            this.advancedConsultantNotesToCoachNotesPane.Size = new System.Drawing.Size(349, 22);
-            this.advancedConsultantNotesToCoachNotesPane.Text = "Consultant\'s Consultant Notes to Coach Notes pane";
+            this.advancedConsultantNotesToCoachNotesPane.Size = new System.Drawing.Size(343, 22);
+            this.advancedConsultantNotesToCoachNotesPane.Text = "Move open Consultant Notes to Coach Notes pane";
+            this.advancedConsultantNotesToCoachNotesPane.ToolTipText = "Click to move all the open Consultant notes to the Coach Note pane (former Consul" +
+    "tant becomes the Coach and the former PF becomes a CIT)";
             this.advancedConsultantNotesToCoachNotesPane.Click += new System.EventHandler(this.advancedConsultantNotesToCoachNotesPane_Click);
+            // 
+            // advancedCoachNotesToConsultantNotesPane
+            // 
+            this.advancedCoachNotesToConsultantNotesPane.Name = "advancedCoachNotesToConsultantNotesPane";
+            this.advancedCoachNotesToConsultantNotesPane.Size = new System.Drawing.Size(343, 22);
+            this.advancedCoachNotesToConsultantNotesPane.Text = "Move open Coach Notes to Consultant Notes pane";
+            this.advancedCoachNotesToConsultantNotesPane.ToolTipText = "Click to move all the open Coach notes to the Consultant Note pane (former Coach " +
+    "becomes the Consultant and the former CIT becomes the PF)";
+            this.advancedCoachNotesToConsultantNotesPane.Click += new System.EventHandler(this.advancedCoachNotesToConsultantNotesPane_Click);
+            // 
+            // advancedReassignNotesToProperMember
+            // 
+            this.advancedReassignNotesToProperMember.Name = "advancedReassignNotesToProperMember";
+            this.advancedReassignNotesToProperMember.Size = new System.Drawing.Size(426, 22);
+            this.advancedReassignNotesToProperMember.Text = "&Enable notes to be editable by currently configured team members";
+            this.advancedReassignNotesToProperMember.ToolTipText = resources.GetString("advancedReassignNotesToProperMember.ToolTipText");
+            this.advancedReassignNotesToProperMember.Click += new System.EventHandler(this.advancedReassignNotesToProperMember_Click);
             // 
             // aboutToolStripMenu
             // 
@@ -1904,6 +1918,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem advancedTransferConNotes;
         private ToolStripMenuItem advancedCoachNotesToConsultantNotesPane;
         private ToolStripMenuItem advancedConsultantNotesToCoachNotesPane;
+        private ToolStripMenuItem advancedReassignNotesToProperMember;
     }
 
 #if UsingHtmlDisplayForConNotes

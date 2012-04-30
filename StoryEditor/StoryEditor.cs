@@ -5793,7 +5793,8 @@ namespace OneStoryProjectEditor
                 advancedOverrideLocalizeStateViewSettingsMenu.Enabled =
                 advancedImportHelper.Enabled =
                 advancedCoachNotesToConsultantNotesPane.Enabled =
-                advancedConsultantNotesToCoachNotesPane.Enabled = 
+                advancedConsultantNotesToCoachNotesPane.Enabled =
+                advancedReassignNotesToProperMember.Enabled = 
                 ((StoryProject != null) && (TheCurrentStory != null));
 
             advancedNewProjectMenu.Enabled = IsInStoriesSet;
@@ -6292,6 +6293,10 @@ namespace OneStoryProjectEditor
             TheCurrentStory.MoveCoachNotesToConsultantNotePane();
             Modified = true;
             InitAllPanes();
+            LocalizableMessageBox.Show(
+                Localizer.Str(
+                    "Next you should click 'Project', 'Login' and Edit the member records for the two roles that are changing to change their role within the project (e.g. Change the Coach's record to make him/her the Independent Consultant) and then click 'Story', 'Story Information' and use the 'Change' link next to the team member roles that are changing (e.g. to change the member who is the Consultant assigned to the story). This needs to be done for every story"),
+                OseCaption);
         }
 
         private void advancedConsultantNotesToCoachNotesPane_Click(object sender, EventArgs e)
@@ -6299,6 +6304,24 @@ namespace OneStoryProjectEditor
             TheCurrentStory.MoveConsultantNotesToCoachNotePane();
             Modified = true;
             InitAllPanes();
+            LocalizableMessageBox.Show(
+                Localizer.Str(
+                    "Next you should click 'Project', 'Login' and Edit the member records for the two roles that are changing to change their role within the project (e.g. Change the Consultant's record to make him/her a Coach) and then click 'Story', 'Story Information' and use the 'Change' link next to the team member roles that are changing (e.g. to change the member who is the Consultant assigned to the story). This needs to be done for every story"),
+                OseCaption);
+        }
+
+        private void advancedReassignNotesToProperMember_Click(object sender, EventArgs e)
+        {
+            if (!MemberIdInfo.Configured(TheCurrentStory.CraftingInfo.ProjectFacilitator) ||
+                !MemberIdInfo.Configured(TheCurrentStory.CraftingInfo.Consultant))
+            {
+                LocalizableMessageBox.Show(
+                    Localizer.Str(
+                        "Configure the member roles in the 'Story', 'Story Information' dialog first and then click this menu."),
+                    OseCaption);
+                return;
+            }
+            TheCurrentStory.ReassignRolesToConNoteComments();
         }
     }
 }

@@ -1092,6 +1092,12 @@ namespace OneStoryProjectEditor
                 ToSet.Add(otherConNote);
             }
         }
+
+        public void ReassignRolesToConNoteComments(MemberIdInfo projectFacilitator, MemberIdInfo consultant)
+        {
+            // for now, this just applies to the Consultant notes pane
+            ConsultantNotes.ReassignRolesToConNoteComments(projectFacilitator, consultant);
+        }
     }
 
     public class VersesData : List<VerseData>
@@ -1835,6 +1841,12 @@ namespace OneStoryProjectEditor
         {
             FirstVerse.MoveCoachNotesToConsultantNotePane();
             ForEach(v => v.MoveCoachNotesToConsultantNotePane());
+        }
+
+        public void ReassignRolesToConNoteComments(MemberIdInfo projectFacilitator, MemberIdInfo consultant)
+        {
+            FirstVerse.ReassignRolesToConNoteComments(projectFacilitator, consultant);
+            ForEach(v => v.ReassignRolesToConNoteComments(projectFacilitator, consultant));
         }
     }
 }

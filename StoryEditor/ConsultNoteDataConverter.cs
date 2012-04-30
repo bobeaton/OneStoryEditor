@@ -1038,11 +1038,28 @@ namespace OneStoryProjectEditor
 
         public void UpdateCommentMemberId(string strOldMemberGuid, string strNewMemberGuid)
         {
-            foreach (var aComment in this.Where(aComment => 
-                aComment.MemberID == strOldMemberGuid))
-            {
-                aComment.MemberID = strNewMemberGuid;
-            }
+            // here's a problem: if we make a CIT back into a PF and move the open Coach Notes
+            //  to the Consultant Notes pane, then the one who was the CIT (who initiated 
+            //  Consultant Notes) will now be the PF. But if we're converting the original PF to
+            //  the new CIT-cum-PF, we might end up making him the PF of certain comments that he
+            //  already initiating as CIT (which is bad). So only do this where the 'new' PF isn't 
+            //  already in any of the comments (I think).
+            if (this.All(aComment => aComment.MemberID != strNewMemberGuid))
+                foreach (var aComment in this.Where(aComment => aComment.MemberID == strOldMemberGuid))
+                {
+                    aComment.MemberID = strNewMemberGuid;
+                }
+        }
+
+        public void ReassignRolesToConNoteComments(MemberIdInfo mentoree, MemberIdInfo mentor)
+        {
+            foreach (var comment in this)
+                if (IsFromMentor(comment))
+                    comment.MemberID = mentor.MemberId;
+                else if (IsFromMentee(comment))
+                    comment.MemberID = mentoree.MemberId;
+                else
+                    System.Diagnostics.Debug.Assert(false);
         }
     }
 
@@ -1511,6 +1528,13 @@ namespace OneStoryProjectEditor
         {
             foreach (var aCndc in this)
                 aCndc.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
+        }
+
+        public void ReassignRolesToConNoteComments(MemberIdInfo mentoree, MemberIdInfo mentor)
+        {
+            // only need to bother with the open conversations
+            foreach (var conversation in this.Where(conversation => !conversation.IsFinished))
+                conversation.ReassignRolesToConNoteComments(mentoree, mentor);
         }
     }
 

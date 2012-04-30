@@ -736,6 +736,14 @@ namespace OneStoryProjectEditor
         {
             Verses.MoveConsultantNotesToCoachNotePane();
         }
+
+        public void ReassignRolesToConNoteComments()
+        {
+            // for now, it seems the problem is only in the Consultant Notes pane
+            //  (otherwise, add the coach as well)
+            Verses.ReassignRolesToConNoteComments(CraftingInfo.ProjectFacilitator,
+                                                  CraftingInfo.Consultant);
+        }
     }
 
     public class StoryStateTransitionHistory : List<StoryStateTransition>
@@ -934,8 +942,8 @@ namespace OneStoryProjectEditor
         public void WriteXml(string strElementLabel, XElement elem)
         {
             elem.Add(new XElement(strElementLabel,
-                new XAttribute(CstrAttributeMemberID, MemberId),
-                MemberComment));
+                                  new XAttribute(CstrAttributeMemberID, MemberId),
+                                  MemberComment ?? ""));
         }
 
         public string MemberId { get; set; }
