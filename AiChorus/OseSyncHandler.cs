@@ -14,8 +14,9 @@ namespace AiChorus
         private const string CstrCantOpenOse = "Can't Open OneStory Editor";
 
         private Assembly _theStoryEditor;
+#if !AiChorusInOseFolder
         private MethodInfo _methodSyncWithRepository;
-        private MethodInfo _methodUpdateRecentlyUsedLists;
+#endif
 
         public OseSyncHandler(Project project, ServerSetting serverSetting)
             : base(project, serverSetting)
@@ -57,18 +58,12 @@ namespace AiChorus
                         return CstrCantOpenOse;
 
                     var typeString = typeof (string);
+#if !AiChorusInOseFolder
                     var aTypeParams = new Type[] { typeString, typeString, typeString, typeString, typeString, typeString };
                     _methodSyncWithRepository = typeOseProjectSettings.GetMethod("SyncWithRepository", aTypeParams);
-
+#endif
                     var propOneStoryProjectFolderRoot = typeOseProjectSettings.GetProperty("OneStoryProjectFolderRoot");
                     _appDataRoot = (string)propOneStoryProjectFolderRoot.GetValue(typeOseProjectSettings, null);
-
-                    var typeStoryEditor = _theStoryEditor.GetType("OneStoryProjectEditor.StoryEditor");
-                    if (typeStoryEditor == null)
-                        return CstrCantOpenOse;
-
-                    _methodUpdateRecentlyUsedLists = typeStoryEditor.GetMethod("UpdateRecentlyUsedLists",
-                                                                               new[] {typeString, typeString});
                 }
 
                 return _appDataRoot;
@@ -101,11 +96,16 @@ namespace AiChorus
         {
             if (base.DoClone())
             {
+                // TODO: somehow add this to the recently used list (e.g. edit the settings file or something)
+                //  calling OSE to invoke "_methodUpdateRecentlyUsedLists" doesn't work, because opening OSE this
+                //  way doesn't cause the settings file to be loaded)
+                /*
                 if (_methodUpdateRecentlyUsedLists != null)
                 {
                     var oParams = new object[] {Path.Combine(AppDataRoot, Project.FolderName), Project.ProjectId};
                     _methodUpdateRecentlyUsedLists.Invoke(_theStoryEditor, oParams);
                 }
+                */
             }
             return false;
         }
