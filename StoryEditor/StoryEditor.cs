@@ -1140,6 +1140,8 @@ namespace OneStoryProjectEditor
             if (!String.IsNullOrEmpty(strStoryRecording))
                 LaunchWordPad(strStoryRecording);
             theNewStory.JustAdded = true;
+
+            SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacTypeVernacular, false);
         }
 
         protected void InsertNewStoryAdjustComboBox(StoryData theNewStory, int nIndexToInsert)
@@ -3459,14 +3461,26 @@ namespace OneStoryProjectEditor
 
         private static string BuildDropboxFilename(string strTargetPath, string strFilename, string extn)
         {
+            // give it the name one greater than the highest v# currently
+            // start by finding out which files are already there.... eg. search for 'Story v*.*'
+            var filter = strFilename + " v";
+            var files = Directory.GetFiles(strTargetPath, filter + "*.*")
+                .OrderByDescending(s => GetVersionNumber(s, filter));
+            
             var nVersion = 1;
-            string strName, strSpec; 
-            do
-            {
-                strName = String.Format("{0} v{1}{2}", strFilename, nVersion++, extn);
-                strSpec = Path.Combine(strTargetPath, strName);
-            } while (File.Exists(strSpec));
-            return strSpec;
+            if (files.Any())
+                nVersion = GetVersionNumber(files.First(), filter) + 1;
+
+            var strName = String.Format("{0}{1}{2}", filter, nVersion, extn);
+            return Path.Combine(strTargetPath, strName);
+        }
+
+        private static int GetVersionNumber(string strFilepath, string filter)
+        {
+            var strVersion = Path.GetFileNameWithoutExtension(strFilepath).Substring(filter.Length);
+            int nVersion;
+            Int32.TryParse(strVersion, out nVersion);
+            return nVersion;
         }
 
         private void WriteAudioFile(string strSourceFilepath, string strTargetFilepath)
@@ -3476,6 +3490,7 @@ namespace OneStoryProjectEditor
             if (!Directory.Exists(strParentFolder))
                 Directory.CreateDirectory(strParentFolder);
             File.Copy(strSourceFilepath, strTargetFilepath, true);
+            File.SetLastWriteTime(strTargetFilepath, DateTime.Now);
         }
 
         internal string ConcatenateToPath(string strFolderRoot, List<string> lstFolderNames)

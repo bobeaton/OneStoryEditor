@@ -12,6 +12,9 @@ namespace OneStoryProjectEditor
 {
     public partial class TransitionHistoryForm : TopForm
     {
+        private IEnumerable<StoryStateTransition> _theHistory;
+        private TeamMembersData _teamMembersData;
+
         private TransitionHistoryForm()
         {
             InitializeComponent();
@@ -21,22 +24,32 @@ namespace OneStoryProjectEditor
         public TransitionHistoryForm(IEnumerable<StoryStateTransition> theHistory, TeamMembersData teamMembersData)
             : base(true)
         {
+            _theHistory = theHistory;
+            _teamMembersData = teamMembersData;
+
             InitializeComponent();
             Localizer.Ctrl(this);
 
-            foreach (StoryStateTransition stateTransition in theHistory)
+            foreach (var stateTransition in theHistory)
             {
-                string strOSUser = teamMembersData.GetNameFromMemberId(stateTransition.LoggedInMemberId);
+                var strOsUser = teamMembersData.GetNameFromMemberId(stateTransition.LoggedInMemberId);
                 var aObs = new object[]
                                     {
                                         stateTransition.TransitionDateTime,
                                         stateTransition.WindowsUserName,
-                                        strOSUser,
+                                        strOsUser,
                                         StoryStageLogic.stateTransitions[stateTransition.FromState].StageDisplayString,
                                         StoryStageLogic.stateTransitions[stateTransition.ToState].StageDisplayString
                                     };
                 dataGridView.Rows.Add(aObs);
+                showGraphicalView.Enabled = true;
             }
+        }
+
+        private void ShowGraphicalViewClick(object sender, EventArgs e)
+        {
+            var dlg = new StateTransitionHistoryGraphForm(_theHistory, _teamMembersData);
+            dlg.ShowDialog();
         }
     }
 }
