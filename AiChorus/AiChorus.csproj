@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\chorus.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AIGuesserEC, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -44,15 +47,18 @@
       <ExecutableExtension>.exe</ExecutableExtension>
       <HintPath>..\..\StoryEditor\DepDLLs\Chorus.exe</HintPath>
     </Reference>
-    <Reference Include="ChorusMerge">
-      <HintPath>..\StoryEditor\DepDLLs\ChorusMerge.exe</HintPath>
+    <Reference Include="ChorusMerge, Version=1.5.84.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\DepDLLs\ChorusMerge.exe</HintPath>
     </Reference>
     <Reference Include="ECInterfaces, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\ECInterfaces.dll</HintPath>
     </Reference>
-    <Reference Include="LibChorus">
-      <HintPath>..\StoryEditor\DepDLLs\LibChorus.dll</HintPath>
+    <Reference Include="LibChorus, Version=1.5.84.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DepDLLs\LibChorus.dll</HintPath>
     </Reference>
     <Reference Include="Palaso, Version=1.9.187.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -121,6 +127,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chorus.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
