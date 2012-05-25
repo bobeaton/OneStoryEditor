@@ -59,9 +59,9 @@
   <Entry Path="&quot;national language BT&quot;">TB bahasa Indonesia </Entry>
   <Entry Path="&quot;Enter &amp;National/Regional BT&quot;">Masukkan TB bahasa &amp;Indonesia</Entry>
   <Entry Path="&quot;English BT&quot;">TB bahasa Inggris</Entry>
-  <Entry Path="&quot;Enter &amp;English BT&quot;">Masukkan TB bahasa Inggris (&amp;English)</Entry>
+  <Entry Path="&quot;Enter &amp;English BT&quot;">Masukkan TB bahasa Ing&amp;gris</Entry>
   <Entry Path="&quot;free translation&quot;">terjemahan bebas</Entry>
-  <Entry Path="&quot;Enter &amp;Free Translation (UNS BT)&quot;">Masukkan Terjemahan &amp;Bebas (TB orang awam)</Entry>
+  <Entry Path="&quot;Enter &amp;Free Translation (UNS BT)&quot;">Masukkan Terjemahan &amp;Bebas OA</Entry>
   <Entry Path="&quot;anchor&quot;">dasar Alkitab</Entry>
   <Entry Path="&quot;Enter &amp;Anchors&quot;">Masukkan dasar &amp;Alkitab</Entry>
   <Entry Path="&quot;story testing question&quot;">Pertanyaan pengujian cerita</Entry>
@@ -83,14 +83,14 @@
   <Entry Path="OneStoryProjectEditor.TaskBarControl.buttonAddStory.Text">Tambahkan &amp;Cerita</Entry>
   <Entry Path="OneStoryProjectEditor.TaskBarControl.buttonVernacular.Text">Lihat Bahasa Cerita (bah. &amp;Daerah)</Entry>
   <Entry Path="OneStoryProjectEditor.TaskBarControl.buttonNationalBt.Text">Lihat TB bahasa &amp;Indonesia</Entry>
-  <Entry Path="OneStoryProjectEditor.TaskBarControl.buttonInternationalBt.Text">Lihat TB bahasa Inggris (&amp;English)</Entry>
+  <Entry Path="OneStoryProjectEditor.TaskBarControl.buttonInternationalBt.Text">Lihat TB bahasa Ing&amp;gris </Entry>
   <Entry Path="OneStoryProjectEditor.TaskBarControl.buttonFreeTranslation.Text">Lihat Terjemahan &amp;Bebas (TB orang awam)</Entry>
   <Entry Path="OneStoryProjectEditor.TaskBarControl.buttonAnchors.Text">Lihat dasar &amp;Alkitab</Entry>
   <Entry Path="OneStoryProjectEditor.TaskBarControl.buttonViewRetellings.Text">Lihat Cerita &amp;Ulang</Entry>
-  <Entry Path="OneStoryProjectEditor.TaskBarControl.buttonAddRetellingBoxes.Text">Tambahkan k&amp;otak untuk Cerita Ulang</Entry>
+  <Entry Path="OneStoryProjectEditor.TaskBarControl.buttonAddRetellingBoxes.Text">Tambahkan k&amp;otak Cerita Ulang</Entry>
   <Entry Path="OneStoryProjectEditor.TaskBarControl.buttonViewTestQuestions.Text">Lihat &amp;Pertanyaan pengujian cerita</Entry>
   <Entry Path="OneStoryProjectEditor.TaskBarControl.buttonViewTestQuestionAnswers.Text">Lihat &amp;Jawaban</Entry>
-  <Entry Path="OneStoryProjectEditor.TaskBarControl.buttonAddBoxesForAnswers.Text">Tambahkan ko&amp;tak untuk Jawaban</Entry>
+  <Entry Path="OneStoryProjectEditor.TaskBarControl.buttonAddBoxesForAnswers.Text">Tambahkan ko&amp;tak Jawaban</Entry>
   <Entry Path="OneStoryProjectEditor.TaskBarControl.buttonStoryInformation.Text">Lihat infor&amp;masi ttg Cerita</Entry>
   <Entry Path="OneStoryProjectEditor.TaskBarControl.buttonViewPanorama.Text">Lihat informasi ttg &amp;Panorama</Entry>
   <Entry Path="OneStoryProjectEditor.TaskBarControl.buttonSendToConsultant.Text">Alihkan cerita ke giliran &amp;Konsultan</Entry>
@@ -166,7 +166,7 @@
   <Entry Path="OneStoryProjectEditor.SearchForm.labelLookIn.Text">Cari di:</Entry>
   <Entry Path="OneStoryProjectEditor.SearchForm.checkBoxLookInStoryLanguage.Text">Bahasa Cerita (bah. &amp;Daerah)</Entry>
   <Entry Path="OneStoryProjectEditor.SearchForm.checkBoxLookInNationalBT.Text">TB Bahasa &amp;Indonesia</Entry>
-  <Entry Path="OneStoryProjectEditor.SearchForm.checkBoxLookInEnglishBT.Text">TB Bahasa Inggris (&amp;English)</Entry>
+  <Entry Path="OneStoryProjectEditor.SearchForm.checkBoxLookInEnglishBT.Text">TB Bahasa Ing&amp;gris</Entry>
   <Entry Path="OneStoryProjectEditor.SearchForm.checkBoxLookInConsultantNotes.Text">Catatan &amp;Konsultan</Entry>
   <Entry Path="OneStoryProjectEditor.SearchForm.checkBoxLookInCoachNotes.Text">Catatan Pem&amp;bina</Entry>
   <Entry Path="OneStoryProjectEditor.SearchForm.checkBoxLookInTestQs.Text">&amp;Pertanyaan Pengujian</Entry>
@@ -215,7 +215,7 @@
   <Entry Path="OneStoryProjectEditor.PrintForm.checkBoxLangTransliterateVernacular.Text">Salin ke abjad lain</Entry>
   <Entry Path="OneStoryProjectEditor.PrintForm.checkBoxLangNationalBT.Text">Terjemahan Balik Indonesia </Entry>
   <Entry Path="OneStoryProjectEditor.PrintForm.checkBoxLangTransliterateNationalBT.Text">Salin ke abjad lain</Entry>
-  <Entry Path="OneStoryProjectEditor.PrintForm.checkBoxLangInternationalBT.Text">kotak-kotak TB bahasa Inggris (&amp;English)</Entry>
+  <Entry Path="OneStoryProjectEditor.PrintForm.checkBoxLangInternationalBT.Text">kotak-kotak TB bahasa Ing&amp;gris </Entry>
   <Entry Path="OneStoryProjectEditor.PrintForm.checkBoxLangTransliterateInternationalBt.Text">Salin ke abjad lain</Entry>
   <Entry Path="OneStoryProjectEditor.PrintForm.checkBoxLangFreeTranslation.Text">kotak-kotak Terjemahan &amp;Bebas</Entry>
   <Entry Path="OneStoryProjectEditor.PrintForm.checkBoxLangTransliterateFreeTranslation.Text">Salin ke abjad lain</Entry>
@@ -334,7 +334,7 @@
   <Entry Path="OneStoryProjectEditor.RevisionHistoryForm.checkBoxLangTransliterateVernacular.Text">Salin ke abjad lain</Entry>
   <Entry Path="OneStoryProjectEditor.RevisionHistoryForm.checkBoxLangNationalBT.Text">BahTBIndonesia &lt;tidak perlu di lokalisasi&gt;</Entry>
   <Entry Path="OneStoryProjectEditor.RevisionHistoryForm.checkBoxLangTransliterateNationalBT.Text">Salin ke abjad lain</Entry>
-  <Entry Path="OneStoryProjectEditor.RevisionHistoryForm.checkBoxLangInternationalBT.Text">kotak-kotak TB bahasa Inggris (&amp;English)</Entry>
+  <Entry Path="OneStoryProjectEditor.RevisionHistoryForm.checkBoxLangInternationalBT.Text">kotak-kotak TB bahasa Ing&amp;gris </Entry>
   <Entry Path="OneStoryProjectEditor.RevisionHistoryForm.checkBoxLangTransliterateInternationalBt.Text">Salin ke abjad lain</Entry>
   <Entry Path="OneStoryProjectEditor.RevisionHistoryForm.checkBoxLangFreeTranslation.Text">kotak-kotak Terjemahan &amp;Bebas</Entry>
   <Entry Path="OneStoryProjectEditor.RevisionHistoryForm.checkBoxLangTransliterateFreeTranslation.Text">Salin ke abjad lain</Entry>
@@ -501,7 +501,7 @@
   <Entry Path="OneStoryProjectEditor.StoryEditor.projectFromTheInternetMenu.ToolTipText">Klik di sini untuk mengetik alamat Internet untuk mendapatkan proyek dari alamat itu (misalnya jika anggota tim lain telah sudah meng-upload proyek ke tempat penyimpanannya di internet)</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.projectToTheInternetMenu.Text">&amp;Ke Internet...</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.projectToTheInternetMenu.ToolTipText">Klik di sini untuk mengetik alamat tempat penyimpanan di Internet di mana Anda ingin mengirim proyek ini (misalnya jika Anda telah membuat sebuah proyek baru dan ingin untuk "mendorong" ke tempat penyimpanan di internet yang sudah ada)</Entry>
-  <Entry Path="OneStoryProjectEditor.StoryEditor.projectToAThumbdriveMenu.Text">Transfer melalui &amp;USB thumbdrive...</Entry>
+  <Entry Path="OneStoryProjectEditor.StoryEditor.projectToAThumbdriveMenu.Text">Kirim melalui &amp;USB thumbdrive...</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.projectToAThumbdriveMenu.ToolTipText">Klik di sini untuk membuka dialog "Kirim/Terima" untuk mentransfer proyek ini ke USB Thumbdrive (misalnya jika Anda tidak memiliki tempat penyimpanan proyek di internet atau ingin transfer proyek kepada pengguna lain yang tidak memiliki koneksi internet) </Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.projectFromASharedNetworkDriveMenu.Text">Mengasosiasikan dengan folder &amp;Jaringan Komputer umum...</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.projectFromASharedNetworkDriveMenu.ToolTipText">Klik di sini untuk mengasosiasikan proyek ini dengan tempat penyimpanan di drive jaringan (misalnya untuk bekerja sama di sebuah lokakarya di mana konektivitas Internet sulit).</Entry>
@@ -523,7 +523,7 @@
   <Entry Path="OneStoryProjectEditor.StoryEditor.editCopyStoryMenu.ToolTipText">Salin semua baris teks dalam bahasa cerita (bahasa daerah) ke dalam satu paragraf teks yang besar</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.editCopyNationalBtMenu.Text">Terjemahan balik bahasa &amp;Indonesia ke clipboard</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.editCopyNationalBtMenu.ToolTipText">Salin semua baris teks terjemahan balik bahasa Indonesia ke dalam satu paragraf teks yang besar</Entry>
-  <Entry Path="OneStoryProjectEditor.StoryEditor.editCopyEnglishBtMenu.Text">Terjemahan balik bahasa Inggris (&amp;English) ke clipboard</Entry>
+  <Entry Path="OneStoryProjectEditor.StoryEditor.editCopyEnglishBtMenu.Text">Terjemahan balik bahasa Ing&amp;gris ke clipboard</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.editCopyEnglishBtMenu.ToolTipText">Salin semua baris teks terjemahan balik bahasa Inggris ke dalam satu paragraf teks yang besar</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.editCopyFreeTranslationMenu.Text">Terjemahan &amp;Bebas ke clipboard</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.editCopyFreeTranslationMenu.ToolTipText">Salin semua baris teks dalam Terjemahan Bebas ke dalam satu paragraf teks yang besar</Entry>
@@ -534,7 +534,7 @@
   <Entry Path="OneStoryProjectEditor.StoryEditor.editDeleteStoryLinesMenu.ToolTipText">Menghapus isi semua kotak teks cerita ini dalam bahasa cerita (bahasa daerah) (baris-baris akan tetap, tetapi dikosongkan)</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.editDeleteNationalBtMenu.Text">Terjemahan Balik bahasa &amp;Indonesia (semua baris)</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.editDeleteNationalBtMenu.ToolTipText">Menghapus isi semua kotak teks Terjemahan Balik bahasa Indonesia dari cerita ini (baris-baris akan tetap, tetapi dikosongkan)</Entry>
-  <Entry Path="OneStoryProjectEditor.StoryEditor.editDeleteEnglishBtMenu.Text">Terjemahan balik bahasa Inggris (&amp;English) (semua baris)</Entry>
+  <Entry Path="OneStoryProjectEditor.StoryEditor.editDeleteEnglishBtMenu.Text">Terjemahan balik bahasa Ing&amp;gris (semua baris)</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.editDeleteEnglishBtMenu.ToolTipText">Menghapus isi semua kotak teks Terjemahan Balik bahasa Inggris dari cerita ini (baris-baris akan tetap, tetapi dikosongkan)</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.editDeleteFreeTranslationMenu.Text">Terjemahan &amp;Bebas (semua baris)</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.editDeleteFreeTranslationMenu.ToolTipText">Menghapus isi semua kotak teks Terjemahan Bebas dari cerita ini (baris-baris akan tetap, tetapi dikosongkan)</Entry>
@@ -555,7 +555,7 @@
   <Entry Path="OneStoryProjectEditor.StoryEditor.viewVernacularLangMenu.ToolTipText">Tampilkan kotak-kotak teks untuk baris cerita dalam bahasa cerita (bahasa daerah)</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.viewNationalLangMenu.Text">Kotak-kotak Terjemahan Balik bahasa &amp;Indonesia</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.viewNationalLangMenu.ToolTipText">Tampilkan kotak-kotak teks untuk Terjemahan Balik bahasa Indonesia</Entry>
-  <Entry Path="OneStoryProjectEditor.StoryEditor.viewEnglishBtMenu.Text">Kotak-kotak Terjemahan balik bahasa Inggris (&amp;English)</Entry>
+  <Entry Path="OneStoryProjectEditor.StoryEditor.viewEnglishBtMenu.Text">Kotak-kotak Terjemahan balik bahasa Ing&amp;gris</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.viewEnglishBtMenu.ToolTipText">Tampilkan kotak-kotak teks untuk Terjemahan balik bahasa Inggris</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.viewFreeTranslationMenu.Text">Terjemahan &amp;Bebas</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.viewFreeTranslationMenu.ToolTipText">Menunjukkan kotak-kotak teks untuk Terjemahan Bebas</Entry>
@@ -599,7 +599,7 @@
   <Entry Path="OneStoryProjectEditor.StoryEditor.viewTransliterationNationalBT.Text">TB Bahasa &amp;Indonesia</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.viewTransliterationNationalBT.ToolTipText">Kalau ada tanda centang di menu ini transliterator (pengubah abjad) akan aktif untuk kotak teks bahasa Indonesia</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.viewTransliteratorNationalBTConfigureToolStripMenuItem.Text">Mengkonfigurasi...</Entry>
-  <Entry Path="OneStoryProjectEditor.StoryEditor.viewTransliterationInternationalBt.Text">TB bahasa Inggris/Internasional (&amp;English)</Entry>
+  <Entry Path="OneStoryProjectEditor.StoryEditor.viewTransliterationInternationalBt.Text">TB bahasa Ing&amp;gris/Internasional</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.viewTransliterationInternationalBt.ToolTipText">Kalau ada tanda centang di menu ini transliterator (pengubah abjad) akan aktif untuk kotak teks bahasa internasional/Inggris</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.viewTransliteratorInternationalBtConfigureToolStripMenuItem.Text">Mengkonfigurasi...</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.viewTransliterationFreeTranslation.Text">Terjemahan &amp;Bebas</Entry>
@@ -622,7 +622,7 @@
   <Entry Path="OneStoryProjectEditor.StoryEditor.storyOverrideTasksMenu.ToolTipText">Klik untuk melewati tugas-tugas yang diizinkan dan diwajibkan untuk cerita ini (boleh dipakai dengan persetujuan konsultan, jika misalnya konsultan dengan tidak sengaja menandai tugas yang Anda tidak harus lakukan atau tidak menandai tugas yang seharusnya Anda lakukan)</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.storyUseAdaptItForBackTranslationMenu.Text">&amp;Gunakan Adapt It untuk terjemahan-terjemahan balik</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.storyAdaptItVernacularToNationalMenu.Text">Dari Bahasa &amp;Cerita ke Bahasa Indonesia</Entry>
-  <Entry Path="OneStoryProjectEditor.StoryEditor.storyAdaptItVernacularToEnglishMenu.Text">Dari Bahasa Cerita ke Bahasa Inggris (&amp;English)</Entry>
+  <Entry Path="OneStoryProjectEditor.StoryEditor.storyAdaptItVernacularToEnglishMenu.Text">Dari Bahasa Cerita ke Bahasa Ing&amp;gris</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.storyAdaptItNationalToEnglishMenu.Text">Dari Bahasa Indonesia ke &amp;Bahasa Inggris</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.storySynchronizeSharedAdaptItProjectsMenu.Text">Samakan &amp;Proyek-proyek Adapt It Bersama</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.storySynchronizeSharedAdaptItProjectsMenu.ToolTipText">Klik untuk mengirim ke/menerima dari tempat penyimpanan Proyek Adapt It Bersama</Entry>
@@ -649,7 +649,7 @@
   <Entry Path="OneStoryProjectEditor.StoryEditor.advancedNewProjectMenu.ToolTipText">Klik untuk membuat sebuah Proyek OneStory baru (bukan cerita baru)</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.advancedChangeStateWithoutChecksMenu.Text">Ganti Tahap tanpa cek-cek normal...</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.advancedChangeStateWithoutChecksMenu.ToolTipText">Klik tombol ini untuk mengubah tahap-tahap cerita ini dengan melewati cek-cek normal. PERINGATAN: Jika tidak digunakan dengan baik, perintah ini dapat menyebabkan kehilangan data. Semua anggota tim lainnya *harus* menyamakan proyeknya dengan proyek di internet (melalui Kirim/Terima) sebelum melakukan perubahan apapun lagi di cerita ini</Entry>
-  <Entry Path="OneStoryProjectEditor.StoryEditor.advancedSaveTimeoutToolStripMenu.Text">Penyimpanan (saving) otomatis</Entry>
+  <Entry Path="OneStoryProjectEditor.StoryEditor.advancedSaveTimeoutToolStripMenu.Text">Penyimpanan otomatis</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.advancedSaveTimeoutEnabledMenu.Text">&amp;Diaktifkan</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.advancedSaveTimeoutEnabledMenu.ToolTipText">Kalau diaktifkan program OSE akan menyimpan perubahan setiap 5 minit. Peringatan akan muncul asal menu "Menyimpan tanpa peringatan" tidak ada tanda centang. (menonaktifkan  risiko Anda sendiri)</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.advancedSaveTimeoutAsSilentlyAsPossibleMenu.Text">Simpan tanpa peringatan</Entry>
@@ -680,7 +680,7 @@
   <Entry Path="OneStoryProjectEditor.EditMemberForm.buttonCancel.Text">Batal</Entry>
   <Entry Path="OneStoryProjectEditor.EditMemberForm.buttonOK.Text">&amp;Oke</Entry>
   <Entry Path="OneStoryProjectEditor.EditMemberForm.labelName.Text">&amp;Nama:</Entry>
-  <Entry Path="OneStoryProjectEditor.EditMemberForm.groupBoxRole.Text">Apa peranan kerja orang ini adi tim?</Entry>
+  <Entry Path="OneStoryProjectEditor.EditMemberForm.groupBoxRole.Text">Apa peranan kerja orang ini di tim?</Entry>
   <Entry Path="OneStoryProjectEditor.EditMemberForm.checkBoxLangSpecialtyReviewer.Text">Pemeriksa &amp;Bahasa khusus</Entry>
   <Entry Path="OneStoryProjectEditor.EditMemberForm.checkBoxUns.Text">Orang awam (&amp;UNS)</Entry>
   <Entry Path="OneStoryProjectEditor.EditMemberForm.checkBoxCrafter.Text">&amp;Pencerita </Entry>
@@ -795,7 +795,7 @@
   <Entry Path="&quot;Remove ans&amp;wer box&quot;">&amp;Hilangkan kotak utk jawaban</Entry>
   <Entry Path="&quot;&amp;Reorder words&quot;">&amp;Ubah urutan kata</Entry>
   <Entry Path="&quot;&amp;Back-translate to national language&quot;">Terjemahkan balik ke bahasa &amp;Indonesia</Entry>
-  <Entry Path="&quot;Back-translate to &amp;English&quot;">Terjemahkan balik ke bahasa Inggris (&amp;English)</Entry>
+  <Entry Path="&quot;Back-translate to &amp;English&quot;">Terjemahkan balik ke bahasa Ing&amp;gris </Entry>
   <Entry Path="&quot;Story Name&quot;">Nama Cerita</Entry>
   <Entry Path="&quot;Story Turn&quot;">Tahap Cerita</Entry>
   <Entry Path="&quot;Story Purpose&quot;">Tujuan Cerita</Entry>
@@ -810,7 +810,7 @@
   <Entry Path="&quot;Add Note to Self&quot;">Tambah Catatan utk diri sendiri</Entry>
   <Entry Path="OneStoryProjectEditor.VerseBtControl.addExegeticalCulturalNoteBelowToolStripMenuItem.Text">Tambah &amp;Catatan ttg Penafsiran/Budaya di bawah</Entry>
   <Entry Path="&quot;General Testing Qs: &quot;">Pertanyaan Pengujian Umum:</Entry>
-  <Entry Path="&quot;Hide Closed&quot;">Sembunyikan yang Tertutup</Entry>
+  <Entry Path="&quot;Hide Closed&quot;">Sembunyikan yg sdh diakhiri</Entry>
   <Entry Path="&quot;Show All&quot;">Tampilkan Semua</Entry>
   <Entry Path="&quot;Story:&quot;">Cerita:</Entry>
   <Entry Path="&quot;Gen Qs:&quot;">Prt Umum:</Entry>
@@ -827,7 +827,7 @@
   <Entry Path="OneStoryProjectEditor.ViewEnableForm.checkBoxLangTransliterateInternationalBt.Text">Salin ke abjad lain</Entry>
   <Entry Path="OneStoryProjectEditor.ViewEnableForm.checkBoxLangTransliterateFreeTranslation.Text">Salin ke abjad lain</Entry>
   <Entry Path="OneStoryProjectEditor.ViewEnableForm.checkBoxLangNationalBT.Text">TBBahIndonesia</Entry>
-  <Entry Path="OneStoryProjectEditor.ViewEnableForm.checkBoxLangInternationalBT.Text">kotak-kotak terjemahan balik bah. Inggris (&amp;English)</Entry>
+  <Entry Path="OneStoryProjectEditor.ViewEnableForm.checkBoxLangInternationalBT.Text">kotak-kotak terjemahan balik bah. Ing&amp;gris</Entry>
   <Entry Path="OneStoryProjectEditor.ViewEnableForm.checkBoxLangFreeTranslation.Text">kotak-kotak terjemahan &amp;Bebas</Entry>
   <Entry Path="OneStoryProjectEditor.ViewEnableForm.checkBoxAnchors.Text">&amp;Dasar Alkitab</Entry>
   <Entry Path="OneStoryProjectEditor.ViewEnableForm.checkBoxExegeticalNotes.Text">Catatan ttg Pe&amp;nafsiran/Budaya</Entry>
@@ -964,7 +964,7 @@
   <Entry Path="NetLoc.LocDataControl.PathColumn.HeaderText">Kunci</Entry>
   <Entry Path="NetLoc.LocDataControl.DefaultColumn.HeaderText">Bentuk Asli</Entry>
   <Entry Path="NetLoc.LocDataControl.ValueColumn.HeaderText">Terjemahan</Entry>
-  <Entry Path="&quot;Test done on: {0}. UNS heard the story {1} times.&quot;">Diuji tgl. {0}. Orang awam telah dengar cerita {1} kali.</Entry>
+  <Entry Path="&quot;Test done on: {0}. UNS heard the story {1} times.&quot;">Diuji tgl. {0}. Orang awam dengar cerita {1} kali.</Entry>
   <Entry Path="&quot;Test done on: {0}&quot;">Diuji tgl. {0}.</Entry>
   <Entry Path="OneStoryProjectEditor.VerseBtControl.menuAddTestQuestion.Text">Tambah pertanyaan pengujian &amp;cerita</Entry>
   <Entry Path="OneStoryProjectEditor.VerseBtControl.menuAddTestQuestion.ToolTipText">Klik untuk menambah pertanyaan pengujian cerita</Entry>
@@ -1045,14 +1045,14 @@
   <Entry Path="&quot;ans {0}:&quot;">jwb {0}:</Entry>
   <Entry Path="OneStoryProjectEditor.PanoramaView.tabPageNonBibStories.Text">Cerita-cerita bukan dari Alkitab</Entry>
   <Entry Path="&quot;moved&quot;">sudah dipindahkan</Entry>
-  <Entry Path="OneStoryProjectEditor.PanoramaView.moveToStoriesMenu.Text">Pindahkan cerita yang terpilih ke tab '&amp;Cerita-cerita'</Entry>
-  <Entry Path="OneStoryProjectEditor.PanoramaView.moveToNonBibStoriesMenu.Text">Pindahkan cerita yang terpilih ke tab 'Cerita-cerita &amp;Bukan dari Alkitab'</Entry>
-  <Entry Path="OneStoryProjectEditor.PanoramaView.moveToOldStoriesMenu.Text">Pindahkan cerita yang terpilih ke tab 'Cerita-cerita &amp;Lama'</Entry>
+  <Entry Path="OneStoryProjectEditor.PanoramaView.moveToStoriesMenu.Text">Pindahkan cerita yang terpilih ke '&amp;Cerita-cerita' (Cerita Alkitab)</Entry>
+  <Entry Path="OneStoryProjectEditor.PanoramaView.moveToNonBibStoriesMenu.Text">Pindahkan cerita yang terpilih ke 'Cerita-cerita &amp;Bukan dari Alkitab'</Entry>
+  <Entry Path="OneStoryProjectEditor.PanoramaView.moveToOldStoriesMenu.Text">Pindahkan cerita yang terpilih ke 'Cerita-cerita &amp;Lama'</Entry>
   <Entry Path="OneStoryProjectEditor.PanoramaView.tabPageOldStories.Text">Cerita-cerita Lama</Entry>
   <Entry Path="&quot;Tell bob_eaton@sall.com that your project (i.e. '{0}') has two stories by the name of '{1}' in the '{2}' story set (which shouldn't be able to happen). Ignoring the subsequent one found... you may want to rename the stories to be unique in the Panorama, Show dialog, {2} tab)&quot;">Informasikan bob_eaton@sall.com bahwa proyek Anda (yaitu '{0}') mempunyai dua cerita yang bernama '{1}' di rangkaian cerita '{2}' (yang sebenarnya tidak boleh terjadi). Yang kedua akan diabaikan... Anda mungkin mau mengubah nama salah satu cerita supaya berbeda melalui - Panorama, Tampilkan panorama, tab {2}.</Entry>
-  <Entry Path="OneStoryProjectEditor.PanoramaView.copyToStoriesMenu.Text">Salin (copy) cerita yang terpilih ke tab '&amp;Cerita-cerita'</Entry>
-  <Entry Path="OneStoryProjectEditor.PanoramaView.copyToNonBibStoriesMenu.Text">Salin (copy) cerita yang terpilih ke tab 'Cerita-cerita &amp;Bukan dari Alkitab'</Entry>
-  <Entry Path="OneStoryProjectEditor.PanoramaView.copyToOldStoriesMenu.Text">Salin (copy) cerita yang terpilih ke tab 'Cerita-cerita &amp;Lama'</Entry>
+  <Entry Path="OneStoryProjectEditor.PanoramaView.copyToStoriesMenu.Text">Salin (copy) cerita yang terpilih ke '&amp;Cerita-cerita' (Cerita Alkitab)</Entry>
+  <Entry Path="OneStoryProjectEditor.PanoramaView.copyToNonBibStoriesMenu.Text">Salin (copy) cerita yang terpilih ke 'Cerita-cerita &amp;Bukan dari Alkitab'</Entry>
+  <Entry Path="OneStoryProjectEditor.PanoramaView.copyToOldStoriesMenu.Text">Salin (copy) cerita yang terpilih ke 'Cerita-cerita &amp;Lama'</Entry>
   <Entry Path="&quot; -- Viewing non-biblical stories&quot;"> -- Cerita-cerita bukan dari Alkitab ditampilkan</Entry>
   <Entry Path="&quot; -- Viewing Old Stories&quot;"> -- Cerita-cerita lama ditampilkan</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.viewNonBiblicalStoriesMenu.Text">Cerita-cerita &amp;Bukan dari Alkitab</Entry>
@@ -1111,4 +1111,15 @@
   <Entry Path="&quot;Select the recording for the &quot;">Pilihlah rekaman untuk </Entry>
   <Entry Path="&quot;The project file mentioned below was changed outside of {2} and must be reloaded.{0}{0}'{1}'{0}{0}You will not be able to save any further changes until you reopen the project. Click 'Yes' to reopen the project now.&quot;">File proyek yang namanya tertulis di bawah sudah dirubah di luar {2} dan harus dibuka kembali.{0}{0}'{1}'{0}{0}Anda tidak dapat menyimpan perubahan-perubahan lagi, sebelum Anda membuka proyek kembali. Klik 'Ya' untuk membuka proyek kembali sekarang.</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.advancedUseWordBreaks.Text">Membagi kata secara otomatis, ketika membuat terjemahan balik</Entry>
+  <Entry Path="&quot;Next you should click 'Project', 'Login' and Edit the member records for the two roles that are changing to change their role within the project (e.g. Change the Coach's record to make him/her the Independent Consultant) and then click 'Story', 'Story Information' and use the 'Change' link next to the team member roles that are changing (e.g. to change the member who is the Consultant assigned to the story). This needs to be done for every story&quot;">Langkah berikut adalah: klik 'Proyek', 'Masuk sebagai' kemudian edit keterangan untuk kedua anggota yang peranan pekerjaannya akan diubah di dalam proyek (pilihlah anggota tim dan klik 'Edit Anggota'. Misalnya kalau Anda mau mengubah 'Pembina' menjadi 'Konsultan yang berdiri sendiri'). Kemudian klik 'Cerita', 'Informasi ttg Cerita' lalu klik 'Ganti' di samping setiap peranan pekerjaan untuk cerita itu (misalnya Anda mau mengubah siapa adalah Konsultan untuk cerita ini). Ini harus dibuat untuk setiap cerita.</Entry>
+  <Entry Path="&quot;Next you should click 'Project', 'Login' and Edit the member records for the two roles that are changing to change their role within the project (e.g. Change the Consultant's record to make him/her a Coach) and then click 'Story', 'Story Information' and use the 'Change' link next to the team member roles that are changing (e.g. to change the member who is the Consultant assigned to the story). This needs to be done for every story&quot;">Langkah berikut adalah: klik 'Proyek', 'Masuk sebagai' kemudian edit keterangan untuk kedua anggota yang peranan pekerjaannya akan diubah di dalam proyek (pilihlah anggota tim dan klik 'Edit Anggota'. Misalnya kalau Anda mau mengubah 'Konsultan' menjadi 'Pembina'). Kemudian klik 'Cerita', 'Informasi ttg Cerita' lalu klik 'Ganti' di samping setiap peranan pekerjaan untuk cerita itu (misalnya Anda mau mengubah siapa adalah Konsultan untuk cerita ini). Ini harus dibuat untuk setiap cerita.</Entry>
+  <Entry Path="&quot;Configure the member roles in the 'Story', 'Story Information' dialog first and then click this menu.&quot;">Konfigurasi peranan pekerjaan lebih dulu melalui klik 'Cerita', 'Informasi ttg Cerita', kemudian klik menu ini.</Entry>
+  <Entry Path="OneStoryProjectEditor.StoryEditor.advancedTransferConNotes.Text">&amp;Pindahkan Catatan Konsultan yang terbuka</Entry>
+  <Entry Path="OneStoryProjectEditor.StoryEditor.advancedConsultantNotesToCoachNotesPane.Text">Pindahkan Catatan Konsultan yang terbuka ke jendela Catatan Pembina</Entry>
+  <Entry Path="OneStoryProjectEditor.StoryEditor.advancedConsultantNotesToCoachNotesPane.ToolTipText">Klik untuk memindahkan semua Catatan Konsultan yang terbuka ke jendela Catatan Pembina (bekas Konsultan menjadi Pembina dan bekas Fasilitator menjadi Calon Konsultan)</Entry>
+  <Entry Path="OneStoryProjectEditor.StoryEditor.advancedCoachNotesToConsultantNotesPane.Text">Pindahkan Catatan Pembina yang terbuka ke jendela Catatan Konsultan</Entry>
+  <Entry Path="OneStoryProjectEditor.StoryEditor.advancedCoachNotesToConsultantNotesPane.ToolTipText">Klik untuk memindahkan semua Catatan Pembina yang terbuka ke jendela Catatan Konsultan (bekas Pembina menjadi Konsultan dan bekas Calon Konsultan menjadi Fasilitator)</Entry>
+  <Entry Path="OneStoryProjectEditor.StoryEditor.advancedReassignNotesToProperMember.Text">&amp;Bolehkan anggota-anggota tim yang sekarang untuk mengedit catatan-catatan</Entry>
+  <Entry Path="OneStoryProjectEditor.StoryEditor.advancedReassignNotesToProperMember.ToolTipText">Klik untuk membolehkan Fasilitator dan Konsultan yang sekarang ditentukan di 'Cerita', 'Informasi ttg Cerita' untuk mengedit Catatan Konsultan. Ini akan menampilkan kotak-kotak jawaban bila sebelumnya tidak ada (kalau misalnya Anda sudah memindahkannnya dari Catatan Pembina). PERINGATAN: Jangan klik di sini kalau ada 'Pemeriksa Bahasa Khusus' di proyek Anda, karena itu akan menyebabkan dia tidak dapat mengedit komentarnya sendiri.</Entry>
+  <Entry Path="&quot;You must reload the project before it can be saved again.&quot;">Sebelum Anda dapat menyimpan proyek ini, maka Anda harus membuka proyek ini kembali.</Entry>
 </Language>
