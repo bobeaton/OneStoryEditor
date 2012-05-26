@@ -368,6 +368,12 @@
       <DependentUpon>ReorderWordsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="RsaEncryptionClass.cs" />
+    <Compile Include="SayMoreImportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SayMoreImportForm.Designer.cs">
+      <DependentUpon>SayMoreImportForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SearchForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -546,6 +552,9 @@
     <EmbeddedResource Include="ResizableControl.resx">
       <DependentUpon>ResizableControl.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SayMoreImportForm.resx">
+      <DependentUpon>SayMoreImportForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SearchForm.resx">
       <DependentUpon>SearchForm.cs</DependentUpon>

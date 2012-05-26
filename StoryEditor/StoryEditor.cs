@@ -963,9 +963,9 @@ namespace OneStoryProjectEditor
 
         private void insertNewStoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string strStoryName;
+            string strStoryName = null;
             int nIndexOfCurrentStory = -1;
-            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, out strStoryName, true))
+            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, ref strStoryName, true))
             {
                 Debug.Assert(nIndexOfCurrentStory != -1);
                 InsertNewStory(strStoryName, nIndexOfCurrentStory);
@@ -988,20 +988,18 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        protected bool AddNewStoryGetIndex(ref int nIndexForInsert, out string strStoryName,
+        protected bool AddNewStoryGetIndex(ref int nIndexForInsert, ref string strStoryName,
             bool bCheckThatProjFacIsLoggedIn)
         {
             Debug.Assert(LoggedOnMember != null);
             if (bCheckThatProjFacIsLoggedIn && !CheckForProjFac())
-            {
-                strStoryName = null;
                 return false;
-            }
 
             // ask the user for what story they want to add (i.e. the name)
             strStoryName =
                 LocalizableMessageBox.InputBox(Localizer.Str("Enter the name of the story to add"),
-                                               OseCaption, null);
+                                               OseCaption, strStoryName);
+
             if (!String.IsNullOrEmpty(strStoryName))
             {
                 if (TheCurrentStoriesSet.Count > 0)
@@ -1032,16 +1030,20 @@ namespace OneStoryProjectEditor
             return false;
         }
 
-        internal void addNewStoryAfterToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddNewStoryAfterToolStripMenuItemClick(object sender, EventArgs e)
         {
-            string strStoryName;
+            AddNewStoryAfter(null);
+        }
+
+        internal StoryData AddNewStoryAfter(string strStoryName)
+        {
             int nIndexOfCurrentStory = -1;
-            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, out strStoryName, true))
-            {
-                Debug.Assert(nIndexOfCurrentStory != -1);
-                nIndexOfCurrentStory = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
-                InsertNewStory(strStoryName, nIndexOfCurrentStory);
-            }
+            if (!AddNewStoryGetIndex(ref nIndexOfCurrentStory, ref strStoryName, true))
+                return null;
+
+            Debug.Assert(nIndexOfCurrentStory != -1);
+            nIndexOfCurrentStory = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
+            return InsertNewStory(strStoryName, nIndexOfCurrentStory);
         }
 
         TimeSpan tsFalseEnter = new TimeSpan(0, 0, 1);
@@ -1099,10 +1101,10 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected void InsertNewStory(string strStoryName, int nIndexToInsert)
+        protected StoryData InsertNewStory(string strStoryName, int nIndexToInsert)
         {
             if (!CheckForSaveDirtyFile())
-                return;
+                return null;
 
             // query for the crafter
             var dlg = new MemberPicker(StoryProject, TeamMemberData.UserTypes.Crafter)
@@ -1111,7 +1113,7 @@ namespace OneStoryProjectEditor
             };
 
             if ((dlg.ShowDialog() != DialogResult.OK) || (dlg.SelectedMember == null))
-                return;
+                return null;
 
             string strCrafterGuid = dlg.SelectedMember.MemberGuid;
 
@@ -1142,6 +1144,7 @@ namespace OneStoryProjectEditor
             theNewStory.JustAdded = true;
 
             SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacTypeVernacular, false);
+            return theNewStory;
         }
 
         protected void InsertNewStoryAdjustComboBox(StoryData theNewStory, int nIndexToInsert)
@@ -2971,16 +2974,19 @@ namespace OneStoryProjectEditor
         private void storyToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             storyStoryInformationMenu.Enabled = ((TheCurrentStory != null) &&
-                                                                          (TheCurrentStory.CraftingInfo != null));
+                                                 (TheCurrentStory.CraftingInfo != null));
 
             storyDeleteStoryMenu.Enabled =
                 storyCopyWithNewNameMenu.Enabled = (TheCurrentStory != null);
 
+            var isStoryInsertable = ((StoryProject != null) &&
+                                     IsInStoriesSet &&
+                                     (LoggedOnMember != null));
+
             panoramaInsertNewStoryMenu.Enabled =
-                panoramaAddNewStoryAfterMenu.Enabled =
-                ((StoryProject != null) &&
-                 IsInStoriesSet &&
-                 (LoggedOnMember != null));
+                panoramaAddNewStoryAfterMenu.Enabled = isStoryInsertable;
+
+            storyImportFromSayMore.Enabled = isStoryInsertable && Directory.Exists(ProjectSettings.SayMoreFolderRoot);
 
             // if there's a story that has more than no verses, AND if it's a bible
             //  story and before the add anchors stage or a non-biblical story and
@@ -5069,9 +5075,9 @@ namespace OneStoryProjectEditor
         {
             Debug.Assert(TheCurrentStory != null);
 
-            string strStoryName;
+            string strStoryName = null;
             int nIndexOfCurrentStory = -1;
-            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, out strStoryName, false))
+            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, ref strStoryName, false))
             {
                 Debug.Assert(nIndexOfCurrentStory != -1);
                 nIndexOfCurrentStory = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
@@ -5965,9 +5971,9 @@ namespace OneStoryProjectEditor
         {
             Debug.Assert(TheCurrentStory != null);
 
-            string strStoryName;
+            string strStoryName = null;
             int nIndexOfCurrentStory = -1;
-            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, out strStoryName, false))
+            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, ref strStoryName, false))
             {
                 Debug.Assert(nIndexOfCurrentStory != -1);
                 int nIndexToInsert = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
@@ -6337,6 +6343,71 @@ namespace OneStoryProjectEditor
                 return;
             }
             TheCurrentStory.ReassignRolesToConNoteComments();
+        }
+
+        private void StoryImportFromSayMoreClick(object sender, EventArgs e)
+        {
+            var cursor = Cursor;
+            Cursor = Cursors.WaitCursor;
+            try
+            {
+                DoSaymoreImport();
+            }
+            catch (Exception ex)
+            {
+                Program.ShowException(ex);
+            }
+            finally
+            {
+                Cursor = cursor;
+            }
+        }
+
+        private void DoSaymoreImport()
+        {
+            var dlg = new SayMoreImportForm();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                var theNewStory = AddNewStoryAfter(dlg.StoryName);
+                theNewStory.Verses.RemoveAt(0);
+                var nLen = Math.Max(dlg.VernacularLines.Count, dlg.BackTranslationLines.Count);
+
+                var projSettings = StoryProject.ProjSettings;
+                for (var i = 0; i < nLen; i++)
+                {
+                    var vernacular = GetSafeValue(dlg.VernacularLines, i);
+                    var backTr = GetSafeValue(dlg.BackTranslationLines, i);
+                    var newVerse = new VerseData();
+
+                    newVerse.StoryLine.Vernacular.SetValue(vernacular);
+                    if (projSettings.NationalBT.HasData)
+                        newVerse.StoryLine.NationalBt.SetValue(backTr);
+                    else if (projSettings.InternationalBT.HasData)
+                        newVerse.StoryLine.InternationalBt.SetValue(backTr);
+                    else if (projSettings.FreeTranslation.HasData)
+                        newVerse.StoryLine.FreeTranslation.SetValue(backTr);
+                    theNewStory.Verses.Add(newVerse);
+                }
+
+                // set the state to whatever field we put the bt in (which enables the view)
+                StoryStageLogic.ProjectStages eStage;
+                if (projSettings.NationalBT.HasData)
+                    eStage = StoryStageLogic.ProjectStages.eProjFacTypeNationalBT;
+                else if (projSettings.InternationalBT.HasData)
+                    eStage = StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT;
+                else if (projSettings.FreeTranslation.HasData)
+                    eStage = StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation;
+                else
+                    return;
+                SetNextStateAdvancedOverride(eStage, false);
+            }
+        }
+
+        private static string GetSafeValue(IList<string> lst, int i)
+        {
+            return (lst.Count > i)
+                       ? lst[i]
+                       : null;
         }
     }
 }
