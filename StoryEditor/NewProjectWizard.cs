@@ -1185,7 +1185,8 @@ namespace OneStoryProjectEditor
 
         private void CheckBoxUseDropBoxClick(object sender, EventArgs e)
         {
-            if ((checkBoxUseDropBox.Appearance != Appearance.Button) && ProjSettings.UseDropbox)
+            if (((checkBoxUseDropBox.Appearance != Appearance.Button) && ProjSettings.UseDropbox) || 
+                checkBoxUseDropBox.CheckState == CheckState.Unchecked)
                 return;
 
             if (ProjectSettings.DropboxFolderRoot == null)
@@ -1203,6 +1204,8 @@ namespace OneStoryProjectEditor
                     return;
                 }
             }
+            else
+                return; // all set
 
             if (folderBrowserDropbox.ShowDialog() == DialogResult.OK)
             {
