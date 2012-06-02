@@ -108,8 +108,7 @@ namespace AiChorus
             try
             {
                 var theAiEc = (AdaptItEncConverter)theEc;
-                var strData = GrabDataPoint(theAiEc.ConverterIdentifier);
-                strData = theAiEc.EditKnowledgeBase(strData);
+                var strData = DisplayKnowledgeBase(theAiEc);
                 theAiEc.Configurator.DisplayTestPage(DirectableEncConverter.EncConverters,
                                                      theAiEc.Name,
                                                      theAiEc.ConverterIdentifier,
@@ -121,6 +120,17 @@ namespace AiChorus
                 ShowException(ex);
             }
         }
+
+        public static string DisplayKnowledgeBase(AdaptItEncConverter theAiEc)
+        {
+            if (theAiEc != null)
+            {
+                var strData = GrabDataPoint(theAiEc.ConverterIdentifier);
+                return theAiEc.EditKnowledgeBase(strData);
+            }
+            return "";
+        }
+
         /*
         internal static void DoClone()
         {
@@ -174,7 +184,7 @@ namespace AiChorus
             return true;
         }
 
-        public static void InitializeLookupConverter(string strProjectFolder)
+        public static AdaptItEncConverter InitializeLookupConverter(string strProjectFolder)
         {
             string strProjectName = Path.GetFileNameWithoutExtension(strProjectFolder);
 
@@ -194,6 +204,7 @@ namespace AiChorus
 
             var strData = GrabDataPoint(strConverterSpec);
             aEc.Configurator.DisplayTestPage(aEcs, strFriendlyName, strConverterSpec, ConvType.Unicode_to_from_Unicode, strData);
+            return aEc as AdaptItEncConverter;
         }
 
         // kind of a brute force approach, but it's easy. 

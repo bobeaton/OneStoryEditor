@@ -1,6 +1,7 @@
 ﻿#define AiChorusInOseFolder
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -70,6 +71,17 @@ namespace AiChorus
             }
         }
 
+        private static List<string> _lstProjectsJustCloned = new List<string>();
+        protected override string GetSynchronizeOrOpenProjectLable
+        {
+            get
+            {
+                return (_lstProjectsJustCloned.Contains(Project.FolderName))
+                           ? CstrOptionOpenProject
+                           : base.GetSynchronizeOrOpenProjectLable;
+            }
+        }
+
         public override void DoSynchronize()
         {
 #if AiChorusInOseFolder
@@ -96,18 +108,16 @@ namespace AiChorus
         {
             if (base.DoClone())
             {
-                // TODO: somehow add this to the recently used list (e.g. edit the settings file or something)
-                //  calling OSE to invoke "_methodUpdateRecentlyUsedLists" doesn't work, because opening OSE this
-                //  way doesn't cause the settings file to be loaded)
-                /*
-                if (_methodUpdateRecentlyUsedLists != null)
-                {
-                    var oParams = new object[] {Path.Combine(AppDataRoot, Project.FolderName), Project.ProjectId};
-                    _methodUpdateRecentlyUsedLists.Invoke(_theStoryEditor, oParams);
-                }
-                */
+                _lstProjectsJustCloned.Add(Project.FolderName);
+                return true;
             }
             return false;
+        }
+
+        public override void DoProjectOpen()
+        {
+            // for us, this is the same as Synchronize
+            DoSynchronize();
         }
     }
 }

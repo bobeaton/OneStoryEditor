@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -76,7 +77,8 @@ namespace AiChorus
 
         private void OptionsButtonClicked(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= dataGridViewProjects.Rows.Count)
+            if ((e.RowIndex < 0) || (e.RowIndex >= dataGridViewProjects.Rows.Count)
+                || (e.ColumnIndex < 0) || (e.ColumnIndex > CnColumnOptionsButton))
                 return;
 
             var theRow = dataGridViewProjects.Rows[e.RowIndex];
@@ -114,6 +116,7 @@ namespace AiChorus
                 }
                 System.Diagnostics.Debug.Assert(theRow.Tag is ApplicationSyncHandler);
                 var appSyncHandler = theRow.Tag as ApplicationSyncHandler;
+                Debug.Assert(appSyncHandler != null);
                 var strOption = theRow.Cells[CnColumnOptionsButton].Value.ToString();
                 switch (strOption)
                 {
@@ -123,6 +126,9 @@ namespace AiChorus
                         break;
                     case ApplicationSyncHandler.CstrOptionSendReceive:
                         appSyncHandler.DoSynchronize();
+                        break;
+                    case ApplicationSyncHandler.CstrOptionOpenProject:
+                        appSyncHandler.DoProjectOpen();
                         break;
                 }
             } 

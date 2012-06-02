@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
+using SilEncConverters40;
 
 namespace AiChorus
 {
@@ -55,12 +55,33 @@ namespace AiChorus
             methodSyncWithAiRepository.Invoke(theStoryEditor, oParams);
         }
 
+        protected override string GetSynchronizeOrOpenProjectLable
+        {
+            get
+            {
+                return (_lstJustClonedProjects.Any(aEc => Path.GetFileNameWithoutExtension(aEc.ConverterIdentifier) == Project.FolderName))
+                            ? CstrOptionOpenProject
+                            : base.GetSynchronizeOrOpenProjectLable;
+            }
+        }
+
+        private static List<AdaptItEncConverter> _lstJustClonedProjects = new List<AdaptItEncConverter>();
         internal override bool DoClone()
         {
             if (!base.DoClone())
                 return false;
-            Program.InitializeLookupConverter(Path.Combine(AppDataRoot, Project.FolderName));
+            var theAiEc = Program.InitializeLookupConverter(Path.Combine(AppDataRoot, Project.FolderName));
+            if (theAiEc != null)
+                _lstJustClonedProjects.Add(theAiEc);
             return true;
+        }
+
+        public override void DoProjectOpen()
+        {
+            var theAiEc =
+                _lstJustClonedProjects.FirstOrDefault(
+                    aEc => Path.GetFileNameWithoutExtension(aEc.ConverterIdentifier) == Project.FolderName);
+            Program.DisplayKnowledgeBase(theAiEc);
         }
     }
 }
