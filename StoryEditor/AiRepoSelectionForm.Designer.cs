@@ -51,9 +51,9 @@
             // 
             // tableLayoutPanel
             // 
-            this.tableLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel.ColumnCount = 3;
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -115,7 +115,7 @@
             this.textBoxNetwork.Size = new System.Drawing.Size(482, 20);
             this.textBoxNetwork.TabIndex = 8;
             this.toolTip.SetToolTip(this.textBoxNetwork, "Network path to the shared network folder for this Adapt It project (e.g. \'\\\\Stud" +
-                    "ioXPS\\SharedDrive\\Adapt It Unicode Work\\Hindi to English adaptations\')");
+        "ioXPS\\SharedDrive\\Adapt It Unicode Work\\Hindi to English adaptations\')");
             this.textBoxNetwork.TextChanged += new System.EventHandler(this.textBoxNetwork_TextChanged);
             // 
             // labelNetworkPath
