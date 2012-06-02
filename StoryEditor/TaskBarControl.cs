@@ -328,7 +328,7 @@ namespace OneStoryProjectEditor
                                                                   TeamMemberData.UserTypes.ProjectFacilitator));
             System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
-            TheSe.AddNewStoryAfter(null);
+            TheSe.AddNewStoryAfter(null, null);
         }
 
         private void buttonVernacular_Click(object sender, EventArgs e)
@@ -888,7 +888,7 @@ namespace OneStoryProjectEditor
 
         private void DropboxStoryClick(object sender, EventArgs e)
         {
-            TheSe.TriggerDropboxCopyStory(true);
+            TheSe.TriggerDropboxCopyStory(true, null);
         }
 
         private void DropboxRetellingClick(object sender, EventArgs e)

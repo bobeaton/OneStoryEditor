@@ -815,6 +815,9 @@
     <Content Include="LocData\id.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="LocData\pt.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\1.3 to 1.4.xslt" />
     <None Include="Resources\PrintHS.png" />
     <None Include="Resources\Pause.bmp" />

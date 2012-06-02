@@ -13,9 +13,10 @@ using NetLoc;
 
 namespace OneStoryProjectEditor
 {
-    public partial class SayMoreImportForm : Form
+    public partial class SayMoreImportForm : TopForm
     {
-        public string StoryName;
+        public string StoryName { get; set; }
+        public string FullRecordingFileSpec { get; set; }
         public List<string> VernacularLines;
         public List<string> BackTranslationLines;
 
@@ -64,12 +65,22 @@ namespace OneStoryProjectEditor
 
             foreach (var eventFolder in eventFolders)
             {
-                var eventFile = Directory.GetFiles(eventFolder, "*.event").FirstOrDefault();
-                if (!File.Exists(eventFile))
+                var files = Directory.GetFiles(eventFolder);
+                var eventFile = files.FirstOrDefault(fp => Path.GetExtension(fp) == ".event");
+                if (String.IsNullOrEmpty(eventFile) || !File.Exists(eventFile))
                     continue;
 
-                var transcriptionFile = Directory.GetFiles(eventFolder, "*.eaf").FirstOrDefault();
-                if (!File.Exists(transcriptionFile))
+                var transcriptionFile = files.FirstOrDefault(fp => Path.GetExtension(fp) == ".eaf");
+                if (String.IsNullOrEmpty(transcriptionFile) || !File.Exists(transcriptionFile))
+                    continue;
+
+                const string CstrOrigFullRecordingSuffix = "_Original.wav";
+                var origFullRecording =
+                    files.FirstOrDefault(
+                        fp =>
+                        fp.IndexOf(CstrOrigFullRecordingSuffix) == (fp.Length - CstrOrigFullRecordingSuffix.Length));
+
+                if (String.IsNullOrEmpty(origFullRecording) || !File.Exists(origFullRecording))
                     continue;
 
                 var eventName = Path.GetFileName(eventFolder);
@@ -82,7 +93,7 @@ namespace OneStoryProjectEditor
                 var speaker = GetSafeValue(doc, "participants");
                 var aobjs = new object[] {Localizer.Str("Click to import"), eventName, title, date, speaker};
                 var nIndex = dataGridViewEvents.Rows.Add(aobjs);
-                dataGridViewEvents.Rows[nIndex].Tag = transcriptionFile;
+                dataGridViewEvents.Rows[nIndex].Tag = Tuple.Create(transcriptionFile, origFullRecording);
             }
         }
 
@@ -113,14 +124,14 @@ namespace OneStoryProjectEditor
 
         private void DataGridViewEventsCellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= dataGridViewEvents.Rows.Count)
+            if ((e.RowIndex < 0) || (e.RowIndex >= dataGridViewEvents.Rows.Count) || 
+                (e.ColumnIndex != CnColumnClickToInstall))
                 return;
 
             var theRow = dataGridViewEvents.Rows[e.RowIndex];
-            if (e.ColumnIndex != CnColumnClickToInstall)
-                return;
-
-            var eafFile = theRow.Tag as string;
+            var files = theRow.Tag as Tuple<string, string>;
+            Debug.Assert(files != null);
+            var eafFile = files.Item1;
             if (!File.Exists(eafFile))
             {
                 LocalizableMessageBox.Show(
@@ -130,6 +141,7 @@ namespace OneStoryProjectEditor
                 return;
             }
 
+            FullRecordingFileSpec = files.Item2;
             StoryName = theRow.Cells[CnColumnTitle].Value as string;
             var doc = XDocument.Load(eafFile);
             List<string> lstVernacular, lstBackTranslation;

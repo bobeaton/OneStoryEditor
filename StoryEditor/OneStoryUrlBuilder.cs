@@ -31,7 +31,7 @@ namespace OneStoryProjectEditor
         //  string = portion of the phrase/string that was selected
         // this method is for constructing a single FieldInfo item
         public static string Url(string strProjectName, string strStorySet,
-            string strStoryGuid, string strVerseGuid, FieldType eFieldType,
+            string strStoryGuid, string strVerseGuid, StoryEditor.TextFields eFieldType,
             string strItemId, string strPhrase)
         {
             string strUrl;
@@ -80,6 +80,21 @@ namespace OneStoryProjectEditor
             return str;
         }
 
+        public class FieldInfo
+        {
+            public StoryEditor.TextFields FieldType { get; set; }
+            public string ItemId { get; set; }
+            public string Phrase { get; set; }
+
+            public FieldInfo(StoryEditor.TextFields eType, string itemId, string str)
+            {
+                FieldType = eType;
+                ItemId = itemId;
+                Phrase = str;
+            }
+        }
+
+        /*
         public enum FieldType
         {
             eVernacularLangField,
@@ -93,25 +108,11 @@ namespace OneStoryProjectEditor
             eCoachNotesFields
         }
 
-        public class FieldInfo
-        {
-            public FieldType FieldType { get; set; }
-            public string ItemId { get; set; }
-            public string Phrase { get; set; }
-
-            public FieldInfo(FieldType eType, string itemId, string str)
-            {
-                FieldType = eType;
-                ItemId = itemId;
-                Phrase = str;
-            }
-        }
-
         public static FieldType GetFieldTypeFromString(string str)
         {
             return (FieldType)Enum.Parse(typeof(FieldType), str);
         }
-        /*
+
         public enum Domain
         {
             eConsultantNote,

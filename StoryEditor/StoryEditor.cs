@@ -111,12 +111,32 @@ namespace OneStoryProjectEditor
 
         public static TextPaster TextPaster = null;
 
-        public enum TextFieldType
+        [Flags]
+        public enum TextFields
         {
-            Vernacular = 0,
-            NationalBt,
-            InternationalBt,
-            FreeTranslation
+            Undefined = 0,
+
+            // each field will be one of these 4
+            Vernacular = 1,
+            NationalBt = 2,
+            InternationalBt = 4,
+            FreeTranslation = 8,
+
+            // and one of these
+            StoryLine = 16,
+            Anchor = 32,
+            ExegeticalNote = 64,
+            Retelling = 128,
+            TestQuestion = 256,
+            TestQuestionAnswer = 512,
+            ConsultantNote = 1024,
+            CoachNote = 2048,
+
+            Languages = Vernacular | NationalBt | InternationalBt | FreeTranslation,
+            Fields = StoryLine | Anchor | ExegeticalNote | Retelling |
+                     TestQuestion | TestQuestionAnswer | ConsultantNote | CoachNote,
+
+            Everything = Languages | Fields
         }
 
         // needed by NetLoc
@@ -968,7 +988,7 @@ namespace OneStoryProjectEditor
             if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, ref strStoryName, true))
             {
                 Debug.Assert(nIndexOfCurrentStory != -1);
-                InsertNewStory(strStoryName, nIndexOfCurrentStory);
+                InsertNewStory(strStoryName, nIndexOfCurrentStory, null);
             }
         }
 
@@ -1032,10 +1052,10 @@ namespace OneStoryProjectEditor
 
         private void AddNewStoryAfterToolStripMenuItemClick(object sender, EventArgs e)
         {
-            AddNewStoryAfter(null);
+            AddNewStoryAfter(null, null);
         }
 
-        internal StoryData AddNewStoryAfter(string strStoryName)
+        internal StoryData AddNewStoryAfter(string strStoryName, string strFileToCopy)
         {
             int nIndexOfCurrentStory = -1;
             if (!AddNewStoryGetIndex(ref nIndexOfCurrentStory, ref strStoryName, true))
@@ -1043,7 +1063,7 @@ namespace OneStoryProjectEditor
 
             Debug.Assert(nIndexOfCurrentStory != -1);
             nIndexOfCurrentStory = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
-            return InsertNewStory(strStoryName, nIndexOfCurrentStory);
+            return InsertNewStory(strStoryName, nIndexOfCurrentStory, strFileToCopy);
         }
 
         TimeSpan tsFalseEnter = new TimeSpan(0, 0, 1);
@@ -1091,7 +1111,7 @@ namespace OneStoryProjectEditor
                                                       OseCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                     {
                         Debug.Assert(!comboBoxStorySelector.Items.Contains(strStoryToLoad));
-                        InsertNewStory(strStoryToLoad, nInsertIndex);
+                        InsertNewStory(strStoryToLoad, nInsertIndex, null);
                     }
                     else
                         ResetStorySelectorComboBox();
@@ -1101,7 +1121,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected StoryData InsertNewStory(string strStoryName, int nIndexToInsert)
+        protected StoryData InsertNewStory(string strStoryName, int nIndexToInsert, string strFileToCopy)
         {
             if (!CheckForSaveDirtyFile())
                 return null;
@@ -1138,9 +1158,10 @@ namespace OneStoryProjectEditor
             InsertNewStoryAdjustComboBox(theNewStory, nIndexToInsert);
 
             // check for Dropbox copy (after setting the 'TheCurrentStory')
-            var strStoryRecording = TriggerDropboxCopyStory(StoryProject.ProjSettings.DropboxStory);
+            var strStoryRecording = TriggerDropboxCopyStory(StoryProject.ProjSettings.DropboxStory, strFileToCopy);
             if (!String.IsNullOrEmpty(strStoryRecording))
                 LaunchWordPad(strStoryRecording);
+
             theNewStory.JustAdded = true;
 
             SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacTypeVernacular, false);
@@ -2950,7 +2971,7 @@ namespace OneStoryProjectEditor
             if (bTriggerSnapshotSave && !TheCurrentStory.JustAdded && StoryProject.ProjSettings.DropboxStory &&
                 (LoggedOnMember.MemberType == TeamMemberData.UserTypes.ProjectFacilitator))
             {
-                TriggerDropboxCopyStory(true);
+                TriggerDropboxCopyStory(true, null);
             }
 
             // a record to our history
@@ -3171,6 +3192,8 @@ namespace OneStoryProjectEditor
             if (IsInStoriesSet)
                 InsertInOtherSetInsureUnique(StoryProject[Resources.IDS_ObsoleteStoriesSet],
                                              TheCurrentStory);
+
+            TheCurrentStory = null; //clear this out so we don't try to query for story information
 
             // update the combox box bit
             Debug.Assert(comboBoxStorySelector.Items.IndexOf(strName) == nIndex);
@@ -3423,24 +3446,29 @@ namespace OneStoryProjectEditor
             return "\"" + str + "\"";
         }
 
-        private string ShouldCopyFileToDropbox(string strFilename, bool bCopyToDropbox)
+        private string ShouldCopyFileToDropbox(string strFilename, bool bCopyToDropbox, string strFileToCopy)
         {
-            var openMediaFileDlg = new OpenFileDialog
-                                       {
-                                           Filter = Resources.AudioFileSearchFilter,
-                                           Title = Localizer.Str("Select the recording for the ") + strFilename
-                                       };
+            if (String.IsNullOrEmpty(strFileToCopy))
+            {
+                var openMediaFileDlg = new OpenFileDialog
+                {
+                    Filter = Resources.AudioFileSearchFilter,
+                    Title = Localizer.Str("Select the recording for the ") + strFilename
+                };
 
-            SuspendSaveDialog++;
-            var res = openMediaFileDlg.ShowDialog();
-            SuspendSaveDialog--;
-            if (res != DialogResult.OK)
-                return null;
+                SuspendSaveDialog++;
+                var res = openMediaFileDlg.ShowDialog();
+                SuspendSaveDialog--;
+                if (res != DialogResult.OK)
+                    return null;
 
-            // if we were just getting the file name (e.g. to open it in wavepad), then 
-            //  just return it.
-            if (!bCopyToDropbox)
-                return openMediaFileDlg.FileName;
+                // if we were just getting the file name (e.g. to open it in wavepad), then 
+                //  just return it.
+                if (!bCopyToDropbox)
+                    return openMediaFileDlg.FileName;
+
+                strFileToCopy = openMediaFileDlg.FileName;
+            }
 
             // otherwise, we're copying it to dropbox
             Debug.Assert((StoryProject != null) && (StoryProject.ProjSettings != null));
@@ -3451,7 +3479,7 @@ namespace OneStoryProjectEditor
             if (strDropboxRoot == null)
                 return null;
 
-            var extn = Path.GetExtension(openMediaFileDlg.FileName);
+            var extn = Path.GetExtension(strFileToCopy);
             var strTargetPath = ConcatenateToPath(strDropboxRoot,
                                                   new List<string>
                                                       {
@@ -3460,8 +3488,13 @@ namespace OneStoryProjectEditor
                                                           StoryProject.ProjSettings.ProjectName,
                                                           TheCurrentStory.Name
                                                       });
+
+            Debug.Assert(strTargetPath != null);
+            if (!Directory.Exists(strTargetPath))
+                Directory.CreateDirectory(strTargetPath);
+
             var strDropBoxFilepath = BuildDropboxFilename(strTargetPath, strFilename, extn);
-            WriteAudioFile(openMediaFileDlg.FileName, strDropBoxFilepath);
+            WriteAudioFile(strFileToCopy, strDropBoxFilepath);
             return strDropBoxFilepath;
         }
 
@@ -3492,9 +3525,6 @@ namespace OneStoryProjectEditor
         private void WriteAudioFile(string strSourceFilepath, string strTargetFilepath)
         {
             // TODO: add convert capability also..
-            var strParentFolder = Path.GetDirectoryName(strTargetFilepath);
-            if (!Directory.Exists(strParentFolder))
-                Directory.CreateDirectory(strParentFolder);
             File.Copy(strSourceFilepath, strTargetFilepath, true);
             File.SetLastWriteTime(strTargetFilepath, DateTime.Now);
         }
@@ -6289,24 +6319,24 @@ namespace OneStoryProjectEditor
             dlg.Show();
         }
 
-        public string TriggerDropboxCopyStory(bool bCopyToDropbox)
+        public string TriggerDropboxCopyStory(bool bCopyToDropbox, string strFileToCopy)
         {
             var strFilename = Localizer.Str("Story");
-            return ShouldCopyFileToDropbox(strFilename, bCopyToDropbox);
+            return ShouldCopyFileToDropbox(strFilename, bCopyToDropbox, strFileToCopy);
         }
 
         public string TriggerDropboxCopyRetelling(bool bCopyToDropbox)
         {
             var strFilename = Localizer.Str("Retelling ") +
                               TheCurrentStory.CraftingInfo.TestersToCommentsRetellings.Count.ToString(CultureInfo.InvariantCulture);
-            return ShouldCopyFileToDropbox(strFilename, bCopyToDropbox);
+            return ShouldCopyFileToDropbox(strFilename, bCopyToDropbox, null);
         }
 
         public string TriggerDropboxCopyAnswer(bool bCopyToDropbox)
         {
             var strFilename = Localizer.Str("Inference Test Answers ") +
                               TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.Count.ToString(CultureInfo.InvariantCulture);
-            return ShouldCopyFileToDropbox(strFilename, bCopyToDropbox);
+            return ShouldCopyFileToDropbox(strFilename, bCopyToDropbox, null);
         }
 
         private void advancedCoachNotesToConsultantNotesPane_Click(object sender, EventArgs e)
@@ -6356,6 +6386,7 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 Program.ShowException(ex);
+                InitAllPanes();// just to make sure we aren't hiding something
             }
             finally
             {
@@ -6368,7 +6399,7 @@ namespace OneStoryProjectEditor
             var dlg = new SayMoreImportForm();
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                var theNewStory = AddNewStoryAfter(dlg.StoryName);
+                var theNewStory = AddNewStoryAfter(dlg.StoryName, dlg.FullRecordingFileSpec);
                 theNewStory.Verses.RemoveAt(0);
                 var nLen = Math.Max(dlg.VernacularLines.Count, dlg.BackTranslationLines.Count);
 

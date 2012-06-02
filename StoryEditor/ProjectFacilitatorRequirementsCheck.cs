@@ -76,8 +76,8 @@ namespace OneStoryProjectEditor
                 {
                     // for this one, make sure that every line of the story has something in the vernacular field
                     if (!CheckForCompletion(TheSe, theStoryProjectData, TheStory,
-                        StoryEditor.TextFieldType.Vernacular,
-                        StoryEditor.TextFieldType.Vernacular, ref bTriggerRefresh))  // by definition is the highest
+                        StoryEditor.TextFields.Vernacular,
+                        StoryEditor.TextFields.Vernacular, ref bTriggerRefresh))  // by definition is the highest
                         throw StoryProjectData.BackOutWithNoUI;
                 }
 
@@ -85,7 +85,7 @@ namespace OneStoryProjectEditor
                 {
                     // for this one, make sure that every line of the story has something in the vernacular field
                     if (!CheckForCompletion(TheSe, theStoryProjectData, TheStory,
-                        StoryEditor.TextFieldType.NationalBt,
+                        StoryEditor.TextFields.NationalBt,
                         HighestLanguage, ref bTriggerRefresh))
                         throw StoryProjectData.BackOutWithNoUI;
                 }
@@ -94,7 +94,7 @@ namespace OneStoryProjectEditor
                 {
                     // for this one, make sure that every line of the story has something in the vernacular field
                     if (!CheckForCompletion(TheSe, theStoryProjectData, TheStory,
-                        StoryEditor.TextFieldType.InternationalBt,
+                        StoryEditor.TextFields.InternationalBt,
                         HighestLanguage, ref bTriggerRefresh))
                         throw StoryProjectData.BackOutWithNoUI;
                 }
@@ -103,7 +103,7 @@ namespace OneStoryProjectEditor
                 {
                     // for this one, make sure that every line of the story has something in the vernacular field
                     if (!CheckForCompletion(TheSe, theStoryProjectData, TheStory,
-                        StoryEditor.TextFieldType.FreeTranslation,
+                        StoryEditor.TextFields.FreeTranslation,
                         HighestLanguage, ref bTriggerRefresh))
                         throw StoryProjectData.BackOutWithNoUI;
                 }
@@ -353,8 +353,8 @@ namespace OneStoryProjectEditor
         }
 
         private bool CheckForCompletion(StoryEditor theSe, 
-            StoryProjectData theStoryProjectData, StoryData theStory, 
-            StoryEditor.TextFieldType fieldToCheck, StoryEditor.TextFieldType fieldHighest,
+            StoryProjectData theStoryProjectData, StoryData theStory,
+            StoryEditor.TextFields fieldToCheck, StoryEditor.TextFields fieldHighest,
             ref bool bTriggerRefresh)
         {
             if (!CheckStoryLinesForCompletion(theSe, theStoryProjectData, theStory,
@@ -381,8 +381,8 @@ namespace OneStoryProjectEditor
         }
 
         private bool CheckFieldForCompletion(StoryEditor theSe, 
-            StoryProjectData theStoryProjectData, StoryData theStory, 
-            StoryEditor.TextFieldType fieldToCheck, StoryEditor.TextFieldType fieldHighest)
+            StoryProjectData theStoryProjectData, StoryData theStory,
+            StoryEditor.TextFields fieldToCheck, StoryEditor.TextFields fieldHighest)
         {
             int nVerseNumber = 1; // this wants to be 1, because it's dealing with the
             foreach (var aVerseData in theStory.Verses)
@@ -421,7 +421,7 @@ namespace OneStoryProjectEditor
         /// <returns></returns>
         private bool CheckStoryLinesForCompletion(StoryEditor theSe, 
             StoryProjectData theStoryProjectData, StoryData theStory,
-            StoryEditor.TextFieldType fieldToCheck, StoryEditor.TextFieldType fieldHighest,
+            StoryEditor.TextFields fieldToCheck, StoryEditor.TextFields fieldHighest,
             ref bool bTriggerRefresh)
         {
             // if there are no verses... that can't be good
@@ -531,32 +531,32 @@ namespace OneStoryProjectEditor
         // the highest language is based on which is required according to this
         //  implicational scale: 
         //  vernacular > nationalbt > internationalbt > free translation
-        private StoryEditor.TextFieldType HighestLanguage
+        private StoryEditor.TextFields HighestLanguage
         {
             get
             {
                 if (DoVernacularLangFields)
-                    return StoryEditor.TextFieldType.Vernacular;
+                    return StoryEditor.TextFields.Vernacular;
                 if (DoNationalBtLangFields)
-                    return StoryEditor.TextFieldType.NationalBt;
-                return DoInternationalBtFields 
-                    ? StoryEditor.TextFieldType.InternationalBt 
-                    : StoryEditor.TextFieldType.FreeTranslation;
+                    return StoryEditor.TextFields.NationalBt;
+                return DoInternationalBtFields
+                    ? StoryEditor.TextFields.InternationalBt
+                    : StoryEditor.TextFields.FreeTranslation;
             }
         }
 
         private StringTransfer GetStringTransfer(LineData theLineData,
-            StoryEditor.TextFieldType highestLanguage)
+            StoryEditor.TextFields highestLanguage)
         {
             switch (highestLanguage)
             {
-                case StoryEditor.TextFieldType.Vernacular:
+                case StoryEditor.TextFields.Vernacular:
                     return theLineData.Vernacular;
-                case StoryEditor.TextFieldType.NationalBt:
+                case StoryEditor.TextFields.NationalBt:
                     return theLineData.NationalBt;
-                case StoryEditor.TextFieldType.InternationalBt:
+                case StoryEditor.TextFields.InternationalBt:
                     return theLineData.InternationalBt;
-                case StoryEditor.TextFieldType.FreeTranslation:
+                case StoryEditor.TextFields.FreeTranslation:
                     return theLineData.FreeTranslation;
             }
             System.Diagnostics.Debug.Assert(false);
@@ -564,18 +564,18 @@ namespace OneStoryProjectEditor
         }
 
         private ProjectSettings.LanguageInfo GetLanguageInfo(
-            ProjectSettings projSettings, 
-            StoryEditor.TextFieldType highestLanguage)
+            ProjectSettings projSettings,
+            StoryEditor.TextFields highestLanguage)
         {
             switch (highestLanguage)
             {
-                case StoryEditor.TextFieldType.Vernacular:
+                case StoryEditor.TextFields.Vernacular:
                     return projSettings.Vernacular;
-                case StoryEditor.TextFieldType.NationalBt:
+                case StoryEditor.TextFields.NationalBt:
                     return projSettings.NationalBT;
-                case StoryEditor.TextFieldType.InternationalBt:
+                case StoryEditor.TextFields.InternationalBt:
                     return projSettings.InternationalBT;
-                case StoryEditor.TextFieldType.FreeTranslation:
+                case StoryEditor.TextFields.FreeTranslation:
                     return projSettings.FreeTranslation;
             }
             System.Diagnostics.Debug.Assert(false);

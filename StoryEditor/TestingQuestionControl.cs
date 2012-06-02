@@ -75,7 +75,7 @@ namespace OneStoryProjectEditor
                     ctrlTextBoxVernacular = InitTextBox(ctrlVerse, CstrFieldNameVernacular, 
                         _aTQData.TestQuestionLine.Vernacular,
                         theSE.StoryProject.ProjSettings.Vernacular, nNumColumns,
-                        StoryEditor.TextFieldType.Vernacular,
+                        StoryEditor.TextFields.Vernacular,
                         strTestNumberLabel, Properties.Settings.Default.TQVernacularColor);
                     nNumColumns++;
                 }
@@ -99,7 +99,7 @@ namespace OneStoryProjectEditor
                     ctrlTextBoxNationalBT = InitTextBox(ctrlVerse, CstrFieldNameNationalBt,
                         _aTQData.TestQuestionLine.NationalBt, 
                         theSE.StoryProject.ProjSettings.NationalBT, nNumColumns,
-                        StoryEditor.TextFieldType.NationalBt, 
+                        StoryEditor.TextFields.NationalBt, 
                         strTestNumberLabel, Properties.Settings.Default.TQNationalBtColor);
                     nNumColumns++;
 
@@ -125,7 +125,7 @@ namespace OneStoryProjectEditor
                         VerseBtControl.TransliteratorInternationalBt;
                     CtrlTextBox ctrlTextBoxEnglishBT = InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aTQData.TestQuestionLine.InternationalBt,
                         theSE.StoryProject.ProjSettings.InternationalBT, nNumColumns,
-                        StoryEditor.TextFieldType.InternationalBt,
+                        StoryEditor.TextFields.InternationalBt,
                         strTestNumberLabel, Properties.Settings.Default.TQInternationalBtColor);
                     nNumColumns++;
 
@@ -189,8 +189,8 @@ namespace OneStoryProjectEditor
         }
 
         protected CtrlTextBox InitTextBox(VerseControl ctrlVerse, string strTbName, 
-            StringTransfer strTbText, ProjectSettings.LanguageInfo li, int nLayoutColumn, 
-            StoryEditor.TextFieldType eFieldtype, string strTestNumberLabel, Color clrFont)
+            StringTransfer strTbText, ProjectSettings.LanguageInfo li, int nLayoutColumn,
+            StoryEditor.TextFields eFieldtype, string strTestNumberLabel, Color clrFont)
         {
             var tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, this,
                 strTbText, li, strTestNumberLabel, eFieldtype, clrFont);

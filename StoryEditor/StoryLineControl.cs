@@ -56,7 +56,7 @@ namespace OneStoryProjectEditor
                 ctrlTextBoxVernacular = InitTextBox(ctrlVerse, LineData.CstrAttributeLangVernacular, 
                     _aVerseData.StoryLine.Vernacular, 
                     aSE.StoryProject.ProjSettings.Vernacular, bDisableTabStopVernacular,
-                    nNumColumns, StoryEditor.TextFieldType.Vernacular);
+                    nNumColumns, StoryEditor.TextFields.Vernacular);
                 nNumColumns++;
             }
 
@@ -80,7 +80,7 @@ namespace OneStoryProjectEditor
                 _aVerseData.StoryLine.NationalBt.Transliterator = VerseBtControl.TransliteratorNationalBt;
                 ctrlTextBoxNationalBT = InitTextBox(ctrlVerse, LineData.CstrAttributeLangNationalBt, _aVerseData.StoryLine.NationalBt, 
                     aSE.StoryProject.ProjSettings.NationalBT, bDisableTabStopNationalBT,
-                    nNumColumns, StoryEditor.TextFieldType.NationalBt);
+                    nNumColumns, StoryEditor.TextFields.NationalBt);
 
                 nNumColumns++;
 
@@ -106,7 +106,7 @@ namespace OneStoryProjectEditor
                 CtrlTextBox ctrlTextBoxEnglishBT = InitTextBox(ctrlVerse, 
                     LineData.CstrAttributeLangInternationalBt, _aVerseData.StoryLine.InternationalBt,
                     aSE.StoryProject.ProjSettings.InternationalBT, bDisableTabStopInternationalBT, nNumColumns,
-                    StoryEditor.TextFieldType.InternationalBt);
+                    StoryEditor.TextFields.InternationalBt);
                 nNumColumns++;
 
                 if (ctrlTextBoxVernacular != null)
@@ -124,7 +124,7 @@ namespace OneStoryProjectEditor
                 InitTextBox(ctrlVerse, 
                     LineData.CstrAttributeLangFreeTranslation, _aVerseData.StoryLine.FreeTranslation,
                     aSE.StoryProject.ProjSettings.FreeTranslation, false, nNumColumns,
-                    StoryEditor.TextFieldType.FreeTranslation);
+                    StoryEditor.TextFields.FreeTranslation);
                 nNumColumns++;
             }
 
@@ -171,7 +171,7 @@ namespace OneStoryProjectEditor
 
         protected CtrlTextBox InitTextBox(VerseControl ctrlVerse, string strTbName, StringTransfer strTbText, 
             ProjectSettings.LanguageInfo li, bool bDisableTabStop, int nLayoutColumn,
-            StoryEditor.TextFieldType eFieldType)
+            StoryEditor.TextFields eFieldType)
         {
             System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strTbName + CstrSuffixTextBox), "otherwise, fix wrong assumption");
             CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, this,
