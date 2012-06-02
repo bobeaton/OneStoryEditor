@@ -106,7 +106,7 @@
   <Entry Path="&quot;national language BT&quot;">idioma nacional RT</Entry>
   <Entry Path="&quot;Enter &amp;National/Regional BT&quot;">Escribir la retro-tradução (lingua nacional o Regional)</Entry>
   <Entry Path="&quot;English BT&quot;">RT español</Entry>
-  <Entry Path="&quot;Enter &amp;English BT&quot;">Introduzca el inglés RT</Entry>
+  <Entry Path="&quot;Enter &amp;English BT&quot;">Introduzca la retrotraducción</Entry>
   <Entry Path="&quot;free translation&quot;">traducción libre</Entry>
   <Entry Path="&quot;Enter &amp;Free Translation (UNS BT)&quot;">Introduzca la traducción libre (RT de incrédulo)</Entry>
   <Entry Path="&quot;anchor&quot;">referencia biblica</Entry>
@@ -407,7 +407,7 @@
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.textBoxTeamMembersInstructionBox.Text">Cada proyecto tendrá al menos un facilitado, que se encargará de escribir las historias y/o retro-traducción(es). Esto debe ser alguien del contador de la historia. Si el no-creyente o facilitador del proyecto no puede hacer retro-traducción al inglés, pero hay alguien fuera del equipo que está dispuesto a hacerlo, puede comprobar el cuadro junto a 'Out back-traductor inglés' a esa persona. Esto sólo tiene sentido, sin embargo, si el proyecto entra en una facilitador espalda-traducción de nacionales y regionales que 'inglés back-traductor externo' hará volver la traducción. No Active esta casilla si el facilitador de proyecto o alguien utilizando el mismo equipo como facilitador del proyecto hará recordar BT. inglés que la primera ronda de la traducción (o "traducción libre", si lo usa) normalmente debe ser hecho por un UNS. por último, indicar si este proyecto involucrará "administrar con entrenamiento" (es decir, un consultor en formación de un entrenador) o "consultora" para verificar las historias. Estas funciones determinan que los Estados una historia irá durante el consultor para verificar el proceso.</Entry>
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.radioButtonManageWithCoaching.Text">Consultor en capacitación, con Coaching</Entry>
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.radioButtonIndependentConsultant.Text">Consultor independiente</Entry>
-  <Entry Path="OneStoryProjectEditor.NewProjectWizard.checkBoxOutsideEnglishBackTranslator.Text">Espalda-traductor inglés fuera</Entry>
+  <Entry Path="OneStoryProjectEditor.NewProjectWizard.checkBoxOutsideEnglishBackTranslator.Text">Retro-traductor al Inglés</Entry>
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.checkBoxProjectFacilitator.Text">Facilitador del proyecto</Entry>
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.tabPageAIBT.Text">AdaptIt</Entry>
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.labelAdaptItVernacularToNationalBt.Text">Utilice AdaptIt para x Y BT:&lt;no need="" to="" localize/translate=""&gt;&lt;/no&gt;</Entry>
@@ -571,7 +571,7 @@
   <Entry Path="OneStoryProjectEditor.SetPfTasksForm.buttonOK.Text">OK</Entry>
   <Entry Path="&quot;adding {0}-&gt;{1} gave the error: {2}&quot;">Agregar {0}-{1} &gt; dio el error: {2}</Entry>
   <Entry Path="&quot;No sentence to gloss!&quot;">No condena a pasar!</Entry>
-  <Entry Path="OneStoryProjectEditor.GlossingForm.GlossingForm.Text">Texto de resplandor</Entry>
+  <Entry Path="OneStoryProjectEditor.GlossingForm.GlossingForm.Text">Traducción literal</Entry>
   <Entry Path="OneStoryProjectEditor.GlossingForm.buttonReorder.Text">Reordenar</Entry>
   <Entry Path="OneStoryProjectEditor.GlossingForm.buttonCancel.Text">Cancelar</Entry>
   <Entry Path="OneStoryProjectEditor.GlossingForm.buttonOK.Text">OK</Entry>
@@ -672,10 +672,10 @@
   <Entry Path="&quot;Located in folder '{0}'&quot;">Ubicado en la carpeta ' ' {0}</Entry>
   <Entry Path="&quot;S&amp;plit into Lines&quot;">Divididir en lineas</Entry>
   <Entry Path="&quot;&amp;Collapse into 1 line&quot;">Unir todas las lineas en una </Entry>
-  <Entry Path="&quot;From &amp;{0} to {1}&quot;">{0} De {1}</Entry>
+  <Entry Path="&quot;From &amp;{0} to {1}&quot;">De {0} a {1}</Entry>
   <Entry Path="&quot;Are you sure you want to delete the '{0}' story?&quot;">¿Está seguro que desea eliminar de la historia '{0}'?</Entry>
   <Entry Path="&quot;{0} story lines to the clipboard&quot;">{0} lineas de la historia en el Portapapeles</Entry>
-  <Entry Path="&quot;{0} back-translation of the story to the clipboard&quot;">{0} atrás-traducción de la historia en el Portapapeles</Entry>
+  <Entry Path="&quot;{0} back-translation of the story to the clipboard&quot;">{0} retro-traducción de la historia en el Portapapeles</Entry>
   <Entry Path="&quot;Have you entered all of your testing questions? If not, then click 'Cancel' and finish entering all of the testing questions first. Then click 'OK' to add boxes for the answers to the testing questions&quot;">¿Has escrito todas sus preguntas de prueba? Si no es así, a continuación, haga clic en Cancelar y termine de introducir todas las preguntas de la prueba por primera vez. Haga clic en 'OK' para agregar cuadros de las respuestas a las preguntas de las pruebas</Entry>
   <Entry Path="&quot;How many times did the UNS hear the story before giving this retelling?&quot;">¿Cuántas veces escuchó la historia antes de recontar?</Entry>
   <Entry Path="&quot;Test done on: {0}. UNS heard the story {1} times.&quot;">En prueba: {0}. cada uno escuchó la historia veces {1}.</Entry>
@@ -766,7 +766,7 @@
   <Entry Path="OneStoryProjectEditor.StoryEditor.editCopyStoryMenu.ToolTipText">Copiar todas las líneas de texto en la historia de la lengua en una gran cantidad de texto</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.editCopyNationalBtMenu.Text">Traducción inversa nacional</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.editCopyNationalBtMenu.ToolTipText">Copiar todas las líneas de texto en la espalda-traducción en lenguaje nacional en una gran cantidad de texto</Entry>
-  <Entry Path="OneStoryProjectEditor.StoryEditor.editCopyEnglishBtMenu.Text">Espalda-traducción al inglés de toda la historia en el Portapapeles</Entry>
+  <Entry Path="OneStoryProjectEditor.StoryEditor.editCopyEnglishBtMenu.Text">Retro-traducción de toda la historia en el Portapapeles</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.editCopyEnglishBtMenu.ToolTipText">Copiar todas las líneas de texto en la parte posterior traducción al inglés en una gran cantidad de texto</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.editCopyFreeTranslationMenu.Text">Traducción libre a lo largo de la historia en el Portapapeles</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.editCopyFreeTranslationMenu.ToolTipText">Copiar todas las líneas de texto en traducción libre en una gran cantidad de texto</Entry>
@@ -775,7 +775,7 @@
   <Entry Path="OneStoryProjectEditor.StoryEditor.editDeleteToolStripMenu.Text">Eliminar</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.editDeleteStoryLinesMenu.Text">Historia (todas las líneas)</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.editDeleteStoryLinesMenu.ToolTipText">Eliminar el contenido de todos los cuadros de texto en la historia de la historia de la lengua (las líneas siguen siendo, pero sólo se vacía)</Entry>
-  <Entry Path="OneStoryProjectEditor.StoryEditor.editDeleteNationalBtMenu.Text">Espalda-traducción de idioma nacional (todas las líneas)</Entry>
+  <Entry Path="OneStoryProjectEditor.StoryEditor.editDeleteNationalBtMenu.Text">Retro-traducir en español (todas las líneas)</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.editDeleteNationalBtMenu.ToolTipText">Eliminar el contenido de todos los cuadros de texto de la traducción de atrás de la historia nacional (las líneas siguen siendo, pero sólo se vacía)</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.editDeleteEnglishBtMenu.Text">Traducción del inglés de espalda (todas las líneas)</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.editDeleteEnglishBtMenu.ToolTipText">Eliminar el contenido de todos los cuadros de texto de traducción de inglés de la parte posterior de la historia (las líneas siguen siendo, pero sólo se vacía)</Entry>
@@ -926,8 +926,8 @@
   <Entry Path="&quot;Remove ans&amp;wer box&quot;">Quitar el cuadro de respuesta</Entry>
   <Entry Path="&quot;Change UN&amp;S&quot;">Cambiar Descreyente</Entry>
   <Entry Path="&quot;&amp;Reorder words&quot;">Reordenar palabras</Entry>
-  <Entry Path="&quot;&amp;Back-translate to national language&quot;">Espalda traducir al idioma nacional</Entry>
-  <Entry Path="&quot;Back-translate to &amp;English&quot;">Espalda traducido al inglés</Entry>
+  <Entry Path="&quot;&amp;Back-translate to national language&quot;">Retro-traducir al idioma nacional</Entry>
+  <Entry Path="&quot;Back-translate to &amp;English&quot;">Retro-traducir al español</Entry>
   <Entry Path="OneStoryProjectEditor.AnchorAddCommentForm.AnchorAddCommentForm.Text">Añadir un comentario a un ancla</Entry>
   <Entry Path="OneStoryProjectEditor.AnchorAddCommentForm.labelScriptureReference.Text">Referencia de las escrituras:</Entry>
   <Entry Path="OneStoryProjectEditor.AnchorAddCommentForm.labelJumpTarget.Text">&lt;no need="" to="" localize/translate=""&gt;&lt;/no&gt;</Entry>
@@ -953,7 +953,7 @@
   <Entry Path="OneStoryProjectEditor.EditMemberForm.checkBoxProjectFacilitator.Text">Facilitador del proyecto</Entry>
   <Entry Path="OneStoryProjectEditor.EditMemberForm.buttonSetDefaultTasks.Text">Definir tareas estándar</Entry>
   <Entry Path="OneStoryProjectEditor.EditMemberForm.radioButtonIndependentConsultant.Text">Consultor independiente</Entry>
-  <Entry Path="OneStoryProjectEditor.EditMemberForm.radioButtonEnglishBackTranslator.Text">Espalda-traductor inglés fuera</Entry>
+  <Entry Path="OneStoryProjectEditor.EditMemberForm.radioButtonEnglishBackTranslator.Text">Retro-traductor al Inglés</Entry>
   <Entry Path="OneStoryProjectEditor.EditMemberForm.radioButtonJustViewing.Text">Solo busquen</Entry>
   <Entry Path="OneStoryProjectEditor.EditMemberForm.radioButtonCoach.Text">Entrenador</Entry>
   <Entry Path="OneStoryProjectEditor.EditMemberForm.radioButtonConsultantInTraining.Text">Consultor de formación</Entry>
