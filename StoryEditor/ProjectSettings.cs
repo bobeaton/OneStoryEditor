@@ -635,6 +635,16 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public static string SayMoreFolderRoot
+        {
+            get
+            {
+                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                                    "SayMore");
+
+            }
+        }
+
         public static string OneStoryProjectFolderRoot
         {
             get

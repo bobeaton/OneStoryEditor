@@ -189,7 +189,7 @@ namespace OneStoryProjectEditor
         }
 
         protected CtrlTextBox InitTextBox(VerseControl ctrlVerse, string strTbName, 
-            StringTransfer strTbText, ProjectSettings.LanguageInfo li, int nLayoutColumn, 
+            StringTransfer strTbText, ProjectSettings.LanguageInfo li, int nLayoutColumn,
             StoryEditor.TextFields eFieldtype, string strTestNumberLabel, Color clrFont)
         {
             var tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, this,

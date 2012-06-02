@@ -12,6 +12,7 @@ namespace AiChorus
     {
         public const string CstrOptionSendReceive = "Synchronize";
         public const string CstrOptionClone = "Download";
+        public const string CstrOptionOpenProject = "Open Project";
 
         public Project Project { get; set; }
         public ServerSetting ServerSetting { get; set; }
@@ -42,11 +43,20 @@ namespace AiChorus
                 if (Directory.Exists(strProjectFolderHgPath))
                 {
                     // means it's already been cloned, so just allow sync'ing
-                    return CstrOptionSendReceive;
+                    return GetSynchronizeOrOpenProjectLable;
                 }
             }
 
             return CstrOptionClone;
+        }
+
+        /// <summary>
+        /// this normally gets just 'Synchronize', but some sub-classes might want to 
+        /// override and also provide the 'Open Project' option
+        /// </summary>
+        protected virtual string GetSynchronizeOrOpenProjectLable
+        {
+            get { return CstrOptionSendReceive; }
         }
 
         public abstract void DoSynchronize();
@@ -65,6 +75,12 @@ namespace AiChorus
                 OseSyncHandler.OseRunningPath = strStoryEditorPath = Path.Combine(strStoryEditorPath, OseSyncHandler.CstrStoryEditorExe);
                 return strStoryEditorPath;
             }
+        }
+
+        // must be implmented by sub-classes who return CstrOptionOpenProject for the label
+        public virtual void DoProjectOpen()
+        {
+            throw new NotImplementedException();
         }
     }
 }

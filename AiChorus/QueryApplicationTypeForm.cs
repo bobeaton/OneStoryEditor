@@ -24,10 +24,11 @@ namespace AiChorus
 
             _chorusConfigs = chorusConfigs;
             ServerSettingsModel = model;
-            _serverSettingsControl = new ServerSettingsControl(model)
+            _serverSettingsControl = new ServerSettingsControl()
                                          {
                                              TabIndex = 2, 
-                                             Anchor = (AnchorStyles.Top | AnchorStyles.Left)
+                                             Anchor = (AnchorStyles.Top | AnchorStyles.Left),
+                                             Model = model
                                          };
             tableLayoutPanel.Controls.Add(_serverSettingsControl, 1, 0);
             tableLayoutPanel.SetColumnSpan(_serverSettingsControl, 2);

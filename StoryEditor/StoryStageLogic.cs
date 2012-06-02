@@ -51,6 +51,56 @@ namespace OneStoryProjectEditor
             eTeamFinalApproval
         }
 
+        public static TeamMemberData.UserTypes WhoseTurn(ProjectStages eStage)
+        {
+            switch (eStage)
+            {
+                case ProjectStages.eProjFacTypeVernacular:
+                case ProjectStages.eProjFacTypeNationalBT:
+                case ProjectStages.eProjFacTypeInternationalBT:
+                case ProjectStages.eProjFacTypeFreeTranslation:
+                case ProjectStages.eProjFacAddAnchors:
+                case ProjectStages.eProjFacAddStoryQuestions:
+                case ProjectStages.eProjFacRevisesBeforeUnsTest:
+                case ProjectStages.eProjFacReviseBasedOnRound1Notes:
+                case ProjectStages.eProjFacOnlineReview1WithConsultant:
+                case ProjectStages.eProjFacReadyForTest1:
+                case ProjectStages.eProjFacEnterRetellingOfTest1:
+                case ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1:
+                case ProjectStages.eProjFacRevisesAfterUnsTest:
+                    return TeamMemberData.UserTypes.ProjectFacilitator;
+
+                case ProjectStages.eBackTranslatorTypeInternationalBT:
+                case ProjectStages.eBackTranslatorTranslateConNotesBeforeUnsTest:
+                case ProjectStages.eBackTranslatorTranslateConNotes:
+                case ProjectStages.eBackTranslatorTypeInternationalBTTest1:
+                case ProjectStages.eBackTranslatorTranslateConNotesAfterUnsTest:
+                    return TeamMemberData.UserTypes.EnglishBackTranslator;
+
+                case ProjectStages.eConsultantCheckNonBiblicalStory:
+                case ProjectStages.eConsultantCheckStoryInfo:
+                case ProjectStages.eConsultantCheckAnchors:
+                case ProjectStages.eConsultantCheckStoryQuestions:
+                case ProjectStages.eConsultantCauseRevisionBeforeUnsTest:
+                case ProjectStages.eConsultantReviseRound1Notes:
+                case ProjectStages.eConsultantCheck2:
+                case ProjectStages.eConsultantCauseRevisionAfterUnsTest:
+                case ProjectStages.eConsultantFinalCheck:
+                    return TeamMemberData.UserTypes.ConsultantInTraining;
+
+                case ProjectStages.eCoachReviewRound1Notes:
+                case ProjectStages.eCoachReviewRound2Notes:
+                    return TeamMemberData.UserTypes.Coach;
+
+                case ProjectStages.eFirstPassMentorCheck1:
+                case ProjectStages.eFirstPassMentorCheck2:
+                case ProjectStages.eTeamComplete:
+                case ProjectStages.eTeamFinalApproval:
+                default:
+                    return TeamMemberData.UserTypes.Undefined;
+            }
+        }
+
         public ProjectStages ProjectStage
         {
             get { return _ProjectStage; }

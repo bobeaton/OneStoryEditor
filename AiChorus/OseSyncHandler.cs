@@ -1,6 +1,7 @@
 ﻿#define AiChorusInOseFolder
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -14,7 +15,9 @@ namespace AiChorus
         private const string CstrCantOpenOse = "Can't Open OneStory Editor";
 
         private Assembly _theStoryEditor;
+#if !AiChorusInOseFolder
         private MethodInfo _methodSyncWithRepository;
+#endif
 
         public OseSyncHandler(Project project, ServerSetting serverSetting)
             : base(project, serverSetting)
@@ -56,13 +59,26 @@ namespace AiChorus
                         return CstrCantOpenOse;
 
                     var typeString = typeof (string);
+#if !AiChorusInOseFolder
                     var aTypeParams = new Type[] { typeString, typeString, typeString, typeString, typeString, typeString };
                     _methodSyncWithRepository = typeOseProjectSettings.GetMethod("SyncWithRepository", aTypeParams);
+#endif
                     var propOneStoryProjectFolderRoot = typeOseProjectSettings.GetProperty("OneStoryProjectFolderRoot");
                     _appDataRoot = (string)propOneStoryProjectFolderRoot.GetValue(typeOseProjectSettings, null);
                 }
 
                 return _appDataRoot;
+            }
+        }
+
+        private static List<string> _lstProjectsJustCloned = new List<string>();
+        protected override string GetSynchronizeOrOpenProjectLable
+        {
+            get
+            {
+                return (_lstProjectsJustCloned.Contains(Project.FolderName))
+                           ? CstrOptionOpenProject
+                           : base.GetSynchronizeOrOpenProjectLable;
             }
         }
 
@@ -79,13 +95,29 @@ namespace AiChorus
                               {
                                   Path.Combine(AppDataRoot, Project.FolderName), 
                                   Project.ProjectId,
-                                  "http://hg-private.languagedepot.org",    // for now
+                                  "http://resumable.languagedepot.org",    // for now
                                   ServerSetting.Username, 
                                   ServerSetting.Password, 
                                   null                                      // shared network path
                               };
             _methodSyncWithRepository.Invoke(_theStoryEditor, oParams);
 #endif
+        }
+
+        internal override bool DoClone()
+        {
+            if (base.DoClone())
+            {
+                _lstProjectsJustCloned.Add(Project.FolderName);
+                return true;
+            }
+            return false;
+        }
+
+        public override void DoProjectOpen()
+        {
+            // for us, this is the same as Synchronize
+            DoSynchronize();
         }
     }
 }

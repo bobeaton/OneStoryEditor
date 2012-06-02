@@ -259,7 +259,7 @@ namespace OneStoryProjectEditor
                                    strStorySet,
                                    theStory.guid,
                                    theStory.Verses[nLineNum - 1].guid,
-                                   OneStoryUrlBuilder.FieldType.eAnchorFields, strAnchor, strAnchor);
+                                   StoryEditor.TextFields.Anchor, strAnchor, strAnchor);
         }
 
         internal static void ParseReference(string strReference, 

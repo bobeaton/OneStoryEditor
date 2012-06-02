@@ -1099,6 +1099,36 @@ namespace OneStoryProjectEditor
         {
             Retellings.RemoveTestResult(strUnsGuid);
         }
+
+        public void MoveConsultantNotesToCoachNotePane()
+        {
+            ToOtherConNotePane(CoachNoteData.MakeFromConsultNotesDataConverter, ConsultantNotes, CoachNotes);
+        }
+
+        public void MoveCoachNotesToConsultantNotePane()
+        {
+            ToOtherConNotePane(ConsultantNoteData.MakeFromConsultNotesDataConverter, CoachNotes, ConsultantNotes);
+        }
+
+        private delegate ConsultNoteDataConverter MakeFromConsultNotesDataConverter(ConsultNoteDataConverter rhs);
+
+        private static void ToOtherConNotePane(MakeFromConsultNotesDataConverter ctor, 
+            ConsultNotesDataConverter fromSet, ConsultNotesDataConverter ToSet)
+        {
+            foreach (var conNote in fromSet.Where(c => !c.IsFinished).ToList())
+            {
+                fromSet.Remove(conNote);
+                conNote.ForEach(ci => ci.ConvertToOtherPaneDirection());
+                var otherConNote = ctor(conNote);
+                ToSet.Add(otherConNote);
+            }
+        }
+
+        public void ReassignRolesToConNoteComments(MemberIdInfo projectFacilitator, MemberIdInfo consultant)
+        {
+            // for now, this just applies to the Consultant notes pane
+            ConsultantNotes.ReassignRolesToConNoteComments(projectFacilitator, consultant);
+        }
     }
 
     public class VersesData : List<VerseData>
@@ -1863,6 +1893,24 @@ namespace OneStoryProjectEditor
         {
             return FirstVerse.DoesReferenceTqUns(strMemberId) ||
                 this.Any(verse => verse.DoesReferenceTqUns(strMemberId));
+        }
+
+        internal void MoveConsultantNotesToCoachNotePane()
+        {
+            FirstVerse.MoveConsultantNotesToCoachNotePane();
+            ForEach(v => v.MoveConsultantNotesToCoachNotePane());
+        }
+
+        internal void MoveCoachNotesToConsultantNotePane()
+        {
+            FirstVerse.MoveCoachNotesToConsultantNotePane();
+            ForEach(v => v.MoveCoachNotesToConsultantNotePane());
+        }
+
+        public void ReassignRolesToConNoteComments(MemberIdInfo projectFacilitator, MemberIdInfo consultant)
+        {
+            FirstVerse.ReassignRolesToConNoteComments(projectFacilitator, consultant);
+            ForEach(v => v.ReassignRolesToConNoteComments(projectFacilitator, consultant));
         }
     }
 }

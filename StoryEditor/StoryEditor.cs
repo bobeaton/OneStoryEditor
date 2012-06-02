@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -97,6 +98,7 @@ namespace OneStoryProjectEditor
 
         internal bool Modified;
         internal Timer myFocusTimer = new Timer();
+        internal Timer myReopenTimer = new Timer();
         internal static Timer mySaveTimer = new Timer();
 
         private const int CnIntervalBetweenAutoSaveReqs = 5 * 1000 * 60;
@@ -131,7 +133,7 @@ namespace OneStoryProjectEditor
             CoachNote = 2048,
 
             Languages = Vernacular | NationalBt | InternationalBt | FreeTranslation,
-            Fields = StoryLine | Anchor | ExegeticalNote | Retelling | 
+            Fields = StoryLine | Anchor | ExegeticalNote | Retelling |
                      TestQuestion | TestQuestionAnswer | ConsultantNote | CoachNote,
 
             Everything = Languages | Fields
@@ -148,7 +150,9 @@ namespace OneStoryProjectEditor
         {
             myFocusTimer.Tick += TimeToSetFocus;
             myFocusTimer.Interval = 200;
-
+            myReopenTimer.Tick += CheckForFileChanged;
+            myReopenTimer.Interval = 1000;  // check every second
+            
             _strStoriesSet = strStoriesSet;
 
             InitializeComponent();
@@ -171,6 +175,8 @@ namespace OneStoryProjectEditor
                 mySaveTimer.Interval = CnIntervalBetweenAutoSaveReqs;
                 mySaveTimer.Start();
             }
+
+            openFileDialog.InitialDirectory = ProjectSettings.OneStoryProjectFolderRoot;
 
             try
             {
@@ -206,6 +212,11 @@ namespace OneStoryProjectEditor
                 }
                 catch (Program.RestartException)
                 {
+                    throw;
+                }
+                catch (DuplicateStoryStateTransitionException)
+                {
+                    // pass this one on so it triggers an email
                     throw;
                 }
                 catch { }   // this was only a bene anyway, so just ignore it
@@ -576,6 +587,8 @@ namespace OneStoryProjectEditor
 
             if (splitContainerUpDown.IsMinimized)
                 splitContainerUpDown.Restore();
+
+            _dateTimeLastSaved = DateTime.MinValue;
         }
 
         protected void ReInitMenuVisibility()
@@ -632,7 +645,7 @@ namespace OneStoryProjectEditor
 
             if ((StoryProject != null) && (StoryProject.ProjSettings != null))
             {
-                UpdateRecentlyUsedLists(StoryProject.ProjSettings);
+                UpdateRecentlyUsedListsEx(StoryProject.ProjSettings);
                 UpdateUiMenusAfterProjectOpen();
             }
         }
@@ -741,21 +754,30 @@ namespace OneStoryProjectEditor
             catch { }   // this might throw if the user cancels, but we don't care
         }
 
-        protected void UpdateRecentlyUsedLists(ProjectSettings projSettings)
+        private void UpdateRecentlyUsedListsEx(ProjectSettings projSettings)
         {
+            UpdateRecentlyUsedLists(projSettings.ProjectFolder, projSettings.ProjectName);
+        }
+
+        public static void UpdateRecentlyUsedLists(string strProjectFolder, string strProjectName)
+        {
+            // if this is called from reflection, we need to initialize the Settings objects
+            if (Settings.Default.RecentProjects == null)
+                Program.InitializeLocalSettingsCollections(true);
+
             // update the recently-used-project-names list
-            if (Settings.Default.RecentProjects.Contains(projSettings.ProjectName))
+            if (Settings.Default.RecentProjects.Contains(strProjectName))
             {
-                int nIndex = Settings.Default.RecentProjects.IndexOf(projSettings.ProjectName);
+                int nIndex = Settings.Default.RecentProjects.IndexOf(strProjectName);
                 Settings.Default.RecentProjects.RemoveAt(nIndex);
                 Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
             }
 
-            Settings.Default.RecentProjects.Insert(0, projSettings.ProjectName);
-            Settings.Default.RecentProjectPaths.Insert(0, projSettings.ProjectFolder);
+            Settings.Default.RecentProjects.Insert(0, strProjectName);
+            Settings.Default.RecentProjectPaths.Insert(0, strProjectFolder);
 
-            Settings.Default.LastProject = projSettings.ProjectName;
-            Settings.Default.LastProjectPath = projSettings.ProjectFolder;
+            Settings.Default.LastProject = strProjectName;
+            Settings.Default.LastProjectPath = strProjectFolder;
             Settings.Default.Save();
         }
 
@@ -784,6 +806,42 @@ namespace OneStoryProjectEditor
             OpenProject(projSettings);
         }
 
+        private DateTime _dateTimeLastSaved;
+        public void CheckForFileChanged(object sender, EventArgs e)
+        {
+            if ((StoryProject == null) || (StoryProject.ProjSettings == null))
+                return;
+
+            // if we just saved, then don't bother the user anymore
+            var strProjectFilePath = StoryProject.ProjSettings.ProjectFilePath;
+            if (!File.Exists(strProjectFilePath))
+                return; // not written yet (during new project cycle)
+
+            var dateTimeCurrent = File.GetLastWriteTime(strProjectFilePath);
+            if (_dateTimeLastSaved == dateTimeCurrent)
+                return;
+
+            myReopenTimer.Stop();   // to prevent further calls
+
+            _dateTimeLastSaved = DateTime.MinValue;
+
+            // notify about reloading
+            if (Modified)
+                SaveXElementWithBadExtn(GetXml, strProjectFilePath);    // just in case someone complains
+
+            var res = LocalizableMessageBox.Show(
+                String.Format(Localizer.Str(
+                    "The project file mentioned below was changed outside of {2} and must be reloaded.{0}{0}'{1}'{0}{0}You will not be able to save any further changes until you reopen the project. Click 'Yes' to reopen the project now."),
+                              Environment.NewLine, strProjectFilePath, OseCaption),
+                OseCaption, MessageBoxButtons.YesNoCancel);
+
+            if (res != DialogResult.Yes)
+                return;
+
+            Modified = false;
+            projectSendReceiveMenu.PerformClick();
+        }
+
         protected void OpenProject(ProjectSettings projSettings)
         {
             // clean up any existing open projects
@@ -795,16 +853,16 @@ namespace OneStoryProjectEditor
             //  used list.
             projSettings.ThrowIfProjectFileDoesntExists();
 
-            UpdateRecentlyUsedLists(projSettings);
+            UpdateRecentlyUsedListsEx(projSettings);
 
             Program.InsureSingleInstanceOfProgramName(projSettings.ProjectName);
 
             try
             {
-
                 // serialize in the file
-                var projFile = new NewDataSet();
-                projFile.ReadXml(projSettings.ProjectFilePath);
+                ProjectReader projFile;
+                _dateTimeLastSaved = ProjectReader.ReadProjectFile(projSettings.ProjectFilePath, out projFile);
+                myReopenTimer.Start();
 
                 // get the data into another structure that we use internally (more flexible)
                 StoryProject = GetOldStoryProjectData(projFile, projSettings);
@@ -853,6 +911,11 @@ namespace OneStoryProjectEditor
             {
                 SaveXElement(ex.XmlProjectFile, projSettings.ProjectFilePath, true);
                 OpenProject(projSettings);
+            }
+            catch (DuplicateStoryStateTransitionException)
+            {
+                // pass this one on so it triggers an email
+                throw;
             }
             catch (Exception ex)
             {
@@ -928,12 +991,12 @@ namespace OneStoryProjectEditor
 
         private void insertNewStoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string strStoryName;
+            string strStoryName = null;
             int nIndexOfCurrentStory = -1;
-            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, out strStoryName, true))
+            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, ref strStoryName, true))
             {
                 Debug.Assert(nIndexOfCurrentStory != -1);
-                InsertNewStory(strStoryName, nIndexOfCurrentStory);
+                InsertNewStory(strStoryName, nIndexOfCurrentStory, null);
             }
         }
 
@@ -953,20 +1016,18 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        protected bool AddNewStoryGetIndex(ref int nIndexForInsert, out string strStoryName,
+        protected bool AddNewStoryGetIndex(ref int nIndexForInsert, ref string strStoryName,
             bool bCheckThatProjFacIsLoggedIn)
         {
             Debug.Assert(LoggedOnMember != null);
             if (bCheckThatProjFacIsLoggedIn && !CheckForProjFac())
-            {
-                strStoryName = null;
                 return false;
-            }
 
             // ask the user for what story they want to add (i.e. the name)
             strStoryName =
                 LocalizableMessageBox.InputBox(Localizer.Str("Enter the name of the story to add"),
-                                               OseCaption, null);
+                                               OseCaption, strStoryName);
+
             if (!String.IsNullOrEmpty(strStoryName))
             {
                 if (TheCurrentStoriesSet.Count > 0)
@@ -997,16 +1058,20 @@ namespace OneStoryProjectEditor
             return false;
         }
 
-        internal void addNewStoryAfterToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddNewStoryAfterToolStripMenuItemClick(object sender, EventArgs e)
         {
-            string strStoryName;
+            AddNewStoryAfter(null, null);
+        }
+
+        internal StoryData AddNewStoryAfter(string strStoryName, string strFileToCopy)
+        {
             int nIndexOfCurrentStory = -1;
-            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, out strStoryName, true))
-            {
-                Debug.Assert(nIndexOfCurrentStory != -1);
-                nIndexOfCurrentStory = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
-                InsertNewStory(strStoryName, nIndexOfCurrentStory);
-            }
+            if (!AddNewStoryGetIndex(ref nIndexOfCurrentStory, ref strStoryName, true))
+                return null;
+
+            Debug.Assert(nIndexOfCurrentStory != -1);
+            nIndexOfCurrentStory = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
+            return InsertNewStory(strStoryName, nIndexOfCurrentStory, strFileToCopy);
         }
 
         TimeSpan tsFalseEnter = new TimeSpan(0, 0, 1);
@@ -1054,7 +1119,7 @@ namespace OneStoryProjectEditor
                                                       OseCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                     {
                         Debug.Assert(!comboBoxStorySelector.Items.Contains(strStoryToLoad));
-                        InsertNewStory(strStoryToLoad, nInsertIndex);
+                        InsertNewStory(strStoryToLoad, nInsertIndex, null);
                     }
                     else
                         ResetStorySelectorComboBox();
@@ -1064,19 +1129,19 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected void InsertNewStory(string strStoryName, int nIndexToInsert)
+        protected StoryData InsertNewStory(string strStoryName, int nIndexToInsert, string strFileToCopy)
         {
             if (!CheckForSaveDirtyFile())
-                return;
+                return null;
 
             // query for the crafter
             var dlg = new MemberPicker(StoryProject, TeamMemberData.UserTypes.Crafter)
-            {
-                Text = Localizer.Str("Choose the crafter that crafted this story")
-            };
+                          {
+                              Text = Localizer.Str("Choose the crafter that crafted this story")
+                          };
 
             if ((dlg.ShowDialog() != DialogResult.OK) || (dlg.SelectedMember == null))
-                return;
+                return null;
 
             string strCrafterGuid = dlg.SelectedMember.MemberGuid;
 
@@ -1097,14 +1162,18 @@ namespace OneStoryProjectEditor
                                             LoggedOnMember.MemberGuid,
                                             bIsBiblicalStory,
                                             StoryProject);
-            
+
             InsertNewStoryAdjustComboBox(theNewStory, nIndexToInsert);
 
             // check for Dropbox copy (after setting the 'TheCurrentStory')
-            var strStoryRecording = TriggerDropboxCopyStory(StoryProject.ProjSettings.DropboxStory);
+            var strStoryRecording = TriggerDropboxCopyStory(StoryProject.ProjSettings.DropboxStory, strFileToCopy);
             if (!String.IsNullOrEmpty(strStoryRecording))
                 LaunchWordPad(strStoryRecording);
+
             theNewStory.JustAdded = true;
+
+            SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacTypeVernacular, false);
+            return theNewStory;
         }
 
         protected void InsertNewStoryAdjustComboBox(StoryData theNewStory, int nIndexToInsert)
@@ -1594,11 +1663,17 @@ namespace OneStoryProjectEditor
             Modified = true;
         }
 
-        private void TimeToSetFocus(object sender, EventArgs e)
+        public void SetFocusTimer(int nLastVerse)
         {
-            Debug.Assert((sender != null) && (sender is Timer) && ((sender as Timer).Tag is int));
-            ((Timer)sender).Stop();
-            int nVerseIndex = (int)((Timer)sender).Tag;
+            myFocusTimer.Stop();
+            myFocusTimer.Tag = nLastVerse;
+            myFocusTimer.Start();
+        }
+
+        public void TimeToSetFocus(object sender, EventArgs e)
+        {
+            myFocusTimer.Stop();
+            var nVerseIndex = (int)myFocusTimer.Tag;
             FocusOnVerse(nVerseIndex, true, true);
         }
 
@@ -1971,8 +2046,11 @@ namespace OneStoryProjectEditor
         {
             // e.g. "tst 1:" (but may be localized)
             Debug.Assert(strLabel.Contains(' '));
-            int nIndex = strLabel.LastIndexOf(' ');
-            string strTestNumber = strLabel.Substring(nIndex + 1, 1);
+            var len = 1;
+            int nIndexSc, nIndex = strLabel.LastIndexOf(' ');
+            if ((nIndexSc = strLabel.LastIndexOf(':')) != -1)
+                len = nIndexSc - nIndex - 1;
+            string strTestNumber = strLabel.Substring(nIndex + 1, len);
             int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
             return ctrl._verseData.TestQuestions[nTestNumber];
         }
@@ -1980,11 +2058,10 @@ namespace OneStoryProjectEditor
         internal static TestQuestionData GetTestQuestionDataFromAnswerLabel(string strLabel, VerseBtControl ctrl)
         {
             // e.g. "ans 1:tst 1:"
-            Debug.Assert(strLabel.Contains(' '));
-            int nIndex = strLabel.LastIndexOf(' ');
-            string strTestNumber = strLabel.Substring(nIndex + 1, 1);
-            int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
-            return ctrl._verseData.TestQuestions[nTestNumber];
+            // see if we can get just the 2nd portion
+            int nIndex = strLabel.IndexOf(':');
+            var strTstPortion = strLabel.Substring(nIndex + 1);
+            return GetTestQuestionData(strTstPortion, ctrl);
         }
 
         internal static string GetInitials(string name)
@@ -2479,17 +2556,7 @@ namespace OneStoryProjectEditor
 
         protected void SaveXElement(XElement elem, string strFilename, bool bDoReloadTest)
         {
-            // create the root portions of the XML document and tack on the fragment we've been building
-            XDocument doc = new XDocument(
-                new XDeclaration("1.0", "utf-8", "yes"),
-                elem);
-
-            if (!Directory.Exists(Path.GetDirectoryName(strFilename)))
-                Directory.CreateDirectory(Path.GetDirectoryName(strFilename));
-
-            // save it with an extra extn.
-            string strTempFilename = strFilename + CstrExtraExtnToAvoidClobberingFilesWithFailedSaves;
-            doc.Save(strTempFilename);
+            var strTempFilename = SaveXElementWithBadExtn(elem, strFilename);
 
 #if DEBUGBOB
             // always do the reload test in debug mode
@@ -2501,8 +2568,8 @@ namespace OneStoryProjectEditor
             {
                 // now try to load the xml file. it'll throw if it's malformed 
                 //  (so we won't want to put it into the repo)
-                var projFile = new NewDataSet();
-                projFile.ReadXml(strTempFilename);
+                ProjectReader projFile;
+                ProjectReader.ReadProjectFile(strTempFilename, out projFile);
             }
 
             // backup the last version to appdata
@@ -2514,6 +2581,24 @@ namespace OneStoryProjectEditor
             File.Delete(strFilename);
             File.Copy(strTempFilename, strFilename, true);
             File.Delete(strTempFilename);
+        }
+
+        private static string SaveXElementWithBadExtn(XElement elem, string strFilename)
+        {
+            // create the root portions of the XML document and tack on the fragment we've been building
+            var doc = new XDocument(
+                new XDeclaration("1.0", "utf-8", "yes"),
+                elem);
+
+            var strFolderPath = Path.GetDirectoryName(strFilename);
+            Debug.Assert(strFolderPath != null, "strFolderPath != null");
+            if (!Directory.Exists(strFolderPath))
+                Directory.CreateDirectory(strFolderPath);
+
+            // save it with an extra extn.
+            var strTempFilename = strFilename + CstrExtraExtnToAvoidClobberingFilesWithFailedSaves;
+            doc.Save(strTempFilename);
+            return strTempFilename;
         }
 
         protected const string CstrExtraExtnToAvoidClobberingFilesWithFailedSaves = ".bad";
@@ -2544,7 +2629,16 @@ namespace OneStoryProjectEditor
                         QueryStoryPurpose();
                 }
 
+                if (File.Exists(strFilename) && (_dateTimeLastSaved == DateTime.MinValue))
+                {
+                    LocalizableMessageBox.Show(
+                        Localizer.Str("You must reload the project before it can be saved again."), OseCaption);
+                    Modified = false;
+                    return;
+                }
+
                 SaveXElement(GetXml, strFilename, bDoReloadTest);
+                _dateTimeLastSaved = File.GetLastWriteTime(strFilename);
             }
             catch (UnauthorizedAccessException)
             {
@@ -2973,7 +3067,7 @@ namespace OneStoryProjectEditor
             if (bTriggerSnapshotSave && !TheCurrentStory.JustAdded && StoryProject.ProjSettings.DropboxStory &&
                 (LoggedOnMember.MemberType == TeamMemberData.UserTypes.ProjectFacilitator))
             {
-                TriggerDropboxCopyStory(true);
+                TriggerDropboxCopyStory(true, null);
             }
 
             // a record to our history
@@ -2997,16 +3091,19 @@ namespace OneStoryProjectEditor
         private void storyToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             storyStoryInformationMenu.Enabled = ((TheCurrentStory != null) &&
-                                                                          (TheCurrentStory.CraftingInfo != null));
+                                                 (TheCurrentStory.CraftingInfo != null));
 
             storyDeleteStoryMenu.Enabled =
                 storyCopyWithNewNameMenu.Enabled = (TheCurrentStory != null);
 
+            var isStoryInsertable = ((StoryProject != null) &&
+                                     IsInStoriesSet &&
+                                     (LoggedOnMember != null));
+
             panoramaInsertNewStoryMenu.Enabled =
-                panoramaAddNewStoryAfterMenu.Enabled =
-                ((StoryProject != null) &&
-                 IsInStoriesSet &&
-                 (LoggedOnMember != null));
+                panoramaAddNewStoryAfterMenu.Enabled = isStoryInsertable;
+
+            storyImportFromSayMore.Enabled = isStoryInsertable && Directory.Exists(ProjectSettings.SayMoreFolderRoot);
 
             // if there's a story that has more than no verses, AND if it's a bible
             //  story and before the add anchors stage or a non-biblical story and
@@ -3191,6 +3288,8 @@ namespace OneStoryProjectEditor
             if (IsInStoriesSet)
                 InsertInOtherSetInsureUnique(StoryProject[Resources.IDS_ObsoleteStoriesSet],
                                              TheCurrentStory);
+
+            TheCurrentStory = null; //clear this out so we don't try to query for story information
 
             // update the combox box bit
             Debug.Assert(comboBoxStorySelector.Items.IndexOf(strName) == nIndex);
@@ -3453,24 +3552,29 @@ namespace OneStoryProjectEditor
             return "\"" + str + "\"";
         }
 
-        private string ShouldCopyFileToDropbox(string strFilename, bool bCopyToDropbox)
+        private string ShouldCopyFileToDropbox(string strFilename, bool bCopyToDropbox, string strFileToCopy)
         {
-            var openMediaFileDlg = new OpenFileDialog
-                                       {
-                                           Filter = Resources.AudioFileSearchFilter,
-                                           Title = Localizer.Str("Select the recording for the ") + strFilename
-                                       };
+            if (String.IsNullOrEmpty(strFileToCopy))
+            {
+                var openMediaFileDlg = new OpenFileDialog
+                {
+                    Filter = Resources.AudioFileSearchFilter,
+                    Title = Localizer.Str("Select the recording for the ") + strFilename
+                };
 
-            SuspendSaveDialog++;
-            var res = openMediaFileDlg.ShowDialog();
-            SuspendSaveDialog--;
-            if (res != DialogResult.OK)
-                return null;
+                SuspendSaveDialog++;
+                var res = openMediaFileDlg.ShowDialog();
+                SuspendSaveDialog--;
+                if (res != DialogResult.OK)
+                    return null;
 
-            // if we were just getting the file name (e.g. to open it in wavepad), then 
-            //  just return it.
-            if (!bCopyToDropbox)
-                return openMediaFileDlg.FileName;
+                // if we were just getting the file name (e.g. to open it in wavepad), then 
+                //  just return it.
+                if (!bCopyToDropbox)
+                    return openMediaFileDlg.FileName;
+
+                strFileToCopy = openMediaFileDlg.FileName;
+            }
 
             // otherwise, we're copying it to dropbox
             Debug.Assert((StoryProject != null) && (StoryProject.ProjSettings != null));
@@ -3481,7 +3585,7 @@ namespace OneStoryProjectEditor
             if (strDropboxRoot == null)
                 return null;
 
-            var extn = Path.GetExtension(openMediaFileDlg.FileName);
+            var extn = Path.GetExtension(strFileToCopy);
             var strTargetPath = ConcatenateToPath(strDropboxRoot,
                                                   new List<string>
                                                       {
@@ -3490,30 +3594,45 @@ namespace OneStoryProjectEditor
                                                           StoryProject.ProjSettings.ProjectName,
                                                           TheCurrentStory.Name
                                                       });
+
+            Debug.Assert(strTargetPath != null);
+            if (!Directory.Exists(strTargetPath))
+                Directory.CreateDirectory(strTargetPath);
+
             var strDropBoxFilepath = BuildDropboxFilename(strTargetPath, strFilename, extn);
-            WriteAudioFile(openMediaFileDlg.FileName, strDropBoxFilepath);
+            WriteAudioFile(strFileToCopy, strDropBoxFilepath);
             return strDropBoxFilepath;
         }
 
         private static string BuildDropboxFilename(string strTargetPath, string strFilename, string extn)
         {
+            // give it the name one greater than the highest v# currently
+            // start by finding out which files are already there.... eg. search for 'Story v*.*'
+            var filter = strFilename + " v";
+            var files = Directory.GetFiles(strTargetPath, filter + "*.*")
+                .OrderByDescending(s => GetVersionNumber(s, filter));
+            
             var nVersion = 1;
-            string strName, strSpec;
-            do
-            {
-                strName = String.Format("{0} v{1}{2}", strFilename, nVersion++, extn);
-                strSpec = Path.Combine(strTargetPath, strName);
-            } while (File.Exists(strSpec));
-            return strSpec;
+            if (files.Any())
+                nVersion = GetVersionNumber(files.First(), filter) + 1;
+
+            var strName = String.Format("{0}{1}{2}", filter, nVersion, extn);
+            return Path.Combine(strTargetPath, strName);
+        }
+
+        private static int GetVersionNumber(string strFilepath, string filter)
+        {
+            var strVersion = Path.GetFileNameWithoutExtension(strFilepath).Substring(filter.Length);
+            int nVersion;
+            Int32.TryParse(strVersion, out nVersion);
+            return nVersion;
         }
 
         private void WriteAudioFile(string strSourceFilepath, string strTargetFilepath)
         {
             // TODO: add convert capability also..
-            var strParentFolder = Path.GetDirectoryName(strTargetFilepath);
-            if (!Directory.Exists(strParentFolder))
-                Directory.CreateDirectory(strParentFolder);
             File.Copy(strSourceFilepath, strTargetFilepath, true);
+            File.SetLastWriteTime(strTargetFilepath, DateTime.Now);
         }
 
         internal string ConcatenateToPath(string strFolderRoot, List<string> lstFolderNames)
@@ -5178,9 +5297,9 @@ namespace OneStoryProjectEditor
         {
             Debug.Assert(TheCurrentStory != null);
 
-            string strStoryName;
+            string strStoryName = null;
             int nIndexOfCurrentStory = -1;
-            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, out strStoryName, false))
+            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, ref strStoryName, false))
             {
                 Debug.Assert(nIndexOfCurrentStory != -1);
                 nIndexOfCurrentStory = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
@@ -5887,7 +6006,7 @@ namespace OneStoryProjectEditor
                 MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                 return;
 
-            OverrideLocalizeStateInfo(ptTooltip);
+            OverrideLocalizeStateInfo(ptTooltip, true);
         }
 
         private void advancedOverrideLocalizeStateViewSettingsMenu_Click(object sender, EventArgs e)
@@ -5895,12 +6014,12 @@ namespace OneStoryProjectEditor
             // locate the window near the cursor...
             Point ptTooltip = Cursor.Position;
 
-            OverrideLocalizeStateInfo(ptTooltip);
+            OverrideLocalizeStateInfo(ptTooltip, false);
         }
 
-        private void OverrideLocalizeStateInfo(Point ptTooltip)
+        private void OverrideLocalizeStateInfo(Point ptTooltip, bool bChangingState)
         {
-            var dlg = new StageEditorForm(StoryProject, TheCurrentStory, ptTooltip, true);
+            var dlg = new StageEditorForm(StoryProject, TheCurrentStory, ptTooltip, bChangingState);
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 Debug.Assert(dlg.NextState != StoryStageLogic.ProjectStages.eUndefined);
@@ -5923,7 +6042,10 @@ namespace OneStoryProjectEditor
         {
             advancedChangeStateWithoutChecksMenu.Enabled =
                 advancedOverrideLocalizeStateViewSettingsMenu.Enabled =
-                advancedImportHelper.Enabled = 
+                advancedImportHelper.Enabled =
+                advancedCoachNotesToConsultantNotesPane.Enabled =
+                advancedConsultantNotesToCoachNotesPane.Enabled =
+                advancedReassignNotesToProperMember.Enabled = 
                 ((StoryProject != null) && (TheCurrentStory != null));
 
             advancedNewProjectMenu.Enabled = IsInStoriesSet;
@@ -5933,20 +6055,24 @@ namespace OneStoryProjectEditor
 
         private void checkForProgramUpdatesNowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if ((ModifierKeys & Keys.Control) == Keys.Control) 
-                CheckForUpgrade(_autoUpgrade, Resources.IDS_OSEUpgradeServerTest);
-            else
-                CheckForUpgrade(_autoUpgrade, Resources.IDS_OSEUpgradeServer);
+            CheckForUpgrade(_autoUpgrade,
+                            (ModifierKeys & Keys.Control) == Keys.Control
+                                ? Resources.IDS_OSEUpgradeServerTest
+                                : Resources.IDS_OSEUpgradeServer, false);
         }
 
         private void checkNowForNextMajorUpdateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CheckForUpgrade(null, Resources.IDS_OSEUpgradeServerNextMajorUpgrade);
+            // make sure they have the latest of the current stream
+            CheckForUpgrade(_autoUpgrade, Resources.IDS_OSEUpgradeServer, true);
+
+            // then check for the next major upgrade
+            CheckForUpgrade(null, Resources.IDS_OSEUpgradeServerNextMajorUpgrade, false);
         }
 
         private bool _bRestarting;
 
-        private void CheckForUpgrade(AutoUpgrade autoUpgrade, string strManifestUrl)
+        private void CheckForUpgrade(AutoUpgrade autoUpgrade, string strManifestUrl, bool bDontRepaintYet)
         {
             Cursor = Cursors.WaitCursor;
 
@@ -5960,6 +6086,9 @@ namespace OneStoryProjectEditor
                 SuspendSaveDialog++;
                 Program.CheckForProgramUpdate(autoUpgrade, strManifestUrl);
                 SuspendSaveDialog--;
+
+                if (bDontRepaintYet)
+                    return;
 
                 // since the call to SaveDirty will have removed them all
                 if (TheCurrentStory != null)
@@ -6057,6 +6186,11 @@ namespace OneStoryProjectEditor
                 //  on a handler, I guess). So see if we can just close
                 Close();
             }
+            catch (DuplicateStoryStateTransitionException)
+            {
+                // pass this one on so it triggers an email
+                throw;
+            }
             catch (Exception ex)
             {
                 Program.ShowException(ex);
@@ -6067,9 +6201,9 @@ namespace OneStoryProjectEditor
         {
             Debug.Assert(TheCurrentStory != null);
 
-            string strStoryName;
+            string strStoryName = null;
             int nIndexOfCurrentStory = -1;
-            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, out strStoryName, false))
+            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, ref strStoryName, false))
             {
                 Debug.Assert(nIndexOfCurrentStory != -1);
                 int nIndexToInsert = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
@@ -6388,24 +6522,24 @@ namespace OneStoryProjectEditor
             dlg.Show();
         }
 
-        public string TriggerDropboxCopyStory(bool bCopyToDropbox)
+        public string TriggerDropboxCopyStory(bool bCopyToDropbox, string strFileToCopy)
         {
             var strFilename = Localizer.Str("Story");
-            return ShouldCopyFileToDropbox(strFilename, bCopyToDropbox);
+            return ShouldCopyFileToDropbox(strFilename, bCopyToDropbox, strFileToCopy);
         }
 
         public string TriggerDropboxCopyRetelling(bool bCopyToDropbox)
         {
             var strFilename = Localizer.Str("Retelling ") +
-                              (TheCurrentStory.CraftingInfo.TestersToCommentsRetellings.Count + 1);
-            return ShouldCopyFileToDropbox(strFilename, bCopyToDropbox);
+                              TheCurrentStory.CraftingInfo.TestersToCommentsRetellings.Count.ToString(CultureInfo.InvariantCulture);
+            return ShouldCopyFileToDropbox(strFilename, bCopyToDropbox, null);
         }
 
         public string TriggerDropboxCopyAnswer(bool bCopyToDropbox)
         {
             var strFilename = Localizer.Str("Inference Test Answers ") +
-                              (TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.Count + 1);
-            return ShouldCopyFileToDropbox(strFilename, bCopyToDropbox);
+                              TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.Count.ToString(CultureInfo.InvariantCulture);
+            return ShouldCopyFileToDropbox(strFilename, bCopyToDropbox, null);
         }
 
         private void InitStoryBtPaneControl(bool bUsingHtmlForStoryBtPane)
@@ -6516,6 +6650,108 @@ namespace OneStoryProjectEditor
         internal static string CstrGlossTextToEnglish
         {
             get { return Localizer.Str("Back-translate to &English"); }
+        }
+        
+        private void advancedCoachNotesToConsultantNotesPane_Click(object sender, EventArgs e)
+        {
+            TheCurrentStory.MoveCoachNotesToConsultantNotePane();
+            Modified = true;
+            InitAllPanes();
+            LocalizableMessageBox.Show(
+                Localizer.Str(
+                    "Next you should click 'Project', 'Login' and Edit the member records for the two roles that are changing to change their role within the project (e.g. Change the Coach's record to make him/her the Independent Consultant) and then click 'Story', 'Story Information' and use the 'Change' link next to the team member roles that are changing (e.g. to change the member who is the Consultant assigned to the story). This needs to be done for every story"),
+                OseCaption);
+        }
+
+        private void advancedConsultantNotesToCoachNotesPane_Click(object sender, EventArgs e)
+        {
+            TheCurrentStory.MoveConsultantNotesToCoachNotePane();
+            Modified = true;
+            InitAllPanes();
+            LocalizableMessageBox.Show(
+                Localizer.Str(
+                    "Next you should click 'Project', 'Login' and Edit the member records for the two roles that are changing to change their role within the project (e.g. Change the Consultant's record to make him/her a Coach) and then click 'Story', 'Story Information' and use the 'Change' link next to the team member roles that are changing (e.g. to change the member who is the Consultant assigned to the story). This needs to be done for every story"),
+                OseCaption);
+        }
+
+        private void advancedReassignNotesToProperMember_Click(object sender, EventArgs e)
+        {
+            if (!MemberIdInfo.Configured(TheCurrentStory.CraftingInfo.ProjectFacilitator) ||
+                !MemberIdInfo.Configured(TheCurrentStory.CraftingInfo.Consultant))
+            {
+                LocalizableMessageBox.Show(
+                    Localizer.Str(
+                        "Configure the member roles in the 'Story', 'Story Information' dialog first and then click this menu."),
+                    OseCaption);
+                return;
+            }
+            TheCurrentStory.ReassignRolesToConNoteComments();
+        }
+
+        private void StoryImportFromSayMoreClick(object sender, EventArgs e)
+        {
+            var cursor = Cursor;
+            Cursor = Cursors.WaitCursor;
+            try
+            {
+                DoSaymoreImport();
+            }
+            catch (Exception ex)
+            {
+                Program.ShowException(ex);
+                InitAllPanes();// just to make sure we aren't hiding something
+            }
+            finally
+            {
+                Cursor = cursor;
+            }
+        }
+
+        private void DoSaymoreImport()
+        {
+            var dlg = new SayMoreImportForm();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                var theNewStory = AddNewStoryAfter(dlg.StoryName, dlg.FullRecordingFileSpec);
+                theNewStory.Verses.RemoveAt(0);
+                var nLen = Math.Max(dlg.VernacularLines.Count, dlg.BackTranslationLines.Count);
+
+                var projSettings = StoryProject.ProjSettings;
+                for (var i = 0; i < nLen; i++)
+                {
+                    var vernacular = GetSafeValue(dlg.VernacularLines, i);
+                    var backTr = GetSafeValue(dlg.BackTranslationLines, i);
+                    var newVerse = new VerseData();
+
+                    newVerse.StoryLine.Vernacular.SetValue(vernacular);
+                    if (projSettings.NationalBT.HasData)
+                        newVerse.StoryLine.NationalBt.SetValue(backTr);
+                    else if (projSettings.InternationalBT.HasData)
+                        newVerse.StoryLine.InternationalBt.SetValue(backTr);
+                    else if (projSettings.FreeTranslation.HasData)
+                        newVerse.StoryLine.FreeTranslation.SetValue(backTr);
+                    theNewStory.Verses.Add(newVerse);
+                }
+
+                // set the state to whatever field we put the bt in (which enables the view)
+                StoryStageLogic.ProjectStages eStage;
+                if (projSettings.NationalBT.HasData)
+                    eStage = StoryStageLogic.ProjectStages.eProjFacTypeNationalBT;
+                else if (projSettings.InternationalBT.HasData)
+                    eStage = StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT;
+                else if (projSettings.FreeTranslation.HasData)
+                    eStage = StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation;
+                else
+                    return;
+                SetNextStateAdvancedOverride(eStage, false);
+            }
+        }
+
+        private static string GetSafeValue(IList<string> lst, int i)
+        {
+            return (lst.Count > i)
+                       ? lst[i]
+                       : null;
         }
     }
 }

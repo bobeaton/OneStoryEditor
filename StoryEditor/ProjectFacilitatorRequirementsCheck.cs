@@ -353,7 +353,7 @@ namespace OneStoryProjectEditor
         }
 
         private bool CheckForCompletion(StoryEditor theSe, 
-            StoryProjectData theStoryProjectData, StoryData theStory, 
+            StoryProjectData theStoryProjectData, StoryData theStory,
             StoryEditor.TextFields fieldToCheck, StoryEditor.TextFields fieldHighest,
             ref bool bTriggerRefresh)
         {
@@ -381,7 +381,7 @@ namespace OneStoryProjectEditor
         }
 
         private bool CheckFieldForCompletion(StoryEditor theSe, 
-            StoryProjectData theStoryProjectData, StoryData theStory, 
+            StoryProjectData theStoryProjectData, StoryData theStory,
             StoryEditor.TextFields fieldToCheck, StoryEditor.TextFields fieldHighest)
         {
             int nVerseNumber = 1; // this wants to be 1, because it's dealing with the
@@ -542,8 +542,8 @@ namespace OneStoryProjectEditor
                     return StoryEditor.TextFields.Vernacular;
                 if (DoNationalBtLangFields)
                     return StoryEditor.TextFields.NationalBt;
-                return DoInternationalBtFields 
-                    ? StoryEditor.TextFields.InternationalBt 
+                return DoInternationalBtFields
+                    ? StoryEditor.TextFields.InternationalBt
                     : StoryEditor.TextFields.FreeTranslation;
             }
         }
@@ -567,7 +567,7 @@ namespace OneStoryProjectEditor
         }
 
         private ProjectSettings.LanguageInfo GetLanguageInfo(
-            ProjectSettings projSettings, 
+            ProjectSettings projSettings,
             StoryEditor.TextFields highestLanguage)
         {
             switch (highestLanguage & StoryEditor.TextFields.Languages)

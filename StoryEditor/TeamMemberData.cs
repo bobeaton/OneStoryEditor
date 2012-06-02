@@ -67,7 +67,7 @@ namespace OneStoryProjectEditor
         internal const string CstrJustLooking = "JustLooking"; // gives full access, but no change privileges
         */
 
-        protected static string CstrEnglishBackTranslatorDisplay
+        public static string CstrEnglishBackTranslatorDisplay
         {
             get { return Localizer.Str("English Back Translator"); }
         }
@@ -102,7 +102,7 @@ namespace OneStoryProjectEditor
             get { return Localizer.Str("UNS"); }
         }
 
-        private static string CstrCoachDisplay
+        public static string CstrCoachDisplay
         {
             get { return Localizer.Str("Coach"); }
         }

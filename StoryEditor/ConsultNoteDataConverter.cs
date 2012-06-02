@@ -57,6 +57,40 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public void ConvertToOtherPaneDirection()
+        {
+            switch (Direction)
+            {
+                case ConsultNoteDataConverter.CommunicationDirections.eConsultantToProjFac:
+                case ConsultNoteDataConverter.CommunicationDirections.eConsultantToProjFacNeedsApproval:
+                    Direction = ConsultNoteDataConverter.CommunicationDirections.eCoachToConsultant;
+                    return;
+                case ConsultNoteDataConverter.CommunicationDirections.eProjFacToConsultant:
+                    Direction = ConsultNoteDataConverter.CommunicationDirections.eConsultantToCoach;
+                    return;
+                case ConsultNoteDataConverter.CommunicationDirections.eConsultantToCoach:
+                    Direction = ConsultNoteDataConverter.CommunicationDirections.eProjFacToConsultant;
+                    return;
+                case ConsultNoteDataConverter.CommunicationDirections.eCoachToConsultant:
+                    Direction = ConsultNoteDataConverter.CommunicationDirections.eConsultantToProjFac;
+                    return;
+                case ConsultNoteDataConverter.CommunicationDirections.eProjFacToProjFac:
+                    Direction = ConsultNoteDataConverter.CommunicationDirections.eConsultantToConsultant;
+                    return;
+                case ConsultNoteDataConverter.CommunicationDirections.eConsultantToConsultant:
+                    // technically ambiguous, but why would a cons->cons (note to self) occur in the Coach notes pane
+                    //  so choose the one that makes sense
+                    Direction = ConsultNoteDataConverter.CommunicationDirections.eProjFacToProjFac;
+                    return;
+                case ConsultNoteDataConverter.CommunicationDirections.eCoachToCoach:
+                    Direction = ConsultNoteDataConverter.CommunicationDirections.eConsultantToConsultant;
+                    return;
+                default: 
+                    System.Diagnostics.Debug.Assert(false, "unknown ConNote conversation direction!");
+                    return;
+            }
+        }
+
         public const string CstrAttributeLabelDirection = "Direction";
         public const string CstrAttributeLabelGuid = "guid";
         public const string CstrAttributeLabelMemberId = "memberID";
@@ -1031,11 +1065,28 @@ namespace OneStoryProjectEditor
 
         public void UpdateCommentMemberId(string strOldMemberGuid, string strNewMemberGuid)
         {
-            foreach (var aComment in this.Where(aComment => 
-                aComment.MemberId == strOldMemberGuid))
-            {
-                aComment.MemberId = strNewMemberGuid;
-            }
+            // here's a problem: if we make a CIT back into a PF and move the open Coach Notes
+            //  to the Consultant Notes pane, then the one who was the CIT (who initiated 
+            //  Consultant Notes) will now be the PF. But if we're converting the original PF to
+            //  the new CIT-cum-PF, we might end up making him the PF of certain comments that he
+            //  already initiating as CIT (which is bad). So only do this where the 'new' PF isn't 
+            //  already in any of the comments (I think).
+            if (this.All(aComment => aComment.MemberId != strNewMemberGuid))
+                foreach (var aComment in this.Where(aComment => aComment.MemberId == strOldMemberGuid))
+                {
+                    aComment.MemberId = strNewMemberGuid;
+                }
+        }
+
+        public void ReassignRolesToConNoteComments(MemberIdInfo mentoree, MemberIdInfo mentor)
+        {
+            foreach (var comment in this)
+                if (IsFromMentor(comment))
+                    comment.MemberId = mentor.MemberId;
+                else if (IsFromMentee(comment))
+                    comment.MemberId = mentoree.MemberId;
+                else
+                    System.Diagnostics.Debug.Assert(false);
         }
     }
 
@@ -1080,6 +1131,11 @@ namespace OneStoryProjectEditor
         public ConsultantNoteData(ConsultNoteDataConverter rhs)
             : base(rhs)
         {
+        }
+
+        public static ConsultNoteDataConverter MakeFromConsultNotesDataConverter(ConsultNoteDataConverter rhs)
+        {
+            return new ConsultantNoteData(rhs);
         }
 
         public override CommunicationDirections MentorDirection
@@ -1235,6 +1291,11 @@ namespace OneStoryProjectEditor
         public CoachNoteData(ConsultNoteDataConverter rhs)
             : base(rhs)
         {
+        }
+
+        public static ConsultNoteDataConverter MakeFromConsultNotesDataConverter(ConsultNoteDataConverter rhs)
+        {
+            return new CoachNoteData(rhs);
         }
 
         public override CommunicationDirections MentorDirection
@@ -1534,6 +1595,13 @@ namespace OneStoryProjectEditor
         {
             foreach (var aCndc in this)
                 aCndc.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
+        }
+
+        public void ReassignRolesToConNoteComments(MemberIdInfo mentoree, MemberIdInfo mentor)
+        {
+            // only need to bother with the open conversations
+            foreach (var conversation in this.Where(conversation => !conversation.IsFinished))
+                conversation.ReassignRolesToConNoteComments(mentoree, mentor);
         }
     }
 

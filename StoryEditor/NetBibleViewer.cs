@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using NetLoc;
 
@@ -222,6 +224,11 @@ namespace OneStoryProjectEditor
         internal static string CheckForLocalization(string strJumpTarget)
         {
             var nIndex = strJumpTarget.IndexOf(' ');
+
+            // don't know how this can happen, but someone did it...
+            if (nIndex < 0)
+                return strJumpTarget;
+
             var strBookName = strJumpTarget.Substring(0, nIndex);
             if ((MapBookNames != null) && MapBookNames.ContainsKey(strBookName))
                 return MapBookNames[strBookName] + strJumpTarget.Substring(nIndex);
@@ -926,7 +933,11 @@ namespace OneStoryProjectEditor
             UpdateNextPreviousButtons();
         }
 
-        private static char[] _achTrimChars = new char[] { '.', ':', ' ', ',', ';' };
+        private const string CstrBibRefRegexFormat = @"\b([a-zA-Z]{3,4}|[1-3][a-zA-Z]{2,5}).(\d{2,3}):(\d{2,3})\b";
+
+        private static Regex _regexBibRef;
+
+        private static char[] _achTrimChars = new char[] {'.', ':', ' ', ',', ';'};
         private void textBoxNetFlixViewer_MouseDown(object sender, MouseEventArgs e)
         {
             if (StoryEditor.TextPaster == null)
@@ -938,11 +949,34 @@ namespace OneStoryProjectEditor
                 if (strText.IndexOf(@"\anc ", StringComparison.Ordinal) == 0)
                 {
                     strText = strText.Substring(5); // length of @"\anc "
+                    var lstVerses = new List<string>();
+#if !UseSplit
+                    if (_regexBibRef == null)
+                        _regexBibRef = new Regex(CstrBibRefRegexFormat,
+                                                RegexOptions.Compiled |
+                                                RegexOptions.CultureInvariant |
+                                                RegexOptions.IgnoreCase);
+
+                    var refs = _regexBibRef.Matches(strText);
+                    if (refs.Count > 0)
+                    {
+                        foreach (Match bibleReference in refs)
+                        {
+                            var strBibleReference = String.Format("{0} {1}:{2}",
+                                                                  bibleReference.Groups[1].Value,
+                                                                  Convert.ToUInt32(bibleReference.Groups[2].Value),
+                                                                  Convert.ToUInt32(bibleReference.Groups[3].Value));
+                            
+                            // capitalize the 1st letter
+                            strBibleReference = strBibleReference[0].ToString(CultureInfo.InvariantCulture).ToUpper() +
+                                                strBibleReference.Substring(1);
+                            lstVerses.Insert(0, strBibleReference);
+                        }
+#else
                     var astr = strText.Split(_achTrimChars, StringSplitOptions.RemoveEmptyEntries);
                     if (astr.Length > 2)
                     {
                         var nIndex = 0;
-                        var lstVerses = new List<string>();
                         while ((nIndex + 2) < astr.Length)
                         {
                             var newRef = String.Format("{0} {1}:{2}",
@@ -951,6 +985,7 @@ namespace OneStoryProjectEditor
                                                        Convert.ToUInt32(astr[nIndex++]));
                             lstVerses.Insert(0, newRef);
                         }
+#endif
 
                         foreach (var newRef in lstVerses)
                             DisplayVerses(newRef);

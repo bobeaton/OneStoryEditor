@@ -166,7 +166,7 @@
     <value>..\Resources\oneStory2storyingRetelling.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="IDS_OSEUpgradeServer" xml:space="preserve">
-    <value>ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.9/StoryEditor.exe.manifest.xml</value>
+    <value>ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.10/StoryEditor.exe.manifest.xml</value>
   </data>
   <data name="Arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Arrow.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -238,7 +238,7 @@ of the team before overwriting a list</value>
     <value>..\Resources\AddTableHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IDS_DefaultRepoServer" xml:space="preserve">
-    <value>private.languageDepot.org</value>
+    <value>LanguageDepot.org [resumable sync]</value>
   </data>
   <data name="IDS_SaveKeyTermsPrompt" xml:space="preserve">
     <value>A key term or its status has changed. Do you wish to save these changes?</value>
@@ -1773,7 +1773,7 @@ and in the resulting window click on the next (green) state.
     <value>Unable to process the state customization file (i.e. {0}). If you've customized which fields show by default in various states, then you need to delete the version of the customization file in the project folder (i.e. "{1}\{0}") so the program can re-create it using the newly upgraded version</value>
   </data>
   <data name="IDS_OSEUpgradeServerNextMajorUpgrade" xml:space="preserve">
-    <value>ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.10/StoryEditor.exe.manifest.xml</value>
+    <value>ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE2.11/StoryEditor.exe.manifest.xml</value>
   </data>
   <data name="IDS_LoginAsCoach" xml:space="preserve">
     <value>You will need to log in as a coach to be able to respond to the CIT/LSR comments</value>
@@ -2278,13 +2278,17 @@ eater Panorama
 	textareas[i].ondrop = function () { window.external.CopyScriptureReference(this.id); };
 	textareas[i].onselect = function () { this.focus(); };
 	textareas[i].onchange = function () { return window.external.TextareaOnKeyUp(this.id, this.value); };
+	textareas[i].onpaste = function () { return window.external.TextareaOnKeyUp(this.id, this.value); };
   }
 &lt;/script&gt;</value>
   </data>
   <data name="IDS_MyDropboxReferalString" xml:space="preserve">
     <value>http://db.tt/4VwBmut</value>
   </data>
-  <data name="AudioFileSearchFilter">
-    <value xml:space="preserve">Audio files|*.mp3;*.wav;*.wma|All files|*.*</value>
+  <data name="AudioFileSearchFilter" xml:space="preserve">
+    <value>Audio files|*.mp3;*.wav;*.wma|All files|*.*</value>
+  </data>
+  <data name="graphhs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\graphhs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

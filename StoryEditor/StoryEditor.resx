@@ -135,6 +135,9 @@
   <data name="advancedEmailMenu.ToolTipText" xml:space="preserve">
     <value>Some email clients don't work via the MAPI+ protocol. If OSE isn't properly sending email to your team members when you change turns, you can uncheck this menu and have it try via regular MAPI protocol</value>
   </data>
+  <data name="advancedReassignNotesToProperMember.ToolTipText" xml:space="preserve">
+    <value>Click this command to reassign the open comments in the Consultant notes pane to the currently configured Project Facilitator and Consultant in the 'Story', 'Story Information' dialog. This will enable response boxes for replies to comments if they aren't already visible (e.g. after moving them from the Coach Notes pane). WARNING: don't use this command if your project has a 'Language Specialty Reviewer' or you'll make them unable to edit their own comments</value>
+  </data>
   <metadata name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>119, 17</value>
   </metadata>

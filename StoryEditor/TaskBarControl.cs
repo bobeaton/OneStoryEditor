@@ -65,6 +65,16 @@ namespace OneStoryProjectEditor
             {
                 SetCoachButtons();
             }
+
+            // this was in the PF tasks, but anyone might be wanting to do this....
+            var projSettings = theStoryProjectData.ProjSettings;
+            if (projSettings.UseDropbox)
+            {
+                buttonCopyRecordingToDropbox.Visible = true;
+                dropboxStory.Visible = projSettings.DropboxStory;
+                dropboxRetelling.Visible = projSettings.DropboxRetelling;
+                dropboxTqAnswers.Visible = projSettings.DropboxAnswers;
+            }
         }
 
         private void SetEnglishBackTranslatorButtons()
@@ -288,14 +298,6 @@ namespace OneStoryProjectEditor
                 buttonSendToConsultant.Visible = true;
 
             _checker = new ProjectFacilitatorRequirementsCheck(TheSe, theStory);
-
-            if (projSettings.UseDropbox)
-            {
-                buttonCopyRecordingToDropbox.Visible = true;
-                dropboxStory.Visible = projSettings.DropboxStory;
-                dropboxRetelling.Visible = projSettings.DropboxRetelling;
-                dropboxTqAnswers.Visible = projSettings.DropboxAnswers;
-            }
         }
 
         private static string TooltipRequiredTasksToDo(string strTestType, int nTestCount)
@@ -326,7 +328,7 @@ namespace OneStoryProjectEditor
                                                                   TeamMemberData.UserTypes.ProjectFacilitator));
             System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
-            TheSe.addNewStoryAfterToolStripMenuItem_Click(sender, e);
+            TheSe.AddNewStoryAfter(null, null);
         }
 
         private void buttonVernacular_Click(object sender, EventArgs e)
@@ -763,10 +765,10 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eTeamFinalApproval, true);
-
+            
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
-                TheStory.CraftingInfo.ProjectFacilitator,
-                FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
+                      TheStory.CraftingInfo.ProjectFacilitator,
+                      FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
         }
 
         private void buttonSendToCoach_Click(object sender, EventArgs e)
@@ -886,7 +888,7 @@ namespace OneStoryProjectEditor
 
         private void DropboxStoryClick(object sender, EventArgs e)
         {
-            TheSe.TriggerDropboxCopyStory(true);
+            TheSe.TriggerDropboxCopyStory(true, null);
         }
 
         private void DropboxRetellingClick(object sender, EventArgs e)

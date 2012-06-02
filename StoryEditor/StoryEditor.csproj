@@ -161,6 +161,9 @@
     <Reference Include="System.Management" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -386,6 +389,12 @@
     <Compile Include="RsaEncryptionClass.cs" />
     <Compile Include="ProjectFacilitatorRequirementsCheck.cs" />
     <Compile Include="ConsultantInTrainingRequirementsCheck.cs" />
+    <Compile Include="SayMoreImportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SayMoreImportForm.Designer.cs">
+      <DependentUpon>SayMoreImportForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SearchForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -428,7 +437,15 @@
     <Compile Include="StateEditorForm.Designer.cs">
       <DependentUpon>StateEditorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="StoryData.cs" />
+    <Compile Include="StateTransitionHistoryGraphForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StateTransitionHistoryGraphForm.Designer.cs">
+      <DependentUpon>StateTransitionHistoryGraphForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StoryData.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="StoryFrontMatterForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -531,6 +548,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NewProjectWizard.resx">
       <DependentUpon>NewProjectWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NoteForm.resx">
       <DependentUpon>NoteForm.cs</DependentUpon>
@@ -550,6 +568,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ResizableControl.resx">
       <DependentUpon>ResizableControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SayMoreImportForm.resx">
+      <DependentUpon>SayMoreImportForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SearchForm.resx">
       <DependentUpon>SearchForm.cs</DependentUpon>
@@ -571,6 +592,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="StateEditorForm.resx">
       <DependentUpon>StateEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StateTransitionHistoryGraphForm.resx">
+      <DependentUpon>StateTransitionHistoryGraphForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StoryEditor.resx">
       <DependentUpon>StoryEditor.cs</DependentUpon>
@@ -814,13 +838,20 @@
     <None Include="Resources\DataContainer_MoveLastHS.png" />
     <None Include="Resources\Arrow.jpg" />
     <None Include="Resources\search.png" />
+    <Content Include="LocData\es.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="LocData\id.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LocData\pt.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\1.3 to 1.4.xslt" />
     <None Include="Resources\PrintHS.png" />
     <None Include="Resources\Pause.bmp" />
     <None Include="Resources\Edit_Undo.bmp" />
+    <None Include="Resources\graphhs.png" />
     <Content Include="StageTransitions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

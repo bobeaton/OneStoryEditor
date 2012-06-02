@@ -34,20 +34,26 @@ namespace OneStoryProjectEditor
             //  of whether there project settings say to save in retelling or not, so 
             //  until we decide to pass that information around, just write them all
             // if (!Vernacular.IsNull)
-                elem.Add(new XElement(strFieldName,
-                    new XAttribute(CstrAttributeLang, CstrAttributeLangVernacular),
-                    new XAttribute(CstrAttributeMemberID, MemberId),
-                    Vernacular.ToString()));
+            elem.Add(new XElement(strFieldName,
+                                  new XAttribute(CstrAttributeLang, CstrAttributeLangVernacular),
+                                  new XAttribute(CstrAttributeMemberID, MemberId),
+                                  Vernacular.IsNull
+                                      ? null
+                                      : Vernacular.ToString()));
             // if (!NationalBt.IsNull)
-                elem.Add(new XElement(strFieldName,
-                    new XAttribute(CstrAttributeLang, CstrAttributeLangNationalBt),
-                    new XAttribute(CstrAttributeMemberID, MemberId),
-                    NationalBt.ToString()));
+            elem.Add(new XElement(strFieldName,
+                                  new XAttribute(CstrAttributeLang, CstrAttributeLangNationalBt),
+                                  new XAttribute(CstrAttributeMemberID, MemberId),
+                                  NationalBt.IsNull
+                                      ? null
+                                      : NationalBt.ToString()));
             // if (!InternationalBt.IsNull)
-                elem.Add(new XElement(strFieldName,
-                    new XAttribute(CstrAttributeLang, CstrAttributeLangInternationalBt),
-                    new XAttribute(CstrAttributeMemberID, MemberId),
-                    InternationalBt.ToString()));
+            elem.Add(new XElement(strFieldName,
+                                  new XAttribute(CstrAttributeLang, CstrAttributeLangInternationalBt),
+                                  new XAttribute(CstrAttributeMemberID, MemberId),
+                                  InternationalBt.IsNull
+                                      ? null
+                                      : InternationalBt.ToString()));
         }
 
         public override void IndexSearch(VerseData.SearchLookInProperties findProperties,
@@ -463,17 +469,19 @@ namespace OneStoryProjectEditor
     {
         public RetellingsData(NewDataSet.VerseRow theVerseRow, NewDataSet projFile)
         {
-            NewDataSet.RetellingsRow[] theRetellingsRows = theVerseRow.GetRetellingsRows();
-            NewDataSet.RetellingsRow theRetellingsRow;
-            if (theRetellingsRows.Length == 0)
-                theRetellingsRow = projFile.Retellings.AddRetellingsRow(theVerseRow);
-            else
-                theRetellingsRow = theRetellingsRows[0];
+            var theRetellingsRows = theVerseRow.GetRetellingsRows();
+            var theRetellingsRow = (theRetellingsRows.Length == 0)
+                                       ? projFile.Retellings.AddRetellingsRow(theVerseRow)
+                                       : theRetellingsRows[0];
 
-            foreach (NewDataSet.RetellingRow aRetellingRow in theRetellingsRow.GetRetellingRows())
+            foreach (var aRetellingRow in theRetellingsRow.GetRetellingRows())
             {
-                string strLangId = (aRetellingRow.IslangNull()) ? null : aRetellingRow.lang;
-                string strValue = (aRetellingRow.IsRetelling_textNull()) ? "" : aRetellingRow.Retelling_text;
+                var strLangId = (aRetellingRow.IslangNull())
+                                    ? null
+                                    : aRetellingRow.lang;
+                var strValue = (aRetellingRow.IsRetelling_textNull())
+                                   ? null
+                                   : aRetellingRow.Retelling_text;
                 AddLineDataValue(aRetellingRow.memberID, strLangId, strValue);
             }
         }
@@ -535,17 +543,19 @@ namespace OneStoryProjectEditor
     {
         public AnswersData(NewDataSet.TestQuestionRow theTestQuestionRow, NewDataSet projFile)
         {
-            NewDataSet.AnswersRow[] theAnswersRows = theTestQuestionRow.GetAnswersRows();
-            NewDataSet.AnswersRow theAnswersRow;
-            if (theAnswersRows.Length == 0)
-                theAnswersRow = projFile.Answers.AddAnswersRow(theTestQuestionRow);
-            else
-                theAnswersRow = theAnswersRows[0];
+            var theAnswersRows = theTestQuestionRow.GetAnswersRows();
+            var theAnswersRow = (theAnswersRows.Length == 0)
+                                    ? projFile.Answers.AddAnswersRow(theTestQuestionRow)
+                                    : theAnswersRows[0];
 
-            foreach (NewDataSet.AnswerRow anAnswerRow in theAnswersRow.GetAnswerRows())
+            foreach (var anAnswerRow in theAnswersRow.GetAnswerRows())
             {
-                string strLangId = (anAnswerRow.IslangNull()) ? null : anAnswerRow.lang;
-                string strValue = (anAnswerRow.IsAnswer_textNull()) ? "" : anAnswerRow.Answer_text;
+                var strLangId = (anAnswerRow.IslangNull())
+                                    ? null
+                                    : anAnswerRow.lang;
+                var strValue = (anAnswerRow.IsAnswer_textNull())
+                                   ? null
+                                   : anAnswerRow.Answer_text;
                 AddLineDataValue(anAnswerRow.memberID, strLangId, strValue);
             }
         }

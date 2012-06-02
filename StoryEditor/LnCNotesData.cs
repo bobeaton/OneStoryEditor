@@ -66,7 +66,7 @@ namespace OneStoryProjectEditor
             return false;
         }
 
-        public Dictionary<string,LnCNote> FindHits(string strSearchString, StoryEditor.TextFields eFieldType)
+        public Dictionary<string, LnCNote> FindHits(string strSearchString, StoryEditor.TextFields eFieldType)
         {
             var map = new Dictionary<string, LnCNote>();
             strSearchString = strSearchString.Trim();

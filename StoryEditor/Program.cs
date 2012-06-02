@@ -129,12 +129,24 @@ namespace OneStoryProjectEditor
             {
                 return;
             }
+            catch (DuplicateStoryStateTransitionException)
+            {
+                // clobber this so it doesn't automatically try to load next time
+                Properties.Settings.Default.LastProject = null;
+                Properties.Settings.Default.Save();
+                // pass this one on so it triggers an email
+                throw;
+            }
             catch (Exception ex)
             {
                 string strMessage = String.Format("Error occurred:{0}{0}{1}", Environment.NewLine, ex.Message);
                 if (ex.InnerException != null)
                     strMessage += String.Format("{0}{1}", Environment.NewLine, ex.InnerException.Message);
                 LocalizableMessageBox.Show(strMessage, StoryEditor.OseCaption);
+
+                // clobber this so it doesn't automatically try to load next time
+                Properties.Settings.Default.LastProject = null;
+                Properties.Settings.Default.Save();
             }
         }
 
@@ -350,37 +362,40 @@ namespace OneStoryProjectEditor
             Properties.Settings.Default.ProjectNameToHgUsername = DictionaryToArray(_mapProjectNameToHgUsername);
             Properties.Settings.Default.Save();
 
-            // var repo = new HgRepository(strProjectFolder, new NullProgress());
+            CleanupHgrc(strProjectFolder, strUrl);
+        }
+
+        // this method gets rid of anything in the hgrc file that isn't what we want
+        private static void CleanupHgrc(string strProjectFolder, string strUrl)
+        {
             try
             {
                 var repo = HgRepository.CreateOrLocate(strProjectFolder, new NullProgress());
 
                 var address = RepositoryAddress.Create(CstrInternetName, strUrl);
                 var addresses = repo.GetRepositoryPathsInHgrc();
-                RepositoryAddress addressToRemove = null;
+                var addressesToRemain = new List<RepositoryAddress>();
                 foreach (var addr in addresses)
-                    if (addr.URI == address.URI)
-                        return;
-                    else if ((addr.UserName == address.UserName) &&
+                    if ((addr.UserName == address.UserName) &&
                         (addr.Name == address.Name) &&
                         (addr.Password != address.Password))
                     {
                         // means the person changed the password, so clobber the entry
                         //  so it gets added below
-                        addressToRemove = addr;
-                        break;
+                        continue;
                     }
+                    else if (addr.Name != CstrInternetName)
+                        // chorus puts in a 'LanguageDepot', which we don't want
+                        continue;
+                    else if ((addr.Name == address.Name) &&
+                             (addr.URI != address.URI))
+                        // change from e.g. private.languagedepot.org to resumable
+                        continue;
+                    else
+                        addressesToRemain.Add(addr);
 
-                var lstAddrs = new List<RepositoryAddress>(addresses) {address};
-                if (addressToRemove != null)
-                    foreach (var addr in lstAddrs.Where(addr =>
-                        addr.URI == addressToRemove.URI))
-                    {
-                        lstAddrs.Remove(addr);
-                        break;
-                    }
-
-                repo.SetKnownRepositoryAddresses(lstAddrs);
+                addressesToRemain.Add(address);
+                repo.SetKnownRepositoryAddresses(addressesToRemain);
                 // TODO: we might want to do repo.SetIsOneDefaultSyncAddresses( address, true);
             }
             catch (Exception ex)
@@ -709,6 +724,7 @@ namespace OneStoryProjectEditor
                                                 bool bRewriteAdaptItKb)
         {
             strRepoUrl = FormHgUrl(strRepoUrl, strHgUsername, strHgPassword, strProjectName);
+            CleanupHgrc(strProjectFolder, strRepoUrl);
             SyncWithAiRepo(strProjectFolder, strProjectName, strRepoUrl, strSharedNetworkUrl, bRewriteAdaptItKb);
         }
 

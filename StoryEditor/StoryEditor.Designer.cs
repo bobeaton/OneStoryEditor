@@ -139,6 +139,8 @@ namespace OneStoryProjectEditor
             this.storyAdaptItNationalToEnglishMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
             this.storySynchronizeSharedAdaptItProjectsMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
+            this.storyImportFromSayMore = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaShowMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaInsertNewStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -161,6 +163,10 @@ namespace OneStoryProjectEditor
             this.advancedUseOldStyleStoryBtPaneMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedUseWordBreaks = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedImportHelper = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedTransferConNotes = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedConsultantNotesToCoachNotesPane = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedCoachNotesToConsultantNotesPane = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedReassignNotesToProperMember = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -1028,7 +1034,9 @@ namespace OneStoryProjectEditor
             this.storyRealignStoryLinesMenu,
             this.storyOverrideTasksMenu,
             this.toolStripSeparator14,
-            this.storyUseAdaptItForBackTranslationMenu});
+            this.storyUseAdaptItForBackTranslationMenu,
+            this.toolStripSeparator17,
+            this.storyImportFromSayMore});
             this.storyToolStripMenu.Name = "storyToolStripMenu";
             this.storyToolStripMenu.Size = new System.Drawing.Size(46, 27);
             this.storyToolStripMenu.Text = "&Story";
@@ -1137,6 +1145,19 @@ namespace OneStoryProjectEditor
             this.storySynchronizeSharedAdaptItProjectsMenu.ToolTipText = "Click to Send/Receive the shared Adapt It repository";
             this.storySynchronizeSharedAdaptItProjectsMenu.Click += new System.EventHandler(this.synchronizeSharedAdaptItProjectsToolStripMenuItem_Click);
             // 
+            // toolStripSeparator17
+            // 
+            this.toolStripSeparator17.Name = "toolStripSeparator17";
+            this.toolStripSeparator17.Size = new System.Drawing.Size(242, 6);
+            // 
+            // storyImportFromSayMore
+            // 
+            this.storyImportFromSayMore.Name = "storyImportFromSayMore";
+            this.storyImportFromSayMore.Size = new System.Drawing.Size(245, 22);
+            this.storyImportFromSayMore.Text = "Import from &SayMore";
+            this.storyImportFromSayMore.ToolTipText = "Click to import a transcribed story from a SayMore event";
+            this.storyImportFromSayMore.Click += new System.EventHandler(this.StoryImportFromSayMoreClick);
+            // 
             // panoramaToolStripMenu
             // 
             this.panoramaToolStripMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1171,7 +1192,7 @@ namespace OneStoryProjectEditor
             this.panoramaAddNewStoryAfterMenu.Size = new System.Drawing.Size(235, 22);
             this.panoramaAddNewStoryAfterMenu.Text = "&Add new story after current";
             this.panoramaAddNewStoryAfterMenu.ToolTipText = "Click to add a new, empty story after the one currently shown";
-            this.panoramaAddNewStoryAfterMenu.Click += new System.EventHandler(this.addNewStoryAfterToolStripMenuItem_Click);
+            this.panoramaAddNewStoryAfterMenu.Click += new System.EventHandler(this.AddNewStoryAfterToolStripMenuItemClick);
             // 
             // advancedToolStripMenu
             // 
@@ -1187,7 +1208,8 @@ namespace OneStoryProjectEditor
             this.advancedEmailMenu,
             this.advancedUseOldStyleStoryBtPaneMenu,
             this.advancedUseWordBreaks,
-            this.advancedImportHelper});
+            this.advancedImportHelper,
+            this.advancedTransferConNotes});
             this.advancedToolStripMenu.Name = "advancedToolStripMenu";
             this.advancedToolStripMenu.Size = new System.Drawing.Size(72, 27);
             this.advancedToolStripMenu.Text = "A&dvanced";
@@ -1345,6 +1367,42 @@ namespace OneStoryProjectEditor
             this.advancedImportHelper.Size = new System.Drawing.Size(314, 22);
             this.advancedImportHelper.Text = "&Import helper (text paster)";
             this.advancedImportHelper.Click += new System.EventHandler(this.advancedImportHelper_Click);
+            // 
+            // advancedTransferConNotes
+            // 
+            this.advancedTransferConNotes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.advancedConsultantNotesToCoachNotesPane,
+            this.advancedCoachNotesToConsultantNotesPane,
+            this.advancedReassignNotesToProperMember});
+            this.advancedTransferConNotes.Name = "advancedTransferConNotes";
+            this.advancedTransferConNotes.Size = new System.Drawing.Size(314, 22);
+            this.advancedTransferConNotes.Text = "&Transfer Open ConNotes";
+            // 
+            // advancedConsultantNotesToCoachNotesPane
+            // 
+            this.advancedConsultantNotesToCoachNotesPane.Name = "advancedConsultantNotesToCoachNotesPane";
+            this.advancedConsultantNotesToCoachNotesPane.Size = new System.Drawing.Size(426, 22);
+            this.advancedConsultantNotesToCoachNotesPane.Text = "Move open Consultant Notes to Coach Notes pane";
+            this.advancedConsultantNotesToCoachNotesPane.ToolTipText = "Click to move all the open Consultant notes to the Coach Note pane (former Consul" +
+    "tant becomes the Coach and the former PF becomes a CIT)";
+            this.advancedConsultantNotesToCoachNotesPane.Click += new System.EventHandler(this.advancedConsultantNotesToCoachNotesPane_Click);
+            // 
+            // advancedCoachNotesToConsultantNotesPane
+            // 
+            this.advancedCoachNotesToConsultantNotesPane.Name = "advancedCoachNotesToConsultantNotesPane";
+            this.advancedCoachNotesToConsultantNotesPane.Size = new System.Drawing.Size(426, 22);
+            this.advancedCoachNotesToConsultantNotesPane.Text = "Move open Coach Notes to Consultant Notes pane";
+            this.advancedCoachNotesToConsultantNotesPane.ToolTipText = "Click to move all the open Coach notes to the Consultant Note pane (former Coach " +
+    "becomes the Consultant and the former CIT becomes the PF)";
+            this.advancedCoachNotesToConsultantNotesPane.Click += new System.EventHandler(this.advancedCoachNotesToConsultantNotesPane_Click);
+            // 
+            // advancedReassignNotesToProperMember
+            // 
+            this.advancedReassignNotesToProperMember.Name = "advancedReassignNotesToProperMember";
+            this.advancedReassignNotesToProperMember.Size = new System.Drawing.Size(426, 22);
+            this.advancedReassignNotesToProperMember.Text = "&Enable notes to be editable by currently configured team members";
+            this.advancedReassignNotesToProperMember.ToolTipText = resources.GetString("advancedReassignNotesToProperMember.ToolTipText");
+            this.advancedReassignNotesToProperMember.Click += new System.EventHandler(this.advancedReassignNotesToProperMember_Click);
             // 
             // aboutToolStripMenu
             // 
@@ -1904,6 +1962,12 @@ namespace OneStoryProjectEditor
         internal ToolStripMenuItem advancedUseWordBreaks;
         private ToolStripMenuItem advancedUseOldStyleStoryBtPaneMenu;
         private ToolStripMenuItem advancedImportHelper;
+        private ToolStripMenuItem advancedTransferConNotes;
+        private ToolStripMenuItem advancedCoachNotesToConsultantNotesPane;
+        private ToolStripMenuItem advancedConsultantNotesToCoachNotesPane;
+        private ToolStripMenuItem advancedReassignNotesToProperMember;
+        private ToolStripSeparator toolStripSeparator17;
+        private ToolStripMenuItem storyImportFromSayMore;
     }
 
 #if UsingHtmlDisplayForConNotes

@@ -47,7 +47,7 @@ namespace OneStoryProjectEditor
                     ctrlTextBoxVernacular = InitTextBox(ctrlVerse, LineData.CstrAttributeLangVernacular,
                                                         aLineData.Vernacular, strLabelRow + strLabelSuffix, 
                                                         projSettings.Vernacular,
-                                                        nNumColumns, nNumRows, 
+                                                        nNumColumns, nNumRows,
                                                         StoryEditor.TextFields.Vernacular,
                                                         clrVernacular);
                     nNumColumns++;

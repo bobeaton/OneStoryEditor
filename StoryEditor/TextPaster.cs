@@ -35,6 +35,11 @@ namespace OneStoryProjectEditor
                 StoryEditor.TextPaster = this;
                 TopMost = true;
             }
+
+            int screenHeight = Screen.PrimaryScreen.WorkingArea.Height;
+            var location = Location;
+            location.Y = screenHeight - Height;
+            Location = location;
         }
         private void InitTextBoxes(int nIndex)
         {
@@ -106,9 +111,10 @@ namespace OneStoryProjectEditor
         private delegate void SetText(object tb, string str);
         private void SetTextBoxText(object tb, string str)
         {
-            var textBox = tb as TextBox;
+            var textBox = tb as CtrlTextBox;
             Debug.Assert(textBox != null);
             textBox.Text = str;
+            textBox._ctrlVerseParent.TheSE.Modified = true;
         }
         private void SetTextareaText(object tb, string str)
         {
@@ -121,7 +127,7 @@ namespace OneStoryProjectEditor
         private delegate string GetText(object tb);
         private string GetTextBoxText(object tb)
         {
-            var textBox = tb as TextBox;
+            var textBox = tb as CtrlTextBox;
             return textBox.Text;
         }
         private string GetTextareaText(object tb)
@@ -217,8 +223,8 @@ namespace OneStoryProjectEditor
                 RemoveAt(nLastIndex);
                 if (val.Item1 == null)
                     ; // no op -- means we deleted a line of data
-                else if (val.Item1 is TextBox)
-                    (val.Item1 as TextBox).Text = val.Item2;
+                else if (val.Item1 is CtrlTextBox)
+                    (val.Item1 as CtrlTextBox).Text = val.Item2;
                 else if (val.Item1 is HtmlElement)
                     (val.Item1 as HtmlElement).InnerText = val.Item2;
                 else

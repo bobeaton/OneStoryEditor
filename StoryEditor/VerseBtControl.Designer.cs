@@ -35,6 +35,7 @@
             this.moveSelectedTextToANewLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuAddTestQuestion = new System.Windows.Forms.ToolStripMenuItem();
             this.addExegeticalCulturalNoteBelowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.addANewVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,12 +56,11 @@
             this.toolStripMenuItem15 = new System.Windows.Forms.ToolStripMenuItem();
             this.hideVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteTheWholeVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyVerseToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.splitStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuAddTestQuestion = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -106,7 +106,7 @@
             this.toolStripSeparator1,
             this.splitStoryToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(343, 302);
+            this.contextMenuStrip.Size = new System.Drawing.Size(343, 324);
             this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
             // 
             // moveSelectedTextToANewLineToolStripMenuItem
@@ -115,7 +115,7 @@
             this.moveSelectedTextToANewLineToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
             this.moveSelectedTextToANewLineToolStripMenuItem.Text = "Move &selected text to a new line";
             this.moveSelectedTextToANewLineToolStripMenuItem.ToolTipText = "This will take the selected text from the Story language, the National BT and the" +
-                " English BT boxes and move them into a new line following this line";
+    " English BT boxes and move them into a new line following this line";
             this.moveSelectedTextToANewLineToolStripMenuItem.Click += new System.EventHandler(this.moveSelectedTextToANewLineToolStripMenuItem_Click);
             // 
             // moveItemsToolStripMenuItem
@@ -124,7 +124,7 @@
             this.moveItemsToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
             this.moveItemsToolStripMenuItem.Text = "&Move items";
             this.moveItemsToolStripMenuItem.ToolTipText = "Click this menu to move testing questions, anchors, exegetical notes, etc to anot" +
-                "her line";
+    "her line";
             this.moveItemsToolStripMenuItem.Click += new System.EventHandler(this.moveItemsToolStripMenuItem_Click);
             // 
             // deleteItemsToolStripMenuItem
@@ -134,6 +134,14 @@
             this.deleteItemsToolStripMenuItem.Text = "&Delete items";
             this.deleteItemsToolStripMenuItem.ToolTipText = "Click this menu to delete testing questions, anchors, exegetical notes, etc";
             this.deleteItemsToolStripMenuItem.Click += new System.EventHandler(this.deleteItemsToolStripMenuItem_Click);
+            // 
+            // menuAddTestQuestion
+            // 
+            this.menuAddTestQuestion.Name = "menuAddTestQuestion";
+            this.menuAddTestQuestion.Size = new System.Drawing.Size(342, 22);
+            this.menuAddTestQuestion.Text = "Add a story testing &question";
+            this.menuAddTestQuestion.ToolTipText = "Click to add a story testing question";
+            this.menuAddTestQuestion.Click += new System.EventHandler(this.menuAddTestQuestion_Click);
             // 
             // addExegeticalCulturalNoteBelowToolStripMenuItem
             // 
@@ -292,24 +300,24 @@
             this.deleteTheWholeVerseToolStripMenuItem.ToolTipText = "Delete this line";
             this.deleteTheWholeVerseToolStripMenuItem.Click += new System.EventHandler(this.deleteTheWholeVerseToolStripMenuItem_Click);
             // 
-            // pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem
-            // 
-            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Name = "pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem";
-            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
-            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Text = "Paste line from clipboard and insert af&ter this line";
-            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.ToolTipText = "Use this to paste a previously copied line (see \'Copy line to clipboard\' command)" +
-                ". The copied line will be inserted after this line";
-            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Click += new System.EventHandler(this.pasteVerseFromClipboardAfterThisOneToolStripMenuItem_Click);
-            // 
             // pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem
             // 
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem.Name = "pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem";
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem.Text = "&Paste line from clipboard and insert before this line";
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem.ToolTipText = "Use this to paste a previously copied line (see \'Copy line to clipboard\' command)" +
-                ". The copied line will be inserted before this line (see \'Paste line from clipbo" +
-                "ard\' commands)";
+    ". The copied line will be inserted before this line (see \'Paste line from clipbo" +
+    "ard\' commands)";
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem.Click += new System.EventHandler(this.pasteVerseFromClipboardToolStripMenuItem_Click);
+            // 
+            // pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem
+            // 
+            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Name = "pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem";
+            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
+            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Text = "Paste line from clipboard and insert af&ter this line";
+            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.ToolTipText = "Use this to paste a previously copied line (see \'Copy line to clipboard\' command)" +
+    ". The copied line will be inserted after this line";
+            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Click += new System.EventHandler(this.pasteVerseFromClipboardAfterThisOneToolStripMenuItem_Click);
             // 
             // copyVerseToClipboardToolStripMenuItem
             // 
@@ -330,16 +338,8 @@
             this.splitStoryToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
             this.splitStoryToolStripMenuItem.Text = "Split st&ory";
             this.splitStoryToolStripMenuItem.ToolTipText = "Move this and all following lines to a new story inserted immediately after this " +
-                "story";
+    "story";
             this.splitStoryToolStripMenuItem.Click += new System.EventHandler(this.splitStoryToolStripMenuItem_Click);
-            // 
-            // menuAddTestQuestion
-            // 
-            this.menuAddTestQuestion.Name = "menuAddTestQuestion";
-            this.menuAddTestQuestion.Size = new System.Drawing.Size(282, 22);
-            this.menuAddTestQuestion.Text = "Add a story testing &question";
-            this.menuAddTestQuestion.ToolTipText = "Click to add a story testing question";
-            this.menuAddTestQuestion.Click += new System.EventHandler(this.menuAddTestQuestion_Click);
             // 
             // VerseBtControl
             // 

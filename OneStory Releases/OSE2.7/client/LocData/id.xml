@@ -1082,4 +1082,6 @@
   <Entry Path="OneStoryProjectEditor.PrintViewer.buttonClose.Text">Tutup</Entry>
   <Entry Path="OneStoryProjectEditor.PrintViewer.buttonPrint.Text">&amp;Cetak</Entry>
   <Entry Path="OneStoryProjectEditor.PrintViewer.buttonSaveHtml.Text">&amp;Simpan (HTML)</Entry>
+  <Entry Path="&quot;Are you sure you want to delete this line?&quot;">Apakah Anda yakin Anda ingin menghapus baris ini?</Entry>
+  <Entry Path="&quot;Note from OSE: this conversation was moved here from a now hidden or deleted line&quot;">Catatan dari OSE: percapakan ini telah dipindahkan di sini dari baris lain yang sekarang tersembunyi atau sudah dihapus</Entry>
 </Language>
