@@ -45,17 +45,38 @@ namespace OneStoryProjectEditor
         }
 
         public string ItemToBlock { get; set; }
+        public string InitialSelection { get; set; }
 
         protected void InitializeListBox(TeamMemberData.UserTypes eType)
         {
             listBoxUNSs.Items.Clear();
-            foreach (TeamMemberData aTMD in
-                _theStoryProjectData.TeamMembers.Values.Where(aTMD => (TeamMemberData.IsUser(aTMD.MemberType, eType) && (aTMD.Name != ItemToBlock))))
+            foreach (var aTmd in
+                _theStoryProjectData.TeamMembers.Values
+                                    .Where(aTmd => (TeamMemberData.IsUser(aTmd.MemberType, eType) && 
+                                                   (aTmd.Name != ItemToBlock))))
             {
-                listBoxUNSs.Items.Add(aTMD.Name);
+                listBoxUNSs.Items.Add(aTmd.Name);
             }
 
-            if (listBoxUNSs.Items.Count > 0)
+            if (listBoxUNSs.Items.Count <= 0) 
+                return;
+
+            if (!String.IsNullOrEmpty(InitialSelection))
+            {
+                // first see if we can find an exact match, then any sort of match
+                var nIndex = listBoxUNSs.FindStringExact(InitialSelection);
+                if (nIndex == -1)
+                    nIndex = listBoxUNSs.FindString(InitialSelection);
+                if (nIndex == -1)
+                    foreach (var str in listBoxUNSs.Items.Cast<string>().Where(str => str.IndexOf(InitialSelection) != -1))
+                    {
+                        nIndex = listBoxUNSs.Items.IndexOf(str);
+                        break;
+                    }
+                if (nIndex != -1)
+                    listBoxUNSs.SelectedIndex = nIndex;
+            }
+            else
                 listBoxUNSs.SelectedIndex = 0;
         }
 

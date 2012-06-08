@@ -16,12 +16,14 @@ namespace OneStoryProjectEditor
     public partial class SayMoreImportForm : TopForm
     {
         public string StoryName { get; set; }
+        public string Crafter { get; set; }
         public string FullRecordingFileSpec { get; set; }
         public List<string> VernacularLines;
         public List<string> BackTranslationLines;
 
         private const int CnColumnClickToInstall = 0;
         private const int CnColumnTitle = 2;
+        private const int CnColumnCrafter = 4;
 
         public SayMoreImportForm()
         {
@@ -79,9 +81,6 @@ namespace OneStoryProjectEditor
                     files.FirstOrDefault(
                         fp =>
                         fp.IndexOf(CstrOrigFullRecordingSuffix) == (fp.Length - CstrOrigFullRecordingSuffix.Length));
-
-                if (String.IsNullOrEmpty(origFullRecording) || !File.Exists(origFullRecording))
-                    continue;
 
                 var eventName = Path.GetFileName(eventFolder);
                 var doc = XDocument.Load(eventFile);
@@ -143,6 +142,7 @@ namespace OneStoryProjectEditor
 
             FullRecordingFileSpec = files.Item2;
             StoryName = theRow.Cells[CnColumnTitle].Value as string;
+            Crafter = theRow.Cells[CnColumnCrafter].Value as string;
             var doc = XDocument.Load(eafFile);
             List<string> lstVernacular, lstBackTranslation;
             GetTier(doc, "Transcription", out lstVernacular);

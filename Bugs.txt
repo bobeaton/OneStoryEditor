@@ -1,4 +1,4 @@
-﻿In the TextPaster, offer to ignore SFM markers
+﻿online giving 3843
 
 Moving a TQ to line 0 (GenQs) didn't work
 
