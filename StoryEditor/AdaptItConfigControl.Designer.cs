@@ -85,7 +85,7 @@
             this.radioButtonShared.TabStop = true;
             this.radioButtonShared.Text = "Shared Adapt It project";
             this.toolTip.SetToolTip(this.radioButtonShared, "Select this option if you want to use a shared Adapt It project for this back tra" +
-                    "nslation");
+        "nslation");
             this.radioButtonShared.UseVisualStyleBackColor = true;
             this.radioButtonShared.Click += new System.EventHandler(this.radioButtonShared_Click);
             // 
@@ -99,7 +99,7 @@
             this.radioButtonLocal.TabStop = true;
             this.radioButtonLocal.Text = "Local Adapt It project";
             this.toolTip.SetToolTip(this.radioButtonLocal, "Select this option if you want to use a local (not-shared) Adapt It project for t" +
-                    "his back translation");
+        "his back translation");
             this.radioButtonLocal.UseVisualStyleBackColor = true;
             this.radioButtonLocal.Click += new System.EventHandler(this.radioButtonLocal_Click);
             // 

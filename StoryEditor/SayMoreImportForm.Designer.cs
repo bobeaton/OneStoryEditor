@@ -30,16 +30,16 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SayMoreImportForm));
             this.dataGridViewEvents = new System.Windows.Forms.DataGridView();
-            this.ColumnImport = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.ColumnEvent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnParticipant = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageProjects = new System.Windows.Forms.TabPage();
             this.listBoxProjects = new System.Windows.Forms.ListBox();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.ColumnImport = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.ColumnEvent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnParticipant = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEvents)).BeginInit();
             this.tabControl.SuspendLayout();
             this.tabPageProjects.SuspendLayout();
@@ -64,48 +64,11 @@
             this.dataGridViewEvents.TabIndex = 0;
             this.dataGridViewEvents.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewEventsCellContentClick);
             // 
-            // ColumnImport
-            // 
-            this.ColumnImport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.ColumnImport.HeaderText = "Click to Import";
-            this.ColumnImport.Name = "ColumnImport";
-            this.ColumnImport.Text = "Click to Import";
-            this.ColumnImport.Width = 80;
-            // 
-            // ColumnEvent
-            // 
-            this.ColumnEvent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.ColumnEvent.HeaderText = "Event";
-            this.ColumnEvent.Name = "ColumnEvent";
-            this.ColumnEvent.ReadOnly = true;
-            this.ColumnEvent.Width = 60;
-            // 
-            // ColumnTitle
-            // 
-            this.ColumnTitle.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.ColumnTitle.HeaderText = "Title";
-            this.ColumnTitle.Name = "ColumnTitle";
-            this.ColumnTitle.ReadOnly = true;
-            this.ColumnTitle.Width = 52;
-            // 
-            // ColumnDate
-            // 
-            this.ColumnDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.ColumnDate.HeaderText = "Date";
-            this.ColumnDate.Name = "ColumnDate";
-            this.ColumnDate.ReadOnly = true;
-            this.ColumnDate.Width = 55;
-            // 
-            // ColumnParticipant
-            // 
-            this.ColumnParticipant.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.ColumnParticipant.HeaderText = "Speaker";
-            this.ColumnParticipant.Name = "ColumnParticipant";
-            this.ColumnParticipant.ReadOnly = true;
-            this.ColumnParticipant.Width = 72;
-            // 
             // tabControl
             // 
+            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabPageProjects);
             this.tabControl.Controls.Add(this.tabPageEvents);
             this.tabControl.Location = new System.Drawing.Point(13, 13);
@@ -157,6 +120,47 @@
             this.buttonCancel.TabIndex = 5;
             this.buttonCancel.Text = "&Close";
             this.buttonCancel.UseVisualStyleBackColor = true;
+            // 
+            // ColumnImport
+            // 
+            this.ColumnImport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ColumnImport.HeaderText = "";
+            this.ColumnImport.Name = "ColumnImport";
+            this.ColumnImport.Text = "";
+            this.ColumnImport.ToolTipText = "Click on one of the buttons below to import that story";
+            this.ColumnImport.Width = 5;
+            // 
+            // ColumnEvent
+            // 
+            this.ColumnEvent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ColumnEvent.HeaderText = "Event";
+            this.ColumnEvent.Name = "ColumnEvent";
+            this.ColumnEvent.ReadOnly = true;
+            this.ColumnEvent.Width = 60;
+            // 
+            // ColumnTitle
+            // 
+            this.ColumnTitle.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ColumnTitle.HeaderText = "Title";
+            this.ColumnTitle.Name = "ColumnTitle";
+            this.ColumnTitle.ReadOnly = true;
+            this.ColumnTitle.Width = 52;
+            // 
+            // ColumnDate
+            // 
+            this.ColumnDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ColumnDate.HeaderText = "Date";
+            this.ColumnDate.Name = "ColumnDate";
+            this.ColumnDate.ReadOnly = true;
+            this.ColumnDate.Width = 55;
+            // 
+            // ColumnParticipant
+            // 
+            this.ColumnParticipant.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ColumnParticipant.HeaderText = "Speaker";
+            this.ColumnParticipant.Name = "ColumnParticipant";
+            this.ColumnParticipant.ReadOnly = true;
+            this.ColumnParticipant.Width = 72;
             // 
             // SayMoreImportForm
             // 

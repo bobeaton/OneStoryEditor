@@ -996,7 +996,7 @@ namespace OneStoryProjectEditor
             if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, ref strStoryName, true))
             {
                 Debug.Assert(nIndexOfCurrentStory != -1);
-                InsertNewStory(strStoryName, nIndexOfCurrentStory, null);
+                InsertNewStory(strStoryName, nIndexOfCurrentStory, null, null);
             }
         }
 
@@ -1060,10 +1060,10 @@ namespace OneStoryProjectEditor
 
         private void AddNewStoryAfterToolStripMenuItemClick(object sender, EventArgs e)
         {
-            AddNewStoryAfter(null, null);
+            AddNewStoryAfter(null, null, null);
         }
 
-        internal StoryData AddNewStoryAfter(string strStoryName, string strFileToCopy)
+        internal StoryData AddNewStoryAfter(string strStoryName, string strFileToCopy, string strCrafterSuggestion)
         {
             int nIndexOfCurrentStory = -1;
             if (!AddNewStoryGetIndex(ref nIndexOfCurrentStory, ref strStoryName, true))
@@ -1071,7 +1071,7 @@ namespace OneStoryProjectEditor
 
             Debug.Assert(nIndexOfCurrentStory != -1);
             nIndexOfCurrentStory = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
-            return InsertNewStory(strStoryName, nIndexOfCurrentStory, strFileToCopy);
+            return InsertNewStory(strStoryName, nIndexOfCurrentStory, strFileToCopy, strCrafterSuggestion);
         }
 
         TimeSpan tsFalseEnter = new TimeSpan(0, 0, 1);
@@ -1119,7 +1119,7 @@ namespace OneStoryProjectEditor
                                                       OseCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                     {
                         Debug.Assert(!comboBoxStorySelector.Items.Contains(strStoryToLoad));
-                        InsertNewStory(strStoryToLoad, nInsertIndex, null);
+                        InsertNewStory(strStoryToLoad, nInsertIndex, null, null);
                     }
                     else
                         ResetStorySelectorComboBox();
@@ -1129,7 +1129,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected StoryData InsertNewStory(string strStoryName, int nIndexToInsert, string strFileToCopy)
+        protected StoryData InsertNewStory(string strStoryName, int nIndexToInsert, string strFileToCopy, string strCrafterSuggestion)
         {
             if (!CheckForSaveDirtyFile())
                 return null;
@@ -1137,7 +1137,8 @@ namespace OneStoryProjectEditor
             // query for the crafter
             var dlg = new MemberPicker(StoryProject, TeamMemberData.UserTypes.Crafter)
                           {
-                              Text = Localizer.Str("Choose the crafter that crafted this story")
+                Text = Localizer.Str("Choose the crafter that crafted this story"),
+                InitialSelection = strCrafterSuggestion
                           };
 
             if ((dlg.ShowDialog() != DialogResult.OK) || (dlg.SelectedMember == null))
@@ -1145,15 +1146,6 @@ namespace OneStoryProjectEditor
 
             string strCrafterGuid = dlg.SelectedMember.MemberGuid;
 
-            /*
-             * now the biblical or non-biblical-ness of a story is based on which
-             * is visible
-            DialogResult res = LocalizableMessageBox.Show(Localizer.Str("Is this a story from the Bible?"),
-                                               StoryEditor.OseCaption,
-                                               MessageBoxButtons.YesNoCancel);
-            if (res == DialogResult.Cancel)
-                return;
-            */
             Debug.Assert(TeamMemberData.IsUser(LoggedOnMember.MemberType,
                                                TeamMemberData.UserTypes.ProjectFacilitator));
             Debug.Assert(StoryProject.TeamMembers != null);
@@ -1166,10 +1158,7 @@ namespace OneStoryProjectEditor
             InsertNewStoryAdjustComboBox(theNewStory, nIndexToInsert);
 
             // check for Dropbox copy (after setting the 'TheCurrentStory')
-            var strStoryRecording = TriggerDropboxCopyStory(StoryProject.ProjSettings.DropboxStory, strFileToCopy);
-            if (!String.IsNullOrEmpty(strStoryRecording))
-                LaunchWordPad(strStoryRecording);
-
+            TriggerDropboxCopyStory(StoryProject.ProjSettings.DropboxStory, strFileToCopy);
             theNewStory.JustAdded = true;
 
             SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacTypeVernacular, false);
@@ -3526,13 +3515,11 @@ namespace OneStoryProjectEditor
 
             // check for Dropbox copy
 
-            var strRetellingRecording = TriggerDropboxCopyRetelling(StoryProject.ProjSettings.DropboxRetelling);
-            if (!String.IsNullOrEmpty(strRetellingRecording))
-                LaunchWordPad(strRetellingRecording);
+            TriggerDropboxCopyRetelling(StoryProject.ProjSettings.DropboxRetelling);
             return true;
         }
 
-        private void LaunchWordPad(string strRetellingRecording)
+        private void LaunchWordPad(string strRecordingFilespec)
         {
             // else check in the person's registry for it
             const string cstrWavePadRegKey = @"Software\Conduit\AppPaths\WavePad.exe";
@@ -3544,7 +3531,7 @@ namespace OneStoryProjectEditor
             if (String.IsNullOrEmpty(strWavePadPath))
                 return;
 
-            LaunchProgram(ExcapePath(strWavePadPath), ExcapePath(strRetellingRecording));
+            LaunchProgram(ExcapePath(strWavePadPath), ExcapePath(strRecordingFilespec));
         }
 
         private string ExcapePath(string str)
@@ -3554,6 +3541,12 @@ namespace OneStoryProjectEditor
 
         private string ShouldCopyFileToDropbox(string strFilename, bool bCopyToDropbox, string strFileToCopy)
         {
+            // don't bother with querying for the file unless we're actually going to copy it to dropbox
+            //  (the idea of opening it in WavePad is just too annoying
+            Debug.Assert((StoryProject != null) && (StoryProject.ProjSettings != null));
+            if (!StoryProject.ProjSettings.UseDropbox)
+                return null;
+
             if (String.IsNullOrEmpty(strFileToCopy))
             {
                 var openMediaFileDlg = new OpenFileDialog
@@ -3577,10 +3570,6 @@ namespace OneStoryProjectEditor
             }
 
             // otherwise, we're copying it to dropbox
-            Debug.Assert((StoryProject != null) && (StoryProject.ProjSettings != null));
-            if (!StoryProject.ProjSettings.UseDropbox)
-                return null;
-
             string strDropboxRoot = ProjectSettings.DropboxFolderRoot;
             if (strDropboxRoot == null)
                 return null;
@@ -3668,10 +3657,7 @@ namespace OneStoryProjectEditor
             Modified = true;
 
             // check for Dropbox copy
-            var strAnswerRecording = TriggerDropboxCopyAnswer(StoryProject.ProjSettings.DropboxAnswers);
-            if (!String.IsNullOrEmpty(strAnswerRecording))
-                LaunchWordPad(strAnswerRecording);
-
+            TriggerDropboxCopyAnswer(StoryProject.ProjSettings.DropboxAnswers);
             return true;
         }
 
@@ -6707,44 +6693,59 @@ namespace OneStoryProjectEditor
             }
         }
 
+        private bool _bNagOnceSayMoreImport = true;
         private void DoSaymoreImport()
         {
             var dlg = new SayMoreImportForm();
-            if (dlg.ShowDialog() == DialogResult.OK)
+            if (dlg.ShowDialog() != DialogResult.OK) 
+                return;
+
+            var theNewStory = AddNewStoryAfter(dlg.StoryName, dlg.FullRecordingFileSpec, dlg.Crafter);
+            if (theNewStory == null)    // cancelled
+                return;
+
+            theNewStory.Verses.RemoveAt(0);
+            var nLen = Math.Max(dlg.VernacularLines.Count, dlg.BackTranslationLines.Count);
+
+            var projSettings = StoryProject.ProjSettings;
+            for (var i = 0; i < nLen; i++)
             {
-                var theNewStory = AddNewStoryAfter(dlg.StoryName, dlg.FullRecordingFileSpec);
-                theNewStory.Verses.RemoveAt(0);
-                var nLen = Math.Max(dlg.VernacularLines.Count, dlg.BackTranslationLines.Count);
+                var vernacular = GetSafeValue(dlg.VernacularLines, i);
+                var backTr = GetSafeValue(dlg.BackTranslationLines, i);
+                var newVerse = new VerseData();
 
-                var projSettings = StoryProject.ProjSettings;
-                for (var i = 0; i < nLen; i++)
-                {
-                    var vernacular = GetSafeValue(dlg.VernacularLines, i);
-                    var backTr = GetSafeValue(dlg.BackTranslationLines, i);
-                    var newVerse = new VerseData();
-
-                    newVerse.StoryLine.Vernacular.SetValue(vernacular);
-                    if (projSettings.NationalBT.HasData)
-                        newVerse.StoryLine.NationalBt.SetValue(backTr);
-                    else if (projSettings.InternationalBT.HasData)
-                        newVerse.StoryLine.InternationalBt.SetValue(backTr);
-                    else if (projSettings.FreeTranslation.HasData)
-                        newVerse.StoryLine.FreeTranslation.SetValue(backTr);
-                    theNewStory.Verses.Add(newVerse);
-                }
-
-                // set the state to whatever field we put the bt in (which enables the view)
-                StoryStageLogic.ProjectStages eStage;
+                newVerse.StoryLine.Vernacular.SetValue(vernacular);
                 if (projSettings.NationalBT.HasData)
-                    eStage = StoryStageLogic.ProjectStages.eProjFacTypeNationalBT;
+                    newVerse.StoryLine.NationalBt.SetValue(backTr);
                 else if (projSettings.InternationalBT.HasData)
-                    eStage = StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT;
+                    newVerse.StoryLine.InternationalBt.SetValue(backTr);
                 else if (projSettings.FreeTranslation.HasData)
-                    eStage = StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation;
-                else
-                    return;
-                SetNextStateAdvancedOverride(eStage, false);
+                    newVerse.StoryLine.FreeTranslation.SetValue(backTr);
+                else if (_bNagOnceSayMoreImport)
+                {
+                    _bNagOnceSayMoreImport = false;
+                    LocalizableMessageBox.Show(
+                        Localizer.Str(
+                            "Import from Saymore will try to import both the Saymore 'Transcription' data (into the OSE 'Story Language' fields) and the Saymore 'Translation' data (into one of the OSE 'back-translation' fields), but you don't have a 'back-translation' field enabled. To enable one, click 'Project', 'Settings' and check another box in the 'Story' column of the 'Languages' tab."),
+                        OseCaption);
+                }
+                theNewStory.Verses.Add(newVerse);
             }
+
+            // set the state to whatever field we put the bt in (which enables the view)
+            StoryStageLogic.ProjectStages eStage;
+            if (projSettings.NationalBT.HasData)
+                eStage = StoryStageLogic.ProjectStages.eProjFacTypeNationalBT;
+            else if (projSettings.InternationalBT.HasData)
+                eStage = StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT;
+            else if (projSettings.FreeTranslation.HasData)
+                eStage = StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation;
+            else
+            {
+                InitAllPanes();
+                return;
+            }
+            SetNextStateAdvancedOverride(eStage, false);
         }
 
         private static string GetSafeValue(IList<string> lst, int i)

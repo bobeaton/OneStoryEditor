@@ -328,7 +328,7 @@ namespace OneStoryProjectEditor
                                                                   TeamMemberData.UserTypes.ProjectFacilitator));
             System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
-            TheSe.AddNewStoryAfter(null, null);
+            TheSe.AddNewStoryAfter(null, null, null);
         }
 
         private void buttonVernacular_Click(object sender, EventArgs e)

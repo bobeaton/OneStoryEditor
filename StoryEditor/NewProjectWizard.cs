@@ -1214,6 +1214,62 @@ namespace OneStoryProjectEditor
                     checkBoxUseDropBox.Appearance = Appearance.Normal;
             }
         }
+
+        private ListBox _listBoxEthnologCodes;
+        private ListBox ListBoxEthnologCodes
+        {
+            get
+            {
+                if (_listBoxEthnologCodes == null)
+                {
+                    _listBoxEthnologCodes = new ListBox {Dock = DockStyle.Fill};
+                    File.ReadAllLines(PathToLangCodesFile).ToList().ForEach(s => _listBoxEthnologCodes.Items.Add(s));
+                }
+                return _listBoxEthnologCodes;
+            }
+        }
+        private void ButtonBrowseEthnologueCodesClick(TextBox textBox)
+        {
+            var listBox = ListBoxEthnologCodes;
+            listBox.Tag = textBox;
+            var form = new TopForm(true) {Text = Localizer.Str("Double click to choose")};
+            form.Controls.Add(listBox);
+            listBox.DoubleClick += (o, args) =>
+            {
+                System.Diagnostics.Debug.Assert((o is ListBox) && ((o as ListBox).Tag is TextBox));
+                var lb = o as ListBox;
+                var str = lb.SelectedItem.ToString();
+                var nLen = str.IndexOf('\t');
+                if (nLen != -1)
+                {
+                    var tb = lb.Tag as TextBox;
+                    System.Diagnostics.Debug.Assert(tb != null); 
+                    tb.Text = str.Substring(0, nLen);
+                }
+                form.Close();
+            };
+            form.ShowDialog();
+        }
+
+        private void ButtonBrowseEthnologueCodesVernacularClick(object sender, EventArgs e)
+        {
+            ButtonBrowseEthnologueCodesClick(textBoxEthCodeVernacular);
+        }
+
+        private void ButtonBrowseEthnologueCodesNationalBtClick(object sender, EventArgs e)
+        {
+            ButtonBrowseEthnologueCodesClick(textBoxEthCodeNationalBT);
+        }
+
+        private void ButtonBrowseEthnologueCodesInternationalBtClick(object sender, EventArgs e)
+        {
+            ButtonBrowseEthnologueCodesClick(textBoxEthCodeEnglishBT);
+        }
+
+        private void ButtonBrowseEthnologueCodesFreeTranslationClick(object sender, EventArgs e)
+        {
+            ButtonBrowseEthnologueCodesClick(textBoxEthCodeFreeTranslation);
+        }
     }
 
     public class UserException : ApplicationException

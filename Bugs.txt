@@ -1,5 +1,4 @@
 ﻿the story name in combobox goes away when you do a refresh
-In the TextPaster, offer to ignore SFM markers
 
 don't allow sorting in the Panorama show or Historical diffs grids
 Moving a TQ to line 0 (GenQs) didn't work
