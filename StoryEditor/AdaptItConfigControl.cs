@@ -60,7 +60,7 @@ namespace OneStoryProjectEditor
                 _adaptItConfiguration.ProjectType = AdaptItProjectType; // from user
                 _adaptItConfiguration.ConverterName = AdaptItConverterName;
                 _adaptItConfiguration.ProjectFolderName = _strAdaptItProjectFolderName;
-                _adaptItConfiguration.RepoProjectName = GetProjectNameOrDefault(eType);
+                // _adaptItConfiguration.RepoProjectName = GetProjectNameOrDefault(eType);
                 _adaptItConfiguration.RepositoryServer = _strAdaptItRepositoryServer;
                 _adaptItConfiguration.NetworkRepositoryPath = _strAdaptItNetworkRepositoryPath;
                 return _adaptItConfiguration;
@@ -90,7 +90,7 @@ namespace OneStoryProjectEditor
 
         private void InitSharedOnlyFieldDefaults()
         {
-            _strAdaptItProjectName = GetProjectNameOrDefault(AdaptItProjectType);
+            // _strAdaptItProjectName = GetProjectNameOrDefault(AdaptItProjectType);
             _strAdaptItRepositoryServer = Properties.Resources.IDS_DefaultRepoServer;
         }
 
@@ -112,6 +112,7 @@ namespace OneStoryProjectEditor
         private string _strAdaptItRepositoryServer;
         private string _strAdaptItNetworkRepositoryPath;
 
+        /*
         private string GetProjectNameOrDefault(ProjectSettings.AdaptItConfiguration.AdaptItProjectType eType)
         {
             if (String.IsNullOrEmpty(_strAdaptItProjectName)
@@ -125,6 +126,7 @@ namespace OneStoryProjectEditor
             }
             return _strAdaptItProjectName;
         }
+        */
 
         private ProjectSettings.AdaptItConfiguration.AdaptItProjectType AdaptItProjectType
         {
