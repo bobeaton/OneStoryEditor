@@ -1513,7 +1513,7 @@
             // radioButtonIndependentConsultant
             // 
             this.radioButtonIndependentConsultant.AutoSize = true;
-            this.radioButtonIndependentConsultant.Location = new System.Drawing.Point(235, 58);
+            this.radioButtonIndependentConsultant.Location = new System.Drawing.Point(329, 58);
             this.radioButtonIndependentConsultant.Name = "radioButtonIndependentConsultant";
             this.radioButtonIndependentConsultant.Size = new System.Drawing.Size(138, 17);
             this.radioButtonIndependentConsultant.TabIndex = 4;
