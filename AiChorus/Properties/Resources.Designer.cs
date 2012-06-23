@@ -95,6 +95,15 @@ namespace AiChorus.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Synchronizing Adapt It Project: .
+        /// </summary>
+        internal static string SynchronizingAdaptItDialogTitle {
+            get {
+                return ResourceManager.GetString("SynchronizingAdaptItDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Usage: &apos;AiChorus /f&apos; to open the project editor, &apos;AiChorus /c&apos; to download (clone) a project, &apos;AiChorus (/s)&apos; to synchronize a project, and &apos;AiChorus /e&apos; to edit the knowledge base.
         /// </summary>
         internal static string UsageString {

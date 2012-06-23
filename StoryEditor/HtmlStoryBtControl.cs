@@ -857,7 +857,7 @@ namespace OneStoryProjectEditor
             int nLastSubItemIndex = -1;
             string strLastFieldType = null,
                    strReferringText = null,
-                   strNote = String.Format("{0}: Re:", StoryEditor.GetInitials(TheSE.LoggedOnMember.Name));
+                   strNote = String.Format("{0}: ", StoryEditor.GetInitials(TheSE.LoggedOnMember.Name));
             foreach (var span in GetSelectedTexts(nVerseIndex))
             {
                 var textarea = span.Parent;

@@ -52,6 +52,18 @@ namespace OneStoryProjectEditor
             return CallDoAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
         }
 
+        /// <summary>
+        /// soon to be obsolete once we switch the StoryBt pane over to HTML
+        /// </summary>
+        /// <param name="nVerseIndex"></param>
+        /// <param name="strNote"></param>
+        /// <param name="bNoteToSelf"></param>
+        /// <returns></returns>
+        public bool OnAddNote(int nVerseIndex, string strNote, bool bNoteToSelf)
+        {
+            return CallDoAddNote(nVerseIndex, null, strNote, bNoteToSelf);
+        }
+
         public bool OnAddNoteToSelf(string strButtonId, string strReferringText, string strNote)
         {
             string[] astrId = strButtonId.Split('_');
@@ -454,7 +466,7 @@ namespace OneStoryProjectEditor
                 aCNsDC.Remove(cndc);
                 return null;
             }
-            cndc.DontShowButtonsOverride = true;
+            cndc.DontShowButtonsOverride = false;
             LoadDocument();
             theSE.Modified = true;
 

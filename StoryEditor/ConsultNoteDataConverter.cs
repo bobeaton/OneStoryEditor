@@ -194,6 +194,13 @@ namespace OneStoryProjectEditor
             return CmapDirectionStringToEnumType[strDirectionString];
         }
 
+        public static string GetCommDirectionStringFromEnum(CommunicationDirections eDirections)
+        {
+            return CmapDirectionStringToEnumType.Where(c => c.Value == eDirections)
+                                                .Select(c => c.Key)
+                                                .FirstOrDefault();
+        }
+
         public void InsureExtraBox(StoryData theStory, TeamMemberData loggedOnMember,
             TeamMembersData theTeamMembers, string strValue, bool bNoteToSelf)
         {
@@ -751,10 +758,6 @@ namespace OneStoryProjectEditor
                 if ((i == (Count - 1)) && 
                     IsEditable(loggedOnMember, theTeamMembers, theStory))
                 {
-                    Color clrFrame = Color.Red;
-                    string strFrameColor = VerseData.HtmlColor((IsaNoteToSelf(aCI)
-                                                                    ? AdjustSlightly(clrFrame)
-                                                                    : clrFrame));
                     strHtmlElementId = TextareaId(nVerseIndex, nConversationIndex);
                     strRow += String.Format(Properties.Resources.HTML_TableCellForTextArea,
                                             strReferringHtml + 
@@ -1187,9 +1190,11 @@ namespace OneStoryProjectEditor
             get { return "ConsultantConversation"; }
         }
 
+        public const string CstrSubElementName = "ConsultantNote";
+
         protected override string SubElementName
         {
-            get { return "ConsultantNote"; }
+            get { return CstrSubElementName; }
         }
 
         public const TeamMemberData.UserTypes ConsultantNoteMentors =
@@ -1361,9 +1366,11 @@ namespace OneStoryProjectEditor
             get { return "CoachConversation"; }
         }
 
+        public const string CstrSubElementName = "CoachNote";
+
         protected override string SubElementName
         {
-            get { return "CoachNote"; }
+            get { return CstrSubElementName; }
         }
 
         public const TeamMemberData.UserTypes CoachNoteMentors =

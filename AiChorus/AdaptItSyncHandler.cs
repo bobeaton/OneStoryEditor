@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Forms;
+using System.Xml.Linq;
+using AiChorus.Properties;
+using Chorus.UI.Sync;
+using Chorus.VcsDrivers;
+using Chorus.sync;
 using SilEncConverters40;
 
 namespace AiChorus
@@ -21,38 +27,66 @@ namespace AiChorus
 
         public override void DoSynchronize()
         {
-            var strStoryEditorExePath = OneStoryEditorExePath;
+            var strProjectFolder = Path.Combine(AppDataRoot, Project.FolderName);
+            var strProjectName = Project.ProjectId;
+            var uri = new Uri("http://resumable.languagedepot.org");
+            var strRepoUrl = String.Format("{0}://{1}{2}@{3}/{4}",
+                                           uri.Scheme, ServerSetting.Username,
+                                           (String.IsNullOrEmpty(ServerSetting.Password))
+                                               ? null
+                                               : ':' + ServerSetting.Password,
+                                           uri.Host, strProjectName);
 
-            // if it is there, then get the path to the project folder root
-            var theStoryEditor = Assembly.LoadFile(strStoryEditorExePath);
-            if (theStoryEditor == null)
-                return /* CstrCantOpenOse */;
+            SyncWithAiRepo(strProjectFolder, strProjectName, strRepoUrl);
+        }
 
-            var typeOseProgram = theStoryEditor.GetType("OneStoryProjectEditor.Program");
-            if (typeOseProgram == null)
-                return /* CstrCantOpenOse */;
+        // taken wholesale from OSE (so we don't need to depend on OSE--before we just called OSE to do it)
+        public const string CstrInternetName = "Internet";
+        private static void SyncWithAiRepo(string strProjectFolder, string strProjectName, string strRepoUrl)
+        {
+            // AdaptIt creates the xml file in a different way than we'd like (it
+            //  triggers a whole file change set). So before we attempt to merge, let's
+            //  resave the file using the same approach that Chorus will use if a merge
+            //  is done so it'll always show differences only.
+            string strKbFilename = Path.Combine(strProjectFolder,
+                                                Path.GetFileNameWithoutExtension(strProjectFolder) + ".xml");
+            if (File.Exists(strKbFilename))
+            {
+                try
+                {
+                    var strKbBackupFilename = strKbFilename + ".bak";
+                    File.Copy(strKbFilename, strKbBackupFilename, true);
+                    var doc = XDocument.Load(strKbBackupFilename);
+                    File.Delete(strKbFilename);
+                    doc.Save(strKbFilename);
+                }
+                catch
+                {
+                }
+            }
 
-            var typeString = typeof (string);
-            var aTypeParams = new Type[] { typeString, typeString, typeString, typeString, typeString, typeString, typeof(bool) };
-            var methodSyncWithAiRepository = typeOseProgram.GetMethod("SyncWithAiRepository", aTypeParams);
+            var projectConfig = GetAiProjectFolderConfiguration(strProjectFolder);
 
-            /*
-            public static void SyncWithAiRepository(string strProjectFolder, string strProjectName, string strRepoUrl,
-                                                    string strSharedNetworkUrl, string strHgUsername, string strHgPassword, 
-                                                    bool bRewriteAdaptItKb)
-            */
+            using (var dlg = new SyncDialog(projectConfig, SyncUIDialogBehaviors.Lazy, SyncUIFeatures.NormalRecommended))
+            {
+                dlg.UseTargetsAsSpecifiedInSyncOptions = true;
+                if (!String.IsNullOrEmpty(strRepoUrl))
+                    dlg.SyncOptions.RepositorySourcesToTry.Add(RepositoryAddress.Create(CstrInternetName, strRepoUrl));
+                dlg.Text = Resources.SynchronizingAdaptItDialogTitle + strProjectName;
+                dlg.ShowDialog();
+            }
+        }
 
-            var oParams = new object[]
-                              {
-                                  Path.Combine(AppDataRoot, Project.FolderName), 
-                                  Project.ProjectId,
-                                  "http://resumable.languagedepot.org",    // for now
-                                  null,                                     // shared network path
-                                  ServerSetting.Username, 
-                                  ServerSetting.Password, 
-                                  true
-                              };
-            methodSyncWithAiRepository.Invoke(theStoryEditor, oParams);
+        private static ProjectFolderConfiguration GetAiProjectFolderConfiguration(string strProjectFolder)
+        {
+            // if there's no repo yet, then create one (even if we aren't going
+            //  to ultimately push with an internet repo, we still want one locally)
+            var projectConfig = new ProjectFolderConfiguration(strProjectFolder);
+            projectConfig.IncludePatterns.Add("*.xml"); // AI KB
+            projectConfig.IncludePatterns.Add("*.ChorusNotes"); // the new conflict file
+            projectConfig.IncludePatterns.Add("*.aic");
+            projectConfig.IncludePatterns.Add("*.cct"); // possible normalization spellfixer files
+            return projectConfig;
         }
 
         protected override string GetSynchronizeOrOpenProjectLable

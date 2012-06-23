@@ -69,6 +69,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_1B6EC210C0C4F490982E38E4E54843F1"
+        "OwnerKey" = "8:_2317184BC6E78C19FA0A5718F255E0CA"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_224BB7A4126F726B9B0EF5C37FAF9672"
         "OwnerKey" = "8:_1415ECBE7EFB434497FFE914D4CB51DB"
         "MsmSig" = "8:_UNDEFINED"
@@ -165,12 +171,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_3E5D2C62B99A5D80D4390140E2E22C89"
-        "OwnerKey" = "8:_419902DDF0C24F0C9E553502840AF7F0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_419902DDF0C24F0C9E553502840AF7F0"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -239,12 +239,6 @@
         {
         "MsmKey" = "8:_7299B1E57E1547D5ACAD97E1F38588CF"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_75635A8AB9D5EB17E05E12AC1BDD21CB"
-        "OwnerKey" = "8:_2317184BC6E78C19FA0A5718F255E0CA"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -365,6 +359,12 @@
         {
         "MsmKey" = "8:_9D6DFB7ED50E7D47ACA654A07BF4869F"
         "OwnerKey" = "8:_7963ED562DB20002E7D43E515D1208EE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9D6DFB7ED50E7D47ACA654A07BF4869F"
+        "OwnerKey" = "8:_EAF0E514FB2C446EA35BA76758D83ACC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -587,6 +587,12 @@
         {
         "MsmKey" = "8:_EBE7E52448B5C0E5435E36C80379D4FD"
         "OwnerKey" = "8:_2750BE288359D06CB18042F179052706"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED1CABA0F86AF4FA6B2ACDE81C4796DF"
+        "OwnerKey" = "8:_419902DDF0C24F0C9E553502840AF7F0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1101,6 +1107,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1B6EC210C0C4F490982E38E4E54843F1"
+            {
+            "SourcePath" = "8:SilEncConverters40.tlb"
+            "TargetName" = "8:SilEncConverters40.tlb"
+            "Tag" = "8:"
+            "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:2"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_224BB7A4126F726B9B0EF5C37FAF9672"
             {
             "AssemblyRegister" = "3:1"
@@ -1274,26 +1300,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3E5D2C62B99A5D80D4390140E2E22C89"
-            {
-            "SourcePath" = "8:IcuEC48.dll"
-            "TargetName" = "8:IcuEC48.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:2"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_419902DDF0C24F0C9E553502840AF7F0"
@@ -1498,26 +1504,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_75635A8AB9D5EB17E05E12AC1BDD21CB"
-            {
-            "SourcePath" = "8:SilEncConverters40.tlb"
-            "TargetName" = "8:SilEncConverters40.tlb"
-            "Tag" = "8:"
-            "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:2"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_75F641D938C948FD984574DC22FAC950"
@@ -2074,6 +2060,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_ED1CABA0F86AF4FA6B2ACDE81C4796DF"
+            {
+            "SourcePath" = "8:icuec48.dll"
+            "TargetName" = "8:IcuEC48.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_ED84E95AC70EA48108B925C5B3377B16"
             {
             "AssemblyRegister" = "3:1"
@@ -2419,7 +2425,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:OneStory Editor 2.10"
         "ProductCode" = "8:{EE53E4D2-6CE1-4BDE-BD79-A259ECAB94E6}"
-        "PackageCode" = "8:{72357A90-83BA-4FB0-8266-B3E75B9A3261}"
+        "PackageCode" = "8:{71AC9F42-F473-4EF3-94E0-BB1AD4EAE402}"
         "UpgradeCode" = "8:{92A9B369-3609-4129-A09D-5BB5BBE30AAB}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

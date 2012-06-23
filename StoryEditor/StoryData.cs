@@ -1725,6 +1725,7 @@ namespace OneStoryProjectEditor
         public LnCNotesData LnCNotes;
         public string PanoramaFrontMatter;
         public string XmlDataVersion = "1.6";
+        private const string CxmlDataVersionReferringText = "1.7";
 
         /// <summary>
         /// This version of the constructor should *always* be followed by a call to InitializeProjectSettings()
@@ -1793,8 +1794,11 @@ namespace OneStoryProjectEditor
 
                 else if (projFile.StoryProject[0].version.CompareTo(XmlDataVersion) > 0)
                 {
-                    LocalizableMessageBox.Show(Localizer.Str("One of the team members is using a newer version of OSE to edit the file, which is not compatible with the version you are using. You might try, \"Advanced\", \"Program Updates\", \"Check now\" or \"Check now for next major update\" or you may have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the \"Setup OneStory Editor.zip\" file"), StoryEditor.OseCaption);
-                    throw BackOutWithNoUI;
+                    if (projFile.StoryProject[0].version != CxmlDataVersionReferringText)
+                    {
+                        LocalizableMessageBox.Show(Localizer.Str("One of the team members is using a newer version of OSE to edit the file, which is not compatible with the version you are using. You might try, \"Advanced\", \"Program Updates\", \"Check now\" or \"Check now for next major update\" or you may have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the \"Setup OneStory Editor.zip\" file"), StoryEditor.OseCaption);
+                        throw BackOutWithNoUI;
+                    }
                 }
             }
 
@@ -2141,6 +2145,9 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public const string CstrElementStoryProjectRoot = "StoryProject";
+        public const string CstrAttributeVersion = "version";
+
         public const string CstrAttributeProjectName = "ProjectName";
         public const string CstrAttributeHgRepoUrlHost = "HgRepoUrlHost";
         public const string CstrAttributeUseDropbox = "UseDropbox";
@@ -2153,8 +2160,8 @@ namespace OneStoryProjectEditor
             get
             {
                 var elemStoryProject =
-                    new XElement("StoryProject",
-                                 new XAttribute("version", XmlDataVersion),
+                    new XElement(CstrElementStoryProjectRoot,
+                                 new XAttribute(CstrAttributeVersion, XmlDataVersion),
                                  new XAttribute(CstrAttributeProjectName, ProjSettings.ProjectName));
 
                 if (ProjSettings.UseDropbox)
@@ -2190,6 +2197,19 @@ namespace OneStoryProjectEditor
                 foreach (StoriesData aSsD in Values)
                     elemStoryProject.Add(aSsD.GetXml);
 
+                // if there are any "Referring text" Direction entries...  
+                var strSearch =
+                    ConsultNoteDataConverter.GetCommDirectionStringFromEnum(
+                        ConsultNoteDataConverter.CommunicationDirections.eReferringToText);
+                if (elemStoryProject.Descendants(ConsultantNoteData.CstrSubElementName)
+                                    .Any(e => e.Attribute(CommInstance.CstrAttributeLabelDirection).Value == strSearch) ||
+                    elemStoryProject.Descendants(CoachNoteData.CstrSubElementName)
+                                    .Any(e => e.Attribute(CommInstance.CstrAttributeLabelDirection).Value == strSearch))
+                {
+                    // set the xml version to 1.7 so it forces all team members to use a version that supports this
+                    var versionAttribute = elemStoryProject.Attribute(CstrAttributeVersion);
+                    versionAttribute.Value = CxmlDataVersionReferringText;
+                }
                 return elemStoryProject;
             }
         }
