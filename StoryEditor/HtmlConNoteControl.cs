@@ -47,25 +47,37 @@ namespace OneStoryProjectEditor
             return aCNsDC[nConversationIndex];
         }
 
-        public bool OnAddNote(int nVerseIndex, string strNote, bool bNoteToSelf)
+        public bool OnAddNote(int nVerseIndex, string strReferringText, string strNote, bool bNoteToSelf)
         {
-            return CallDoAddNote(nVerseIndex, strNote, bNoteToSelf);
+            return CallDoAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
         }
 
-        public bool OnAddNoteToSelf(string strButtonId, string strNote)
+        /// <summary>
+        /// soon to be obsolete once we switch the StoryBt pane over to HTML
+        /// </summary>
+        /// <param name="nVerseIndex"></param>
+        /// <param name="strNote"></param>
+        /// <param name="bNoteToSelf"></param>
+        /// <returns></returns>
+        public bool OnAddNote(int nVerseIndex, string strNote, bool bNoteToSelf)
+        {
+            return CallDoAddNote(nVerseIndex, null, strNote, bNoteToSelf);
+        }
+
+        public bool OnAddNoteToSelf(string strButtonId, string strReferringText, string strNote)
         {
             string[] astrId = strButtonId.Split('_');
             System.Diagnostics.Debug.Assert(astrId.Length == 2);
             int nVerseIndex = Convert.ToInt32(astrId[1]);
 
-            return CallDoAddNote(nVerseIndex, strNote, true);
+            return CallDoAddNote(nVerseIndex, strReferringText, strNote, true);
         }
 
-        private bool CallDoAddNote(int nVerseIndex, string strNote, bool bNoteToSelf)
+        private bool CallDoAddNote(int nVerseIndex, string strReferringText, string strNote, bool bNoteToSelf)
         {
             StrIdToScrollTo = GetTopRowId;
             ConsultNotesDataConverter aCNsDC = DataConverter(nVerseIndex);
-            ConsultNoteDataConverter aCNDC = DoAddNote(strNote, aCNsDC, bNoteToSelf);
+            ConsultNoteDataConverter aCNDC = DoAddNote(strReferringText, strNote, aCNsDC, nVerseIndex, bNoteToSelf);
             
             // if we couldn't determine the top-most row, then just get the line row
             if ((aCNDC != null) && String.IsNullOrEmpty(StrIdToScrollTo))
@@ -421,8 +433,8 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public ConsultNoteDataConverter DoAddNote(string strNote,
-            ConsultNotesDataConverter aCNsDC, bool bNoteToSelf)
+        public ConsultNoteDataConverter DoAddNote(string strReferringText, string strNote,
+            ConsultNotesDataConverter aCNsDC, int nVerseIndex, bool bNoteToSelf)
         {
             // the only function of the button here is to add a slot to type a con note
             StoryEditor theSE;
@@ -438,9 +450,10 @@ namespace OneStoryProjectEditor
                 strNote = StoryEditor.GetInitials(theSE.LoggedOnMember.Name) + StoryEditor.StrRegarding;
 
             StrIdToScrollTo = GetTopRowId;
+
             ConsultNoteDataConverter cndc =
                 aCNsDC.Add(theSE.TheCurrentStory, theSE.LoggedOnMember, 
-                theSE.StoryProject.TeamMembers, strNote, bNoteToSelf);
+                theSE.StoryProject.TeamMembers, strReferringText, strNote, bNoteToSelf);
             System.Diagnostics.Debug.Assert(cndc.Count == 1);
             LoadDocument();
             theSE.Modified = true;

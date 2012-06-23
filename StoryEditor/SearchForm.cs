@@ -244,7 +244,7 @@ namespace OneStoryProjectEditor
                         if (nLastCharIndex != 0)
                         {
                             nLastCharIndex = 0; // only do that once
-                            HtmlConNoteControl ctrl = stringTransfer.HtmlConNoteCtrl as HtmlConNoteControl;
+                            HtmlConNoteControl ctrl = stringTransfer.HtmlPane as HtmlConNoteControl;
                             ctrl.ClearSelection(stringTransfer);
                         }
                     }
@@ -283,10 +283,10 @@ namespace OneStoryProjectEditor
                             stringTransfer.TextBox.Select(nFoundIndex, nLengthToSelect);
                             LastCharIndex = CaptureNextStartingCharIndex(stringTransfer.TextBox);
                         }
-                        else if (stringTransfer.HtmlConNoteCtrl != null)
+                        else if (stringTransfer.HtmlPane != null)
                         {
                             Application.DoEvents(); // give the html doc a chance to catch up
-                            var ctrl = stringTransfer.HtmlConNoteCtrl as HtmlConNoteControl;
+                            var ctrl = stringTransfer.HtmlPane as HtmlConNoteControl;
                             if (ctrl != null)
                                 ctrl.SetSelection(stringTransfer, nFoundIndex, nLengthToSelect);
                             LastCharIndex = nFoundIndex + nLengthToSelect;
@@ -645,7 +645,7 @@ namespace OneStoryProjectEditor
             }
             else if (!String.IsNullOrEmpty(LastStringTransferSearched.HtmlElementId))
             {
-                HtmlConNoteControl ctrl = LastStringTransferSearched.HtmlConNoteCtrl as HtmlConNoteControl;
+                HtmlConNoteControl ctrl = LastStringTransferSearched.HtmlPane as HtmlConNoteControl;
                 if (ctrl != null)
                 {
                     if (ctrl.IsParagraphElement(LastStringTransferSearched.HtmlElementId))

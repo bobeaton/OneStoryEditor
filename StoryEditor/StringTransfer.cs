@@ -73,7 +73,7 @@ namespace OneStoryProjectEditor
         //  of the element ID it's associated with and the pane, so we can use
         //  it during 'find'
         public string HtmlElementId;
-        public object HtmlConNoteCtrl;
+        public object HtmlPane;
 
         // make it a little non-obvious how to get the string out so we can benefit from compiler-time errors
         public override string ToString()

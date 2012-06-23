@@ -2214,7 +2214,7 @@ initContextMenu();
     <value>&lt;td&gt;{0}&lt;/td&gt;</value>
   </data>
   <data name="HTML_TableCellForTextArea" xml:space="preserve">
-    <value>&lt;td width="100%" BGCOLOR={0}&gt;{1}&lt;/td&gt;</value>
+    <value>&lt;td width="100%"&gt;{0}&lt;/td&gt;</value>
   </data>
   <data name="HTML_TableCellId" xml:space="preserve">
     <value>&lt;td id="{0}"&gt;{1}&lt;/td&gt;</value>
