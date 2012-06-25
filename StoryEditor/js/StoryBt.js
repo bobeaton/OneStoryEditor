@@ -2,15 +2,43 @@
     window.external.OnBibRefJump(btn.id);
     return false; // cause the href navigation to not happen
 }
-function OnLineOptionsButton(btn)
-{
-    window.external.OnLineOptionsButton(btn.id);
+function OnLineOptionsButton(btn) {
+    // capture the last textarea selected before it loses focus to do a context menu
+    TriggerMyBlur(true);
+    
+    var bIsRightButton = (event.button == 2);
+    window.external.OnLineOptionsButton(btn.id, bIsRightButton);
     return false;
 }
 function OnVerseLineJump(link)
 {
     window.external.OnVerseLineJump(link.name);
     return false; // cause the href navigation to not happen
+}
+function OnKeyDown() {
+    if (window.event.keyCode == 116) {
+        // let the form handle it
+        window.external.LoadDocument();
+
+        // disable the propagation of the F5 event
+        window.event.keyCode = 0;
+        window.event.returnValue = false;
+        return false;
+    }
+    /* this is for searching... not implemented yet
+    else if (window.event.ctrlKey && (window.event.keyCode == 70)) {
+        if (window.event.stopPropagation) {
+            window.event.stopPropagation();
+        }
+        else {
+            window.event.cancelBubble = true;
+            window.event.returnValue = false;
+            window.event.keyCode = 0;
+        }
+        window.external.DoFind();
+        return false;
+    }
+    */
 }
 function DisplayHtml(strFunction) {
     var debugWindow = $('#osedebughtmlwindow');
@@ -124,6 +152,7 @@ $(document).ready(function () {
             window.external.ShowContextMenu(this.id);
             // return false;
         }
+        window.external.TextareaMouseUp(this.id);
         return true;
     });
     $('.readonly').attr('readonly', 'readonly');

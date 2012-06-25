@@ -86,8 +86,11 @@ namespace OneStoryProjectEditor
             
             // possibly add the 'readonly' class if the field isn't supposed to be edited
             fieldVisibility &= StoryEditor.TextFields.Languages;
-            if ((WhichField & fieldVisibility) == StoryEditor.TextFields.Undefined)
+            if (((WhichField & fieldVisibility) == StoryEditor.TextFields.Undefined) ||
+                (Transliterator != null))
+            {
                 strStyleClassName += " " + "readonly";
+            }
 
             return strStyleClassName;
         }
@@ -116,7 +119,7 @@ namespace OneStoryProjectEditor
         /// <param name="nVerseIndex">indicates verse number (0-based)</param>
         /// <param name="strPrefix">indicates the data--e.g. StoryLine vs. Retelling, etc</param>
         /// <param name="nItemNum">indicates the item number for certain types (e.g. TQ *2*)</param>
-        /// <param name="nSubItemNum">indicates the sub-item number for certain types (e.g. TQ2.ans3)</param>
+        /// <param name="nSubItemNum">indicates the sub-item number for certain types (e.g. TQ2.ans*3* or  or ret *1*)</param>
         /// <param name="strFieldTypeName">indicates the language of the field (e.g. vernacular)</param>
         /// <returns></returns>
         public static string TextareaId(int nVerseIndex, string strPrefix, int nItemNum, int nSubItemNum, string strFieldTypeName)
@@ -150,6 +153,7 @@ namespace OneStoryProjectEditor
         public string GetValue(DirectableEncConverter transliterator)
         {
             string str = Value;
+            Transliterator = transliterator;    // need to to properly set 'readonly' if it's turned on
             if (transliterator != null)
                 try
                 {
@@ -233,6 +237,15 @@ namespace OneStoryProjectEditor
             return Value.Split(achToIgnore, StringSplitOptions.RemoveEmptyEntries);
         }
 
+        public void RemoveSubstring(string str)
+        {
+            if (String.IsNullOrEmpty(str))
+                return; // nothing to do
+
+            System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(Value) && Value.Contains(str));
+            Value = Value.Replace(str, null).Trim();
+        }
+
         public void ExtractSelectedText(out string strSelectedText)
         {
 #if !DataDllBuild
@@ -248,6 +261,56 @@ namespace OneStoryProjectEditor
             else
 #endif
                 strSelectedText = null;
+        }
+
+        public bool TryGetSourceString(string strSubstring, out string strOriginalSubstring)
+        {
+            if (Transliterator == null)
+            {
+                strOriginalSubstring = strSubstring;
+                return true;
+            }
+
+            // the algorithm for doing this is very complex, but there are a few simplifications:
+            //  a) if the converter is bi-directional, it's just possible that we can reverse it...
+            //  b) if it's just a transliteration, then we should expect the same word-breaks
+            //  c) if it's a glossing tool lookup, then we should expect to see "%<num>%" bits
+            //  d) otherwise, we really can't figure this out without enhancing this algorithm
+            if (!EncConverters.IsUnidirectional(Transliterator.GetEncConverter.ConversionType))
+            {
+                var strReverse = Transliterator.ConvertDirectionOpposite(strSubstring);
+                if (Value.Contains(strReverse))
+                {
+                    strOriginalSubstring = strReverse;
+                    return true;
+                }
+            }
+
+            for (var i = 0; i < Value.Length; i++)
+            {
+                var strToCheck = Value.Substring(i);
+                var strConverted = Transliterator.SafeConvert(strToCheck);
+                if (String.IsNullOrEmpty(strConverted) ||
+                    (strConverted.IndexOf(strSubstring, StringComparison.Ordinal) != 0)) 
+                    continue;
+
+                var nLen = strToCheck.Length;
+                while (strConverted != strSubstring)
+                {
+                    if (--nLen == 0)
+                        break;
+
+                    strToCheck = Value.Substring(i, nLen);
+                    strConverted = Transliterator.SafeConvert(strToCheck);
+                }
+
+                System.Diagnostics.Debug.Assert(strConverted == strSubstring);
+                strOriginalSubstring = strToCheck;
+                return true;
+            }
+
+            strOriginalSubstring = null;
+            return false;
         }
     }
 }

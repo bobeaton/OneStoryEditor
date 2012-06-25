@@ -141,12 +141,12 @@ namespace OneStoryProjectEditor
                 ScrollToElement(StrIdToScrollTo, true);
         }
 
-        protected VerseData Verse(int nVerseIndex)
+        protected VerseData GetVerseData(int nLineIndex)
         {
-            Debug.Assert(StoryData.Verses.Count > (nVerseIndex - 1));
-            return (nVerseIndex == 0)
+            Debug.Assert(StoryData.Verses.Count > (nLineIndex - 1));
+            return (nLineIndex == 0)
                        ? StoryData.Verses.FirstVerse
-                       : StoryData.Verses[nVerseIndex - 1];
+                       : StoryData.Verses[nLineIndex - 1];
         }
 
         public void ScrollToElement(String strElemName, bool bAlignWithTop)
@@ -312,6 +312,18 @@ namespace OneStoryProjectEditor
                 var elemTextArea = Document.GetElementById(strId);
                 StoryEditor.TextPaster.TriggerPaste(true, elemTextArea);
             }
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // HtmlVerseControl
+            // 
+            this.AllowNavigation = false;
+            this.AllowWebBrowserDrop = false;
+            this.ResumeLayout(false);
+
         }
     }
 }

@@ -1793,7 +1793,7 @@ and in the resulting window click on the next (green) state.
     <value>&lt;button id="{0}" onClick="{1}"&gt;{2}&lt;/button&gt;</value>
   </data>
   <data name="HTML_ButtonLineOptions" xml:space="preserve">
-    <value>&lt;button id="{0}" onClick="{1}" style="height:20px; width:20px;"&gt;{2}&lt;/button&gt;</value>
+    <value>&lt;button id="{0}" onmouseup="{1}" style="height:20px; width:20px;"&gt;{2}&lt;/button&gt;</value>
   </data>
   <data name="HTML_DOM_Prefix" xml:space="preserve">
     <value>&lt;script&gt;
@@ -1941,29 +1941,6 @@ function CallTextareaOnSelect(textarea)
 &lt;/script&gt;
 &lt;/html&gt;</value>
   </data>
-  <data name="HTML_HeaderStoryBt" xml:space="preserve">
-    <value>&lt;html&gt;
-{0}
-&lt;head&gt;
-{1}
-&lt;/head&gt;
-&lt;body onKeyDown="return OnKeyDown();" onscroll="window.external.OnScroll();"&gt;
-&lt;ul id="contextMenu"&gt;
-	&lt;li&gt;&lt;a href="#" onclick="window.external.InsertNewVerseBefore(nVerseIndex);"&gt;Insert new verse before this one&lt;/a&gt;&lt;/li&gt;
-	&lt;li&gt;&lt;a href="#" onclick="window.external.AddNewVerseAfter(nVerseIndex);"&gt;Add new verse after this one&lt;/a&gt;&lt;/li&gt;
-	&lt;li&gt;&lt;a href="#" onclick="window.external.HideVerse(nVerseIndex);"&gt;Hide verse&lt;/a&gt;&lt;/li&gt;
-	&lt;li&gt;&lt;a href="#" onclick="window.external.DeleteVerse(nVerseIndex);"&gt;Delete verse&lt;/a&gt;&lt;/li&gt;
-	&lt;li&gt;&lt;a href="#" onclick="window.external.CopyVerse(nVerseIndex);"&gt;Copy verse&lt;/a&gt;&lt;/li&gt;
-	&lt;li&gt;&lt;a href="#" onclick="window.external.PasteVerseBefore(nVerseIndex);"&gt;Paste verse before this one&lt;/a&gt;&lt;/li&gt;
-	&lt;li&gt;&lt;a href="#" onclick="window.external.PasteVerseAfter(nVerseIndex);"&gt;Paste verse after this one&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;script type="text/javascript"&gt;
-initContextMenu();
-&lt;/script&gt;
-{2}
-&lt;/body&gt;
-&lt;/html&gt;</value>
-  </data>
   <data name="HTML_HttpLink" xml:space="preserve">
     <value>&lt;a href="{0}" target="_blank"&gt;here&lt;/a&gt; </value>
   </data>
@@ -2018,6 +1995,9 @@ initContextMenu();
   }}
   .TestQuestionAnswer {{
 	color: {5}
+  }}
+  .readonly {{
+    background-color:Azure;
   }}
   .highlight {{
 	background-color:#0099ff;

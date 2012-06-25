@@ -248,7 +248,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; onClick=&quot;{1}&quot; style=&quot;height:20px; width:20px;&quot;&gt;{2}&lt;/button&gt;.
+        ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; onmouseup=&quot;{1}&quot; style=&quot;height:20px; width:20px;&quot;&gt;{2}&lt;/button&gt;.
         /// </summary>
         internal static string HTML_ButtonLineOptions {
             get {
@@ -363,25 +363,6 @@ namespace OneStoryProjectEditor.Properties {
         internal static string HTML_HeaderPresentation {
             get {
                 return ResourceManager.GetString("HTML_HeaderPresentation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;html&gt;
-        ///{0}
-        ///&lt;head&gt;
-        ///{1}
-        ///&lt;/head&gt;
-        ///&lt;body onKeyDown=&quot;return OnKeyDown();&quot; onscroll=&quot;window.external.OnScroll();&quot;&gt;
-        ///&lt;ul id=&quot;contextMenu&quot;&gt;
-        ///	&lt;li&gt;&lt;a href=&quot;#&quot; onclick=&quot;window.external.InsertNewVerseBefore(nVerseIndex);&quot;&gt;Insert new verse before this one&lt;/a&gt;&lt;/li&gt;
-        ///	&lt;li&gt;&lt;a href=&quot;#&quot; onclick=&quot;window.external.AddNewVerseAfter(nVerseIndex);&quot;&gt;Add new verse after this one&lt;/a&gt;&lt;/li&gt;
-        ///	&lt;li&gt;&lt;a href=&quot;#&quot; onclick=&quot;window.external.HideVerse(nVerseIndex);&quot;&gt;Hide verse&lt;/a&gt;&lt;/li&gt;
-        ///	&lt;li&gt;&lt;a href=&quot;#&quot; onclick=&quot;window.external.DeleteVerse [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string HTML_HeaderStoryBt {
-            get {
-                return ResourceManager.GetString("HTML_HeaderStoryBt", resourceCulture);
             }
         }
         
@@ -506,8 +487,8 @@ namespace OneStoryProjectEditor.Properties {
         ///  .TestQuestionAnswer {{
         ///	color: {5}
         ///  }}
-        ///  .highlight {{
-        ///	backgr [rest of string was truncated]&quot;;.
+        ///  .readonly {{
+        ///    back [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string HTML_StyleDefinition {
             get {
@@ -1475,7 +1456,7 @@ namespace OneStoryProjectEditor.Properties {
         ///        &lt;/script&gt;
         ///{3}
         ///    &lt;/head&gt;
-        ///    &lt;body&gt;
+        ///    &lt;body onKeyDown=&quot;return OnKeyDown();&quot;&gt;
         ///&lt;!--for debugging: &lt;textarea id=&quot;osedebughtmlwindow&quot;&gt;&lt;/textarea&gt;--&gt;
         ///{4}
         ///    &lt;/body&gt;
@@ -1495,20 +1476,18 @@ namespace OneStoryProjectEditor.Properties {
         ///    window.external.OnBibRefJump(btn.id);
         ///    return false; // cause the href navigation to not happen
         ///}
-        ///function OnLineOptionsButton(btn)
-        ///{
-        ///    window.external.OnLineOptionsButton(btn.id);
+        ///function OnLineOptionsButton(btn) {
+        ///    // capture the last textarea selected before it loses focus to do a context menu
+        ///    TriggerMyBlur(true);
+        ///    
+        ///    var bIsRightButton = (event.button == 2);
+        ///    window.external.OnLineOptionsButton(btn.id, bIsRightButton);
         ///    return false;
         ///}
         ///function OnVerseLineJump(link)
         ///{
         ///    window.external.OnVerseLineJump(link.name);
-        ///    return false; // cause the href navigation to not happen
-        ///}
-        ///function DisplayHtml(strFunction) {
-        ///    var debugWindow = $(&apos;#osedebughtmlwindow&apos;);
-        ///    if (debugWindow) {
-        ///      [rest of string was truncated]&quot;;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string StoryBtJs {
             get {

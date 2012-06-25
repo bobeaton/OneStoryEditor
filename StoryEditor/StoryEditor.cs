@@ -1296,6 +1296,9 @@ namespace OneStoryProjectEditor
             if (theVerses.Count == 0)
                 TheCurrentStory.Verses.InsertVerse(0, null, null, null, null);
 
+            // must initialize the transliterators before calling CurrentViewSettings
+            InitializeTransliterators();
+
             if (UsingHtmlForStoryBtPane)
             {
                 htmlStoryBtControl.TheSE = this;
@@ -1333,8 +1336,6 @@ namespace OneStoryProjectEditor
             InitConsultNotesPane(flowLayoutPanelConsultantNotes, theVerses.FirstVerse.ConsultantNotes, nVerseIndex);
             InitConsultNotesPane(flowLayoutPanelCoachNotes, theVerses.FirstVerse.CoachNotes, nVerseIndex);
 #endif
-            InitializeTransliterators();
-
             if (!UsingHtmlForStoryBtPane)
             {
                 // either add the general testing question line (or a button)

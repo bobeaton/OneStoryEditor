@@ -518,13 +518,6 @@ namespace OneStoryProjectEditor
 
         public static string AddHtmlHtmlDocOutside(string strHtmlInside, ProjectSettings projSettings)
         {
-            /*
-            return String.Format(Properties.Resources.HTML_HeaderPresentation,
-                                 StylePrefix(projSettings),
-                                 Properties.Resources.StoryBtJs,
-                                 strHtmlInside,
-                                 Properties.Resources.StoryBtPsJs);
-            */
             return String.Format(Properties.Resources.StoryBtHtml,
                                  Properties.Resources.jquery_min,
                                  Properties.Resources.StoryBtJs,
@@ -664,10 +657,13 @@ namespace OneStoryProjectEditor
                                  VerseData.HtmlColor(Properties.Settings.Default.AnswersVernacularColor));
         }
 
-        public string ConNoteHtml(HtmlConNoteControl htmlConNoteCtrl, ProjectSettings projSettings, int nVerseIndex,
-            TeamMemberData loggedOnMember, TeamMembersData teamMembers, ConsultNoteDataConverter theCnDc)
+        public string ConNoteHtml(HtmlConNoteControl htmlConNoteCtrl, ProjectSettings projSettings, int nVerseIndex, 
+            int nConversationIndex, TeamMemberData loggedOnMember, TeamMembersData teamMembers, 
+            ConsultNoteDataConverter theCnDc)
         {
-            string strHtml = theCnDc.Html(htmlConNoteCtrl, teamMembers, loggedOnMember, this, nVerseIndex, 0);
+            string strHtml = theCnDc.Html(htmlConNoteCtrl, teamMembers, loggedOnMember, this,
+                                          nVerseIndex,
+                                          nConversationIndex);
             
             return String.Format(Properties.Resources.HTML_Header,
                                  StylePrefix(projSettings),
@@ -675,7 +671,7 @@ namespace OneStoryProjectEditor
                                  strHtml,
                                  Properties.Resources.HTML_Script_AddTextareaMouseDown);
         
-}
+        }
 
         public string ConsultantNotesHtml(object htmlConNoteCtrl, 
             ProjectSettings projSettings, TeamMemberData LoggedOnMember, 

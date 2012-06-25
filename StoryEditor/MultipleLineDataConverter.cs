@@ -283,16 +283,19 @@ namespace OneStoryProjectEditor
                     }
                 }
 
-                string strVernacular, strNationalBT, strInternationalBT;
+                string strVernacular, strNationalBt, strInternationalBt;
                 // if we found it, it means there was a child version... 
                 if (bFound)
                 {
                     // so diff them
-                    strVernacular = Diff.HtmlDiff(theParentLineData.Vernacular,
+                    strVernacular = Diff.HtmlDiff(viewSettings.TransliteratorVernacular,
+                                                  theParentLineData.Vernacular,
                                                   theChildLineData.Vernacular);
-                    strNationalBT = Diff.HtmlDiff(theParentLineData.NationalBt,
+                    strNationalBt = Diff.HtmlDiff(viewSettings.TransliteratorNationalBT,
+                                                  theParentLineData.NationalBt,
                                                   theChildLineData.NationalBt);
-                    strInternationalBT = Diff.HtmlDiff(theParentLineData.InternationalBt,
+                    strInternationalBt = Diff.HtmlDiff(viewSettings.TransliteratorInternationalBt,
+                                                       theParentLineData.InternationalBt,
                                                        theChildLineData.InternationalBt);
                 }
 
@@ -302,31 +305,43 @@ namespace OneStoryProjectEditor
                     && !bProcessingTheChild)
                 {
                     // it means that the parent was deleted.
-                    strVernacular = Diff.HtmlDiff(theParentLineData.Vernacular, null);
-                    strNationalBT = Diff.HtmlDiff(theParentLineData.NationalBt, null);
-                    strInternationalBT = Diff.HtmlDiff(theParentLineData.InternationalBt, null);
+                    strVernacular = Diff.HtmlDiff(viewSettings.TransliteratorVernacular,
+                                                  theParentLineData.Vernacular, 
+                                                  null);
+                    strNationalBt = Diff.HtmlDiff(viewSettings.TransliteratorNationalBT,
+                                                  theParentLineData.NationalBt, 
+                                                  null);
+                    strInternationalBt = Diff.HtmlDiff(viewSettings.TransliteratorInternationalBt,
+                                                       theParentLineData.InternationalBt,
+                                                       null);
                 }
 
                 // this means there is a child and we're processing it here as if it were the parent
                 //  (so that implicitly means this is an addition)
                 else if (bProcessingTheChild)
                 {
-                    strVernacular = Diff.HtmlDiff(null, theParentLineData.Vernacular);
-                    strNationalBT = Diff.HtmlDiff(null, theParentLineData.NationalBt);
-                    strInternationalBT = Diff.HtmlDiff(null, theParentLineData.InternationalBt);
+                    strVernacular = Diff.HtmlDiff(viewSettings.TransliteratorVernacular,
+                                                  null, 
+                                                  theParentLineData.Vernacular);
+                    strNationalBt = Diff.HtmlDiff(viewSettings.TransliteratorNationalBT,
+                                                  null,
+                                                  theParentLineData.NationalBt);
+                    strInternationalBt = Diff.HtmlDiff(viewSettings.TransliteratorInternationalBt,
+                                                       null,
+                                                       theParentLineData.InternationalBt);
                 }
 
                 // otherwise, if there was no child (e.g. just doing a print preview of one version)...
                 else
                 {
                     // then the parent's value is the value
-                    strVernacular = theParentLineData.Vernacular.ToString();
-                    strNationalBT = theParentLineData.NationalBt.ToString();
-                    strInternationalBT = theParentLineData.InternationalBt.ToString();
+                    strVernacular = theParentLineData.Vernacular.GetValue(viewSettings.TransliteratorVernacular);
+                    strNationalBt = theParentLineData.NationalBt.GetValue(viewSettings.TransliteratorNationalBT);
+                    strInternationalBt = theParentLineData.InternationalBt.GetValue(viewSettings.TransliteratorInternationalBt);
                 }
 
                 strRow += PresentationHtmlRow(nVerseIndex, nParentNum, nTestNum, 
-                    strVernacular, strNationalBT, strInternationalBT,
+                    strVernacular, strNationalBt, strInternationalBt,
                     bShowVernacular, bShowNationalBT, bShowInternationalBT,
                     theParentLineData, viewSettings);
             }
@@ -339,9 +354,15 @@ namespace OneStoryProjectEditor
                     LineMemberData theChildLineData = child[j];
                     string strMemberId = theChildLineData.MemberId;
                     nTestNum = astrTesters.IndexOf(strMemberId);
-                    string strVernacular = Diff.HtmlDiff(null, theChildLineData.Vernacular);
-                    string strNationalBT = Diff.HtmlDiff(null, theChildLineData.NationalBt);
-                    string strInternationalBT = Diff.HtmlDiff(null, theChildLineData.InternationalBt);
+                    string strVernacular = Diff.HtmlDiff(viewSettings.TransliteratorVernacular,
+                                                         null, 
+                                                         theChildLineData.Vernacular);
+                    string strNationalBT = Diff.HtmlDiff(viewSettings.TransliteratorNationalBT,
+                                                         null, 
+                                                         theChildLineData.NationalBt);
+                    string strInternationalBT = Diff.HtmlDiff(viewSettings.TransliteratorInternationalBt,
+                                                              null,
+                                                              theChildLineData.InternationalBt);
                     strRow += PresentationHtmlRow(nVerseIndex, nParentNum, nTestNum, 
                                                   strVernacular, strNationalBT, strInternationalBT,
                                                   bShowVernacular, bShowNationalBT, bShowInternationalBT,
@@ -371,9 +392,15 @@ namespace OneStoryProjectEditor
                 LineMemberData theLineData = this[i];
                 string strMemberId = theLineData.MemberId;
                 int nTestNum = astrTesters.IndexOf(strMemberId);
-                string strVernacular = Diff.HtmlDiff(null, theLineData.Vernacular);
-                string strNationalBT = Diff.HtmlDiff(null, theLineData.NationalBt);
-                string strEnglishBT = Diff.HtmlDiff(null, theLineData.InternationalBt);
+                string strVernacular = Diff.HtmlDiff(viewSettings.TransliteratorVernacular,
+                                                     null,
+                                                     theLineData.Vernacular);
+                string strNationalBT = Diff.HtmlDiff(viewSettings.TransliteratorNationalBT,
+                                                     null,
+                                                     theLineData.NationalBt);
+                string strEnglishBT = Diff.HtmlDiff(viewSettings.TransliteratorInternationalBt,
+                                                    null,
+                                                    theLineData.InternationalBt);
                 strRow += PresentationHtmlRow(nVerseIndex, nParentNum, nTestNum,
                                               strVernacular, strNationalBT, strEnglishBT,
                                               bShowVernacular, bShowNationalBT, bShowInternationalBT,

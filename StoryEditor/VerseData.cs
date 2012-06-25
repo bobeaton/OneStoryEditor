@@ -32,12 +32,14 @@ namespace OneStoryProjectEditor
         {
             if (strLangAttribute == CstrAttributeLangVernacular)
                 Vernacular.SetValue(strValue);
-            if (strLangAttribute == CstrAttributeLangNationalBt)
+            else if (strLangAttribute == CstrAttributeLangNationalBt)
                 NationalBt.SetValue(strValue);
-            if (strLangAttribute == CstrAttributeLangInternationalBt)
+            else if (strLangAttribute == CstrAttributeLangInternationalBt)
                 InternationalBt.SetValue(strValue);
-            if (strLangAttribute == CstrAttributeLangFreeTranslation)
+            else if (strLangAttribute == CstrAttributeLangFreeTranslation)
                 FreeTranslation.SetValue(strValue);
+            else
+                System.Diagnostics.Debug.Fail("didn't expect this language type");
         }
 
         public bool HasData

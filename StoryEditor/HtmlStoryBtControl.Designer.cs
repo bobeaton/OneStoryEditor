@@ -90,7 +90,7 @@
             this.moveSelectedTextToANewLineToolStripMenuItem.Text = "Move &selected text to a new line";
             this.moveSelectedTextToANewLineToolStripMenuItem.ToolTipText = "This will take the selected text from the Story language, the National BT and the" +
     " English BT boxes and move them into a new line following this line";
-            this.moveSelectedTextToANewLineToolStripMenuItem.Click += new System.EventHandler(this.moveSelectedTextToANewLineToolStripMenuItem_Click);
+            this.moveSelectedTextToANewLineToolStripMenuItem.Click += new System.EventHandler(this.MoveSelectedTextToANewLineToolStripMenuItemClick);
             // 
             // moveItemsToolStripMenuItem
             // 
@@ -99,7 +99,7 @@
             this.moveItemsToolStripMenuItem.Text = "&Move items";
             this.moveItemsToolStripMenuItem.ToolTipText = "Click this menu to move testing questions, anchors, exegetical notes, etc to anot" +
     "her line";
-            this.moveItemsToolStripMenuItem.Click += new System.EventHandler(this.moveItemsToolStripMenuItem_Click);
+            this.moveItemsToolStripMenuItem.Click += new System.EventHandler(this.MoveItemsToolStripMenuItemClick);
             // 
             // deleteItemsToolStripMenuItem
             // 
@@ -107,7 +107,7 @@
             this.deleteItemsToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
             this.deleteItemsToolStripMenuItem.Text = "&Delete items";
             this.deleteItemsToolStripMenuItem.ToolTipText = "Click this menu to delete testing questions, anchors, exegetical notes, etc";
-            this.deleteItemsToolStripMenuItem.Click += new System.EventHandler(this.deleteItemsToolStripMenuItem_Click);
+            this.deleteItemsToolStripMenuItem.Click += new System.EventHandler(this.DeleteItemsToolStripMenuItemClick);
             // 
             // menuAddTestQuestion
             // 
@@ -272,7 +272,7 @@
             this.deleteTheWholeVerseToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
             this.deleteTheWholeVerseToolStripMenuItem.Text = "&Delete line";
             this.deleteTheWholeVerseToolStripMenuItem.ToolTipText = "Delete this line";
-            this.deleteTheWholeVerseToolStripMenuItem.Click += new System.EventHandler(this.deleteTheWholeVerseToolStripMenuItem_Click);
+            this.deleteTheWholeVerseToolStripMenuItem.Click += new System.EventHandler(this.DeleteTheWholeVerseToolStripMenuItemClick);
             // 
             // pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem
             // 
@@ -314,6 +314,10 @@
             this.splitStoryToolStripMenuItem.ToolTipText = "Move this and all following lines to a new story inserted immediately after this " +
     "story";
             this.splitStoryToolStripMenuItem.Click += new System.EventHandler(this.splitStoryToolStripMenuItem_Click);
+            // 
+            // HtmlStoryBtControl
+            // 
+            this.AllowWebBrowserDrop = false;
             this.contextMenuStripLineOptions.ResumeLayout(false);
             this.ResumeLayout(false);
 

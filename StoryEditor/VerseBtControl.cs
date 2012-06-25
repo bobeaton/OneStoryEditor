@@ -594,9 +594,9 @@ namespace OneStoryProjectEditor
         private void MoveSelectedTextToANewLineToolStripMenuItem(StoryEditor theSE)
         {
             System.Diagnostics.Debug.Assert(tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine));
-            StoryLineControl slc = tableLayoutPanel.Controls[CstrFieldNameStoryLine] as StoryLineControl;
-            string strVernacular, strNationalBT, strEnglishBT, strFreeTranslation;
-            slc.GetTextBoxValues(out strVernacular, out strNationalBT, out strEnglishBT,
+            var slc = tableLayoutPanel.Controls[CstrFieldNameStoryLine] as StoryLineControl;
+            string strVernacular, strNationalBt, strEnglishBt, strFreeTranslation;
+            slc.GetTextBoxValues(out strVernacular, out strNationalBt, out strEnglishBt,
                 out strFreeTranslation);
             
             // all this verse to have it's buttons shown (so the editor can delete now
@@ -604,15 +604,14 @@ namespace OneStoryProjectEditor
             _verseData.AllowConNoteButtonsOverride();
 
             // make a copy and clear out the stuff that we'll have them manually move later
-            VerseData verseNew = new VerseData(_verseData);
+            var verseNew = new VerseData(_verseData);
             verseNew.TestQuestions.Clear();
             verseNew.ConsultantNotes.Clear();
             verseNew.CoachNotes.Clear();
 
-            // copyVerseToClipboardToolStripMenuItem_Click(null, null);
             verseNew.StoryLine.Vernacular.SetValue(strVernacular);
-            verseNew.StoryLine.NationalBt.SetValue(strNationalBT);
-            verseNew.StoryLine.InternationalBt.SetValue(strEnglishBT);
+            verseNew.StoryLine.NationalBt.SetValue(strNationalBt);
+            verseNew.StoryLine.InternationalBt.SetValue(strEnglishBt);
             verseNew.StoryLine.FreeTranslation.SetValue(strFreeTranslation);
 
             theSE.DoPasteVerse(VerseNumber, verseNew);

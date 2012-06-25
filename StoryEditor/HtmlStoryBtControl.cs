@@ -47,79 +47,32 @@ namespace OneStoryProjectEditor
         public void InsertNewVerseBefore(int nVerseIndex)
         {
             // the only function of the button here is to add a slot to type a con note
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE))
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe))
                 return;
 
-            theSE.AddNewVerse(nVerseIndex - 1, 1, false);
+            theSe.AddNewVerse(nVerseIndex - 1, 1, false);
         }
 
         public void AddNewVerseAfter(int nVerseIndex)
         {
             // the only function of the button here is to add a slot to type a con note
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE))
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe))
                 return;
 
-            theSE.AddNewVerse(nVerseIndex - 1, 1, true);
+            theSe.AddNewVerse(nVerseIndex - 1, 1, true);
         }
 
         public void HideVerse(int nVerseIndex)
         {
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE))
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe))
                 return;
 
-            VerseData verseData = Verse(nVerseIndex);
-            theSE.VisiblizeVerse(verseData,
-                (verseData.IsVisible) ? false : true   // toggle
-                );
-        }
-
-        public static DialogResult QueryAboutHidingVerseInstead()
-        {
-            return LocalizableMessageBox.Show(
-                String.Format(Localizer.Str("This line isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around to know what it used to be.{0}{0}Click 'Yes' to hide the line or click 'No' to delete it?"),
-                              Environment.NewLine),
-                StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
-        }
-
-        public static bool UserConfirmDeletion
-        {
-            get
-            {
-                return (LocalizableMessageBox.Show(
-                    Localizer.Str("Are you sure you want to delete this line (and all associated consultant notes, etc)?"),
-                    StoryEditor.OseCaption,
-                    MessageBoxButtons.YesNoCancel) == DialogResult.Yes);
-            }
-        }
-
-        public void DeleteVerse(int nVerseIndex)
-        {
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE))
-                return;
-
-            VerseData verseData = Verse(nVerseIndex);
-            if (verseData.HasData)
-            {
-                DialogResult res = QueryAboutHidingVerseInstead();
-
-                if (res == DialogResult.Yes)
-                {
-                    theSE.VisiblizeVerse(verseData, false);
-                    return;
-                }
-
-                if (res == DialogResult.Cancel)
-                    return;
-            }
-
-            if (UserConfirmDeletion)
-            {
-                theSE.DeleteVerse(verseData);
-            }
+            var verseData = GetVerseData(nVerseIndex);
+            // toggle
+            theSe.VisiblizeVerse(verseData, !(verseData.IsVisible));
         }
 
         protected static VerseData _myClipboard = null;
@@ -131,7 +84,7 @@ namespace OneStoryProjectEditor
                 // Clipboard.SetDataObject(_verseData);
                 // make a copy so that if the user makes changes after the copy, we won't be
                 //  referring to the same object.
-                VerseData verseData = Verse(nVerseIndex);
+                VerseData verseData = GetVerseData(nVerseIndex);
                 _myClipboard = new VerseData(verseData);
             }
             catch   // ignore errors
@@ -213,22 +166,20 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                if (String.IsNullOrEmpty(LastTextareaInFocusId))
-                    return null;
-
-                int nVerseIndex, nItemIndex, nSubItemIndex;
-                string strDataType, strLanguageColumn;
-                if (!GetIndicesFromId(LastTextareaInFocusId, out nVerseIndex, out strDataType,
-                                      out nItemIndex, out nSubItemIndex, out strLanguageColumn))
-                    return null;
-
-
-                return GetStringTransfer(nVerseIndex, strDataType,
-                                         nItemIndex, nSubItemIndex, strLanguageColumn);
+                return String.IsNullOrEmpty(LastTextareaInFocusId) ? null : GetStringTransfer(LastTextareaInFocusId);
             }
         }
 
-        public static string LastTextareaInFocusId { get; set; }
+        private static string _lastTextareaInFocusId;
+        public static string LastTextareaInFocusId
+        {
+            get { return _lastTextareaInFocusId; }
+            set
+            {
+                System.Diagnostics.Debug.WriteLine("setting LastTextareaInFocusId to " + value);
+                _lastTextareaInFocusId = value;
+            }
+        }
 
         public void TriggerChangeUpdate()
         {
@@ -242,6 +193,12 @@ namespace OneStoryProjectEditor
                 return;
 
             elem.InvokeMember("onchange");
+        }
+
+        public bool TextareaMouseUp(string strId)
+        {
+            LastTextareaInFocusId = strId;
+            return true;
         }
 
         public bool TextareaOnKeyUp(string strId, string strText)
@@ -273,14 +230,11 @@ namespace OneStoryProjectEditor
 
         private StringTransfer GetStringTransfer(string strId)
         {
-            int nVerseIndex, nItemIndex, nSubItemIndex;
-            string strDataType, strLanguageColumn;
-            if (!GetIndicesFromId(strId, out nVerseIndex, out strDataType,
-                                  out nItemIndex, out nSubItemIndex, out strLanguageColumn))
+            TextAreaIdentifier textAreaIdentifier;
+            if (!TryGetTextAreaId(strId, out textAreaIdentifier))
                 return null;
 
-            StringTransfer stringTransfer = GetStringTransfer(nVerseIndex, strDataType,
-                                                              nItemIndex, nSubItemIndex, strLanguageColumn);
+            StringTransfer stringTransfer = GetStringTransfer(textAreaIdentifier);
             return stringTransfer;
         }
 
@@ -322,8 +276,16 @@ namespace OneStoryProjectEditor
             return (elem != null);
         }
 
-        public bool OnLineOptionsButton(string strId)
+        public bool OnLineOptionsButton(string strId, bool bIsRightButton)
         {
+            if (bIsRightButton)
+            {
+                TriggerChangeUpdate();
+                contextMenuStripLineOptions.Show(MousePosition); 
+                return false;
+            }
+
+            /*
             HtmlElement elem;
             if (!GetHtmlElementById(strId, out elem))
                 return false;
@@ -355,19 +317,11 @@ namespace OneStoryProjectEditor
             return null;
         }
 
-        private VerseData GetVerseData(int nLineIndex)
+        private StringTransfer GetStringTransfer(TextAreaIdentifier textAreaIdentifier)
         {
-            return (nLineIndex == 0)
-                       ? StoryData.Verses.FirstVerse
-                       : StoryData.Verses[nLineIndex - 1];
-        }
-
-        private StringTransfer GetStringTransfer(int nLineIndex, 
-            string strDataType, int nItemIndex, int nSubItemIndex, 
-            string strLanguageColumn)
-        {
-            var verseData = GetVerseData(nLineIndex);
-            var fieldType = (StoryEditor.TextFields) Enum.Parse(typeof (StoryEditor.TextFields), strDataType);
+            var verseData = GetVerseData(textAreaIdentifier.LineIndex);
+            var fieldType =
+                (StoryEditor.TextFields) Enum.Parse(typeof (StoryEditor.TextFields), textAreaIdentifier.FieldType);
             LineData lineData;
             switch (fieldType)
             {
@@ -376,18 +330,19 @@ namespace OneStoryProjectEditor
                     break;
 
                 case StoryEditor.TextFields.ExegeticalNote:
-                    return verseData.ExegeticalHelpNotes[nItemIndex];
+                    return verseData.ExegeticalHelpNotes[textAreaIdentifier.ItemIndex];
 
                 case StoryEditor.TextFields.Retelling:
-                    lineData = verseData.Retellings[nItemIndex];
+                    lineData = verseData.Retellings[textAreaIdentifier.SubItemIndex];
                     break;
 
                 case StoryEditor.TextFields.TestQuestion:
-                    lineData = verseData.TestQuestions[nItemIndex].TestQuestionLine;
+                    lineData = verseData.TestQuestions[textAreaIdentifier.ItemIndex].TestQuestionLine;
                     break;
 
                 case StoryEditor.TextFields.TestQuestionAnswer:
-                    lineData = verseData.TestQuestions[nItemIndex].Answers[nSubItemIndex];
+                    lineData =
+                        verseData.TestQuestions[textAreaIdentifier.ItemIndex].Answers[textAreaIdentifier.SubItemIndex];
                     break;
 
                 default:
@@ -395,7 +350,8 @@ namespace OneStoryProjectEditor
             }
 
             System.Diagnostics.Debug.Assert(lineData != null);
-            var languageColumn = (StoryEditor.TextFields)Enum.Parse(typeof (StoryEditor.TextFields), strLanguageColumn);
+            var languageColumn =
+                (StoryEditor.TextFields) Enum.Parse(typeof (StoryEditor.TextFields), textAreaIdentifier.LanguageColumn);
             switch (languageColumn)
             {
                 case StoryEditor.TextFields.Vernacular:
@@ -411,9 +367,7 @@ namespace OneStoryProjectEditor
             return null;
         }
 
-        protected static bool GetIndicesFromId(string strId,
-            out int nLineIndex, out string strDataType, out int nItemIndex,
-            out int nSubItemIndex, out string strLanguageColumn)
+        protected static bool TryGetTextAreaId(string strId, out TextAreaIdentifier textAreaIdentifier)
         {
             try
             {
@@ -425,23 +379,25 @@ namespace OneStoryProjectEditor
                 //  itemNum (e.g. "TQ *1*")
                 //  subItemNum (e.g. "TQ 1.Ans *3*)
                 //  langName (e.g. Vernacular, etc)
-                string[] aVerseConversationIndices = strId.Split(AchDelim);
+                var aVerseConversationIndices = strId.Split(AchDelim);
                 System.Diagnostics.Debug.Assert(((aVerseConversationIndices[0] == CstrTextAreaPrefix) &&
                                                  (aVerseConversationIndices.Length == 6))
                                                 ||
                                                 ((aVerseConversationIndices[0] == CstrButtonPrefix) &&
                                                  (aVerseConversationIndices.Length == 3)));
 
-                nLineIndex = Convert.ToInt32(aVerseConversationIndices[1]);
-                strDataType = aVerseConversationIndices[2];
-                nItemIndex = Convert.ToInt32(aVerseConversationIndices[3]);
-                nSubItemIndex = Convert.ToInt32(aVerseConversationIndices[4]);
-                strLanguageColumn = aVerseConversationIndices[5];
+                textAreaIdentifier = new TextAreaIdentifier
+                                         {
+                                             LineIndex = Convert.ToInt32(aVerseConversationIndices[1]),
+                                             FieldType = aVerseConversationIndices[2],
+                                             ItemIndex = Convert.ToInt32(aVerseConversationIndices[3]),
+                                             SubItemIndex = Convert.ToInt32(aVerseConversationIndices[4]),
+                                             LanguageColumn = aVerseConversationIndices[5]
+                                         };
             }
             catch
             {
-                nLineIndex = nItemIndex = nSubItemIndex = 0;
-                strDataType = strLanguageColumn = null;
+                textAreaIdentifier = null;
                 return false;
             }
             return true;
@@ -517,18 +473,142 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private void moveSelectedTextToANewLineToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MoveSelectedTextToANewLineToolStripMenuItemClick(object sender, EventArgs e)
         {
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe) || String.IsNullOrEmpty(LastTextareaInFocusId))
+                return;
+
+            TextAreaIdentifier textAreaIdentifier;
+            if (!TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
+                return;
+
+            var nLineIndex = textAreaIdentifier.LineIndex;
+            var verseData = GetVerseData(nLineIndex);
+            verseData.AllowConNoteButtonsOverride();
+
+            // make a copy and clear out the stuff that we'll have them manually move later
+            var verseNew = new VerseData(verseData);
+            verseNew.TestQuestions.Clear();
+            verseNew.ConsultantNotes.Clear();
+            verseNew.CoachNotes.Clear();
+
+            var spans = GetSelectedTexts(nLineIndex);
+
+            MoveSelectedText(spans, GetStoryLineId(nLineIndex, StoryEditor.TextFields.Vernacular.ToString()),
+                             TheSE.StoryProject.ProjSettings.Vernacular.HasData,
+                             verseData.StoryLine.Vernacular, verseNew.StoryLine.Vernacular);
+            MoveSelectedText(spans, GetStoryLineId(nLineIndex, StoryEditor.TextFields.NationalBt.ToString()),
+                             TheSE.StoryProject.ProjSettings.NationalBT.HasData,
+                             verseData.StoryLine.NationalBt, verseNew.StoryLine.NationalBt);
+            MoveSelectedText(spans, GetStoryLineId(nLineIndex, StoryEditor.TextFields.InternationalBt.ToString()),
+                             TheSE.StoryProject.ProjSettings.InternationalBT.HasData,
+                             verseData.StoryLine.InternationalBt, verseNew.StoryLine.InternationalBt);
+            MoveSelectedText(spans, GetStoryLineId(nLineIndex, StoryEditor.TextFields.FreeTranslation.ToString()),
+                             TheSE.StoryProject.ProjSettings.FreeTranslation.HasData,
+                             verseData.StoryLine.FreeTranslation, verseNew.StoryLine.FreeTranslation);
+
+            for (var i = 0; i < verseData.Retellings.Count; i++)
+            {
+                var lineDataFrom = verseData.Retellings[i];
+                var lineDataTo = verseNew.Retellings[i];
+                MoveSelectedText(spans, GetRetellingId(nLineIndex, i, StoryEditor.TextFields.Vernacular.ToString()),
+                                 TheSE.StoryProject.ProjSettings.ShowRetellings.Vernacular,
+                                 lineDataFrom.Vernacular, lineDataTo.Vernacular);
+                MoveSelectedText(spans, GetRetellingId(nLineIndex, i, StoryEditor.TextFields.NationalBt.ToString()),
+                                 TheSE.StoryProject.ProjSettings.ShowRetellings.NationalBt,
+                                 lineDataFrom.NationalBt, lineDataTo.NationalBt);
+                MoveSelectedText(spans, GetRetellingId(nLineIndex, i, StoryEditor.TextFields.InternationalBt.ToString()),
+                                 TheSE.StoryProject.ProjSettings.ShowRetellings.InternationalBt,
+                                 lineDataFrom.InternationalBt, lineDataTo.InternationalBt);
+            }
+
+            theSe.DoPasteVerse(nLineIndex, verseNew);
+
+            var dlg = new CutItemPicker(verseData, verseNew, nLineIndex + 1, theSe);
+            if (dlg.IsSomethingToMove)
+                dlg.ShowDialog();
+
+            theSe.InitAllPanes();
         }
 
-        private void moveItemsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MoveSelectedText(IEnumerable<HtmlElement> spans, string strId, bool bFieldShowing,
+            StringTransfer stFrom, StringTransfer stTo)
         {
+            if (!bFieldShowing)
+                return;
 
+            var strSelectedText = GetSpanInnerText(spans, strId);
+            string strOriginalText;
+            if (!stFrom.TryGetSourceString(strSelectedText, out strOriginalText))
+                return;
+
+            stTo.SetValue(strOriginalText);
+            stFrom.RemoveSubstring(strOriginalText);
         }
 
-        private void deleteItemsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MoveItemsToolStripMenuItemClick(object sender, EventArgs e)
         {
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSt;
+            if (!CheckForProperEditToken(out theSt) || (LastTextareaInFocusId == null))
+                return;
 
+            TextAreaIdentifier textAreaIdentifier;
+            if (!TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
+                return;
+
+            var verseData = GetVerseData(textAreaIdentifier.LineIndex);
+            var dlg = new CutItemPicker(verseData, theSt.TheCurrentStory.Verses, theSt, false);
+            if (dlg.ShowDialog() != DialogResult.OK)
+                return;
+
+            theSt.Modified = true;
+            theSt.InitAllPanes();
+        }
+
+        private void DeleteItemsToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe))
+                return;
+
+            TextAreaIdentifier textAreaIdentifier;
+            if (!TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
+                return;
+
+            var verseData = GetVerseData(textAreaIdentifier.LineIndex);
+            var dlg = new CutItemPicker(verseData, theSe.TheCurrentStory.Verses, theSe, true)
+            {
+                Text = Localizer.Str("Choose the item(s) to delete and then click the Delete button")
+            };
+
+            if (dlg.ShowDialog() != DialogResult.OK)
+                return;
+
+            theSe.Modified = true;
+            theSe.InitAllPanes();
+        }
+
+        public static DialogResult QueryAboutHidingVerseInstead()
+        {
+            return LocalizableMessageBox.Show(
+                String.Format(Localizer.Str("This line isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around to know what it used to be.{0}{0}Click 'Yes' to hide the line or click 'No' to delete it?"),
+                              Environment.NewLine),
+                StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
+        }
+
+        public static bool UserConfirmDeletion
+        {
+            get
+            {
+                return (LocalizableMessageBox.Show(
+                    Localizer.Str("Are you sure you want to delete this line (and all associated consultant notes, etc)?"),
+                    StoryEditor.OseCaption,
+                    MessageBoxButtons.YesNoCancel) == DialogResult.Yes);
+            }
         }
 
         private void menuAddTestQuestion_Click(object sender, EventArgs e)
@@ -561,9 +641,35 @@ namespace OneStoryProjectEditor
 
         }
 
-        private void deleteTheWholeVerseToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DeleteTheWholeVerseToolStripMenuItemClick(object sender, EventArgs e)
         {
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe))
+                return;
 
+            TextAreaIdentifier textAreaIdentifier;
+            if (!TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
+                return;
+
+            var verseData = GetVerseData(textAreaIdentifier.LineIndex);
+            if (verseData.HasData)
+            {
+                var res = QueryAboutHidingVerseInstead();
+
+                if (res == DialogResult.Yes)
+                {
+                    theSe.VisiblizeVerse(verseData, false);
+                    return;
+                }
+
+                if (res == DialogResult.Cancel)
+                    return;
+            }
+
+            if (UserConfirmDeletion)
+            {
+                theSe.DeleteVerse(verseData);
+            }
         }
 
         private void pasteVerseFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
@@ -588,18 +694,9 @@ namespace OneStoryProjectEditor
 
         protected readonly char[] _achDelim = new[] { '_' };
 
-        public bool IsLineOptionsButton(string strId)
-        {
-            var astr = strId.Split(_achDelim);
-            return ((astr.Length == 2) &&
-                    (astr[0] == VersesData.ButtonId(1).Split(_achDelim)[0]));
-        }
-
         public void ShowContextMenu(string strId)
         {
-            if (IsLineOptionsButton(strId))
-                contextMenuStripLineOptions.Show(MousePosition);
-            else if (IsButtonElement(strId))
+            if (IsButtonElement(strId))
                 ;
             else if (IsTextareaElement(strId))
             {
@@ -799,39 +896,60 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private static string GetMyVernacularSibling(string strId)
+        private string GetMyVernacularSibling(string strId)
         {
-            return GetMySibling(strId, StoryEditor.TextFields.Vernacular.ToString());
+            return GetMySibling(strId, StoryEditor.TextFields.Vernacular.ToString(),
+                                TheSE.StoryProject.ProjSettings.Vernacular);
         }
 
-        private static string GetMyNationalBtSibling(string strId)
+        private string GetMyNationalBtSibling(string strId)
         {
-            return GetMySibling(strId, StoryEditor.TextFields.NationalBt.ToString());
+            return GetMySibling(strId, StoryEditor.TextFields.NationalBt.ToString(),
+                                TheSE.StoryProject.ProjSettings.NationalBT);
         }
 
-        private static string GetMyInternationalBtSibling(string strId)
+        private string GetMyInternationalBtSibling(string strId)
         {
-            return GetMySibling(strId, StoryEditor.TextFields.InternationalBt.ToString());
+            return GetMySibling(strId, StoryEditor.TextFields.InternationalBt.ToString(),
+                                TheSE.StoryProject.ProjSettings.InternationalBT);
         }
 
-        private static string GetMyFreeTranslationSibling(string strId)
+        private string GetMyFreeTranslationSibling(string strId)
         {
-            return GetMySibling(strId, StoryEditor.TextFields.FreeTranslation.ToString());
+            return GetMySibling(strId, StoryEditor.TextFields.FreeTranslation.ToString(),
+                                TheSE.StoryProject.ProjSettings.FreeTranslation);
         }
 
-        private static string GetMySibling(string strId, string strSiblingName)
+        private static string GetMySibling(string strId, string strSiblingName, ProjectSettings.LanguageInfo languageInfo)
         {
-            if (String.IsNullOrEmpty(strId))
+            if (String.IsNullOrEmpty(strId) || !languageInfo.HasData)
                 return null;
 
-            int nVerseIndex, nItemIndex, nSubItemIndex;
-            string strDataType, strLanguageColumn;
-            if (!GetIndicesFromId(strId, out nVerseIndex, out strDataType,
-                                    out nItemIndex, out nSubItemIndex, out strLanguageColumn))
+            TextAreaIdentifier textAreaIdentifier;
+            if (!TryGetTextAreaId(strId, out textAreaIdentifier))
                 return null;
 
-            return StringTransfer.TextareaId(nVerseIndex, strDataType, nItemIndex, nSubItemIndex,
-                                             strSiblingName);
+            // retask for the sibling language column
+            textAreaIdentifier.LanguageColumn = strSiblingName;
+            return textAreaIdentifier.HtmlIdentifier;
+        }
+
+        private static string GetStoryLineId(int nVerseIndex, string strFieldTypeName)
+        {
+            return StringTransfer.TextareaId(nVerseIndex,
+                                             StoryEditor.TextFields.StoryLine.ToString(),
+                                             0,
+                                             0,
+                                             strFieldTypeName);
+        }
+
+        private static string GetRetellingId(int nVerseIndex, int nSubItemIndex, string strFieldTypeName)
+        {
+            return StringTransfer.TextareaId(nVerseIndex,
+                                             StoryEditor.TextFields.Retelling.ToString(),
+                                             0,
+                                             nSubItemIndex,
+                                             strFieldTypeName);
         }
 
         private void OnAddNoteToSelf(object sender, EventArgs e)
@@ -848,37 +966,37 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(LastTextareaInFocusId));
 
-            int nVerseIndex, nItemIndex, nSubItemIndex;
-            string strDataType, strLanguageColumn;
-            if (!GetIndicesFromId(LastTextareaInFocusId, out nVerseIndex, out strDataType,
-                                  out nItemIndex, out nSubItemIndex, out strLanguageColumn))
+            TextAreaIdentifier textAreaIdentifier;
+            if (!TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
                 return;
 
-            int nLastSubItemIndex = -1;
+            var nLastSubItemIndex = -1;
             string strLastFieldType = null,
                    strReferringText = null,
                    strNote = String.Format("{0}: ", StoryEditor.GetInitials(TheSE.LoggedOnMember.Name));
-            foreach (var span in GetSelectedTexts(nVerseIndex))
+
+            foreach (var span in GetSelectedTexts(textAreaIdentifier.LineIndex))
             {
                 var textarea = span.Parent;
                 System.Diagnostics.Debug.Assert(textarea != null && textarea.TagName == "TEXTAREA");
-                if (!GetIndicesFromId(textarea.Id, out nVerseIndex, out strDataType,
-                                      out nItemIndex, out nSubItemIndex, out strLanguageColumn))
-                    continue;
+
+                TextAreaIdentifier textAreaIdentifierParent;
+                if (!TryGetTextAreaId(textarea.Id, out textAreaIdentifierParent))
+                    return;
 
                 // if this is a new type, then add it to the stream
-                if (strLastFieldType != strDataType)
+                if (strLastFieldType != textAreaIdentifierParent.FieldType)
                 {
                     if (!String.IsNullOrEmpty(strLastFieldType))
                         strReferringText += " vs: ";
-                    strReferringText += strDataType + ":";
-                    strLastFieldType = strDataType;
+                    strReferringText += textAreaIdentifierParent.FieldType + ":";
+                    strLastFieldType = textAreaIdentifierParent.FieldType;
                 }
-                else if (nSubItemIndex != nLastSubItemIndex)
+                else if (textAreaIdentifierParent.SubItemIndex != nLastSubItemIndex)
                 {
                     if (nLastSubItemIndex != -1)
                         strReferringText += " &";
-                    nLastSubItemIndex = nSubItemIndex;
+                    nLastSubItemIndex = textAreaIdentifierParent.SubItemIndex;
                 }
                 strReferringText += " " + span.OuterHtml;
             }
@@ -887,7 +1005,7 @@ namespace OneStoryProjectEditor
             if (strReferringText != null)
                 strReferringText = strReferringText.Replace(" highlight", null);
 
-            TheSE.SendNoteToCorrectPane(nVerseIndex, strReferringText, strNote, bNoteToSelf);
+            TheSE.SendNoteToCorrectPane(textAreaIdentifier.LineIndex, strReferringText, strNote, bNoteToSelf);
         }
 
         internal void GetSelectedLanguageText(out string strVernacular, out string strNationalBt,
@@ -895,16 +1013,14 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(LastTextareaInFocusId));
 
-            int nVerseIndex, nItemIndex, nSubItemIndex;
-            string strDataType, strLanguageColumn;
-            if (!GetIndicesFromId(LastTextareaInFocusId, out nVerseIndex, out strDataType,
-                                  out nItemIndex, out nSubItemIndex, out strLanguageColumn))
+            TextAreaIdentifier textAreaIdentifier;
+            if (!TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
             {
                 strVernacular = strNationalBt = strInternationalBt = strFreeTranslation = null;
                 return;
             }
 
-            var spans = GetSelectedTexts(nVerseIndex);
+            var spans = GetSelectedTexts(textAreaIdentifier.LineIndex);
             strVernacular = GetSpanInnerText(spans, GetMyVernacularSibling);
             strNationalBt = GetSpanInnerText(spans, GetMyNationalBtSibling);
             strInternationalBt = GetSpanInnerText(spans, GetMyInternationalBtSibling);
@@ -913,8 +1029,13 @@ namespace OneStoryProjectEditor
 
         private static string GetSpanInnerText(IEnumerable<HtmlElement> spans, GetSiblingId getterSiblingId)
         {
-            return (from span in spans 
-                    where span.Parent.Id == getterSiblingId(LastTextareaInFocusId) 
+            return GetSpanInnerText(spans, getterSiblingId(LastTextareaInFocusId));
+        }
+
+        private static string GetSpanInnerText(IEnumerable<HtmlElement> spans, string strId)
+        {
+            return (from span in spans
+                    where span.Parent.Id == strId
                     select span.InnerText).FirstOrDefault();
         }
     }

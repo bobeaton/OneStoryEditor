@@ -456,9 +456,10 @@ namespace OneStoryProjectEditor
                 theSE.StoryProject.TeamMembers, strReferringText, strNote, bNoteToSelf);
             System.Diagnostics.Debug.Assert(cndc.Count == 1);
 
+            var nConversationIndex = aCNsDC.IndexOf(cndc);
             cndc.DontShowButtonsOverride = true;
             strNote = StoryData.ConNoteHtml(this, theSE.StoryProject.ProjSettings, nVerseIndex,
-                                            theSE.LoggedOnMember,
+                                            nConversationIndex, theSE.LoggedOnMember,
                                             theSE.StoryProject.TeamMembers, cndc);
             var dlg = new AddConNoteForm(GetType(), theSE, StoryData, strNote);
             if (dlg.ShowDialog() != DialogResult.OK)
@@ -609,7 +610,7 @@ namespace OneStoryProjectEditor
 
         public override ConsultNotesDataConverter DataConverter(int nVerseIndex)
         {
-            VerseData verse = Verse(nVerseIndex);
+            VerseData verse = GetVerseData(nVerseIndex);
             ConsultNotesDataConverter aCNsDC = verse.ConsultantNotes;
             return aCNsDC;
         }
@@ -653,7 +654,7 @@ namespace OneStoryProjectEditor
 
         public override ConsultNotesDataConverter DataConverter(int nVerseIndex)
         {
-            VerseData verse = Verse(nVerseIndex);
+            VerseData verse = GetVerseData(nVerseIndex);
             ConsultNotesDataConverter aCNsDC = verse.CoachNotes;
             return aCNsDC;
         }
