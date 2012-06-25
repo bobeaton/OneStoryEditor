@@ -47,7 +47,7 @@ namespace OneStoryProjectEditor
             return aCNsDC[nConversationIndex];
         }
 
-        public bool OnAddNote(int nVerseIndex, string strReferringText, string strNote, bool bNoteToSelf)
+        public bool OnAddNoteWithReferringText(int nVerseIndex, string strReferringText, string strNote, bool bNoteToSelf)
         {
             return CallDoAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
         }
@@ -64,13 +64,18 @@ namespace OneStoryProjectEditor
             return CallDoAddNote(nVerseIndex, null, strNote, bNoteToSelf);
         }
 
-        public bool OnAddNoteToSelf(string strButtonId, string strReferringText, string strNote)
+        public bool OnAddNoteToSelfWithReferringText(string strButtonId, string strReferringText, string strNote)
         {
             string[] astrId = strButtonId.Split('_');
             System.Diagnostics.Debug.Assert(astrId.Length == 2);
             int nVerseIndex = Convert.ToInt32(astrId[1]);
 
             return CallDoAddNote(nVerseIndex, strReferringText, strNote, true);
+        }
+
+        public bool OnAddNoteToSelf(string strButtonId, string strNote)
+        {
+            return OnAddNoteToSelfWithReferringText(strButtonId, null, strNote);
         }
 
         private bool CallDoAddNote(int nVerseIndex, string strReferringText, string strNote, bool bNoteToSelf)
