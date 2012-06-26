@@ -4514,7 +4514,7 @@ namespace OneStoryProjectEditor
                     viewHiddenVersesMenu.Checked,
                     viewOnlyOpenConversationsMenu.Checked,
                     viewGeneralTestingsQuestionMenu.Checked,
-                    CheckForProperEditToken(),
+                    true,   // use textareas
                     CurrentFieldEditability(TheCurrentStory),
                     (UsingHtmlForStoryBtPane)
                         ? HtmlStoryBtControl.TransliteratorVernacular
@@ -6497,7 +6497,7 @@ namespace OneStoryProjectEditor
                 viewHiddenVersesMenu.Checked,
                 viewOnlyOpenConversationsMenu.Checked,
                 viewGeneralTestingsQuestionMenu.Checked,
-                CheckForProperEditToken(),
+                true,   // use textareas
                 CurrentFieldEditability(TheCurrentStory),
                 null,
                 null,

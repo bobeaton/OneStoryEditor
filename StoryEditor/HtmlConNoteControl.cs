@@ -52,25 +52,13 @@ namespace OneStoryProjectEditor
             return CallDoAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
         }
 
-        /// <summary>
-        /// soon to be obsolete once we switch the StoryBt pane over to HTML
-        /// </summary>
-        /// <param name="nVerseIndex"></param>
-        /// <param name="strNote"></param>
-        /// <param name="bNoteToSelf"></param>
-        /// <returns></returns>
-        public bool OnAddNote(int nVerseIndex, string strNote, bool bNoteToSelf)
+        // this form is called from VersesData.GetHeaderRow (html)
+        public bool OnAddNoteToSelf(string strButtonId)
         {
-            return CallDoAddNote(nVerseIndex, null, strNote, bNoteToSelf);
-        }
-
-        public bool OnAddNoteToSelf(string strButtonId, string strReferringText, string strNote)
-        {
-            string[] astrId = strButtonId.Split('_');
+            var astrId = strButtonId.Split('_');
             System.Diagnostics.Debug.Assert(astrId.Length == 2);
-            int nVerseIndex = Convert.ToInt32(astrId[1]);
-
-            return CallDoAddNote(nVerseIndex, strReferringText, strNote, true);
+            var nVerseIndex = Convert.ToInt32(astrId[1]);
+            return CallDoAddNote(nVerseIndex, null, null, true);
         }
 
         private bool CallDoAddNote(int nVerseIndex, string strReferringText, string strNote, bool bNoteToSelf)
@@ -456,18 +444,23 @@ namespace OneStoryProjectEditor
                 theSE.StoryProject.TeamMembers, strReferringText, strNote, bNoteToSelf);
             System.Diagnostics.Debug.Assert(cndc.Count == 1);
 
-            var nConversationIndex = aCNsDC.IndexOf(cndc);
-            cndc.DontShowButtonsOverride = true;
-            strNote = StoryData.ConNoteHtml(this, theSE.StoryProject.ProjSettings, nVerseIndex,
-                                            nConversationIndex, theSE.LoggedOnMember,
-                                            theSE.StoryProject.TeamMembers, cndc);
-            var dlg = new AddConNoteForm(GetType(), theSE, StoryData, strNote);
-            if (dlg.ShowDialog() != DialogResult.OK)
+            // if there's referring text, then do it in a separate dialog so we can 'preview' the referring text
+            if (!String.IsNullOrEmpty(strReferringText))
             {
-                aCNsDC.Remove(cndc);
-                return null;
+                var nConversationIndex = aCNsDC.IndexOf(cndc);
+                cndc.DontShowButtonsOverride = true;
+                strNote = StoryData.ConNoteHtml(this, theSE.StoryProject.ProjSettings, nVerseIndex,
+                                                nConversationIndex, theSE.LoggedOnMember,
+                                                theSE.StoryProject.TeamMembers, cndc);
+                var dlg = new AddConNoteForm(GetType(), theSE, StoryData, strNote);
+                if (dlg.ShowDialog() != DialogResult.OK)
+                {
+                    aCNsDC.Remove(cndc);
+                    return null;
+                }
+                cndc.DontShowButtonsOverride = false;
             }
-            cndc.DontShowButtonsOverride = false;
+
             LoadDocument();
             theSE.Modified = true;
 
