@@ -1,4 +1,6 @@
-﻿namespace OneStoryProjectEditor
+﻿using System;
+
+namespace OneStoryProjectEditor
 {
     partial class HtmlStoryBtControl
     {
@@ -59,7 +61,12 @@
             this.copyVerseToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.splitStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuAnchors = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuItemDeleteAnchor = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemAddComment = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemAddConNote = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripLineOptions.SuspendLayout();
+            this.contextMenuAnchors.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStripLineOptions
@@ -315,10 +322,39 @@
     "story";
             this.splitStoryToolStripMenuItem.Click += new System.EventHandler(this.splitStoryToolStripMenuItem_Click);
             // 
+            // contextMenuAnchors
+            // 
+            this.contextMenuAnchors.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuItemDeleteAnchor,
+            this.menuItemAddComment,
+            this.menuItemAddConNote});
+            this.contextMenuAnchors.Name = "contextMenuAnchors";
+            this.contextMenuAnchors.Size = new System.Drawing.Size(302, 70);
+            // 
+            // menuItemDeleteAnchor
+            // 
+            this.menuItemDeleteAnchor.Name = "menuItemDeleteAnchor";
+            this.menuItemDeleteAnchor.Size = new System.Drawing.Size(301, 22);
+            this.menuItemDeleteAnchor.Text = "Delete Anchor";
+            this.menuItemDeleteAnchor.Click += MenuItemDeleteAnchorOnClick;
+            // 
+            // menuItemAddComment
+            // 
+            this.menuItemAddComment.Name = "menuItemAddComment";
+            this.menuItemAddComment.Size = new System.Drawing.Size(301, 22);
+            this.menuItemAddComment.Text = "Add Anchor Comment (becomes a tooltip)";
+            // 
+            // menuItemAddConNote
+            // 
+            this.menuItemAddConNote.Name = "menuItemAddConNote";
+            this.menuItemAddConNote.Size = new System.Drawing.Size(301, 22);
+            this.menuItemAddConNote.Text = "Add Con Note regarding this anchor";
+            // 
             // HtmlStoryBtControl
             // 
             this.AllowWebBrowserDrop = false;
             this.contextMenuStripLineOptions.ResumeLayout(false);
+            this.contextMenuAnchors.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -355,6 +391,10 @@
         private System.Windows.Forms.ToolStripMenuItem copyVerseToClipboardToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem splitStoryToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuAnchors;
+        private System.Windows.Forms.ToolStripMenuItem menuItemDeleteAnchor;
+        private System.Windows.Forms.ToolStripMenuItem menuItemAddComment;
+        private System.Windows.Forms.ToolStripMenuItem menuItemAddConNote;
 
     }
 }
