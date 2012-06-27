@@ -2044,10 +2044,9 @@ function CallTextareaOnSelect(textarea)
     <value>&lt;td width="{0}%" colspan="{1}"&gt;{2}&lt;/td&gt;</value>
   </data>
   <data name="HTML_TableNoBorder" xml:space="preserve">
-    <value>        &lt;table style="width:100%;"&gt;
-        {0}
-        &lt;/table&gt;
-</value>
+    <value>&lt;table style="width:100%;"&gt;
+{0}
+&lt;/table&gt;</value>
   </data>
   <data name="HTML_TableRow" xml:space="preserve">
     <value>  &lt;tr&gt;
@@ -2275,5 +2274,10 @@ eater Panorama
   </data>
   <data name="graphhs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\graphhs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HTML_TableForLine" xml:space="preserve">
+    <value>&lt;table id="{0}" style="width:100%;"&gt;
+{1}
+&lt;/table&gt;</value>
   </data>
 </root>

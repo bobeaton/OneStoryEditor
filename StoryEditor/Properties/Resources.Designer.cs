@@ -636,10 +636,20 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to         &lt;table style=&quot;width:100%;&quot;&gt;
-        ///        {0}
-        ///        &lt;/table&gt;
-        ///.
+        ///   Looks up a localized string similar to &lt;table id=&quot;{0}&quot; style=&quot;width:100%;&quot;&gt;
+        ///{1}
+        ///&lt;/table&gt;.
+        /// </summary>
+        internal static string HTML_TableForLine {
+            get {
+                return ResourceManager.GetString("HTML_TableForLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;table style=&quot;width:100%;&quot;&gt;
+        ///{0}
+        ///&lt;/table&gt;.
         /// </summary>
         internal static string HTML_TableNoBorder {
             get {

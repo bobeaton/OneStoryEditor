@@ -732,7 +732,7 @@ namespace OneStoryProjectEditor
         }
 
         // Html that shows the data in the StoryBt file, but in a fully read-only manner
-        public string PresentationHtml(int nVerseIndex, int nNumCols, 
+        public string PresentationHtml(int nLineId, int nNumCols, 
             CraftingInfoData craftingInfo,
             ViewSettings viewSettings, 
             VerseData theChildVerse,
@@ -743,7 +743,7 @@ namespace OneStoryProjectEditor
             {
                 strRow += GetHtmlCell(StoryLine.Vernacular,
                                       () => theChildVerse.StoryLine.Vernacular,
-                                      nVerseIndex,
+                                      nLineId,
                                       nNumCols,
                                       theChildVerse,
                                       presentationType,
@@ -755,7 +755,7 @@ namespace OneStoryProjectEditor
             {
                 strRow += GetHtmlCell(StoryLine.NationalBt,
                                       () => theChildVerse.StoryLine.NationalBt,
-                                      nVerseIndex,
+                                      nLineId,
                                       nNumCols,
                                       theChildVerse,
                                       presentationType,
@@ -767,7 +767,7 @@ namespace OneStoryProjectEditor
             {
                 strRow += GetHtmlCell(StoryLine.InternationalBt,
                                       () => theChildVerse.StoryLine.InternationalBt,
-                                      nVerseIndex,
+                                      nLineId,
                                       nNumCols,
                                       theChildVerse,
                                       presentationType,
@@ -779,7 +779,7 @@ namespace OneStoryProjectEditor
             {
                 strRow += GetHtmlCell(StoryLine.FreeTranslation,
                                       () => theChildVerse.StoryLine.FreeTranslation,
-                                      nVerseIndex,
+                                      nLineId,
                                       nNumCols,
                                       theChildVerse,
                                       presentationType,
@@ -791,7 +791,7 @@ namespace OneStoryProjectEditor
             var astrExegeticalHelpNotes = new List<string>();
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.AnchorFields))
             {
-                strHtml += Anchors.PresentationHtml(nVerseIndex,
+                strHtml += Anchors.PresentationHtml(nLineId,
                                                     (theChildVerse != null)
                                                         ? theChildVerse.Anchors
                                                         : null,
@@ -817,14 +817,14 @@ namespace OneStoryProjectEditor
             //  below the anchors (in the same table)
             if (!String.IsNullOrEmpty(strHtml) || (astrExegeticalHelpNotes.Count > 0))
                 strHtml = ExegeticalHelpNotes.FinishPresentationHtml(strHtml,
-                                                                     nVerseIndex,
+                                                                     nLineId,
                                                                      nNumCols,
                                                                      astrExegeticalHelpNotes,
                                                                      viewSettings);
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
             {
-                strHtml += Retellings.PresentationHtml(nVerseIndex, nNumCols, 0,
+                strHtml += Retellings.PresentationHtml(nLineId, nNumCols, 0,
                                                        craftingInfo.TestersToCommentsRetellings,
                                                        (theChildVerse != null) ? theChildVerse.Retellings : null,
                                                        presentationType, false,
@@ -841,7 +841,7 @@ namespace OneStoryProjectEditor
                                                             ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers)) ||
                 (IsFirstVerse && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.GeneralTestQuestions)))
             {
-                strHtml += TestQuestions.PresentationHtml(nVerseIndex, nNumCols, viewSettings,
+                strHtml += TestQuestions.PresentationHtml(nLineId, nNumCols, viewSettings,
                                                           craftingInfo.TestersToCommentsTqAnswers,
                                                           (theChildVerse != null) ? theChildVerse.TestQuestions : null,
                                                           presentationType, IsFirstVerse);
@@ -854,7 +854,7 @@ namespace OneStoryProjectEditor
                                      : ((theChildVerse != null) && !theChildVerse.IsVisible)
                                            ? true
                                            : false;
-            return FinishPresentationHtml(strRow, strHtml, bShowAsHidden, viewSettings);
+            return FinishPresentationHtml(strRow, strHtml, bShowAsHidden, viewSettings, nLineId);
         }
 
         private delegate StringTransfer ChildStringTransfer();
@@ -879,7 +879,7 @@ namespace OneStoryProjectEditor
         }
 
         protected string FinishPresentationHtml(string strStoryLineRow, string strHtml,
-            bool bChildIsHidden, ViewSettings viewSettings)
+            bool bChildIsHidden, ViewSettings viewSettings, int nLineId)
         {
             strHtml = String.Format(Properties.Resources.HTML_TableRow,
                                     String.Format(Properties.Resources.HTML_TableCell,
@@ -887,7 +887,9 @@ namespace OneStoryProjectEditor
                                                       Properties.Resources.HTML_Table,
                                                       strStoryLineRow))) + strHtml;
 
-            var strNoBorder = String.Format(Properties.Resources.HTML_TableNoBorder, strHtml);
+            var strNoBorder = String.Format(Properties.Resources.HTML_TableForLine,
+                                            GetLineTableId(nLineId),
+                                            strHtml);
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.UseTextAreas))
                 strStoryLineRow = String.Format(Properties.Resources.HTML_TableCellWithSpan,
                                                 2,
@@ -913,8 +915,13 @@ namespace OneStoryProjectEditor
             return strHtml;
         }
 
+        public static string GetLineTableId(int nLineId)
+        {
+            return "lineTable_" + nLineId;
+        }
+
         // for use when the data is to be marked as an addition (i.e. yellow highlight)
-        public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols,
+        public string PresentationHtmlAsAddition(int nLineId, int nNumCols,
             CraftingInfoData craftingInfo, ViewSettings viewSettings,
             bool bHasOutsideEnglishBTer, bool bUseTextAreas)
         {
@@ -922,7 +929,7 @@ namespace OneStoryProjectEditor
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.VernacularLangField))
             {
                 strRow += GetHtmlCellAsAddition(StoryLine.Vernacular,
-                                                nVerseIndex,
+                                                nLineId,
                                                 nNumCols,
                                                 viewSettings.TransliteratorVernacular,
                                                 viewSettings);
@@ -931,7 +938,7 @@ namespace OneStoryProjectEditor
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.NationalBtLangField))
             {
                 strRow += GetHtmlCellAsAddition(StoryLine.NationalBt,
-                                                nVerseIndex,
+                                                nLineId,
                                                 nNumCols,
                                                 viewSettings.TransliteratorNationalBT,
                                                 viewSettings);
@@ -940,7 +947,7 @@ namespace OneStoryProjectEditor
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.InternationalBtField))
             {
                 strRow += GetHtmlCellAsAddition(StoryLine.InternationalBt,
-                                                nVerseIndex,
+                                                nLineId,
                                                 nNumCols,
                                                 viewSettings.TransliteratorInternationalBt,
                                                 viewSettings);
@@ -949,7 +956,7 @@ namespace OneStoryProjectEditor
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.FreeTranslationField))
             {
                 strRow += GetHtmlCellAsAddition(StoryLine.FreeTranslation,
-                                                nVerseIndex,
+                                                nLineId,
                                                 nNumCols,
                                                 viewSettings.TransliteratorFreeTranslation,
                                                 viewSettings);
@@ -959,7 +966,7 @@ namespace OneStoryProjectEditor
             var astrExegeticalHelpNotes = new List<string>();
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.AnchorFields))
             {
-                strHtml += Anchors.PresentationHtmlAsAddition(nVerseIndex, nNumCols,
+                strHtml += Anchors.PresentationHtmlAsAddition(nLineId, nNumCols,
                                                               ref astrExegeticalHelpNotes);
             }
 
@@ -973,7 +980,7 @@ namespace OneStoryProjectEditor
             if (!String.IsNullOrEmpty(strHtml) || (astrExegeticalHelpNotes.Count > 0))
             {
                 strHtml = ExegeticalHelpNotes.FinishPresentationHtml(strHtml,
-                                                                     nVerseIndex,
+                                                                     nLineId,
                                                                      nNumCols,
                                                                      astrExegeticalHelpNotes,
                                                                      viewSettings);
@@ -981,7 +988,7 @@ namespace OneStoryProjectEditor
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
             {
-                strHtml += Retellings.PresentationHtmlAsAddition(nVerseIndex, nNumCols, 0,
+                strHtml += Retellings.PresentationHtmlAsAddition(nLineId, nNumCols, 0,
                                                                  craftingInfo.TestersToCommentsRetellings,
                                                                  viewSettings.IsViewItemOn(
                                                                      ViewSettings.ItemToInsureOn.RetellingsVernacular),
@@ -997,12 +1004,12 @@ namespace OneStoryProjectEditor
                                           ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers)) ||
                 (IsFirstVerse && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.GeneralTestQuestions)))
             {
-                strHtml += TestQuestions.PresentationHtmlAsAddition(nVerseIndex, nNumCols, viewSettings,
+                strHtml += TestQuestions.PresentationHtmlAsAddition(nLineId, nNumCols, viewSettings,
                                                                     craftingInfo.TestersToCommentsTqAnswers,
                                                                     bHasOutsideEnglishBTer);
             }
 
-            return FinishPresentationHtml(strRow, strHtml, !IsVisible, viewSettings);
+            return FinishPresentationHtml(strRow, strHtml, !IsVisible, viewSettings, nLineId);
         }
 
         private string GetHtmlCellAsAddition(StringTransfer stringTransfer, int nVerseIndex, int nNumCols, 
