@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using NetLoc;
@@ -25,6 +21,9 @@ namespace OneStoryProjectEditor
         private const int CnColumnTitle = 2;
         private const int CnColumnCrafter = 4;
 
+        private const string CstrOrigFullRecordingSuffix = "_Original.wav";
+        private const string CstrOrigFullRecordingSuffix2 = "_OralTranslation.wav";
+
         public SayMoreImportForm()
         {
             InitializeComponent();
@@ -35,11 +34,11 @@ namespace OneStoryProjectEditor
         private void InitGrid()
         {
             // this monsterous Linq statement says: give me any sub-folders of "<My Document>\SayMore" (which
-            //  are the project names), which have a 'Events' sub-folder which itself has at least one sub-folder
+            //  are the project names), which have a 'Sessions' sub-folder which itself has at least one sub-folder
             //  that contains a file with a '.eaf' extension (which is the file we get the transcriptions out of)
             var projectFolders = Directory.GetDirectories(ProjectSettings.SayMoreFolderRoot)
                 .Where(fp => Directory.GetDirectories(fp)
-                                 .Any(fps => (Path.GetFileName(fps) == "Events") &&
+                                 .Any(fps => (Path.GetFileName(fps) == "Sessions") &&
                                              (Directory.GetDirectories(fps)
                                                  .Any(fpe => Directory.GetFiles(fpe)
                                                                  .Any(fpef => Path.GetExtension(fpef) == ".eaf")))))
@@ -58,9 +57,10 @@ namespace OneStoryProjectEditor
 
         private void InitializeGrid()
         {
+            dataGridViewEvents.Rows.Clear();
             var eventsFolder = Path.Combine(Path.Combine(ProjectSettings.SayMoreFolderRoot,
                                                          listBoxProjects.SelectedItem.ToString()),
-                                            "Events");
+                                            "Sessions");
             var eventFolders = Directory.GetDirectories(eventsFolder)
                 .Where(fpe => Directory.GetFiles(fpe)
                                   .Any(fpef => Path.GetExtension(fpef) == ".eaf"));
@@ -68,7 +68,7 @@ namespace OneStoryProjectEditor
             foreach (var eventFolder in eventFolders)
             {
                 var files = Directory.GetFiles(eventFolder);
-                var eventFile = files.FirstOrDefault(fp => Path.GetExtension(fp) == ".event");
+                var eventFile = files.FirstOrDefault(fp => Path.GetExtension(fp) == ".session");
                 if (String.IsNullOrEmpty(eventFile) || !File.Exists(eventFile))
                     continue;
 
@@ -76,11 +76,9 @@ namespace OneStoryProjectEditor
                 if (String.IsNullOrEmpty(transcriptionFile) || !File.Exists(transcriptionFile))
                     continue;
 
-                const string CstrOrigFullRecordingSuffix = "_Original.wav";
-                var origFullRecording =
-                    files.FirstOrDefault(
-                        fp =>
-                        fp.IndexOf(CstrOrigFullRecordingSuffix) == (fp.Length - CstrOrigFullRecordingSuffix.Length));
+                var origFullRecording = GetOriginalRecordingFilePath(CstrOrigFullRecordingSuffix, files);
+                if (String.IsNullOrEmpty(origFullRecording))
+                    origFullRecording = GetOriginalRecordingFilePath(CstrOrigFullRecordingSuffix2, files);
 
                 var eventName = Path.GetFileName(eventFolder);
                 var doc = XDocument.Load(eventFile);
@@ -94,6 +92,15 @@ namespace OneStoryProjectEditor
                 var nIndex = dataGridViewEvents.Rows.Add(aobjs);
                 dataGridViewEvents.Rows[nIndex].Tag = Tuple.Create(transcriptionFile, origFullRecording);
             }
+        }
+
+        private static string GetOriginalRecordingFilePath(string strFileSuffix, string[] files)
+        {
+            var origFullRecording =
+                files.FirstOrDefault(
+                    fp =>
+                    fp.IndexOf(strFileSuffix) == (fp.Length - strFileSuffix.Length));
+            return origFullRecording;
         }
 
         private static string GetSafeValue(XDocument doc, string strName)
