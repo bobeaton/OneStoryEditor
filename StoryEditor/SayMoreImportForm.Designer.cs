@@ -36,7 +36,7 @@
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.ColumnImport = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.ColumnEvent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnSessions = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnParticipant = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -53,7 +53,7 @@
             this.dataGridViewEvents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewEvents.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnImport,
-            this.ColumnEvent,
+            this.ColumnSessions,
             this.ColumnTitle,
             this.ColumnDate,
             this.ColumnParticipant});
@@ -123,24 +123,24 @@
             // 
             // ColumnImport
             // 
-            this.ColumnImport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ColumnImport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.ColumnImport.HeaderText = "";
+            this.ColumnImport.MinimumWidth = 100;
             this.ColumnImport.Name = "ColumnImport";
             this.ColumnImport.Text = "";
             this.ColumnImport.ToolTipText = "Click on one of the buttons below to import that story";
-            this.ColumnImport.Width = 5;
             // 
-            // ColumnEvent
+            // ColumnSessions
             // 
-            this.ColumnEvent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.ColumnEvent.HeaderText = "Event";
-            this.ColumnEvent.Name = "ColumnEvent";
-            this.ColumnEvent.ReadOnly = true;
-            this.ColumnEvent.Width = 60;
+            this.ColumnSessions.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ColumnSessions.HeaderText = "Sessions";
+            this.ColumnSessions.Name = "ColumnSessions";
+            this.ColumnSessions.ReadOnly = true;
+            this.ColumnSessions.Width = 74;
             // 
             // ColumnTitle
             // 
-            this.ColumnTitle.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ColumnTitle.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.ColumnTitle.HeaderText = "Title";
             this.ColumnTitle.Name = "ColumnTitle";
             this.ColumnTitle.ReadOnly = true;
@@ -148,7 +148,7 @@
             // 
             // ColumnDate
             // 
-            this.ColumnDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ColumnDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.ColumnDate.HeaderText = "Date";
             this.ColumnDate.Name = "ColumnDate";
             this.ColumnDate.ReadOnly = true;
@@ -156,7 +156,7 @@
             // 
             // ColumnParticipant
             // 
-            this.ColumnParticipant.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ColumnParticipant.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.ColumnParticipant.HeaderText = "Speaker";
             this.ColumnParticipant.Name = "ColumnParticipant";
             this.ColumnParticipant.ReadOnly = true;
@@ -191,7 +191,7 @@
         private System.Windows.Forms.ListBox listBoxProjects;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.DataGridViewButtonColumn ColumnImport;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnEvent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSessions;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTitle;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnParticipant;
