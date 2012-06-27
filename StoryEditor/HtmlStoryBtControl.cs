@@ -135,20 +135,12 @@ namespace OneStoryProjectEditor
             //  being edited will turn it's selection into a span also
             doc.InvokeScript("TriggerMyBlur");
 
-            var strIdLn = VersesData.LineId(nLineNumber);
+            var strIdLn = VerseData.GetLineTableId(nLineNumber);
             HtmlElement elemParentLn = doc.GetElementById(strIdLn);
             if (elemParentLn == null)
                 return null;
 
-            // get the parent <table> below which we can query for the 'spans'
-            var elemTableRoot = (elemParentLn.Parent != null) 
-                                    ? elemParentLn.Parent.Parent
-                                    : null;
-
-            if (elemTableRoot == null)
-                return null;
-
-            var spans = elemTableRoot.GetElementsByTagName("span");
+            var spans = elemParentLn.GetElementsByTagName("span");
             var list = new List<HtmlElement>(spans.Count);
             list.AddRange(spans.Cast<object>().Cast<HtmlElement>());
             return list;
@@ -692,6 +684,11 @@ namespace OneStoryProjectEditor
 
         }
 
+        private void MenuItemDeleteAnchorOnClick(object sender, EventArgs eventArgs)
+        {
+            throw new NotImplementedException();
+        }
+
         protected readonly char[] _achDelim = new[] { '_' };
 
         public void ShowContextMenu(string strId)
@@ -1003,7 +1000,10 @@ namespace OneStoryProjectEditor
 
             // remove the highlight class so it isn't highlighted in the connnote pane
             if (strReferringText != null)
+            {
                 strReferringText = strReferringText.Replace(" highlight", null);
+                strReferringText = strReferringText.Replace(" readonly", null);
+            }
 
             TheSE.SendNoteToCorrectPane(textAreaIdentifier.LineIndex, strReferringText, strNote, bNoteToSelf);
         }
