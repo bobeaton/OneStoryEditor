@@ -4538,9 +4538,9 @@ namespace OneStoryProjectEditor
                                     : TextFields.Undefined;
 
             // the PF, though, might be restricted from editing certain fields by the Consultant
-            if (LoggedOnMember.MemberType == TeamMemberData.UserTypes.ProjectFacilitator)
+            if ((LoggedOnMember.MemberType == TeamMemberData.UserTypes.ProjectFacilitator) &&
+                (LoggedOnMember.MemberGuid == theCurrentStory.CraftingInfo.ProjectFacilitator.MemberId))
             {
-                Debug.Assert(LoggedOnMember.MemberGuid == theCurrentStory.CraftingInfo.ProjectFacilitator.MemberId);
                 fields = TasksPf.FilterTextFields(fields, theCurrentStory.TasksAllowedPf);
             }
             return fields;
