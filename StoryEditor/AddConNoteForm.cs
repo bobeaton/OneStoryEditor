@@ -10,7 +10,7 @@ using NetLoc;
 
 namespace OneStoryProjectEditor
 {
-    public partial class AddConNoteForm : Form
+    public partial class AddConNoteForm : TopForm
     {
         private AddConNoteForm()
         {
