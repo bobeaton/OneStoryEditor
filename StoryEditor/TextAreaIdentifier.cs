@@ -34,5 +34,23 @@ namespace OneStoryProjectEditor
                 return str + ":";
             }
         }
+
+        public string GetKeyboardName(ProjectSettings projSettings)
+        {
+            StoryEditor.TextFields langType;
+            if (Enum.TryParse(LanguageColumn, out langType))
+            switch (langType)
+            {
+                case StoryEditor.TextFields.Vernacular:
+                    return projSettings.Vernacular.Keyboard;
+                case StoryEditor.TextFields.NationalBt:
+                    return projSettings.NationalBT.Keyboard;
+                case StoryEditor.TextFields.InternationalBt:
+                    return projSettings.InternationalBT.Keyboard;
+                case StoryEditor.TextFields.FreeTranslation:
+                    return projSettings.FreeTranslation.Keyboard;
+            }
+            return null;
+        }
     }
 }

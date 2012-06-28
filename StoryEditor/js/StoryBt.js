@@ -117,6 +117,7 @@ $(document).ready(function () {
             $(this).val($(this).attr('placeholder')).addClass('hasPlaceholder');
         }
         window.oseConfig.idLastTextareaToBlur = this.id;
+        window.external.TextareaOnBlur(this.id);
         DisplayHtml(event.type);
     }).focus(function (event) {
         if ($(this).attr('placeholder') != '' && $(this).val() == $(this).attr('placeholder')) {
@@ -152,7 +153,7 @@ $(document).ready(function () {
                 range.select();
             }
         }
-        // window.external.TextareaOnFocus(this.id);
+        window.external.TextareaOnFocus(this.id);
         DisplayHtml(event.type);
     }).mouseup(function (event) {
         if (event.button == 2)  // right-clicked... 
@@ -167,6 +168,8 @@ $(document).ready(function () {
         window.external.OnTextareaMouseDown(this.id, this.value);
         if (event.button == 1)
             removeSelection($(this));
+    }).mousemove(function () {
+        window.external.OnMouseMove();
     });
     $('.readonly').attr('readonly', 'readonly');
 });
