@@ -5529,6 +5529,7 @@ namespace OneStoryProjectEditor
                 }
             }
 
+            InitializeTransliterators();
             ReInitVerseControls();
         }
 
