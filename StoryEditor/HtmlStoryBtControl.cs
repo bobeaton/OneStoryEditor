@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -268,11 +269,14 @@ namespace OneStoryProjectEditor
             return (elem != null);
         }
 
+        private string _lastLineOptionsButtonClicked;
+
         public bool OnLineOptionsButton(string strId, bool bIsRightButton)
         {
             if (bIsRightButton)
             {
                 TriggerChangeUpdate();
+                _lastLineOptionsButtonClicked = strId;
                 contextMenuStripLineOptions.Show(MousePosition); 
                 return false;
             }
@@ -297,15 +301,35 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        private VerseData VerseDataFromLineOptionsButtonId(string strId, out int nVerseIndex)
+        private VerseData VerseDataFromLineOptionsButtonId(string strId, out int nLineIndex)
         {
             var astr = strId.Split(AchDelim);
             if ((astr.Length == 2) && (astr[0] == VersesData.CstrButtonPrefixLineOptionsButton))
             {
-                nVerseIndex = Convert.ToInt32(astr[1]);
-                return GetVerseData(nVerseIndex);
+                nLineIndex = Convert.ToInt32(astr[1]);
+                return GetVerseData(nLineIndex);
             }
-            nVerseIndex = -1;
+            nLineIndex = -1;
+            return null;
+        }
+
+        private string _lastAnchorButtonClicked;
+        public bool OnAnchorButton(string strButtonId)
+        {
+            _lastAnchorButtonClicked = strButtonId;
+            contextMenuStripAnchorOptions.Show(MousePosition);
+            return true;
+        }
+
+        private VerseData VerseDataFromAnchorButtonId(string strId, out int nLineIndex)
+        {
+            var astr = strId.Split(AchDelim);
+            if ((astr.Length == 3) && (astr[0] == AnchorData.CstrButtonPrefixAnchorButton))
+            {
+                nLineIndex = Convert.ToInt32(astr[1]);
+                return GetVerseData(nLineIndex);
+            }
+            nLineIndex = -1;
             return null;
         }
 
@@ -415,7 +439,7 @@ namespace OneStoryProjectEditor
                                                             strJumpTarget);
             
             List<string> astrDontCare = null;
-            string str = anchorNew.PresentationHtml(null,
+            string str = anchorNew.PresentationHtml(nLineIndex, null,
                                                     StoryData.PresentationType.Plain,
                                                     false,
                                                     ref astrDontCare);
@@ -469,15 +493,11 @@ namespace OneStoryProjectEditor
         {
             // the only function of the button here is to add a slot to type a con note
             StoryEditor theSe;
-            if (!CheckForProperEditToken(out theSe) || String.IsNullOrEmpty(LastTextareaInFocusId))
+            if (!CheckForProperEditToken(out theSe) || String.IsNullOrEmpty(_lastLineOptionsButtonClicked))
                 return;
 
-            TextAreaIdentifier textAreaIdentifier;
-            if (!TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
-                return;
-
-            var nLineIndex = textAreaIdentifier.LineIndex;
-            var verseData = GetVerseData(nLineIndex);
+            int nLineIndex;
+            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
             verseData.AllowConNoteButtonsOverride();
 
             // make a copy and clear out the stuff that we'll have them manually move later
@@ -542,36 +562,29 @@ namespace OneStoryProjectEditor
 
         private void MoveItemsToolStripMenuItemClick(object sender, EventArgs e)
         {
-            // the only function of the button here is to add a slot to type a con note
-            StoryEditor theSt;
-            if (!CheckForProperEditToken(out theSt) || (LastTextareaInFocusId == null))
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe) || String.IsNullOrEmpty(_lastLineOptionsButtonClicked))
                 return;
 
-            TextAreaIdentifier textAreaIdentifier;
-            if (!TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
-                return;
-
-            var verseData = GetVerseData(textAreaIdentifier.LineIndex);
-            var dlg = new CutItemPicker(verseData, theSt.TheCurrentStory.Verses, theSt, false);
+            int nLineIndex;
+            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
+            var dlg = new CutItemPicker(verseData, theSe.TheCurrentStory.Verses, theSe, false);
             if (dlg.ShowDialog() != DialogResult.OK)
                 return;
 
-            theSt.Modified = true;
-            theSt.InitAllPanes();
+            theSe.Modified = true;
+            theSe.InitAllPanes();
         }
 
         private void DeleteItemsToolStripMenuItemClick(object sender, EventArgs e)
         {
-            // the only function of the button here is to add a slot to type a con note
             StoryEditor theSe;
-            if (!CheckForProperEditToken(out theSe))
+            if (!CheckForProperEditToken(out theSe) || String.IsNullOrEmpty(_lastLineOptionsButtonClicked))
                 return;
 
-            TextAreaIdentifier textAreaIdentifier;
-            if (!TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
-                return;
+            int nLineIndex;
+            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
 
-            var verseData = GetVerseData(textAreaIdentifier.LineIndex);
             var dlg = new CutItemPicker(verseData, theSe.TheCurrentStory.Verses, theSe, true)
             {
                 Text = Localizer.Str("Choose the item(s) to delete and then click the Delete button")
@@ -605,45 +618,91 @@ namespace OneStoryProjectEditor
 
         private void menuAddTestQuestion_Click(object sender, EventArgs e)
         {
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe) || String.IsNullOrEmpty(_lastLineOptionsButtonClicked))
+                return;
 
+            int nLineIndex;
+            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
+
+            // TODO:
+            throw new NotImplementedException();
         }
 
         private void addExegeticalCulturalNoteBelowToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe) || String.IsNullOrEmpty(_lastLineOptionsButtonClicked))
+                return;
 
+            int nLineIndex;
+            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
+
+            // TODO:
+            throw new NotImplementedException();
         }
 
         private void addNewVersesBeforeMenuItem_Click(object sender, EventArgs e)
         {
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe) || String.IsNullOrEmpty(_lastLineOptionsButtonClicked))
+                return;
 
+            int nLineIndex;
+            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
+
+            // TODO:
+            throw new NotImplementedException();
         }
 
         private void addANewVerseToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe) || String.IsNullOrEmpty(_lastLineOptionsButtonClicked))
+                return;
 
+            int nLineIndex;
+            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
+
+            // TODO:
+            throw new NotImplementedException();
         }
 
         private void addNewVersesAfterMenuItem_Click(object sender, EventArgs e)
         {
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe) || String.IsNullOrEmpty(_lastLineOptionsButtonClicked))
+                return;
 
+            int nLineIndex;
+            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
+
+            // TODO:
+            throw new NotImplementedException();
         }
 
         private void hideVerseToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe) || String.IsNullOrEmpty(_lastLineOptionsButtonClicked))
+                return;
 
+            int nLineIndex;
+            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
+
+            // TODO:
+            throw new NotImplementedException();
         }
 
         private void DeleteTheWholeVerseToolStripMenuItemClick(object sender, EventArgs e)
         {
             StoryEditor theSe;
-            if (!CheckForProperEditToken(out theSe))
+            if (!CheckForProperEditToken(out theSe) || String.IsNullOrEmpty(_lastLineOptionsButtonClicked))
                 return;
 
-            TextAreaIdentifier textAreaIdentifier;
-            if (!TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
-                return;
+            int nLineIndex;
+            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
 
-            var verseData = GetVerseData(textAreaIdentifier.LineIndex);
             if (verseData.HasData)
             {
                 var res = QueryAboutHidingVerseInstead();
@@ -666,26 +725,53 @@ namespace OneStoryProjectEditor
 
         private void pasteVerseFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe) || String.IsNullOrEmpty(_lastLineOptionsButtonClicked))
+                return;
 
+            int nLineIndex;
+            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
+
+            // TODO:
+            throw new NotImplementedException();
         }
 
         private void pasteVerseFromClipboardAfterThisOneToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe) || String.IsNullOrEmpty(_lastLineOptionsButtonClicked))
+                return;
 
+            int nLineIndex;
+            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
+
+            // TODO:
+            throw new NotImplementedException();
         }
 
         private void copyVerseToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe) || String.IsNullOrEmpty(_lastLineOptionsButtonClicked))
+                return;
 
+            int nLineIndex;
+            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
+
+            // TODO:
+            throw new NotImplementedException();
         }
 
         private void splitStoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe) || String.IsNullOrEmpty(_lastLineOptionsButtonClicked))
+                return;
 
-        }
+            int nLineIndex;
+            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
 
-        private void MenuItemDeleteAnchorOnClick(object sender, EventArgs eventArgs)
-        {
+            // TODO:
             throw new NotImplementedException();
         }
 
@@ -968,7 +1054,7 @@ namespace OneStoryProjectEditor
                 return;
 
             var nLastSubItemIndex = -1;
-            string strLastFieldType = null,
+            string strLastFieldReference = null,
                    strReferringText = null,
                    strNote = String.Format("{0}: ", StoryEditor.GetInitials(TheSE.LoggedOnMember.Name));
 
@@ -982,13 +1068,15 @@ namespace OneStoryProjectEditor
                     return;
 
                 // if this is a new type, then add it to the stream
-                if (strLastFieldType != textAreaIdentifierParent.FieldType)
+                if (strLastFieldReference != textAreaIdentifierParent.FieldType)
                 {
-                    if (!String.IsNullOrEmpty(strLastFieldType))
+                    if (!String.IsNullOrEmpty(strLastFieldReference))
                         strReferringText += " vs: ";
-                    strReferringText += textAreaIdentifierParent.FieldType + ":";
-                    strLastFieldType = textAreaIdentifierParent.FieldType;
+
+                    strLastFieldReference = textAreaIdentifierParent.FieldReference;
+                    strReferringText += strLastFieldReference;
                 }
+                
                 else if (textAreaIdentifierParent.SubItemIndex != nLastSubItemIndex)
                 {
                     if (nLastSubItemIndex != -1)
@@ -1037,6 +1125,127 @@ namespace OneStoryProjectEditor
             return (from span in spans
                     where span.Parent.Id == strId
                     select span.InnerText).FirstOrDefault();
+        }
+
+        private void DeleteToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(_lastAnchorButtonClicked))
+            {
+                StoryEditor theSe;
+                if (!CheckForProperEditToken(out theSe))
+                    return;
+
+                int nLineIndex;
+                var verseData = VerseDataFromAnchorButtonId(_lastAnchorButtonClicked, out nLineIndex);
+                System.Diagnostics.Debug.Assert(verseData != null);
+
+                foreach (var anchor in verseData.Anchors
+                                                .Where(anchor => 
+                                                    AnchorData.ButtonId(nLineIndex, anchor.JumpTarget) == _lastAnchorButtonClicked))
+                {
+                    verseData.Anchors.Remove(anchor);
+                    theSe.InitAllPanes();
+                    break;
+                }
+
+                _lastAnchorButtonClicked = null;
+
+                // indicate that we've changed something so that we don't exit without offering
+                //  to save.
+                theSe.Modified = true;
+            }
+            else
+                LocalizableMessageBox.Show("Right-click on one of the buttons to choose which one to delete", StoryEditor.OseCaption);
+        }
+
+        private void AddCommentToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            /*
+            if (m_theLastButtonClicked != null)
+            {
+                // the only function of the button here is to add a slot to type a con note
+                StoryEditor theSE;
+                if (!CheckForProperEditToken(out theSE))
+                    return;
+                System.Diagnostics.Debug.Assert(m_theLastButtonClicked.Tag is AnchorData);
+
+                var dlg = new AnchorAddCommentForm(m_theLastButtonClicked.Text, m_theLastButtonClicked.ToolTipText);
+                DialogResult res = dlg.ShowDialog();
+                if ((res == DialogResult.OK) || (res == DialogResult.Yes))
+                {
+                    System.Diagnostics.Debug.Assert((m_theLastButtonClicked.Tag != null) && (m_theLastButtonClicked.Tag is AnchorData));
+                    var theAnchorData = (AnchorData)m_theLastButtonClicked.Tag;
+                    theAnchorData.ToolTipText = m_theLastButtonClicked.ToolTipText = dlg.CommentText;
+
+                    string strJumpTarget = m_theLastButtonClicked.Text;
+                    int nIndLen = AnchorData.CstrTooltipIndicator.Length;
+                    if (strJumpTarget.Substring(strJumpTarget.Length - nIndLen, nIndLen) != AnchorData.CstrTooltipIndicator)
+                        m_theLastButtonClicked.Text += AnchorData.CstrTooltipIndicator;
+
+                    theSE.Modified = true;
+                }
+            }
+            else
+                LocalizableMessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to", StoryEditor.OseCaption);
+            */
+        }
+
+        private void AddConsultantCoachNoteOnThisAnchorToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            /*
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            if (m_theLastButtonClicked != null)
+            {
+                System.Diagnostics.Debug.Assert(theSE.LoggedOnMember != null);
+                string strReferringText = StoryEditor.StrRegarding + AnchorsData.AnchorLabel;
+                strReferringText += m_theLastButtonClicked.Text;
+
+                if (m_theLastButtonClicked.ToolTipText != m_theLastButtonClicked.Text)
+                    strReferringText += String.Format(" ({0})", m_theLastButtonClicked.ToolTipText);
+
+                string strNote = StoryEditor.GetInitials(theSE.LoggedOnMember.Name) + " ";
+                theSE.SendNoteToCorrectPane(_ctrlVerse.VerseNumber, strReferringText, strNote, false);
+            }
+            else
+                LocalizableMessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to", StoryEditor.OseCaption);
+            */
+        }
+
+        private void InsertNullAnchorToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            /*
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE))
+                return;
+
+            AnchorData theAnchorData = _myAnchorsData.AddAnchorData(CstrNullAnchor, CstrNullAnchor);
+            InitAnchorButton(toolStripAnchors, theAnchorData);
+
+            // indicate that we've changed something so that we don't exit without offering
+            //  to save.
+            theSE.Modified = true;
+            */
+        }
+
+        private void ContextMenuStripAnchorOptionsOpening(object sender, CancelEventArgs e)
+        {
+            /*
+            insertNullAnchorToolStripMenuItem.Visible = (_myAnchorsData.Count == 0);
+
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSE;
+            if (!CheckForProperEditToken(out theSE) || (theSE.LoggedOnMember == null))
+                return;
+
+            addConsultantCoachNoteOnThisAnchorToolStripMenuItem.Visible =
+                TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType,
+                                      TeamMemberData.UserTypes.AnyEditor);
+            */
         }
     }
 }

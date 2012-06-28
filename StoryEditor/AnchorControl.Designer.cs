@@ -36,7 +36,6 @@
             this.addCommentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertNullAnchorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editKeyTermsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripAnchorOptions.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,8 +71,7 @@
             this.deleteToolStripMenuItem,
             this.addCommentToolStripMenuItem,
             this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem,
-            this.insertNullAnchorToolStripMenuItem,
-            this.editKeyTermsToolStripMenuItem});
+            this.insertNullAnchorToolStripMenuItem});
             this.contextMenuStripAnchorOptions.Name = "contextMenuStripAnchorOptions";
             this.contextMenuStripAnchorOptions.Size = new System.Drawing.Size(307, 136);
             this.contextMenuStripAnchorOptions.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripAnchorOptions_Opening);
@@ -108,12 +106,6 @@
                 "iblical anchor";
             this.insertNullAnchorToolStripMenuItem.Click += new System.EventHandler(this.insertNullAnchorToolStripMenuItem_Click);
             // 
-            // editKeyTermsToolStripMenuItem
-            // 
-            this.editKeyTermsToolStripMenuItem.Name = "editKeyTermsToolStripMenuItem";
-            this.editKeyTermsToolStripMenuItem.Size = new System.Drawing.Size(306, 22);
-            this.editKeyTermsToolStripMenuItem.Visible = false;
-            // 
             // AnchorControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -134,7 +126,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripAnchorOptions;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addCommentToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editKeyTermsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addConsultantCoachNoteOnThisAnchorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem insertNullAnchorToolStripMenuItem;
     }

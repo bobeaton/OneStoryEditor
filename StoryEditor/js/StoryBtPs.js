@@ -3,7 +3,7 @@ for (var i=0; i < textareas.length; i++)
 {
     textareas[i].onchange = function() { return window.external.TextareaOnChange(this.id, this.value); };
     textareas[i].onkeyup = function () { return window.external.TextareaOnKeyUp(this.id, this.value); };
-    textareas[i].onmousedown = function () { return window.external.OnTextareaMouseDown(this.id, this.value); };
+    // textareas[i].onmousedown = function () { return window.external.OnTextareaMouseDown(this.id, this.value); };
 }
 $('textarea').attr('placeholder', function () {
     if ($(this).hasClass('LangVernacular'))

@@ -1,5 +1,8 @@
 ﻿function OnBibRefJump(btn) {
-    window.external.OnBibRefJump(btn.id);
+    if (event.button == 2)
+        window.external.OnAnchorButton(btn.id);
+    else
+        window.external.OnBibRefJump(btn.name);
     return false; // cause the href navigation to not happen
 }
 function OnLineOptionsButton(btn) {
@@ -52,8 +55,14 @@ function removeSelection(jqtextarea) {
         jqtextarea.removeAttr("selectionStart");
         jqtextarea.removeAttr("selectionEnd");
         jqtextarea.removeAttr("selectedText");
+        removeSpan(jqtextarea);    // remove the highlighting
     }
 }
+
+function removeSpan(jqtextarea) {
+    jqtextarea.html(jqtextarea.val());
+}
+
 // the following code used to be in onblur (and works just
 //  fine that way in IE). But for some reason, in a 
 //  WebBrowser in a WindowsForm, the onblur is triggered
@@ -131,7 +140,7 @@ $(document).ready(function () {
         if ($(this).has("span").length) {
             // setting the html with only the value will 
             //  remove the span element.
-            $(this).html($(this).val());
+            removeSpan($(this));
 
             // and if we had previously a selected portion in
             //  this textarea, select it again
@@ -154,6 +163,10 @@ $(document).ready(function () {
         }
         window.external.TextareaMouseUp(this.id);
         return true;
+    }).mousedown(function (event) {
+        window.external.OnTextareaMouseDown(this.id, this.value);
+        if (event.button == 1)
+            removeSelection($(this));
     });
     $('.readonly').attr('readonly', 'readonly');
 });

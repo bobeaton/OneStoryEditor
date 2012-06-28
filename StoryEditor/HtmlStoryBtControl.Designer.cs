@@ -61,12 +61,14 @@ namespace OneStoryProjectEditor
             this.copyVerseToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.splitStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuAnchors = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.menuItemDeleteAnchor = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuItemAddComment = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuItemAddConNote = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripAnchorOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addCommentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.insertNullAnchorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editKeyTermsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripLineOptions.SuspendLayout();
-            this.contextMenuAnchors.SuspendLayout();
+            this.contextMenuStripAnchorOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStripLineOptions
@@ -322,39 +324,53 @@ namespace OneStoryProjectEditor
     "story";
             this.splitStoryToolStripMenuItem.Click += new System.EventHandler(this.splitStoryToolStripMenuItem_Click);
             // 
-            // contextMenuAnchors
+            // contextMenuStripAnchorOptions
             // 
-            this.contextMenuAnchors.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuItemDeleteAnchor,
-            this.menuItemAddComment,
-            this.menuItemAddConNote});
-            this.contextMenuAnchors.Name = "contextMenuAnchors";
-            this.contextMenuAnchors.Size = new System.Drawing.Size(302, 70);
+            this.contextMenuStripAnchorOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem,
+            this.addCommentToolStripMenuItem,
+            this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem,
+            this.insertNullAnchorToolStripMenuItem,
+            this.editKeyTermsToolStripMenuItem});
+            this.contextMenuStripAnchorOptions.Name = "contextMenuStripAnchorOptions";
+            this.contextMenuStripAnchorOptions.Size = new System.Drawing.Size(307, 136);
+            this.contextMenuStripAnchorOptions.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripAnchorOptionsOpening);
             // 
-            // menuItemDeleteAnchor
+            // deleteToolStripMenuItem
             // 
-            this.menuItemDeleteAnchor.Name = "menuItemDeleteAnchor";
-            this.menuItemDeleteAnchor.Size = new System.Drawing.Size(301, 22);
-            this.menuItemDeleteAnchor.Text = "Delete Anchor";
-            this.menuItemDeleteAnchor.Click += MenuItemDeleteAnchorOnClick;
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(306, 22);
+            this.deleteToolStripMenuItem.Text = "&Delete Anchor";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteToolStripMenuItemClick);
             // 
-            // menuItemAddComment
+            // addCommentToolStripMenuItem
             // 
-            this.menuItemAddComment.Name = "menuItemAddComment";
-            this.menuItemAddComment.Size = new System.Drawing.Size(301, 22);
-            this.menuItemAddComment.Text = "Add Anchor Comment (becomes a tooltip)";
+            this.addCommentToolStripMenuItem.Name = "addCommentToolStripMenuItem";
+            this.addCommentToolStripMenuItem.Size = new System.Drawing.Size(306, 22);
+            this.addCommentToolStripMenuItem.Text = "&Add Anchor Comment (becomes a tooltip)";
+            this.addCommentToolStripMenuItem.Click += new System.EventHandler(this.AddCommentToolStripMenuItemClick);
             // 
-            // menuItemAddConNote
+            // addConsultantCoachNoteOnThisAnchorToolStripMenuItem
             // 
-            this.menuItemAddConNote.Name = "menuItemAddConNote";
-            this.menuItemAddConNote.Size = new System.Drawing.Size(301, 22);
-            this.menuItemAddConNote.Text = "Add Con Note regarding this anchor";
+            this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem.Name = "addConsultantCoachNoteOnThisAnchorToolStripMenuItem";
+            this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem.Size = new System.Drawing.Size(306, 22);
+            this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem.Text = "Add &Consultant/Coach Note on this Anchor";
+            this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem.Click += new System.EventHandler(this.AddConsultantCoachNoteOnThisAnchorToolStripMenuItemClick);
+            // 
+            // insertNullAnchorToolStripMenuItem
+            // 
+            this.insertNullAnchorToolStripMenuItem.Name = "insertNullAnchorToolStripMenuItem";
+            this.insertNullAnchorToolStripMenuItem.Size = new System.Drawing.Size(306, 22);
+            this.insertNullAnchorToolStripMenuItem.Text = "Insert \"&Empty\" Anchor";
+            this.insertNullAnchorToolStripMenuItem.ToolTipText = "Use this to add an empty anchor for lines of the story that don\'t really have a b" +
+    "iblical anchor";
+            this.insertNullAnchorToolStripMenuItem.Click += new System.EventHandler(this.InsertNullAnchorToolStripMenuItemClick);
             // 
             // HtmlStoryBtControl
             // 
             this.AllowWebBrowserDrop = false;
             this.contextMenuStripLineOptions.ResumeLayout(false);
-            this.contextMenuAnchors.ResumeLayout(false);
+            this.contextMenuStripAnchorOptions.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -391,10 +407,12 @@ namespace OneStoryProjectEditor
         private System.Windows.Forms.ToolStripMenuItem copyVerseToClipboardToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem splitStoryToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip contextMenuAnchors;
-        private System.Windows.Forms.ToolStripMenuItem menuItemDeleteAnchor;
-        private System.Windows.Forms.ToolStripMenuItem menuItemAddComment;
-        private System.Windows.Forms.ToolStripMenuItem menuItemAddConNote;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripAnchorOptions;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addCommentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addConsultantCoachNoteOnThisAnchorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem insertNullAnchorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editKeyTermsToolStripMenuItem;
 
     }
 }

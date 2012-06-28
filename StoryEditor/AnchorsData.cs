@@ -171,7 +171,7 @@ namespace OneStoryProjectEditor
         }
         */
 
-        public string PresentationHtml(AnchorsData childAnchorsData,
+        public string PresentationHtml(int nLineIndex, AnchorsData childAnchorsData,
             StoryData.PresentationType presentationType, bool bProcessingTheChild, 
             ref List<string> astrExegeticalHelpNotes)
         {
@@ -247,14 +247,10 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            return String.Format(Properties.Resources.HTML_ButtonToolTip,
-                                    JumpTarget,
-                                    "return OnBibRefJump(this);",
-                                    ToolTipText,
-                                    strButtonLabel);
+            return GetAnchorButtonHtml(nLineIndex, strButtonLabel);
         }
 
-        public string PresentationHtmlAsAddition(ref List<string> astrExegeticalHelpNotes)
+        public string PresentationHtmlAsAddition(int nLineIndex, ref List<string> astrExegeticalHelpNotes)
         {
             string strButtonLabel = JumpTarget;
             // the only time we call this method without a value for childAnchorsData is when
@@ -267,11 +263,24 @@ namespace OneStoryProjectEditor
                 astrExegeticalHelpNotes.Add(Diff.HtmlDiff(null, ToolTipText, true));
             }
 
+            return GetAnchorButtonHtml(nLineIndex, strButtonLabel);
+        }
+
+        public const string CstrButtonPrefixAnchorButton = "btnAnc";
+        public static string ButtonId(int nLineIndex, string strJumpTarget)
+        {
+            return String.Format("{0}_{1}_{2}", CstrButtonPrefixAnchorButton, nLineIndex,
+                                 strJumpTarget.Replace(" ", null));
+        }
+
+        private string GetAnchorButtonHtml(int nLineIndex, string strButtonLabel)
+        {
             return String.Format(Properties.Resources.HTML_ButtonToolTip,
-                                    JumpTarget,
-                                    "return OnBibRefJump(this);",
-                                    ToolTipText,
-                                    strButtonLabel);
+                                 ButtonId(nLineIndex, JumpTarget),
+                                 JumpTarget,
+                                 "return OnBibRefJump(this);",
+                                 ToolTipText,
+                                 strButtonLabel);
         }
     }
 
@@ -372,7 +381,7 @@ namespace OneStoryProjectEditor
         {
             string strRow = null;
             foreach (AnchorData anchorData in this)
-                strRow += anchorData.PresentationHtmlAsAddition(ref astrExegeticalHelpNotes);
+                strRow += anchorData.PresentationHtmlAsAddition(nVerseIndex, ref astrExegeticalHelpNotes);
 
             // make a cell out of the buttons
             string strHtmlCell = AddCellHtml(nVerseIndex, strRow);
@@ -386,12 +395,12 @@ namespace OneStoryProjectEditor
         {
             string strRow = null;
             foreach (AnchorData anchorData in this)
-                strRow += anchorData.PresentationHtml(childAnchorsData, presentationType, false, ref astrExegeticalHelpNotes);
+                strRow += anchorData.PresentationHtml(nVerseIndex, childAnchorsData, presentationType, false, ref astrExegeticalHelpNotes);
 
             // now put the anchors that are in the child (as additions)
             if (childAnchorsData != null)
                 foreach (AnchorData anchorData in childAnchorsData)
-                    strRow += anchorData.PresentationHtmlAsAddition(ref astrExegeticalHelpNotes);
+                    strRow += anchorData.PresentationHtmlAsAddition(nVerseIndex, ref astrExegeticalHelpNotes);
 
             // make a cell out of the buttons
             return AddCellHtml(nVerseIndex, strRow);

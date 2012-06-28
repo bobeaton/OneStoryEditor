@@ -257,7 +257,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; onClick=&quot;{1}&quot; title=&quot;{2}&quot;&gt;{3}&lt;/button&gt;.
+        ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; name=&quot;{1}&quot; onMouseUp=&quot;{2}&quot; title=&quot;{3}&quot;&gt;{4}&lt;/button&gt;.
         /// </summary>
         internal static string HTML_ButtonToolTip {
             get {
@@ -1483,7 +1483,10 @@ namespace OneStoryProjectEditor.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to function OnBibRefJump(btn) {
-        ///    window.external.OnBibRefJump(btn.id);
+        ///    if (event.button == 2)
+        ///        window.external.OnAnchorButton(btn.id);
+        ///    else
+        ///        window.external.OnBibRefJump(btn.name);
         ///    return false; // cause the href navigation to not happen
         ///}
         ///function OnLineOptionsButton(btn) {
@@ -1492,12 +1495,7 @@ namespace OneStoryProjectEditor.Properties {
         ///    
         ///    var bIsRightButton = (event.button == 2);
         ///    window.external.OnLineOptionsButton(btn.id, bIsRightButton);
-        ///    return false;
-        ///}
-        ///function OnVerseLineJump(link)
-        ///{
-        ///    window.external.OnVerseLineJump(link.name);
-        /// [rest of string was truncated]&quot;;.
+        ///    return fa [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string StoryBtJs {
             get {
@@ -1531,10 +1529,10 @@ namespace OneStoryProjectEditor.Properties {
         ///{
         ///    textareas[i].onchange = function() { return window.external.TextareaOnChange(this.id, this.value); };
         ///    textareas[i].onkeyup = function () { return window.external.TextareaOnKeyUp(this.id, this.value); };
-        ///    textareas[i].onmousedown = function () { return window.external.OnTextareaMouseDown(this.id, this.value); };
+        ///    // textareas[i].onmousedown = function () { return window.external.OnTextareaMouseDown(this.id, this.value); };
         ///}
         ///$(&apos;textarea&apos;).attr(&apos;placeholder&apos;, function () {
-        ///    if ($(this).hasClass(&apos;La [rest of string was truncated]&quot;;.
+        ///    if ($(this).hasClass( [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string StoryBtPsJs {
             get {
