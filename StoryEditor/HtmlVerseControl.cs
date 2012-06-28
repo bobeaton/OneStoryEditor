@@ -48,13 +48,22 @@ namespace OneStoryProjectEditor
                 LineNumberLink.Text = StoryEditor.CstrFirstVerse;
                 LineNumberLink.Tag = 0;
             }
-            else
+            else if (StoryEditor.IsFirstCharsEqual(elemLnPrev.InnerText,
+                                                   VersesData.CstrZerothLineNameBtPane,
+                                                   VersesData.CstrZerothLineNameBtPane.Length))
+            {
+                LineNumberLink.Text = VersesData.CstrZerothLineNameBtPane;
+                LineNumberLink.Tag = 0;
+            }
+            else if (StoryEditor.IsFirstCharsEqual(elemLnPrev.InnerText,
+                                                   VersesData.LinePrefix,
+                                                   VersesData.LinePrefix.Length))
             {
                 LineNumberLink.Text = elemLnPrev.InnerText;
-                int nIndex = elemLnPrev.InnerText.IndexOf(' ');
+                var nIndex = elemLnPrev.InnerText.IndexOf(' ');
                 if (nIndex == -1) 
                     return;
-                string strLineNumber = elemLnPrev.InnerText.Substring(nIndex + 1);
+                var strLineNumber = elemLnPrev.InnerText.Substring(nIndex + 1);
                 if ((nIndex = strLineNumber.IndexOf(VersesData.HiddenStringSpace)) != -1)
                     strLineNumber = strLineNumber.Substring(0, nIndex);
                 LineNumberLink.Tag = Convert.ToInt32(strLineNumber);
@@ -209,8 +218,7 @@ namespace OneStoryProjectEditor
         {
             // this isn't allowed for paragraphs (it could be, but this is only currently called
             //  when we want to do 'replace', which isn't allowed for paragraphs (as opposed to textareas)
-            Debug.Assert(IsTextareaElement(stringTransfer.HtmlElementId));
-            if (Document != null)
+            if (IsTextareaElement(stringTransfer.HtmlElementId) && (Document != null))
             {
                 var doc = Document;
                 var htmlDocument = doc.DomDocument as IHTMLDocument2;
@@ -237,17 +245,17 @@ namespace OneStoryProjectEditor
 
         public bool IsParagraphElement(string strHtmlId)
         {
-            return (strHtmlId.IndexOf(CstrParagraphPrefix) == 0);
+            return (!String.IsNullOrEmpty(strHtmlId) && (strHtmlId.IndexOf(CstrParagraphPrefix) == 0));
         }
 
         public bool IsTextareaElement(string strHtmlId)
         {
-            return (strHtmlId.IndexOf(CstrTextAreaPrefix) == 0);
+            return (!String.IsNullOrEmpty(strHtmlId) && (strHtmlId.IndexOf(CstrTextAreaPrefix) == 0));
         }
 
         public bool IsButtonElement(string strHtmlId)
         {
-            return (strHtmlId.IndexOf(CstrButtonPrefix) == 0);
+            return (!String.IsNullOrEmpty(strHtmlId) && (strHtmlId.IndexOf(CstrButtonPrefix) == 0));
         }
 
         public bool SetSelectedText(StringTransfer stringTransfer, string strNewValue, out int nNewEndPoint)

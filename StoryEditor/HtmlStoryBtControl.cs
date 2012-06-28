@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using NetLoc;
+using Palaso.UI.WindowsForms.Keyboarding;
 using SilEncConverters40;
 
 namespace OneStoryProjectEditor
@@ -188,6 +189,11 @@ namespace OneStoryProjectEditor
             elem.InvokeMember("onchange");
         }
 
+        public void OnMouseMove()
+        {
+            TheSE.CheckBiblePaneCursorPosition();
+        }
+
         public bool TextareaMouseUp(string strId)
         {
             LastTextareaInFocusId = strId;
@@ -200,6 +206,7 @@ namespace OneStoryProjectEditor
             //  the save menu, we have to set modified
             LastTextareaInFocusId = strId;
             TheSE.Modified = true;
+            TheSE.LastKeyPressedTimeStamp = DateTime.Now;
             return true;
         }
 
@@ -234,6 +241,18 @@ namespace OneStoryProjectEditor
         public bool TextareaOnFocus(string strId)
         {
             LastTextareaInFocusId = strId;
+            TextAreaIdentifier textAreaIdentifier;
+            if (TryGetTextAreaId(strId, out textAreaIdentifier))
+            {
+                var strKeyboardName = textAreaIdentifier.GetKeyboardName(TheSE.StoryProject.ProjSettings);
+                KeyboardController.ActivateKeyboard(strKeyboardName);
+            }
+            return false;
+        }
+
+        public bool TextareaOnBlur(string strId)
+        {
+            KeyboardController.DeactivateKeyboard();
             return false;
         }
 
