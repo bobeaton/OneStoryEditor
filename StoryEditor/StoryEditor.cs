@@ -5284,7 +5284,7 @@ namespace OneStoryProjectEditor
             string strTbxFilename, string strParameter)
         {
             var myProcessor = new XslCompiledTransform();
-            var xslReader = XmlReader.Create(streamXSLT, new XmlReaderSettings {DtdProcessing = DtdProcessing.Prohibit});
+            var xslReader = XmlReader.Create(streamXSLT, new XmlReaderSettings {DtdProcessing = DtdProcessing.Parse});
             var xsltSettings = new XsltSettings { EnableDocumentFunction = true, EnableScript = true };
             myProcessor.Load(xslReader, xsltSettings, null);
 
