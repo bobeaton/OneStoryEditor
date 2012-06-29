@@ -341,7 +341,7 @@ namespace OneStoryProjectEditor
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             this.deleteToolStripMenuItem.Size = new System.Drawing.Size(306, 22);
             this.deleteToolStripMenuItem.Text = "&Delete Anchor";
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteToolStripMenuItemClick);
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteAnchorToolStripMenuItemClick);
             // 
             // addCommentToolStripMenuItem
             // 

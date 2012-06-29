@@ -266,7 +266,7 @@ namespace OneStoryProjectEditor
                 LocalizableMessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to", StoryEditor.OseCaption);
         }
 
-        private const string CstrNullAnchor = "No Anchor";
+        public const string CstrNullAnchor = "No Anchor";
 
         private void insertNullAnchorToolStripMenuItem_Click(object sender, EventArgs e)
         {

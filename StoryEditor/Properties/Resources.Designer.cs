@@ -591,7 +591,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;td id=&quot;{0}&quot; width=&quot;{1}%&quot; ondragover=&quot;window.event.returnValue=false&quot; ondrop=&quot;window.external.AddScriptureReference(this.id)&quot; &gt;{2}&lt;/td&gt;.
+        ///   Looks up a localized string similar to &lt;td id=&quot;{0}&quot; width=&quot;{1}%&quot; ondragover=&quot;window.event.returnValue=false&quot; ondrop=&quot;window.external.AddScriptureReference(this.id)&quot; onmouseup=&quot;window.external.OnAnchorButton(this.id);&quot;&gt;{2}&lt;/td&gt;.
         /// </summary>
         internal static string HTML_TableCellWidthDropAnchor {
             get {
@@ -1466,7 +1466,7 @@ namespace OneStoryProjectEditor.Properties {
         ///        &lt;/script&gt;
         ///{3}
         ///    &lt;/head&gt;
-        ///    &lt;body onKeyDown=&quot;return OnKeyDown();&quot;&gt;
+        ///    &lt;body onkeydown=&quot;return OnKeyDown();&quot; onscroll=&quot;window.external.OnScroll();&quot;&gt;
         ///&lt;!--for debugging: &lt;textarea id=&quot;osedebughtmlwindow&quot;&gt;&lt;/textarea&gt;--&gt;
         ///{4}
         ///    &lt;/body&gt;

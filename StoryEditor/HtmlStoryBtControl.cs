@@ -1146,7 +1146,22 @@ namespace OneStoryProjectEditor
                     select span.InnerText).FirstOrDefault();
         }
 
-        private void DeleteToolStripMenuItemClick(object sender, EventArgs e)
+        private bool TryGetAnchorData(string strAnchorButtonId, out int nLineIndex, out AnchorData anchor)
+        {
+            var verseData = VerseDataFromAnchorButtonId(strAnchorButtonId, out nLineIndex);
+            System.Diagnostics.Debug.Assert(verseData != null);
+
+            return TryGetAnchorData(verseData, nLineIndex, out anchor);
+        }
+
+        private bool TryGetAnchorData(VerseData verseData, int nLineIndex, out AnchorData anchor)
+        {
+            anchor = verseData.Anchors
+                .FirstOrDefault(anc => AnchorData.ButtonId(nLineIndex, anc.JumpTarget) == _lastAnchorButtonClicked);
+            return (anchor != null);
+        }
+
+        private void DeleteAnchorToolStripMenuItemClick(object sender, EventArgs e)
         {
             if (!String.IsNullOrEmpty(_lastAnchorButtonClicked))
             {
@@ -1158,14 +1173,14 @@ namespace OneStoryProjectEditor
                 var verseData = VerseDataFromAnchorButtonId(_lastAnchorButtonClicked, out nLineIndex);
                 System.Diagnostics.Debug.Assert(verseData != null);
 
-                foreach (var anchor in verseData.Anchors
-                                                .Where(anchor => 
-                                                    AnchorData.ButtonId(nLineIndex, anchor.JumpTarget) == _lastAnchorButtonClicked))
-                {
-                    verseData.Anchors.Remove(anchor);
-                    theSe.InitAllPanes();
-                    break;
-                }
+                AnchorData anchor;
+                if (!TryGetAnchorData(verseData, nLineIndex, out anchor))
+                    return;
+
+                verseData.Anchors.Remove(anchor);
+
+                StrIdToScrollTo = GetTopRowId;
+                LoadDocument();
 
                 _lastAnchorButtonClicked = null;
 
@@ -1179,92 +1194,95 @@ namespace OneStoryProjectEditor
 
         private void AddCommentToolStripMenuItemClick(object sender, EventArgs e)
         {
-            /*
-            if (m_theLastButtonClicked != null)
+            if (!String.IsNullOrEmpty(_lastAnchorButtonClicked))
             {
-                // the only function of the button here is to add a slot to type a con note
-                StoryEditor theSE;
-                if (!CheckForProperEditToken(out theSE))
+                StoryEditor theSe;
+                if (!CheckForProperEditToken(out theSe))
                     return;
-                System.Diagnostics.Debug.Assert(m_theLastButtonClicked.Tag is AnchorData);
 
-                var dlg = new AnchorAddCommentForm(m_theLastButtonClicked.Text, m_theLastButtonClicked.ToolTipText);
-                DialogResult res = dlg.ShowDialog();
+                int nLineIndex;
+                AnchorData anchor;
+                if (!TryGetAnchorData(_lastAnchorButtonClicked, out nLineIndex, out anchor))
+                    return;
+
+                var dlg = new AnchorAddCommentForm(anchor.JumpTarget, anchor.ToolTipText);
+                var res = dlg.ShowDialog();
                 if ((res == DialogResult.OK) || (res == DialogResult.Yes))
                 {
-                    System.Diagnostics.Debug.Assert((m_theLastButtonClicked.Tag != null) && (m_theLastButtonClicked.Tag is AnchorData));
-                    var theAnchorData = (AnchorData)m_theLastButtonClicked.Tag;
-                    theAnchorData.ToolTipText = m_theLastButtonClicked.ToolTipText = dlg.CommentText;
-
-                    string strJumpTarget = m_theLastButtonClicked.Text;
-                    int nIndLen = AnchorData.CstrTooltipIndicator.Length;
-                    if (strJumpTarget.Substring(strJumpTarget.Length - nIndLen, nIndLen) != AnchorData.CstrTooltipIndicator)
-                        m_theLastButtonClicked.Text += AnchorData.CstrTooltipIndicator;
-
-                    theSE.Modified = true;
+                    anchor.ToolTipText = dlg.CommentText;
+                    theSe.Modified = true;
+                    StrIdToScrollTo = GetTopRowId;
+                    LoadDocument();
                 }
             }
             else
                 LocalizableMessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to", StoryEditor.OseCaption);
-            */
         }
 
         private void AddConsultantCoachNoteOnThisAnchorToolStripMenuItemClick(object sender, EventArgs e)
         {
-            /*
-            // the only function of the button here is to add a slot to type a con note
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE))
-                return;
-
-            if (m_theLastButtonClicked != null)
+            if (!String.IsNullOrEmpty(_lastAnchorButtonClicked))
             {
-                System.Diagnostics.Debug.Assert(theSE.LoggedOnMember != null);
-                string strReferringText = StoryEditor.StrRegarding + AnchorsData.AnchorLabel;
-                strReferringText += m_theLastButtonClicked.Text;
+                StoryEditor theSe;
+                if (!CheckForProperEditToken(out theSe))
+                    return;
+                System.Diagnostics.Debug.Assert(theSe.LoggedOnMember != null);
 
-                if (m_theLastButtonClicked.ToolTipText != m_theLastButtonClicked.Text)
-                    strReferringText += String.Format(" ({0})", m_theLastButtonClicked.ToolTipText);
+                int nLineIndex;
+                AnchorData anchor;
+                if (!TryGetAnchorData(_lastAnchorButtonClicked, out nLineIndex, out anchor))
+                    return;
 
-                string strNote = StoryEditor.GetInitials(theSE.LoggedOnMember.Name) + " ";
-                theSE.SendNoteToCorrectPane(_ctrlVerse.VerseNumber, strReferringText, strNote, false);
+                StrIdToScrollTo = GetTopRowId;
+
+                var strReferringText = AnchorsData.AnchorLabel + " ";
+                strReferringText += anchor.JumpTarget;
+
+                if (anchor.JumpTarget != anchor.ToolTipText)
+                    strReferringText += String.Format(" ({0})", anchor.ToolTipText);
+
+                var strNote = StoryEditor.GetInitials(theSe.LoggedOnMember.Name) + ": ";
+                theSe.SendNoteToCorrectPane(nLineIndex, strReferringText, strNote, false);
             }
             else
                 LocalizableMessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to", StoryEditor.OseCaption);
-            */
         }
 
         private void InsertNullAnchorToolStripMenuItemClick(object sender, EventArgs e)
         {
-            /*
-            // the only function of the button here is to add a slot to type a con note
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE))
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe))
                 return;
 
-            AnchorData theAnchorData = _myAnchorsData.AddAnchorData(CstrNullAnchor, CstrNullAnchor);
-            InitAnchorButton(toolStripAnchors, theAnchorData);
+            int nLineIndex;
+            var verseData = VerseDataFromAnchorButtonId(_lastAnchorButtonClicked, out nLineIndex);
+            System.Diagnostics.Debug.Assert(verseData != null);
+
+            verseData.Anchors.AddAnchorData(AnchorControl.CstrNullAnchor, AnchorControl.CstrNullAnchor);
 
             // indicate that we've changed something so that we don't exit without offering
             //  to save.
-            theSE.Modified = true;
-            */
+            theSe.Modified = true;
+            StrIdToScrollTo = GetTopRowId;
+            LoadDocument();
         }
 
         private void ContextMenuStripAnchorOptionsOpening(object sender, CancelEventArgs e)
         {
-            /*
-            insertNullAnchorToolStripMenuItem.Visible = (_myAnchorsData.Count == 0);
+            int nLineIndex;
+            var verseData = VerseDataFromAnchorButtonId(_lastAnchorButtonClicked, out nLineIndex);
+            if (verseData != null)
+                return;
 
-            // the only function of the button here is to add a slot to type a con note
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(out theSE) || (theSE.LoggedOnMember == null))
+            insertNullAnchorToolStripMenuItem.Visible = (verseData.Anchors.Count == 0);
+
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe) || (theSe.LoggedOnMember == null))
                 return;
 
             addConsultantCoachNoteOnThisAnchorToolStripMenuItem.Visible =
-                TeamMemberData.IsUser(theSE.LoggedOnMember.MemberType,
+                TeamMemberData.IsUser(theSe.LoggedOnMember.MemberType,
                                       TeamMemberData.UserTypes.AnyEditor);
-            */
         }
     }
 }

@@ -74,7 +74,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                var elem = GetTopHtmlElementId("tr");
+                var elem = GetTopHtmlElementId("td");
                 return (elem != null) ? elem.Id : null;
             }
         }

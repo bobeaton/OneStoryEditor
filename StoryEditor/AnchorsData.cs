@@ -279,7 +279,7 @@ namespace OneStoryProjectEditor
                                  ButtonId(nLineIndex, JumpTarget),
                                  JumpTarget,
                                  "return OnBibRefJump(this);",
-                                 ToolTipText,
+                                 System.Web.HttpUtility.HtmlEncode(ToolTipText),
                                  strButtonLabel);
         }
     }
