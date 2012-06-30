@@ -499,13 +499,11 @@ namespace OneStoryProjectEditor
         public void SelectFoundText(string strHtmlElementId,
             int nFoundIndex, int nLengthToSelect)
         {
-            if (Document != null)
-            {
-                HtmlDocument doc = Document;
-                object[] oaParams = new object[] { strHtmlElementId, nFoundIndex, nLengthToSelect };
-                // doc.InvokeScript("textboxSelect", oaParams);
-                doc.InvokeScript("paragraphSelect", oaParams);
-            }
+            if (Document == null)
+                return;
+
+            var oaParams = new object[] { strHtmlElementId, nFoundIndex, nLengthToSelect };
+            Document.InvokeScript("paragraphSelect", oaParams);
         }
 
         private void MoveSelectedTextToANewLineToolStripMenuItemClick(object sender, EventArgs e)
@@ -561,6 +559,7 @@ namespace OneStoryProjectEditor
             if (dlg.IsSomethingToMove)
                 dlg.ShowDialog();
 
+            StrIdToScrollTo = GetTopRowId;
             theSe.InitAllPanes();
         }
 
@@ -572,7 +571,8 @@ namespace OneStoryProjectEditor
 
             var strSelectedText = GetSpanInnerText(spans, strId);
             string strOriginalText;
-            if (!stFrom.TryGetSourceString(strSelectedText, out strOriginalText))
+            if (String.IsNullOrEmpty(strSelectedText) ||
+                !stFrom.TryGetSourceString(strSelectedText, out strOriginalText))
                 return;
 
             stTo.SetValue(strOriginalText);
@@ -592,6 +592,7 @@ namespace OneStoryProjectEditor
                 return;
 
             theSe.Modified = true;
+            StrIdToScrollTo = GetTopRowId;
             theSe.InitAllPanes();
         }
 
@@ -613,6 +614,7 @@ namespace OneStoryProjectEditor
                 return;
 
             theSe.Modified = true;
+            StrIdToScrollTo = GetTopRowId;
             theSe.InitAllPanes();
         }
 
@@ -738,6 +740,7 @@ namespace OneStoryProjectEditor
 
             if (UserConfirmDeletion)
             {
+                StrIdToScrollTo = GetTopRowId;
                 theSe.DeleteVerse(verseData);
             }
         }
@@ -1271,7 +1274,7 @@ namespace OneStoryProjectEditor
         {
             int nLineIndex;
             var verseData = VerseDataFromAnchorButtonId(_lastAnchorButtonClicked, out nLineIndex);
-            if (verseData != null)
+            if (verseData == null)
                 return;
 
             insertNullAnchorToolStripMenuItem.Visible = (verseData.Anchors.Count == 0);
