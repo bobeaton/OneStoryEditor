@@ -591,7 +591,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;td id=&quot;{0}&quot; width=&quot;{1}%&quot; ondragover=&quot;window.event.returnValue=false&quot; ondrop=&quot;window.external.AddScriptureReference(this.id)&quot; onmouseup=&quot;window.external.OnAnchorButton(this.id);&quot;&gt;{2}&lt;/td&gt;.
+        ///   Looks up a localized string similar to &lt;td id=&quot;{0}&quot; width=&quot;{1}%&quot; ondragover=&quot;window.event.returnValue=false&quot; ondrop=&quot;window.external.AddScriptureReference(this.id)&quot; onmouseup=&quot;OnEmptyAnchorClick(this.id);&quot;&gt;{2}&lt;/td&gt;.
         /// </summary>
         internal static string HTML_TableCellWidthDropAnchor {
             get {
@@ -1482,20 +1482,20 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to function OnBibRefJump(btn) {
+        ///   Looks up a localized string similar to // this one is called from the anchor buttons
+        ///function OnBibRefJump(btn) {
         ///    if (event.button == 2)
         ///        window.external.OnAnchorButton(btn.id);
         ///    else
         ///        window.external.OnBibRefJump(btn.name);
         ///    return false; // cause the href navigation to not happen
         ///}
-        ///function OnLineOptionsButton(btn) {
-        ///    // capture the last textarea selected before it loses focus to do a context menu
-        ///    TriggerMyBlur(true);
-        ///    
-        ///    var bIsRightButton = (event.button == 2);
-        ///    window.external.OnLineOptionsButton(btn.id, bIsRightButton);
-        ///    return fa [rest of string was truncated]&quot;;.
+        ///// this one is called from the empty cell where the buttons go (for right-click to add Null Button)
+        ///function OnEmptyAnchorClick(id) {
+        ///    if (event.button == 2)
+        ///        window.external.OnAnchorButton(id);
+        ///}
+        ///function OnLineOptions [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string StoryBtJs {
             get {

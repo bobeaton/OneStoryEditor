@@ -1,9 +1,15 @@
-﻿function OnBibRefJump(btn) {
+﻿// this one is called from the anchor buttons
+function OnBibRefJump(btn) {
     if (event.button == 2)
         window.external.OnAnchorButton(btn.id);
     else
         window.external.OnBibRefJump(btn.name);
     return false; // cause the href navigation to not happen
+}
+// this one is called from the empty cell where the buttons go (for right-click to add Null Button)
+function OnEmptyAnchorClick(id) {
+    if (event.button == 2)
+        window.external.OnAnchorButton(id);
 }
 function OnLineOptionsButton(btn) {
     // capture the last textarea selected before it loses focus to do a context menu

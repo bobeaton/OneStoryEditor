@@ -2209,7 +2209,7 @@ eater Panorama
     <value>Non-Biblical Stories</value>
   </data>
   <data name="HTML_TableCellWidthDropAnchor" xml:space="preserve">
-    <value>&lt;td id="{0}" width="{1}%" ondragover="window.event.returnValue=false" ondrop="window.external.AddScriptureReference(this.id)" onmouseup="window.external.OnAnchorButton(this.id);"&gt;{2}&lt;/td&gt;</value>
+    <value>&lt;td id="{0}" width="{1}%" ondragover="window.event.returnValue=false" ondrop="window.external.AddScriptureReference(this.id)" onmouseup="OnEmptyAnchorClick(this.id);"&gt;{2}&lt;/td&gt;</value>
   </data>
   <data name="HTML_ParagraphText" xml:space="preserve">
     <value>&lt;p class="{0}"&gt;{1}&lt;/p&gt;</value>
