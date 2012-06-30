@@ -38,7 +38,7 @@ namespace OneStoryProjectEditor
         public void OnScroll()
         {
             var elemLnPrev = GetTopHtmlElementId("td");
-            if (elemLnPrev == null)
+            if ((elemLnPrev == null) || (LineNumberLink == null))
                 return;
 
             if (StoryEditor.IsFirstCharsEqual(elemLnPrev.InnerText,
