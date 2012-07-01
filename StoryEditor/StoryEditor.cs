@@ -1377,10 +1377,12 @@ namespace OneStoryProjectEditor
 
             if (UsingHtmlForStoryBtPane)
             {
+                /* handled in another way -- see StrIdToScrollTo = GetTopRowId; prior to calling this method
                 if (String.IsNullOrEmpty(HtmlStoryBtControl.LastTextareaInFocusId) && (theVerses.Count > 0))
                     FocusOnVerse(1, false, false);
                 else
                     htmlStoryBtControl.ScrollToElement(HtmlStoryBtControl.LastTextareaInFocusId, false);
+                */
             }
             else
             {

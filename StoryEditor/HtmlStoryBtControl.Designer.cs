@@ -124,7 +124,7 @@ namespace OneStoryProjectEditor
             this.menuAddTestQuestion.Size = new System.Drawing.Size(342, 22);
             this.menuAddTestQuestion.Text = "Add a story testing &question";
             this.menuAddTestQuestion.ToolTipText = "Click to add a story testing question";
-            this.menuAddTestQuestion.Click += new System.EventHandler(this.menuAddTestQuestion_Click);
+            this.menuAddTestQuestion.Click += new System.EventHandler(this.MenuAddTestQuestionClick);
             // 
             // addExegeticalCulturalNoteBelowToolStripMenuItem
             // 

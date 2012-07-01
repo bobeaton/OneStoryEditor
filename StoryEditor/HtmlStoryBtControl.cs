@@ -559,8 +559,7 @@ namespace OneStoryProjectEditor
             if (dlg.IsSomethingToMove)
                 dlg.ShowDialog();
 
-            StrIdToScrollTo = GetTopRowId;
-            theSe.InitAllPanes();
+            ReloadAllWindows();
         }
 
         private void MoveSelectedText(IEnumerable<HtmlElement> spans, string strId, bool bFieldShowing,
@@ -591,9 +590,15 @@ namespace OneStoryProjectEditor
             if (dlg.ShowDialog() != DialogResult.OK)
                 return;
 
-            theSe.Modified = true;
-            StrIdToScrollTo = GetTopRowId;
-            theSe.InitAllPanes();
+            ReloadAllWindows();
+        }
+
+        private void ReloadAllWindows()
+        {
+            TheSE.Modified = true;
+            var lastTop = GetTopRowId;
+            TheSE.InitAllPanes();
+            StrIdToScrollTo = lastTop;  // because InitAllPanes will have clobbered it
         }
 
         private void DeleteItemsToolStripMenuItemClick(object sender, EventArgs e)
@@ -613,9 +618,7 @@ namespace OneStoryProjectEditor
             if (dlg.ShowDialog() != DialogResult.OK)
                 return;
 
-            theSe.Modified = true;
-            StrIdToScrollTo = GetTopRowId;
-            theSe.InitAllPanes();
+            ReloadAllWindows();
         }
 
         public static DialogResult QueryAboutHidingVerseInstead()
@@ -637,7 +640,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private void menuAddTestQuestion_Click(object sender, EventArgs e)
+        private void MenuAddTestQuestionClick(object sender, EventArgs e)
         {
             StoryEditor theSe;
             if (!CheckForProperEditToken(out theSe) || String.IsNullOrEmpty(_lastLineOptionsButtonClicked))
@@ -646,8 +649,28 @@ namespace OneStoryProjectEditor
             int nLineIndex;
             var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
 
-            // TODO:
-            throw new NotImplementedException();
+            var isGeneralQuestionsLine = (nLineIndex == 0);
+            if (isGeneralQuestionsLine &&
+                TeamMemberData.IsUser(theSe.LoggedOnMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator) && 
+                !TasksPf.IsTaskOn(theSe.TheCurrentStory.TasksAllowedPf, TasksPf.TaskSettings.TestQuestions))
+            {
+                LocalizableMessageBox.Show(
+                    Localizer.Str("The consultant has not allowed you to enter testing questions at this time"),
+                    StoryEditor.OseCaption);
+                return;
+            }
+
+            verseData.TestQuestions.AddTestQuestion();
+            theSe.Modified = true;
+            if (isGeneralQuestionsLine && !theSe.viewGeneralTestingsQuestionMenu.Checked)
+                theSe.viewGeneralTestingsQuestionMenu.Checked = true;
+            if (!isGeneralQuestionsLine && !theSe.viewStoryTestingQuestionsMenu.Checked)
+                theSe.viewStoryTestingQuestionsMenu.Checked = true;
+            else
+            {
+                StrIdToScrollTo = GetTopRowId;
+                LoadDocument();
+            }
         }
 
         private void addExegeticalCulturalNoteBelowToolStripMenuItem_Click(object sender, EventArgs e)

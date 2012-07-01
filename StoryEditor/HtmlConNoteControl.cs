@@ -437,8 +437,6 @@ namespace OneStoryProjectEditor
                 (StoryEditor.TextPaster == null))
                 strNote = StoryEditor.GetInitials(theSE.LoggedOnMember.Name) + StoryEditor.StrRegarding;
 
-            StrIdToScrollTo = GetTopRowId;
-
             ConsultNoteDataConverter cndc =
                 aCNsDC.Add(theSE.TheCurrentStory, theSE.LoggedOnMember,
                 theSE.StoryProject.TeamMembers, strReferringText, strNote, bNoteToSelf);
@@ -461,6 +459,7 @@ namespace OneStoryProjectEditor
                 cndc.DontShowButtonsOverride = false;
             }
 
+            StrIdToScrollTo = GetTopRowId;
             LoadDocument();
             theSE.Modified = true;
 
