@@ -6381,58 +6381,95 @@ namespace OneStoryProjectEditor
         }
 
         private bool _bNagOnceSayMoreImport = true;
+        delegate StringTransfer StringTransferDelegate(VerseData vd);
         private void DoSaymoreImport()
         {
-            var dlg = new SayMoreImportForm();
+            var dlg = new SayMoreImportForm(TheCurrentStoriesSet, StoryProject.ProjSettings);
             if (dlg.ShowDialog() != DialogResult.OK) 
                 return;
 
-            var theNewStory = AddNewStoryAfter(dlg.StoryName, dlg.FullRecordingFileSpec, dlg.Crafter);
-            if (theNewStory == null)    // cancelled
-                return;
-
-            theNewStory.Verses.RemoveAt(0);
-            var nLen = Math.Max(dlg.VernacularLines.Count, dlg.BackTranslationLines.Count);
-
-            var projSettings = StoryProject.ProjSettings;
-            for (var i = 0; i < nLen; i++)
+            StringTransferDelegate stTranscription;
+            switch (dlg.TranscriptionField)
             {
-                var vernacular = GetSafeValue(dlg.VernacularLines, i);
-                var backTr = GetSafeValue(dlg.BackTranslationLines, i);
-                var newVerse = new VerseData();
-
-                newVerse.StoryLine.Vernacular.SetValue(vernacular);
-                if (projSettings.NationalBT.HasData)
-                    newVerse.StoryLine.NationalBt.SetValue(backTr);
-                else if (projSettings.InternationalBT.HasData)
-                    newVerse.StoryLine.InternationalBt.SetValue(backTr);
-                else if (projSettings.FreeTranslation.HasData)
-                    newVerse.StoryLine.FreeTranslation.SetValue(backTr);
-                else if (_bNagOnceSayMoreImport)
-                {
-                    _bNagOnceSayMoreImport = false;
-                    LocalizableMessageBox.Show(
-                        Localizer.Str(
-                            "Import from Saymore will try to import both the Saymore 'Transcription' data (into the OSE 'Story Language' fields) and the Saymore 'Translation' data (into one of the OSE 'back-translation' fields), but you don't have a 'back-translation' field enabled. To enable one, click 'Project', 'Settings' and check another box in the 'Story' column of the 'Languages' tab."),
-                        OseCaption);
-                }
-                theNewStory.Verses.Add(newVerse);
+                case TextFields.NationalBt:
+                    stTranscription = vd => vd.StoryLine.NationalBt;
+                    break;
+                case TextFields.InternationalBt:
+                    stTranscription = vd => vd.StoryLine.InternationalBt;
+                    break;
+                case TextFields.FreeTranslation:
+                    stTranscription = vd => vd.StoryLine.FreeTranslation;
+                    break;
+                default:
+                    stTranscription = vd => vd.StoryLine.Vernacular;
+                    break;
             }
 
-            // set the state to whatever field we put the bt in (which enables the view)
-            StoryStageLogic.ProjectStages eStage;
-            if (projSettings.NationalBT.HasData)
-                eStage = StoryStageLogic.ProjectStages.eProjFacTypeNationalBT;
-            else if (projSettings.InternationalBT.HasData)
-                eStage = StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT;
-            else if (projSettings.FreeTranslation.HasData)
-                eStage = StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation;
+            StoryStageLogic.ProjectStages eStageToGoTo = StoryStageLogic.ProjectStages.eUndefined;
+            StringTransferDelegate stTranslation;
+            switch (dlg.TranslationField)
+            {
+                case TextFields.NationalBt:
+                    stTranslation = vd => vd.StoryLine.NationalBt;
+                    eStageToGoTo = StoryStageLogic.ProjectStages.eProjFacTypeNationalBT;
+                    break;
+                case TextFields.InternationalBt:
+                    stTranslation = vd => vd.StoryLine.InternationalBt;
+                    eStageToGoTo = StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT;
+                    break;
+                case TextFields.FreeTranslation:
+                    stTranslation = vd => vd.StoryLine.FreeTranslation;
+                    eStageToGoTo = StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation;
+                    break;
+                default:
+                    if (_bNagOnceSayMoreImport)
+                    {
+                        _bNagOnceSayMoreImport = false;
+                        LocalizableMessageBox.Show(
+                            Localizer.Str(
+                                "Import from Saymore will import both the Saymore 'Transcription' data (usually into the OSE 'Story Language' fields) and the Saymore 'Translation' data (into one of the OSE 'back-translation' fields), but you don't have a 'back-translation' field enabled. To enable one, click 'Project', 'Settings' and check another box in the 'Story' column of the 'Languages' tab."),
+                            OseCaption);
+                        Debug.Assert(false, "wasn't expecting any other value for BT");
+                    }
+                    stTranslation = vd => vd.StoryLine.FreeTranslation; // gotta put it somewhere
+                    break;
+            }
+
+            if (!dlg.CreateNewStory)
+            {
+                var theExistingStory = TheCurrentStoriesSet.FirstOrDefault(s => s.Name == dlg.AsRetellingInStory);
+                Debug.Assert(theExistingStory != null); // shouldn't be possible to be null
+            }
             else
             {
-                InitAllPanes();
-                return;
+                var theNewStory = AddNewStoryAfter(dlg.StoryName, dlg.FullRecordingFileSpec, dlg.Crafter);
+                if (theNewStory == null)    // cancelled
+                    return;
+
+                theNewStory.Verses.RemoveAt(0);
+                var nLen = Math.Max(dlg.VernacularLines.Count, dlg.BackTranslationLines.Count);
+
+                var projSettings = StoryProject.ProjSettings;
+                for (var i = 0; i < nLen; i++)
+                {
+                    var vernacular = GetSafeValue(dlg.VernacularLines, i);
+                    var backTr = GetSafeValue(dlg.BackTranslationLines, i);
+                    var newVerse = new VerseData();
+
+                    stTranscription(newVerse).SetValue(vernacular);
+                    stTranslation(newVerse).SetValue(backTr);
+                    theNewStory.Verses.Add(newVerse);
+                }
+
+                // set the state to whatever field we put the bt in (which enables the view)
+                if (eStageToGoTo == StoryStageLogic.ProjectStages.eUndefined)
+                {
+                    InitAllPanes();
+                    return;
+                }
+
+                SetNextStateAdvancedOverride(eStageToGoTo, false);
             }
-            SetNextStateAdvancedOverride(eStage, false);
         }
 
         private static string GetSafeValue(IList<string> lst, int i)
