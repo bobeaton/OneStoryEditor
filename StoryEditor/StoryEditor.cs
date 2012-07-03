@@ -6478,21 +6478,28 @@ namespace OneStoryProjectEditor
 
             var nLen = Math.Max(dlg.VernacularLines.Count, dlg.BackTranslationLines.Count);
 
+            int nLineIndex = 0;
             for (var i = 0; i < nLen; i++)
             {
                 var vernacular = GetSafeValue(dlg.VernacularLines, i);
                 var backTr = GetSafeValue(dlg.BackTranslationLines, i);
                 VerseData newVerse;
-                if (dlg.CreateNewStory || (theStory.Verses.Count <= i))
+                if (dlg.CreateNewStory || (theStory.Verses.Count <= nLineIndex))
                 {
-                    newVerse = new VerseData();
-                    theStory.Verses.Add(newVerse);
-
-                    if (!dlg.CreateNewStory)
-                        newVerse.Retellings.TryAddNewLine(strUnsGuid);
+                    newVerse = GetNewVerse(strUnsGuid, theStory, dlg.CreateNewStory);
                 }
                 else
-                    newVerse = theStory.Verses[i];
+                {
+                    // skip over hidden lines
+                    while (!(newVerse = theStory.Verses[nLineIndex++]).IsVisible)
+                    {
+                        if (theStory.Verses.Count > nLineIndex)
+                            continue;
+
+                        newVerse = GetNewVerse(strUnsGuid, theStory, dlg.CreateNewStory);
+                        break;
+                    }
+                }
 
                 stTranscription(lineData(newVerse)).SetValue(vernacular);
                 stTranslation(lineData(newVerse)).SetValue(backTr);
@@ -6508,6 +6515,16 @@ namespace OneStoryProjectEditor
             }
 
             SetNextStateAdvancedOverride(eStageToGoTo, false);
+        }
+
+        private static VerseData GetNewVerse(string strUnsGuid, StoryData theStory, bool bCreateNewStory)
+        {
+            var newVerse = new VerseData();
+            theStory.Verses.Add(newVerse);
+
+            if (!bCreateNewStory)
+                newVerse.Retellings.TryAddNewLine(strUnsGuid);
+            return newVerse;
         }
 
         private static string GetSafeValue(IList<string> lst, int i)
