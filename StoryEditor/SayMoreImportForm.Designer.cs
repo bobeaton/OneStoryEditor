@@ -42,7 +42,6 @@
             this.tabPageChooseStory = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.buttonMoveToChooseFieldTab = new System.Windows.Forms.Button();
-            this.listBoxExistingStories = new System.Windows.Forms.ListBox();
             this.radioButtonAsRetelling = new System.Windows.Forms.RadioButton();
             this.radioButtonNewStory = new System.Windows.Forms.RadioButton();
             this.tabPageFieldMatching = new System.Windows.Forms.TabPage();
@@ -194,7 +193,6 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.buttonMoveToChooseFieldTab);
-            this.groupBox1.Controls.Add(this.listBoxExistingStories);
             this.groupBox1.Controls.Add(this.radioButtonAsRetelling);
             this.groupBox1.Controls.Add(this.radioButtonNewStory);
             this.groupBox1.Location = new System.Drawing.Point(7, 7);
@@ -214,14 +212,6 @@
             this.buttonMoveToChooseFieldTab.UseVisualStyleBackColor = true;
             this.buttonMoveToChooseFieldTab.Click += new System.EventHandler(this.ButtonMoveToChooseFieldTabClick);
             // 
-            // listBoxExistingStories
-            // 
-            this.listBoxExistingStories.FormattingEnabled = true;
-            this.listBoxExistingStories.Location = new System.Drawing.Point(128, 20);
-            this.listBoxExistingStories.Name = "listBoxExistingStories";
-            this.listBoxExistingStories.Size = new System.Drawing.Size(554, 199);
-            this.listBoxExistingStories.TabIndex = 2;
-            // 
             // radioButtonAsRetelling
             // 
             this.radioButtonAsRetelling.AutoSize = true;
@@ -232,7 +222,6 @@
             this.radioButtonAsRetelling.TabStop = true;
             this.radioButtonAsRetelling.Text = "&Retelling";
             this.radioButtonAsRetelling.UseVisualStyleBackColor = true;
-            this.radioButtonAsRetelling.CheckedChanged += new System.EventHandler(this.RadioButtonAsRetellingCheckedChanged);
             // 
             // radioButtonNewStory
             // 
@@ -466,7 +455,6 @@
         private System.Windows.Forms.TabPage tabPageChooseStory;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton radioButtonNewStory;
-        private System.Windows.Forms.ListBox listBoxExistingStories;
         private System.Windows.Forms.RadioButton radioButtonAsRetelling;
         private System.Windows.Forms.TabPage tabPageFieldMatching;
         private System.Windows.Forms.GroupBox groupBoxTranscription;

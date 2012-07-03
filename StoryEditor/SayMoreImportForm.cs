@@ -24,16 +24,22 @@ namespace OneStoryProjectEditor
         private const string CstrOrigFullRecordingSuffix = "_Original.wav";
         private const string CstrOrigFullRecordingSuffix2 = "_OralTranslation.wav";
 
-        private readonly StoriesData _storiesData;
         private readonly ProjectSettings _projSettings;
 
-        public SayMoreImportForm(StoriesData storiesData, ProjectSettings projSettings)
+        public SayMoreImportForm(StoryData storyData, ProjectSettings projSettings)
         {
-            _storiesData = storiesData;
             _projSettings = projSettings;
             InitializeComponent();
             Localizer.Ctrl(this);
             InitGrid();
+
+            // if we have a current story, then we can import into a retelling also
+            if (storyData == null)
+                radioButtonAsRetelling.Enabled = false;
+            else
+                radioButtonAsRetelling.Text = String.Format(Localizer.Str("Retelling {0} of story {1}"),
+                                                            storyData.CraftingInfo.TestersToCommentsRetellings.Count + 1,
+                                                            storyData.Name);
         }
 
         private void InitGrid()
@@ -154,64 +160,82 @@ namespace OneStoryProjectEditor
             {
                 InitializeGrid();
             }
-            else if (e.TabPage == tabPageChooseStory)
-            {
-                if (_storiesData.Count == 0)
-                {
-                    ButtonMoveToChooseFieldTabClick(null, null);
-                    return;
-                }
-
-                listBoxExistingStories.Visible = radioButtonAsRetelling.Checked;
-                foreach (var story in _storiesData)
-                    listBoxExistingStories.Items.Add(story.Name);
-            }
             else if (e.TabPage == tabPageFieldMatching)
             {
-                bool bTranscriptionChosen = false, bTranslationChosen = false;
-                if (_projSettings.Vernacular.HasData)
+                if (radioButtonNewStory.Checked)
                 {
-                    // radioButtonVernacularTranslation.Visible =  doesn't make sense for this field to be the translation
-                    radioButtonVernacularTranscription.Visible =true;
-
-                    bTranscriptionChosen = radioButtonVernacularTranscription.Checked = true;
+                    SetFieldVisibility(_projSettings.Vernacular.HasData,
+                                       _projSettings.NationalBT.HasData,
+                                       _projSettings.InternationalBT.HasData,
+                                       _projSettings.FreeTranslation.HasData);
                 }
-
-                if (_projSettings.NationalBT.HasData)
+                else
                 {
-                    radioButtonNationalBtTranscription.Visible =
-                        radioButtonNationalBtTranslation.Visible = true;
-                    
-                    // if we haven't chosen the transcription yet, then this would be it
-                    if (!bTranscriptionChosen)
-                        bTranscriptionChosen = radioButtonNationalBtTranscription.Checked = true;
-                    else
-                        // otherwise, this is the default for translation 
-                        bTranslationChosen = radioButtonNationalBtTranslation.Checked = true;
-                }
-
-                if (_projSettings.InternationalBT.HasData)
-                {
-                    radioButtonInternationalBtTranscription.Visible =
-                        radioButtonInternationalBtTranslation.Visible = true;
-                    
-                    // if we haven't chosen the transcription yet, then this would be it
-                    if (!bTranscriptionChosen)
-                        bTranscriptionChosen = radioButtonInternationalBtTranscription.Checked = true;
-                    // otherwise, if the translation hasn't yet been chosen, then this would be it
-                    else if (!bTranslationChosen)
-                        bTranslationChosen = radioButtonInternationalBtTranslation.Checked = true;
-                }
-
-                if (_projSettings.FreeTranslation.HasData)
-                {
-                    radioButtonFreeTrTranscription.Visible =
-                        radioButtonFreeTrTranslation.Visible = true;
-
-                    if (!bTranslationChosen)
-                        bTranslationChosen = radioButtonFreeTrTranslation.Checked = true;
+                    SetFieldVisibility(_projSettings.ShowRetellings.Vernacular,
+                                       _projSettings.ShowRetellings.NationalBt,
+                                       _projSettings.ShowRetellings.InternationalBt,
+                                       false);
                 }
             }
+        }
+
+        private void SetFieldVisibility(bool bVernacular, bool bNationalBt, bool bInternationalBt, bool bFreeTr)
+        {
+            bool bTranscriptionChosen = false, bTranslationChosen = false;
+            if (bVernacular)
+            {
+                // radioButtonVernacularTranslation.Visible =  doesn't make sense for this field to be the translation
+                radioButtonVernacularTranscription.Visible = true;
+
+                bTranscriptionChosen = radioButtonVernacularTranscription.Checked = true;
+            }
+            else
+                radioButtonVernacularTranscription.Visible =
+                    radioButtonVernacularTranslation.Visible = false;
+
+            if (bNationalBt)
+            {
+                radioButtonNationalBtTranscription.Visible =
+                    radioButtonNationalBtTranslation.Visible = true;
+
+                // if we haven't chosen the transcription yet, then this would be it
+                if (!bTranscriptionChosen)
+                    bTranscriptionChosen = radioButtonNationalBtTranscription.Checked = true;
+                else
+                    // otherwise, this is the default for translation 
+                    bTranslationChosen = radioButtonNationalBtTranslation.Checked = true;
+            }
+            else
+                radioButtonNationalBtTranscription.Visible =
+                    radioButtonNationalBtTranslation.Visible = false;
+
+            if (bInternationalBt)
+            {
+                radioButtonInternationalBtTranscription.Visible =
+                    radioButtonInternationalBtTranslation.Visible = true;
+
+                // if we haven't chosen the transcription yet, then this would be it
+                if (!bTranscriptionChosen)
+                    radioButtonInternationalBtTranscription.Checked = true;
+                    // otherwise, if the translation hasn't yet been chosen, then this would be it
+                else if (!bTranslationChosen)
+                    bTranslationChosen = radioButtonInternationalBtTranslation.Checked = true;
+            }
+            else
+                radioButtonInternationalBtTranscription.Visible =
+                    radioButtonInternationalBtTranslation.Visible = false;
+
+            if (bFreeTr)
+            {
+                radioButtonFreeTrTranscription.Visible =
+                    radioButtonFreeTrTranslation.Visible = true;
+
+                if (!bTranslationChosen)
+                    radioButtonFreeTrTranslation.Checked = true;
+            }
+            else
+                radioButtonFreeTrTranscription.Visible =
+                    radioButtonFreeTrTranslation.Visible = false;
         }
 
         private void DataGridViewEventsCellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -276,11 +300,6 @@ namespace OneStoryProjectEditor
                    select xValue.Value).ToList();
         }
 
-        private void RadioButtonAsRetellingCheckedChanged(object sender, EventArgs e)
-        {
-            listBoxExistingStories.Visible = radioButtonAsRetelling.Checked;
-        }
-
         public bool CreateNewStory { get; set; }
         public string AsRetellingInStory { get; set; }
         public StoryEditor.TextFields TranscriptionField { get; set; }
@@ -290,10 +309,6 @@ namespace OneStoryProjectEditor
         {
             CreateNewStory = radioButtonNewStory.Checked;
             
-            int nIndex;
-            if ((nIndex = listBoxExistingStories.SelectedIndex) != -1)
-                AsRetellingInStory = listBoxExistingStories.Items[nIndex] as string;
-
             TranscriptionField = WhichField(radioButtonVernacularTranscription,
                                             radioButtonNationalBtTranscription,
                                             radioButtonInternationalBtTranscription,
@@ -302,6 +317,17 @@ namespace OneStoryProjectEditor
                                             radioButtonNationalBtTranslation,
                                             radioButtonInternationalBtTranslation,
                                             radioButtonFreeTrTranslation);
+
+            if (TranscriptionField == TranslationField)
+            {
+                LocalizableMessageBox.Show(
+                    String.Format(
+                        Localizer.Str(
+                            "You can't import both the transcription and translation from SayMore into the {0} field"),
+                        TranslationField),
+                    StoryEditor.OseCaption);
+                return;
+            }
 
             DialogResult = DialogResult.OK;
             Close();
