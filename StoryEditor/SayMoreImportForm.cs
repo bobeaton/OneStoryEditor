@@ -162,20 +162,25 @@ namespace OneStoryProjectEditor
             }
             else if (e.TabPage == tabPageFieldMatching)
             {
-                if (radioButtonNewStory.Checked)
-                {
-                    SetFieldVisibility(_projSettings.Vernacular.HasData,
-                                       _projSettings.NationalBT.HasData,
-                                       _projSettings.InternationalBT.HasData,
-                                       _projSettings.FreeTranslation.HasData);
-                }
-                else
-                {
-                    SetFieldVisibility(_projSettings.ShowRetellings.Vernacular,
-                                       _projSettings.ShowRetellings.NationalBt,
-                                       _projSettings.ShowRetellings.InternationalBt,
-                                       false);
-                }
+                UpdateFieldRadioButtons();
+            }
+        }
+
+        private void UpdateFieldRadioButtons()
+        {
+            if (radioButtonNewStory.Checked)
+            {
+                SetFieldVisibility(_projSettings.Vernacular.HasData,
+                                   _projSettings.NationalBT.HasData,
+                                   _projSettings.InternationalBT.HasData,
+                                   _projSettings.FreeTranslation.HasData);
+            }
+            else
+            {
+                SetFieldVisibility(_projSettings.ShowRetellings.Vernacular,
+                                   _projSettings.ShowRetellings.NationalBt,
+                                   _projSettings.ShowRetellings.InternationalBt,
+                                   false);
             }
         }
 
@@ -276,7 +281,7 @@ namespace OneStoryProjectEditor
 
             VernacularLines = lstVernacular;
             BackTranslationLines = lstBackTranslation;
-            tabControlImport.SelectTab(tabPageChooseStory);
+            tabControlImport.SelectTab(tabPageFieldMatching);
         }
 
         private static void GetTier(XContainer doc, string strType, out List<string> lst)
@@ -347,9 +352,9 @@ namespace OneStoryProjectEditor
             return value;
         }
 
-        private void ButtonMoveToChooseFieldTabClick(object sender, EventArgs e)
+        private void RadioButtonNewStoryCheckedChanged(object sender, EventArgs e)
         {
-            tabControlImport.SelectTab(tabPageFieldMatching);
+            UpdateFieldRadioButtons();
         }
     }
 }

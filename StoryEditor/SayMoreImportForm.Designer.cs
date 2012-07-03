@@ -39,12 +39,10 @@
             this.tabPageProjects = new System.Windows.Forms.TabPage();
             this.listBoxProjects = new System.Windows.Forms.ListBox();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
-            this.tabPageChooseStory = new System.Windows.Forms.TabPage();
+            this.tabPageFieldMatching = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.buttonMoveToChooseFieldTab = new System.Windows.Forms.Button();
             this.radioButtonAsRetelling = new System.Windows.Forms.RadioButton();
             this.radioButtonNewStory = new System.Windows.Forms.RadioButton();
-            this.tabPageFieldMatching = new System.Windows.Forms.TabPage();
             this.buttonImport = new System.Windows.Forms.Button();
             this.groupBoxTranslation = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanelTranslation = new System.Windows.Forms.FlowLayoutPanel();
@@ -63,9 +61,8 @@
             this.tabControlImport.SuspendLayout();
             this.tabPageProjects.SuspendLayout();
             this.tabPageEvents.SuspendLayout();
-            this.tabPageChooseStory.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.tabPageFieldMatching.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.groupBoxTranslation.SuspendLayout();
             this.flowLayoutPanelTranslation.SuspendLayout();
             this.groupBoxTranscription.SuspendLayout();
@@ -138,7 +135,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControlImport.Controls.Add(this.tabPageProjects);
             this.tabControlImport.Controls.Add(this.tabPageEvents);
-            this.tabControlImport.Controls.Add(this.tabPageChooseStory);
             this.tabControlImport.Controls.Add(this.tabPageFieldMatching);
             this.tabControlImport.Location = new System.Drawing.Point(13, 13);
             this.tabControlImport.Name = "tabControlImport";
@@ -179,43 +175,35 @@
             this.tabPageEvents.Text = "Sessions";
             this.tabPageEvents.UseVisualStyleBackColor = true;
             // 
-            // tabPageChooseStory
+            // tabPageFieldMatching
             // 
-            this.tabPageChooseStory.Controls.Add(this.groupBox1);
-            this.tabPageChooseStory.Location = new System.Drawing.Point(4, 22);
-            this.tabPageChooseStory.Name = "tabPageChooseStory";
-            this.tabPageChooseStory.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageChooseStory.Size = new System.Drawing.Size(701, 243);
-            this.tabPageChooseStory.TabIndex = 2;
-            this.tabPageChooseStory.Text = "Story";
-            this.tabPageChooseStory.UseVisualStyleBackColor = true;
+            this.tabPageFieldMatching.Controls.Add(this.groupBox1);
+            this.tabPageFieldMatching.Controls.Add(this.buttonImport);
+            this.tabPageFieldMatching.Controls.Add(this.groupBoxTranslation);
+            this.tabPageFieldMatching.Controls.Add(this.groupBoxTranscription);
+            this.tabPageFieldMatching.Location = new System.Drawing.Point(4, 22);
+            this.tabPageFieldMatching.Name = "tabPageFieldMatching";
+            this.tabPageFieldMatching.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageFieldMatching.Size = new System.Drawing.Size(701, 243);
+            this.tabPageFieldMatching.TabIndex = 3;
+            this.tabPageFieldMatching.Text = "Choose Fields";
+            this.tabPageFieldMatching.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.buttonMoveToChooseFieldTab);
             this.groupBox1.Controls.Add(this.radioButtonAsRetelling);
             this.groupBox1.Controls.Add(this.radioButtonNewStory);
-            this.groupBox1.Location = new System.Drawing.Point(7, 7);
+            this.groupBox1.Location = new System.Drawing.Point(13, 13);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(688, 230);
-            this.groupBox1.TabIndex = 0;
+            this.groupBox1.Size = new System.Drawing.Size(679, 47);
+            this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Where to import?";
-            // 
-            // buttonMoveToChooseFieldTab
-            // 
-            this.buttonMoveToChooseFieldTab.Location = new System.Drawing.Point(16, 196);
-            this.buttonMoveToChooseFieldTab.Name = "buttonMoveToChooseFieldTab";
-            this.buttonMoveToChooseFieldTab.Size = new System.Drawing.Size(75, 23);
-            this.buttonMoveToChooseFieldTab.TabIndex = 3;
-            this.buttonMoveToChooseFieldTab.Text = "Next...";
-            this.buttonMoveToChooseFieldTab.UseVisualStyleBackColor = true;
-            this.buttonMoveToChooseFieldTab.Click += new System.EventHandler(this.ButtonMoveToChooseFieldTabClick);
+            this.groupBox1.Text = "Import into?";
             // 
             // radioButtonAsRetelling
             // 
             this.radioButtonAsRetelling.AutoSize = true;
-            this.radioButtonAsRetelling.Location = new System.Drawing.Point(17, 53);
+            this.radioButtonAsRetelling.Location = new System.Drawing.Point(135, 20);
             this.radioButtonAsRetelling.Name = "radioButtonAsRetelling";
             this.radioButtonAsRetelling.Size = new System.Drawing.Size(66, 17);
             this.radioButtonAsRetelling.TabIndex = 1;
@@ -234,23 +222,12 @@
             this.radioButtonNewStory.TabStop = true;
             this.radioButtonNewStory.Text = "&New Story";
             this.radioButtonNewStory.UseVisualStyleBackColor = true;
-            // 
-            // tabPageFieldMatching
-            // 
-            this.tabPageFieldMatching.Controls.Add(this.buttonImport);
-            this.tabPageFieldMatching.Controls.Add(this.groupBoxTranslation);
-            this.tabPageFieldMatching.Controls.Add(this.groupBoxTranscription);
-            this.tabPageFieldMatching.Location = new System.Drawing.Point(4, 22);
-            this.tabPageFieldMatching.Name = "tabPageFieldMatching";
-            this.tabPageFieldMatching.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFieldMatching.Size = new System.Drawing.Size(701, 243);
-            this.tabPageFieldMatching.TabIndex = 3;
-            this.tabPageFieldMatching.Text = "Choose Fields";
-            this.tabPageFieldMatching.UseVisualStyleBackColor = true;
+            this.radioButtonNewStory.CheckedChanged += new System.EventHandler(this.RadioButtonNewStoryCheckedChanged);
             // 
             // buttonImport
             // 
-            this.buttonImport.Location = new System.Drawing.Point(313, 197);
+            this.buttonImport.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.buttonImport.Location = new System.Drawing.Point(313, 214);
             this.buttonImport.Name = "buttonImport";
             this.buttonImport.Size = new System.Drawing.Size(75, 23);
             this.buttonImport.TabIndex = 4;
@@ -261,9 +238,9 @@
             // groupBoxTranslation
             // 
             this.groupBoxTranslation.Controls.Add(this.flowLayoutPanelTranslation);
-            this.groupBoxTranslation.Location = new System.Drawing.Point(7, 92);
+            this.groupBoxTranslation.Location = new System.Drawing.Point(13, 141);
             this.groupBoxTranslation.Name = "groupBoxTranslation";
-            this.groupBoxTranslation.Size = new System.Drawing.Size(688, 80);
+            this.groupBoxTranslation.Size = new System.Drawing.Size(688, 54);
             this.groupBoxTranslation.TabIndex = 1;
             this.groupBoxTranslation.TabStop = false;
             this.groupBoxTranslation.Text = "Translation &Field";
@@ -277,7 +254,7 @@
             this.flowLayoutPanelTranslation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelTranslation.Location = new System.Drawing.Point(3, 16);
             this.flowLayoutPanelTranslation.Name = "flowLayoutPanelTranslation";
-            this.flowLayoutPanelTranslation.Size = new System.Drawing.Size(682, 61);
+            this.flowLayoutPanelTranslation.Size = new System.Drawing.Size(682, 35);
             this.flowLayoutPanelTranslation.TabIndex = 0;
             // 
             // radioButtonVernacularTranslation
@@ -331,9 +308,9 @@
             // groupBoxTranscription
             // 
             this.groupBoxTranscription.Controls.Add(this.flowLayoutPanelTranscription);
-            this.groupBoxTranscription.Location = new System.Drawing.Point(7, 6);
+            this.groupBoxTranscription.Location = new System.Drawing.Point(10, 72);
             this.groupBoxTranscription.Name = "groupBoxTranscription";
-            this.groupBoxTranscription.Size = new System.Drawing.Size(688, 80);
+            this.groupBoxTranscription.Size = new System.Drawing.Size(688, 54);
             this.groupBoxTranscription.TabIndex = 0;
             this.groupBoxTranscription.TabStop = false;
             this.groupBoxTranscription.Text = "&Transcription Field";
@@ -347,7 +324,7 @@
             this.flowLayoutPanelTranscription.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelTranscription.Location = new System.Drawing.Point(3, 16);
             this.flowLayoutPanelTranscription.Name = "flowLayoutPanelTranscription";
-            this.flowLayoutPanelTranscription.Size = new System.Drawing.Size(682, 61);
+            this.flowLayoutPanelTranscription.Size = new System.Drawing.Size(682, 35);
             this.flowLayoutPanelTranscription.TabIndex = 0;
             // 
             // radioButtonVernacularTranscription
@@ -425,10 +402,9 @@
             this.tabControlImport.ResumeLayout(false);
             this.tabPageProjects.ResumeLayout(false);
             this.tabPageEvents.ResumeLayout(false);
-            this.tabPageChooseStory.ResumeLayout(false);
+            this.tabPageFieldMatching.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.tabPageFieldMatching.ResumeLayout(false);
             this.groupBoxTranslation.ResumeLayout(false);
             this.flowLayoutPanelTranslation.ResumeLayout(false);
             this.flowLayoutPanelTranslation.PerformLayout();
@@ -452,15 +428,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTitle;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnParticipant;
-        private System.Windows.Forms.TabPage tabPageChooseStory;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton radioButtonNewStory;
-        private System.Windows.Forms.RadioButton radioButtonAsRetelling;
         private System.Windows.Forms.TabPage tabPageFieldMatching;
         private System.Windows.Forms.GroupBox groupBoxTranscription;
         private System.Windows.Forms.GroupBox groupBoxTranslation;
         private System.Windows.Forms.Button buttonImport;
-        private System.Windows.Forms.Button buttonMoveToChooseFieldTab;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelTranscription;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelTranslation;
         private System.Windows.Forms.RadioButton radioButtonVernacularTranscription;
@@ -471,5 +442,8 @@
         private System.Windows.Forms.RadioButton radioButtonInternationalBtTranslation;
         private System.Windows.Forms.RadioButton radioButtonFreeTrTranscription;
         private System.Windows.Forms.RadioButton radioButtonFreeTrTranslation;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton radioButtonAsRetelling;
+        private System.Windows.Forms.RadioButton radioButtonNewStory;
     }
 }
