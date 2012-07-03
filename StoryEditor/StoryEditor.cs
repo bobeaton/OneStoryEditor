@@ -2448,12 +2448,24 @@ namespace OneStoryProjectEditor
 
         private bool CheckForSaveDirtyFile()
         {
-            // if we're in the 'old stories' window OR if it's a Just looking user, then
+            if (!CheckForSaveDirtyFileNoCleanup())
+                return false;
+
+            // do cleanup, because this is always called before starting something new (new file or empty project)
+            ClearFlowControls();
+            textBoxStoryVerse.Text = Localizer.Str("Story");
+            return true;
+        }
+
+        private bool CheckForSaveDirtyFileNoCleanup()
+        {
+// if we're in the 'old stories' window OR if it's a Just looking user, then
             //  ignore the modified flag and return
             if (!IsInStoriesSet ||
-                ((LoggedOnMember != null) && TeamMemberData.IsUser(LoggedOnMember.MemberType, TeamMemberData.UserTypes.JustLooking)))
+                ((LoggedOnMember != null) &&
+                 TeamMemberData.IsUser(LoggedOnMember.MemberType, TeamMemberData.UserTypes.JustLooking)))
             {
-                Modified = false;   // just in case
+                Modified = false; // just in case
                 return true;
             }
 
@@ -2462,7 +2474,7 @@ namespace OneStoryProjectEditor
                 // it's annoying that the keyboard doesn't deactivate so I can just type 'y' for "Yes"
                 try
                 {
-                    KeyboardController.DeactivateKeyboard();    // ... do it manually
+                    KeyboardController.DeactivateKeyboard(); // ... do it manually
                 }
                 catch (FileLoadException)
                 {
@@ -2471,7 +2483,7 @@ namespace OneStoryProjectEditor
 #endif
                 }
 
-                DialogResult res = QuerySave();
+                var res = QuerySave();
                 if (res == DialogResult.Cancel)
                     return false;
                 if (res == DialogResult.No)
@@ -2483,9 +2495,6 @@ namespace OneStoryProjectEditor
                 SaveClicked();
             }
 
-            // do cleanup, because this is always called before starting something new (new file or empty project)
-            ClearFlowControls();
-            textBoxStoryVerse.Text = Localizer.Str("Story");
             return true;
         }
 
@@ -3095,7 +3104,8 @@ namespace OneStoryProjectEditor
             panoramaInsertNewStoryMenu.Enabled =
                 panoramaAddNewStoryAfterMenu.Enabled = isStoryInsertable;
 
-            storyImportFromSayMore.Enabled = isStoryInsertable && Directory.Exists(ProjectSettings.SayMoreFolderRoot);
+            storyImportFromSayMore.Enabled = isStoryInsertable &&
+                                             Directory.Exists(ProjectSettings.SayMoreFolderRoot);
 
             // if there's a story that has more than no verses, AND if it's a bible
             //  story and before the add anchors stage or a non-biblical story and
@@ -3462,7 +3472,7 @@ namespace OneStoryProjectEditor
 
         internal void editAddTestResultsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddRetellingTest();
+            AddRetellingTest(false);
             InitAllPanes();
         }
 
@@ -3486,7 +3496,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        internal bool AddRetellingTest()
+        internal bool AddRetellingTest(bool bBlockCopyToDropbox)
         {
             // query for the UNSs that will be doing this test
             string strUnsGuid = null;
@@ -3517,8 +3527,8 @@ namespace OneStoryProjectEditor
             Modified = true;
 
             // check for Dropbox copy
-
-            TriggerDropboxCopyRetelling(StoryProject.ProjSettings.DropboxRetelling);
+            if (!bBlockCopyToDropbox)
+                TriggerDropboxCopyRetelling(StoryProject.ProjSettings.DropboxRetelling);
             return true;
         }
 
@@ -6698,58 +6708,140 @@ namespace OneStoryProjectEditor
         }
 
         private bool _bNagOnceSayMoreImport = true;
+        private delegate StringTransfer StringTransferDelegate(LineData ld);
+        private delegate LineData LineDataDelegate(VerseData vd);
         private void DoSaymoreImport()
         {
-            var dlg = new SayMoreImportForm();
+            CheckForSaveDirtyFileNoCleanup();
+            var dlg = new SayMoreImportForm(TheCurrentStory, StoryProject.ProjSettings);
             if (dlg.ShowDialog() != DialogResult.OK) 
                 return;
 
-            var theNewStory = AddNewStoryAfter(dlg.StoryName, dlg.FullRecordingFileSpec, dlg.Crafter);
-            if (theNewStory == null)    // cancelled
-                return;
+            string strUnsGuid = null;
+            LineDataDelegate lineData;
+            if (dlg.CreateNewStory)
+                lineData = ld => ld.StoryLine;
+            else
+            {
+                if (!AddRetellingTest(true))
+                    return;
+                lineData = ld => ld.Retellings.Last();
 
-            theNewStory.Verses.RemoveAt(0);
+                // keep track of the guid of this UNS in case we have to add more empty retellings.
+                strUnsGuid = TheCurrentStory.Verses[0].Retellings.Last().MemberId;
+            }
+
+            StringTransferDelegate stTranscription;
+            switch (dlg.TranscriptionField)
+            {
+                case TextFields.NationalBt:
+                    stTranscription = ld => ld.NationalBt;
+                    break;
+                case TextFields.InternationalBt:
+                    stTranscription = ld => ld.InternationalBt;
+                    break;
+                case TextFields.FreeTranslation:
+                    stTranscription = ld => ld.FreeTranslation;
+                    break;
+                default:
+                    stTranscription = ld => ld.Vernacular;
+                    break;
+            }
+
+            StoryStageLogic.ProjectStages eStageToGoTo = StoryStageLogic.ProjectStages.eUndefined;
+            StringTransferDelegate stTranslation;
+            switch (dlg.TranslationField)
+            {
+                case TextFields.NationalBt:
+                    stTranslation = ld => ld.NationalBt;
+                    eStageToGoTo = StoryStageLogic.ProjectStages.eProjFacTypeNationalBT;
+                    break;
+                case TextFields.InternationalBt:
+                    stTranslation = ld => ld.InternationalBt;
+                    eStageToGoTo = StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT;
+                    break;
+                case TextFields.FreeTranslation:
+                    stTranslation = ld => ld.FreeTranslation;
+                    eStageToGoTo = StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation;
+                    break;
+                default:
+                    if (_bNagOnceSayMoreImport)
+                    {
+                        _bNagOnceSayMoreImport = false;
+                        LocalizableMessageBox.Show(
+                            Localizer.Str(
+                                "Import from Saymore will import both the Saymore 'Transcription' data (usually into the OSE 'Story Language' fields) and the Saymore 'Translation' data (into one of the OSE 'back-translation' fields), but you don't have a 'back-translation' field enabled. To enable one, click 'Project', 'Settings' and check another box in the 'Story' column of the 'Languages' tab."),
+                            OseCaption);
+                        Debug.Assert(false, "wasn't expecting any other value for BT");
+                    }
+                    stTranslation = ld => ld.FreeTranslation; // gotta put it somewhere
+                    break;
+            }
+
+            StoryData theStory;
+            if (dlg.CreateNewStory)
+            {
+                theStory = AddNewStoryAfter(dlg.StoryName, dlg.FullRecordingFileSpec, dlg.Crafter);
+                if (theStory == null) // cancelled
+                    return;
+                theStory.Verses.RemoveAt(0);
+            }
+            else
+            {
+                theStory = TheCurrentStory;
+                Debug.Assert(theStory != null); // shouldn't be possible to be null
+                eStageToGoTo = StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest1;
+            }
+
             var nLen = Math.Max(dlg.VernacularLines.Count, dlg.BackTranslationLines.Count);
 
-            var projSettings = StoryProject.ProjSettings;
+            int nLineIndex = 0;
             for (var i = 0; i < nLen; i++)
             {
                 var vernacular = GetSafeValue(dlg.VernacularLines, i);
                 var backTr = GetSafeValue(dlg.BackTranslationLines, i);
-                var newVerse = new VerseData();
-
-                newVerse.StoryLine.Vernacular.SetValue(vernacular);
-                if (projSettings.NationalBT.HasData)
-                    newVerse.StoryLine.NationalBt.SetValue(backTr);
-                else if (projSettings.InternationalBT.HasData)
-                    newVerse.StoryLine.InternationalBt.SetValue(backTr);
-                else if (projSettings.FreeTranslation.HasData)
-                    newVerse.StoryLine.FreeTranslation.SetValue(backTr);
-                else if (_bNagOnceSayMoreImport)
+                VerseData newVerse;
+                if (dlg.CreateNewStory || (theStory.Verses.Count <= nLineIndex))
                 {
-                    _bNagOnceSayMoreImport = false;
-                    LocalizableMessageBox.Show(
-                        Localizer.Str(
-                            "Import from Saymore will try to import both the Saymore 'Transcription' data (into the OSE 'Story Language' fields) and the Saymore 'Translation' data (into one of the OSE 'back-translation' fields), but you don't have a 'back-translation' field enabled. To enable one, click 'Project', 'Settings' and check another box in the 'Story' column of the 'Languages' tab."),
-                        OseCaption);
+                    newVerse = GetNewVerse(strUnsGuid, theStory, dlg.CreateNewStory);
                 }
-                theNewStory.Verses.Add(newVerse);
+                else
+                {
+                    // skip over hidden lines
+                    while (!(newVerse = theStory.Verses[nLineIndex++]).IsVisible)
+                    {
+                        if (theStory.Verses.Count > nLineIndex)
+                            continue;
+
+                        newVerse = GetNewVerse(strUnsGuid, theStory, dlg.CreateNewStory);
+                        break;
+                    }
+                }
+
+                stTranscription(lineData(newVerse)).SetValue(vernacular);
+                stTranslation(lineData(newVerse)).SetValue(backTr);
             }
 
+            Modified = true;
+
             // set the state to whatever field we put the bt in (which enables the view)
-            StoryStageLogic.ProjectStages eStage;
-            if (projSettings.NationalBT.HasData)
-                eStage = StoryStageLogic.ProjectStages.eProjFacTypeNationalBT;
-            else if (projSettings.InternationalBT.HasData)
-                eStage = StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT;
-            else if (projSettings.FreeTranslation.HasData)
-                eStage = StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation;
-            else
+            if (eStageToGoTo == StoryStageLogic.ProjectStages.eUndefined)
             {
                 InitAllPanes();
                 return;
             }
-            SetNextStateAdvancedOverride(eStage, false);
+
+            SetNextStateAdvancedOverride(eStageToGoTo, false);
+        }
+
+        private static VerseData GetNewVerse(string strUnsGuid, StoryData theStory, bool bCreateNewStory)
+        {
+            var newVerse = new VerseData();
+            theStory.Verses.Add(newVerse);
+
+            if (!bCreateNewStory)
+                newVerse.Retellings.TryAddNewLine(strUnsGuid);
+            return newVerse;
         }
 
         private static string GetSafeValue(IList<string> lst, int i)

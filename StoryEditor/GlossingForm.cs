@@ -33,7 +33,6 @@ namespace OneStoryProjectEditor
                             ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection,
                             TeamMemberData loggedOnMember, bool bUseWordBreakIterator,
                             DirectableEncConverter ecSourceWordTransliterator)
-            : base(true)
         {
             _bUseWordBreakIterator = bUseWordBreakIterator;
             InitializeComponent();

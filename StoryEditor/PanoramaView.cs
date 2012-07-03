@@ -41,7 +41,6 @@ namespace OneStoryProjectEditor
         }
 
         public PanoramaView(StoryProjectData storyProject)
-            : base(true)
         {
             _storyProject = storyProject;
             InitializeComponent();

@@ -24,7 +24,6 @@ namespace OneStoryProjectEditor
         }
 
         public NewProjectWizard(StoryProjectData storyProjectData)
-            : base(true)
         {
             InitializeComponent();
             Localizer.Ctrl(this);
@@ -1232,7 +1231,7 @@ namespace OneStoryProjectEditor
         {
             var listBox = ListBoxEthnologCodes;
             listBox.Tag = textBox;
-            var form = new TopForm(true) {Text = Localizer.Str("Double click to choose")};
+            var form = new TopForm {Text = Localizer.Str("Double click to choose")};
             form.Controls.Add(listBox);
             listBox.DoubleClick += (o, args) =>
             {

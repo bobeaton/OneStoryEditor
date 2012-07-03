@@ -25,7 +25,6 @@ namespace OneStoryProjectEditor
         }
 
         public ViewSwordOptionsForm(ref List<NetBibleViewer.SwordResource> lstBibleResources)
-            : base(true)
         {
             _lstBibleResources = lstBibleResources;
 

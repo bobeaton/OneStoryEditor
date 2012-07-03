@@ -17,7 +17,6 @@ namespace OneStoryProjectEditor
 
         public EditMemberForm(TeamMemberData theMemberData, 
             ProjectSettings theProjSettings, bool bAllowNameRoleEdits)
-            : base(true)
         {
             InitializeComponent();
             Localizer.Ctrl(this);

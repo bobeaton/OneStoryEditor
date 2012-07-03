@@ -27,7 +27,6 @@ namespace OneStoryProjectEditor
         }
 
         public LnCNotesForm(StoryEditor theSE)
-            : base(true)
         {
             InitializeComponent();
             Localizer.Ctrl(this);

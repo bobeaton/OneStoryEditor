@@ -1401,7 +1401,7 @@ namespace OneStoryProjectEditor
                 return false;
 
             if (res == DialogResult.Yes)
-                theSE.AddRetellingTest();
+                theSE.AddRetellingTest(false);
 
             return true;
         }
@@ -1485,7 +1485,7 @@ namespace OneStoryProjectEditor
                 {
                     if (!CheckAnswersAnswered(theSE, theCurrentStory))
                         return false;
-                    theSE.AddRetellingTest();
+                    theSE.AddRetellingTest(false);
                 }
 
                 return true;
@@ -1511,7 +1511,7 @@ namespace OneStoryProjectEditor
 
             if (res == DialogResult.Yes)
             {
-                theSE.AddRetellingTest();
+                theSE.AddRetellingTest(false);
 
                 // this will go:
                 //  ProjFacEnterRetellingOfTest1 (to get answer from UNS_1), then
