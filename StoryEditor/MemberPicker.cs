@@ -24,7 +24,6 @@ namespace OneStoryProjectEditor
 
         public MemberPicker(StoryProjectData theStoryProjectData, 
             TeamMemberData.UserTypes eWantedType)
-            : base(true)
         {
             _theStoryProjectData = theStoryProjectData;
             _eWantedType = eWantedType;

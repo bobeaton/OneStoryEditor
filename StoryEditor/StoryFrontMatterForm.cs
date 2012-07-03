@@ -23,7 +23,6 @@ namespace OneStoryProjectEditor
         }
 
         public StoryFrontMatterForm(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory)
-            : base(true)
         {
             _theSe = theSE;
             _theStoryProjectData = theStoryProjectData;

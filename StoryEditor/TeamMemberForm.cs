@@ -37,7 +37,6 @@ namespace OneStoryProjectEditor
 
         public TeamMemberForm(TeamMembersData dataTeamMembers, bool bUseLoginLabel,
             ProjectSettings theProjSettings, StoryProjectData theStoryProjectData)
-            : base(true)
         {
             _dataTeamMembers = dataTeamMembers;
             _theProjSettings = theProjSettings;

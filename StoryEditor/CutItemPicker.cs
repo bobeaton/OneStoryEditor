@@ -24,7 +24,6 @@ namespace OneStoryProjectEditor
 
         public CutItemPicker(VerseData verseSource, VersesData theVerses, 
             StoryEditor theSE, bool bDeleteOnly)
-            : base(true)
         {
             InitializeComponent();
             Localizer.Ctrl(this);

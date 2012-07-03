@@ -28,7 +28,6 @@ namespace OneStoryProjectEditor
         }
 
         public RevisionHistoryForm(StoryEditor theSE, StoryData storyData)
-            : base(true)
         {
             InitializeComponent();
             Localizer.Ctrl(this);

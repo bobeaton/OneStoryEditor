@@ -22,7 +22,6 @@ namespace OneStoryProjectEditor
         }
 
         public TransitionHistoryForm(IEnumerable<StoryStateTransition> theHistory, TeamMembersData teamMembersData)
-            : base(true)
         {
             _theHistory = theHistory;
             _teamMembersData = teamMembersData;
