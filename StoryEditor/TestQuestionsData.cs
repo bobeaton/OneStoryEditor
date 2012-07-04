@@ -193,7 +193,7 @@ namespace OneStoryProjectEditor
             if ((!bIsFirstVerse && viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions)) ||
                 (bIsFirstVerse && viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions)))
             {
-                string strRow = String.Format(Properties.Resources.HTML_TableCell,
+                string strRow = String.Format(Properties.Resources.HTML_TableCellNoWrap,
                                               String.Format(TestQuestionsLabelFormat, nTQNum + 1));
                 if (bShowVernacular)
                 {
@@ -276,7 +276,7 @@ namespace OneStoryProjectEditor
             string strTQRow = null;
             if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions))
             {
-                string strRow = String.Format(Properties.Resources.HTML_TableCell,
+                string strRow = String.Format(Properties.Resources.HTML_TableCellNoWrap,
                                               String.Format(TestQuestionsLabelFormat,
                                                             nTQNum + 1));
                 if (bShowVernacular)

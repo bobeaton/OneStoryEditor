@@ -423,8 +423,9 @@ namespace OneStoryProjectEditor
             bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT,
             LineMemberData theLineOfData, VerseData.ViewSettings viewSettings)
         {
-            // was: HTML_TableCellNoWrap
-            string strRow = String.Format(Properties.Resources.HTML_TableCell,
+            // was: HTML_TableCell (after being HTML_TableCellNoWrap, but I can't figure out why
+            //  I took that off)
+            string strRow = String.Format(Properties.Resources.HTML_TableCellNoWrap,
                                           String.Format(LabelTextFormat, nSubItemNum + 1));
 
             int nNumCols = 0;
