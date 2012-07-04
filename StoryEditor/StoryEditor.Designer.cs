@@ -1519,6 +1519,7 @@ namespace OneStoryProjectEditor
             // 
             // htmlStoryBtControl
             // 
+            this.htmlStoryBtControl.AllowWebBrowserDrop = false;
             this.htmlStoryBtControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.htmlStoryBtControl.IsWebBrowserContextMenuEnabled = false;
             this.htmlStoryBtControl.Location = new System.Drawing.Point(0, 23);
