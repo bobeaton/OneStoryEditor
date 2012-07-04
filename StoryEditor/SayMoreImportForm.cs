@@ -114,15 +114,6 @@ namespace OneStoryProjectEditor
             return origFullRecording;
         }
 
-        private static string GetOriginalRecordingFilePath(string strFileSuffix, string[] files)
-        {
-            var origFullRecording =
-                files.FirstOrDefault(
-                    fp =>
-                    fp.IndexOf(strFileSuffix) == (fp.Length - strFileSuffix.Length));
-            return origFullRecording;
-        }
-
         private static string GetSafeValue(XDocument doc, string strName)
         {
             Debug.Assert(doc.Root != null);
