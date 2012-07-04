@@ -1313,8 +1313,8 @@ namespace OneStoryProjectEditor
             }
 
 #if UsingHtmlDisplayForConNotes
-            linkLabelVerseBT.Visible = true;
-
+            buttonMoveToNextLine.Visible = linkLabelVerseBT.Visible = true;
+            
             if (Localizer.Default.LocLanguage.Font != null)
                 StoryProject.ProjSettings.Localization.FontToUse = Localizer.Default.LocLanguage.Font;
 
@@ -2505,7 +2505,7 @@ namespace OneStoryProjectEditor
             else
                 flowLayoutPanelVerses.Clear();
 
-            linkLabelVerseBT.Visible = false;
+            buttonMoveToNextLine.Visible = linkLabelVerseBT.Visible = false;
 #if UsingHtmlDisplayForConNotes
             htmlConsultantNotesControl.ResetDocument();
             htmlCoachNotesControl.ResetDocument();
@@ -6849,6 +6849,12 @@ namespace OneStoryProjectEditor
             return (lst.Count > i)
                        ? lst[i]
                        : null;
+        }
+
+        private void ButtonMoveToNextLineClick(object sender, EventArgs e)
+        {
+            var nLineIndex = (int)linkLabelVerseBT.Tag;
+            FocusOnVerse(nLineIndex + 1, true, true);
         }
     }
 }

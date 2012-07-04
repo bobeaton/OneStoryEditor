@@ -215,6 +215,13 @@ namespace OneStoryProjectEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap FillDownHS {
+            get {
+                object obj = ResourceManager.GetObject("FillDownHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap gradient {
             get {
                 object obj = ResourceManager.GetObject("gradient", resourceCulture);

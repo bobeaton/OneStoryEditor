@@ -856,6 +856,7 @@
     <None Include="Resources\Pause.bmp" />
     <None Include="Resources\Edit_Undo.bmp" />
     <None Include="Resources\graphhs.png" />
+    <None Include="Resources\FillDownHS.png" />
     <Content Include="StageTransitions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
