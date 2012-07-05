@@ -35,6 +35,11 @@ namespace OneStoryProjectEditor
                 ScrollToElement(StrIdToScrollTo, true);
         }
 
+        public void OnSaveDocument()
+        {
+            TheSE.SaveClicked();
+        }
+
         public void OnScroll()
         {
             var elemLnPrev = GetTopHtmlElementId("td");

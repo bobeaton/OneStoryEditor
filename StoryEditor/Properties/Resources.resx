@@ -1805,8 +1805,11 @@ and in the resulting window click on the next (green) state.
         window.external.OnVerseLineJump(link.name);
         return false; // cause the href navigation to not happen
     }
+	
+    var s_key = 83;
+    var f5_key = 116;
     function OnKeyDown() {
-        if (window.event.keyCode == 116) {
+        if (window.event.keyCode == f5_key) {
             // let the form handle it
             window.external.LoadDocument();
 
@@ -1825,6 +1828,18 @@ and in the resulting window click on the next (green) state.
                 window.event.keyCode = 0;
             }
             window.external.DoFind();
+            return false;
+        }
+        else if (window.event.ctrlKey &amp;&amp; (window.event.keyCode == s_key)) {
+            if (window.event.stopPropagation) {
+                window.event.stopPropagation();
+            }
+            else {
+                window.event.cancelBubble = true;
+                window.event.returnValue = false;
+                window.event.keyCode = 0;
+            }
+            window.external.OnSaveDocument();
             return false;
         }
     }

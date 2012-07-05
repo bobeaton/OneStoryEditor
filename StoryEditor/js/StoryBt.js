@@ -23,6 +23,7 @@ function OnVerseLineJump(link) {
     window.external.OnVerseLineJump(link.name);
     return false; // cause the href navigation to not happen
 }
+/*
 function OnKeyDown() {
     // if this is F5 (refresh)...
     if (window.event.keyCode == 116) {
@@ -47,10 +48,10 @@ function OnKeyDown() {
         window.external.DoFind();
         return false;
     }
-    */
+    // /
     return true;
 }
-
+*/
 function DisplayHtml(strFunction) {
     var debugWindow = $('#osedebughtmlwindow');
     if (debugWindow) {
@@ -197,3 +198,29 @@ window.oseConfig =
     idLastTextareaToBlur: null,
     idLastTextareaToFocus: null
 };
+
+var ctrl_down = false;
+var ctrl_key = 17;
+var s_key = 83;
+var f5_key = 116;
+
+$(document).keydown(function (e) {
+    if (e.keyCode == ctrl_key) ctrl_down = true;
+}).keyup(function (e) {
+    if (e.keyCode == ctrl_key) ctrl_down = false;
+});
+
+$(document).keydown(function (e) {
+    if (ctrl_down && (e.keyCode == s_key)) {
+        window.external.OnSaveDocument();
+        // Your code
+        e.preventDefault();
+        return false;
+    }
+    else if (!ctrl_down && (e.keyCode == f5_key)) {
+        // let the form handle it
+        window.external.LoadDocument();
+        e.preventDefault();
+        return false;
+    }
+}); 

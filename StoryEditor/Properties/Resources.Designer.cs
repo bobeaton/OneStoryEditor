@@ -282,12 +282,13 @@ namespace OneStoryProjectEditor.Properties {
         ///        window.external.OnVerseLineJump(link.name);
         ///        return false; // cause the href navigation to not happen
         ///    }
+        ///	
+        ///    var s_key = 83;
+        ///    var f5_key = 116;
         ///    function OnKeyDown() {
-        ///        if (window.event.keyCode == 116) {
+        ///        if (window.event.keyCode == f5_key) {
         ///            // let the form handle it
-        ///            window.external.LoadDocument();
-        ///
-        ///            // disable [rest of string was truncated]&quot;;.
+        ///            window. [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string HTML_DOM_Prefix {
             get {
@@ -1473,7 +1474,7 @@ namespace OneStoryProjectEditor.Properties {
         ///        &lt;/script&gt;
         ///{3}
         ///    &lt;/head&gt;
-        ///    &lt;body onkeydown=&quot;return OnKeyDown();&quot; onscroll=&quot;window.external.OnScroll();&quot;&gt;
+        ///    &lt;body onscroll=&quot;window.external.OnScroll();&quot;&gt;
         ///&lt;!--for debugging: &lt;textarea id=&quot;osedebughtmlwindow&quot;&gt;&lt;/textarea&gt;--&gt;
         ///{4}
         ///    &lt;/body&gt;
@@ -1531,15 +1532,19 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to var textareas = document.getElementsByTagName(&quot;textarea&quot;);
-        ///for (var i=0; i &lt; textareas.length; i++)
-        ///{
-        ///    textareas[i].onchange = function() { return window.external.TextareaOnChange(this.id, this.value); };
-        ///    textareas[i].onkeyup = function () { return window.external.TextareaOnKeyUp(this.id, this.value); };
-        ///    // textareas[i].onmousedown = function () { return window.external.OnTextareaMouseDown(this.id, this.value); };
-        ///}
-        ///$(&apos;textarea&apos;).attr(&apos;placeholder&apos;, function () {
-        ///    if ($(this).hasClass( [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to $(&apos;textarea&apos;).attr(&apos;placeholder&apos;, function () {
+        ///    if ($(this).hasClass(&apos;LangVernacular&apos;))
+        ///        return VernacularLanguageName();
+        ///    else if ($(this).hasClass(&apos;LangNationalBt&apos;))
+        ///        return NationalBtLanguageName();
+        ///    else if ($(this).hasClass(&apos;LangInternationalBt&apos;))
+        ///        return InternationalBtLanguageName();
+        ///    else if ($(this).hasClass(&apos;LangFreeTranslation&apos;))
+        ///        return FreeTranslationLanguageName();
+        ///    else
+        ///        return &quot;error in StoryBtPs.js&quot;;
+        ///});
+        ///.
         /// </summary>
         internal static string StoryBtPsJs {
             get {
