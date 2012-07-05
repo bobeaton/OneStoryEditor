@@ -27,11 +27,14 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                var str = FieldType;
-                if ((FieldType == StoryEditor.TextFields.Retelling.ToString()) ||
-                    (FieldType == StoryEditor.TextFields.TestQuestionAnswer.ToString()))
-                    str = String.Format("{0} {1}", FieldType.Substring(0, 3).ToLower(), SubItemIndex + 1);
-                return str + ":";
+                var strFormat = FieldType;
+                if (FieldType == StoryEditor.TextFields.Retelling.ToString())
+                    strFormat = RetellingsData.RetellingLabelFormat;
+                else if (FieldType == StoryEditor.TextFields.TestQuestionAnswer.ToString())
+                    strFormat = AnswersData.AnswersLabelFormat;
+                else
+                    return strFormat + " :";
+                return String.Format(strFormat, SubItemIndex + 1);
             }
         }
 
