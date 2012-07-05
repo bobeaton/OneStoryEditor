@@ -19,12 +19,12 @@ function OnLineOptionsButton(btn) {
     window.external.OnLineOptionsButton(btn.id, bIsRightButton);
     return false;
 }
-function OnVerseLineJump(link)
-{
+function OnVerseLineJump(link) {
     window.external.OnVerseLineJump(link.name);
     return false; // cause the href navigation to not happen
 }
 function OnKeyDown() {
+    // if this is F5 (refresh)...
     if (window.event.keyCode == 116) {
         // let the form handle it
         window.external.LoadDocument();
@@ -48,7 +48,9 @@ function OnKeyDown() {
         return false;
     }
     */
+    return true;
 }
+
 function DisplayHtml(strFunction) {
     var debugWindow = $('#osedebughtmlwindow');
     if (debugWindow) {
@@ -61,10 +63,9 @@ function removeSelection(jqtextarea) {
         jqtextarea.removeAttr("selectionStart");
         jqtextarea.removeAttr("selectionEnd");
         jqtextarea.removeAttr("selectedText");
-        removeSpan(jqtextarea);    // remove the highlighting
+        removeSpan(jqtextarea);    // also remove the highlighting
     }
 }
-
 function removeSpan(jqtextarea) {
     jqtextarea.html(jqtextarea.val());
 }
@@ -86,10 +87,12 @@ function TriggerMyBlur(bTriggeredFromHere) {
             var pre = (oldThis.selectionStart > 0)
                 ? text.substring(0, oldThis.selectionStart)
                 : "";
-            var post = (oldThis.selectionEnd < (text.length - 1))
+            var post = (oldThis.selectionEnd < text.length)
                 ? text.substring(oldThis.selectionEnd)
                 : "";
 
+            DisplayHtml("myblur: text: " + text + ", pre: " + pre + ", post: " + post + ", sel: " + oldThis.selectedText);
+            
             // if this is being called by the app, it's possible that the selection
             //  here is still selected. Then the process of replacing the 'html' is likely
             //  to cause all the text in the textarea to be selected. So before doing
@@ -117,7 +120,7 @@ $(document).ready(function () {
         else {
             removeSelection($(this));
         }
-        DisplayHtml(event.type);
+        DisplayHtml(event.type + this.selectedText);
     }).blur(function (event) {
         if ($(this).attr('placeholder') != '' && ($(this).val() == '' || $(this).val() == $(this).attr('placeholder'))) {
             $(this).val($(this).attr('placeholder')).addClass('hasPlaceholder');
@@ -176,6 +179,16 @@ $(document).ready(function () {
             removeSelection($(this));
     }).mousemove(function () {
         window.external.OnMouseMove();
+    }).keyup(function (event) {
+        // if we had something selected and the user presses delete or backspace, 
+        var bDeleteOrBackspace = ((event.keyCode == 8) || (event.keyCode == 46));
+        if (bDeleteOrBackspace) {
+            // then we have to clear out the selection (so it doesn't reoccur if we trigger blur)
+            $(this).removeAttr("selectedText");
+        }
+        return window.external.TextareaOnKeyUp(this.id, this.value);
+    }).change(function () {
+        return window.external.TextareaOnChange(this.id, this.value);
     });
     $('.readonly').attr('readonly', 'readonly');
 });

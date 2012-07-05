@@ -205,8 +205,8 @@ namespace OneStoryProjectEditor
             // we'll get the value updates during OnChange, but in order to enable 
             //  the save menu, we have to set modified
             LastTextareaInFocusId = strId;
-            TheSE.Modified = true;
             TheSE.LastKeyPressedTimeStamp = DateTime.Now;
+            TextareaOnChange(strId, strText);
             return true;
         }
 
@@ -222,7 +222,7 @@ namespace OneStoryProjectEditor
             TheSE.Modified = true;
 
             // update the status bar (in case we previously put an error there
-            StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[TheSE.TheCurrentStory.ProjStage.ProjectStage];
+            var st = StoryStageLogic.stateTransitions[TheSE.TheCurrentStory.ProjStage.ProjectStage];
             TheSE.SetDefaultStatusBar(st.StageDisplayString);
 
             return true;
@@ -245,7 +245,8 @@ namespace OneStoryProjectEditor
             if (TryGetTextAreaId(strId, out textAreaIdentifier))
             {
                 var strKeyboardName = textAreaIdentifier.GetKeyboardName(TheSE.StoryProject.ProjSettings);
-                KeyboardController.ActivateKeyboard(strKeyboardName);
+                if (!String.IsNullOrEmpty(strKeyboardName))
+                    KeyboardController.ActivateKeyboard(strKeyboardName);
             }
             return false;
         }
@@ -682,8 +683,16 @@ namespace OneStoryProjectEditor
             int nLineIndex;
             var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
 
-            // TODO:
-            throw new NotImplementedException();
+            verseData.ExegeticalHelpNotes.AddExegeticalHelpNote("");
+            theSe.Modified = true;
+
+            if (!theSe.viewExegeticalHelps.Checked)
+                theSe.viewExegeticalHelps.Checked = true;
+            else
+            {
+                StrIdToScrollTo = GetTopRowId;
+                LoadDocument();
+            }
         }
 
         private void addNewVersesBeforeMenuItem_Click(object sender, EventArgs e)
