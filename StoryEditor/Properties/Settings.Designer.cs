@@ -142,7 +142,7 @@ namespace OneStoryProjectEditor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("NETfree")]
+        [global::System.Configuration.DefaultSettingValueAttribute("NET")]
         public string LastSwordModuleUsed {
             get {
                 return ((string)(this["LastSwordModuleUsed"]));

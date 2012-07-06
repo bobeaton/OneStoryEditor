@@ -863,6 +863,9 @@
     <None Include="Properties\app.manifest" />
     <None Include="Resources\DragDropHandle.bmp" />
     <None Include="StoryProject.onestory" />
+    <None Include="StoryProject.xsc">
+      <DependentUpon>StoryProject.xsd</DependentUpon>
+    </None>
     <None Include="StoryProject.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>StoryProject.Designer.cs</LastGenOutput>

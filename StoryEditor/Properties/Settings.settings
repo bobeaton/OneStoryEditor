@@ -36,7 +36,7 @@
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="LastSwordModuleUsed" Type="System.String" Scope="User">
-      <Value Profile="(Default)">NETfree</Value>
+      <Value Profile="(Default)">NET</Value>
     </Setting>
     <Setting Name="DefaultAIProjectFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">SourceFont
