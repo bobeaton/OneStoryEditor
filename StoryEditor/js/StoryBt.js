@@ -188,6 +188,11 @@ $(document).ready(function () {
             $(this).removeAttr("selectedText");
         }
         return window.external.TextareaOnKeyUp(this.id, this.value);
+    }).keydown(function (event) {
+        if (ctrl_down && (event.keyCode == v_key)) {
+            $(this).removeAttr("selectedText"); // cut means we no longer have a selection
+        }
+        DisplayHtml(event.type + event.keyCode + this.value);
     }).change(function () {
         return window.external.TextareaOnChange(this.id, this.value);
     });
@@ -201,6 +206,7 @@ window.oseConfig =
 
 var ctrl_down = false;
 var ctrl_key = 17;
+var v_key = 88;
 var s_key = 83;
 var f5_key = 116;
 
