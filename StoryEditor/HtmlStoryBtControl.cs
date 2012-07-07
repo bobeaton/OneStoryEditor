@@ -838,6 +838,7 @@ namespace OneStoryProjectEditor
             else if (IsTextareaElement(strId))
             {
                 LastTextareaInFocusId = strId;
+                TriggerChangeUpdate();
                 _contextMenuTextarea.Show(MousePosition);
             }
         }
