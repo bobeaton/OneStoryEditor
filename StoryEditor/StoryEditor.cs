@@ -6854,7 +6854,10 @@ namespace OneStoryProjectEditor
         private void ButtonMoveToNextLineClick(object sender, EventArgs e)
         {
             var nLineIndex = (int)linkLabelVerseBT.Tag;
-            FocusOnVerse(nLineIndex + 1, true, true);
+            nLineIndex++;
+            while ((nLineIndex < TheCurrentStory.Verses.Count) && !TheCurrentStory.Verses[nLineIndex - 1].IsVisible)
+                nLineIndex++;
+            FocusOnVerse(nLineIndex, true, true);
         }
     }
 }
