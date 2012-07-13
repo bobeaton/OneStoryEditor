@@ -266,6 +266,7 @@ namespace OneStoryProjectEditor
             return GetAnchorButtonHtml(nLineIndex, strButtonLabel);
         }
 
+        public const string CstrButtonPrefixAnchorBar = "anc";
         public const string CstrButtonPrefixAnchorButton = "btnAnc";
         public static string ButtonId(int nLineIndex, string strJumpTarget)
         {

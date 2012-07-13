@@ -343,12 +343,14 @@ namespace OneStoryProjectEditor
 
         private VerseData VerseDataFromAnchorButtonId(string strId, out int nLineIndex)
         {
+            // if there is no button, this comes in as anc_3 (for line 3 anchor bar), but otherwise, it might be ???
             var astr = strId.Split(AchDelim);
-            if ((astr.Length == 3) && (astr[0] == AnchorData.CstrButtonPrefixAnchorButton))
+            if ((astr[0] == AnchorData.CstrButtonPrefixAnchorButton) || (astr[0] == AnchorData.CstrButtonPrefixAnchorBar))
             {
                 nLineIndex = Convert.ToInt32(astr[1]);
                 return GetVerseData(nLineIndex);
             }
+
             nLineIndex = -1;
             return null;
         }
@@ -484,7 +486,7 @@ namespace OneStoryProjectEditor
                 // where:
                 //  lineNum (0-GTQ line, ln 1, etc)
                 string[] aVerseConversationIndices = strId.Split(AchDelim);
-                System.Diagnostics.Debug.Assert((aVerseConversationIndices[0] == "anc") &&
+                System.Diagnostics.Debug.Assert((aVerseConversationIndices[0] == AnchorData.CstrButtonPrefixAnchorBar) &&
                                                 (aVerseConversationIndices.Length == 2));
 
                 nLineIndex = Convert.ToInt32(aVerseConversationIndices[1]);
@@ -1184,10 +1186,9 @@ namespace OneStoryProjectEditor
 
         private bool TryGetAnchorData(string strAnchorButtonId, out int nLineIndex, out AnchorData anchor)
         {
+            anchor = null;
             var verseData = VerseDataFromAnchorButtonId(strAnchorButtonId, out nLineIndex);
-            System.Diagnostics.Debug.Assert(verseData != null);
-
-            return TryGetAnchorData(verseData, nLineIndex, out anchor);
+            return ((verseData != null) && TryGetAnchorData(verseData, nLineIndex, out anchor));
         }
 
         private bool TryGetAnchorData(VerseData verseData, int nLineIndex, out AnchorData anchor)
@@ -1207,7 +1208,8 @@ namespace OneStoryProjectEditor
 
                 int nLineIndex;
                 var verseData = VerseDataFromAnchorButtonId(_lastAnchorButtonClicked, out nLineIndex);
-                System.Diagnostics.Debug.Assert(verseData != null);
+                if (verseData == null)
+                    return;
 
                 AnchorData anchor;
                 if (!TryGetAnchorData(verseData, nLineIndex, out anchor))
@@ -1292,7 +1294,8 @@ namespace OneStoryProjectEditor
 
             int nLineIndex;
             var verseData = VerseDataFromAnchorButtonId(_lastAnchorButtonClicked, out nLineIndex);
-            System.Diagnostics.Debug.Assert(verseData != null);
+            if (verseData == null)
+                return;
 
             verseData.Anchors.AddAnchorData(AnchorControl.CstrNullAnchor, AnchorControl.CstrNullAnchor);
 
