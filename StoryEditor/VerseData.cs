@@ -1665,9 +1665,11 @@ namespace OneStoryProjectEditor
             return strHtml;
         }
 
+        public const string CstrLinePrefix = "ln";
+
         public static string LineId(int nVerseIndex)
         {
-            return String.Format("ln_{0}", nVerseIndex);
+            return String.Format("{0}_{1}", CstrLinePrefix, nVerseIndex);
         }
 
         public static string RowId(int nVerseIndex)

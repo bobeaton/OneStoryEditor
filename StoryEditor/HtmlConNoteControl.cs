@@ -63,13 +63,16 @@ namespace OneStoryProjectEditor
 
         private bool CallDoAddNote(int nVerseIndex, string strReferringText, string strNote, bool bNoteToSelf)
         {
-            StrIdToScrollTo = GetTopRowId;
+            // StrIdToScrollTo = GetNextRowId;
             ConsultNotesDataConverter aCNsDC = DataConverter(nVerseIndex);
             ConsultNoteDataConverter aCNDC = DoAddNote(strReferringText, strNote, aCNsDC, nVerseIndex, bNoteToSelf);
             
             // if we couldn't determine the top-most row, then just get the line row
-            if ((aCNDC != null) && String.IsNullOrEmpty(StrIdToScrollTo))
-                StrIdToScrollTo = ConsultNoteDataConverter.TextareaId(nVerseIndex, aCNsDC.IndexOf(aCNDC));
+            // if ((aCNDC != null) && String.IsNullOrEmpty(StrIdToScrollTo))
+            if (aCNDC != null)
+            {
+                StrIdToScrollTo = ConsultNoteDataConverter.ButtonRowId(nVerseIndex, aCNsDC.IndexOf(aCNDC));
+            }
             return true;
         }
 
@@ -459,7 +462,7 @@ namespace OneStoryProjectEditor
                 cndc.DontShowButtonsOverride = false;
             }
 
-            StrIdToScrollTo = GetTopRowId;
+            // StrIdToScrollTo = GetTopRowId;
             LoadDocument();
             theSE.Modified = true;
 

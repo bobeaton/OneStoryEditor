@@ -84,6 +84,24 @@ namespace OneStoryProjectEditor
             }
         }
 
+        protected string GetNextRowId
+        {
+            get
+            {
+                var topRow = GetTopRowId;
+                if (topRow != null)
+                {
+                    var astr = topRow.Split(AchDelim);
+                    if ((astr.Length == 2) && (astr[0] == VersesData.CstrLinePrefix))
+                    {
+                        var nextRow = VersesData.LineId(Int32.Parse(astr[1]) + 1);
+                        if ((Document != null) && Document.GetElementById(nextRow) != null)
+                            topRow = nextRow;
+                    }
+                }
+                return topRow;
+            }
+        }
         private static void HtmlElementTotalScrollTop(HtmlElement elem, 
             ref int nTopOffset, ref int nTopScroll)
         {
