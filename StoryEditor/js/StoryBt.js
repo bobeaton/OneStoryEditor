@@ -1,7 +1,11 @@
 ﻿// this one is called from the anchor buttons
 function OnBibRefJump(btn) {
-    if (event.button == 2)
+    if (event.button == 2) {
         window.external.OnAnchorButton(btn.id);
+
+        // prevent the OnEmptyAnchorClick from happening too
+        event.cancelBubble = true;
+    }
     else
         window.external.OnBibRefJump(btn.name);
     return false; // cause the href navigation to not happen
