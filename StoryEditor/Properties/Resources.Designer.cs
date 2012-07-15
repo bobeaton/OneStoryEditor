@@ -462,6 +462,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;SPAN class=&quot;{0} {1}&quot;&gt;{2}&lt;/SPAN&gt;.
+        /// </summary>
+        internal static string HTML_SpanLangQuote {
+            get {
+                return ResourceManager.GetString("HTML_SpanLangQuote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;style type=&quot;text/css&quot;&gt;
         ///  body    {{ margin:0 }}
         ///  textarea {{ 
@@ -1492,18 +1501,18 @@ namespace OneStoryProjectEditor.Properties {
         /// <summary>
         ///   Looks up a localized string similar to // this one is called from the anchor buttons
         ///function OnBibRefJump(btn) {
-        ///    if (event.button == 2)
+        ///    if (event.button == 2) {
         ///        window.external.OnAnchorButton(btn.id);
+        ///
+        ///        // prevent the OnEmptyAnchorClick from happening too
+        ///        event.cancelBubble = true;
+        ///    }
         ///    else
         ///        window.external.OnBibRefJump(btn.name);
         ///    return false; // cause the href navigation to not happen
         ///}
         ///// this one is called from the empty cell where the buttons go (for right-click to add Null Button)
-        ///function OnEmptyAnchorClick(id) {
-        ///    if (event.button == 2)
-        ///        window.external.OnAnchorButton(id);
-        ///}
-        ///function OnLineOptions [rest of string was truncated]&quot;;.
+        ///function OnEmptyAnchorCl [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string StoryBtJs {
             get {
