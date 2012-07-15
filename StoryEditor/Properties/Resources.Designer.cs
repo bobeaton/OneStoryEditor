@@ -481,6 +481,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;SPAN class=&quot;{0} {1}&quot;&gt;{2}&lt;/SPAN&gt;.
+        /// </summary>
+        internal static string HTML_SpanLangQuote {
+            get {
+                return ResourceManager.GetString("HTML_SpanLangQuote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;style TYPE=&quot;text/css&quot;&gt;
         ///  body    {{ margin:0 }}
         ///  textarea {{ 

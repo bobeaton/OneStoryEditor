@@ -661,6 +661,7 @@ namespace OneStoryProjectEditor
         private static Regex _regexLineRef = new Regex(String.Format(CstrLineRefRegex, ""), RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         readonly static Regex RegexItalics = new Regex(@"\*\b(.+?)\b\*", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         readonly static Regex RegexHttpRef = new Regex(@"((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?)", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+        readonly static Regex RegexLangQuote = new Regex(@"([SRTA])?([1-4]):\/(.+?)\/", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
         public static void OnLocalizationChange()
         {
@@ -822,6 +823,7 @@ namespace OneStoryProjectEditor
             strHyperlinkedText = _regexLineRef.Replace(strHyperlinkedText, LineReferenceFound);
             strHyperlinkedText = RegexItalics.Replace(strHyperlinkedText, EmphasizedTextFound);
             strHyperlinkedText = RegexHttpRef.Replace(strHyperlinkedText, HttpReferenceFound);
+            strHyperlinkedText = RegexLangQuote.Replace(strHyperlinkedText, LangQuoteFound);
             return strHyperlinkedText;
         }
 
@@ -1017,6 +1019,50 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert(Count > 0);
             return IsMyNoteToSelf(InitialComment, loggedOnMember);
+        }
+
+        static string LangQuoteFound(Match m)
+        {
+            // m.Groups[1] = [SRTA] for 'story', 'retelling', 'test question', and 'answer' respectively
+            // m.Groups[2] = [1234] for 'vernacular', 'nationalBt', 'EnglishBt', and 'FreeTranslation' respectively
+            // m.Groups[3] = the text being quoted and this is turned into something like this:
+            //  <SPAN class="LangVernacular StoryLine">पुत्तर</SPAN>
+            string strFieldType;
+            switch (m.Groups[1].Value)
+            {
+                case "R":
+                    strFieldType = StoryEditor.TextFields.Retelling.ToString();
+                    break;
+                case "T":
+                    strFieldType = StoryEditor.TextFields.TestQuestion.ToString();
+                    break;
+                case "A":
+                    strFieldType = StoryEditor.TextFields.TestQuestionAnswer.ToString();
+                    break;
+                default:
+                    strFieldType = StoryEditor.TextFields.StoryLine.ToString();
+                    break;
+            }
+            string strLanguageClass;
+            switch (m.Groups[2].Value)
+            {
+                case "2":
+                    strLanguageClass = StoryData.CstrLangNationalBtStyleClassName;
+                    break;
+                case "3":
+                    strLanguageClass = StoryData.CstrLangInternationalBtStyleClassName;
+                    break;
+                case "4":
+                    strLanguageClass = StoryData.CstrLangFreeTranslationStyleClassName;
+                    break;
+                default:
+                    strLanguageClass = StoryData.CstrLangVernacularStyleClassName;
+                    break;
+            }
+            return String.Format(Properties.Resources.HTML_SpanLangQuote,
+                                 strFieldType,
+                                 strLanguageClass,
+                                 m.Groups[3].Value);
         }
 
         static string BibleReferenceFound(Match m)
