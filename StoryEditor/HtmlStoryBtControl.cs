@@ -413,8 +413,10 @@ namespace OneStoryProjectEditor
                     break;
 
                 case StoryEditor.TextFields.TestQuestionAnswer:
-                    lineData =
-                        verseData.TestQuestions[textAreaIdentifier.ItemIndex].Answers[textAreaIdentifier.SubItemIndex];
+                    // the sub-index seems to reflect the test number; not necessarily the offset into "Answers".
+                    lineData = TheSE.GetTqAnswerData(
+                        verseData.TestQuestions[textAreaIdentifier.ItemIndex].Answers,
+                        (textAreaIdentifier.SubItemIndex + 1).ToString());
                     break;
 
                 default:
@@ -897,21 +899,13 @@ namespace OneStoryProjectEditor
             ctxMenu.Items.Add(StoryEditor.CstrGlossTextToEnglish, null, OnGlossTextToEnglish);
             ctxMenu.Items.Add(StoryEditor.CstrConcordanceSearch, null, OnConcordanceSearch);
             ctxMenu.Items.Add(StoryEditor.CstrAddLnCNote, null, OnAddLnCNote);
-            ctxMenu.Items.Add(StoryEditor.CstrAddAnswerBox, null, onAddAnswerBox);
-            /*
             ctxMenu.Items.Add(new ToolStripSeparator());
-            if (StoryEditor.IsTestQuestionBox(strLabel))
-            {
-                ctxMenu.Items.Add(StoryEditor.CstrAddAnswerBox, null, onAddAnswerBox);
-                ctxMenu.Items.Add(new ToolStripSeparator());
-            }
-            else if (StoryEditor.IsTqAnswerBox(strLabel))
-            {
-                ctxMenu.Items.Add(StoryEditor.CstrRemAnswerBox, null, onRemAnswerBox);
-                ctxMenu.Items.Add(StoryEditor.CstrRemAnswerChangeUns, null, onChangeUns);
-                ctxMenu.Items.Add(new ToolStripSeparator());
-            }
+            ctxMenu.Items.Add(StoryEditor.CstrAddAnswerBox, null, onAddAnswerBox);
+            ctxMenu.Items.Add(StoryEditor.CstrRemAnswerBox, null, onRemAnswerBox);
+            // ctxMenu.Items.Add(StoryEditor.CstrRemAnswerChangeUns, null, onChangeUns);
+            ctxMenu.Items.Add(new ToolStripSeparator());
 
+            /*
             ctxMenu.Items.Add(StoryEditor.CstrGlossTextToNational, null, onGlossTextToNational);
             ctxMenu.Items.Add(StoryEditor.CstrGlossTextToEnglish, null, onGlossTextToEnglish);
             ctxMenu.Items.Add(StoryEditor.CstrReorderWords, null, onReorderWords);
@@ -941,6 +935,29 @@ namespace OneStoryProjectEditor
             if (!theSe.AddSingleTestResult(testQuestionData, out theNewAnswer))
                 return;
 
+            StrIdToScrollTo = GetTopRowId;
+            LoadDocument();
+        }
+
+        private void onRemAnswerBox(object sender, EventArgs e)
+        {
+            StoryEditor theSe;
+            TextAreaIdentifier textAreaIdentifier;
+            if (!CheckForProperEditToken(out theSe) ||
+                String.IsNullOrEmpty(LastTextareaInFocusId) ||
+                !TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
+                return;
+
+            var verseData = GetVerseData(textAreaIdentifier.LineIndex);
+
+            System.Diagnostics.Debug.Assert(textAreaIdentifier.ItemIndex < verseData.TestQuestions.Count);
+            var testQuestionData = verseData.TestQuestions[textAreaIdentifier.ItemIndex];
+            var answers = testQuestionData.Answers;
+
+            var answerToRemove = theSe.GetTqAnswerData(answers, (textAreaIdentifier.SubItemIndex + 1).ToString());
+            answers.Remove(answerToRemove);
+
+            theSe.Modified = true;
             StrIdToScrollTo = GetTopRowId;
             LoadDocument();
         }
@@ -989,6 +1006,10 @@ namespace OneStoryProjectEditor
                 {
                     x.Visible = ShouldTqPopupsBeVisible;
                 }
+                else if ((x.Text == StoryEditor.CstrRemAnswerBox) || (x.Text == StoryEditor.CstrRemAnswerChangeUns))
+                {
+                    x.Visible = ShouldAnsPopupsBeVisible;
+                }
             }
         }
 
@@ -1001,6 +1022,18 @@ namespace OneStoryProjectEditor
                     return false;
 
                 return (textAreaIdentifier.FieldType == StoryEditor.TextFields.TestQuestion);
+            }
+        }
+
+        protected bool ShouldAnsPopupsBeVisible
+        {
+            get
+            {
+                TextAreaIdentifier textAreaIdentifier;
+                if (String.IsNullOrEmpty(LastTextareaInFocusId) || !TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
+                    return false;
+
+                return (textAreaIdentifier.FieldType == StoryEditor.TextFields.TestQuestionAnswer);
             }
         }
 

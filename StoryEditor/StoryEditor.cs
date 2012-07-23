@@ -2001,6 +2001,11 @@ namespace OneStoryProjectEditor
             int nIndex = strLabel.IndexOf(' ');
             string strTestNumber = strLabel.Substring(nIndex + 1, 1);
 
+            return GetTqAnswerData(answers, strTestNumber);
+            }
+
+        public LineMemberData GetTqAnswerData(AnswersData answers, string strTestNumber)
+        {
             // there are two cases we have to treat specially:
             //  1) it's 'ans 0' (because somehow the member id was removed)
             //  2) there's no 'ans 1' (in which case 'ans 2' is the zeroth element)
