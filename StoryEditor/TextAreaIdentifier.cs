@@ -48,11 +48,27 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public ProjectSettings.LanguageInfo GetLanguageInfo(ProjectSettings projSettings)
+        {
+            switch (LanguageColumn)
+            {
+                case StoryEditor.TextFields.Vernacular:
+                    return projSettings.Vernacular;
+                case StoryEditor.TextFields.NationalBt:
+                    return projSettings.NationalBT;
+                case StoryEditor.TextFields.InternationalBt:
+                    return projSettings.InternationalBT;
+                case StoryEditor.TextFields.FreeTranslation:
+                    return projSettings.FreeTranslation;
+                default:
+                    System.Diagnostics.Debug.Fail("wasn't expecting this!");
+                    return projSettings.InternationalBT;
+            }
+        }
+        /*
         public string GetKeyboardName(ProjectSettings projSettings)
         {
-            StoryEditor.TextFields langType;
-            if (Enum.TryParse(LanguageColumnName, out langType))
-            switch (langType)
+            switch (LanguageColumn)
             {
                 case StoryEditor.TextFields.Vernacular:
                     return projSettings.Vernacular.Keyboard;
@@ -65,5 +81,6 @@ namespace OneStoryProjectEditor
             }
             return null;
         }
+        */
     }
 }

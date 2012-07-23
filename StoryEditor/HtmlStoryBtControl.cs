@@ -278,7 +278,7 @@ namespace OneStoryProjectEditor
             TextAreaIdentifier textAreaIdentifier;
             if (TryGetTextAreaId(strId, out textAreaIdentifier))
             {
-                var strKeyboardName = textAreaIdentifier.GetKeyboardName(TheSE.StoryProject.ProjSettings);
+                var strKeyboardName = textAreaIdentifier.GetLanguageInfo(TheSE.StoryProject.ProjSettings).Keyboard;
                 if (!String.IsNullOrEmpty(strKeyboardName))
                     KeyboardController.ActivateKeyboard(strKeyboardName);
             }
@@ -897,6 +897,7 @@ namespace OneStoryProjectEditor
             ctxMenu.Items.Add(new ToolStripSeparator());
             ctxMenu.Items.Add(StoryEditor.CstrGlossTextToNational, null, OnGlossTextToNational);
             ctxMenu.Items.Add(StoryEditor.CstrGlossTextToEnglish, null, OnGlossTextToEnglish);
+            ctxMenu.Items.Add(StoryEditor.CstrReorderWords, null, onReorderWords);
             ctxMenu.Items.Add(StoryEditor.CstrConcordanceSearch, null, OnConcordanceSearch);
             ctxMenu.Items.Add(StoryEditor.CstrAddLnCNote, null, OnAddLnCNote);
             ctxMenu.Items.Add(new ToolStripSeparator());
@@ -906,9 +907,6 @@ namespace OneStoryProjectEditor
             ctxMenu.Items.Add(new ToolStripSeparator());
 
             /*
-            ctxMenu.Items.Add(StoryEditor.CstrGlossTextToNational, null, onGlossTextToNational);
-            ctxMenu.Items.Add(StoryEditor.CstrGlossTextToEnglish, null, onGlossTextToEnglish);
-            ctxMenu.Items.Add(StoryEditor.CstrReorderWords, null, onReorderWords);
             ctxMenu.Items.Add(new ToolStripSeparator());
             ctxMenu.Items.Add(StoryEditor.CstrCutSelected, null, onCutSelectedText);
             ctxMenu.Items.Add(StoryEditor.CstrCopySelected, null, onCopySelectedText);
@@ -918,6 +916,28 @@ namespace OneStoryProjectEditor
             */
             ctxMenu.Opening += CtxMenuOpening;
             return ctxMenu;
+        }
+
+        private void onReorderWords(object sender, EventArgs e)
+        {
+            StoryEditor theSe;
+            TextAreaIdentifier textAreaIdentifier;
+            if (!CheckForProperEditToken(out theSe) ||
+                String.IsNullOrEmpty(LastTextareaInFocusId) ||
+                !TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
+                return;
+
+            var st = GetStringTransfer(textAreaIdentifier);
+            if (st == null)
+                return;
+
+            var li = textAreaIdentifier.GetLanguageInfo(TheSE.StoryProject.ProjSettings);
+            var dlg = new ReorderWordsForm(st, li.FontToUse, li.FullStop);
+            if (dlg.ShowDialog() == DialogResult.OK)
+                st.SetValue(dlg.ReorderedText);
+
+            StrIdToScrollTo = GetTopRowId;
+            LoadDocument();
         }
 
         private void onChangeUns(object sender, EventArgs e)
