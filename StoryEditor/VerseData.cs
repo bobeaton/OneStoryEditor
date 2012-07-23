@@ -590,6 +590,10 @@ namespace OneStoryProjectEditor
                     _itemToInsureOn |= ItemToInsureOn.ExegeticalHelps;
                 if (bStoryTestingQuestions)
                 {
+                    // warn the user if none of these are enabled in project settings
+                    if (!projSettings.ShowTestQuestions.Vernacular && !projSettings.ShowTestQuestions.NationalBt && !projSettings.ShowTestQuestions.InternationalBt)
+                        StoryEditor.WarnAboutNoLangsVisible(Localizer.Str("Test Question"));
+
                     // break this down based on projSettings
                     if (projSettings.ShowTestQuestions.Vernacular)
                         _itemToInsureOn |= ItemToInsureOn.TestQuestionsVernacular;
@@ -600,6 +604,10 @@ namespace OneStoryProjectEditor
                 }
                 if (bStoryTestingQuestionAnswers)
                 {
+                    // warn the user if none of these are enabled in project settings
+                    if (!projSettings.ShowAnswers.Vernacular && !projSettings.ShowAnswers.NationalBt && !projSettings.ShowAnswers.InternationalBt)
+                        StoryEditor.WarnAboutNoLangsVisible(Localizer.Str("Answers"));
+
                     // break this down based on projSettings
                     if (projSettings.ShowAnswers.Vernacular)
                         _itemToInsureOn |= ItemToInsureOn.AnswersVernacular;
@@ -610,6 +618,10 @@ namespace OneStoryProjectEditor
                 }
                 if (bRetellings)
                 {
+                    // warn the user if none of these are enabled in project settings
+                    if (!projSettings.ShowRetellings.Vernacular && !projSettings.ShowRetellings.NationalBt && !projSettings.ShowRetellings.InternationalBt)
+                        StoryEditor.WarnAboutNoLangsVisible(Localizer.Str("Retellings"));
+
                     // break this down based on projSettings
                     if (projSettings.ShowRetellings.Vernacular)
                         _itemToInsureOn |= ItemToInsureOn.RetellingsVernacular;
@@ -738,8 +750,12 @@ namespace OneStoryProjectEditor
             VerseData theChildVerse,
             StoryData.PresentationType presentationType)
         {
+            var bShowLangVernacular = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
+            var bShowLangNationalBt = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField);
+            var bShowLangEnglishBt = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.InternationalBtField);
+
             string strRow = null;
-            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.VernacularLangField))
+            if (bShowLangVernacular)
             {
                 strRow += GetHtmlCell(StoryLine.Vernacular,
                                       () => theChildVerse.StoryLine.Vernacular,
@@ -751,7 +767,7 @@ namespace OneStoryProjectEditor
                                       viewSettings.TransliteratorVernacular);
             }
 
-            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.NationalBtLangField))
+            if (bShowLangNationalBt)
             {
                 strRow += GetHtmlCell(StoryLine.NationalBt,
                                       () => theChildVerse.StoryLine.NationalBt,
@@ -763,7 +779,7 @@ namespace OneStoryProjectEditor
                                       viewSettings.TransliteratorNationalBT);
             }
 
-            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.InternationalBtField))
+            if (bShowLangEnglishBt)
             {
                 strRow += GetHtmlCell(StoryLine.InternationalBt,
                                       () => theChildVerse.StoryLine.InternationalBt,
@@ -824,16 +840,29 @@ namespace OneStoryProjectEditor
 
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
             {
+                // whether we show answers or not depends on whether we're showing the language (e.g. bShowLangVernacular) 
+                //  AND whether it's configured to be shown (e.g. IsViewItemOn...)
+                var bShowRetellingsVernacular = bShowLangVernacular &&
+                                                viewSettings.IsViewItemOn(
+                                                    ViewSettings.ItemToInsureOn.RetellingsVernacular);
+                var bShowRetellingsNationalBt = bShowLangNationalBt &&
+                                                viewSettings.IsViewItemOn(
+                                                    ViewSettings.ItemToInsureOn.RetellingsNationalBT);
+                var bShowRetellingsEnglishBt = bShowLangEnglishBt &&
+                                               viewSettings.IsViewItemOn(
+                                                   ViewSettings.ItemToInsureOn.RetellingsInternationalBT);
+
+                // but if none of them are still on, that means we should at least warn the user...
+                if (!bShowRetellingsVernacular && !bShowRetellingsNationalBt && !bShowRetellingsEnglishBt)
+                    StoryEditor.WarnAboutNoLangsVisible(Localizer.Str("Retellings"));
+
                 strHtml += Retellings.PresentationHtml(nLineId, nNumCols, 0,
                                                        craftingInfo.TestersToCommentsRetellings,
                                                        (theChildVerse != null) ? theChildVerse.Retellings : null,
                                                        presentationType, false,
-                                                       viewSettings.IsViewItemOn(
-                                                           ViewSettings.ItemToInsureOn.RetellingsVernacular),
-                                                       viewSettings.IsViewItemOn(
-                                                           ViewSettings.ItemToInsureOn.RetellingsNationalBT),
-                                                       viewSettings.IsViewItemOn(
-                                                           ViewSettings.ItemToInsureOn.RetellingsInternationalBT),
+                                                       bShowRetellingsVernacular,
+                                                       bShowRetellingsNationalBt,
+                                                       bShowRetellingsEnglishBt,
                                                        viewSettings);
             }
 

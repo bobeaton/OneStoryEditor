@@ -4503,6 +4503,23 @@ namespace OneStoryProjectEditor
             viewUseSameSettingsForAllStoriesMenu.Checked = bUseForAllStories;
         }
 
+        private static readonly List<string> ListDoneWarnedAlready = new List<string>();
+        public static void WarnAboutNoLangsVisible(string strFieldName)
+        {
+            // only warn the user once for each type
+            if (ListDoneWarnedAlready.Contains(strFieldName))
+                return;
+
+            ListDoneWarnedAlready.Add(strFieldName);
+
+            LocalizableMessageBox.Show(
+                String.Format(
+                    Localizer.Str(
+                        "None of the currently visible languages are configured for {0}! See the 'Languages' tab in the 'Project', 'Settings' dialog OR make other language(s) visible in the 'View' menu"),
+                    strFieldName),
+                OseCaption);
+        }
+
         private VerseData.ViewSettings CurrentViewSettings
         {
             get

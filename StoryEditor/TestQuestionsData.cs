@@ -189,13 +189,28 @@ namespace OneStoryProjectEditor
                         break;
                     }
 
+            var bShowLangVernacular = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
+            var bShowLangNationalBt = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField);
+            var bShowLangEnglishBt = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.InternationalBtField);
+
             string strTqRow = null;
             if ((!bIsFirstVerse && viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions)) ||
                 (bIsFirstVerse && viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions)))
             {
                 string strRow = String.Format(Properties.Resources.HTML_TableCellNoWrap,
                                               String.Format(TestQuestionsLabelFormat, nTQNum + 1));
-                if (bShowVernacular)
+
+                // whether we show the field is based both on whether it's configured in project settings, but also whether the
+                //  language field (above) is checked.
+                var bShowTqsVernacular = bShowLangVernacular && bShowVernacular;
+                var bShowTqsNationalBt = bShowLangNationalBt && bShowNationalBt;
+                var bShowTqsEnglishBt = bShowLangEnglishBt && bShowEnglishBt;
+
+                // but if none of them are still on, that means we should at least warn the user...
+                if (!bShowTqsVernacular && !bShowTqsNationalBt && !bShowTqsEnglishBt)
+                    StoryEditor.WarnAboutNoLangsVisible(Localizer.Str("Testing Questions"));
+
+                if (bShowTqsVernacular)
                 {
                     DirectableEncConverter transliterator = viewSettings.TransliteratorVernacular;
                     string str = (presentationType == StoryData.PresentationType.Differencing)
@@ -211,7 +226,7 @@ namespace OneStoryProjectEditor
                                                                                    viewSettings);
                 }
 
-                if (bShowNationalBt)
+                if (bShowTqsNationalBt)
                 {
                     DirectableEncConverter transliterator = viewSettings.TransliteratorNationalBT;
                     string str = (presentationType == StoryData.PresentationType.Differencing)
@@ -227,7 +242,7 @@ namespace OneStoryProjectEditor
                                                                                    viewSettings);
                 }
 
-                if (bShowEnglishBt)
+                if (bShowTqsEnglishBt)
                 {
                     DirectableEncConverter transliterator = viewSettings.TransliteratorInternationalBt;
                     string str = (presentationType == StoryData.PresentationType.Differencing)
@@ -249,6 +264,22 @@ namespace OneStoryProjectEditor
 
             if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
             {
+                // whether we show answers or not depends on whether we're showing the language (e.g. bShowLangVernacular) 
+                //  AND whether it's configured to be shown (e.g. IsViewItemOn...)
+                var bShowAnswersVernacular = bShowLangVernacular &&
+                                             viewSettings.IsViewItemOn(
+                                                 VerseData.ViewSettings.ItemToInsureOn.AnswersVernacular);
+                var bShowAnswersNationalBt = bShowLangNationalBt &&
+                                             viewSettings.IsViewItemOn(
+                                                 VerseData.ViewSettings.ItemToInsureOn.AnswersNationalBT);
+                var bShowAnswersEnglishBt = bShowLangEnglishBt &&
+                                            viewSettings.IsViewItemOn(
+                                                VerseData.ViewSettings.ItemToInsureOn.AnswersInternationalBT);
+
+                // but if none of them are still on, that means we should at least warn the user...
+                if (!bShowAnswersVernacular && !bShowAnswersNationalBt && !bShowAnswersEnglishBt)
+                    StoryEditor.WarnAboutNoLangsVisible(Localizer.Str("Answers"));
+
                 // add 1 to the number of columns so it spans properly (including the 'tst:' label)
                 strTqRow += Answers.PresentationHtml(nVerseIndex,
                                                      nNumTestQuestionCols + 1,
@@ -257,12 +288,9 @@ namespace OneStoryProjectEditor
                                                      (theChildTQ != null) ? theChildTQ.Answers : null,
                                                      presentationType,
                                                      bProcessingTheChild,
-                                                     viewSettings.IsViewItemOn(
-                                                         VerseData.ViewSettings.ItemToInsureOn.AnswersVernacular),
-                                                     viewSettings.IsViewItemOn(
-                                                         VerseData.ViewSettings.ItemToInsureOn.AnswersNationalBT),
-                                                     viewSettings.IsViewItemOn(
-                                                         VerseData.ViewSettings.ItemToInsureOn.AnswersInternationalBT),
+                                                     bShowAnswersVernacular,
+                                                     bShowAnswersNationalBt,
+                                                     bShowAnswersEnglishBt,
                                                      viewSettings);
             }
 
