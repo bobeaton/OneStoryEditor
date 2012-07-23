@@ -645,7 +645,7 @@ namespace OneStoryProjectEditor
             }
             else if (!String.IsNullOrEmpty(LastStringTransferSearched.HtmlElementId))
             {
-                HtmlConNoteControl ctrl = LastStringTransferSearched.HtmlPane as HtmlConNoteControl;
+                var ctrl = LastStringTransferSearched.HtmlPane as HtmlConNoteControl;
                 if (ctrl != null)
                 {
                     if (ctrl.IsParagraphElement(LastStringTransferSearched.HtmlElementId))

@@ -152,8 +152,42 @@ namespace OneStoryProjectEditor
         {
             get 
             {
-                return GetSelectedText(GetStringTransferOfLastTextAreaInFocus);
+                if (String.IsNullOrEmpty(LastTextareaInFocusId))
+                    return null;
+
+                TextAreaIdentifier textAreaIdentifier;
+                if (!TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
+                    return null;
+
+                StoryEditor.TextFields whichLanguage;
+                return GetSelectedTextByTextareaIdentifier(textAreaIdentifier, out whichLanguage);
             }
+        }
+
+        public string GetSelectedTextByTextareaIdentifier(TextAreaIdentifier textAreaIdentifier, out StoryEditor.TextFields whichLanguage)
+        {
+            GetSiblingId pSiblingId;
+            var spans = GetSelectedTexts(textAreaIdentifier.LineIndex);
+            whichLanguage = textAreaIdentifier.LanguageColumn;
+            switch (whichLanguage)
+            {
+                case StoryEditor.TextFields.Vernacular:
+                    pSiblingId = GetMyVernacularSibling;
+                    break;
+                case StoryEditor.TextFields.NationalBt:
+                    pSiblingId = GetMyNationalBtSibling;
+                    break;
+                case StoryEditor.TextFields.InternationalBt:
+                    pSiblingId = GetMyInternationalBtSibling;
+                    break;
+                case StoryEditor.TextFields.FreeTranslation:
+                    pSiblingId = GetMyFreeTranslationSibling;
+                    break;
+                default:
+                    System.Diagnostics.Debug.Fail("wasn't expecting this case");
+                    return null;
+            }
+            return GetSpanInnerText(spans, pSiblingId);
         }
 
         public StringTransfer GetStringTransferOfLastTextAreaInFocus
@@ -359,7 +393,7 @@ namespace OneStoryProjectEditor
         {
             var verseData = GetVerseData(textAreaIdentifier.LineIndex);
             var fieldType =
-                (StoryEditor.TextFields) Enum.Parse(typeof (StoryEditor.TextFields), textAreaIdentifier.FieldType);
+                (StoryEditor.TextFields) Enum.Parse(typeof (StoryEditor.TextFields), textAreaIdentifier.FieldTypeName);
             LineData lineData;
             switch (fieldType)
             {
@@ -389,20 +423,27 @@ namespace OneStoryProjectEditor
 
             System.Diagnostics.Debug.Assert(lineData != null);
             var languageColumn =
-                (StoryEditor.TextFields) Enum.Parse(typeof (StoryEditor.TextFields), textAreaIdentifier.LanguageColumn);
+                (StoryEditor.TextFields) Enum.Parse(typeof (StoryEditor.TextFields), textAreaIdentifier.LanguageColumnName);
+            StringTransfer stField = null;
             switch (languageColumn)
             {
                 case StoryEditor.TextFields.Vernacular:
-                    return lineData.Vernacular;
+                    stField = lineData.Vernacular;
+                    break;
                 case StoryEditor.TextFields.NationalBt:
-                    return lineData.NationalBt;
+                    stField = lineData.NationalBt;
+                    break;
                 case StoryEditor.TextFields.InternationalBt:
-                    return lineData.InternationalBt;
+                    stField = lineData.InternationalBt;
+                    break;
                 case StoryEditor.TextFields.FreeTranslation:
-                    return lineData.FreeTranslation;
+                    stField = lineData.FreeTranslation;
+                    break;
             }
 
-            return null;
+            if (stField != null)
+                stField.HtmlElementId = textAreaIdentifier.HtmlIdentifier;
+            return stField;
         }
 
         protected static bool TryGetTextAreaId(string strId, out TextAreaIdentifier textAreaIdentifier)
@@ -427,10 +468,10 @@ namespace OneStoryProjectEditor
                 textAreaIdentifier = new TextAreaIdentifier
                                          {
                                              LineIndex = Convert.ToInt32(aVerseConversationIndices[1]),
-                                             FieldType = aVerseConversationIndices[2],
+                                             FieldTypeName = aVerseConversationIndices[2],
                                              ItemIndex = Convert.ToInt32(aVerseConversationIndices[3]),
                                              SubItemIndex = Convert.ToInt32(aVerseConversationIndices[4]),
-                                             LanguageColumn = aVerseConversationIndices[5]
+                                             LanguageColumnName = aVerseConversationIndices[5]
                                          };
             }
             catch
@@ -855,10 +896,9 @@ namespace OneStoryProjectEditor
             ctxMenu.Items.Add(StoryEditor.CstrGlossTextToNational, null, OnGlossTextToNational);
             ctxMenu.Items.Add(StoryEditor.CstrGlossTextToEnglish, null, OnGlossTextToEnglish);
             ctxMenu.Items.Add(StoryEditor.CstrConcordanceSearch, null, OnConcordanceSearch);
-            /*
-            ctxMenu.Items.Add(StoryEditor.CstrJumpToReference, null, onJumpToBibleRef);
-            ctxMenu.Items.Add(StoryEditor.CstrConcordanceSearch, null, onConcordanceSearch);
             ctxMenu.Items.Add(StoryEditor.CstrAddLnCNote, null, OnAddLnCNote);
+            ctxMenu.Items.Add(StoryEditor.CstrAddAnswerBox, null, onAddAnswerBox);
+            /*
             ctxMenu.Items.Add(new ToolStripSeparator());
             if (StoryEditor.IsTestQuestionBox(strLabel))
             {
@@ -886,14 +926,34 @@ namespace OneStoryProjectEditor
             return ctxMenu;
         }
 
+        private void onAddAnswerBox(object sender, EventArgs e)
+        {
+            StoryEditor theSe;
+            TextAreaIdentifier textAreaIdentifier;
+            if (!CheckForProperEditToken(out theSe) || 
+                String.IsNullOrEmpty(LastTextareaInFocusId) ||
+                !TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
+                return;
+
+            var verseData = GetVerseData(textAreaIdentifier.LineIndex);
+            var testQuestionData = verseData.TestQuestions[textAreaIdentifier.ItemIndex];
+            LineMemberData theNewAnswer;
+            if (!theSe.AddSingleTestResult(testQuestionData, out theNewAnswer))
+                return;
+
+            StrIdToScrollTo = GetTopRowId;
+            LoadDocument();
+        }
+
+        private void OnAddLnCNote(object sender, EventArgs e)
+        {
+            TheSE.AddLnCNote();
+        }
+
         void CtxMenuOpening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             var myStringTransfer = GetStringTransferOfLastTextAreaInFocus;
             var hasStringTransfer = (myStringTransfer != null);
-            var nationalBtSiblingId = GetMyNationalBtSibling(LastTextareaInFocusId);
-            var englishBtSibling = GetMyInternationalBtSibling(LastTextareaInFocusId);
-            HtmlElement myElem;
-            GetHtmlElementById(LastTextareaInFocusId, out myElem);
 
             // don't ask... I'm not sure why Items.ContainsKey isn't finding this...
             foreach (ToolStripItem x in _contextMenuTextarea.Items)
@@ -908,10 +968,12 @@ namespace OneStoryProjectEditor
                 }
                 else if (x.Text == StoryEditor.CstrGlossTextToNational)
                 {
+                    var nationalBtSiblingId = GetMyNationalBtSibling(LastTextareaInFocusId);
                     x.Visible = ((nationalBtSiblingId != null) && (nationalBtSiblingId != LastTextareaInFocusId));
                 }
                 else if (x.Text == StoryEditor.CstrGlossTextToEnglish)
                 {
+                    var englishBtSibling = GetMyInternationalBtSibling(LastTextareaInFocusId);
                     x.Visible = ((englishBtSibling != null) && (englishBtSibling != LastTextareaInFocusId));
                 }
                 else if (x.Text == StoryEditor.CstrAddLnCNote)
@@ -923,6 +985,22 @@ namespace OneStoryProjectEditor
                     x.Visible = (LastTextareaInFocusId.IndexOf(StoryEditor.TextFields.StoryLine.ToString(),
                                                                StringComparison.Ordinal) != -1);
                 }
+                else if (x.Text == StoryEditor.CstrAddAnswerBox)
+                {
+                    x.Visible = ShouldTqPopupsBeVisible;
+                }
+            }
+        }
+
+        protected bool ShouldTqPopupsBeVisible
+        {
+            get
+            {
+                TextAreaIdentifier textAreaIdentifier;
+                if (String.IsNullOrEmpty(LastTextareaInFocusId) || !TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
+                    return false;
+
+                return (textAreaIdentifier.FieldType == StoryEditor.TextFields.TestQuestion);
             }
         }
 
@@ -934,8 +1012,20 @@ namespace OneStoryProjectEditor
         private void CheckForLnCNoteLookup(ToolStripMenuItem x)
         {
             x.DropDownItems.Clear();
-            var st = GetStringTransferOfLastTextAreaInFocus;
-            var mapFoundString2LnCnote = TheSE.StoryProject.LnCNotes.FindHits(GetSelectedText(st), st.WhichField);
+
+            if (String.IsNullOrEmpty(LastTextareaInFocusId))
+                return;
+
+            TextAreaIdentifier textAreaIdentifier;
+            if (!TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
+                return;
+
+            StoryEditor.TextFields whichLanguage;
+            var selText = GetSelectedTextByTextareaIdentifier(textAreaIdentifier, out whichLanguage);
+            if (String.IsNullOrEmpty(selText))
+                return;
+
+            var mapFoundString2LnCnote = TheSE.StoryProject.LnCNotes.FindHits(selText, whichLanguage);
             foreach (var kvp in mapFoundString2LnCnote)
             {
                 var tsi = x.DropDownItems.Add(kvp.Key, null, OnLookupLnCnote);
@@ -1070,7 +1160,7 @@ namespace OneStoryProjectEditor
                 return null;
 
             // retask for the sibling language column
-            textAreaIdentifier.LanguageColumn = strSiblingName;
+            textAreaIdentifier.LanguageColumnName = strSiblingName;
             return textAreaIdentifier.HtmlIdentifier;
         }
 
@@ -1125,12 +1215,12 @@ namespace OneStoryProjectEditor
                     return;
 
                 // if this is a new type, then add it to the stream
-                if (strLastFieldReference != textAreaIdentifierParent.FieldType)
+                if (strLastFieldReference != textAreaIdentifierParent.FieldTypeName)
                 {
                     if (!String.IsNullOrEmpty(strLastFieldReference))
                         strReferringText += " vs: ";
 
-                    strLastFieldReference = textAreaIdentifierParent.FieldReference;
+                    strLastFieldReference = textAreaIdentifierParent.FieldReferenceName;
                     strReferringText += strLastFieldReference;
                 }
                 

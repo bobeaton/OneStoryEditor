@@ -11,26 +11,36 @@ namespace OneStoryProjectEditor
         public int ItemIndex { get; set; }
         public int SubItemIndex { get; set; }
 
-        public string FieldType { get; set; }
-        public string LanguageColumn { get; set; }
+        public string FieldTypeName { get; set; }
+        public string LanguageColumnName { get; set; }
 
         public string HtmlIdentifier
         {
             get
             {
-                return StringTransfer.TextareaId(LineIndex, FieldType, ItemIndex, SubItemIndex,
-                                                 LanguageColumn);
+                return StringTransfer.TextareaId(LineIndex, FieldTypeName, ItemIndex, SubItemIndex,
+                                                 LanguageColumnName);
             }
         }
 
-        public string FieldReference
+        public StoryEditor.TextFields FieldType
+        {
+            get { return (StoryEditor.TextFields) Enum.Parse(typeof (StoryEditor.TextFields), FieldTypeName); }
+        }
+
+        public StoryEditor.TextFields LanguageColumn
+        {
+            get { return (StoryEditor.TextFields) Enum.Parse(typeof(StoryEditor.TextFields), LanguageColumnName); }
+        }
+
+        public string FieldReferenceName
         {
             get
             {
-                var strFormat = FieldType;
-                if (FieldType == StoryEditor.TextFields.Retelling.ToString())
+                var strFormat = FieldTypeName;
+                if (FieldTypeName == StoryEditor.TextFields.Retelling.ToString())
                     strFormat = RetellingsData.RetellingLabelFormat;
-                else if (FieldType == StoryEditor.TextFields.TestQuestionAnswer.ToString())
+                else if (FieldTypeName == StoryEditor.TextFields.TestQuestionAnswer.ToString())
                     strFormat = AnswersData.AnswersLabelFormat;
                 else
                     return strFormat + " :";
@@ -41,7 +51,7 @@ namespace OneStoryProjectEditor
         public string GetKeyboardName(ProjectSettings projSettings)
         {
             StoryEditor.TextFields langType;
-            if (Enum.TryParse(LanguageColumn, out langType))
+            if (Enum.TryParse(LanguageColumnName, out langType))
             switch (langType)
             {
                 case StoryEditor.TextFields.Vernacular:

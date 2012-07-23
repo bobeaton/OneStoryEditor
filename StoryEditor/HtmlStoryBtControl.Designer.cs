@@ -66,7 +66,6 @@ namespace OneStoryProjectEditor
             this.addCommentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertNullAnchorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editKeyTermsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripLineOptions.SuspendLayout();
             this.contextMenuStripAnchorOptions.SuspendLayout();
             this.SuspendLayout();
@@ -157,49 +156,49 @@ namespace OneStoryProjectEditor
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(94, 24);
             this.toolStripMenuItem2.Text = "1";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(94, 24);
             this.toolStripMenuItem3.Text = "2";
             this.toolStripMenuItem3.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(94, 24);
             this.toolStripMenuItem4.Text = "3";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(94, 24);
             this.toolStripMenuItem5.Text = "5";
             this.toolStripMenuItem5.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(94, 24);
             this.toolStripMenuItem6.Text = "10";
             this.toolStripMenuItem6.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(94, 24);
             this.toolStripMenuItem7.Text = "20";
             this.toolStripMenuItem7.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
             // toolStripMenuItem8
             // 
             this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(94, 24);
             this.toolStripMenuItem8.Text = "30";
             this.toolStripMenuItem8.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
@@ -221,49 +220,49 @@ namespace OneStoryProjectEditor
             // toolStripMenuItem9
             // 
             this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(94, 24);
             this.toolStripMenuItem9.Text = "1";
             this.toolStripMenuItem9.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
             // toolStripMenuItem10
             // 
             this.toolStripMenuItem10.Name = "toolStripMenuItem10";
-            this.toolStripMenuItem10.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(94, 24);
             this.toolStripMenuItem10.Text = "2";
             this.toolStripMenuItem10.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
             // toolStripMenuItem11
             // 
             this.toolStripMenuItem11.Name = "toolStripMenuItem11";
-            this.toolStripMenuItem11.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem11.Size = new System.Drawing.Size(94, 24);
             this.toolStripMenuItem11.Text = "3";
             this.toolStripMenuItem11.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
             // toolStripMenuItem12
             // 
             this.toolStripMenuItem12.Name = "toolStripMenuItem12";
-            this.toolStripMenuItem12.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem12.Size = new System.Drawing.Size(94, 24);
             this.toolStripMenuItem12.Text = "5";
             this.toolStripMenuItem12.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
             // toolStripMenuItem13
             // 
             this.toolStripMenuItem13.Name = "toolStripMenuItem13";
-            this.toolStripMenuItem13.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem13.Size = new System.Drawing.Size(94, 24);
             this.toolStripMenuItem13.Text = "10";
             this.toolStripMenuItem13.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
             // toolStripMenuItem14
             // 
             this.toolStripMenuItem14.Name = "toolStripMenuItem14";
-            this.toolStripMenuItem14.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem14.Size = new System.Drawing.Size(94, 24);
             this.toolStripMenuItem14.Text = "20";
             this.toolStripMenuItem14.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
             // toolStripMenuItem15
             // 
             this.toolStripMenuItem15.Name = "toolStripMenuItem15";
-            this.toolStripMenuItem15.Size = new System.Drawing.Size(86, 22);
+            this.toolStripMenuItem15.Size = new System.Drawing.Size(94, 24);
             this.toolStripMenuItem15.Text = "30";
             this.toolStripMenuItem15.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
@@ -330,8 +329,7 @@ namespace OneStoryProjectEditor
             this.deleteToolStripMenuItem,
             this.addCommentToolStripMenuItem,
             this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem,
-            this.insertNullAnchorToolStripMenuItem,
-            this.editKeyTermsToolStripMenuItem});
+            this.insertNullAnchorToolStripMenuItem});
             this.contextMenuStripAnchorOptions.Name = "contextMenuStripAnchorOptions";
             this.contextMenuStripAnchorOptions.Size = new System.Drawing.Size(307, 136);
             this.contextMenuStripAnchorOptions.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripAnchorOptionsOpening);
@@ -412,7 +410,6 @@ namespace OneStoryProjectEditor
         private System.Windows.Forms.ToolStripMenuItem addCommentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addConsultantCoachNoteOnThisAnchorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem insertNullAnchorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editKeyTermsToolStripMenuItem;
 
     }
 }

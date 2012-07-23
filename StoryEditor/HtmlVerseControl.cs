@@ -237,7 +237,7 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public string GetSelectedText(StringTransfer stringTransfer)
+        public virtual string GetSelectedText(StringTransfer stringTransfer)
         {
             // this isn't allowed for paragraphs (it could be, but this is only currently called
             //  when we want to do 'replace', which isn't allowed for paragraphs (as opposed to textareas)
