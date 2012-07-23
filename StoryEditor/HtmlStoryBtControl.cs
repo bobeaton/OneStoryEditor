@@ -902,7 +902,7 @@ namespace OneStoryProjectEditor
             ctxMenu.Items.Add(new ToolStripSeparator());
             ctxMenu.Items.Add(StoryEditor.CstrAddAnswerBox, null, onAddAnswerBox);
             ctxMenu.Items.Add(StoryEditor.CstrRemAnswerBox, null, onRemAnswerBox);
-            // ctxMenu.Items.Add(StoryEditor.CstrRemAnswerChangeUns, null, onChangeUns);
+            ctxMenu.Items.Add(StoryEditor.CstrRemAnswerChangeUns, null, onChangeUns);
             ctxMenu.Items.Add(new ToolStripSeparator());
 
             /*
@@ -918,6 +918,29 @@ namespace OneStoryProjectEditor
             */
             ctxMenu.Opening += CtxMenuOpening;
             return ctxMenu;
+        }
+
+        private void onChangeUns(object sender, EventArgs e)
+        {
+            StoryEditor theSe;
+            TextAreaIdentifier textAreaIdentifier;
+            if (!CheckForProperEditToken(out theSe) ||
+                String.IsNullOrEmpty(LastTextareaInFocusId) ||
+                !TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
+                return;
+
+            var verseData = GetVerseData(textAreaIdentifier.LineIndex);
+
+            System.Diagnostics.Debug.Assert(textAreaIdentifier.ItemIndex < verseData.TestQuestions.Count);
+            var testQuestionData = verseData.TestQuestions[textAreaIdentifier.ItemIndex];
+            var answers = testQuestionData.Answers;
+
+            var answerToChange = theSe.GetTqAnswerData(answers, (textAreaIdentifier.SubItemIndex + 1).ToString());
+
+            theSe.ChangeAnswerBoxUns(testQuestionData, answers, answerToChange);
+
+            StrIdToScrollTo = GetTopRowId;
+            LoadDocument();
         }
 
         private void onAddAnswerBox(object sender, EventArgs e)

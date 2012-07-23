@@ -3812,6 +3812,30 @@ namespace OneStoryProjectEditor
             return true;
         }
 
+        internal void ChangeAnswerBoxUns(TestQuestionData testQuestionData, AnswersData answers, LineMemberData answerData)
+        {
+            LineMemberData theNewAnswer;
+            if (!AddSingleTestResult(testQuestionData, out theNewAnswer))
+                return;
+
+            Modified = true;
+            if (answerData == null)
+                return;
+
+            // put the original data in the new box
+            theNewAnswer.SetText(answerData, TextFields.TestQuestionAnswer);
+            answers.Remove(answerData);
+
+            // finally, if this is the last reference to that UNS, then remove the 
+            //  reference to it
+            if (!TheCurrentStory.DoesReferenceTqUns(answerData.MemberId))
+            {
+                var nTestNum = TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.IndexOf(answerData.MemberId);
+                if (nTestNum >= 0)
+                    TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.RemoveAt(nTestNum);
+            }
+        }
+
         protected string QueryForUnsTester(StoryProjectData theStoryProjectData)
         {
             string strUnsGuid = null;
