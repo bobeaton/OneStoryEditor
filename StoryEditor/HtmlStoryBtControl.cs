@@ -46,6 +46,7 @@ namespace OneStoryProjectEditor
             DocumentText = strHtml;
         }
 
+        /*
         public void InsertNewVerseBefore(int nVerseIndex)
         {
             // the only function of the button here is to add a slot to type a con note
@@ -77,7 +78,6 @@ namespace OneStoryProjectEditor
             theSe.VisiblizeVerse(verseData, !(verseData.IsVisible));
         }
 
-        protected static VerseData _myClipboard = null;
         public void CopyVerse(int nVerseIndex)
         {
             try
@@ -113,12 +113,13 @@ namespace OneStoryProjectEditor
 
             if (_myClipboard != null)
             {
-                VerseData theNewVerse = new VerseData(_myClipboard);
+                var theNewVerse = new VerseData(_myClipboard);
                 theNewVerse.AllowConNoteButtonsOverride();
                 // make another copy, so that the guid is changed
                 theSE.DoPasteVerse(nInsertionIndex, theNewVerse);
             }
         }
+        */
 
         public void OnVerseLineJump(int nVerseIndex)
         {
@@ -747,10 +748,12 @@ namespace OneStoryProjectEditor
                 return;
 
             int nLineIndex;
-            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
+            VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
 
-            // TODO:
-            throw new NotImplementedException();
+            var tsmi = (ToolStripMenuItem)sender;
+            int nNumNewVerses = Convert.ToInt32(tsmi.Text);
+
+            theSe.AddNewVerse(nLineIndex - 1, nNumNewVerses, false);
         }
 
         private void addANewVerseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -760,10 +763,9 @@ namespace OneStoryProjectEditor
                 return;
 
             int nLineIndex;
-            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
+            VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
 
-            // TODO:
-            throw new NotImplementedException();
+            theSe.AddNewVerse(nLineIndex - 1, 1, false);
         }
 
         private void addNewVersesAfterMenuItem_Click(object sender, EventArgs e)
@@ -773,10 +775,12 @@ namespace OneStoryProjectEditor
                 return;
 
             int nLineIndex;
-            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
+            VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
 
-            // TODO:
-            throw new NotImplementedException();
+            var tsmi = (ToolStripMenuItem)sender;
+            var nNumNewVerses = Convert.ToInt32(tsmi.Text);
+
+            theSe.AddNewVerse(nLineIndex - 1, nNumNewVerses, true);
         }
 
         private void hideVerseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -788,8 +792,9 @@ namespace OneStoryProjectEditor
             int nLineIndex;
             var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
 
-            // TODO:
-            throw new NotImplementedException();
+            theSe.VisiblizeVerse(verseData,
+                !(verseData.IsVisible)   // toggle
+                );
         }
 
         private void DeleteTheWholeVerseToolStripMenuItemClick(object sender, EventArgs e)
@@ -822,6 +827,20 @@ namespace OneStoryProjectEditor
             }
         }
 
+        protected static VerseData _myClipboard = null;
+        protected VerseData PasteVerseToIndex(StoryEditor theSe, int nInsertionIndex)
+        {
+            if (_myClipboard != null)
+            {
+                var theNewVerse = new VerseData(_myClipboard);
+                theNewVerse.AllowConNoteButtonsOverride();
+                // make another copy, so that the guid is changed
+                theSe.DoPasteVerse(nInsertionIndex, theNewVerse);
+                return theNewVerse;
+            }
+            return null;
+        }
+
         private void pasteVerseFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
             StoryEditor theSe;
@@ -831,8 +850,8 @@ namespace OneStoryProjectEditor
             int nLineIndex;
             var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
 
-            // TODO:
-            throw new NotImplementedException();
+            PasteVerseToIndex(theSe, nLineIndex - 1);
+            theSe.InitAllPanes();
         }
 
         private void pasteVerseFromClipboardAfterThisOneToolStripMenuItem_Click(object sender, EventArgs e)
@@ -842,10 +861,10 @@ namespace OneStoryProjectEditor
                 return;
 
             int nLineIndex;
-            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
+            VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
 
-            // TODO:
-            throw new NotImplementedException();
+            PasteVerseToIndex(theSe, nLineIndex);
+            theSe.InitAllPanes();
         }
 
         private void copyVerseToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
@@ -857,8 +876,7 @@ namespace OneStoryProjectEditor
             int nLineIndex;
             var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
 
-            // TODO:
-            throw new NotImplementedException();
+            _myClipboard = new VerseData(verseData);
         }
 
         private void splitStoryToolStripMenuItem_Click(object sender, EventArgs e)
@@ -870,8 +888,33 @@ namespace OneStoryProjectEditor
             int nLineIndex;
             var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
 
-            // TODO:
-            throw new NotImplementedException();
+            theSe.SplitStory(verseData);
+        }
+
+        private void MoveLineUp(object sender, EventArgs e)
+        {
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe) || String.IsNullOrEmpty(_lastLineOptionsButtonClicked))
+                return;
+
+            int nLineIndex;
+            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
+
+            StrIdToScrollTo = GetPrevRowId; // get the *previous* row for going up
+            theSe.DoMove(nLineIndex - 2, verseData);
+        }
+
+        private void MoveLineDown(object sender, EventArgs e)
+        {
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe) || String.IsNullOrEmpty(_lastLineOptionsButtonClicked))
+                return;
+
+            int nLineIndex;
+            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
+
+            StrIdToScrollTo = GetNextRowId; // get the *next* row for going down
+            theSe.DoMove(nLineIndex + 1, verseData);
         }
 
         protected readonly char[] _achDelim = new[] { '_' };
@@ -904,16 +947,7 @@ namespace OneStoryProjectEditor
             ctxMenu.Items.Add(StoryEditor.CstrAddAnswerBox, null, onAddAnswerBox);
             ctxMenu.Items.Add(StoryEditor.CstrRemAnswerBox, null, onRemAnswerBox);
             ctxMenu.Items.Add(StoryEditor.CstrRemAnswerChangeUns, null, onChangeUns);
-            ctxMenu.Items.Add(new ToolStripSeparator());
 
-            /*
-            ctxMenu.Items.Add(new ToolStripSeparator());
-            ctxMenu.Items.Add(StoryEditor.CstrCutSelected, null, onCutSelectedText);
-            ctxMenu.Items.Add(StoryEditor.CstrCopySelected, null, onCopySelectedText);
-            ctxMenu.Items.Add(StoryEditor.CstrCopyOriginalSelected, null, onCopyOriginalText);
-            ctxMenu.Items.Add(StoryEditor.CstrPasteSelected, null, onPasteSelectedText);
-            ctxMenu.Items.Add(StoryEditor.CstrUndo, null, onUndo);
-            */
             ctxMenu.Opening += CtxMenuOpening;
             return ctxMenu;
         }
@@ -1010,7 +1044,7 @@ namespace OneStoryProjectEditor
             TheSE.AddLnCNote();
         }
 
-        void CtxMenuOpening(object sender, System.ComponentModel.CancelEventArgs e)
+        void CtxMenuOpening(object sender, CancelEventArgs e)
         {
             var myStringTransfer = GetStringTransferOfLastTextAreaInFocus;
             var hasStringTransfer = (myStringTransfer != null);
@@ -1052,6 +1086,12 @@ namespace OneStoryProjectEditor
                 else if ((x.Text == StoryEditor.CstrRemAnswerBox) || (x.Text == StoryEditor.CstrRemAnswerChangeUns))
                 {
                     x.Visible = ShouldAnsPopupsBeVisible;
+                }
+                else if ((x.Text == StoryEditor.CstrCutSelected) ||
+                         (x.Text == StoryEditor.CstrCopySelected) ||
+                         (x.Text == StoryEditor.CstrCopyOriginalSelected))
+                {
+                    x.Enabled = !String.IsNullOrEmpty(GetSelectedText);
                 }
             }
         }
@@ -1488,6 +1528,19 @@ namespace OneStoryProjectEditor
             addConsultantCoachNoteOnThisAnchorToolStripMenuItem.Visible =
                 TeamMemberData.IsUser(theSe.LoggedOnMember.MemberType,
                                       TeamMemberData.UserTypes.AnyEditor);
+        }
+
+        private void contextMenuStripLineOptions_Opening(object sender, CancelEventArgs e)
+        {
+            // the only function of the button here is to add a slot to type a con note
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe) || String.IsNullOrEmpty(_lastLineOptionsButtonClicked))
+                return;
+
+            int nLineIndex;
+            VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
+            moveLineUp.Enabled = (nLineIndex > 1);
+            moveLineDown.Enabled = (nLineIndex < theSe.TheCurrentStory.Verses.Count);
         }
     }
 }

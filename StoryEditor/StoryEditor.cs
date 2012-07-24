@@ -2347,7 +2347,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        void DoMove(int nInsertionIndex, VerseData theVerseToMove)
+        public void DoMove(int nInsertionIndex, VerseData theVerseToMove)
         {
             int nCurIndex = TheCurrentStory.Verses.IndexOf(theVerseToMove);
             TheCurrentStory.Verses.Remove(theVerseToMove);

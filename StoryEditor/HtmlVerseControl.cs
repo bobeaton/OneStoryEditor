@@ -102,6 +102,26 @@ namespace OneStoryProjectEditor
                 return topRow;
             }
         }
+
+        protected string GetPrevRowId
+        {
+            get
+            {
+                var topRow = GetTopRowId;
+                if (topRow != null)
+                {
+                    var astr = topRow.Split(AchDelim);
+                    if ((astr.Length == 2) && (astr[0] == VersesData.CstrLinePrefix))
+                    {
+                        var prevRow = VersesData.LineId(Int32.Parse(astr[1]) - 1);
+                        if ((Document != null) && Document.GetElementById(prevRow) != null)
+                            topRow = prevRow;
+                    }
+                }
+                return topRow;
+            }
+        }
+
         private static void HtmlElementTotalScrollTop(HtmlElement elem, 
             ref int nTopOffset, ref int nTopScroll)
         {
@@ -200,7 +220,9 @@ namespace OneStoryProjectEditor
         public void ResetDocument()
         {
             //reset so we don't jump to a soon-to-be-non-existant (or wrong context) place
-            StrIdToScrollTo = null;
+            // update: if you *don't* want to jump there, then clear out StrIdToScrollTo manually. This needs
+            //  to be here (e.g. for DoMove) which wants to go back to the same spot
+            // StrIdToScrollTo = null;
             if (Document != null)
                 Document.OpenNew(true);
         }
