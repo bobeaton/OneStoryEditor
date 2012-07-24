@@ -147,7 +147,7 @@ namespace OneStoryProjectEditor
             this.moveLineUp.Name = "moveLineUp";
             this.moveLineUp.Size = new System.Drawing.Size(417, 24);
             this.moveLineUp.Text = "Move Line Up";
-            this.moveLineUp.ToolTipText = "Click this menu to move the line down (i.e. switch places with the line below)";
+            this.moveLineUp.ToolTipText = "Click this menu to move the line up (i.e. switch places with the line above)";
             this.moveLineUp.Click += new System.EventHandler(this.MoveLineUp);
             // 
             // moveLineDown
@@ -155,7 +155,7 @@ namespace OneStoryProjectEditor
             this.moveLineDown.Name = "moveLineDown";
             this.moveLineDown.Size = new System.Drawing.Size(417, 24);
             this.moveLineDown.Text = "Move Line Down";
-            this.moveLineDown.ToolTipText = "Click this menu to move the line up (i.e. switch places with the line above)";
+            this.moveLineDown.ToolTipText = "Click this menu to move the line down (i.e. switch places with the line below)";
             this.moveLineDown.Click += new System.EventHandler(this.MoveLineDown);
             // 
             // addANewVerseToolStripMenuItem
