@@ -1177,10 +1177,8 @@ namespace OneStoryProjectEditor
 
         public bool UsingHtmlForStoryBtPane
         {
-            get
-            {
-                return !advancedUseOldStyleStoryBtPaneMenu.Checked;
-            }
+            get { return !advancedUseOldStyleStoryBtPaneMenu.Checked; }
+            set { advancedUseOldStyleStoryBtPaneMenu.Checked = !value; }
         }
 
         private bool _bCancellingChange = false;
@@ -1305,6 +1303,7 @@ namespace OneStoryProjectEditor
                 htmlStoryBtControl.StoryData = TheCurrentStory;
                 htmlStoryBtControl.LineNumberLink = linkLabelVerseBT;
                 htmlStoryBtControl.ViewSettings = CurrentViewSettings;
+                buttonMoveToNextLine.Visible = true;
             }
             else
             {
@@ -1313,7 +1312,7 @@ namespace OneStoryProjectEditor
             }
 
 #if UsingHtmlDisplayForConNotes
-            buttonMoveToNextLine.Visible = linkLabelVerseBT.Visible = true;
+            linkLabelVerseBT.Visible = true;
             
             if (Localizer.Default.LocLanguage.Font != null)
                 StoryProject.ProjSettings.Localization.FontToUse = Localizer.Default.LocLanguage.Font;
@@ -6590,6 +6589,7 @@ namespace OneStoryProjectEditor
 
         private void InitStoryBtPaneControl(bool bUsingHtmlForStoryBtPane)
         {
+            UsingHtmlForStoryBtPane = bUsingHtmlForStoryBtPane;
             if (bUsingHtmlForStoryBtPane)
             {
                 flowLayoutPanelVerses.Visible = false;
