@@ -125,7 +125,7 @@ $(document).ready(function () {
         else {
             removeSelection($(this));
         }
-        DisplayHtml(event.type + this.selectedText);
+        // DisplayHtml(event.type + this.selectedText);
     }).blur(function (event) {
         if ($(this).attr('placeholder') != '' && ($(this).val() == '' || $(this).val() == $(this).attr('placeholder'))) {
             $(this).val($(this).attr('placeholder')).addClass('hasPlaceholder');
@@ -191,10 +191,21 @@ $(document).ready(function () {
             // then we have to clear out the selection (so it doesn't reoccur if we trigger blur)
             $(this).removeAttr("selectedText");
         }
+        // then there are certain keys we don't want to trigger this for
+        if (ctrl_down && ((event.keyCode == ctrl_key) ||   // ignore this one... (it's the control key)
+                          (event.keyCode == c_key) ||   // copy
+                          (event.keyCode == a_key) ||   // select all
+                          (event.keyCode == f_key) ||   // find
+                          (event.keyCode == h_key) ||   // replace
+                          (event.keyCode == s_key))) {
+            return true;
+        }
+        DisplayHtml("ctrl_down = " + ctrl_down + ", and event.keyCode = " + event.keyCode);
         return window.external.TextareaOnKeyUp(this.id, this.value);
     }).keydown(function (event) {
-        if (ctrl_down && (event.keyCode == v_key)) {
-            $(this).removeAttr("selectedText"); // cut means we no longer have a selection
+        if (ctrl_down && ((event.keyCode == v_key) ||   // paste
+                          (event.keyCode == x_key))) {  // cut
+            $(this).removeAttr("selectedText"); // cut or paste means we no longer have a selection
         }
         DisplayHtml(event.type + event.keyCode + this.value);
     }).change(function () {
@@ -210,8 +221,13 @@ window.oseConfig =
 
 var ctrl_down = false;
 var ctrl_key = 17;
-var v_key = 88;
+var a_key = 65;
+var c_key = 67;
+var f_key = 70;
+var h_key = 72;
 var s_key = 83;
+var v_key = 86;
+var x_key = 88;
 var f5_key = 116;
 
 $(document).keydown(function (e) {

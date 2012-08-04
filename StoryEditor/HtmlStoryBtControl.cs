@@ -247,19 +247,67 @@ namespace OneStoryProjectEditor
 
         public bool TextareaOnChange(string strId, string strText)
         {
-            var stringTransfer = GetStringTransfer(strId);
-            if (stringTransfer == null) 
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe))
                 return false;
 
+            var stringTransfer = GetStringTransfer(strId);
+            if (stringTransfer == null)
+                return false;
+
+            /*
+            // if PF, then make sure it's blocked by the consultant
+            var projSettings = theSe.StoryProject.ProjSettings;
+            if (TeamMemberData.IsUser(theSe.LoggedOnMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator))
+            {
+                var typeField = stringTransfer.WhichField & StoryEditor.TextFields.Languages;
+                var theStory = theSe.TheCurrentStory;
+                ProjectSettings.LanguageInfo li;
+                if (!CheckForTaskPermission((li = projSettings.Vernacular), typeField, StoryEditor.TextFields.Vernacular, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.VernacularLangFields))
+                    || !CheckForTaskPermission((li = projSettings.NationalBT), typeField, StoryEditor.TextFields.NationalBt, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.NationalBtLangFields))
+                    || !CheckForTaskPermission((li = projSettings.InternationalBT), typeField, StoryEditor.TextFields.InternationalBt, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.InternationalBtFields))
+                    || !CheckForTaskPermission((li = projSettings.FreeTranslation), typeField, StoryEditor.TextFields.FreeTranslation, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.FreeTranslationFields)))
+                {
+                    LocalizableMessageBox.Show(
+                        String.Format(
+                            Localizer.Str("The consultant hasn't given you permission to edit the '{0}' language fields"),
+                            li.LangName), StoryEditor.OseCaption);
+                    return false;
+                }
+            }
+            */
+
+            // this will fail if the field is readonly which would be if the consultant hadn't allowed it or if
+            //  a transliterator were turned on. Either way, this should catch it.
+            if (stringTransfer.IsFieldEditable(ViewSettings.FieldEditibility))
+            {
+                LocalizableMessageBox.Show(
+                    String.Format(
+                        Localizer.Str(
+                            "You can't edit this field right now... either the consultant hasn't given you permission to edit the '{0}' language fields or perhaps there a transliterator turned on"),
+                        stringTransfer.WhichField & StoryEditor.TextFields.Languages),
+                    StoryEditor.OseCaption);
+                return false;
+            }
+
+            // finally make sure it's supposed to be visible.
             stringTransfer.SetValue(strText);
 
             // indicate that the document has changed
-            TheSE.Modified = true;
+            theSe.Modified = true;
 
             // update the status bar (in case we previously put an error there
-            var st = StoryStageLogic.stateTransitions[TheSE.TheCurrentStory.ProjStage.ProjectStage];
-            TheSE.SetDefaultStatusBar(st.StageDisplayString);
+            var st = StoryStageLogic.stateTransitions[theSe.TheCurrentStory.ProjStage.ProjectStage];
+            theSe.SetDefaultStatusBar(st.StageDisplayString);
 
+            return true;
+        }
+
+        private bool CheckForTaskPermission(ProjectSettings.LanguageInfo li, StoryEditor.TextFields typeField,
+            StoryEditor.TextFields eType, bool isTaskOn)
+        {
+            if (typeField == eType)
+                return (!li.HasData || isTaskOn);
             return true;
         }
 

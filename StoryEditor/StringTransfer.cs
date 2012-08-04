@@ -86,13 +86,18 @@ namespace OneStoryProjectEditor
             
             // possibly add the 'readonly' class if the field isn't supposed to be edited
             fieldVisibility &= StoryEditor.TextFields.Languages;
-            if (((WhichField & fieldVisibility) == StoryEditor.TextFields.Undefined) ||
-                (Transliterator != null))
+            if (IsFieldEditable(fieldVisibility))
             {
                 strStyleClassName += " " + "readonly";
             }
 
             return strStyleClassName;
+        }
+
+        public bool IsFieldEditable(StoryEditor.TextFields fieldVisibility)
+        {
+            return ((WhichField & fieldVisibility) == StoryEditor.TextFields.Undefined) ||
+                   (Transliterator != null);
         }
 
         private string GetFieldType
