@@ -818,6 +818,11 @@ namespace OneStoryProjectEditor
             // this will turn cn notes into strings in the astr... list (but we don't want
             //  that if we're using text areas (since in that case, we don't do diff'ing
             //  nor print preview).
+#if true
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.ExegeticalHelps))
+                ExegeticalHelpNotes.PresentationHtml((theChildVerse != null) ? theChildVerse.ExegeticalHelpNotes : null,
+                                                     ref astrExegeticalHelpNotes);
+#else
             if (!viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.UseTextAreas) && 
                  viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.ExegeticalHelps))
                 ExegeticalHelpNotes.PresentationHtml((theChildVerse != null) ? theChildVerse.ExegeticalHelpNotes : null,
@@ -826,7 +831,7 @@ namespace OneStoryProjectEditor
             // unless we're doing printing, we don't put anything else out into the display
             if (presentationType != StoryData.PresentationType.Printing)
                 astrExegeticalHelpNotes.Clear();
-
+#endif
             // the following call in either the case that we already have some html
             //  (e.g. anchors which this method will wrap in a table necessary to get
             //  the col span correct) or if there are sub-items that want to be put 
