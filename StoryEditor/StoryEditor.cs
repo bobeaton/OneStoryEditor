@@ -3396,12 +3396,14 @@ namespace OneStoryProjectEditor
                 editDeleteFreeTranslationMenu.Enabled =
                     (IsInStoriesSet && bSomeVerses);
 
-            editAddRetellingTestResultsMenu.Enabled =
+            var bCanEdit = CheckForProperEditToken();
+            editAddRetellingTestResultsMenu.Enabled = 
                 editAddInferenceTestResultsMenu.Enabled =
                 editAddGeneralTestQuestionMenu.Enabled =
                     (IsInStoriesSet
                         && bSomeVerses
-                        && TheCurrentStory.CraftingInfo.IsBiblicalStory);
+                        && TheCurrentStory.CraftingInfo.IsBiblicalStory
+                        && bCanEdit);
 
             if (UsingHtmlForStoryBtPane)
             {
@@ -3474,7 +3476,12 @@ namespace OneStoryProjectEditor
             UpdateUIMenusWithShortCuts();
         }
 
-        internal void editAddTestResultsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void editAddTestResultsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddRetellingAndPaint();
+        }
+
+        public void AddRetellingAndPaint()
         {
             AddRetellingTest(false);
             InitAllPanes();

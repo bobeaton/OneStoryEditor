@@ -217,6 +217,11 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public void ForgetWhereYouWere()
+        {
+            StrIdToScrollTo = null;
+        }
+
         public void ResetDocument()
         {
             //reset so we don't jump to a soon-to-be-non-existant (or wrong context) place

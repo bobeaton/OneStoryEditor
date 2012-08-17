@@ -413,7 +413,7 @@ namespace OneStoryProjectEditor
                                                                   TeamMemberData.UserTypes.ProjectFacilitator));
             System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
-            TheSe.editAddTestResultsToolStripMenuItem_Click(sender, e);
+            TheSe.AddRetellingAndPaint();
             TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest1, false);
         }
 
