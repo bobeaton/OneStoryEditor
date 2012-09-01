@@ -1316,6 +1316,7 @@ namespace OneStoryProjectEditor
             this.advancedSaveTimeoutAsSilentlyAsPossibleMenu.Text = "&Automatically save without reminder";
             this.advancedSaveTimeoutAsSilentlyAsPossibleMenu.ToolTipText = "This menu indicates whether the program will query you (unchecked) or not (checke" +
     "d) to save the project file";
+            this.advancedSaveTimeoutAsSilentlyAsPossibleMenu.CheckStateChanged += new System.EventHandler(this.advancedSaveTimeoutAsSilentlyAsPossibleMenu_CheckStateChanged);
             // 
             // advancedResetStoredInformationMenu
             // 

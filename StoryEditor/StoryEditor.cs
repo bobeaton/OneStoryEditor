@@ -6912,5 +6912,11 @@ namespace OneStoryProjectEditor
                 nLineIndex++;
             FocusOnVerse(nLineIndex, true, true);
         }
+
+        private void advancedSaveTimeoutAsSilentlyAsPossibleMenu_CheckStateChanged(object sender, EventArgs e)
+        {
+            Settings.Default.DoAutoSaveSilently = advancedSaveTimeoutAsSilentlyAsPossibleMenu.Checked;
+            Settings.Default.Save();
+        }
     }
 }
