@@ -23,6 +23,12 @@ namespace OneStoryProjectEditor
             InitializeEncConverter();
         }
 
+        public override void Uninstall(System.Collections.IDictionary savedState)
+        {
+            UnRegsvr32IcuEc48();
+            base.Uninstall(savedState);
+        }
+
         /// <summary>
         /// This method will run the EncConvertersAppDataMover40.exe program (during 
         /// installation when we have elevated privileges, because that's needed in
@@ -32,6 +38,7 @@ namespace OneStoryProjectEditor
         private void InitializeEncConverter()
         {
             var theEcs = new SilEncConverters40.EncConverters();
+            Regsvr32IcuEc48();
         }
 
         private void RunFixupProgram()
@@ -39,6 +46,20 @@ namespace OneStoryProjectEditor
             string strRunPath = Path.Combine(StoryProjectData.GetRunningFolder, "FixupOneStoryFile.exe");
             if (File.Exists(strRunPath))
                 StoryEditor.LaunchProgram(strRunPath, null);
+        }
+
+        private void Regsvr32IcuEc48()
+        {
+            string strDllPath = Path.Combine(StoryProjectData.GetRunningFolder, "IcuEC48.dll");
+            if (File.Exists(strDllPath))
+                StoryEditor.LaunchProgram("regsvr32", "-s \"" + strDllPath + "\"");
+        }
+
+        private void UnRegsvr32IcuEc48()
+        {
+            string strDllPath = Path.Combine(StoryProjectData.GetRunningFolder, "IcuEC48.dll");
+            if (File.Exists(strDllPath))
+                StoryEditor.LaunchProgram("regsvr32", "-u -s \"" + strDllPath + "\"");
         }
     }
 }

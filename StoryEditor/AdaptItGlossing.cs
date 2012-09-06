@@ -145,6 +145,17 @@ namespace OneStoryProjectEditor
             var aiLiTarget = FromOseLanguageInfo(liTargetLang);
             var aiLiNavigation = FromOseLanguageInfo(liNavigation);
 
+            // can't allow puncuation to be different lengths
+            var nSourceLen = aiLiSource.Punctuation.Length;
+            var nTargetLen = aiLiTarget.Punctuation.Length;
+            if (nSourceLen != nTargetLen)
+            {
+                if (nSourceLen > nTargetLen)
+                    aiLiTarget.Punctuation += aiLiSource.Punctuation.Substring(nTargetLen);
+                else
+                    aiLiSource.Punctuation += aiLiTarget.Punctuation.Substring(nSourceLen);
+                System.Diagnostics.Debug.Assert(aiLiTarget.Punctuation.Length == aiLiSource.Punctuation.Length);
+            }
             AdaptItKBReader.WriteAdaptItProjectFiles(aiLiSource, aiLiTarget, aiLiNavigation);
         }
 
