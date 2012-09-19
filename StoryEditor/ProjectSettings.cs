@@ -370,10 +370,14 @@ namespace OneStoryProjectEditor
                     Directory.CreateDirectory(strAiWorkFolder);
 
                 string strAiProjectFolderName = Path.GetFileNameWithoutExtension(strProjectFolder);
+                var strServerLabel = RepositoryServer;
+                if (String.IsNullOrEmpty(strServerLabel))
+                    strServerLabel = Properties.Resources.IDS_DefaultRepoServer;
+
                 var model = new GetCloneFromInternetModel(strAiWorkFolder)
                 {
                     ProjectId = RepoProjectName,
-                    SelectedServerLabel = RepositoryServer,
+                    SelectedServerLabel = strServerLabel,
                     LocalFolderName = strAiProjectFolderName,
                     AccountName = strHgUsername,
                     Password = strHgPassword

@@ -1,4 +1,11 @@
-﻿the story name in combobox goes away when you do a refresh
+﻿Ctrl+F5 doesn't work in StoryBtHtml
+
+after adding glossed bts in html story bt pane, switch to old style story bt pane and the glosses disappear
+
+
+add ability to copy selected CIT notes for auto-insertion into Coach Notes pane
+
+the story name in combobox goes away when you do a refresh
 
 don't allow sorting in the Panorama show or Historical diffs grids
 Moving a TQ to line 0 (GenQs) didn't work
