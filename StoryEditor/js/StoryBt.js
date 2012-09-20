@@ -243,10 +243,14 @@ $(document).keydown(function (e) {
         e.preventDefault();
         return false;
     }
-    else if (!ctrl_down && (e.keyCode == f5_key)) {
+    else if (e.keyCode == f5_key) {
+        if (ctrl_down) {
+            window.external.TriggerCtrlF5();
+        }
+
         // let the form handle it
         window.external.LoadDocument();
-        e.preventDefault();
-        return false;
+        // doesn't work... e.preventDefault();
+        return true;
     }
 }); 

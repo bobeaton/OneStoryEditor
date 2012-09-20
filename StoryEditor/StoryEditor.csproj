@@ -473,6 +473,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AdaptItConfigControl.resx">
       <DependentUpon>AdaptItConfigControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="AddConNoteForm.resx">
       <DependentUpon>AddConNoteForm.cs</DependentUpon>

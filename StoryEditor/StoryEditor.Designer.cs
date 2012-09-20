@@ -1897,7 +1897,6 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem advancedToolStripMenu;
         private ToolStripMenuItem advancedChangeProjectFolderRootMenu;
         private ToolStripMenuItem projectFromASharedNetworkDriveMenu;
-        private ToolStripMenuItem storyRealignStoryLinesMenu;
         private ToolStripMenuItem projectToTheInternetMenu;
         private ToolStripMenuItem storyCopyWithNewNameMenu;
         private ToolStripMenuItem projectLoginMenu;
@@ -1985,6 +1984,7 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator17;
         private ToolStripMenuItem storyImportFromSayMore;
         private Button buttonMoveToNextLine;
+        internal ToolStripMenuItem storyRealignStoryLinesMenu;
     }
 
 #if UsingHtmlDisplayForConNotes

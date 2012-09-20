@@ -4845,10 +4845,15 @@ namespace OneStoryProjectEditor
 
         private void realignStoryVersesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Debug.Assert((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
-
-            if (!CheckForLostData())
+            if (RealignLines()) 
                 return;
+            InitAllPanes();
+        }
+
+        internal bool RealignLines()
+        {
+            if (((TheCurrentStory == null) || (TheCurrentStory.Verses.Count == 0)) || !CheckForLostData())
+                return true;
 
             // first 'collapse into 1 line'
             string strVernacular = GetFullStoryContentsVernacular;
@@ -4858,7 +4863,7 @@ namespace OneStoryProjectEditor
 
             TheCurrentStory.Verses.RemoveRange(0, TheCurrentStory.Verses.Count);
             TheCurrentStory.Verses.InsertVerse(0, strVernacular, strNationalBT,
-                strEnglishBT, strFreeTranslation);
+                                               strEnglishBT, strFreeTranslation);
 
             // then split into lines
             VerseData aVerseData = TheCurrentStory.Verses[0];
@@ -4878,14 +4883,14 @@ namespace OneStoryProjectEditor
             for (int i = 0; i < nNumVerses; i++)
             {
                 TheCurrentStory.Verses.InsertVerse(i,
-                    GetSentence(i, lstSentencesVernacular),
-                    GetSentence(i, lstSentencesNationalBT),
-                    GetSentence(i, lstSentencesEnglishBT),
-                    GetSentence(i, lstSentencesFreeTranslation));
+                                                   GetSentence(i, lstSentencesVernacular),
+                                                   GetSentence(i, lstSentencesNationalBT),
+                                                   GetSentence(i, lstSentencesEnglishBT),
+                                                   GetSentence(i, lstSentencesFreeTranslation));
             }
 
             Modified = true;
-            InitAllPanes();
+            return false;
         }
 
         private bool CheckForLostData()

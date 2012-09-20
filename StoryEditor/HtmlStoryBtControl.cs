@@ -29,6 +29,15 @@ namespace OneStoryProjectEditor
             _contextMenuTextarea = CreateContextMenuStrip();
         }
 
+        public void TriggerCtrlF5()
+        {
+            if (TheSE.RealignLines())
+                return;
+
+            // done by the jscript
+            // LoadDocument();
+        }
+
         public override void LoadDocument()
         {
             string strHtml = null;
