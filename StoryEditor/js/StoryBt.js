@@ -27,6 +27,7 @@ function OnVerseLineJump(link) {
     window.external.OnVerseLineJump(link.name);
     return false; // cause the href navigation to not happen
 }
+
 /*
 function OnKeyDown() {
     // if this is F5 (refresh)...
@@ -208,8 +209,6 @@ $(document).ready(function () {
             $(this).removeAttr("selectedText"); // cut or paste means we no longer have a selection
         }
         DisplayHtml(event.type + event.keyCode + this.value);
-    }).change(function () {
-        return window.external.TextareaOnChange(this.id, this.value);
     });
     $('.readonly').attr('readonly', 'readonly');
 });

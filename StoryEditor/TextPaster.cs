@@ -120,6 +120,11 @@ namespace OneStoryProjectEditor
         {
             var elemTextArea = tb as HtmlElement;
             Debug.Assert(elemTextArea != null);
+            SetElementText(elemTextArea, str);
+        }
+
+        internal static void SetElementText(HtmlElement elemTextArea, string str)
+        {
             elemTextArea.InnerText = str;
             elemTextArea.InvokeMember("onchange"); // triggers the update to the data buffer
         }
@@ -130,6 +135,7 @@ namespace OneStoryProjectEditor
             var textBox = tb as CtrlTextBox;
             return textBox.Text;
         }
+
         private string GetTextareaText(object tb)
         {
             var elemTextArea = tb as HtmlElement;
@@ -202,7 +208,7 @@ namespace OneStoryProjectEditor
 
         private void CheckBoxPauseCheckedChanged(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert(sender == checkBoxPause);
+            Debug.Assert(sender == checkBoxPause);
             StoryEditor.TextPaster = (checkBoxPause.Checked) ? null : this;
         }
 
@@ -226,9 +232,9 @@ namespace OneStoryProjectEditor
                 else if (val.Item1 is CtrlTextBox)
                     (val.Item1 as CtrlTextBox).Text = val.Item2;
                 else if (val.Item1 is HtmlElement)
-                    (val.Item1 as HtmlElement).InnerText = val.Item2;
+                    SetElementText(val.Item1 as HtmlElement, val.Item2);
                 else
-                    System.Diagnostics.Debug.Assert(false, "oops, did we add support for something new?");
+                    Debug.Assert(false, "oops, did we add support for something new?");
             }
         }
     }
