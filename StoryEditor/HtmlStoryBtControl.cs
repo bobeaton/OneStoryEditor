@@ -1251,38 +1251,37 @@ namespace OneStoryProjectEditor
                                            TheSE.advancedUseWordBreaks.Checked,
                                            myStringTransfer.Transliterator);
 
-                if (dlg.ShowDialog() == DialogResult.OK)
+                if (dlg.ShowDialog() != DialogResult.OK)
+                    return;
+
+                StoryEditor theSe;
+                if (!CheckForProperEditToken(out theSe))
+                    return;
+
+                var siblingStringTransfer = GetStringTransfer(siblingId);
+                if (siblingStringTransfer.ToString() != dlg.TargetSentence)
+                    siblingStringTransfer.SetValue(dlg.TargetSentence);
+
+                // check whether we need to update the source as well (user may have changed it)...
+                //  but only update the source data if it wasn't being transliterated
+                if (myStringTransfer.Transliterator == null)
                 {
-                    siblingElement.InnerText = dlg.TargetSentence;
-                    siblingElement.InvokeMember("onchange"); // triggers the update to the data buffer
-
-                    // but only update the source data if it wasn't being transliterated
-                    if (myStringTransfer.Transliterator == null)
-                    {
-                        HtmlElement myElem;
-                        if (GetHtmlElementById(LastTextareaInFocusId, out myElem))
-                        {
-                            myElem.InnerText = dlg.SourceSentence; // cause the user might have corrected some spelling
-                            myElem.InvokeMember("onchange"); // triggers the update to the data buffer
-                        }
-                    }
-
-                    TheSE.Modified = true;
-                    if (dlg.DoReorder)
-                    {
-                        var siblingStringTransfer = GetStringTransfer(siblingId);
-                        var dlgReorder = new ReorderWordsForm(siblingStringTransfer,
-                                                              liSibling.FontToUse,
-                                                              liSibling.FullStop);
-                        if (dlgReorder.ShowDialog() == DialogResult.OK)
-                        {
-                            siblingElement.InnerText = dlgReorder.ReorderedText;
-                            siblingElement.InvokeMember("onchange"); // triggers the update to the data buffer
-                        }
-                    }
-
-                    siblingElement.Focus();
+                    if (myStringTransfer.ToString() != dlg.SourceSentence)
+                        myStringTransfer.SetValue(dlg.SourceSentence);
                 }
+
+                TheSE.Modified = true;
+                if (dlg.DoReorder)
+                {
+                    var dlgReorder = new ReorderWordsForm(siblingStringTransfer,
+                                                          liSibling.FontToUse,
+                                                          liSibling.FullStop);
+                    if (dlgReorder.ShowDialog() == DialogResult.OK)
+                        siblingStringTransfer.SetValue(dlgReorder.ReorderedText);
+                }
+
+                StrIdToScrollTo = GetTopRowId;
+                LoadDocument();
             }
             catch (Exception ex)
             {
