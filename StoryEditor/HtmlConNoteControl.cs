@@ -1,5 +1,8 @@
-﻿using System;
+﻿#define AddNoteFromConNotes
+
+using System;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using mshtml;
 using NetLoc;
@@ -13,6 +16,10 @@ namespace OneStoryProjectEditor
 
         protected HtmlConNoteControl()
         {
+            InitializeComponent();
+#if AddNoteFromConNotes
+            IsWebBrowserContextMenuEnabled = false;
+#endif
             ObjectForScripting = this;
         }
 
@@ -49,7 +56,10 @@ namespace OneStoryProjectEditor
 
         public bool OnAddNote(int nVerseIndex, string strReferringText, string strNote, bool bNoteToSelf)
         {
-            return CallDoAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
+            var eNoteType = (bNoteToSelf)
+                                ? ConsultNoteDataConverter.NoteType.NoteToSelf
+                                : ConsultNoteDataConverter.NoteType.RegularNote;
+            return CallDoAddNote(nVerseIndex, strReferringText, strNote, eNoteType);
         }
 
         // this form is called from VersesData.GetHeaderRow (html)
@@ -58,14 +68,19 @@ namespace OneStoryProjectEditor
             var astrId = strButtonId.Split('_');
             System.Diagnostics.Debug.Assert(astrId.Length == 2);
             var nVerseIndex = Convert.ToInt32(astrId[1]);
-            return CallDoAddNote(nVerseIndex, null, null, true);
+            return CallDoAddNote(nVerseIndex, null, null, ConsultNoteDataConverter.NoteType.NoteToSelf);
         }
 
-        private bool CallDoAddNote(int nVerseIndex, string strReferringText, string strNote, bool bNoteToSelf)
+        public bool OnAddStickyNote(string strButtonId)
+        {
+            return CallDoAddNote(0, null, null, ConsultNoteDataConverter.NoteType.StickyNote);
+        }
+
+        private bool CallDoAddNote(int nVerseIndex, string strReferringText, string strNote, ConsultNoteDataConverter.NoteType eNoteType)
         {
             // StrIdToScrollTo = GetNextRowId;
             ConsultNotesDataConverter aCNsDC = DataConverter(nVerseIndex);
-            ConsultNoteDataConverter aCNDC = DoAddNote(strReferringText, strNote, aCNsDC, nVerseIndex, bNoteToSelf);
+            ConsultNoteDataConverter aCNDC = DoAddNote(strReferringText, strNote, aCNsDC, nVerseIndex, eNoteType);
             
             // if we couldn't determine the top-most row, then just get the line row
             // if ((aCNDC != null) && String.IsNullOrEmpty(StrIdToScrollTo))
@@ -425,7 +440,7 @@ namespace OneStoryProjectEditor
         }
 
         public ConsultNoteDataConverter DoAddNote(string strReferringText, string strNote,
-            ConsultNotesDataConverter aCNsDC, int nVerseIndex, bool bNoteToSelf)
+            ConsultNotesDataConverter aCNsDC, int nVerseIndex, ConsultNoteDataConverter.NoteType eNoteType)
         {
             // the only function of the button here is to add a slot to type a con note
             StoryEditor theSE;
@@ -437,12 +452,13 @@ namespace OneStoryProjectEditor
             // (but not if we're pasting)
             if (String.IsNullOrEmpty(strNote) && 
                 (theSE.LoggedOnMember != null) &&
-                (StoryEditor.TextPaster == null))
+                (StoryEditor.TextPaster == null) &&
+                (eNoteType != ConsultNoteDataConverter.NoteType.StickyNote))
                 strNote = StoryEditor.GetInitials(theSE.LoggedOnMember.Name) + StoryEditor.StrRegarding;
 
             ConsultNoteDataConverter cndc =
                 aCNsDC.Add(theSE.TheCurrentStory, theSE.LoggedOnMember,
-                theSE.StoryProject.TeamMembers, strReferringText, strNote, bNoteToSelf);
+                theSE.StoryProject.TeamMembers, strReferringText, strNote, eNoteType);
             System.Diagnostics.Debug.Assert(cndc.Count == 1);
 
             // if there's referring text, then do it in a separate dialog so we can 'preview' the referring text
@@ -492,6 +508,7 @@ namespace OneStoryProjectEditor
         }
 
         private const string CstrParagraphHighlightBegin = "<span style=\"background-color:Blue; color: White\">";
+        private ToolStripMenuItem menuAddNote;
         private const string CstrParagraphHighlightEnd = "</span>";
 
         public void SetSelection(StringTransfer stringTransfer,
@@ -580,6 +597,80 @@ namespace OneStoryProjectEditor
             StrIdToScrollTo = GetTopRowId;
             LoadDocument();
             return true;
+        }
+
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuAddNote = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenu.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // contextMenu
+            // 
+            this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuAddNote});
+            this.contextMenu.Name = "contextMenu";
+            this.contextMenu.Size = new System.Drawing.Size(209, 26);
+            // 
+            // menuAddNote
+            // 
+            this.menuAddNote.Name = "menuAddNote";
+            this.menuAddNote.Size = new System.Drawing.Size(208, 22);
+            this.menuAddNote.Text = "Add note on selected text";
+            this.menuAddNote.Click += new System.EventHandler(menuAddNote_Click);
+            // 
+            // HtmlConNoteControl
+            // 
+            this.ContextMenuStrip = this.contextMenu;
+            this.IsWebBrowserContextMenuEnabled = false;
+            this.contextMenu.ResumeLayout(false);
+            this.ResumeLayout(false);
+
+        }
+
+        private static Regex regExReadLineNumber = new Regex(@"id=tp_(\d+?)_", RegexOptions.Compiled);
+
+        private void menuAddNote_Click(object sender, EventArgs args)
+        {
+            if (Document == null)
+                return;
+
+            var htmlDocument = Document.DomDocument as IHTMLDocument2;
+            if (htmlDocument == null)
+                return;
+
+            var selection = htmlDocument.selection;
+            var range = (IHTMLTxtRange)selection.createRange();
+            if (range == null)
+                return;
+
+            System.Diagnostics.Debug.WriteLine(range.htmlText);
+            var elem = range.parentElement();
+            while (!regExReadLineNumber.IsMatch(elem.innerHTML))
+                elem = elem.parentElement;
+
+            var strLineNumber = regExReadLineNumber.Match(elem.innerHTML).Groups[1].Value;
+            var nLineNumber = Int32.Parse(strLineNumber);
+            var strReferringText = String.Format(Localizer.Str("<p><i>Re: ConNote:</i></p><p>{0}</p>"), range.htmlText);
+            TheSE.SendNoteToCorrectPane(nLineNumber, strReferringText, null, false);
+        }
+
+        private ContextMenuStrip contextMenu;
+        private System.ComponentModel.IContainer components;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 

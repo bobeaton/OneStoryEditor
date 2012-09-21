@@ -1617,6 +1617,7 @@ namespace OneStoryProjectEditor
             // 
             this.htmlConsultantNotesControl.AllowWebBrowserDrop = false;
             this.htmlConsultantNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlConsultantNotesControl.IsWebBrowserContextMenuEnabled = false;
             this.htmlConsultantNotesControl.Location = new System.Drawing.Point(0, 23);
             this.htmlConsultantNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlConsultantNotesControl.Name = "htmlConsultantNotesControl";
@@ -1661,6 +1662,7 @@ namespace OneStoryProjectEditor
             // 
             this.htmlCoachNotesControl.AllowWebBrowserDrop = false;
             this.htmlCoachNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlCoachNotesControl.IsWebBrowserContextMenuEnabled = false;
             this.htmlCoachNotesControl.Location = new System.Drawing.Point(0, 23);
             this.htmlCoachNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlCoachNotesControl.Name = "htmlCoachNotesControl";
