@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System.Drawing;
 using NetLoc;
+using OneStoryProjectEditor.Properties;
 
 namespace OneStoryProjectEditor
 {
@@ -137,11 +139,12 @@ namespace OneStoryProjectEditor
             eProjFacToConsultant,
             eConsultantToCoach,
             eCoachToConsultant,
-            eProjFacToProjFac,          // PF's not to self
+            eProjFacToProjFac,          // PF's note to self
             eConsultantToConsultant,    // consultant's note to self
             eCoachToCoach,              // coach's note to self
             eConsultantToProjFacNeedsApproval,  // for LRC or CIT notes to PF (IC or Coach must approve before they become visible to PF)
-            eReferringToText
+            eReferringToText,
+            eStickyNote                 // a note that is always editable by anyone on the team
         }
 
         protected ConsultNoteDataConverter(string strReferringText, TeamMemberData loggedOnMember, 
@@ -185,12 +188,13 @@ namespace OneStoryProjectEditor
             { "ConsultantToConsultant", CommunicationDirections.eConsultantToConsultant },
             { "CoachToCoach", CommunicationDirections.eCoachToCoach },
             { "ConsultantToProjFacNeedsApproval", CommunicationDirections.eConsultantToProjFacNeedsApproval },
-            { "ReferringToText", CommunicationDirections.eReferringToText }
+            { "ReferringToText", CommunicationDirections.eReferringToText },
+            { "StickyNote", CommunicationDirections.eStickyNote }
         };
 
         protected CommunicationDirections GetDirectionFromString(string strDirectionString)
         {
-            System.Diagnostics.Debug.Assert(CmapDirectionStringToEnumType.ContainsKey(strDirectionString));
+            Debug.Assert(CmapDirectionStringToEnumType.ContainsKey(strDirectionString));
             return CmapDirectionStringToEnumType[strDirectionString];
         }
 
@@ -202,7 +206,7 @@ namespace OneStoryProjectEditor
         }
 
         public void InsureExtraBox(StoryData theStory, TeamMemberData loggedOnMember,
-            TeamMembersData theTeamMembers, string strValue, bool bNoteToSelf)
+            TeamMembersData theTeamMembers, string strValue, NoteType eNoteType)
         {
             // in case the user re-logs in, we might have extra boxes here. So remove any null ones before
             //  "insuring" the one(s) we need
@@ -215,18 +219,29 @@ namespace OneStoryProjectEditor
                 return;
 
             if (MentorHasRespondPrivilege(loggedOnMember, theTeamMembers, theStory))
-                Add(CreateMentorNote(loggedOnMember, theStory, strValue, bNoteToSelf));
+                Add(CreateMentorNote(loggedOnMember, theStory, strValue, eNoteType));
             else if (MentoreeHasRespondPrivilege(loggedOnMember, theStory))
-                Add(CreateMenteeNote(loggedOnMember, theStory, strValue, bNoteToSelf));
+                Add(CreateMenteeNote(loggedOnMember, theStory, strValue, eNoteType));
+        }
+
+        public enum NoteType
+        {
+            RegularNote,
+            NoteToSelf,
+            StickyNote
         }
 
         protected virtual CommInstance CreateMentorNote(TeamMemberData loggedOnMember,
-            StoryData theStory, string strValue, bool bNoteToSelf)
+            StoryData theStory, string strValue, NoteType eNoteType)
         {
+            var direction = (eNoteType == NoteType.StickyNote)
+                                ? CommunicationDirections.eStickyNote
+                                : (eNoteType == NoteType.NoteToSelf)
+                                      ? MentorToSelfDirection
+                                      : MentorDirection;
+
             return new CommInstance(strValue,
-                                    (bNoteToSelf)
-                                        ? MentorToSelfDirection
-                                        : MentorDirection,
+                                    direction,
                                     null,
                                     loggedOnMember.MemberGuid,
                                     DateTime.Now,
@@ -234,12 +249,16 @@ namespace OneStoryProjectEditor
         }
 
         protected virtual CommInstance CreateMenteeNote(TeamMemberData loggedOnMember,
-            StoryData theStory, string strValue, bool bNoteToSelf)
+            StoryData theStory, string strValue, NoteType eNoteType)
         {
+            var direction = (eNoteType == NoteType.StickyNote)
+                                ? CommunicationDirections.eStickyNote
+                                : (eNoteType == NoteType.NoteToSelf)
+                                      ? MenteeToSelfDirection
+                                      : MenteeDirection;
+
             return new CommInstance(strValue,
-                                    (bNoteToSelf)
-                                        ? MenteeToSelfDirection
-                                        : MenteeDirection,
+                                    direction,
                                     null,
                                     loggedOnMember.MemberGuid,
                                     DateTime.Now,
@@ -274,7 +293,8 @@ namespace OneStoryProjectEditor
             // either the conversation is just beginning or the same mentor has to have
             //  initiated the conversation AND
             // the logged on mentor must have the privilege to make a response.
-            return (IsFromMentee(FinalComment) &&
+            return (!IsStickyNote && 
+                    IsFromMentee(FinalComment) &&
                     ((Count < 2) || 
                         InitiatedConversation(loggedOnMember) || 
                         (InitiatedByMentoree && InitialFollowupBy(loggedOnMember))) &&
@@ -292,7 +312,8 @@ namespace OneStoryProjectEditor
             if (Count == 0)
                 return IsMenteeLoggedOn(loggedOnMember);
 
-            return (IsFromMentor(FinalComment) &&
+            return (!IsStickyNote &&
+                    IsFromMentor(FinalComment) &&
                     ((Count < 2) || 
                         InitiatedConversation(loggedOnMember) || 
                         (InitiatedByMentor && InitialFollowupBy(loggedOnMember))) &&
@@ -322,7 +343,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                System.Diagnostics.Debug.Assert(Count > 0);
+                Debug.Assert(Count > 0);
                 return this[0];
             }
         }
@@ -331,14 +352,14 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                System.Diagnostics.Debug.Assert(Count > 0);
+                Debug.Assert(Count > 0);
                 return this[Count - 1];
             }
         }
 
         private bool InitialFollowupBy(TeamMemberData loggedOnMember)
         {
-            System.Diagnostics.Debug.Assert(Count > 1);
+            Debug.Assert(Count > 1);
             var theInitialFollowup = this[1];
             return (loggedOnMember.MemberGuid == theInitialFollowup.MemberId);
         }
@@ -346,7 +367,7 @@ namespace OneStoryProjectEditor
         protected virtual bool InitiatedConversation(TeamMemberData loggedOnMember)
         {
             var theInitialComment = InitialComment;
-            System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(theInitialComment.MemberId));
+            Debug.Assert(!String.IsNullOrEmpty(theInitialComment.MemberId));
             return (loggedOnMember.MemberGuid == theInitialComment.MemberId);
         }
 
@@ -461,7 +482,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                System.Diagnostics.Debug.Assert(Count > 0);
+                Debug.Assert(Count > 0);
 
                 var eleNote = new XElement(InstanceElementName,
                     new XAttribute(CstrAttributeLabelGuid, guid));
@@ -564,8 +585,9 @@ namespace OneStoryProjectEditor
         {
             var theFinalComment = FinalComment;
             return !IsFinished &&
-                   (MentoreeAcceptable(loggedOnMember, theStory, theFinalComment) |
-                    MentorAcceptable(loggedOnMember, theStory, theTeamMembers, theFinalComment));
+                   (MentoreeAcceptable(loggedOnMember, theStory, theFinalComment) ||
+                    MentorAcceptable(loggedOnMember, theStory, theTeamMembers, theFinalComment) ||
+                    (IsStickyNote && IsMentorLoggedOn(loggedOnMember)));
         }
 
         /*
@@ -599,6 +621,15 @@ namespace OneStoryProjectEditor
                 return this.All(aCi =>
                     !IsFromMentor(aCi) || 
                     !String.IsNullOrEmpty(aCi.MemberId));
+            }
+        }
+
+        public bool IsStickyNote
+        {
+            get
+            {
+                return ((Count == 1) &&
+                        (InitialComment.Direction == CommunicationDirections.eStickyNote));
             }
         }
 
@@ -673,7 +704,7 @@ namespace OneStoryProjectEditor
             if (Localizer.Default.LanguageId != "en")
             {
                 // for non-en localizations, also add all the localized strings
-                System.Diagnostics.Debug.Assert(NetBibleViewer.MapBookNames != null);
+                Debug.Assert(NetBibleViewer.MapBookNames != null);
                 strLine = NetBibleViewer.MapBookNames.Aggregate(strLine, 
                     (current, mapBookName) => current + ("|" + mapBookName.Value));
             }
@@ -716,19 +747,22 @@ namespace OneStoryProjectEditor
 
                 string strRow, theStoryPfMemberId = MemberIdInfo.SafeGetMemberId(theStory.CraftingInfo.ProjectFacilitator);
                 Color clrRow;
-                if (IsFromMentor(aCI))
+                if (IsFromMentor(aCI) || IsStickyNote)
                 {
+                    var label = (IsStickyNote)
+                                    ? Localizer.Str("Sticky:")
+                                    : MentorLabel(theCommentor,
+                                                  theStoryPfMemberId);
                     clrRow = CommentColor(theCommentor, theStoryPfMemberId);
-                    strRow = String.Format(Properties.Resources.HTML_TableCellClass,
+                    strRow = String.Format(Resources.HTML_TableCellClass,
                                            StoryData.CstrLangLocalizationStyleClassName,
                                            VerseData.HtmlColor(Color.DodgerBlue),
-                                           MentorLabel(theCommentor,
-                                                       theStoryPfMemberId));
+                                           label);
                 }
                 else
                 {
                     clrRow = ResponseColor(theCommentor, theStoryPfMemberId);
-                    strRow = String.Format(Properties.Resources.HTML_TableCellClass,
+                    strRow = String.Format(Resources.HTML_TableCellClass,
                                            StoryData.CstrLangLocalizationStyleClassName,
                                            VerseData.HtmlColor(Color.ForestGreen),
                                            MenteeLabel(theCommentor,
@@ -759,14 +793,14 @@ namespace OneStoryProjectEditor
                     IsEditable(loggedOnMember, theTeamMembers, theStory))
                 {
                     strHtmlElementId = TextareaId(nVerseIndex, nConversationIndex);
-                    strRow += String.Format(Properties.Resources.HTML_TableCellForTextArea,
+                    strRow += String.Format(Resources.HTML_TableCellForTextArea,
                                             strReferringHtml + 
-                                            String.Format(Properties.Resources.HTML_TextareaWithRefDrop,
+                                            String.Format(Resources.HTML_TextareaWithRefDrop,
                                                           strHtmlElementId,
                                                           StoryData.CstrLangInternationalBtStyleClassName,
                                                           aCI));
 
-                    strHtmlTable += String.Format(Properties.Resources.HTML_TableRowIdColor,
+                    strHtmlTable += String.Format(Resources.HTML_TableRowIdColor,
                                                   TextareaRowId(nVerseIndex, nConversationIndex),
                                                   strColor,
                                                   strRow);
@@ -781,13 +815,13 @@ namespace OneStoryProjectEditor
                         strHyperlinkedText = SetHyperlinks(strHyperlinkedText);
                     }
 
-                    strRow += String.Format(Properties.Resources.HTML_TableCellWidth, 100,
-                                            String.Format(Properties.Resources.HTML_ParagraphTextId,
+                    strRow += String.Format(Resources.HTML_TableCellWidth, 100,
+                                            String.Format(Resources.HTML_ParagraphTextId,
                                                           strHtmlElementId,
                                                           StoryData.CstrLangInternationalBtStyleClassName,
                                                           strHyperlinkedText));
 
-                    strHtmlTable += String.Format(Properties.Resources.HTML_TableRowIdColor,
+                    strHtmlTable += String.Format(Resources.HTML_TableRowIdColor,
                                                   TextareaReadonlyRowId(nVerseIndex, nConversationIndex, i),
                                                   strColor,
                                                   strRow);
@@ -798,16 +832,16 @@ namespace OneStoryProjectEditor
                 aCI.HtmlPane = htmlConNoteCtrl;
             }
 
-            string strEmbeddedTable = String.Format(Properties.Resources.HTML_Table,
+            string strEmbeddedTable = String.Format(Resources.HTML_Table,
                                                     strHtmlTable);
             if (Visible)
                 strColor = "#CCFFAA";
             else
                 strColor = "#F0E68C";
-            strHtml += String.Format(Properties.Resources.HTML_TableRowIdColor,
+            strHtml += String.Format(Resources.HTML_TableRowIdColor,
                                      ConversationTableRowId(nVerseIndex, nConversationIndex),
                                      strColor,
-                                     String.Format(Properties.Resources.HTML_TableCellWithSpan, 5,
+                                     String.Format(Resources.HTML_TableCellWithSpan, 5,
                                                    strEmbeddedTable));
 
             return strHtml;
@@ -890,20 +924,22 @@ namespace OneStoryProjectEditor
                 InitiatedConversation(loggedOnMember) && 
                 (loggedOnMember.IsEditAllowed(theStory) ||
                     OtherwiseDoesntHaveaTurn(loggedOnMember, theStory, theTeamMembers) ||
-                    AllowButtonsOverride))
+                    AllowButtonsOverride ||
+                    (IsStickyNote && IsMentorLoggedOn(loggedOnMember))))
             {
-                strRow += String.Format(Properties.Resources.HTML_ButtonClass,
+                strRow += String.Format(Resources.HTML_ButtonClass,
                                         ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexDelete),
                                         StoryData.CstrLangLocalizationStyleClassName,
                                         "return window.external.OnClickDelete(this.id);",
                                         StoryFrontMatterForm.CstrDeleteTest);
 
-                strRow += String.Format(Properties.Resources.HTML_ButtonClass,
+                /* I think no need to allow this anymore...
+                strRow += String.Format(Resources.HTML_ButtonClass,
                                         ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexHide),
                                         StoryData.CstrLangLocalizationStyleClassName,
                                         "return window.external.OnClickHide(this.id);",
                                         (Visible) ? CstrButtonLabelHide : CstrButtonLabelUnhide);
-
+                */
                 // allow the person who created a 'note to self' to convert it to a note to 
                 //  the mentoree
                 if (IsNoteToLoggedOnMemberSelf(loggedOnMember))
@@ -921,15 +957,15 @@ namespace OneStoryProjectEditor
                         strScriptCall = "return window.external.OnConvertToMentorNote(this.id);";
                     }
 
-                    strRow += String.Format(Properties.Resources.HTML_ButtonClass,
+                    strRow += String.Format(Resources.HTML_ButtonClass,
                                             ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexConvertToMentoreeNote),
                                             StoryData.CstrLangLocalizationStyleClassName,
                                             strScriptCall, Localizer.Str("Change to note"));
                 }
-                else
+                else if (!IsStickyNote)
                 {
-                    // otherwise, add an 'End Conversation' button
-                    strRow += String.Format(Properties.Resources.HTML_ButtonClass,
+                    // otherwise, add an 'End Conversation' button (if it's not a sticky note)
+                    strRow += String.Format(Resources.HTML_ButtonClass,
                                             ButtonId(nVerseIndex, nConversationIndex,
                                                      CnBtnIndexEndConversation),
                                             StoryData.CstrLangLocalizationStyleClassName,
@@ -946,7 +982,7 @@ namespace OneStoryProjectEditor
                 if (HasNoteApprovalAuthority(loggedOnMember, theTeamMembers) && 
                     (loggedOnMember.IsEditAllowed(theStory) || 
                         CoachWithoutaTurn(loggedOnMember, theTeamMembers)))
-                    strRow += String.Format(Properties.Resources.HTML_ButtonClass,
+                    strRow += String.Format(Resources.HTML_ButtonClass,
                                             ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexApproveNote),
                                             StoryData.CstrLangLocalizationStyleClassName,
                                             "return window.external.OnApproveNote(this.id);",
@@ -958,14 +994,14 @@ namespace OneStoryProjectEditor
             if (!Visible)
                 strRow += VersesData.HiddenString;
 
-            strRow = String.Format(Properties.Resources.HTML_TableCell, strRow);
+            strRow = String.Format(Resources.HTML_TableCell, strRow);
 
             // color changes if hidden
             string strColor = "#FFFFFF";    // default white background
             if (!Visible)
                 strColor = "#F0E68C";
 
-            return String.Format(Properties.Resources.HTML_TableRowIdColor,
+            return String.Format(Resources.HTML_TableRowIdColor,
                                  ButtonRowId(nVerseIndex, nConversationIndex),
                                  strColor,
                                  strRow);
@@ -1005,7 +1041,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                System.Diagnostics.Debug.Assert(Count > 0);
+                Debug.Assert(Count > 0);
                 return ((Count > 0)
                         && (FinalComment.Direction == CommunicationDirections.eConsultantToProjFacNeedsApproval));
             }
@@ -1013,7 +1049,7 @@ namespace OneStoryProjectEditor
 
         private bool IsNoteToLoggedOnMemberSelf(TeamMemberData loggedOnMember)
         {
-            System.Diagnostics.Debug.Assert(Count > 0);
+            Debug.Assert(Count > 0);
             return IsMyNoteToSelf(InitialComment, loggedOnMember);
         }
 
@@ -1055,7 +1091,7 @@ namespace OneStoryProjectEditor
                     strLanguageClass = StoryData.CstrLangVernacularStyleClassName;
                     break;
             }
-            return String.Format(Properties.Resources.HTML_SpanLangQuote,
+            return String.Format(Resources.HTML_SpanLangQuote,
                                  strFieldType,
                                  strLanguageClass,
                                  m.Groups[3].Value);
@@ -1064,7 +1100,7 @@ namespace OneStoryProjectEditor
         static string BibleReferenceFound(Match m)
         {
             // Get the matched string.
-            string str = String.Format(Properties.Resources.HTML_LinkJumpTargetBibleReference, 
+            string str = String.Format(Resources.HTML_LinkJumpTargetBibleReference, 
                 m);
             return str;
         }
@@ -1072,7 +1108,7 @@ namespace OneStoryProjectEditor
         static string LineReferenceFound(Match m)
         {
             // Get the matched string.
-            string str = String.Format(Properties.Resources.HTML_LinkJumpLine,
+            string str = String.Format(Resources.HTML_LinkJumpLine,
                                        m.Groups[3], 
                                        StoryData.CstrLangLocalizationStyleClassName,
                                        m);
@@ -1082,14 +1118,14 @@ namespace OneStoryProjectEditor
         static string HttpReferenceFound(Match m)
         {
             // Get the matched string.
-            string str = String.Format(Properties.Resources.HTML_HttpLink,
+            string str = String.Format(Resources.HTML_HttpLink,
                                        m.Groups[1]);
             return str;
         }
 
         static string EmphasizedTextFound(Match m)
         {
-            string str = String.Format(Properties.Resources.HTML_EmphasizedText,
+            string str = String.Format(Resources.HTML_EmphasizedText,
                 m.Groups[1]);
             return str;
         }
@@ -1134,7 +1170,7 @@ namespace OneStoryProjectEditor
                 else if (IsFromMentee(comment))
                     comment.MemberId = mentoree.MemberId;
                 else
-                    System.Diagnostics.Debug.Assert(false);
+                    Debug.Assert(false);
         }
     }
 
@@ -1170,10 +1206,10 @@ namespace OneStoryProjectEditor
         }
 
         public ConsultantNoteData(StoryData theStory, TeamMemberData loggedOnMember,
-            TeamMembersData theTeamMembers, string strReferringText, string strValue, bool bIsNoteToSelf)
+            TeamMembersData theTeamMembers, string strReferringText, string strValue, NoteType eNoteType)
             : base(strReferringText, loggedOnMember, StoryEditor.TextFields.ConsultantNote)
         {
-            InsureExtraBox(theStory, loggedOnMember, theTeamMembers, strValue, bIsNoteToSelf);
+            InsureExtraBox(theStory, loggedOnMember, theTeamMembers, strValue, eNoteType);
         }
 
         public ConsultantNoteData(ConsultNoteDataConverter rhs)
@@ -1270,7 +1306,7 @@ namespace OneStoryProjectEditor
         }
 
         protected override CommInstance CreateMentorNote(TeamMemberData loggedOnMember,
-            StoryData theStory, string strValue, bool bNoteToSelf)
+            StoryData theStory, string strValue, NoteType eNoteType)
         {
             // override in order to add a comment that needs to be approved
             // a comment needs approval in two cases:
@@ -1281,7 +1317,7 @@ namespace OneStoryProjectEditor
             //      requirement).
             //   2) The member is an LSR. Such comments always need to be approved.
             bool bNeedsApproval =
-                (!bNoteToSelf &&
+                ((eNoteType == NoteType.RegularNote) &&
                  TeamMemberData.IsUser(loggedOnMember.MemberType,
                                        TeamMemberData.UserTypes.ConsultantInTraining) &&
                  TasksCit.IsTaskOn(theStory.TasksRequiredCit,
@@ -1292,7 +1328,7 @@ namespace OneStoryProjectEditor
                        ? new CommInstance(strValue, CommunicationDirections.eConsultantToProjFacNeedsApproval, null,
                                           loggedOnMember.MemberGuid, DateTime.Now, 
                                           WhichField)
-                       : base.CreateMentorNote(loggedOnMember, theStory, strValue, bNoteToSelf);
+                       : base.CreateMentorNote(loggedOnMember, theStory, strValue, eNoteType);
         }
 
         protected override bool LoggedOnMentorHasResponsePrivilege(TeamMemberData loggedOnMember,
@@ -1332,10 +1368,10 @@ namespace OneStoryProjectEditor
         }
 
         public CoachNoteData(StoryData theStory, TeamMemberData loggedOnMember,
-            TeamMembersData theTeamMembers, string strReferringText, string strValue, bool bNoteToSelf)
+            TeamMembersData theTeamMembers, string strReferringText, string strValue, NoteType eNoteType)
             : base(strReferringText, loggedOnMember, StoryEditor.TextFields.CoachNote)
         {
-            InsureExtraBox(theStory, loggedOnMember, theTeamMembers, strValue, bNoteToSelf);
+            InsureExtraBox(theStory, loggedOnMember, theTeamMembers, strValue, eNoteType);
         }
 
         public CoachNoteData(ConsultNoteDataConverter rhs)
@@ -1477,8 +1513,13 @@ namespace OneStoryProjectEditor
         {
             // in this case, we're not 'adding' one, per se, but possibly editing
             //  the last one. So the 'note to self' is defined by the last Ci
+            var eNoteType = (aCNDC.IsNoteToSelf)
+                                ? ConsultNoteDataConverter.NoteType.NoteToSelf
+                                : (aCNDC.IsStickyNote)
+                                      ? ConsultNoteDataConverter.NoteType.StickyNote
+                                      : ConsultNoteDataConverter.NoteType.RegularNote;
             aCNDC.InsureExtraBox(theStory, LoggedOnMemberType, theTeamMembers, null,
-                aCNDC.IsNoteToSelf);
+                                 eNoteType);
         }
 
         public virtual bool HasAddNotePrivilege(TeamMemberData loggedOnMember, 
@@ -1488,16 +1529,14 @@ namespace OneStoryProjectEditor
                    (TeamMemberData.IsUser(loggedOnMember.MemberType, MenteeType));
         }
 
-        public enum ConNoteType
+        public bool IsMentorLoggedOn(TeamMemberData loggedOnMember)
         {
-            RegularNote,
-            NoteToSelf,
-            ReTextNote
+            return TeamMemberData.IsUser(loggedOnMember.MemberType, MentorType);
         }
 
         public abstract ConsultNoteDataConverter Add(StoryData theStory,
             TeamMemberData loggedOnMember, TeamMembersData theTeamMembers,
-            string strReferringText, string strValue, bool bIsNoteToSelf);
+            string strReferringText, string strValue, ConsultNoteDataConverter.NoteType eNoteType);
         
         protected abstract TeamMemberData.UserTypes MentorType { get; }
         protected abstract TeamMemberData.UserTypes MenteeType { get; }
@@ -1607,16 +1646,19 @@ namespace OneStoryProjectEditor
 
         public override ConsultNoteDataConverter Add(StoryData theStory,
             TeamMemberData loggedOnMember, TeamMembersData theTeamMembers,
-            string strReferringText, string strValue, bool bIsNoteToSelf)
+            string strReferringText, string strValue, ConsultNoteDataConverter.NoteType eNoteType)
         {
-            var theNewCN = new ConsultantNoteData(theStory,
+            var theNewCn = new ConsultantNoteData(theStory,
                                                   loggedOnMember,
                                                   theTeamMembers,
                                                   strReferringText,
                                                   strValue,
-                                                  bIsNoteToSelf);
-            Add(theNewCN);
-            return theNewCN;
+                                                  eNoteType);
+            if (eNoteType == ConsultNoteDataConverter.NoteType.StickyNote)
+                Insert(0, theNewCn);
+            else
+                Add(theNewCn);
+            return theNewCn;
         }
 
         protected override TeamMemberData.UserTypes MentorType
@@ -1689,17 +1731,21 @@ namespace OneStoryProjectEditor
 
         public override ConsultNoteDataConverter Add(StoryData theStory,
             TeamMemberData loggedOnMember, TeamMembersData theTeamMembers,
-            string strReferringText, string strValue, bool bIsNoteToSelf)
+            string strReferringText, string strValue, ConsultNoteDataConverter.NoteType eNoteType)
         {
             // always add closest to the verse label
-            var theNewCN = new CoachNoteData(theStory,
+            var theNewCn = new CoachNoteData(theStory,
                                              loggedOnMember,
                                              theTeamMembers,
                                              strReferringText,
                                              strValue,
-                                             bIsNoteToSelf);
-            Add(theNewCN);
-            return theNewCN;
+                                             eNoteType);
+
+            if (eNoteType == ConsultNoteDataConverter.NoteType.StickyNote)
+                Insert(0, theNewCn);
+            else
+                Add(theNewCn);
+            return theNewCn;
         }
 
         protected override TeamMemberData.UserTypes MentorType

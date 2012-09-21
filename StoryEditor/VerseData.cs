@@ -1673,6 +1673,11 @@ namespace OneStoryProjectEditor
             return String.Format("btnNoteToSelf_{0}", nVerseIndex);
         }
 
+        public static string StickyNoteButtonId(int nVerseIndex)
+        {
+            return String.Format("btnStickyNote_{0}", nVerseIndex);
+        }
+
         protected string GetHeaderRow(string strHeader, string strHeaderAdd, 
             int nVerseIndex, bool bShowButton, int nColSpan)
         {
@@ -1740,6 +1745,15 @@ namespace OneStoryProjectEditor
                                                 StoryData.CstrLangLocalizationStyleClassName,
                                                 "return window.external.OnAddNoteToSelf(this.id);",
                                                 Localizer.Str("Add Note to Self"));
+
+                if ((nVerseIndex == 0) &&
+                    theCNsDC.IsMentorLoggedOn(LoggedOnMember) &&
+                    ((theCNsDC.Count == 0) || !theCNsDC[0].IsStickyNote))
+                    strHtmlButtons += String.Format(Properties.Resources.HTML_ButtonClass,
+                                                    StickyNoteButtonId(nVerseIndex),
+                                                    StoryData.CstrLangLocalizationStyleClassName,
+                                                    "return window.external.OnAddStickyNote(this.id);",
+                                                    Localizer.Str("Add Sticky Note"));
             }
 
             if (bShowOnlyOpenConversations)

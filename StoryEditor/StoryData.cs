@@ -1722,6 +1722,7 @@ namespace OneStoryProjectEditor
         public string PanoramaFrontMatter;
         public string XmlDataVersion = "1.6";
         private const string CxmlDataVersionReferringText = "1.7";
+        private const string CxmlDataVersionStickyNote = "1.8";
 
         /// <summary>
         /// This version of the constructor should *always* be followed by a call to InitializeProjectSettings()
@@ -1790,7 +1791,8 @@ namespace OneStoryProjectEditor
 
                 else if (projFile.StoryProject[0].version.CompareTo(XmlDataVersion) > 0)
                 {
-                    if (projFile.StoryProject[0].version != CxmlDataVersionReferringText)
+                    if ((projFile.StoryProject[0].version != CxmlDataVersionReferringText) && 
+                        (projFile.StoryProject[0].version != CxmlDataVersionStickyNote))
                     {
                         LocalizableMessageBox.Show(Localizer.Str("One of the team members is using a newer version of OSE to edit the file, which is not compatible with the version you are using. You might try, \"Advanced\", \"Program Updates\", \"Check now\" or \"Check now for next major update\" or you may have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the \"Setup OneStory Editor.zip\" file"), StoryEditor.OseCaption);
                         throw BackOutWithNoUI;
@@ -2190,24 +2192,37 @@ namespace OneStoryProjectEditor
 
                 elemStoryProject.Add(LnCNotes.GetXml);
 
-                foreach (StoriesData aSsD in Values)
+                foreach (var aSsD in Values)
                     elemStoryProject.Add(aSsD.GetXml);
 
-                // if there are any "Referring text" Direction entries...  
-                var strSearch =
-                    ConsultNoteDataConverter.GetCommDirectionStringFromEnum(
-                        ConsultNoteDataConverter.CommunicationDirections.eReferringToText);
-                if (elemStoryProject.Descendants(ConsultantNoteData.CstrSubElementName)
-                                    .Any(e => e.Attribute(CommInstance.CstrAttributeLabelDirection).Value == strSearch) ||
-                    elemStoryProject.Descendants(CoachNoteData.CstrSubElementName)
-                                    .Any(e => e.Attribute(CommInstance.CstrAttributeLabelDirection).Value == strSearch))
+                // if there are any "Sticky Notes"...  
+                if (!SetNextVersionIfNeeded(ConsultNoteDataConverter.CommunicationDirections.eStickyNote, 
+                                         elemStoryProject, CxmlDataVersionStickyNote))
                 {
-                    // set the xml version to 1.7 so it forces all team members to use a version that supports this
-                    var versionAttribute = elemStoryProject.Attribute(CstrAttributeVersion);
-                    versionAttribute.Value = CxmlDataVersionReferringText;
+                    // otherwise if there are any "Referring text" Direction entries...  
+                    SetNextVersionIfNeeded(ConsultNoteDataConverter.CommunicationDirections.eReferringToText,
+                                        elemStoryProject, CxmlDataVersionReferringText);
                 }
+
                 return elemStoryProject;
             }
+        }
+
+        private static bool SetNextVersionIfNeeded(ConsultNoteDataConverter.CommunicationDirections eNewType, XElement elemStoryProject, string strNewVersion)
+        {
+            var strSearch =
+                ConsultNoteDataConverter.GetCommDirectionStringFromEnum(eNewType);
+            if (elemStoryProject.Descendants(ConsultantNoteData.CstrSubElementName)
+                    .Any(e => e.Attribute(CommInstance.CstrAttributeLabelDirection).Value == strSearch) ||
+                elemStoryProject.Descendants(CoachNoteData.CstrSubElementName)
+                    .Any(e => e.Attribute(CommInstance.CstrAttributeLabelDirection).Value == strSearch))
+            {
+                // set the xml version to 1.7 so it forces all team members to use a version that supports this
+                var versionAttribute = elemStoryProject.Attribute(CstrAttributeVersion);
+                versionAttribute.Value = strNewVersion;
+                return true;
+            }
+            return false;
         }
 
         public void ReplaceUns(string strOldMemberGuid, string strNewMemberGuid)
