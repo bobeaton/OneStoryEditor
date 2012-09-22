@@ -134,6 +134,9 @@ namespace OneStoryProjectEditor
 
                     // make sure the 'new' folder exists
                     Directory.CreateDirectory(ProjSettings.ProjectFolder);
+                    
+                    // initialize dropbox now that we have a ProjSettings
+                    InitializeDropbox();
                 }
                 else
                     ProjSettings.ProjectName = ProjectName;
@@ -1184,8 +1187,14 @@ namespace OneStoryProjectEditor
 
         private void CheckBoxUseDropBoxClick(object sender, EventArgs e)
         {
-            if (((checkBoxUseDropBox.Appearance != Appearance.Button) && ProjSettings.UseDropbox) || 
-                checkBoxUseDropBox.CheckState == CheckState.Unchecked)
+            if (ProjSettings != null)
+                InitializeDropbox();
+        }
+
+        private void InitializeDropbox()
+        {
+            if (((checkBoxUseDropBox.Appearance != Appearance.Button) && ProjSettings.UseDropbox) ||
+                  checkBoxUseDropBox.CheckState == CheckState.Unchecked)
                 return;
 
             if (ProjectSettings.DropboxFolderRoot == null)
