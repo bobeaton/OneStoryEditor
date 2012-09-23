@@ -219,6 +219,8 @@ namespace OneStoryProjectEditor
             }
         }
 
+        private static bool _bIgnoringChanges;
+
         public void TriggerChangeUpdate()
         {
             // we only update the StringTransfer for a textarea when the user leaves (onchange), 
@@ -230,7 +232,11 @@ namespace OneStoryProjectEditor
             if (!GetHtmlElementById(LastTextareaInFocusId, out elem))
                 return;
 
+            // we don't want this to cause us to warn about changing a 
+            //  readonly field
+            _bIgnoringChanges = true;
             elem.InvokeMember("onchange");
+            _bIgnoringChanges = false;
         }
 
         public void OnMouseMove()
@@ -288,7 +294,7 @@ namespace OneStoryProjectEditor
 
             // this will fail if the field is readonly which would be if the consultant hadn't allowed it or if
             //  a transliterator were turned on. Either way, this should catch it.
-            if (stringTransfer.IsFieldEditable(ViewSettings.FieldEditibility))
+            if (stringTransfer.IsFieldReadonly(ViewSettings.FieldEditibility) && !_bIgnoringChanges)
             {
                 LocalizableMessageBox.Show(
                     String.Format(
