@@ -648,6 +648,9 @@ namespace OneStoryProjectEditor
 
             System.Diagnostics.Debug.WriteLine(range.htmlText);
             var elem = range.parentElement();
+            if (elem == null)
+                return;
+
             while (!regExReadLineNumber.IsMatch(elem.innerHTML))
                 elem = elem.parentElement;
 
