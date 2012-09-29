@@ -212,6 +212,14 @@ namespace OneStoryProjectEditor
             if (btn == null) 
                 return;
 
+            // make sure there's something to move/delete (i.e. something is checked)
+            if (!IsaNodeChecked(treeViewItems.Nodes))
+            {
+                if (LocalizableMessageBox.Show(Localizer.Str("You have to check one or more of the boxes on the left first"),
+                    StoryEditor.OseCaption, MessageBoxButtons.OKCancel) != DialogResult.Yes)
+                    return;
+            }
+
             var verseDest = btn.Tag as VerseData;
             if (verseDest == null)
             {
@@ -287,6 +295,11 @@ namespace OneStoryProjectEditor
 
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        protected bool IsaNodeChecked(TreeNodeCollection nodes)
+        {
+            return nodes.Cast<TreeNode>().Any(node => node.Checked || IsaNodeChecked(node.Nodes));
         }
 
         private void AddConNoteNodes(IEnumerable<ConsultNoteDataConverter> theConNotes, TreeNode nodeItems)
