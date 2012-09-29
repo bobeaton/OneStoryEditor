@@ -102,8 +102,9 @@ namespace OneStoryProjectEditor
         {
             get
             {
+                StoryEditor.LocalizedEnum<StoryEditor.TextFields> field = (WhichField & StoryEditor.TextFields.Fields);
                 System.Diagnostics.Debug.Assert(WhichField != StoryEditor.TextFields.Undefined);
-                return (WhichField & StoryEditor.TextFields.Fields).ToString();
+                return field.ToString();
             }
         }
 

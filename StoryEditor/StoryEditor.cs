@@ -139,6 +139,77 @@ namespace OneStoryProjectEditor
             Everything = Languages | Fields
         }
 
+        public struct LocalizedEnum<T> where T : struct
+        {
+            private T _value;
+            private static string LocalizedStoryLine { get { return Localizer.Str("StoryLine"); } }
+            private static string LocalizedAnchor { get { return Localizer.Str("Anchor"); } }
+            private static string LocalizedExegeticalNote { get { return Localizer.Str("ExegeticalNote"); } }
+            private static string LocalizedRetelling { get { return Localizer.Str("Retelling"); } }
+            private static string LocalizedTestQuestion { get { return Localizer.Str("TestQuestion"); } }
+            private static string LocalizedTestQuestionAnswer { get { return Localizer.Str("TestQuestionAnswer"); } }
+            private static string LocalizedConsultantNote { get { return Localizer.Str("ConsultantNote"); } }
+            private static string LocalizedCoachNote { get { return Localizer.Str("CoachNote"); } }
+
+            public LocalizedEnum(T value)
+            {
+                _value = value;
+            }
+
+            public override string ToString()
+            {
+                Debug.Assert(_value is TextFields);
+                if (Equals(_value, TextFields.StoryLine))
+                    return LocalizedStoryLine;
+                if (Equals(_value, TextFields.Anchor))
+                    return LocalizedAnchor;
+                if (Equals(_value, TextFields.ExegeticalNote))
+                    return LocalizedExegeticalNote;
+                if (Equals(_value, TextFields.Retelling))
+                    return LocalizedRetelling;
+                if (Equals(_value, TextFields.TestQuestion))
+                    return LocalizedTestQuestion;
+                if (Equals(_value, TextFields.TestQuestionAnswer))
+                    return LocalizedTestQuestionAnswer;
+                if (Equals(_value, TextFields.ConsultantNote))
+                    return LocalizedConsultantNote;
+                return Equals(_value, TextFields.CoachNote)
+                        ? LocalizedCoachNote 
+                        : _value.ToString();
+            }
+
+            public static TextFields Parse(string str)
+            {
+                if (str == LocalizedStoryLine)
+                    return TextFields.StoryLine;
+                if (str == LocalizedAnchor)
+                    return TextFields.Anchor;
+                if (str == LocalizedExegeticalNote)
+                    return TextFields.ExegeticalNote;
+                if (str == LocalizedRetelling)
+                    return TextFields.Retelling;
+                if (str == LocalizedTestQuestion)
+                    return TextFields.TestQuestion;
+                if (str == LocalizedTestQuestionAnswer)
+                    return TextFields.TestQuestionAnswer;
+                if (str == LocalizedConsultantNote)
+                    return TextFields.ConsultantNote;
+                return (str == LocalizedCoachNote)
+                            ? TextFields.CoachNote
+                            : (TextFields) Enum.Parse(typeof (TextFields), str);
+            }
+
+            public static implicit operator LocalizedEnum<T>(T value)
+            {
+                return new LocalizedEnum<T>(value);
+            }
+
+            public static implicit operator T(LocalizedEnum<T> value)
+            {
+                return value._value;
+            }
+        }
+
         // needed by NetLoc
         private StoryEditor()
         {

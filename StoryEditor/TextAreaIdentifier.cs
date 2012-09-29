@@ -25,7 +25,11 @@ namespace OneStoryProjectEditor
 
         public StoryEditor.TextFields FieldType
         {
-            get { return (StoryEditor.TextFields) Enum.Parse(typeof (StoryEditor.TextFields), FieldTypeName); }
+            get
+            {
+                var field = StoryEditor.LocalizedEnum<StoryEditor.TextFields>.Parse(FieldTypeName);
+                return field;
+            }
         }
 
         public StoryEditor.TextFields LanguageColumn
@@ -65,22 +69,5 @@ namespace OneStoryProjectEditor
                     return projSettings.InternationalBT;
             }
         }
-        /*
-        public string GetKeyboardName(ProjectSettings projSettings)
-        {
-            switch (LanguageColumn)
-            {
-                case StoryEditor.TextFields.Vernacular:
-                    return projSettings.Vernacular.Keyboard;
-                case StoryEditor.TextFields.NationalBt:
-                    return projSettings.NationalBT.Keyboard;
-                case StoryEditor.TextFields.InternationalBt:
-                    return projSettings.InternationalBT.Keyboard;
-                case StoryEditor.TextFields.FreeTranslation:
-                    return projSettings.FreeTranslation.Keyboard;
-            }
-            return null;
-        }
-        */
     }
 }

@@ -456,10 +456,9 @@ namespace OneStoryProjectEditor
         private StringTransfer GetStringTransfer(TextAreaIdentifier textAreaIdentifier)
         {
             var verseData = GetVerseData(textAreaIdentifier.LineIndex);
-            var fieldType =
-                (StoryEditor.TextFields) Enum.Parse(typeof (StoryEditor.TextFields), textAreaIdentifier.FieldTypeName);
+
             LineData lineData;
-            switch (fieldType)
+            switch (textAreaIdentifier.FieldType)
             {
                 case StoryEditor.TextFields.StoryLine:
                     lineData = verseData.StoryLine;
@@ -1344,8 +1343,9 @@ namespace OneStoryProjectEditor
 
         private static string GetStoryLineId(int nVerseIndex, string strFieldTypeName)
         {
+            StoryEditor.LocalizedEnum<StoryEditor.TextFields> field = StoryEditor.TextFields.StoryLine;
             return StringTransfer.TextareaId(nVerseIndex,
-                                             StoryEditor.TextFields.StoryLine.ToString(),
+                                             field.ToString(),
                                              0,
                                              0,
                                              strFieldTypeName);
@@ -1353,8 +1353,9 @@ namespace OneStoryProjectEditor
 
         private static string GetRetellingId(int nVerseIndex, int nSubItemIndex, string strFieldTypeName)
         {
+            StoryEditor.LocalizedEnum<StoryEditor.TextFields> field = StoryEditor.TextFields.Retelling;
             return StringTransfer.TextareaId(nVerseIndex,
-                                             StoryEditor.TextFields.Retelling.ToString(),
+                                             field.ToString(),
                                              0,
                                              nSubItemIndex,
                                              strFieldTypeName);
