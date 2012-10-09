@@ -867,8 +867,8 @@ namespace OneStoryProjectEditor
             this.viewConcordanceMenu.Name = "viewConcordanceMenu";
             this.viewConcordanceMenu.Size = new System.Drawing.Size(284, 22);
             this.viewConcordanceMenu.Text = "Concor&dance...";
-            this.viewConcordanceMenu.ToolTipText = "Click to launch the Concordance dialog to search for the occurrences of words in " +
-    "the story";
+            this.viewConcordanceMenu.ToolTipText = "Click to launch the Concordance dialog to search for words throughout the panoram" +
+    "a";
             this.viewConcordanceMenu.Click += new System.EventHandler(this.concordanceToolStripMenuItem_Click);
             // 
             // viewStateTransitionHistoryMenu
@@ -1711,7 +1711,7 @@ namespace OneStoryProjectEditor
             this.toolStripButtonShowPanoramaStories.Name = "toolStripButtonShowPanoramaStories";
             this.toolStripButtonShowPanoramaStories.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonShowPanoramaStories.Text = "Show Panorama Stories";
-            this.toolStripButtonShowPanoramaStories.ToolTipText = "Click to view the list of full stories (same as \"Panorama\", \"Show\")";
+            this.toolStripButtonShowPanoramaStories.ToolTipText = "Click to view the full list of stories (same as \"Panorama\", \"Show\")";
             this.toolStripButtonShowPanoramaStories.Click += new System.EventHandler(this.toolStripMenuItemShowPanorama_Click);
             // 
             // toolStripButtonFirst

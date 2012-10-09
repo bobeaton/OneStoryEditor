@@ -656,7 +656,7 @@ namespace OneStoryProjectEditor
 
             var strLineNumber = regExReadLineNumber.Match(elem.innerHTML).Groups[1].Value;
             var nLineNumber = Int32.Parse(strLineNumber);
-            var strReferringText = String.Format(Localizer.Str("<p><i>Re: ConNote:</i></p><p>{0}</p>"), range.htmlText);
+            var strReferringText = String.Format("<p><i>{0}</i></p><p>{1}</p>", Localizer.Str("Re: ConNote:"), range.htmlText);
             TheSE.SendNoteToCorrectPane(nLineNumber, strReferringText, null, false);
         }
 

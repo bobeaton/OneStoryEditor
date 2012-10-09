@@ -65,7 +65,7 @@ namespace OneStoryProjectEditor
                                                    VersesData.LinePrefix.Length))
             {
                 LineNumberLink.Text = elemLnPrev.InnerText;
-                var nIndex = elemLnPrev.InnerText.IndexOf(' ');
+                var nIndex = elemLnPrev.InnerText.LastIndexOf(' ');
                 if (nIndex == -1) 
                     return;
                 var strLineNumber = elemLnPrev.InnerText.Substring(nIndex + 1);

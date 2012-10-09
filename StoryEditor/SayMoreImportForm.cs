@@ -26,6 +26,13 @@ namespace OneStoryProjectEditor
 
         private readonly ProjectSettings _projSettings;
 
+        // version used by Localization
+        private SayMoreImportForm()
+        {
+            InitializeComponent();
+            Localizer.Ctrl(this);
+        }
+
         public SayMoreImportForm(StoryData storyData, ProjectSettings projSettings)
         {
             _projSettings = projSettings;
