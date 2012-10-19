@@ -4860,8 +4860,7 @@ namespace OneStoryProjectEditor
                     {
                         int nNewEndPoint;
                         string strText = (string)iData.GetData(DataFormats.UnicodeText);
-                        htmlStoryBtControl.SetSelectedText(htmlStoryBtControl.GetStringTransferOfLastTextAreaInFocus,
-                                                            strText, out nNewEndPoint);
+                        htmlStoryBtControl.SetSelectedText(st, strText, out nNewEndPoint);
                     }
             }
             else

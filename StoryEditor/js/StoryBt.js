@@ -27,6 +27,32 @@ function OnVerseLineJump(link) {
     window.external.OnVerseLineJump(link.name);
     return false; // cause the href navigation to not happen
 }
+function textboxSetSelectionTextReturnEndPosition(strId, strNewValue) {
+    var oTextbox = document.getElementById(strId);
+
+    // if we had turned our selection into a span earlier, then convert it back
+    if (oTextbox.selectedText) {
+        var range = oTextbox.createTextRange();
+        range.collapse(true);
+        range.moveStart("character", oTextbox.selectionStart);
+        range.moveEnd("character", oTextbox.selectionEnd - oTextbox.selectionStart);
+        range.select();
+    }
+
+    var rangeSelection = document.selection.createRange();
+    var rangeElement = rangeSelection.duplicate();
+    rangeElement.moveToElementText(oTextbox);
+    var nEndPoint = 0;
+    if (rangeElement.inRange(rangeSelection)) {
+        rangeSelection.text = strNewValue;
+        rangeSelection.select();
+        while (rangeElement.compareEndPoints('StartToEnd', rangeSelection) < 0) {
+            rangeElement.moveStart('character', 1);
+            nEndPoint++;
+        }
+    }
+    return nEndPoint;
+}
 
 /*
 function OnKeyDown() {
