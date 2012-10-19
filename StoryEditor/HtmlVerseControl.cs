@@ -64,13 +64,23 @@ namespace OneStoryProjectEditor
                                                    VersesData.LinePrefix,
                                                    VersesData.LinePrefix.Length))
             {
-                LineNumberLink.Text = elemLnPrev.InnerText;
-                var nIndex = elemLnPrev.InnerText.LastIndexOf(' ');
+                // e.g.
+                //  "Ln: 1" (or for the French localization: "Ln : 1")
+                //  "Ln: 1 (Hidden)"
+                var strLabel = LineNumberLink.Text = elemLnPrev.InnerText;
+                
+                // if the 'Hidden' keyword is showing, then strip that off
+                int nIndex;
+                var bHidden = ((nIndex = strLabel.IndexOf(VersesData.HiddenStringSpace)) != -1);
+                if (bHidden)
+                    strLabel = strLabel.Substring(0, nIndex);
+
+                // the verse number should be the last bit after the last space (French has a space before the colon)
+                nIndex = strLabel.LastIndexOf(' ');
                 if (nIndex == -1) 
                     return;
-                var strLineNumber = elemLnPrev.InnerText.Substring(nIndex + 1);
-                if ((nIndex = strLineNumber.IndexOf(VersesData.HiddenStringSpace)) != -1)
-                    strLineNumber = strLineNumber.Substring(0, nIndex);
+
+                var strLineNumber = strLabel.Substring(nIndex + 1);
                 LineNumberLink.Tag = Convert.ToInt32(strLineNumber);
             }
         }
