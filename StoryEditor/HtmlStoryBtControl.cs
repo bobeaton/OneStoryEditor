@@ -270,28 +270,24 @@ namespace OneStoryProjectEditor
             if (stringTransfer == null)
                 return false;
 
-            /*
-            // if PF, then make sure it's blocked by the consultant
-            var projSettings = theSe.StoryProject.ProjSettings;
-            if (TeamMemberData.IsUser(theSe.LoggedOnMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator))
-            {
-                var typeField = stringTransfer.WhichField & StoryEditor.TextFields.Languages;
-                var theStory = theSe.TheCurrentStory;
-                ProjectSettings.LanguageInfo li;
-                if (!CheckForTaskPermission((li = projSettings.Vernacular), typeField, StoryEditor.TextFields.Vernacular, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.VernacularLangFields))
-                    || !CheckForTaskPermission((li = projSettings.NationalBT), typeField, StoryEditor.TextFields.NationalBt, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.NationalBtLangFields))
-                    || !CheckForTaskPermission((li = projSettings.InternationalBT), typeField, StoryEditor.TextFields.InternationalBt, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.InternationalBtFields))
-                    || !CheckForTaskPermission((li = projSettings.FreeTranslation), typeField, StoryEditor.TextFields.FreeTranslation, TasksPf.IsTaskOn(theStory.TasksAllowedPf, TasksPf.TaskSettings.FreeTranslationFields)))
-                {
-                    LocalizableMessageBox.Show(
-                        String.Format(
-                            Localizer.Str("The consultant hasn't given you permission to edit the '{0}' language fields"),
-                            li.LangName), StoryEditor.OseCaption);
-                    return false;
-                }
-            }
-            */
+            if (!CheckShowErrorOnFieldNotEditable(stringTransfer)) 
+                return false;
 
+            // finally make sure it's supposed to be visible.
+            stringTransfer.SetValue(strText);
+
+            // indicate that the document has changed
+            theSe.Modified = true;
+
+            // update the status bar (in case we previously put an error there
+            var st = StoryStageLogic.stateTransitions[theSe.TheCurrentStory.ProjStage.ProjectStage];
+            theSe.SetDefaultStatusBar(st.StageDisplayString);
+
+            return true;
+        }
+
+        public bool CheckShowErrorOnFieldNotEditable(StringTransfer stringTransfer)
+        {
             // this will fail if the field is readonly which would be if the consultant hadn't allowed it or if
             //  a transliterator were turned on. Either way, this should catch it.
             if (stringTransfer.IsFieldReadonly(ViewSettings.FieldEditibility) && !_bIgnoringChanges)
@@ -304,17 +300,6 @@ namespace OneStoryProjectEditor
                     StoryEditor.OseCaption);
                 return false;
             }
-
-            // finally make sure it's supposed to be visible.
-            stringTransfer.SetValue(strText);
-
-            // indicate that the document has changed
-            theSe.Modified = true;
-
-            // update the status bar (in case we previously put an error there
-            var st = StoryStageLogic.stateTransitions[theSe.TheCurrentStory.ProjStage.ProjectStage];
-            theSe.SetDefaultStatusBar(st.StageDisplayString);
-
             return true;
         }
 
@@ -578,7 +563,7 @@ namespace OneStoryProjectEditor
                 return;
 
             // don't know why, but you have to explicitly set the inner text
-            elemNew.InnerText = anchorNew.JumpTarget;
+            elemNew.InnerText = NetBibleViewer.CheckForLocalization(anchorNew.JumpTarget);
             elem.AppendChild(elemNew);
             TheSE.Modified = true;
         }
@@ -1512,7 +1497,7 @@ namespace OneStoryProjectEditor
                 if (!TryGetAnchorData(_lastAnchorButtonClicked, out nLineIndex, out anchor))
                     return;
 
-                var dlg = new AnchorAddCommentForm(anchor.JumpTarget, anchor.ToolTipText);
+                var dlg = new AnchorAddCommentForm(NetBibleViewer.CheckForLocalization(anchor.JumpTarget), anchor.ToolTipText);
                 var res = dlg.ShowDialog();
                 if ((res == DialogResult.OK) || (res == DialogResult.Yes))
                 {
@@ -1543,7 +1528,7 @@ namespace OneStoryProjectEditor
                 StrIdToScrollTo = GetTopRowId;
 
                 var strReferringText = AnchorsData.AnchorLabel + " ";
-                strReferringText += anchor.JumpTarget;
+                strReferringText += NetBibleViewer.CheckForLocalization(anchor.JumpTarget);
 
                 if (anchor.JumpTarget != anchor.ToolTipText)
                     strReferringText += String.Format(" ({0})", anchor.ToolTipText);

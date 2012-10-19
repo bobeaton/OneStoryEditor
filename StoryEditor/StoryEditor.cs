@@ -2500,7 +2500,7 @@ namespace OneStoryProjectEditor
 
         internal string GetNetBibleScriptureReference
         {
-            get { return netBibleViewer.ScriptureReference; }
+            get { return netBibleViewer.JumpTarget; }
         }
 
         protected int Panel1_Width
@@ -4845,9 +4845,13 @@ namespace OneStoryProjectEditor
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (!CheckForProperEditToken())
+                return;
+
             if (UsingHtmlForStoryBtPane)
             {
-                if (htmlStoryBtControl.GetStringTransferOfLastTextAreaInFocus == null) 
+                var st = htmlStoryBtControl.GetStringTransferOfLastTextAreaInFocus;
+                if ((st == null) || !htmlStoryBtControl.CheckShowErrorOnFieldNotEditable(st))
                     return;
 
                 IDataObject iData = Clipboard.GetDataObject();
