@@ -794,7 +794,7 @@ namespace OneStoryProjectEditor
                 {
                     strHtmlElementId = TextareaId(nVerseIndex, nConversationIndex);
                     strRow += String.Format(Resources.HTML_TableCellForTextArea,
-                                            strReferringHtml + 
+                                            SetHyperlinks(strReferringHtml) + 
                                             String.Format(Resources.HTML_TextareaWithRefDrop,
                                                           strHtmlElementId,
                                                           StoryData.CstrLangInternationalBtStyleClassName,
@@ -849,6 +849,9 @@ namespace OneStoryProjectEditor
 
         private static string SetHyperlinks(string strHyperlinkedText)
         {
+            if (String.IsNullOrEmpty(strHyperlinkedText))
+                return strHyperlinkedText;
+
             strHyperlinkedText = _regexBibRef.Replace(strHyperlinkedText, BibleReferenceFound);
             strHyperlinkedText = _regexLineRef.Replace(strHyperlinkedText, LineReferenceFound);
             strHyperlinkedText = RegexItalics.Replace(strHyperlinkedText, EmphasizedTextFound);
