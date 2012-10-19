@@ -509,6 +509,7 @@ namespace OneStoryProjectEditor
 
         private const string CstrParagraphHighlightBegin = "<span style=\"background-color:Blue; color: White\">";
         private ToolStripMenuItem menuAddNote;
+        private ToolStripMenuItem menuAddNoteToSelf;
         private const string CstrParagraphHighlightEnd = "</span>";
 
         public void SetSelection(StringTransfer stringTransfer,
@@ -604,22 +605,31 @@ namespace OneStoryProjectEditor
             this.components = new System.ComponentModel.Container();
             this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuAddNote = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuAddNoteToSelf = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenu
             // 
             this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuAddNote});
+            this.menuAddNote,
+            this.menuAddNoteToSelf});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(209, 26);
+            this.contextMenu.Size = new System.Drawing.Size(244, 48);
             // 
             // menuAddNote
             // 
             this.menuAddNote.Name = "menuAddNote";
-            this.menuAddNote.Size = new System.Drawing.Size(208, 22);
+            this.menuAddNote.Size = new System.Drawing.Size(243, 22);
             this.menuAddNote.Text = "Add note on selected text";
-            this.menuAddNote.Click += new System.EventHandler(menuAddNote_Click);
+            this.menuAddNote.Click += new System.EventHandler(this.menuAddNote_Click);
+            // 
+            // menuAddNoteToSelf
+            // 
+            this.menuAddNoteToSelf.Name = "menuAddNoteToSelf";
+            this.menuAddNoteToSelf.Size = new System.Drawing.Size(243, 22);
+            this.menuAddNoteToSelf.Text = "Add note to self on selected text";
+            this.menuAddNoteToSelf.Click += new System.EventHandler(this.menuAddNoteToSelf_Click);
             // 
             // HtmlConNoteControl
             // 
@@ -630,9 +640,23 @@ namespace OneStoryProjectEditor
 
         }
 
+        private void menuAddNoteToSelf_Click(object sender, EventArgs e)
+        {
+            bool bNoteToSelf = true;
+            ConNoteAddNote(bNoteToSelf);
+        }
+
         private static Regex regExReadLineNumber = new Regex(@"id=tp_(\d+?)_", RegexOptions.Compiled);
 
         private void menuAddNote_Click(object sender, EventArgs args)
+        {
+            bool bNoteToSelf = false;
+            ConNoteAddNote(bNoteToSelf);
+        }
+
+        Regex regexStripTableBits = new Regex("</?(TD|TR|FONT|TEXTAREA|TBODY|TABLE|BUTTON).*?>", RegexOptions.Compiled | RegexOptions.Singleline);
+
+        private void ConNoteAddNote(bool bNoteToSelf)
         {
             if (Document == null)
                 return;
@@ -642,8 +666,8 @@ namespace OneStoryProjectEditor
                 return;
 
             var selection = htmlDocument.selection;
-            var range = (IHTMLTxtRange)selection.createRange();
-            if (range == null)
+            var range = (IHTMLTxtRange) selection.createRange();
+            if ((range == null) || String.IsNullOrEmpty(range.htmlText))
                 return;
 
             System.Diagnostics.Debug.WriteLine(range.htmlText);
@@ -656,8 +680,38 @@ namespace OneStoryProjectEditor
 
             var strLineNumber = regExReadLineNumber.Match(elem.innerHTML).Groups[1].Value;
             var nLineNumber = Int32.Parse(strLineNumber);
-            var strReferringText = String.Format("<p><i>{0}</i></p><p>{1}</p>", Localizer.Str("Re: ConNote:"), range.htmlText);
-            TheSE.SendNoteToCorrectPane(nLineNumber, strReferringText, null, false);
+
+            var children = elem.children as IHTMLElementCollection;
+            if (children == null)
+                return;
+
+            var strReferringText = String.Format("<p><i>{0}</i></p>", Localizer.Str("Re: ConNote:"));
+
+            // add the selection to the referring text, but strip out any bits which look like table parts
+            //  (they don't add so easily)
+            var strExtra = regexStripTableBits.Replace(range.htmlText, "");
+            strReferringText += strExtra;
+#if false
+            var aMarkupService = (IMarkupServices)htmlDocument;
+            IMarkupPointer aPointerBegin, aPointerEnd;
+            aMarkupService.CreateMarkupPointer(out aPointerBegin);
+            aMarkupService.CreateMarkupPointer(out aPointerEnd);
+            aMarkupService.MovePointersToRange(range, aPointerBegin, aPointerEnd);
+            int pResult;
+            aPointerBegin.IsLeftOf(aPointerEnd, out pResult);
+            while (pResult > 0)
+            {
+                IHTMLElement elemThis;
+                aPointerBegin.CurrentScope(out elemThis);
+                System.Diagnostics.Debug.WriteLine("{0} = {1}", elemThis.tagName, elemThis.outerHTML);
+                strReferringText += elemThis.outerHTML;
+                aPointerBegin.MoveAdjacentToElement(elemThis, _ELEMENT_ADJACENCY.ELEM_ADJ_AfterEnd);
+                aPointerBegin.IsLeftOf(aPointerEnd, out pResult);
+            }
+#endif
+
+            // var strReferringText = String.Format("<p><i>{0}</i></p><p>{1}</p>", Localizer.Str("Re: ConNote:"), range.htmlText);
+            TheSE.SendNoteToCorrectPane(nLineNumber, strReferringText, null, bNoteToSelf);
         }
 
         private ContextMenuStrip contextMenu;
