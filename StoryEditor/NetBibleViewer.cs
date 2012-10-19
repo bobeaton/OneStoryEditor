@@ -522,18 +522,7 @@ namespace OneStoryProjectEditor
             // first see if we're being given the localized version and convert it
             //  back to 'en' (Sword needs it this way)
             var scriptureReferenceBookName = ScriptureReferenceBookName;
-            if (!MapBookNames.ContainsKey(scriptureReferenceBookName) && 
-                MapBookNames.ContainsValue(scriptureReferenceBookName))
-            {
-                string reference = scriptureReferenceBookName;
-                foreach (var mapBookName in
-                    MapBookNames.Where(mapBookName => 
-                        reference == mapBookName.Value))
-                {
-                    scriptureReferenceBookName = mapBookName.Key;
-                    break;
-                }
-            }
+            scriptureReferenceBookName = DeLocalizeScriptureReferenceBookName(scriptureReferenceBookName);
 
             var strScriptureReference = scriptureReferenceBookName + ScriptureReferenceChapVerse;
             var strBookNameLocalized = CheckForLocalization(strScriptureReference);
@@ -618,6 +607,23 @@ namespace OneStoryProjectEditor
                 UpdateUpDowns(keyVerse);
             }
             catch { }
+        }
+
+        private static string DeLocalizeScriptureReferenceBookName(string scriptureReferenceBookName)
+        {
+            if (!MapBookNames.ContainsKey(scriptureReferenceBookName) &&
+                MapBookNames.ContainsValue(scriptureReferenceBookName))
+            {
+                string reference = scriptureReferenceBookName;
+                foreach (var mapBookName in
+                    MapBookNames.Where(mapBookName =>
+                                       reference == mapBookName.Value))
+                {
+                    scriptureReferenceBookName = mapBookName.Key;
+                    break;
+                }
+            }
+            return scriptureReferenceBookName;
         }
 
         private void DisplayCommentary(string strJumpTarget)
@@ -752,13 +758,11 @@ namespace OneStoryProjectEditor
 
         public void OnMouseDown()
         {
-            Console.WriteLine("OnMouseDown:");
             m_bMouseDown = true;
         }
 
         public void OnMouseOut(string strJumpTarget, string strScriptureReference)
         {
-            Console.WriteLine("OnMouseOut: " + strScriptureReference + ((m_bMouseDown) ? " with mouse down" : " with mouse up"));
             if (m_bMouseDown)
             {
                 JumpTarget = strJumpTarget;

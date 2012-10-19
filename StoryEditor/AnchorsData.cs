@@ -175,7 +175,7 @@ namespace OneStoryProjectEditor
             StoryData.PresentationType presentationType, bool bProcessingTheChild, 
             ref List<string> astrExegeticalHelpNotes)
         {
-            string strButtonLabel = JumpTarget;
+            string strButtonLabelLocalized = NetBibleViewer.CheckForLocalization(JumpTarget);
             if (childAnchorsData != null)
             {
                 bool bFound = false;
@@ -192,11 +192,11 @@ namespace OneStoryProjectEditor
                 // if we didn't find it, then
                 if (!bFound)
                 {
-                    strButtonLabel = Diff.HtmlDiff(JumpTarget, null, true);   // show as deleted
+                    strButtonLabelLocalized = Diff.HtmlDiff(strButtonLabelLocalized, null, true);   // show as deleted
                     if (ToolTipText != JumpTarget)
                     {
                         strToolTipText = Diff.HtmlDiff(ToolTipText, null, true);
-                        strButtonLabel += CstrTooltipIndicator;
+                        strButtonLabelLocalized += CstrTooltipIndicator;
                         astrExegeticalHelpNotes.Add(strToolTipText);
                     }
                 }
@@ -206,7 +206,7 @@ namespace OneStoryProjectEditor
                     strToolTipText = Diff.HtmlDiff(ToolTipText, strToolTipText, true);
                     if (strToolTipText != JumpTarget)
                     {
-                        strButtonLabel += CstrTooltipIndicator;
+                        strButtonLabelLocalized += CstrTooltipIndicator;
                         astrExegeticalHelpNotes.Add(strToolTipText);
                     }
                 }
@@ -217,10 +217,10 @@ namespace OneStoryProjectEditor
                 //  preview), b) but we don't *have* a child (because the original if case failed), and
                 //  c) but we're processing the parent record.
                 // So this means we're processing the parent which has no child, thus: deletion:
-                strButtonLabel = Diff.HtmlDiff(JumpTarget, null, true);
+                strButtonLabelLocalized = Diff.HtmlDiff(strButtonLabelLocalized, null, true);
                 if (ToolTipText != JumpTarget)
                 {
-                    strButtonLabel += CstrTooltipIndicator;
+                    strButtonLabelLocalized += CstrTooltipIndicator;
                     astrExegeticalHelpNotes.Add(Diff.HtmlDiff(ToolTipText, null, true));
                 }
             }
@@ -229,25 +229,24 @@ namespace OneStoryProjectEditor
                 // the only time we call this method without a value for childAnchorsData is when
                 //  we're processing the new stuff (i.e. what's in the child)
                 //  so show it with 'addition' markup
-                strButtonLabel = Diff.HtmlDiff(null, JumpTarget, true);
+                strButtonLabelLocalized = Diff.HtmlDiff(null, strButtonLabelLocalized, true);
                 if (JumpTarget != ToolTipText)
                 {
-                    strButtonLabel += CstrTooltipIndicator;
+                    strButtonLabelLocalized += CstrTooltipIndicator;
                     astrExegeticalHelpNotes.Add(Diff.HtmlDiff(null, ToolTipText, true));
                 }
             }
             else
             {
                 // this means we're doing print preview, so just give the value without markup
-                strButtonLabel = JumpTarget;
                 if (JumpTarget != ToolTipText)
                 {
-                    strButtonLabel += CstrTooltipIndicator;
+                    strButtonLabelLocalized += CstrTooltipIndicator;
                     astrExegeticalHelpNotes.Add(ToolTipText);
                 }
             }
 
-            return GetAnchorButtonHtml(nLineIndex, strButtonLabel);
+            return GetAnchorButtonHtml(nLineIndex, strButtonLabelLocalized);
         }
 
         public string PresentationHtmlAsAddition(int nLineIndex, ref List<string> astrExegeticalHelpNotes)
