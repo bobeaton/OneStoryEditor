@@ -724,7 +724,8 @@ namespace OneStoryProjectEditor
             //      the ability to view such notes is logged on.
             if ((Count == 0) ||
                     (IsNoteToSelf && !InitiatedConversation(loggedOnMember)) ||
-                    (NoteNeedsApproval &&
+                    // (NoteNeedsApproval &&
+                    (((Count == 1) && (FinalComment.Direction == CommunicationDirections.eConsultantToProjFacNeedsApproval)) &&
                         !InitiatedConversation(loggedOnMember) &&
                         !HasNoteApprovalAuthority(loggedOnMember, theTeamMembers) &&
                         !HasApprovalNeedingNoteViewingAuthority(loggedOnMember)))
@@ -742,6 +743,11 @@ namespace OneStoryProjectEditor
             for (int i = 0; i < Count; i++)
             {
                 CommInstance aCI = this[i];
+
+                // if this was not approved yet, then don't show it
+                var bLastOne = (i == (Count - 1));
+                if (bLastOne && NoteNeedsApproval)
+                    continue;
 
                 TeamMemberData theCommentor = aCI.Commentor(theTeamMembers);
 
@@ -789,7 +795,7 @@ namespace OneStoryProjectEditor
                 //  note pane, this could be any mentoree (PF, LSR, or CIT).
                 // Re: 2) that depends on whether the ...
                 string strHtmlElementId;
-                if ((i == (Count - 1)) && 
+                if (bLastOne && 
                     IsEditable(loggedOnMember, theTeamMembers, theStory))
                 {
                     strHtmlElementId = TextareaId(nVerseIndex, nConversationIndex);
