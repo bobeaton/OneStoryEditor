@@ -985,8 +985,8 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            // add a button if the logged on person has the authority to approve the note
-            if (NoteNeedsApproval && !IsFinished)
+            // add a button if the logged on person has the authority to approve the note (or show it to the person who needs to see it)
+            if (NoteNeedsApproval) // && !IsFinished)
             {
                 if (HasNoteApprovalAuthority(loggedOnMember, theTeamMembers) && 
                     (loggedOnMember.IsEditAllowed(theStory) || 
