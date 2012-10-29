@@ -111,7 +111,7 @@ function removeSpan(jqtextarea) {
 //  textarea newly in focus) as well as by my WindowsForm app
 //  if the WebBrowser itself loses focus (e.g. to go to some
 //  other control in the app).
-function TriggerMyBlur(bTriggeredFromHere) {
+function TriggerMyBlur(bDontEmptySelection) {
     if (window.oseConfig.idLastTextareaToBlur) {
         var oldThis = document.getElementById(window.oseConfig.idLastTextareaToBlur);
         if (oldThis.selectedText) {
@@ -123,14 +123,15 @@ function TriggerMyBlur(bTriggeredFromHere) {
                 ? text.substring(oldThis.selectionEnd)
                 : "";
 
-            DisplayHtml("myblur: text: " + text + ", pre: " + pre + ", post: " + post + ", sel: " + oldThis.selectedText);
+            // DisplayHtml("myblur: pre: " + pre + ", post: " + post + ", sel: " + oldThis.selectedText);
+            DisplayHtml("myblur: sel: " + oldThis.selectedText);
             
             // if this is being called by the app, it's possible that the selection
             //  here is still selected. Then the process of replacing the 'html' is likely
             //  to cause all the text in the textarea to be selected. So before doing
             //  this replacement, go ahead and collapse the selected text. (but only
             //  if not triggered from this html (i.e. only if triggered from the app)
-            if (!bTriggeredFromHere)
+            if (!bDontEmptySelection)
                 document.selection.empty();
 
             $(oldThis).html(pre + "<span class='" + oldThis.className + " highlight'>" + oldThis.selectedText + "</span>" + post);
@@ -172,7 +173,10 @@ $(document).ready(function () {
         window.oseConfig.idLastTextareaToFocus = this.id;
 
         // for some reason, in IE, the following code works
-        //  fine in onblur, but in a WebBrowser in IE
+        //  fine in onblur, but not in a WebBrowser in IE. So we have
+        //  to trigger an onblur from here before dealing with focus
+        //  this will turn the selected text from the last control
+        //  to have focus into a span.
         TriggerMyBlur(true);
 
         // now if we previously added the span (what we do
@@ -195,10 +199,25 @@ $(document).ready(function () {
             }
         }
         window.external.TextareaOnFocus(this.id);
+        // DisplayHtml(event.type + ", id: " + this.id);
         DisplayHtml(event.type);
     }).mouseup(function (event) {
         if (event.button == 2)  // right-clicked... 
         {
+            // DisplayHtml("mu: lst2blr: " + window.oseConfig.idLastTextareaToBlur + ", this: " + this.id);
+            // if the user right-clicks as the first event in a new textarea, it will get
+            //  focus event first, which will turn it's span into a selection (which we
+            //  don't want, because right-click means we're probably going to need the 
+            //  spans during the subsequent call to, e.g. add note on selected text). 
+            // So in the case of a right-click, undo the selection and go back to a span
+            //  (whether or not we empty the selection first depends on whether this is 
+            //  a new textarea or not. If it's a new text area, then last2blur will be
+            //  null and then bDontEmptySelection will be false which will trigger the
+            //  collapse of the selection (not sure... but it works...)
+            window.oseConfig.idLastTextareaToBlur = this.id;
+            var bDontEmptySelection = !(window.oseConfig.idLastTextareaToBlur == this.id);
+            TriggerMyBlur(bDontEmptySelection);
+
             // tell app to show the context menu for this control
             window.external.ShowContextMenu(this.id);
             // return false;

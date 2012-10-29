@@ -4832,7 +4832,7 @@ namespace OneStoryProjectEditor
             return theOldStoryEditor;
         }
 
-        private void editCopySelectionToolStripMenuItem_Click(object sender, EventArgs e)
+        internal void editCopySelectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string strText = null;
             if (UsingHtmlForStoryBtPane)
@@ -4843,7 +4843,7 @@ namespace OneStoryProjectEditor
                 Clipboard.SetDataObject(strText);
         }
 
-        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        internal void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!CheckForProperEditToken())
                 return;

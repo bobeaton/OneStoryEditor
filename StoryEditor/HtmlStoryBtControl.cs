@@ -142,11 +142,8 @@ namespace OneStoryProjectEditor
 
             var doc = Document;
             
-            // before we query for the spans, we have to trigger a 'blur'
-            //  event (well, my 'fake' blur event) so the cell currently
-            //  being edited will turn it's selection into a span also
-            doc.InvokeScript("TriggerMyBlur");
-
+            TriggerOnBlur(doc);
+    
             var strIdLn = VerseData.GetLineTableId(nLineNumber);
             HtmlElement elemParentLn = doc.GetElementById(strIdLn);
             if (elemParentLn == null)
@@ -156,6 +153,14 @@ namespace OneStoryProjectEditor
             var list = new List<HtmlElement>(spans.Count);
             list.AddRange(spans.Cast<object>().Cast<HtmlElement>());
             return list;
+        }
+
+        private static void TriggerOnBlur(HtmlDocument doc)
+        {
+            // before we query for the spans, we have to trigger a 'blur'
+            //  event (well, my 'fake' blur event) so the cell currently
+            //  being edited will turn it's selection into a span also
+            doc.InvokeScript("TriggerMyBlur");
         }
 
         public new string GetSelectedText
@@ -228,12 +233,15 @@ namespace OneStoryProjectEditor
             if (LastTextareaInFocusId == null)
                 return;
 
+            // we don't want to do this if the field is read-only (e.g. so we don't cause
+            //  the internal buffer to be filled with the transliterated value)
+            if (GetStringTransferOfLastTextAreaInFocus.IsFieldReadonly(ViewSettings.FieldEditibility))
+                return;
+
             HtmlElement elem;
             if (!GetHtmlElementById(LastTextareaInFocusId, out elem))
                 return;
 
-            // we don't want this to cause us to warn about changing a 
-            //  readonly field
             _bIgnoringChanges = true;
             elem.InvokeMember("onchange");
             _bIgnoringChanges = false;
@@ -295,7 +303,7 @@ namespace OneStoryProjectEditor
                 LocalizableMessageBox.Show(
                     String.Format(
                         Localizer.Str(
-                            "You can't edit this field right now... either the consultant hasn't given you permission to edit the '{0}' language fields or perhaps there a transliterator turned on"),
+                            "You can't edit this field right now... either the consultant hasn't given you permission to edit the '{0}' language fields or perhaps there is a transliterator turned on"),
                         stringTransfer.WhichField & StoryEditor.TextFields.Languages),
                     StoryEditor.OseCaption);
                 return false;
@@ -378,7 +386,7 @@ namespace OneStoryProjectEditor
         {
             if (bIsRightButton)
             {
-                TriggerChangeUpdate();
+                TriggerOnBlur(Document);
                 _lastLineOptionsButtonClicked = strId;
                 contextMenuStripLineOptions.Show(MousePosition); 
                 return false;
@@ -973,7 +981,7 @@ namespace OneStoryProjectEditor
             else if (IsTextareaElement(strId))
             {
                 LastTextareaInFocusId = strId;
-                TriggerChangeUpdate();
+                // done by js TriggerOnBlur(Document);
                 _contextMenuTextarea.Show(MousePosition);
             }
         }
@@ -995,8 +1003,60 @@ namespace OneStoryProjectEditor
             ctxMenu.Items.Add(StoryEditor.CstrRemAnswerBox, null, onRemAnswerBox);
             ctxMenu.Items.Add(StoryEditor.CstrRemAnswerChangeUns, null, onChangeUns);
 
+            ctxMenu.Items.Add(new ToolStripSeparator());
+            ctxMenu.Items.Add(StoryEditor.CstrCutSelected, null, onCutSelectedText);
+            ctxMenu.Items.Add(StoryEditor.CstrCopySelected, null, onCopySelectedText);
+            ctxMenu.Items.Add(StoryEditor.CstrCopyOriginalSelected, null, onCopyOriginalText);
+            ctxMenu.Items.Add(StoryEditor.CstrPasteSelected, null, onPasteSelectedText);
+            // ctxMenu.Items.Add(StoryEditor.CstrUndo, null, onUndo);
+
             ctxMenu.Opening += CtxMenuOpening;
             return ctxMenu;
+        }
+
+        private void onPasteSelectedText(object sender, EventArgs e)
+        {
+            TheSE.pasteToolStripMenuItem_Click(null, null);
+        }
+
+        private void onCopyOriginalText(object sender, EventArgs e)
+        {
+            TextAreaIdentifier textAreaIdentifier;
+            if (String.IsNullOrEmpty(LastTextareaInFocusId) ||
+                !TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
+                return;
+
+            var st = GetStringTransfer(textAreaIdentifier);
+            if (st == null)
+                return;
+
+            Clipboard.SetText(st.ToString(), TextDataFormat.UnicodeText);
+        }
+
+        private void onCopySelectedText(object sender, EventArgs e)
+        {
+            TheSE.editCopySelectionToolStripMenuItem_Click(null, null);
+        }
+
+        private void onCutSelectedText(object sender, EventArgs e)
+        {
+            StoryEditor theSe;
+            TextAreaIdentifier textAreaIdentifier;
+            if (!CheckForProperEditToken(out theSe) ||
+                String.IsNullOrEmpty(LastTextareaInFocusId) ||
+                !TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
+                return;
+
+            var st = GetStringTransfer(textAreaIdentifier);
+            if ((st == null) || !CheckShowErrorOnFieldNotEditable(st) || (this.Document == null))
+                return;
+
+            int nNewEndPoint;
+            var selectedText = GetSelectedText;
+            Clipboard.SetDataObject(selectedText);
+            SetSelectedText(st, String.Empty, out nNewEndPoint);
+            TriggerChangeUpdate();
+            theSe.Modified = true;
         }
 
         private void onReorderWords(object sender, EventArgs e)
@@ -1139,6 +1199,10 @@ namespace OneStoryProjectEditor
                          (x.Text == StoryEditor.CstrCopyOriginalSelected))
                 {
                     x.Enabled = !String.IsNullOrEmpty(GetSelectedText);
+                }
+                else if (x.Text == StoryEditor.CstrPasteSelected)
+                {
+                    x.Enabled = (hasStringTransfer && !myStringTransfer.IsFieldReadonly(ViewSettings.FieldEditibility));
                 }
             }
         }
