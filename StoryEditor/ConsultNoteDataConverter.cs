@@ -746,7 +746,10 @@ namespace OneStoryProjectEditor
 
                 // if this was not approved yet, then don't show it
                 var bLastOne = (i == (Count - 1));
-                if (bLastOne && NoteNeedsApproval)
+                if (bLastOne && NoteNeedsApproval &&
+                        !(InitiatedConversation(loggedOnMember) ||
+                          HasNoteApprovalAuthority(loggedOnMember, theTeamMembers) ||
+                          HasApprovalNeedingNoteViewingAuthority(loggedOnMember)))
                     continue;
 
                 TeamMemberData theCommentor = aCI.Commentor(theTeamMembers);
