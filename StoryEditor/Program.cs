@@ -195,7 +195,7 @@ namespace OneStoryProjectEditor
             Environment.CurrentDirectory = StoryProjectData.GetRunningFolder;
             var msg = HgRepository.GetEnvironmentReadinessMessage("en");
             if (!string.IsNullOrEmpty(msg))
-                throw new ApplicationException("It looks like you don't have TortoiseHg installed. Please install that first before trying to use the OneStory Editor (if you did install it, perhaps you need to reboot)");
+                throw new ApplicationException(msg);
         }
 
         public static void InitializeLocalSettingsCollections(bool bDoUpgrade)
