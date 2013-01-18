@@ -1111,9 +1111,10 @@ namespace OneStoryProjectEditor
 
         static string BibleReferenceFound(Match m)
         {
+            // get the localized form if necessary
+            var str = NetBibleViewer.CheckForLocalization(m.ToString());
             // Get the matched string.
-            string str = String.Format(Resources.HTML_LinkJumpTargetBibleReference, 
-                m);
+            str = String.Format(Resources.HTML_LinkJumpTargetBibleReference, str);
             return str;
         }
 
