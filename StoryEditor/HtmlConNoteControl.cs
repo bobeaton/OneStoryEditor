@@ -243,6 +243,9 @@ namespace OneStoryProjectEditor
             {
                 theCNDC.IsFinished = false;
                 elemButton.InnerText = ConsultNoteDataConverter.CstrButtonLabelConversationEnd;
+
+                // also if it were hidden, then make it unhidden
+                theCNDC.Visible = true;
             }
             else
             {
