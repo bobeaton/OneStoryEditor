@@ -177,7 +177,7 @@ namespace AiChorus
                 if (DialogResult.Cancel == dlg.ShowDialog())
                     return false;
 
-                var strProjectFolder = dlg.PathToNewProject;
+                var strProjectFolder = dlg.PathToNewlyClonedFolder;
                 Settings.Default.LastProjectFolder = strProjectFolder;
                 Settings.Default.Save();
             }

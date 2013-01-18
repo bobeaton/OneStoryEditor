@@ -5,6 +5,7 @@ using System.Xml;
 using Chorus.FileTypeHanders.xml;
 using Chorus.merge.xml.generic;
 using Chorus.VcsDrivers.Mercurial;
+using Palaso.Xml;
 
 
 namespace OneStory_ChorusPlugin

@@ -77,9 +77,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\AIGuesserEC.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac, Version=1.4.4.561, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\DepDLLs\Autofac.dll</HintPath>
-    </Reference>
     <Reference Include="AutoUpgrade.Lib, Version=1.0.3869.15306, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\AutoUpgrade.Lib.dll</HintPath>

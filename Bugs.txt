@@ -1,4 +1,6 @@
-﻿Ctrl+F5 doesn't work in StoryBtHtml
+﻿use Enable fields dialog change transliteration and it doesn't automatically refresh
+
+Ctrl+F5 doesn't work in StoryBtHtml
 
 after adding glossed bts in html story bt pane, switch to old style story bt pane and the glosses disappear
 

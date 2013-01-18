@@ -14,7 +14,6 @@ using Chorus.VcsDrivers;
 using Chorus.VcsDrivers.Mercurial;
 using Microsoft.Win32;
 using NetLoc;
-using Palaso.Progress.LogBox;
 using SilEncConverters40;
 
 // for RegistryKey
@@ -389,7 +388,7 @@ namespace OneStoryProjectEditor
                         return false;
 
                     // we can save this information so we can use it automatically during the next restart
-                    Program.SetAdaptItHgParameters(dlg.PathToNewProject,
+                    Program.SetAdaptItHgParameters(dlg.PathToNewlyClonedFolder,
                                                    RepoProjectName = model.ProjectId,
                                                    RepositoryServer = model.SelectedServerLabel,
                                                    model.AccountName,

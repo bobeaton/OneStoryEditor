@@ -308,7 +308,7 @@ namespace OneStoryProjectEditor
             {
                 foreach (ConsultNoteDataConverter aConNote in theConNotes)
                 {
-                    string str = aConNote[0].ToString();
+                    string str = aConNote[0].ToString() ?? "<no comment>";
                     int len = str.IndexOf(Environment.NewLine);
                     if (len == -1)
                         len = Math.Min(50, str.Length);

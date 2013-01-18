@@ -154,7 +154,7 @@ namespace OneStoryProjectEditor
             {
                 if (DialogResult.OK == dlg.ShowDialog())
                 {
-                    ProjectFolder = dlg.PathToNewProject;
+                    ProjectFolder = dlg.PathToNewlyClonedFolder;
                     ProjectName = model.ProjectId;
 
                     // here (with pull) is one of the few places we actually query the user

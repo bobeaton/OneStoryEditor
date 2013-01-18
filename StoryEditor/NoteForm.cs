@@ -4,7 +4,7 @@ using Chorus;
 using Chorus.UI.Notes.Bar;
 using Chorus.UI.Notes.Browser;
 using Chorus.Utilities;
-using Palaso.Progress.LogBox;
+using Palaso.Progress;
 
 namespace OneStoryProjectEditor
 {
@@ -19,7 +19,7 @@ namespace OneStoryProjectEditor
             InitializeComponent();
             _projSettings = projSettings;
 
-            _chorusSystem = new ChorusSystem(projSettings.ProjectFolder, strUsername);
+            _chorusSystem = new ChorusSystem(projSettings.ProjectFolder);
 
             // create an object to tie notes to particular things. In our case, it's
             //  just tied to the projectname

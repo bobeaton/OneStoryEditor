@@ -11,7 +11,7 @@ using Chorus.sync;
 using Chorus.UI.Sync;
 using Chorus.VcsDrivers;
 using Chorus.VcsDrivers.Mercurial;
-using Palaso.Progress.LogBox;
+using Palaso.Progress;
 using devX;
 using MAPIEx;
 using NetLoc;
@@ -195,7 +195,7 @@ namespace OneStoryProjectEditor
             Environment.CurrentDirectory = StoryProjectData.GetRunningFolder;
             var msg = HgRepository.GetEnvironmentReadinessMessage("en");
             if (!string.IsNullOrEmpty(msg))
-                throw new ApplicationException("It looks like you don't have TortoiseHg installed. Please install that first before trying to use the OneStory Editor (if you did install it, perhaps you need to reboot)");
+                throw new ApplicationException(msg);    //"It looks like you don't have TortoiseHg installed. Please install that first before trying to use the OneStory Editor (if you did install it, perhaps you need to reboot)");
         }
 
         public static void InitializeLocalSettingsCollections(bool bDoUpgrade)
@@ -370,7 +370,7 @@ namespace OneStoryProjectEditor
         {
             try
             {
-                var repo = HgRepository.CreateOrLocate(strProjectFolder, new NullProgress());
+                var repo = HgRepository.CreateOrUseExisting(strProjectFolder, new NullProgress());
 
                 var address = RepositoryAddress.Create(CstrInternetName, strUrl);
                 var addresses = repo.GetRepositoryPathsInHgrc();
@@ -423,7 +423,7 @@ namespace OneStoryProjectEditor
 
             try
             {
-                var repo = HgRepository.CreateOrLocate(strProjectFolder, new NullProgress());
+                var repo = HgRepository.CreateOrUseExisting(strProjectFolder, new NullProgress());
                 var address = RepositoryAddress.Create(CstrNetworkDriveName, strUrl);
                 var addresses = repo.GetRepositoryPathsInHgrc();
                 foreach (var addr in addresses)
@@ -489,7 +489,7 @@ namespace OneStoryProjectEditor
 
             try
             {
-                var repo = HgRepository.CreateOrLocate(strProjectFolder, new NullProgress());
+                var repo = HgRepository.CreateOrUseExisting(strProjectFolder, new NullProgress());
 
                 var address = RepositoryAddress.Create(CstrInternetName, strRepoUrl);
                 var addresses = repo.GetRepositoryPathsInHgrc();
@@ -522,7 +522,7 @@ namespace OneStoryProjectEditor
 
             try
             {
-                var repo = HgRepository.CreateOrLocate(strProjectFolder, new NullProgress());
+                var repo = HgRepository.CreateOrUseExisting(strProjectFolder, new NullProgress());
                 var address = RepositoryAddress.Create(CstrNetworkDriveName, strUrl);
                 var addresses = repo.GetRepositoryPathsInHgrc();
                 foreach (var addr in addresses)

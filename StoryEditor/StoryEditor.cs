@@ -517,15 +517,15 @@ namespace OneStoryProjectEditor
                 if (DialogResult.Cancel == dlg.ShowDialog())
                     return;
 
-                string strProjectName = Path.GetFileNameWithoutExtension(dlg.PathToNewProject);
+                string strProjectName = Path.GetFileNameWithoutExtension(dlg.PathToNewlyClonedFolder);
 
                 // we can save this information so we can use it automatically during the next restart
                 string strFullUrl = dlg.ThreadSafeUrl;
                 var uri = new Uri(strFullUrl);
                 string strUsername, strDummy, strBaseUrl = null;
                 GetDetailsFromUri(uri, out strUsername, out strDummy, ref strBaseUrl);
-                Program.SetHgParameters(dlg.PathToNewProject, strProjectName, strFullUrl, strUsername);
-                var projSettings = new ProjectSettings(dlg.PathToNewProject, strProjectName, false)
+                Program.SetHgParameters(dlg.PathToNewlyClonedFolder, strProjectName, strFullUrl, strUsername);
+                var projSettings = new ProjectSettings(dlg.PathToNewlyClonedFolder, strProjectName, false)
                                        {
                                            HgRepoUrlHost = strBaseUrl
                                        };
@@ -2626,7 +2626,7 @@ namespace OneStoryProjectEditor
         //  so that we'll get the new value of the textarea
         private void TriggerSaveUpdates()
         {
-            if (htmlStoryBtControl != null)
+            if (UsingHtmlForStoryBtPane)
                 htmlStoryBtControl.TriggerChangeUpdate();
         }
 
@@ -5392,7 +5392,7 @@ namespace OneStoryProjectEditor
                     if (dlg.ShowDialog() != DialogResult.OK)
                         return;
 
-                    strProjectFolder = dlg.PathToNewProject;
+                    strProjectFolder = dlg.PathToNewlyClonedFolder;
                     strProjectName = Path.GetFileNameWithoutExtension(strProjectFolder);
                 }
             }
@@ -6590,6 +6590,9 @@ namespace OneStoryProjectEditor
         {
             netBibleViewer.OnLocalizationChange(true);
             ConsultNoteDataConverter.OnLocalizationChange();
+            if (UsingHtmlForStoryBtPane)
+                htmlStoryBtControl.ResetContextMenu();
+
             Settings.Default.LastLocalizationId = Localizer.Default.LanguageId;
             Settings.Default.Save();
             ReloadStateTransitionFile();

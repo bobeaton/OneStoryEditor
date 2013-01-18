@@ -10,7 +10,7 @@ using Chorus.Utilities;
 using Chorus.VcsDrivers.Mercurial;
 using ECInterfaces;
 using NetLoc;
-using Palaso.Progress.LogBox;
+using Palaso.Progress;
 using SilEncConverters40;
 
 namespace OneStoryProjectEditor
@@ -65,7 +65,7 @@ namespace OneStoryProjectEditor
             try
             {
                 var np = new NullProgress();
-                _repository = HgRepository.CreateOrLocate(theSE.StoryProject.ProjSettings.ProjectFolder, np);
+                _repository = HgRepository.CreateOrUseExisting(theSE.StoryProject.ProjSettings.ProjectFolder, np);
                 _lstRevisions = _repository.GetAllRevisions();  // _revisionInRepositoryModel.GetHistoryItems();
                 progressBar.Value = 0;
                 progressBar.Visible = true;
