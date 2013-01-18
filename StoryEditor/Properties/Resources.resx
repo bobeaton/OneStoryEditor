@@ -1990,8 +1990,9 @@ function CallTextareaOnSelect(textarea)
   button 
   {{
     font-size: {1};
-    padding-bottom: 0;
-    padding-top: 0;
+    padding: 0 2px;
+    width: 5px;
+    overflow: visible;
   }}  
   p 
   {{
