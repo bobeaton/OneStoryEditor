@@ -26,6 +26,11 @@ namespace OneStoryProjectEditor
             InitializeComponent();
             IsWebBrowserContextMenuEnabled = false;
             ObjectForScripting = this;
+            ResetContextMenu();
+        }
+
+        public void ResetContextMenu()
+        {
             _contextMenuTextarea = CreateContextMenuStrip();
         }
 
@@ -235,7 +240,8 @@ namespace OneStoryProjectEditor
 
             // we don't want to do this if the field is read-only (e.g. so we don't cause
             //  the internal buffer to be filled with the transliterated value)
-            if (GetStringTransferOfLastTextAreaInFocus.IsFieldReadonly(ViewSettings.FieldEditibility))
+            var st = GetStringTransferOfLastTextAreaInFocus;
+            if ((st == null) || GetStringTransferOfLastTextAreaInFocus.IsFieldReadonly(ViewSettings.FieldEditibility))
                 return;
 
             HtmlElement elem;
@@ -447,6 +453,21 @@ namespace OneStoryProjectEditor
         }
 
         private StringTransfer GetStringTransfer(TextAreaIdentifier textAreaIdentifier)
+        {
+            // this might fail if the screen doesn't match what's in the internal buffer (e.g. a
+            //  ExegeticalHelpNote doesn't exist in verseData.ExegeticalHelpNotes so [] throws an exception)
+            // Not really sure how this can happen, but it does
+            try
+            {
+                return GetStringTransferEx(textAreaIdentifier);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+    
+        private StringTransfer GetStringTransferEx(TextAreaIdentifier textAreaIdentifier)
         {
             var verseData = GetVerseData(textAreaIdentifier.LineIndex);
 
@@ -1282,6 +1303,9 @@ namespace OneStoryProjectEditor
         private void OnGlossTextToEnglish(object sender, EventArgs e)
         {
             var st = GetStringTransferOfLastTextAreaInFocus;
+            if (st == null)
+                return;
+
             OnDoGlossing(GetMyInternationalBtSibling, TheSE.StoryProject.ProjSettings.InternationalBT,
                          ((st.WhichField & StoryEditor.TextFields.Vernacular) == StoryEditor.TextFields.Vernacular)
                              ? ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToInternationalBt
@@ -1304,7 +1328,7 @@ namespace OneStoryProjectEditor
                     return;
 
                 var myStringTransfer = GetStringTransferOfLastTextAreaInFocus;
-                if (!myStringTransfer.HasData)
+                if ((myStringTransfer == null) || !myStringTransfer.HasData)
                     return;
 
                 var dlg = new GlossingForm(TheSE.StoryProject.ProjSettings,
@@ -1322,6 +1346,9 @@ namespace OneStoryProjectEditor
                     return;
 
                 var siblingStringTransfer = GetStringTransfer(siblingId);
+                if (siblingStringTransfer == null)
+                    return;
+
                 if (siblingStringTransfer.ToString() != dlg.TargetSentence)
                     siblingStringTransfer.SetValue(dlg.TargetSentence);
 
@@ -1592,7 +1619,7 @@ namespace OneStoryProjectEditor
                 StrIdToScrollTo = GetTopRowId;
 
                 var strReferringText = AnchorsData.AnchorLabel + " ";
-                strReferringText += NetBibleViewer.CheckForLocalization(anchor.JumpTarget);
+                strReferringText += anchor.JumpTarget;
 
                 if (anchor.JumpTarget != anchor.ToolTipText)
                     strReferringText += String.Format(" ({0})", anchor.ToolTipText);

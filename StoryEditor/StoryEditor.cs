@@ -2626,7 +2626,7 @@ namespace OneStoryProjectEditor
         //  so that we'll get the new value of the textarea
         private void TriggerSaveUpdates()
         {
-            if (htmlStoryBtControl != null)
+            if (UsingHtmlForStoryBtPane)
                 htmlStoryBtControl.TriggerChangeUpdate();
         }
 
@@ -6590,6 +6590,9 @@ namespace OneStoryProjectEditor
         {
             netBibleViewer.OnLocalizationChange(true);
             ConsultNoteDataConverter.OnLocalizationChange();
+            if (UsingHtmlForStoryBtPane)
+                htmlStoryBtControl.ResetContextMenu();
+
             Settings.Default.LastLocalizationId = Localizer.Default.LanguageId;
             Settings.Default.Save();
             ReloadStateTransitionFile();
