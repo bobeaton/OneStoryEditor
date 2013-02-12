@@ -472,6 +472,7 @@ namespace OneStoryProjectEditor
             var verseData = GetVerseData(textAreaIdentifier.LineIndex);
 
             LineData lineData;
+            StringTransfer stField = null;
             switch (textAreaIdentifier.FieldType)
             {
                 case StoryEditor.TextFields.StoryLine:
@@ -479,7 +480,11 @@ namespace OneStoryProjectEditor
                     break;
 
                 case StoryEditor.TextFields.ExegeticalNote:
-                    return verseData.ExegeticalHelpNotes[textAreaIdentifier.ItemIndex];
+                    stField = verseData.ExegeticalHelpNotes[textAreaIdentifier.ItemIndex];
+                    
+                    // since we're returning right away, we have to do this now.
+                    stField.HtmlElementId = textAreaIdentifier.HtmlIdentifier;
+                    return stField;
 
                 case StoryEditor.TextFields.Retelling:
                     lineData = verseData.Retellings[textAreaIdentifier.SubItemIndex];
@@ -503,7 +508,6 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(lineData != null);
             var languageColumn =
                 (StoryEditor.TextFields) Enum.Parse(typeof (StoryEditor.TextFields), textAreaIdentifier.LanguageColumnName);
-            StringTransfer stField = null;
             switch (languageColumn)
             {
                 case StoryEditor.TextFields.Vernacular:

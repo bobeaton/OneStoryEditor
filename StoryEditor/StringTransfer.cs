@@ -86,6 +86,13 @@ namespace OneStoryProjectEditor
             
             // possibly add the 'readonly' class if the field isn't supposed to be edited
             fieldVisibility &= StoryEditor.TextFields.Languages;
+
+            // some fields, though, want to be shown whether that language is configured or not
+            //  (e.g. the 'cn' fields shouldn't be readonly just because the project doesn't have
+            //  an English BT)
+            if ((fieldsWithStyle & StoryEditor.TextFields.ExegeticalNote) != StoryEditor.TextFields.Undefined)
+                fieldVisibility |= StoryEditor.TextFields.InternationalBt;
+
             if (IsFieldReadonly(fieldVisibility))
                 strStyleClassName += " " + "readonly";
 
