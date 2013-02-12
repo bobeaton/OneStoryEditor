@@ -97,8 +97,8 @@
   <Entry Path="&quot;Enter Story Language (&amp;Vernacular)&quot;">Digite transcrição de história original (</Entry>
   <Entry Path="&quot;national language BT&quot;">língua nacional RT</Entry>
   <Entry Path="&quot;Enter &amp;National/Regional BT&quot;">Digite retro-tradução (lingua nacional/Regional)</Entry>
-  <Entry Path="&quot;English BT&quot;">Inglês RT</Entry>
-  <Entry Path="&quot;Enter &amp;English BT&quot;">Digite inglês RT</Entry>
+  <Entry Path="&quot;English BT&quot;">RT em Português</Entry>
+  <Entry Path="&quot;Enter &amp;English BT&quot;">Digite Português RT</Entry>
   <Entry Path="&quot;free translation&quot;">tradução livre</Entry>
   <Entry Path="&quot;Enter &amp;Free Translation (UNS BT)&quot;">Digite a tradução livre (RT de descrente)</Entry>
   <Entry Path="&quot;anchor&quot;">referencia biblica</Entry>
@@ -187,7 +187,7 @@
   <Entry Path="OneStoryProjectEditor.AiRepoSelectionForm.buttonPullFromInternet.ToolTip">Clique aqui para baixar o projeto compartilhado da internet</Entry>
   <Entry Path="OneStoryProjectEditor.AiRepoSelectionForm.buttonPushToNetwork.ToolTip">Clique para carregar o projeto compartilhado para a pasta de rede compartilhada</Entry>
   <Entry Path="OneStoryProjectEditor.AiRepoSelectionForm.textBoxProjectName.ToolTip">Digite o nome do projeto do repositório na internet (por exemplo, aikb-hindi-inglês). Comprimento entre 2 e 20 caracteres. Somente letras minúsculas (a-z), números e traços são permitidos e o repositório já deve ter sido criado pelo administrador do repositório (bob_eaton@sall.com)</Entry>
-  <Entry Path="&quot;English Back Translator&quot;">Português Tradutor Back</Entry>
+  <Entry Path="&quot;English Back Translator&quot;">Retro-Tradutor ao Português</Entry>
   <Entry Path="&quot;Language Specialty Reviewer&quot;">Revisor de especialidade de idioma</Entry>
   <Entry Path="&quot;Consultant in Training&quot;">Consultor em formação</Entry>
   <Entry Path="&quot;Consultant&quot;">Consultor</Entry>
@@ -352,7 +352,7 @@
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.labelStory.Text">História</Entry>
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.labelVernacular.Text">Linguagem de história:</Entry>
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.labelNationalBT.Text">RT na língua nacional/regional:</Entry>
-  <Entry Path="OneStoryProjectEditor.NewProjectWizard.labelEnglishBT.Text">RT em inglês:</Entry>
+  <Entry Path="OneStoryProjectEditor.NewProjectWizard.labelEnglishBT.Text">RT em Português:</Entry>
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.label1.Text">Recontagens</Entry>
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.label2.Text">Perguntas do teste</Entry>
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.label3.Text">Respostas</Entry>
@@ -375,7 +375,7 @@
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.labelSentenceTermNationalBT.Text">Ponto final: frase</Entry>
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.labelKeyboardNationalBT.Text">Teclado:</Entry>
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.textBoxLanguageTabInstructionsNationalBT.Text">Insira as informações sobre esta linguagem: o nome, o código do ethnologue (se souber), o teclado associados com o idioma, a fonte a ser usada ao exibir (incluindo cor), e se é um idioma da direita para a esquerda. Na caixa 'Frase full stop', digite os caracteres de pontuação usados neste idioma para terminar uma frase. Por exemplo, em inglês, é o período de '.', e em Hindi, é o Devanagari Danda, '।'. Também incluem o '?!:' caracteres e qualquer outra frase pontuação final que pode ser especial em seu idioma (por exemplo, em árabe, o ponto de interrogação '؟'). Esses caracteres de pontuação servirá para dividir as linhas da história em frases. Se desejar linhas menores, você também pode incluir o caractere ','. Não deve haver espaços entre esses caracteres e certifique-se de que o primeiro deles é o caractere normal (mais comum) e ponto (ele será adicionado pelo programa se uma determinada linha não tiver uma)</Entry>
-  <Entry Path="OneStoryProjectEditor.NewProjectWizard.tabPageLanguageEnglishBT.Text">RT em Inglês</Entry>
+  <Entry Path="OneStoryProjectEditor.NewProjectWizard.tabPageLanguageEnglishBT.Text">RT em Português</Entry>
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.textBoxLanguageTabInstructionsEnglishBT.Text">Insira as informações sobre esta linguagem: o nome, o código do ethnologue (se souber), o teclado associados com o idioma, a fonte a ser usada ao exibir (incluindo cor), e se é um idioma da direita para a esquerda. Na caixa 'Frase full stop', digite os caracteres de pontuação usados neste idioma para terminar uma frase. Por exemplo, em inglês, é o período de '.', e em Hindi, é o Devanagari Danda, '।'. Também incluem o '?!:' caracteres e qualquer outra frase pontuação final que pode ser especial em seu idioma (por exemplo, em árabe, o ponto de interrogação '؟'). Esses caracteres de pontuação servirá para dividir as linhas da história em frases. Se desejar linhas menores, você também pode incluir o caractere ','. Não deve haver espaços entre esses caracteres e certifique-se de que o primeiro deles é o caractere normal (mais comum) e ponto (ele será adicionado pelo programa se uma determinada linha não tiver uma)</Entry>
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.labelLanguageNameEnglishBT.Text">Nome:</Entry>
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.labelEthnologueCodeEnglishBT.Text">EDDS. código:</Entry>
@@ -533,7 +533,7 @@
   <Entry Path="&quot;(Press the Esc key to dismiss this help window)&quot;">(Pressione a tecla Esc para fechar esta janela de ajuda)</Entry>
   <Entry Path="OneStoryProjectEditor.StageEditorForm.StageEditorForm.Text">Clique em um botão para alterar para o turno. Clique em um botão para editar o campo padrão, exibindo informações e instruções para o turno</Entry>
   <Entry Path="OneStoryProjectEditor.StageEditorForm.ColumnProjectFacilitatorStages.HeaderText">Facilitador do Projeto</Entry>
-  <Entry Path="OneStoryProjectEditor.StageEditorForm.ColumnEnglishBackTranslator.HeaderText">Back-tradutor inglês</Entry>
+  <Entry Path="OneStoryProjectEditor.StageEditorForm.ColumnEnglishBackTranslator.HeaderText">Retro-Tradutor ao Português</Entry>
   <Entry Path="OneStoryProjectEditor.StageEditorForm.ColumnConsultantInTraining.HeaderText">Consultora em treinamento</Entry>
   <Entry Path="OneStoryProjectEditor.StageEditorForm.ColumnCoach.HeaderText">Treinador</Entry>
   <Entry Path="OneStoryProjectEditor.StageEditorForm.statusStrip.Text">&lt;no need="" to="" localize/translate=""&gt;&lt;/no&gt;</Entry>
@@ -572,7 +572,7 @@
   <Entry Path="OneStoryProjectEditor.AddLnCNoteForm.buttonCancel.Text">Cancelar</Entry>
   <Entry Path="OneStoryProjectEditor.AddLnCNoteForm.labelVernacular.Text">Lg história:</Entry>
   <Entry Path="OneStoryProjectEditor.AddLnCNoteForm.labelNationalBT.Text">RT na lingua nacional:</Entry>
-  <Entry Path="OneStoryProjectEditor.AddLnCNoteForm.labelInternationalBT.Text">RT em Inglês:</Entry>
+  <Entry Path="OneStoryProjectEditor.AddLnCNoteForm.labelInternationalBT.Text">RT em Português:</Entry>
   <Entry Path="OneStoryProjectEditor.AddLnCNoteForm.labelNotes.Text">Notas:</Entry>
   <Entry Path="OneStoryProjectEditor.AddLnCNoteForm.buttonOK.Text">Aceitar</Entry>
   <Entry Path="OneStoryProjectEditor.AddLnCNoteForm.textBoxNotes.ToolTip">Insira notas sobre este termo</Entry>
@@ -805,7 +805,7 @@
   <Entry Path="OneStoryProjectEditor.StoryEditor.viewRefreshMenu.ToolTipText">Atualizar a tela (se ele não se parece com ele algo atualizado corretamente)</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.viewHistoricalDifferencesMenu.Text">Diferenças históricas...</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.viewHistoricalDifferencesMenu.ToolTipText">Clique para abrir a caixa de diálogo de histórico de revisão para comparar diferentes, salvo versões desta história</Entry>
-  <Entry Path="OneStoryProjectEditor.StoryEditor.viewLnCNotesMenu.Text">Notas de termos-chave...</Entry>
+  <Entry Path="OneStoryProjectEditor.StoryEditor.viewLnCNotesMenu.Text">Notas de termos-chaves...</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.viewConcordanceMenu.Text">Concordância...</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.viewConcordanceMenu.ToolTipText">Clique para abrir a caixa de diálogo de concordância para procurar as ocorrências de palavras na história</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.viewStateTransitionHistoryMenu.Text">Desliga o histórico de transição...</Entry>
@@ -957,7 +957,7 @@
   <Entry Path="&quot;Resources Used&quot;">Recursos usados</Entry>
   <Entry Path="&quot;Miscellaneous Comments&quot;">Comentários diversos</Entry>
   <Entry Path="&quot;Back Translator&quot;">Tradutor de volta.</Entry>
-  <Entry Path="&quot;English Back-Translator&quot;">Back-tradutor inglês</Entry>
+  <Entry Path="&quot;English Back-Translator&quot;">Retro-Tradutor ao Português</Entry>
   <Entry Path="&quot;Retelling tester {0}&quot;">Recontando testador {0}</Entry>
   <Entry Path="&quot;Story question tester {0}&quot;">História pergunta testador {0}</Entry>
   <Entry Path="&quot;the UNS '{0}' is already used. That would result in the same UNS being used for two different tests. To correct this, go to that story and click 'Story', 'Story Information' and change the test associated with '{0}' to someone else and try to merge them again&quot;">UNS '{0}' já é usado. Que resultaria em UNS mesmos sendo usados para dois testes diferentes. Para corrigir isso, vá para essa história e clique em 'História', 'História informações' e alterar o teste associado '{0}' para outra pessoa e tentar mesclá-los novamente</Entry>
@@ -1038,4 +1038,6 @@
   <Entry Path="&quot;ret {0}:&quot;">rec {0}:</Entry>
   <Entry Path="&quot;tst {0}:&quot;">tst {0}:</Entry>
   <Entry Path="&quot;ans {0}:&quot;">resp {0}:</Entry>
+  <Entry Path="&quot;Answers&quot;">Respostas</Entry>
+  <Entry Path="&quot;Are you sure you want to delete this line?&quot;">Tem a certeza de que deseja excluir esta linha?</Entry>
 </Language>
