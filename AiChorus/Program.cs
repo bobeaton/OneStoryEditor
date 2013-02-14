@@ -83,8 +83,7 @@ namespace AiChorus
         private static void PresentProjects(ChorusConfigurations chorusConfig)
         {
             var projView = new PresentProjectsForm(chorusConfig);
-            if (projView.ShowDialog() == DialogResult.OK)
-                ;
+            projView.ShowDialog();
         }
 
         private static void DoEdit()

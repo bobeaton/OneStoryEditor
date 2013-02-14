@@ -173,6 +173,7 @@ namespace OneStoryProjectEditor
             this.splitContainerLeftRight = new System.Windows.Forms.SplitContainer();
             this.splitContainerUpDown = new OneStoryProjectEditor.MinimizableSplitterContainer();
             this.buttonMoveToNextLine = new System.Windows.Forms.Button();
+            this.buttonMoveToPrevLine = new System.Windows.Forms.Button();
             this.linkLabelTasks = new System.Windows.Forms.LinkLabel();
             this.linkLabelVerseBT = new System.Windows.Forms.LinkLabel();
             this.contextMenuStripVerseList = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -1457,6 +1458,7 @@ namespace OneStoryProjectEditor
             // splitContainerUpDown.Panel1
             // 
             this.splitContainerUpDown.Panel1.Controls.Add(this.buttonMoveToNextLine);
+            this.splitContainerUpDown.Panel1.Controls.Add(this.buttonMoveToPrevLine);
             this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelTasks);
             this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelVerseBT);
             this.splitContainerUpDown.Panel1.Controls.Add(this.flowLayoutPanelVerses);
@@ -1481,6 +1483,18 @@ namespace OneStoryProjectEditor
             this.buttonMoveToNextLine.UseVisualStyleBackColor = true;
             this.buttonMoveToNextLine.Visible = false;
             this.buttonMoveToNextLine.Click += new System.EventHandler(this.ButtonMoveToNextLineClick);
+            // 
+            // buttonMoveToPrevLine
+            // 
+            this.buttonMoveToPrevLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonMoveToPrevLine.Image = global::OneStoryProjectEditor.Properties.Resources.FillUpHS;
+            this.buttonMoveToPrevLine.Location = new System.Drawing.Point(405, 0);
+            this.buttonMoveToPrevLine.Name = "buttonMoveToPrevLine";
+            this.buttonMoveToPrevLine.Size = new System.Drawing.Size(23, 23);
+            this.buttonMoveToPrevLine.TabIndex = 7;
+            this.buttonMoveToPrevLine.UseVisualStyleBackColor = true;
+            this.buttonMoveToPrevLine.Visible = false;
+            this.buttonMoveToPrevLine.Click += new EventHandler(ButtonMoveToPrevLineClick);
             // 
             // linkLabelTasks
             // 
@@ -1986,6 +2000,7 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator17;
         private ToolStripMenuItem storyImportFromSayMore;
         private Button buttonMoveToNextLine;
+        private Button buttonMoveToPrevLine;
         internal ToolStripMenuItem storyRealignStoryLinesMenu;
     }
 

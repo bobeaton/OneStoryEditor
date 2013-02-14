@@ -4,7 +4,7 @@ Namespace AutoUpgrade
 	Module Startup
 
         Sub Main()
-            ' Debug.Fail("Debugging")
+            Debug.Fail("Debugging")
             If GetCommandLineArgs.Length > 1 Then
                 Generate()
             Else

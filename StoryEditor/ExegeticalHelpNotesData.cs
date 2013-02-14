@@ -149,7 +149,8 @@ namespace OneStoryProjectEditor
             int nNumCols, List<string> astrExegeticalHelpNotes, VerseData.ViewSettings viewSettings)
         {
             string strHtml = strAnchorHtml;
-            if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.UseTextAreas))
+            if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.UseTextAreas) &&
+                viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.ExegeticalHelps))
             {
                 // this means that in the Story BT pane, so add the exe notes directly from
                 //  their StringTransfers

@@ -1524,7 +1524,7 @@ namespace OneStoryProjectEditor
                 var theChildFirstVerse = ((child != null) && (child.FirstVerse != null))
                                              ? child.FirstVerse
                                              : null;
-                strHtml += GetHeaderRow(Localizer.Str("General Testing Qs: "), null, 0, bUseTextAreas, nNumCols);
+                strHtml += GetHeaderRow(CstrZerothLineNameBtPane, null, 0, bUseTextAreas, nNumCols);
                 strHtml += FirstVerse.PresentationHtml(0, nNumCols, craftingInfo,
                                                        viewSettings, 
                                                        theChildFirstVerse,

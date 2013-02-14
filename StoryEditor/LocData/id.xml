@@ -103,7 +103,7 @@
   <Entry Path="&quot;Answer&quot;">Jawaban</Entry>
   <Entry Path="&quot;The '{1}' language field of the {2} in line '{3}' is empty. Did you forget it?{0}{0}(if you don't mean to enter data in the '{1}' field, then click 'Project', 'Settings' and on the 'Languages' tab, uncheck the box for that language in the '{2}s' column)&quot;">Kotak teks '{1}' dari {2} di baris '{3}' masih kosong. Apakah Anda lupa itu?{0}{0}(jika Anda tidak bermaksud untuk memasukkan data dalam kotak teks '{1}', klik 'Proyek', 'Pengaturan' lalu di tab 'Bahasa' hilangkan tanda centang dari kotak kecil untuk bahasa tersebut dalam kolom '{2}')</Entry>
   <Entry Path="&quot;The consultant is requiring you to do {0} more {1} test(s)&quot;">Konsultan mewajibkan Anda untuk melakukan {0} pengujian {1} lagi. </Entry>
-  <Entry Path="&quot;Retelling&quot;">Menceritakan kembali</Entry>
+  <Entry Path="&quot;Retelling&quot;">Cerita Ulang</Entry>
   <Entry Path="&quot;Testing Question&quot;">Pertanyaan Pengujian</Entry>
   <Entry Path="&quot;Line '{0}' doesn't have an anchor. Did you forget it?&quot;">Baris '{0}' tidak memiliki Dasar Alkitab. Apakah Anda lupa itu?</Entry>
   <Entry Path="&quot;The '{0}' field of line '{1}' is empty, but the '{2}' field of that same line is not. Did you forget to enter the back-translation?&quot;">Kotak '{0}' dari baris '{1}' kosong, tapi kotak '{2}' baris yang sama tidak. Apakah Anda lupa memasukkan terjemahan baliknya?</Entry>
@@ -391,7 +391,7 @@
   <Entry Path="&quot;Enter the different spellings of this word separated by commas. Press F1 for further instructions on how to enter data in this field.&quot;">Masukkan ejaan berbeda dari kata ini dipisahkan dengan koma. Tekan F1 untuk petunjuk lebih lanjut tentang cara untuk memasukkan data dalam kotak ini.</Entry>
   <Entry Path="OneStoryProjectEditor.AddLnCNoteForm.AddLnCNoteForm.Text">Tambahkan Catatan B&amp;B</Entry>
   <Entry Path="OneStoryProjectEditor.AddLnCNoteForm.buttonCancel.Text">Batal</Entry>
-  <Entry Path="OneStoryProjectEditor.AddLnCNoteForm.labelVernacular.Text">Bah cerita:</Entry>
+  <Entry Path="OneStoryProjectEditor.AddLnCNoteForm.labelVernacular.Text">Bah. Cerita:</Entry>
   <Entry Path="OneStoryProjectEditor.AddLnCNoteForm.labelNationalBT.Text">TB Bah Indonesia:</Entry>
   <Entry Path="OneStoryProjectEditor.AddLnCNoteForm.labelInternationalBT.Text">TB Bah Inggris:</Entry>
   <Entry Path="OneStoryProjectEditor.AddLnCNoteForm.labelNotes.Text">Catatan:</Entry>
@@ -768,9 +768,9 @@
   <Entry Path="OneStoryProjectEditor.TeamMemberForm.buttonEditMember.Text">&amp;Edit Anggota</Entry>
   <Entry Path="OneStoryProjectEditor.TeamMemberForm.textBoxMemberNames.Text">Anggota Tim</Entry>
   <Entry Path="OneStoryProjectEditor.TeamMemberForm.buttonDeleteMember.Text">&amp;Hapus Anggota</Entry>
-  <Entry Path="OneStoryProjectEditor.TeamMemberForm.buttonMergeCrafter.Text">Menggabungkan Pen&amp;cerita </Entry>
-  <Entry Path="OneStoryProjectEditor.TeamMemberForm.buttonMergeProjectFacilitators.Text">Menggabungkan &amp;Fasilitator Proyek</Entry>
-  <Entry Path="OneStoryProjectEditor.TeamMemberForm.buttonMergeUns.Text">Menggabungkan Orang &amp;Awam</Entry>
+  <Entry Path="OneStoryProjectEditor.TeamMemberForm.buttonMergeCrafter.Text">Gabungkan Pen&amp;cerita </Entry>
+  <Entry Path="OneStoryProjectEditor.TeamMemberForm.buttonMergeProjectFacilitators.Text">Gabungkan &amp;Fasilitator</Entry>
+  <Entry Path="OneStoryProjectEditor.TeamMemberForm.buttonMergeUns.Text">Gabungkan Orang &amp;Awam</Entry>
   <Entry Path="OneStoryProjectEditor.TeamMemberForm.buttonOK.Text">&amp;Masuk</Entry>
   <Entry Path="OneStoryProjectEditor.TeamMemberForm.buttonCancel.ToolTip">Klik untuk membatalkan</Entry>
   <Entry Path="OneStoryProjectEditor.TeamMemberForm.buttonMergeCrafter.ToolTip">Klik untuk menggabungkan Pencerita yang lain dengan Pencerita yang terpilih (supaya hanya Pencerita yang terpilih dipakai)</Entry>

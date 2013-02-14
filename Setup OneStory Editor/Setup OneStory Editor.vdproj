@@ -69,6 +69,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_162B003A14934E75A488ADB854B78FC4"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_166C1C63ABEE781AE44CB01782DC05E0"
         "OwnerKey" = "8:_136D5D57B2BB8DB746FF03A1589B712E"
         "MsmSig" = "8:_UNDEFINED"
@@ -333,12 +339,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_5569E63152D14BF98F01046B8E180B84"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_666A69C48AB1C6F82D09C876A3287796"
         "OwnerKey" = "8:_2EDFB96DBAB2082AC52FB94DEA13C3F4"
         "MsmSig" = "8:_UNDEFINED"
@@ -353,12 +353,6 @@
         {
         "MsmKey" = "8:_668D47CA91A942679A25569E6D41FFE8"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_66AEACD35BD14B47D1935B8101EF57D5"
-        "OwnerKey" = "8:_419902DDF0C24F0C9E553502840AF7F0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -567,6 +561,30 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_D8FBB1AB12110136CBF5BDB31FC926A6"
+        "OwnerKey" = "8:_22F27E5AE3538C448CCF1BA5407E2A9E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D8FBB1AB12110136CBF5BDB31FC926A6"
+        "OwnerKey" = "8:_CA6D6E336B3D4277B8790A8AD42888E7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D8FBB1AB12110136CBF5BDB31FC926A6"
+        "OwnerKey" = "8:_3D0082F937C9402AB4D2725FF0688DBC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D8FBB1AB12110136CBF5BDB31FC926A6"
+        "OwnerKey" = "8:_1415ECBE7EFB434497FFE914D4CB51DB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_DB1E45252473394C49B363AA4EE94168"
         "OwnerKey" = "8:_1415ECBE7EFB434497FFE914D4CB51DB"
         "MsmSig" = "8:_UNDEFINED"
@@ -699,6 +717,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_EBFAF91DA36650FB5ED2447088F3267D"
+        "OwnerKey" = "8:_419902DDF0C24F0C9E553502840AF7F0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_1415ECBE7EFB434497FFE914D4CB51DB"
         "MsmSig" = "8:_UNDEFINED"
@@ -803,6 +827,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_22F27E5AE3538C448CCF1BA5407E2A9E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_D8FBB1AB12110136CBF5BDB31FC926A6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1239,7 +1269,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Chorus, Version=2.0.299.0, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:Chorus, Version=2.1.20.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
                     "_22F27E5AE3538C448CCF1BA5407E2A9E"
@@ -1538,7 +1568,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Palaso, Version=2.0.5.0, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:Palaso, Version=2.0.33.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
                     "_4FFB6188F9C012923A89B6EDD61A954E"
@@ -1680,7 +1710,7 @@
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_668D47CA91A942679A25569E6D41FFE8"
             {
-            "SourcePath" = "8:..\\..\\EC\\redist\\Help\\AdaptIt Plug-in About box.mht"
+            "SourcePath" = "8:..\\..\\ec-main\\redist\\Help\\AdaptIt Plug-in About box.mht"
             "TargetName" = "8:AdaptIt Plug-in About box.mht"
             "Tag" = "8:"
             "Folder" = "8:_B8B805B4008F421E8DB3D300895BFA75"
@@ -1696,26 +1726,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_66AEACD35BD14B47D1935B8101EF57D5"
-            {
-            "SourcePath" = "8:icuec48.dll"
-            "TargetName" = "8:IcuEC48.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6B894B3E13BFEBBFAB17F8153D756B5B"
@@ -1855,7 +1865,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ChorusMerge, Version=2.0.299.0, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:ChorusMerge, Version=2.1.20.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
                     "_75177A80E10060EC1793BAF0C6F7BDCA"
@@ -1986,7 +1996,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:PalasoUIWindowsForms, Version=2.0.5.0, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:PalasoUIWindowsForms, Version=2.0.33.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
                     "_9246581C3B9DEA29970047B1BAB3EE19"
@@ -2015,7 +2025,7 @@
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A4F5EA8CC3B342BAA1C708ADE45A45C6"
             {
-            "SourcePath" = "8:..\\..\\EC\\redist\\Help\\AdaptIt Guesser Plug-in About box.mht"
+            "SourcePath" = "8:..\\..\\ec-main\\redist\\Help\\AdaptIt Guesser Plug-in About box.mht"
             "TargetName" = "8:AdaptIt Guesser Plug-in About box.mht"
             "Tag" = "8:"
             "Folder" = "8:_B8B805B4008F421E8DB3D300895BFA75"
@@ -2146,6 +2156,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D8FBB1AB12110136CBF5BDB31FC926A6"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Vulcan.Uczniowie.HelpProvider, Version=1.0.15.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_D8FBB1AB12110136CBF5BDB31FC926A6"
+                    {
+                    "Name" = "8:Vulcan.Uczniowie.HelpProvider.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Vulcan.Uczniowie.HelpProvider.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_DB1E45252473394C49B363AA4EE94168"
             {
             "AssemblyRegister" = "3:1"
@@ -2212,7 +2253,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:LibChorus, Version=2.0.299.0, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:LibChorus, Version=2.1.20.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
                     "_E824B1E381D76A7EBC238B740246BD3B"
@@ -2305,7 +2346,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:AiChorus, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:AiChorus, Version=3.1.0.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
                     "_EAF0E514FB2C446EA35BA76758D83ACC"
@@ -2330,6 +2371,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EBFAF91DA36650FB5ED2447088F3267D"
+            {
+            "SourcePath" = "8:IcuEC48.dll"
+            "TargetName" = "8:IcuEC48.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
         }
@@ -2564,7 +2625,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:OneStory Editor 3.1"
         "ProductCode" = "8:{F0D8FBBD-9DA1-4086-963A-BBBD476E1D0C}"
-        "PackageCode" = "8:{83B67A23-7BFC-44CC-BD0E-D65018CCFD3B}"
+        "PackageCode" = "8:{45879037-ED2C-4927-B494-F596EA0733AE}"
         "UpgradeCode" = "8:{92A9B369-3609-4129-A09D-5BB5BBE30AAB}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -3214,6 +3275,20 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_162B003A14934E75A488ADB854B78FC4"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
+            "SourcePath" = "8:D:\\Code\\Chorus Artifacts\\Chorus 2.1.20\\ChorusMergeModule.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:1033"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
             "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_269880562129444AA1E21F3D7A1DBACB"
             {
             "UseDynamicProperties" = "11:TRUE"
@@ -3246,20 +3321,6 @@
                     "Setting" = "3:1"
                     "UsePlugInResources" = "11:FALSE"
                     }
-                }
-            "LanguageId" = "3:1033"
-            "Exclude" = "11:FALSE"
-            "Folder" = "8:"
-            "Feature" = "8:"
-            "IsolateTo" = "8:"
-            }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_5569E63152D14BF98F01046B8E180B84"
-            {
-            "UseDynamicProperties" = "11:TRUE"
-            "IsDependency" = "11:FALSE"
-            "SourcePath" = "8:D:\\Code\\Chorus Artifacts\\Chorus 1.5.299\\ChorusMergeModule.msm"
-                "Properties"
-                {
                 }
             "LanguageId" = "3:1033"
             "Exclude" = "11:FALSE"

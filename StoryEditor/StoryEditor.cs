@@ -1374,7 +1374,7 @@ namespace OneStoryProjectEditor
                 htmlStoryBtControl.StoryData = TheCurrentStory;
                 htmlStoryBtControl.LineNumberLink = linkLabelVerseBT;
                 htmlStoryBtControl.ViewSettings = CurrentViewSettings;
-                buttonMoveToNextLine.Visible = true;
+                buttonMoveToNextLine.Visible = buttonMoveToPrevLine.Visible = true;
             }
             else
             {
@@ -2580,7 +2580,7 @@ namespace OneStoryProjectEditor
             else
                 flowLayoutPanelVerses.Clear();
 
-            buttonMoveToNextLine.Visible = linkLabelVerseBT.Visible = false;
+            buttonMoveToNextLine.Visible = buttonMoveToPrevLine.Visible = linkLabelVerseBT.Visible = false;
 #if UsingHtmlDisplayForConNotes
             htmlConsultantNotesControl.ResetDocument();
             htmlCoachNotesControl.ResetDocument();
@@ -6992,6 +6992,16 @@ namespace OneStoryProjectEditor
             nLineIndex++;
             while ((nLineIndex < TheCurrentStory.Verses.Count) && !TheCurrentStory.Verses[nLineIndex - 1].IsVisible)
                 nLineIndex++;
+            FocusOnVerse(nLineIndex, true, true);
+        }
+
+        void ButtonMoveToPrevLineClick(object sender, EventArgs e)
+        {
+            var nLineIndex = (int)linkLabelVerseBT.Tag;
+            if (nLineIndex > 0)
+                nLineIndex--;
+            while ((nLineIndex > 0) && !TheCurrentStory.Verses[nLineIndex].IsVisible)
+                nLineIndex--;
             FocusOnVerse(nLineIndex, true, true);
         }
 

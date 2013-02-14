@@ -222,6 +222,9 @@ namespace NetLoc
 
         private static bool MessageBoxEnumProc(IntPtr hWnd, IntPtr lParam)
         {
+            if (Localizer.Default.LocLanguage == null)
+                return false;
+
             Font font = Localizer.Default.LocLanguage.Font;
             if (font != null)
                 SendMessage(hWnd, WM_SETFONT, font.ToHfont(), (IntPtr)1);
