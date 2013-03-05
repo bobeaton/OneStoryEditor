@@ -6854,16 +6854,22 @@ namespace OneStoryProjectEditor
 
             string strUnsGuid = null;
             LineDataDelegate lineData;
-            if (dlg.CreateNewStory)
-                lineData = ld => ld.StoryLine;
-            else
+            switch (dlg.SaymoreImportType)
             {
-                if (!AddRetellingTest(true))
-                    return;
-                lineData = ld => ld.Retellings.Last();
+                case SayMoreImportForm.SaymoreImportTypes.NewStory:
+                    lineData = v => v.StoryLine;
+                    break;
+                case SayMoreImportForm.SaymoreImportTypes.Retelling:
+                    if (!AddRetellingTest(true))
+                        return;
+                    lineData = v => v.Retellings.Last();
 
-                // keep track of the guid of this UNS in case we have to add more empty retellings.
-                strUnsGuid = TheCurrentStory.Verses[0].Retellings.Last().MemberId;
+                    // keep track of the guid of this UNS in case we have to add more empty retellings.
+                    strUnsGuid = TheCurrentStory.Verses[0].Retellings.Last().MemberId;
+                    break;
+                default:
+                    lineData = null;
+                    break;
             }
 
             StringTransferDelegate stTranscription;
@@ -6914,7 +6920,7 @@ namespace OneStoryProjectEditor
             }
 
             StoryData theStory;
-            if (dlg.CreateNewStory)
+            if (dlg.SaymoreImportType == SayMoreImportForm.SaymoreImportTypes.NewStory)
             {
                 theStory = AddNewStoryAfter(dlg.StoryName, dlg.FullRecordingFileSpec, dlg.Crafter);
                 if (theStory == null) // cancelled
@@ -6925,36 +6931,49 @@ namespace OneStoryProjectEditor
             {
                 theStory = TheCurrentStory;
                 Debug.Assert(theStory != null); // shouldn't be possible to be null
-                eStageToGoTo = StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest1;
+                eStageToGoTo = (dlg.SaymoreImportType == SayMoreImportForm.SaymoreImportTypes.Retelling)
+                                    ? StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest1
+                                    : StoryStageLogic.ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1;
             }
 
-            var nLen = Math.Max(dlg.VernacularLines.Count, dlg.BackTranslationLines.Count);
-
-            int nLineIndex = 0;
-            for (var i = 0; i < nLen; i++)
+            // for the answers, we have to do this a totally different way
+            if (dlg.SaymoreImportType == SayMoreImportForm.SaymoreImportTypes.Answers)
             {
-                var vernacular = GetSafeValue(dlg.VernacularLines, i);
-                var backTr = GetSafeValue(dlg.BackTranslationLines, i);
-                VerseData newVerse;
-                if (dlg.CreateNewStory || (theStory.Verses.Count <= nLineIndex))
+                SaymoreImportToAnswers(theStory, dlg.VernacularLines, dlg.BackTranslationLines, 
+                                       stTranscription, stTranslation);
+            }
+            else
+            {
+                var nLen = Math.Max(dlg.VernacularLines.Count, dlg.BackTranslationLines.Count);
+
+                var nLineIndex = 0;
+                var bCreateNewStory = (dlg.SaymoreImportType == SayMoreImportForm.SaymoreImportTypes.NewStory);
+                for (var i = 0; i < nLen; i++)
                 {
-                    newVerse = GetNewVerse(strUnsGuid, theStory, dlg.CreateNewStory);
-                }
-                else
-                {
-                    // skip over hidden lines
-                    while (!(newVerse = theStory.Verses[nLineIndex++]).IsVisible)
+                    var vernacular = GetSafeValue(dlg.VernacularLines, i);
+                    var backTr = GetSafeValue(dlg.BackTranslationLines, i);
+                    VerseData newVerse;
+                    if (bCreateNewStory || (theStory.Verses.Count <= nLineIndex))
                     {
-                        if (theStory.Verses.Count > nLineIndex)
-                            continue;
-
-                        newVerse = GetNewVerse(strUnsGuid, theStory, dlg.CreateNewStory);
-                        break;
+                        newVerse = GetNewVerse(strUnsGuid, theStory, bCreateNewStory);
                     }
-                }
+                    else
+                    {
+                        // skip over hidden lines
+                        while (!(newVerse = theStory.Verses[nLineIndex++]).IsVisible)
+                        {
+                            if (theStory.Verses.Count > nLineIndex)
+                                continue;
 
-                stTranscription(lineData(newVerse)).SetValue(vernacular);
-                stTranslation(lineData(newVerse)).SetValue(backTr);
+                            newVerse = GetNewVerse(strUnsGuid, theStory, false);
+                            break;
+                        }
+                    }
+
+                    Debug.Assert(lineData != null, "lineData != null");
+                    stTranscription(lineData(newVerse)).SetValue(vernacular);
+                    stTranslation(lineData(newVerse)).SetValue(backTr);
+                }
             }
 
             Modified = true;
@@ -6967,6 +6986,37 @@ namespace OneStoryProjectEditor
             }
 
             SetNextStateAdvancedOverride(eStageToGoTo, false);
+        }
+
+        private void SaymoreImportToAnswers(StoryData theStory, 
+                                            List<string> vernacularLines, List<string> backTranslationLines, 
+                                            StringTransferDelegate stTranscription, StringTransferDelegate stTranslation)
+        {
+            // Start by adding Answer boxes for all the TQs using our normal way
+            if (!AddInferenceTest())
+                return;
+
+            // find the TQs and start putting the lines we're importing into a new answer box
+            var nIndex = 0;
+            SaymoreImportAnswers(theStory.Verses.FirstVerse, vernacularLines, backTranslationLines, 
+                                 stTranscription, stTranslation, ref nIndex);
+            foreach (var aVerseData in theStory.Verses)
+                SaymoreImportAnswers(aVerseData, vernacularLines, backTranslationLines,
+                                     stTranscription, stTranslation, ref nIndex);
+        }
+
+        private void SaymoreImportAnswers(VerseData aVerse, List<string> vernacularLines, List<string> backTranslationLines, StringTransferDelegate stTranscription, StringTransferDelegate stTranslation, ref int nIndex)
+        {
+            foreach (var lineData in aVerse.TestQuestions.Select(testQuestion => testQuestion.Answers.Last()))
+            {
+                var vernacular = GetSafeValue(vernacularLines, nIndex);
+                var backTr = GetSafeValue(backTranslationLines, nIndex);
+                nIndex++;
+
+                // now set the proper fields
+                stTranscription(lineData).SetValue(vernacular);
+                stTranslation(lineData).SetValue(backTr);
+            }
         }
 
         private static VerseData GetNewVerse(string strUnsGuid, StoryData theStory, bool bCreateNewStory)

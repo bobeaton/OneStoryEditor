@@ -42,11 +42,17 @@ namespace OneStoryProjectEditor
 
             // if we have a current story, then we can import into a retelling also
             if (storyData == null)
-                radioButtonAsRetelling.Enabled = false;
+                radioButtonAsRetelling.Enabled = radioButtonAsAnswers.Enabled = false;
             else
+            {
                 radioButtonAsRetelling.Text = String.Format(Localizer.Str("Retelling {0} of story {1}"),
                                                             storyData.CraftingInfo.TestersToCommentsRetellings.Count + 1,
                                                             storyData.Name);
+
+                radioButtonAsAnswers.Text = String.Format(Localizer.Str("Answer test {0} of story {1}"),
+                                                          storyData.CraftingInfo.TestersToCommentsTqAnswers.Count + 1,
+                                                          storyData.Name);
+            }
         }
 
         private void InitGrid()
@@ -312,14 +318,24 @@ namespace OneStoryProjectEditor
                    select xValue.Value).ToList();
         }
 
-        public bool CreateNewStory { get; set; }
+        public enum SaymoreImportTypes
+        {
+            NewStory,
+            Retelling,
+            Answers
+        }
+        public SaymoreImportTypes SaymoreImportType { get; set; }
         public string AsRetellingInStory { get; set; }
         public StoryEditor.TextFields TranscriptionField { get; set; }
         public StoryEditor.TextFields TranslationField { get; set; }
 
         private void ButtonImportClick(object sender, EventArgs e)
         {
-            CreateNewStory = radioButtonNewStory.Checked;
+            SaymoreImportType = (radioButtonNewStory.Checked)
+                                    ? SaymoreImportTypes.NewStory
+                                    : (radioButtonAsRetelling.Checked)
+                                          ? SaymoreImportTypes.Retelling
+                                          : SaymoreImportTypes.Answers;
             
             TranscriptionField = WhichField(radioButtonVernacularTranscription,
                                             radioButtonNationalBtTranscription,
