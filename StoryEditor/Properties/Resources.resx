@@ -1991,7 +1991,6 @@ function CallTextareaOnSelect(textarea)
   {{
     font-size: {1};
     padding: 0 2px;
-    width: 5px;
     overflow: visible;
   }}  
   p 
