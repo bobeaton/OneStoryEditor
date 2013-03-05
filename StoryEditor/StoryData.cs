@@ -561,30 +561,31 @@ namespace OneStoryProjectEditor
             if (bShowEnglishBT) nNumCols++;
             if (bShowFreeTranslation) nNumCols++;
 
-            string strHtml = null;
+            // always gotta have at least the title and stage
+            var bIsPrinting = (child == null);
+            var strHtml = CraftingInfoData.PresentationHtmlRow(Localizer.Str("Story Name"), Name,
+                                                               (bIsPrinting)
+                                                                   ? null
+                                                                   : child.Name,
+                                                               bIsPrinting);
+
+            // for stage, it's a bit more complicated
+            StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[ProjStage.ProjectStage];
+            string strParentStage = st.StageDisplayString;
+            string strChildStage = null;
+            if (child != null)
+            {
+                st = StoryStageLogic.stateTransitions[child.ProjStage.ProjectStage];
+                strChildStage = st.StageDisplayString;
+            }
+            strHtml += CraftingInfoData.PresentationHtmlRow(Localizer.Str("Story Turn"),
+                                                            strParentStage,
+                                                            strChildStage,
+                                                            bIsPrinting);
+
+            // if requested, include the remaining 'front matter'
             if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryFrontMatter))
             {
-                bool bIsPrinting = (child == null);
-                strHtml += CraftingInfoData.PresentationHtmlRow(Localizer.Str("Story Name"), Name,
-                                                                (bIsPrinting)
-                                                                    ? null
-                                                                    : child.Name,
-                                                                bIsPrinting);
-
-                // for stage, it's a bit more complicated
-                StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[ProjStage.ProjectStage];
-                string strParentStage = st.StageDisplayString;
-                string strChildStage = null;
-                if (child != null)
-                {
-                    st = StoryStageLogic.stateTransitions[child.ProjStage.ProjectStage];
-                    strChildStage = st.StageDisplayString;
-                }
-                strHtml += CraftingInfoData.PresentationHtmlRow(Localizer.Str("Story Turn"),
-                                                                strParentStage,
-                                                                strChildStage,
-                                                                bIsPrinting);
-
                 strHtml += CraftingInfo.PresentationHtml(teamMembers, (child != null) ? child.CraftingInfo : null);
             }
 
