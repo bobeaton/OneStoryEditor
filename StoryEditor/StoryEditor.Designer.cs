@@ -198,6 +198,9 @@ namespace OneStoryProjectEditor
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
+            this.storyCopyToAnotherProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.storyCopyFromAnotherProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeftRight)).BeginInit();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
@@ -1038,7 +1041,10 @@ namespace OneStoryProjectEditor
             this.toolStripSeparator14,
             this.storyUseAdaptItForBackTranslationMenu,
             this.toolStripSeparator17,
-            this.storyImportFromSayMore});
+            this.storyImportFromSayMore,
+            this.toolStripSeparator19,
+            this.storyCopyToAnotherProjectMenu,
+            this.storyCopyFromAnotherProjectMenu});
             this.storyToolStripMenu.Name = "storyToolStripMenu";
             this.storyToolStripMenu.Size = new System.Drawing.Size(46, 27);
             this.storyToolStripMenu.Text = "&Story";
@@ -1494,7 +1500,7 @@ namespace OneStoryProjectEditor
             this.buttonMoveToPrevLine.TabIndex = 7;
             this.buttonMoveToPrevLine.UseVisualStyleBackColor = true;
             this.buttonMoveToPrevLine.Visible = false;
-            this.buttonMoveToPrevLine.Click += new EventHandler(ButtonMoveToPrevLineClick);
+            this.buttonMoveToPrevLine.Click += new System.EventHandler(this.ButtonMoveToPrevLineClick);
             // 
             // linkLabelTasks
             // 
@@ -1802,6 +1808,25 @@ namespace OneStoryProjectEditor
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
             // 
+            // toolStripSeparator19
+            // 
+            this.toolStripSeparator19.Name = "toolStripSeparator19";
+            this.toolStripSeparator19.Size = new System.Drawing.Size(242, 6);
+            // 
+            // storyCopyToAnotherProjectMenu
+            // 
+            this.storyCopyToAnotherProjectMenu.Name = "storyCopyToAnotherProjectMenu";
+            this.storyCopyToAnotherProjectMenu.Size = new System.Drawing.Size(245, 22);
+            this.storyCopyToAnotherProjectMenu.Text = "&Copy to another project";
+            this.storyCopyToAnotherProjectMenu.Click += new System.EventHandler(this.StoryCopyToAnotherProjectMenuClick);
+            // 
+            // storyCopyFromAnotherProjectMenu
+            // 
+            this.storyCopyFromAnotherProjectMenu.Name = "storyCopyFromAnotherProjectMenu";
+            this.storyCopyFromAnotherProjectMenu.Size = new System.Drawing.Size(245, 22);
+            this.storyCopyFromAnotherProjectMenu.Text = "Copy &from another project";
+            this.storyCopyFromAnotherProjectMenu.Click += new System.EventHandler(this.StoryCopyFromAnotherProjectMenuClick);
+            // 
             // StoryEditor
             // 
             this.ClientSize = new System.Drawing.Size(881, 666);
@@ -2002,6 +2027,9 @@ namespace OneStoryProjectEditor
         private Button buttonMoveToNextLine;
         private Button buttonMoveToPrevLine;
         internal ToolStripMenuItem storyRealignStoryLinesMenu;
+        private ToolStripSeparator toolStripSeparator19;
+        private ToolStripMenuItem storyCopyToAnotherProjectMenu;
+        private ToolStripMenuItem storyCopyFromAnotherProjectMenu;
     }
 
 #if UsingHtmlDisplayForConNotes

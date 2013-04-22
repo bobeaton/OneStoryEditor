@@ -1094,39 +1094,42 @@ namespace OneStoryProjectEditor
             if (bCheckThatProjFacIsLoggedIn && !CheckForProjFac())
                 return false;
 
-            // ask the user for what story they want to add (i.e. the name)
-            strStoryName =
-                LocalizableMessageBox.InputBox(Localizer.Str("Enter the name of the story to add"),
-                                               OseCaption, strStoryName);
-
-            if (!String.IsNullOrEmpty(strStoryName))
+            do
             {
-                if (TheCurrentStoriesSet.Count > 0)
+                // ask the user for what story they want to add (i.e. the name)
+                strStoryName =
+                    LocalizableMessageBox.InputBox(Localizer.Str("Enter the name of the story to add"),
+                                                   OseCaption, strStoryName);
+                
+                if (String.IsNullOrEmpty(strStoryName))
+                    return false;
+
+            } while (!FindIndexToInsertAt(strStoryName, out nIndexForInsert));
+
+            return true;
+        }
+
+        private bool FindIndexToInsertAt(string strStoryName, out int nIndexForInsert)
+        {
+            if (TheCurrentStoriesSet.Count > 0)
+            {
+                if (TheCurrentStoriesSet.Any(s => s.Name == strStoryName))
                 {
-                    foreach (StoryData aStory in TheCurrentStoriesSet)
-                    {
-                        if (aStory.Name == strStoryName)
-                        {
-                            // if they already have a story by that name, just go there
-                            comboBoxStorySelector.SelectedItem = strStoryName;
-                            return false;
-                        }
-                       
-                        if (aStory.Name == TheCurrentStory.Name)
-                        {
-                            nIndexForInsert = TheCurrentStoriesSet.IndexOf(aStory);
-                            return true;
-                        }
-                    }
+                    // can't be the same as the name of an existing story
+                    LocalizableMessageBox.Show(
+                        Localizer.Str("You already have a story by that name. Please choose another name"),
+                        OseCaption);
+
+                    nIndexForInsert = -1;
+                    return false;
                 }
-                else
-                {
-                    nIndexForInsert = 0;
-                    return true;
-                }
+
+                nIndexForInsert = TheCurrentStoriesSet.IndexOf(TheCurrentStory);
+                return true;
             }
 
-            return false;
+            nIndexForInsert = 0;
+            return true;
         }
 
         private void AddNewStoryAfterToolStripMenuItemClick(object sender, EventArgs e)
@@ -3170,7 +3173,9 @@ namespace OneStoryProjectEditor
                                                  (TheCurrentStory.CraftingInfo != null));
 
             storyDeleteStoryMenu.Enabled =
-                storyCopyWithNewNameMenu.Enabled = (TheCurrentStory != null);
+                storyCopyWithNewNameMenu.Enabled =
+                storyCopyToAnotherProjectMenu.Enabled = 
+                    (TheCurrentStory != null);
 
             var isStoryInsertable = ((StoryProject != null) &&
                                      IsInStoriesSet &&
@@ -3181,6 +3186,21 @@ namespace OneStoryProjectEditor
 
             storyImportFromSayMore.Enabled = isStoryInsertable &&
                                              Directory.Exists(ProjectSettings.SayMoreFolderRoot);
+
+            // the 'paste story from another project is enabled if ...
+            if (isStoryInsertable)
+            {
+                var iData = Clipboard.GetDataObject();
+                storyCopyFromAnotherProjectMenu.Enabled = (iData != null) &&
+                                                          iData.GetDataPresent(DataFormats.UnicodeText) &&
+                                                          (iData.GetData(DataFormats.UnicodeText).
+                                                              ToString().Contains(
+                                                                  StoryProjectData.
+                                                                      CstrElementOseStoryToCopy));
+            }
+            else
+                storyCopyFromAnotherProjectMenu.Enabled = false;
+                                                      
 
             // if there's a story that has more than no verses, AND if it's a bible
             //  story and before the add anchors stage or a non-biblical story and
@@ -4859,7 +4879,7 @@ namespace OneStoryProjectEditor
                     if (iData.GetDataPresent(DataFormats.UnicodeText))
                     {
                         int nNewEndPoint;
-                        string strText = (string)iData.GetData(DataFormats.UnicodeText);
+                        var strText = (string)iData.GetData(DataFormats.UnicodeText);
                         htmlStoryBtControl.SetSelectedText(st, strText, out nNewEndPoint);
                     }
             }
@@ -5427,15 +5447,20 @@ namespace OneStoryProjectEditor
         {
             Debug.Assert(TheCurrentStory != null);
 
+            InsertStoryHere(TheCurrentStory);
+        }
+
+        private void InsertStoryHere(StoryData theStoryToInsert)
+        {
             string strStoryName = null;
-            int nIndexOfCurrentStory = -1;
-            if (AddNewStoryGetIndex(ref nIndexOfCurrentStory, ref strStoryName, false))
-            {
-                Debug.Assert(nIndexOfCurrentStory != -1);
-                nIndexOfCurrentStory = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
-                var theNewStory = new StoryData(TheCurrentStory) {Name = strStoryName};
-                InsertNewStoryAdjustComboBox(theNewStory, nIndexOfCurrentStory);
-            }
+            var nIndexOfCurrentStory = -1;
+            if (!AddNewStoryGetIndex(ref nIndexOfCurrentStory, ref strStoryName, false)) 
+                return;
+
+            Debug.Assert(nIndexOfCurrentStory != -1);
+            nIndexOfCurrentStory = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
+            var theNewStory = new StoryData(theStoryToInsert) {Name = strStoryName};
+            InsertNewStoryAdjustComboBox(theNewStory, nIndexOfCurrentStory);
         }
 
         private void hiddenVersesToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
@@ -7059,6 +7084,111 @@ namespace OneStoryProjectEditor
         {
             Settings.Default.DoAutoSaveSilently = advancedSaveTimeoutAsSilentlyAsPossibleMenu.Checked;
             Settings.Default.Save();
+        }
+
+        private void StoryCopyToAnotherProjectMenuClick(object sender, EventArgs e)
+        {
+            // iterate thru the verses and copy them to the clipboard
+            Debug.Assert(TheCurrentStory != null);
+            var xmlOfStoryToCopy = StoryProject.GetXmlToCopyStory(TheCurrentStory);
+            Clipboard.SetDataObject(xmlOfStoryToCopy.ToString());
+        }
+
+        private void StoryCopyFromAnotherProjectMenuClick(object sender, EventArgs e)
+        {
+            var iData = Clipboard.GetDataObject();
+            if (iData == null)
+                return;
+
+            string strData;
+            if (!iData.GetDataPresent(DataFormats.UnicodeText) ||
+                ((strData = (string) iData.GetData(DataFormats.UnicodeText)) == null) ||
+                !strData.Contains(StoryProjectData.CstrElementOseStoryToCopy))
+                return;
+
+            var theStoryToCopyPlusMembersXElement = XElement.Parse(strData);
+            var theStoryToCopyXElement = theStoryToCopyPlusMembersXElement.Element(StoryData.CstrElementNameStory);
+
+            // find all of the descendent attributes for 'memberId'
+            if (theStoryToCopyXElement == null)
+                return;
+
+            var theMembersInTheOtherProjectXElement = theStoryToCopyPlusMembersXElement.Element(TeamMembersData.CstrElementLabelMembers);
+            var theMembersInTheOtherProjectXmlNode = theMembersInTheOtherProjectXElement.GetXmlNode();
+            var theMembersInTheOtherProject = new TeamMembersData(theMembersInTheOtherProjectXmlNode);
+
+            // find all of the guids to members (so we can make sure they're in the target project also
+            var elemsWithMemberIds = theStoryToCopyXElement.Descendants()
+                .Where(elem => elem.Attribute("memberID") != null);
+
+            foreach (var elemWithMemberId in elemsWithMemberIds)
+            {
+                Debug.Assert(elemWithMemberId.Attribute("memberID") != null, "elemWithMemberId.Attribute('memberID') != null");
+                var strMemberId = elemWithMemberId.Attribute("memberID").Value;
+                var strMembersName = theMembersInTheOtherProject.GetNameFromMemberId(strMemberId);
+                TeamMemberData theMemberInThisProjectWithTheSameName;
+                if (!StoryProject.TeamMembers.TryGetValue(strMembersName, out theMemberInThisProjectWithTheSameName))
+                    StoryProject.TeamMembers.Add(strMembersName,
+                                                 theMembersInTheOtherProject.GetMemberFromId(strMemberId));
+                else if (strMemberId != theMemberInThisProjectWithTheSameName.MemberGuid)
+                    elemWithMemberId.SetAttributeValue("memberID", theMemberInThisProjectWithTheSameName.MemberGuid);
+            }
+
+            var theStoryToCopyXmlNode = theStoryToCopyXElement.GetXmlNode();
+            var theStoryToCopy = new StoryData(theStoryToCopyXmlNode.FirstChild, StoryProject.ProjSettings.ProjectFolder);
+            theStoryToCopy = new StoryData(theStoryToCopy); // yes, we have to do this again, because the XmlNode ctor won't re-do the guids
+
+            var nIndexOfCurrentStory = TheCurrentStoriesSet.IndexOf(TheCurrentStory);
+            if (TheCurrentStoriesSet.Any(s => s.Name == theStoryToCopy.Name))
+            {
+                string strStoryName = theStoryToCopy.Name;
+                if (!AddNewStoryGetIndex(ref nIndexOfCurrentStory, ref strStoryName, false))
+                    return;
+
+                theStoryToCopy.Name = strStoryName;
+            }
+
+            nIndexOfCurrentStory = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
+            InsertNewStoryAdjustComboBox(theStoryToCopy, nIndexOfCurrentStory);
+
+            var theProjectSettingsInTheOtherProjectXElement = theStoryToCopyPlusMembersXElement.Element(ProjectSettings.CstrElementLabelLanguages);
+            var theProjectSettingsInTheOtherProjectXmlNode = theProjectSettingsInTheOtherProjectXElement.GetXmlNode().FirstChild;
+            var theProjectSettingsInTheOtherProject = new ProjectSettings(theProjectSettingsInTheOtherProjectXmlNode, null);
+            if ((theProjectSettingsInTheOtherProject.Vernacular.HasData ^ StoryProject.ProjSettings.Vernacular.HasData) ||
+                (theProjectSettingsInTheOtherProject.NationalBT.HasData ^ StoryProject.ProjSettings.NationalBT.HasData) ||
+                (theProjectSettingsInTheOtherProject.InternationalBT.HasData ^ StoryProject.ProjSettings.InternationalBT.HasData) ||
+                (theProjectSettingsInTheOtherProject.FreeTranslation.HasData ^ StoryProject.ProjSettings.FreeTranslation.HasData) ||
+                (theProjectSettingsInTheOtherProject.Vernacular.HasData && (theProjectSettingsInTheOtherProject.Vernacular.LangName != StoryProject.ProjSettings.Vernacular.LangName)) ||
+                (theProjectSettingsInTheOtherProject.NationalBT.HasData && (theProjectSettingsInTheOtherProject.NationalBT.LangName != StoryProject.ProjSettings.NationalBT.LangName)) ||
+                (theProjectSettingsInTheOtherProject.InternationalBT.HasData && (theProjectSettingsInTheOtherProject.InternationalBT.LangName != StoryProject.ProjSettings.InternationalBT.LangName)) ||
+                (theProjectSettingsInTheOtherProject.FreeTranslation.HasData && (theProjectSettingsInTheOtherProject.FreeTranslation.LangName != StoryProject.ProjSettings.FreeTranslation.LangName)))
+            {
+                LocalizableMessageBox.Show(
+                    Localizer.Str(
+                        "Warning: the source and target project have differences which can affect how the story is copied. For example, if the source project was configured with a 'National language back-translation', but this project isn't, then the 'National BT' text won't be visible until/unless you configure a 'National BT' field in the 'Project', 'Settings' dialog, 'Languages' tab. Or if one of the languages (e.g. 'Story language') is different between this project and the source project, that can cause display issues -- e.g. a different font might be used in this project for which the source project text won't display correctly..."),
+                    OseCaption);
+            }
+        }
+    }
+
+    public static class MyExtensions
+    {
+        public static XElement GetXElement(this XmlNode node)
+        {
+            var xDoc = new XDocument();
+            using (var xmlWriter = xDoc.CreateWriter())
+                node.WriteTo(xmlWriter);
+            return xDoc.Root;
+        }
+
+        public static XmlNode GetXmlNode(this XElement element)
+        {
+            using (var xmlReader = element.CreateReader())
+            {
+                var xmlDoc = new XmlDocument();
+                xmlDoc.Load(xmlReader);
+                return xmlDoc;
+            }
         }
     }
 }

@@ -173,7 +173,7 @@ namespace OneStoryProjectEditor
             Verses = new VersesData(rhs.Verses);
         }
 
-        protected const string CstrElementNameStory = "story";
+        public const string CstrElementNameStory = "story";
         protected const string CstrAttributeName = "name";
         protected const string CstrAttributeStage = "stage";
         protected const string CstrAttributeGuid = "guid";
@@ -2154,6 +2154,8 @@ namespace OneStoryProjectEditor
         public const string CstrAttributeDropboxRetellings = "DropboxRetellings";
         public const string CstrAttributeDropboxAnswers = "DropboxAnswers";
 
+        public const string CstrElementOseStoryToCopy = "OseStoryToCopy";
+
         public XElement GetXml
         {
             get
@@ -2207,6 +2209,16 @@ namespace OneStoryProjectEditor
 
                 return elemStoryProject;
             }
+        }
+
+        // retrieve an xml fragment so we can copy a story to another project... 
+        //  just need the members (so we can add them to the new project, if used in this story) and the story itself
+        public XElement GetXmlToCopyStory(StoryData theStoryToCopy)
+        {
+            return new XElement(CstrElementOseStoryToCopy,
+                                TeamMembers.GetXml,
+                                ProjSettings.GetXml,
+                                theStoryToCopy.GetXml);
         }
 
         private static bool SetNextVersionIfNeeded(ConsultNoteDataConverter.CommunicationDirections eNewType, XElement elemStoryProject, string strNewVersion)
