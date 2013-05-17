@@ -115,17 +115,25 @@ namespace OneStoryProjectEditor
 
         private void buttonPushToInternet_Click(object sender, EventArgs e)
         {
-            string strAiWorkFolder;
-            string strProjectFolderName;
-            string strHgUsername;
-            string strHgPassword;
-            if (!GetAiRepoSettings(out strAiWorkFolder, 
+            string strAiWorkFolder, strProjectFolderName, strHgUsername, strHgPassword;
+            if (!GetAiRepoSettings(out strAiWorkFolder,
                 out strProjectFolderName, out strHgUsername, out strHgPassword))
                 return;
 
             ProjectFolder = Path.Combine(strAiWorkFolder, strProjectFolderName);
-            Program.SetAdaptItHgParameters(ProjectFolder, ProjectName, InternetAddress, strHgUsername, strHgPassword);
-            Program.SyncWithAiRepository(ProjectFolder, ProjectName, true);
+            var dlg = new HgRepoForm
+            {
+                ProjectName = ProjectName,
+                UrlBase = Program.LookupRepoUrlHost(Properties.Resources.IDS_DefaultRepoServer),
+                Username = strHgUsername,
+                Password = strHgPassword
+            };
+
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                Program.SetAdaptItHgParameters(ProjectFolder, ProjectName, InternetAddress, strHgUsername, strHgPassword);
+                Program.SyncWithAiRepository(ProjectFolder, ProjectName, true);
+            }
         }
 
         private void buttonPullFromInternet_Click(object sender, EventArgs e)

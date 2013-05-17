@@ -775,7 +775,7 @@ namespace OneStoryProjectEditor
 
         private static ProjectFolderConfiguration GetAiProjectFolderConfiguration(string strProjectFolder)
         {
-// if there's no repo yet, then create one (even if we aren't going
+            // if there's no repo yet, then create one (even if we aren't going
             //  to ultimately push with an internet repo, we still want one locally)
             var projectConfig = new ProjectFolderConfiguration(strProjectFolder);
             projectConfig.IncludePatterns.Add("*.xml"); // AI KB
