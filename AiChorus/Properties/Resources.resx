@@ -124,7 +124,7 @@
     <value>LanguageDepot.org [resumable sync]</value>
   </data>
   <data name="UsageString" xml:space="preserve">
-    <value>Usage: 'AiChorus /f' to open the project editor, 'AiChorus /c' to download (clone) a project, 'AiChorus (/s)' to synchronize a project, and 'AiChorus /e' to edit the knowledge base</value>
+    <value>Usage: 'AiChorus /f' to open the project editor, and 'AiChorus /e' to edit an Adapt It knowledge base</value>
   </data>
   <data name="MustUseAiLookupConverterToEdit" xml:space="preserve">
     <value>This only works if you choose an Adapt It Lookup Converter! Do you want to try again?</value>
@@ -133,7 +133,7 @@
   <data name="chorus" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\chorus.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SynchronizingAdaptItDialogTitle">
-    <value xml:space="preserve">Synchronizing Adapt It Project: </value>
+  <data name="SynchronizingAdaptItDialogTitle" xml:space="preserve">
+    <value>Synchronizing Adapt It Project: </value>
   </data>
 </root>

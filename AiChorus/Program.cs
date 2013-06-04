@@ -44,8 +44,6 @@ namespace AiChorus
             {
                 if (args[0] == "/f")
                     ProcessChorusConfigFile((args.Length == 2) ? args[1] : null);
-                else if ((args[0] == "/c") || String.IsNullOrEmpty(Settings.Default.LastProjectFolder))
-                    ;   // DoClone();
                 else if (args[0] == "/e")
                     DoEdit();
                 else
