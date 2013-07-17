@@ -803,15 +803,12 @@ namespace OneStoryProjectEditor
         {
             System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strTheStoryPfId));
 
-            if (eMemberTypeWithEditToken == UserTypes.AnyEditor)
-                return true;
-
             // if it's a PF, then it has to be the *right* PF
             if (IsUser(eMemberTypeWithEditToken, UserTypes.ProjectFacilitator) &&
                 (MemberGuid != strTheStoryPfId))
                 return false;
 
-            return (IsUser(MemberType, eMemberTypeWithEditToken));
+            return (eMemberTypeWithEditToken == UserTypes.AnyEditor) || IsUser(MemberType, eMemberTypeWithEditToken);
         }
 
         public static string GetWrongMemberTypeWarning(UserTypes eMemberTypeWithEditToken)
