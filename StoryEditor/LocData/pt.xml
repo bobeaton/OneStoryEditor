@@ -3,7 +3,7 @@
   <Id>pt</Id>
   <Name>Portuguese</Name>
   <FontSize>0</FontSize>
-  <Entry Path="&quot;Ln: &quot;">Ln:</Entry>
+  <Entry Path="&quot;Ln: &quot;">Ln: </Entry>
   <Entry Path="&quot;General Testing Qs: &quot;">Perguntas gerais:</Entry>
   <Entry Path="&quot;(Hidden)&quot;">(Oculto)</Entry>
   <Entry Path="&quot; was hidden, but now is visible&quot;"> estava oculto, mas agora é visível</Entry>

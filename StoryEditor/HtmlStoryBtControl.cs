@@ -567,6 +567,10 @@ namespace OneStoryProjectEditor
 
         public void AddScriptureReference(string strId)
         {
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe))
+                return;
+            
             int nLineIndex;
             if (!GetIndicesFromId(strId, out nLineIndex))
                 return;

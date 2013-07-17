@@ -2343,6 +2343,8 @@ namespace OneStoryProjectEditor
                     firstNote.SetValue(strNote +
                                        Environment.NewLine +
                                        firstNote);
+
+                conNote.guid = Guid.NewGuid().ToString();   // just in case someone else changes it and it comes back and becomes a duplicate
                 conNotesTo.Add(conNote);
             }
             conNotesFrom.Clear();

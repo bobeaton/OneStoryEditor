@@ -154,10 +154,15 @@ namespace OneStoryProjectEditor
             int nIndex = flowLayoutPanel.Controls.IndexOf(control);
             // add the contents of this one to the next one
             var theNextGc = (GlossingControl)flowLayoutPanel.Controls[nIndex + 1];
-            theNextGc.SourceWord = String.Format("{0}{1}{2}", 
-                control.SourceWord,
-                (_bUseWordBreakIterator) ? "" : " ",    // if word breaking, on join, we don't want the space
-                theNextGc.SourceWord);
+            var newSourceWord = String.Format("{0}{1}{2}",
+                                              control.SourceWord,
+                                              (_bUseWordBreakIterator) ? "" : " ",    // if word breaking, on join, we don't want the space
+                                              theNextGc.SourceWord);
+
+            if (_bUseWordBreakIterator)
+                Update(theNextGc, newSourceWord);    // this function also updates the SourceSentence field, without which we won't re-write the StoryBtPane with this now missing space combined word
+            else
+                theNextGc.SourceWord = newSourceWord;
 
             // as a general rule, the target form would just be the concatenation of the two
             //  target forms. 

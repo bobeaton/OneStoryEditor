@@ -459,7 +459,7 @@
   <Entry Path="&quot; -- ({0} logged in as '{1}')&quot;"> -- ({0} sudah masuk sebagai '{1}')</Entry>
   <Entry Path="&quot;You have to be logged in as a 'Project Facilitator' to add stories. To login, click 'Project', 'Login'&quot;">Kalau anda ingin menambahkan cerita, seharusnya Anda sudah masuk sebagai 'Fasilitator Proyek'. Untuk masuk, klik 'Proyek', 'Login'</Entry>
   <Entry Path="&quot;Enter the name of the story to add&quot;">Ketik nama cerita yang mau ditambahkan</Entry>
-  <Entry Path="&quot;Unable to find the story '{0}'. Would you like to add a new story with that name?&quot;">Kisah '{0}' tidak ditemukan. Apakah Anda ingin menambahkan cerita baru dengan nama itu?</Entry>
+  <Entry Path="&quot;Unable to find the story '{0}'. Would you like to add a new story with that name?&quot;">Cerita '{0}' tidak ditemukan. Apakah Anda ingin menambahkan cerita baru dengan judul itu?</Entry>
   <Entry Path="&quot;Choose the crafter that crafted this story&quot;">Pilih pencerita yang menyusun cerita ini</Entry>
   <Entry Path="&quot;Is this a story from the Bible?&quot;">Apakah ini cerita dari Alkitab?</Entry>
   <Entry Path="&quot;: Re:&quot;">: Ttg: </Entry>
@@ -473,7 +473,7 @@
   <Entry Path="OneStoryProjectEditor.StoryEditor.toolStripButtonFirst.Text">Cerita pertama</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.toolStripButtonFirst.ToolTipText">Klik untuk pergi ke cerita pertama (klik sementara menahan tombol Ctrl kalau mau supaya kotak-kotak yang sama nampak)</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.toolStripButtonPrevious.Text">Cerita sebelumnya</Entry>
-  <Entry Path="OneStoryProjectEditor.StoryEditor.toolStripButtonPrevious.ToolTipText">Klik untuk pergi ke kisah sebelumnya (klik sementara menahan tombol Ctrl kalau mau supaya kotak-kotak yang sama nampak)</Entry>
+  <Entry Path="OneStoryProjectEditor.StoryEditor.toolStripButtonPrevious.ToolTipText">Klik untuk pergi ke cerita sebelumnya (klik sementara menahan tombol Ctrl kalau mau supaya kotak-kotak yang sama nampak)</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.toolStripButtonNext.Text">Cerita berikutnya</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.toolStripButtonNext.ToolTipText">Klik untuk pergi ke cerita berikutnya (klik sementara menahan tombol Ctrl kalau mau supaya kotak-kotak yang sama nampak)</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.toolStripButtonLast.Text">Cerita terakhir</Entry>
@@ -892,7 +892,7 @@
   <Entry Path="OneStoryProjectEditor.SetCitTasksForm.buttonCancel.Text">Batal</Entry>
   <Entry Path="OneStoryProjectEditor.SetCitTasksForm.buttonOK.Text">&amp;Oke</Entry>
   <Entry Path="&quot;Hide&quot;">Sembunyikan</Entry>
-  <Entry Path="&quot;ln: &quot;">br:</Entry>
+  <Entry Path="&quot;ln: &quot;">br: </Entry>
   <Entry Path="&quot;Unhide&quot;">Perlihatkan</Entry>
   <Entry Path="&quot;Reopen conversation&quot;">Buka percakapan kembali</Entry>
   <Entry Path="&quot;End conversation&quot;">Akhiri percakapan</Entry>
@@ -948,7 +948,7 @@
   <Entry Path="&quot;&amp;Hide line&quot;">&amp;Sembunyikan baris ini</Entry>
   <Entry Path="&quot;&amp;Unhide line&quot;">Tampilkan baris ter&amp;sembunyi</Entry>
   <Entry Path="&quot;cn:&quot;">cp:</Entry>
-  <Entry Path="&quot; was visible, but now is hidden&quot;">dulu tersembunyi, tapi sekarang nampak</Entry>
+  <Entry Path="&quot; was visible, but now is hidden&quot;">dulu nampak, tapi sekarang tersembunyi</Entry>
   <Entry Path="&quot;&amp;OK&quot;">&amp;Oke</Entry>
   <Entry Path="&quot;&amp;Cancel&quot;">&amp;Batal</Entry>
   <Entry Path="&quot;&amp;Yes&quot;">&amp;Ya</Entry>
@@ -1336,4 +1336,10 @@
   <Entry Path="&quot;Import from Saymore will import both the Saymore 'Transcription' data (usually into the OSE 'Story Language' fields) and the Saymore 'Translation' data (into one of the OSE 'back-translation' fields), but you don't have a 'back-translation' field enabled. To enable one, click 'Project', 'Settings' and check another box in the 'Story' column of the 'Languages' tab.&quot;">'Masukkan data dari SayMore' akan masukkan baik data Transkripsi (abjad baru) (biasanya dimasukkan ke dalam kotak 'Bahasa Cerita' di OSE) maupun data Terjemehan dari SayMore (biasanya dimasukkan ke dalam salah satu kotak 'terjemahan balik' di OSE), tetapi di proyek ini belum ada sebuah kotak 'terjemahan balik' yang diaktifkan. Untuk mengaktifkannya, klik 'Proyek', 'Pengaturan', klik 'Berikut' sampai ketemu tab 'Bahasa-bahasa', kemudian masukkan tanda centang ke dalam setidaknya satu kotak terjemahan balik.</Entry>
   <Entry Path="&quot;Sticky:&quot;">Catatan Permanen:</Entry>
   <Entry Path="&quot;None of the currently visible languages are configured for {0}! See the 'Languages' tab in the 'Project', 'Settings' dialog OR make other language(s) visible in the 'View' menu&quot;">Tidak ada bahasa-bahasa yang sementara nampak yang dikonfigurasi untuk {0}! Pergi ke 'Proyek', 'Pengaturan', tab 'Bahasa-bahasa' untuk mengkonfigurasikannya, ATAU nampakkan bahasa lain melalui menu 'Lihat'.</Entry>
+  <Entry Path="&quot;You already have a story by that name. Please choose another name&quot;">Sudah ada cerita dengan judul itu. Silakan memilih judul lain.</Entry>
+  <Entry Path="&quot;Warning: the source and target project have differences which can affect how the story is copied. For example, if the source project was configured with a 'National language back-translation', but this project isn't, then the 'National BT' text won't be visible until/unless you configure a 'National BT' field in the 'Project', 'Settings' dialog, 'Languages' tab. Or if one of the languages (e.g. 'Story language') is different between this project and the source project, that can cause display issues -- e.g. a different font might be used in this project for which the source project text won't display correctly...&quot;">PERINGATAN: Ada perbedaan antara proyek sumber dan proyek sasaran yang bisa mempengaruhi proses penyalinan cerita. Misalnya, kalau proyek sumber diatur dengan "Terjemahan balik Bahasa Indonesia", tetapi proyek sasaran tidak, maka teks TB Bahasa Indonesia itu tidak akan nampak sampai Anda menambah 'TB Bahasa Indonesia' di menu 'Proyek-Pengaturan', di jendela 'Bahasa-bahasa'. Atau kalau salah satu bahasa (mis. 'bahasa cerita') berbeda antara proyek sumber dan proyek sasaran, itu bisa menyebabkan masalah dengan cara cerita dinampakkan di layar, misalnya kalau jenis huruf (font) yang berbeda dipakai di proyek sasaran, mungkin teks proyek sumber tidak akan nampak dengan baik...</Entry>
+  <Entry Path="OneStoryProjectEditor.StoryEditor.storyCopyToAnotherProjectMenu.Text">&amp;Salin (copy) ke proyek lain</Entry>
+  <Entry Path="OneStoryProjectEditor.StoryEditor.storyCopyFromAnotherProjectMenu.Text">Salin (copy) &amp;dari proyek lain</Entry>
+  <Entry Path="&quot;Answer test {0} of story {1}&quot;">Pengujian tanya-jawab yang ke{0} dari cerita {1}</Entry>
+  <Entry Path="OneStoryProjectEditor.SayMoreImportForm.radioButtonAsAnswers.Text">&amp;Jawaban Pertanyaan Pengujian Cerita</Entry>
 </Language>
