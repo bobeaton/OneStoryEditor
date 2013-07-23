@@ -247,7 +247,7 @@
   <Entry Path="&quot;Click 'Yes' to override the '{0}' {1} for yourself ('{2}') only. Click 'No' to make this change apply to every member of the team (if you all are switching to a new {1})&quot;">Klik 'Ya' untuk mengubah'{0}' {1} untuk diri sendiri ('{2}') saja. Klik 'Tidak' untuk membuat perubahan ini berlaku untuk setiap anggota tim (jika semua anggota beralih ke {1} baru)</Entry>
   <Entry Path="&quot;You have to configure the {0} first&quot;">Anda harus mengkonfigurasi {0} dulu</Entry>
   <Entry Path="&quot;Choose the member that will do English BTs&quot;">Pilihlah anggota yang akan melakukan Terjemahan balik bahasa Inggris</Entry>
-  <Entry Path="&quot;Choose the member that is the independent consultant&quot;">Pilihlah anggota yang adalah konsultan yang berdiri sendiri</Entry>
+  <Entry Path="&quot;Choose the member that is the independent consultant&quot;">Pilihlah anggota yang adalah konsultan yang mandiri</Entry>
   <Entry Path="&quot;font&quot;">jenis huruf (font)</Entry>
   <Entry Path="&quot;Since you just added this font, you have to restart the program for it to work&quot;">Karena Anda baru menambahkan jenis huruf (font) ini, Anda harus menutup program dan membuka kembali, supaya jenis huruf tersebut berfungsi.</Entry>
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.NewProjectWizard.Text">Wizard Proyek Baru</Entry>
@@ -311,7 +311,7 @@
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.labelKeyboardFreeTranslation.Text">Keyboard:</Entry>
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.tabPageMemberRoles.Text">Anggota tim</Entry>
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.radioButtonManageWithCoaching.Text">&amp;Calon Konsultan dengan Pembina</Entry>
-  <Entry Path="OneStoryProjectEditor.NewProjectWizard.radioButtonIndependentConsultant.Text">&amp;Konsultan yang berdiri sendiri</Entry>
+  <Entry Path="OneStoryProjectEditor.NewProjectWizard.radioButtonIndependentConsultant.Text">&amp;Konsultan yang mandiri</Entry>
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.checkBoxOutsideEnglishBackTranslator.Text">Penerjemah balik bahasa Inggris dari &amp;luar</Entry>
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.checkBoxProjectFacilitator.Text">Fasilitator Proyek </Entry>
   <Entry Path="OneStoryProjectEditor.NewProjectWizard.tabPageAIBT.Text">AdaptIt</Entry>
@@ -686,7 +686,7 @@
   <Entry Path="OneStoryProjectEditor.EditMemberForm.checkBoxCrafter.Text">&amp;Pencerita </Entry>
   <Entry Path="OneStoryProjectEditor.EditMemberForm.checkBoxProjectFacilitator.Text">&amp;Fasilitator Proyek</Entry>
   <Entry Path="OneStoryProjectEditor.EditMemberForm.buttonSetDefaultTasks.Text">&amp;Tentukan tugas-tugas normal</Entry>
-  <Entry Path="OneStoryProjectEditor.EditMemberForm.radioButtonIndependentConsultant.Text">&amp;Konsultan yang berdiri sendiri</Entry>
+  <Entry Path="OneStoryProjectEditor.EditMemberForm.radioButtonIndependentConsultant.Text">&amp;Konsultan yang mandiri</Entry>
   <Entry Path="OneStoryProjectEditor.EditMemberForm.radioButtonEnglishBackTranslator.Text">Penerjemah balik bahasa Inggris dari &amp;luar</Entry>
   <Entry Path="OneStoryProjectEditor.EditMemberForm.radioButtonJustViewing.Text">&amp;Lihat-lihat saja</Entry>
   <Entry Path="OneStoryProjectEditor.EditMemberForm.radioButtonCoach.Text">&amp;Pembina</Entry>
@@ -718,7 +718,7 @@
   <Entry Path="&quot;This line isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around to know what it used to be.{0}{0}Click 'Yes' to hide the line or click 'No' to delete it?&quot;">Baris ini tidak kosong! Daripada menghapusnya, mungkin lebih baik menyembunyikannya saja supaya tetap ada sebagai arsip. {0}{0}Klik 'Ya' untuk menyembunyikan baris ini atau klik 'Tidak' untuk menghapusnya.</Entry>
   <Entry Path="&quot;Are you sure you want to delete this line (and all associated consultant notes, etc)?&quot;">Apakah Anda yakin Anda ingin menghapus baris ini (dan semua catatan konsultan dsb. yang berhubungan dengannya?</Entry>
   <Entry Path="&quot;You already have this L &amp; C note for the word '{0}'! See 'View', 'L &amp; C Notes'&quot;">Sudah ada catatan B&amp;B ini untuk kata '{0}'! Klik 'Lihat', 'Catatan B&amp;B'</Entry>
-  <Entry Path="OneStoryProjectEditor.NewProjectWizard.textBoxTeamMembersInstructionBox.Text">Masing-masing proyek memiliki sekurang-kurangnya satu Fasilitator Proyek yang bertanggung-jawab untuk mengetik cerita-cerita dan/atau terjemahan balik cerita. Orang ini bukan orang yang bekerja sebagai Pencerita. Kalau perlu TB bahasa Inggris tetapi orang awam atau Fasilitator Proyek tidak mampu membuatnya, dan kalau ada orang luar yang siap membuatnya, maka Anda boleh masukkan tanda centang di kotak kecil di samping 'Penerjemah balik bahasa Inggris dari luar". JANGAN masukkan tanda centang di kotak ini kalau TB bahasa Inggris dibuat oleh Fasilitator Proyek atau oleh orang lain yang memakai komputer Fasilitator Proyek. Ingatlah bahwa Terjemahan Balik yang pertama (atau Terjemahan Bebas, kalau Anda memakai itu) biasanya dibuat oleh orang awam. Akhirnya menunjukkan di tab ini apakah proyek ini diperiksa oleh "Calon Konsultan dengan Pembina" atau "Konsultan yang berdiri sendiri". Peranan-peranan kerja ini akan menentukan tahap-tahap dalam proses pemeriksaan oleh konsultan.</Entry>
+  <Entry Path="OneStoryProjectEditor.NewProjectWizard.textBoxTeamMembersInstructionBox.Text">Masing-masing proyek memiliki sekurang-kurangnya satu Fasilitator Proyek yang bertanggung-jawab untuk mengetik cerita-cerita dan/atau terjemahan balik cerita. Orang ini bukan orang yang bekerja sebagai Pencerita. Kalau perlu TB bahasa Inggris tetapi orang awam atau Fasilitator Proyek tidak mampu membuatnya, dan kalau ada orang luar yang siap membuatnya, maka Anda boleh masukkan tanda centang di kotak kecil di samping 'Penerjemah balik bahasa Inggris dari luar". JANGAN masukkan tanda centang di kotak ini kalau TB bahasa Inggris dibuat oleh Fasilitator Proyek atau oleh orang lain yang memakai komputer Fasilitator Proyek. Ingatlah bahwa Terjemahan Balik yang pertama (atau Terjemahan Bebas, kalau Anda memakai itu) biasanya dibuat oleh orang awam. Akhirnya menunjukkan di tab ini apakah proyek ini diperiksa oleh "Calon Konsultan dengan Pembina" atau "Konsultan yang mandiri". Peranan-peranan kerja ini akan menentukan tahap-tahap dalam proses pemeriksaan oleh konsultan.</Entry>
   <Entry Path="&quot;English Back Translator&quot;">Penerjemah Balik bahasa Inggris</Entry>
   <Entry Path="&quot;Language Specialty Reviewer&quot;">Pemeriksa Bahasa khusus</Entry>
   <Entry Path="&quot;Consultant in Training&quot;">Calon Konsultan</Entry>
@@ -779,7 +779,7 @@
   <Entry Path="OneStoryProjectEditor.TeamMemberForm.buttonOK.ToolTip">Klik untuk masuk proyek sebagai anggota yang terpilih</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.viewStateTransitionHistoryMenu.ToolTipText">Klik di sini untuk informasi ttg cerita ini terhubung dgn tahap-tahap sebelumnya, dan gilirannya siapa</Entry>
   <Entry Path="&quot;&amp;Add note on selected text&quot;">Tambah &amp;catatan ttg teks yang terpilih</Entry>
-  <Entry Path="&quot;Add no&amp;te to self on selected text&quot;">Tambah catatan utk &amp;diri sendiri ttg teks yang terpilih</Entry>
+  <Entry Path="&quot;Add no&amp;te to self on selected text&quot;">Tambah catatan &amp;pribadi ttg teks yang terpilih</Entry>
   <Entry Path="&quot;&amp;Jump to Bible reference&quot;">&amp;Pergi ke acuan Alkitab</Entry>
   <Entry Path="&quot;Concordance &amp;search&quot;">&amp;Konkordansi</Entry>
   <Entry Path="&quot;Add &amp;L &amp;&amp; C note&quot;">Tambah catatan &amp;B&amp;&amp;B</Entry>
@@ -806,8 +806,8 @@
   <Entry Path="&quot;Retelling tester {0}&quot;">Pencerita Ulang (orang awam) {0}</Entry>
   <Entry Path="&quot;Story question tester {0}&quot;">Orang Awam {0} yang menjawab pertanyaan</Entry>
   <Entry Path="&quot;Edit Project Settings&quot;">Edit Pengaturan Proyek</Entry>
-  <Entry Path="&quot;Add Note&quot;">Tambah Catatan</Entry>
-  <Entry Path="&quot;Add Note to Self&quot;">Tambah Catatan utk diri sendiri</Entry>
+  <Entry Path="&quot;Add Note&quot;">Catatan</Entry>
+  <Entry Path="&quot;Add Note to Self&quot;">Catatan Pribadi</Entry>
   <Entry Path="OneStoryProjectEditor.VerseBtControl.addExegeticalCulturalNoteBelowToolStripMenuItem.Text">Tambah &amp;Catatan ttg Penafsiran/Budaya di bawah</Entry>
   <Entry Path="&quot;General Testing Qs: &quot;">Pertanyaan Pengujian Umum:</Entry>
   <Entry Path="&quot;Hide Closed&quot;">Sembunyikan yg sdh diakhiri</Entry>
@@ -892,7 +892,7 @@
   <Entry Path="OneStoryProjectEditor.SetCitTasksForm.buttonCancel.Text">Batal</Entry>
   <Entry Path="OneStoryProjectEditor.SetCitTasksForm.buttonOK.Text">&amp;Oke</Entry>
   <Entry Path="&quot;Hide&quot;">Sembunyikan</Entry>
-  <Entry Path="&quot;ln: &quot;">br: </Entry>
+  <Entry Path="&quot;ln: &quot;">br:</Entry>
   <Entry Path="&quot;Unhide&quot;">Perlihatkan</Entry>
   <Entry Path="&quot;Reopen conversation&quot;">Buka percakapan kembali</Entry>
   <Entry Path="&quot;End conversation&quot;">Akhiri percakapan</Entry>
@@ -1111,7 +1111,7 @@
   <Entry Path="&quot;Select the recording for the &quot;">Pilihlah rekaman untuk </Entry>
   <Entry Path="&quot;The project file mentioned below was changed outside of {2} and must be reloaded.{0}{0}'{1}'{0}{0}You will not be able to save any further changes until you reopen the project. Click 'Yes' to reopen the project now.&quot;">File proyek yang namanya tertulis di bawah sudah dirubah di luar {2} dan harus dibuka kembali.{0}{0}'{1}'{0}{0}Anda tidak dapat menyimpan perubahan-perubahan lagi, sebelum Anda membuka proyek kembali. Klik 'Ya' untuk membuka proyek kembali sekarang.</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.advancedUseWordBreaks.Text">Membagi kata secara otomatis, ketika membuat terjemahan balik</Entry>
-  <Entry Path="&quot;Next you should click 'Project', 'Login' and Edit the member records for the two roles that are changing to change their role within the project (e.g. Change the Coach's record to make him/her the Independent Consultant) and then click 'Story', 'Story Information' and use the 'Change' link next to the team member roles that are changing (e.g. to change the member who is the Consultant assigned to the story). This needs to be done for every story&quot;">Langkah berikut adalah: klik 'Proyek', 'Masuk sebagai' kemudian edit keterangan untuk kedua anggota yang peranan pekerjaannya akan diubah di dalam proyek (pilihlah anggota tim dan klik 'Edit Anggota'. Misalnya kalau Anda mau mengubah 'Pembina' menjadi 'Konsultan yang berdiri sendiri'). Kemudian klik 'Cerita', 'Informasi ttg Cerita' lalu klik 'Ganti' di samping setiap peranan pekerjaan untuk cerita itu (misalnya Anda mau mengubah siapa adalah Konsultan untuk cerita ini). Ini harus dibuat untuk setiap cerita.</Entry>
+  <Entry Path="&quot;Next you should click 'Project', 'Login' and Edit the member records for the two roles that are changing to change their role within the project (e.g. Change the Coach's record to make him/her the Independent Consultant) and then click 'Story', 'Story Information' and use the 'Change' link next to the team member roles that are changing (e.g. to change the member who is the Consultant assigned to the story). This needs to be done for every story&quot;">Langkah berikut adalah: klik 'Proyek', 'Masuk sebagai' kemudian edit keterangan untuk kedua anggota yang peranan pekerjaannya akan diubah di dalam proyek (pilihlah anggota tim dan klik 'Edit Anggota'. Misalnya kalau Anda mau mengubah 'Pembina' menjadi 'Konsultan yang mandiri'). Kemudian klik 'Cerita', 'Informasi ttg Cerita' lalu klik 'Ganti' di samping setiap peranan pekerjaan untuk cerita itu (misalnya Anda mau mengubah siapa adalah Konsultan untuk cerita ini). Ini harus dibuat untuk setiap cerita.</Entry>
   <Entry Path="&quot;Next you should click 'Project', 'Login' and Edit the member records for the two roles that are changing to change their role within the project (e.g. Change the Consultant's record to make him/her a Coach) and then click 'Story', 'Story Information' and use the 'Change' link next to the team member roles that are changing (e.g. to change the member who is the Consultant assigned to the story). This needs to be done for every story&quot;">Langkah berikut adalah: klik 'Proyek', 'Masuk sebagai' kemudian edit keterangan untuk kedua anggota yang peranan pekerjaannya akan diubah di dalam proyek (pilihlah anggota tim dan klik 'Edit Anggota'. Misalnya kalau Anda mau mengubah 'Konsultan' menjadi 'Pembina'). Kemudian klik 'Cerita', 'Informasi ttg Cerita' lalu klik 'Ganti' di samping setiap peranan pekerjaan untuk cerita itu (misalnya Anda mau mengubah siapa adalah Konsultan untuk cerita ini). Ini harus dibuat untuk setiap cerita.</Entry>
   <Entry Path="&quot;Configure the member roles in the 'Story', 'Story Information' dialog first and then click this menu.&quot;">Konfigurasi peranan pekerjaan lebih dulu melalui klik 'Cerita', 'Informasi ttg Cerita', kemudian klik menu ini.</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.advancedTransferConNotes.Text">&amp;Pindahkan Catatan Konsultan yang terbuka</Entry>
@@ -1315,7 +1315,7 @@
   <Entry Path="&quot;ConsultantNote&quot;">CatKonsultan</Entry>
   <Entry Path="&quot;CoachNote&quot;">CatPembina</Entry>
   <Entry Path="&quot;Re: ConNote:&quot;">Ttg: Catatan Kons:</Entry>
-  <Entry Path="&quot;Add Sticky Note&quot;">Tambah Catatan Permanen</Entry>
+  <Entry Path="&quot;Add Sticky Note&quot;">Catatan Permanen</Entry>
   <Entry Path="&quot;You can't edit this field right now... either the consultant hasn't given you permission to edit the '{0}' language fields or perhaps there is a transliterator turned on&quot;">Anda belum bisa mengedit kotak ini... Mungkin kosultan belum mengizinkan Anda untuk mengedit kotak-kotak teks dalam '{0}', atau mungkin transliterator (pengubah abjad) sedang aktif</Entry>
   <Entry Path="OneStoryProjectEditor.SayMoreImportForm.groupBox1.Text">Masukkan data dari SayMore ke ...</Entry>
   <Entry Path="&quot;You can't import both the transcription and translation from SayMore into the {0} field&quot;">Anda tidak bisa masukkan baik Transkripsi (pengubahan abjad) maupunTerjemahan dari SayMore ke kotak {0}</Entry>
