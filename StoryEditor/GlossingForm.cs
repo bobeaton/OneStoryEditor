@@ -133,20 +133,29 @@ namespace OneStoryProjectEditor
             }
 
             System.Diagnostics.Debug.Assert(flowLayoutPanel.Controls.Count > 0);
-            var gc = (GlossingControl) flowLayoutPanel.Controls[0];
-            string strTargetSentence = gc.InBetweenBeforeTarget + 
-                gc.TargetWord + gc.InBetweenAfterTarget;
 
-            for (int i = 1; i < flowLayoutPanel.Controls.Count; i++)
-            {
-                gc = (GlossingControl)flowLayoutPanel.Controls[i];
-                strTargetSentence += " " + gc.InBetweenBeforeTarget + 
-                    gc.TargetWord + gc.InBetweenAfterTarget;
-            }
+            TargetSentence = GetFullSentence(gc => gc.TargetWord);
+            SourceSentence = GetFullSentence(gc => gc.SourceWord);
 
-            TargetSentence = strTargetSentence;
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private delegate string GetWordValue(GlossingControl gc);
+
+        private string GetFullSentence(GetWordValue pValue)
+        {
+            var gc = (GlossingControl) flowLayoutPanel.Controls[0];
+            var strTargetSentence = gc.InBetweenBeforeTarget +
+                                       pValue(gc) + gc.InBetweenAfterTarget;
+
+            for (var i = 1; i < flowLayoutPanel.Controls.Count; i++)
+            {
+                gc = (GlossingControl) flowLayoutPanel.Controls[i];
+                strTargetSentence += " " + gc.InBetweenBeforeTarget +
+                                     pValue(gc) + gc.InBetweenAfterTarget;
+            }
+            return strTargetSentence;
         }
 
         public void MergeWithNext(GlossingControl control)
@@ -269,7 +278,8 @@ namespace OneStoryProjectEditor
 
         public void Update(GlossingControl theGc, string strNewSourceWord)
         {
-            SourceSentence = SourceSentence.Replace(theGc.SourceWord, strNewSourceWord);
+            // UPDATE: this was causing 'man' => to 'mant' also change 'woman' to 'womant'... So just do this during 'onOk'
+            // SourceSentence = SourceSentence.Replace(theGc.SourceWord, strNewSourceWord);
             theGc.SourceWord = strNewSourceWord;
             string strNewTarget = SafeConvert(theGc.SourceWord);
             theGc.TargetWord = strNewTarget;
