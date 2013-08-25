@@ -26,4 +26,4 @@ Imports System.Reflection
 
 <Assembly: AssemblyVersion("3.1.0.0")> 
 
-<Assembly: AssemblyFileVersionAttribute("3.1.0.0")> 
+<Assembly: AssemblyFileVersionAttribute("3.1.0.1")> 

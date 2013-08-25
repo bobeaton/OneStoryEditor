@@ -70,7 +70,7 @@ Namespace AutoUpgrade
 
                     ' Pause for a couple of seconds to give the original app time
                     ' to shut down
-                    Threading.Thread.Sleep(2000)
+                    Threading.Thread.Sleep(8000)
 
                     ' Start the upgrade.  Status messages are processed in the OnProgress event
                     ' AddHandler upgAuto.UpgradeProgress, AddressOf frmStatus.OnProgress
