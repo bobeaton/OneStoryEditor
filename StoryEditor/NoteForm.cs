@@ -20,6 +20,7 @@ namespace OneStoryProjectEditor
             _projSettings = projSettings;
 
             _chorusSystem = new ChorusSystem(projSettings.ProjectFolder);
+            _chorusSystem.Init(strUsername);
 
             // create an object to tie notes to particular things. In our case, it's
             //  just tied to the projectname
