@@ -248,6 +248,10 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.ProjectNameToAiHgNetworkUrl = new StringCollection();
             _mapProjectNameToAiHgNetworkUrl = ArrayToDictionary(Properties.Settings.Default.ProjectNameToAiHgNetworkUrl);
 
+            if (Properties.Settings.Default.ProjectNameToLastStoryWorkedOn == null)
+                Properties.Settings.Default.ProjectNameToLastStoryWorkedOn = new StringCollection();
+            MapProjectNameToLastStoryWorkedOn = ArrayToDictionary(Properties.Settings.Default.ProjectNameToLastStoryWorkedOn);
+
             MapServerToUrlHost = ArrayToDictionary(Properties.Settings.Default.AdaptItDefaultServerLabels);
             MapSwordModuleToFont = ArrayToDictionary(Properties.Settings.Default.SwordModuleToFont);
             MapSwordModuleToEncryption = ArrayToDictionary(Properties.Settings.Default.SwordModuleToUnlockKey);
@@ -311,6 +315,7 @@ namespace OneStoryProjectEditor
         static Dictionary<string, string> _mapProjectNameToHgNetworkUrl;
         static Dictionary<string, string> _mapProjectNameToAiHgHttpUrl;
         static Dictionary<string, string> _mapProjectNameToAiHgNetworkUrl;
+        public static Dictionary<string, string> MapProjectNameToLastStoryWorkedOn;
         public static Dictionary<string, string> MapServerToUrlHost;
         public static Dictionary<string, string> MapSwordModuleToFont;
         public static Dictionary<string, string> MapSwordModuleToEncryption;

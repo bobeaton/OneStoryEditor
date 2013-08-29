@@ -938,18 +938,21 @@ namespace OneStoryProjectEditor
                 // get the data into another structure that we use internally (more flexible)
                 StoryProject = GetOldStoryProjectData(projFile, projSettings);
 
-                string strStoryToLoad = null;
                 if (TheCurrentStoriesSet.Count > 0)
-                {
                     LoadComboBox();
-                    strStoryToLoad = TheCurrentStoriesSet[0].Name;    // default
-                }
 
                 Debug.Assert(LoggedOnMember != null);
 
                 // check for project settings that might have been saved from a previous session
-                if (!String.IsNullOrEmpty(Settings.Default.LastStoryWorkedOn) && comboBoxStorySelector.Items.Contains(Settings.Default.LastStoryWorkedOn))
-                    strStoryToLoad = Settings.Default.LastStoryWorkedOn;
+                string strStoryToLoad;
+                if (!Program.MapProjectNameToLastStoryWorkedOn.TryGetValue(projSettings.ProjectName, out strStoryToLoad))
+                {
+                    if (!String.IsNullOrEmpty(Settings.Default.LastStoryWorkedOn))
+                        strStoryToLoad = Settings.Default.LastStoryWorkedOn;
+                }
+
+                if (String.IsNullOrEmpty(strStoryToLoad) || !comboBoxStorySelector.Items.Contains(strStoryToLoad))
+                    strStoryToLoad = TheCurrentStoriesSet[0].Name;    // default
 
                 UpdateUiMenusAfterProjectOpen(); 
 
@@ -1299,6 +1302,13 @@ namespace OneStoryProjectEditor
             Debug.Assert(TheCurrentStory != null);
             if (IsInStoriesSet)
             {
+                Debug.Assert(StoryProject != null, "StoryProject != null");
+                if (!String.IsNullOrEmpty(StoryProject.ProjSettings.ProjectName))
+                {
+                    Program.MapProjectNameToLastStoryWorkedOn[StoryProject.ProjSettings.ProjectName] = TheCurrentStory.Name;
+                    Settings.Default.ProjectNameToLastStoryWorkedOn = Program.DictionaryToArray(Program.MapProjectNameToLastStoryWorkedOn);
+                }
+
                 Settings.Default.LastStoryWorkedOn = TheCurrentStory.Name;
                 Settings.Default.Save();
 
