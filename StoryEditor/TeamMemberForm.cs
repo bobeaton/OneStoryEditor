@@ -49,8 +49,14 @@ namespace OneStoryProjectEditor
             foreach (TeamMemberData aMember in _dataTeamMembers.Values)
                 listBoxTeamMembers.Items.Add(GetListBoxItem(aMember));
 
-            if ((listBoxTeamMembers.Items.Count > 0) && !String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
-                listBoxTeamMembers.SelectedItem = Properties.Settings.Default.LastMemberLogin;
+            if (listBoxTeamMembers.Items.Count > 0)
+            {
+                string strLastMemberLogin;
+                if (Program.MapProjectNameToLastMemberLogin.TryGetValue(theProjSettings.ProjectName, out strLastMemberLogin))
+                    listBoxTeamMembers.SelectedItem = strLastMemberLogin;
+                else if (!String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
+                    listBoxTeamMembers.SelectedItem = Properties.Settings.Default.LastMemberLogin;
+            }
 
             if (!bUseLoginLabel)
             {
@@ -156,6 +162,10 @@ namespace OneStoryProjectEditor
             // when the button label is "OK", it means we're adding a UNS
             if (buttonOK.Text == CstrDefaultOKLabel)
             {
+                Program.MapProjectNameToLastMemberLogin[_theProjSettings.ProjectName] = SelectedMemberName;
+                Properties.Settings.Default.ProjectNameToLastMemberLogin = Program.DictionaryToArray(Program.MapProjectNameToLastMemberLogin);
+                Program.MapProjectNameToLastUserType[_theProjSettings.ProjectName] = eAllowedLoginRoleFilter.ToString();
+                Properties.Settings.Default.ProjectNameToLastUserType = Program.DictionaryToArray(Program.MapProjectNameToLastUserType);
                 Properties.Settings.Default.LastMemberLogin = SelectedMemberName;
                 Properties.Settings.Default.LastUserType = eAllowedLoginRoleFilter.ToString();
                 Properties.Settings.Default.Save();

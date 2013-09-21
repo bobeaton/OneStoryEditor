@@ -985,5 +985,27 @@ namespace OneStoryProjectEditor.Properties {
                 this["ProjectNameToLastStoryWorkedOn"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection ProjectNameToLastMemberLogin {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["ProjectNameToLastMemberLogin"]));
+            }
+            set {
+                this["ProjectNameToLastMemberLogin"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection ProjectNameToLastUserType {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["ProjectNameToLastUserType"]));
+            }
+            set {
+                this["ProjectNameToLastUserType"] = value;
+            }
+        }
     }
 }

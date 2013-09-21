@@ -1999,8 +1999,15 @@ namespace OneStoryProjectEditor
             //  (basically Crafters or others that are also the same role as last time)
             string strMemberName = null;
             TeamMemberData loggedOnMember = null;
-            TeamMemberData.UserTypes eRole = TeamMemberData.UserTypes.Undefined;
-            if (!String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
+            var eRole = TeamMemberData.UserTypes.Undefined;
+            if (Program.MapProjectNameToLastMemberLogin.ContainsKey(ProjSettings.ProjectName))
+            {
+                strMemberName = Program.MapProjectNameToLastMemberLogin[ProjSettings.ProjectName];
+                eRole = TeamMemberData.GetMemberType(Program.MapProjectNameToLastUserType[ProjSettings.ProjectName]);
+                if (CanLoginMember(strMemberName, eRole))
+                    loggedOnMember = TeamMembers[strMemberName];
+            }
+            else if (!String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
             {
                 strMemberName = Properties.Settings.Default.LastMemberLogin;
                 eRole = TeamMemberData.GetMemberType(Properties.Settings.Default.LastUserType);

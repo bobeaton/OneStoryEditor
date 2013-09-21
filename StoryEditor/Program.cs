@@ -252,6 +252,14 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.ProjectNameToLastStoryWorkedOn = new StringCollection();
             MapProjectNameToLastStoryWorkedOn = ArrayToDictionary(Properties.Settings.Default.ProjectNameToLastStoryWorkedOn);
 
+            if (Properties.Settings.Default.ProjectNameToLastMemberLogin == null)
+                Properties.Settings.Default.ProjectNameToLastMemberLogin = new StringCollection();
+            MapProjectNameToLastMemberLogin = ArrayToDictionary(Properties.Settings.Default.ProjectNameToLastMemberLogin);
+
+            if (Properties.Settings.Default.ProjectNameToLastUserType == null)
+                Properties.Settings.Default.ProjectNameToLastUserType = new StringCollection();
+            MapProjectNameToLastUserType = ArrayToDictionary(Properties.Settings.Default.ProjectNameToLastUserType);
+
             MapServerToUrlHost = ArrayToDictionary(Properties.Settings.Default.AdaptItDefaultServerLabels);
             MapSwordModuleToFont = ArrayToDictionary(Properties.Settings.Default.SwordModuleToFont);
             MapSwordModuleToEncryption = ArrayToDictionary(Properties.Settings.Default.SwordModuleToUnlockKey);
@@ -315,7 +323,11 @@ namespace OneStoryProjectEditor
         static Dictionary<string, string> _mapProjectNameToHgNetworkUrl;
         static Dictionary<string, string> _mapProjectNameToAiHgHttpUrl;
         static Dictionary<string, string> _mapProjectNameToAiHgNetworkUrl;
+
         public static Dictionary<string, string> MapProjectNameToLastStoryWorkedOn;
+        public static Dictionary<string, string> MapProjectNameToLastMemberLogin;
+        public static Dictionary<string, string> MapProjectNameToLastUserType;
+
         public static Dictionary<string, string> MapServerToUrlHost;
         public static Dictionary<string, string> MapSwordModuleToFont;
         public static Dictionary<string, string> MapSwordModuleToEncryption;
