@@ -232,11 +232,10 @@ $(document).ready(function () {
         window.external.OnMouseMove();
     }).keyup(function (event) {
         // if we had something selected and the user presses delete or backspace, 
-        var bDeleteOrBackspace = ((event.keyCode == 8) || (event.keyCode == 46));
-        if (bDeleteOrBackspace) {
-            // then we have to clear out the selection (so it doesn't reoccur if we trigger blur)
-            $(this).removeAttr("selectedText");
-        }
+        // UPDATE (10/5/13): if the user types *anything* after selecting, we need to remove the selection...
+        // then we have to clear out the selection (so it doesn't reoccur if we trigger blur)
+        $(this).removeAttr("selectedText");
+
         // then there are certain keys we don't want to trigger this for
         if (ctrl_down && ((event.keyCode == ctrl_key) ||   // ignore this one... (it's the control key)
                           (event.keyCode == c_key) ||   // copy
