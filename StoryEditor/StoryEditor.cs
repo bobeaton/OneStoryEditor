@@ -951,7 +951,7 @@ namespace OneStoryProjectEditor
                         strStoryToLoad = Settings.Default.LastStoryWorkedOn;
                 }
 
-                if (String.IsNullOrEmpty(strStoryToLoad) || !comboBoxStorySelector.Items.Contains(strStoryToLoad))
+                if ((TheCurrentStoriesSet.Count > 0) && (String.IsNullOrEmpty(strStoryToLoad) || !comboBoxStorySelector.Items.Contains(strStoryToLoad)))
                     strStoryToLoad = TheCurrentStoriesSet[0].Name;    // default
 
                 UpdateUiMenusAfterProjectOpen(); 

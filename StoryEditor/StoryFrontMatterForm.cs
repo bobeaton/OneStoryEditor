@@ -265,16 +265,13 @@ namespace OneStoryProjectEditor
             }
             else
             {
-                string strName = textBox.Text;
-                if (String.IsNullOrEmpty(strName))
+                var strName = textBox.Text;
+                if (String.IsNullOrEmpty(strName) ||
+                   (!_theStoryProjectData.TeamMembers.TryGetValue(strName, out theTeamMember)) ||
+                   (_theStoryProjectData.TeamMembers.ShowEditDialog(theTeamMember, _theStoryProjectData.ProjSettings) != DialogResult.Yes))
+                {
                     return;
-
-                theTeamMember = _theStoryProjectData.TeamMembers[strName];
-                if (theTeamMember == null)
-                    return;
-
-                if (_theStoryProjectData.TeamMembers.ShowEditDialog(theTeamMember, _theStoryProjectData.ProjSettings) != DialogResult.Yes)
-                    return;
+                }
             }
 
             textBox.Tag = theTeamMember;
