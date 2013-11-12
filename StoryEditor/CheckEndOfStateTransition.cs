@@ -88,6 +88,7 @@ namespace OneStoryProjectEditor
                 }
             } while (bRepeatAfterMe);
 
+#if TurnOnQueryStoryPurpose
             // if it's a biblical story, we need to know the purpose of the story and the resources used.
             if (theCurrentStory.CraftingInfo.IsBiblicalStory &&
                 (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose)
@@ -96,6 +97,7 @@ namespace OneStoryProjectEditor
                 LocalizableMessageBox.Show(String.Format("In the following window, type in the purpose of the story (why you have it in your panorama) and list the resources you used to craft the story", Environment.NewLine), StoryEditor.OseCaption);
                 theSE.QueryStoryPurpose();
             }
+#endif
 
 #if CheckProposedNextState
             // finally, if the user isn't doing a national bt, then we need to modify the next state

@@ -2708,6 +2708,7 @@ namespace OneStoryProjectEditor
         {
             try
             {
+#if TurnOnQueryStoryPurpose
                 // let's see if the UNS entered the purpose and resources used on this story
                 if (TheCurrentStory != null)
                 {
@@ -2719,7 +2720,7 @@ namespace OneStoryProjectEditor
                         || String.IsNullOrEmpty(TheCurrentStory.CraftingInfo.ResourcesUsed)))
                         QueryStoryPurpose();
                 }
-
+#endif
                 if (File.Exists(strFilename) && (_dateTimeLastSaved == DateTime.MinValue))
                 {
                     LocalizableMessageBox.Show(
