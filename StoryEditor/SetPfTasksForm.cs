@@ -214,6 +214,10 @@ namespace OneStoryProjectEditor
                     System.Diagnostics.Debug.Assert(false);
                 }
             }
+
+            if (taskAllowed != TasksPf.TaskSettings.None)
+                taskAllowed &= ~TasksPf.TaskSettings.None;
+
             return taskAllowed;
         }
 

@@ -876,7 +876,7 @@ namespace OneStoryProjectEditor
         [Flags]
         public enum TaskSettings
         {
-            None = 0,
+            NotSet = 0,
             VernacularLangFields = 1,
             NationalBtLangFields = 2,
             InternationalBtFields = 4,
@@ -886,7 +886,8 @@ namespace OneStoryProjectEditor
             TestQuestions = 64,
             Answers = 128,
             Retellings2 = 256,
-            Answers2 = 512
+            Answers2 = 512,
+            None = 1024
         }
 
         public static StoryEditor.TextFields FilterTextFields(StoryEditor.TextFields fieldsToFilter, TaskSettings pfAllowedTasks)
@@ -916,13 +917,13 @@ namespace OneStoryProjectEditor
                                             TaskSettings pfAllowedTasks,
                                             TaskSettings taskToCheck)
         {
-            if ((pfAllowedTasks & taskToCheck) == TaskSettings.None)
+            if ((pfAllowedTasks & taskToCheck) == TaskSettings.NotSet)
                 fieldsToFilter &= ~fieldToTurnOff;
         }
 
         public static bool IsTaskOn(TaskSettings value, TaskSettings flagToTest)
         {
-            return ((value & flagToTest) != TaskSettings.None);
+            return ((value & flagToTest) != TaskSettings.NotSet);
         }
 
         public static TaskSettings DefaultAllowed
