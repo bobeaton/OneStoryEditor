@@ -11,7 +11,8 @@ namespace OneStoryProjectEditor
         private MentoreeRequirementsCheck _checker;
         private StoryEditor TheSe;
         private StoryData TheStory;
-        
+        private StoryProjectData TheStoryProjectData;
+
         public TaskBarControl()
         {
             InitializeComponent();
@@ -23,6 +24,7 @@ namespace OneStoryProjectEditor
         {
             TheSe = theSe;
             TheStory = theStory;
+            TheStoryProjectData = theStoryProjectData;
 
             // if it's an empty project, then at least have the task for adding a story.
             if (TheStory == null)
@@ -539,6 +541,14 @@ namespace OneStoryProjectEditor
             // if the consultant isn't configured yet (e.g. a new story), but there's 
             //  only one potential consultant, then go ahead and pre-load it... or (s)he
             //  won't get an email from below
+#if !LetConsultantGoUnConfigured
+            // UPDATE: it's not good to allow the consultant go unconfigured. Then we can't send an email and 
+            //  we can't set default tasks for CITs... So... if it isn't configured, then query for who it is
+            TheStory.CheckForMember(TheStoryProjectData,
+                         TeamMemberData.UserTypes.IndependentConsultant |
+                         TeamMemberData.UserTypes.ConsultantInTraining,
+                         ref TheStory.CraftingInfo.Consultant);
+#else
             if (!MemberIdInfo.Configured(TheStory.CraftingInfo.Consultant))
             {
                 string strMentor =
@@ -548,7 +558,12 @@ namespace OneStoryProjectEditor
                 if (!String.IsNullOrEmpty(strMentor))
                     MemberIdInfo.SetCreateIfEmpty(ref TheStory.CraftingInfo.Consultant,
                                                   strMentor, false);
+                else
+                {
+                    // query for it... we can't properly set the default required tasks without it
+                }
             }
+#endif
 
             // if this is a 'manage with coaching' situation, then reset the 
             //  'Set to Coach's turn' requirement. [That requirement will have been so
