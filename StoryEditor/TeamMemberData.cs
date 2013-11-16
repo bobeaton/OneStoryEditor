@@ -804,7 +804,8 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strTheStoryPfId));
 
             // if it's a PF, then it has to be the *right* PF
-            if (IsUser(eMemberTypeWithEditToken, UserTypes.ProjectFacilitator) &&
+            if ((eMemberTypeWithEditToken != UserTypes.AnyEditor) &&
+                IsUser(eMemberTypeWithEditToken, UserTypes.ProjectFacilitator) &&
                 (MemberGuid != strTheStoryPfId))
                 return false;
 
