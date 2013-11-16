@@ -141,6 +141,9 @@ namespace OneStoryProjectEditor
             this.storySynchronizeSharedAdaptItProjectsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
             this.storyImportFromSayMore = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
+            this.storyCopyToAnotherProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.storyCopyFromAnotherProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaShowMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaInsertNewStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -198,9 +201,7 @@ namespace OneStoryProjectEditor
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
-            this.storyCopyToAnotherProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.storyCopyFromAnotherProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeftRight)).BeginInit();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
@@ -1033,7 +1034,6 @@ namespace OneStoryProjectEditor
             // 
             this.storyToolStripMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.storyStoryInformationMenu,
-            this.storyDeleteStoryMenu,
             this.storyCopyWithNewNameMenu,
             this.storySplitIntoLinesMenu,
             this.storyRealignStoryLinesMenu,
@@ -1044,7 +1044,9 @@ namespace OneStoryProjectEditor
             this.storyImportFromSayMore,
             this.toolStripSeparator19,
             this.storyCopyToAnotherProjectMenu,
-            this.storyCopyFromAnotherProjectMenu});
+            this.storyCopyFromAnotherProjectMenu,
+            this.toolStripSeparator18,
+            this.storyDeleteStoryMenu});
             this.storyToolStripMenu.Name = "storyToolStripMenu";
             this.storyToolStripMenu.Size = new System.Drawing.Size(46, 27);
             this.storyToolStripMenu.Text = "&Story";
@@ -1165,6 +1167,25 @@ namespace OneStoryProjectEditor
             this.storyImportFromSayMore.Text = "Import from &SayMore";
             this.storyImportFromSayMore.ToolTipText = "Click to import a transcribed story from a SayMore event";
             this.storyImportFromSayMore.Click += new System.EventHandler(this.StoryImportFromSayMoreClick);
+            // 
+            // toolStripSeparator19
+            // 
+            this.toolStripSeparator19.Name = "toolStripSeparator19";
+            this.toolStripSeparator19.Size = new System.Drawing.Size(242, 6);
+            // 
+            // storyCopyToAnotherProjectMenu
+            // 
+            this.storyCopyToAnotherProjectMenu.Name = "storyCopyToAnotherProjectMenu";
+            this.storyCopyToAnotherProjectMenu.Size = new System.Drawing.Size(245, 22);
+            this.storyCopyToAnotherProjectMenu.Text = "&Copy to another project";
+            this.storyCopyToAnotherProjectMenu.Click += new System.EventHandler(this.StoryCopyToAnotherProjectMenuClick);
+            // 
+            // storyCopyFromAnotherProjectMenu
+            // 
+            this.storyCopyFromAnotherProjectMenu.Name = "storyCopyFromAnotherProjectMenu";
+            this.storyCopyFromAnotherProjectMenu.Size = new System.Drawing.Size(245, 22);
+            this.storyCopyFromAnotherProjectMenu.Text = "Copy &from another project";
+            this.storyCopyFromAnotherProjectMenu.Click += new System.EventHandler(this.StoryCopyFromAnotherProjectMenuClick);
             // 
             // panoramaToolStripMenu
             // 
@@ -1808,24 +1829,10 @@ namespace OneStoryProjectEditor
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
             // 
-            // toolStripSeparator19
+            // toolStripSeparator18
             // 
-            this.toolStripSeparator19.Name = "toolStripSeparator19";
-            this.toolStripSeparator19.Size = new System.Drawing.Size(242, 6);
-            // 
-            // storyCopyToAnotherProjectMenu
-            // 
-            this.storyCopyToAnotherProjectMenu.Name = "storyCopyToAnotherProjectMenu";
-            this.storyCopyToAnotherProjectMenu.Size = new System.Drawing.Size(245, 22);
-            this.storyCopyToAnotherProjectMenu.Text = "&Copy to another project";
-            this.storyCopyToAnotherProjectMenu.Click += new System.EventHandler(this.StoryCopyToAnotherProjectMenuClick);
-            // 
-            // storyCopyFromAnotherProjectMenu
-            // 
-            this.storyCopyFromAnotherProjectMenu.Name = "storyCopyFromAnotherProjectMenu";
-            this.storyCopyFromAnotherProjectMenu.Size = new System.Drawing.Size(245, 22);
-            this.storyCopyFromAnotherProjectMenu.Text = "Copy &from another project";
-            this.storyCopyFromAnotherProjectMenu.Click += new System.EventHandler(this.StoryCopyFromAnotherProjectMenuClick);
+            this.toolStripSeparator18.Name = "toolStripSeparator18";
+            this.toolStripSeparator18.Size = new System.Drawing.Size(242, 6);
             // 
             // StoryEditor
             // 
@@ -2030,6 +2037,7 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator19;
         private ToolStripMenuItem storyCopyToAnotherProjectMenu;
         private ToolStripMenuItem storyCopyFromAnotherProjectMenu;
+        private ToolStripSeparator toolStripSeparator18;
     }
 
 #if UsingHtmlDisplayForConNotes
