@@ -107,7 +107,8 @@ namespace OneStoryProjectEditor
             else
                 buttonMarkPreliminaryApproval.Visible = true;
 
-            buttonSendToCIT.Visible = true;
+            buttonSendToCIT.Visible = 
+                buttonReturnToProjectFacilitator.Visible = true;    // add sending to PF (in case of workshop)
         }
 
         private void SetConsultantInTrainingButtons()
