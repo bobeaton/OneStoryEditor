@@ -3370,6 +3370,12 @@ namespace OneStoryProjectEditor
 
                 Modified = true;
             }
+
+            if (!String.IsNullOrEmpty(dlg.JumpToStory))
+            {
+                comboBoxStorySelector.SelectedItem = 
+                    comboBoxStorySelector.Text = dlg.JumpToStory;
+            }
         }
 
         private void UpdateStoryNameComboBox()

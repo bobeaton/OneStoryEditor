@@ -77,7 +77,8 @@ namespace OneStoryProjectEditor
             return ShowDialog();
         }
 
-        public bool Modified = false;
+        public string JumpToStory;
+        public bool Modified;
 
         protected void InitGrid()
         {
@@ -695,21 +696,28 @@ namespace OneStoryProjectEditor
             Properties.Settings.Default.Save();
         }
 
-        private void dataGridViewPanorama_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        private void DataGridViewPanoramaCellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if ((e.RowIndex < 0) || (e.RowIndex >= dataGridViewPanorama.Rows.Count)
-                || ((e.ColumnIndex < CnColumnStoryEditToken) || e.ColumnIndex > CnColumnNumOfWords))
+                || ((e.ColumnIndex < CnColumnStoryName) || e.ColumnIndex > CnColumnNumOfWords))
                 return;
 
-            DataGridViewRow theRow = dataGridViewPanorama.Rows[e.RowIndex];
-            DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
+            var theRow = dataGridViewPanorama.Rows[e.RowIndex];
+            var theNameCell = theRow.Cells[CnColumnStoryName];
             if (theNameCell.Value == null)
                 return; // shouldn't happen, but...
 
             var strName = theNameCell.Value as String;
-            StoryData theSD = _stories.GetStoryFromName(strName);
+            var theSD = _stories.GetStoryFromName(strName);
             if (theSD == null)
                 return;
+
+            if (e.ColumnIndex == CnColumnStoryName)
+            {
+                JumpToStory = strName;
+                Close();
+                return;
+            }
 
             if (!theSD.TransitionHistory.HasData)
             {
