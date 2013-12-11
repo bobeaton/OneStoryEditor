@@ -736,19 +736,22 @@ namespace OneStoryProjectEditor
             if (Directory.Exists(strSwordProjectPath) && !lst.Contains(strSwordProjectPath))
                 lst.Add(strSwordProjectPath);
 
-#if DEBUGBOB
-            string strWorkingFolder = @"C:\src\StoryEditor\StoryEditor";
-#else
-            string strWorkingFolder = StoryProjectData.GetRunningFolder;
-#endif
 
             // finally, we put at least the NetBible below our working dir.
-            strSwordProjectPath = Path.Combine(strWorkingFolder, "SWORD");
+            strSwordProjectPath = GetSwordProjectPath;
             System.Diagnostics.Debug.Assert(Directory.Exists(strSwordProjectPath));
             if (!lst.Contains(strSwordProjectPath))
                 lst.Add(strSwordProjectPath);
 
             return lst;
+        }
+
+        public static string GetSwordProjectPath
+        {
+            get
+            {
+                return Path.Combine(StoryProjectData.GetRunningFolder, "SWORD");
+            }
         }
 
         #endregion  // "Defines for Sword capability"
