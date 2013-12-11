@@ -754,8 +754,9 @@ namespace OneStoryProjectEditor
             var bShowLangNationalBt = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField);
             var bShowLangEnglishBt = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.InternationalBtField);
 
-            string strRow = null;
-            if (bShowLangVernacular)
+            string strRow = null, strHtml = null;
+            var isGeneralQuestionsLine = (nLineId == 0);
+            if (!isGeneralQuestionsLine && bShowLangVernacular)
             {
                 strRow += GetHtmlCell(StoryLine.Vernacular,
                                       () => theChildVerse.StoryLine.Vernacular,
@@ -767,7 +768,7 @@ namespace OneStoryProjectEditor
                                       viewSettings.TransliteratorVernacular);
             }
 
-            if (bShowLangNationalBt)
+            if (!isGeneralQuestionsLine && bShowLangNationalBt)
             {
                 strRow += GetHtmlCell(StoryLine.NationalBt,
                                       () => theChildVerse.StoryLine.NationalBt,
@@ -779,7 +780,7 @@ namespace OneStoryProjectEditor
                                       viewSettings.TransliteratorNationalBT);
             }
 
-            if (bShowLangEnglishBt)
+            if (!isGeneralQuestionsLine && bShowLangEnglishBt)
             {
                 strRow += GetHtmlCell(StoryLine.InternationalBt,
                                       () => theChildVerse.StoryLine.InternationalBt,
@@ -791,7 +792,7 @@ namespace OneStoryProjectEditor
                                       viewSettings.TransliteratorInternationalBt);
             }
 
-            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.FreeTranslationField))
+            if (!isGeneralQuestionsLine && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.FreeTranslationField))
             {
                 strRow += GetHtmlCell(StoryLine.FreeTranslation,
                                       () => theChildVerse.StoryLine.FreeTranslation,
@@ -803,9 +804,8 @@ namespace OneStoryProjectEditor
                                       viewSettings.TransliteratorFreeTranslation);
             }
 
-            string strHtml = null;
             var astrExegeticalHelpNotes = new List<string>();
-            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.AnchorFields))
+            if (!isGeneralQuestionsLine && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.AnchorFields))
             {
                 strHtml += Anchors.PresentationHtml(nLineId,
                                                     (theChildVerse != null)
