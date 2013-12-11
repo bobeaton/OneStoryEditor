@@ -102,6 +102,11 @@ function removeSpan(jqtextarea) {
     jqtextarea.html(jqtextarea.val());
 }
 
+function ClearSelectionSpan(strId) {
+    var oTextbox = document.getElementById(strId);
+    removeSelection($(oTextbox));
+}
+
 // the following code used to be in onblur (and works just
 //  fine that way in IE). But for some reason, in a 
 //  WebBrowser in a WindowsForm, the onblur is triggered

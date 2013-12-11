@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using NetLoc;
 using Palaso.UI.WindowsForms.Keyboarding;
 using SilEncConverters40;
+using mshtml;
 
 namespace OneStoryProjectEditor
 {
@@ -1468,7 +1469,8 @@ namespace OneStoryProjectEditor
                    strReferringText = null,
                    strNote = String.Format("{0}: ", StoryEditor.GetInitials(TheSE.LoggedOnMember.Name));
 
-            foreach (var span in GetSelectedTexts(textAreaIdentifier.LineIndex))
+            var spans = GetSelectedTexts(textAreaIdentifier.LineIndex);
+            foreach (var span in spans)
             {
                 var textarea = span.Parent;
                 System.Diagnostics.Debug.Assert(textarea != null && textarea.TagName == "TEXTAREA");
@@ -1503,7 +1505,21 @@ namespace OneStoryProjectEditor
                 strReferringText = strReferringText.Replace(" readonly", null);
             }
 
-            TheSE.SendNoteToCorrectPane(textAreaIdentifier.LineIndex, strReferringText, strNote, bNoteToSelf);
+            // if the user doesn't cancel, then clear out the spans/selected text (save a step for the next note)
+            if (TheSE.SendNoteToCorrectPane(textAreaIdentifier.LineIndex, strReferringText, strNote, bNoteToSelf))
+                ClearSelectionSpans(spans);
+        }
+
+        private void ClearSelectionSpans(IEnumerable<HtmlElement> spans)
+        {
+            System.Diagnostics.Debug.Assert(Document != null);
+            foreach (var textarea in spans.Select(span => span.Parent))
+            {
+                System.Diagnostics.Debug.Assert((textarea != null) && (textarea.TagName == "TEXTAREA"));
+
+                var oaParams = new object[] { textarea.Id };
+                Document.InvokeScript("ClearSelectionSpan", oaParams);
+            }
         }
 
         internal void GetSelectedLanguageText(out string strVernacular, out string strNationalBt,

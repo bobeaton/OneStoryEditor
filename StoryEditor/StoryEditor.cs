@@ -2154,7 +2154,7 @@ namespace OneStoryProjectEditor
             return strInitials;
         }
 
-        internal void SendNoteToCorrectPane(int nVerseIndex, string strReferringText, string strNote, bool bNoteToSelf)
+        internal bool SendNoteToCorrectPane(int nVerseIndex, string strReferringText, string strNote, bool bNoteToSelf)
         {
             if (TeamMemberData.IsUser(LoggedOnMember.MemberType,
                                       TeamMemberData.UserTypes.Coach))
@@ -2163,7 +2163,7 @@ namespace OneStoryProjectEditor
                     viewCoachNotesMenu.Checked = true;
 
 #if UsingHtmlDisplayForConNotes
-                htmlCoachNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
+                return htmlCoachNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
 #else
                 Control ctrl = flowLayoutPanelCoachNotes.GetControlAtVerseIndex(nVerseIndex);
                 if (ctrl == null)
@@ -2210,7 +2210,7 @@ namespace OneStoryProjectEditor
                     viewConsultantNotesMenu.Checked = true;
 
 #if UsingHtmlDisplayForConNotes
-                htmlConsultantNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
+                return htmlConsultantNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
 #else
                 Control ctrl = flowLayoutPanelConsultantNotes.GetControlAtVerseIndex(nVerseIndex);
                 if (ctrl == null)

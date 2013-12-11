@@ -88,6 +88,9 @@ namespace OneStoryProjectEditor
             {
                 StrIdToScrollTo = ConsultNoteDataConverter.ButtonRowId(nVerseIndex, aCNsDC.IndexOf(aCNDC));
             }
+            else
+                return false;
+
             return true;
         }
 
