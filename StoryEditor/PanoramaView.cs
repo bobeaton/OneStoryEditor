@@ -23,6 +23,7 @@ namespace OneStoryProjectEditor
         protected const int CnColumnNumOfWords = 6;
 #endif
         protected StoryProjectData _storyProject;
+        private readonly TeamMemberData _loggedOnMember;
         protected StoriesData _stories;
         protected bool _bInCtor = true;
         protected ProjectSettings.LanguageInfo MainLang { get; set; }
@@ -40,9 +41,10 @@ namespace OneStoryProjectEditor
             Localizer.Ctrl(this);
         }
 
-        public PanoramaView(StoryProjectData storyProject)
+        public PanoramaView(StoryProjectData storyProject, TeamMemberData loggedOnMember)
         {
             _storyProject = storyProject;
+            _loggedOnMember = loggedOnMember;
             InitializeComponent();
             Localizer.Ctrl(this);
             
@@ -125,8 +127,14 @@ namespace OneStoryProjectEditor
                     strMemberId = MemberIdInfo.SafeGetMemberId(aSD.CraftingInfo.Coach);
                 }
 
+                var bInLoggedInUsersTurn = false;
                 if (!String.IsNullOrEmpty(strMemberId))
                 {
+                    // if we have a single person's turn who has the edit token and they are the current user, 
+                    //  then highlight the story
+                    bInLoggedInUsersTurn = ((_loggedOnMember != null) && (_loggedOnMember.MemberGuid == strMemberId));
+
+                    // give a name and role if it's just a single one
                     strWhoHasEditToken = String.Format("{0} ({1})",
                                                        strWhoHasEditToken,
                                                        _storyProject.GetMemberNameFromMemberGuid(strMemberId));
@@ -155,11 +163,14 @@ namespace OneStoryProjectEditor
                     aSD.NumOfWords(_storyProject.ProjSettings)
                 };
                 int nRowIndex = dataGridViewPanorama.Rows.Add(aObs);
-                DataGridViewRow aRow = dataGridViewPanorama.Rows[nRowIndex];
+                var aRow = dataGridViewPanorama.Rows[nRowIndex];
 #if ShowingState
                 aRow.Tag = st;
 #endif
                 aRow.Height = _fontForDev.Height + 4;
+
+                if (bInLoggedInUsersTurn)
+                    aRow.DefaultCellStyle.BackColor = Color.Yellow;
             }
         }
 
