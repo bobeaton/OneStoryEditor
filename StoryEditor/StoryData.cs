@@ -800,6 +800,11 @@ namespace OneStoryProjectEditor
             Verses.ReassignRolesToConNoteComments(CraftingInfo.ProjectFacilitator,
                                                   CraftingInfo.Consultant);
         }
+
+        public void SwapColumns(StoryEditor.TextFields column1, StoryEditor.TextFields column2, StoryEditor.TextFields fieldsToSwap)
+        {
+            Verses.SwapColumns(column1, column2, fieldsToSwap);
+        }
     }
 
     public class StoryStateTransitionHistory : List<StoryStateTransition>

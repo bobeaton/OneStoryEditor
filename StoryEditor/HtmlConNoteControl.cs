@@ -749,7 +749,8 @@ namespace OneStoryProjectEditor
                                                         TheSE.viewHiddenVersesMenu.Checked,
                                                         TheSE.viewOnlyOpenConversationsMenu.Checked);
             DocumentText = strHtml;
-            LineNumberLink.Visible = true;
+            if (MakeLineNumberLinkVisible != null)
+                MakeLineNumberLinkVisible();
         }
 
         public override string PaneLabel()
@@ -793,7 +794,9 @@ namespace OneStoryProjectEditor
                                                    TheSE.viewHiddenVersesMenu.Checked,
                                                    TheSE.viewOnlyOpenConversationsMenu.Checked);
             DocumentText = strHtml;
-            LineNumberLink.Visible = true;
+
+            if (MakeLineNumberLinkVisible != null)
+                MakeLineNumberLinkVisible();
         }
 
         public override string PaneLabel()

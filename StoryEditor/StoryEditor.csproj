@@ -617,6 +617,9 @@
     <EmbeddedResource Include="StoryLineControl.resx">
       <DependentUpon>StoryLineControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SwapColumnsForm.resx">
+      <DependentUpon>SwapColumnsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TaskBarControl.resx">
       <DependentUpon>TaskBarControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -672,6 +675,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="StringTransfer.cs" />
+    <Compile Include="SwapColumnsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SwapColumnsForm.Designer.cs">
+      <DependentUpon>SwapColumnsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TaskBarControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

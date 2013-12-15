@@ -127,7 +127,6 @@ namespace OneStoryProjectEditor
             this.comboBoxStorySelector = new System.Windows.Forms.ToolStripComboBox();
             this.storyToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.storyStoryInformationMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.storyDeleteStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.storyCopyWithNewNameMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.storySplitIntoLinesMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.storyRealignStoryLinesMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -144,6 +143,8 @@ namespace OneStoryProjectEditor
             this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
             this.storyCopyToAnotherProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.storyCopyFromAnotherProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
+            this.storyDeleteStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaShowMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaInsertNewStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -201,7 +202,7 @@ namespace OneStoryProjectEditor
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
+            this.advancedSwapDataColumns = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeftRight)).BeginInit();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
@@ -1061,14 +1062,6 @@ namespace OneStoryProjectEditor
     "rces used, etc.";
             this.storyStoryInformationMenu.Click += new System.EventHandler(this.enterTheReasonThisStoryIsInTheSetToolStripMenuItem_Click);
             // 
-            // storyDeleteStoryMenu
-            // 
-            this.storyDeleteStoryMenu.Name = "storyDeleteStoryMenu";
-            this.storyDeleteStoryMenu.Size = new System.Drawing.Size(245, 22);
-            this.storyDeleteStoryMenu.Text = "&Delete story";
-            this.storyDeleteStoryMenu.ToolTipText = "Click to delete the current story";
-            this.storyDeleteStoryMenu.Click += new System.EventHandler(this.deleteStoryToolStripMenuItem_Click);
-            // 
             // storyCopyWithNewNameMenu
             // 
             this.storyCopyWithNewNameMenu.Name = "storyCopyWithNewNameMenu";
@@ -1187,6 +1180,19 @@ namespace OneStoryProjectEditor
             this.storyCopyFromAnotherProjectMenu.Text = "Copy &from another project";
             this.storyCopyFromAnotherProjectMenu.Click += new System.EventHandler(this.StoryCopyFromAnotherProjectMenuClick);
             // 
+            // toolStripSeparator18
+            // 
+            this.toolStripSeparator18.Name = "toolStripSeparator18";
+            this.toolStripSeparator18.Size = new System.Drawing.Size(242, 6);
+            // 
+            // storyDeleteStoryMenu
+            // 
+            this.storyDeleteStoryMenu.Name = "storyDeleteStoryMenu";
+            this.storyDeleteStoryMenu.Size = new System.Drawing.Size(245, 22);
+            this.storyDeleteStoryMenu.Text = "&Delete story";
+            this.storyDeleteStoryMenu.ToolTipText = "Click to delete the current story";
+            this.storyDeleteStoryMenu.Click += new System.EventHandler(this.deleteStoryToolStripMenuItem_Click);
+            // 
             // panoramaToolStripMenu
             // 
             this.panoramaToolStripMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1238,7 +1244,8 @@ namespace OneStoryProjectEditor
             this.advancedUseOldStyleStoryBtPaneMenu,
             this.advancedUseWordBreaks,
             this.advancedImportHelper,
-            this.advancedTransferConNotes});
+            this.advancedTransferConNotes,
+            this.advancedSwapDataColumns});
             this.advancedToolStripMenu.Name = "advancedToolStripMenu";
             this.advancedToolStripMenu.Size = new System.Drawing.Size(72, 27);
             this.advancedToolStripMenu.Text = "A&dvanced";
@@ -1829,10 +1836,14 @@ namespace OneStoryProjectEditor
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
             // 
-            // toolStripSeparator18
+            // advancedSwapDataColumns
             // 
-            this.toolStripSeparator18.Name = "toolStripSeparator18";
-            this.toolStripSeparator18.Size = new System.Drawing.Size(242, 6);
+            this.advancedSwapDataColumns.Name = "advancedSwapDataColumns";
+            this.advancedSwapDataColumns.Size = new System.Drawing.Size(314, 22);
+            this.advancedSwapDataColumns.Text = "&Swap data from one column to another";
+            this.advancedSwapDataColumns.ToolTipText = "Use this command to move the data from one column (e.g. National BT) to another (" +
+    "e.g. Free Translation) for this story";
+            this.advancedSwapDataColumns.Click += new System.EventHandler(this.AdvancedSwapDataColumnsClick);
             // 
             // StoryEditor
             // 
@@ -2038,6 +2049,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem storyCopyToAnotherProjectMenu;
         private ToolStripMenuItem storyCopyFromAnotherProjectMenu;
         private ToolStripSeparator toolStripSeparator18;
+        private ToolStripMenuItem advancedSwapDataColumns;
     }
 
 #if UsingHtmlDisplayForConNotes

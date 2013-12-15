@@ -139,6 +139,11 @@ namespace OneStoryProjectEditor
             Everything = Languages | Fields
         }
 
+        public static bool IsFieldSet(TextFields eValues, TextFields eValue)
+        {
+            return ((eValues & eValue) != TextFields.Undefined);
+        }
+
         public struct LocalizedEnum<T> where T : struct
         {
             private T _value;
@@ -963,7 +968,7 @@ namespace OneStoryProjectEditor
                 viewUseSameSettingsForAllStoriesMenu.Checked = false;
 
                 if (!String.IsNullOrEmpty(strStoryToLoad) && comboBoxStorySelector.Items.Contains(strStoryToLoad))
-                    comboBoxStorySelector.SelectedItem = strStoryToLoad;
+                    JumpToStory(strStoryToLoad);
 
                 // reset the 'use for all stories' flag to whatever it used to be
                 viewUseSameSettingsForAllStoriesMenu.Checked = bUseForAllStories;
@@ -1202,7 +1207,7 @@ namespace OneStoryProjectEditor
                         ResetStorySelectorComboBox();
                 }
                 else
-                    comboBoxStorySelector.SelectedItem = theStory.Name;
+                    JumpToStory(theStory.Name);
             }
         }
 
@@ -1247,7 +1252,7 @@ namespace OneStoryProjectEditor
             TheCurrentStory = theNewStory;
             comboBoxStorySelector.Items.Insert(nIndexToInsert, theNewStory.Name);
             TheCurrentStoriesSet.Insert(nIndexToInsert, TheCurrentStory);
-            comboBoxStorySelector.SelectedItem = theNewStory.Name;
+            JumpToStory(theNewStory.Name);
             Modified = true;
             InitAllPanes();
         }
@@ -1345,6 +1350,13 @@ namespace OneStoryProjectEditor
             // get the focus off the combo box, so mouse scroll doesn't rip thru the stories!
             if (!UsingHtmlForStoryBtPane)
                 flowLayoutPanelVerses.Focus();
+
+            // see if we were in the process of swapping columns
+            if (_lstToSwap != null)
+            {
+                SwapColumns();
+                CheckForNextStoryColumnSwap();
+            }
         }
 
         private bool _bNagOnce = true;
@@ -1385,7 +1397,11 @@ namespace OneStoryProjectEditor
             {
                 htmlStoryBtControl.TheSE = this;
                 htmlStoryBtControl.StoryData = TheCurrentStory;
-                htmlStoryBtControl.LineNumberLink = linkLabelVerseBT;
+                htmlStoryBtControl.SetLineNumberLink = (text, index) =>
+                                                        {
+                                                            linkLabelVerseBT.Text = text;
+                                                            linkLabelVerseBT.Tag = index;
+                                                        };
                 htmlStoryBtControl.ViewSettings = CurrentViewSettings;
                 buttonMoveToNextLine.Visible = buttonMoveToPrevLine.Visible = true;
             }
@@ -1403,10 +1419,21 @@ namespace OneStoryProjectEditor
 
             htmlConsultantNotesControl.TheSE = this;
             htmlConsultantNotesControl.StoryData = TheCurrentStory;
-            htmlConsultantNotesControl.LineNumberLink = linkLabelConsultantNotes;
+            htmlConsultantNotesControl.SetLineNumberLink = (text, index) =>
+                                                               {
+                                                                   linkLabelConsultantNotes.Text = text;
+                                                                   linkLabelConsultantNotes.Tag = index;
+                                                               };
+            htmlConsultantNotesControl.MakeLineNumberLinkVisible = () => { linkLabelConsultantNotes.Visible = true; };
+
             htmlCoachNotesControl.TheSE = this;
             htmlCoachNotesControl.StoryData = TheCurrentStory;
-            htmlCoachNotesControl.LineNumberLink = linkLabelCoachNotes;
+            htmlCoachNotesControl.SetLineNumberLink = (text, index) =>
+                                                               {
+                                                                   linkLabelCoachNotes.Text = text;
+                                                                   linkLabelCoachNotes.Tag = index;
+                                                               };
+            htmlCoachNotesControl.MakeLineNumberLinkVisible = () => { linkLabelCoachNotes.Visible = true; };
 #else
             flowLayoutPanelConsultantNotes.SuspendLayout();
             flowLayoutPanelCoachNotes.SuspendLayout();
@@ -3326,7 +3353,7 @@ namespace OneStoryProjectEditor
             // keep track of the index of the current story (in case it gets deleted)
             int nIndex = (TheCurrentStory != null) ? TheCurrentStoriesSet.IndexOf(TheCurrentStory) : -1;
 
-            var dlg = new PanoramaView(StoryProject);
+            var dlg = new PanoramaView(StoryProject, LoggedOnMember);
             dlg.ShowDialog(viewNonBiblicalStoriesMenu.Checked);
 
             if (dlg.Modified)
@@ -3365,17 +3392,19 @@ namespace OneStoryProjectEditor
                         ClearState();
                 }
                 else if ((nIndex >= 0) && (nIndex < TheCurrentStoriesSet.Count))
-                    comboBoxStorySelector.SelectedItem = comboBoxStorySelector.Text =
-                        TheCurrentStoriesSet[nIndex].Name;
+                    JumpToStory(TheCurrentStoriesSet[nIndex].Name);
 
                 Modified = true;
             }
 
             if (!String.IsNullOrEmpty(dlg.JumpToStory))
-            {
-                comboBoxStorySelector.SelectedItem = 
-                    comboBoxStorySelector.Text = dlg.JumpToStory;
-            }
+                JumpToStory(dlg.JumpToStory);
+        }
+
+        private void JumpToStory(string jumpToStory)
+        {
+            comboBoxStorySelector.SelectedItem =
+                comboBoxStorySelector.Text = jumpToStory;
         }
 
         private void UpdateStoryNameComboBox()
@@ -3415,8 +3444,7 @@ namespace OneStoryProjectEditor
                 nIndex--;
             if (nIndex < TheCurrentStoriesSet.Count)
             {
-                comboBoxStorySelector.SelectedItem = comboBoxStorySelector.Text =
-                    TheCurrentStoriesSet[nIndex].Name;
+                JumpToStory(TheCurrentStoriesSet[nIndex].Name);
             }
             else if (TheCurrentStoriesSet.Count == 0)
             {
@@ -4665,7 +4693,7 @@ namespace OneStoryProjectEditor
                 OseCaption);
         }
 
-        private VerseData.ViewSettings CurrentViewSettings
+        internal VerseData.ViewSettings CurrentViewSettings
         {
             get
             {
@@ -4705,7 +4733,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private TextFields CurrentFieldEditability(StoryData theCurrentStory)
+        internal TextFields CurrentFieldEditability(StoryData theCurrentStory)
         {
             TextFields fields = (CheckForProperEditToken())
                                     ? TextFields.Everything
@@ -4867,7 +4895,7 @@ namespace OneStoryProjectEditor
                                         };
             theOldStoryEditor.Show();
             theOldStoryEditor.LoadComboBox();
-            theOldStoryEditor.comboBoxStorySelector.SelectedItem = strStoryName;
+            theOldStoryEditor.JumpToStory(strStoryName);
             return theOldStoryEditor;
         }
 
@@ -5119,7 +5147,7 @@ namespace OneStoryProjectEditor
             }
 
             Debug.Assert(comboBoxStorySelector.Items.Contains(strStoryName));
-            comboBoxStorySelector.SelectedItem = strStoryName;
+            JumpToStory(strStoryName);
             if (strStoryName != TheCurrentStory.Name)
                 return; // must have cancelled
 
@@ -5140,7 +5168,7 @@ namespace OneStoryProjectEditor
         {
             Debug.Assert(comboBoxStorySelector.Items.Contains(strStoryName));
             if (strStoryName != TheCurrentStory.Name)
-                comboBoxStorySelector.SelectedItem = strStoryName;
+                JumpToStory(strStoryName);
 
             bool bSomethingChanged = false;
             _bDisableReInitVerseControls = true;
@@ -6220,7 +6248,8 @@ namespace OneStoryProjectEditor
                 advancedImportHelper.Enabled =
                 advancedCoachNotesToConsultantNotesPane.Enabled =
                 advancedConsultantNotesToCoachNotesPane.Enabled =
-                advancedReassignNotesToProperMember.Enabled = 
+                advancedReassignNotesToProperMember.Enabled =
+                advancedSwapDataColumns.Enabled = 
                 ((StoryProject != null) && (TheCurrentStory != null));
 
             advancedNewProjectMenu.Enabled = IsInStoriesSet;
@@ -7187,6 +7216,89 @@ namespace OneStoryProjectEditor
                         "Warning: the source and target project have differences which can affect how the story is copied. For example, if the source project was configured with a 'National language back-translation', but this project isn't, then the 'National BT' text won't be visible until/unless you configure a 'National BT' field in the 'Project', 'Settings' dialog, 'Languages' tab. Or if one of the languages (e.g. 'Story language') is different between this project and the source project, that can cause display issues -- e.g. a different font might be used in this project for which the source project text won't display correctly..."),
                     OseCaption);
             }
+        }
+
+        private void AdvancedSwapDataColumnsClick(object sender, EventArgs e)
+        {
+            if (!CheckForProperEditToken())
+            {
+                LocalizableMessageBox.Show(
+                    Localizer.Str("The current story is not in your turn. If you were to swap fields while the story is in someone else's turn and they make changes, then your changes and theirs would conflict and one of them would be lost. So only attempt to swap columns for a story that is already in your turn (and don't use 'Advanced', 'Change Turn without checks...' unless you're sure the other person isn't going to make changes). You can click 'Panorama', 'Show' to see the list of all the stories in the set to see which ones are in your turn (highlighted)."),
+                    OseCaption);
+                return;
+            }
+
+            if (!SwapColumns())
+                return;
+
+            InitializeSwapColumnsAllStories();
+        }
+
+        private bool SwapColumns()
+        {
+            var dlg = new SwapColumnsForm(this);
+            if (dlg.ShowDialog() != DialogResult.OK)
+            {
+                _lstToSwap = null;
+                return false;
+            }
+
+            TheCurrentStory.SwapColumns(dlg.Column1, dlg.Column2, dlg.FieldsToSwap);
+            Modified = true;
+            InitAllPanes();
+            return true;
+        }
+
+        private List<string> _lstToSwap;
+
+        private void InitializeSwapColumnsAllStories()
+        {
+            // check to see if there are any other stories in this same user's turn
+            // keep track of the ones we can do and in the 'LoadStory' routine, bring up the dialog for the next story after it's loaded.
+            _lstToSwap = TheCurrentStoriesSet.Where(s =>
+            {
+                if (s.Name == TheCurrentStory.Name)
+                    return false;
+
+                try
+                {
+                    LoggedOnMember.ThrowIfEditIsntAllowed(s);
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            })
+            .Select(s => s.Name)
+            .ToList();
+
+            CheckForNextStoryColumnSwap();
+        }
+
+        private void CheckForNextStoryColumnSwap()
+        {
+            if (_lstToSwap.Count <= 0)
+            {
+                _lstToSwap = null;
+                return;
+            }
+
+            var res = LocalizableMessageBox.Show(
+                Localizer.Str(
+                    "There are other stories in this project that are in your turn. Would you like to swap columns in those stories also?"),
+                OseCaption,
+                MessageBoxButtons.YesNoCancel);
+
+            if (res != DialogResult.Yes)
+            {
+                _lstToSwap = null;
+                return;
+            }
+
+            var nextStoryName = _lstToSwap.First();
+            _lstToSwap.Remove(nextStoryName);
+            JumpToStory(nextStoryName);
         }
     }
 

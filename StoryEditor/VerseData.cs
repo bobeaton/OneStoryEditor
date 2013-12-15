@@ -30,16 +30,42 @@ namespace OneStoryProjectEditor
 
         public void SetValue(string strLangAttribute, string strValue)
         {
-            if (strLangAttribute == CstrAttributeLangVernacular)
-                Vernacular.SetValue(strValue);
-            else if (strLangAttribute == CstrAttributeLangNationalBt)
-                NationalBt.SetValue(strValue);
-            else if (strLangAttribute == CstrAttributeLangInternationalBt)
-                InternationalBt.SetValue(strValue);
-            else if (strLangAttribute == CstrAttributeLangFreeTranslation)
-                FreeTranslation.SetValue(strValue);
-            else
-                System.Diagnostics.Debug.Fail("didn't expect this language type");
+            switch (strLangAttribute)
+            {
+                case CstrAttributeLangVernacular:
+                    Vernacular.SetValue(strValue);
+                    break;
+                case CstrAttributeLangNationalBt:
+                    NationalBt.SetValue(strValue);
+                    break;
+                case CstrAttributeLangInternationalBt:
+                    InternationalBt.SetValue(strValue);
+                    break;
+                case CstrAttributeLangFreeTranslation:
+                    FreeTranslation.SetValue(strValue);
+                    break;
+                default:
+                    System.Diagnostics.Debug.Fail("didn't expect this language type");
+                    break;
+            }
+        }
+
+        public StringTransfer GetValue(string strLangAttribute)
+        {
+            switch (strLangAttribute)
+            {
+                case CstrAttributeLangVernacular:
+                    return Vernacular;
+                case CstrAttributeLangNationalBt:
+                    return NationalBt;
+                case CstrAttributeLangInternationalBt:
+                    return InternationalBt;
+                case CstrAttributeLangFreeTranslation:
+                    return FreeTranslation;
+                default:
+                    System.Diagnostics.Debug.Fail("didn't expect this language type");
+                    return null;
+            }
         }
 
         public bool HasData
@@ -162,6 +188,15 @@ namespace OneStoryProjectEditor
                 whichField | StoryEditor.TextFields.InternationalBt);
             FreeTranslation = new StringTransfer((rhs.FreeTranslation != null) ? rhs.FreeTranslation.ToString() : null,
                 whichField | StoryEditor.TextFields.FreeTranslation);
+        }
+
+        public void SwapColumns(StoryEditor.TextFields column1, StoryEditor.TextFields column2)
+        {
+            var col1Name = column1.ToString();
+            var col2Name = column2.ToString();
+            var swapValue = GetValue(col1Name).ToString();
+            SetValue(col1Name, GetValue(col2Name).ToString());
+            SetValue(col2Name, swapValue);
         }
     }
 
@@ -1172,6 +1207,18 @@ namespace OneStoryProjectEditor
             // for now, this just applies to the Consultant notes pane
             ConsultantNotes.ReassignRolesToConNoteComments(projectFacilitator, consultant);
         }
+
+        public void SwapColumns(StoryEditor.TextFields column1, StoryEditor.TextFields column2, StoryEditor.TextFields fieldsToSwap)
+        {
+            if (StoryEditor.IsFieldSet(fieldsToSwap, StoryEditor.TextFields.StoryLine))
+                StoryLine.SwapColumns(column1, column2);
+
+            if (StoryEditor.IsFieldSet(fieldsToSwap, StoryEditor.TextFields.TestQuestion | StoryEditor.TextFields.TestQuestionAnswer))
+                TestQuestions.SwapColumns(column1, column2, fieldsToSwap);
+
+            if (StoryEditor.IsFieldSet(fieldsToSwap, StoryEditor.TextFields.Retelling))
+                Retellings.SwapColumns(column1, column2);
+        }
     }
 
     public class VersesData : List<VerseData>
@@ -1970,6 +2017,13 @@ namespace OneStoryProjectEditor
         {
             FirstVerse.ReassignRolesToConNoteComments(projectFacilitator, consultant);
             ForEach(v => v.ReassignRolesToConNoteComments(projectFacilitator, consultant));
+        }
+
+        public void SwapColumns(StoryEditor.TextFields column1, StoryEditor.TextFields column2, StoryEditor.TextFields fieldsToSwap)
+        {
+            // remove the answers to general questions in ln 0
+            FirstVerse.SwapColumns(column1, column2, fieldsToSwap);
+            ForEach(v => v.SwapColumns(column1, column2, fieldsToSwap));
         }
     }
 }

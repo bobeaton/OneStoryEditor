@@ -565,6 +565,11 @@ namespace OneStoryProjectEditor
         {
             get { return StoryEditor.TextFields.Retelling; }
         }
+
+        public void SwapColumns(StoryEditor.TextFields column1, StoryEditor.TextFields column2)
+        {
+            ForEach(r => r.SwapColumns(column1, column2));
+        }
     }
 
     public class AnswersData : MultipleLineDataConverter
@@ -643,6 +648,11 @@ namespace OneStoryProjectEditor
         public bool DoesReferenceTqUns(string strMemberId)
         {
             return (TryGetValue(strMemberId) != null);
+        }
+
+        public void SwapColumns(StoryEditor.TextFields column1, StoryEditor.TextFields column2)
+        {
+            ForEach(a => a.SwapColumns(column1, column2));
         }
     }
 }

@@ -370,6 +370,15 @@ namespace OneStoryProjectEditor
         {
             Answers.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
         }
+
+        public void SwapColumn(StoryEditor.TextFields column1, StoryEditor.TextFields column2, StoryEditor.TextFields fieldsToSwap)
+        {
+            if (StoryEditor.IsFieldSet(fieldsToSwap, StoryEditor.TextFields.TestQuestion))
+                TestQuestionLine.SwapColumns(column1, column2);
+
+            if (StoryEditor.IsFieldSet(fieldsToSwap, StoryEditor.TextFields.TestQuestionAnswer))
+                Answers.SwapColumns(column1, column2);
+        }
     }
 
     public class TestQuestionsData : List<TestQuestionData>
@@ -597,6 +606,11 @@ namespace OneStoryProjectEditor
         {
             foreach (var aTq in this)
                 aTq.Answers.RemoveTestResult(strUnsGuid);
+        }
+
+        public void SwapColumns(StoryEditor.TextFields column1, StoryEditor.TextFields column2, StoryEditor.TextFields fieldsToSwap)
+        {
+            ForEach(tq => tq.SwapColumn(column1, column2, fieldsToSwap));
         }
     }
 }

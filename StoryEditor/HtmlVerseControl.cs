@@ -16,7 +16,11 @@ namespace OneStoryProjectEditor
         public const string CstrParagraphPrefix = "tp";
         public const string CstrButtonPrefix = "btn";
 
-        internal LinkLabel LineNumberLink;
+        public delegate void SetLineNumberLinkProc(string strText, int nLineIndex);
+        internal SetLineNumberLinkProc SetLineNumberLink;
+
+        public delegate void MakeLineNumberLinkVisibleProc();
+        internal MakeLineNumberLinkVisibleProc MakeLineNumberLinkVisible;
 
         internal string StrIdToScrollTo;
 
@@ -43,22 +47,20 @@ namespace OneStoryProjectEditor
         public void OnScroll()
         {
             var elemLnPrev = GetTopHtmlElementId("td");
-            if ((elemLnPrev == null) || (LineNumberLink == null))
+            if ((elemLnPrev == null) || (SetLineNumberLink == null))
                 return;
 
             if (StoryEditor.IsFirstCharsEqual(elemLnPrev.InnerText,
                                               VersesData.CstrZerothLineNameConNotes,
                                               VersesData.CstrZerothLineNameConNotes.Length))
             {
-                LineNumberLink.Text = StoryEditor.CstrFirstVerse;
-                LineNumberLink.Tag = 0;
+                SetLineNumberLink(StoryEditor.CstrFirstVerse, 0);
             }
             else if (StoryEditor.IsFirstCharsEqual(elemLnPrev.InnerText,
                                                    VersesData.CstrZerothLineNameBtPane,
                                                    VersesData.CstrZerothLineNameBtPane.Length))
             {
-                LineNumberLink.Text = VersesData.CstrZerothLineNameBtPane;
-                LineNumberLink.Tag = 0;
+                SetLineNumberLink(VersesData.CstrZerothLineNameBtPane, 0);
             }
             else if (StoryEditor.IsFirstCharsEqual(elemLnPrev.InnerText,
                                                    VersesData.LinePrefix,
@@ -67,7 +69,7 @@ namespace OneStoryProjectEditor
                 // e.g.
                 //  "Ln: 1" (or for the French localization: "Ln : 1")
                 //  "Ln: 1 (Hidden)"
-                var strLabel = LineNumberLink.Text = elemLnPrev.InnerText;
+                var strLabel = elemLnPrev.InnerText;
                 
                 // if the 'Hidden' keyword is showing, then strip that off
                 int nIndex;
@@ -81,7 +83,7 @@ namespace OneStoryProjectEditor
                     return;
 
                 var strLineNumber = strLabel.Substring(nIndex + 1);
-                LineNumberLink.Tag = Convert.ToInt32(strLineNumber);
+                SetLineNumberLink(strLabel, Convert.ToInt32(strLineNumber));
             }
         }
 
