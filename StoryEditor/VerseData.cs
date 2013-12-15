@@ -783,7 +783,8 @@ namespace OneStoryProjectEditor
             CraftingInfoData craftingInfo,
             ViewSettings viewSettings, 
             VerseData theChildVerse,
-            StoryData.PresentationType presentationType)
+            StoryData.PresentationType presentationType,
+            TeamMembersData teamMembersData)
         {
             var bShowLangVernacular = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
             var bShowLangNationalBt = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField);
@@ -903,7 +904,8 @@ namespace OneStoryProjectEditor
                                                        bShowRetellingsVernacular,
                                                        bShowRetellingsNationalBt,
                                                        bShowRetellingsEnglishBt,
-                                                       viewSettings);
+                                                       viewSettings, 
+                                                       teamMembersData);
             }
 
             if ((!IsFirstVerse && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
@@ -913,7 +915,8 @@ namespace OneStoryProjectEditor
                 strHtml += TestQuestions.PresentationHtml(nLineId, nNumCols, viewSettings,
                                                           craftingInfo.TestersToCommentsTqAnswers,
                                                           (theChildVerse != null) ? theChildVerse.TestQuestions : null,
-                                                          presentationType, IsFirstVerse);
+                                                          presentationType, IsFirstVerse, 
+                                                          teamMembersData);
             }
 
             // show the row as hidden if either we're in print preview (and it's hidden)
@@ -992,7 +995,7 @@ namespace OneStoryProjectEditor
         // for use when the data is to be marked as an addition (i.e. yellow highlight)
         public string PresentationHtmlAsAddition(int nLineId, int nNumCols,
             CraftingInfoData craftingInfo, ViewSettings viewSettings,
-            bool bHasOutsideEnglishBTer, bool bUseTextAreas)
+            bool bHasOutsideEnglishBTer, bool bUseTextAreas, TeamMembersData teamMembersData)
         {
             string strRow = null;
             if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.VernacularLangField))
@@ -1066,7 +1069,8 @@ namespace OneStoryProjectEditor
                                                                  viewSettings.IsViewItemOn(
                                                                      ViewSettings.ItemToInsureOn.
                                                                          RetellingsInternationalBT),
-                                                                 viewSettings);
+                                                                 viewSettings,
+                                                                 teamMembersData);
             }
 
             if ((!IsFirstVerse && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
@@ -1075,7 +1079,8 @@ namespace OneStoryProjectEditor
             {
                 strHtml += TestQuestions.PresentationHtmlAsAddition(nLineId, nNumCols, viewSettings,
                                                                     craftingInfo.TestersToCommentsTqAnswers,
-                                                                    bHasOutsideEnglishBTer);
+                                                                    bHasOutsideEnglishBTer, 
+                                                                    teamMembersData);
             }
 
             return FinishPresentationHtml(strRow, strHtml, !IsVisible, viewSettings, nLineId);
@@ -1560,7 +1565,8 @@ namespace OneStoryProjectEditor
             int nNumCols, 
             VerseData.ViewSettings viewSettings,
             bool bHasOutsideEnglishBTer,
-            StoryData.PresentationType presentationType)
+            StoryData.PresentationType presentationType, 
+            TeamMembersData teamMembersData)
         {
             string strHtml = null;
             bool bUseTextAreas = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.UseTextAreas);
@@ -1575,7 +1581,8 @@ namespace OneStoryProjectEditor
                 strHtml += FirstVerse.PresentationHtml(0, nNumCols, craftingInfo,
                                                        viewSettings, 
                                                        theChildFirstVerse,
-                                                       presentationType);
+                                                       presentationType, 
+                                                       teamMembersData);
             }
 
             int nInsertCount = 0;
@@ -1621,7 +1628,8 @@ namespace OneStoryProjectEditor
                                                                                      craftingInfo,
                                                                                      viewSettings,
                                                                                      bHasOutsideEnglishBTer,
-                                                                                     bUseTextAreas);
+                                                                                     bUseTextAreas, 
+                                                                                     teamMembersData);
                                 bFoundOne = true;
                                 nInsertCount++;
                             }
@@ -1635,7 +1643,8 @@ namespace OneStoryProjectEditor
                                                            craftingInfo,
                                                            viewSettings,
                                                            theChildVerse,
-                                                           presentationType);
+                                                           presentationType, 
+                                                           teamMembersData);
 
                     // if there is a child, but we couldn't find the equivalent verse...
                     if ((child != null) && (theChildVerse == null) && (child.Count >= i))
@@ -1649,7 +1658,8 @@ namespace OneStoryProjectEditor
                                                                                 craftingInfo,
                                                                                 viewSettings,
                                                                                 bHasOutsideEnglishBTer,
-                                                                                bUseTextAreas);
+                                                                                bUseTextAreas, 
+                                                                                teamMembersData);
                     }
                 }
 
@@ -1671,7 +1681,8 @@ namespace OneStoryProjectEditor
                                                                          craftingInfo,
                                                                          viewSettings,
                                                                          bHasOutsideEnglishBTer,
-                                                                         bUseTextAreas);
+                                                                         bUseTextAreas, 
+                                                                         teamMembersData);
                     }
                     i++;
                 }

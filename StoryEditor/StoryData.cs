@@ -610,7 +610,8 @@ namespace OneStoryProjectEditor
                                                    (child != null) ? child.Verses : null,
                                                    nNumCols,
                                                    viewSettings,
-                                                   teamMembers.HasOutsideEnglishBTer, presentationType);
+                                                   teamMembers.HasOutsideEnglishBTer, presentationType, 
+                                                   teamMembers);
             }
             else
             {

@@ -164,94 +164,6 @@ namespace OneStoryProjectEditor
             return String.Format("ta{0}_{1}_{2}_{3}", strPrefix, nVerseIndex, nRetellingNum, strFieldTypeName);
         }
 
-        /*
-        public string Html(int nVerseIndex, int nNumCols)
-        {
-            string strRow = null;
-            for (int i = 0; i < Count; i++)
-            {
-                strRow += String.Format(Properties.Resources.HTML_TableRow,
-                                        String.Format("{0}{1}",
-                                                      String.Format(Properties.Resources.HTML_TableCellNoWrap,
-                                                                    String.Format(LabelTextFormat, i + 1)),
-                                                      String.Format(Properties.Resources.HTML_TableCellWidth,
-                                                                    100,
-                                                                    String.Format(Properties.Resources.HTML_Textarea,
-                                                                                  TextareaId(InstanceElementName, nVerseIndex, i),
-                                                                                  StoryData.
-                                                                                      CstrLangInternationalBtStyleClassName,
-                                                                                  this[i]))));
-            }
-
-            // make a sub-table out of all this
-            strRow = String.Format(Properties.Resources.HTML_TableRow,
-                                    String.Format(Properties.Resources.HTML_TableCellWithSpan, nNumCols,
-                                                  String.Format(Properties.Resources.HTML_Table,
-                                                                strRow)));
-            return strRow;
-        }
-
-        public string Html(int nVerseIndex, int nNumTestQuestionCols, 
-            bool bShowVernacular, bool bShowNationalBT, bool bShowEnglishBT)
-        {
-            int nAnswerCols = 0;
-            if (bShowVernacular) nAnswerCols++;
-            if (bShowNationalBT) nAnswerCols++;
-            if (bShowEnglishBT) nAnswerCols++;
-
-            string strRow = null;
-            for (int i = 0; i < Count; i++)
-            {
-                strRow += String.Format(Properties.Resources.HTML_TableCellNoWrap,
-                                        String.Format(LabelTextFormat, i + 1));
-
-                LineData theLine = this[i];
-                if (bShowVernacular)
-                {
-                    strRow += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop,
-                                            100/nNumTestQuestionCols,
-                                            String.Format(Properties.Resources.HTML_Textarea,
-                                                          TextareaId(InstanceElementName, nVerseIndex, i,
-                                                                     LineData.CstrAttributeLangVernacular),
-                                                          StoryData.CstrLangVernacularStyleClassName,
-                                                          theLine.Vernacular));
-                }
-
-                if (bShowNationalBT)
-                {
-                    strRow += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop,
-                                            100/nNumTestQuestionCols,
-                                            String.Format(Properties.Resources.HTML_Textarea,
-                                                          TextareaId(InstanceElementName, nVerseIndex, i,
-                                                                     LineData.CstrAttributeLangNationalBt),
-                                                          StoryData.CstrLangNationalBtStyleClassName,
-                                                          theLine.NationalBt));
-                }
-
-                if (bShowEnglishBT)
-                {
-                    strRow += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop,
-                                            100/nNumTestQuestionCols,
-                                            String.Format(Properties.Resources.HTML_Textarea,
-                                                          TextareaId(InstanceElementName, nVerseIndex, i,
-                                                                     LineData.CstrAttributeLangInternationalBt),
-                                                          StoryData.CstrLangInternationalBtStyleClassName,
-                                                          theLine.InternationalBt));
-                }
-
-                strRow = String.Format(Properties.Resources.HTML_TableRow,
-                                       strRow);
-            }
-
-            // make a sub-table out of all this
-            strRow = String.Format(Properties.Resources.HTML_TableRow,
-                                    String.Format(Properties.Resources.HTML_TableCellWithSpan, nAnswerCols,
-                                                  String.Format(Properties.Resources.HTML_Table,
-                                                                strRow)));
-            return strRow;
-        }
-        */
-
         public string PresentationHtml(int nVerseIndex, int nNumCols, int nParentNum,
             TestInfo astrTesters,
             MultipleLineDataConverter child,
@@ -260,15 +172,17 @@ namespace OneStoryProjectEditor
             bool bShowVernacular, 
             bool bShowNationalBT, 
             bool bShowInternationalBT,
-            VerseData.ViewSettings viewSettings)
+            VerseData.ViewSettings viewSettings,
+            TeamMembersData teamMembersData)
         {
             string strRow = null;
             int nTestNum;
             for (int i = 0; i < Count; i++)
             {
-                LineMemberData theParentLineData = this[i];
-                string strMemberId = theParentLineData.MemberId;
+                var theParentLineData = this[i];
+                var strMemberId = theParentLineData.MemberId;
                 nTestNum = astrTesters.IndexOf(strMemberId);
+                var strUnsName = teamMembersData.GetNameFromMemberId(strMemberId);
 
                 bool bFound = false;
                 LineMemberData theChildLineData = null;
@@ -340,7 +254,7 @@ namespace OneStoryProjectEditor
                     strInternationalBt = theParentLineData.InternationalBt.GetValue(viewSettings.TransliteratorInternationalBt);
                 }
 
-                strRow += PresentationHtmlRow(nVerseIndex, nParentNum, nTestNum, 
+                strRow += PresentationHtmlRow(nVerseIndex, nParentNum, nTestNum, strUnsName,
                     strVernacular, strNationalBt, strInternationalBt,
                     bShowVernacular, bShowNationalBT, bShowInternationalBT,
                     theParentLineData, viewSettings);
@@ -351,9 +265,11 @@ namespace OneStoryProjectEditor
             {
                 for (int j = 0; j < child.Count; j++)
                 {
-                    LineMemberData theChildLineData = child[j];
-                    string strMemberId = theChildLineData.MemberId;
+                    var theChildLineData = child[j];
+                    var strMemberId = theChildLineData.MemberId;
                     nTestNum = astrTesters.IndexOf(strMemberId);
+                    var strUnsName = teamMembersData.GetNameFromMemberId(strMemberId);
+
                     string strVernacular = Diff.HtmlDiff(viewSettings.TransliteratorVernacular,
                                                          null, 
                                                          theChildLineData.Vernacular);
@@ -363,7 +279,7 @@ namespace OneStoryProjectEditor
                     string strInternationalBT = Diff.HtmlDiff(viewSettings.TransliteratorInternationalBt,
                                                               null,
                                                               theChildLineData.InternationalBt);
-                    strRow += PresentationHtmlRow(nVerseIndex, nParentNum, nTestNum, 
+                    strRow += PresentationHtmlRow(nVerseIndex, nParentNum, nTestNum, strUnsName,
                                                   strVernacular, strNationalBT, strInternationalBT,
                                                   bShowVernacular, bShowNationalBT, bShowInternationalBT,
                                                   theChildLineData, viewSettings);
@@ -384,14 +300,16 @@ namespace OneStoryProjectEditor
 
         public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols, int nParentNum, TestInfo astrTesters,
             bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT,
-            VerseData.ViewSettings viewSettings)
+            VerseData.ViewSettings viewSettings, TeamMembersData teamMembersData)
         {
             string strRow = null;
             for (int i = 0; i < Count; i++)
             {
-                LineMemberData theLineData = this[i];
-                string strMemberId = theLineData.MemberId;
-                int nTestNum = astrTesters.IndexOf(strMemberId);
+                var theLineData = this[i];
+                var strMemberId = theLineData.MemberId;
+                var nTestNum = astrTesters.IndexOf(strMemberId);
+                var strUnsName = teamMembersData.GetNameFromMemberId(strMemberId);
+
                 string strVernacular = Diff.HtmlDiff(viewSettings.TransliteratorVernacular,
                                                      null,
                                                      theLineData.Vernacular);
@@ -401,7 +319,7 @@ namespace OneStoryProjectEditor
                 string strEnglishBT = Diff.HtmlDiff(viewSettings.TransliteratorInternationalBt,
                                                     null,
                                                     theLineData.InternationalBt);
-                strRow += PresentationHtmlRow(nVerseIndex, nParentNum, nTestNum,
+                strRow += PresentationHtmlRow(nVerseIndex, nParentNum, nTestNum, strUnsName,
                                               strVernacular, strNationalBT, strEnglishBT,
                                               bShowVernacular, bShowNationalBT, bShowInternationalBT,
                                               theLineData, viewSettings);
@@ -418,14 +336,15 @@ namespace OneStoryProjectEditor
             return strRow;
         }
 
-        protected string PresentationHtmlRow(int nVerseIndex, int nItemNum, int nSubItemNum,
+        protected string PresentationHtmlRow(int nVerseIndex, int nItemNum, int nSubItemNum, string strUnsName,
             string strVernacular, string strNationalBT, string strInternationalBT,
             bool bShowVernacular, bool bShowNationalBT, bool bShowInternationalBT,
             LineMemberData theLineOfData, VerseData.ViewSettings viewSettings)
         {
             // was: HTML_TableCell (after being HTML_TableCellNoWrap, but I can't figure out why
             //  I took that off)
-            string strRow = String.Format(Properties.Resources.HTML_TableCellNoWrap,
+            string strRow = String.Format(Properties.Resources.HTML_TableCellNoWrapWithToolTip,
+                                          strUnsName,
                                           String.Format(LabelTextFormat, nSubItemNum + 1));
 
             int nNumCols = 0;
