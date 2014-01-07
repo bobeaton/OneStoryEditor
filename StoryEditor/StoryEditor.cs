@@ -3534,7 +3534,7 @@ namespace OneStoryProjectEditor
                 editDeleteFreeTranslationMenu.Enabled =
                     (IsInStoriesSet && bSomeVerses);
 
-            var bCanEdit = CheckForProperEditToken();
+            var bCanEdit = (LoggedOnMember != null) && CheckForProperEditToken();
             editAddRetellingTestResultsMenu.Enabled = 
                 editAddInferenceTestResultsMenu.Enabled =
                 editAddGeneralTestQuestionMenu.Enabled =
@@ -7234,16 +7234,28 @@ namespace OneStoryProjectEditor
             InitializeSwapColumnsAllStories();
         }
 
+        private TextFields _lstColumn1,
+                           _lstColumn2,
+                           _lstFieldsToSwap = TextFields.StoryLine | TextFields.Retelling |
+                                              TextFields.TestQuestion | TextFields.TestQuestionAnswer;
         private bool SwapColumns()
         {
-            var dlg = new SwapColumnsForm(this);
+            var dlg = new SwapColumnsForm(this)
+                          {
+                              Column1 = _lstColumn1,
+                              Column2 = _lstColumn2,
+                              FieldsToSwap = _lstFieldsToSwap
+                          };
+
             if (dlg.ShowDialog() != DialogResult.OK)
             {
                 _lstToSwap = null;
                 return false;
             }
 
-            TheCurrentStory.SwapColumns(dlg.Column1, dlg.Column2, dlg.FieldsToSwap);
+            TheCurrentStory.SwapColumns(_lstColumn1 = dlg.Column1,
+                                        _lstColumn2 = dlg.Column2, 
+                                        _lstFieldsToSwap = dlg.FieldsToSwap);
             Modified = true;
             InitAllPanes();
             return true;
@@ -7278,7 +7290,7 @@ namespace OneStoryProjectEditor
 
         private void CheckForNextStoryColumnSwap()
         {
-            if (_lstToSwap.Count <= 0)
+            if ((_lstToSwap == null) || (_lstToSwap.Count <= 0))
             {
                 _lstToSwap = null;
                 return;

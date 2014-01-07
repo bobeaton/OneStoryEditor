@@ -42,25 +42,25 @@
             this.radioButtonInternationalBtTranscription2 = new System.Windows.Forms.RadioButton();
             this.radioButtonFreeTrTranscription2 = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.buttonMoveToNextLineBefore = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
-            this.buttonMoveToPrevLineBefore = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
-            this.labelBefore = new System.Windows.Forms.Label();
-            this.labelAfter = new System.Windows.Forms.Label();
             this.groupBoxFieldsToSwap = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanelFieldsToSwap = new System.Windows.Forms.FlowLayoutPanel();
             this.checkBoxStoryLines = new System.Windows.Forms.CheckBox();
             this.checkBoxRetellings = new System.Windows.Forms.CheckBox();
             this.checkBoxTestQuestions = new System.Windows.Forms.CheckBox();
             this.checkBoxTestQuestionAnswers = new System.Windows.Forms.CheckBox();
-            this.buttonMoveToPrevLineAfter = new System.Windows.Forms.Button();
-            this.buttonMoveToNextLineAfter = new System.Windows.Forms.Button();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonMoveToNextLineBefore = new System.Windows.Forms.Button();
+            this.buttonMoveToPrevLineBefore = new System.Windows.Forms.Button();
             this.htmlStoryBtControlBefore = new OneStoryProjectEditor.HtmlStoryBtControl();
+            this.labelBefore = new System.Windows.Forms.Label();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonMoveToPrevLineAfter = new System.Windows.Forms.Button();
+            this.buttonMoveToNextLineAfter = new System.Windows.Forms.Button();
             this.htmlStoryBtControlAfter = new OneStoryProjectEditor.HtmlStoryBtControl();
+            this.labelAfter = new System.Windows.Forms.Label();
             this.groupBoxMoveFrom.SuspendLayout();
             this.flowLayoutPanelColumn1.SuspendLayout();
             this.groupBoxMoveTo.SuspendLayout();
@@ -254,17 +254,6 @@
             this.tableLayoutPanel.Size = new System.Drawing.Size(786, 583);
             this.tableLayoutPanel.TabIndex = 5;
             // 
-            // buttonMoveToNextLineBefore
-            // 
-            this.buttonMoveToNextLineBefore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonMoveToNextLineBefore.Image = global::OneStoryProjectEditor.Properties.Resources.FillDownHS;
-            this.buttonMoveToNextLineBefore.Location = new System.Drawing.Point(750, 3);
-            this.buttonMoveToNextLineBefore.Name = "buttonMoveToNextLineBefore";
-            this.buttonMoveToNextLineBefore.Size = new System.Drawing.Size(23, 23);
-            this.buttonMoveToNextLineBefore.TabIndex = 8;
-            this.buttonMoveToNextLineBefore.UseVisualStyleBackColor = true;
-            this.buttonMoveToNextLineBefore.Click += new System.EventHandler(this.ButtonMoveToNextLineBeforeClick);
-            // 
             // buttonOK
             // 
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -276,17 +265,6 @@
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.ButtonOkClick);
             // 
-            // buttonMoveToPrevLineBefore
-            // 
-            this.buttonMoveToPrevLineBefore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonMoveToPrevLineBefore.Image = global::OneStoryProjectEditor.Properties.Resources.FillUpHS;
-            this.buttonMoveToPrevLineBefore.Location = new System.Drawing.Point(720, 3);
-            this.buttonMoveToPrevLineBefore.Name = "buttonMoveToPrevLineBefore";
-            this.buttonMoveToPrevLineBefore.Size = new System.Drawing.Size(23, 23);
-            this.buttonMoveToPrevLineBefore.TabIndex = 9;
-            this.buttonMoveToPrevLineBefore.UseVisualStyleBackColor = true;
-            this.buttonMoveToPrevLineBefore.Click += new System.EventHandler(this.ButtonMoveToPrevLineBeforeClick);
-            // 
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -297,26 +275,6 @@
             this.buttonCancel.TabIndex = 6;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
-            // 
-            // labelBefore
-            // 
-            this.labelBefore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelBefore.AutoSize = true;
-            this.labelBefore.Location = new System.Drawing.Point(3, 16);
-            this.labelBefore.Name = "labelBefore";
-            this.labelBefore.Size = new System.Drawing.Size(41, 13);
-            this.labelBefore.TabIndex = 7;
-            this.labelBefore.Text = "Before:";
-            // 
-            // labelAfter
-            // 
-            this.labelAfter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelAfter.AutoSize = true;
-            this.labelAfter.Location = new System.Drawing.Point(3, 16);
-            this.labelAfter.Name = "labelAfter";
-            this.labelAfter.Size = new System.Drawing.Size(32, 13);
-            this.labelAfter.TabIndex = 8;
-            this.labelAfter.Text = "After:";
             // 
             // groupBoxFieldsToSwap
             // 
@@ -345,8 +303,6 @@
             // checkBoxStoryLines
             // 
             this.checkBoxStoryLines.AutoSize = true;
-            this.checkBoxStoryLines.Checked = true;
-            this.checkBoxStoryLines.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxStoryLines.Location = new System.Drawing.Point(3, 3);
             this.checkBoxStoryLines.Name = "checkBoxStoryLines";
             this.checkBoxStoryLines.Size = new System.Drawing.Size(78, 17);
@@ -358,8 +314,6 @@
             // checkBoxRetellings
             // 
             this.checkBoxRetellings.AutoSize = true;
-            this.checkBoxRetellings.Checked = true;
-            this.checkBoxRetellings.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxRetellings.Location = new System.Drawing.Point(87, 3);
             this.checkBoxRetellings.Name = "checkBoxRetellings";
             this.checkBoxRetellings.Size = new System.Drawing.Size(72, 17);
@@ -371,8 +325,6 @@
             // checkBoxTestQuestions
             // 
             this.checkBoxTestQuestions.AutoSize = true;
-            this.checkBoxTestQuestions.Checked = true;
-            this.checkBoxTestQuestions.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxTestQuestions.Location = new System.Drawing.Point(165, 3);
             this.checkBoxTestQuestions.Name = "checkBoxTestQuestions";
             this.checkBoxTestQuestions.Size = new System.Drawing.Size(97, 17);
@@ -384,8 +336,6 @@
             // checkBoxTestQuestionAnswers
             // 
             this.checkBoxTestQuestionAnswers.AutoSize = true;
-            this.checkBoxTestQuestionAnswers.Checked = true;
-            this.checkBoxTestQuestionAnswers.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxTestQuestionAnswers.Location = new System.Drawing.Point(268, 3);
             this.checkBoxTestQuestionAnswers.Name = "checkBoxTestQuestionAnswers";
             this.checkBoxTestQuestionAnswers.Size = new System.Drawing.Size(66, 17);
@@ -393,28 +343,6 @@
             this.checkBoxTestQuestionAnswers.Text = "Answers";
             this.checkBoxTestQuestionAnswers.UseVisualStyleBackColor = true;
             this.checkBoxTestQuestionAnswers.CheckStateChanged += new System.EventHandler(this.UpdateAfterDisplay);
-            // 
-            // buttonMoveToPrevLineAfter
-            // 
-            this.buttonMoveToPrevLineAfter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonMoveToPrevLineAfter.Image = global::OneStoryProjectEditor.Properties.Resources.FillUpHS;
-            this.buttonMoveToPrevLineAfter.Location = new System.Drawing.Point(721, 3);
-            this.buttonMoveToPrevLineAfter.Name = "buttonMoveToPrevLineAfter";
-            this.buttonMoveToPrevLineAfter.Size = new System.Drawing.Size(23, 23);
-            this.buttonMoveToPrevLineAfter.TabIndex = 9;
-            this.buttonMoveToPrevLineAfter.UseVisualStyleBackColor = true;
-            this.buttonMoveToPrevLineAfter.Click += new System.EventHandler(this.ButtonMoveToPrevLineAfterClick);
-            // 
-            // buttonMoveToNextLineAfter
-            // 
-            this.buttonMoveToNextLineAfter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonMoveToNextLineAfter.Image = global::OneStoryProjectEditor.Properties.Resources.FillDownHS;
-            this.buttonMoveToNextLineAfter.Location = new System.Drawing.Point(750, 3);
-            this.buttonMoveToNextLineAfter.Name = "buttonMoveToNextLineAfter";
-            this.buttonMoveToNextLineAfter.Size = new System.Drawing.Size(23, 23);
-            this.buttonMoveToNextLineAfter.TabIndex = 8;
-            this.buttonMoveToNextLineAfter.UseVisualStyleBackColor = true;
-            this.buttonMoveToNextLineAfter.Click += new System.EventHandler(this.ButtonMoveToNextLineAfterClick);
             // 
             // splitContainer
             // 
@@ -455,6 +383,54 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(776, 186);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
+            // buttonMoveToNextLineBefore
+            // 
+            this.buttonMoveToNextLineBefore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonMoveToNextLineBefore.Image = global::OneStoryProjectEditor.Properties.Resources.FillDownHS;
+            this.buttonMoveToNextLineBefore.Location = new System.Drawing.Point(750, 3);
+            this.buttonMoveToNextLineBefore.Name = "buttonMoveToNextLineBefore";
+            this.buttonMoveToNextLineBefore.Size = new System.Drawing.Size(23, 23);
+            this.buttonMoveToNextLineBefore.TabIndex = 8;
+            this.buttonMoveToNextLineBefore.UseVisualStyleBackColor = true;
+            this.buttonMoveToNextLineBefore.Click += new System.EventHandler(this.ButtonMoveToNextLineBeforeClick);
+            // 
+            // buttonMoveToPrevLineBefore
+            // 
+            this.buttonMoveToPrevLineBefore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonMoveToPrevLineBefore.Image = global::OneStoryProjectEditor.Properties.Resources.FillUpHS;
+            this.buttonMoveToPrevLineBefore.Location = new System.Drawing.Point(720, 3);
+            this.buttonMoveToPrevLineBefore.Name = "buttonMoveToPrevLineBefore";
+            this.buttonMoveToPrevLineBefore.Size = new System.Drawing.Size(23, 23);
+            this.buttonMoveToPrevLineBefore.TabIndex = 9;
+            this.buttonMoveToPrevLineBefore.UseVisualStyleBackColor = true;
+            this.buttonMoveToPrevLineBefore.Click += new System.EventHandler(this.ButtonMoveToPrevLineBeforeClick);
+            // 
+            // htmlStoryBtControlBefore
+            // 
+            this.htmlStoryBtControlBefore.AllowWebBrowserDrop = false;
+            this.tableLayoutPanel1.SetColumnSpan(this.htmlStoryBtControlBefore, 3);
+            this.htmlStoryBtControlBefore.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlStoryBtControlBefore.IsWebBrowserContextMenuEnabled = false;
+            this.htmlStoryBtControlBefore.Location = new System.Drawing.Point(3, 32);
+            this.htmlStoryBtControlBefore.MinimumSize = new System.Drawing.Size(20, 20);
+            this.htmlStoryBtControlBefore.Name = "htmlStoryBtControlBefore";
+            this.htmlStoryBtControlBefore.ParentStory = null;
+            this.htmlStoryBtControlBefore.Size = new System.Drawing.Size(770, 151);
+            this.htmlStoryBtControlBefore.StoryData = null;
+            this.htmlStoryBtControlBefore.TabIndex = 4;
+            this.htmlStoryBtControlBefore.TheSE = null;
+            this.htmlStoryBtControlBefore.ViewSettings = null;
+            // 
+            // labelBefore
+            // 
+            this.labelBefore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelBefore.AutoSize = true;
+            this.labelBefore.Location = new System.Drawing.Point(3, 16);
+            this.labelBefore.Name = "labelBefore";
+            this.labelBefore.Size = new System.Drawing.Size(41, 13);
+            this.labelBefore.TabIndex = 7;
+            this.labelBefore.Text = "Before:";
+            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 3;
@@ -474,21 +450,27 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(776, 183);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
-            // htmlStoryBtControlBefore
+            // buttonMoveToPrevLineAfter
             // 
-            this.htmlStoryBtControlBefore.AllowWebBrowserDrop = false;
-            this.tableLayoutPanel1.SetColumnSpan(this.htmlStoryBtControlBefore, 3);
-            this.htmlStoryBtControlBefore.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlStoryBtControlBefore.IsWebBrowserContextMenuEnabled = false;
-            this.htmlStoryBtControlBefore.Location = new System.Drawing.Point(3, 32);
-            this.htmlStoryBtControlBefore.MinimumSize = new System.Drawing.Size(20, 20);
-            this.htmlStoryBtControlBefore.Name = "htmlStoryBtControlBefore";
-            this.htmlStoryBtControlBefore.ParentStory = null;
-            this.htmlStoryBtControlBefore.Size = new System.Drawing.Size(770, 151);
-            this.htmlStoryBtControlBefore.StoryData = null;
-            this.htmlStoryBtControlBefore.TabIndex = 4;
-            this.htmlStoryBtControlBefore.TheSE = null;
-            this.htmlStoryBtControlBefore.ViewSettings = null;
+            this.buttonMoveToPrevLineAfter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonMoveToPrevLineAfter.Image = global::OneStoryProjectEditor.Properties.Resources.FillUpHS;
+            this.buttonMoveToPrevLineAfter.Location = new System.Drawing.Point(721, 3);
+            this.buttonMoveToPrevLineAfter.Name = "buttonMoveToPrevLineAfter";
+            this.buttonMoveToPrevLineAfter.Size = new System.Drawing.Size(23, 23);
+            this.buttonMoveToPrevLineAfter.TabIndex = 9;
+            this.buttonMoveToPrevLineAfter.UseVisualStyleBackColor = true;
+            this.buttonMoveToPrevLineAfter.Click += new System.EventHandler(this.ButtonMoveToPrevLineAfterClick);
+            // 
+            // buttonMoveToNextLineAfter
+            // 
+            this.buttonMoveToNextLineAfter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonMoveToNextLineAfter.Image = global::OneStoryProjectEditor.Properties.Resources.FillDownHS;
+            this.buttonMoveToNextLineAfter.Location = new System.Drawing.Point(750, 3);
+            this.buttonMoveToNextLineAfter.Name = "buttonMoveToNextLineAfter";
+            this.buttonMoveToNextLineAfter.Size = new System.Drawing.Size(23, 23);
+            this.buttonMoveToNextLineAfter.TabIndex = 8;
+            this.buttonMoveToNextLineAfter.UseVisualStyleBackColor = true;
+            this.buttonMoveToNextLineAfter.Click += new System.EventHandler(this.ButtonMoveToNextLineAfterClick);
             // 
             // htmlStoryBtControlAfter
             // 
@@ -505,6 +487,16 @@
             this.htmlStoryBtControlAfter.TabIndex = 4;
             this.htmlStoryBtControlAfter.TheSE = null;
             this.htmlStoryBtControlAfter.ViewSettings = null;
+            // 
+            // labelAfter
+            // 
+            this.labelAfter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelAfter.AutoSize = true;
+            this.labelAfter.Location = new System.Drawing.Point(3, 16);
+            this.labelAfter.Name = "labelAfter";
+            this.labelAfter.Size = new System.Drawing.Size(32, 13);
+            this.labelAfter.TabIndex = 8;
+            this.labelAfter.Text = "After:";
             // 
             // SwapColumnsForm
             // 

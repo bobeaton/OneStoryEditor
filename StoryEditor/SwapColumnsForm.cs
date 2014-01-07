@@ -97,7 +97,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                if (radioButtonVernacularTranscription1.Checked)
+                if (radioButtonVernacularTranscription1.Checked )
                     return StoryEditor.TextFields.Vernacular;
                 if (radioButtonNationalBtTranscription1.Checked)
                     return StoryEditor.TextFields.NationalBt;
@@ -107,6 +107,25 @@ namespace OneStoryProjectEditor
                     return StoryEditor.TextFields.FreeTranslation;
                 System.Diagnostics.Debug.Fail("shouldn't be able to not have one of these checked!?");
                 return StoryEditor.TextFields.Undefined;
+            }
+
+            set
+            {
+                switch (value)
+                {
+                    case StoryEditor.TextFields.Vernacular:
+                        radioButtonVernacularTranscription1.Checked = true;
+                        break;
+                    case StoryEditor.TextFields.NationalBt:
+                        radioButtonNationalBtTranscription1.Checked = true;
+                        break;
+                    case StoryEditor.TextFields.InternationalBt:
+                        radioButtonInternationalBtTranscription1.Checked = true;
+                        break;
+                    case StoryEditor.TextFields.FreeTranslation:
+                        radioButtonFreeTrTranscription1.Checked = true;
+                        break;
+                }
             }
         }
 
@@ -125,6 +144,25 @@ namespace OneStoryProjectEditor
                 System.Diagnostics.Debug.Fail("shouldn't be able to not have one of these checked!?");
                 return StoryEditor.TextFields.Undefined;
             }
+
+            set
+            {
+                switch (value)
+                {
+                    case StoryEditor.TextFields.Vernacular:
+                        radioButtonVernacularTranscription2.Checked = true;
+                        break;
+                    case StoryEditor.TextFields.NationalBt:
+                        radioButtonNationalBtTranscription2.Checked = true;
+                        break;
+                    case StoryEditor.TextFields.InternationalBt:
+                        radioButtonInternationalBtTranscription2.Checked = true;
+                        break;
+                    case StoryEditor.TextFields.FreeTranslation:
+                        radioButtonFreeTrTranscription2.Checked = true;
+                        break;
+                }
+            }
         }
 
         public StoryEditor.TextFields FieldsToSwap
@@ -141,6 +179,18 @@ namespace OneStoryProjectEditor
                 if (checkBoxTestQuestionAnswers.Checked)
                     fields |= StoryEditor.TextFields.TestQuestionAnswer;
                 return fields;
+            }
+
+            set
+            {
+                if (StoryEditor.IsFieldSet(value, StoryEditor.TextFields.StoryLine))
+                    checkBoxStoryLines.Checked = true;
+                if (StoryEditor.IsFieldSet(value, StoryEditor.TextFields.Retelling))
+                    checkBoxRetellings.Checked = true;
+                if (StoryEditor.IsFieldSet(value, StoryEditor.TextFields.TestQuestion))
+                    checkBoxTestQuestions.Checked = true;
+                if (StoryEditor.IsFieldSet(value, StoryEditor.TextFields.TestQuestionAnswer))
+                    checkBoxTestQuestionAnswers.Checked = true;
             }
         }
 
