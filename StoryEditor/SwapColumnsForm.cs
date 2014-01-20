@@ -194,6 +194,14 @@ namespace OneStoryProjectEditor
             }
         }
 
+        private void ResetCheckBoxFields()
+        {
+            checkBoxStoryLines.Checked =
+                checkBoxRetellings.Checked =
+                checkBoxTestQuestions.Checked =
+                checkBoxTestQuestionAnswers.Checked = true;
+        }
+
         private void ButtonOkClick(object sender, EventArgs e)
         {
             var column1 = Column1;
@@ -202,6 +210,18 @@ namespace OneStoryProjectEditor
                 ((column2 & StoryEditor.TextFields.Languages) == StoryEditor.TextFields.Undefined) ||
                 (column1 == column2))
             {
+                return;
+            }
+
+            if ((StoryEditor.IsFieldSet(column1, StoryEditor.TextFields.FreeTranslation) ||
+                 StoryEditor.IsFieldSet(column2, StoryEditor.TextFields.FreeTranslation)) &&
+                ((FieldsToSwap & ~StoryEditor.TextFields.StoryLine) != StoryEditor.TextFields.Undefined))
+            {
+                LocalizableMessageBox.Show(
+                    Localizer.Str(
+                        "Only the 'Story Lines' fields contain a box for 'Free Translation' data. So when swapping the 'Free Translation' field, only the 'Story Lines' field can be checked for swapping."),
+                    StoryEditor.OseCaption);
+
                 return;
             }
 
