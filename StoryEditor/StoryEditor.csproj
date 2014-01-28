@@ -351,6 +351,12 @@
       <DependentUpon>NoteForm.cs</DependentUpon>
     </Compile>
     <Compile Include="OneStoryUrlBuilder.cs" />
+    <Compile Include="OsMetaDataForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OsMetaDataForm.Designer.cs">
+      <DependentUpon>OsMetaDataForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="PanoramaView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -557,6 +563,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NoteForm.resx">
       <DependentUpon>NoteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OsMetaDataForm.resx">
+      <DependentUpon>OsMetaDataForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PanoramaView.resx">
       <DependentUpon>PanoramaView.cs</DependentUpon>

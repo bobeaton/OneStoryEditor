@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using NetLoc;
 using Palaso.UI.WindowsForms.Keyboarding;
@@ -131,6 +132,10 @@ namespace OneStoryProjectEditor
                             labelInternationalBT,
                             textBoxInternationalBT);
 
+            var lnCNotesNoteFontName = Properties.Settings.Default.LnCNotesNoteFontName;
+            var lnCNotesNoteFontSize = Properties.Settings.Default.LnCNotesNoteFontSize;
+            textBoxNotes.Font = new Font(lnCNotesNoteFontName,
+                                         lnCNotesNoteFontSize);
             textBoxNotes.Text = theLnC.Notes;
 
             var strHelpString = Localizer.Str("Enter the word(s) you want to search for. You can search for more than one word at a time by separating them by commas. For all words beginning with \"xyz\" use \"xyz*\" ; ending with \"xyz\" use \"*xyz\"; containing \"xyz\" use \"*xyz*\". Multiple word search phrases are allowed, for example \"John the Baptist\" (enclose in double-quotes)");

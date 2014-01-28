@@ -367,5 +367,11 @@ DoAdaptingBeforeGlossing_InVerticalEdit	1</Value>
     <Setting Name="ProjectNameToLastUserType" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="LnCNotesNoteFontName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Microsoft Sans Serif</Value>
+    </Setting>
+    <Setting Name="LnCNotesNoteFontSize" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">8.25</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
