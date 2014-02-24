@@ -62,9 +62,17 @@ namespace OneStoryProjectEditor
                                                     ? theSE.StoryProject.ProjSettings.InternationalBT.FontToUse
                                                     : theSE.StoryProject.ProjSettings.NationalBT.FontToUse;
 
+            var lnCNotesNoteFontName = Properties.Settings.Default.LnCNotesNoteFontName;
+            var lnCNotesNoteFontSize = Properties.Settings.Default.LnCNotesNoteFontSize;
+            ColumnNotes.DefaultCellStyle.Font = new Font(lnCNotesNoteFontName,
+                                                         lnCNotesNoteFontSize);
+
             _nHeight = ColumnGloss.DefaultCellStyle.Font.Height;
             ColumnRenderings.DefaultCellStyle.Font = theSE.StoryProject.ProjSettings.Vernacular.FontToUse;
-            _nHeight = Math.Max(_nHeight, ColumnRenderings.DefaultCellStyle.Font.Height) + 4;
+            _nHeight =
+                Math.Max(_nHeight,
+                         Math.Max(ColumnRenderings.DefaultCellStyle.Font.Height,
+                                  ColumnNotes.DefaultCellStyle.Font.Height)) + 4;
             InitTable(theSE.StoryProject.LnCNotes);
         }
 
