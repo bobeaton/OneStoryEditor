@@ -149,6 +149,7 @@
     </Reference>
     <Reference Include="System.Data.DataSetExtensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -357,6 +358,7 @@
     <Compile Include="OsMetaDataForm.Designer.cs">
       <DependentUpon>OsMetaDataForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="OsMetaDataModel.cs" />
     <Compile Include="PanoramaView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -674,6 +676,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -1027,6 +1030,7 @@
     </FileAssociation>
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />

@@ -1007,7 +1007,9 @@ namespace OneStoryProjectEditor
         public void ShowContextMenu(string strId)
         {
             if (IsButtonElement(strId))
+            {
                 ;
+            }
             else if (IsTextareaElement(strId))
             {
                 LastTextareaInFocusId = strId;

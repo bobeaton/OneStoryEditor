@@ -228,7 +228,9 @@ namespace OneStoryProjectEditor
                 var val = this[nLastIndex];
                 RemoveAt(nLastIndex);
                 if (val.Item1 == null)
-                    ; // no op -- means we deleted a line of data
+                {
+                    ;    // no op -- means we deleted a line of data
+                }
                 else if (val.Item1 is CtrlTextBox)
                     (val.Item1 as CtrlTextBox).Text = val.Item2;
                 else if (val.Item1 is HtmlElement)

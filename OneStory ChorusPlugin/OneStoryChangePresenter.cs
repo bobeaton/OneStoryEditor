@@ -21,7 +21,7 @@ namespace OneStory_ChorusPlugin
         {
             _report = report;
 
-            System.Diagnostics.Debug.Assert(_projFile != null);
+            System.Diagnostics.Debug.Assert(projFile != null);
             _projFile = projFile;
             _strProjectPath = strProjectPath;
         }

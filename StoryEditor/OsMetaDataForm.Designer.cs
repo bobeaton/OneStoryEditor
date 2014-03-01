@@ -31,6 +31,8 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageProjectInformation = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelProjectInformation = new System.Windows.Forms.TableLayoutPanel();
+            this.labelProjectName = new System.Windows.Forms.Label();
+            this.textBoxProjectName = new System.Windows.Forms.TextBox();
             this.labelLanguageName = new System.Windows.Forms.Label();
             this.textBoxLanguageName = new System.Windows.Forms.TextBox();
             this.labelEthnologueCode = new System.Windows.Forms.Label();
@@ -54,7 +56,7 @@
             this.comboBoxTeamCategory = new System.Windows.Forms.ComboBox();
             this.labelTeamAffiliation = new System.Windows.Forms.Label();
             this.textBoxTeamAffiliation = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelNotes = new System.Windows.Forms.Label();
             this.textBoxNotes = new System.Windows.Forms.TextBox();
             this.tabPageProjectSequence = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelProjectSequence = new System.Windows.Forms.TableLayoutPanel();
@@ -93,7 +95,6 @@
             this.textBoxFinalReview = new System.Windows.Forms.TextBox();
             this.labelSetFinishedDate = new System.Windows.Forms.Label();
             this.labelUploadedOsMedia = new System.Windows.Forms.Label();
-            this.dateTimePickerUploadedOsMedia = new System.Windows.Forms.DateTimePicker();
             this.labelSetCopyright = new System.Windows.Forms.Label();
             this.textBoxSetCopyright = new System.Windows.Forms.TextBox();
             this.textBoxPsConsultant = new System.Windows.Forms.TextBox();
@@ -102,6 +103,11 @@
             this.labelLcaWorkshop = new System.Windows.Forms.Label();
             this.labelPreliminaryStage = new System.Windows.Forms.Label();
             this.dateTimePickerSetFinishedDate = new System.Windows.Forms.DateTimePicker();
+            this.checkBoxIsUploadedToOsMedia = new System.Windows.Forms.CheckBox();
+            this.labelNumInPreliminaryApproval = new System.Windows.Forms.Label();
+            this.textBoxNumInPreliminaryApproval = new System.Windows.Forms.TextBox();
+            this.buttonOk = new System.Windows.Forms.Button();
+            this.buttonCancel = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabPageProjectInformation.SuspendLayout();
             this.tableLayoutPanelProjectInformation.SuspendLayout();
@@ -111,13 +117,15 @@
             // 
             // tabControl
             // 
+            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabPageProjectInformation);
             this.tabControl.Controls.Add(this.tabPageProjectSequence);
-            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(655, 683);
+            this.tabControl.Size = new System.Drawing.Size(655, 606);
             this.tabControl.TabIndex = 0;
             // 
             // tabPageProjectInformation
@@ -126,7 +134,7 @@
             this.tabPageProjectInformation.Location = new System.Drawing.Point(4, 22);
             this.tabPageProjectInformation.Name = "tabPageProjectInformation";
             this.tabPageProjectInformation.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageProjectInformation.Size = new System.Drawing.Size(647, 657);
+            this.tabPageProjectInformation.Size = new System.Drawing.Size(647, 580);
             this.tabPageProjectInformation.TabIndex = 0;
             this.tabPageProjectInformation.Text = "Project Information";
             this.tabPageProjectInformation.ToolTipText = "Click here to enter project information";
@@ -137,35 +145,38 @@
             this.tableLayoutPanelProjectInformation.ColumnCount = 2;
             this.tableLayoutPanelProjectInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelProjectInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelLanguageName, 0, 0);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxLanguageName, 1, 0);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelEthnologueCode, 0, 1);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxEthnologueCode, 1, 1);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelContinent, 0, 2);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.comboBoxContinent, 1, 2);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelCountry, 0, 3);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxCountry, 1, 3);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelManagingPartner, 0, 4);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.comboBoxManagingPartner, 1, 4);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelLocalEntity, 0, 5);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxLocalEntity, 1, 5);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelPrioritiesCategory, 0, 6);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.comboBoxPrioritiesCategory, 1, 6);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelScriptureStatus, 0, 7);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.comboBoxScriptureStatus, 1, 7);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxScriptureStatusDetails, 1, 8);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelFacilitators, 0, 9);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxFacilitators, 1, 9);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelTeamCategory, 0, 10);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.comboBoxTeamCategory, 1, 10);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelTeamAffiliation, 0, 11);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxTeamAffiliation, 1, 11);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.label1, 0, 12);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxNotes, 1, 12);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelProjectName, 0, 0);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxProjectName, 1, 0);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelLanguageName, 0, 1);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxLanguageName, 1, 1);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelEthnologueCode, 0, 2);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxEthnologueCode, 1, 2);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelContinent, 0, 3);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.comboBoxContinent, 1, 3);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelCountry, 0, 4);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxCountry, 1, 4);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelManagingPartner, 0, 5);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.comboBoxManagingPartner, 1, 5);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelLocalEntity, 0, 6);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxLocalEntity, 1, 6);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelPrioritiesCategory, 0, 7);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.comboBoxPrioritiesCategory, 1, 7);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelScriptureStatus, 0, 8);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.comboBoxScriptureStatus, 1, 8);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxScriptureStatusDetails, 1, 9);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelFacilitators, 0, 10);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxFacilitators, 1, 10);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelTeamCategory, 0, 11);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.comboBoxTeamCategory, 1, 11);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelTeamAffiliation, 0, 12);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxTeamAffiliation, 1, 12);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelNotes, 0, 13);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxNotes, 1, 13);
             this.tableLayoutPanelProjectInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelProjectInformation.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanelProjectInformation.Name = "tableLayoutPanelProjectInformation";
-            this.tableLayoutPanelProjectInformation.RowCount = 13;
+            this.tableLayoutPanelProjectInformation.RowCount = 14;
+            this.tableLayoutPanelProjectInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelProjectInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelProjectInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelProjectInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -179,53 +190,71 @@
             this.tableLayoutPanelProjectInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelProjectInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelProjectInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelProjectInformation.Size = new System.Drawing.Size(641, 651);
+            this.tableLayoutPanelProjectInformation.Size = new System.Drawing.Size(641, 574);
             this.tableLayoutPanelProjectInformation.TabIndex = 0;
+            // 
+            // labelProjectName
+            // 
+            this.labelProjectName.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelProjectName.AutoSize = true;
+            this.labelProjectName.Location = new System.Drawing.Point(23, 6);
+            this.labelProjectName.Name = "labelProjectName";
+            this.labelProjectName.Size = new System.Drawing.Size(74, 13);
+            this.labelProjectName.TabIndex = 0;
+            this.labelProjectName.Text = "Project Name:";
+            // 
+            // textBoxProjectName
+            // 
+            this.textBoxProjectName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxProjectName.Location = new System.Drawing.Point(103, 3);
+            this.textBoxProjectName.Name = "textBoxProjectName";
+            this.textBoxProjectName.Size = new System.Drawing.Size(535, 20);
+            this.textBoxProjectName.TabIndex = 1;
             // 
             // labelLanguageName
             // 
             this.labelLanguageName.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelLanguageName.AutoSize = true;
-            this.labelLanguageName.Location = new System.Drawing.Point(8, 6);
+            this.labelLanguageName.Location = new System.Drawing.Point(8, 32);
             this.labelLanguageName.Name = "labelLanguageName";
             this.labelLanguageName.Size = new System.Drawing.Size(89, 13);
-            this.labelLanguageName.TabIndex = 0;
+            this.labelLanguageName.TabIndex = 2;
             this.labelLanguageName.Text = "Language Name:";
             // 
             // textBoxLanguageName
             // 
             this.textBoxLanguageName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxLanguageName.Location = new System.Drawing.Point(103, 3);
+            this.textBoxLanguageName.Location = new System.Drawing.Point(103, 29);
             this.textBoxLanguageName.Name = "textBoxLanguageName";
             this.textBoxLanguageName.Size = new System.Drawing.Size(535, 20);
-            this.textBoxLanguageName.TabIndex = 1;
+            this.textBoxLanguageName.TabIndex = 3;
             // 
             // labelEthnologueCode
             // 
             this.labelEthnologueCode.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelEthnologueCode.AutoSize = true;
-            this.labelEthnologueCode.Location = new System.Drawing.Point(5, 32);
+            this.labelEthnologueCode.Location = new System.Drawing.Point(5, 58);
             this.labelEthnologueCode.Name = "labelEthnologueCode";
             this.labelEthnologueCode.Size = new System.Drawing.Size(92, 13);
-            this.labelEthnologueCode.TabIndex = 2;
+            this.labelEthnologueCode.TabIndex = 4;
             this.labelEthnologueCode.Text = "Ethnologue Code:";
             // 
             // textBoxEthnologueCode
             // 
             this.textBoxEthnologueCode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxEthnologueCode.Location = new System.Drawing.Point(103, 29);
+            this.textBoxEthnologueCode.Location = new System.Drawing.Point(103, 55);
             this.textBoxEthnologueCode.Name = "textBoxEthnologueCode";
             this.textBoxEthnologueCode.Size = new System.Drawing.Size(535, 20);
-            this.textBoxEthnologueCode.TabIndex = 3;
+            this.textBoxEthnologueCode.TabIndex = 5;
             // 
             // labelContinent
             // 
             this.labelContinent.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelContinent.AutoSize = true;
-            this.labelContinent.Location = new System.Drawing.Point(42, 59);
+            this.labelContinent.Location = new System.Drawing.Point(42, 85);
             this.labelContinent.Name = "labelContinent";
             this.labelContinent.Size = new System.Drawing.Size(55, 13);
-            this.labelContinent.TabIndex = 4;
+            this.labelContinent.TabIndex = 6;
             this.labelContinent.Text = "Continent:";
             // 
             // comboBoxContinent
@@ -239,37 +268,37 @@
             "North America",
             "Pacific",
             "South America"});
-            this.comboBoxContinent.Location = new System.Drawing.Point(103, 55);
+            this.comboBoxContinent.Location = new System.Drawing.Point(103, 81);
             this.comboBoxContinent.Name = "comboBoxContinent";
             this.comboBoxContinent.Size = new System.Drawing.Size(535, 21);
-            this.comboBoxContinent.TabIndex = 5;
+            this.comboBoxContinent.TabIndex = 7;
             // 
             // labelCountry
             // 
             this.labelCountry.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelCountry.AutoSize = true;
-            this.labelCountry.Location = new System.Drawing.Point(51, 85);
+            this.labelCountry.Location = new System.Drawing.Point(51, 111);
             this.labelCountry.Name = "labelCountry";
             this.labelCountry.Size = new System.Drawing.Size(46, 13);
-            this.labelCountry.TabIndex = 6;
+            this.labelCountry.TabIndex = 8;
             this.labelCountry.Text = "Country:";
             // 
             // textBoxCountry
             // 
             this.textBoxCountry.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxCountry.Location = new System.Drawing.Point(103, 82);
+            this.textBoxCountry.Location = new System.Drawing.Point(103, 108);
             this.textBoxCountry.Name = "textBoxCountry";
             this.textBoxCountry.Size = new System.Drawing.Size(535, 20);
-            this.textBoxCountry.TabIndex = 7;
+            this.textBoxCountry.TabIndex = 9;
             // 
             // labelManagingPartner
             // 
             this.labelManagingPartner.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelManagingPartner.AutoSize = true;
-            this.labelManagingPartner.Location = new System.Drawing.Point(3, 112);
+            this.labelManagingPartner.Location = new System.Drawing.Point(3, 138);
             this.labelManagingPartner.Name = "labelManagingPartner";
             this.labelManagingPartner.Size = new System.Drawing.Size(94, 13);
-            this.labelManagingPartner.TabIndex = 8;
+            this.labelManagingPartner.TabIndex = 10;
             this.labelManagingPartner.Text = "Managing Partner:";
             // 
             // comboBoxManagingPartner
@@ -286,37 +315,37 @@
             "YWAM",
             "IMB",
             "Other"});
-            this.comboBoxManagingPartner.Location = new System.Drawing.Point(103, 108);
+            this.comboBoxManagingPartner.Location = new System.Drawing.Point(103, 134);
             this.comboBoxManagingPartner.Name = "comboBoxManagingPartner";
             this.comboBoxManagingPartner.Size = new System.Drawing.Size(535, 21);
-            this.comboBoxManagingPartner.TabIndex = 9;
+            this.comboBoxManagingPartner.TabIndex = 11;
             // 
             // labelLocalEntity
             // 
             this.labelLocalEntity.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelLocalEntity.AutoSize = true;
-            this.labelLocalEntity.Location = new System.Drawing.Point(32, 138);
+            this.labelLocalEntity.Location = new System.Drawing.Point(32, 164);
             this.labelLocalEntity.Name = "labelLocalEntity";
             this.labelLocalEntity.Size = new System.Drawing.Size(65, 13);
-            this.labelLocalEntity.TabIndex = 10;
+            this.labelLocalEntity.TabIndex = 12;
             this.labelLocalEntity.Text = "Local Entity:";
             // 
             // textBoxLocalEntity
             // 
             this.textBoxLocalEntity.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxLocalEntity.Location = new System.Drawing.Point(103, 135);
+            this.textBoxLocalEntity.Location = new System.Drawing.Point(103, 161);
             this.textBoxLocalEntity.Name = "textBoxLocalEntity";
             this.textBoxLocalEntity.Size = new System.Drawing.Size(535, 20);
-            this.textBoxLocalEntity.TabIndex = 11;
+            this.textBoxLocalEntity.TabIndex = 13;
             // 
             // labelPrioritiesCategory
             // 
             this.labelPrioritiesCategory.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelPrioritiesCategory.AutoSize = true;
-            this.labelPrioritiesCategory.Location = new System.Drawing.Point(3, 165);
+            this.labelPrioritiesCategory.Location = new System.Drawing.Point(3, 191);
             this.labelPrioritiesCategory.Name = "labelPrioritiesCategory";
             this.labelPrioritiesCategory.Size = new System.Drawing.Size(94, 13);
-            this.labelPrioritiesCategory.TabIndex = 12;
+            this.labelPrioritiesCategory.TabIndex = 14;
             this.labelPrioritiesCategory.Text = "Priorities Category:";
             // 
             // comboBoxPrioritiesCategory
@@ -329,19 +358,19 @@
             "3. Unreached",
             "4. Gateway",
             "5. Other"});
-            this.comboBoxPrioritiesCategory.Location = new System.Drawing.Point(103, 161);
+            this.comboBoxPrioritiesCategory.Location = new System.Drawing.Point(103, 187);
             this.comboBoxPrioritiesCategory.Name = "comboBoxPrioritiesCategory";
             this.comboBoxPrioritiesCategory.Size = new System.Drawing.Size(535, 21);
-            this.comboBoxPrioritiesCategory.TabIndex = 13;
+            this.comboBoxPrioritiesCategory.TabIndex = 15;
             // 
             // labelScriptureStatus
             // 
             this.labelScriptureStatus.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelScriptureStatus.AutoSize = true;
-            this.labelScriptureStatus.Location = new System.Drawing.Point(12, 192);
+            this.labelScriptureStatus.Location = new System.Drawing.Point(12, 218);
             this.labelScriptureStatus.Name = "labelScriptureStatus";
             this.labelScriptureStatus.Size = new System.Drawing.Size(85, 13);
-            this.labelScriptureStatus.TabIndex = 14;
+            this.labelScriptureStatus.TabIndex = 16;
             this.labelScriptureStatus.Text = "Scripture Status:";
             // 
             // comboBoxScriptureStatus
@@ -354,45 +383,47 @@
             "3. Post-translation (portions)",
             "4. Post-translation (New Testament)",
             "5. Post-translation (full Bible)"});
-            this.comboBoxScriptureStatus.Location = new System.Drawing.Point(103, 188);
+            this.comboBoxScriptureStatus.Location = new System.Drawing.Point(103, 214);
             this.comboBoxScriptureStatus.Name = "comboBoxScriptureStatus";
             this.comboBoxScriptureStatus.Size = new System.Drawing.Size(535, 21);
-            this.comboBoxScriptureStatus.TabIndex = 15;
+            this.comboBoxScriptureStatus.TabIndex = 17;
             // 
             // textBoxScriptureStatusDetails
             // 
             this.textBoxScriptureStatusDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxScriptureStatusDetails.Location = new System.Drawing.Point(103, 215);
+            this.textBoxScriptureStatusDetails.Location = new System.Drawing.Point(103, 241);
+            this.textBoxScriptureStatusDetails.Multiline = true;
             this.textBoxScriptureStatusDetails.Name = "textBoxScriptureStatusDetails";
-            this.textBoxScriptureStatusDetails.Size = new System.Drawing.Size(535, 20);
-            this.textBoxScriptureStatusDetails.TabIndex = 16;
+            this.textBoxScriptureStatusDetails.Size = new System.Drawing.Size(535, 44);
+            this.textBoxScriptureStatusDetails.TabIndex = 18;
             // 
             // labelFacilitators
             // 
             this.labelFacilitators.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelFacilitators.AutoSize = true;
-            this.labelFacilitators.Location = new System.Drawing.Point(37, 268);
+            this.labelFacilitators.Location = new System.Drawing.Point(37, 294);
             this.labelFacilitators.Name = "labelFacilitators";
             this.labelFacilitators.Size = new System.Drawing.Size(60, 13);
-            this.labelFacilitators.TabIndex = 17;
+            this.labelFacilitators.TabIndex = 19;
             this.labelFacilitators.Text = "Facilitators:";
             // 
             // textBoxFacilitators
             // 
             this.textBoxFacilitators.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxFacilitators.Location = new System.Drawing.Point(103, 265);
+            this.textBoxFacilitators.Location = new System.Drawing.Point(103, 291);
             this.textBoxFacilitators.Name = "textBoxFacilitators";
+            this.textBoxFacilitators.ReadOnly = true;
             this.textBoxFacilitators.Size = new System.Drawing.Size(535, 20);
-            this.textBoxFacilitators.TabIndex = 18;
+            this.textBoxFacilitators.TabIndex = 20;
             // 
             // labelTeamCategory
             // 
             this.labelTeamCategory.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelTeamCategory.AutoSize = true;
-            this.labelTeamCategory.Location = new System.Drawing.Point(15, 295);
+            this.labelTeamCategory.Location = new System.Drawing.Point(15, 321);
             this.labelTeamCategory.Name = "labelTeamCategory";
             this.labelTeamCategory.Size = new System.Drawing.Size(82, 13);
-            this.labelTeamCategory.TabIndex = 19;
+            this.labelTeamCategory.TabIndex = 21;
             this.labelTeamCategory.Text = "Team Category:";
             // 
             // comboBoxTeamCategory
@@ -404,47 +435,47 @@
             "Venture",
             "Mother-tongue",
             "Mixed"});
-            this.comboBoxTeamCategory.Location = new System.Drawing.Point(103, 291);
+            this.comboBoxTeamCategory.Location = new System.Drawing.Point(103, 317);
             this.comboBoxTeamCategory.Name = "comboBoxTeamCategory";
             this.comboBoxTeamCategory.Size = new System.Drawing.Size(535, 21);
-            this.comboBoxTeamCategory.TabIndex = 20;
+            this.comboBoxTeamCategory.TabIndex = 22;
             // 
             // labelTeamAffiliation
             // 
             this.labelTeamAffiliation.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelTeamAffiliation.AutoSize = true;
-            this.labelTeamAffiliation.Location = new System.Drawing.Point(15, 321);
+            this.labelTeamAffiliation.Location = new System.Drawing.Point(15, 347);
             this.labelTeamAffiliation.Name = "labelTeamAffiliation";
             this.labelTeamAffiliation.Size = new System.Drawing.Size(82, 13);
-            this.labelTeamAffiliation.TabIndex = 21;
+            this.labelTeamAffiliation.TabIndex = 23;
             this.labelTeamAffiliation.Text = "Team Affiliation:";
             // 
             // textBoxTeamAffiliation
             // 
             this.textBoxTeamAffiliation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxTeamAffiliation.Location = new System.Drawing.Point(103, 318);
+            this.textBoxTeamAffiliation.Location = new System.Drawing.Point(103, 344);
             this.textBoxTeamAffiliation.Name = "textBoxTeamAffiliation";
             this.textBoxTeamAffiliation.Size = new System.Drawing.Size(535, 20);
-            this.textBoxTeamAffiliation.TabIndex = 22;
+            this.textBoxTeamAffiliation.TabIndex = 24;
             // 
-            // label1
+            // labelNotes
             // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(59, 489);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 13);
-            this.label1.TabIndex = 23;
-            this.label1.Text = "Notes:";
+            this.labelNotes.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelNotes.AutoSize = true;
+            this.labelNotes.Location = new System.Drawing.Point(59, 464);
+            this.labelNotes.Name = "labelNotes";
+            this.labelNotes.Size = new System.Drawing.Size(38, 13);
+            this.labelNotes.TabIndex = 26;
+            this.labelNotes.Text = "Notes:";
             // 
             // textBoxNotes
             // 
             this.textBoxNotes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxNotes.Location = new System.Drawing.Point(103, 344);
+            this.textBoxNotes.Location = new System.Drawing.Point(103, 370);
             this.textBoxNotes.Multiline = true;
             this.textBoxNotes.Name = "textBoxNotes";
-            this.textBoxNotes.Size = new System.Drawing.Size(535, 304);
-            this.textBoxNotes.TabIndex = 24;
+            this.textBoxNotes.Size = new System.Drawing.Size(535, 201);
+            this.textBoxNotes.TabIndex = 25;
             // 
             // tabPageProjectSequence
             // 
@@ -452,7 +483,7 @@
             this.tabPageProjectSequence.Location = new System.Drawing.Point(4, 22);
             this.tabPageProjectSequence.Name = "tabPageProjectSequence";
             this.tabPageProjectSequence.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageProjectSequence.Size = new System.Drawing.Size(647, 657);
+            this.tabPageProjectSequence.Size = new System.Drawing.Size(647, 580);
             this.tabPageProjectSequence.TabIndex = 1;
             this.tabPageProjectSequence.Text = "Project Sequence";
             this.tabPageProjectSequence.ToolTipText = "Click here to enter project sequence information";
@@ -491,27 +522,29 @@
             this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxNumOfSfgs, 2, 13);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelPsConsultant, 1, 14);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelPsCoach, 1, 15);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.buttonCompletionStage, 0, 16);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.labelLsr, 1, 17);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.labelCompletionStage, 0, 17);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxLsr, 2, 17);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.labelFinalReview, 1, 18);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxFinalReview, 2, 18);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.labelSetFinishedDate, 1, 19);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.labelUploadedOsMedia, 1, 20);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.dateTimePickerUploadedOsMedia, 2, 20);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.labelSetCopyright, 1, 21);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxSetCopyright, 2, 21);
+            this.tableLayoutPanelProjectSequence.Controls.Add(this.buttonCompletionStage, 0, 17);
+            this.tableLayoutPanelProjectSequence.Controls.Add(this.labelLsr, 1, 18);
+            this.tableLayoutPanelProjectSequence.Controls.Add(this.labelCompletionStage, 0, 18);
+            this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxLsr, 2, 18);
+            this.tableLayoutPanelProjectSequence.Controls.Add(this.labelFinalReview, 1, 19);
+            this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxFinalReview, 2, 19);
+            this.tableLayoutPanelProjectSequence.Controls.Add(this.labelSetFinishedDate, 1, 20);
+            this.tableLayoutPanelProjectSequence.Controls.Add(this.labelUploadedOsMedia, 1, 21);
+            this.tableLayoutPanelProjectSequence.Controls.Add(this.labelSetCopyright, 1, 22);
+            this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxSetCopyright, 2, 22);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxPsConsultant, 2, 14);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxPsCoach, 2, 15);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.dateTimePickerStartDate, 1, 1);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelLcaWorkshop, 1, 3);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelPreliminaryStage, 0, 3);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.dateTimePickerSetFinishedDate, 2, 19);
+            this.tableLayoutPanelProjectSequence.Controls.Add(this.dateTimePickerSetFinishedDate, 2, 20);
+            this.tableLayoutPanelProjectSequence.Controls.Add(this.checkBoxIsUploadedToOsMedia, 2, 21);
+            this.tableLayoutPanelProjectSequence.Controls.Add(this.labelNumInPreliminaryApproval, 1, 16);
+            this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxNumInPreliminaryApproval, 2, 16);
             this.tableLayoutPanelProjectSequence.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelProjectSequence.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanelProjectSequence.Name = "tableLayoutPanelProjectSequence";
-            this.tableLayoutPanelProjectSequence.RowCount = 23;
+            this.tableLayoutPanelProjectSequence.RowCount = 24;
             this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -528,15 +561,15 @@
             this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelProjectSequence.Size = new System.Drawing.Size(641, 651);
+            this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanelProjectSequence.Size = new System.Drawing.Size(641, 574);
             this.tableLayoutPanelProjectSequence.TabIndex = 0;
             // 
             // labelStartDate
@@ -546,7 +579,7 @@
             this.labelStartDate.Location = new System.Drawing.Point(38, 33);
             this.labelStartDate.Name = "labelStartDate";
             this.labelStartDate.Size = new System.Drawing.Size(58, 13);
-            this.labelStartDate.TabIndex = 43;
+            this.labelStartDate.TabIndex = 2;
             this.labelStartDate.Text = "Start Date:";
             // 
             // labelStatus
@@ -556,7 +589,7 @@
             this.labelStatus.Location = new System.Drawing.Point(56, 7);
             this.labelStatus.Name = "labelStatus";
             this.labelStatus.Size = new System.Drawing.Size(40, 13);
-            this.labelStatus.TabIndex = 1;
+            this.labelStatus.TabIndex = 0;
             this.labelStatus.Text = "Status:";
             // 
             // comboBoxStatus
@@ -575,7 +608,7 @@
             this.comboBoxStatus.Location = new System.Drawing.Point(102, 3);
             this.comboBoxStatus.Name = "comboBoxStatus";
             this.comboBoxStatus.Size = new System.Drawing.Size(536, 21);
-            this.comboBoxStatus.TabIndex = 2;
+            this.comboBoxStatus.TabIndex = 1;
             // 
             // buttonPreliminaryStage
             // 
@@ -584,7 +617,8 @@
             this.buttonPreliminaryStage.Location = new System.Drawing.Point(3, 56);
             this.buttonPreliminaryStage.Name = "buttonPreliminaryStage";
             this.buttonPreliminaryStage.Size = new System.Drawing.Size(635, 14);
-            this.buttonPreliminaryStage.TabIndex = 3;
+            this.buttonPreliminaryStage.TabIndex = 4;
+            this.buttonPreliminaryStage.TabStop = false;
             this.buttonPreliminaryStage.UseVisualStyleBackColor = true;
             // 
             // textBoxLcaWorkshop
@@ -593,7 +627,7 @@
             this.textBoxLcaWorkshop.Location = new System.Drawing.Point(214, 76);
             this.textBoxLcaWorkshop.Name = "textBoxLcaWorkshop";
             this.textBoxLcaWorkshop.Size = new System.Drawing.Size(424, 20);
-            this.textBoxLcaWorkshop.TabIndex = 6;
+            this.textBoxLcaWorkshop.TabIndex = 7;
             // 
             // label2
             // 
@@ -602,7 +636,7 @@
             this.label2.Location = new System.Drawing.Point(144, 105);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(64, 13);
-            this.label2.TabIndex = 7;
+            this.label2.TabIndex = 8;
             this.label2.Text = "LCA Coach:";
             // 
             // textBoxLcaCoach
@@ -611,7 +645,7 @@
             this.textBoxLcaCoach.Location = new System.Drawing.Point(214, 102);
             this.textBoxLcaCoach.Name = "textBoxLcaCoach";
             this.textBoxLcaCoach.Size = new System.Drawing.Size(424, 20);
-            this.textBoxLcaCoach.TabIndex = 8;
+            this.textBoxLcaCoach.TabIndex = 9;
             // 
             // textBoxExploratoryStage
             // 
@@ -620,7 +654,8 @@
             this.textBoxExploratoryStage.Location = new System.Drawing.Point(3, 128);
             this.textBoxExploratoryStage.Name = "textBoxExploratoryStage";
             this.textBoxExploratoryStage.Size = new System.Drawing.Size(635, 14);
-            this.textBoxExploratoryStage.TabIndex = 9;
+            this.textBoxExploratoryStage.TabIndex = 10;
+            this.textBoxExploratoryStage.TabStop = false;
             this.textBoxExploratoryStage.UseVisualStyleBackColor = true;
             // 
             // labelExploratoryStage
@@ -732,6 +767,7 @@
             this.buttonProductionStage.Name = "buttonProductionStage";
             this.buttonProductionStage.Size = new System.Drawing.Size(635, 14);
             this.buttonProductionStage.TabIndex = 22;
+            this.buttonProductionStage.TabStop = false;
             this.buttonProductionStage.UseVisualStyleBackColor = true;
             // 
             // labelProductionStage
@@ -742,7 +778,7 @@
             this.labelProductionStage.Name = "labelProductionStage";
             this.tableLayoutPanelProjectSequence.SetRowSpan(this.labelProductionStage, 4);
             this.labelProductionStage.Size = new System.Drawing.Size(92, 13);
-            this.labelProductionStage.TabIndex = 23;
+            this.labelProductionStage.TabIndex = 25;
             this.labelProductionStage.Text = "Production Stage:";
             // 
             // labelMultiWorkshop
@@ -752,7 +788,7 @@
             this.labelMultiWorkshop.Location = new System.Drawing.Point(124, 301);
             this.labelMultiWorkshop.Name = "labelMultiWorkshop";
             this.labelMultiWorkshop.Size = new System.Drawing.Size(84, 13);
-            this.labelMultiWorkshop.TabIndex = 24;
+            this.labelMultiWorkshop.TabIndex = 23;
             this.labelMultiWorkshop.Text = "Multi Workshop:";
             // 
             // textBoxMultiWorkshop
@@ -761,7 +797,7 @@
             this.textBoxMultiWorkshop.Location = new System.Drawing.Point(214, 298);
             this.textBoxMultiWorkshop.Name = "textBoxMultiWorkshop";
             this.textBoxMultiWorkshop.Size = new System.Drawing.Size(424, 20);
-            this.textBoxMultiWorkshop.TabIndex = 25;
+            this.textBoxMultiWorkshop.TabIndex = 24;
             // 
             // labelNumOfSfgs
             // 
@@ -798,111 +834,105 @@
             this.labelPsCoach.Location = new System.Drawing.Point(150, 379);
             this.labelPsCoach.Name = "labelPsCoach";
             this.labelPsCoach.Size = new System.Drawing.Size(58, 13);
-            this.labelPsCoach.TabIndex = 29;
+            this.labelPsCoach.TabIndex = 30;
             this.labelPsCoach.Text = "PS Coach:";
             // 
             // buttonCompletionStage
             // 
             this.tableLayoutPanelProjectSequence.SetColumnSpan(this.buttonCompletionStage, 3);
             this.buttonCompletionStage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonCompletionStage.Location = new System.Drawing.Point(3, 402);
+            this.buttonCompletionStage.Location = new System.Drawing.Point(3, 428);
             this.buttonCompletionStage.Name = "buttonCompletionStage";
             this.buttonCompletionStage.Size = new System.Drawing.Size(635, 14);
-            this.buttonCompletionStage.TabIndex = 30;
+            this.buttonCompletionStage.TabIndex = 34;
+            this.buttonCompletionStage.TabStop = false;
             this.buttonCompletionStage.UseVisualStyleBackColor = true;
             // 
             // labelLsr
             // 
             this.labelLsr.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelLsr.AutoSize = true;
-            this.labelLsr.Location = new System.Drawing.Point(177, 425);
+            this.labelLsr.Location = new System.Drawing.Point(177, 451);
             this.labelLsr.Name = "labelLsr";
             this.labelLsr.Size = new System.Drawing.Size(31, 13);
-            this.labelLsr.TabIndex = 31;
+            this.labelLsr.TabIndex = 36;
             this.labelLsr.Text = "LSR:";
             // 
             // labelCompletionStage
             // 
             this.labelCompletionStage.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelCompletionStage.AutoSize = true;
-            this.labelCompletionStage.Location = new System.Drawing.Point(3, 477);
+            this.labelCompletionStage.Location = new System.Drawing.Point(3, 500);
             this.labelCompletionStage.Name = "labelCompletionStage";
             this.tableLayoutPanelProjectSequence.SetRowSpan(this.labelCompletionStage, 5);
             this.labelCompletionStage.Size = new System.Drawing.Size(93, 13);
-            this.labelCompletionStage.TabIndex = 5;
+            this.labelCompletionStage.TabIndex = 35;
             this.labelCompletionStage.Text = "Completion Stage:";
             // 
             // textBoxLsr
             // 
             this.textBoxLsr.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxLsr.Location = new System.Drawing.Point(214, 422);
+            this.textBoxLsr.Location = new System.Drawing.Point(214, 448);
             this.textBoxLsr.Name = "textBoxLsr";
             this.textBoxLsr.Size = new System.Drawing.Size(424, 20);
-            this.textBoxLsr.TabIndex = 32;
+            this.textBoxLsr.TabIndex = 37;
             // 
             // labelFinalReview
             // 
             this.labelFinalReview.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelFinalReview.AutoSize = true;
-            this.labelFinalReview.Location = new System.Drawing.Point(137, 451);
+            this.labelFinalReview.Location = new System.Drawing.Point(118, 477);
             this.labelFinalReview.Name = "labelFinalReview";
-            this.labelFinalReview.Size = new System.Drawing.Size(71, 13);
-            this.labelFinalReview.TabIndex = 33;
-            this.labelFinalReview.Text = "Final Review:";
+            this.labelFinalReview.Size = new System.Drawing.Size(90, 13);
+            this.labelFinalReview.TabIndex = 38;
+            this.labelFinalReview.Text = "# in Final Approv:";
             // 
             // textBoxFinalReview
             // 
             this.textBoxFinalReview.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxFinalReview.Location = new System.Drawing.Point(214, 448);
+            this.textBoxFinalReview.Location = new System.Drawing.Point(214, 474);
             this.textBoxFinalReview.Name = "textBoxFinalReview";
+            this.textBoxFinalReview.ReadOnly = true;
             this.textBoxFinalReview.Size = new System.Drawing.Size(424, 20);
-            this.textBoxFinalReview.TabIndex = 34;
+            this.textBoxFinalReview.TabIndex = 39;
             // 
             // labelSetFinishedDate
             // 
             this.labelSetFinishedDate.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelSetFinishedDate.AutoSize = true;
-            this.labelSetFinishedDate.Location = new System.Drawing.Point(114, 477);
+            this.labelSetFinishedDate.Location = new System.Drawing.Point(114, 503);
             this.labelSetFinishedDate.Name = "labelSetFinishedDate";
             this.labelSetFinishedDate.Size = new System.Drawing.Size(94, 13);
-            this.labelSetFinishedDate.TabIndex = 35;
+            this.labelSetFinishedDate.TabIndex = 40;
             this.labelSetFinishedDate.Text = "Set Finished Date:";
             // 
             // labelUploadedOsMedia
             // 
             this.labelUploadedOsMedia.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelUploadedOsMedia.AutoSize = true;
-            this.labelUploadedOsMedia.Location = new System.Drawing.Point(102, 503);
+            this.labelUploadedOsMedia.Location = new System.Drawing.Point(102, 526);
             this.labelUploadedOsMedia.Name = "labelUploadedOsMedia";
             this.labelUploadedOsMedia.Size = new System.Drawing.Size(106, 13);
-            this.labelUploadedOsMedia.TabIndex = 37;
+            this.labelUploadedOsMedia.TabIndex = 42;
             this.labelUploadedOsMedia.Text = "Uploaded OS Media:";
-            // 
-            // dateTimePickerUploadedOsMedia
-            // 
-            this.dateTimePickerUploadedOsMedia.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dateTimePickerUploadedOsMedia.Location = new System.Drawing.Point(214, 500);
-            this.dateTimePickerUploadedOsMedia.Name = "dateTimePickerUploadedOsMedia";
-            this.dateTimePickerUploadedOsMedia.Size = new System.Drawing.Size(424, 20);
-            this.dateTimePickerUploadedOsMedia.TabIndex = 38;
             // 
             // labelSetCopyright
             // 
             this.labelSetCopyright.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelSetCopyright.AutoSize = true;
-            this.labelSetCopyright.Location = new System.Drawing.Point(135, 529);
+            this.labelSetCopyright.Location = new System.Drawing.Point(135, 549);
             this.labelSetCopyright.Name = "labelSetCopyright";
             this.labelSetCopyright.Size = new System.Drawing.Size(73, 13);
-            this.labelSetCopyright.TabIndex = 39;
+            this.labelSetCopyright.TabIndex = 44;
             this.labelSetCopyright.Text = "Set Copyright:";
             // 
             // textBoxSetCopyright
             // 
             this.textBoxSetCopyright.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxSetCopyright.Location = new System.Drawing.Point(214, 526);
+            this.textBoxSetCopyright.Location = new System.Drawing.Point(214, 546);
             this.textBoxSetCopyright.Name = "textBoxSetCopyright";
             this.textBoxSetCopyright.Size = new System.Drawing.Size(424, 20);
-            this.textBoxSetCopyright.TabIndex = 40;
+            this.textBoxSetCopyright.TabIndex = 45;
             // 
             // textBoxPsConsultant
             // 
@@ -910,7 +940,7 @@
             this.textBoxPsConsultant.Location = new System.Drawing.Point(214, 350);
             this.textBoxPsConsultant.Name = "textBoxPsConsultant";
             this.textBoxPsConsultant.Size = new System.Drawing.Size(424, 20);
-            this.textBoxPsConsultant.TabIndex = 41;
+            this.textBoxPsConsultant.TabIndex = 29;
             // 
             // textBoxPsCoach
             // 
@@ -918,7 +948,7 @@
             this.textBoxPsCoach.Location = new System.Drawing.Point(214, 376);
             this.textBoxPsCoach.Name = "textBoxPsCoach";
             this.textBoxPsCoach.Size = new System.Drawing.Size(424, 20);
-            this.textBoxPsCoach.TabIndex = 42;
+            this.textBoxPsCoach.TabIndex = 31;
             // 
             // dateTimePickerStartDate
             // 
@@ -927,7 +957,8 @@
             this.dateTimePickerStartDate.Location = new System.Drawing.Point(102, 30);
             this.dateTimePickerStartDate.Name = "dateTimePickerStartDate";
             this.dateTimePickerStartDate.Size = new System.Drawing.Size(536, 20);
-            this.dateTimePickerStartDate.TabIndex = 44;
+            this.dateTimePickerStartDate.TabIndex = 3;
+            this.dateTimePickerStartDate.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
             // 
             // labelLcaWorkshop
             // 
@@ -936,7 +967,7 @@
             this.labelLcaWorkshop.Location = new System.Drawing.Point(129, 79);
             this.labelLcaWorkshop.Name = "labelLcaWorkshop";
             this.labelLcaWorkshop.Size = new System.Drawing.Size(79, 13);
-            this.labelLcaWorkshop.TabIndex = 5;
+            this.labelLcaWorkshop.TabIndex = 6;
             this.labelLcaWorkshop.Text = "LCA workshop:";
             // 
             // labelPreliminaryStage
@@ -953,16 +984,70 @@
             // dateTimePickerSetFinishedDate
             // 
             this.dateTimePickerSetFinishedDate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dateTimePickerSetFinishedDate.Location = new System.Drawing.Point(214, 474);
+            this.dateTimePickerSetFinishedDate.Location = new System.Drawing.Point(214, 500);
             this.dateTimePickerSetFinishedDate.Name = "dateTimePickerSetFinishedDate";
             this.dateTimePickerSetFinishedDate.Size = new System.Drawing.Size(424, 20);
-            this.dateTimePickerSetFinishedDate.TabIndex = 45;
+            this.dateTimePickerSetFinishedDate.TabIndex = 41;
+            this.dateTimePickerSetFinishedDate.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
+            // 
+            // checkBoxIsUploadedToOsMedia
+            // 
+            this.checkBoxIsUploadedToOsMedia.AutoSize = true;
+            this.checkBoxIsUploadedToOsMedia.Location = new System.Drawing.Point(214, 526);
+            this.checkBoxIsUploadedToOsMedia.Name = "checkBoxIsUploadedToOsMedia";
+            this.checkBoxIsUploadedToOsMedia.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxIsUploadedToOsMedia.TabIndex = 43;
+            this.checkBoxIsUploadedToOsMedia.UseVisualStyleBackColor = true;
+            // 
+            // labelNumInPreliminaryApproval
+            // 
+            this.labelNumInPreliminaryApproval.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelNumInPreliminaryApproval.AutoSize = true;
+            this.labelNumInPreliminaryApproval.Location = new System.Drawing.Point(109, 405);
+            this.labelNumInPreliminaryApproval.Name = "labelNumInPreliminaryApproval";
+            this.labelNumInPreliminaryApproval.Size = new System.Drawing.Size(99, 13);
+            this.labelNumInPreliminaryApproval.TabIndex = 32;
+            this.labelNumInPreliminaryApproval.Text = "# in Prelim. Approv:";
+            // 
+            // textBoxNumInPreliminaryApproval
+            // 
+            this.textBoxNumInPreliminaryApproval.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textBoxNumInPreliminaryApproval.Location = new System.Drawing.Point(214, 402);
+            this.textBoxNumInPreliminaryApproval.Name = "textBoxNumInPreliminaryApproval";
+            this.textBoxNumInPreliminaryApproval.Size = new System.Drawing.Size(424, 20);
+            this.textBoxNumInPreliminaryApproval.TabIndex = 33;
+            // 
+            // buttonOk
+            // 
+            this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonOk.Location = new System.Drawing.Point(240, 615);
+            this.buttonOk.Name = "buttonOk";
+            this.buttonOk.Size = new System.Drawing.Size(75, 23);
+            this.buttonOk.TabIndex = 0;
+            this.buttonOk.Text = "OK";
+            this.buttonOk.UseVisualStyleBackColor = true;
+            this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
+            // 
+            // buttonCancel
+            // 
+            this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.buttonCancel.Location = new System.Drawing.Point(339, 615);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancel.TabIndex = 1;
+            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.UseVisualStyleBackColor = true;
             // 
             // OsMetaDataForm
             // 
+            this.AcceptButton = this.buttonOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(655, 683);
+            this.CancelButton = this.buttonCancel;
+            this.ClientSize = new System.Drawing.Size(655, 645);
+            this.Controls.Add(this.buttonCancel);
+            this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.tabControl);
             this.Name = "OsMetaDataForm";
             this.Text = "OneStory Project Meta Data";
@@ -1006,7 +1091,7 @@
         private System.Windows.Forms.ComboBox comboBoxTeamCategory;
         private System.Windows.Forms.Label labelTeamAffiliation;
         private System.Windows.Forms.TextBox textBoxTeamAffiliation;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelNotes;
         private System.Windows.Forms.TextBox textBoxNotes;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelProjectSequence;
         private System.Windows.Forms.Label labelStatus;
@@ -1044,7 +1129,6 @@
         private System.Windows.Forms.TextBox textBoxFinalReview;
         private System.Windows.Forms.Label labelSetFinishedDate;
         private System.Windows.Forms.Label labelUploadedOsMedia;
-        private System.Windows.Forms.DateTimePicker dateTimePickerUploadedOsMedia;
         private System.Windows.Forms.Label labelSetCopyright;
         private System.Windows.Forms.TextBox textBoxSetCopyright;
         private System.Windows.Forms.TextBox textBoxPsConsultant;
@@ -1053,5 +1137,12 @@
         private System.Windows.Forms.DateTimePicker dateTimePickerStartDate;
         private System.Windows.Forms.Label labelPreliminaryStage;
         private System.Windows.Forms.DateTimePicker dateTimePickerSetFinishedDate;
+        private System.Windows.Forms.Label labelProjectName;
+        private System.Windows.Forms.TextBox textBoxProjectName;
+        private System.Windows.Forms.Button buttonOk;
+        private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.CheckBox checkBoxIsUploadedToOsMedia;
+        private System.Windows.Forms.Label labelNumInPreliminaryApproval;
+        private System.Windows.Forms.TextBox textBoxNumInPreliminaryApproval;
     }
 }

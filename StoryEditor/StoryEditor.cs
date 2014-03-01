@@ -6255,6 +6255,8 @@ namespace OneStoryProjectEditor
             advancedNewProjectMenu.Enabled = IsInStoriesSet;
             advancedEmailMenu.Checked = Settings.Default.UseMapiPlus;
             advancedUseWordBreaks.Enabled = BreakIterator.IsAvailable;
+
+            advancedOneStoryProjectMetaData.Enabled = (StoryProject != null) && (StoryProject.ProjSettings != null);
         }
 
         private void checkForProgramUpdatesNowToolStripMenuItem_Click(object sender, EventArgs e)
@@ -6592,6 +6594,14 @@ namespace OneStoryProjectEditor
             // clean up any existing open projects
             if (!CheckForSaveDirtyFile())
                 return false;
+
+            // see if we should save the OS project meta data
+            if ((StoryProject != null) &&
+                (StoryProject.OsMetaData != null) &&
+                (LoggedOnMember != null))
+            {
+                StoryProject.SaveProjectMetaData(LoggedOnMember);
+            }
 
             CloseProjectFile();
             return true;
@@ -7311,6 +7321,19 @@ namespace OneStoryProjectEditor
             var nextStoryName = _lstToSwap.First();
             _lstToSwap.Remove(nextStoryName);
             JumpToStory(nextStoryName);
+        }
+
+        private void advancedOneStoryProjectMetaData_Click(object sender, EventArgs e)
+        {
+            if (LaunchOsMetaDataDialog(StoryProject))
+                StoryProject.SaveProjectMetaData(LoggedOnMember);
+        }
+
+        public static bool LaunchOsMetaDataDialog(StoryProjectData storyProject)
+        {
+
+            var dlg = new OsMetaDataForm(storyProject.OsMetaData ?? storyProject.InitializeMetaData);
+            return (dlg.ShowDialog() == DialogResult.OK);
         }
     }
 

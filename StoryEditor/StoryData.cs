@@ -4,6 +4,7 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Xml;
 using System.Xml.Linq;
 using System.Text;
@@ -978,6 +979,9 @@ namespace OneStoryProjectEditor
     {
         public const string CstrAttributeMemberID = "memberID";
 
+        public string MemberId { get; set; }
+        public string MemberComment { get; set; }
+
         public MemberIdInfo(string strTesterGuid, string strTestComment)
         {
             MemberId = strTesterGuid;
@@ -1007,9 +1011,6 @@ namespace OneStoryProjectEditor
                                   new XAttribute(CstrAttributeMemberID, MemberId),
                                   MemberComment ?? ""));
         }
-
-        public string MemberId { get; set; }
-        public string MemberComment { get; set; }
 
         public bool IsConfigured
         {
@@ -1726,10 +1727,17 @@ namespace OneStoryProjectEditor
         public TeamMembersData TeamMembers;
         public ProjectSettings ProjSettings;
         public LnCNotesData LnCNotes;
+        public OsMetaDataModel OsMetaData;
         public string PanoramaFrontMatter;
         public string XmlDataVersion = "1.6";
         private const string CxmlDataVersionReferringText = "1.7";
         private const string CxmlDataVersionStickyNote = "1.8";
+
+        // added in support of acquiring OsMetaData via OSE
+        private const string CstrOsMetaDataFilename = "OsMetaData.xml";
+        public const string CstrOsMetaDataStatusExploratory = "3. Exploratory Stage";
+        public const string CstrOsMetaDataStatusProduction = "4. Production Stage";
+        private const string CstrOsMetaDataStatusSetComplete = "5. Set Complete";
 
         /// <summary>
         /// This version of the constructor should *always* be followed by a call to InitializeProjectSettings()
@@ -1746,7 +1754,8 @@ namespace OneStoryProjectEditor
             Add(Properties.Resources.IDS_ObsoleteStoriesSet, new StoriesData(Properties.Resources.IDS_ObsoleteStoriesSet));
         }
 
-        static bool bProjectConvertWarnedOnce;
+        private static bool _bProjectConvertWarnedOnce;
+        private static bool _bStopNaggingPf;
                 
         public StoryProjectData(NewDataSet projFile, ProjectSettings projSettings)
         {
@@ -1755,6 +1764,7 @@ namespace OneStoryProjectEditor
 
             // if the project file we opened doesn't have anything yet.. (shouldn't really happen)
             if (projFile.StoryProject.Count == 0)
+            {
                 projFile.StoryProject.AddStoryProjectRow(XmlDataVersion,
                                                          ProjSettings.ProjectName,
                                                          ProjSettings.HgRepoUrlHost,
@@ -1764,6 +1774,7 @@ namespace OneStoryProjectEditor
                                                          ProjSettings.DropboxStory, 
                                                          ProjSettings.DropboxRetelling,
                                                          ProjSettings.DropboxAnswers);
+            }
             else
             {
                 projFile.StoryProject[0].ProjectName = ProjSettings.ProjectName; // in case the user changed it.
@@ -1779,20 +1790,20 @@ namespace OneStoryProjectEditor
                         throw BackOutWithNoUI;
 
                     // convert the 1.3 file to 1.4 using xslt
-                    bProjectConvertWarnedOnce = true;
+                    _bProjectConvertWarnedOnce = true;
                     ConvertProjectFile1_3_to_1_4(ProjSettings.ProjectFilePath);
                 }
 
                 else if (projFile.StoryProject[0].version.CompareTo("1.4") == 0)
                 {
                     // see if the user wants us to upgrade this one
-                    if (!bProjectConvertWarnedOnce)
+                    if (!_bProjectConvertWarnedOnce)
                         if (LocalizableMessageBox.Show(String.Format(Properties.Resources.IDS_QueryConvertProjectFile1_3to1_4,
                             ProjSettings.ProjectName), StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
                             throw BackOutWithNoUI;
 
                     // convert the 1.3 file to 1.4 using xslt
-                    bProjectConvertWarnedOnce = true;
+                    _bProjectConvertWarnedOnce = true;
                     ConvertProjectFile1_4_to_1_5(ProjSettings.ProjectFilePath);
                 }
 
@@ -1851,6 +1862,170 @@ namespace OneStoryProjectEditor
 
             if (projFile.StoryProject[0].version.CompareTo("1.5") == 0)
                 CheckForCommentMemberIds();
+
+            OsMetaData = LoadOsMetaData();
+        }
+
+        public void SaveProjectMetaData(TeamMemberData loggedOnMember)
+        {
+            System.Diagnostics.Debug.Assert(OsMetaData != null);
+            var storySet = this[Properties.Resources.IDS_MainStoriesSet];
+            var record = OsMetaData.OsProjects.First();
+
+            switch (record.Status)
+            {
+                case CstrOsMetaDataStatusExploratory:
+                    record.EsConsultant = GetListOfMemberAtRole(storySet, TeamMembers,
+                        (story) => story.CraftingInfo.Consultant);
+                    record.EsCoach = GetListOfMemberAtRole(storySet, TeamMembers,
+                        (story) => story.CraftingInfo.Coach);
+
+                    record.EsStoriesSent =
+                        storySet.Count(
+                            story =>
+                                story.TransitionHistory.Any(
+                                    th =>
+                                        StoryStageLogic.WhoseTurn(th.ToState) ==
+                                        TeamMemberData.UserTypes.ConsultantInTraining));
+                    break;
+
+                case CstrOsMetaDataStatusProduction:
+                    record.PsConsultant = GetListOfMemberAtRole(storySet, TeamMembers,
+                        (story) => story.CraftingInfo.Consultant);
+                    record.PsCoach = GetListOfMemberAtRole(storySet, TeamMembers,
+                        (story) => story.CraftingInfo.Coach);
+                    record.PsStoriesPrelimApprov =
+                        storySet.Count(story => story.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eTeamComplete);
+                    break;
+
+            }
+
+            record.ProjectFacilitators = GetListOfMemberAtRole(storySet, TeamMembers,
+                        (story) => story.CraftingInfo.ProjectFacilitator);
+
+            record.NumInFinalApprov =
+                storySet.Count(story => story.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eTeamFinalApproval);
+
+            // do various notifications after 4 weeks
+            var timeDiff = new TimeSpan(28, 0, 0, 0);
+
+            // check to see if we should nag the PF about the number of SFGs
+            if (loggedOnMember.IsPfAndNotLsr &&
+                !_bStopNaggingPf && 
+                ((record.Status == CstrOsMetaDataStatusProduction) ||
+                 (record.Status == CstrOsMetaDataStatusSetComplete)) &&
+                ((record.LastQueriedPfNumOfSfgs == DateTime.MinValue) ||
+                 ((DateTime.Now - record.LastQueriedPfNumOfSfgs) > timeDiff)))
+            {
+                _bStopNaggingPf = true; 
+                QueryPfForNumberOfSfgs(record);
+            }
+
+            // check to see if we should remind the consultant/coach to check the meta data
+            if ((record.EsStoriesSent >= 8) &&
+                !_bStopNaggingPf &&
+                TeamMemberData.IsUser(loggedOnMember.MemberType, TeamMemberData.UserTypes.AnyMentor) &&
+                ((record.LastQueriedConsCheckMetaData == DateTime.MinValue) ||
+                 ((DateTime.Now - record.LastQueriedConsCheckMetaData) > timeDiff)))
+            {
+                _bStopNaggingPf = true;
+                if (QueryConsultantToCheckMetaData() &&
+                    StoryEditor.LaunchOsMetaDataDialog(this))
+                {
+                    record.LastQueriedConsCheckMetaData = DateTime.Now;
+                }
+
+            }
+
+            OsMetaData.Save();
+        }
+
+        private static bool QueryConsultantToCheckMetaData()
+        {
+            return LocalizableMessageBox.Show(
+                Localizer.Str("Would you like to check the OneStory meta data to see if any changes are necessary?"),
+                StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes;
+        }
+
+        private static void QueryPfForNumberOfSfgs(OsMetaDataModelRecord record)
+        {
+            var strValue = LocalizableMessageBox.InputBox(
+                Localizer.Str("How many Story Fellowship Groups are currently active in this project?"),
+                StoryEditor.OseCaption, "");
+
+            if (String.IsNullOrEmpty(strValue))
+                return;
+
+            int nValue;
+            if (!Int32.TryParse(strValue, out nValue))
+                return;
+
+            record.NumberSfgs = nValue;
+            record.LastQueriedPfNumOfSfgs = DateTime.Now;
+        }
+
+        private OsMetaDataModel LoadOsMetaData()
+        {
+            var strPathToMetaDataFile = PathToMetaDataFile;
+            return (File.Exists(strPathToMetaDataFile))
+                        ? OsMetaDataModel.Load(strPathToMetaDataFile)
+                        : null;
+        }
+
+        private string PathToMetaDataFile
+        {
+            get { return Path.Combine(ProjSettings.ProjectFolder, CstrOsMetaDataFilename); }
+        }
+
+        public OsMetaDataModel InitializeMetaData
+        {
+            get
+            {
+                System.Diagnostics.Debug.Assert(OsMetaData == null);
+                OsMetaData = new OsMetaDataModel { PathToMetaDataFile = PathToMetaDataFile };
+                var record = new OsMetaDataModelRecord();
+                OsMetaData.OsProjects.Add(record);
+
+                if (ProjSettings.Vernacular.HasData)
+                {
+                    record.ProjectName = record.LanguageName = ProjSettings.Vernacular.LangName;
+                    record.EthnologueCode = ProjSettings.Vernacular.LangCode;
+                }
+
+                var storySet = this[Properties.Resources.IDS_MainStoriesSet];
+                record.ProjectFacilitators = GetListOfMemberAtRole(storySet, TeamMembers,
+                    (story) => story.CraftingInfo.ProjectFacilitator);
+
+                var dtMinOfProject = storySet.Select(story => story.TransitionHistory
+                                                                   .Min(th => th.TransitionDateTime))
+                                             .FirstOrDefault();
+                record.StartDate = dtMinOfProject;
+
+                record.IsCurrentlyUsingOse = true;
+
+                record.OseProjId = ProjSettings.ProjectName;
+
+                record.LastQueriedPfNumOfSfgs = record.LastQueriedConsCheckMetaData = DateTime.MinValue;
+                return OsMetaData;
+            }
+        }
+
+        private delegate MemberIdInfo GetMemberAtRole(StoryData story);
+        private static string GetListOfMemberAtRole(IEnumerable<StoryData> storySet, TeamMembersData teamMembers,
+            GetMemberAtRole pGetMemberAtRole)
+        {
+            // aggregate the distinct names of the people in the stories in the storySet with
+            //  a given role (e.g. Consultant, PF, etc)
+            var strMembersWithRole = storySet.Where(story => pGetMemberAtRole(story) != null)
+                                             .Select(story =>
+                teamMembers.GetNameFromMemberId(pGetMemberAtRole(story).MemberId))
+                .Distinct()
+                .Aggregate<string, string>(null,
+                    (current, next) => current + (next + ", "));
+
+            return (String.IsNullOrEmpty(strMembersWithRole))
+                        ? null
+                        : strMembersWithRole.Substring(0, strMembersWithRole.Length - 2);
         }
 
         private void CheckForCommentMemberIds()
@@ -2283,10 +2458,35 @@ namespace OneStoryProjectEditor
 
         public static DateTime ReadProjectFile(string strProjectFilePath, out ProjectReader projectReader)
         {
-            UniqueStoryGuids.Clear();
-            projectReader = new ProjectReader();
-            projectReader.ReadXml(strProjectFilePath);
-            return File.GetLastWriteTime(strProjectFilePath);
+            try
+            {
+                UniqueStoryGuids.Clear();
+                projectReader = new ProjectReader();
+                projectReader.ReadXml(strProjectFilePath);
+                return File.GetLastWriteTime(strProjectFilePath);
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                var sb = new StringBuilder();
+                foreach (var exSub in ex.LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    if (exSub is FileNotFoundException)
+                    {
+                        var exFileNotFound = exSub as FileNotFoundException;
+                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                        {
+                            sb.AppendLine("Fusion Log:");
+                            sb.AppendLine(exFileNotFound.FusionLog);
+                        }
+                    }
+                    sb.AppendLine();
+                }
+                string errorMessage = sb.ToString();
+                MessageBox.Show(errorMessage);
+            }
+            projectReader = null;
+            return DateTime.MinValue;
         }
     }
 }

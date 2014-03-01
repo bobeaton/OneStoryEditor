@@ -31,6 +31,9 @@ namespace OneStoryProjectEditor
                             FirstPassMentor |   // LSR
                             ConsultantInTraining |
                             IndependentConsultant |
+                            Coach,
+            AnyMentor = ConsultantInTraining | 
+                            IndependentConsultant | 
                             Coach
         }
 
