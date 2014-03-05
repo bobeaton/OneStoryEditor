@@ -1938,6 +1938,11 @@ namespace OneStoryProjectEditor
             }
 
             OsMetaData.Save();
+
+            // get rid of the ChorusNotes file -- we don't want or need it telling us there was a conflict
+            var strChorusNotesFileSpec = PathToMetaDataFile + ".ChorusNotes";
+            if (File.Exists(strChorusNotesFileSpec))
+                File.Delete(strChorusNotesFileSpec);
         }
 
         private static bool QueryConsultantToCheckMetaData()

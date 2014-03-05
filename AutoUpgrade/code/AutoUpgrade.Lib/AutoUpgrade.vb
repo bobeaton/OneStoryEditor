@@ -26,6 +26,7 @@ Namespace devX
         Protected Const LIBDLL_FILENAME As String = "AutoUpgrade.Lib.dll"
         Protected Const STUBEXE_FILENAME As String = "AutoUpgrade.exe"
         Protected Const STUBEXE_FILENAME_NEW As String = "AutoUpgrade.new.exe"
+        Protected Const DownloadCompleteFileSpec As String = "DownloadComplete"
         Private Const ZIP_LIB As String = "Ionic.Zip.dll"
         Private Const ZIP_ENDING As String = ".zip"
 #End Region
@@ -462,6 +463,7 @@ Namespace devX
                         If mblnCancel Then Exit For
                     Next
                 End If
+                IO.File.Create(DownloadCompleteFileSpec)
             Catch exc As Exception
                 Dim strError As String = exc.Message
                 If Not exc.InnerException Is Nothing Then
@@ -1052,7 +1054,7 @@ Namespace devX
         Public Sub Upgrade()
             ' Upgrade the application, using the instructions in the xml Manifest.  
 
-            If Not mblnCancel Then
+            If Not mblnCancel And IO.File.Exists(DownloadCompleteFileSpec) Then
 
                 ' Move files to their correct location and register 
                 If IsFullUpgradeRequired() Then

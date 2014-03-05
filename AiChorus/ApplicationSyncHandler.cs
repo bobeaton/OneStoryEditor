@@ -36,18 +36,14 @@ namespace AiChorus
         protected string CheckForProjectFolder()
         {
             var strProjectFolderPath = Path.Combine(AppDataRoot, Project.FolderName);
-            if (Directory.Exists(strProjectFolderPath))
-            {
-                // check for the '.hg' folder
-                var strProjectFolderHgPath = Path.Combine(strProjectFolderPath, ".hg");
-                if (Directory.Exists(strProjectFolderHgPath))
-                {
-                    // means it's already been cloned, so just allow sync'ing
-                    return GetSynchronizeOrOpenProjectLable;
-                }
-            }
+            if (!Directory.Exists(strProjectFolderPath))
+                return CstrOptionClone;
 
-            return CstrOptionClone;
+            // check for the '.hg' folder
+            var strProjectFolderHgPath = Path.Combine(strProjectFolderPath, ".hg");
+            return Directory.Exists(strProjectFolderHgPath) 
+                        ? GetSynchronizeOrOpenProjectLable 
+                        : CstrOptionClone;
         }
 
         /// <summary>
@@ -60,6 +56,7 @@ namespace AiChorus
         }
 
         public abstract void DoSynchronize();
+        public abstract void DoSilentSynchronize();
 
         internal virtual bool DoClone()
         {

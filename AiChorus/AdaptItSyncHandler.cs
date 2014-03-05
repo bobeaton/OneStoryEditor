@@ -30,14 +30,20 @@ namespace AiChorus
             var strProjectFolder = Path.Combine(AppDataRoot, Project.FolderName);
             var strProjectName = Project.ProjectId;
             var uri = new Uri("http://resumable.languagedepot.org");
+            var strPassword = ServerSetting.DecryptedPassword;
             var strRepoUrl = String.Format("{0}://{1}{2}@{3}/{4}",
                                            uri.Scheme, ServerSetting.Username,
-                                           (String.IsNullOrEmpty(ServerSetting.Password))
+                                           (String.IsNullOrEmpty(strPassword))
                                                ? null
-                                               : ':' + ServerSetting.Password,
+                                               : ':' + strPassword,
                                            uri.Host, strProjectName);
 
             SyncWithAiRepo(strProjectFolder, strProjectName, strRepoUrl);
+        }
+
+        public override void DoSilentSynchronize()
+        {
+            throw new NotImplementedException();
         }
 
         // taken wholesale from OSE (so we don't need to depend on OSE--before we just called OSE to do it)

@@ -46,6 +46,8 @@ namespace AiChorus
                     ProcessChorusConfigFile((args.Length == 2) ? args[1] : null);
                 else if (args[0] == "/e")
                     DoEdit();
+                else if ((args[0] == "/s") && (args.Length == 2) && (File.Exists(args[1])))
+                    SyncChorusProjects(args[1]);
                 else
                     LaunchProgram("Chorus.exe", Settings.Default.LastProjectFolder);
             }
@@ -55,6 +57,61 @@ namespace AiChorus
             }
         }
 
+        private static void SyncChorusProjects(string strPathToProjectFile)
+        {
+            var chorusConfig = ChorusConfigurations.Load(strPathToProjectFile);
+            foreach (var server in chorusConfig.ServerSettings)
+                SyncServer(server);
+        }
+
+        private static void SyncServer(ServerSetting serverSetting)
+        {
+            foreach (var project in serverSetting.Projects)
+                SyncProject(project, serverSetting);
+        }
+
+        private static void SyncProject(Project project, ServerSetting serverSetting)
+        {
+            ApplicationSyncHandler appHandler;
+            if (!GetSyncApplicationHandler(project, serverSetting, project.ApplicationType, out appHandler))
+                return;
+
+            switch (appHandler.ButtonLabel)
+            {
+                case ApplicationSyncHandler.CstrOptionClone:
+                    appHandler.DoClone();
+                    break;
+                case ApplicationSyncHandler.CstrOptionSendReceive:
+                    appHandler.DoSilentSynchronize();
+                    break;
+                default:
+                    System.Diagnostics.Debug.Assert(false, "Not expecting either Clone or Send/Receive");
+                    break;
+            }
+        }
+
+        public static bool GetSyncApplicationHandler(Project project, ServerSetting serverSetting, string strApplicationName,
+            out ApplicationSyncHandler appHandler)
+        {
+            switch (strApplicationName)
+            {
+                case CstrApplicationTypeOse:
+                    appHandler = new OseSyncHandler(project, serverSetting);
+                    break;
+
+                case CstrApplicationTypeAi:
+                    appHandler = new AdaptItSyncHandler(project, serverSetting);
+                    break;
+
+                default:
+                    MessageBox.Show(String.Format("Sorry, I'm not familiar with the type '{0}", project.ApplicationType),
+                        Resources.AiChorusCaption);
+                    appHandler = null;
+                    return false;
+            }
+            return true;
+        }
+
         private static int ProjectCount(ChorusConfigurations chorusConfigurations)
         {
             return chorusConfigurations.ServerSettings.Sum(serverSetting => serverSetting.Projects.Count);
@@ -62,11 +119,9 @@ namespace AiChorus
 
         private static void ProcessChorusConfigFile(string strFilePath)
         {
-            ChorusConfigurations chorusConfig;
-            if (!String.IsNullOrEmpty(strFilePath))
-                chorusConfig = ChorusConfigurations.Load(strFilePath);
-            else
-                chorusConfig = new ChorusConfigurations();
+            var chorusConfig = !String.IsNullOrEmpty(strFilePath)
+                                    ? ChorusConfigurations.Load(strFilePath) 
+                                    : new ChorusConfigurations();
 
             if (chorusConfig == null)
             {
@@ -151,7 +206,7 @@ namespace AiChorus
         internal static bool CloneProject(ServerSetting serverSetting, Project project, string strProjectFolderRoot)
         {
             return CloneProject(project.FolderName, serverSetting.ServerName, serverSetting.Username,
-                         strProjectFolderRoot, serverSetting.Password, project.ProjectId);
+                         strProjectFolderRoot, serverSetting.DecryptedPassword, project.ProjectId);
         }
 
         private static bool CloneProject(string strLocalFolderName, string strServerName, string strAccountName,

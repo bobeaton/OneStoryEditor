@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using NetLoc;
 using Palaso.UI.WindowsForms.Keyboarding;
+using Palaso.WritingSystems;
 using SilEncConverters40;
 using mshtml;
 
@@ -344,14 +345,14 @@ namespace OneStoryProjectEditor
             {
                 var strKeyboardName = textAreaIdentifier.GetLanguageInfo(TheSE.StoryProject.ProjSettings).Keyboard;
                 if (!String.IsNullOrEmpty(strKeyboardName))
-                    KeyboardController.ActivateKeyboard(strKeyboardName);
+                    Keyboard.Controller.SetKeyboard(strKeyboardName);
             }
             return false;
         }
 
         public bool TextareaOnBlur(string strId)
         {
-            KeyboardController.DeactivateKeyboard();
+            Keyboard.Controller.ActivateDefaultKeyboard();
             return false;
         }
 

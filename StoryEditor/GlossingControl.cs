@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Palaso.UI.WindowsForms.Keyboarding;
+using Palaso.WritingSystems;
 using SilEncConverters40;
 
 namespace OneStoryProjectEditor
@@ -242,7 +243,7 @@ namespace OneStoryProjectEditor
         private void textBoxTargetWord_Enter(object sender, EventArgs e)
         {
             if (!String.IsNullOrEmpty(_strTargetKeyboard))
-                KeyboardController.ActivateKeyboard(_strTargetKeyboard);
+                Keyboard.Controller.SetKeyboard(_strTargetKeyboard);
 
             if (SourceWord == TargetWord)
             {
@@ -258,7 +259,7 @@ namespace OneStoryProjectEditor
 
         void textBoxTargetWord_Leave(object sender, System.EventArgs e)
         {
-            KeyboardController.DeactivateKeyboard();
+            Keyboard.Controller.ActivateDefaultKeyboard();
         }
 
         void OnSelectAmbiguity(object sender, EventArgs e)
@@ -359,10 +360,10 @@ namespace OneStoryProjectEditor
                           };
 
             if (!String.IsNullOrEmpty(_strSourceKeyboard))
-                KeyboardController.ActivateKeyboard(_strSourceKeyboard);
+                Keyboard.Controller.SetKeyboard(_strSourceKeyboard);
             if (dlg.ShowDialog() == DialogResult.OK)
                 _parent.Update(this, dlg.CorrectedWord);
-            KeyboardController.DeactivateKeyboard();
+            Keyboard.Controller.ActivateDefaultKeyboard();
         }
 
         private void retranslateSourceWordToolStripMenuItem_Click(object sender, EventArgs e)

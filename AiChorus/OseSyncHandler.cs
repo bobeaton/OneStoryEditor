@@ -6,6 +6,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using Chorus.sync;
+using Chorus.UI.Sync;
+using Chorus.VcsDrivers;
 
 namespace AiChorus
 {
@@ -71,7 +74,7 @@ namespace AiChorus
             }
         }
 
-        private static List<string> _lstProjectsJustCloned = new List<string>();
+        private static readonly List<string> _lstProjectsJustCloned = new List<string>();
         protected override string GetSynchronizeOrOpenProjectLable
         {
             get
@@ -102,6 +105,33 @@ namespace AiChorus
                               };
             _methodSyncWithRepository.Invoke(_theStoryEditor, oParams);
 #endif
+        }
+
+        public override void DoSilentSynchronize()
+        {
+            // for when we launch the program, just do a quick & dirty send/receive, 
+            //  but for closing (or if we have a network drive also), then we want to 
+            //  be more informative
+            var strProjectFolder = Path.Combine(AppDataRoot, Project.FolderName);
+            var projectConfig = GetProjectFolderConfiguration(strProjectFolder);
+            using (var dlg = new SyncDialog(projectConfig, SyncUIDialogBehaviors.StartImmediatelyAndCloseWhenFinished, SyncUIFeatures.Minimal))
+            {
+                dlg.UseTargetsAsSpecifiedInSyncOptions = true;
+                dlg.Text = "Synchronizing OneStory Project: " + Project.FolderName;
+                dlg.ShowDialog();
+            }
+
+        }
+
+        public static ProjectFolderConfiguration GetProjectFolderConfiguration(string strProjectFolder)
+        {
+            var projectConfig = new ProjectFolderConfiguration(strProjectFolder);
+            projectConfig.IncludePatterns.Add("*.onestory");
+            projectConfig.IncludePatterns.Add("*.xml"); // the P7 key terms list
+            projectConfig.IncludePatterns.Add("*.bad"); // if we write a bad file, commit that as well
+            projectConfig.IncludePatterns.Add("*.conflict"); // include the conflicts file as well so we can fix them
+            projectConfig.IncludePatterns.Add("*.ChorusNotes"); // the new conflict file
+            return projectConfig;
         }
 
         internal override bool DoClone()

@@ -47,8 +47,10 @@ namespace OneStoryProjectEditor
                 HgSanityCheck();
 
                 bool bNeedToSave = false;
-                System.Diagnostics.Debug.Assert(Properties.Settings.Default.RecentProjects.Count == Properties.Settings.Default.RecentProjectPaths.Count);
-                if (Properties.Settings.Default.RecentProjects.Count != Properties.Settings.Default.RecentProjectPaths.Count)
+                System.Diagnostics.Debug.Assert(Properties.Settings.Default.RecentProjects.Count ==
+                                                Properties.Settings.Default.RecentProjectPaths.Count);
+                if (Properties.Settings.Default.RecentProjects.Count !=
+                    Properties.Settings.Default.RecentProjectPaths.Count)
                 {
                     Properties.Settings.Default.RecentProjects.Clear();
                     Properties.Settings.Default.RecentProjectPaths.Clear();
@@ -83,13 +85,13 @@ namespace OneStoryProjectEditor
                     // if we sent some new locdata items in a recent program update, then copy them to the
                     //  loc data folder
                     var strPathToLocData = Path.Combine(ProjectSettings.OneStoryProjectFolderRoot,
-                                                        "LocData");
+                        "LocData");
 
                     if (!Directory.Exists(strPathToLocData))
                         Directory.CreateDirectory(strPathToLocData);
 
                     var strRunningLocData = Path.Combine(StoryProjectData.GetRunningFolder,
-                                                         "LocData");
+                        "LocData");
                     if (Directory.Exists(strRunningLocData))
                     {
                         var astrLocDataFiles = Directory.GetFiles(strRunningLocData, "*.xml");
@@ -106,7 +108,7 @@ namespace OneStoryProjectEditor
                     }
 
                     Localizer.Default = new Localizer(strPathToLocData,
-                                                      Properties.Settings.Default.LastLocalizationId);
+                        Properties.Settings.Default.LastLocalizationId);
                     Localizer.LocalizerStrUseStack = false;
                     if (Properties.Settings.Default.LastLocalizationId != "en")
                         StoryEditor.OnLocalizationChangeStatic();
@@ -122,6 +124,7 @@ namespace OneStoryProjectEditor
                         return;
                     }
 
+                    Palaso.UI.WindowsForms.Keyboarding.KeyboardController.Initialize();
                     Application.Run(new StoryEditor(Properties.Resources.IDS_MainStoriesSet, strFilePathToOpen));
                 }
             }
@@ -147,6 +150,10 @@ namespace OneStoryProjectEditor
                 // clobber this so it doesn't automatically try to load next time
                 Properties.Settings.Default.LastProject = null;
                 Properties.Settings.Default.Save();
+            }
+            finally
+            {
+                Palaso.UI.WindowsForms.Keyboarding.KeyboardController.Shutdown();
             }
         }
 

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Palaso.UI.WindowsForms.Keyboarding;
 using NetLoc;
+using Palaso.WritingSystems;
 
 namespace OneStoryProjectEditor
 {
@@ -476,14 +478,16 @@ namespace OneStoryProjectEditor
         private void InitLanguageControls(Control tabPage, ProjectSettings.LanguageInfo languageInfo)
         {
             System.Diagnostics.Debug.Assert(tabPage.Controls[0] is TableLayoutPanel);
-            TableLayoutPanel tlp = tabPage.Controls[0] as TableLayoutPanel;
+            var tlp = tabPage.Controls[0] as TableLayoutPanel;
             System.Diagnostics.Debug.Assert(tlp.GetControlFromPosition(1, 2) is ComboBox);
-            ComboBox comboBoxKeyboard = tlp.GetControlFromPosition(1, 2) as ComboBox;
+            var comboBoxKeyboard = tlp.GetControlFromPosition(1, 2) as ComboBox;
 
             // initialize the keyboard combo list
-            foreach (KeyboardController.KeyboardDescriptor keyboard in
-                KeyboardController.GetAvailableKeyboards(KeyboardController.Engines.All))
-                comboBoxKeyboard.Items.Add(keyboard.ShortName);
+            foreach (var kbd in Keyboard.Controller.AllAvailableKeyboards.Where(kbd => kbd.IsAvailable))
+            {
+                Debug.Assert(comboBoxKeyboard != null, "comboBoxKeyboard != null");
+                comboBoxKeyboard.Items.Add(kbd.Id);
+            }
 
             System.Diagnostics.Debug.Assert(tlp.GetControlFromPosition(1, 4) is TextBox);
             TextBox tbSentFullStop = tlp.GetControlFromPosition(1, 4) as TextBox;
@@ -1038,7 +1042,7 @@ namespace OneStoryProjectEditor
         {
 #if !DEBUGBOB
             if (!String.IsNullOrEmpty(strKeyboardToSet))
-                KeyboardController.ActivateKeyboard(strKeyboardToSet);
+                Keyboard.Controller.SetKeyboard(strKeyboardToSet);
 #endif
         }
 
@@ -1176,7 +1180,7 @@ namespace OneStoryProjectEditor
         private void textBoxSentFullStop_Leave(object sender, EventArgs e)
         {
 #if !DEBUGBOB
-            KeyboardController.DeactivateKeyboard();
+            Keyboard.Controller.ActivateDefaultKeyboard();
 #endif
         }
 

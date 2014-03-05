@@ -20,6 +20,7 @@ using ECInterfaces;
 using Microsoft.Win32;
 using OneStoryProjectEditor.Properties;
 using Palaso.UI.WindowsForms.Keyboarding;
+using Palaso.WritingSystems;
 using SilEncConverters40;
 using System.Diagnostics;               // Process
 using Palaso.Reporting;
@@ -2591,7 +2592,7 @@ namespace OneStoryProjectEditor
                 // it's annoying that the keyboard doesn't deactivate so I can just type 'y' for "Yes"
                 try
                 {
-                    KeyboardController.DeactivateKeyboard(); // ... do it manually
+                    Keyboard.Controller.ActivateDefaultKeyboard(); // ... do it manually
                 }
                 catch (FileLoadException)
                 {

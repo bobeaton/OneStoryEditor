@@ -83,6 +83,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\StoryEditor\RsaEncryptionClass.cs">
+      <Link>RsaEncryptionClass.cs</Link>
+    </Compile>
     <Compile Include="AdaptItSyncHandler.cs" />
     <Compile Include="ApplicationSyncHandler.cs" />
     <Compile Include="ChorusConfigurationsXmlClasses.cs" />

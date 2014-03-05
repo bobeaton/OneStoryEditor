@@ -46,28 +46,15 @@ namespace AiChorus
         {
             // based on the type, check out whether the root folder has this project already in it
             ApplicationSyncHandler appHandler;
-            string strApplicationName = project.ApplicationType;
-            switch (strApplicationName)
-            {
-                case Program.CstrApplicationTypeOse:
-                    appHandler = new OseSyncHandler(project, serverSetting);
-                    break;
-
-                case Program.CstrApplicationTypeAi:
-                    appHandler = new AdaptItSyncHandler(project, serverSetting);
-                    break;
-
-                default:
-                    MessageBox.Show(String.Format("Sorry, I'm not familiar with the type '{0}", project.ApplicationType),
-                                    Properties.Resources.AiChorusCaption);
-                    return;
-            }
+            var strApplicationName = project.ApplicationType;
+            if (!Program.GetSyncApplicationHandler(project, serverSetting, strApplicationName, out appHandler)) 
+                return;
             string strButtonLabel = appHandler.ButtonLabel;
 
             var aos =
                 new object[]
                     {strButtonLabel, strApplicationName, project.ProjectId, project.FolderName, serverSetting.ServerName};
-            int nRow = dataGridViewProjects.Rows.Add(aos);
+            var nRow = dataGridViewProjects.Rows.Add(aos);
             var row = dataGridViewProjects.Rows[nRow];
             row.Cells[CnColumnServerName].ToolTipText =
                 String.Format("Your username is '{0}' and password is '{1}'",
@@ -93,7 +80,7 @@ namespace AiChorus
                     {
                         serverName = serverSettings.ServerName;
                         hgUsername = serverSettings.Username;
-                        hgPassword = serverSettings.Password;
+                        hgPassword = serverSettings.DecryptedPassword;
                     }
 
                     if (String.IsNullOrEmpty(serverName))

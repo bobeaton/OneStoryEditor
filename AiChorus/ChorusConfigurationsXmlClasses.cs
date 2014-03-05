@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using OneStoryProjectEditor;
 
 namespace AiChorus
 {
@@ -85,6 +86,9 @@ namespace AiChorus
         public string Password { get; set; }
 
         [XmlAttribute]
+        public bool IsPasswordEncrypted { get; set; }
+
+        [XmlAttribute]
         public string ServerName { get; set; }
 
         [XmlElement(ElementName = "Project")]
@@ -100,6 +104,16 @@ namespace AiChorus
 
             projectFound = null;
             return false;
+        }
+
+        public string DecryptedPassword
+        {
+            get
+            {
+                return (IsPasswordEncrypted)
+                    ? EncryptionClass.Decrypt(Password)
+                    : Password;
+            }
         }
     }
 

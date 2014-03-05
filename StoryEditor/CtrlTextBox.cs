@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using NetLoc;
 using Palaso.UI.WindowsForms.Keyboarding;
+using Palaso.WritingSystems;
 
 namespace OneStoryProjectEditor
 {
@@ -311,7 +312,7 @@ namespace OneStoryProjectEditor
             try
             {
                 if (!String.IsNullOrEmpty(_strKeyboardName))
-                    KeyboardController.ActivateKeyboard(_strKeyboardName);
+                    Keyboard.Controller.SetKeyboard(_strKeyboardName);
             }
             catch (System.IO.FileLoadException)
             {
@@ -341,7 +342,7 @@ namespace OneStoryProjectEditor
                     if (!label.Visible)
                         label.Show();
                 }
-                KeyboardController.DeactivateKeyboard();
+                Keyboard.Controller.ActivateDefaultKeyboard();
             }
             catch (System.IO.FileLoadException)
             {

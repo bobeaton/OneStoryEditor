@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OsMetaDataForm));
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageProjectInformation = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelProjectInformation = new System.Windows.Forms.TableLayoutPanel();
@@ -117,9 +118,9 @@
             // 
             // tabControl
             // 
-            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabPageProjectInformation);
             this.tabControl.Controls.Add(this.tabPageProjectSequence);
             this.tabControl.Location = new System.Drawing.Point(0, 0);
@@ -1049,6 +1050,9 @@
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.tabControl);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "OsMetaDataForm";
             this.Text = "OneStory Project Meta Data";
             this.tabControl.ResumeLayout(false);
