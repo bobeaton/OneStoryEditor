@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Chorus.sync;
+using Chorus.UI.Sync;
 
 namespace AiChorus
 {
@@ -56,7 +58,22 @@ namespace AiChorus
         }
 
         public abstract void DoSynchronize();
-        public abstract void DoSilentSynchronize();
+        public void DoSilentSynchronize()
+        {
+            // for when we launch the program, just do a quick & dirty send/receive, 
+            //  but for closing (or if we have a network drive also), then we want to 
+            //  be more informative
+            var strProjectFolder = Path.Combine(AppDataRoot, Project.FolderName);
+            var projectConfig = GetProjectFolderConfiguration(strProjectFolder);
+            using (var dlg = new SyncDialog(projectConfig, SyncUIDialogBehaviors.StartImmediatelyAndCloseWhenFinished, SyncUIFeatures.Minimal))
+            {
+                dlg.UseTargetsAsSpecifiedInSyncOptions = true;
+                dlg.Text = "Synchronizing Project: " + Project.FolderName;
+                dlg.ShowDialog();
+            }
+
+        }
+
 
         internal virtual bool DoClone()
         {
@@ -79,5 +96,7 @@ namespace AiChorus
         {
             throw new NotImplementedException();
         }
+
+        public abstract ProjectFolderConfiguration GetProjectFolderConfiguration(string strProjectFolder);
     }
 }

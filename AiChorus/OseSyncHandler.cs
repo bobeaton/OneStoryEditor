@@ -107,23 +107,7 @@ namespace AiChorus
 #endif
         }
 
-        public override void DoSilentSynchronize()
-        {
-            // for when we launch the program, just do a quick & dirty send/receive, 
-            //  but for closing (or if we have a network drive also), then we want to 
-            //  be more informative
-            var strProjectFolder = Path.Combine(AppDataRoot, Project.FolderName);
-            var projectConfig = GetProjectFolderConfiguration(strProjectFolder);
-            using (var dlg = new SyncDialog(projectConfig, SyncUIDialogBehaviors.StartImmediatelyAndCloseWhenFinished, SyncUIFeatures.Minimal))
-            {
-                dlg.UseTargetsAsSpecifiedInSyncOptions = true;
-                dlg.Text = "Synchronizing OneStory Project: " + Project.FolderName;
-                dlg.ShowDialog();
-            }
-
-        }
-
-        public static ProjectFolderConfiguration GetProjectFolderConfiguration(string strProjectFolder)
+        public override ProjectFolderConfiguration GetProjectFolderConfiguration(string strProjectFolder)
         {
             var projectConfig = new ProjectFolderConfiguration(strProjectFolder);
             projectConfig.IncludePatterns.Add("*.onestory");
