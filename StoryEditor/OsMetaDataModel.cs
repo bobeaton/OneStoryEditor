@@ -132,5 +132,44 @@ namespace OneStoryProjectEditor
         //  part of the Access database
         public DateTime LastQueriedPfNumOfSfgs { get; set; }  
         public DateTime LastQueriedConsCheckMetaData { get; set; }
+
+        public void SetValues(OsMetaDataModelRecord rhs)
+        {
+            ProjectName = rhs.ProjectName;
+            LanguageName = rhs.LanguageName;
+            EthnologueCode = rhs.EthnologueCode;
+            Continent = rhs.Continent;
+            Country = rhs.Country;
+            ManagingPartner = rhs.ManagingPartner;
+            Entity = rhs.Entity;
+            PrioritiesCategory = rhs.PrioritiesCategory;
+            ScriptureStatus = rhs.ScriptureStatus;
+            ScriptureStatusNotes = rhs.ScriptureStatusNotes;
+            ProjectFacilitators = rhs.ProjectFacilitators;
+            PfCategory = rhs.PfCategory;
+            PfAffiliation = rhs.PfAffiliation;
+            Notes = rhs.Notes;
+            Status = rhs.Status;
+            StartDate = rhs.StartDate;
+            LcaWorkshop = rhs.LcaWorkshop;
+            LcaCoach = rhs.LcaCoach;
+            ScWorkshop = rhs.ScWorkshop;
+            IsCurrentlyUsingOse = rhs.IsCurrentlyUsingOse;
+            OseProjId = rhs.OseProjId;
+            EsConsultant = rhs.EsConsultant;
+            EsCoach = rhs.EsCoach;
+            EsStoriesSent = rhs.EsStoriesSent;
+            ProcessCheck = rhs.ProcessCheck;
+            MultiplicationWorkshop = rhs.MultiplicationWorkshop;
+            NumberSfgs = rhs.NumberSfgs;
+            PsConsultant = rhs.PsConsultant;
+            PsCoach = rhs.PsCoach;
+            PsStoriesPrelimApprov = rhs.PsStoriesPrelimApprov;
+            Lsr = rhs.Lsr;
+            NumInFinalApprov = rhs.NumInFinalApprov;
+            SetFinishedDate = rhs.SetFinishedDate;
+            IsUploadedToOsMedia = rhs.IsUploadedToOsMedia;
+            SetCopyrighted = rhs.SetCopyrighted;
+        }
     }
 }
