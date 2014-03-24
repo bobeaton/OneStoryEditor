@@ -41,6 +41,9 @@ namespace UpdateAccessDbWithOsMetaData
             {
                 ProcessException(ex);
             }
+
+            Console.WriteLine("Finished... Click any key to exit...");
+            Console.ReadLine();
         }
 
         private static void UpdateDatabaseFromOsMetaDataFiles(string strPathToAccessDatabase)
@@ -190,6 +193,16 @@ namespace UpdateAccessDbWithOsMetaData
 
         private static void ProcessOsMetaDataDatabase(string strPathToAccessDatabase)
         {
+            var strOutputFolder = OsMetaDataExtractionFolder;
+            Console.WriteLine("Would you like to delete all the existing sub-folders of the folder:{0}{0}{1}{0}{0}(if so, press 'y' and then the Enter key)",
+                              Environment.NewLine, strOutputFolder);
+            var key = Console.ReadLine();
+            if (key != "y")
+                return;
+
+            DeleteContentsOfFolder(strOutputFolder);
+
+            // connect to the Access database
             var db = Db.Open(strPathToAccessDatabase);
 
             // this selects all the records for which there is an OSE project id
@@ -197,25 +210,46 @@ namespace UpdateAccessDbWithOsMetaData
             foreach (var record in records)
             {
                 OsMetaDataModelRecord recordMapped = Mapper.Map<OsMetaDataModelRecord, OsMetaDataModelMapping>(record);
-                System.Diagnostics.Debug.Assert(recordMapped.OseProjId != null);
-                var strFileSpec = Path.Combine(Path.Combine(Path.Combine(OneStoryProjectFolderRoot, CstrSubfolderToExtractedOsMetaDataFileFormat),
-                                                            recordMapped.OseProjId),
-                                               CstrOsMetaDataFilename);
-
-                var osMetaDataModel = new OsMetaDataModel
-                {
-                    OsProjects = new List<OsMetaDataModelRecord> { recordMapped },
-                    PathToMetaDataFile = strFileSpec
-                };
-
-                osMetaDataModel.Save();
+                CreateOsMetaDataFileForProject(recordMapped);
             }
+        }
+
+        private static void DeleteContentsOfFolder(string strFolderSpec)
+        {
+            var dirs = Directory.GetDirectories(strFolderSpec).ToList();
+            dirs.ForEach(fldr => Directory.Delete(fldr, true));
+        }
+
+        private static void CreateOsMetaDataFileForProject(OsMetaDataModelRecord record)
+        {
+            System.Diagnostics.Debug.Assert(record.OseProjId != null);
+
+            // get the path to the file in the OSE project folder (to see if it already exists)
+            var strProjectId = record.OseProjId.Trim();
+            var strProjectFileSpec = Path.Combine(Path.Combine(OneStoryProjectFolderRoot, strProjectId),
+                                                  CstrOsMetaDataFilename);
+
+            // if the file already exists in the project folder, then don't bother
+            if (File.Exists(strProjectFileSpec))
+                return;
+
+            // get the path to the file that we're going to write
+            var strFileSpec = Path.Combine(Path.Combine(OsMetaDataExtractionFolder, strProjectId),
+                                           CstrOsMetaDataFilename);
+
+            var osMetaDataModel = new OsMetaDataModel
+            {
+                OsProjects = new List<OsMetaDataModelRecord> {record},
+                PathToMetaDataFile = strFileSpec
+            };
+
+            osMetaDataModel.Save();
         }
 
         private static void DisplayUsage()
         {
             Console.WriteLine(
-                @"Usage:{0}  UpdateAccessDbWithOsMetaData ""{2}"" | ""{3}"" <path to OS Metadata Access database (e.g. 'D:\temp\OS\OneStory.mdf')>{0}{0}where ""/u"" means update the database from the meta data files (in the various{0}project folders){0}and ""/c"" means create meta data files from the database (in the folder:{0}'<My Documents>\OneStory Editor Projects\{1}' folder)",
+                @"Usage:{0}  UpdateAccessDbWithOsMetaData ""{2}"" | ""{3}"" <path to OS Metadata Access database (e.g. 'C:\Users\Bob\Dropbox\OSE CPCs\OneStory.mdb')>{0}{0}where ""/u"" means update the database from the meta data files (in the various{0}project folders){0}and ""/c"" means create meta data files from the database (in the folder:{0}'<My Documents>\OneStory Editor Projects\{1}' folder)",
                 Environment.NewLine,
                 CstrSubfolderToExtractedOsMetaDataFileFormat,
                 CstrCommandLineUpdateDatabase,
@@ -257,6 +291,11 @@ namespace UpdateAccessDbWithOsMetaData
                 if (keyOneStoryHiveRoot != null)
                     keyOneStoryHiveRoot.SetValue(CstrRootDirKey, value);
             }
+        }
+
+        public static string OsMetaDataExtractionFolder
+        {
+            get { return Path.Combine(OneStoryProjectFolderRoot, CstrSubfolderToExtractedOsMetaDataFileFormat); }
         }
     }
 }

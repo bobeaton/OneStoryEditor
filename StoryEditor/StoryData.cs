@@ -1733,6 +1733,8 @@ namespace OneStoryProjectEditor
         private const string CxmlDataVersionReferringText = "1.7";
         private const string CxmlDataVersionStickyNote = "1.8";
 
+        private const string CxmlOsMetaDataVersion = "1.0";
+
         // added in support of acquiring OsMetaData via OSE
         private const string CstrOsMetaDataFilename = "OsMetaData.xml";
         public const string CstrOsMetaDataStatusExploratory = "3. Exploratory Stage";
@@ -1972,9 +1974,19 @@ namespace OneStoryProjectEditor
         private OsMetaDataModel LoadOsMetaData()
         {
             var strPathToMetaDataFile = PathToMetaDataFile;
-            return (File.Exists(strPathToMetaDataFile))
-                        ? OsMetaDataModel.Load(strPathToMetaDataFile)
-                        : null;
+            OsMetaDataModel data = null;
+            if (File.Exists(strPathToMetaDataFile))
+            {
+                data = OsMetaDataModel.Load(strPathToMetaDataFile);
+
+                if (data.Version != CxmlOsMetaDataVersion)
+                {
+                    LocalizableMessageBox.Show(Localizer.Str("One of the team members is using a newer version of OSE to edit the OS Meta Data file, which is not compatible with the version you are using. You might try, \"Advanced\", \"Program Updates\", \"Check now\" or \"Check now for next major update\" or you may have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the \"Setup OneStory Editor.zip\" file"), StoryEditor.OseCaption);
+                    throw BackOutWithNoUI;
+                }
+            }
+
+            return data;
         }
 
         private string PathToMetaDataFile

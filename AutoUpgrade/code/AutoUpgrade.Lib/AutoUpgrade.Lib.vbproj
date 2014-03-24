@@ -55,7 +55,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\output\Debug\</OutputPath>
+    <OutputPath>..\..\..\OneStory Releases\OSE3.2\client\</OutputPath>
     <BaseAddress>285212672</BaseAddress>
     <DocumentationFile>AutoUpgrade.Lib.xml</DocumentationFile>
     <WarningLevel>1</WarningLevel>

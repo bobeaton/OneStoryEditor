@@ -448,8 +448,13 @@ Namespace devX
                                         End If
                                     Case AutoUpgrade.File.CompareMethod.version
                                         With FileVersionInfo.GetVersionInfo(strFile)
-                                            If .FileVersion <> manCurrentAutoUpgradeFile.Version Then
-                                                RaiseEvent UpgradeProgress("The version of the downloaded file '" & manCurrentAutoUpgradeFile.Name & "' - [" & .FileVersion & "] does not match the manifest file - [" & manCurrentAutoUpgradeFile.Version & "].", manCurrentAutoUpgradeFile.Name, 0, 0, mblnCancel)
+                                            Dim version As String = .FileVersion
+                                            If Not String.IsNullOrEmpty(version) Then
+                                                version = version.Replace(", ", ".")
+                                            End If
+
+                                            If version <> manCurrentAutoUpgradeFile.Version Then
+                                                RaiseEvent UpgradeProgress("The version of the downloaded file '" & manCurrentAutoUpgradeFile.Name & "' - [" & version & "] does not match the manifest file - [" & manCurrentAutoUpgradeFile.Version & "].", manCurrentAutoUpgradeFile.Name, 0, 0, mblnCancel)
                                             End If
                                         End With
                                     Case File.CompareMethod.OneOff
@@ -460,10 +465,10 @@ Namespace devX
                             End If
                         End If
 
-                        If mblnCancel Then Exit For
+                        If mblnCancel Then Throw New ApplicationException("Cancelling update...") ' Exit For
                     Next
                 End If
-                IO.File.Create(DownloadCompleteFileSpec)
+                IO.File.Create(Path.Combine(UpgradeDirectory, DownloadCompleteFileSpec))
             Catch exc As Exception
                 Dim strError As String = exc.Message
                 If Not exc.InnerException Is Nothing Then
@@ -742,16 +747,28 @@ Namespace devX
                         newFileEntry.Description = .FileDescription
 
                         newFileEntry.Optional = False
-                        newFileEntry.Version = .FileVersion
+
+                        ' not sure if this was built with Open Source stuff, but some ICU dlls have versions
+                        ' as "4, 0, 0, 0", which aren't compatible with this scheme
+                        Dim version As String = .FileVersion
+                        If Not String.IsNullOrEmpty(version) Then
+                            version = version.Replace(", ", ".")
+                        End If
+                        newFileEntry.Version = version
                     End With
 
-                    ' If version info was found, mark method as version, else date
+                    ' If version info was not found, mark method as version, else md5 checksum
                     If String.IsNullOrEmpty(newFileEntry.Version) Then
                         ' only store the md5 checksum if no version is available
-                        newFileEntry.Method = AutoUpgrade.File.CompareMethod.md5
+                        ' UPDATE: but if it's a *.py file, then store those as one-offs (those are part of mercurial and just need to exist)
+                        If (newFileEntry.Name.Contains(".py") Or newFileEntry.Name.Contains(".ini")) Then
+                            newFileEntry.Method = File.CompareMethod.OneOff
+                        Else
+                            newFileEntry.Method = File.CompareMethod.md5
+                        End If
                         newFileEntry.Version = GetMd5Hash(strFile)
                     Else
-                        newFileEntry.Method = AutoUpgrade.File.CompareMethod.version
+                        newFileEntry.Method = File.CompareMethod.version
                     End If
 
                     ' now zip it up and put the zip file in the parallel path based on strZipPath
@@ -803,7 +820,7 @@ Namespace devX
         End Property
 
         Public Shared Function IsUpgradeReadyToInstall() As Boolean
-            Return IO.File.Exists(Path.Combine(UpgradeDirectory, SAVED_MANIFEST))
+            Return IO.File.Exists(Path.Combine(UpgradeDirectory, SAVED_MANIFEST)) And IO.File.Exists(Path.Combine(UpgradeDirectory, DownloadCompleteFileSpec))
         End Function
 
         Public Shared Sub ClearOutProcessedUpgrade()
@@ -846,8 +863,8 @@ Namespace devX
                                 ' applications with a version resource (pre-.NET) as well as .NET 
                                 ' assemblies
                                 If IO.File.Exists(strFilePath) Then
-                                    verLocalFileVersion = New System.Version(System.Diagnostics.FileVersionInfo.GetVersionInfo(strFilePath).FileVersion)
-                                    If verLocalFileVersion.CompareTo(New System.Version(manFile.Version)) < 0 Then
+                                    verLocalFileVersion = New Version(FileVersionInfo.GetVersionInfo(strFilePath).FileVersion.ToString().Replace(", ", "."))
+                                    If verLocalFileVersion.CompareTo(New Version(manFile.Version)) < 0 Then
                                         blnUpgrade = True
                                     End If
                                 Else
@@ -1054,7 +1071,7 @@ Namespace devX
         Public Sub Upgrade()
             ' Upgrade the application, using the instructions in the xml Manifest.  
 
-            If Not mblnCancel And IO.File.Exists(DownloadCompleteFileSpec) Then
+            If Not mblnCancel Then
 
                 ' Move files to their correct location and register 
                 If IsFullUpgradeRequired() Then

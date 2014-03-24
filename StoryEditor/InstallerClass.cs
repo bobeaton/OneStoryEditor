@@ -20,7 +20,8 @@ namespace OneStoryProjectEditor
             //  to call all of them in the setup project's custom actions)
             base.Commit(savedState);
             // RunFixupProgram();
-            InitializeEncConverter();
+            // InitializeEncConverter();
+            Regsvr32IcuEc48();
         }
 
         public override void Uninstall(System.Collections.IDictionary savedState)
@@ -38,7 +39,6 @@ namespace OneStoryProjectEditor
         private void InitializeEncConverter()
         {
             var theEcs = new SilEncConverters40.EncConverters();
-            Regsvr32IcuEc48();
         }
 
         private void RunFixupProgram()
@@ -48,14 +48,14 @@ namespace OneStoryProjectEditor
                 StoryEditor.LaunchProgram(strRunPath, null);
         }
 
-        private void Regsvr32IcuEc48()
+        private static void Regsvr32IcuEc48()
         {
             string strDllPath = Path.Combine(StoryProjectData.GetRunningFolder, "IcuEC48.dll");
             if (File.Exists(strDllPath))
                 StoryEditor.LaunchProgram("regsvr32", "-s \"" + strDllPath + "\"");
         }
 
-        private void UnRegsvr32IcuEc48()
+        private static void UnRegsvr32IcuEc48()
         {
             string strDllPath = Path.Combine(StoryProjectData.GetRunningFolder, "IcuEC48.dll");
             if (File.Exists(strDllPath))

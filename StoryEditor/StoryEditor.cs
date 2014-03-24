@@ -6308,7 +6308,7 @@ namespace OneStoryProjectEditor
             catch (Program.RestartException)
             {
                 // if it returns here without throwing an exception, it means there were no updates
-                LocalizableMessageBox.Show(Localizer.Str("An update has been downloaded and will be installed the next time OneStory Editor is launched"),
+                LocalizableMessageBox.Show(Localizer.Str("OneStory Editor needs to be restarted"),
                                 OseCaption);
 
                 _bRestarting = true;

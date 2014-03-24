@@ -14,9 +14,9 @@ namespace OneStoryProjectEditor
 {
     public partial class LnCNotesForm : TopForm
     {
-        private const int CnColumnGloss = 0;
+        private const int CnColumnVernacular = 0;
         private const int CnColumnNationalBt = 1;
-        private const int CnColumnVernacular = 2;
+        private const int CnColumnEnglish = 2;
         private const int CnColumnNotes = 3;
 
         private StoryEditor _theSE;
@@ -137,7 +137,7 @@ namespace OneStoryProjectEditor
             if ((dlg.ShowDialog() != DialogResult.OK) || (theLnCNote == null)) 
                 return;
 
-            theRow.Cells[CnColumnGloss].Value = theLnCNote.InternationalBtRendering;
+            theRow.Cells[CnColumnEnglish].Value = theLnCNote.InternationalBtRendering;
             theRow.Cells[CnColumnNationalBt].Value = theLnCNote.NationalBtRendering;
             theRow.Cells[CnColumnVernacular].Value = theLnCNote.VernacularRendering;
             theRow.Cells[CnColumnNotes].Value = theLnCNote.Notes;
@@ -178,7 +178,7 @@ namespace OneStoryProjectEditor
 
             var theRow = dataGridViewLnCNotes.Rows[nSelectedRowIndex];
             var strValue = (string)((ColumnGloss.Visible)
-                ? theRow.Cells[CnColumnGloss].Value
+                ? theRow.Cells[CnColumnEnglish].Value
                 : theRow.Cells[CnColumnNationalBt].Value);
 
             // make sure the user really wants to do this

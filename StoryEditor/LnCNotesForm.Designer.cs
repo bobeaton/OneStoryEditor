@@ -55,9 +55,9 @@ namespace OneStoryProjectEditor
             this.dataGridViewLnCNotes.AllowUserToResizeRows = false;
             this.dataGridViewLnCNotes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewLnCNotes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ColumnGloss,
-            this.ColumnNationalBt,
             this.ColumnRenderings,
+            this.ColumnNationalBt,
+            this.ColumnGloss,
             this.ColumnNotes});
             this.dataGridViewLnCNotes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewLnCNotes.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
