@@ -1,4 +1,6 @@
-﻿using System;
+﻿// #define DoOneAtAtime
+
+using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
 using System.IO;
@@ -42,7 +44,7 @@ namespace UpdateAccessDbWithOsMetaData
                 ProcessException(ex);
             }
 
-            Console.WriteLine("Finished... Click any key to exit...");
+            LogMessage("Finished... Click any key to exit...");
             Console.ReadLine();
         }
 
@@ -59,7 +61,7 @@ namespace UpdateAccessDbWithOsMetaData
 
             if (projectFolders.Count == 0)
             {
-                Console.WriteLine("There are no OSE projects that have a '{0}' file in them!?", CstrOsMetaDataFilename);
+                LogMessage(String.Format("There are no OSE projects that have a '{0}' file in them!?", CstrOsMetaDataFilename));
                 return;
             }
 
@@ -74,8 +76,20 @@ namespace UpdateAccessDbWithOsMetaData
                 {
                     ProcessException(ex);
                 }
+
+#if DoOneAtAtime
+                if (!_bDoRest)
+                {
+                    LogMessage("Finished... Click any key to exit...");
+                    _bDoRest = (Console.ReadLine() == "a");
+                }
+#endif
             }
         }
+
+#if DoOneAtAtime
+        private static bool _bDoRest = false;
+#endif
 
         private static void ProcessProject(string strProjectFolder, DatabaseContext db)
         {
@@ -86,6 +100,8 @@ namespace UpdateAccessDbWithOsMetaData
                                            new Param("@oseProjectId", osMetaDataModelRecord.OseProjId, OleDbType.Numeric));
             if (record == null)
             {
+                LogMessage(String.Format("inserting new record for project, '{0}' from data in '{1}'", 
+                                         osMetaDataModelRecord.OseProjId, strOsMetaDataFile));
                 // record doesn't exist, so insert it
                 db.ExecuteNonQuery("insert into Projects " +
                                            "(Project_Name, Language_Name, Ethnologue_Code, Continent, Country, Managing_Partner, " +
@@ -107,6 +123,8 @@ namespace UpdateAccessDbWithOsMetaData
             }
             else
             {
+                LogMessage(String.Format("updating record for project, '{0}' from data in '{1}'",
+                                         osMetaDataModelRecord.OseProjId, strOsMetaDataFile));
                 db.ExecuteNonQuery("UPDATE [Projects] " +
                                    "SET [Project_Name] = @ProjectName, " +
                                        "[Language_Name] = @LanguageName, " +
@@ -194,8 +212,8 @@ namespace UpdateAccessDbWithOsMetaData
         private static void ProcessOsMetaDataDatabase(string strPathToAccessDatabase)
         {
             var strOutputFolder = OsMetaDataExtractionFolder;
-            Console.WriteLine("Would you like to delete all the existing sub-folders of the folder:{0}{0}{1}{0}{0}(if so, press 'y' and then the Enter key)",
-                              Environment.NewLine, strOutputFolder);
+            LogMessage(String.Format("Would you like to delete all the existing sub-folders of the folder:{0}{0}{1}{0}{0}(if so, press 'y' and then the Enter key)",
+                                     Environment.NewLine, strOutputFolder));
             var key = Console.ReadLine();
             if (key != "y")
                 return;
@@ -248,12 +266,12 @@ namespace UpdateAccessDbWithOsMetaData
 
         private static void DisplayUsage()
         {
-            Console.WriteLine(
-                @"Usage:{0}  UpdateAccessDbWithOsMetaData ""{2}"" | ""{3}"" <path to OS Metadata Access database (e.g. 'C:\Users\Bob\Dropbox\OSE CPCs\OneStory.mdb')>{0}{0}where ""/u"" means update the database from the meta data files (in the various{0}project folders){0}and ""/c"" means create meta data files from the database (in the folder:{0}'<My Documents>\OneStory Editor Projects\{1}' folder)",
-                Environment.NewLine,
-                CstrSubfolderToExtractedOsMetaDataFileFormat,
-                CstrCommandLineUpdateDatabase,
-                CstrCommandLineCreateMetaDataFilesFromDatabase);
+            LogMessage(
+                String.Format(@"Usage:{0}  UpdateAccessDbWithOsMetaData ""{2}"" | ""{3}"" <path to OS Metadata Access database (e.g. 'C:\Users\Bob\Dropbox\OSE CPCs\OneStory.mdb')>{0}{0}where ""/u"" means update the database from the meta data files (in the various{0}project folders){0}and ""/c"" means create meta data files from the database (in the folder:{0}'<My Documents>\OneStory Editor Projects\{1}' folder)",
+                              Environment.NewLine,
+                              CstrSubfolderToExtractedOsMetaDataFileFormat,
+                              CstrCommandLineUpdateDatabase,
+                              CstrCommandLineCreateMetaDataFilesFromDatabase));
         }
 
         public static void ProcessException(Exception ex)
@@ -263,7 +281,7 @@ namespace UpdateAccessDbWithOsMetaData
                 strErrorMsg += String.Format("{0}{0}{1}",
                                             Environment.NewLine,
                                             ex.InnerException.Message);
-            Console.WriteLine(strErrorMsg);
+            LogMessage(strErrorMsg);
         }
 
         protected const string OneStoryHiveRoot = @"Software\SIL\OneStory";
@@ -296,6 +314,39 @@ namespace UpdateAccessDbWithOsMetaData
         public static string OsMetaDataExtractionFolder
         {
             get { return Path.Combine(OneStoryProjectFolderRoot, CstrSubfolderToExtractedOsMetaDataFileFormat); }
+        }
+
+        private static string _strLogFilepath;
+        private static string LogPath
+        {
+            get
+            {
+                return _strLogFilepath ??
+                       (_strLogFilepath = Path.Combine(Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
+                                                                                 "SIL"),
+                                                                    "OneStory Editor",
+                                                       "UpdateAccessDbWithOsMetaData.log")));
+            }
+        }
+
+        private static void LogMessage(string strOutput)
+        {
+            Console.WriteLine(strOutput);
+            var strLine = String.Format("{0}: {1}{2}", DateTime.Now, strOutput, Environment.NewLine);
+
+            // for some reason, if a log file was originally created in a server folder, say by my computer,
+            //  the server doesn't then like to allow a process run on the server itself to update that file.
+            //  (I have no idea why). So a) let's do exception handling around the attempted write to the log
+            //  file so that programs don't fail to run and b) let's try some fall back strategies: 1) try to
+            //  make a backup so we start again and if that fails, 2) let's try a different filename, and if
+            //  that fails, then 3) try to fallback to a known writable folder.
+            try
+            {
+                File.AppendAllText(LogPath, strLine);
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }
