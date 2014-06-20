@@ -109,9 +109,9 @@ namespace OneStoryProjectEditor
         {
             var aObjs = new object[]
                             {
-                                aLnCNote.InternationalBtRendering,
-                                aLnCNote.NationalBtRendering,
                                 aLnCNote.VernacularRendering,
+                                aLnCNote.NationalBtRendering,
+                                aLnCNote.InternationalBtRendering,
                                 aLnCNote.Notes
                             };
             int nRow = dataGridViewLnCNotes.Rows.Add(aObjs);
