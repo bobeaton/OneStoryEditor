@@ -33,6 +33,7 @@
             this.labelName = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.groupBoxRole = new System.Windows.Forms.GroupBox();
+            this.checkBoxLangSpecialtyReviewer = new System.Windows.Forms.CheckBox();
             this.checkBoxUns = new System.Windows.Forms.CheckBox();
             this.checkBoxCrafter = new System.Windows.Forms.CheckBox();
             this.checkBoxProjectFacilitator = new System.Windows.Forms.CheckBox();
@@ -57,16 +58,15 @@
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
-            this.checkBoxLangSpecialtyReviewer = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanelMemberInformation.SuspendLayout();
             this.groupBoxRole.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanelMemberInformation
             // 
-            this.tableLayoutPanelMemberInformation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelMemberInformation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelMemberInformation.ColumnCount = 2;
             this.tableLayoutPanelMemberInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelMemberInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -96,7 +96,7 @@
             this.tableLayoutPanelMemberInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelMemberInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelMemberInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelMemberInformation.Size = new System.Drawing.Size(500, 493);
+            this.tableLayoutPanelMemberInformation.Size = new System.Drawing.Size(620, 493);
             this.tableLayoutPanelMemberInformation.TabIndex = 2;
             // 
             // labelName
@@ -113,18 +113,18 @@
             // 
             this.textBoxName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.helpProvider.SetHelpString(this.textBoxName, "The name of the member. Must be unique. If you are fulfilling multiple roles, you" +
-                    " can make a name like \"John as consultant-in-training\"");
+        " can make a name like \"John as consultant-in-training\"");
             this.textBoxName.Location = new System.Drawing.Point(92, 3);
             this.textBoxName.Name = "textBoxName";
             this.helpProvider.SetShowHelp(this.textBoxName, true);
-            this.textBoxName.Size = new System.Drawing.Size(405, 20);
+            this.textBoxName.Size = new System.Drawing.Size(525, 20);
             this.textBoxName.TabIndex = 1;
             // 
             // groupBoxRole
             // 
-            this.groupBoxRole.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxRole.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxRole.Controls.Add(this.checkBoxLangSpecialtyReviewer);
             this.groupBoxRole.Controls.Add(this.checkBoxUns);
             this.groupBoxRole.Controls.Add(this.checkBoxCrafter);
@@ -137,10 +137,21 @@
             this.groupBoxRole.Controls.Add(this.radioButtonConsultantInTraining);
             this.groupBoxRole.Location = new System.Drawing.Point(92, 29);
             this.groupBoxRole.Name = "groupBoxRole";
-            this.groupBoxRole.Size = new System.Drawing.Size(405, 147);
+            this.groupBoxRole.Size = new System.Drawing.Size(525, 147);
             this.groupBoxRole.TabIndex = 2;
             this.groupBoxRole.TabStop = false;
             this.groupBoxRole.Text = "What role do you have in the team?";
+            // 
+            // checkBoxLangSpecialtyReviewer
+            // 
+            this.checkBoxLangSpecialtyReviewer.AutoSize = true;
+            this.checkBoxLangSpecialtyReviewer.Location = new System.Drawing.Point(17, 88);
+            this.checkBoxLangSpecialtyReviewer.Name = "checkBoxLangSpecialtyReviewer";
+            this.checkBoxLangSpecialtyReviewer.Size = new System.Drawing.Size(168, 17);
+            this.checkBoxLangSpecialtyReviewer.TabIndex = 13;
+            this.checkBoxLangSpecialtyReviewer.Text = "&Language Specialty Reviewer";
+            this.checkBoxLangSpecialtyReviewer.UseVisualStyleBackColor = true;
+            this.checkBoxLangSpecialtyReviewer.CheckedChanged += new System.EventHandler(this.checkBoxRole_CheckedChanged);
             // 
             // checkBoxUns
             // 
@@ -190,8 +201,8 @@
             // 
             this.radioButtonIndependentConsultant.AutoSize = true;
             this.helpProvider.SetHelpString(this.radioButtonIndependentConsultant, "The member who provides exegetical feedback to the Project Facilitator on their s" +
-                    "tories. An independent consultant works without a \"Coach\" (c.f. “Consultant-in-T" +
-                    "raining”, who is mentored by a coach.");
+        "tories. An independent consultant works without a \"Coach\" (c.f. “Consultant-in-T" +
+        "raining”, who is mentored by a coach.");
             this.radioButtonIndependentConsultant.Location = new System.Drawing.Point(251, 65);
             this.radioButtonIndependentConsultant.Name = "radioButtonIndependentConsultant";
             this.helpProvider.SetShowHelp(this.radioButtonIndependentConsultant, true);
@@ -218,8 +229,8 @@
             // 
             this.radioButtonJustViewing.AutoSize = true;
             this.helpProvider.SetHelpString(this.radioButtonJustViewing, "A \"just looking\" member can view the stories in the file, but may not make editin" +
-                    "g changes. This is useful if you want to browse the stories but not accidentally" +
-                    " change something.");
+        "g changes. This is useful if you want to browse the stories but not accidentally" +
+        " change something.");
             this.radioButtonJustViewing.Location = new System.Drawing.Point(251, 111);
             this.radioButtonJustViewing.Name = "radioButtonJustViewing";
             this.helpProvider.SetShowHelp(this.radioButtonJustViewing, true);
@@ -233,7 +244,7 @@
             // 
             this.radioButtonCoach.AutoSize = true;
             this.helpProvider.SetHelpString(this.radioButtonCoach, "The member (usually only one/team) that coaches (mentors) a consultant-in-trainin" +
-                    "g.");
+        "g.");
             this.radioButtonCoach.Location = new System.Drawing.Point(251, 88);
             this.radioButtonCoach.Name = "radioButtonCoach";
             this.helpProvider.SetShowHelp(this.radioButtonCoach, true);
@@ -273,7 +284,7 @@
             this.textBoxEmail.Location = new System.Drawing.Point(92, 182);
             this.textBoxEmail.Name = "textBoxEmail";
             this.helpProvider.SetShowHelp(this.textBoxEmail, true);
-            this.textBoxEmail.Size = new System.Drawing.Size(405, 20);
+            this.textBoxEmail.Size = new System.Drawing.Size(525, 20);
             this.textBoxEmail.TabIndex = 5;
             // 
             // labelPhoneNumber
@@ -293,7 +304,7 @@
             this.textBoxPhoneNumber.Location = new System.Drawing.Point(92, 208);
             this.textBoxPhoneNumber.Name = "textBoxPhoneNumber";
             this.helpProvider.SetShowHelp(this.textBoxPhoneNumber, true);
-            this.textBoxPhoneNumber.Size = new System.Drawing.Size(405, 20);
+            this.textBoxPhoneNumber.Size = new System.Drawing.Size(525, 20);
             this.textBoxPhoneNumber.TabIndex = 7;
             // 
             // labelAltPhone
@@ -313,7 +324,7 @@
             this.textBoxAltPhone.Location = new System.Drawing.Point(92, 234);
             this.textBoxAltPhone.Name = "textBoxAltPhone";
             this.helpProvider.SetShowHelp(this.textBoxAltPhone, true);
-            this.textBoxAltPhone.Size = new System.Drawing.Size(405, 20);
+            this.textBoxAltPhone.Size = new System.Drawing.Size(525, 20);
             this.textBoxAltPhone.TabIndex = 9;
             // 
             // labelSkype
@@ -333,7 +344,7 @@
             this.textBoxSkypeID.Location = new System.Drawing.Point(92, 260);
             this.textBoxSkypeID.Name = "textBoxSkypeID";
             this.helpProvider.SetShowHelp(this.textBoxSkypeID, true);
-            this.textBoxSkypeID.Size = new System.Drawing.Size(405, 20);
+            this.textBoxSkypeID.Size = new System.Drawing.Size(525, 20);
             this.textBoxSkypeID.TabIndex = 11;
             // 
             // labelTeamViewerID
@@ -353,7 +364,7 @@
             this.textBoxTeamViewer.Location = new System.Drawing.Point(92, 286);
             this.textBoxTeamViewer.Name = "textBoxTeamViewer";
             this.helpProvider.SetShowHelp(this.textBoxTeamViewer, true);
-            this.textBoxTeamViewer.Size = new System.Drawing.Size(405, 20);
+            this.textBoxTeamViewer.Size = new System.Drawing.Size(525, 20);
             this.textBoxTeamViewer.TabIndex = 13;
             // 
             // labelBioData
@@ -370,18 +381,18 @@
             // 
             this.textBoxBioData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.helpProvider.SetHelpString(this.textBoxBioData, "Biographical Data about the member (e.g. age, back-ground, education level, quali" +
-                    "fications, address, etc)");
+        "fications, address, etc)");
             this.textBoxBioData.Location = new System.Drawing.Point(92, 312);
             this.textBoxBioData.Multiline = true;
             this.textBoxBioData.Name = "textBoxBioData";
             this.helpProvider.SetShowHelp(this.textBoxBioData, true);
-            this.textBoxBioData.Size = new System.Drawing.Size(405, 178);
+            this.textBoxBioData.Size = new System.Drawing.Size(525, 178);
             this.textBoxBioData.TabIndex = 15;
             // 
             // buttonOK
             // 
             this.buttonOK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonOK.Location = new System.Drawing.Point(184, 513);
+            this.buttonOK.Location = new System.Drawing.Point(244, 513);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 3;
@@ -393,23 +404,12 @@
             // 
             this.buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(266, 513);
+            this.buttonCancel.Location = new System.Drawing.Point(326, 513);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 4;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxLangSpecialtyReviewer
-            // 
-            this.checkBoxLangSpecialtyReviewer.AutoSize = true;
-            this.checkBoxLangSpecialtyReviewer.Location = new System.Drawing.Point(17, 88);
-            this.checkBoxLangSpecialtyReviewer.Name = "checkBoxLangSpecialtyReviewer";
-            this.checkBoxLangSpecialtyReviewer.Size = new System.Drawing.Size(168, 17);
-            this.checkBoxLangSpecialtyReviewer.TabIndex = 13;
-            this.checkBoxLangSpecialtyReviewer.Text = "&Language Specialty Reviewer";
-            this.checkBoxLangSpecialtyReviewer.UseVisualStyleBackColor = true;
-            this.checkBoxLangSpecialtyReviewer.CheckedChanged += new System.EventHandler(this.checkBoxRole_CheckedChanged);
             // 
             // EditMemberForm
             // 
@@ -417,7 +417,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(524, 548);
+            this.ClientSize = new System.Drawing.Size(644, 548);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.tableLayoutPanelMemberInformation);

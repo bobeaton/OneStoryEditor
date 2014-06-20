@@ -46,23 +46,24 @@ namespace OneStoryProjectEditor
             Localizer.Ctrl(this);
 
             Localizer.Default.LocLanguage.SetFont(listBoxTeamMembers);
-            foreach (TeamMemberData aMember in _dataTeamMembers.Values)
+            foreach (var aMember in _dataTeamMembers.Values)
                 listBoxTeamMembers.Items.Add(GetListBoxItem(aMember));
 
             if (listBoxTeamMembers.Items.Count > 0)
             {
                 string strLastMemberLogin;
-                if (Program.MapProjectNameToLastMemberLogin.TryGetValue(theProjSettings.ProjectName, out strLastMemberLogin))
+                if ((theProjSettings != null) && 
+                    Program.MapProjectNameToLastMemberLogin.TryGetValue(theProjSettings.ProjectName, out strLastMemberLogin))
                     listBoxTeamMembers.SelectedItem = strLastMemberLogin;
                 else if (!String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
                     listBoxTeamMembers.SelectedItem = Properties.Settings.Default.LastMemberLogin;
             }
 
-            if (!bUseLoginLabel)
-            {
-                buttonOK.Text = CstrReturnLabel;
-                toolTip.SetToolTip(buttonOK, Localizer.Str("Click to return to the previous window"));
-            }
+            if (bUseLoginLabel)
+                return;
+
+            buttonOK.Text = CstrReturnLabel;
+            toolTip.SetToolTip(buttonOK, Localizer.Str("Click to return to the previous window"));
         }
 
         private static string GetListBoxItem(TeamMemberData theTeamMember)
