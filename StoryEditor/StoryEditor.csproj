@@ -212,6 +212,7 @@
     <Compile Include="BiblicalTermsHTMLBuilder.cs" />
     <Compile Include="BreakIterator.cs" />
     <Compile Include="CheckEndOfStateTransition.cs" />
+    <Compile Include="ClipboardHtmlFormat.cs" />
     <Compile Include="ConcordanceForm.cs">
       <SubType>Form</SubType>
     </Compile>
