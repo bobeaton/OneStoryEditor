@@ -173,7 +173,7 @@ namespace OneStoryProjectEditor
         /// </example>
         public static void CopyToClipboard(string htmlFragment)
         {
-            CopyToClipboard(htmlFragment, null, null);
+            CopyToClipboard(htmlFragment, null, null, null);
         }
 
 
@@ -182,12 +182,14 @@ namespace OneStoryProjectEditor
         /// </summary>
         /// <param name="htmlFragment">a html fragment</param>
         /// <param name="title">optional title of the HTML document (can be null)</param>
+        /// <param name="style">optional style specification of the HTML document (can be null) --  e.g. "<style type="text/css">table { border-style: solid; border-width: 1px; }</style>"</param>
         /// <param name="sourceUrl">optional Source URL of the HTML document, for resolving relative links (can be null)</param>
-        public static void CopyToClipboard(string htmlFragment, string title, Uri sourceUrl)
+        public static void CopyToClipboard(string htmlFragment, string title, string style, Uri sourceUrl)
         {
             if (title == null) title = "From Clipboard";
 
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            // var sb = new System.Text.StringBuilder();
+            var strToCopy = String.Empty;
 
             // Builds the CF_HTML header. See format specification here:
             // http://msdn.microsoft.com/library/default.asp?url=/workshop/networking/clipboard/htmlclipboard.asp
@@ -196,7 +198,7 @@ namespace OneStoryProjectEditor
             // The <<<<<<<_ strings are just placeholders. We'll backpatch them actual values afterwards.
             // The string layout (<<<) also ensures that it can't appear in the body of the html because the <
             // character must be escaped.
-            string header =
+            var header =
                 @"Format:HTML Format
 Version:1.0
 StartHTML:<<<<<<<1
@@ -207,39 +209,48 @@ StartSelection:<<<<<<<3
 EndSelection:<<<<<<<3
 ";
 
-            string pre =
-                @"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.0 Transitional//EN"">
-<HTML><HEAD><TITLE>" + title + @"</TITLE></HEAD><BODY><!--StartFragment-->";
+            var pre = String.Format(@"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.0 Transitional//EN"">
+<HTML>
+  <HEAD>
+    <TITLE>" + title + @"</TITLE>
+    {0}
+  </HEAD>
+  <BODY>
+  <!--StartFragment-->", (String.IsNullOrEmpty(style))
+                            ? String.Empty
+                            : style);
 
-            string post = @"<!--EndFragment--></BODY></HTML>";
+            var post = @"
+  <!--EndFragment-->
+  </BODY>
+</HTML>";
 
-            sb.Append(header);
+            strToCopy += header;
             if (sourceUrl != null)
             {
-                sb.AppendFormat("SourceURL:{0}", sourceUrl);
+                strToCopy += String.Format("SourceURL:{0}", sourceUrl);
             }
-            int startHTML = sb.Length;
+            int startHTML = strToCopy.Length;
 
-            sb.Append(pre);
-            int fragmentStart = sb.Length;
+            strToCopy += pre;
+            int fragmentStart = strToCopy.Length;
 
-            sb.Append(htmlFragment);
-            int fragmentEnd = sb.Length;
+            strToCopy += htmlFragment;
+            int fragmentEnd = strToCopy.Length;
 
-            sb.Append(post);
-            int endHTML = sb.Length;
+            strToCopy += post;
+            int endHTML = strToCopy.Length;
 
             // Backpatch offsets
-            sb.Replace("<<<<<<<1", To8DigitString(startHTML));
-            sb.Replace("<<<<<<<2", To8DigitString(endHTML));
-            sb.Replace("<<<<<<<3", To8DigitString(fragmentStart));
-            sb.Replace("<<<<<<<4", To8DigitString(fragmentEnd));
+            strToCopy.Replace("<<<<<<<1", To8DigitString(startHTML));
+            strToCopy.Replace("<<<<<<<2", To8DigitString(endHTML));
+            strToCopy.Replace("<<<<<<<3", To8DigitString(fragmentStart));
+            strToCopy.Replace("<<<<<<<4", To8DigitString(fragmentEnd));
 
 
             // Finally copy to clipboard.
-            string data = sb.ToString();
             Clipboard.Clear();
-            Clipboard.SetText(data, TextDataFormat.Html);
+            Clipboard.SetText(strToCopy, TextDataFormat.Html);
         }
 
         #endregion // Write to Clipboard

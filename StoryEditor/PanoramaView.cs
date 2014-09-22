@@ -747,9 +747,9 @@ namespace OneStoryProjectEditor
             dlg.ShowDialog();
         }
 
-        private static void CopyGridToClipboard(IEnumerable dataGridViewRowCollection)
+        private void CopyGridToClipboard(IEnumerable dataGridViewRowCollection)
         {
-            string strHtml = "<tr><th>Story Name</th><th>Purpose</th><th>Who Edits</th><th>Time in Turn</th><th># of Lines</th><th># of TQs</th><th># of Words</th></tr>";
+            var strHtml = "<tr><th>Story Name</th><th>Purpose</th><th>Who Edits</th><th>Time in Turn</th><th># of Lines</th><th># of TQs</th><th># of Words</th></tr>";
             foreach (DataGridViewRow aRow in dataGridViewRowCollection)
             {
                 var strRowHtml = aRow.Cells.Cast<DataGridViewCell>().Aggregate<DataGridViewCell, string>(null, (current, aCell) => current + String.Format("<td>{0}</td>", aCell.Value));
@@ -760,9 +760,12 @@ namespace OneStoryProjectEditor
                                             : "");
             }
 
-            strHtml = String.Format(@"<html><head><style type=""text/css"">table, th, td {{ border-style: solid; border-width: 1px; }} .highlight {{ background-color:yellow; }}</style></head><table>{0}</table></html>", strHtml);
+            strHtml = String.Format(@"<table>{0}</table>", strHtml);
 
-            HtmlFragment.CopyToClipboard(strHtml);
+            HtmlFragment.CopyToClipboard(strHtml, 
+                                         String.Format("OneStory Editor: {0}", _storyProject.ProjSettings.ProjectName),
+                                         @"<style type=""text/css"">table, th, td { border-style: solid; border-width: 1px; } .highlight { background-color:yellow; }</style>",
+                                         null);
         }
 
         private void buttonCopyToClipboard_Click(object sender, EventArgs e)
