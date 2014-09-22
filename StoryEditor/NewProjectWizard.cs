@@ -54,6 +54,9 @@ namespace OneStoryProjectEditor
                 if (!String.IsNullOrEmpty(ProjSettings.HgRepoUrlHost) ||
                     Program.GetHgRepoParameters(ProjectName, out strDummy, out strDummy, out strDummy))
                     checkBoxUseInternetRepo.Checked = true;
+
+                // don't allow the project name to be changed! (if there's an internet repo)
+                textBoxProjectName.Enabled = !checkBoxUseInternetRepo.Checked;
             }
             
             if (!checkBoxUseInternetRepo.Checked)
