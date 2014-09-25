@@ -11,6 +11,7 @@ using Chorus.sync;
 using Chorus.UI.Sync;
 using Chorus.VcsDrivers;
 using Chorus.VcsDrivers.Mercurial;
+using Microsoft.Win32;
 using Palaso.Progress;
 using devX;
 using MAPIEx;
@@ -61,6 +62,9 @@ namespace OneStoryProjectEditor
                     Properties.Settings.Default.Save();
 
                 ProjectSettings.InsureOneStoryProjectFolderRootExists();
+
+                // add registry key to force IE9 (which supports double-click selects word
+                AddIe9RegistryKey();
 
                 if ((args.Length > 0) && (args[0] == "/sync_all"))
                 {
@@ -155,6 +159,15 @@ namespace OneStoryProjectEditor
             {
                 Palaso.UI.WindowsForms.Keyboarding.KeyboardController.Shutdown();
             }
+        }
+
+        private static void AddIe9RegistryKey()
+        {
+            var key = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION");
+            if (key == null)
+                return;
+
+            key.SetValue("StoryEditor.exe", 9999, RegistryValueKind.DWord);
         }
 
         public static void SyncBeforeClose(bool bPretendOpening)
