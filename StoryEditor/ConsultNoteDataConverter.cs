@@ -989,16 +989,13 @@ namespace OneStoryProjectEditor
                 }
                 else if (!IsStickyNote)
                 {
-                    // otherwise, add an 'End Conversation' button (if it's not a sticky note)
-                    strRow += String.Format(Resources.HTML_ButtonClass,
-                                            ButtonId(nVerseIndex, nConversationIndex,
-                                                     CnBtnIndexEndConversation),
-                                            StoryData.CstrLangLocalizationStyleClassName,
-                                            "return window.external.OnClickEndConversation(this.id);",
-                                            (IsFinished)
-                                                ? CstrButtonLabelConversationReopen
-                                                : CstrButtonLabelConversationEnd);
+                    strRow += GetEndOrOpenConversationButtonHtml(nVerseIndex, nConversationIndex);
                 }
+            }
+            // Jock wants mentors to be able to close conversations also
+            else if (IsMentorLoggedOn(loggedOnMember) && loggedOnMember.IsEditAllowed(theStory) && !IsStickyNote && !IsFinished)
+            {
+                strRow += GetEndOrOpenConversationButtonHtml(nVerseIndex, nConversationIndex);
             }
 
             // add a button if the logged on person has the authority to approve the note (or show it to the person who needs to see it)
@@ -1030,6 +1027,19 @@ namespace OneStoryProjectEditor
                                  ButtonRowId(nVerseIndex, nConversationIndex),
                                  strColor,
                                  strRow);
+        }
+
+        private string GetEndOrOpenConversationButtonHtml(int nVerseIndex, int nConversationIndex)
+        {
+            // otherwise, add an 'End Conversation' button (if it's not a sticky note)
+            return String.Format(Resources.HTML_ButtonClass,
+                ButtonId(nVerseIndex, nConversationIndex,
+                    CnBtnIndexEndConversation),
+                StoryData.CstrLangLocalizationStyleClassName,
+                "return window.external.OnClickEndConversation(this.id);",
+                (IsFinished)
+                    ? CstrButtonLabelConversationReopen
+                    : CstrButtonLabelConversationEnd);
         }
 
         protected bool InitiatedByCit(TeamMembersData teamMembersData)
