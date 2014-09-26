@@ -258,6 +258,11 @@ $(document).ready(function () {
             $(this).removeAttr("selectedText"); // cut or paste means we no longer have a selection
         }
         DisplayHtml(event.type + event.keyCode + this.value);
+    }).dblclick(function (event) {
+        var sel = document.selection;
+        var rng = sel.createRange();
+        rng.expand("word");
+        rng.select();
     });
     $('.readonly').attr('readonly', 'readonly');
 });
