@@ -1469,8 +1469,7 @@ namespace OneStoryProjectEditor
 
             var nLastSubItemIndex = -1;
             string strLastFieldReference = null,
-                   strReferringText = null,
-                   strNote = String.Format("{0}: ", StoryEditor.GetInitials(TheSE.LoggedOnMember.Name));
+                   strReferringText = null;
 
             var spans = GetSelectedTexts(textAreaIdentifier.LineIndex);
             foreach (var span in spans)
@@ -1509,7 +1508,7 @@ namespace OneStoryProjectEditor
             }
 
             // if the user doesn't cancel, then clear out the spans/selected text (save a step for the next note)
-            if (TheSE.SendNoteToCorrectPane(textAreaIdentifier.LineIndex, strReferringText, strNote, bNoteToSelf))
+            if (TheSE.SendNoteToCorrectPane(textAreaIdentifier.LineIndex, strReferringText, bNoteToSelf))
                 ClearSelectionSpans(spans);
         }
 
@@ -1651,8 +1650,7 @@ namespace OneStoryProjectEditor
                 if (anchor.JumpTarget != anchor.ToolTipText)
                     strReferringText += String.Format(" ({0})", anchor.ToolTipText);
 
-                var strNote = StoryEditor.GetInitials(theSe.LoggedOnMember.Name) + ": ";
-                theSe.SendNoteToCorrectPane(nLineIndex, strReferringText, strNote, false);
+                theSe.SendNoteToCorrectPane(nLineIndex, strReferringText, false);
             }
             else
                 LocalizableMessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to", StoryEditor.OseCaption);

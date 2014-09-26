@@ -54,12 +54,12 @@ namespace OneStoryProjectEditor
             return aCNsDC[nConversationIndex];
         }
 
-        public bool OnAddNote(int nVerseIndex, string strReferringText, string strNote, bool bNoteToSelf)
+        public bool OnAddNote(int nVerseIndex, string strReferringText, bool bNoteToSelf)
         {
             var eNoteType = (bNoteToSelf)
                                 ? ConsultNoteDataConverter.NoteType.NoteToSelf
                                 : ConsultNoteDataConverter.NoteType.RegularNote;
-            return CallDoAddNote(nVerseIndex, strReferringText, strNote, eNoteType);
+            return CallDoAddNote(nVerseIndex, strReferringText, eNoteType);
         }
 
         // this form is called from VersesData.GetHeaderRow (html)
@@ -68,19 +68,19 @@ namespace OneStoryProjectEditor
             var astrId = strButtonId.Split('_');
             System.Diagnostics.Debug.Assert(astrId.Length == 2);
             var nVerseIndex = Convert.ToInt32(astrId[1]);
-            return CallDoAddNote(nVerseIndex, null, null, ConsultNoteDataConverter.NoteType.NoteToSelf);
+            return CallDoAddNote(nVerseIndex, null, ConsultNoteDataConverter.NoteType.NoteToSelf);
         }
 
         public bool OnAddStickyNote(string strButtonId)
         {
-            return CallDoAddNote(0, null, null, ConsultNoteDataConverter.NoteType.StickyNote);
+            return CallDoAddNote(0, null, ConsultNoteDataConverter.NoteType.StickyNote);
         }
 
-        private bool CallDoAddNote(int nVerseIndex, string strReferringText, string strNote, ConsultNoteDataConverter.NoteType eNoteType)
+        private bool CallDoAddNote(int nVerseIndex, string strReferringText, ConsultNoteDataConverter.NoteType eNoteType)
         {
             // StrIdToScrollTo = GetNextRowId;
             ConsultNotesDataConverter aCNsDC = DataConverter(nVerseIndex);
-            ConsultNoteDataConverter aCNDC = DoAddNote(strReferringText, strNote, aCNsDC, nVerseIndex, eNoteType);
+            ConsultNoteDataConverter aCNDC = DoAddNote(strReferringText, aCNsDC, nVerseIndex, eNoteType);
             
             // if we couldn't determine the top-most row, then just get the line row
             // if ((aCNDC != null) && String.IsNullOrEmpty(StrIdToScrollTo))
@@ -445,8 +445,8 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public ConsultNoteDataConverter DoAddNote(string strReferringText, string strNote,
-            ConsultNotesDataConverter aCNsDC, int nVerseIndex, ConsultNoteDataConverter.NoteType eNoteType)
+        public ConsultNoteDataConverter DoAddNote(string strReferringText, ConsultNotesDataConverter aCNsDC, 
+                                                  int nVerseIndex, ConsultNoteDataConverter.NoteType eNoteType)
         {
             // the only function of the button here is to add a slot to type a con note
             StoryEditor theSE;
@@ -456,15 +456,16 @@ namespace OneStoryProjectEditor
             // if we're not given anything to put in the box, at least put in the logged
             //  in member's initials and re
             // (but not if we're pasting)
-            if (String.IsNullOrEmpty(strNote) && 
-                (theSE.LoggedOnMember != null) &&
+            string strNote = null;
+            if ((theSE.LoggedOnMember != null) &&
                 (StoryEditor.TextPaster == null) &&
                 (eNoteType != ConsultNoteDataConverter.NoteType.StickyNote))
-                strNote = StoryEditor.GetInitials(theSE.LoggedOnMember.Name) + StoryEditor.StrRegarding;
+            {
+                strNote = StoryEditor.GetInitials(theSE.LoggedOnMember.Name) + StoryEditor.DateForConNote;
+            }
 
-            ConsultNoteDataConverter cndc =
-                aCNsDC.Add(theSE.TheCurrentStory, theSE.LoggedOnMember,
-                theSE.StoryProject.TeamMembers, strReferringText, strNote, eNoteType);
+            var cndc = aCNsDC.Add(theSE.TheCurrentStory, theSE.LoggedOnMember, theSE.StoryProject.TeamMembers,
+                strReferringText, strNote, eNoteType);
             System.Diagnostics.Debug.Assert(cndc.Count == 1);
 
             // if there's referring text, then do it in a separate dialog so we can 'preview' the referring text
@@ -717,7 +718,7 @@ namespace OneStoryProjectEditor
 #endif
 
             // var strReferringText = String.Format("<p><i>{0}</i></p><p>{1}</p>", Localizer.Str("Re: ConNote:"), range.htmlText);
-            TheSE.SendNoteToCorrectPane(nLineNumber, strReferringText, null, bNoteToSelf);
+            TheSE.SendNoteToCorrectPane(nLineNumber, strReferringText, bNoteToSelf);
         }
 
         private ContextMenuStrip contextMenu;

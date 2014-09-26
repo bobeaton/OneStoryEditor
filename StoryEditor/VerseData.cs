@@ -1795,7 +1795,7 @@ namespace OneStoryProjectEditor
                 strHtmlButtons += String.Format(Properties.Resources.HTML_ButtonClass,
                                                 nVerseIndex,
                                                 StoryData.CstrLangLocalizationStyleClassName,
-                                                "return window.external.OnAddNote(this.id, null, null, false);",
+                                                "return window.external.OnAddNote(this.id, null, false);",
                                                 Localizer.Str("Add Note"));
 
                 strHtmlButtons += String.Format(Properties.Resources.HTML_ButtonClass,
