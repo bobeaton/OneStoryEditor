@@ -124,7 +124,7 @@ namespace OneStoryProjectEditor
                 {
                     strMemberId = MemberIdInfo.SafeGetMemberId(aSD.CraftingInfo.Consultant);
                 }
-                else if (strWhoHasEditToken == TeamMemberData.UserTypes.Coach.ToString())
+                else if (strWhoHasEditToken == TeamMemberData.CstrCoachDisplay)
                 {
                     strMemberId = MemberIdInfo.SafeGetMemberId(aSD.CraftingInfo.Coach);
                 }
