@@ -993,7 +993,7 @@ namespace OneStoryProjectEditor
                 }
             }
             // Jock wants mentors to be able to close conversations also
-            else if (IsMentorLoggedOn(loggedOnMember) && loggedOnMember.IsEditAllowed(theStory) && !IsStickyNote && !IsFinished)
+            else if (IsMentorLoggedOn(loggedOnMember) && loggedOnMember.IsEditAllowed(theStory) && !IsStickyNote)
             {
                 strRow += GetEndOrOpenConversationButtonHtml(nVerseIndex, nConversationIndex);
             }
