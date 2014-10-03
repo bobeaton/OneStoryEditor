@@ -71,7 +71,7 @@
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(517, 311);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(730, 493);
             this.tableLayoutPanel.TabIndex = 0;
             // 
             // labelVernacular
@@ -92,10 +92,10 @@
             this.textBoxVernacular.Location = new System.Drawing.Point(90, 3);
             this.textBoxVernacular.Name = "textBoxVernacular";
             this.helpProvider.SetShowHelp(this.textBoxVernacular, true);
-            this.textBoxVernacular.Size = new System.Drawing.Size(424, 20);
+            this.textBoxVernacular.Size = new System.Drawing.Size(637, 20);
             this.textBoxVernacular.TabIndex = 1;
-            this.textBoxVernacular.Leave += new System.EventHandler(this.textBox_Leave);
             this.textBoxVernacular.Enter += new System.EventHandler(this.textBox_Enter);
+            this.textBoxVernacular.Leave += new System.EventHandler(this.textBox_Leave);
             // 
             // labelNationalBT
             // 
@@ -115,10 +115,10 @@
             this.textBoxNationalBT.Location = new System.Drawing.Point(90, 29);
             this.textBoxNationalBT.Name = "textBoxNationalBT";
             this.helpProvider.SetShowHelp(this.textBoxNationalBT, true);
-            this.textBoxNationalBT.Size = new System.Drawing.Size(424, 20);
+            this.textBoxNationalBT.Size = new System.Drawing.Size(637, 20);
             this.textBoxNationalBT.TabIndex = 3;
-            this.textBoxNationalBT.Leave += new System.EventHandler(this.textBox_Leave);
             this.textBoxNationalBT.Enter += new System.EventHandler(this.textBox_Enter);
+            this.textBoxNationalBT.Leave += new System.EventHandler(this.textBox_Leave);
             // 
             // labelInternationalBT
             // 
@@ -138,16 +138,16 @@
             this.textBoxInternationalBT.Location = new System.Drawing.Point(90, 55);
             this.textBoxInternationalBT.Name = "textBoxInternationalBT";
             this.helpProvider.SetShowHelp(this.textBoxInternationalBT, true);
-            this.textBoxInternationalBT.Size = new System.Drawing.Size(424, 20);
+            this.textBoxInternationalBT.Size = new System.Drawing.Size(637, 20);
             this.textBoxInternationalBT.TabIndex = 5;
-            this.textBoxInternationalBT.Leave += new System.EventHandler(this.textBox_Leave);
             this.textBoxInternationalBT.Enter += new System.EventHandler(this.textBox_Enter);
+            this.textBoxInternationalBT.Leave += new System.EventHandler(this.textBox_Leave);
             // 
             // labelNotes
             // 
             this.labelNotes.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelNotes.AutoSize = true;
-            this.labelNotes.Location = new System.Drawing.Point(46, 173);
+            this.labelNotes.Location = new System.Drawing.Point(46, 264);
             this.labelNotes.Name = "labelNotes";
             this.labelNotes.Size = new System.Drawing.Size(38, 13);
             this.labelNotes.TabIndex = 6;
@@ -162,8 +162,9 @@
             this.textBoxNotes.Location = new System.Drawing.Point(90, 81);
             this.textBoxNotes.Multiline = true;
             this.textBoxNotes.Name = "textBoxNotes";
+            this.textBoxNotes.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.helpProvider.SetShowHelp(this.textBoxNotes, true);
-            this.textBoxNotes.Size = new System.Drawing.Size(424, 197);
+            this.textBoxNotes.Size = new System.Drawing.Size(637, 379);
             this.textBoxNotes.TabIndex = 7;
             this.toolTip.SetToolTip(this.textBoxNotes, "Enter notes on this term");
             // 
@@ -171,7 +172,7 @@
             // 
             this.buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(274, 329);
+            this.buttonCancel.Location = new System.Drawing.Point(380, 511);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 12;
@@ -181,7 +182,7 @@
             // buttonOK
             // 
             this.buttonOK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonOK.Location = new System.Drawing.Point(193, 329);
+            this.buttonOK.Location = new System.Drawing.Point(299, 511);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 11;
@@ -195,7 +196,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(542, 364);
+            this.ClientSize = new System.Drawing.Size(755, 546);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.tableLayoutPanel);
             this.Controls.Add(this.buttonOK);
