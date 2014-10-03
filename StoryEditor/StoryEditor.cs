@@ -1340,6 +1340,7 @@ namespace OneStoryProjectEditor
             // forget things:
             HtmlStoryBtControl.LastTextareaInFocusId = null;
             CtrlTextBox._nLastVerse = -1;
+            linkLabelVerseBT.Tag = 0;
 
             if (m_frmFind != null)
                 // if the user switches stories, then we need to reindex the search
