@@ -1843,6 +1843,15 @@ and in the resulting window click on the next (green) state.
             return false;
         }
     }
+    function OnDoubleClick() {
+        if (document.selection)
+        {
+            var sel = document.selection;
+            var rng = sel.createRange();
+		    rng.expand("word");
+            rng.select();
+        }
+    }
     function textboxSetSelection(strId, iStart, iLen) {
         var oTextbox = document.getElementById(strId);
         var oRange = oTextbox.createTextRange();
@@ -1934,7 +1943,7 @@ function CallTextareaOnSelect(textarea)
 &lt;head&gt;
 {1}
 &lt;/head&gt;
-&lt;body onKeyDown="return OnKeyDown();" onscroll="window.external.OnScroll()"&gt;
+&lt;body onKeyDown="return OnKeyDown();" onscroll="window.external.OnScroll();"&gt;
 {2}
 &lt;/body&gt;
 {3}
