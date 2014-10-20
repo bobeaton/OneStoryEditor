@@ -259,7 +259,7 @@ namespace OneStoryProjectEditor
 
         void textBoxTargetWord_Leave(object sender, System.EventArgs e)
         {
-            Keyboard.Controller.ActivateDefaultKeyboard();
+            Program.ActivateDefaultKeyboard();
         }
 
         void OnSelectAmbiguity(object sender, EventArgs e)
@@ -365,7 +365,7 @@ namespace OneStoryProjectEditor
                 Keyboard.Controller.SetKeyboard(_strSourceKeyboard);
             if (dlg.ShowDialog() == DialogResult.OK)
                 _parent.Update(this, dlg.CorrectedWord);
-            Keyboard.Controller.ActivateDefaultKeyboard();
+            Program.ActivateDefaultKeyboard();
         }
 
         private void retranslateSourceWordToolStripMenuItem_Click(object sender, EventArgs e)

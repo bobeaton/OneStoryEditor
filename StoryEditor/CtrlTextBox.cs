@@ -342,7 +342,7 @@ namespace OneStoryProjectEditor
                     if (!label.Visible)
                         label.Show();
                 }
-                Keyboard.Controller.ActivateDefaultKeyboard();
+                Program.ActivateDefaultKeyboard();
             }
             catch (System.IO.FileLoadException)
             {

@@ -352,7 +352,7 @@ namespace OneStoryProjectEditor
 
         public bool TextareaOnBlur(string strId)
         {
-            Keyboard.Controller.ActivateDefaultKeyboard();
+            Program.ActivateDefaultKeyboard();
             return false;
         }
 

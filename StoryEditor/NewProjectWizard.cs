@@ -1183,7 +1183,7 @@ namespace OneStoryProjectEditor
         private void textBoxSentFullStop_Leave(object sender, EventArgs e)
         {
 #if !DEBUGBOB
-            Keyboard.Controller.ActivateDefaultKeyboard();
+            Program.ActivateDefaultKeyboard();
 #endif
         }
 

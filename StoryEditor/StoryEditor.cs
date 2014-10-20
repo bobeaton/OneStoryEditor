@@ -2597,16 +2597,7 @@ namespace OneStoryProjectEditor
             if (Modified)
             {
                 // it's annoying that the keyboard doesn't deactivate so I can just type 'y' for "Yes"
-                try
-                {
-                    Keyboard.Controller.ActivateDefaultKeyboard(); // ... do it manually
-                }
-                catch (FileLoadException)
-                {
-#if !DEBUG
-                    throw;
-#endif
-                }
+                Program.ActivateDefaultKeyboard(); // ... do it manually
 
                 var res = QuerySave();
                 if (res == DialogResult.Cancel)

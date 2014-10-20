@@ -220,8 +220,9 @@ namespace OneStoryProjectEditor
 
         private void textBox_Leave(object sender, EventArgs e)
         {
-            Keyboard.Controller.ActivateDefaultKeyboard();
+            Program.ActivateDefaultKeyboard();
         }
+
         /*
         private void buttonKeyTermSelect_Click(object sender, EventArgs e)
         {
