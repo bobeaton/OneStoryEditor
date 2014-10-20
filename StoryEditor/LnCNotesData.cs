@@ -269,7 +269,9 @@ namespace OneStoryProjectEditor
         {
             guid = theLnCNoteRow.guid;  // the only thing absolutely required
 
-            Notes = theLnCNoteRow.LnCNote_text;
+            Notes = theLnCNoteRow.IsLnCNote_textNull()
+                        ? String.Empty
+                        : theLnCNoteRow.LnCNote_text;
             if (!theLnCNoteRow.IsVernacularRenderingNull())
                 VernacularRendering = theLnCNoteRow.VernacularRendering;
             if (!theLnCNoteRow.IsNationalBTRenderingNull())

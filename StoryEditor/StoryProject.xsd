@@ -80,10 +80,10 @@
         <xs:element name="LnCNotes" minOccurs="0" maxOccurs="1">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="LnCNote" minOccurs="0" maxOccurs="unbounded" nillable="true">
+              <xs:element name="LnCNote" minOccurs="0" maxOccurs="unbounded" nillable="true" msdata:AllowDBNull="1">
                 <xs:complexType>
                   <xs:simpleContent>
-                    <xs:extension base="xs:string">
+                    <xs:extension base="xs:string" msdata:AllowDBNull="1">
                       <xs:attribute name="guid" type="xs:string" use="required" />
                       <xs:attribute name="VernacularRendering" type="xs:string" />
                       <xs:attribute name="NationalBTRendering" type="xs:string" />
