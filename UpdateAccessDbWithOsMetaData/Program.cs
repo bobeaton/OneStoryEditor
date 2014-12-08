@@ -104,16 +104,18 @@ namespace UpdateAccessDbWithOsMetaData
                                          osMetaDataModelRecord.OseProjId, strOsMetaDataFile));
                 // record doesn't exist, so insert it
                 db.ExecuteNonQuery("insert into Projects " +
-                                           "(Project_Name, Language_Name, Ethnologue_Code, Continent, Country, Managing_Partner, " +
-                                            "Entity, Priorities_Category, Scripture_Status, Scrip_Status_Notes, Project_Facilitators, " +
+                                           "(Project_Name, Language_Name, Ethnologue_Code, Continent, Country, Methodology, " +
+                                           "Managing_Partner, Entity, Contact_Person, Contact_Person_Email, Priorities_Category, " +
+                                           "Scripture_Status, Scrip_Status_Notes, Project_Facilitators, " +
                                             "PF_Category, PF_Affiliation, Notes, Status, Start_Date, LCA_Workshop, LCA_Coach, " +
                                             "SC_workshop, currently_using_OSE, ose_proj_id, ES_Consultant, ES_Coach, ES_stories_sent, " +
                                             "Process_Check, Multiplication_workshop, Number_SFGs, PS_Consultant, PS_Coach, " +
                                             "PS_stories_prelim_approv, LSR, Number_Final_Stories, Set_Finished_Date, " +
                                             "Uploaded_to_OSMedia, Set_Copyrighted) " +
-                                   "values (@ProjectName, @LanguageName, @EthnologueCode, @Continent, @Country, @ManagingPartner, " +
-                                           "@Entity, @PrioritiesCategory, @ScriptureStatus, @ScriptureStatusNotes, " +
-                                           "@ProjectFacilitators, @PfCategory, @PfAffiliation, @Notes, @Status, @StartDate, " +
+                                   "values (@ProjectName, @LanguageName, @EthnologueCode, @Continent, @Country, @Methodology, " +
+                                           "@ManagingPartner, @Entity, @ContactPerson, @ContactPersonEmail, @PrioritiesCategory, " +
+                                           "@ScriptureStatus, @ScriptureStatusNotes, @ProjectFacilitators, @PfCategory, " +
+                                           "@PfAffiliation, @Notes, @Status, @StartDate, " +
                                            "@LcaWorkshop, @LcaCoach, @ScWorkshop, @IsCurrentlyUsingOse, @OseProjId, @EsConsultant, " +
                                            "@EsCoach, @EsStoriesSent, @ProcessCheck, @MultiplicationWorkshop, @NumberSfgs, " +
                                            "@PsConsultant, @PsCoach, @PsStoriesPrelimApprov, @Lsr, @NumInFinalApprov, " +
@@ -131,8 +133,11 @@ namespace UpdateAccessDbWithOsMetaData
                                        "[Ethnologue_Code] = @EthnologueCode, " +
                                        "[Continent] = @Continent, " +
                                        "[Country] = @Country, " +
+                                       "[Methodology] = @Methodology, " +
                                        "[Managing_Partner] = @ManagingPartner, " +
                                        "[Entity] = @Entity, " +
+                                       "[Contact_Person] = @ContactPerson, " + 
+                                       "[Contact_Person_Email] = @ContactPersonEmail, " +
                                        "[Priorities_Category] = @PrioritiesCategory, " + 
                                        "[Scripture_Status] = @ScriptureStatus, " +
                                        "[Scrip_Status_Notes] = @ScriptureStatusNotes, " + 
@@ -176,8 +181,11 @@ namespace UpdateAccessDbWithOsMetaData
                 new Param("@EthnologueCode", osMetaDataModelRecord.EthnologueCode, OleDbType.VarWChar),
                 new Param("@Continent", osMetaDataModelRecord.Continent, OleDbType.VarWChar),
                 new Param("@Country", osMetaDataModelRecord.Country, OleDbType.VarWChar),
+                new Param("@Methodology", osMetaDataModelRecord.Methodology, OleDbType.VarWChar), 
                 new Param("@ManagingPartner", osMetaDataModelRecord.ManagingPartner, OleDbType.VarWChar),
                 new Param("@Entity", osMetaDataModelRecord.Entity, OleDbType.VarWChar),
+                new Param("@ContactPerson", osMetaDataModelRecord.ContactPerson, OleDbType.VarWChar), 
+                new Param("@ContactPersonEmail", osMetaDataModelRecord.ContactPersonEmail, OleDbType.VarWChar), 
                 new Param("@PrioritiesCategory", osMetaDataModelRecord.PrioritiesCategory, OleDbType.VarWChar),
                 new Param("@ScriptureStatus", osMetaDataModelRecord.ScriptureStatus, OleDbType.VarWChar),
                 new Param("@ScriptureStatusNotes", osMetaDataModelRecord.ScriptureStatusNotes, OleDbType.VarWChar),

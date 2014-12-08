@@ -97,8 +97,11 @@ namespace OneStoryProjectEditor
         public string EthnologueCode { get; set; }          // Ethnologue_Code
         public string Continent { get; set; }               // Continent
         public string Country { get; set; }                 // Country
+        public string Methodology { get; set; }             // Methodology
         public string ManagingPartner { get; set; }         // Managing_Partner
         public string Entity { get; set; }                  // Entity
+        public string ContactPerson { get; set; }           // Contact_Person
+        public string ContactPersonEmail { get; set; }      // Contact_Person_Email
         public string PrioritiesCategory { get; set; }      // Priorities_Category
         public string ScriptureStatus { get; set; }         // Scripture_Status
         public string ScriptureStatusNotes { get; set; }    // Scrip_Status_Notes
@@ -140,8 +143,11 @@ namespace OneStoryProjectEditor
             EthnologueCode = rhs.EthnologueCode;
             Continent = rhs.Continent;
             Country = rhs.Country;
+            Methodology = rhs.Methodology;
             ManagingPartner = rhs.ManagingPartner;
             Entity = rhs.Entity;
+            ContactPerson = rhs.ContactPerson;
+            ContactPersonEmail = rhs.ContactPersonEmail;
             PrioritiesCategory = rhs.PrioritiesCategory;
             ScriptureStatus = rhs.ScriptureStatus;
             ScriptureStatusNotes = rhs.ScriptureStatusNotes;

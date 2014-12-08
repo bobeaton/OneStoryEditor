@@ -26,6 +26,9 @@ namespace OneStoryProjectEditor
             Initialize(textBoxCountry, record.Country);
             Initialize(comboBoxManagingPartner, record.ManagingPartner);
             Initialize(textBoxLocalEntity, record.Entity);
+            Initialize(comboBoxMethodology, record.Methodology);
+            Initialize(textBoxContactPerson, record.ContactPerson);
+            Initialize(textBoxContactPersonEmail, record.ContactPersonEmail);
             Initialize(comboBoxPrioritiesCategory, record.PrioritiesCategory);
             Initialize(comboBoxScriptureStatus, record.ScriptureStatus);
             Initialize(textBoxScriptureStatusDetails, record.ScriptureStatusNotes);
@@ -112,6 +115,9 @@ namespace OneStoryProjectEditor
             record.Country = Retrieve(textBoxCountry);
             record.ManagingPartner = Retrieve(comboBoxManagingPartner);
             record.Entity = Retrieve(textBoxLocalEntity);
+            record.Methodology = Retrieve(comboBoxMethodology);
+            record.ContactPerson = Retrieve(textBoxContactPerson);
+            record.ContactPersonEmail = Retrieve(textBoxContactPersonEmail);
             record.PrioritiesCategory = Retrieve(comboBoxPrioritiesCategory);
             record.ScriptureStatus = Retrieve(comboBoxScriptureStatus);
             record.ScriptureStatusNotes = Retrieve(textBoxScriptureStatusDetails);

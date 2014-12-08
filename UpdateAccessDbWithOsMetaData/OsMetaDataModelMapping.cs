@@ -6,14 +6,18 @@ namespace UpdateAccessDbWithOsMetaData
     {
         public OsMetaDataModelMapping()
         {
+            // value in the Access database, field name in OSE
             Map("ID", "Id");
             Map("Project_Name", "ProjectName");
             Map("Language_Name", "LanguageName");
             Map("Ethnologue_Code", "EthnologueCode");
             Map("Continent", "Continent");
             Map("Country", "Country");
+            Map("Methodology", "Methodology");
             Map("Managing_Partner", "ManagingPartner");
             Map("Entity", "Entity");
+            Map("Contact_Person", "ContactPerson");
+            Map("Contact_Person_Email", "ContactPersonEmail");
             Map("Priorities_Category", "PrioritiesCategory");
             Map("Scripture_Status", "ScriptureStatus");
             Map("Scrip_Status_Notes", "ScriptureStatusNotes");

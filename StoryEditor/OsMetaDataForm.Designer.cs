@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OsMetaDataForm));
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageProjectInformation = new System.Windows.Forms.TabPage();
@@ -46,6 +47,12 @@
             this.comboBoxManagingPartner = new System.Windows.Forms.ComboBox();
             this.labelLocalEntity = new System.Windows.Forms.Label();
             this.textBoxLocalEntity = new System.Windows.Forms.TextBox();
+            this.labelMethodology = new System.Windows.Forms.Label();
+            this.comboBoxMethodology = new System.Windows.Forms.ComboBox();
+            this.labelContactPerson = new System.Windows.Forms.Label();
+            this.textBoxContactPerson = new System.Windows.Forms.TextBox();
+            this.labelContactPersonEmail = new System.Windows.Forms.Label();
+            this.textBoxContactPersonEmail = new System.Windows.Forms.TextBox();
             this.labelPrioritiesCategory = new System.Windows.Forms.Label();
             this.comboBoxPrioritiesCategory = new System.Windows.Forms.ComboBox();
             this.labelScriptureStatus = new System.Windows.Forms.Label();
@@ -109,6 +116,7 @@
             this.textBoxNumInPreliminaryApproval = new System.Windows.Forms.TextBox();
             this.buttonOk = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tabControl.SuspendLayout();
             this.tabPageProjectInformation.SuspendLayout();
             this.tableLayoutPanelProjectInformation.SuspendLayout();
@@ -118,15 +126,15 @@
             // 
             // tabControl
             // 
-            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabPageProjectInformation);
             this.tabControl.Controls.Add(this.tabPageProjectSequence);
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(655, 606);
+            this.tabControl.Size = new System.Drawing.Size(791, 606);
             this.tabControl.TabIndex = 0;
             // 
             // tabPageProjectInformation
@@ -135,7 +143,7 @@
             this.tabPageProjectInformation.Location = new System.Drawing.Point(4, 22);
             this.tabPageProjectInformation.Name = "tabPageProjectInformation";
             this.tabPageProjectInformation.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageProjectInformation.Size = new System.Drawing.Size(647, 580);
+            this.tabPageProjectInformation.Size = new System.Drawing.Size(783, 580);
             this.tabPageProjectInformation.TabIndex = 0;
             this.tabPageProjectInformation.Text = "Project Information";
             this.tabPageProjectInformation.ToolTipText = "Click here to enter project information";
@@ -160,23 +168,32 @@
             this.tableLayoutPanelProjectInformation.Controls.Add(this.comboBoxManagingPartner, 1, 5);
             this.tableLayoutPanelProjectInformation.Controls.Add(this.labelLocalEntity, 0, 6);
             this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxLocalEntity, 1, 6);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelPrioritiesCategory, 0, 7);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.comboBoxPrioritiesCategory, 1, 7);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelScriptureStatus, 0, 8);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.comboBoxScriptureStatus, 1, 8);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxScriptureStatusDetails, 1, 9);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelFacilitators, 0, 10);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxFacilitators, 1, 10);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelTeamCategory, 0, 11);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.comboBoxTeamCategory, 1, 11);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelTeamAffiliation, 0, 12);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxTeamAffiliation, 1, 12);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelNotes, 0, 13);
-            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxNotes, 1, 13);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelMethodology, 0, 7);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.comboBoxMethodology, 1, 7);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelContactPerson, 0, 8);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxContactPerson, 1, 8);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelContactPersonEmail, 0, 9);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxContactPersonEmail, 1, 9);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelPrioritiesCategory, 0, 10);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.comboBoxPrioritiesCategory, 1, 10);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelScriptureStatus, 0, 11);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.comboBoxScriptureStatus, 1, 11);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxScriptureStatusDetails, 1, 12);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelFacilitators, 0, 13);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxFacilitators, 1, 13);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelTeamCategory, 0, 14);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.comboBoxTeamCategory, 1, 14);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelTeamAffiliation, 0, 15);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxTeamAffiliation, 1, 15);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.labelNotes, 0, 16);
+            this.tableLayoutPanelProjectInformation.Controls.Add(this.textBoxNotes, 1, 16);
             this.tableLayoutPanelProjectInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelProjectInformation.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanelProjectInformation.Name = "tableLayoutPanelProjectInformation";
-            this.tableLayoutPanelProjectInformation.RowCount = 14;
+            this.tableLayoutPanelProjectInformation.RowCount = 17;
+            this.tableLayoutPanelProjectInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelProjectInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelProjectInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelProjectInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelProjectInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelProjectInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -191,7 +208,7 @@
             this.tableLayoutPanelProjectInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelProjectInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelProjectInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelProjectInformation.Size = new System.Drawing.Size(641, 574);
+            this.tableLayoutPanelProjectInformation.Size = new System.Drawing.Size(777, 574);
             this.tableLayoutPanelProjectInformation.TabIndex = 0;
             // 
             // labelProjectName
@@ -209,8 +226,9 @@
             this.textBoxProjectName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxProjectName.Location = new System.Drawing.Point(103, 3);
             this.textBoxProjectName.Name = "textBoxProjectName";
-            this.textBoxProjectName.Size = new System.Drawing.Size(535, 20);
+            this.textBoxProjectName.Size = new System.Drawing.Size(671, 20);
             this.textBoxProjectName.TabIndex = 1;
+            this.toolTip.SetToolTip(this.textBoxProjectName, "Can be an acronym");
             // 
             // labelLanguageName
             // 
@@ -227,7 +245,7 @@
             this.textBoxLanguageName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxLanguageName.Location = new System.Drawing.Point(103, 29);
             this.textBoxLanguageName.Name = "textBoxLanguageName";
-            this.textBoxLanguageName.Size = new System.Drawing.Size(535, 20);
+            this.textBoxLanguageName.Size = new System.Drawing.Size(671, 20);
             this.textBoxLanguageName.TabIndex = 3;
             // 
             // labelEthnologueCode
@@ -245,7 +263,7 @@
             this.textBoxEthnologueCode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxEthnologueCode.Location = new System.Drawing.Point(103, 55);
             this.textBoxEthnologueCode.Name = "textBoxEthnologueCode";
-            this.textBoxEthnologueCode.Size = new System.Drawing.Size(535, 20);
+            this.textBoxEthnologueCode.Size = new System.Drawing.Size(671, 20);
             this.textBoxEthnologueCode.TabIndex = 5;
             // 
             // labelContinent
@@ -271,7 +289,7 @@
             "South America"});
             this.comboBoxContinent.Location = new System.Drawing.Point(103, 81);
             this.comboBoxContinent.Name = "comboBoxContinent";
-            this.comboBoxContinent.Size = new System.Drawing.Size(535, 21);
+            this.comboBoxContinent.Size = new System.Drawing.Size(671, 21);
             this.comboBoxContinent.TabIndex = 7;
             // 
             // labelCountry
@@ -289,7 +307,7 @@
             this.textBoxCountry.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxCountry.Location = new System.Drawing.Point(103, 108);
             this.textBoxCountry.Name = "textBoxCountry";
-            this.textBoxCountry.Size = new System.Drawing.Size(535, 20);
+            this.textBoxCountry.Size = new System.Drawing.Size(671, 20);
             this.textBoxCountry.TabIndex = 9;
             // 
             // labelManagingPartner
@@ -318,8 +336,9 @@
             "Other"});
             this.comboBoxManagingPartner.Location = new System.Drawing.Point(103, 134);
             this.comboBoxManagingPartner.Name = "comboBoxManagingPartner";
-            this.comboBoxManagingPartner.Size = new System.Drawing.Size(535, 21);
+            this.comboBoxManagingPartner.Size = new System.Drawing.Size(671, 21);
             this.comboBoxManagingPartner.TabIndex = 11;
+            this.toolTip.SetToolTip(this.comboBoxManagingPartner, "the executive team level partner that is taking responsibility for the project");
             // 
             // labelLocalEntity
             // 
@@ -336,14 +355,82 @@
             this.textBoxLocalEntity.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxLocalEntity.Location = new System.Drawing.Point(103, 161);
             this.textBoxLocalEntity.Name = "textBoxLocalEntity";
-            this.textBoxLocalEntity.Size = new System.Drawing.Size(535, 20);
+            this.textBoxLocalEntity.Size = new System.Drawing.Size(671, 20);
             this.textBoxLocalEntity.TabIndex = 13;
+            this.toolTip.SetToolTip(this.textBoxLocalEntity, "a local or regional entity that\'s managing the project (such as an SIL branch or " +
+                    "a YWAM base)");
+            // 
+            // labelMethodology
+            // 
+            this.labelMethodology.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelMethodology.AutoSize = true;
+            this.labelMethodology.Location = new System.Drawing.Point(26, 191);
+            this.labelMethodology.Name = "labelMethodology";
+            this.labelMethodology.Size = new System.Drawing.Size(71, 13);
+            this.labelMethodology.TabIndex = 12;
+            this.labelMethodology.Text = "Methodology:";
+            // 
+            // comboBoxMethodology
+            // 
+            this.comboBoxMethodology.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboBoxMethodology.FormattingEnabled = true;
+            this.comboBoxMethodology.Items.AddRange(new object[] {
+            "OneStory",
+            "OBS",
+            "IVR",
+            "Story Together",
+            "Other"});
+            this.comboBoxMethodology.Location = new System.Drawing.Point(103, 187);
+            this.comboBoxMethodology.Name = "comboBoxMethodology";
+            this.comboBoxMethodology.Size = new System.Drawing.Size(671, 21);
+            this.comboBoxMethodology.TabIndex = 27;
+            this.toolTip.SetToolTip(this.comboBoxMethodology, "training and consulting standards followed, i.e. OneStory, OBS, SOS, IVR, Story T" +
+                    "ogether, or other");
+            // 
+            // labelContactPerson
+            // 
+            this.labelContactPerson.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelContactPerson.AutoSize = true;
+            this.labelContactPerson.Location = new System.Drawing.Point(14, 217);
+            this.labelContactPerson.Name = "labelContactPerson";
+            this.labelContactPerson.Size = new System.Drawing.Size(83, 13);
+            this.labelContactPerson.TabIndex = 12;
+            this.labelContactPerson.Text = "Contact Person:";
+            // 
+            // textBoxContactPerson
+            // 
+            this.textBoxContactPerson.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxContactPerson.Location = new System.Drawing.Point(103, 214);
+            this.textBoxContactPerson.Name = "textBoxContactPerson";
+            this.textBoxContactPerson.Size = new System.Drawing.Size(671, 20);
+            this.textBoxContactPerson.TabIndex = 28;
+            this.toolTip.SetToolTip(this.textBoxContactPerson, "When someone wants to know more about the project they should contact this person" +
+                    "");
+            // 
+            // labelContactPersonEmail
+            // 
+            this.labelContactPersonEmail.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelContactPersonEmail.AutoSize = true;
+            this.labelContactPersonEmail.Location = new System.Drawing.Point(62, 243);
+            this.labelContactPersonEmail.Name = "labelContactPersonEmail";
+            this.labelContactPersonEmail.Size = new System.Drawing.Size(35, 13);
+            this.labelContactPersonEmail.TabIndex = 12;
+            this.labelContactPersonEmail.Text = "Email:";
+            // 
+            // textBoxContactPersonEmail
+            // 
+            this.textBoxContactPersonEmail.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxContactPersonEmail.Location = new System.Drawing.Point(103, 240);
+            this.textBoxContactPersonEmail.Name = "textBoxContactPersonEmail";
+            this.textBoxContactPersonEmail.Size = new System.Drawing.Size(671, 20);
+            this.textBoxContactPersonEmail.TabIndex = 29;
+            this.toolTip.SetToolTip(this.textBoxContactPersonEmail, "Email address for contact person");
             // 
             // labelPrioritiesCategory
             // 
             this.labelPrioritiesCategory.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelPrioritiesCategory.AutoSize = true;
-            this.labelPrioritiesCategory.Location = new System.Drawing.Point(3, 191);
+            this.labelPrioritiesCategory.Location = new System.Drawing.Point(3, 270);
             this.labelPrioritiesCategory.Name = "labelPrioritiesCategory";
             this.labelPrioritiesCategory.Size = new System.Drawing.Size(94, 13);
             this.labelPrioritiesCategory.TabIndex = 14;
@@ -359,16 +446,16 @@
             "3. Unreached",
             "4. Gateway",
             "5. Other"});
-            this.comboBoxPrioritiesCategory.Location = new System.Drawing.Point(103, 187);
+            this.comboBoxPrioritiesCategory.Location = new System.Drawing.Point(103, 266);
             this.comboBoxPrioritiesCategory.Name = "comboBoxPrioritiesCategory";
-            this.comboBoxPrioritiesCategory.Size = new System.Drawing.Size(535, 21);
+            this.comboBoxPrioritiesCategory.Size = new System.Drawing.Size(671, 21);
             this.comboBoxPrioritiesCategory.TabIndex = 15;
             // 
             // labelScriptureStatus
             // 
             this.labelScriptureStatus.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelScriptureStatus.AutoSize = true;
-            this.labelScriptureStatus.Location = new System.Drawing.Point(12, 218);
+            this.labelScriptureStatus.Location = new System.Drawing.Point(12, 297);
             this.labelScriptureStatus.Name = "labelScriptureStatus";
             this.labelScriptureStatus.Size = new System.Drawing.Size(85, 13);
             this.labelScriptureStatus.TabIndex = 16;
@@ -384,25 +471,29 @@
             "3. Post-translation (portions)",
             "4. Post-translation (New Testament)",
             "5. Post-translation (full Bible)"});
-            this.comboBoxScriptureStatus.Location = new System.Drawing.Point(103, 214);
+            this.comboBoxScriptureStatus.Location = new System.Drawing.Point(103, 293);
             this.comboBoxScriptureStatus.Name = "comboBoxScriptureStatus";
-            this.comboBoxScriptureStatus.Size = new System.Drawing.Size(535, 21);
+            this.comboBoxScriptureStatus.Size = new System.Drawing.Size(671, 21);
             this.comboBoxScriptureStatus.TabIndex = 17;
+            this.toolTip.SetToolTip(this.comboBoxScriptureStatus, "This field is only used after a project  is completed. It shows if the project mo" +
+                    "ved on to written translation.");
             // 
             // textBoxScriptureStatusDetails
             // 
             this.textBoxScriptureStatusDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxScriptureStatusDetails.Location = new System.Drawing.Point(103, 241);
+            this.textBoxScriptureStatusDetails.Location = new System.Drawing.Point(103, 320);
             this.textBoxScriptureStatusDetails.Multiline = true;
             this.textBoxScriptureStatusDetails.Name = "textBoxScriptureStatusDetails";
-            this.textBoxScriptureStatusDetails.Size = new System.Drawing.Size(535, 44);
+            this.textBoxScriptureStatusDetails.Size = new System.Drawing.Size(671, 44);
             this.textBoxScriptureStatusDetails.TabIndex = 18;
+            this.toolTip.SetToolTip(this.textBoxScriptureStatusDetails, "what portions are available, scripture in another dialect, archaic translation, e" +
+                    "tc");
             // 
             // labelFacilitators
             // 
             this.labelFacilitators.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelFacilitators.AutoSize = true;
-            this.labelFacilitators.Location = new System.Drawing.Point(37, 294);
+            this.labelFacilitators.Location = new System.Drawing.Point(37, 373);
             this.labelFacilitators.Name = "labelFacilitators";
             this.labelFacilitators.Size = new System.Drawing.Size(60, 13);
             this.labelFacilitators.TabIndex = 19;
@@ -411,17 +502,17 @@
             // textBoxFacilitators
             // 
             this.textBoxFacilitators.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxFacilitators.Location = new System.Drawing.Point(103, 291);
+            this.textBoxFacilitators.Location = new System.Drawing.Point(103, 370);
             this.textBoxFacilitators.Name = "textBoxFacilitators";
             this.textBoxFacilitators.ReadOnly = true;
-            this.textBoxFacilitators.Size = new System.Drawing.Size(535, 20);
+            this.textBoxFacilitators.Size = new System.Drawing.Size(671, 20);
             this.textBoxFacilitators.TabIndex = 20;
             // 
             // labelTeamCategory
             // 
             this.labelTeamCategory.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelTeamCategory.AutoSize = true;
-            this.labelTeamCategory.Location = new System.Drawing.Point(15, 321);
+            this.labelTeamCategory.Location = new System.Drawing.Point(15, 400);
             this.labelTeamCategory.Name = "labelTeamCategory";
             this.labelTeamCategory.Size = new System.Drawing.Size(82, 13);
             this.labelTeamCategory.TabIndex = 21;
@@ -436,16 +527,16 @@
             "Venture",
             "Mother-tongue",
             "Mixed"});
-            this.comboBoxTeamCategory.Location = new System.Drawing.Point(103, 317);
+            this.comboBoxTeamCategory.Location = new System.Drawing.Point(103, 396);
             this.comboBoxTeamCategory.Name = "comboBoxTeamCategory";
-            this.comboBoxTeamCategory.Size = new System.Drawing.Size(535, 21);
+            this.comboBoxTeamCategory.Size = new System.Drawing.Size(671, 21);
             this.comboBoxTeamCategory.TabIndex = 22;
             // 
             // labelTeamAffiliation
             // 
             this.labelTeamAffiliation.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelTeamAffiliation.AutoSize = true;
-            this.labelTeamAffiliation.Location = new System.Drawing.Point(15, 347);
+            this.labelTeamAffiliation.Location = new System.Drawing.Point(15, 426);
             this.labelTeamAffiliation.Name = "labelTeamAffiliation";
             this.labelTeamAffiliation.Size = new System.Drawing.Size(82, 13);
             this.labelTeamAffiliation.TabIndex = 23;
@@ -454,16 +545,17 @@
             // textBoxTeamAffiliation
             // 
             this.textBoxTeamAffiliation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxTeamAffiliation.Location = new System.Drawing.Point(103, 344);
+            this.textBoxTeamAffiliation.Location = new System.Drawing.Point(103, 423);
             this.textBoxTeamAffiliation.Name = "textBoxTeamAffiliation";
-            this.textBoxTeamAffiliation.Size = new System.Drawing.Size(535, 20);
+            this.textBoxTeamAffiliation.Size = new System.Drawing.Size(671, 20);
             this.textBoxTeamAffiliation.TabIndex = 24;
+            this.toolTip.SetToolTip(this.textBoxTeamAffiliation, "the organization the facilitators are members of");
             // 
             // labelNotes
             // 
             this.labelNotes.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelNotes.AutoSize = true;
-            this.labelNotes.Location = new System.Drawing.Point(59, 464);
+            this.labelNotes.Location = new System.Drawing.Point(59, 503);
             this.labelNotes.Name = "labelNotes";
             this.labelNotes.Size = new System.Drawing.Size(38, 13);
             this.labelNotes.TabIndex = 26;
@@ -472,11 +564,12 @@
             // textBoxNotes
             // 
             this.textBoxNotes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxNotes.Location = new System.Drawing.Point(103, 370);
+            this.textBoxNotes.Location = new System.Drawing.Point(103, 449);
             this.textBoxNotes.Multiline = true;
             this.textBoxNotes.Name = "textBoxNotes";
-            this.textBoxNotes.Size = new System.Drawing.Size(535, 201);
+            this.textBoxNotes.Size = new System.Drawing.Size(671, 122);
             this.textBoxNotes.TabIndex = 25;
+            this.toolTip.SetToolTip(this.textBoxNotes, "general notes about the project");
             // 
             // tabPageProjectSequence
             // 
@@ -484,7 +577,7 @@
             this.tabPageProjectSequence.Location = new System.Drawing.Point(4, 22);
             this.tabPageProjectSequence.Name = "tabPageProjectSequence";
             this.tabPageProjectSequence.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageProjectSequence.Size = new System.Drawing.Size(647, 580);
+            this.tabPageProjectSequence.Size = new System.Drawing.Size(783, 580);
             this.tabPageProjectSequence.TabIndex = 1;
             this.tabPageProjectSequence.Text = "Project Sequence";
             this.tabPageProjectSequence.ToolTipText = "Click here to enter project sequence information";
@@ -570,7 +663,7 @@
             this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelProjectSequence.Size = new System.Drawing.Size(641, 574);
+            this.tableLayoutPanelProjectSequence.Size = new System.Drawing.Size(777, 574);
             this.tableLayoutPanelProjectSequence.TabIndex = 0;
             // 
             // labelStartDate
@@ -608,7 +701,7 @@
             "Z. Disassociated (but continuing)"});
             this.comboBoxStatus.Location = new System.Drawing.Point(102, 3);
             this.comboBoxStatus.Name = "comboBoxStatus";
-            this.comboBoxStatus.Size = new System.Drawing.Size(536, 21);
+            this.comboBoxStatus.Size = new System.Drawing.Size(672, 21);
             this.comboBoxStatus.TabIndex = 1;
             // 
             // buttonPreliminaryStage
@@ -617,7 +710,7 @@
             this.buttonPreliminaryStage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonPreliminaryStage.Location = new System.Drawing.Point(3, 56);
             this.buttonPreliminaryStage.Name = "buttonPreliminaryStage";
-            this.buttonPreliminaryStage.Size = new System.Drawing.Size(635, 14);
+            this.buttonPreliminaryStage.Size = new System.Drawing.Size(771, 14);
             this.buttonPreliminaryStage.TabIndex = 4;
             this.buttonPreliminaryStage.TabStop = false;
             this.buttonPreliminaryStage.UseVisualStyleBackColor = true;
@@ -627,8 +720,9 @@
             this.textBoxLcaWorkshop.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxLcaWorkshop.Location = new System.Drawing.Point(214, 76);
             this.textBoxLcaWorkshop.Name = "textBoxLcaWorkshop";
-            this.textBoxLcaWorkshop.Size = new System.Drawing.Size(424, 20);
+            this.textBoxLcaWorkshop.Size = new System.Drawing.Size(560, 20);
             this.textBoxLcaWorkshop.TabIndex = 7;
+            this.toolTip.SetToolTip(this.textBoxLcaWorkshop, "Date and Location");
             // 
             // label2
             // 
@@ -645,8 +739,9 @@
             this.textBoxLcaCoach.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxLcaCoach.Location = new System.Drawing.Point(214, 102);
             this.textBoxLcaCoach.Name = "textBoxLcaCoach";
-            this.textBoxLcaCoach.Size = new System.Drawing.Size(424, 20);
+            this.textBoxLcaCoach.Size = new System.Drawing.Size(560, 20);
             this.textBoxLcaCoach.TabIndex = 9;
+            this.toolTip.SetToolTip(this.textBoxLcaCoach, "Name");
             // 
             // textBoxExploratoryStage
             // 
@@ -654,7 +749,7 @@
             this.textBoxExploratoryStage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxExploratoryStage.Location = new System.Drawing.Point(3, 128);
             this.textBoxExploratoryStage.Name = "textBoxExploratoryStage";
-            this.textBoxExploratoryStage.Size = new System.Drawing.Size(635, 14);
+            this.textBoxExploratoryStage.Size = new System.Drawing.Size(771, 14);
             this.textBoxExploratoryStage.TabIndex = 10;
             this.textBoxExploratoryStage.TabStop = false;
             this.textBoxExploratoryStage.UseVisualStyleBackColor = true;
@@ -685,8 +780,9 @@
             this.textBoxScWorkshop.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxScWorkshop.Location = new System.Drawing.Point(214, 148);
             this.textBoxScWorkshop.Name = "textBoxScWorkshop";
-            this.textBoxScWorkshop.Size = new System.Drawing.Size(424, 20);
+            this.textBoxScWorkshop.Size = new System.Drawing.Size(560, 20);
             this.textBoxScWorkshop.TabIndex = 13;
+            this.toolTip.SetToolTip(this.textBoxScWorkshop, "(ASW, O&S/ASW combo, or something equivalent) Date and Location.");
             // 
             // labelEsConsultant
             // 
@@ -703,7 +799,7 @@
             this.textBoxEsConsultant.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxEsConsultant.Location = new System.Drawing.Point(214, 174);
             this.textBoxEsConsultant.Name = "textBoxEsConsultant";
-            this.textBoxEsConsultant.Size = new System.Drawing.Size(424, 20);
+            this.textBoxEsConsultant.Size = new System.Drawing.Size(560, 20);
             this.textBoxEsConsultant.TabIndex = 15;
             // 
             // labelEsCoach
@@ -721,7 +817,7 @@
             this.textBoxEsCoach.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxEsCoach.Location = new System.Drawing.Point(214, 200);
             this.textBoxEsCoach.Name = "textBoxEsCoach";
-            this.textBoxEsCoach.Size = new System.Drawing.Size(424, 20);
+            this.textBoxEsCoach.Size = new System.Drawing.Size(560, 20);
             this.textBoxEsCoach.TabIndex = 17;
             // 
             // labelNumOfEsStoriesSent
@@ -739,7 +835,7 @@
             this.textBoxNumOfEsStoriesSent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxNumOfEsStoriesSent.Location = new System.Drawing.Point(214, 226);
             this.textBoxNumOfEsStoriesSent.Name = "textBoxNumOfEsStoriesSent";
-            this.textBoxNumOfEsStoriesSent.Size = new System.Drawing.Size(424, 20);
+            this.textBoxNumOfEsStoriesSent.Size = new System.Drawing.Size(560, 20);
             this.textBoxNumOfEsStoriesSent.TabIndex = 19;
             // 
             // labelProcessCheck
@@ -757,8 +853,9 @@
             this.textBoxProcessCheck.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxProcessCheck.Location = new System.Drawing.Point(214, 252);
             this.textBoxProcessCheck.Name = "textBoxProcessCheck";
-            this.textBoxProcessCheck.Size = new System.Drawing.Size(424, 20);
+            this.textBoxProcessCheck.Size = new System.Drawing.Size(560, 20);
             this.textBoxProcessCheck.TabIndex = 21;
+            this.toolTip.SetToolTip(this.textBoxProcessCheck, "Date, location, and consultant");
             // 
             // buttonProductionStage
             // 
@@ -766,7 +863,7 @@
             this.buttonProductionStage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonProductionStage.Location = new System.Drawing.Point(3, 278);
             this.buttonProductionStage.Name = "buttonProductionStage";
-            this.buttonProductionStage.Size = new System.Drawing.Size(635, 14);
+            this.buttonProductionStage.Size = new System.Drawing.Size(771, 14);
             this.buttonProductionStage.TabIndex = 22;
             this.buttonProductionStage.TabStop = false;
             this.buttonProductionStage.UseVisualStyleBackColor = true;
@@ -786,19 +883,20 @@
             // 
             this.labelMultiWorkshop.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelMultiWorkshop.AutoSize = true;
-            this.labelMultiWorkshop.Location = new System.Drawing.Point(124, 301);
+            this.labelMultiWorkshop.Location = new System.Drawing.Point(121, 301);
             this.labelMultiWorkshop.Name = "labelMultiWorkshop";
-            this.labelMultiWorkshop.Size = new System.Drawing.Size(84, 13);
+            this.labelMultiWorkshop.Size = new System.Drawing.Size(87, 13);
             this.labelMultiWorkshop.TabIndex = 23;
-            this.labelMultiWorkshop.Text = "Multi Workshop:";
+            this.labelMultiWorkshop.Text = "Multi. Workshop:";
             // 
             // textBoxMultiWorkshop
             // 
             this.textBoxMultiWorkshop.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxMultiWorkshop.Location = new System.Drawing.Point(214, 298);
             this.textBoxMultiWorkshop.Name = "textBoxMultiWorkshop";
-            this.textBoxMultiWorkshop.Size = new System.Drawing.Size(424, 20);
+            this.textBoxMultiWorkshop.Size = new System.Drawing.Size(560, 20);
             this.textBoxMultiWorkshop.TabIndex = 24;
+            this.toolTip.SetToolTip(this.textBoxMultiWorkshop, "Date and Location");
             // 
             // labelNumOfSfgs
             // 
@@ -815,7 +913,7 @@
             this.textBoxNumOfSfgs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxNumOfSfgs.Location = new System.Drawing.Point(214, 324);
             this.textBoxNumOfSfgs.Name = "textBoxNumOfSfgs";
-            this.textBoxNumOfSfgs.Size = new System.Drawing.Size(424, 20);
+            this.textBoxNumOfSfgs.Size = new System.Drawing.Size(560, 20);
             this.textBoxNumOfSfgs.TabIndex = 27;
             // 
             // labelPsConsultant
@@ -844,7 +942,7 @@
             this.buttonCompletionStage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonCompletionStage.Location = new System.Drawing.Point(3, 428);
             this.buttonCompletionStage.Name = "buttonCompletionStage";
-            this.buttonCompletionStage.Size = new System.Drawing.Size(635, 14);
+            this.buttonCompletionStage.Size = new System.Drawing.Size(771, 14);
             this.buttonCompletionStage.TabIndex = 34;
             this.buttonCompletionStage.TabStop = false;
             this.buttonCompletionStage.UseVisualStyleBackColor = true;
@@ -875,8 +973,9 @@
             this.textBoxLsr.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxLsr.Location = new System.Drawing.Point(214, 448);
             this.textBoxLsr.Name = "textBoxLsr";
-            this.textBoxLsr.Size = new System.Drawing.Size(424, 20);
+            this.textBoxLsr.Size = new System.Drawing.Size(560, 20);
             this.textBoxLsr.TabIndex = 37;
+            this.toolTip.SetToolTip(this.textBoxLsr, "Language Speciality Review date and reviewer\'s name");
             // 
             // labelFinalReview
             // 
@@ -894,7 +993,7 @@
             this.textBoxFinalReview.Location = new System.Drawing.Point(214, 474);
             this.textBoxFinalReview.Name = "textBoxFinalReview";
             this.textBoxFinalReview.ReadOnly = true;
-            this.textBoxFinalReview.Size = new System.Drawing.Size(424, 20);
+            this.textBoxFinalReview.Size = new System.Drawing.Size(560, 20);
             this.textBoxFinalReview.TabIndex = 39;
             // 
             // labelSetFinishedDate
@@ -932,15 +1031,16 @@
             this.textBoxSetCopyright.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxSetCopyright.Location = new System.Drawing.Point(214, 546);
             this.textBoxSetCopyright.Name = "textBoxSetCopyright";
-            this.textBoxSetCopyright.Size = new System.Drawing.Size(424, 20);
+            this.textBoxSetCopyright.Size = new System.Drawing.Size(560, 20);
             this.textBoxSetCopyright.TabIndex = 45;
+            this.toolTip.SetToolTip(this.textBoxSetCopyright, "date and copyright holder");
             // 
             // textBoxPsConsultant
             // 
             this.textBoxPsConsultant.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxPsConsultant.Location = new System.Drawing.Point(214, 350);
             this.textBoxPsConsultant.Name = "textBoxPsConsultant";
-            this.textBoxPsConsultant.Size = new System.Drawing.Size(424, 20);
+            this.textBoxPsConsultant.Size = new System.Drawing.Size(560, 20);
             this.textBoxPsConsultant.TabIndex = 29;
             // 
             // textBoxPsCoach
@@ -948,7 +1048,7 @@
             this.textBoxPsCoach.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxPsCoach.Location = new System.Drawing.Point(214, 376);
             this.textBoxPsCoach.Name = "textBoxPsCoach";
-            this.textBoxPsCoach.Size = new System.Drawing.Size(424, 20);
+            this.textBoxPsCoach.Size = new System.Drawing.Size(560, 20);
             this.textBoxPsCoach.TabIndex = 31;
             // 
             // dateTimePickerStartDate
@@ -957,8 +1057,10 @@
             this.dateTimePickerStartDate.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dateTimePickerStartDate.Location = new System.Drawing.Point(102, 30);
             this.dateTimePickerStartDate.Name = "dateTimePickerStartDate";
-            this.dateTimePickerStartDate.Size = new System.Drawing.Size(536, 20);
+            this.dateTimePickerStartDate.Size = new System.Drawing.Size(672, 20);
             this.dateTimePickerStartDate.TabIndex = 3;
+            this.toolTip.SetToolTip(this.dateTimePickerStartDate, "For questers it\'s the date they arrive on the field. For mother-tongue it\'s the d" +
+                    "ate of the first workshop.");
             this.dateTimePickerStartDate.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
             // 
             // labelLcaWorkshop
@@ -987,7 +1089,7 @@
             this.dateTimePickerSetFinishedDate.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dateTimePickerSetFinishedDate.Location = new System.Drawing.Point(214, 500);
             this.dateTimePickerSetFinishedDate.Name = "dateTimePickerSetFinishedDate";
-            this.dateTimePickerSetFinishedDate.Size = new System.Drawing.Size(424, 20);
+            this.dateTimePickerSetFinishedDate.Size = new System.Drawing.Size(560, 20);
             this.dateTimePickerSetFinishedDate.TabIndex = 41;
             this.dateTimePickerSetFinishedDate.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
             // 
@@ -998,6 +1100,7 @@
             this.checkBoxIsUploadedToOsMedia.Name = "checkBoxIsUploadedToOsMedia";
             this.checkBoxIsUploadedToOsMedia.Size = new System.Drawing.Size(15, 14);
             this.checkBoxIsUploadedToOsMedia.TabIndex = 43;
+            this.toolTip.SetToolTip(this.checkBoxIsUploadedToOsMedia, "has the story set been uploaded to onestory-media.org");
             this.checkBoxIsUploadedToOsMedia.UseVisualStyleBackColor = true;
             // 
             // labelNumInPreliminaryApproval
@@ -1015,13 +1118,13 @@
             this.textBoxNumInPreliminaryApproval.Dock = System.Windows.Forms.DockStyle.Top;
             this.textBoxNumInPreliminaryApproval.Location = new System.Drawing.Point(214, 402);
             this.textBoxNumInPreliminaryApproval.Name = "textBoxNumInPreliminaryApproval";
-            this.textBoxNumInPreliminaryApproval.Size = new System.Drawing.Size(424, 20);
+            this.textBoxNumInPreliminaryApproval.Size = new System.Drawing.Size(560, 20);
             this.textBoxNumInPreliminaryApproval.TabIndex = 33;
             // 
             // buttonOk
             // 
             this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOk.Location = new System.Drawing.Point(240, 615);
+            this.buttonOk.Location = new System.Drawing.Point(313, 612);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 0;
@@ -1033,7 +1136,7 @@
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(339, 615);
+            this.buttonCancel.Location = new System.Drawing.Point(402, 612);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 1;
@@ -1046,7 +1149,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(655, 645);
+            this.ClientSize = new System.Drawing.Size(791, 645);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.tabControl);
@@ -1148,5 +1251,12 @@
         private System.Windows.Forms.CheckBox checkBoxIsUploadedToOsMedia;
         private System.Windows.Forms.Label labelNumInPreliminaryApproval;
         private System.Windows.Forms.TextBox textBoxNumInPreliminaryApproval;
+        private System.Windows.Forms.Label labelMethodology;
+        private System.Windows.Forms.ComboBox comboBoxMethodology;
+        private System.Windows.Forms.Label labelContactPerson;
+        private System.Windows.Forms.TextBox textBoxContactPerson;
+        private System.Windows.Forms.Label labelContactPersonEmail;
+        private System.Windows.Forms.TextBox textBoxContactPersonEmail;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }
