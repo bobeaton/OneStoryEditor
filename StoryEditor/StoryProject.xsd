@@ -226,7 +226,7 @@
 																		</xs:simpleContent>
 																	</xs:complexType>
 																</xs:element>
-																<xs:element name="Anchors" minOccurs="1" maxOccurs="1">
+																<xs:element name="Anchors" minOccurs="0" maxOccurs="1">
 																	<xs:complexType>
 																		<xs:sequence>
 																			<xs:element maxOccurs="unbounded" name="Anchor" nillable="true">
@@ -372,43 +372,43 @@
       <xs:attribute name="DropboxRetellings" type="xs:boolean" use="optional" />
       <xs:attribute name="DropboxAnswers" type="xs:boolean" use="optional" />
 		</xs:complexType>
-		<xs:key name="MemberGuidKey" msdata:PrimaryKey="true">
+		<xs:key name="MemberGuidKey">
 			<xs:selector xpath=".//Member" />
 			<xs:field xpath="@memberKey" />
 		</xs:key>
-		<xs:key name="StoryGuidKey" msdata:PrimaryKey="true">
+		<xs:key name="StoryGuidKey">
 			<xs:selector xpath=".//story" />
 			<xs:field xpath="@guid" />
 		</xs:key>
-		<xs:key name="VerseKey" msdata:PrimaryKey="true">
+		<xs:key name="VerseKey">
 			<xs:selector xpath=".//verse" />
 			<xs:field xpath="@guid" />
 		</xs:key>
-		<xs:key name="StoriesSetName" msdata:PrimaryKey="true">
+		<xs:key name="StoriesSetName">
 			<xs:selector xpath=".//stories" />
 			<xs:field xpath="@SetName" />
 		</xs:key>
-		<xs:key name="AnchorKey" msdata:PrimaryKey="true">
+		<xs:key name="AnchorKey">
 			<xs:selector xpath=".//anchor" />
 			<xs:field xpath="@jumpTarget" />
 		</xs:key>
-		<xs:key name="TestQuestionKey" msdata:PrimaryKey="true">
+		<xs:key name="TestQuestionKey">
 			<xs:selector xpath=".//TestQuestion" />
 			<xs:field xpath="@guid" />
 		</xs:key>
-		<xs:key name="ConsultantConversationKey" msdata:PrimaryKey="true">
+		<xs:key name="ConsultantConversationKey">
 			<xs:selector xpath=".//ConsultantConversation" />
 			<xs:field xpath="@guid" />
 		</xs:key>
-		<xs:key name="CoachConversationKey" msdata:PrimaryKey="true">
+		<xs:key name="CoachConversationKey">
 			<xs:selector xpath=".//CoachConversation" />
 			<xs:field xpath="@guid" />
 		</xs:key>
-		<xs:key name="ConsultantNoteKey" msdata:PrimaryKey="true">
+		<xs:key name="ConsultantNoteKey">
 			<xs:selector xpath=".//ConsultantNote" />
 			<xs:field xpath="@guid" />
 		</xs:key>
-		<xs:key name="CoachNoteKey" msdata:PrimaryKey="true">
+		<xs:key name="CoachNoteKey">
 			<xs:selector xpath=".//CoachNote" />
 			<xs:field xpath="@guid" />
 		</xs:key>
