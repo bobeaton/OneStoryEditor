@@ -166,8 +166,7 @@ namespace OneStoryProjectEditor
         {
             try
             {
-                if (Keyboard.Controller != null)
-                    Keyboard.Controller.ActivateDefaultKeyboard();
+                Keyboard.Controller.ActivateDefaultKeyboard();
             }
             catch
             {
