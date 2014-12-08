@@ -34,6 +34,11 @@
             this.textBoxSizer = new System.Windows.Forms.TextBox();
             this.webBrowserNetBible = new System.Windows.Forms.WebBrowser();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.checkBoxAutoHide = new System.Windows.Forms.CheckBox();
+            this.contextMenuStripBibleBooks = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.contextMenuChangeFont = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemChangeFont = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanelSpinControls = new OneStoryProjectEditor.DynamicTableLayoutPanel();
             this.domainUpDownBookNames = new System.Windows.Forms.DomainUpDown();
             this.numericUpDownChapterNumber = new System.Windows.Forms.NumericUpDown();
@@ -42,10 +47,8 @@
             this.buttonNextReference = new System.Windows.Forms.Button();
             this.textBoxNetFlixViewer = new System.Windows.Forms.TextBox();
             this.radioButtonShowOtherSwordResources = new System.Windows.Forms.RadioButton();
-            this.checkBoxAutoHide = new System.Windows.Forms.CheckBox();
-            this.contextMenuStripBibleBooks = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel.SuspendLayout();
+            this.contextMenuChangeFont.SuspendLayout();
             this.tableLayoutPanelSpinControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownChapterNumber)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVerseNumber)).BeginInit();
@@ -72,7 +75,9 @@
             // webBrowserNetBible
             // 
             this.tableLayoutPanel.SetColumnSpan(this.webBrowserNetBible, 2);
+            this.webBrowserNetBible.ContextMenuStrip = this.contextMenuChangeFont;
             this.webBrowserNetBible.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowserNetBible.IsWebBrowserContextMenuEnabled = false;
             this.webBrowserNetBible.Location = new System.Drawing.Point(3, 23);
             this.webBrowserNetBible.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserNetBible.Name = "webBrowserNetBible";
@@ -97,6 +102,46 @@
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel.Size = new System.Drawing.Size(583, 262);
             this.tableLayoutPanel.TabIndex = 0;
+            // 
+            // checkBoxAutoHide
+            // 
+            this.checkBoxAutoHide.AutoSize = true;
+            this.checkBoxAutoHide.Checked = true;
+            this.checkBoxAutoHide.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxAutoHide.Location = new System.Drawing.Point(566, 3);
+            this.checkBoxAutoHide.Name = "checkBoxAutoHide";
+            this.checkBoxAutoHide.Size = new System.Drawing.Size(14, 14);
+            this.checkBoxAutoHide.TabIndex = 3;
+            this.toolTip.SetToolTip(this.checkBoxAutoHide, "Uncheck this box to have the Bible Pane automatically hide when you are typing. T" +
+                    "hen you can right-click on the box to manually open and close the Bible Pane");
+            this.checkBoxAutoHide.UseMnemonic = false;
+            this.checkBoxAutoHide.UseVisualStyleBackColor = true;
+            this.checkBoxAutoHide.CheckStateChanged += new System.EventHandler(this.checkBoxAutoHide_CheckStateChanged);
+            this.checkBoxAutoHide.MouseUp += new System.Windows.Forms.MouseEventHandler(this.checkBoxAutoHide_MouseUp);
+            // 
+            // contextMenuStripBibleBooks
+            // 
+            this.contextMenuStripBibleBooks.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
+            this.contextMenuStripBibleBooks.Name = "contextMenuStripBibleBooks";
+            this.contextMenuStripBibleBooks.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.contextMenuStripBibleBooks.ShowImageMargin = false;
+            this.contextMenuStripBibleBooks.ShowItemToolTips = false;
+            this.contextMenuStripBibleBooks.Size = new System.Drawing.Size(36, 4);
+            // 
+            // contextMenuChangeFont
+            // 
+            this.contextMenuChangeFont.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemChangeFont});
+            this.contextMenuChangeFont.Name = "contextMenuChangeFont";
+            this.contextMenuChangeFont.Size = new System.Drawing.Size(188, 48);
+            // 
+            // toolStripMenuItemChangeFont
+            // 
+            this.toolStripMenuItemChangeFont.Name = "toolStripMenuItemChangeFont";
+            this.toolStripMenuItemChangeFont.Size = new System.Drawing.Size(187, 22);
+            this.toolStripMenuItemChangeFont.Text = "Change Font (or Size)";
+            this.toolStripMenuItemChangeFont.ToolTipText = "Click this to change the font (or size) used for this Bible version";
+            this.toolStripMenuItemChangeFont.Click += new System.EventHandler(this.toolStripMenuItemChangeFont_Click);
             // 
             // tableLayoutPanelSpinControls
             // 
@@ -231,31 +276,6 @@
             this.radioButtonShowOtherSwordResources.Click += new System.EventHandler(this.RadioButtonShowOtherSwordResourcesClick);
             this.radioButtonShowOtherSwordResources.MouseMove += new System.Windows.Forms.MouseEventHandler(this.CheckBiblePaneCursorPosition_MouseMove);
             // 
-            // checkBoxAutoHide
-            // 
-            this.checkBoxAutoHide.AutoSize = true;
-            this.checkBoxAutoHide.Checked = true;
-            this.checkBoxAutoHide.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAutoHide.Location = new System.Drawing.Point(566, 3);
-            this.checkBoxAutoHide.Name = "checkBoxAutoHide";
-            this.checkBoxAutoHide.Size = new System.Drawing.Size(14, 14);
-            this.checkBoxAutoHide.TabIndex = 3;
-            this.toolTip.SetToolTip(this.checkBoxAutoHide, "Uncheck this box to have the Bible Pane automatically hide when you are typing. T" +
-        "hen you can right-click on the box to manually open and close the Bible Pane");
-            this.checkBoxAutoHide.UseMnemonic = false;
-            this.checkBoxAutoHide.UseVisualStyleBackColor = true;
-            this.checkBoxAutoHide.CheckStateChanged += new System.EventHandler(this.checkBoxAutoHide_CheckStateChanged);
-            this.checkBoxAutoHide.MouseUp += new System.Windows.Forms.MouseEventHandler(this.checkBoxAutoHide_MouseUp);
-            // 
-            // contextMenuStripBibleBooks
-            // 
-            this.contextMenuStripBibleBooks.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
-            this.contextMenuStripBibleBooks.Name = "contextMenuStripBibleBooks";
-            this.contextMenuStripBibleBooks.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.contextMenuStripBibleBooks.ShowImageMargin = false;
-            this.contextMenuStripBibleBooks.ShowItemToolTips = false;
-            this.contextMenuStripBibleBooks.Size = new System.Drawing.Size(36, 4);
-            // 
             // NetBibleViewer
             // 
             this.Controls.Add(this.tableLayoutPanel);
@@ -263,6 +283,7 @@
             this.Size = new System.Drawing.Size(583, 262);
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
+            this.contextMenuChangeFont.ResumeLayout(false);
             this.tableLayoutPanelSpinControls.ResumeLayout(false);
             this.tableLayoutPanelSpinControls.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownChapterNumber)).EndInit();
@@ -287,5 +308,7 @@
         internal System.Windows.Forms.CheckBox checkBoxAutoHide;
         private System.Windows.Forms.Button buttonPreviousReference;
         private System.Windows.Forms.Button buttonNextReference;
+        private System.Windows.Forms.ContextMenuStrip contextMenuChangeFont;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemChangeFont;
     }
 }

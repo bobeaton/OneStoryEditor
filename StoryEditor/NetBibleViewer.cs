@@ -23,7 +23,7 @@ namespace OneStoryProjectEditor
         #region "format strings for HTML items"
         protected const string CstrHtmlTableBegin = "<table border=\"1\">";
         protected const string CstrHtmlButtonCell = "<td dir='{2}'><button id='{0}' type=\"button\">{1}</button></td>";
-        protected const string CstrHtmlTextCell = "<td dir='{1}'>{0}</td>";
+        protected const string CstrHtmlTextCell = "<td dir='{1}' class='TextStyle'>{0}</td>";
         protected const string CstrHtmlRowFormat = "<tr id=\"{0}\">{1}{2}</tr>";
         protected const string CstrHtmlLineFormatCommentaryHeader = "<tr id='{0}' BGCOLOR=\"#CCFFAA\"><td>{1}</td></tr>";
         protected const string CstrHtmlLineFormatCommentary = "<tr><td>{0}</td></tr>";
@@ -31,7 +31,17 @@ namespace OneStoryProjectEditor
         // protected const string CstrAddDirFormat = "<p dir=\"RTL\">{0}</p>";
         protected const string CstrHtmlTableEnd = "</table>";
         protected const string verseLineBreak = "<br />";
-        protected const string preDocumentDOMScript = "<style> body  { margin:0 } </style>" + 
+        protected const string CstrReplaceWithStyle = "<GiveMeStyle>";
+        protected const string CstrTextStyleFormat = ".TextStyle {{ font-family: \"{0}\"; font-size: {1} pt; }}";
+
+        protected string GetTextStyle(string strFontFaceName, string strFontSize)
+        {
+            if (String.IsNullOrEmpty(strFontSize))
+                strFontSize = "12";
+            return String.Format(CstrTextStyleFormat, strFontFaceName, strFontSize);
+        }
+
+        protected const string preDocumentDOMScript = "<style> body { margin:0 } " + CstrReplaceWithStyle + " </style>" + 
             "<script>" +
             "function OpenHoverWindow(link)" +
             "{" +
@@ -545,8 +555,9 @@ namespace OneStoryProjectEditor
                 // Do the whole chapter
                 var keyWholeOfChapter = new VerseKey(keyVerse);
                 keyWholeOfChapter.Verse(1);
-                string strFontName, strModuleVersion = moduleVersion.Name();
-                bool bSpecifyFont = Program.MapSwordModuleToFont.TryGetValue(strModuleVersion, out strFontName);
+                string strFontName, strFontSize, strModuleVersion = moduleVersion.Name();
+                var bSpecifyFont = ReadFontNameAndSizeFromUserConfig(strModuleVersion, out strFontName, out strFontSize);
+
                 bool bDirectionRtl = Properties.Settings.Default.ListSwordModuleToRtl.Contains(strModuleVersion);
                 while ((keyWholeOfChapter.Chapter() == nChapter) && (keyWholeOfChapter.Book() == nBook) && (keyWholeOfChapter.Error() == '\0'))
                 {
@@ -554,9 +565,6 @@ namespace OneStoryProjectEditor
                     string strVerseHtml = moduleVersion.RenderText(keyWholeOfChapter).Replace(verseLineBreak, null);
                     if (String.IsNullOrEmpty(strVerseHtml))
                         strVerseHtml = Localizer.Str("Passage not available in this version");
-
-                    if (bSpecifyFont)
-                        strVerseHtml = String.Format(CstrAddFontFormat, strVerseHtml, strFontName);
 
                     string strButtonId = String.Format("{0} {1}:{2}",
                                                        scriptureReferenceBookName,
@@ -587,7 +595,12 @@ namespace OneStoryProjectEditor
                 sb.Append(CstrHtmlTableEnd);
 
                 // set this along with scripts for clicks and such into the web browser.
-                webBrowserNetBible.DocumentText = preDocumentDOMScript + sb + postDocumentDOMScript;
+                var strHtml = preDocumentDOMScript.Replace(CstrReplaceWithStyle, (bSpecifyFont) 
+                                                                                    ? GetTextStyle(strFontName,strFontSize)
+                                                                                    : String.Empty);
+                strHtml += sb + postDocumentDOMScript;
+
+                webBrowserNetBible.DocumentText = strHtml;
                 bJustUpdated = true;
             }
 
@@ -607,6 +620,23 @@ namespace OneStoryProjectEditor
                 UpdateUpDowns(keyVerse);
             }
             catch { }
+        }
+
+        private static bool ReadFontNameAndSizeFromUserConfig(string strModuleVersion, out string strFontName,
+            out string strFontSize)
+        {
+            strFontSize = null;
+            if (!Program.MapSwordModuleToFont.TryGetValue(strModuleVersion, out strFontName))
+                return false;
+
+            var astrs = strFontName.Split(';');
+            if (astrs.Length <= 1)
+                return true;    // no size specified
+
+            // otherwise, size and name specified as -- e.g. "Arial Unicode MS;20"
+            strFontName = astrs[0];
+            strFontSize = astrs[1];
+            return true;
         }
 
         private static string DeLocalizeScriptureReferenceBookName(string scriptureReferenceBookName)
@@ -1000,6 +1030,42 @@ namespace OneStoryProjectEditor
                 }
             }
             catch{} // don't make a fuss out of it if the user sends us garbage
+        }
+
+        private void toolStripMenuItemChangeFont_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("Properties.Settings.Default.LastSwordModuleUsed: " + Properties.Settings.Default.LastSwordModuleUsed);
+
+            // if we have this in the user config, then pre-select it for the Font dialog
+            var fontDialog = new FontDialog();
+            string strFontName, strFontSize;
+            if (ReadFontNameAndSizeFromUserConfig(Properties.Settings.Default.LastSwordModuleUsed,
+                out strFontName, out strFontSize))
+            {
+                float fFontSize;
+                if (!float.TryParse(strFontSize, out fFontSize))
+                    fFontSize = 12F;
+                fontDialog = new FontDialog {Font = new Font(strFontName, fFontSize)};
+            }
+
+            // query what the user wants
+            if (fontDialog.ShowDialog() != DialogResult.OK)
+                    return;
+
+            strFontName = String.Format("{0};{1}", fontDialog.Font.Name, fontDialog.Font.Size);
+            if (!Program.MapSwordModuleToFont.ContainsKey(Properties.Settings.Default.LastSwordModuleUsed))
+            {
+                Program.MapSwordModuleToFont.Add(Properties.Settings.Default.LastSwordModuleUsed, strFontName);
+            }
+            else
+            {
+                Program.MapSwordModuleToFont[Properties.Settings.Default.LastSwordModuleUsed] = strFontName;
+            }
+
+            // save the changes/additions
+            Properties.Settings.Default.SwordModuleToFont = Program.DictionaryToArray(Program.MapSwordModuleToFont);
+            Properties.Settings.Default.Save();
+            TurnOnResource(Properties.Settings.Default.LastSwordModuleUsed);
         }
     }
 }
