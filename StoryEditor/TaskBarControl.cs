@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define AllowByPassOfPreliminaryApprovalStage
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -102,10 +104,16 @@ namespace OneStoryProjectEditor
             if (!TheSe.LoggedOnMember.IsEditAllowed(TheStory))
                 return;
 
+#if AllowByPassOfPreliminaryApprovalStage
+            // allow either one... (requested by Irene and I think Nathan at one point)
+            buttonMarkPreliminaryApproval.Visible =
+                buttonMarkFinalApproval.Visible = true;
+#else
             if (TheStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eTeamComplete)
                 buttonMarkFinalApproval.Visible = true;
             else
                 buttonMarkPreliminaryApproval.Visible = true;
+#endif
 
             buttonSendToCIT.Visible = 
                 buttonReturnToProjectFacilitator.Visible = true;    // add sending to PF (in case of workshop)
@@ -156,10 +164,16 @@ namespace OneStoryProjectEditor
             if (!TheSe.LoggedOnMember.IsEditAllowed(TheStory))
                 return;
 
+#if AllowByPassOfPreliminaryApprovalStage
+            // allow either one... (requested by Irene and I think Nathan at one point)
+            buttonMarkPreliminaryApproval.Visible =
+                buttonMarkFinalApproval.Visible = true;
+#else
             if (TheStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eTeamComplete)
                 buttonMarkFinalApproval.Visible = true;
             else
                 buttonMarkPreliminaryApproval.Visible = true;
+#endif
 
             if (TheSe.StoryProject.TeamMembers.HasOutsideEnglishBTer)
                 buttonSendToEnglishBter.Visible = true;
