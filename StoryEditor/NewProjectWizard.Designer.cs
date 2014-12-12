@@ -177,9 +177,9 @@
             // 
             // tabControl
             // 
-            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabPageProjectName);
             this.tabControl.Controls.Add(this.tabPageInternetRepository);
             this.tabControl.Controls.Add(this.tabPageLanguages);
@@ -192,7 +192,7 @@
             this.tabControl.Location = new System.Drawing.Point(13, 13);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(746, 380);
+            this.tabControl.Size = new System.Drawing.Size(808, 473);
             this.tabControl.TabIndex = 0;
             this.tabControl.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl_Selecting);
             // 
@@ -218,7 +218,7 @@
             this.checkBoxUseDropBox.Size = new System.Drawing.Size(502, 17);
             this.checkBoxUseDropBox.TabIndex = 3;
             this.checkBoxUseDropBox.Text = "&Do you want to put copies of audio recordings in Dropbox (e.g. to send recording" +
-    "s to the consultant)?";
+                "s to the consultant)?";
             this.checkBoxUseDropBox.UseVisualStyleBackColor = true;
             this.checkBoxUseDropBox.Click += new System.EventHandler(this.CheckBoxUseDropBoxClick);
             // 
@@ -235,9 +235,9 @@
             // 
             // textBoxProjectNameInstructions
             // 
-            this.textBoxProjectNameInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxProjectNameInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxProjectNameInstructions.Location = new System.Drawing.Point(17, 181);
             this.textBoxProjectNameInstructions.Multiline = true;
             this.textBoxProjectNameInstructions.Name = "textBoxProjectNameInstructions";
@@ -261,16 +261,16 @@
             this.tabPageInternetRepository.Location = new System.Drawing.Point(4, 22);
             this.tabPageInternetRepository.Name = "tabPageInternetRepository";
             this.tabPageInternetRepository.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageInternetRepository.Size = new System.Drawing.Size(738, 354);
+            this.tabPageInternetRepository.Size = new System.Drawing.Size(800, 447);
             this.tabPageInternetRepository.TabIndex = 6;
             this.tabPageInternetRepository.Text = "Internet Repository";
             this.tabPageInternetRepository.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanelInternetRepo
             // 
-            this.tableLayoutPanelInternetRepo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelInternetRepo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelInternetRepo.ColumnCount = 2;
             this.tableLayoutPanelInternetRepo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelInternetRepo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -294,20 +294,20 @@
             this.tableLayoutPanelInternetRepo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tableLayoutPanelInternetRepo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55F));
             this.tableLayoutPanelInternetRepo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelInternetRepo.Size = new System.Drawing.Size(705, 282);
+            this.tableLayoutPanelInternetRepo.Size = new System.Drawing.Size(767, 415);
             this.tableLayoutPanelInternetRepo.TabIndex = 1;
             // 
             // textBoxInternetRepoInstructions
             // 
-            this.textBoxInternetRepoInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxInternetRepoInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelInternetRepo.SetColumnSpan(this.textBoxInternetRepoInstructions, 2);
-            this.textBoxInternetRepoInstructions.Location = new System.Drawing.Point(3, 171);
+            this.textBoxInternetRepoInstructions.Location = new System.Drawing.Point(3, 231);
             this.textBoxInternetRepoInstructions.Multiline = true;
             this.textBoxInternetRepoInstructions.Name = "textBoxInternetRepoInstructions";
             this.textBoxInternetRepoInstructions.ReadOnly = true;
-            this.textBoxInternetRepoInstructions.Size = new System.Drawing.Size(699, 108);
+            this.textBoxInternetRepoInstructions.Size = new System.Drawing.Size(761, 181);
             this.textBoxInternetRepoInstructions.TabIndex = 8;
             this.textBoxInternetRepoInstructions.TabStop = false;
             this.textBoxInternetRepoInstructions.Text = resources.GetString("textBoxInternetRepoInstructions.Text");
@@ -318,7 +318,7 @@
             this.textBoxHgRepoUrlBase.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxHgRepoUrlBase.Location = new System.Drawing.Point(3, 3);
             this.textBoxHgRepoUrlBase.Name = "textBoxHgRepoUrlBase";
-            this.textBoxHgRepoUrlBase.Size = new System.Drawing.Size(699, 20);
+            this.textBoxHgRepoUrlBase.Size = new System.Drawing.Size(761, 20);
             this.textBoxHgRepoUrlBase.TabIndex = 0;
             this.textBoxHgRepoUrlBase.TextChanged += new System.EventHandler(this.textBoxHgRepo_TextChanged);
             // 
@@ -335,16 +335,16 @@
             // textBoxUsername
             // 
             this.textBoxUsername.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxUsername.Location = new System.Drawing.Point(3, 59);
+            this.textBoxUsername.Location = new System.Drawing.Point(3, 79);
             this.textBoxUsername.Name = "textBoxUsername";
-            this.textBoxUsername.Size = new System.Drawing.Size(346, 20);
+            this.textBoxUsername.Size = new System.Drawing.Size(377, 20);
             this.textBoxUsername.TabIndex = 2;
             this.textBoxUsername.TextChanged += new System.EventHandler(this.textBoxHgRepo_TextChanged);
             // 
             // labelUsername
             // 
             this.labelUsername.AutoSize = true;
-            this.labelUsername.Location = new System.Drawing.Point(3, 82);
+            this.labelUsername.Location = new System.Drawing.Point(3, 102);
             this.labelUsername.Name = "labelUsername";
             this.labelUsername.Size = new System.Drawing.Size(155, 13);
             this.labelUsername.TabIndex = 3;
@@ -354,17 +354,17 @@
             // 
             this.tableLayoutPanelInternetRepo.SetColumnSpan(this.textBoxHgRepoUrl, 2);
             this.textBoxHgRepoUrl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxHgRepoUrl.Location = new System.Drawing.Point(3, 115);
+            this.textBoxHgRepoUrl.Location = new System.Drawing.Point(3, 155);
             this.textBoxHgRepoUrl.Name = "textBoxHgRepoUrl";
             this.textBoxHgRepoUrl.ReadOnly = true;
-            this.textBoxHgRepoUrl.Size = new System.Drawing.Size(699, 20);
+            this.textBoxHgRepoUrl.Size = new System.Drawing.Size(761, 20);
             this.textBoxHgRepoUrl.TabIndex = 6;
             this.textBoxHgRepoUrl.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBoxHgRepoUrl_MouseClick);
             // 
             // labelUrl
             // 
             this.labelUrl.AutoSize = true;
-            this.labelUrl.Location = new System.Drawing.Point(3, 138);
+            this.labelUrl.Location = new System.Drawing.Point(3, 178);
             this.labelUrl.Name = "labelUrl";
             this.labelUrl.Size = new System.Drawing.Size(178, 13);
             this.labelUrl.TabIndex = 7;
@@ -373,16 +373,16 @@
             // textBoxPassword
             // 
             this.textBoxPassword.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxPassword.Location = new System.Drawing.Point(355, 59);
+            this.textBoxPassword.Location = new System.Drawing.Point(386, 79);
             this.textBoxPassword.Name = "textBoxPassword";
-            this.textBoxPassword.Size = new System.Drawing.Size(347, 20);
+            this.textBoxPassword.Size = new System.Drawing.Size(378, 20);
             this.textBoxPassword.TabIndex = 4;
             this.textBoxPassword.TextChanged += new System.EventHandler(this.textBoxHgRepo_TextChanged);
             // 
             // labelPassword
             // 
             this.labelPassword.AutoSize = true;
-            this.labelPassword.Location = new System.Drawing.Point(355, 82);
+            this.labelPassword.Location = new System.Drawing.Point(386, 102);
             this.labelPassword.Name = "labelPassword";
             this.labelPassword.Size = new System.Drawing.Size(153, 13);
             this.labelPassword.TabIndex = 5;
@@ -725,9 +725,9 @@
             // 
             // textBox2
             // 
-            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox2.Location = new System.Drawing.Point(16, 164);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
@@ -750,9 +750,9 @@
             // 
             // tableLayoutPanelLanguageInformationVernacular
             // 
-            this.tableLayoutPanelLanguageInformationVernacular.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelLanguageInformationVernacular.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelLanguageInformationVernacular.ColumnCount = 3;
             this.tableLayoutPanelLanguageInformationVernacular.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelLanguageInformationVernacular.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -784,9 +784,9 @@
             // 
             // textBoxLanguageTabInstructionsVernacular
             // 
-            this.textBoxLanguageTabInstructionsVernacular.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxLanguageTabInstructionsVernacular.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelLanguageInformationVernacular.SetColumnSpan(this.textBoxLanguageTabInstructionsVernacular, 3);
             this.textBoxLanguageTabInstructionsVernacular.Location = new System.Drawing.Point(3, 140);
             this.textBoxLanguageTabInstructionsVernacular.Multiline = true;
@@ -933,9 +933,9 @@
             // 
             // tableLayoutPanelLanguageInformationNationalBT
             // 
-            this.tableLayoutPanelLanguageInformationNationalBT.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelLanguageInformationNationalBT.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelLanguageInformationNationalBT.ColumnCount = 3;
             this.tableLayoutPanelLanguageInformationNationalBT.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelLanguageInformationNationalBT.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -1080,9 +1080,9 @@
             // 
             // textBoxLanguageTabInstructionsNationalBT
             // 
-            this.textBoxLanguageTabInstructionsNationalBT.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxLanguageTabInstructionsNationalBT.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelLanguageInformationNationalBT.SetColumnSpan(this.textBoxLanguageTabInstructionsNationalBT, 3);
             this.textBoxLanguageTabInstructionsNationalBT.Location = new System.Drawing.Point(3, 140);
             this.textBoxLanguageTabInstructionsNationalBT.Multiline = true;
@@ -1116,9 +1116,9 @@
             // 
             // tableLayoutPanelLanguageInformationEnglishBT
             // 
-            this.tableLayoutPanelLanguageInformationEnglishBT.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelLanguageInformationEnglishBT.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelLanguageInformationEnglishBT.ColumnCount = 3;
             this.tableLayoutPanelLanguageInformationEnglishBT.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelLanguageInformationEnglishBT.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -1160,9 +1160,9 @@
             // 
             // textBoxLanguageTabInstructionsEnglishBT
             // 
-            this.textBoxLanguageTabInstructionsEnglishBT.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxLanguageTabInstructionsEnglishBT.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelLanguageInformationEnglishBT.SetColumnSpan(this.textBoxLanguageTabInstructionsEnglishBT, 3);
             this.textBoxLanguageTabInstructionsEnglishBT.Location = new System.Drawing.Point(3, 140);
             this.textBoxLanguageTabInstructionsEnglishBT.Multiline = true;
@@ -1299,9 +1299,9 @@
             // 
             // tableLayoutPanelFreeTranslation
             // 
-            this.tableLayoutPanelFreeTranslation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelFreeTranslation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelFreeTranslation.ColumnCount = 3;
             this.tableLayoutPanelFreeTranslation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelFreeTranslation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -1344,9 +1344,9 @@
             // 
             // textBoxLanguageTabInstructionsFreeTranslation
             // 
-            this.textBoxLanguageTabInstructionsFreeTranslation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxLanguageTabInstructionsFreeTranslation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelFreeTranslation.SetColumnSpan(this.textBoxLanguageTabInstructionsFreeTranslation, 3);
             this.textBoxLanguageTabInstructionsFreeTranslation.Location = new System.Drawing.Point(3, 140);
             this.textBoxLanguageTabInstructionsFreeTranslation.Multiline = true;
@@ -1486,9 +1486,9 @@
             // 
             // textBoxTeamMembersInstructionBox
             // 
-            this.textBoxTeamMembersInstructionBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxTeamMembersInstructionBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxTeamMembersInstructionBox.Location = new System.Drawing.Point(17, 117);
             this.textBoxTeamMembersInstructionBox.Multiline = true;
             this.textBoxTeamMembersInstructionBox.Name = "textBoxTeamMembersInstructionBox";
@@ -1559,9 +1559,9 @@
             // 
             // tlpAdaptItConfiguration
             // 
-            this.tlpAdaptItConfiguration.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tlpAdaptItConfiguration.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tlpAdaptItConfiguration.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tlpAdaptItConfiguration.ColumnCount = 2;
             this.tlpAdaptItConfiguration.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -1653,9 +1653,9 @@
             // 
             // textBox1
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.Location = new System.Drawing.Point(6, 299);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
@@ -1668,7 +1668,7 @@
             // buttonNext
             // 
             this.buttonNext.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonNext.Location = new System.Drawing.Point(598, 399);
+            this.buttonNext.Location = new System.Drawing.Point(629, 492);
             this.buttonNext.Name = "buttonNext";
             this.buttonNext.Size = new System.Drawing.Size(75, 23);
             this.buttonNext.TabIndex = 1;
@@ -1680,7 +1680,7 @@
             // 
             this.buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(680, 399);
+            this.buttonCancel.Location = new System.Drawing.Point(711, 492);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 2;
@@ -1690,7 +1690,7 @@
             // buttonPrevious
             // 
             this.buttonPrevious.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonPrevious.Location = new System.Drawing.Point(517, 399);
+            this.buttonPrevious.Location = new System.Drawing.Point(548, 492);
             this.buttonPrevious.Name = "buttonPrevious";
             this.buttonPrevious.Size = new System.Drawing.Size(75, 23);
             this.buttonPrevious.TabIndex = 1;
@@ -1705,7 +1705,7 @@
             // folderBrowserDropbox
             // 
             this.folderBrowserDropbox.Description = "Browse to where your Dropbox folder is located (e.g. C:\\Users\\<username>\\Dropbox)" +
-    "";
+                "";
             this.folderBrowserDropbox.RootFolder = System.Environment.SpecialFolder.MyComputer;
             this.folderBrowserDropbox.ShowNewFolderButton = false;
             // 
@@ -1714,7 +1714,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(771, 434);
+            this.ClientSize = new System.Drawing.Size(833, 527);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonPrevious);
             this.Controls.Add(this.buttonNext);
