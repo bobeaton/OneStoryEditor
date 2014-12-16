@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
+using Chorus.sync;
 using Chorus.UI.Clone;
 using Chorus.UI.Sync;
 using Chorus.Utilities;
@@ -845,9 +846,18 @@ namespace OneStoryProjectEditor
             // for when we launch the program, just do a quick & dirty send/receive, 
             //  but for closing (or if we have a network drive also), then we want to 
             //  be more informative
-            using (var dlg = new SyncDialog(projectConfig, SyncUIDialogBehaviors.Lazy, 
-                SyncUIFeatures.NormalRecommended))
+            using (var dlg = new MySyncDialog(projectConfig))
             {
+                dlg.FormClosing += (sender, args) =>
+                {
+                    var me = sender as MySyncDialog;
+                    Debug.Assert(me != null, "me != null");
+                    if (!me.DontAllowXtoClose)
+                        return;
+
+                    args.Cancel = true;
+                    me.Text = Localizer.Str("Please click the 'Cancel' button first");
+                };
                 dlg.UseTargetsAsSpecifiedInSyncOptions = true;
                 if (!String.IsNullOrEmpty(strRepoUrl))
                     dlg.SyncOptions.RepositorySourcesToTry.Add(RepositoryAddress.Create(Program.CstrInternetName, strRepoUrl));
@@ -855,7 +865,48 @@ namespace OneStoryProjectEditor
                     dlg.SyncOptions.RepositorySourcesToTry.Add(RepositoryAddress.Create(Program.CstrNetworkDriveName, strSharedNetworkPath));
 
                 dlg.Text = "Synchronizing OneStory Project: " + strProjectName;
-                dlg.ShowDialog();
+                var res = dlg.ShowDialog();
+                Debug.WriteLine(res.ToString());
+            }
+        }
+    }
+
+    public class MySyncDialog : SyncDialog
+    {
+        public MySyncDialog(ProjectFolderConfiguration projectFolderConfiguration)
+            : base(projectFolderConfiguration, SyncUIDialogBehaviors.Lazy, SyncUIFeatures.NormalRecommended)
+        {
+        }
+
+        /*
+         * this code is if you want to disable the close button (but that won't work for here, because
+         * we have to be able to close it that way before the Internet button is pressed (it's the only way)
+        private const int CP_NOCLOSE_BUTTON = 0x200;
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                var myCp = base.CreateParams;
+                // myCp.ClassStyle = myCp.ClassStyle | CP_NOCLOSE_BUTTON;
+                return myCp;
+            }
+        }
+        */
+
+        public bool DontAllowXtoClose
+        {
+            get
+            {
+                // this was sort of reverse engineered, but 
+                // either the 'LastStatus' has to be null (i.e. haven't clicked 'Internet' yet)
+                //  or there's an error
+                //  or it succeeded or was cancelled
+                // OTHERWISE, don't let the user close the dialog
+                var bRes = (!String.IsNullOrEmpty(FinalStatus.LastStatus) &&
+                            (SyncResult.ErrorEncountered == null) &&
+                            !SyncResult.Succeeded &&
+                            !SyncResult.Cancelled);
+                return bRes;
             }
         }
     }

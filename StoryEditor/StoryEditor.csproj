@@ -382,7 +382,9 @@
     <Compile Include="PrintViewer.Designer.cs">
       <DependentUpon>PrintViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProjectSettings.cs" />
+    <Compile Include="ProjectSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ReorderWordsForm.cs">
       <SubType>Form</SubType>
     </Compile>
