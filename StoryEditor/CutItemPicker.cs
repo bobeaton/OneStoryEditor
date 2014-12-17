@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define AllowMovingTQsToLine0
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -45,6 +47,8 @@ namespace OneStoryProjectEditor
                     foreach (TreeNode treeNode in node.Nodes)
                         treeNode.Checked = false;
                 }
+
+                buttonCancel.Text = Localizer.Str("&Close without deleting items");
             }
             else
             {
@@ -232,16 +236,22 @@ namespace OneStoryProjectEditor
             // can't do line zero with TQ and other BT pane fields
             bool bLineZero = (btn.TabIndex == 0);
             var nodeItems = treeViewItems.Nodes[CstrNodeTestingQuestions];
+#if AllowMovingTQsToLine0
+            if (nodeItems != null)
+#else
             if ((!bLineZero || (verseDest == null)) && (nodeItems != null))
-                foreach (var aTQ in
-                    from TreeNode node in nodeItems.Nodes 
-                    where node.Checked 
+#endif
+            {
+                foreach (var aTq in
+                    from TreeNode node in nodeItems.Nodes
+                    where node.Checked
                     select node.Tag as TestQuestionData)
                 {
-                    _verseSource.TestQuestions.Remove(aTQ);
+                    _verseSource.TestQuestions.Remove(aTq);
                     if (verseDest != null)  // otherwise, it's just delete
-                        verseDest.TestQuestions.Add(aTQ);
+                        verseDest.TestQuestions.Add(aTq);
                 }
+            }
 
 #if AllowMovingAnchors
             nodeItems = treeViewItems.Nodes[CstrNodeAnchors];
@@ -378,6 +388,12 @@ namespace OneStoryProjectEditor
 
         private StoryEditor TheSE;
         private MoveConNoteTooltip _toolTip;
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.OK; // this is an acceptable option as well -- do nothing
+            Close();
+        }
     }
 
     class MyTreeView : TreeView

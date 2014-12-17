@@ -34,11 +34,12 @@
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Coach Notes");
             System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Testing Questions (tst)");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CutItemPicker));
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.treeViewItems = new OneStoryProjectEditor.MyTreeView();
             this.flowLayoutPanelLines = new System.Windows.Forms.FlowLayoutPanel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.buttonCancel = new System.Windows.Forms.Button();
             this.tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -55,10 +56,13 @@
             this.tableLayoutPanel.Controls.Add(this.treeViewItems, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.flowLayoutPanelLines, 2, 0);
             this.tableLayoutPanel.Controls.Add(this.pictureBox1, 1, 0);
+            this.tableLayoutPanel.Controls.Add(this.buttonCancel, 0, 1);
             this.tableLayoutPanel.Location = new System.Drawing.Point(13, 13);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
-            this.tableLayoutPanel.RowCount = 1;
+            this.tableLayoutPanel.RowCount = 2;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel.Size = new System.Drawing.Size(705, 344);
             this.tableLayoutPanel.TabIndex = 0;
             // 
@@ -82,7 +86,7 @@
             treeNode3,
             treeNode4});
             this.treeViewItems.ShowRootLines = false;
-            this.treeViewItems.Size = new System.Drawing.Size(321, 338);
+            this.treeViewItems.Size = new System.Drawing.Size(321, 288);
             this.treeViewItems.TabIndex = 2;
             this.treeViewItems.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewItems_NodeMouseClick);
             // 
@@ -92,19 +96,31 @@
             this.flowLayoutPanelLines.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelLines.Location = new System.Drawing.Point(380, 3);
             this.flowLayoutPanelLines.Name = "flowLayoutPanelLines";
-            this.flowLayoutPanelLines.Size = new System.Drawing.Size(322, 338);
+            this.flowLayoutPanelLines.Size = new System.Drawing.Size(322, 288);
             this.flowLayoutPanelLines.TabIndex = 3;
             // 
             // pictureBox1
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = global::OneStoryProjectEditor.Properties.Resources.Arrow;
-            this.pictureBox1.Location = new System.Drawing.Point(330, 147);
+            this.pictureBox1.Location = new System.Drawing.Point(330, 122);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(44, 50);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
+            // 
+            // buttonCancel
+            // 
+            this.buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.tableLayoutPanel.SetColumnSpan(this.buttonCancel, 3);
+            this.buttonCancel.Location = new System.Drawing.Point(232, 311);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(241, 30);
+            this.buttonCancel.TabIndex = 5;
+            this.buttonCancel.Text = "&Close without moving items";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // CutItemPicker
             // 
@@ -130,5 +146,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelLines;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button buttonCancel;
     }
 }
