@@ -5542,6 +5542,9 @@ namespace OneStoryProjectEditor
 
                 ExportToToolbox(strXslt, streamData, strTbxStoriesBTFilePath, "Stories");
 
+                strTbxStoriesBTFilePath = GetTbxDestPath("NonBiblicalStoriesBT.txt");
+                ExportToToolbox(strXslt, streamData, strTbxStoriesBTFilePath, "Non-Biblical Stories");
+
                 strTbxStoriesBTFilePath = GetTbxDestPath("OldStoriesBT.txt");
                 ExportToToolbox(strXslt, streamData, strTbxStoriesBTFilePath, "Old Stories");
 
