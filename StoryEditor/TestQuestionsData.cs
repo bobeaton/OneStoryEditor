@@ -601,8 +601,7 @@ namespace OneStoryProjectEditor
         public bool DoesReferenceTqUns(string strMemberId)
         {
             return this.Any(testQuestion =>
-                            testQuestion.Answers.DoesReferenceTqUns(strMemberId));
-
+                            testQuestion.Answers.DoesReferenceUns(strMemberId));
         }
 
         public void RemoveTestQuestionAnswers(string strUnsGuid)

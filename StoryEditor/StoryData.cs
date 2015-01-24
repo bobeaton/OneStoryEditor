@@ -807,6 +807,63 @@ namespace OneStoryProjectEditor
         {
             Verses.SwapColumns(column1, column2, fieldsToSwap);
         }
+
+        internal bool DoesReferenceExist(TeamMemberData theTeamMember)
+        {
+            var eUserTypes = theTeamMember.MemberType;
+            var strMemberGuid = theTeamMember.MemberGuid;
+
+            // don't use switch, since any particular user can have multiple roles
+            if (TeamMemberData.IsUser(eUserTypes, TeamMemberData.UserTypes.UNS))
+            {
+                if (CraftingInfo.DoesReferenceUns(strMemberGuid) ||
+                    Verses.DoesReferenceUns(strMemberGuid))
+                    return true;
+            }
+
+            if (TeamMemberData.IsUser(eUserTypes, TeamMemberData.UserTypes.Crafter))
+            {
+                if (CraftingInfo.DoesReferenceCrafter(strMemberGuid))
+                    return true;
+            }
+
+            if (TeamMemberData.IsUser(eUserTypes, TeamMemberData.UserTypes.ProjectFacilitator))
+            {
+                if (CraftingInfo.DoesReferenceProjectFacilitator(strMemberGuid) ||
+                    Verses.DoesReferenceMemberInConNote(strMemberGuid))
+                    return true;
+            }
+
+            if (TeamMemberData.IsUser(eUserTypes,
+                TeamMemberData.UserTypes.ConsultantInTraining | 
+                TeamMemberData.UserTypes.IndependentConsultant))
+            {
+                if (CraftingInfo.DoesReferenceConsultant(strMemberGuid) ||
+                    Verses.DoesReferenceMemberInConNote(strMemberGuid))
+                    return true;
+            }
+
+            if (TeamMemberData.IsUser(eUserTypes, TeamMemberData.UserTypes.Coach))
+            {
+                if (CraftingInfo.DoesReferenceCoach(strMemberGuid) ||
+                    Verses.DoesReferenceMemberInConNote(strMemberGuid))
+                    return true;
+            }
+
+            if (TeamMemberData.IsUser(eUserTypes, TeamMemberData.UserTypes.FirstPassMentor))
+            {
+                if (Verses.DoesReferenceMemberInConNote(strMemberGuid))
+                    return true;
+            }
+
+            if (TeamMemberData.IsUser(eUserTypes, TeamMemberData.UserTypes.EnglishBackTranslator))
+            {
+                if (CraftingInfo.DoesReferenceEnglishBackTranslator(strMemberGuid))
+                    return true;
+            }
+
+            return false;
+        }
     }
 
     public class StoryStateTransitionHistory : List<StoryStateTransition>
@@ -1586,6 +1643,12 @@ namespace OneStoryProjectEditor
             TestersToCommentsTqAnswers.ReplaceUns(strOldMemberGuid, strNewMemberGuid);
         }
 
+        public void ReplaceCrafter(string strOldMemberGuid, string strNewMemberGuid)
+        {
+            if (MemberIdInfo.SafeGetMemberId(StoryCrafter) == strOldMemberGuid)
+                MemberIdInfo.SetCreateIfEmpty(ref StoryCrafter, strNewMemberGuid, true);
+        }
+
         public string ReplaceProjectFacilitator(string strNewMemberGuid)
         {
             string strOldId = MemberIdInfo.SafeGetMemberId(ProjectFacilitator);
@@ -1607,10 +1670,36 @@ namespace OneStoryProjectEditor
             return strOldId;
         }
 
-        public void ReplaceCrafter(string strOldMemberGuid, string strNewMemberGuid)
+        public bool DoesReferenceUns(string strMemberGuid)
         {
-            if (MemberIdInfo.SafeGetMemberId(StoryCrafter) == strOldMemberGuid)
-                MemberIdInfo.SetCreateIfEmpty(ref StoryCrafter, strNewMemberGuid, true);
+            return TestersToCommentsRetellings.Contains(strMemberGuid) ||
+                   TestersToCommentsTqAnswers.Contains(strMemberGuid) ||
+                   (MemberIdInfo.SafeGetMemberId(BackTranslator) == strMemberGuid);
+        }
+
+        public bool DoesReferenceCrafter(string strMemberGuid)
+        {
+            return (MemberIdInfo.SafeGetMemberId(StoryCrafter) == strMemberGuid);
+        }
+
+        public bool DoesReferenceProjectFacilitator(string strMemberGuid)
+        {
+            return (MemberIdInfo.SafeGetMemberId(ProjectFacilitator) == strMemberGuid);
+        }
+
+        public bool DoesReferenceConsultant(string strMemberGuid)
+        {
+            return (MemberIdInfo.SafeGetMemberId(Consultant) == strMemberGuid);
+        }
+
+        public bool DoesReferenceCoach(string strMemberGuid)
+        {
+            return (MemberIdInfo.SafeGetMemberId(Coach) == strMemberGuid);
+        }
+
+        public bool DoesReferenceEnglishBackTranslator(string strMemberGuid)
+        {
+            return (MemberIdInfo.SafeGetMemberId(OutsideEnglishBackTranslator) == strMemberGuid);
         }
     }
 
@@ -1692,6 +1781,31 @@ namespace OneStoryProjectEditor
         {
             foreach (var storyData in this)
                 storyData.ReplaceCrafter(strOldMemberGuid, strNewMemberGuid);
+        }
+
+        public void ReplaceConsultant(string strOldMemberGuid, string strNewMemberGuid)
+        {
+            foreach (var storyData in
+                this.Where(storyData =>
+                    MemberIdInfo.SafeGetMemberId(storyData.CraftingInfo.Consultant) == strOldMemberGuid))
+            {
+                storyData.ReplaceConsultant(strNewMemberGuid);
+            }
+        }
+
+        public void ReplaceCoach(string strOldMemberGuid, string strNewMemberGuid)
+        {
+            foreach (var storyData in
+                this.Where(storyData =>
+                    MemberIdInfo.SafeGetMemberId(storyData.CraftingInfo.Coach) == strOldMemberGuid))
+            {
+                storyData.ReplaceCoach(strNewMemberGuid);
+            }
+        }
+
+        public bool DoesReferenceExist(TeamMemberData theTeamMember)
+        {
+            return this.Any(data => data.DoesReferenceExist(theTeamMember));
         }
 
         public void SetCommentMemberId(string strConsultant, string strCoach)
@@ -2459,6 +2573,23 @@ namespace OneStoryProjectEditor
         {
             foreach (var storiesData in Values)
                 storiesData.ReplaceCrafter(strOldMemberGuid, strNewMemberGuid);
+        }
+
+        public void ReplaceConsultant(string strOldMemberGuid, string strNewMemberGuid)
+        {
+            foreach (var storiesData in Values)
+                storiesData.ReplaceConsultant(strOldMemberGuid, strNewMemberGuid);
+        }
+
+        public void ReplaceCoach(string strOldMemberGuid, string strNewMemberGuid)
+        {
+            foreach (var storiesData in Values)
+                storiesData.ReplaceCoach(strOldMemberGuid, strNewMemberGuid);
+        }
+
+        public bool DoesReferenceExist(TeamMemberData theTeamMember)
+        {
+            return Values.Any(value => value.DoesReferenceExist(theTeamMember));
         }
 
         public class ReplaceMemberException : Exception

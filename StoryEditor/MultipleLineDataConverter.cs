@@ -402,6 +402,11 @@ namespace OneStoryProjectEditor
                 theLine.MemberId = strNewUnsGuid;
         }
 
+        public bool DoesReferenceUns(string strMemberId)
+        {
+            return (TryGetValue(strMemberId) != null);
+        }
+
         public void RemoveTestResult(string strUnsGuid)
         {
             // even the verse itself may be newer and only have a single retelling (compared
@@ -562,11 +567,6 @@ namespace OneStoryProjectEditor
         protected override StoryEditor.TextFields WhichField
         {
             get { return StoryEditor.TextFields.TestQuestionAnswer; }
-        }
-
-        public bool DoesReferenceTqUns(string strMemberId)
-        {
-            return (TryGetValue(strMemberId) != null);
         }
 
         public void SwapColumns(StoryEditor.TextFields column1, StoryEditor.TextFields column2)

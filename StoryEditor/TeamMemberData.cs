@@ -852,7 +852,7 @@ namespace OneStoryProjectEditor
 
     public class TeamMembersData : Dictionary<string, TeamMemberData>
     {
-        protected const string CstrBrowserMemberName = "Browser";
+        public const string CstrBrowserMemberName = "Browser";
 
         public bool HasOutsideEnglishBTer;
         public bool HasLanguageSpecialtyReviewer;

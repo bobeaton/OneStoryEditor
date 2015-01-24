@@ -1208,6 +1208,11 @@ namespace OneStoryProjectEditor
                 else
                     Debug.Assert(false);
         }
+
+        public bool DoesReferenceMember(string strMemberGuid)
+        {
+            return this.Any(instance => (instance.MemberId == strMemberGuid));
+        }
     }
 
     public class ConsultantNoteData : ConsultNoteDataConverter
@@ -1639,6 +1644,11 @@ namespace OneStoryProjectEditor
         {
             foreach (var aCn in this)
                 aCn.SetCommentMemberId(strMentoree, strMentor);
+        }
+
+        public bool DoesReferenceMember(string strMemberGuid)
+        {
+            return this.Any(converter => converter.DoesReferenceMember(strMemberGuid));
         }
     }
 

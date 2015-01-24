@@ -118,7 +118,6 @@ namespace OneStoryProjectEditor
                 TeamMemberData.UserTypes eUserType;
                 ParseListBoxItem((string) listBoxTeamMembers.SelectedItem,
                                  out m_strSelectedMemberName, out eUserType);
-                buttonDeleteMember.Visible = m_mapNewMembersThisSession.ContainsKey(m_strSelectedMemberName);
 
                 if (_dataTeamMembers.ContainsKey(m_strSelectedMemberName))
                 {
@@ -130,6 +129,12 @@ namespace OneStoryProjectEditor
                     buttonMergeProjectFacilitators.Visible = (TeamMemberData.IsUser(theMember.MemberType,
                                                                                     TeamMemberData.UserTypes.
                                                                                         ProjectFacilitator));
+                    buttonMergeConsultant.Visible = (TeamMemberData.IsUser(theMember.MemberType,
+                        TeamMemberData.UserTypes.ConsultantInTraining | TeamMemberData.UserTypes.IndependentConsultant));
+
+                    buttonMergeCoach.Visible = (TeamMemberData.IsUser(theMember.MemberType, TeamMemberData.UserTypes.Coach));
+                    buttonDeleteMember.Visible = !_theStoryProjectData.DoesReferenceExist(theMember) &&                                             // no references
+                        ((m_strSelectedMemberName != TeamMembersData.CstrBrowserMemberName) && (eUserType == TeamMemberData.UserTypes.JustLooking));// but ignore the Browser (Just Looking) one (no need to delete that)
                 }
             }
         }
@@ -305,11 +310,17 @@ namespace OneStoryProjectEditor
         private void buttonDeleteMember_Click(object sender, EventArgs e)
         {
             // this is only enabled if we added the member this session
-            System.Diagnostics.Debug.Assert(m_mapNewMembersThisSession.ContainsKey(SelectedMemberName) && _dataTeamMembers.ContainsKey(SelectedMemberName));
+            System.Diagnostics.Debug.Assert(listBoxTeamMembers.SelectedItem != null);
+            TeamMemberData.UserTypes eUserType;
+            ParseListBoxItem((string) listBoxTeamMembers.SelectedItem,
+                                out m_strSelectedMemberName, out eUserType);
 
-            _dataTeamMembers.Remove(SelectedMemberName);
-            m_mapNewMembersThisSession.Remove(SelectedMemberName);
+            RemoveTracesOfMember(m_strSelectedMemberName, eUserType);
+
+            m_mapNewMembersThisSession.Remove(m_strSelectedMemberName);
+            buttonDeleteMember.Visible = false; // make it false
         }
+
         private void listBoxTeamMembers_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             buttonOK_Click(sender, e);
@@ -331,6 +342,18 @@ namespace OneStoryProjectEditor
         {
             // this button should only be enabled if a team member is selected
             ReplaceMember(TeamMemberData.UserTypes.Crafter, _theStoryProjectData.ReplaceCrafter);
+        }
+
+        private void buttonMergeConsultant_Click(object sender, EventArgs e)
+        {
+            // this button should only be enabled if a team member is selected
+            ReplaceMember(TeamMemberData.UserTypes.IndependentConsultant | TeamMemberData.UserTypes.ConsultantInTraining, _theStoryProjectData.ReplaceConsultant);
+        }
+
+        private void buttonMergeCoach_Click(object sender, EventArgs e)
+        {
+            // this button should only be enabled if a team member is selected
+            ReplaceMember(TeamMemberData.UserTypes.Coach, _theStoryProjectData.ReplaceCoach);
         }
 
         private delegate void ReplaceMemberDelegate(string strOldUnsGuid, string strNewUnsGuid);
@@ -409,13 +432,7 @@ namespace OneStoryProjectEditor
                     return;
 
                 string strNameToDelete = _dataTeamMembers.GetNameFromMemberId(strOldMemberGuid);
-                _dataTeamMembers.Remove(strNameToDelete);
-
-                nIndex = listBoxTeamMembers.FindString(GetListBoxItem(strNameToDelete, eOrigRoles));
-                if (nIndex != -1)
-                    listBoxTeamMembers.Items.RemoveAt(nIndex);
-                else
-                    System.Diagnostics.Debug.Assert(false);
+                RemoveTracesOfMember(strNameToDelete, eOrigRoles);
             }
             catch (StoryProjectData.ReplaceMemberException ex)
             {
@@ -430,6 +447,19 @@ namespace OneStoryProjectEditor
                                                                   ex.MemberGuid)));
                 LocalizableMessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
             }
+        }
+
+        private void RemoveTracesOfMember(string strNameToDelete, TeamMemberData.UserTypes eRoles)
+        {
+            _dataTeamMembers.Remove(strNameToDelete);
+
+            int nIndex = listBoxTeamMembers.FindString(GetListBoxItem(strNameToDelete, eRoles));
+            if (nIndex != -1)
+                listBoxTeamMembers.Items.RemoveAt(nIndex);
+            else
+                System.Diagnostics.Debug.Assert(false);
+
+            Modified = true;    // just in case (so we ask to save if something is deleted because all references are gone)
         }
 
         private void MergeOtherRoles(TeamMemberData.UserTypes eRoles, string strOldMemberGuid, string strNewMemberGuid)

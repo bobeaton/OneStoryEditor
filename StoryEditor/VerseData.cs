@@ -1173,6 +1173,11 @@ namespace OneStoryProjectEditor
             return TestQuestions.DoesReferenceTqUns(strMemberId);
         }
 
+        public bool DoesReferenceRetellingUns(string strMemberId)
+        {
+            return Retellings.DoesReferenceUns(strMemberId);
+        }
+
         public void RemoveTestQuestionAnswer(string strUnsGuid)
         {
             TestQuestions.RemoveTestQuestionAnswers(strUnsGuid);
@@ -1223,6 +1228,12 @@ namespace OneStoryProjectEditor
 
             if (StoryEditor.IsFieldSet(fieldsToSwap, StoryEditor.TextFields.Retelling))
                 Retellings.SwapColumns(column1, column2);
+        }
+
+        public bool DoesReferenceMemberInConNote(string strMemberGuid)
+        {
+            return ConsultantNotes.DoesReferenceMember(strMemberGuid) ||
+                   CoachNotes.DoesReferenceMember(strMemberGuid);
         }
     }
 
@@ -2006,10 +2017,29 @@ namespace OneStoryProjectEditor
                 verse.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
         }
 
+        public bool DoesReferenceMemberInConNote(string strMemberGuid)
+        {
+            // only the mentoree in the ConsultantNotes pane
+            return FirstVerse.DoesReferenceMemberInConNote(strMemberGuid) ||
+                   this.Any(verse => verse.DoesReferenceMemberInConNote(strMemberGuid));
+        }
+
         public bool DoesReferenceTqUns(string strMemberId)
         {
             return FirstVerse.DoesReferenceTqUns(strMemberId) ||
                 this.Any(verse => verse.DoesReferenceTqUns(strMemberId));
+        }
+
+        public bool DoesReferenceUns(string strMemberGuid)
+        {
+            return DoesReferenceTqUns(strMemberGuid) ||
+                   DoesReferenceRetellingUns(strMemberGuid);
+        }
+
+        private bool DoesReferenceRetellingUns(string strMemberGuid)
+        {
+            return FirstVerse.DoesReferenceRetellingUns(strMemberGuid) ||
+                this.Any(verse => verse.DoesReferenceRetellingUns(strMemberGuid));
         }
 
         internal void MoveConsultantNotesToCoachNotePane()
