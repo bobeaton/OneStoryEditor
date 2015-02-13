@@ -659,22 +659,26 @@ namespace OneStoryProjectEditor
 
         private static void textBox_TextChanged(object sender, EventArgs e)
         {
-            MyParent.MarkTouched();
+            if (MyParent != null)
+                MyParent.MarkTouched();
         }
 
         private void OnLinkClickView(object sender, EventArgs e)
         {
-            MyParent.HandleUnsTestMouseUp(false, TbxName);
+            if (MyParent != null)
+                MyParent.HandleUnsTestMouseUp(false, TbxName);
         }
 
         private void OnLinkClickChange(object sender, EventArgs e)
         {
-            MyParent.HandleUnsTestMouseUp(true, TbxName);
+            if (MyParent != null)
+                MyParent.HandleUnsTestMouseUp(true, TbxName);
         }
 
         private void OnLinkClickDelete(object sender, EventArgs e)
         {
-            MyParent.DeleteTestClicked(this);
+            if (MyParent != null)
+                MyParent.DeleteTestClicked(this);
         }
     }
 }

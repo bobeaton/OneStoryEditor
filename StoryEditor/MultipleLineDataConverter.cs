@@ -179,6 +179,10 @@ namespace OneStoryProjectEditor
             int nTestNum;
             for (int i = 0; i < Count; i++)
             {
+                // only display this retelling, if it isn't being excluded by a list of indices to display
+                if ((astrTesters.ListOfIndicesToDisplay != null) && (astrTesters.ListOfIndicesToDisplay.Count > 0) && !astrTesters.ListOfIndicesToDisplay.Contains(i))
+                    continue;
+
                 var theParentLineData = this[i];
                 var strMemberId = theParentLineData.MemberId;
                 nTestNum = astrTesters.IndexOf(strMemberId);

@@ -96,7 +96,9 @@ namespace OneStoryProjectEditor
             this.viewGeneralTestingsQuestionMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewStoryTestingQuestionsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewStoryTestingQuestionAnswersMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewAnswersChooseWhichAnswersItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewRetellingsMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewRetellingsChooseWhichRetellingsItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.viewConsultantNotesMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewCoachNotesMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -773,22 +775,44 @@ namespace OneStoryProjectEditor
             this.viewStoryTestingQuestionAnswersMenu.Checked = true;
             this.viewStoryTestingQuestionAnswersMenu.CheckOnClick = true;
             this.viewStoryTestingQuestionAnswersMenu.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewStoryTestingQuestionAnswersMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewAnswersChooseWhichAnswersItem});
             this.viewStoryTestingQuestionAnswersMenu.Name = "viewStoryTestingQuestionAnswersMenu";
             this.viewStoryTestingQuestionAnswersMenu.Size = new System.Drawing.Size(284, 22);
             this.viewStoryTestingQuestionAnswersMenu.Text = "Ans&wers";
             this.viewStoryTestingQuestionAnswersMenu.ToolTipText = "Show the text boxes for the UNS\'s answers to testing questions";
             this.viewStoryTestingQuestionAnswersMenu.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
             // 
+            // viewAnswersChooseWhichAnswersItem
+            // 
+            this.viewAnswersChooseWhichAnswersItem.Name = "viewAnswersChooseWhichAnswersItem";
+            this.viewAnswersChooseWhichAnswersItem.Size = new System.Drawing.Size(161, 22);
+            this.viewAnswersChooseWhichAnswersItem.Text = "Choose &Answers";
+            this.viewAnswersChooseWhichAnswersItem.ToolTipText = "Click this menu if you want to display only a subset of the various test answer b" +
+                "oxes";
+            this.viewAnswersChooseWhichAnswersItem.Click += new System.EventHandler(this.viewAnswersChooseWhichAnswersItem_Click);
+            // 
             // viewRetellingsMenu
             // 
             this.viewRetellingsMenu.Checked = true;
             this.viewRetellingsMenu.CheckOnClick = true;
             this.viewRetellingsMenu.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.viewRetellingsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewRetellingsChooseWhichRetellingsItem});
             this.viewRetellingsMenu.Name = "viewRetellingsMenu";
             this.viewRetellingsMenu.Size = new System.Drawing.Size(284, 22);
             this.viewRetellingsMenu.Text = "&Retellings";
             this.viewRetellingsMenu.ToolTipText = "Show the text boxes for the UNS retelling responses";
             this.viewRetellingsMenu.CheckedChanged += new System.EventHandler(this.viewFieldMenuItem_CheckedChanged);
+            // 
+            // viewRetellingsChooseWhichRetellingsItem
+            // 
+            this.viewRetellingsChooseWhichRetellingsItem.Name = "viewRetellingsChooseWhichRetellingsItem";
+            this.viewRetellingsChooseWhichRetellingsItem.Size = new System.Drawing.Size(168, 22);
+            this.viewRetellingsChooseWhichRetellingsItem.Text = "Choose &Retellings";
+            this.viewRetellingsChooseWhichRetellingsItem.ToolTipText = "Click this menu if you want to display only a subset of the various test answer b" +
+                "oxes";
+            this.viewRetellingsChooseWhichRetellingsItem.Click += new System.EventHandler(this.viewRetellingsChooseWhichRetellingsItem_Click);
             // 
             // toolStripSeparator6
             // 
@@ -1682,6 +1706,7 @@ namespace OneStoryProjectEditor
             // htmlConsultantNotesControl
             // 
             this.htmlConsultantNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlConsultantNotesControl.IsWebBrowserContextMenuEnabled = false;
             this.htmlConsultantNotesControl.Location = new System.Drawing.Point(0, 23);
             this.htmlConsultantNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlConsultantNotesControl.Name = "htmlConsultantNotesControl";
@@ -1725,6 +1750,7 @@ namespace OneStoryProjectEditor
             // htmlCoachNotesControl
             // 
             this.htmlCoachNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlCoachNotesControl.IsWebBrowserContextMenuEnabled = false;
             this.htmlCoachNotesControl.Location = new System.Drawing.Point(0, 23);
             this.htmlCoachNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlCoachNotesControl.Name = "htmlCoachNotesControl";
@@ -2056,6 +2082,8 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator18;
         private ToolStripMenuItem advancedSwapDataColumns;
         private ToolStripMenuItem advancedOneStoryProjectMetaData;
+        private ToolStripMenuItem viewRetellingsChooseWhichRetellingsItem;
+        private ToolStripMenuItem viewAnswersChooseWhichAnswersItem;
     }
 
 #if UsingHtmlDisplayForConNotes

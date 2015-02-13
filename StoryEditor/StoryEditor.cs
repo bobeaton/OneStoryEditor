@@ -4801,7 +4801,9 @@ namespace OneStoryProjectEditor
                     viewStoryTestingQuestionAnswersMenu.Enabled =
                     viewStoryTestingQuestionsMenu.Enabled =
                     viewRetellingsMenu.Enabled =
-                    (TheCurrentStory != null) && TheCurrentStory.CraftingInfo.IsBiblicalStory;
+                    viewRetellingsChooseWhichRetellingsItem.Enabled = 
+                    viewAnswersChooseWhichAnswersItem.Enabled = 
+                        (TheCurrentStory != null) && TheCurrentStory.CraftingInfo.IsBiblicalStory;
 
                 viewTransliterationsToolStripMenu.Enabled = (StoryProject.ProjSettings.Vernacular.HasData ||
                                                                  StoryProject.ProjSettings.NationalBT.HasData ||
@@ -7336,6 +7338,29 @@ namespace OneStoryProjectEditor
 
             var dlg = new OsMetaDataForm(storyProject.OsMetaData ?? storyProject.InitializeMetaData);
             return (dlg.ShowDialog() == DialogResult.OK);
+        }
+
+        private void viewRetellingsChooseWhichRetellingsItem_Click(object sender, EventArgs e)
+        {
+            ChooseWhichTestsToDisplay(TheCurrentStory.CraftingInfo.TestersToCommentsRetellings, Localizer.Str("Retelling"), viewRetellingsMenu);
+        }
+
+        private void ChooseWhichTestsToDisplay(TestInfo tests, string strLable, ToolStripMenuItem mainMenu)
+        {
+            var dlg = new ChooseWhichTestToDisplayForm(StoryProject, tests, strLable);
+            if (dlg.ShowDialog() != DialogResult.OK)
+                return;
+
+            if (dlg.ListOfTestIndicesToShow.Count == 0)
+                mainMenu.Checked = false;
+            else
+                tests.ListOfIndicesToDisplay = dlg.ListOfTestIndicesToShow;
+            InitAllPanes();
+        }
+
+        private void viewAnswersChooseWhichAnswersItem_Click(object sender, EventArgs e)
+        {
+            ChooseWhichTestsToDisplay(TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers, Localizer.Str("Answer"), viewStoryTestingQuestionAnswersMenu);
         }
     }
 

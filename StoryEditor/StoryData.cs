@@ -1196,6 +1196,8 @@ namespace OneStoryProjectEditor
 
     public class TestInfo : List<MemberIdInfo>
     {
+        public List<int> ListOfIndicesToDisplay { get; set; }
+
         public TestInfo()
         {
             
