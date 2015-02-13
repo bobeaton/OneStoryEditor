@@ -182,6 +182,14 @@ namespace OneStoryProjectEditor
                 var theParentLineData = this[i];
                 var strMemberId = theParentLineData.MemberId;
                 nTestNum = astrTesters.IndexOf(strMemberId);
+
+                // check to see if this testee was there... if not, then add it (it must have been lost in a merge or something)
+                if (nTestNum == -1)
+                {
+                    astrTesters.Add(new MemberIdInfo(strMemberId, Localizer.Str("the main entry for this test was remove, but has been added back by OSE since there's still data for it. If you don't want it, you can try deleting it again (beware a Send/Receive merge might bring it back if someone else edited it)")));
+                    nTestNum = astrTesters.IndexOf(strMemberId);
+                }
+
                 var strUnsName = teamMembersData.GetNameFromMemberId(strMemberId);
 
                 bool bFound = false;
