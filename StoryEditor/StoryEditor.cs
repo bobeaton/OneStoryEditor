@@ -6259,7 +6259,7 @@ namespace OneStoryProjectEditor
             advancedNewProjectMenu.Enabled = IsInStoriesSet;
             advancedEmailMenu.Checked = Settings.Default.UseMapiPlus;
             advancedUseWordBreaks.Enabled = BreakIterator.IsAvailable;
-
+            advancedUseDialogToPreviewConNotes.Checked = Settings.Default.UsePreviewDialogWhenAddingConNotes;
             advancedOneStoryProjectMetaData.Enabled = (StoryProject != null) && (StoryProject.ProjSettings != null);
         }
 
@@ -7361,6 +7361,15 @@ namespace OneStoryProjectEditor
         private void viewAnswersChooseWhichAnswersItem_Click(object sender, EventArgs e)
         {
             ChooseWhichTestsToDisplay(TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers, Localizer.Str("Answer"), viewStoryTestingQuestionAnswersMenu);
+        }
+
+        private void advancedUseDialogToPreviewConNotes_Click(object sender, EventArgs e)
+        {
+            if (sender != null)
+            {
+                Settings.Default.UsePreviewDialogWhenAddingConNotes = (sender as ToolStripMenuItem).Checked;
+                Settings.Default.Save();
+            }
         }
     }
 

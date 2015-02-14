@@ -469,7 +469,7 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(cndc.Count == 1);
 
             // if there's referring text, then do it in a separate dialog so we can 'preview' the referring text
-            if (!String.IsNullOrEmpty(strReferringText))
+            if (!String.IsNullOrEmpty(strReferringText) && theSE.advancedUseDialogToPreviewConNotes.Checked)
             {
                 var nConversationIndex = aCNsDC.IndexOf(cndc);
                 cndc.DontShowButtonsOverride = true;
