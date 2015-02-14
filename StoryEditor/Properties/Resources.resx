@@ -1875,6 +1875,11 @@ and in the resulting window click on the next (green) state.
         }
         return nEndPoint;
     }
+	function OnMouseUp() {
+		// if the user right-clicks, then ask the ConNote pane to show the context menu
+		if (window.event.button == 2) 
+			window.external.ShowContextMenu();
+	}
 &lt;/script&gt;</value>
   </data>
   <data name="HTML_DOM_PrefixPresentation" xml:space="preserve">
@@ -1943,7 +1948,7 @@ function CallTextareaOnSelect(textarea)
 &lt;head&gt;
 {1}
 &lt;/head&gt;
-&lt;body onKeyDown="return OnKeyDown();" onscroll="window.external.OnScroll();"&gt;
+&lt;body onKeyDown="return OnKeyDown();" onscroll="window.external.OnScroll();" onmouseup="OnMouseUp();"&gt;
 {2}
 &lt;/body&gt;
 {3}
@@ -2280,7 +2285,7 @@ eater Panorama
     <value>&lt;script type="text/javascript"&gt;
   var textareas = document.getElementsByTagName("textarea");
   for (var i=0; i &lt; textareas.length; i++) {
-    textareas[i].onmousedown = function() { return window.external.OnTextareaMouseDown(this.id, this.value); };
+	textareas[i].onmousedown = function() { return window.external.OnTextareaMouseDown(this.id, this.value, window.event.button); };
 	textareas[i].onkeyup = function() { return window.external.TextareaOnKeyUp(this.id, this.value); };
 	textareas[i].ondragover = function() { window.event.returnValue=false; };
 	textareas[i].ondrop = function () { window.external.CopyScriptureReference(this.id); };

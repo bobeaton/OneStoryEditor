@@ -1007,6 +1007,9 @@ namespace OneStoryProjectEditor
 
         public void ShowContextMenu(string strId)
         {
+            if (StoryEditor.TextPaster != null)
+                return;
+
             if (IsButtonElement(strId))
             {
                 ;

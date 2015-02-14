@@ -375,12 +375,13 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public void OnTextareaMouseDown(string strId, string strText)
+        // nButton == 1 for left and 2 for right
+        public void OnTextareaMouseDown(string strId, string strText, int nButton)
         {
             if ((StoryEditor.TextPaster != null) && (Document != null))
             {
                 var elemTextArea = Document.GetElementById(strId);
-                StoryEditor.TextPaster.TriggerPaste(true, elemTextArea);
+                StoryEditor.TextPaster.TriggerPaste((nButton == 1), elemTextArea);
             }
         }
 

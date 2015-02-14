@@ -404,7 +404,7 @@ namespace OneStoryProjectEditor.Properties {
         ///&lt;head&gt;
         ///{1}
         ///&lt;/head&gt;
-        ///&lt;body onKeyDown=&quot;return OnKeyDown();&quot; onscroll=&quot;window.external.OnScroll();&quot;&gt;
+        ///&lt;body onKeyDown=&quot;return OnKeyDown();&quot; onscroll=&quot;window.external.OnScroll();&quot; onmouseup=&quot;OnMouseUp();&quot;&gt;
         ///{2}
         ///&lt;/body&gt;
         ///{3}
@@ -514,10 +514,10 @@ namespace OneStoryProjectEditor.Properties {
         ///   Looks up a localized string similar to &lt;script type=&quot;text/javascript&quot;&gt;
         ///  var textareas = document.getElementsByTagName(&quot;textarea&quot;);
         ///  for (var i=0; i &lt; textareas.length; i++) {
-        ///    textareas[i].onmousedown = function() { return window.external.OnTextareaMouseDown(this.id, this.value); };
+        ///	textareas[i].onmousedown = function() { return window.external.OnTextareaMouseDown(this.id, this.value, window.event.button); };
         ///	textareas[i].onkeyup = function() { return window.external.TextareaOnKeyUp(this.id, this.value); };
         ///	textareas[i].ondragover = function() { window.event.returnValue=false; };
-        ///	textareas[i].ondrop = function () { window.external.CopyScriptureReference(this [rest of string was truncated]&quot;;.
+        ///	textareas[i].ondrop = function () { window.external.CopyScrip [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string HTML_Script_AddTextareaMouseDown {
             get {

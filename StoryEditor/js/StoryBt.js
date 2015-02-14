@@ -98,6 +98,11 @@ function removeSelection(jqtextarea) {
         removeSpan(jqtextarea);    // also remove the highlighting
     }
 }
+function CheckRemovePlaceHolder(jqtextarea) {
+    if (jqtextarea.attr('placeholder') != '' && jqtextarea.val() == jqtextarea.attr('placeholder')) {
+        jqtextarea.val('').removeClass('hasPlaceholder');
+    }
+}
 function removeSpan(jqtextarea) {
     jqtextarea.html(jqtextarea.val());
 }
@@ -167,9 +172,8 @@ $(document).ready(function () {
         window.external.TextareaOnBlur(this.id);
         DisplayHtml(event.type);
     }).focus(function (event) {
-        if ($(this).attr('placeholder') != '' && $(this).val() == $(this).attr('placeholder')) {
-            $(this).val('').removeClass('hasPlaceholder');
-        }
+        CheckRemovePlaceHolder($(this));
+
         // for some reason, in the WebBrowser, we continue to get
         //  focus events even after the textarea is in focus...
         if (window.oseConfig.idLastTextareaToFocus == this.id)
@@ -230,7 +234,8 @@ $(document).ready(function () {
         window.external.TextareaMouseUp(this.id);
         return true;
     }).mousedown(function (event) {
-        window.external.OnTextareaMouseDown(this.id, this.value);
+        CheckRemovePlaceHolder($(this));    // remove the place holder in case this is TextPaster (or the name of the languages is thought to be text)
+        window.external.OnTextareaMouseDown(this.id, this.value, event.button);
         if (event.button == 1)
             removeSelection($(this));
     }).mousemove(function () {

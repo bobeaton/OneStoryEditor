@@ -350,6 +350,13 @@ namespace OneStoryProjectEditor
             }
         }
 
+        public void ShowContextMenu()
+        {
+            if (StoryEditor.TextPaster != null)
+                return;
+            contextMenu.Show(MousePosition);
+        }
+
         public bool TextareaOnKeyUp(string strId, string strText)
         {
             int nVerseIndex, nConversationIndex, nDontCare;
@@ -640,7 +647,8 @@ namespace OneStoryProjectEditor
             // 
             // HtmlConNoteControl
             // 
-            this.ContextMenuStrip = this.contextMenu;
+            // this is now down manually (see ShowContextMenu) so we can turn it off when TextPaster is active
+            // this.ContextMenuStrip = this.contextMenu;
             this.IsWebBrowserContextMenuEnabled = false;
             this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
