@@ -766,6 +766,12 @@ namespace OneStoryProjectEditor
                 li.DefaultRtl = cbRtl.Checked;
 
             li.LangName = ThrowIfTextNullOrEmpty(textBoxLanguageName, Localizer.Str("Language Name"));
+
+            // can't allow 's in the language name or it screws with javascript
+            if (li.LangName.Contains("'"))
+                throw new UserException(Localizer.Str("The Language 'Name' field is not allowed to have a single quote character (i.e. ') in it"),
+                                        textBoxLanguageName, tabControl.SelectedTab);
+
             li.LangCode = ThrowIfTextNullOrEmpty(textBoxEthCode, Localizer.Str("Ethnologue Code"));
             li.FullStop = ThrowIfTextNullOrEmpty(textBoxSentFullStop, Localizer.Str("Sentence Final Punctuation"));
 

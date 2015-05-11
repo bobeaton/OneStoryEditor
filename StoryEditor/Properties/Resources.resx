@@ -1882,63 +1882,6 @@ and in the resulting window click on the next (green) state.
 	}
 &lt;/script&gt;</value>
   </data>
-  <data name="HTML_DOM_PrefixPresentation" xml:space="preserve">
-    <value>&lt;script type="text/javascript"&gt;
-function OnBibRefJump(btn)
-{
-  window.external.OnBibRefJump(btn.id);
-  return false; // cause the href navigation to not happen
-}
-function OnLineOptionsButton(btn)
-{
-  window.external.OnLineOptionsButton(btn.id);
-  return false;
-}
-function OnVerseLineJump(link)
-{
-  window.external.OnVerseLineJump(link.name);
-  return false; // cause the href navigation to not happen
-}
-function OnKeyDown(textarea)
-{
-  if (window.event.keyCode == 116)
-  {
-    // let the form handle it
-    window.external.LoadDocument();
-
-    // disable the propagation of the F5 event
-    window.event.keyCode = 0;
-    window.event.returnValue = false;
-    return false;
-  }
-  else 
-  {
-    if (textarea.value == '') 
-	{
-      textarea.style.visibility = 'visible';
-    }
-    else 
-	{
-      textarea.style.visibility = 'hidden';
-    }
-  }
-}
-function CallTextareaOnSelect(textarea) 
-{
-	if (!document.selection) {
-		alert("document.selection is null");
-		return false;
-	}
-	if (!textarea.contentWindow) {
-		alert("textarea.contentWindow is null");
-		return false;
-	}
-	var allText = textarea.contentWindow.document.selection.createRange().parentElement().innerText;
-	var selText = textarea.contentWindow.document.selection.createRange().text;
-	return TextareaOnSelect(textarea.id, allText.indexof(selText), selText.length);
-}
-&lt;/script&gt;</value>
-  </data>
   <data name="HTML_EmphasizedText" xml:space="preserve">
     <value>&lt;em&gt;{0}&lt;/em&gt;</value>
   </data>
