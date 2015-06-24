@@ -640,7 +640,7 @@ namespace OneStoryProjectEditor
 
             try
             {
-                Program.SendEmail(member.Email, strSubjectLine, strMessageBody);
+                Program.TrySendEmail(member.Email, strSubjectLine, strMessageBody);
                 LocalizableMessageBox.Show(
                     String.Format(
                         Localizer.Str(

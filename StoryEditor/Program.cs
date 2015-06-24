@@ -306,8 +306,20 @@ namespace OneStoryProjectEditor
             ExceptionHandler.Init();
         }
 
-        public static void SendEmail(string strEmailAddress, string strSubjectLine, 
+        public static void TrySendEmail(string strEmailAddress, string strSubjectLine, 
             string strBodyText)
+        {
+            try
+            {
+                SendEmail(strEmailAddress, strSubjectLine, strBodyText);
+            }
+            catch (Exception ex)
+            {
+                ShowException(ex);
+            }
+        }
+
+        private static void SendEmail(string strEmailAddress, string strSubjectLine, string strBodyText)
         {
             if (Properties.Settings.Default.UseMapiPlus)
             {
