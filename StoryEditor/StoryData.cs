@@ -1719,8 +1719,19 @@ namespace OneStoryProjectEditor
             SetName = theStoriesRow.SetName;
 
             // finally, if it's not new, then it might (should) have stories as well
-            foreach (NewDataSet.storyRow aStoryRow in theStoriesRow.GetstoryRows())
-                Add(new StoryData(aStoryRow, projFile, strProjectFolder));
+            foreach (var aStoryRow in theStoriesRow.GetstoryRows())
+            {
+                // create the story object
+                var theNewStory = new StoryData(aStoryRow, projFile, strProjectFolder);
+
+                // make sure it doesn't have a name the same as an existing one... (it could come in via the merge)
+                var n = 1;
+                var strName = theNewStory.Name;
+                while (Contains(theNewStory))
+                    theNewStory.Name = String.Format("{0}.{1}", strName, n++);
+
+                Add(theNewStory);
+            }
         }
 
         public new bool Contains(StoryData theSD)
