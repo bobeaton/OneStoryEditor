@@ -977,6 +977,23 @@ namespace OneStoryProjectEditor
             theSe.SplitStory(verseData);
         }
 
+        private void joinStoryToolStripMenuItemOnClick(object sender, EventArgs eventArgs)
+        {
+            StoryEditor theSe;
+            if (!CheckForProperEditToken(out theSe) || String.IsNullOrEmpty(_lastLineOptionsButtonClicked))
+                return;
+
+            int nLineIndex;
+            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
+
+            theSe.JoinStory(verseData);
+            theSe.InitAllPanes();
+            LocalizableMessageBox.Show(
+                String.Format(
+                    "The following story has been copied and inserted into this story starting at line number: '{0}'. If you no longer need the following story, you can delete it by moving to that story and then choosing 'Story', 'Delete story' from the menu",
+                    ++nLineIndex), StoryEditor.OseCaption);
+        }
+
         private void MoveLineUp(object sender, EventArgs e)
         {
             StoryEditor theSe;
@@ -1708,6 +1725,10 @@ namespace OneStoryProjectEditor
             VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
             moveLineUp.Enabled = (nLineIndex > 1);
             moveLineDown.Enabled = (nLineIndex < theSe.TheCurrentStory.Verses.Count);
+
+            // the join story menu should be enabled as long as there's a following story
+            var nIndexOfCurrentStory = theSe.TheCurrentStoriesSet.IndexOf(theSe.TheCurrentStory);
+            joinStoryToolStripMenuItem.Enabled = (theSe.TheCurrentStoriesSet.Count > nIndexOfCurrentStory + 1);
         }
     }
 }

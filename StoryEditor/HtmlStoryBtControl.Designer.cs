@@ -68,6 +68,7 @@ namespace OneStoryProjectEditor
             this.addCommentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertNullAnchorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.joinStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripLineOptions.SuspendLayout();
             this.contextMenuStripAnchorOptions.SuspendLayout();
             this.SuspendLayout();
@@ -91,33 +92,34 @@ namespace OneStoryProjectEditor
             this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem,
             this.copyVerseToClipboardToolStripMenuItem,
             this.toolStripSeparator1,
-            this.splitStoryToolStripMenuItem});
+            this.splitStoryToolStripMenuItem,
+            this.joinStoryToolStripMenuItem});
             this.contextMenuStripLineOptions.Name = "contextMenuStrip";
-            this.contextMenuStripLineOptions.Size = new System.Drawing.Size(418, 376);
+            this.contextMenuStripLineOptions.Size = new System.Drawing.Size(343, 368);
             this.contextMenuStripLineOptions.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripLineOptions_Opening);
             // 
             // moveSelectedTextToANewLineToolStripMenuItem
             // 
             this.moveSelectedTextToANewLineToolStripMenuItem.Name = "moveSelectedTextToANewLineToolStripMenuItem";
-            this.moveSelectedTextToANewLineToolStripMenuItem.Size = new System.Drawing.Size(417, 24);
+            this.moveSelectedTextToANewLineToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
             this.moveSelectedTextToANewLineToolStripMenuItem.Text = "Move &selected text to a new line";
             this.moveSelectedTextToANewLineToolStripMenuItem.ToolTipText = "This will take the selected text from the Story language, the National BT and the" +
-    " English BT boxes and move them into a new line following this line";
+                " English BT boxes and move them into a new line following this line";
             this.moveSelectedTextToANewLineToolStripMenuItem.Click += new System.EventHandler(this.MoveSelectedTextToANewLineToolStripMenuItemClick);
             // 
             // moveItemsToolStripMenuItem
             // 
             this.moveItemsToolStripMenuItem.Name = "moveItemsToolStripMenuItem";
-            this.moveItemsToolStripMenuItem.Size = new System.Drawing.Size(417, 24);
+            this.moveItemsToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
             this.moveItemsToolStripMenuItem.Text = "&Move items";
             this.moveItemsToolStripMenuItem.ToolTipText = "Click this menu to move testing questions, anchors, exegetical notes, etc to anot" +
-    "her line";
+                "her line";
             this.moveItemsToolStripMenuItem.Click += new System.EventHandler(this.MoveItemsToolStripMenuItemClick);
             // 
             // deleteItemsToolStripMenuItem
             // 
             this.deleteItemsToolStripMenuItem.Name = "deleteItemsToolStripMenuItem";
-            this.deleteItemsToolStripMenuItem.Size = new System.Drawing.Size(417, 24);
+            this.deleteItemsToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
             this.deleteItemsToolStripMenuItem.Text = "&Delete items";
             this.deleteItemsToolStripMenuItem.ToolTipText = "Click this menu to delete testing questions, anchors, exegetical notes, etc";
             this.deleteItemsToolStripMenuItem.Click += new System.EventHandler(this.DeleteItemsToolStripMenuItemClick);
@@ -125,7 +127,7 @@ namespace OneStoryProjectEditor
             // menuAddTestQuestion
             // 
             this.menuAddTestQuestion.Name = "menuAddTestQuestion";
-            this.menuAddTestQuestion.Size = new System.Drawing.Size(417, 24);
+            this.menuAddTestQuestion.Size = new System.Drawing.Size(342, 22);
             this.menuAddTestQuestion.Text = "Add a story testing &question";
             this.menuAddTestQuestion.ToolTipText = "Click to add a story testing question";
             this.menuAddTestQuestion.Click += new System.EventHandler(this.MenuAddTestQuestionClick);
@@ -133,19 +135,19 @@ namespace OneStoryProjectEditor
             // addExegeticalCulturalNoteBelowToolStripMenuItem
             // 
             this.addExegeticalCulturalNoteBelowToolStripMenuItem.Name = "addExegeticalCulturalNoteBelowToolStripMenuItem";
-            this.addExegeticalCulturalNoteBelowToolStripMenuItem.Size = new System.Drawing.Size(417, 24);
+            this.addExegeticalCulturalNoteBelowToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
             this.addExegeticalCulturalNoteBelowToolStripMenuItem.Text = "Add &Exegetical/Cultural Note below";
             this.addExegeticalCulturalNoteBelowToolStripMenuItem.Click += new System.EventHandler(this.addExegeticalCulturalNoteBelowToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(414, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(339, 6);
             // 
             // moveLineUp
             // 
             this.moveLineUp.Name = "moveLineUp";
-            this.moveLineUp.Size = new System.Drawing.Size(417, 24);
+            this.moveLineUp.Size = new System.Drawing.Size(342, 22);
             this.moveLineUp.Text = "Move Line Up";
             this.moveLineUp.ToolTipText = "Click this menu to move the line up (i.e. switch places with the line above)";
             this.moveLineUp.Click += new System.EventHandler(this.MoveLineUp);
@@ -153,7 +155,7 @@ namespace OneStoryProjectEditor
             // moveLineDown
             // 
             this.moveLineDown.Name = "moveLineDown";
-            this.moveLineDown.Size = new System.Drawing.Size(417, 24);
+            this.moveLineDown.Size = new System.Drawing.Size(342, 22);
             this.moveLineDown.Text = "Move Line Down";
             this.moveLineDown.ToolTipText = "Click this menu to move the line down (i.e. switch places with the line below)";
             this.moveLineDown.Click += new System.EventHandler(this.MoveLineDown);
@@ -169,7 +171,7 @@ namespace OneStoryProjectEditor
             this.toolStripMenuItem7,
             this.toolStripMenuItem8});
             this.addANewVerseToolStripMenuItem.Name = "addANewVerseToolStripMenuItem";
-            this.addANewVerseToolStripMenuItem.Size = new System.Drawing.Size(417, 24);
+            this.addANewVerseToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
             this.addANewVerseToolStripMenuItem.Text = "Insert new &line(s) before";
             this.addANewVerseToolStripMenuItem.ToolTipText = "This line will move down and the new line(s) will be inserted before";
             this.addANewVerseToolStripMenuItem.Click += new System.EventHandler(this.addANewVerseToolStripMenuItem_Click);
@@ -177,49 +179,49 @@ namespace OneStoryProjectEditor
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(94, 24);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem2.Text = "1";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(94, 24);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem3.Text = "2";
             this.toolStripMenuItem3.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(94, 24);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem4.Text = "3";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(94, 24);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem5.Text = "5";
             this.toolStripMenuItem5.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(94, 24);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem6.Text = "10";
             this.toolStripMenuItem6.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(94, 24);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem7.Text = "20";
             this.toolStripMenuItem7.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
             // toolStripMenuItem8
             // 
             this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(94, 24);
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem8.Text = "30";
             this.toolStripMenuItem8.Click += new System.EventHandler(this.addNewVersesBeforeMenuItem_Click);
             // 
@@ -234,63 +236,63 @@ namespace OneStoryProjectEditor
             this.toolStripMenuItem14,
             this.toolStripMenuItem15});
             this.addNewVersesAfterToolStripMenuItem.Name = "addNewVersesAfterToolStripMenuItem";
-            this.addNewVersesAfterToolStripMenuItem.Size = new System.Drawing.Size(417, 24);
+            this.addNewVersesAfterToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
             this.addNewVersesAfterToolStripMenuItem.Text = "&Add new line(s) after";
             this.addNewVersesAfterToolStripMenuItem.ToolTipText = "The new line(s) will be added after this line";
             // 
             // toolStripMenuItem9
             // 
             this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(94, 24);
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem9.Text = "1";
             this.toolStripMenuItem9.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
             // toolStripMenuItem10
             // 
             this.toolStripMenuItem10.Name = "toolStripMenuItem10";
-            this.toolStripMenuItem10.Size = new System.Drawing.Size(94, 24);
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem10.Text = "2";
             this.toolStripMenuItem10.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
             // toolStripMenuItem11
             // 
             this.toolStripMenuItem11.Name = "toolStripMenuItem11";
-            this.toolStripMenuItem11.Size = new System.Drawing.Size(94, 24);
+            this.toolStripMenuItem11.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem11.Text = "3";
             this.toolStripMenuItem11.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
             // toolStripMenuItem12
             // 
             this.toolStripMenuItem12.Name = "toolStripMenuItem12";
-            this.toolStripMenuItem12.Size = new System.Drawing.Size(94, 24);
+            this.toolStripMenuItem12.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem12.Text = "5";
             this.toolStripMenuItem12.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
             // toolStripMenuItem13
             // 
             this.toolStripMenuItem13.Name = "toolStripMenuItem13";
-            this.toolStripMenuItem13.Size = new System.Drawing.Size(94, 24);
+            this.toolStripMenuItem13.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem13.Text = "10";
             this.toolStripMenuItem13.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
             // toolStripMenuItem14
             // 
             this.toolStripMenuItem14.Name = "toolStripMenuItem14";
-            this.toolStripMenuItem14.Size = new System.Drawing.Size(94, 24);
+            this.toolStripMenuItem14.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem14.Text = "20";
             this.toolStripMenuItem14.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
             // toolStripMenuItem15
             // 
             this.toolStripMenuItem15.Name = "toolStripMenuItem15";
-            this.toolStripMenuItem15.Size = new System.Drawing.Size(94, 24);
+            this.toolStripMenuItem15.Size = new System.Drawing.Size(86, 22);
             this.toolStripMenuItem15.Text = "30";
             this.toolStripMenuItem15.Click += new System.EventHandler(this.addNewVersesAfterMenuItem_Click);
             // 
             // hideVerseToolStripMenuItem
             // 
             this.hideVerseToolStripMenuItem.Name = "hideVerseToolStripMenuItem";
-            this.hideVerseToolStripMenuItem.Size = new System.Drawing.Size(417, 24);
+            this.hideVerseToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
             this.hideVerseToolStripMenuItem.Text = "&Hide line";
             this.hideVerseToolStripMenuItem.ToolTipText = "Hide this line (use \'View\', \'Show Hidden\' to see them later)";
             this.hideVerseToolStripMenuItem.Click += new System.EventHandler(this.hideVerseToolStripMenuItem_Click);
@@ -298,7 +300,7 @@ namespace OneStoryProjectEditor
             // deleteTheWholeVerseToolStripMenuItem
             // 
             this.deleteTheWholeVerseToolStripMenuItem.Name = "deleteTheWholeVerseToolStripMenuItem";
-            this.deleteTheWholeVerseToolStripMenuItem.Size = new System.Drawing.Size(417, 24);
+            this.deleteTheWholeVerseToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
             this.deleteTheWholeVerseToolStripMenuItem.Text = "&Delete line";
             this.deleteTheWholeVerseToolStripMenuItem.ToolTipText = "Delete this line";
             this.deleteTheWholeVerseToolStripMenuItem.Click += new System.EventHandler(this.DeleteTheWholeVerseToolStripMenuItemClick);
@@ -306,26 +308,26 @@ namespace OneStoryProjectEditor
             // pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem
             // 
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem.Name = "pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem";
-            this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem.Size = new System.Drawing.Size(417, 24);
+            this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem.Text = "&Paste line from clipboard and insert before this line";
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem.ToolTipText = "Use this to paste a previously copied line (see \'Copy line to clipboard\' command)" +
-    ". The copied line will be inserted before this line (see \'Paste line from clipbo" +
-    "ard\' commands)";
+                ". The copied line will be inserted before this line (see \'Paste line from clipbo" +
+                "ard\' commands)";
             this.pasteVerseFromClipboardAndInsertBeforeThisVerseToolStripMenuItem.Click += new System.EventHandler(this.pasteVerseFromClipboardToolStripMenuItem_Click);
             // 
             // pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem
             // 
             this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Name = "pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem";
-            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Size = new System.Drawing.Size(417, 24);
+            this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
             this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Text = "Paste line from clipboard and insert af&ter this line";
             this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.ToolTipText = "Use this to paste a previously copied line (see \'Copy line to clipboard\' command)" +
-    ". The copied line will be inserted after this line";
+                ". The copied line will be inserted after this line";
             this.pasteVerseFromClipboardAndInsertAfterThisVerseToolStripMenuItem.Click += new System.EventHandler(this.pasteVerseFromClipboardAfterThisOneToolStripMenuItem_Click);
             // 
             // copyVerseToClipboardToolStripMenuItem
             // 
             this.copyVerseToClipboardToolStripMenuItem.Name = "copyVerseToClipboardToolStripMenuItem";
-            this.copyVerseToClipboardToolStripMenuItem.Size = new System.Drawing.Size(417, 24);
+            this.copyVerseToClipboardToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
             this.copyVerseToClipboardToolStripMenuItem.Text = "&Copy line to clipboard";
             this.copyVerseToClipboardToolStripMenuItem.ToolTipText = "Use this to copy a line to be pasted in another location";
             this.copyVerseToClipboardToolStripMenuItem.Click += new System.EventHandler(this.copyVerseToClipboardToolStripMenuItem_Click);
@@ -333,16 +335,24 @@ namespace OneStoryProjectEditor
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(414, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(339, 6);
             // 
             // splitStoryToolStripMenuItem
             // 
             this.splitStoryToolStripMenuItem.Name = "splitStoryToolStripMenuItem";
-            this.splitStoryToolStripMenuItem.Size = new System.Drawing.Size(417, 24);
+            this.splitStoryToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
             this.splitStoryToolStripMenuItem.Text = "Split st&ory";
             this.splitStoryToolStripMenuItem.ToolTipText = "Move this and all following lines to a new story inserted immediately after this " +
-    "story";
+                "story";
             this.splitStoryToolStripMenuItem.Click += new System.EventHandler(this.splitStoryToolStripMenuItem_Click);
+            // 
+            // joinStoryToolStripMenuItem
+            // 
+            this.joinStoryToolStripMenuItem.Name = "joinStoryToolStripMenuItem";
+            this.joinStoryToolStripMenuItem.Size = new System.Drawing.Size(342, 22);
+            this.joinStoryToolStripMenuItem.Text = "Copy/&Insert Next Story after this verse";
+            this.joinStoryToolStripMenuItem.ToolTipText = "Use this command to copy all the lines from the following story and insert them in this story following this line";
+            this.joinStoryToolStripMenuItem.Click += joinStoryToolStripMenuItemOnClick;
             // 
             // contextMenuStripAnchorOptions
             // 
@@ -352,7 +362,7 @@ namespace OneStoryProjectEditor
             this.addConsultantCoachNoteOnThisAnchorToolStripMenuItem,
             this.insertNullAnchorToolStripMenuItem});
             this.contextMenuStripAnchorOptions.Name = "contextMenuStripAnchorOptions";
-            this.contextMenuStripAnchorOptions.Size = new System.Drawing.Size(307, 136);
+            this.contextMenuStripAnchorOptions.Size = new System.Drawing.Size(307, 92);
             this.contextMenuStripAnchorOptions.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripAnchorOptionsOpening);
             // 
             // deleteToolStripMenuItem
@@ -382,7 +392,7 @@ namespace OneStoryProjectEditor
             this.insertNullAnchorToolStripMenuItem.Size = new System.Drawing.Size(306, 22);
             this.insertNullAnchorToolStripMenuItem.Text = "Insert \"&Empty\" Anchor";
             this.insertNullAnchorToolStripMenuItem.ToolTipText = "Use this to add an empty anchor for lines of the story that don\'t really have a b" +
-    "iblical anchor";
+                "iblical anchor";
             this.insertNullAnchorToolStripMenuItem.Click += new System.EventHandler(this.InsertNullAnchorToolStripMenuItemClick);
             // 
             // HtmlStoryBtControl
@@ -433,6 +443,7 @@ namespace OneStoryProjectEditor
         private System.Windows.Forms.ToolStripMenuItem insertNullAnchorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem moveLineUp;
         private System.Windows.Forms.ToolStripMenuItem moveLineDown;
+        private System.Windows.Forms.ToolStripMenuItem joinStoryToolStripMenuItem;
 
     }
 }

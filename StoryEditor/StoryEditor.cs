@@ -6407,6 +6407,25 @@ namespace OneStoryProjectEditor
             }
         }
 
+        /// <summary>
+        /// Insert the following story after the given verse
+        /// </summary>
+        /// <param name="verseStart">the verse after which the next story is to be inserted</param>
+        public void JoinStory(VerseData verseStart)
+        {
+            Debug.Assert((TheCurrentStoriesSet != null) && (TheCurrentStory != null));
+
+            var nIndexOfCurrentStory = TheCurrentStoriesSet.IndexOf(TheCurrentStory);
+            var nIndexOfNextStory = nIndexOfCurrentStory + 1;
+            Debug.Assert(TheCurrentStoriesSet.Count > nIndexOfNextStory, "There must be a following story to join stories!");
+
+            // make a copy of the story (so we get new guids)
+            var theNextStory = new StoryData(TheCurrentStoriesSet[nIndexOfNextStory]);
+            var nIndexVerseInsert = TheCurrentStory.Verses.IndexOf(verseStart) + 1;
+            TheCurrentStory.Verses.InsertRange(nIndexVerseInsert, theNextStory.Verses);
+            Modified = true;
+        }
+
         public void SplitStory(VerseData verseStart)
         {
             Debug.Assert(TheCurrentStory != null);
