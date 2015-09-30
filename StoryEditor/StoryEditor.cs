@@ -244,6 +244,10 @@ namespace OneStoryProjectEditor
             viewUseSameSettingsForAllStoriesMenu.Checked = Settings.Default.LastUseForAllStories;
             advancedSaveTimeoutEnabledMenu.Checked = Settings.Default.AutoSaveTimeoutEnabled;
             advancedSaveTimeoutAsSilentlyAsPossibleMenu.Checked = Settings.Default.DoAutoSaveSilently;
+            advancedUseDialogToPreviewConNotes.Checked = Settings.Default.UsePreviewDialogWhenAddingConNotes;
+            viewUseSameSettingsForAllStoriesMenu.Checked = Settings.Default.LastUseForAllStories;
+            advancedEmailMenu.Checked = Settings.Default.UseMapiPlus;
+            advancedUseWordBreaks.Enabled = BreakIterator.IsAvailable;
 
             if (advancedSaveTimeoutEnabledMenu.Checked)
             {
@@ -6259,7 +6263,6 @@ namespace OneStoryProjectEditor
             advancedNewProjectMenu.Enabled = IsInStoriesSet;
             advancedEmailMenu.Checked = Settings.Default.UseMapiPlus;
             advancedUseWordBreaks.Enabled = BreakIterator.IsAvailable;
-            advancedUseDialogToPreviewConNotes.Checked = Settings.Default.UsePreviewDialogWhenAddingConNotes;
             advancedOneStoryProjectMetaData.Enabled = (StoryProject != null) && (StoryProject.ProjSettings != null);
         }
 
@@ -6543,6 +6546,11 @@ namespace OneStoryProjectEditor
         }
 
         private void linkLabelTasks_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ShowTaskBarForm();
+        }
+
+        private void ShowTaskBarForm()
         {
             if (StoryProject == null)
                 return;
@@ -7389,6 +7397,11 @@ namespace OneStoryProjectEditor
                 Settings.Default.UsePreviewDialogWhenAddingConNotes = (sender as ToolStripMenuItem).Checked;
                 Settings.Default.Save();
             }
+        }
+
+        private void tasksToolStripMenu_Click(object sender, EventArgs e)
+        {
+            ShowTaskBarForm();
         }
     }
 

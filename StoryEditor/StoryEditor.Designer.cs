@@ -151,6 +151,7 @@ namespace OneStoryProjectEditor
             this.panoramaShowMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaInsertNewStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaAddNewStoryAfterMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.tasksToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedProgramUpdatesToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -175,6 +176,7 @@ namespace OneStoryProjectEditor
             this.advancedReassignNotesToProperMember = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedSwapDataColumns = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedOneStoryProjectMetaData = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedUseDialogToPreviewConNotes = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -195,7 +197,6 @@ namespace OneStoryProjectEditor
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.advancedUseDialogToPreviewConNotes = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainerUpDown = new OneStoryProjectEditor.MinimizableSplitterContainer();
             this.buttonMoveToNextLine = new System.Windows.Forms.Button();
             this.buttonMoveToPrevLine = new System.Windows.Forms.Button();
@@ -207,6 +208,10 @@ namespace OneStoryProjectEditor
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.htmlConsultantNotesControl = new OneStoryProjectEditor.HtmlConsultantNotesControl();
             this.htmlCoachNotesControl = new OneStoryProjectEditor.HtmlCoachNotesControl();
+            this.panoramaFirstStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.panoramaPreviousStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.panoramaNextStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.panoramaLastStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeftRight)).BeginInit();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
@@ -233,11 +238,12 @@ namespace OneStoryProjectEditor
             this.comboBoxStorySelector,
             this.storyToolStripMenu,
             this.panoramaToolStripMenu,
+            this.tasksToolStripMenu,
             this.advancedToolStripMenu,
             this.aboutToolStripMenu});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(881, 31);
+            this.menuStrip.Size = new System.Drawing.Size(1019, 31);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -1225,7 +1231,11 @@ namespace OneStoryProjectEditor
             this.panoramaToolStripMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.panoramaShowMenu,
             this.panoramaInsertNewStoryMenu,
-            this.panoramaAddNewStoryAfterMenu});
+            this.panoramaAddNewStoryAfterMenu,
+            this.panoramaFirstStoryMenu,
+            this.panoramaPreviousStoryMenu,
+            this.panoramaNextStoryMenu,
+            this.panoramaLastStoryMenu});
             this.panoramaToolStripMenu.Name = "panoramaToolStripMenu";
             this.panoramaToolStripMenu.Size = new System.Drawing.Size(73, 27);
             this.panoramaToolStripMenu.Text = "Pa&norama";
@@ -1255,6 +1265,13 @@ namespace OneStoryProjectEditor
             this.panoramaAddNewStoryAfterMenu.Text = "&Add new story after current";
             this.panoramaAddNewStoryAfterMenu.ToolTipText = "Click to add a new, empty story after the one currently shown";
             this.panoramaAddNewStoryAfterMenu.Click += new System.EventHandler(this.AddNewStoryAfterToolStripMenuItemClick);
+            // 
+            // tasksToolStripMenu
+            // 
+            this.tasksToolStripMenu.Name = "tasksToolStripMenu";
+            this.tasksToolStripMenu.Size = new System.Drawing.Size(51, 27);
+            this.tasksToolStripMenu.Text = "&Tasks!";
+            this.tasksToolStripMenu.Click += new System.EventHandler(this.tasksToolStripMenu_Click);
             // 
             // advancedToolStripMenu
             // 
@@ -1486,6 +1503,18 @@ namespace OneStoryProjectEditor
             this.advancedOneStoryProjectMetaData.Text = "OneStory Project &Meta Data";
             this.advancedOneStoryProjectMetaData.Click += new System.EventHandler(this.advancedOneStoryProjectMetaData_Click);
             // 
+            // advancedUseDialogToPreviewConNotes
+            // 
+            this.advancedUseDialogToPreviewConNotes.Checked = true;
+            this.advancedUseDialogToPreviewConNotes.CheckOnClick = true;
+            this.advancedUseDialogToPreviewConNotes.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.advancedUseDialogToPreviewConNotes.Name = "advancedUseDialogToPreviewConNotes";
+            this.advancedUseDialogToPreviewConNotes.Size = new System.Drawing.Size(314, 22);
+            this.advancedUseDialogToPreviewConNotes.Text = "Use dialog to preview ConNotes";
+            this.advancedUseDialogToPreviewConNotes.ToolTipText = "Uncheck this menu if you *don\'t* want the preview dialog to appear when adding co" +
+                "n notes";
+            this.advancedUseDialogToPreviewConNotes.Click += new System.EventHandler(this.advancedUseDialogToPreviewConNotes_Click);
+            // 
             // aboutToolStripMenu
             // 
             this.aboutToolStripMenu.Name = "aboutToolStripMenu";
@@ -1522,8 +1551,8 @@ namespace OneStoryProjectEditor
             // 
             this.splitContainerLeftRight.Panel2.Controls.Add(this.splitContainerMentorNotes);
             this.splitContainerLeftRight.Panel2.SizeChanged += new System.EventHandler(this.splitContainerLeftRight_Panel2_SizeChanged);
-            this.splitContainerLeftRight.Size = new System.Drawing.Size(881, 613);
-            this.splitContainerLeftRight.SplitterDistance = 453;
+            this.splitContainerLeftRight.Size = new System.Drawing.Size(1019, 613);
+            this.splitContainerLeftRight.SplitterDistance = 523;
             this.splitContainerLeftRight.TabIndex = 2;
             // 
             // contextMenuStripVerseList
@@ -1551,7 +1580,7 @@ namespace OneStoryProjectEditor
             this.splitContainerMentorNotes.Panel2.Controls.Add(this.linkLabelCoachNotes);
             this.splitContainerMentorNotes.Panel2.Controls.Add(this.htmlCoachNotesControl);
             this.splitContainerMentorNotes.Panel2.Controls.Add(this.textBoxCoachNotes);
-            this.splitContainerMentorNotes.Size = new System.Drawing.Size(424, 613);
+            this.splitContainerMentorNotes.Size = new System.Drawing.Size(492, 613);
             this.splitContainerMentorNotes.SplitterDistance = 356;
             this.splitContainerMentorNotes.TabIndex = 0;
             // 
@@ -1581,7 +1610,7 @@ namespace OneStoryProjectEditor
             this.textBoxConsultantNotesTable.Location = new System.Drawing.Point(0, 0);
             this.textBoxConsultantNotesTable.Name = "textBoxConsultantNotesTable";
             this.textBoxConsultantNotesTable.ReadOnly = true;
-            this.textBoxConsultantNotesTable.Size = new System.Drawing.Size(422, 23);
+            this.textBoxConsultantNotesTable.Size = new System.Drawing.Size(490, 23);
             this.textBoxConsultantNotesTable.TabIndex = 1;
             this.textBoxConsultantNotesTable.TabStop = false;
             this.textBoxConsultantNotesTable.Text = "Consultant Notes";
@@ -1613,7 +1642,7 @@ namespace OneStoryProjectEditor
             this.textBoxCoachNotes.Location = new System.Drawing.Point(0, 0);
             this.textBoxCoachNotes.Name = "textBoxCoachNotes";
             this.textBoxCoachNotes.ReadOnly = true;
-            this.textBoxCoachNotes.Size = new System.Drawing.Size(422, 23);
+            this.textBoxCoachNotes.Size = new System.Drawing.Size(490, 23);
             this.textBoxCoachNotes.TabIndex = 2;
             this.textBoxCoachNotes.TabStop = false;
             this.textBoxCoachNotes.Text = "Coach Notes";
@@ -1630,7 +1659,7 @@ namespace OneStoryProjectEditor
             this.toolStripButtonPrevious,
             this.toolStripButtonNext,
             this.toolStripButtonLast});
-            this.toolStripRecordNavigation.Location = new System.Drawing.Point(471, 0);
+            this.toolStripRecordNavigation.Location = new System.Drawing.Point(609, 0);
             this.toolStripRecordNavigation.Name = "toolStripRecordNavigation";
             this.toolStripRecordNavigation.Size = new System.Drawing.Size(118, 25);
             this.toolStripRecordNavigation.TabIndex = 3;
@@ -1701,7 +1730,7 @@ namespace OneStoryProjectEditor
             this.statusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
             this.statusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(866, 17);
+            this.statusLabel.Size = new System.Drawing.Size(1004, 17);
             this.statusLabel.Spring = true;
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.statusLabel.Click += new System.EventHandler(this.statusLabel_Click);
@@ -1712,7 +1741,7 @@ namespace OneStoryProjectEditor
             this.statusLabel});
             this.statusStrip.Location = new System.Drawing.Point(0, 644);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(881, 22);
+            this.statusStrip.Size = new System.Drawing.Size(1019, 22);
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "<no need to localize/translate>";
             // 
@@ -1720,18 +1749,6 @@ namespace OneStoryProjectEditor
             // 
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
-            // 
-            // advancedUseDialogToPreviewConNotes
-            // 
-            this.advancedUseDialogToPreviewConNotes.Checked = true;
-            this.advancedUseDialogToPreviewConNotes.CheckOnClick = true;
-            this.advancedUseDialogToPreviewConNotes.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.advancedUseDialogToPreviewConNotes.Name = "advancedUseDialogToPreviewConNotes";
-            this.advancedUseDialogToPreviewConNotes.Size = new System.Drawing.Size(314, 22);
-            this.advancedUseDialogToPreviewConNotes.Text = "Use dialog to preview ConNotes";
-            this.advancedUseDialogToPreviewConNotes.ToolTipText = "Uncheck this menu if you *don\'t* want the preview dialog to appear when adding co" +
-                "n notes";
-            this.advancedUseDialogToPreviewConNotes.Click += new System.EventHandler(this.advancedUseDialogToPreviewConNotes_Click);
             // 
             // splitContainerUpDown
             // 
@@ -1754,7 +1771,7 @@ namespace OneStoryProjectEditor
             // splitContainerUpDown.Panel2
             // 
             this.splitContainerUpDown.Panel2.Controls.Add(this.netBibleViewer);
-            this.splitContainerUpDown.Size = new System.Drawing.Size(453, 613);
+            this.splitContainerUpDown.Size = new System.Drawing.Size(523, 613);
             this.splitContainerUpDown.SplitterDistance = 391;
             this.splitContainerUpDown.TabIndex = 2;
             // 
@@ -1762,7 +1779,7 @@ namespace OneStoryProjectEditor
             // 
             this.buttonMoveToNextLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonMoveToNextLine.Image = global::OneStoryProjectEditor.Properties.Resources.FillDownHS;
-            this.buttonMoveToNextLine.Location = new System.Drawing.Point(428, 0);
+            this.buttonMoveToNextLine.Location = new System.Drawing.Point(498, 0);
             this.buttonMoveToNextLine.Name = "buttonMoveToNextLine";
             this.buttonMoveToNextLine.Size = new System.Drawing.Size(23, 23);
             this.buttonMoveToNextLine.TabIndex = 6;
@@ -1774,7 +1791,7 @@ namespace OneStoryProjectEditor
             // 
             this.buttonMoveToPrevLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonMoveToPrevLine.Image = global::OneStoryProjectEditor.Properties.Resources.FillUpHS;
-            this.buttonMoveToPrevLine.Location = new System.Drawing.Point(405, 0);
+            this.buttonMoveToPrevLine.Location = new System.Drawing.Point(475, 0);
             this.buttonMoveToPrevLine.Name = "buttonMoveToPrevLine";
             this.buttonMoveToPrevLine.Size = new System.Drawing.Size(23, 23);
             this.buttonMoveToPrevLine.TabIndex = 7;
@@ -1821,7 +1838,7 @@ namespace OneStoryProjectEditor
             this.flowLayoutPanelVerses.LineNumberLink = null;
             this.flowLayoutPanelVerses.Location = new System.Drawing.Point(0, 23);
             this.flowLayoutPanelVerses.Name = "flowLayoutPanelVerses";
-            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(451, 366);
+            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(521, 366);
             this.flowLayoutPanelVerses.TabIndex = 1;
             this.flowLayoutPanelVerses.WrapContents = false;
             this.flowLayoutPanelVerses.MouseMove += new System.Windows.Forms.MouseEventHandler(this.CheckBiblePaneCursorPositionMouseMove);
@@ -1835,7 +1852,7 @@ namespace OneStoryProjectEditor
             this.htmlStoryBtControl.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlStoryBtControl.Name = "htmlStoryBtControl";
             this.htmlStoryBtControl.ParentStory = null;
-            this.htmlStoryBtControl.Size = new System.Drawing.Size(451, 366);
+            this.htmlStoryBtControl.Size = new System.Drawing.Size(521, 366);
             this.htmlStoryBtControl.StoryData = null;
             this.htmlStoryBtControl.TabIndex = 5;
             this.htmlStoryBtControl.TheSE = null;
@@ -1850,7 +1867,7 @@ namespace OneStoryProjectEditor
             this.textBoxStoryVerse.Location = new System.Drawing.Point(0, 0);
             this.textBoxStoryVerse.Name = "textBoxStoryVerse";
             this.textBoxStoryVerse.ReadOnly = true;
-            this.textBoxStoryVerse.Size = new System.Drawing.Size(451, 23);
+            this.textBoxStoryVerse.Size = new System.Drawing.Size(521, 23);
             this.textBoxStoryVerse.TabIndex = 3;
             this.textBoxStoryVerse.TabStop = false;
             this.textBoxStoryVerse.Text = "Story/BT";
@@ -1864,7 +1881,7 @@ namespace OneStoryProjectEditor
             this.netBibleViewer.Margin = new System.Windows.Forms.Padding(0);
             this.netBibleViewer.Name = "netBibleViewer";
             this.netBibleViewer.ScriptureReference = "Gen 1:1";
-            this.netBibleViewer.Size = new System.Drawing.Size(451, 216);
+            this.netBibleViewer.Size = new System.Drawing.Size(521, 216);
             this.netBibleViewer.TabIndex = 0;
             // 
             // htmlConsultantNotesControl
@@ -1874,7 +1891,7 @@ namespace OneStoryProjectEditor
             this.htmlConsultantNotesControl.Location = new System.Drawing.Point(0, 23);
             this.htmlConsultantNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlConsultantNotesControl.Name = "htmlConsultantNotesControl";
-            this.htmlConsultantNotesControl.Size = new System.Drawing.Size(422, 331);
+            this.htmlConsultantNotesControl.Size = new System.Drawing.Size(490, 331);
             this.htmlConsultantNotesControl.StoryData = null;
             this.htmlConsultantNotesControl.TabIndex = 2;
             this.htmlConsultantNotesControl.TheSE = null;
@@ -1886,14 +1903,42 @@ namespace OneStoryProjectEditor
             this.htmlCoachNotesControl.Location = new System.Drawing.Point(0, 23);
             this.htmlCoachNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlCoachNotesControl.Name = "htmlCoachNotesControl";
-            this.htmlCoachNotesControl.Size = new System.Drawing.Size(422, 228);
+            this.htmlCoachNotesControl.Size = new System.Drawing.Size(490, 228);
             this.htmlCoachNotesControl.StoryData = null;
             this.htmlCoachNotesControl.TabIndex = 3;
             this.htmlCoachNotesControl.TheSE = null;
             // 
+            // panoramaFirstStoryMenu
+            // 
+            this.panoramaFirstStoryMenu.Name = "panoramaFirstStoryMenu";
+            this.panoramaFirstStoryMenu.Size = new System.Drawing.Size(235, 22);
+            this.panoramaFirstStoryMenu.Text = "&First Story";
+            this.panoramaFirstStoryMenu.ToolTipText = "Change to the first story in this set";
+            // 
+            // panoramaPreviousStoryMenu
+            // 
+            this.panoramaPreviousStoryMenu.Name = "panoramaPreviousStoryMenu";
+            this.panoramaPreviousStoryMenu.Size = new System.Drawing.Size(235, 22);
+            this.panoramaPreviousStoryMenu.Text = "&Previous Story";
+            this.panoramaPreviousStoryMenu.ToolTipText = "Change to the preceeding story (before this one)";
+            // 
+            // panoramaNextStoryMenu
+            // 
+            this.panoramaNextStoryMenu.Name = "panoramaNextStoryMenu";
+            this.panoramaNextStoryMenu.Size = new System.Drawing.Size(235, 22);
+            this.panoramaNextStoryMenu.Text = "&Next Story";
+            this.panoramaNextStoryMenu.ToolTipText = "Change to the next story (after this one)";
+            // 
+            // panoramaLastStoryMenu
+            // 
+            this.panoramaLastStoryMenu.Name = "panoramaLastStoryMenu";
+            this.panoramaLastStoryMenu.Size = new System.Drawing.Size(235, 22);
+            this.panoramaLastStoryMenu.Text = "&Last Story";
+            this.panoramaLastStoryMenu.ToolTipText = "Change to the last story in this set";
+            // 
             // StoryEditor
             // 
-            this.ClientSize = new System.Drawing.Size(881, 666);
+            this.ClientSize = new System.Drawing.Size(1019, 666);
             this.Controls.Add(this.toolStripRecordNavigation);
             this.Controls.Add(this.splitContainerLeftRight);
             this.Controls.Add(this.statusStrip);
@@ -2100,6 +2145,11 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem viewRetellingsChooseWhichRetellingsItem;
         private ToolStripMenuItem viewAnswersChooseWhichAnswersItem;
         internal ToolStripMenuItem advancedUseDialogToPreviewConNotes;
+        private ToolStripMenuItem tasksToolStripMenu;
+        private ToolStripMenuItem panoramaFirstStoryMenu;
+        private ToolStripMenuItem panoramaPreviousStoryMenu;
+        private ToolStripMenuItem panoramaNextStoryMenu;
+        private ToolStripMenuItem panoramaLastStoryMenu;
     }
 
 #if UsingHtmlDisplayForConNotes
