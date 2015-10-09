@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define UseSeedCo
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -197,13 +199,20 @@ namespace OneStoryProjectEditor
         {
         }
 
+#if UseSeedCo
+        public const string IDS_OSEUpgradeServer = "ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE3.2/StoryEditor.exe.manifest.xml";
+        public const string IDS_OSEUpgradeServerNextMajorUpgrade = "ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE3.3/StoryEditor.exe.manifest.xml";
+        public const string IDS_OSEUpgradeServerSword = "ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org";
+        public const string IDS_OSEUpgradeServerTest = "ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/Test/testmanifest.xml";
+#else
+        public const string IDS_OSEUpgradeServer = "ftp://onestory:yrotseno23@palaso.org/OseUpdates/OSE3.2/StoryEditor.exe.manifest.xml";
+        public const string IDS_OSEUpgradeServerNextMajorUpgrade = "ftp://onestory:yrotseno23@palaso.org/OseUpdates/OSE3.3/StoryEditor.exe.manifest.xml";
+        public const string IDS_OSEUpgradeServerSword = "ftp://onestory:yrotseno23@palaso.org";
+        public const string IDS_OSEUpgradeServerTest = "ftp://onestory:yrotseno23@palaso.org/OseUpdates/Test/testmanifest.xml";
+#endif
+
         internal static void CheckForProgramUpdate(AutoUpgrade autoUpgrade, string strManifestAddress)
         {
-            /*
-            strManifestAddress = @"ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/Testing/StoryEditor.exe.manifest.xml";
-            strManifestAddress = 
-                @"\\StudioXPS-1340\src\StoryEditor\OneStory Releases\OSE1.4.0\StoryEditor.exe.manifest.xml";
-            */
             if (autoUpgrade == null)
             {
                 autoUpgrade = AutoUpgrade.Create(strManifestAddress, true);

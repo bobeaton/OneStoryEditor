@@ -895,8 +895,7 @@ namespace OneStoryProjectEditor.Properties {
         ///&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
         /// &lt;o:DocumentProperties&gt;
         ///  &lt;o:Author&gt;Bob Eaton&lt;/o:Author&gt;
-        ///  &lt;o:LastAuthor&gt;Bob Eaton&lt;/o:LastAuthor&gt;
-        /// [rest of string was truncated]&quot;;.
+        ///  &lt;o:LastAuthor&gt;Bob Eaton&lt;/o:LastAuthor&gt;        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IDS_CopyrightInfo {
             get {
@@ -1086,42 +1085,6 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE3.2/StoryEditor.exe.manifest.xml.
-        /// </summary>
-        internal static string IDS_OSEUpgradeServer {
-            get {
-                return ResourceManager.GetString("IDS_OSEUpgradeServer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE3.3/StoryEditor.exe.manifest.xml.
-        /// </summary>
-        internal static string IDS_OSEUpgradeServerNextMajorUpgrade {
-            get {
-                return ResourceManager.GetString("IDS_OSEUpgradeServerNextMajorUpgrade", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org.
-        /// </summary>
-        internal static string IDS_OSEUpgradeServerSword {
-            get {
-                return ResourceManager.GetString("IDS_OSEUpgradeServerSword", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/Test/testmanifest.xml.
-        /// </summary>
-        internal static string IDS_OSEUpgradeServerTest {
-            get {
-                return ResourceManager.GetString("IDS_OSEUpgradeServerTest", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The project file is corrupted. No &apos;StoryCrafterMemberID&apos; record found. Send to bob_eaton@sall.com for help..
         /// </summary>
         internal static string IDS_ProjectFileCorrupted {
@@ -1211,8 +1174,7 @@ namespace OneStoryProjectEditor.Properties {
         ///
         ///\+mkr ans
         ///\nam Answers
-        ///\lng InternationalBT
-        /// [rest of string was truncated]&quot;;.
+        ///\lng InternationalBT        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IDS_TbxFile_StoryBT {
             get {
@@ -1330,8 +1292,7 @@ namespace OneStoryProjectEditor.Properties {
         ///    &lt;!-- oneStory2CoachNotes.xsl         
         ///        create by Bob Eaton based on Jim Albright&apos;s script for storyingBT 
         ///        (to handle conversion of onestory to sfm)
-        ///        2010-04-05
-        /// [rest of string was truncated]&quot;;.
+        ///        2010-04-05        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string oneStory2CoachNotes {
             get {

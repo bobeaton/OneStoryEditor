@@ -20,6 +20,8 @@ Namespace devX
     Public Class AutoUpgrade
 
 #Region "    Constants    "
+#Const UseSeedCo = True
+
         Protected Const BUFFERSIZE As Int32 = 16384
         Protected Const SAVED_MANIFEST As String = "manifest.xml"
         Protected Const AUTOUPGRADE_XMLNS As String = "http://www.devx.com/schemas/autoupgrade/1.0"
@@ -179,6 +181,7 @@ Namespace devX
             If (strFilename.Substring(0, 4) <> "ftp:") Then
                 GetWebRequest = System.Net.WebRequest.Create(strFilename)
             Else
+#If UseSeedCo Then
                 ServicePointManager.ServerCertificateValidationCallback = AddressOf MyCertValidationCb
                 Dim ftpWebRequest As FtpWebRequest = System.Net.WebRequest.Create(strFilename)
                 ftpWebRequest.KeepAlive = False
@@ -186,7 +189,18 @@ Namespace devX
                 ftpWebRequest.UsePassive = True
                 ftpWebRequest.UseBinary = True
                 ftpWebRequest.Timeout = 120000  ' increase to two minutes
-                GetWebRequest = ftpWebRequest
+#Else
+                ServicePointManager.ServerCertificateValidationCallback = AddressOf MyCertValidationCb
+                Dim ftpWebRequest As FtpWebRequest = ftpWebRequest.Create(strFilename)
+                ftpWebRequest.Method = WebRequestMethods.Ftp.DownloadFile
+                ftpWebRequest.UseBinary = True
+                ftpWebRequest.Credentials = New NetworkCredential("onestory", "yrotseno23")
+                ' ftpWebRequest.KeepAlive = False
+                'ftpWebRequest.EnableSsl = True
+                'ftpWebRequest.UsePassive = True
+                ftpWebRequest.Timeout = 120000  ' increase to two minutes
+#End If
+                GetWebRequest = FtpWebRequest
             End If
         End Function
 

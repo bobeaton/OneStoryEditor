@@ -311,7 +311,7 @@ namespace OneStoryProjectEditor
 
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            string strManifestAddress = Resources.IDS_OSEUpgradeServer;
+            string strManifestAddress = Program.IDS_OSEUpgradeServer;
             AutoUpgrade autoUpgrade = AutoUpgrade.Create(strManifestAddress, false);
             if (autoUpgrade.IsUpgradeAvailable(false))
                 e.Result = autoUpgrade;
@@ -6270,17 +6270,17 @@ namespace OneStoryProjectEditor
         {
             CheckForUpgrade(_autoUpgrade,
                             (ModifierKeys & Keys.Control) == Keys.Control
-                                ? Resources.IDS_OSEUpgradeServerTest
-                                : Resources.IDS_OSEUpgradeServer, false);
+                                ? Program.IDS_OSEUpgradeServerTest
+                                : Program.IDS_OSEUpgradeServer, false);
         }
 
         private void checkNowForNextMajorUpdateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // make sure they have the latest of the current stream
-            CheckForUpgrade(_autoUpgrade, Resources.IDS_OSEUpgradeServer, true);
+            CheckForUpgrade(_autoUpgrade, Program.IDS_OSEUpgradeServer, true);
 
             // then check for the next major upgrade
-            CheckForUpgrade(null, Resources.IDS_OSEUpgradeServerNextMajorUpgrade, false);
+            CheckForUpgrade(null, Program.IDS_OSEUpgradeServerNextMajorUpgrade, false);
         }
 
         private bool _bRestarting;

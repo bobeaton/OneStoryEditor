@@ -165,9 +165,6 @@
   <data name="oneStory2storyingRetelling" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\oneStory2storyingRetelling.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="IDS_OSEUpgradeServer" xml:space="preserve">
-    <value>ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE3.2/StoryEditor.exe.manifest.xml</value>
-  </data>
   <data name="Arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Arrow.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -1772,9 +1769,6 @@ and in the resulting window click on the next (green) state.
   <data name="IDS_UnableToOpenStageTransitionsXml" xml:space="preserve">
     <value>Unable to process the state customization file (i.e. {0}). If you've customized which fields show by default in various states, then you need to delete the version of the customization file in the project folder (i.e. "{1}\{0}") so the program can re-create it using the newly upgraded version</value>
   </data>
-  <data name="IDS_OSEUpgradeServerNextMajorUpgrade" xml:space="preserve">
-    <value>ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE3.3/StoryEditor.exe.manifest.xml</value>
-  </data>
   <data name="IDS_LoginAsCoach" xml:space="preserve">
     <value>You will need to log in as a coach to be able to respond to the CIT/LSR comments</value>
   </data>
@@ -2196,12 +2190,6 @@ eater Panorama
   </data>
   <data name="StoryBtJs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\js\storybt.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="IDS_OSEUpgradeServerSword" xml:space="preserve">
-    <value>ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org</value>
-  </data>
-  <data name="IDS_OSEUpgradeServerTest" xml:space="preserve">
-    <value>ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/Test/testmanifest.xml</value>
   </data>
   <data name="StoryBtPsJs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\js\storybtps.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>

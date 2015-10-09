@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define UseSeedCo
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -59,7 +61,7 @@ namespace OneStoryProjectEditor
                 {
                     if (_ftp == null)
                         _ftp = FtpClient;
-                    swordDownloader = AutoUpgrade.CreateSwordDownloader(Properties.Resources.IDS_OSEUpgradeServerSword);
+                    swordDownloader = AutoUpgrade.CreateSwordDownloader(Program.IDS_OSEUpgradeServerSword);
                     swordDownloader.ApplicationBasePath = StoryProjectData.GetRunningFolder;
                     foreach (var strItem in from int checkedIndex in checkedListBoxDownloadable.CheckedIndices 
                                             select checkedListBoxDownloadable.Items[checkedIndex] as String)
@@ -159,7 +161,11 @@ namespace OneStoryProjectEditor
             }
         }
 
+#if UseSeedCo
         private const string CstrPathSwordRemote = "/SWORD/";
+#else
+        private const string CstrPathSwordRemote = "/OseUpdates/SWORD/";
+#endif
         private const string CstrPathModsD = "mods.d";
         private static Dictionary<string, SwordModuleData> _mapShortCodes2SwordData = null;
 
@@ -167,19 +173,28 @@ namespace OneStoryProjectEditor
         {
             get
             {
+#if UseSeedCo
                 const string host = "ftp.seedconnect.org";
-                const int port = 21;
                 const string user = "Bob_Eaton";
                 const string pass = "tsc2009";
+#else
+                const string host = "palaso.org";
+                const string user = "onestory";
+                const string pass = "yrotseno23";
+#endif
+                const int port = 21;
 
                 if (_mapShortCodes2SwordData == null)
                     _mapShortCodes2SwordData = new Dictionary<string, SwordModuleData>();
 
                 // create a new ftpclient object with the host and port number to use
+#if UseSeedCo
                 // set the security protocol to use - in this case we are instructing the FtpClient to use either
                 // the SSL 3.0 protocol or the TLS 1.0 protocol depending on what the FTP server supports
                 var ftp = new FtpClient(host, port, FtpSecurityProtocol.Tls1OrSsl3Explicit);
-
+#else
+                var ftp = new FtpClient(host, port);
+#endif
                 // register an event hook so that we can view and accept the security certificate that is given by the FTP server
                 ftp.ValidateServerCertificate += FtpValidateServerCertificate;
                 ftp.ConnectionClosed += FtpConnectionClosed;
