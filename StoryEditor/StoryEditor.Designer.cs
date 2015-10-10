@@ -151,6 +151,10 @@ namespace OneStoryProjectEditor
             this.panoramaShowMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaInsertNewStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaAddNewStoryAfterMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.panoramaFirstStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.panoramaPreviousStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.panoramaNextStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.panoramaLastStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.tasksToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedProgramUpdatesToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -208,10 +212,6 @@ namespace OneStoryProjectEditor
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.htmlConsultantNotesControl = new OneStoryProjectEditor.HtmlConsultantNotesControl();
             this.htmlCoachNotesControl = new OneStoryProjectEditor.HtmlCoachNotesControl();
-            this.panoramaFirstStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.panoramaPreviousStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.panoramaNextStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.panoramaLastStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeftRight)).BeginInit();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
@@ -1266,6 +1266,38 @@ namespace OneStoryProjectEditor
             this.panoramaAddNewStoryAfterMenu.ToolTipText = "Click to add a new, empty story after the one currently shown";
             this.panoramaAddNewStoryAfterMenu.Click += new System.EventHandler(this.AddNewStoryAfterToolStripMenuItemClick);
             // 
+            // panoramaFirstStoryMenu
+            // 
+            this.panoramaFirstStoryMenu.Name = "panoramaFirstStoryMenu";
+            this.panoramaFirstStoryMenu.Size = new System.Drawing.Size(235, 22);
+            this.panoramaFirstStoryMenu.Text = "&First Story";
+            this.panoramaFirstStoryMenu.ToolTipText = "Change to the first story in this set";
+            this.panoramaFirstStoryMenu.Click += new System.EventHandler(this.panoramaFirstStoryMenu_Click);
+            // 
+            // panoramaPreviousStoryMenu
+            // 
+            this.panoramaPreviousStoryMenu.Name = "panoramaPreviousStoryMenu";
+            this.panoramaPreviousStoryMenu.Size = new System.Drawing.Size(235, 22);
+            this.panoramaPreviousStoryMenu.Text = "&Previous Story";
+            this.panoramaPreviousStoryMenu.ToolTipText = "Change to the preceeding story (before this one)";
+            this.panoramaPreviousStoryMenu.Click += new System.EventHandler(this.panoramaPreviousStoryMenu_Click);
+            // 
+            // panoramaNextStoryMenu
+            // 
+            this.panoramaNextStoryMenu.Name = "panoramaNextStoryMenu";
+            this.panoramaNextStoryMenu.Size = new System.Drawing.Size(235, 22);
+            this.panoramaNextStoryMenu.Text = "&Next Story";
+            this.panoramaNextStoryMenu.ToolTipText = "Change to the next story (after this one)";
+            this.panoramaNextStoryMenu.Click += new System.EventHandler(this.panoramaNextStoryMenu_Click);
+            // 
+            // panoramaLastStoryMenu
+            // 
+            this.panoramaLastStoryMenu.Name = "panoramaLastStoryMenu";
+            this.panoramaLastStoryMenu.Size = new System.Drawing.Size(235, 22);
+            this.panoramaLastStoryMenu.Text = "&Last Story";
+            this.panoramaLastStoryMenu.ToolTipText = "Change to the last story in this set";
+            this.panoramaLastStoryMenu.Click += new System.EventHandler(this.panoramaLastStoryMenu_Click);
+            // 
             // tasksToolStripMenu
             // 
             this.tasksToolStripMenu.Name = "tasksToolStripMenu";
@@ -1907,34 +1939,6 @@ namespace OneStoryProjectEditor
             this.htmlCoachNotesControl.StoryData = null;
             this.htmlCoachNotesControl.TabIndex = 3;
             this.htmlCoachNotesControl.TheSE = null;
-            // 
-            // panoramaFirstStoryMenu
-            // 
-            this.panoramaFirstStoryMenu.Name = "panoramaFirstStoryMenu";
-            this.panoramaFirstStoryMenu.Size = new System.Drawing.Size(235, 22);
-            this.panoramaFirstStoryMenu.Text = "&First Story";
-            this.panoramaFirstStoryMenu.ToolTipText = "Change to the first story in this set";
-            // 
-            // panoramaPreviousStoryMenu
-            // 
-            this.panoramaPreviousStoryMenu.Name = "panoramaPreviousStoryMenu";
-            this.panoramaPreviousStoryMenu.Size = new System.Drawing.Size(235, 22);
-            this.panoramaPreviousStoryMenu.Text = "&Previous Story";
-            this.panoramaPreviousStoryMenu.ToolTipText = "Change to the preceeding story (before this one)";
-            // 
-            // panoramaNextStoryMenu
-            // 
-            this.panoramaNextStoryMenu.Name = "panoramaNextStoryMenu";
-            this.panoramaNextStoryMenu.Size = new System.Drawing.Size(235, 22);
-            this.panoramaNextStoryMenu.Text = "&Next Story";
-            this.panoramaNextStoryMenu.ToolTipText = "Change to the next story (after this one)";
-            // 
-            // panoramaLastStoryMenu
-            // 
-            this.panoramaLastStoryMenu.Name = "panoramaLastStoryMenu";
-            this.panoramaLastStoryMenu.Size = new System.Drawing.Size(235, 22);
-            this.panoramaLastStoryMenu.Text = "&Last Story";
-            this.panoramaLastStoryMenu.ToolTipText = "Change to the last story in this set";
             // 
             // StoryEditor
             // 

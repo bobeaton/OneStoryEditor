@@ -6148,11 +6148,21 @@ namespace OneStoryProjectEditor
 
         private void toolStripButtonFirst_Click(object sender, EventArgs e)
         {
+            GoToFirstStory();
+        }
+
+        private void GoToFirstStory()
+        {
             if ((TheCurrentStoriesSet != null) && (TheCurrentStory != null))
                 comboBoxStorySelector.SelectedIndex = 0;
         }
 
         private void toolStripButtonPrevious_Click(object sender, EventArgs e)
+        {
+            GoToPreviousStory();
+        }
+
+        private void GoToPreviousStory()
         {
             if ((TheCurrentStoriesSet == null) || (TheCurrentStory == null))
                 return;
@@ -6163,6 +6173,11 @@ namespace OneStoryProjectEditor
         }
 
         private void toolStripButtonNext_Click(object sender, EventArgs e)
+        {
+            GoToNextStory();
+        }
+
+        private void GoToNextStory()
         {
             if ((StoryProject == null)
                 || String.IsNullOrEmpty(_strStoriesSet)
@@ -6176,6 +6191,11 @@ namespace OneStoryProjectEditor
         }
 
         private void toolStripButtonLast_Click(object sender, EventArgs e)
+        {
+            GoToLastStory();
+        }
+
+        private void GoToLastStory()
         {
             if ((TheCurrentStoriesSet != null) && (TheCurrentStory != null))
                 comboBoxStorySelector.SelectedIndex = (TheCurrentStoriesSet.Count - 1);
@@ -7402,6 +7422,26 @@ namespace OneStoryProjectEditor
         private void tasksToolStripMenu_Click(object sender, EventArgs e)
         {
             ShowTaskBarForm();
+        }
+
+        private void panoramaFirstStoryMenu_Click(object sender, EventArgs e)
+        {
+            GoToFirstStory();
+        }
+
+        private void panoramaPreviousStoryMenu_Click(object sender, EventArgs e)
+        {
+            GoToPreviousStory();
+        }
+
+        private void panoramaNextStoryMenu_Click(object sender, EventArgs e)
+        {
+            GoToNextStory();
+        }
+
+        private void panoramaLastStoryMenu_Click(object sender, EventArgs e)
+        {
+            GoToLastStory();
         }
     }
 
