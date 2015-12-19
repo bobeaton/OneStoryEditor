@@ -92,17 +92,18 @@
             this.flowLayoutPanelTasks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelTasks.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelTasks.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanelTasks.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.flowLayoutPanelTasks.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
             this.flowLayoutPanelTasks.Name = "flowLayoutPanelTasks";
-            this.flowLayoutPanelTasks.Size = new System.Drawing.Size(216, 667);
+            this.flowLayoutPanelTasks.Size = new System.Drawing.Size(576, 1587);
             this.flowLayoutPanelTasks.TabIndex = 1;
             // 
             // buttonViewTasksPf
             // 
-            this.buttonViewTasksPf.Location = new System.Drawing.Point(3, 3);
+            this.buttonViewTasksPf.Location = new System.Drawing.Point(8, 7);
+            this.buttonViewTasksPf.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonViewTasksPf.Name = "buttonViewTasksPf";
-            this.buttonViewTasksPf.Size = new System.Drawing.Size(210, 23);
-            this.buttonViewTasksPf.TabIndex = 18;
+            this.buttonViewTasksPf.Size = new System.Drawing.Size(560, 55);
+            this.buttonViewTasksPf.TabIndex = 0;
             this.buttonViewTasksPf.Text = "&View Project Facilitator Tasks";
             this.buttonViewTasksPf.UseVisualStyleBackColor = true;
             this.buttonViewTasksPf.Visible = false;
@@ -110,10 +111,11 @@
             // 
             // buttonViewTasksCit
             // 
-            this.buttonViewTasksCit.Location = new System.Drawing.Point(3, 32);
+            this.buttonViewTasksCit.Location = new System.Drawing.Point(8, 76);
+            this.buttonViewTasksCit.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonViewTasksCit.Name = "buttonViewTasksCit";
-            this.buttonViewTasksCit.Size = new System.Drawing.Size(210, 23);
-            this.buttonViewTasksCit.TabIndex = 21;
+            this.buttonViewTasksCit.Size = new System.Drawing.Size(560, 55);
+            this.buttonViewTasksCit.TabIndex = 1;
             this.buttonViewTasksCit.Text = "&View CIT Tasks";
             this.buttonViewTasksCit.UseVisualStyleBackColor = true;
             this.buttonViewTasksCit.Visible = false;
@@ -121,10 +123,11 @@
             // 
             // buttonAddStory
             // 
-            this.buttonAddStory.Location = new System.Drawing.Point(3, 61);
+            this.buttonAddStory.Location = new System.Drawing.Point(8, 145);
+            this.buttonAddStory.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonAddStory.Name = "buttonAddStory";
-            this.buttonAddStory.Size = new System.Drawing.Size(210, 23);
-            this.buttonAddStory.TabIndex = 0;
+            this.buttonAddStory.Size = new System.Drawing.Size(560, 55);
+            this.buttonAddStory.TabIndex = 2;
             this.buttonAddStory.Text = "Add &Story";
             this.buttonAddStory.UseVisualStyleBackColor = true;
             this.buttonAddStory.Visible = false;
@@ -132,10 +135,11 @@
             // 
             // buttonVernacular
             // 
-            this.buttonVernacular.Location = new System.Drawing.Point(3, 90);
+            this.buttonVernacular.Location = new System.Drawing.Point(8, 214);
+            this.buttonVernacular.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonVernacular.Name = "buttonVernacular";
-            this.buttonVernacular.Size = new System.Drawing.Size(210, 23);
-            this.buttonVernacular.TabIndex = 1;
+            this.buttonVernacular.Size = new System.Drawing.Size(560, 55);
+            this.buttonVernacular.TabIndex = 3;
             this.buttonVernacular.Text = "View Story Language (&Vernacular)";
             this.buttonVernacular.UseVisualStyleBackColor = true;
             this.buttonVernacular.Visible = false;
@@ -143,10 +147,11 @@
             // 
             // buttonNationalBt
             // 
-            this.buttonNationalBt.Location = new System.Drawing.Point(3, 119);
+            this.buttonNationalBt.Location = new System.Drawing.Point(8, 283);
+            this.buttonNationalBt.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonNationalBt.Name = "buttonNationalBt";
-            this.buttonNationalBt.Size = new System.Drawing.Size(210, 23);
-            this.buttonNationalBt.TabIndex = 2;
+            this.buttonNationalBt.Size = new System.Drawing.Size(560, 55);
+            this.buttonNationalBt.TabIndex = 4;
             this.buttonNationalBt.Text = "View &National/Regional BT";
             this.buttonNationalBt.UseVisualStyleBackColor = true;
             this.buttonNationalBt.Visible = false;
@@ -154,10 +159,11 @@
             // 
             // buttonInternationalBt
             // 
-            this.buttonInternationalBt.Location = new System.Drawing.Point(3, 148);
+            this.buttonInternationalBt.Location = new System.Drawing.Point(8, 352);
+            this.buttonInternationalBt.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonInternationalBt.Name = "buttonInternationalBt";
-            this.buttonInternationalBt.Size = new System.Drawing.Size(210, 23);
-            this.buttonInternationalBt.TabIndex = 3;
+            this.buttonInternationalBt.Size = new System.Drawing.Size(560, 55);
+            this.buttonInternationalBt.TabIndex = 5;
             this.buttonInternationalBt.Text = "View &English BT";
             this.buttonInternationalBt.UseVisualStyleBackColor = true;
             this.buttonInternationalBt.Visible = false;
@@ -165,10 +171,11 @@
             // 
             // buttonFreeTranslation
             // 
-            this.buttonFreeTranslation.Location = new System.Drawing.Point(3, 177);
+            this.buttonFreeTranslation.Location = new System.Drawing.Point(8, 421);
+            this.buttonFreeTranslation.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonFreeTranslation.Name = "buttonFreeTranslation";
-            this.buttonFreeTranslation.Size = new System.Drawing.Size(210, 23);
-            this.buttonFreeTranslation.TabIndex = 4;
+            this.buttonFreeTranslation.Size = new System.Drawing.Size(560, 55);
+            this.buttonFreeTranslation.TabIndex = 6;
             this.buttonFreeTranslation.Text = "View &Free Translation (UNS BT)";
             this.buttonFreeTranslation.UseVisualStyleBackColor = true;
             this.buttonFreeTranslation.Visible = false;
@@ -176,10 +183,11 @@
             // 
             // buttonAnchors
             // 
-            this.buttonAnchors.Location = new System.Drawing.Point(3, 206);
+            this.buttonAnchors.Location = new System.Drawing.Point(8, 490);
+            this.buttonAnchors.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonAnchors.Name = "buttonAnchors";
-            this.buttonAnchors.Size = new System.Drawing.Size(210, 23);
-            this.buttonAnchors.TabIndex = 5;
+            this.buttonAnchors.Size = new System.Drawing.Size(560, 55);
+            this.buttonAnchors.TabIndex = 7;
             this.buttonAnchors.Text = "View &Anchors";
             this.buttonAnchors.UseVisualStyleBackColor = true;
             this.buttonAnchors.Visible = false;
@@ -187,10 +195,11 @@
             // 
             // buttonViewRetellings
             // 
-            this.buttonViewRetellings.Location = new System.Drawing.Point(3, 235);
+            this.buttonViewRetellings.Location = new System.Drawing.Point(8, 559);
+            this.buttonViewRetellings.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonViewRetellings.Name = "buttonViewRetellings";
-            this.buttonViewRetellings.Size = new System.Drawing.Size(210, 23);
-            this.buttonViewRetellings.TabIndex = 6;
+            this.buttonViewRetellings.Size = new System.Drawing.Size(560, 55);
+            this.buttonViewRetellings.TabIndex = 8;
             this.buttonViewRetellings.Text = "View &Retellings";
             this.buttonViewRetellings.UseVisualStyleBackColor = true;
             this.buttonViewRetellings.Visible = false;
@@ -198,10 +207,11 @@
             // 
             // buttonAddRetellingBoxes
             // 
-            this.buttonAddRetellingBoxes.Location = new System.Drawing.Point(3, 264);
+            this.buttonAddRetellingBoxes.Location = new System.Drawing.Point(8, 628);
+            this.buttonAddRetellingBoxes.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonAddRetellingBoxes.Name = "buttonAddRetellingBoxes";
-            this.buttonAddRetellingBoxes.Size = new System.Drawing.Size(210, 23);
-            this.buttonAddRetellingBoxes.TabIndex = 13;
+            this.buttonAddRetellingBoxes.Size = new System.Drawing.Size(560, 55);
+            this.buttonAddRetellingBoxes.TabIndex = 9;
             this.buttonAddRetellingBoxes.Text = "Add &boxes for Retellings";
             this.buttonAddRetellingBoxes.UseVisualStyleBackColor = true;
             this.buttonAddRetellingBoxes.Visible = false;
@@ -209,10 +219,11 @@
             // 
             // buttonViewTestQuestions
             // 
-            this.buttonViewTestQuestions.Location = new System.Drawing.Point(3, 293);
+            this.buttonViewTestQuestions.Location = new System.Drawing.Point(8, 697);
+            this.buttonViewTestQuestions.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonViewTestQuestions.Name = "buttonViewTestQuestions";
-            this.buttonViewTestQuestions.Size = new System.Drawing.Size(210, 23);
-            this.buttonViewTestQuestions.TabIndex = 7;
+            this.buttonViewTestQuestions.Size = new System.Drawing.Size(560, 55);
+            this.buttonViewTestQuestions.TabIndex = 10;
             this.buttonViewTestQuestions.Text = "View &Testing Questions";
             this.buttonViewTestQuestions.UseVisualStyleBackColor = true;
             this.buttonViewTestQuestions.Visible = false;
@@ -220,10 +231,11 @@
             // 
             // buttonViewTestQuestionAnswers
             // 
-            this.buttonViewTestQuestionAnswers.Location = new System.Drawing.Point(3, 322);
+            this.buttonViewTestQuestionAnswers.Location = new System.Drawing.Point(8, 766);
+            this.buttonViewTestQuestionAnswers.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonViewTestQuestionAnswers.Name = "buttonViewTestQuestionAnswers";
-            this.buttonViewTestQuestionAnswers.Size = new System.Drawing.Size(210, 23);
-            this.buttonViewTestQuestionAnswers.TabIndex = 8;
+            this.buttonViewTestQuestionAnswers.Size = new System.Drawing.Size(560, 55);
+            this.buttonViewTestQuestionAnswers.TabIndex = 11;
             this.buttonViewTestQuestionAnswers.Text = "View Ans&wers";
             this.buttonViewTestQuestionAnswers.UseVisualStyleBackColor = true;
             this.buttonViewTestQuestionAnswers.Visible = false;
@@ -231,10 +243,11 @@
             // 
             // buttonAddBoxesForAnswers
             // 
-            this.buttonAddBoxesForAnswers.Location = new System.Drawing.Point(3, 351);
+            this.buttonAddBoxesForAnswers.Location = new System.Drawing.Point(8, 835);
+            this.buttonAddBoxesForAnswers.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonAddBoxesForAnswers.Name = "buttonAddBoxesForAnswers";
-            this.buttonAddBoxesForAnswers.Size = new System.Drawing.Size(210, 23);
-            this.buttonAddBoxesForAnswers.TabIndex = 14;
+            this.buttonAddBoxesForAnswers.Size = new System.Drawing.Size(560, 55);
+            this.buttonAddBoxesForAnswers.TabIndex = 12;
             this.buttonAddBoxesForAnswers.Text = "Add bo&xes for Answers";
             this.buttonAddBoxesForAnswers.UseVisualStyleBackColor = true;
             this.buttonAddBoxesForAnswers.Visible = false;
@@ -242,10 +255,11 @@
             // 
             // buttonStoryInformation
             // 
-            this.buttonStoryInformation.Location = new System.Drawing.Point(3, 380);
+            this.buttonStoryInformation.Location = new System.Drawing.Point(8, 904);
+            this.buttonStoryInformation.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonStoryInformation.Name = "buttonStoryInformation";
-            this.buttonStoryInformation.Size = new System.Drawing.Size(210, 23);
-            this.buttonStoryInformation.TabIndex = 9;
+            this.buttonStoryInformation.Size = new System.Drawing.Size(560, 55);
+            this.buttonStoryInformation.TabIndex = 13;
             this.buttonStoryInformation.Text = "View Story Infor&mation";
             this.buttonStoryInformation.UseVisualStyleBackColor = true;
             this.buttonStoryInformation.Visible = false;
@@ -253,10 +267,11 @@
             // 
             // buttonViewPanorama
             // 
-            this.buttonViewPanorama.Location = new System.Drawing.Point(3, 409);
+            this.buttonViewPanorama.Location = new System.Drawing.Point(8, 973);
+            this.buttonViewPanorama.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonViewPanorama.Name = "buttonViewPanorama";
-            this.buttonViewPanorama.Size = new System.Drawing.Size(210, 23);
-            this.buttonViewPanorama.TabIndex = 10;
+            this.buttonViewPanorama.Size = new System.Drawing.Size(560, 55);
+            this.buttonViewPanorama.TabIndex = 14;
             this.buttonViewPanorama.Text = "View &Panorama Information";
             this.buttonViewPanorama.UseVisualStyleBackColor = true;
             this.buttonViewPanorama.Visible = false;
@@ -265,10 +280,11 @@
             // buttonCopyRecordingToDropbox
             // 
             this.buttonCopyRecordingToDropbox.ContextMenuStrip = this.contextMenuDropbox;
-            this.buttonCopyRecordingToDropbox.Location = new System.Drawing.Point(3, 438);
+            this.buttonCopyRecordingToDropbox.Location = new System.Drawing.Point(8, 1042);
+            this.buttonCopyRecordingToDropbox.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonCopyRecordingToDropbox.Name = "buttonCopyRecordingToDropbox";
-            this.buttonCopyRecordingToDropbox.Size = new System.Drawing.Size(210, 23);
-            this.buttonCopyRecordingToDropbox.TabIndex = 22;
+            this.buttonCopyRecordingToDropbox.Size = new System.Drawing.Size(560, 55);
+            this.buttonCopyRecordingToDropbox.TabIndex = 15;
             this.buttonCopyRecordingToDropbox.Text = "Copy Recording to &Dropbox";
             this.buttonCopyRecordingToDropbox.UseVisualStyleBackColor = true;
             this.buttonCopyRecordingToDropbox.Visible = false;
@@ -281,35 +297,36 @@
             this.dropboxRetelling,
             this.dropboxTqAnswers});
             this.contextMenuDropbox.Name = "contextMenuDropbox";
-            this.contextMenuDropbox.Size = new System.Drawing.Size(257, 92);
+            this.contextMenuDropbox.Size = new System.Drawing.Size(555, 142);
             // 
             // dropboxStory
             // 
             this.dropboxStory.Name = "dropboxStory";
-            this.dropboxStory.Size = new System.Drawing.Size(256, 22);
+            this.dropboxStory.Size = new System.Drawing.Size(554, 46);
             this.dropboxStory.Text = "Story recording";
             this.dropboxStory.Click += new System.EventHandler(this.DropboxStoryClick);
             // 
             // dropboxRetelling
             // 
             this.dropboxRetelling.Name = "dropboxRetelling";
-            this.dropboxRetelling.Size = new System.Drawing.Size(256, 22);
+            this.dropboxRetelling.Size = new System.Drawing.Size(554, 46);
             this.dropboxRetelling.Text = "Retelling recording";
             this.dropboxRetelling.Click += new System.EventHandler(this.DropboxRetellingClick);
             // 
             // dropboxTqAnswers
             // 
             this.dropboxTqAnswers.Name = "dropboxTqAnswers";
-            this.dropboxTqAnswers.Size = new System.Drawing.Size(256, 22);
+            this.dropboxTqAnswers.Size = new System.Drawing.Size(554, 46);
             this.dropboxTqAnswers.Text = "Testing question answer recording";
             this.dropboxTqAnswers.Click += new System.EventHandler(this.DropboxTqAnswersClick);
             // 
             // buttonSendToConsultant
             // 
-            this.buttonSendToConsultant.Location = new System.Drawing.Point(3, 467);
+            this.buttonSendToConsultant.Location = new System.Drawing.Point(8, 1111);
+            this.buttonSendToConsultant.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonSendToConsultant.Name = "buttonSendToConsultant";
-            this.buttonSendToConsultant.Size = new System.Drawing.Size(210, 23);
-            this.buttonSendToConsultant.TabIndex = 11;
+            this.buttonSendToConsultant.Size = new System.Drawing.Size(560, 55);
+            this.buttonSendToConsultant.TabIndex = 16;
             this.buttonSendToConsultant.Text = "Set to &Consultant\'s turn";
             this.buttonSendToConsultant.UseVisualStyleBackColor = true;
             this.buttonSendToConsultant.Visible = false;
@@ -317,10 +334,11 @@
             // 
             // buttonSendToEnglishBter
             // 
-            this.buttonSendToEnglishBter.Location = new System.Drawing.Point(3, 496);
+            this.buttonSendToEnglishBter.Location = new System.Drawing.Point(8, 1180);
+            this.buttonSendToEnglishBter.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonSendToEnglishBter.Name = "buttonSendToEnglishBter";
-            this.buttonSendToEnglishBter.Size = new System.Drawing.Size(210, 23);
-            this.buttonSendToEnglishBter.TabIndex = 19;
+            this.buttonSendToEnglishBter.Size = new System.Drawing.Size(560, 55);
+            this.buttonSendToEnglishBter.TabIndex = 17;
             this.buttonSendToEnglishBter.Text = "Set to &English Back-translator\'s turn";
             this.buttonSendToEnglishBter.UseVisualStyleBackColor = true;
             this.buttonSendToEnglishBter.Visible = false;
@@ -328,10 +346,11 @@
             // 
             // buttonReturnToProjectFacilitator
             // 
-            this.buttonReturnToProjectFacilitator.Location = new System.Drawing.Point(3, 525);
+            this.buttonReturnToProjectFacilitator.Location = new System.Drawing.Point(8, 1249);
+            this.buttonReturnToProjectFacilitator.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonReturnToProjectFacilitator.Name = "buttonReturnToProjectFacilitator";
-            this.buttonReturnToProjectFacilitator.Size = new System.Drawing.Size(210, 23);
-            this.buttonReturnToProjectFacilitator.TabIndex = 12;
+            this.buttonReturnToProjectFacilitator.Size = new System.Drawing.Size(560, 55);
+            this.buttonReturnToProjectFacilitator.TabIndex = 18;
             this.buttonReturnToProjectFacilitator.Text = "Set to &Project Facilitator\'s turn";
             this.buttonReturnToProjectFacilitator.UseVisualStyleBackColor = true;
             this.buttonReturnToProjectFacilitator.Visible = false;
@@ -339,10 +358,11 @@
             // 
             // buttonSendToCoach
             // 
-            this.buttonSendToCoach.Location = new System.Drawing.Point(3, 554);
+            this.buttonSendToCoach.Location = new System.Drawing.Point(8, 1318);
+            this.buttonSendToCoach.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonSendToCoach.Name = "buttonSendToCoach";
-            this.buttonSendToCoach.Size = new System.Drawing.Size(210, 23);
-            this.buttonSendToCoach.TabIndex = 16;
+            this.buttonSendToCoach.Size = new System.Drawing.Size(560, 55);
+            this.buttonSendToCoach.TabIndex = 19;
             this.buttonSendToCoach.Text = "Set to Coac&h\'s turn";
             this.buttonSendToCoach.UseVisualStyleBackColor = true;
             this.buttonSendToCoach.Visible = false;
@@ -350,10 +370,11 @@
             // 
             // buttonSendToCIT
             // 
-            this.buttonSendToCIT.Location = new System.Drawing.Point(3, 583);
+            this.buttonSendToCIT.Location = new System.Drawing.Point(8, 1387);
+            this.buttonSendToCIT.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonSendToCIT.Name = "buttonSendToCIT";
-            this.buttonSendToCIT.Size = new System.Drawing.Size(210, 23);
-            this.buttonSendToCIT.TabIndex = 17;
+            this.buttonSendToCIT.Size = new System.Drawing.Size(560, 55);
+            this.buttonSendToCIT.TabIndex = 20;
             this.buttonSendToCIT.Text = "Set to CIT\'s t&urn";
             this.buttonSendToCIT.UseVisualStyleBackColor = true;
             this.buttonSendToCIT.Visible = false;
@@ -361,10 +382,11 @@
             // 
             // buttonMarkPreliminaryApproval
             // 
-            this.buttonMarkPreliminaryApproval.Location = new System.Drawing.Point(3, 612);
+            this.buttonMarkPreliminaryApproval.Location = new System.Drawing.Point(8, 1456);
+            this.buttonMarkPreliminaryApproval.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonMarkPreliminaryApproval.Name = "buttonMarkPreliminaryApproval";
-            this.buttonMarkPreliminaryApproval.Size = new System.Drawing.Size(210, 23);
-            this.buttonMarkPreliminaryApproval.TabIndex = 15;
+            this.buttonMarkPreliminaryApproval.Size = new System.Drawing.Size(560, 55);
+            this.buttonMarkPreliminaryApproval.TabIndex = 21;
             this.buttonMarkPreliminaryApproval.Text = "&Mark story with Preliminary Approval";
             this.buttonMarkPreliminaryApproval.UseVisualStyleBackColor = true;
             this.buttonMarkPreliminaryApproval.Visible = false;
@@ -372,10 +394,11 @@
             // 
             // buttonMarkFinalApproval
             // 
-            this.buttonMarkFinalApproval.Location = new System.Drawing.Point(3, 641);
+            this.buttonMarkFinalApproval.Location = new System.Drawing.Point(8, 1525);
+            this.buttonMarkFinalApproval.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.buttonMarkFinalApproval.Name = "buttonMarkFinalApproval";
-            this.buttonMarkFinalApproval.Size = new System.Drawing.Size(210, 23);
-            this.buttonMarkFinalApproval.TabIndex = 20;
+            this.buttonMarkFinalApproval.Size = new System.Drawing.Size(560, 55);
+            this.buttonMarkFinalApproval.TabIndex = 22;
             this.buttonMarkFinalApproval.Text = "&Mark story with Final Approval";
             this.buttonMarkFinalApproval.UseVisualStyleBackColor = true;
             this.buttonMarkFinalApproval.Visible = false;
@@ -383,14 +406,15 @@
             // 
             // TaskBarControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.Controls.Add(this.flowLayoutPanelTasks);
+            this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.Name = "TaskBarControl";
-            this.Size = new System.Drawing.Size(216, 667);
+            this.Size = new System.Drawing.Size(576, 1587);
             this.flowLayoutPanelTasks.ResumeLayout(false);
             this.contextMenuDropbox.ResumeLayout(false);
             this.ResumeLayout(false);
