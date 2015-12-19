@@ -1,4 +1,5 @@
 ﻿#define AllowMovingTQsToLine0
+#define DontAllowDeletingConNotes
 
 using System;
 using System.Collections.Generic;
@@ -103,6 +104,8 @@ namespace OneStoryProjectEditor
             nodeItems.Text = Localizer.Str("Cultural and Exegetical Notes (cn)");
             AddExegeticalHelpNodes(verseSource.ExegeticalHelpNotes, nodeItems);
 
+#if !DontAllowDeletingConNotes
+            // no need to allow this -- Indonesia had PFs deleting ConNotes not knowing what they were doing
             nodeItems = treeViewItems.Nodes[CstrNodeConsultantNotes];
             nodeItems.Text = Localizer.Str("Consultant Notes");
             AddConNoteNodes(verseSource.ConsultantNotes, nodeItems);
@@ -110,7 +113,7 @@ namespace OneStoryProjectEditor
             nodeItems = treeViewItems.Nodes[CstrNodeCoachNotes];
             nodeItems.Text = Localizer.Str("Coach Notes");
             AddConNoteNodes(verseSource.CoachNotes, nodeItems);
-
+#endif
             treeViewItems.ExpandAll();
         }
 
@@ -279,6 +282,7 @@ namespace OneStoryProjectEditor
                         verseDest.ExegeticalHelpNotes.Add(anExegHelpNote);
                 }
 
+#if !DontAllowDeletingConNotes
             nodeItems = treeViewItems.Nodes[CstrNodeConsultantNotes];
             if (nodeItems != null)
                 foreach (var aConNote in 
@@ -302,6 +306,7 @@ namespace OneStoryProjectEditor
                     if (verseDest != null)  // otherwise, it's just delete
                         verseDest.CoachNotes.Add(aConNote);
                 }
+#endif
 
             DialogResult = DialogResult.OK;
             Close();
@@ -356,8 +361,11 @@ namespace OneStoryProjectEditor
             }
             else if ((e.Node == treeViewItems.Nodes[CstrNodeTestingQuestions])
                 || (e.Node == treeViewItems.Nodes[CstrNodeCulturalNotes])
+#if !DontAllowDeletingConNotes
                 || (e.Node == treeViewItems.Nodes[CstrNodeConsultantNotes])
-                || (e.Node == treeViewItems.Nodes[CstrNodeCoachNotes]))
+                || (e.Node == treeViewItems.Nodes[CstrNodeCoachNotes])
+#endif
+                )
             {
                 SetChecks(e.Node);
             }
