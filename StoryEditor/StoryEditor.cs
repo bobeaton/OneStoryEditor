@@ -4738,7 +4738,7 @@ namespace OneStoryProjectEditor
 
         internal TextFields CurrentFieldEditability(StoryData theCurrentStory)
         {
-            TextFields fields = (CheckForProperEditToken())
+            TextFields fields = (CheckForProperEditToken() && !TeamMemberData.IsUser(LoggedOnMember.MemberType, TeamMemberData.UserTypes.JustLooking))
                                     ? TextFields.Everything
                                     : TextFields.Undefined;
 
