@@ -180,11 +180,13 @@ namespace OneStoryProjectEditor
             for (int i = 0; i < Count; i++)
             {
                 // only display this retelling, if it isn't being excluded by a list of indices to display
-                if ((astrTesters.ListOfIndicesToDisplay != null) && (astrTesters.ListOfIndicesToDisplay.Count > 0) && !astrTesters.ListOfIndicesToDisplay.Contains(i))
-                    continue;
-
                 var theParentLineData = this[i];
                 var strMemberId = theParentLineData.MemberId;
+                if ((astrTesters.ListOfMemberIdsToDisplay != null) 
+                    && (astrTesters.ListOfMemberIdsToDisplay.Count > 0)
+                    && !astrTesters.ListOfMemberIdsToDisplay.Contains(strMemberId))
+                    continue;
+
                 nTestNum = astrTesters.IndexOf(strMemberId);
 
                 // check to see if this testee was there... if not, then add it (it must have been lost in a merge or something)

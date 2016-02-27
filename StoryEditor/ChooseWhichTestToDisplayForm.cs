@@ -62,8 +62,8 @@ namespace OneStoryProjectEditor
                 var row = new ControlRow(String.Format("{0} &{1}", strLabel, j));
                 var tester = testInfo[i];
                 var checkBox = InitTesterRow(row, tester);
-                if ((testInfo.ListOfIndicesToDisplay != null) && (testInfo.ListOfIndicesToDisplay.Count > 0) &&
-                    testInfo.ListOfIndicesToDisplay.Contains(i))
+                if ((testInfo.ListOfMemberIdsToDisplay != null) && (testInfo.ListOfMemberIdsToDisplay.Count > 0) &&
+                    testInfo.ListOfMemberIdsToDisplay.Contains(tester.MemberId))
                 {
                     checkBox.Checked = true;
                 }
@@ -78,7 +78,7 @@ namespace OneStoryProjectEditor
             int nRow = tableLayoutPanel.RowCount;
             tableLayoutPanel.Controls.Add(row.Label, 0, nRow);
 
-            var checkBox = new CheckBox();
+            var checkBox = new CheckBox { Tag = tester.MemberId };  // keep track of the member ID, so we can recover that later
             _checkBoxes.Add(checkBox);
             tableLayoutPanel.Controls.Add(checkBox, 1, nRow);
 
@@ -98,19 +98,19 @@ namespace OneStoryProjectEditor
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            _listOfTestIndicesToShow.Clear();
+            _listOfTesteeIdsToShow.Clear();
             foreach (var checkBox in _checkBoxes.Where(checkBox => checkBox.Checked))
             {
-                _listOfTestIndicesToShow.Add(_checkBoxes.IndexOf(checkBox));
+                _listOfTesteeIdsToShow.Add((string)checkBox.Tag);   //  _checkBoxes.IndexOf(checkBox));
             }
 
             DialogResult = DialogResult.OK;
         }
 
-        private List<int> _listOfTestIndicesToShow = new List<int>();
-        public List<int> ListOfTestIndicesToShow
+        private List<string> _listOfTesteeIdsToShow = new List<string>();
+        public List<string> ListOfTesteeIdsToShow
         {
-            get { return _listOfTestIndicesToShow; }
+            get { return _listOfTesteeIdsToShow; }
         }
     }
 }
