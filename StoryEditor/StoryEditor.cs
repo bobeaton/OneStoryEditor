@@ -248,6 +248,7 @@ namespace OneStoryProjectEditor
             viewUseSameSettingsForAllStoriesMenu.Checked = Settings.Default.LastUseForAllStories;
             advancedEmailMenu.Checked = Settings.Default.UseMapiPlus;
             advancedUseWordBreaks.Enabled = BreakIterator.IsAvailable;
+            advancedAutomaticallyLoadProjectMenu.Checked = Settings.Default.AutoLoadLastProject;
 
             if (advancedSaveTimeoutEnabledMenu.Checked)
             {
@@ -281,7 +282,7 @@ namespace OneStoryProjectEditor
                 {
                     if (String.IsNullOrEmpty(Settings.Default.LastUserType))
                         NewProjectFile();
-                    else
+                    else if (advancedAutomaticallyLoadProjectMenu.Checked)
                     {
                         var eRole = TeamMemberData.GetMemberType(Settings.Default.LastUserType);
                         if (TeamMemberData.IsUser(eRole, TeamMemberData.UserTypes.ProjectFacilitator)
@@ -3248,8 +3249,8 @@ namespace OneStoryProjectEditor
             // if there's a story that has more than no verses, AND if it's a bible
             //  story and before the add anchors stage or a non-biblical story and
             //  before the consultant check stage...
-            if ((TheCurrentStory != null)
-                && (TheCurrentStory.Verses.Count > 0)
+            if ((TheCurrentStory != null) 
+                && (_theCurrentStory.Verses != null) && (TheCurrentStory.Verses.Count > 0)
                 && (TheCurrentStory.CraftingInfo != null)
                 && ((TheCurrentStory.CraftingInfo.IsBiblicalStory ||
                         (TheCurrentStory.ProjStage.ProjectStage < StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory))))
@@ -6384,6 +6385,12 @@ namespace OneStoryProjectEditor
             Settings.Default.Save();
         }
 
+        private void advancedAutomaticallyLoadProjectMenu_CheckStateChanged(object sender, EventArgs e)
+        {
+            Settings.Default.AutoLoadLastProject = advancedAutomaticallyLoadProjectMenu.Checked;
+            Settings.Default.Save();
+        }
+
         private void sendReceiveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Debug.Assert((StoryProject != null) &&
@@ -7398,10 +7405,13 @@ namespace OneStoryProjectEditor
             if (dlg.ShowDialog() != DialogResult.OK)
                 return;
 
-            if (dlg.ListOfTestIndicesToShow.Count == 0)
+            if (dlg.ListOfTesteeIdsToShow.Count == 0)
                 mainMenu.Checked = false;
             else
-                tests.ListOfIndicesToDisplay = dlg.ListOfTestIndicesToShow;
+            {
+                tests.ListOfMemberIdsToDisplay = dlg.ListOfTesteeIdsToShow;
+                mainMenu.Checked = true;    // in case it wasn't checked
+            }
             InitAllPanes();
         }
 

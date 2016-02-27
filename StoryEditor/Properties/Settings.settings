@@ -378,5 +378,8 @@ DoAdaptingBeforeGlossing_InVerticalEdit	1</Value>
     <Setting Name="UsePreviewDialogWhenAddingConNotes" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="AutoLoadLastProject" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
