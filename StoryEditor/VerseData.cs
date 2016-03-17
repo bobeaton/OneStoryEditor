@@ -1166,6 +1166,9 @@ namespace OneStoryProjectEditor
             //  of who the consultant for a story is), so PFs can only deal with the
             //  ConsultantNotes pane (if it were generalized, then add CoachNotes
             ConsultantNotes.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
+
+            // UPDATE: now we can merge Consultants also, so this has to happen for the Coach notes also
+            CoachNotes.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
         }
 
         public bool DoesReferenceTqUns(string strMemberId)

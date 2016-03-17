@@ -1650,6 +1650,12 @@ namespace OneStoryProjectEditor
         {
             return this.Any(converter => converter.DoesReferenceMember(strMemberGuid));
         }
+
+        public void UpdateCommentMemberId(string strOldMemberGuid, string strNewMemberGuid)
+        {
+            foreach (var aCndc in this)
+                aCndc.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
+        }
     }
 
     public class ConsultantNotesData : ConsultNotesDataConverter
@@ -1729,12 +1735,6 @@ namespace OneStoryProjectEditor
                                          !aCndc.IsFinished &&
                                          aCndc.NoteNeedsApproval);
             }
-        }
-
-        public void UpdateCommentMemberId(string strOldMemberGuid, string strNewMemberGuid)
-        {
-            foreach (var aCndc in this)
-                aCndc.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
         }
 
         public void ReassignRolesToConNoteComments(MemberIdInfo mentoree, MemberIdInfo mentor)

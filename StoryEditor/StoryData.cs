@@ -727,13 +727,15 @@ namespace OneStoryProjectEditor
             Verses.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
         }
 
-        public void ReplaceConsultant(string strNewMemberGuid)
+        public void ReplaceConsultant(string strOldMemberGuid, string strNewMemberGuid)
         {
-            string strOldMemberGuid =
+            if (MemberIdInfo.SafeGetMemberId(CraftingInfo.Consultant) == strOldMemberGuid)
                 CraftingInfo.ReplaceConsultant(strNewMemberGuid);
 
-           // also have to update any comments in the ConNotes panes
-           Verses.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
+            // also have to update any comments in the ConNotes panes
+            Verses.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
+
+            // Also have to update any State Transition logins (since this person is soon to disappear)
         }
 
         public void ReplaceCoach(string strNewMemberGuid)
@@ -1798,11 +1800,21 @@ namespace OneStoryProjectEditor
 
         public void ReplaceConsultant(string strOldMemberGuid, string strNewMemberGuid)
         {
+#if false
             foreach (var storyData in
                 this.Where(storyData =>
                     MemberIdInfo.SafeGetMemberId(storyData.CraftingInfo.Consultant) == strOldMemberGuid))
+#else
+            // the reason the above didn't work is this sequence of events: 
+            //  a) Consultant A makes comments and changes state multiple times.
+            //  b) Consultant B takes ownership of the story (which doesn't change any of the above settings)
+            //  c) Consultant B then tries to merge Consultant A into B, but since this wasn't Consultant A's story anymore
+            //      the above logic would cause us to skip this one.
+            // Solution: when merging, just check every story for any remnents of Consultant A and change it to B.
+            foreach (var storyData in this)
+#endif
             {
-                storyData.ReplaceConsultant(strNewMemberGuid);
+                storyData.ReplaceConsultant(strOldMemberGuid, strNewMemberGuid);
             }
         }
 

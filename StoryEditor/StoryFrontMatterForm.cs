@@ -346,7 +346,7 @@ namespace OneStoryProjectEditor
             if (textBoxConsultant.Tag != null)
             {
                 var theCons = (TeamMemberData)textBoxConsultant.Tag;
-                _theCurrentStory.ReplaceConsultant(theCons.MemberGuid);
+                _theCurrentStory.ReplaceConsultant(MemberIdInfo.SafeGetMemberId(_theCurrentStory.CraftingInfo.Consultant), theCons.MemberGuid);
                 Modified = true;
             }
             GetChangeToComment(_theCurrentStory.CraftingInfo.Consultant,
