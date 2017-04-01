@@ -10,8 +10,8 @@ using Chorus.Utilities;
 using Chorus.VcsDrivers.Mercurial;
 using ECInterfaces;
 using NetLoc;
-using Palaso.Progress;
 using SilEncConverters40;
+using SIL.Progress;
 
 namespace OneStoryProjectEditor
 {

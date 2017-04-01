@@ -3,8 +3,7 @@ using System.Windows.Forms;
 using Chorus;
 using Chorus.UI.Notes.Bar;
 using Chorus.UI.Notes.Browser;
-using Chorus.Utilities;
-using Palaso.Progress;
+using SIL.Progress;
 
 namespace OneStoryProjectEditor
 {

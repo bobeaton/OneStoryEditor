@@ -479,6 +479,7 @@ namespace OneStoryProjectEditor
                 GeneralTestQuestions = 16777216,
                 ExegeticalHelps = 33554432,
                 UseTextAreas = 67108864,
+                ShowingLineNumbers = 134217728,
                 RetellingFields = RetellingsVernacular | RetellingsNationalBT | RetellingsInternationalBT,
                 StoryTestingQuestions = TestQuestionsVernacular | TestQuestionsNationalBT | TestQuestionsInternationalBT,
                 StoryTestingQuestionAnswers = AnswersVernacular | AnswersNationalBT | AnswersInternationalBT
@@ -539,7 +540,8 @@ namespace OneStoryProjectEditor
                 DirectableEncConverter decTransliteratorVernacular,
                 DirectableEncConverter decTransliteratorNationalBT,
                 DirectableEncConverter decTransliteratorInternationalBt,
-                DirectableEncConverter decTransliteratorFreeTranslation
+                DirectableEncConverter decTransliteratorFreeTranslation,
+                bool bShowLineNumbers = true
                 )
             {
                 SetItemsToInsureOn(projSettings,
@@ -563,7 +565,8 @@ namespace OneStoryProjectEditor
                                    bHiddenStuff,
                                    bOpenConversationsOnly,
                                    bGeneralTestQuestions,
-                                   bUseTextAreas);
+                                   bUseTextAreas,
+                                   bShowLineNumbers);
                 FieldEditibility = fieldEditability;
                 TransliteratorVernacular = decTransliteratorVernacular;
                 TransliteratorNationalBT = decTransliteratorNationalBT;
@@ -599,7 +602,8 @@ namespace OneStoryProjectEditor
                 bool bHiddenStuff,
                 bool bOpenConNotesOnly,
                 bool bGeneralTestQuestions,
-                bool bUseTextAreas
+                bool bUseTextAreas,
+                bool bShowLineNumbers
                 )
             {
                 _itemToInsureOn = 0;
@@ -681,6 +685,8 @@ namespace OneStoryProjectEditor
                     _itemToInsureOn |= ItemToInsureOn.GeneralTestQuestions;
                 if (bUseTextAreas)
                     _itemToInsureOn |= ItemToInsureOn.UseTextAreas;
+                if (bShowLineNumbers)
+                    _itemToInsureOn |= ItemToInsureOn.ShowingLineNumbers;
             }
         }
 
@@ -1591,7 +1597,8 @@ namespace OneStoryProjectEditor
                 var theChildFirstVerse = ((child != null) && (child.FirstVerse != null))
                                              ? child.FirstVerse
                                              : null;
-                strHtml += GetHeaderRow(CstrZerothLineNameBtPane, null, 0, bUseTextAreas, nNumCols);
+                if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.ShowingLineNumbers))
+                    strHtml += GetHeaderRow(CstrZerothLineNameBtPane, null, 0, bUseTextAreas, nNumCols);
                 strHtml += FirstVerse.PresentationHtml(0, nNumCols, craftingInfo,
                                                        viewSettings, 
                                                        theChildFirstVerse,
@@ -1617,7 +1624,8 @@ namespace OneStoryProjectEditor
                     string strHeaderAdd = DetermineHiddenLabel(aVerseData.IsVisible, theChildVerse);
 
                     int nLineIndex = i + nInsertCount;
-                    strHtml += GetHeaderRow(LinePrefix + nLineIndex, strHeaderAdd, nLineIndex, bUseTextAreas, nNumCols);
+                    if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.ShowingLineNumbers))
+                        strHtml += GetHeaderRow(LinePrefix + nLineIndex, strHeaderAdd, nLineIndex, bUseTextAreas, nNumCols);
 
                     if (theChildVerse != null)
                     {
@@ -1628,7 +1636,7 @@ namespace OneStoryProjectEditor
                             VerseData aPassedByChild = child[j - 1];
                             if (!aPassedByChild.IsDiffProcessed)
                             {
-                                if (bFoundOne)
+                                if (bFoundOne && viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.ShowingLineNumbers))
                                 {
                                     // add the line header... but only on the 2nd and ff time through this j loop
                                     //  (the first time was caught above) -- i.e. in case we've got multiple new
@@ -1688,7 +1696,8 @@ namespace OneStoryProjectEditor
                     {
                         int nLineIndex = i + nInsertCount;
                         string strHeaderAdd = DetermineHiddenLabel(aVerseData.IsVisible, null);
-                        strHtml += GetHeaderRow(LinePrefix + nLineIndex, strHeaderAdd, nLineIndex, false, nNumCols);
+                        if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.ShowingLineNumbers))
+                            strHtml += GetHeaderRow(LinePrefix + nLineIndex, strHeaderAdd, nLineIndex, false, nNumCols);
 
                         strHtml += aVerseData.PresentationHtmlAsAddition(nLineIndex,
                                                                          nNumCols,

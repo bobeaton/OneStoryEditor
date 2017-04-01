@@ -46,4 +46,4 @@ fixutf8 = path/to/fixutf8.py
 Compatibility with TortoiseHg
 -----------------------------
 
-Where TortoiseHg uses python or mercurial filename api calls, it is compatibile with FixUtf8. This means that most of the dialogs work fine. Shell integration does not work perfectly, since the TortoiseHg shell extension converts the filenames to the non-Unicode 8-bit character strings, before calling passing them to mercurial. 
+Where TortoiseHg uses python or mercurial filename api calls, it is compatibile with FixUtf8. This means that most of the dialogs work fine. Shell integration does not work perfectly, since the TortoiseHg shell extension converts the filenames to the non-Unicode 8-bit character strings, before calling passing them to mercurial.

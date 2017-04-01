@@ -15,7 +15,8 @@
     <ApplicationIcon>OneStory.ico</ApplicationIcon>
     <TargetZone>Custom</TargetZone>
     <GenerateManifests>false</GenerateManifests>
-    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <SignManifests>false</SignManifests>
     <ManifestCertificateThumbprint>F914C1BEB491538EA349EAE5263186515C1947D4</ManifestCertificateThumbprint>
@@ -119,14 +120,6 @@
     <Reference Include="NetMAPI">
       <HintPath>..\DepDLLs\NetMAPI.dll</HintPath>
     </Reference>
-    <Reference Include="Palaso, Version=1.2.490.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DepDLLs\Palaso.dll</HintPath>
-    </Reference>
-    <Reference Include="PalasoUIWindowsForms, Version=1.2.448.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DepDLLs\PalasoUIWindowsForms.dll</HintPath>
-    </Reference>
     <Reference Include="ParatextShared, Version=7.0.100.5029, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\ParatextShared.dll</HintPath>
@@ -138,6 +131,17 @@
     <Reference Include="SharedScrUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\SharedScrUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="SIL.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DepDLLs\SIL.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SIL.Windows.Forms">
+      <HintPath>..\DepDLLs\SIL.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="SIL.Windows.Forms.Keyboarding, Version=3.1.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DepDLLs\SIL.Windows.Forms.Keyboarding.dll</HintPath>
     </Reference>
     <Reference Include="SilEncConverters40, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -388,9 +392,7 @@
     <Compile Include="PrintViewer.Designer.cs">
       <DependentUpon>PrintViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProjectSettings.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ProjectSettings.cs" />
     <Compile Include="ReorderWordsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -436,6 +438,7 @@
     <Compile Include="SetTasksForm.Designer.cs">
       <DependentUpon>SetTasksForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="SplashScreenForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -460,9 +463,7 @@
     <Compile Include="StateTransitionHistoryGraphForm.Designer.cs">
       <DependentUpon>StateTransitionHistoryGraphForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="StoryData.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="StoryData.cs" />
     <Compile Include="StoryFrontMatterForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -692,6 +693,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
+    <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -882,6 +884,7 @@
     <None Include="Resources\search.png" />
     <Content Include="LocData\es.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="LocData\fr.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -1,4 +1,4 @@
-﻿#define UseSeedCo
+﻿#define UseOseServer
 
 using System;
 using System.Collections.Generic;
@@ -161,9 +161,11 @@ namespace OneStoryProjectEditor
             }
         }
 
-#if UseSeedCo
+#if UseOseServer
         private const string CstrPathSwordRemote = "/SWORD/";
-#else
+#elif UseSeedCo
+        private const string CstrPathSwordRemote = "/SWORD/";
+#elif UsePalaso
         private const string CstrPathSwordRemote = "/OseUpdates/SWORD/";
 #endif
         private const string CstrPathModsD = "mods.d";
@@ -173,11 +175,15 @@ namespace OneStoryProjectEditor
         {
             get
             {
-#if UseSeedCo
+#if UseOseServer
+                var host = Properties.Settings.Default.OseServerIpAddress;
+                const string user = "OseProgram";
+                const string pass = "OseAccess!2O";
+#elif UseSeedCo
                 const string host = "ftp.seedconnect.org";
                 const string user = "Bob_Eaton";
                 const string pass = "tsc2009";
-#else
+#elif UsePalaso
                 const string host = "palaso.org";
                 const string user = "onestory";
                 const string pass = "yrotseno23";

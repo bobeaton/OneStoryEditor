@@ -3,9 +3,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Palaso.UI.WindowsForms.Keyboarding;
 using NetLoc;
-using Palaso.WritingSystems;
+using SIL.Keyboarding;
 
 namespace OneStoryProjectEditor
 {
@@ -217,7 +216,7 @@ namespace OneStoryProjectEditor
 
                 if (!checkBoxLanguageVernacular.Checked)
                 {
-                    System.Diagnostics.Debug.Assert(!checkBoxRetellingsVernacular.Checked
+                    Debug.Assert(!checkBoxRetellingsVernacular.Checked
                                                     && !checkBoxTestQuestionsVernacular.Checked
                                                     && !checkBoxAnswersVernacular.Checked);
                     ProjSettings.Vernacular.HasData = false;
@@ -236,7 +235,7 @@ namespace OneStoryProjectEditor
 
                 if (!checkBoxLanguageNationalBT.Checked)
                 {
-                    System.Diagnostics.Debug.Assert(!checkBoxRetellingsNationalBT.Checked
+                    Debug.Assert(!checkBoxRetellingsNationalBT.Checked
                                                     && !checkBoxTestQuestionsNationalBT.Checked
                                                     && !checkBoxAnswersNationalBT.Checked);
                     ProjSettings.NationalBT.HasData = false;
@@ -254,7 +253,7 @@ namespace OneStoryProjectEditor
                 }
                 else
                 {
-                    System.Diagnostics.Debug.Assert(!checkBoxRetellingsInternationalBT.Checked
+                    Debug.Assert(!checkBoxRetellingsInternationalBT.Checked
                                                     && !checkBoxTestQuestionsInternationalBT.Checked
                                                     && !checkBoxAnswersInternationalBT.Checked);
                     _storyProjectData.TeamMembers.HasOutsideEnglishBTer =
@@ -462,7 +461,7 @@ namespace OneStoryProjectEditor
         internal static void RemoveProject(string strProjectFilename, string strProjectName)
         {
             string strProjectFolder = Path.GetDirectoryName(strProjectFilename);
-            System.Diagnostics.Debug.Assert(strProjectFolder == ProjectSettings.GetDefaultProjectPath(strProjectName));
+            Debug.Assert(strProjectFolder == ProjectSettings.GetDefaultProjectPath(strProjectName));
 
             // they want to delete it (so remove all traces of it, so we don't leave around a file which 
             //  is no longer being referenced, which they might one day mistake for the current version)
@@ -480,26 +479,27 @@ namespace OneStoryProjectEditor
 
         private void InitLanguageControls(Control tabPage, ProjectSettings.LanguageInfo languageInfo)
         {
-            System.Diagnostics.Debug.Assert(tabPage.Controls[0] is TableLayoutPanel);
+            Debug.Assert(tabPage.Controls[0] is TableLayoutPanel);
             var tlp = tabPage.Controls[0] as TableLayoutPanel;
-            System.Diagnostics.Debug.Assert(tlp.GetControlFromPosition(1, 2) is ComboBox);
+            Debug.Assert(tlp.GetControlFromPosition(1, 2) is ComboBox);
             var comboBoxKeyboard = tlp.GetControlFromPosition(1, 2) as ComboBox;
 
             // initialize the keyboard combo list
-            foreach (var kbd in Keyboard.Controller.AllAvailableKeyboards.Where(kbd => kbd.IsAvailable))
+            // foreach (var kbd in Keyboard.Controller.AllAvailableKeyboards.Where(kbd => kbd.IsAvailable))
+            foreach (var kbd in Keyboard.Controller.AvailableKeyboards)
             {
                 Debug.Assert(comboBoxKeyboard != null, "comboBoxKeyboard != null");
                 comboBoxKeyboard.Items.Add(kbd.Id);
             }
 
-            System.Diagnostics.Debug.Assert(tlp.GetControlFromPosition(1, 4) is TextBox);
+            Debug.Assert(tlp.GetControlFromPosition(1, 4) is TextBox);
             TextBox tbSentFullStop = tlp.GetControlFromPosition(1, 4) as TextBox;
 
             tbSentFullStop.Font = languageInfo.FontToUse;
             tbSentFullStop.ForeColor = languageInfo.FontColor;
             tbSentFullStop.Text = languageInfo.FullStop;
 
-            System.Diagnostics.Debug.Assert(tlp.GetControlFromPosition(1, 3) is Button);
+            Debug.Assert(tlp.GetControlFromPosition(1, 3) is Button);
             Button btnFont = tlp.GetControlFromPosition(1, 3) as Button;
 
             toolTip.SetToolTip(btnFont,
@@ -513,17 +513,17 @@ namespace OneStoryProjectEditor
 
             if (languageInfo.HasData)
             {
-                System.Diagnostics.Debug.Assert(tlp.GetControlFromPosition(1, 0) is TextBox);
+                Debug.Assert(tlp.GetControlFromPosition(1, 0) is TextBox);
                 TextBox textBoxLanguageName = tlp.GetControlFromPosition(1, 0) as TextBox;
                 textBoxLanguageName.Text = languageInfo.LangName;
 
-                System.Diagnostics.Debug.Assert(tlp.GetControlFromPosition(1, 1) is TextBox);
+                Debug.Assert(tlp.GetControlFromPosition(1, 1) is TextBox);
                 TextBox textBoxEthCode = tlp.GetControlFromPosition(1, 1) as TextBox;
                 textBoxEthCode.Text = languageInfo.LangCode;
 
                 comboBoxKeyboard.SelectedItem = languageInfo.DefaultKeyboard;
 
-                System.Diagnostics.Debug.Assert(tlp.GetControlFromPosition(2, 3) is CheckBox);
+                Debug.Assert(tlp.GetControlFromPosition(2, 3) is CheckBox);
                 CheckBox checkBoxIsRTL = tlp.GetControlFromPosition(2, 3) as CheckBox;
                 checkBoxIsRTL.Checked = languageInfo.DefaultRtl;
             }
@@ -690,7 +690,7 @@ namespace OneStoryProjectEditor
 
         private void ThrowIfAiConfigIsBad(AdaptItConfigControl adaptItConfigControl, string strWhichLanguages)
         {
-            System.Diagnostics.Debug.Assert(adaptItConfigControl != null);
+            Debug.Assert(adaptItConfigControl != null);
             var conf = adaptItConfigControl.AdaptItConfiguration;
             
             // this if condition is to see if we should even check whether it's bad
@@ -802,13 +802,13 @@ namespace OneStoryProjectEditor
                     return tabControl.TabPages.IndexOf(tab) + 1;
 
             // shouldn't fall thru
-            System.Diagnostics.Debug.Assert(false);
+            Debug.Assert(false);
             return 1;
         }
 
         private void checkBoxUseInternetRepo_CheckedChanged(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert((sender is CheckBox) && (sender == checkBoxUseInternetRepo));
+            Debug.Assert((sender is CheckBox) && (sender == checkBoxUseInternetRepo));
             if (checkBoxUseInternetRepo.Checked)
                 tabControl.TabPages.Insert(1, tabPageInternetRepository);
             else
@@ -818,7 +818,7 @@ namespace OneStoryProjectEditor
 
         private void checkBoxStoryLanguage_CheckedChanged(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert((sender is CheckBox) && (sender == checkBoxLanguageVernacular));
+            Debug.Assert((sender is CheckBox) && (sender == checkBoxLanguageVernacular));
             if (checkBoxLanguageVernacular.Checked)
             {
                 int nIndex = IndexAfter(new[] { tabPageLanguages });
@@ -846,7 +846,7 @@ namespace OneStoryProjectEditor
 
         private void checkBoxNationalBT_CheckedChanged(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert((sender is CheckBox) && (sender == checkBoxLanguageNationalBT));
+            Debug.Assert((sender is CheckBox) && (sender == checkBoxLanguageNationalBT));
             if (checkBoxLanguageNationalBT.Checked)
             {
                 int nIndex = IndexAfter(new[] { tabPageLanguageVernacular, tabPageLanguages });
@@ -870,7 +870,7 @@ namespace OneStoryProjectEditor
 
         private void checkBoxEnglishBT_CheckedChanged(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert((sender is CheckBox) && (sender == checkBoxLanguageInternationalBT));
+            Debug.Assert((sender is CheckBox) && (sender == checkBoxLanguageInternationalBT));
             if (checkBoxLanguageInternationalBT.Checked)
             {
                 int nIndex = IndexAfter(new[] { tabPageLanguageNationalBT, tabPageLanguageVernacular, tabPageLanguages });
@@ -910,7 +910,7 @@ namespace OneStoryProjectEditor
 
         private void checkBoxFreeTranslation_CheckedChanged(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert((sender is CheckBox) && (sender == checkBoxLanguageFreeTranslation));
+            Debug.Assert((sender is CheckBox) && (sender == checkBoxLanguageFreeTranslation));
             if (checkBoxLanguageFreeTranslation.Checked)
             {
                 int nIndex = IndexAfter(new[] { tabPageLanguageEnglishBT, tabPageLanguageNationalBT, tabPageLanguageVernacular, tabPageLanguages });
@@ -1014,7 +1014,7 @@ namespace OneStoryProjectEditor
                     // on dev machines, this file is in the "..\..\src\EC\TECkit Mapping Editor" folder
                     strFileToCheck = @"C:\src\StoryEditor\StoryEditor\" + CstrLangCodesFilename;
 #endif
-                System.Diagnostics.Debug.Assert(File.Exists(strFileToCheck), String.Format("Can't find: {0}! You'll need to re-install or contact bob_eaton@sall.com", strFileToCheck));
+                Debug.Assert(File.Exists(strFileToCheck), String.Format("Can't find: {0}! You'll need to re-install or contact bob_eaton@sall.com", strFileToCheck));
 
                 return strFileToCheck;
             }
@@ -1051,7 +1051,8 @@ namespace OneStoryProjectEditor
         {
 #if !DEBUGBOB
             if (!String.IsNullOrEmpty(strKeyboardToSet))
-                Keyboard.Controller.SetKeyboard(strKeyboardToSet);
+                // Keyboard.Controller.SetKeyboard(strKeyboardToSet);
+                Keyboard.Controller.GetKeyboard(strKeyboardToSet).Activate();
 #endif
         }
 
@@ -1221,7 +1222,7 @@ namespace OneStoryProjectEditor
                     return;
                 if (res == DialogResult.No)
                 {
-                    System.Diagnostics.Process.Start(Properties.Resources.IDS_MyDropboxReferalString);
+                    Process.Start(Properties.Resources.IDS_MyDropboxReferalString);
                     return;
                 }
             }
@@ -1257,14 +1258,14 @@ namespace OneStoryProjectEditor
             form.Controls.Add(listBox);
             listBox.DoubleClick += (o, args) =>
             {
-                System.Diagnostics.Debug.Assert((o is ListBox) && ((o as ListBox).Tag is TextBox));
+                Debug.Assert((o is ListBox) && ((o as ListBox).Tag is TextBox));
                 var lb = o as ListBox;
                 var str = lb.SelectedItem.ToString();
                 var nLen = str.IndexOf('\t');
                 if (nLen != -1)
                 {
                     var tb = lb.Tag as TextBox;
-                    System.Diagnostics.Debug.Assert(tb != null); 
+                    Debug.Assert(tb != null); 
                     tb.Text = str.Substring(0, nLen);
                 }
                 form.Close();

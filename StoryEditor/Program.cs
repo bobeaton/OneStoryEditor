@@ -1,10 +1,9 @@
-﻿#define UseSeedCo
+﻿#define UseOseServer
 
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -14,14 +13,14 @@ using Chorus.UI.Sync;
 using Chorus.VcsDrivers;
 using Chorus.VcsDrivers.Mercurial;
 using Microsoft.Win32;
-using Palaso.Progress;
+using SIL.Progress;
 using devX;
 using MAPIEx;
 using NetLoc;
-using Palaso.Email;
-using Palaso.Reporting;
-using Palaso.WritingSystems;
+using SIL.Email;
+using SIL.Reporting;
 using SilEncConverters40;
+using SIL.Keyboarding;
 
 namespace OneStoryProjectEditor
 {
@@ -33,13 +32,13 @@ namespace OneStoryProjectEditor
         [STAThread]
         static void Main(string[] args)
         {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
             SetupErrorHandling();
 
             try
             {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-
                 var splashScreen = new SplashScreenForm();
                 splashScreen.Show();
                 Application.DoEvents();
@@ -131,7 +130,7 @@ namespace OneStoryProjectEditor
                         return;
                     }
 
-                    Palaso.UI.WindowsForms.Keyboarding.KeyboardController.Initialize();
+                    SIL.Windows.Forms.Keyboarding.KeyboardController.Initialize();
                     Application.Run(new StoryEditor(Properties.Resources.IDS_MainStoriesSet, strFilePathToOpen));
                 }
             }
@@ -160,7 +159,7 @@ namespace OneStoryProjectEditor
             }
             finally
             {
-                Palaso.UI.WindowsForms.Keyboarding.KeyboardController.Shutdown();
+                SIL.Windows.Forms.Keyboarding.KeyboardController.Shutdown();
             }
         }
 
@@ -199,12 +198,17 @@ namespace OneStoryProjectEditor
         {
         }
 
-#if UseSeedCo
+#if UseOseServer
+        public static string IDS_OSEUpgradeServer = $"ftp://OseProgram:OseAccess!2O@{Properties.Settings.Default.OseServerIpAddress}/OSE3.2/StoryEditor.exe.manifest.xml";
+        public static string IDS_OSEUpgradeServerNextMajorUpgrade = $"ftp://OseProgram:OseAccess!2O@{Properties.Settings.Default.OseServerIpAddress}/OSE3.3/StoryEditor.exe.manifest.xml";
+        public static string IDS_OSEUpgradeServerSword = $"ftp://OseProgram:OseAccess!2O@{Properties.Settings.Default.OseServerIpAddress}";
+        public static string IDS_OSEUpgradeServerTest = $"ftp://OseProgram:OseAccess!2O@{Properties.Settings.Default.OseServerIpAddress}/Test/testmanifest.xml";
+#elif UseSeedCo
         public const string IDS_OSEUpgradeServer = "ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE3.2/StoryEditor.exe.manifest.xml";
         public const string IDS_OSEUpgradeServerNextMajorUpgrade = "ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/OSE3.3/StoryEditor.exe.manifest.xml";
         public const string IDS_OSEUpgradeServerSword = "ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org";
         public const string IDS_OSEUpgradeServerTest = "ftp://Bob_Eaton:tsc2009@ftp.seedconnect.org/Test/testmanifest.xml";
-#else
+#elif UsePalasoFtp
         public const string IDS_OSEUpgradeServer = "ftp://onestory:yrotseno23@palaso.org/OseUpdates/OSE3.2/StoryEditor.exe.manifest.xml";
         public const string IDS_OSEUpgradeServerNextMajorUpgrade = "ftp://onestory:yrotseno23@palaso.org/OseUpdates/OSE3.3/StoryEditor.exe.manifest.xml";
         public const string IDS_OSEUpgradeServerSword = "ftp://onestory:yrotseno23@palaso.org";

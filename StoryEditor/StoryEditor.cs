@@ -19,15 +19,13 @@ using Chorus.UI.Clone;
 using ECInterfaces;
 using Microsoft.Win32;
 using OneStoryProjectEditor.Properties;
-using Palaso.UI.WindowsForms.Keyboarding;
-using Palaso.WritingSystems;
 using SilEncConverters40;
 using System.Diagnostics;               // Process
-using Palaso.Reporting;
 using devX;
 using Control=System.Windows.Forms.Control;
 using Timer=System.Windows.Forms.Timer;
 using NetLoc;
+using SIL.Reporting;
 
 namespace OneStoryProjectEditor
 {

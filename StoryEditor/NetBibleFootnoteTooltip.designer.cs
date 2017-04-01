@@ -34,32 +34,30 @@ namespace OneStoryProjectEditor
             // webBrowser
             // 
             this.webBrowser.AllowWebBrowserDrop = false;
-            this.webBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.webBrowser.Location = new System.Drawing.Point(6, 6);
-            this.webBrowser.MaximumSize = new System.Drawing.Size(400, 800);
-            this.webBrowser.MinimumSize = new System.Drawing.Size(50, 15);
+            this.webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser.Location = new System.Drawing.Point(0, 0);
+            this.webBrowser.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.webBrowser.MaximumSize = new System.Drawing.Size(1774, 1473);
+            this.webBrowser.MinimumSize = new System.Drawing.Size(100, 29);
             this.webBrowser.Name = "webBrowser";
-            this.webBrowser.Size = new System.Drawing.Size(380, 294);
+            this.webBrowser.Size = new System.Drawing.Size(748, 588);
             this.webBrowser.TabIndex = 0;
             this.webBrowser.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.webBrowser_PreviewKeyDown);
             // 
             // MinimalHtmlForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.ClientSize = new System.Drawing.Size(384, 306);
+            this.ClientSize = new System.Drawing.Size(748, 588);
             this.Controls.Add(this.webBrowser);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.KeyPreview = true;
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(400, 800);
+            this.MaximumSize = new System.Drawing.Size(1774, 1473);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(50, 34);
+            this.MinimumSize = new System.Drawing.Size(74, 71);
             this.Name = "MinimalHtmlForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;

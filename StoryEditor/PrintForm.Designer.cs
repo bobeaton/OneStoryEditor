@@ -34,6 +34,7 @@
             this.checkedListBoxStories = new System.Windows.Forms.CheckedListBox();
             this.groupBoxViewOptions = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.checkBoxShowLineNumbers = new System.Windows.Forms.CheckBox();
             this.checkBoxFrontMatter = new System.Windows.Forms.CheckBox();
             this.checkBoxLangVernacular = new System.Windows.Forms.CheckBox();
             this.checkBoxLangTransliterateVernacular = new System.Windows.Forms.CheckBox();
@@ -74,12 +75,13 @@
             this.tableLayoutPanel.Controls.Add(this.groupBoxViewOptions, 1, 1);
             this.tableLayoutPanel.Controls.Add(this.checkBoxSelectAll, 0, 0);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel.Location = new System.Drawing.Point(6, 6);
+            this.tableLayoutPanel.Margin = new System.Windows.Forms.Padding(6);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.RowCount = 2;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(817, 434);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(1642, 846);
             this.tableLayoutPanel.TabIndex = 0;
             // 
             // checkBoxSelectAllFields
@@ -87,9 +89,10 @@
             this.checkBoxSelectAllFields.AutoSize = true;
             this.checkBoxSelectAllFields.Checked = true;
             this.checkBoxSelectAllFields.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxSelectAllFields.Location = new System.Drawing.Point(367, 3);
+            this.checkBoxSelectAllFields.Location = new System.Drawing.Point(742, 6);
+            this.checkBoxSelectAllFields.Margin = new System.Windows.Forms.Padding(6);
             this.checkBoxSelectAllFields.Name = "checkBoxSelectAllFields";
-            this.checkBoxSelectAllFields.Size = new System.Drawing.Size(82, 17);
+            this.checkBoxSelectAllFields.Size = new System.Drawing.Size(158, 29);
             this.checkBoxSelectAllFields.TabIndex = 5;
             this.checkBoxSelectAllFields.Text = "&Deselect All";
             this.checkBoxSelectAllFields.ThreeState = true;
@@ -102,24 +105,28 @@
             this.checkedListBoxStories.Dock = System.Windows.Forms.DockStyle.Fill;
             this.checkedListBoxStories.Font = new System.Drawing.Font("Arial Unicode MS", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkedListBoxStories.FormattingEnabled = true;
-            this.checkedListBoxStories.Location = new System.Drawing.Point(3, 26);
+            this.checkedListBoxStories.Location = new System.Drawing.Point(6, 47);
+            this.checkedListBoxStories.Margin = new System.Windows.Forms.Padding(6);
             this.checkedListBoxStories.Name = "checkedListBoxStories";
-            this.checkedListBoxStories.Size = new System.Drawing.Size(358, 400);
+            this.checkedListBoxStories.Size = new System.Drawing.Size(724, 793);
             this.checkedListBoxStories.TabIndex = 0;
             // 
             // groupBoxViewOptions
             // 
             this.groupBoxViewOptions.Controls.Add(this.flowLayoutPanel1);
             this.groupBoxViewOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBoxViewOptions.Location = new System.Drawing.Point(367, 26);
+            this.groupBoxViewOptions.Location = new System.Drawing.Point(742, 47);
+            this.groupBoxViewOptions.Margin = new System.Windows.Forms.Padding(6);
             this.groupBoxViewOptions.Name = "groupBoxViewOptions";
-            this.groupBoxViewOptions.Size = new System.Drawing.Size(447, 405);
+            this.groupBoxViewOptions.Padding = new System.Windows.Forms.Padding(6);
+            this.groupBoxViewOptions.Size = new System.Drawing.Size(894, 793);
             this.groupBoxViewOptions.TabIndex = 4;
             this.groupBoxViewOptions.TabStop = false;
             this.groupBoxViewOptions.Text = "Include in report";
             // 
             // flowLayoutPanel1
             // 
+            this.flowLayoutPanel1.Controls.Add(this.checkBoxShowLineNumbers);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxFrontMatter);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxLangVernacular);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxLangTransliterateVernacular);
@@ -138,20 +145,35 @@
             this.flowLayoutPanel1.Controls.Add(this.checkBoxShowHidden);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 16);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(6, 30);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(6);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(441, 386);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(882, 757);
             this.flowLayoutPanel1.TabIndex = 3;
+            // 
+            // checkBoxShowLineNumbers
+            // 
+            this.checkBoxShowLineNumbers.AutoSize = true;
+            this.checkBoxShowLineNumbers.Checked = true;
+            this.checkBoxShowLineNumbers.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxShowLineNumbers.Location = new System.Drawing.Point(6, 6);
+            this.checkBoxShowLineNumbers.Margin = new System.Windows.Forms.Padding(6);
+            this.checkBoxShowLineNumbers.Name = "checkBoxShowLineNumbers";
+            this.checkBoxShowLineNumbers.Size = new System.Drawing.Size(177, 29);
+            this.checkBoxShowLineNumbers.TabIndex = 0;
+            this.checkBoxShowLineNumbers.Text = "Line Numbers";
+            this.checkBoxShowLineNumbers.UseVisualStyleBackColor = true;
             // 
             // checkBoxFrontMatter
             // 
             this.checkBoxFrontMatter.AutoSize = true;
             this.checkBoxFrontMatter.Checked = true;
             this.checkBoxFrontMatter.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxFrontMatter.Location = new System.Drawing.Point(3, 3);
+            this.checkBoxFrontMatter.Location = new System.Drawing.Point(6, 47);
+            this.checkBoxFrontMatter.Margin = new System.Windows.Forms.Padding(6);
             this.checkBoxFrontMatter.Name = "checkBoxFrontMatter";
-            this.checkBoxFrontMatter.Size = new System.Drawing.Size(143, 17);
-            this.checkBoxFrontMatter.TabIndex = 7;
+            this.checkBoxFrontMatter.Size = new System.Drawing.Size(282, 29);
+            this.checkBoxFrontMatter.TabIndex = 1;
             this.checkBoxFrontMatter.Text = "Story Header Information";
             this.checkBoxFrontMatter.UseVisualStyleBackColor = true;
             // 
@@ -160,10 +182,11 @@
             this.checkBoxLangVernacular.AutoSize = true;
             this.checkBoxLangVernacular.Checked = true;
             this.checkBoxLangVernacular.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxLangVernacular.Location = new System.Drawing.Point(3, 26);
+            this.checkBoxLangVernacular.Location = new System.Drawing.Point(6, 88);
+            this.checkBoxLangVernacular.Margin = new System.Windows.Forms.Padding(6);
             this.checkBoxLangVernacular.Name = "checkBoxLangVernacular";
-            this.checkBoxLangVernacular.Size = new System.Drawing.Size(205, 17);
-            this.checkBoxLangVernacular.TabIndex = 0;
+            this.checkBoxLangVernacular.Size = new System.Drawing.Size(407, 29);
+            this.checkBoxLangVernacular.TabIndex = 2;
             this.checkBoxLangVernacular.Text = "LangVernacular <no need to localize>";
             this.checkBoxLangVernacular.UseVisualStyleBackColor = true;
             // 
@@ -171,10 +194,11 @@
             // 
             this.checkBoxLangTransliterateVernacular.AutoSize = true;
             this.checkBoxLangTransliterateVernacular.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxLangTransliterateVernacular.Location = new System.Drawing.Point(3, 49);
+            this.checkBoxLangTransliterateVernacular.Location = new System.Drawing.Point(6, 129);
+            this.checkBoxLangTransliterateVernacular.Margin = new System.Windows.Forms.Padding(6);
             this.checkBoxLangTransliterateVernacular.Name = "checkBoxLangTransliterateVernacular";
-            this.checkBoxLangTransliterateVernacular.Size = new System.Drawing.Size(84, 17);
-            this.checkBoxLangTransliterateVernacular.TabIndex = 9;
+            this.checkBoxLangTransliterateVernacular.Size = new System.Drawing.Size(164, 29);
+            this.checkBoxLangTransliterateVernacular.TabIndex = 3;
             this.checkBoxLangTransliterateVernacular.Text = "Transliterate";
             this.checkBoxLangTransliterateVernacular.UseVisualStyleBackColor = true;
             this.checkBoxLangTransliterateVernacular.Visible = false;
@@ -184,10 +208,11 @@
             this.checkBoxLangNationalBT.AutoSize = true;
             this.checkBoxLangNationalBT.Checked = true;
             this.checkBoxLangNationalBT.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxLangNationalBT.Location = new System.Drawing.Point(3, 72);
+            this.checkBoxLangNationalBT.Location = new System.Drawing.Point(6, 170);
+            this.checkBoxLangNationalBT.Margin = new System.Windows.Forms.Padding(6);
             this.checkBoxLangNationalBT.Name = "checkBoxLangNationalBT";
-            this.checkBoxLangNationalBT.Size = new System.Drawing.Size(207, 17);
-            this.checkBoxLangNationalBT.TabIndex = 1;
+            this.checkBoxLangNationalBT.Size = new System.Drawing.Size(409, 29);
+            this.checkBoxLangNationalBT.TabIndex = 4;
             this.checkBoxLangNationalBT.Text = "LangNationalBT <no need to localize>";
             this.checkBoxLangNationalBT.UseVisualStyleBackColor = true;
             // 
@@ -195,10 +220,11 @@
             // 
             this.checkBoxLangTransliterateNationalBT.AutoSize = true;
             this.checkBoxLangTransliterateNationalBT.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxLangTransliterateNationalBT.Location = new System.Drawing.Point(3, 95);
+            this.checkBoxLangTransliterateNationalBT.Location = new System.Drawing.Point(6, 211);
+            this.checkBoxLangTransliterateNationalBT.Margin = new System.Windows.Forms.Padding(6);
             this.checkBoxLangTransliterateNationalBT.Name = "checkBoxLangTransliterateNationalBT";
-            this.checkBoxLangTransliterateNationalBT.Size = new System.Drawing.Size(84, 17);
-            this.checkBoxLangTransliterateNationalBT.TabIndex = 10;
+            this.checkBoxLangTransliterateNationalBT.Size = new System.Drawing.Size(164, 29);
+            this.checkBoxLangTransliterateNationalBT.TabIndex = 5;
             this.checkBoxLangTransliterateNationalBT.Text = "Transliterate";
             this.checkBoxLangTransliterateNationalBT.UseVisualStyleBackColor = true;
             this.checkBoxLangTransliterateNationalBT.Visible = false;
@@ -208,10 +234,11 @@
             this.checkBoxLangInternationalBT.AutoSize = true;
             this.checkBoxLangInternationalBT.Checked = true;
             this.checkBoxLangInternationalBT.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxLangInternationalBT.Location = new System.Drawing.Point(3, 118);
+            this.checkBoxLangInternationalBT.Location = new System.Drawing.Point(6, 252);
+            this.checkBoxLangInternationalBT.Margin = new System.Windows.Forms.Padding(6);
             this.checkBoxLangInternationalBT.Name = "checkBoxLangInternationalBT";
-            this.checkBoxLangInternationalBT.Size = new System.Drawing.Size(165, 17);
-            this.checkBoxLangInternationalBT.TabIndex = 2;
+            this.checkBoxLangInternationalBT.Size = new System.Drawing.Size(330, 29);
+            this.checkBoxLangInternationalBT.TabIndex = 6;
             this.checkBoxLangInternationalBT.Text = "&English back translation fields";
             this.checkBoxLangInternationalBT.UseVisualStyleBackColor = true;
             // 
@@ -219,10 +246,11 @@
             // 
             this.checkBoxLangTransliterateInternationalBt.AutoSize = true;
             this.checkBoxLangTransliterateInternationalBt.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxLangTransliterateInternationalBt.Location = new System.Drawing.Point(3, 141);
+            this.checkBoxLangTransliterateInternationalBt.Location = new System.Drawing.Point(6, 293);
+            this.checkBoxLangTransliterateInternationalBt.Margin = new System.Windows.Forms.Padding(6);
             this.checkBoxLangTransliterateInternationalBt.Name = "checkBoxLangTransliterateInternationalBt";
-            this.checkBoxLangTransliterateInternationalBt.Size = new System.Drawing.Size(84, 17);
-            this.checkBoxLangTransliterateInternationalBt.TabIndex = 10;
+            this.checkBoxLangTransliterateInternationalBt.Size = new System.Drawing.Size(164, 29);
+            this.checkBoxLangTransliterateInternationalBt.TabIndex = 7;
             this.checkBoxLangTransliterateInternationalBt.Text = "Transliterate";
             this.checkBoxLangTransliterateInternationalBt.UseVisualStyleBackColor = true;
             this.checkBoxLangTransliterateInternationalBt.Visible = false;
@@ -232,10 +260,11 @@
             this.checkBoxLangFreeTranslation.AutoSize = true;
             this.checkBoxLangFreeTranslation.Checked = true;
             this.checkBoxLangFreeTranslation.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxLangFreeTranslation.Location = new System.Drawing.Point(3, 164);
+            this.checkBoxLangFreeTranslation.Location = new System.Drawing.Point(6, 334);
+            this.checkBoxLangFreeTranslation.Margin = new System.Windows.Forms.Padding(6);
             this.checkBoxLangFreeTranslation.Name = "checkBoxLangFreeTranslation";
-            this.checkBoxLangFreeTranslation.Size = new System.Drawing.Size(125, 17);
-            this.checkBoxLangFreeTranslation.TabIndex = 12;
+            this.checkBoxLangFreeTranslation.Size = new System.Drawing.Size(251, 29);
+            this.checkBoxLangFreeTranslation.TabIndex = 8;
             this.checkBoxLangFreeTranslation.Text = "&Free translation fields";
             this.checkBoxLangFreeTranslation.UseVisualStyleBackColor = true;
             // 
@@ -243,10 +272,11 @@
             // 
             this.checkBoxLangTransliterateFreeTranslation.AutoSize = true;
             this.checkBoxLangTransliterateFreeTranslation.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxLangTransliterateFreeTranslation.Location = new System.Drawing.Point(3, 187);
+            this.checkBoxLangTransliterateFreeTranslation.Location = new System.Drawing.Point(6, 375);
+            this.checkBoxLangTransliterateFreeTranslation.Margin = new System.Windows.Forms.Padding(6);
             this.checkBoxLangTransliterateFreeTranslation.Name = "checkBoxLangTransliterateFreeTranslation";
-            this.checkBoxLangTransliterateFreeTranslation.Size = new System.Drawing.Size(84, 17);
-            this.checkBoxLangTransliterateFreeTranslation.TabIndex = 10;
+            this.checkBoxLangTransliterateFreeTranslation.Size = new System.Drawing.Size(164, 29);
+            this.checkBoxLangTransliterateFreeTranslation.TabIndex = 9;
             this.checkBoxLangTransliterateFreeTranslation.Text = "Transliterate";
             this.checkBoxLangTransliterateFreeTranslation.UseVisualStyleBackColor = true;
             this.checkBoxLangTransliterateFreeTranslation.Visible = false;
@@ -256,10 +286,11 @@
             this.checkBoxAnchors.AutoSize = true;
             this.checkBoxAnchors.Checked = true;
             this.checkBoxAnchors.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAnchors.Location = new System.Drawing.Point(3, 210);
+            this.checkBoxAnchors.Location = new System.Drawing.Point(6, 416);
+            this.checkBoxAnchors.Margin = new System.Windows.Forms.Padding(6);
             this.checkBoxAnchors.Name = "checkBoxAnchors";
-            this.checkBoxAnchors.Size = new System.Drawing.Size(65, 17);
-            this.checkBoxAnchors.TabIndex = 3;
+            this.checkBoxAnchors.Size = new System.Drawing.Size(123, 29);
+            this.checkBoxAnchors.TabIndex = 10;
             this.checkBoxAnchors.Text = "&Anchors";
             this.checkBoxAnchors.UseVisualStyleBackColor = true;
             // 
@@ -268,10 +299,11 @@
             this.checkBoxExegeticalHelpNote.AutoSize = true;
             this.checkBoxExegeticalHelpNote.Checked = true;
             this.checkBoxExegeticalHelpNote.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxExegeticalHelpNote.Location = new System.Drawing.Point(3, 233);
+            this.checkBoxExegeticalHelpNote.Location = new System.Drawing.Point(6, 457);
+            this.checkBoxExegeticalHelpNote.Margin = new System.Windows.Forms.Padding(6);
             this.checkBoxExegeticalHelpNote.Name = "checkBoxExegeticalHelpNote";
-            this.checkBoxExegeticalHelpNote.Size = new System.Drawing.Size(143, 17);
-            this.checkBoxExegeticalHelpNote.TabIndex = 14;
+            this.checkBoxExegeticalHelpNote.Size = new System.Drawing.Size(279, 29);
+            this.checkBoxExegeticalHelpNote.TabIndex = 11;
             this.checkBoxExegeticalHelpNote.Text = "&Exegetical/cultural notes";
             this.checkBoxExegeticalHelpNote.UseVisualStyleBackColor = true;
             // 
@@ -280,10 +312,11 @@
             this.checkBoxRetellings.AutoSize = true;
             this.checkBoxRetellings.Checked = true;
             this.checkBoxRetellings.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxRetellings.Location = new System.Drawing.Point(3, 256);
+            this.checkBoxRetellings.Location = new System.Drawing.Point(6, 498);
+            this.checkBoxRetellings.Margin = new System.Windows.Forms.Padding(6);
             this.checkBoxRetellings.Name = "checkBoxRetellings";
-            this.checkBoxRetellings.Size = new System.Drawing.Size(72, 17);
-            this.checkBoxRetellings.TabIndex = 5;
+            this.checkBoxRetellings.Size = new System.Drawing.Size(139, 29);
+            this.checkBoxRetellings.TabIndex = 12;
             this.checkBoxRetellings.Text = "&Retellings";
             this.checkBoxRetellings.UseVisualStyleBackColor = true;
             // 
@@ -292,9 +325,10 @@
             this.checkBoxGeneralTestingQuestions.AutoSize = true;
             this.checkBoxGeneralTestingQuestions.Checked = true;
             this.checkBoxGeneralTestingQuestions.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxGeneralTestingQuestions.Location = new System.Drawing.Point(3, 279);
+            this.checkBoxGeneralTestingQuestions.Location = new System.Drawing.Point(6, 539);
+            this.checkBoxGeneralTestingQuestions.Margin = new System.Windows.Forms.Padding(6);
             this.checkBoxGeneralTestingQuestions.Name = "checkBoxGeneralTestingQuestions";
-            this.checkBoxGeneralTestingQuestions.Size = new System.Drawing.Size(145, 17);
+            this.checkBoxGeneralTestingQuestions.Size = new System.Drawing.Size(289, 29);
             this.checkBoxGeneralTestingQuestions.TabIndex = 13;
             this.checkBoxGeneralTestingQuestions.Text = "&General testing questions";
             this.checkBoxGeneralTestingQuestions.UseVisualStyleBackColor = true;
@@ -304,10 +338,11 @@
             this.checkBoxStoryTestingQuestions.AutoSize = true;
             this.checkBoxStoryTestingQuestions.Checked = true;
             this.checkBoxStoryTestingQuestions.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxStoryTestingQuestions.Location = new System.Drawing.Point(3, 302);
+            this.checkBoxStoryTestingQuestions.Location = new System.Drawing.Point(6, 580);
+            this.checkBoxStoryTestingQuestions.Margin = new System.Windows.Forms.Padding(6);
             this.checkBoxStoryTestingQuestions.Name = "checkBoxStoryTestingQuestions";
-            this.checkBoxStoryTestingQuestions.Size = new System.Drawing.Size(132, 17);
-            this.checkBoxStoryTestingQuestions.TabIndex = 4;
+            this.checkBoxStoryTestingQuestions.Size = new System.Drawing.Size(263, 29);
+            this.checkBoxStoryTestingQuestions.TabIndex = 14;
             this.checkBoxStoryTestingQuestions.Text = "Story &testing questions";
             this.checkBoxStoryTestingQuestions.UseVisualStyleBackColor = true;
             // 
@@ -316,19 +351,21 @@
             this.checkBoxAnswers.AutoSize = true;
             this.checkBoxAnswers.Checked = true;
             this.checkBoxAnswers.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxAnswers.Location = new System.Drawing.Point(3, 325);
+            this.checkBoxAnswers.Location = new System.Drawing.Point(6, 621);
+            this.checkBoxAnswers.Margin = new System.Windows.Forms.Padding(6);
             this.checkBoxAnswers.Name = "checkBoxAnswers";
-            this.checkBoxAnswers.Size = new System.Drawing.Size(155, 17);
-            this.checkBoxAnswers.TabIndex = 8;
+            this.checkBoxAnswers.Size = new System.Drawing.Size(309, 29);
+            this.checkBoxAnswers.TabIndex = 15;
             this.checkBoxAnswers.Text = "Story test question &answers";
             this.checkBoxAnswers.UseVisualStyleBackColor = true;
             // 
             // checkBoxShowHidden
             // 
             this.checkBoxShowHidden.AutoSize = true;
-            this.checkBoxShowHidden.Location = new System.Drawing.Point(3, 348);
+            this.checkBoxShowHidden.Location = new System.Drawing.Point(6, 662);
+            this.checkBoxShowHidden.Margin = new System.Windows.Forms.Padding(6);
             this.checkBoxShowHidden.Name = "checkBoxShowHidden";
-            this.checkBoxShowHidden.Size = new System.Drawing.Size(112, 17);
+            this.checkBoxShowHidden.Size = new System.Drawing.Size(219, 29);
             this.checkBoxShowHidden.TabIndex = 11;
             this.checkBoxShowHidden.Text = "Show &hidden lines";
             this.checkBoxShowHidden.UseVisualStyleBackColor = true;
@@ -338,9 +375,10 @@
             this.checkBoxSelectAll.AutoSize = true;
             this.checkBoxSelectAll.Checked = true;
             this.checkBoxSelectAll.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxSelectAll.Location = new System.Drawing.Point(3, 3);
+            this.checkBoxSelectAll.Location = new System.Drawing.Point(6, 6);
+            this.checkBoxSelectAll.Margin = new System.Windows.Forms.Padding(6);
             this.checkBoxSelectAll.Name = "checkBoxSelectAll";
-            this.checkBoxSelectAll.Size = new System.Drawing.Size(82, 17);
+            this.checkBoxSelectAll.Size = new System.Drawing.Size(158, 29);
             this.checkBoxSelectAll.TabIndex = 3;
             this.checkBoxSelectAll.Text = "&Deselect All";
             this.checkBoxSelectAll.UseVisualStyleBackColor = true;
@@ -352,19 +390,21 @@
             this.tabControl.Controls.Add(this.tabPagePrintPreview);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
+            this.tabControl.Margin = new System.Windows.Forms.Padding(6);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(831, 466);
+            this.tabControl.Size = new System.Drawing.Size(1662, 896);
             this.tabControl.TabIndex = 1;
             this.tabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl_Selected);
             // 
             // tabPagePrintPreviewConfig
             // 
             this.tabPagePrintPreviewConfig.Controls.Add(this.tableLayoutPanel);
-            this.tabPagePrintPreviewConfig.Location = new System.Drawing.Point(4, 22);
+            this.tabPagePrintPreviewConfig.Location = new System.Drawing.Point(4, 34);
+            this.tabPagePrintPreviewConfig.Margin = new System.Windows.Forms.Padding(6);
             this.tabPagePrintPreviewConfig.Name = "tabPagePrintPreviewConfig";
-            this.tabPagePrintPreviewConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePrintPreviewConfig.Size = new System.Drawing.Size(823, 440);
+            this.tabPagePrintPreviewConfig.Padding = new System.Windows.Forms.Padding(6);
+            this.tabPagePrintPreviewConfig.Size = new System.Drawing.Size(1654, 858);
             this.tabPagePrintPreviewConfig.TabIndex = 0;
             this.tabPagePrintPreviewConfig.Text = "Configure";
             this.tabPagePrintPreviewConfig.ToolTipText = "Configure what you want to see in the print report";
@@ -373,10 +413,11 @@
             // tabPagePrintPreview
             // 
             this.tabPagePrintPreview.Controls.Add(this.printViewer);
-            this.tabPagePrintPreview.Location = new System.Drawing.Point(4, 22);
+            this.tabPagePrintPreview.Location = new System.Drawing.Point(4, 34);
+            this.tabPagePrintPreview.Margin = new System.Windows.Forms.Padding(6);
             this.tabPagePrintPreview.Name = "tabPagePrintPreview";
-            this.tabPagePrintPreview.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePrintPreview.Size = new System.Drawing.Size(823, 440);
+            this.tabPagePrintPreview.Padding = new System.Windows.Forms.Padding(6);
+            this.tabPagePrintPreview.Size = new System.Drawing.Size(1654, 858);
             this.tabPagePrintPreview.TabIndex = 1;
             this.tabPagePrintPreview.Text = "Print Preview";
             this.tabPagePrintPreview.ToolTipText = "Click this tab to see the preview";
@@ -385,9 +426,10 @@
             // printViewer
             // 
             this.printViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.printViewer.Location = new System.Drawing.Point(3, 3);
+            this.printViewer.Location = new System.Drawing.Point(6, 6);
+            this.printViewer.Margin = new System.Windows.Forms.Padding(12);
             this.printViewer.Name = "printViewer";
-            this.printViewer.Size = new System.Drawing.Size(817, 434);
+            this.printViewer.Size = new System.Drawing.Size(1642, 846);
             this.printViewer.TabIndex = 0;
             // 
             // saveFileDialog
@@ -398,11 +440,12 @@
             // 
             // PrintForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(831, 466);
+            this.ClientSize = new System.Drawing.Size(1662, 896);
             this.Controls.Add(this.tabControl);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "PrintForm";
             this.Text = "Print";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PrintForm_FormClosing);
@@ -447,5 +490,6 @@
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateInternationalBt;
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateFreeTranslation;
         private PrintViewer printViewer;
+        private System.Windows.Forms.CheckBox checkBoxShowLineNumbers;
     }
 }

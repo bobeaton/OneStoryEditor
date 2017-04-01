@@ -132,7 +132,8 @@ namespace OneStoryProjectEditor
                     checkBoxShowHidden.Checked,
                     checkBoxOpenConNotesOnly.Checked,
                     checkBoxGeneralTestingQuestions.Checked,
-                    false); // I think this is a don't-care value (for here)
+                    false,  // I think this is a don't-care value (for here)
+                    true); 
                 return _viewSettings;
             }
         }

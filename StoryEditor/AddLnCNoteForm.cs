@@ -2,8 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using NetLoc;
-using Palaso.UI.WindowsForms.Keyboarding;
-using Palaso.WritingSystems;
+using SIL.Keyboarding;
 
 namespace OneStoryProjectEditor
 {
@@ -215,7 +214,8 @@ namespace OneStoryProjectEditor
                 return;
             var li = tb.Tag as ProjectSettings.LanguageInfo;
             if ((li != null) && (!String.IsNullOrEmpty(li.Keyboard)))
-                Keyboard.Controller.SetKeyboard(li.Keyboard);
+                // Keyboard.Controller.SetKeyboard(li.Keyboard);
+                Keyboard.Controller.GetKeyboard(li.Keyboard).Activate();
         }
 
         private void textBox_Leave(object sender, EventArgs e)

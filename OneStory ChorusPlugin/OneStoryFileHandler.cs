@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
-using Chorus.FileTypeHanders;
-using Chorus.FileTypeHanders.xml;
+using Chorus.FileTypeHandlers;
+using Chorus.FileTypeHandlers.xml;
 using Chorus.Utilities;
 using Chorus.merge;
 using Chorus.merge.xml.generic;
 using Chorus.VcsDrivers.Mercurial;
-using Palaso.IO;
-using Palaso.Progress;
+using SIL.Progress;
+using SIL.IO;
 
 namespace OneStory_ChorusPlugin
 {

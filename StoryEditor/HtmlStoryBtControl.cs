@@ -5,10 +5,9 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using NetLoc;
-using Palaso.UI.WindowsForms.Keyboarding;
-using Palaso.WritingSystems;
 using SilEncConverters40;
 using mshtml;
+using SIL.Keyboarding;
 
 namespace OneStoryProjectEditor
 {
@@ -345,7 +344,8 @@ namespace OneStoryProjectEditor
             {
                 var strKeyboardName = textAreaIdentifier.GetLanguageInfo(TheSE.StoryProject.ProjSettings).Keyboard;
                 if (!String.IsNullOrEmpty(strKeyboardName))
-                    Keyboard.Controller.SetKeyboard(strKeyboardName);
+                    // Keyboard.Controller.SetKeyboard(strKeyboardName);
+                    Keyboard.Controller.GetKeyboard(strKeyboardName).Activate();
             }
             return false;
         }

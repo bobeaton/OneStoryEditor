@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Xsl;
-using Chorus.FileTypeHanders;
 using Chorus.merge;
 using Chorus.merge.xml.generic;
 using Chorus.VcsDrivers.Mercurial;
-using Palaso.IO;
-using Palaso.Progress;
+using Chorus.FileTypeHandlers;
+using SIL.Progress;
+using SIL.IO;
 
 namespace AdaptIt_ChorusPlugin
 {

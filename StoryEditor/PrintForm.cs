@@ -118,7 +118,8 @@ namespace OneStoryProjectEditor
                         : null,
                     (checkBoxLangTransliterateFreeTranslation.Checked)
                         ? _theSE.LoggedOnMember.TransliteratorFreeTranslation
-                        : null);
+                        : null,
+                    checkBoxShowLineNumbers.Checked);
                 return viewSettings;
             }
         }
@@ -126,6 +127,8 @@ namespace OneStoryProjectEditor
         private void SetViewSettings(long lSettings)
         {
             var viewSettings = new VerseData.ViewSettings(lSettings);
+            SetViewSetting(checkBoxShowLineNumbers, viewSettings,
+                           VerseData.ViewSettings.ItemToInsureOn.ShowingLineNumbers);
             SetViewSetting(checkBoxLangVernacular, viewSettings,
                            VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
             SetViewSetting(checkBoxLangNationalBT, viewSettings,

@@ -21,12 +21,12 @@ namespace OneStoryProjectEditor
             base.Commit(savedState);
             // RunFixupProgram();
             // InitializeEncConverter();
-            Regsvr32IcuEc48();
+            // Regsvr32IcuEc48();
         }
 
         public override void Uninstall(System.Collections.IDictionary savedState)
         {
-            UnRegsvr32IcuEc48();
+            // UnRegsvr32IcuEc48();
             base.Uninstall(savedState);
         }
 

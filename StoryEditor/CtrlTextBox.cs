@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
 using NetLoc;
-using Palaso.UI.WindowsForms.Keyboarding;
-using Palaso.WritingSystems;
+using SIL.Keyboarding;
 
 namespace OneStoryProjectEditor
 {
@@ -312,7 +311,8 @@ namespace OneStoryProjectEditor
             try
             {
                 if (!String.IsNullOrEmpty(_strKeyboardName))
-                    Keyboard.Controller.SetKeyboard(_strKeyboardName);
+                    // Keyboard.Controller.SetKeyboard(_strKeyboardName);
+                    Keyboard.Controller.GetKeyboard(_strKeyboardName).Activate();
             }
             catch (System.IO.FileLoadException)
             {

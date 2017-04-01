@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Palaso.UI.WindowsForms.Keyboarding;
-using Palaso.WritingSystems;
 using SilEncConverters40;
+using SIL.Keyboarding;
 
 namespace OneStoryProjectEditor
 {
@@ -243,7 +242,8 @@ namespace OneStoryProjectEditor
         private void textBoxTargetWord_Enter(object sender, EventArgs e)
         {
             if (!String.IsNullOrEmpty(_strTargetKeyboard))
-                Keyboard.Controller.SetKeyboard(_strTargetKeyboard);
+                // Keyboard.Controller.SetKeyboard(_strTargetKeyboard);
+                Keyboard.Controller.GetKeyboard(_strTargetKeyboard).Activate();
 
             if (SourceWord == TargetWord)
             {
@@ -362,7 +362,8 @@ namespace OneStoryProjectEditor
                           };
 
             if (!String.IsNullOrEmpty(_strSourceKeyboard))
-                Keyboard.Controller.SetKeyboard(_strSourceKeyboard);
+                // Keyboard.Controller.SetKeyboard(_strSourceKeyboard);
+                Keyboard.Controller.GetKeyboard(_strSourceKeyboard).Activate();
             if (dlg.ShowDialog() == DialogResult.OK)
                 _parent.Update(this, dlg.CorrectedWord);
             Program.ActivateDefaultKeyboard();
