@@ -213,7 +213,16 @@ namespace OneStoryProjectEditor
             buttonBrowse_Click(sender, e);
         }
 
-        private EncConverters theECs = new EncConverters();
+        private EncConverters _theECs;
+        private EncConverters theECs
+        {
+            get
+            {
+                if (_theECs == null)
+                    _theECs = new EncConverters();
+                return _theECs;
+            }
+        }
 
         private void buttonBrowse_Click(object sender, EventArgs e)
         {
