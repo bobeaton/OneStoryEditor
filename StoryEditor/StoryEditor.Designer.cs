@@ -1866,9 +1866,9 @@ namespace OneStoryProjectEditor
             this.toolStripButtonPrevious,
             this.toolStripButtonNext,
             this.toolStripButtonLast});
-            this.toolStripRecordNavigation.Location = new System.Drawing.Point(929, 0);
+            this.toolStripRecordNavigation.Location = new System.Drawing.Point(932, 0);
             this.toolStripRecordNavigation.Name = "toolStripRecordNavigation";
-            this.toolStripRecordNavigation.Size = new System.Drawing.Size(183, 39);
+            this.toolStripRecordNavigation.Size = new System.Drawing.Size(180, 38);
             this.toolStripRecordNavigation.TabIndex = 3;
             this.toolStripRecordNavigation.Text = "<no need to localize/translate>";
             // 
@@ -1876,9 +1876,11 @@ namespace OneStoryProjectEditor
             // 
             this.toolStripButtonShowPanoramaStories.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButtonShowPanoramaStories.Image = global::OneStoryProjectEditor.Properties.Resources.ShowAllCommentsHS;
+            this.toolStripButtonShowPanoramaStories.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonShowPanoramaStories.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonShowPanoramaStories.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
             this.toolStripButtonShowPanoramaStories.Name = "toolStripButtonShowPanoramaStories";
-            this.toolStripButtonShowPanoramaStories.Size = new System.Drawing.Size(36, 36);
+            this.toolStripButtonShowPanoramaStories.Size = new System.Drawing.Size(23, 36);
             this.toolStripButtonShowPanoramaStories.Text = "Show Panorama Stories";
             this.toolStripButtonShowPanoramaStories.ToolTipText = "Click to view the full list of stories (same as \"Panorama\", \"Show\")";
             this.toolStripButtonShowPanoramaStories.Click += new System.EventHandler(this.toolStripMenuItemShowPanorama_Click);
@@ -1887,9 +1889,10 @@ namespace OneStoryProjectEditor
             // 
             this.toolStripButtonFirst.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButtonFirst.Image = global::OneStoryProjectEditor.Properties.Resources.DataContainer_MoveFirstHS;
+            this.toolStripButtonFirst.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonFirst.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonFirst.Name = "toolStripButtonFirst";
-            this.toolStripButtonFirst.Size = new System.Drawing.Size(36, 36);
+            this.toolStripButtonFirst.Size = new System.Drawing.Size(23, 35);
             this.toolStripButtonFirst.Text = "First Story";
             this.toolStripButtonFirst.ToolTipText = "Click to go to the first story (hold down the Ctrl key and click to keep the same" +
     " fields visible)";
@@ -1899,9 +1902,10 @@ namespace OneStoryProjectEditor
             // 
             this.toolStripButtonPrevious.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButtonPrevious.Image = global::OneStoryProjectEditor.Properties.Resources.DataContainer_MovePreviousHS;
+            this.toolStripButtonPrevious.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonPrevious.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonPrevious.Name = "toolStripButtonPrevious";
-            this.toolStripButtonPrevious.Size = new System.Drawing.Size(36, 36);
+            this.toolStripButtonPrevious.Size = new System.Drawing.Size(23, 35);
             this.toolStripButtonPrevious.Text = "Previous Story";
             this.toolStripButtonPrevious.ToolTipText = "Click to go to the previous story (hold down the Ctrl key and click to keep the s" +
     "ame fields visible)";
@@ -1911,9 +1915,10 @@ namespace OneStoryProjectEditor
             // 
             this.toolStripButtonNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButtonNext.Image = global::OneStoryProjectEditor.Properties.Resources.DataContainer_MoveNextHS;
+            this.toolStripButtonNext.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonNext.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonNext.Name = "toolStripButtonNext";
-            this.toolStripButtonNext.Size = new System.Drawing.Size(36, 36);
+            this.toolStripButtonNext.Size = new System.Drawing.Size(23, 35);
             this.toolStripButtonNext.Text = "Next Story";
             this.toolStripButtonNext.ToolTipText = "Click to go to the next story (hold down the Ctrl key and click to keep the same " +
     "fields visible)";
@@ -1923,9 +1928,10 @@ namespace OneStoryProjectEditor
             // 
             this.toolStripButtonLast.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButtonLast.Image = global::OneStoryProjectEditor.Properties.Resources.DataContainer_MoveLastHS;
+            this.toolStripButtonLast.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonLast.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonLast.Name = "toolStripButtonLast";
-            this.toolStripButtonLast.Size = new System.Drawing.Size(36, 36);
+            this.toolStripButtonLast.Size = new System.Drawing.Size(23, 35);
             this.toolStripButtonLast.Text = "Last Story";
             this.toolStripButtonLast.ToolTipText = "Click to go to the last story (hold down the Ctrl key and click to keep the same " +
     "fields visible)";
