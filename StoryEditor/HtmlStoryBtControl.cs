@@ -1570,9 +1570,16 @@ namespace OneStoryProjectEditor
 
         private static string GetSpanInnerText(IEnumerable<HtmlElement> spans, string strId)
         {
+#if false
             return (from span in spans
                     where (span != null) && (span.Parent != null) && (span.Parent.Id == strId)
                     select span.InnerText).FirstOrDefault();
+#else
+            var lstSpans = spans.Where(s => (s != null) && (s.Parent != null) && (s.Parent.Id == strId) && !String.IsNullOrEmpty(s.InnerText))
+                                .Select(s => s.InnerText)
+                                .ToList();
+            return lstSpans.FirstOrDefault();
+#endif
         }
 
         private bool TryGetAnchorData(string strAnchorButtonId, out int nLineIndex, out AnchorData anchor)

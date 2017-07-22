@@ -7,12 +7,14 @@ using System.Xml.Xsl;
 using Chorus.merge;
 using Chorus.merge.xml.generic;
 using Chorus.VcsDrivers.Mercurial;
+using System.ComponentModel.Composition;
 using Chorus.FileTypeHandlers;
 using SIL.Progress;
 using SIL.IO;
 
 namespace AdaptIt_ChorusPlugin
 {
+    [Export(typeof(IChorusFileTypeHandler))]
     public class AdaptItFileHandler : IChorusFileTypeHandler
     {
         internal AdaptItFileHandler()

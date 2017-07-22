@@ -77,6 +77,16 @@ namespace OneStoryProjectEditor
             }
             else
             {
+                if (column1 == StoryEditor.TextFields.FreeTranslation)
+                {
+                    checkBoxRetellings.Checked = checkBoxTestQuestions.Checked = checkBoxTestQuestionAnswers.Checked = 
+                        checkBoxRetellings.Enabled = checkBoxTestQuestions.Enabled = checkBoxTestQuestionAnswers.Enabled = false;
+                }
+                else
+                {
+                    checkBoxRetellings.Enabled = checkBoxTestQuestions.Enabled = checkBoxTestQuestionAnswers.Enabled = true;
+                }
+
                 var storyAfterSwap = new StoryData(htmlStoryBtControlBefore.StoryData);
                 storyAfterSwap.SwapColumns(column1, column2, fieldsToSwap);
                 htmlStoryBtControlAfter.StoryData = storyAfterSwap;

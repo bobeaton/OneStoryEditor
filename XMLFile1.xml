@@ -1,5 +1,150 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<ChorusConfigurations username="bobeaton" password="asdghsdaglsd">
-  <Project type="OneStoryEditor" name="lb1-hindi" servername="private.languageDepot.org" foldername="lb1-hindi" />
-  <Project type="AdaptIt" name="aikb-hindi-english" servername="private.languageDepot.org" foldername="Hindi to English Adaptations" />
-</ChorusConfigurations>
+<?xml version="1.0" encoding="utf-8"?>
+<OrderResponseDetailHigh xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <NumberOfMatches xmlns="http://api.channeladvisor.com/datacontracts/orders">41</NumberOfMatches>
+  <OrderTimeGMT xmlns="http://api.channeladvisor.com/datacontracts/orders">2017-03-18T17:26:43</OrderTimeGMT>
+  <LastUpdateDate xmlns="http://api.channeladvisor.com/datacontracts/orders">2017-03-18T18:24:10.073</LastUpdateDate>
+  <TotalOrderAmount xmlns="http://api.channeladvisor.com/datacontracts/orders">100.1500</TotalOrderAmount>
+  <OrderState xmlns="http://api.channeladvisor.com/datacontracts/orders">Active</OrderState>
+  <DateCancelledGMT xsi:nil="true" xmlns="http://api.channeladvisor.com/datacontracts/orders" />
+  <OrderID xmlns="http://api.channeladvisor.com/datacontracts/orders">696552</OrderID>
+  <ClientOrderIdentifier xmlns="http://api.channeladvisor.com/datacontracts/orders">111-0781565-8014659</ClientOrderIdentifier>
+  <SellerOrderID xmlns="http://api.channeladvisor.com/datacontracts/orders" />
+  <OrderStatus xmlns="http://api.channeladvisor.com/datacontracts/orders">
+    <CheckoutStatus>Completed</CheckoutStatus>
+    <CheckoutDateGMT>2017-03-18T17:26:43</CheckoutDateGMT>
+    <PaymentStatus>Cleared</PaymentStatus>
+    <PaymentDateGMT>2017-03-18T17:26:43</PaymentDateGMT>
+    <ShippingStatus>Unshipped</ShippingStatus>
+    <ShippingDateGMT>1900-01-01T00:00:00</ShippingDateGMT>
+    <OrderRefundStatus>NoRefunds</OrderRefundStatus>
+  </OrderStatus>
+  <ResellerID xmlns="http://api.channeladvisor.com/datacontracts/orders" />
+  <BuyerEmailAddress xmlns="http://api.channeladvisor.com/datacontracts/orders">r7nn876mmv2t05g@marketplace.amazon.com</BuyerEmailAddress>
+  <EmailOptIn xmlns="http://api.channeladvisor.com/datacontracts/orders">false</EmailOptIn>
+  <PaymentInfo xmlns="http://api.channeladvisor.com/datacontracts/orders">
+    <PaymentType>Amazon</PaymentType>
+    <CreditCardLast4 />
+    <PayPalID />
+    <MerchantReferenceNumber />
+    <PaymentTransactionID />
+  </PaymentInfo>
+  <ShippingInfo xmlns="http://api.channeladvisor.com/datacontracts/orders">
+    <AddressLine1>10750 GARDEN CROSSING WAY APT 102</AddressLine1>
+    <AddressLine2>APARTMENT 102</AddressLine2>
+    <City>KNOXVILLE</City>
+    <Region>TN</Region>
+    <RegionDescription>Tennessee</RegionDescription>
+    <PostalCode>37932-3749</PostalCode>
+    <CountryCode>US</CountryCode>
+    <CompanyName />
+    <JobTitle />
+    <Title />
+    <FirstName>mary</FirstName>
+    <LastName>summitt</LastName>
+    <Suffix />
+    <PhoneNumberDay>865-382-7931</PhoneNumberDay>
+    <PhoneNumberEvening />
+    <ShipmentList>
+      <Shipment>
+        <ShippingCarrier>Amazon Merchants@</ShippingCarrier>
+        <ShippingClass>Standard</ShippingClass>
+        <TrackingNumber />
+      </Shipment>
+    </ShipmentList>
+    <ShippingInstructions />
+    <EstimatedShipDate>2017-03-22T05:59:59</EstimatedShipDate>
+    <DeliveryDate>2017-03-29T05:59:59</DeliveryDate>
+  </ShippingInfo>
+  <BillingInfo xmlns="http://api.channeladvisor.com/datacontracts/orders">
+    <AddressLine1>10750 GARDEN CROSSING WAY APT 102</AddressLine1>
+    <AddressLine2>APARTMENT 102</AddressLine2>
+    <City>KNOXVILLE</City>
+    <Region>TN</Region>
+    <RegionDescription>Tennessee</RegionDescription>
+    <PostalCode>37932-3749</PostalCode>
+    <CountryCode>US</CountryCode>
+    <CompanyName />
+    <Title />
+    <FirstName>mary</FirstName>
+    <LastName>summitt</LastName>
+    <Suffix />
+    <PhoneNumberDay>865-382-7931</PhoneNumberDay>
+    <PhoneNumberEvening />
+  </BillingInfo>
+  <FlagDescription xmlns="http://api.channeladvisor.com/datacontracts/orders" />
+  <ShoppingCart xmlns="http://api.channeladvisor.com/datacontracts/orders">
+    <CartID>696552</CartID>
+    <CheckoutSource>Unspecified</CheckoutSource>
+    <VATTaxCalculationOption>Unspecified</VATTaxCalculationOption>
+    <VATShippingOption>Unspecified</VATShippingOption>
+    <VATGiftWrapOption>Unspecified</VATGiftWrapOption>
+    <LineItemSKUList>
+      <OrderLineItemItem xsi:type="OrderLineItemItemResponse">
+        <LineItemType>SKU</LineItemType>
+        <UnitPrice>100.1500</UnitPrice>
+        <LineItemID>626616</LineItemID>
+        <AllowNegativeQuantity>false</AllowNegativeQuantity>
+        <Quantity>1</Quantity>
+        <ItemSaleSource>AMAZON_US</ItemSaleSource>
+        <SKU>1303827</SKU>
+        <Title>Dingo Women's Moon And Cactus Zipper Ankle Boot Tan</Title>
+        <BuyerUserID>r7nn876mmv2t05g@marketplace.amazon.com</BuyerUserID>
+        <BuyerFeedbackRating>0</BuyerFeedbackRating>
+        <SalesSourceID>20398936042706</SalesSourceID>
+        <VATRate>0</VATRate>
+        <TaxCost>0.0000</TaxCost>
+        <ShippingCost>0.0000</ShippingCost>
+        <ShippingTaxCost>0.0000</ShippingTaxCost>
+        <GiftWrapCost>0.0000</GiftWrapCost>
+        <GiftWrapTaxCost>0.0000</GiftWrapTaxCost>
+        <GiftMessage />
+        <GiftWrapLevel />
+        <RecyclingFee>0.0000</RecyclingFee>
+        <FulfillmentType>Ship</FulfillmentType>
+        <UnitWeight UnitOfMeasure="LB">0</UnitWeight>
+        <WarehouseLocation>11617600105</WarehouseLocation>
+        <UserName />
+        <DistributionCenterCode>Wichita</DistributionCenterCode>
+        <IsExternallyFulfilled>false</IsExternallyFulfilled>
+        <ItemSaleSourceTransactionID>20398936042706</ItemSaleSourceTransactionID>
+      </OrderLineItemItem>
+    </LineItemSKUList>
+    <LineItemInvoiceList>
+      <OrderLineItemInvoice>
+        <LineItemType>SalesTax</LineItemType>
+        <UnitPrice>0.0000</UnitPrice>
+      </OrderLineItemInvoice>
+      <OrderLineItemInvoice>
+        <LineItemType>Shipping</LineItemType>
+        <UnitPrice>0.0000</UnitPrice>
+      </OrderLineItemInvoice>
+      <OrderLineItemInvoice>
+        <LineItemType>ShippingInsurance</LineItemType>
+        <UnitPrice>0.0000</UnitPrice>
+      </OrderLineItemInvoice>
+      <OrderLineItemInvoice>
+        <LineItemType>VATShipping</LineItemType>
+        <UnitPrice>0</UnitPrice>
+      </OrderLineItemInvoice>
+      <OrderLineItemInvoice>
+        <LineItemType>GiftWrap</LineItemType>
+        <UnitPrice>0.0000</UnitPrice>
+      </OrderLineItemInvoice>
+      <OrderLineItemInvoice>
+        <LineItemType>VATGiftWrap</LineItemType>
+        <UnitPrice>0</UnitPrice>
+      </OrderLineItemInvoice>
+      <OrderLineItemInvoice>
+        <LineItemType>RecyclingFee</LineItemType>
+        <UnitPrice>0.0000</UnitPrice>
+      </OrderLineItemInvoice>
+    </LineItemInvoiceList>
+    <LineItemPromoList>
+      <OrderLineItemPromo>
+        <LineItemType>Promotion</LineItemType>
+        <UnitPrice>0.0000</UnitPrice>
+        <PromoCode />
+      </OrderLineItemPromo>
+    </LineItemPromoList>
+  </ShoppingCart>
+</OrderResponseDetailHigh>

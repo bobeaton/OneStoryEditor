@@ -130,7 +130,9 @@ namespace OneStoryProjectEditor
                         return;
                     }
 
+#if !TurnOnKeyboarding
                     SIL.Windows.Forms.Keyboarding.KeyboardController.Initialize();
+#endif
                     Application.Run(new StoryEditor(Properties.Resources.IDS_MainStoriesSet, strFilePathToOpen));
                 }
             }
@@ -159,7 +161,9 @@ namespace OneStoryProjectEditor
             }
             finally
             {
+#if !TurnOnKeyboarding
                 SIL.Windows.Forms.Keyboarding.KeyboardController.Shutdown();
+#endif
             }
         }
 

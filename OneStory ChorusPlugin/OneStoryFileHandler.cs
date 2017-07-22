@@ -11,9 +11,11 @@ using Chorus.merge.xml.generic;
 using Chorus.VcsDrivers.Mercurial;
 using SIL.Progress;
 using SIL.IO;
+using System.ComponentModel.Composition;
 
 namespace OneStory_ChorusPlugin
 {
+    [Export(typeof(IChorusFileTypeHandler))]
     public class OneStoryFileHandler : IChorusFileTypeHandler
     {
 		internal OneStoryFileHandler()
