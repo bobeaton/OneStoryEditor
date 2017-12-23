@@ -174,6 +174,11 @@ namespace UpdateAccessDbWithOsMetaData
 
         private static Param[] GetParameterArray(OsMetaDataModelRecord osMetaDataModelRecord)
         {
+            var dtSetFinished = (osMetaDataModelRecord.SetFinishedDate == DateTime.MinValue) ? (object)DBNull.Value : osMetaDataModelRecord.SetFinishedDate;
+            var psCoach = (String.IsNullOrEmpty(osMetaDataModelRecord.PsCoach)) ? (object)DBNull.Value : osMetaDataModelRecord.PsCoach;
+            var esCoach = (String.IsNullOrEmpty(osMetaDataModelRecord.EsCoach)) ? (object)DBNull.Value : osMetaDataModelRecord.EsCoach;
+            var psConsultant = (String.IsNullOrEmpty(osMetaDataModelRecord.PsConsultant)) ? (object)DBNull.Value : osMetaDataModelRecord.PsConsultant;
+            var esConsultant = (String.IsNullOrEmpty(osMetaDataModelRecord.EsConsultant)) ? (object)DBNull.Value : osMetaDataModelRecord.EsConsultant;
             return new[]
             {
                 new Param("@ProjectName", osMetaDataModelRecord.ProjectName, OleDbType.VarWChar),
@@ -200,18 +205,18 @@ namespace UpdateAccessDbWithOsMetaData
                 new Param("@ScWorkshop", osMetaDataModelRecord.ScWorkshop, OleDbType.VarWChar),
                 new Param("@IsCurrentlyUsingOse", osMetaDataModelRecord.IsCurrentlyUsingOse, OleDbType.Boolean),
                 new Param("@OseProjId", osMetaDataModelRecord.OseProjId, OleDbType.VarWChar),
-                new Param("@EsConsultant", osMetaDataModelRecord.EsConsultant, OleDbType.VarWChar),
-                new Param("@EsCoach", osMetaDataModelRecord.EsCoach, OleDbType.VarWChar),
+                new Param("@EsConsultant", esConsultant, OleDbType.VarWChar),
+                new Param("@EsCoach", esCoach, OleDbType.VarWChar),
                 new Param("@EsStoriesSent", osMetaDataModelRecord.EsStoriesSent, OleDbType.Integer),
                 new Param("@ProcessCheck", osMetaDataModelRecord.ProcessCheck, OleDbType.VarWChar),
                 new Param("@MultiplicationWorkshop", osMetaDataModelRecord.MultiplicationWorkshop, OleDbType.VarWChar),
                 new Param("@NumberSfgs", osMetaDataModelRecord.NumberSfgs, OleDbType.Integer),
-                new Param("@PsConsultant", osMetaDataModelRecord.PsConsultant, OleDbType.VarWChar),
-                new Param("@PsCoach", osMetaDataModelRecord.PsCoach, OleDbType.VarWChar),
+                new Param("@PsConsultant", psConsultant, OleDbType.VarWChar),
+                new Param("@PsCoach", psCoach, OleDbType.VarWChar),
                 new Param("@PsStoriesPrelimApprov", osMetaDataModelRecord.PsStoriesPrelimApprov, OleDbType.Integer),
                 new Param("@Lsr", osMetaDataModelRecord.Lsr, OleDbType.VarWChar),
                 new Param("@NumInFinalApprov", osMetaDataModelRecord.NumInFinalApprov, OleDbType.Integer),
-                new Param("@SetFinishedDate", osMetaDataModelRecord.SetFinishedDate, OleDbType.DBDate),
+                new Param("@SetFinishedDate", dtSetFinished, OleDbType.DBDate),
                 new Param("@IsUploadedToOsMedia", osMetaDataModelRecord.IsUploadedToOsMedia, OleDbType.Boolean),
                 new Param("@SetCopyrighted", osMetaDataModelRecord.SetCopyrighted, OleDbType.VarWChar)
             };
