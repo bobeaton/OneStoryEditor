@@ -562,6 +562,10 @@ namespace OneStoryProjectEditor
             if (bShowEnglishBT) nNumCols++;
             if (bShowFreeTranslation) nNumCols++;
 
+            // it's not helpful to have nothing...
+            if (nNumCols == 0)
+                nNumCols = 1;
+
             // always gotta have at least the title and stage
             var bIsPrinting = (child == null);
             var strHtml = CraftingInfoData.PresentationHtmlRow(Localizer.Str("Story Name"), Name,
