@@ -725,7 +725,12 @@ namespace OneStoryProjectEditor
             string strKeyboard = (string)cb.SelectedItem;
             if (LoggedInMember != null)
             {
-                if (!String.IsNullOrEmpty(li.DefaultKeyboard)
+                if (strKeyboard == null)
+                {
+                    // probably means that the default isn't installed and probably the user doesn't care... so don't change anything
+                    ;
+                }
+                else if (!String.IsNullOrEmpty(li.DefaultKeyboard)
                     && (strKeyboard != li.DefaultKeyboard))
                 {
                     var res = QueryOverride(li.LangName, Localizer.Str("keyboard"));

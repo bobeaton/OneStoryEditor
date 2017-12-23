@@ -4238,22 +4238,56 @@ namespace OneStoryProjectEditor
         }
         */
 
-        private delegate void ResetValue(LineData lineData);
-        private static void DeleteVernacular(LineData lineData)
+        private delegate void ResetValue(VerseData verse);
+        private static void DeleteVernacular(VerseData verse)
         {
-            lineData.Vernacular.SetValue(null);
+            verse.StoryLine.Vernacular.SetValue(null);
         }
-        private static void DeleteNationalBt(LineData lineData)
+        private static void DeleteNationalBt(VerseData verse)
         {
-            lineData.NationalBt.SetValue(null);
+            verse.StoryLine.NationalBt.SetValue(null);
         }
-        private static void DeleteInternationalBt(LineData lineData)
+        private static void DeleteInternationalBt(VerseData verse)
         {
-            lineData.InternationalBt.SetValue(null);
+            verse.StoryLine.InternationalBt.SetValue(null);
         }
-        private static void DeleteFreeTranslation(LineData lineData)
+        private static void DeleteFreeTranslation(VerseData verse)
         {
-            lineData.FreeTranslation.SetValue(null);
+            verse.StoryLine.FreeTranslation.SetValue(null);
+        }
+        private static void DeleteAnchors(VerseData verse)
+        {
+            verse.Anchors.RemoveAll();
+        }
+        private static void DeleteExegeticalHelps(VerseData verse)
+        {
+            verse.ExegeticalHelpNotes.RemoveAll();
+        }
+        private static void DeleteStoryTestingQuestionsAndAnswers(VerseData verse)
+        {
+            verse.TestQuestions.RemoveAll();
+        }
+        private static void DeleteTestQuestionAnswers(VerseData verse)
+        {
+            foreach (var testQuestion in verse.TestQuestions)
+                testQuestion.Answers.RemoveAll();
+        }
+        private static void DeleteRetellings(VerseData verse)
+        {
+            verse.Retellings.RemoveAll();
+        }
+        private static void DeleteConsultantNotes(VerseData verse)
+        {
+            verse.ConsultantNotes.RemoveAll();
+        }
+        private static void DeleteCoachNotes(VerseData verse)
+        {
+            verse.CoachNotes.RemoveAll();
+        }
+        private static void DeleteHiddenLines(VerseData verse)
+        {
+            if (!verse.IsVisible)
+                verse.TestQuestions.RemoveAll();
         }
 
         private void DeleteFieldData(object sender, ResetValue delegateResetValue)
@@ -4267,7 +4301,7 @@ namespace OneStoryProjectEditor
                                     MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                 {
                     foreach (var aVerse in TheCurrentStory.Verses)
-                        delegateResetValue(aVerse.StoryLine);
+                        delegateResetValue(aVerse);
                     ReInitVerseControls();
                     Modified = true;
                 }
@@ -7438,6 +7472,87 @@ namespace OneStoryProjectEditor
         private void panoramaPreviousStoryMenu_Click(object sender, EventArgs e)
         {
             GoToPreviousStory();
+        }
+
+        private void editDeleteChooseFieldsMenu_Click(object sender, EventArgs e)
+        {
+            var dlg = new ViewEnableForm(this, StoryProject.ProjSettings, TheCurrentStory, false);
+            dlg.InitializeForQueryingFieldsSelected();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                // get the list of stuff we're going to delete, so we can confirm it
+                var _mapToFieldsToDelete = new Dictionary<string, ResetValue>();
+                var fieldsToDeleteChosen = dlg.ViewSettings;
+                if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField))
+                    _mapToFieldsToDelete.Add(dlg.checkBoxLangVernacular.Text, DeleteVernacular);
+                if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField))
+                    _mapToFieldsToDelete.Add(dlg.checkBoxLangNationalBT.Text, DeleteNationalBt);
+                if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.InternationalBtField))
+                    _mapToFieldsToDelete.Add(dlg.checkBoxLangInternationalBT.Text, DeleteInternationalBt);
+                if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField))
+                    _mapToFieldsToDelete.Add(dlg.checkBoxLangFreeTranslation.Text, DeleteFreeTranslation);
+                if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnchorFields))
+                    _mapToFieldsToDelete.Add(dlg.checkBoxAnchors.Text, DeleteAnchors);
+                if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.ExegeticalHelps))
+                    _mapToFieldsToDelete.Add(dlg.checkBoxExegeticalNotes.Text, DeleteExegeticalHelps);
+                if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions))
+                    _mapToFieldsToDelete.Add(dlg.checkBoxGeneralTestingQuestions.Text, DeleteStoryTestingQuestionsAndAnswers);
+                if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions))
+                    _mapToFieldsToDelete.Add(dlg.checkBoxStoryTestingQuestions.Text, DeleteStoryTestingQuestionsAndAnswers);
+                if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
+                    _mapToFieldsToDelete.Add(dlg.checkBoxAnswers.Text, DeleteTestQuestionAnswers);
+                if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.RetellingFields))
+                    _mapToFieldsToDelete.Add(dlg.checkBoxRetellings.Text, DeleteRetellings);
+                if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields))
+                    _mapToFieldsToDelete.Add(dlg.checkBoxConsultantNotes.Text, DeleteConsultantNotes);
+                if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields))
+                    _mapToFieldsToDelete.Add(dlg.checkBoxCoachNotes.Text, DeleteCoachNotes);
+                if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.HiddenStuff))
+                    _mapToFieldsToDelete.Add(dlg.checkBoxShowHidden.Text, DeleteHiddenLines);
+
+                if (_mapToFieldsToDelete.Count == 0)
+                    return;
+
+                var strMessage = _mapToFieldsToDelete.Keys.Aggregate(Localizer.Str("Are you sure you want to delete:"),
+                                                                     (curr, next) => { return curr + Environment.NewLine + next; });
+                if (LocalizableMessageBox.Show(strMessage, OseCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+                {
+                    foreach (var kvp in _mapToFieldsToDelete)
+                    {
+                        var resetFunction = kvp.Value;
+                        if (kvp.Key == dlg.checkBoxGeneralTestingQuestions.Text)
+                        {
+                            // then we *only* do the first verse
+                            resetFunction(TheCurrentStory.Verses.FirstVerse);
+                        }
+                        else
+                        {
+                            if (kvp.Key == dlg.checkBoxAnswers.Text)
+                            {
+                                // then we do first verse *and* the others
+                                resetFunction(TheCurrentStory.Verses.FirstVerse);
+                            }
+
+                            foreach (var aVerse in TheCurrentStory.Verses)
+                            {
+                                resetFunction(aVerse);
+                            }
+                        }
+                    }
+
+                    if (_mapToFieldsToDelete.ContainsKey(dlg.checkBoxConsultantNotes.Text) ||
+                        _mapToFieldsToDelete.ContainsKey(dlg.checkBoxCoachNotes.Text))
+                    {
+                        InitAllPanes();
+                    }
+                    else
+                    {
+                        ReInitVerseControls();
+                    }
+
+                    Modified = true;
+                }
+            }
         }
 
         private void panoramaNextStoryMenu_Click(object sender, EventArgs e)

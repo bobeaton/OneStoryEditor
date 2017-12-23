@@ -190,5 +190,10 @@ namespace OneStoryProjectEditor
                                                String.Format(Properties.Resources.HTML_Table,
                                                              strHtml)));
         }
+
+        internal void RemoveAll()
+        {
+            RemoveAll(a => true);
+        }
     }
 }

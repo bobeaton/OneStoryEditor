@@ -343,26 +343,26 @@
         #endregion
 
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.CheckBox checkBoxLangVernacular;
-        private System.Windows.Forms.CheckBox checkBoxLangNationalBT;
-        private System.Windows.Forms.CheckBox checkBoxLangInternationalBT;
-        private System.Windows.Forms.CheckBox checkBoxAnchors;
-        private System.Windows.Forms.CheckBox checkBoxStoryTestingQuestions;
-        private System.Windows.Forms.CheckBox checkBoxRetellings;
-        private System.Windows.Forms.CheckBox checkBoxConsultantNotes;
-        private System.Windows.Forms.CheckBox checkBoxCoachNotes;
+        public System.Windows.Forms.CheckBox checkBoxLangVernacular;
+        public System.Windows.Forms.CheckBox checkBoxLangNationalBT;
+        public System.Windows.Forms.CheckBox checkBoxLangInternationalBT;
+        public System.Windows.Forms.CheckBox checkBoxAnchors;
+        public System.Windows.Forms.CheckBox checkBoxStoryTestingQuestions;
+        public System.Windows.Forms.CheckBox checkBoxRetellings;
+        public System.Windows.Forms.CheckBox checkBoxConsultantNotes;
+        public System.Windows.Forms.CheckBox checkBoxCoachNotes;
         private System.Windows.Forms.CheckBox checkBoxBibleViewer;
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.CheckBox checkBoxUseForAllStories;
-        private System.Windows.Forms.CheckBox checkBoxAnswers;
+        public System.Windows.Forms.CheckBox checkBoxAnswers;
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateVernacular;
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateNationalBT;
-        private System.Windows.Forms.CheckBox checkBoxShowHidden;
+        public System.Windows.Forms.CheckBox checkBoxShowHidden;
         private System.Windows.Forms.CheckBox checkBoxOpenConNotesOnly;
-        private System.Windows.Forms.CheckBox checkBoxLangFreeTranslation;
-        private System.Windows.Forms.CheckBox checkBoxGeneralTestingQuestions;
-        private System.Windows.Forms.CheckBox checkBoxExegeticalNotes;
+        public System.Windows.Forms.CheckBox checkBoxLangFreeTranslation;
+        public System.Windows.Forms.CheckBox checkBoxGeneralTestingQuestions;
+        public System.Windows.Forms.CheckBox checkBoxExegeticalNotes;
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateInternationalBt;
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateFreeTranslation;
     }

@@ -1656,6 +1656,11 @@ namespace OneStoryProjectEditor
             foreach (var aCndc in this)
                 aCndc.UpdateCommentMemberId(strOldMemberGuid, strNewMemberGuid);
         }
+
+        public void RemoveAll()
+        {
+            RemoveAll(a => true);
+        }
     }
 
     public class ConsultantNotesData : ConsultNotesDataConverter

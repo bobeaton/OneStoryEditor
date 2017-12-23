@@ -56,6 +56,24 @@ namespace OneStoryProjectEditor
             checkBoxOpenConNotesOnly.Checked = theSe.viewOnlyOpenConversationsMenu.Checked;
         }
 
+        public void InitializeForQueryingFieldsSelected()
+        {
+            ViewSettings = new VerseData.ViewSettings((long)0);
+            Text = Localizer.Str("Select the fields that you want to delete");
+            checkBoxGeneralTestingQuestions.Text = Localizer.Str("General Testing Questions and Answers");
+            checkBoxStoryTestingQuestions.Text = Localizer.Str("Story Testing Questions and Answers");
+            checkBoxAnswers.Text = Localizer.Str("All Question (General and Story) Answers");
+            checkBoxShowHidden.Text = Localizer.Str("Hidden Lines");
+            checkBoxLangTransliterateVernacular.Visible =
+                checkBoxLangTransliterateNationalBT.Visible =
+                checkBoxLangTransliterateInternationalBt.Visible =
+                checkBoxLangTransliterateFreeTranslation.Visible = false;
+            checkBoxUseForAllStories.Visible = false;
+            checkBoxOpenConNotesOnly.Visible = false;
+            checkBoxBibleViewer.Visible = false;
+            checkBoxShowHidden.Checked = false;
+        }
+
         public bool UseForAllStories
         {
             get;

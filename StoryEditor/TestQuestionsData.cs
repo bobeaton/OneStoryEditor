@@ -614,5 +614,10 @@ namespace OneStoryProjectEditor
         {
             ForEach(tq => tq.SwapColumn(column1, column2, fieldsToSwap));
         }
+
+        internal void RemoveAll()
+        {
+            RemoveAll(a => true);
+        }
     }
 }

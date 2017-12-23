@@ -433,5 +433,10 @@ namespace OneStoryProjectEditor
         {
             get { return Localizer.Str("anc:"); }
         }
+
+        public void RemoveAll()
+        {
+            RemoveAll(a => true);
+        }
     }
 }

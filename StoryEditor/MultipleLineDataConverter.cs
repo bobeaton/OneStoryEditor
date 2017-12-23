@@ -508,6 +508,11 @@ namespace OneStoryProjectEditor
         {
             ForEach(r => r.SwapColumns(column1, column2));
         }
+
+        internal void RemoveAll()
+        {
+            RemoveAll(a => true);
+        }
     }
 
     public class AnswersData : MultipleLineDataConverter
@@ -586,6 +591,11 @@ namespace OneStoryProjectEditor
         public void SwapColumns(StoryEditor.TextFields column1, StoryEditor.TextFields column2)
         {
             ForEach(a => a.SwapColumns(column1, column2));
+        }
+
+        internal void RemoveAll()
+        {
+            RemoveAll(a => true);
         }
     }
 }
