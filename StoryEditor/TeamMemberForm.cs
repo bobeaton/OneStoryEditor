@@ -110,8 +110,6 @@ namespace OneStoryProjectEditor
             bool bOneSelected = (listBoxTeamMembers.SelectedIndex != -1);
             buttonEditMember.Enabled = buttonOK.Enabled = bOneSelected;
 
-            // the delete button is only enabled during the current session (just to prevent them
-            //  from removing a team member that has other references in the project).
             if (bOneSelected)
             {
                 TeamMemberData.UserTypes eUserType;
@@ -132,8 +130,9 @@ namespace OneStoryProjectEditor
                         TeamMemberData.UserTypes.ConsultantInTraining | TeamMemberData.UserTypes.IndependentConsultant));
 
                     buttonMergeCoach.Visible = (TeamMemberData.IsUser(theMember.MemberType, TeamMemberData.UserTypes.Coach));
+
                     buttonDeleteMember.Visible = !_theStoryProjectData.DoesReferenceExist(theMember) &&                                             // no references
-                        ((m_strSelectedMemberName != TeamMembersData.CstrBrowserMemberName) && (eUserType == TeamMemberData.UserTypes.JustLooking));// but ignore the Browser (Just Looking) one (no need to delete that)
+                        ((m_strSelectedMemberName != TeamMembersData.CstrBrowserMemberName) && (eUserType != TeamMemberData.UserTypes.JustLooking));// but ignore the Browser (Just Looking) one (no need to delete that)
                 }
             }
         }
