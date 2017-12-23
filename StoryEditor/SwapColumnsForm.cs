@@ -239,6 +239,12 @@ namespace OneStoryProjectEditor
             Close();
         }
 
+        private void buttonSkip_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Ignore;
+            Close();
+        }
+
         protected VerseData.ViewSettings GetProjectViewSettings(ProjectSettings projSettings, StoryEditor theSe)
         {
             return new VerseData.ViewSettings

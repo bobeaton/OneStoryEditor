@@ -42,7 +42,6 @@
             this.radioButtonInternationalBtTranscription2 = new System.Windows.Forms.RadioButton();
             this.radioButtonFreeTrTranscription2 = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.groupBoxFieldsToSwap = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanelFieldsToSwap = new System.Windows.Forms.FlowLayoutPanel();
@@ -61,6 +60,8 @@
             this.buttonMoveToNextLineAfter = new System.Windows.Forms.Button();
             this.htmlStoryBtControlAfter = new OneStoryProjectEditor.HtmlStoryBtControl();
             this.labelAfter = new System.Windows.Forms.Label();
+            this.buttonOK = new System.Windows.Forms.Button();
+            this.buttonSkip = new System.Windows.Forms.Button();
             this.groupBoxMoveFrom.SuspendLayout();
             this.flowLayoutPanelColumn1.SuspendLayout();
             this.groupBoxMoveTo.SuspendLayout();
@@ -235,15 +236,17 @@
             this.tableLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel.ColumnCount = 2;
+            this.tableLayoutPanel.ColumnCount = 3;
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel.Controls.Add(this.buttonOK, 0, 3);
-            this.tableLayoutPanel.Controls.Add(this.buttonCancel, 1, 3);
+            this.tableLayoutPanel.Controls.Add(this.buttonCancel, 2, 3);
             this.tableLayoutPanel.Controls.Add(this.groupBoxMoveFrom, 0, 0);
-            this.tableLayoutPanel.Controls.Add(this.groupBoxMoveTo, 1, 0);
+            this.tableLayoutPanel.Controls.Add(this.groupBoxMoveTo, 2, 0);
             this.tableLayoutPanel.Controls.Add(this.groupBoxFieldsToSwap, 0, 1);
             this.tableLayoutPanel.Controls.Add(this.splitContainer, 0, 2);
+            this.tableLayoutPanel.Controls.Add(this.buttonOK, 1, 3);
+            this.tableLayoutPanel.Controls.Add(this.buttonSkip, 0, 3);
             this.tableLayoutPanel.Location = new System.Drawing.Point(13, 13);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.RowCount = 4;
@@ -253,17 +256,6 @@
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.Size = new System.Drawing.Size(786, 583);
             this.tableLayoutPanel.TabIndex = 5;
-            // 
-            // buttonOK
-            // 
-            this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOK.Location = new System.Drawing.Point(315, 557);
-            this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(75, 23);
-            this.buttonOK.TabIndex = 5;
-            this.buttonOK.Text = "&Swap";
-            this.buttonOK.UseVisualStyleBackColor = true;
-            this.buttonOK.Click += new System.EventHandler(this.ButtonOkClick);
             // 
             // buttonCancel
             // 
@@ -278,7 +270,7 @@
             // 
             // groupBoxFieldsToSwap
             // 
-            this.tableLayoutPanel.SetColumnSpan(this.groupBoxFieldsToSwap, 2);
+            this.tableLayoutPanel.SetColumnSpan(this.groupBoxFieldsToSwap, 3);
             this.groupBoxFieldsToSwap.Controls.Add(this.flowLayoutPanelFieldsToSwap);
             this.groupBoxFieldsToSwap.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxFieldsToSwap.Location = new System.Drawing.Point(3, 120);
@@ -347,7 +339,7 @@
             // splitContainer
             // 
             this.splitContainer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.tableLayoutPanel.SetColumnSpan(this.splitContainer, 2);
+            this.tableLayoutPanel.SetColumnSpan(this.splitContainer, 3);
             this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer.Location = new System.Drawing.Point(3, 170);
             this.splitContainer.Name = "splitContainer";
@@ -498,6 +490,26 @@
             this.labelAfter.TabIndex = 8;
             this.labelAfter.Text = "After:";
             // 
+            // buttonOK
+            // 
+            this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonOK.Name = "buttonOK";
+            this.buttonOK.Size = new System.Drawing.Size(75, 23);
+            this.buttonOK.TabIndex = 6;
+            this.buttonOK.Text = "&Swap";
+            this.buttonOK.UseVisualStyleBackColor = true;
+            this.buttonOK.Click += new System.EventHandler(this.ButtonOkClick);
+            // 
+            // buttonSkip
+            // 
+            this.buttonSkip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSkip.Name = "buttonSkip";
+            this.buttonSkip.Size = new System.Drawing.Size(75, 23);
+            this.buttonSkip.TabIndex = 5;
+            this.buttonSkip.Text = "S&kip";
+            this.buttonSkip.UseVisualStyleBackColor = true;
+            this.buttonSkip.Click += new System.EventHandler(this.buttonSkip_Click);
+            // 
             // SwapColumnsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -563,5 +575,6 @@
         private System.Windows.Forms.SplitContainer splitContainer;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Button buttonSkip;
     }
 }

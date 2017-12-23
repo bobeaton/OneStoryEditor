@@ -5416,7 +5416,7 @@ namespace OneStoryProjectEditor
                     strOldProjectPath = Settings.Default.RecentProjectPaths[0];
                 }
                 else
-                    strOldProjectPath = Path.Combine(strOldProjectPath, "OneStory");
+                    strOldProjectPath = Path.Combine(strOldProjectPath, "OneStory Editor Projects");
 
                 // clobber any recollection we had of existing projects, since they'll
                 //  now need to be "browsed" for.
@@ -7313,12 +7313,19 @@ namespace OneStoryProjectEditor
                               FieldsToSwap = _lstFieldsToSwap
                           };
 
-            if (dlg.ShowDialog() != DialogResult.OK)
+            var res = dlg.ShowDialog();
+            if (res == DialogResult.Cancel)
             {
                 _lstToSwap = null;
                 return false;
             }
+            else if (res == DialogResult.Ignore)    // = Skip
+            {
+                return true;
+            }
 
+            // else, 'ok', means swap the columns
+            System.Diagnostics.Debug.Assert(res == DialogResult.OK);
             TheCurrentStory.SwapColumns(_lstColumn1 = dlg.Column1,
                                         _lstColumn2 = dlg.Column2, 
                                         _lstFieldsToSwap = dlg.FieldsToSwap);
@@ -7335,18 +7342,9 @@ namespace OneStoryProjectEditor
             // keep track of the ones we can do and in the 'LoadStory' routine, bring up the dialog for the next story after it's loaded.
             _lstToSwap = TheCurrentStoriesSet.Where(s =>
             {
-                if (s.Name == TheCurrentStory.Name)
-                    return false;
-
-                try
-                {
-                    LoggedOnMember.ThrowIfEditIsntAllowed(s);
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
+                return (s.Name == TheCurrentStory.Name)
+                            ? false
+                            : LoggedOnMember.IsEditAllowed(s);
             })
             .Select(s => s.Name)
             .ToList();
