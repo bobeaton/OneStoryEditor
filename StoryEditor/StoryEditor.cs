@@ -2334,6 +2334,7 @@ namespace OneStoryProjectEditor
 
         internal void InitAllPanes()
         {
+            if (TheCurrentStory == null) return;
             try
             {
                 InitAllPanes(TheCurrentStory.Verses);

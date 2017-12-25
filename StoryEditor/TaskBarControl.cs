@@ -556,29 +556,27 @@ namespace OneStoryProjectEditor
             // if the consultant isn't configured yet (e.g. a new story), but there's 
             //  only one potential consultant, then go ahead and pre-load it... or (s)he
             //  won't get an email from below
-#if !LetConsultantGoUnConfigured
-            // UPDATE: it's not good to allow the consultant go unconfigured. Then we can't send an email and 
-            //  we can't set default tasks for CITs... So... if it isn't configured, then query for who it is
-            TheStory.CheckForMember(TheStoryProjectData,
-                         TeamMemberData.UserTypes.IndependentConsultant |
-                         TeamMemberData.UserTypes.ConsultantInTraining,
-                         ref TheStory.CraftingInfo.Consultant);
-#else
             if (!MemberIdInfo.Configured(TheStory.CraftingInfo.Consultant))
             {
-                string strMentor =
-                    TheSe.StoryProject.TeamMembers.MemberIdOfOneAndOnlyMemberType(
-                        TeamMemberData.UserTypes.ConsultantInTraining |
-                        TeamMemberData.UserTypes.IndependentConsultant);
+                string strMentor = TheSe.StoryProject.TeamMembers.MemberIdOfOneAndOnlyMemberType(
+                                                                    TeamMemberData.UserTypes.ConsultantInTraining |
+                                                                    TeamMemberData.UserTypes.IndependentConsultant);
                 if (!String.IsNullOrEmpty(strMentor))
-                    MemberIdInfo.SetCreateIfEmpty(ref TheStory.CraftingInfo.Consultant,
-                                                  strMentor, false);
+                {
+                    MemberIdInfo.SetCreateIfEmpty(ref TheStory.CraftingInfo.Consultant, strMentor, false);
+                }
                 else
                 {
-                    // query for it... we can't properly set the default required tasks without it
+                    // UPDATE: it's not good to allow the consultant go unconfigured. Then we can't send an email and 
+                    //  we can't set default tasks for CITs... So... if it isn't configured, then query for who it is
+                    var str = TheStory.CheckForMember(TheStoryProjectData,
+                                                      TeamMemberData.UserTypes.IndependentConsultant |
+                                                      TeamMemberData.UserTypes.ConsultantInTraining,
+                                                      ref TheStory.CraftingInfo.Consultant);
+                    if (String.IsNullOrEmpty(str))
+                        return;
                 }
             }
-#endif
 
             // if this is a 'manage with coaching' situation, then reset the 
             //  'Set to Coach's turn' requirement. [That requirement will have been so
@@ -822,20 +820,28 @@ namespace OneStoryProjectEditor
             if (!_checker.CheckIfRequirementsAreMet(true))
                 return;
 
-            TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eCoachReviewRound2Notes, true);
-
             // if the consultant isn't configured yet (e.g. a new story), but there's 
             //  only one potential consultant, then go ahead and pre-load it... or (s)he
             //  won't get an email from below
             if (!MemberIdInfo.Configured(TheStory.CraftingInfo.Coach))
             {
-                string strMentor =
-                    TheSe.StoryProject.TeamMembers.MemberIdOfOneAndOnlyMemberType(
-                        TeamMemberData.UserTypes.Coach);
+                var strMentor = TheSe.StoryProject.TeamMembers.MemberIdOfOneAndOnlyMemberType(TeamMemberData.UserTypes.Coach);
                 if (!String.IsNullOrEmpty(strMentor))
-                    MemberIdInfo.SetCreateIfEmpty(ref TheStory.CraftingInfo.Coach,
-                                                  strMentor, false);
+                {
+                    MemberIdInfo.SetCreateIfEmpty(ref TheStory.CraftingInfo.Coach, strMentor, false);
+                }
+                else
+                {
+                    // otherwise, force the user to define which Coach is the correct one for this story
+                    var str = TheStory.CheckForMember(TheStoryProjectData,
+                                                      TeamMemberData.UserTypes.Coach,
+                                                      ref TheStory.CraftingInfo.Coach);
+                    if (String.IsNullOrEmpty(str))
+                        return;
+                }
             }
+
+            TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eCoachReviewRound2Notes, true);
 
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
                 TheStory.CraftingInfo.Coach,

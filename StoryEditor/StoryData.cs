@@ -354,10 +354,11 @@ namespace OneStoryProjectEditor
                                              Localizer.Str("Choose the {0} working on the story '{1}'"),
                                              TeamMemberData.GetMemberTypeAsDisplayString(eMemberType),
                                              Name));
-                MemberIdInfo.SetCreateIfEmpty(ref member, str, true);
+                if (!String.IsNullOrEmpty(str))
+                    MemberIdInfo.SetCreateIfEmpty(ref member, str, true);
             }
 
-            return member.MemberId;
+            return member?.MemberId;
         }
 
         public bool CheckForConNotesParticipants(StoryProjectData storyProjectData, 
