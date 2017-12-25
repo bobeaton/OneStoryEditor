@@ -284,8 +284,8 @@ namespace OneStoryProjectEditor
             ExegeticalHelpNotes = new ExegeticalHelpNotesData(node.SelectSingleNode(ExegeticalHelpNotesData.CstrElementLabelExegeticalHelps));
             TestQuestions = new TestQuestionsData(node.SelectSingleNode(TestQuestionsData.CstrElementLabelTestQuestions));
             Retellings = new RetellingsData(node.SelectSingleNode(RetellingsData.CstrElementLableRetellings));
-            ConsultantNotes = new ConsultantNotesData();
-            CoachNotes = new CoachNotesData();
+            ConsultantNotes = new ConsultantNotesData(node.SelectSingleNode(ConsultantNotesData.CstrCollectionElementName));
+            CoachNotes = new CoachNotesData(node.SelectSingleNode(CoachNotesData.CstrCollectionElementName));
         }
 
         public VerseData(VerseData rhs)

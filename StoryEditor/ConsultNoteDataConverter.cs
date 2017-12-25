@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using System.Drawing;
 using NetLoc;
 using OneStoryProjectEditor.Properties;
+using System.Xml;
 
 namespace OneStoryProjectEditor
 {
@@ -40,6 +41,18 @@ namespace OneStoryProjectEditor
             Guid = System.Guid.NewGuid().ToString();  // rhs.Guid;
             MemberId = rhs.MemberId;
             TimeStamp = rhs.TimeStamp;
+        }
+
+        public CommInstance(XmlNode xmlNode, StoryEditor.TextFields myField)
+            : base(xmlNode.InnerText, myField)
+        {
+            if (xmlNode.Attributes != null)
+            {
+                Guid = xmlNode.Attributes[CstrAttributeLabelGuid].Value;
+                Direction = ConsultNoteDataConverter.GetDirectionFromString(xmlNode.Attributes[CstrAttributeLabelDirection].Value);
+                MemberId = xmlNode.Attributes[CstrAttributeLabelMemberId].Value;
+                TimeStamp = DateTime.Parse(xmlNode.Attributes[CstrAttributeLabelTimeStamp].Value);
+            }
         }
 
         public TeamMemberData.UserTypes InitiatorType
@@ -178,6 +191,27 @@ namespace OneStoryProjectEditor
                 Add(new CommInstance(aCi));
         }
 
+        protected ConsultNoteDataConverter(XmlNode xmlNode, StoryEditor.TextFields myField)
+        {
+            if (xmlNode == null)
+                return;
+
+            if (xmlNode.Attributes != null)
+            {
+                guid = xmlNode.Attributes[CstrAttributeLabelGuid].Value;
+                // these two are optionally not present (true and false respectively if not present)
+                Visible = !((xmlNode.Attributes[CstrAttributeLabelVisible] != null) && (xmlNode.Attributes[CstrAttributeLabelVisible].Value == "false"));
+                IsFinished = ((xmlNode.Attributes[CstrAttributeLabelVisible] != null) && (xmlNode.Attributes[CstrAttributeLabelVisible].Value == "true"));
+            }
+
+            var list = xmlNode.SelectNodes(SubElementName);
+            if (list == null)
+                return;
+
+            foreach (XmlNode commInstances in list)
+                Add(new CommInstance(commInstances, myField));
+        }
+
         protected static Dictionary<string, CommunicationDirections> CmapDirectionStringToEnumType = new Dictionary<string, CommunicationDirections>()
         {
             { "ConsultantToProjFac", CommunicationDirections.eConsultantToProjFac },
@@ -192,7 +226,7 @@ namespace OneStoryProjectEditor
             { "StickyNote", CommunicationDirections.eStickyNote }
         };
 
-        protected CommunicationDirections GetDirectionFromString(string strDirectionString)
+        public static CommunicationDirections GetDirectionFromString(string strDirectionString)
         {
             Debug.Assert(CmapDirectionStringToEnumType.ContainsKey(strDirectionString));
             return CmapDirectionStringToEnumType[strDirectionString];
@@ -1258,6 +1292,11 @@ namespace OneStoryProjectEditor
         {
         }
 
+        public ConsultantNoteData(XmlNode xmlNode)
+            : base(xmlNode, StoryEditor.TextFields.ConsultantNote)
+        {
+        }
+
         public static ConsultNoteDataConverter MakeFromConsultNotesDataConverter(ConsultNoteDataConverter rhs)
         {
             return new ConsultantNoteData(rhs);
@@ -1307,9 +1346,11 @@ namespace OneStoryProjectEditor
                        : Localizer.Str("prf:");
         }
 
+        public const string CstrElementName = "ConsultantConversation";
+
         protected override string InstanceElementName
         {
-            get { return "ConsultantConversation"; }
+            get { return CstrElementName; }
         }
 
         public const string CstrSubElementName = "ConsultantNote";
@@ -1420,6 +1461,11 @@ namespace OneStoryProjectEditor
         {
         }
 
+        public CoachNoteData(XmlNode xmlNode)
+            : base(xmlNode, StoryEditor.TextFields.CoachNote)
+        {
+        }
+
         public static ConsultNoteDataConverter MakeFromConsultNotesDataConverter(ConsultNoteDataConverter rhs)
         {
             return new CoachNoteData(rhs);
@@ -1483,9 +1529,11 @@ namespace OneStoryProjectEditor
                              : CstrConLabel;
         }
 
+        public const string CstrElementName = "CoachConversation";
+
         protected override string InstanceElementName
         {
-            get { return "CoachConversation"; }
+            get { return CstrElementName; }
         }
 
         public const string CstrSubElementName = "CoachNote";
@@ -1665,7 +1713,7 @@ namespace OneStoryProjectEditor
 
     public class ConsultantNotesData : ConsultNotesDataConverter
     {
-        protected const string CstrCollectionElementName = "ConsultantNotes";
+        public const string CstrCollectionElementName = "ConsultantNotes";
 
         public ConsultantNotesData(NewDataSet.VerseRow theVerseRow, NewDataSet projFile)
             : base(CstrCollectionElementName)
@@ -1691,6 +1739,20 @@ namespace OneStoryProjectEditor
         public ConsultantNotesData()
             : base(CstrCollectionElementName)
         {
+        }
+
+        public ConsultantNotesData(XmlNode xmlNode)
+            : base(CstrCollectionElementName)
+        {
+            if (xmlNode == null)
+                return;
+
+            var list = xmlNode.SelectNodes(ConsultantNoteData.CstrElementName);
+            if (list == null)
+                return;
+
+            foreach (XmlNode nodeConNote in list)
+                Add(new ConsultantNoteData(nodeConNote));
         }
 
         public override bool HasAddNotePrivilege(TeamMemberData loggedOnMember,
@@ -1752,7 +1814,7 @@ namespace OneStoryProjectEditor
 
     public class CoachNotesData : ConsultNotesDataConverter
     {
-        protected const string CstrCollectionElementName = "CoachNotes";
+        public const string CstrCollectionElementName = "CoachNotes";
 
         public CoachNotesData(NewDataSet.VerseRow theVerseRow, NewDataSet projFile)
             : base(CstrCollectionElementName)
@@ -1778,6 +1840,20 @@ namespace OneStoryProjectEditor
         public CoachNotesData()
             : base(CstrCollectionElementName)
         {
+        }
+
+        public CoachNotesData(XmlNode xmlNode)
+            : base(CstrCollectionElementName)
+        {
+            if (xmlNode == null)
+                return;
+
+            var list = xmlNode.SelectNodes(CoachNoteData.CstrElementName);
+            if (list == null)
+                return;
+
+            foreach (XmlNode nodeConNote in list)
+                Add(new CoachNoteData(nodeConNote));
         }
 
         public override ConsultNoteDataConverter Add(StoryData theStory,
