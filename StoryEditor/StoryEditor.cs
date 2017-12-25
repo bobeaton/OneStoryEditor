@@ -7257,10 +7257,8 @@ namespace OneStoryProjectEditor
             var theStoryToCopy = new StoryData(theStoryToCopyXmlNode.FirstChild, StoryProject.ProjSettings.ProjectFolder);
             theStoryToCopy = new StoryData(theStoryToCopy); // yes, we have to do this again, because the XmlNode ctor won't re-do the guids
 
-            // remove references to participants we don't care about (coach, etc)
+            // remove references to participants we don't care about to minimize the # of memberId guid's we'd have to copy over
             theStoryToCopy.CraftingInfo.BackTranslator =
-                theStoryToCopy.CraftingInfo.Coach =
-                theStoryToCopy.CraftingInfo.Consultant =
                 theStoryToCopy.CraftingInfo.OutsideEnglishBackTranslator =
                 theStoryToCopy.CraftingInfo.ProjectFacilitator = null;
 
@@ -7294,9 +7292,15 @@ namespace OneStoryProjectEditor
             if (!fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.RetellingFields))
                 mapToFieldsToDelete.Add(dlg.checkBoxRetellings.Text, null);   // special case
             if (!fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields))
+            {
+                theStoryToCopy.CraftingInfo.Consultant = null;      // so we can start with a new one in this project
                 mapToFieldsToDelete.Add(dlg.checkBoxConsultantNotes.Text, DeleteConsultantNotes);
+            }
             if (!fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields))
+            {
+                theStoryToCopy.CraftingInfo.Coach = null;           // so we can start with a new one in this project
                 mapToFieldsToDelete.Add(dlg.checkBoxCoachNotes.Text, DeleteCoachNotes);
+            }
             if (!fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.HiddenStuff))
                 mapToFieldsToDelete.Add(dlg.checkBoxShowHidden.Text, DeleteHiddenLines);
 
