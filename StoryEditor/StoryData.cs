@@ -708,6 +708,23 @@ namespace OneStoryProjectEditor
                                  Properties.Resources.HTML_Script_AddTextareaMouseDown);
         }
 
+        /// <summary>
+        /// this is for when you don't know what role the person has, but just want to replace it any possible place...
+        /// </summary>
+        /// <param name="strOldMemberGuid"></param>
+        /// <param name="strNewMemberGuid"></param>
+        public void ReplaceMemberId(string strOldMemberGuid, string strNewMemberGuid)
+        {
+            ReplaceUns(strOldMemberGuid, strNewMemberGuid);
+            if (MemberIdInfo.SafeGetMemberId(CraftingInfo.ProjectFacilitator) == strOldMemberGuid)
+                ReplaceProjectFacilitator(strNewMemberGuid);
+
+            ReplaceCrafter(strOldMemberGuid, strNewMemberGuid);
+            ReplaceConsultant(strOldMemberGuid, strNewMemberGuid);
+            if (MemberIdInfo.SafeGetMemberId(CraftingInfo.Coach) == strOldMemberGuid)
+                ReplaceCoach(strNewMemberGuid);
+        }
+
         public void ReplaceUns(string strOldMemberGuid, string strNewMemberGuid)
         {
             try

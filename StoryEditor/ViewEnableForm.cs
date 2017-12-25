@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Windows.Forms;
 using NetLoc;
+using System.Linq;
 
 namespace OneStoryProjectEditor
 {
     public partial class ViewEnableForm : Form
     {
         private readonly ProjectSettings _projSettings;
+        private readonly StoryData _theCurrentStory;
 
         private ViewEnableForm()
         {
@@ -18,6 +20,7 @@ namespace OneStoryProjectEditor
             StoryData theCurrentStory, bool bUseForAllStories)
         {
             _projSettings = projSettings;
+            _theCurrentStory = theCurrentStory;
             InitializeComponent();
             Localizer.Ctrl(this);
 
@@ -72,6 +75,47 @@ namespace OneStoryProjectEditor
             checkBoxOpenConNotesOnly.Visible = false;
             checkBoxBibleViewer.Visible = false;
             checkBoxShowHidden.Checked = false;
+        }
+
+        public void InitializeForQueryingFieldsToCopy()
+        {
+            Text = Localizer.Str("Select the fields that you want to copy");
+            checkBoxGeneralTestingQuestions.Text = Localizer.Str("General Testing Questions");
+            checkBoxStoryTestingQuestions.Text = Localizer.Str("Story Testing Questions");
+            checkBoxAnswers.Text = Localizer.Str("All Question (General and Story) Answers");
+            checkBoxShowHidden.Text = Localizer.Str("Hidden Lines");
+            checkBoxLangTransliterateVernacular.Visible =
+                checkBoxLangTransliterateNationalBT.Visible =
+                checkBoxLangTransliterateInternationalBt.Visible =
+                checkBoxLangTransliterateFreeTranslation.Visible = false;
+            checkBoxUseForAllStories.Visible = false;
+            checkBoxOpenConNotesOnly.Visible = false;
+            checkBoxBibleViewer.Visible = false;
+            checkBoxShowHidden.Checked = false;
+            checkBoxCoachNotes.Enabled = true;      // allow them to edit this if they're copying from another project (so they can uncheck it if they don't want it)
+
+            // pre-check the boxes for which data exists
+            ViewSettings = new VerseData.ViewSettings(_projSettings,
+                _theCurrentStory.Verses.Any(v => v.StoryLine.Vernacular.HasData),
+                _theCurrentStory.Verses.Any(v => v.StoryLine.NationalBt.HasData),
+                _theCurrentStory.Verses.Any(v => v.StoryLine.InternationalBt.HasData),
+                _theCurrentStory.Verses.Any(v => v.StoryLine.FreeTranslation.HasData),
+                _theCurrentStory.Verses.Any(v => v.Anchors.HasData),
+                _theCurrentStory.Verses.Any(v => v.ExegeticalHelpNotes.HasData),
+                _theCurrentStory.Verses.Any(v => v.TestQuestions.HasData),
+                _theCurrentStory.Verses.Any(v => v.TestQuestions.Any(tq => tq.Answers.HasData)),
+                _theCurrentStory.Verses.Any(v => v.Retellings.HasData),
+                _theCurrentStory.Verses.Any(v => v.ConsultantNotes.HasData),
+                _theCurrentStory.Verses.Any(v => v.CoachNotes.HasData),
+                false,
+                false,
+                _theCurrentStory.Verses.Any(v => !v.IsVisible),
+                false, 
+                _theCurrentStory.Verses.FirstVerse.TestQuestions.HasData,
+                true,
+                0,
+                null, null, null, null, false
+                );
         }
 
         public bool UseForAllStories

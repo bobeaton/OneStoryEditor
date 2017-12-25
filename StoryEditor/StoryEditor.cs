@@ -4267,15 +4267,6 @@ namespace OneStoryProjectEditor
         {
             verse.TestQuestions.RemoveAll();
         }
-        private static void DeleteTestQuestionAnswers(VerseData verse)
-        {
-            foreach (var testQuestion in verse.TestQuestions)
-                testQuestion.Answers.RemoveAll();
-        }
-        private static void DeleteRetellings(VerseData verse)
-        {
-            verse.Retellings.RemoveAll();
-        }
         private static void DeleteConsultantNotes(VerseData verse)
         {
             verse.ConsultantNotes.RemoveAll();
@@ -7250,7 +7241,7 @@ namespace OneStoryProjectEditor
 
             string strData;
             if (!iData.GetDataPresent(DataFormats.UnicodeText) ||
-                ((strData = (string) iData.GetData(DataFormats.UnicodeText)) == null) ||
+                ((strData = (string)iData.GetData(DataFormats.UnicodeText)) == null) ||
                 !strData.Contains(StoryProjectData.CstrElementOseStoryToCopy))
                 return;
 
@@ -7261,10 +7252,81 @@ namespace OneStoryProjectEditor
             if (theStoryToCopyXElement == null)
                 return;
 
+            var theStoryToCopyXmlNode = theStoryToCopyXElement.GetXmlNode();
+            var theStoryToCopy = new StoryData(theStoryToCopyXmlNode.FirstChild, StoryProject.ProjSettings.ProjectFolder);
+            theStoryToCopy = new StoryData(theStoryToCopy); // yes, we have to do this again, because the XmlNode ctor won't re-do the guids
+
+            // remove references to participants we don't care about (coach, etc)
+            theStoryToCopy.CraftingInfo.BackTranslator =
+                theStoryToCopy.CraftingInfo.Coach =
+                theStoryToCopy.CraftingInfo.Consultant =
+                theStoryToCopy.CraftingInfo.OutsideEnglishBackTranslator =
+                theStoryToCopy.CraftingInfo.ProjectFacilitator = null;
+
+            // before copying over the reference members, let's see what the user wants to copy: 
+            var dlg = new ViewEnableForm(this, StoryProject.ProjSettings, theStoryToCopy, false);
+            dlg.InitializeForQueryingFieldsToCopy();
+            if (dlg.ShowDialog() != DialogResult.OK)
+                return;
+
+            // get the list of stuff we're going to delete, so we can confirm it
+            var mapToFieldsToDelete = new Dictionary<string, ResetValue>();
+            var fieldsToDeleteChosen = dlg.ViewSettings;
+            if (!fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField))
+                mapToFieldsToDelete.Add(dlg.checkBoxLangVernacular.Text, DeleteVernacular);
+            if (!fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField))
+                mapToFieldsToDelete.Add(dlg.checkBoxLangNationalBT.Text, DeleteNationalBt);
+            if (!fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.InternationalBtField))
+                mapToFieldsToDelete.Add(dlg.checkBoxLangInternationalBT.Text, DeleteInternationalBt);
+            if (!fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField))
+                mapToFieldsToDelete.Add(dlg.checkBoxLangFreeTranslation.Text, DeleteFreeTranslation);
+            if (!fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnchorFields))
+                mapToFieldsToDelete.Add(dlg.checkBoxAnchors.Text, DeleteAnchors);
+            if (!fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.ExegeticalHelps))
+                mapToFieldsToDelete.Add(dlg.checkBoxExegeticalNotes.Text, DeleteExegeticalHelps);
+            if (!fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions))
+                mapToFieldsToDelete.Add(dlg.checkBoxGeneralTestingQuestions.Text, DeleteStoryTestingQuestionsAndAnswers);
+            if (!fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions))
+                mapToFieldsToDelete.Add(dlg.checkBoxStoryTestingQuestions.Text, DeleteStoryTestingQuestionsAndAnswers);
+            if (!fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
+                mapToFieldsToDelete.Add(dlg.checkBoxAnswers.Text, null);   // special case
+            if (!fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.RetellingFields))
+                mapToFieldsToDelete.Add(dlg.checkBoxRetellings.Text, null);   // special case
+            if (!fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields))
+                mapToFieldsToDelete.Add(dlg.checkBoxConsultantNotes.Text, DeleteConsultantNotes);
+            if (!fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields))
+                mapToFieldsToDelete.Add(dlg.checkBoxCoachNotes.Text, DeleteCoachNotes);
+            if (!fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.HiddenStuff))
+                mapToFieldsToDelete.Add(dlg.checkBoxShowHidden.Text, DeleteHiddenLines);
+
+            // if none were chosen for deletion, then nothing to delete (duh)
+            if (mapToFieldsToDelete.Count > 0)
+                DeleteFieldsFromStory(theStoryToCopy, dlg, mapToFieldsToDelete);
+
+            // now that we've removed anything the user didn't want to copy, let's see what members are still being referenced
             var theMembersInTheOtherProjectXElement = theStoryToCopyPlusMembersXElement.Element(TeamMembersData.CstrElementLabelMembers);
             var theMembersInTheOtherProjectXmlNode = theMembersInTheOtherProjectXElement.GetXmlNode();
             var theMembersInTheOtherProject = new TeamMembersData(theMembersInTheOtherProjectXmlNode);
 
+#if !UsingOldMethodToDetermineMembersToCopy
+            foreach (var aMember in theMembersInTheOtherProject.Values)
+            {
+                if (theStoryToCopy.DoesReferenceExist(aMember))
+                {
+                    var strMemberId = aMember.MemberGuid;
+                    var strMembersName = aMember.Name;
+                    TeamMemberData theMemberInThisProjectWithTheSameName;
+                    if (!StoryProject.TeamMembers.TryGetValue(strMembersName, out theMemberInThisProjectWithTheSameName))
+                    {
+                        StoryProject.TeamMembers.Add(strMembersName, aMember);
+                    }
+                    else if (strMemberId != theMemberInThisProjectWithTheSameName.MemberGuid)
+                    {
+                        theStoryToCopy.ReplaceMemberId(strMemberId, theMemberInThisProjectWithTheSameName.MemberGuid);
+                    }
+                }
+            }
+#else
             // find all of the guids to members (so we can make sure they're in the target project also
             var elemsWithMemberIds = theStoryToCopyXElement.Descendants()
                 .Where(elem => elem.Attribute("memberID") != null);
@@ -7281,10 +7343,7 @@ namespace OneStoryProjectEditor
                 else if (strMemberId != theMemberInThisProjectWithTheSameName.MemberGuid)
                     elemWithMemberId.SetAttributeValue("memberID", theMemberInThisProjectWithTheSameName.MemberGuid);
             }
-
-            var theStoryToCopyXmlNode = theStoryToCopyXElement.GetXmlNode();
-            var theStoryToCopy = new StoryData(theStoryToCopyXmlNode.FirstChild, StoryProject.ProjSettings.ProjectFolder);
-            theStoryToCopy = new StoryData(theStoryToCopy); // yes, we have to do this again, because the XmlNode ctor won't re-do the guids
+#endif
 
             var nIndexOfCurrentStory = TheCurrentStoriesSet.IndexOf(TheCurrentStory);
             if (TheCurrentStoriesSet.Any(s => s.Name == theStoryToCopy.Name))
@@ -7315,6 +7374,38 @@ namespace OneStoryProjectEditor
                     Localizer.Str(
                         "Warning: the source and target project have differences which can affect how the story is copied. For example, if the source project was configured with a 'National language back-translation', but this project isn't, then the 'National BT' text won't be visible until/unless you configure a 'National BT' field in the 'Project', 'Settings' dialog, 'Languages' tab. Or if one of the languages (e.g. 'Story language') is different between this project and the source project, that can cause display issues -- e.g. a different font might be used in this project for which the source project text won't display correctly..."),
                     OseCaption);
+            }
+        }
+
+        private static void DeleteFieldsFromStory(StoryData theStoryToCopy, ViewEnableForm dlg, Dictionary<string, ResetValue> mapToFieldsToDelete)
+        {
+            foreach (var kvp in mapToFieldsToDelete)
+            {
+                var resetFunction = kvp.Value;
+
+                // do special cases first
+                if (kvp.Key == dlg.checkBoxRetellings.Text)
+                {
+                    for (var i = theStoryToCopy.CraftingInfo.TestersToCommentsRetellings.Count - 1; i >= 0; i--)
+                        theStoryToCopy.DeleteRetellingTestResults(i, theStoryToCopy.CraftingInfo.TestersToCommentsRetellings[i].MemberId);
+                }
+                else if (kvp.Key == dlg.checkBoxAnswers.Text)
+                {
+                    for (var i = theStoryToCopy.CraftingInfo.TestersToCommentsTqAnswers.Count - 1; i >= 0; i--)
+                        theStoryToCopy.DeleteAnswerTestResults(i, theStoryToCopy.CraftingInfo.TestersToCommentsTqAnswers[i].MemberId);
+                }
+                else if (kvp.Key == dlg.checkBoxGeneralTestingQuestions.Text)
+                {
+                    // then we *only* do the first verse
+                    resetFunction(theStoryToCopy.Verses.FirstVerse);
+                }
+                else
+                {
+                    foreach (var aVerse in theStoryToCopy.Verses)
+                    {
+                        resetFunction(aVerse);
+                    }
+                }
             }
         }
 
@@ -7481,67 +7572,46 @@ namespace OneStoryProjectEditor
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 // get the list of stuff we're going to delete, so we can confirm it
-                var _mapToFieldsToDelete = new Dictionary<string, ResetValue>();
+                var mapToFieldsToDelete = new Dictionary<string, ResetValue>();
                 var fieldsToDeleteChosen = dlg.ViewSettings;
                 if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField))
-                    _mapToFieldsToDelete.Add(dlg.checkBoxLangVernacular.Text, DeleteVernacular);
+                    mapToFieldsToDelete.Add(dlg.checkBoxLangVernacular.Text, DeleteVernacular);
                 if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField))
-                    _mapToFieldsToDelete.Add(dlg.checkBoxLangNationalBT.Text, DeleteNationalBt);
+                    mapToFieldsToDelete.Add(dlg.checkBoxLangNationalBT.Text, DeleteNationalBt);
                 if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.InternationalBtField))
-                    _mapToFieldsToDelete.Add(dlg.checkBoxLangInternationalBT.Text, DeleteInternationalBt);
+                    mapToFieldsToDelete.Add(dlg.checkBoxLangInternationalBT.Text, DeleteInternationalBt);
                 if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField))
-                    _mapToFieldsToDelete.Add(dlg.checkBoxLangFreeTranslation.Text, DeleteFreeTranslation);
+                    mapToFieldsToDelete.Add(dlg.checkBoxLangFreeTranslation.Text, DeleteFreeTranslation);
                 if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.AnchorFields))
-                    _mapToFieldsToDelete.Add(dlg.checkBoxAnchors.Text, DeleteAnchors);
+                    mapToFieldsToDelete.Add(dlg.checkBoxAnchors.Text, DeleteAnchors);
                 if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.ExegeticalHelps))
-                    _mapToFieldsToDelete.Add(dlg.checkBoxExegeticalNotes.Text, DeleteExegeticalHelps);
+                    mapToFieldsToDelete.Add(dlg.checkBoxExegeticalNotes.Text, DeleteExegeticalHelps);
                 if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions))
-                    _mapToFieldsToDelete.Add(dlg.checkBoxGeneralTestingQuestions.Text, DeleteStoryTestingQuestionsAndAnswers);
+                    mapToFieldsToDelete.Add(dlg.checkBoxGeneralTestingQuestions.Text, DeleteStoryTestingQuestionsAndAnswers);
                 if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions))
-                    _mapToFieldsToDelete.Add(dlg.checkBoxStoryTestingQuestions.Text, DeleteStoryTestingQuestionsAndAnswers);
+                    mapToFieldsToDelete.Add(dlg.checkBoxStoryTestingQuestions.Text, DeleteStoryTestingQuestionsAndAnswers);
                 if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
-                    _mapToFieldsToDelete.Add(dlg.checkBoxAnswers.Text, DeleteTestQuestionAnswers);
+                    mapToFieldsToDelete.Add(dlg.checkBoxAnswers.Text, null);   // special case
                 if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.RetellingFields))
-                    _mapToFieldsToDelete.Add(dlg.checkBoxRetellings.Text, DeleteRetellings);
+                    mapToFieldsToDelete.Add(dlg.checkBoxRetellings.Text, null);   // special case
                 if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields))
-                    _mapToFieldsToDelete.Add(dlg.checkBoxConsultantNotes.Text, DeleteConsultantNotes);
+                    mapToFieldsToDelete.Add(dlg.checkBoxConsultantNotes.Text, DeleteConsultantNotes);
                 if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields))
-                    _mapToFieldsToDelete.Add(dlg.checkBoxCoachNotes.Text, DeleteCoachNotes);
+                    mapToFieldsToDelete.Add(dlg.checkBoxCoachNotes.Text, DeleteCoachNotes);
                 if (fieldsToDeleteChosen.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.HiddenStuff))
-                    _mapToFieldsToDelete.Add(dlg.checkBoxShowHidden.Text, DeleteHiddenLines);
+                    mapToFieldsToDelete.Add(dlg.checkBoxShowHidden.Text, DeleteHiddenLines);
 
-                if (_mapToFieldsToDelete.Count == 0)
+                if (mapToFieldsToDelete.Count == 0)
                     return;
 
-                var strMessage = _mapToFieldsToDelete.Keys.Aggregate(Localizer.Str("Are you sure you want to delete:"),
+                var strMessage = mapToFieldsToDelete.Keys.Aggregate(Localizer.Str("Are you sure you want to delete:"),
                                                                      (curr, next) => { return curr + Environment.NewLine + next; });
                 if (LocalizableMessageBox.Show(strMessage, OseCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                 {
-                    foreach (var kvp in _mapToFieldsToDelete)
-                    {
-                        var resetFunction = kvp.Value;
-                        if (kvp.Key == dlg.checkBoxGeneralTestingQuestions.Text)
-                        {
-                            // then we *only* do the first verse
-                            resetFunction(TheCurrentStory.Verses.FirstVerse);
-                        }
-                        else
-                        {
-                            if (kvp.Key == dlg.checkBoxAnswers.Text)
-                            {
-                                // then we do first verse *and* the others
-                                resetFunction(TheCurrentStory.Verses.FirstVerse);
-                            }
+                    DeleteFieldsFromStory(TheCurrentStory, dlg, mapToFieldsToDelete);
 
-                            foreach (var aVerse in TheCurrentStory.Verses)
-                            {
-                                resetFunction(aVerse);
-                            }
-                        }
-                    }
-
-                    if (_mapToFieldsToDelete.ContainsKey(dlg.checkBoxConsultantNotes.Text) ||
-                        _mapToFieldsToDelete.ContainsKey(dlg.checkBoxCoachNotes.Text))
+                    if (mapToFieldsToDelete.ContainsKey(dlg.checkBoxConsultantNotes.Text) ||
+                        mapToFieldsToDelete.ContainsKey(dlg.checkBoxCoachNotes.Text))
                     {
                         InitAllPanes();
                     }
