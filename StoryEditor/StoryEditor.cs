@@ -4826,13 +4826,19 @@ namespace OneStoryProjectEditor
 
                 // this have the added requirement that it be a biblical story
                 viewAnchorsMenu.Enabled =
-                    viewGeneralTestingsQuestionMenu.Enabled =
-                    viewStoryTestingQuestionAnswersMenu.Enabled =
+                    (TheCurrentStory != null) && TheCurrentStory.CraftingInfo.IsBiblicalStory;
+
+                viewRetellingsMenu.Enabled =
+                    viewRetellingsChooseWhichRetellingsItem.Enabled =
+                    (TheCurrentStory != null) && TheCurrentStory.CraftingInfo.IsBiblicalStory && StoryProject.ProjSettings.ShowRetellings.Configured;
+
+                viewGeneralTestingsQuestionMenu.Enabled =
                     viewStoryTestingQuestionsMenu.Enabled =
-                    viewRetellingsMenu.Enabled =
-                    viewRetellingsChooseWhichRetellingsItem.Enabled = 
-                    viewAnswersChooseWhichAnswersItem.Enabled = 
-                        (TheCurrentStory != null) && TheCurrentStory.CraftingInfo.IsBiblicalStory;
+                    (TheCurrentStory != null) && TheCurrentStory.CraftingInfo.IsBiblicalStory && StoryProject.ProjSettings.ShowTestQuestions.Configured;
+
+                viewStoryTestingQuestionAnswersMenu.Enabled =
+                    viewAnswersChooseWhichAnswersItem.Enabled =
+                    (TheCurrentStory != null) && TheCurrentStory.CraftingInfo.IsBiblicalStory && StoryProject.ProjSettings.ShowAnswers.Configured;
 
                 viewTransliterationsToolStripMenu.Enabled = (StoryProject.ProjSettings.Vernacular.HasData ||
                                                                  StoryProject.ProjSettings.NationalBT.HasData ||

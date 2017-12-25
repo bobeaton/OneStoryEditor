@@ -627,12 +627,18 @@ namespace OneStoryProjectEditor
                     _itemToInsureOn |= ItemToInsureOn.AnchorFields;
                 if (bExegeticalHelps)
                     _itemToInsureOn |= ItemToInsureOn.ExegeticalHelps;
+
+                // change of opinion on how this should work. If the TQs aren't configured, then (now) *don't* warn about this being a problem
+#if WarnAboutMissingFields
                 if (bStoryTestingQuestions)
                 {
                     // warn the user if none of these are enabled in project settings
                     if (!projSettings.ShowTestQuestions.Vernacular && !projSettings.ShowTestQuestions.NationalBt && !projSettings.ShowTestQuestions.InternationalBt)
                         StoryEditor.WarnAboutNoLangsVisible(Localizer.Str("Test Question"));
-
+#else
+                if (bStoryTestingQuestions && projSettings.ShowTestQuestions.Configured)
+                {
+#endif
                     // break this down based on projSettings
                     if (projSettings.ShowTestQuestions.Vernacular)
                         _itemToInsureOn |= ItemToInsureOn.TestQuestionsVernacular;
@@ -641,12 +647,18 @@ namespace OneStoryProjectEditor
                     if (projSettings.ShowTestQuestions.InternationalBt)
                         _itemToInsureOn |= ItemToInsureOn.TestQuestionsInternationalBT;
                 }
+
+                // change of opinion on how this should work. If the TQs aren't configured, then (now) *don't* warn about this being a problem
+#if WarnAboutMissingFields
                 if (bStoryTestingQuestionAnswers)
                 {
                     // warn the user if none of these are enabled in project settings
                     if (!projSettings.ShowAnswers.Vernacular && !projSettings.ShowAnswers.NationalBt && !projSettings.ShowAnswers.InternationalBt)
                         StoryEditor.WarnAboutNoLangsVisible(Localizer.Str("Answers"));
-
+#else
+                if (bStoryTestingQuestionAnswers && projSettings.ShowAnswers.Configured)
+                {
+#endif
                     // break this down based on projSettings
                     if (projSettings.ShowAnswers.Vernacular)
                         _itemToInsureOn |= ItemToInsureOn.AnswersVernacular;
@@ -655,12 +667,18 @@ namespace OneStoryProjectEditor
                     if (projSettings.ShowAnswers.InternationalBt)
                         _itemToInsureOn |= ItemToInsureOn.AnswersInternationalBT;
                 }
+
+                // change of opinion on how this should work. If the TQs aren't configured, then (now) *don't* warn about this being a problem
+#if WarnAboutMissingFields
                 if (bRetellings)
                 {
                     // warn the user if none of these are enabled in project settings
                     if (!projSettings.ShowRetellings.Vernacular && !projSettings.ShowRetellings.NationalBt && !projSettings.ShowRetellings.InternationalBt)
                         StoryEditor.WarnAboutNoLangsVisible(Localizer.Str("Retellings"));
-
+#else
+                if (bRetellings && projSettings.ShowRetellings.Configured)
+                {
+#endif
                     // break this down based on projSettings
                     if (projSettings.ShowRetellings.Vernacular)
                         _itemToInsureOn |= ItemToInsureOn.RetellingsVernacular;

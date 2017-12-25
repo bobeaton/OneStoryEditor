@@ -920,6 +920,10 @@ namespace OneStoryProjectEditor
         public bool Vernacular { get; set; }
         public bool NationalBt { get; set; }
         public bool InternationalBt { get; set; }
+        public bool Configured
+        {
+            get { return Vernacular || NationalBt || InternationalBt; }
+        }
     }
 
     public class TasksPf
