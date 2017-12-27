@@ -124,6 +124,16 @@ namespace OneStoryProjectEditor
 
             if (theCNDC.HasData)
             {
+#if !UseOlderMsgBox
+                var res = new CustomMsgBox(Localizer.Str("Delete or Hide?"), "This conversation isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around for history. Click 'Delete' to delete the conversation or click 'Hide' to hide it?", "Delete", "Hide")
+                               .ShowDialog();
+
+                if (res == DialogResult.Retry)
+                    return OnClickHide(strId);
+
+                if (res == DialogResult.Cancel)
+                    return true;
+#else
                 DialogResult res = LocalizableMessageBox.Show(Localizer.Str("This conversation isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around for history. Click 'Yes' to hide the conversation or click 'No' to delete it?"),
                     StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
 
@@ -132,6 +142,7 @@ namespace OneStoryProjectEditor
 
                 if (res == DialogResult.Cancel)
                     return true;
+#endif
             }
 
             StrIdToScrollTo = GetTopRowId;

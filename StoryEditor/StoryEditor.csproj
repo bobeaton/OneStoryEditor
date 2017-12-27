@@ -240,6 +240,12 @@
     <Compile Include="CtrlTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CustomMsgBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomMsgBox.Designer.cs">
+      <DependentUpon>CustomMsgBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="CutItemPicker.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -519,6 +525,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CtrlTextBox.resx">
       <DependentUpon>CtrlTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomMsgBox.resx">
+      <DependentUpon>CustomMsgBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CutItemPicker.resx">
       <DependentUpon>CutItemPicker.cs</DependentUpon>
