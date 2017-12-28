@@ -567,6 +567,7 @@ namespace OneStoryProjectEditor
         public const int CnBtnIndexHide = 1;
         public const int CnBtnIndexEndConversation = 2;
         public const int CnBtnIndexConvertToMentoreeNote = 3;
+        public const int CnBtnIndexConvertToNoteToSelf = 3; // complimentary distribution with ^, so it can be 3, right?
         public const int CnBtnIndexApproveNote = 4;
 
         public static string ButtonRowId(int nVerseIndex, int nConversationIndex)
@@ -1027,13 +1028,37 @@ namespace OneStoryProjectEditor
                 }
             }
             // Jock wants mentors to be able to close conversations also
-            else if (IsMentorLoggedOn(loggedOnMember) && loggedOnMember.IsEditAllowed(theStory) && !IsStickyNote)
+            else if (!DontShowButtonsOverride && IsMentorLoggedOn(loggedOnMember) && loggedOnMember.IsEditAllowed(theStory) && !IsStickyNote)
             {
                 strRow += GetEndOrOpenConversationButtonHtml(nVerseIndex, nConversationIndex);
             }
 
+            // Irene would like a way to change it from being a note to a note to self. 
+            //  from the request: add this button if the note is new and hasn’t been finalized or even if not in your turn, but there is no response
+            if (!DontShowButtonsOverride &&
+                InitiatedConversation(loggedOnMember) &&    // person who initiated it is logged on
+                (this.Count == 1) &&
+                !IsNoteToSelf)  // = no responses yet
+            {
+                string strScriptCall;
+                // if (IsMentorNoteToSelf(InitialComment))
+                if (IsFromMentor(InitialComment))
+                {
+                    strScriptCall = "return window.external.OnConvertToMentorNoteToSelf(this.id);";
+                }
+                else
+                {
+                    strScriptCall = "return window.external.OnConvertToMentoreeNoteToSelf(this.id);";
+                }
+
+                strRow += String.Format(Resources.HTML_ButtonClass,
+                                        ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexConvertToNoteToSelf),
+                                        StoryData.CstrLangLocalizationStyleClassName,
+                                        strScriptCall, Localizer.Str("Change to note to self"));
+            }
+
             // add a button if the logged on person has the authority to approve the note (or show it to the person who needs to see it)
-            if (NoteNeedsApproval) // && !IsFinished)
+            if (!DontShowButtonsOverride && NoteNeedsApproval) // && !IsFinished)
             {
                 if (HasNoteApprovalAuthority(loggedOnMember, theTeamMembers) && 
                     (loggedOnMember.IsEditAllowed(theStory) || 
@@ -1112,7 +1137,7 @@ namespace OneStoryProjectEditor
             {
                 Debug.Assert(Count > 0);
                 return ((Count > 0)
-                        && (FinalComment.Direction == CommunicationDirections.eConsultantToProjFacNeedsApproval));
+                        && CommentNeedsApproval(FinalComment));
             }
         }
 
@@ -1398,19 +1423,23 @@ namespace OneStoryProjectEditor
             //      a test"), then the coach must uncheck the 'Set to Coach's turn' 
             //      requirement).
             //   2) The member is an LSR. Such comments always need to be approved.
-            bool bNeedsApproval =
-                ((eNoteType == NoteType.RegularNote) &&
+            var bNeedsApproval = CalculateWhetherNoteNeedsApproval(loggedOnMember, theStory, eNoteType);
+            return (bNeedsApproval)
+                       ? new CommInstance(strValue, CommunicationDirections.eConsultantToProjFacNeedsApproval, null,
+                                          loggedOnMember.MemberGuid, DateTime.Now,
+                                          WhichField)
+                       : base.CreateMentorNote(loggedOnMember, theStory, strValue, eNoteType);
+        }
+
+        public static bool CalculateWhetherNoteNeedsApproval(TeamMemberData loggedOnMember, StoryData theStory, NoteType eNoteType)
+        {
+            return ((eNoteType == NoteType.RegularNote) &&
                  TeamMemberData.IsUser(loggedOnMember.MemberType,
                                        TeamMemberData.UserTypes.ConsultantInTraining) &&
                  TasksCit.IsTaskOn(theStory.TasksRequiredCit,
                                    TasksCit.TaskSettings.SendToCoachForReview)) ||
                  TeamMemberData.IsUser(loggedOnMember.MemberType,
                                        TeamMemberData.UserTypes.FirstPassMentor);
-            return (bNeedsApproval)
-                       ? new CommInstance(strValue, CommunicationDirections.eConsultantToProjFacNeedsApproval, null,
-                                          loggedOnMember.MemberGuid, DateTime.Now, 
-                                          WhichField)
-                       : base.CreateMentorNote(loggedOnMember, theStory, strValue, eNoteType);
         }
 
         protected override bool LoggedOnMentorHasResponsePrivilege(TeamMemberData loggedOnMember,

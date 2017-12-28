@@ -601,25 +601,51 @@ namespace OneStoryProjectEditor
 
         public bool OnConvertToMentorNote(string strId)
         {
-            return SetDirectionTo(strId, false, false);
+            // don't pass a value for 'NeedsApproval', so it'll be calculated
+            return SetDirectionTo(strId, null, false);
+        }
+
+        public bool OnConvertToMentorNoteToSelf(string strId)
+        {
+            return SetDirectionTo(strId, false, true, true);
+        }
+
+        public bool OnConvertToMentoreeNoteToSelf(string strId)
+        {
+            return SetDirectionTo(strId, false, false, true);
         }
 
         protected bool SetDirectionTo(string strId, 
-            bool bNeedsApproval, bool bToMentorDirection)
+            bool? bNeedsApproval, bool bToMentorDirection, bool bToNoteToSelf = false)
         {
             int nVerseIndex, nConversationIndex;
             ConsultNotesDataConverter theCNsDC;
             ConsultNoteDataConverter theCNDC;
             if (!GetDataConverters(strId, out nVerseIndex, out nConversationIndex,
                                    out theCNsDC, out theCNDC))
+            {
                 return false;
+            }
 
-            theCNDC.FinalComment.Direction = (bToMentorDirection)
-                                                 ? (bNeedsApproval)
-                                                       ? ConsultNoteDataConverter.CommunicationDirections.
-                                                             eConsultantToProjFacNeedsApproval
-                                                       : theCNDC.MentorDirection
-                                                 : theCNDC.MenteeDirection;
+            // means we should calculate whether it needs approval or not
+            if (bNeedsApproval == null)
+            {
+                // only needs approval if this is the consultant notes pane and ...
+                bNeedsApproval = (this is HtmlConsultantNotesControl) &&
+                                  ConsultantNoteData.CalculateWhetherNoteNeedsApproval(TheSE.LoggedOnMember, StoryData, ConsultNoteDataConverter.NoteType.RegularNote);
+            }
+
+            theCNDC.FinalComment.Direction = (bToNoteToSelf)
+                                                ? (bToMentorDirection)
+                                                    ? theCNDC.MentorToSelfDirection
+                                                    : theCNDC.MenteeToSelfDirection
+                                                : (bToMentorDirection)
+                                                     ? ((bool)bNeedsApproval)
+                                                           ? ConsultNoteDataConverter.CommunicationDirections.
+                                                                 eConsultantToProjFacNeedsApproval
+                                                           : theCNDC.MentorDirection
+                                                     : theCNDC.MenteeDirection;
+
             StrIdToScrollTo = GetTopRowId;
             LoadDocument();
             return true;
@@ -769,8 +795,7 @@ namespace OneStoryProjectEditor
                                                         TheSE.viewHiddenVersesMenu.Checked,
                                                         TheSE.viewOnlyOpenConversationsMenu.Checked);
             DocumentText = strHtml;
-            if (MakeLineNumberLinkVisible != null)
-                MakeLineNumberLinkVisible();
+            MakeLineNumberLinkVisible?.Invoke();
         }
 
         public override string PaneLabel()
@@ -815,8 +840,7 @@ namespace OneStoryProjectEditor
                                                    TheSE.viewOnlyOpenConversationsMenu.Checked);
             DocumentText = strHtml;
 
-            if (MakeLineNumberLinkVisible != null)
-                MakeLineNumberLinkVisible();
+            MakeLineNumberLinkVisible?.Invoke();
         }
 
         public override string PaneLabel()
