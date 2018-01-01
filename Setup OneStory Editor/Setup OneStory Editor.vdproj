@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_008DC08CDDFA45E9B7333B54E257E389"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_04E65703DE36419B970B380CFF25FDBB"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -184,12 +190,6 @@
         "Entry"
         {
         "MsmKey" = "8:_202B2AEFEA294CC69A2751EA9FDA2767"
-        "OwnerKey" = "8:_2750BE288359D06CB18042F179052706"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_202B2AEFEA294CC69A2751EA9FDA2767"
         "OwnerKey" = "8:_E291599353B84B158E62D23BB4E4F25C"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -262,19 +262,13 @@
         "Entry"
         {
         "MsmKey" = "8:_2317184BC6E78C19FA0A5718F255E0CA"
-        "OwnerKey" = "8:_EAF0E514FB2C446EA35BA76758D83ACC"
+        "OwnerKey" = "8:_008DC08CDDFA45E9B7333B54E257E389"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_2317184BC6E78C19FA0A5718F255E0CA"
         "OwnerKey" = "8:_E291599353B84B158E62D23BB4E4F25C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_2317184BC6E78C19FA0A5718F255E0CA"
-        "OwnerKey" = "8:_2750BE288359D06CB18042F179052706"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -293,18 +287,6 @@
         {
         "MsmKey" = "8:_269880562129444AA1E21F3D7A1DBACB"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_2750BE288359D06CB18042F179052706"
-        "OwnerKey" = "8:_E291599353B84B158E62D23BB4E4F25C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_2750BE288359D06CB18042F179052706"
-        "OwnerKey" = "8:_EAF0E514FB2C446EA35BA76758D83ACC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -711,6 +693,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_6A8548D7605D4620A75CC61B57342A7C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_6B2332FF2ED8494B8ED3C4D49E111AB6"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -761,6 +749,12 @@
         {
         "MsmKey" = "8:_7300955D3D6A37FD88A980AF8DDBC0BF"
         "OwnerKey" = "8:_E291599353B84B158E62D23BB4E4F25C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_75251BC6C2FE43DA92BDC61C46419200"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -939,6 +933,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_8C38A17523CD40E0A262BB805F1F33E0"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_8FBC90D43798412DB10223AB988F398F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -964,7 +964,7 @@
         "Entry"
         {
         "MsmKey" = "8:_959A4CB39B4A3928AFDE66961F63A58E"
-        "OwnerKey" = "8:_EAF0E514FB2C446EA35BA76758D83ACC"
+        "OwnerKey" = "8:_008DC08CDDFA45E9B7333B54E257E389"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -976,7 +976,7 @@
         "Entry"
         {
         "MsmKey" = "8:_98364D828E339E4E67CEEA403FEC8A59"
-        "OwnerKey" = "8:_EAF0E514FB2C446EA35BA76758D83ACC"
+        "OwnerKey" = "8:_008DC08CDDFA45E9B7333B54E257E389"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1042,25 +1042,19 @@
         "Entry"
         {
         "MsmKey" = "8:_9D28E101FDAE6A04ED9F0358617A1D66"
-        "OwnerKey" = "8:_EAF0E514FB2C446EA35BA76758D83ACC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_9D28E101FDAE6A04ED9F0358617A1D66"
         "OwnerKey" = "8:_419902DDF0C24F0C9E553502840AF7F0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_9D28E101FDAE6A04ED9F0358617A1D66"
-        "OwnerKey" = "8:_E291599353B84B158E62D23BB4E4F25C"
+        "OwnerKey" = "8:_008DC08CDDFA45E9B7333B54E257E389"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_9D28E101FDAE6A04ED9F0358617A1D66"
-        "OwnerKey" = "8:_2750BE288359D06CB18042F179052706"
+        "OwnerKey" = "8:_E291599353B84B158E62D23BB4E4F25C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1497,20 +1491,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_EAF0E514FB2C446EA35BA76758D83ACC"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_EB640D96FCE303878E6E278180B8FE5B"
         "OwnerKey" = "8:_6902DBEE0CF659961F6111D0D01F9994"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_EBE7E52448B5C0E5435E36C80379D4FD"
-        "OwnerKey" = "8:_2750BE288359D06CB18042F179052706"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1594,13 +1576,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_EAF0E514FB2C446EA35BA76758D83ACC"
+        "OwnerKey" = "8:_0BBDB811F15E44B487FB4E62A15F0A38"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_419902DDF0C24F0C9E553502840AF7F0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_008DC08CDDFA45E9B7333B54E257E389"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1672,12 +1660,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2750BE288359D06CB18042F179052706"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_202B2AEFEA294CC69A2751EA9FDA2767"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1703,6 +1685,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_9D28E101FDAE6A04ED9F0358617A1D66"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E291599353B84B158E62D23BB4E4F25C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -2266,7 +2254,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_0BBDB811F15E44B487FB4E62A15F0A38"
+        "OwnerKey" = "8:_008DC08CDDFA45E9B7333B54E257E389"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -2374,6 +2362,37 @@
         }
         "File"
         {
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_008DC08CDDFA45E9B7333B54E257E389"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:AiChorus, Version=4.0.0.0, Culture=neutral, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_008DC08CDDFA45E9B7333B54E257E389"
+                    {
+                    "Name" = "8:AiChorus.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\DepDLLs\\AiChorus.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_05ADC73513EAAAE38C9FAF31410C3348"
             {
             "AssemblyRegister" = "3:1"
@@ -2494,7 +2513,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -2977,37 +2996,6 @@
                     }
                 }
             "SourcePath" = "8:SharedScrUtils.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2750BE288359D06CB18042F179052706"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:AIGuesserEC, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=x86"
-                "ScatterAssemblies"
-                {
-                    "_2750BE288359D06CB18042F179052706"
-                    {
-                    "Name" = "8:AIGuesserEC.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:AIGuesserEC.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
@@ -3630,7 +3618,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -3785,7 +3773,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -3880,6 +3868,26 @@
             "Register" = "3:1"
             "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6A8548D7605D4620A75CC61B57342A7C"
+            {
+            "SourcePath" = "8:..\\DepDLLs\\AiChorus.pdb"
+            "TargetName" = "8:AiChorus.pdb"
+            "Tag" = "8:"
+            "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6F68FAFE57A1DD147D216E4FB72B5CAE"
@@ -3993,6 +4001,26 @@
             "Register" = "3:1"
             "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_75251BC6C2FE43DA92BDC61C46419200"
+            {
+            "SourcePath" = "8:..\\output\\Release\\StoryEditor.pdb"
+            "TargetName" = "8:StoryEditor.pdb"
+            "Tag" = "8:"
+            "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_75635A8AB9D5EB17E05E12AC1BDD21CB"
@@ -4164,7 +4192,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -4290,6 +4318,26 @@
             "Register" = "3:1"
             "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8C38A17523CD40E0A262BB805F1F33E0"
+            {
+            "SourcePath" = "8:..\\DepDLLs\\AiChorus.exe.config"
+            "TargetName" = "8:AiChorus.exe.config"
+            "Tag" = "8:"
+            "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_94B6E6BD00BAEAF26CFA73344B2FF07C"
@@ -4443,7 +4491,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -4587,7 +4635,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:2"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -5052,7 +5100,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -5603,37 +5651,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EAF0E514FB2C446EA35BA76758D83ACC"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:AiChorus, Version=4.0.0.0, Culture=neutral, processorArchitecture=x86"
-                "ScatterAssemblies"
-                {
-                    "_EAF0E514FB2C446EA35BA76758D83ACC"
-                    {
-                    "Name" = "8:AiChorus.exe"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\DepDLLs\\AiChorus.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EB640D96FCE303878E6E278180B8FE5B"
             {
             "AssemblyRegister" = "3:1"
@@ -5661,26 +5678,6 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EBE7E52448B5C0E5435E36C80379D4FD"
-            {
-            "SourcePath" = "8:AIGuesserEC.tlb"
-            "TargetName" = "8:AIGuesserEC.tlb"
-            "Tag" = "8:"
-            "Folder" = "8:_1E0B834CE697461C80146668203EA38A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:2"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
@@ -5965,11 +5962,11 @@
             "Description" = "8:The configuration tool for Chorus projects"
             "Extensions" = "8:.cpc"
             "MIME" = "8:"
-            "Icon" = "8:_EAF0E514FB2C446EA35BA76758D83ACC"
+            "Icon" = "8:_008DC08CDDFA45E9B7333B54E257E389"
             "IconIndex" = "3:32512"
                 "Command"
                 {
-                "Command" = "8:_EAF0E514FB2C446EA35BA76758D83ACC"
+                "Command" = "8:_008DC08CDDFA45E9B7333B54E257E389"
                 }
                 "Verbs"
                 {
@@ -6165,7 +6162,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:OneStory Editor 4.0"
         "ProductCode" = "8:{86577889-555A-4199-838D-85FFB1293039}"
-        "PackageCode" = "8:{308C7956-6944-42D5-B44B-5763DFAADDD2}"
+        "PackageCode" = "8:{301008E2-AED3-4CA9-BA1F-906ACDC09646}"
         "UpgradeCode" = "8:{92A9B369-3609-4129-A09D-5BB5BBE30AAB}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -6491,20 +6488,6 @@
             "Icon" = "8:_82705A07BB5045DA991BB5A7AD09D1A1"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_8F993474350E4F69A2A80636F2C63A53"
-            {
-            "Name" = "8:Create Chorus configuration"
-            "Arguments" = "8:/f"
-            "Description" = "8:Click this to create a Chorus configuration file"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:32512"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_EAF0E514FB2C446EA35BA76758D83ACC"
-            "Folder" = "8:_6F34DACAC6334C9C8C52F8BAE3086C0A"
-            "WorkingFolder" = "8:_1E0B834CE697461C80146668203EA38A"
-            "Icon" = "8:"
-            "Feature" = "8:"
-            }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_9F02E09924A047AAA6561258485A0685"
             {
             "Name" = "8:OneStory Editor"
@@ -6517,6 +6500,20 @@
             "Folder" = "8:_6F34DACAC6334C9C8C52F8BAE3086C0A"
             "WorkingFolder" = "8:_1E0B834CE697461C80146668203EA38A"
             "Icon" = "8:_82705A07BB5045DA991BB5A7AD09D1A1"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_D029EBC4C6E14F0BB914484A26C8119B"
+            {
+            "Name" = "8:Create Chorus configuration"
+            "Arguments" = "8:/f"
+            "Description" = "8:Click this to create a Chorus configuration file"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:32512"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_008DC08CDDFA45E9B7333B54E257E389"
+            "Folder" = "8:_6F34DACAC6334C9C8C52F8BAE3086C0A"
+            "WorkingFolder" = "8:_1E0B834CE697461C80146668203EA38A"
+            "Icon" = "8:_008DC08CDDFA45E9B7333B54E257E389"
             "Feature" = "8:"
             }
         }
