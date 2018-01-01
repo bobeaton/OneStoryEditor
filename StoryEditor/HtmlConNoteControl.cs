@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using mshtml;
 using NetLoc;
+using OneStoryProjectEditor.Properties;
 
 namespace OneStoryProjectEditor
 {

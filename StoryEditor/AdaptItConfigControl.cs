@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using Chorus.UI.Clone;
 using ECInterfaces;
 using NetLoc;
 using SilEncConverters40;

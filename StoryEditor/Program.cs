@@ -133,7 +133,7 @@ namespace OneStoryProjectEditor
 #if !TurnOnKeyboarding
                     SIL.Windows.Forms.Keyboarding.KeyboardController.Initialize();
 #endif
-                    Application.Run(new StoryEditor(Properties.Resources.IDS_MainStoriesSet, strFilePathToOpen));
+                    Application.Run(new StoryEditor(strFilePathToOpen));
                 }
             }
             catch (RestartException)
@@ -302,6 +302,10 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.ProjectNameToLastStoryWorkedOn = new StringCollection();
             MapProjectNameToLastStoryWorkedOn = ArrayToDictionary(Properties.Settings.Default.ProjectNameToLastStoryWorkedOn);
 
+            if (Properties.Settings.Default.ProjectNameToLastStoriesSetWorkedOn == null)
+                Properties.Settings.Default.ProjectNameToLastStoriesSetWorkedOn = new StringCollection();
+            MapProjectNameToLastStoriesSetWorkedOn = ArrayToDictionary(Properties.Settings.Default.ProjectNameToLastStoriesSetWorkedOn);
+
             if (Properties.Settings.Default.ProjectNameToLastMemberLogin == null)
                 Properties.Settings.Default.ProjectNameToLastMemberLogin = new StringCollection();
             MapProjectNameToLastMemberLogin = ArrayToDictionary(Properties.Settings.Default.ProjectNameToLastMemberLogin);
@@ -386,6 +390,7 @@ namespace OneStoryProjectEditor
         static Dictionary<string, string> _mapProjectNameToAiHgHttpUrl;
         static Dictionary<string, string> _mapProjectNameToAiHgNetworkUrl;
 
+        public static Dictionary<string, string> MapProjectNameToLastStoriesSetWorkedOn;
         public static Dictionary<string, string> MapProjectNameToLastStoryWorkedOn;
         public static Dictionary<string, string> MapProjectNameToLastMemberLogin;
         public static Dictionary<string, string> MapProjectNameToLastUserType;

@@ -73,6 +73,7 @@ namespace OneStoryProjectEditor
             this.editDeleteEnglishBtMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.editDeleteFreeTranslationMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.editDeleteTestToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editDeleteChooseFieldsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.editFindMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.editFindNextMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,7 +83,7 @@ namespace OneStoryProjectEditor
             this.editAddInferenceTestResultsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.editAddGeneralTestQuestionMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewNonBiblicalStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewStoriesSetMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.viewShowHideFieldsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewUseSameSettingsForAllStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -112,8 +113,6 @@ namespace OneStoryProjectEditor
             this.viewConcordanceMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewStateTransitionHistoryMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewProjectNotesMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewOldStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.viewHiddenVersesMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.viewOnlyOpenConversationsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
@@ -213,7 +212,7 @@ namespace OneStoryProjectEditor
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.editDeleteChooseFieldsMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeftRight)).BeginInit();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
@@ -557,6 +556,14 @@ namespace OneStoryProjectEditor
             this.editDeleteTestToolStripMenu.ToolTipText = "Delete the answers to the testing questions and the retellings associated with a " +
     "particular testing helper (UNS). The text boxes will be deleted completely";
             // 
+            // editDeleteChooseFieldsMenu
+            // 
+            this.editDeleteChooseFieldsMenu.Name = "editDeleteChooseFieldsMenu";
+            this.editDeleteChooseFieldsMenu.Size = new System.Drawing.Size(589, 38);
+            this.editDeleteChooseFieldsMenu.Text = "&Choose";
+            this.editDeleteChooseFieldsMenu.ToolTipText = "Choose which fields to delete the data from";
+            this.editDeleteChooseFieldsMenu.Click += new System.EventHandler(this.editDeleteChooseFieldsMenu_Click);
+            // 
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
@@ -620,7 +627,7 @@ namespace OneStoryProjectEditor
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.viewNonBiblicalStoriesMenu,
+            this.viewStoriesSetMenu,
             this.toolStripSeparator5,
             this.viewShowHideFieldsMenu,
             this.viewUseSameSettingsForAllStoriesMenu,
@@ -648,7 +655,6 @@ namespace OneStoryProjectEditor
             this.viewConcordanceMenu,
             this.viewStateTransitionHistoryMenu,
             this.viewProjectNotesMenu,
-            this.viewOldStoriesMenu,
             this.toolStripSeparator11,
             this.viewHiddenVersesMenu,
             this.viewOnlyOpenConversationsMenu,
@@ -659,15 +665,12 @@ namespace OneStoryProjectEditor
             this.viewToolStripMenuItem.Text = "&View";
             this.viewToolStripMenuItem.DropDownOpening += new System.EventHandler(this.viewToolStripMenuItem_DropDownOpening);
             // 
-            // viewNonBiblicalStoriesMenu
+            // viewStoriesSetMenu
             // 
-            this.viewNonBiblicalStoriesMenu.CheckOnClick = true;
-            this.viewNonBiblicalStoriesMenu.Name = "viewNonBiblicalStoriesMenu";
-            this.viewNonBiblicalStoriesMenu.Size = new System.Drawing.Size(539, 38);
-            this.viewNonBiblicalStoriesMenu.Text = "&Non-biblical Stories...";
-            this.viewNonBiblicalStoriesMenu.ToolTipText = "Check this menu to edit the set of non-biblical stories (uncheck for biblical sto" +
-    "ries)";
-            this.viewNonBiblicalStoriesMenu.CheckedChanged += new System.EventHandler(this.ViewNonBiblicalStoriesMenuCheckedChanged);
+            this.viewStoriesSetMenu.Name = "viewStoriesSetMenu";
+            this.viewStoriesSetMenu.Size = new System.Drawing.Size(539, 38);
+            this.viewStoriesSetMenu.Text = "C&hoose story set";
+            this.viewStoriesSetMenu.ToolTipText = "Choose which stories set to view/edit from the sub-list";
             // 
             // toolStripSeparator5
             // 
@@ -928,20 +931,6 @@ namespace OneStoryProjectEditor
             this.viewProjectNotesMenu.Size = new System.Drawing.Size(539, 38);
             this.viewProjectNotesMenu.Text = "&Project Notes...";
             this.viewProjectNotesMenu.Click += new System.EventHandler(this.projectNotesToolStripMenuItem_Click);
-            // 
-            // viewOldStoriesMenu
-            // 
-            this.viewOldStoriesMenu.Name = "viewOldStoriesMenu";
-            this.viewOldStoriesMenu.Size = new System.Drawing.Size(539, 38);
-            this.viewOldStoriesMenu.Text = "&Old Stories...";
-            this.viewOldStoriesMenu.ToolTipText = "View older (obsolete) versions of the stories (that were earlier stored in the \'O" +
-    "ld Stories\' list from the \'Panorama View\' window--see \'Panorama\' menu, \'Show\' co" +
-    "mmand)";
-            // 
-            // toolStripSeparator11
-            // 
-            this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(536, 6);
             // 
             // viewHiddenVersesMenu
             // 
@@ -1966,13 +1955,10 @@ namespace OneStoryProjectEditor
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
             // 
-            // editDeleteChooseFieldsMenu
+            // toolStripSeparator11
             // 
-            this.editDeleteChooseFieldsMenu.Name = "editDeleteChooseFieldsMenu";
-            this.editDeleteChooseFieldsMenu.Size = new System.Drawing.Size(589, 38);
-            this.editDeleteChooseFieldsMenu.Text = "&Choose";
-            this.editDeleteChooseFieldsMenu.ToolTipText = "Choose which fields to delete the data from";
-            this.editDeleteChooseFieldsMenu.Click += new System.EventHandler(this.editDeleteChooseFieldsMenu_Click);
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(536, 6);
             // 
             // StoryEditor
             // 
@@ -2069,7 +2055,6 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem storySplitIntoLinesMenu;
         private ToolStripMenuItem aboutToolStripMenu;
         private ToolStripSeparator toolStripSeparator8;
-        private ToolStripMenuItem viewOldStoriesMenu;
         private ToolStripMenuItem editDeleteStoryLinesMenu;
         private ToolStripMenuItem editDeleteTestToolStripMenu;
         private ToolStripMenuItem panoramaShowMenu;
@@ -2088,7 +2073,6 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem projectToTheInternetMenu;
         private ToolStripMenuItem storyCopyWithNewNameMenu;
         private ToolStripMenuItem projectLoginMenu;
-        private ToolStripSeparator toolStripSeparator11;
         internal ToolStripMenuItem viewHiddenVersesMenu;
         private ToolStripMenuItem projectExportToToolboxMenu;
         private ToolStripMenuItem viewShowHideFieldsMenu;
@@ -2158,7 +2142,7 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator15;
         private ToolStripMenuItem advancedOverrideLocalizeStateViewSettingsMenu;
         private ToolStripMenuItem advancedEmailMenu;
-        private ToolStripMenuItem viewNonBiblicalStoriesMenu;
+        private ToolStripMenuItem viewStoriesSetMenu;
         private ToolStripSeparator toolStripSeparator16;
         private ToolStripSeparator toolStripSeparator5;
         private HtmlStoryBtControl htmlStoryBtControl;
@@ -2190,6 +2174,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem panoramaLastStoryMenu;
         private ToolStripMenuItem advancedAutomaticallyLoadProjectMenu;
         private ToolStripMenuItem editDeleteChooseFieldsMenu;
+        private ToolStripSeparator toolStripSeparator11;
     }
 
 #if UsingHtmlDisplayForConNotes

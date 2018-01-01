@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using NetLoc;
 using mshtml;
+using OneStoryProjectEditor.Properties;
 
 namespace OneStoryProjectEditor
 {

@@ -387,5 +387,8 @@
     <Setting Name="OseServerIpAddress" Type="System.String" Scope="Application">
       <Value Profile="(Default)">52.173.92.223</Value>
     </Setting>
+    <Setting Name="ProjectNameToLastStoriesSetWorkedOn" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

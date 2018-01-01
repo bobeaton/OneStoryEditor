@@ -123,31 +123,31 @@ namespace OneStoryProjectEditor
             // 
             // moveToNonBibStoriesMenu
             // 
-            this.moveToNonBibStoriesMenu.Name = "moveToNonBibStoriesMenu";
+            this.moveToNonBibStoriesMenu.Name = "moveToNon-BiblicalStoriesMenu";
             this.moveToNonBibStoriesMenu.Size = new System.Drawing.Size(326, 22);
             this.moveToNonBibStoriesMenu.Text = "Move selected story to \'&Non-Biblical Stories\' tab";
-            this.moveToNonBibStoriesMenu.Click += new System.EventHandler(this.MoveToNonBibStoriesMenuClick);
+            this.moveToNonBibStoriesMenu.Click += new System.EventHandler(this.MoveToStoriesMenuClick);
             // 
             // copyToNonBibStoriesMenu
             // 
-            this.copyToNonBibStoriesMenu.Name = "copyToNonBibStoriesMenu";
+            this.copyToNonBibStoriesMenu.Name = "copyToNon-BiblicalStoriesMenu";
             this.copyToNonBibStoriesMenu.Size = new System.Drawing.Size(326, 22);
             this.copyToNonBibStoriesMenu.Text = "Copy selected story to \'&Non-Biblical Stories\' tab";
-            this.copyToNonBibStoriesMenu.Click += new System.EventHandler(this.CopyToNonBibStoriesMenuClick);
+            this.copyToNonBibStoriesMenu.Click += new System.EventHandler(this.CopyToStoriesMenuClick);
             // 
             // moveToOldStoriesMenu
             // 
             this.moveToOldStoriesMenu.Name = "moveToOldStoriesMenu";
             this.moveToOldStoriesMenu.Size = new System.Drawing.Size(326, 22);
             this.moveToOldStoriesMenu.Text = "Move selected story to \'&Old Stories\' tab";
-            this.moveToOldStoriesMenu.Click += new System.EventHandler(this.MoveToOldStoriesMenuClick);
+            this.moveToOldStoriesMenu.Click += new System.EventHandler(this.MoveToStoriesMenuClick);
             // 
             // copyToOldStoriesMenu
             // 
             this.copyToOldStoriesMenu.Name = "copyToOldStoriesMenu";
             this.copyToOldStoriesMenu.Size = new System.Drawing.Size(326, 22);
             this.copyToOldStoriesMenu.Text = "Copy selected story to \'&Old Stories\' tab";
-            this.copyToOldStoriesMenu.Click += new System.EventHandler(this.CopyToOldStoriesMenuClick);
+            this.copyToOldStoriesMenu.Click += new System.EventHandler(this.CopyToStoriesMenuClick);
             // 
             // buttonDelete
             // 

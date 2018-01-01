@@ -1,150 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
-<OrderResponseDetailHigh xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <NumberOfMatches xmlns="http://api.channeladvisor.com/datacontracts/orders">41</NumberOfMatches>
-  <OrderTimeGMT xmlns="http://api.channeladvisor.com/datacontracts/orders">2017-03-18T17:26:43</OrderTimeGMT>
-  <LastUpdateDate xmlns="http://api.channeladvisor.com/datacontracts/orders">2017-03-18T18:24:10.073</LastUpdateDate>
-  <TotalOrderAmount xmlns="http://api.channeladvisor.com/datacontracts/orders">100.1500</TotalOrderAmount>
-  <OrderState xmlns="http://api.channeladvisor.com/datacontracts/orders">Active</OrderState>
-  <DateCancelledGMT xsi:nil="true" xmlns="http://api.channeladvisor.com/datacontracts/orders" />
-  <OrderID xmlns="http://api.channeladvisor.com/datacontracts/orders">696552</OrderID>
-  <ClientOrderIdentifier xmlns="http://api.channeladvisor.com/datacontracts/orders">111-0781565-8014659</ClientOrderIdentifier>
-  <SellerOrderID xmlns="http://api.channeladvisor.com/datacontracts/orders" />
-  <OrderStatus xmlns="http://api.channeladvisor.com/datacontracts/orders">
-    <CheckoutStatus>Completed</CheckoutStatus>
-    <CheckoutDateGMT>2017-03-18T17:26:43</CheckoutDateGMT>
-    <PaymentStatus>Cleared</PaymentStatus>
-    <PaymentDateGMT>2017-03-18T17:26:43</PaymentDateGMT>
-    <ShippingStatus>Unshipped</ShippingStatus>
-    <ShippingDateGMT>1900-01-01T00:00:00</ShippingDateGMT>
-    <OrderRefundStatus>NoRefunds</OrderRefundStatus>
-  </OrderStatus>
-  <ResellerID xmlns="http://api.channeladvisor.com/datacontracts/orders" />
-  <BuyerEmailAddress xmlns="http://api.channeladvisor.com/datacontracts/orders">r7nn876mmv2t05g@marketplace.amazon.com</BuyerEmailAddress>
-  <EmailOptIn xmlns="http://api.channeladvisor.com/datacontracts/orders">false</EmailOptIn>
-  <PaymentInfo xmlns="http://api.channeladvisor.com/datacontracts/orders">
-    <PaymentType>Amazon</PaymentType>
-    <CreditCardLast4 />
-    <PayPalID />
-    <MerchantReferenceNumber />
-    <PaymentTransactionID />
-  </PaymentInfo>
-  <ShippingInfo xmlns="http://api.channeladvisor.com/datacontracts/orders">
-    <AddressLine1>10750 GARDEN CROSSING WAY APT 102</AddressLine1>
-    <AddressLine2>APARTMENT 102</AddressLine2>
-    <City>KNOXVILLE</City>
-    <Region>TN</Region>
-    <RegionDescription>Tennessee</RegionDescription>
-    <PostalCode>37932-3749</PostalCode>
-    <CountryCode>US</CountryCode>
-    <CompanyName />
-    <JobTitle />
-    <Title />
-    <FirstName>mary</FirstName>
-    <LastName>summitt</LastName>
-    <Suffix />
-    <PhoneNumberDay>865-382-7931</PhoneNumberDay>
-    <PhoneNumberEvening />
-    <ShipmentList>
-      <Shipment>
-        <ShippingCarrier>Amazon Merchants@</ShippingCarrier>
-        <ShippingClass>Standard</ShippingClass>
-        <TrackingNumber />
-      </Shipment>
-    </ShipmentList>
-    <ShippingInstructions />
-    <EstimatedShipDate>2017-03-22T05:59:59</EstimatedShipDate>
-    <DeliveryDate>2017-03-29T05:59:59</DeliveryDate>
-  </ShippingInfo>
-  <BillingInfo xmlns="http://api.channeladvisor.com/datacontracts/orders">
-    <AddressLine1>10750 GARDEN CROSSING WAY APT 102</AddressLine1>
-    <AddressLine2>APARTMENT 102</AddressLine2>
-    <City>KNOXVILLE</City>
-    <Region>TN</Region>
-    <RegionDescription>Tennessee</RegionDescription>
-    <PostalCode>37932-3749</PostalCode>
-    <CountryCode>US</CountryCode>
-    <CompanyName />
-    <Title />
-    <FirstName>mary</FirstName>
-    <LastName>summitt</LastName>
-    <Suffix />
-    <PhoneNumberDay>865-382-7931</PhoneNumberDay>
-    <PhoneNumberEvening />
-  </BillingInfo>
-  <FlagDescription xmlns="http://api.channeladvisor.com/datacontracts/orders" />
-  <ShoppingCart xmlns="http://api.channeladvisor.com/datacontracts/orders">
-    <CartID>696552</CartID>
-    <CheckoutSource>Unspecified</CheckoutSource>
-    <VATTaxCalculationOption>Unspecified</VATTaxCalculationOption>
-    <VATShippingOption>Unspecified</VATShippingOption>
-    <VATGiftWrapOption>Unspecified</VATGiftWrapOption>
-    <LineItemSKUList>
-      <OrderLineItemItem xsi:type="OrderLineItemItemResponse">
-        <LineItemType>SKU</LineItemType>
-        <UnitPrice>100.1500</UnitPrice>
-        <LineItemID>626616</LineItemID>
-        <AllowNegativeQuantity>false</AllowNegativeQuantity>
-        <Quantity>1</Quantity>
-        <ItemSaleSource>AMAZON_US</ItemSaleSource>
-        <SKU>1303827</SKU>
-        <Title>Dingo Women's Moon And Cactus Zipper Ankle Boot Tan</Title>
-        <BuyerUserID>r7nn876mmv2t05g@marketplace.amazon.com</BuyerUserID>
-        <BuyerFeedbackRating>0</BuyerFeedbackRating>
-        <SalesSourceID>20398936042706</SalesSourceID>
-        <VATRate>0</VATRate>
-        <TaxCost>0.0000</TaxCost>
-        <ShippingCost>0.0000</ShippingCost>
-        <ShippingTaxCost>0.0000</ShippingTaxCost>
-        <GiftWrapCost>0.0000</GiftWrapCost>
-        <GiftWrapTaxCost>0.0000</GiftWrapTaxCost>
-        <GiftMessage />
-        <GiftWrapLevel />
-        <RecyclingFee>0.0000</RecyclingFee>
-        <FulfillmentType>Ship</FulfillmentType>
-        <UnitWeight UnitOfMeasure="LB">0</UnitWeight>
-        <WarehouseLocation>11617600105</WarehouseLocation>
-        <UserName />
-        <DistributionCenterCode>Wichita</DistributionCenterCode>
-        <IsExternallyFulfilled>false</IsExternallyFulfilled>
-        <ItemSaleSourceTransactionID>20398936042706</ItemSaleSourceTransactionID>
-      </OrderLineItemItem>
-    </LineItemSKUList>
-    <LineItemInvoiceList>
-      <OrderLineItemInvoice>
-        <LineItemType>SalesTax</LineItemType>
-        <UnitPrice>0.0000</UnitPrice>
-      </OrderLineItemInvoice>
-      <OrderLineItemInvoice>
-        <LineItemType>Shipping</LineItemType>
-        <UnitPrice>0.0000</UnitPrice>
-      </OrderLineItemInvoice>
-      <OrderLineItemInvoice>
-        <LineItemType>ShippingInsurance</LineItemType>
-        <UnitPrice>0.0000</UnitPrice>
-      </OrderLineItemInvoice>
-      <OrderLineItemInvoice>
-        <LineItemType>VATShipping</LineItemType>
-        <UnitPrice>0</UnitPrice>
-      </OrderLineItemInvoice>
-      <OrderLineItemInvoice>
-        <LineItemType>GiftWrap</LineItemType>
-        <UnitPrice>0.0000</UnitPrice>
-      </OrderLineItemInvoice>
-      <OrderLineItemInvoice>
-        <LineItemType>VATGiftWrap</LineItemType>
-        <UnitPrice>0</UnitPrice>
-      </OrderLineItemInvoice>
-      <OrderLineItemInvoice>
-        <LineItemType>RecyclingFee</LineItemType>
-        <UnitPrice>0.0000</UnitPrice>
-      </OrderLineItemInvoice>
-    </LineItemInvoiceList>
-    <LineItemPromoList>
-      <OrderLineItemPromo>
-        <LineItemType>Promotion</LineItemType>
-        <UnitPrice>0.0000</UnitPrice>
-        <PromoCode />
-      </OrderLineItemPromo>
-    </LineItemPromoList>
-  </ShoppingCart>
-</OrderResponseDetailHigh>
+<ConsultantNotes>
+  <ConsultantConversation guid="5a41c708-3bb9-4aef-a073-029ba931b873">
+    <ConsultantNote Direction="ReferringToText" guid="15030aa1-ba71-4eaf-9f43-4f8c055a89a2" memberID="mem-4b39c2f1-7a61-46dd-9c9a-781880ba3174" timeStamp="2017-12-23T20:48:13Z">StoryLine : &lt;SPAN class="LangNationalBt StoryLine"&gt;बाइबल &lt;/SPAN&gt; vs: StoryLine : &lt;SPAN class="LangInternationalBt StoryLine"&gt;Bible&lt;/SPAN&gt;</ConsultantNote>
+    <ConsultantNote Direction="ProjFacToConsultant" guid="fe016841-952f-4107-b196-952c68e3fd10" memberID="mem-4b39c2f1-7a61-46dd-9c9a-781880ba3174" timeStamp="2017-12-23T20:48:13Z">BE (23-Dec-2017): </ConsultantNote>
+    <ConsultantNote Direction="ConsultantToProjFacNeedsApproval" guid="31c3a8fc-a5d7-4e4e-9d15-c57a00f1503c" memberID="mem-8499b09c-eeee-4f25-a236-63cc82b6799c" timeStamp="2017-12-23T20:51:27Z">give response</ConsultantNote>
+  </ConsultantConversation>
+</ConsultantNotes>
+<CoachNotes>
+  <CoachConversation guid="026ddac4-6e13-4453-8592-5ddf78cb8c2b">
+    <CoachNote Direction="CoachToConsultant" guid="591dc9e7-e367-4794-a028-adda90397aba" memberID="mem-e24379b8-b5a9-4a3d-9781-bf318f3eeca1" timeStamp="2017-12-23T20:50:08Z">Ju (23-Dec-2017): </CoachNote>
+    <CoachNote Direction="ConsultantToCoach" guid="09c0c074-7f81-47c2-a28f-4b8924acff70" memberID="mem-8499b09c-eeee-4f25-a236-63cc82b6799c" timeStamp="2017-12-23T20:51:27Z">give response</CoachNote>
+  </CoachConversation>
+  <CoachConversation guid="768bae2b-1f52-4b51-8814-aa9251e9a210">
+    <CoachNote Direction="ReferringToText" guid="a0a83954-e11d-42cf-9ca7-8202415db312" memberID="mem-e24379b8-b5a9-4a3d-9781-bf318f3eeca1" timeStamp="2017-12-23T20:50:26Z">ret 1: &lt;SPAN class="LangNationalBt Retelling"&gt;r2&lt;/SPAN&gt; vs: ret 1: &lt;SPAN class="LangInternationalBt Retelling"&gt;r3&lt;/SPAN&gt;</CoachNote>
+    <CoachNote Direction="CoachToConsultant" guid="e8806858-ad2f-447a-85b2-fbe9b98c3b41" memberID="mem-e24379b8-b5a9-4a3d-9781-bf318f3eeca1" timeStamp="2017-12-23T20:50:26Z">Ju (23-Dec-2017): </CoachNote>
+    <CoachNote Direction="ConsultantToCoach" guid="5e1ec093-1ec6-4a5a-ae28-92fdcedb5086" memberID="mem-8499b09c-eeee-4f25-a236-63cc82b6799c" timeStamp="2017-12-23T20:51:27Z">give response</CoachNote>
+  </CoachConversation>
+  <CoachConversation guid="60db16fb-4b0f-4315-a4f1-7b0089cd5f67">
+    <CoachNote Direction="ReferringToText" guid="90de10de-3ea2-4749-a562-8710c610fdbb" memberID="mem-e24379b8-b5a9-4a3d-9781-bf318f3eeca1" timeStamp="2017-12-23T20:50:35Z">ans 1: &lt;SPAN class="LangNationalBt TestQuestionAnswer"&gt;sta2&lt;/SPAN&gt; vs: ans 1: &lt;SPAN class="LangInternationalBt TestQuestionAnswer"&gt;sta3&lt;/SPAN&gt;</CoachNote>
+    <CoachNote Direction="CoachToConsultant" guid="d1b609fd-ff55-4c74-aa6b-3f086a58c15b" memberID="mem-e24379b8-b5a9-4a3d-9781-bf318f3eeca1" timeStamp="2017-12-23T20:50:35Z">Ju (23-Dec-2017): </CoachNote>
+    <CoachNote Direction="ConsultantToCoach" guid="52f57e63-d731-43c7-a27a-577235f43366" memberID="mem-8499b09c-eeee-4f25-a236-63cc82b6799c" timeStamp="2017-12-23T20:51:27Z">give response</CoachNote>
+  </CoachConversation>
+</CoachNotes>

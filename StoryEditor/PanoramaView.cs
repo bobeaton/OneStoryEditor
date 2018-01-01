@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -63,7 +64,7 @@ namespace OneStoryProjectEditor
                 MainLang = _storyProject.ProjSettings.InternationalBT;
         }
 
-        public DialogResult ShowDialog(bool bInitNonBiblicalTab)
+        public DialogResult ShowDialog(string storySetName)
         {
             if (Properties.Settings.Default.PanoramaViewDlgHeight != 0)
             {
@@ -72,15 +73,53 @@ namespace OneStoryProjectEditor
                         Properties.Settings.Default.PanoramaViewDlgHeight));
             }
 
-            var tab = (bInitNonBiblicalTab)
-                          ? tabPageNonBibStories
-                          : tabPagePanorama;
-            InitStoriesTab(tab);
+            // can't do 'Any' on tabControlSets.Controls, so gather the Text values for each of the controls
+            List<string> lstTabTextNames = new List<string>();
+            foreach (var control in tabControlSets.Controls)
+                lstTabTextNames.Add(((TabPage)control).Text);
+
+            foreach (var storySet in _storyProject.Values)
+            {
+                if (!lstTabTextNames.Any(sn => sn == storySet.SetName))
+                {
+                    var addlTab = new TabPage(storySet.SetName)
+                    {
+                        Location = new Point(4, 22),
+                        Name = $"tabPage{storySet.SetName}",
+                        Padding = new Padding(3),
+                        Size = new Size(854, 474),
+                        TabIndex = tabControlSets.Controls.Count,
+                        UseVisualStyleBackColor = true
+                    };
+
+                    tabControlSets.Controls.Add(addlTab);
+
+                    // also have to add menu items to the contextMenuMove Item collection
+                    var moveToThisSetMenu = new ToolStripMenuItem($"Move selected story to \'{storySet.SetName}\' tab")
+                    {
+                        Name = $"moveTo{storySet.SetName.Replace(" ", null)}Menu",
+                        Size = new Size(326, 22)
+                    };
+                    moveToThisSetMenu.Click += new EventHandler(this.MoveToStoriesMenuClick);
+                    this.contextMenuMove.Items.Add(moveToThisSetMenu);
+
+                    var copyToThisSetMenu = new ToolStripMenuItem($"Copy selected story to \'{storySet.SetName}\' tab")
+                    {
+                        Name = $"copyTo{storySet.SetName.Replace(" ", null)}Menu",
+                        Size = new Size(326, 22)
+                    };
+                    copyToThisSetMenu.Click += new EventHandler(this.CopyToStoriesMenuClick);
+                    this.contextMenuMove.Items.Add(copyToThisSetMenu);
+                }
+            }
+
+            var tab = InitStoriesTab(storySetName);
             tabControlSets.SelectTab(tab);
 
             return ShowDialog();
         }
 
+        public string SelectedStorySetName; 
         public string JumpToStory;
         public bool Modified;
 
@@ -382,38 +421,24 @@ namespace OneStoryProjectEditor
 
         private void ContextMenuMoveOpening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (tabControlSets.SelectedTab == tabPagePanorama)
+            var selectedTab = tabControlSets.SelectedTab;
+            var selectedTabName = selectedTab.Text.Replace(" ", null);
+
+            foreach (ToolStripMenuItem controlItem in contextMenuMove.Items)
             {
-                System.Diagnostics.Debug.Assert((contextMenuMove.Items[0].Name == "moveToStoriesMenu") &&
-                                                (contextMenuMove.Items[1].Name == "copyToStoriesMenu"));
-                contextMenuMove.Items[0].Enabled =
-                    contextMenuMove.Items[1].Enabled = false;
-                contextMenuMove.Items[2].Enabled =
-                    contextMenuMove.Items[3].Enabled = true;
-                contextMenuMove.Items[4].Enabled =
-                    contextMenuMove.Items[5].Enabled = true;
-            }
-            else if (tabControlSets.SelectedTab == tabPageNonBibStories)
-            {
-                System.Diagnostics.Debug.Assert((contextMenuMove.Items[2].Name == "moveToNonBibStoriesMenu") &&
-                                                (contextMenuMove.Items[3].Name == "copyToNonBibStoriesMenu"));
-                contextMenuMove.Items[0].Enabled =
-                    contextMenuMove.Items[1].Enabled = true;
-                contextMenuMove.Items[2].Enabled =
-                    contextMenuMove.Items[3].Enabled = false;
-                contextMenuMove.Items[4].Enabled =
-                    contextMenuMove.Items[5].Enabled = true;
-            }
-            else if (tabControlSets.SelectedTab == tabPageOldStories)
-            {
-                System.Diagnostics.Debug.Assert((contextMenuMove.Items[4].Name == "moveToOldStoriesMenu") &&
-                                                (contextMenuMove.Items[5].Name == "copyToOldStoriesMenu"));
-                contextMenuMove.Items[0].Enabled =
-                    contextMenuMove.Items[1].Enabled = true;
-                contextMenuMove.Items[2].Enabled =
-                    contextMenuMove.Items[3].Enabled = true;
-                contextMenuMove.Items[4].Enabled =
-                    contextMenuMove.Items[5].Enabled = false;
+                // will be one of: 
+                //  "moveTo{selectedTabName}Menu"
+                //  "copyTo{selectedTabName}Menu"
+                string menuName = controlItem.Name;
+                if ((menuName == $"moveTo{selectedTabName}Menu") ||
+                    (menuName == $"copyTo{selectedTabName}Menu"))
+                {
+                    controlItem.Enabled = false;
+                }
+                else
+                {
+                    controlItem.Enabled = true;
+                }
             }
         }
 
@@ -429,38 +454,24 @@ namespace OneStoryProjectEditor
 
         private void CopyToStoriesMenuClick(object sender, EventArgs e)
         {
-            MoveCopyStoryToOtherStoriesSet(Properties.Resources.IDS_MainStoriesSet,
+            var tsmi = (ToolStripMenuItem)sender;
+            var destTabText = tsmi.Text;
+            var finalIndex = destTabText.LastIndexOf('\'');
+            int startIndex = "Move selected story to \'".Length;
+            var destTabSetName = destTabText.Substring(startIndex, finalIndex - startIndex);
+            MoveCopyStoryToOtherStoriesSet(destTabSetName,
                                            false, true, true);
         }
 
         private void MoveToStoriesMenuClick(object sender, EventArgs e)
         {
-            MoveCopyStoryToOtherStoriesSet(Properties.Resources.IDS_MainStoriesSet,
+            var tsmi = (ToolStripMenuItem)sender;
+            var destTabText = tsmi.Text;
+            var finalIndex = destTabText.LastIndexOf('\'');
+            int startIndex = "Move selected story to \'".Length;
+            var destTabSetName = destTabText.Substring(startIndex, finalIndex - startIndex);
+            MoveCopyStoryToOtherStoriesSet(destTabSetName,
                                            true, true, true);
-        }
-
-        private void CopyToNonBibStoriesMenuClick(object sender, EventArgs e)
-        {
-            MoveCopyStoryToOtherStoriesSet(Properties.Resources.IDS_NonBibStoriesSet,
-                                           false, true, false);
-        }
-
-        private void MoveToNonBibStoriesMenuClick(object sender, EventArgs e)
-        {
-            MoveCopyStoryToOtherStoriesSet(Properties.Resources.IDS_NonBibStoriesSet,
-                                           true, true, false);
-        }
-
-        private void CopyToOldStoriesMenuClick(object sender, EventArgs e)
-        {
-            MoveCopyStoryToOtherStoriesSet(Properties.Resources.IDS_ObsoleteStoriesSet,
-                                           false, false, false);
-        }
-
-        private void MoveToOldStoriesMenuClick(object sender, EventArgs e)
-        {
-            MoveCopyStoryToOtherStoriesSet(Properties.Resources.IDS_ObsoleteStoriesSet,
-                                           true, false, false);
         }
 
         private void MoveCopyStoryToOtherStoriesSet(string strDestSet, bool bMove,
@@ -470,9 +481,7 @@ namespace OneStoryProjectEditor
             if (dataGridViewPanorama.SelectedCells.Count != 1)
                 return;
 
-            System.Diagnostics.Debug.Assert((strDestSet == Properties.Resources.IDS_ObsoleteStoriesSet)
-                || (strDestSet == Properties.Resources.IDS_MainStoriesSet)
-                || (strDestSet == Properties.Resources.IDS_NonBibStoriesSet));
+            System.Diagnostics.Debug.Assert(_storyProject.ContainsKey(strDestSet));
 
             int nSelectedRowIndex = dataGridViewPanorama.SelectedCells[0].RowIndex;
             if (nSelectedRowIndex > dataGridViewPanorama.Rows.Count - 1)
@@ -565,84 +574,31 @@ namespace OneStoryProjectEditor
         private void TabControlSetsSelected(object sender, TabControlEventArgs e)
         {
             TabPage tab = e.TabPage;
-            if (tab != null)
+            if ((tab != null) && (tab != tabPageFrontMatter))
             {
-                if ((tab == tabPagePanorama) 
-                    || (tab == tabPageNonBibStories)
-                    || (tab == tabPageOldStories))
-                {
-                    InitStoriesTab(tab);
-                }
-                /*
-                else if (tab == tabPageKeyTerms)
-                {
-                    Cursor = Cursors.WaitCursor;
-                    if (_biblicalTerms == null)
-                    {
-                        if (AnchorControl.m_dlgKeyTerms != null)
-                        {
-                            if (AnchorControl.m_dlgKeyTerms._biblicalTerms != null)
-                                _biblicalTerms = AnchorControl.m_dlgKeyTerms._biblicalTerms;
-                                
-                            if (AnchorControl.m_dlgKeyTerms.renderings != null)
-                                renderings = AnchorControl.m_dlgKeyTerms.renderings;
-
-                            if (AnchorControl.m_dlgKeyTerms.termLocalizations != null)
-                                termLocalizations = AnchorControl.m_dlgKeyTerms.termLocalizations;
-                        }
-
-                        dataGridViewKeyTerms.Columns[CnColumnRenderings].DefaultCellStyle.Font = MainLang.FontToUse;
-                    }
-
-                    if (_biblicalTerms == null)
-                        _biblicalTerms = BiblicalTermsList.GetBiblicalTerms(_storyProject.ProjSettings.ProjectFolder);
-
-                    if (renderings == null)
-                        renderings = TermRenderingsList.GetTermRenderings(_storyProject.ProjSettings.ProjectFolder, 
-                                                                          MainLang.LangCode);
-
-                    if (termLocalizations == null)
-                        termLocalizations = TermLocalizations.Localizations;
-
-                    dataGridViewKeyTerms.Rows.Clear();
-                    foreach (TermRendering tr in renderings.Renderings)
-                    {
-                        if (tr.RenderingsList.Count > 0)
-                        {
-                            Term term = _biblicalTerms.GetIfPresent(tr.Id);
-                            if (term != null)
-                            {
-                                System.Diagnostics.Debug.WriteLine(String.Format("Gloss: '{0}', Renderings: '{1}', Notes: '{2}'",
-                                    term.Gloss, tr.Renderings, tr.Notes));
-
-                                int nRow = dataGridViewKeyTerms.Rows.Add(new[] { term.Gloss, tr.Renderings, tr.Notes });
-                                dataGridViewKeyTerms.Rows[nRow].Tag = tr.Id;
-                                dataGridViewKeyTerms.Rows[nRow].Cells[CnColumnNotes].ToolTipText = "Click on the row header or double-click here to edit the renderings and/or notes for the selected key term";
-                            }
-                        }
-                    }
-                    Cursor = Cursors.Default;
-                }
-                */
+                InitStoriesTab(tab.Text);
             }
         }
 
-        private void InitStoriesTab(TabPage tab)
+        private TabPage InitStoriesTab(string currentStoriesSetName)
         {
-            if (tab == tabPagePanorama)
+            System.Diagnostics.Debug.Assert(_storyProject.ContainsKey(currentStoriesSetName));
+            SelectedStorySetName = currentStoriesSetName;
+            _stories = _storyProject[currentStoriesSetName];
+
+            TabPage tab = null;
+            foreach (var control in tabControlSets.Controls)
             {
-                _stories = _storyProject[Properties.Resources.IDS_MainStoriesSet];
+                TabPage tabControl = (TabPage)control;
+                var tabText = tabControl.Text;
+                if (tabText == currentStoriesSetName)
+                    tab = tabControl;
             }
-            else if (tab == tabPageNonBibStories)
-            {
-                _stories = _storyProject[Properties.Resources.IDS_NonBibStoriesSet];
-            }
-            else if (tab == tabPageOldStories)
-            {
-                _stories = _storyProject[Properties.Resources.IDS_ObsoleteStoriesSet];
-            }
+
+            System.Diagnostics.Debug.Assert(tab != null);
             InitParentTab(tab);
             InitGrid();
+            return tab;
         }
 
         protected void InitParentTab(TabPage tab)

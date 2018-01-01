@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using NetLoc;
+using OneStoryProjectEditor.Properties;
 
 namespace OneStoryProjectEditor
 {

@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using NetLoc;
 using SIL.Keyboarding;
+using OneStoryProjectEditor.Properties;
 
 namespace OneStoryProjectEditor
 {
