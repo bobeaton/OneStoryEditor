@@ -3,3 +3,19 @@
 ################################################################################
 
 /.vs/OneStoryEditor/v15
+*.suo
+/.vs
+/AdaptIt ChorusPlugin/obj/x86/Debug
+/AiChorus/obj/x86/Debug
+/AutoUpgrade/code/AutoUpgrade.Lib/obj/x86
+/AutoUpgrade/code/AutoUpgrade.App/obj/x86
+/ChorusDependencies/Debug/ChorusDependencies.msm
+/NetLoc/obj/x86
+/OneStory ChorusPlugin/obj/x86/Debug
+/output/Debug
+/packages
+/StoryEditor/obj/x86/Debug
+/UpdateAccessDbWithOsMetaData/obj/x86
+/DepDLLs/AiChorus.pdb
+/DepDLLs/AiChorus.exe.config
+/StoryEditor/StoryProject.xsc
