@@ -87,7 +87,7 @@
             // 
             // contextMenuChangeFont
             // 
-            this.contextMenuChangeFont.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.contextMenuChangeFont.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.contextMenuChangeFont.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemChangeFont});
             this.contextMenuChangeFont.Name = "contextMenuChangeFont";
@@ -270,7 +270,7 @@
             // 
             // contextMenuStripBibleBooks
             // 
-            this.contextMenuStripBibleBooks.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.contextMenuStripBibleBooks.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.contextMenuStripBibleBooks.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
             this.contextMenuStripBibleBooks.Name = "contextMenuStripBibleBooks";
             this.contextMenuStripBibleBooks.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
