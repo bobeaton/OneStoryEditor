@@ -2,20 +2,29 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/OneStoryEditor/v15
+/.vs/*
 *.suo
-/.vs
-/AdaptIt ChorusPlugin/obj/x86/Debug
-/AiChorus/obj/x86/Debug
-/AutoUpgrade/code/AutoUpgrade.Lib/obj/x86
-/AutoUpgrade/code/AutoUpgrade.App/obj/x86
-/ChorusDependencies/Debug/ChorusDependencies.msm
-/NetLoc/obj/x86
-/OneStory ChorusPlugin/obj/x86/Debug
-/output/Debug
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Pp]kg/
+
 /packages
-/StoryEditor/obj/x86/Debug
-/UpdateAccessDbWithOsMetaData/obj/x86
-/DepDLLs/AiChorus.pdb
-/DepDLLs/AiChorus.exe.config
+/DepDLLs/AiChorus.*
+/DepDLLs/AutoUpgrade.Lib.*
 /StoryEditor/StoryProject.xsc
+/OneStory Releases/OSE4.0/zipped
+/OneStory Releases/OSE4.0/StoryEditor.exe.manifest - Copy.xml
+/OneStory Releases/OSE4.0/StoryEditor.exe.manifest - Copy (6).xml
+/OneStory Releases/OSE4.0/StoryEditor.exe.manifest - Copy (5).xml
+/OneStory Releases/OSE4.0/StoryEditor.exe.manifest - Copy (4).xml
+/OneStory Releases/OSE4.0/StoryEditor.exe.manifest - Copy (3).xml
+/OneStory Releases/OSE4.0/StoryEditor.exe.manifest - Copy (2).xml
