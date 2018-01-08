@@ -205,7 +205,7 @@
             this.tabPageProjectName.Location = new System.Drawing.Point(4, 22);
             this.tabPageProjectName.Name = "tabPageProjectName";
             this.tabPageProjectName.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageProjectName.Size = new System.Drawing.Size(800, 447);
+            this.tabPageProjectName.Size = new System.Drawing.Size(738, 354);
             this.tabPageProjectName.TabIndex = 0;
             this.tabPageProjectName.Text = "Project";
             this.tabPageProjectName.UseVisualStyleBackColor = true;
@@ -261,7 +261,7 @@
             this.tabPageInternetRepository.Location = new System.Drawing.Point(4, 22);
             this.tabPageInternetRepository.Name = "tabPageInternetRepository";
             this.tabPageInternetRepository.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageInternetRepository.Size = new System.Drawing.Size(800, 447);
+            this.tabPageInternetRepository.Size = new System.Drawing.Size(738, 354);
             this.tabPageInternetRepository.TabIndex = 6;
             this.tabPageInternetRepository.Text = "Internet Repository";
             this.tabPageInternetRepository.UseVisualStyleBackColor = true;
@@ -395,7 +395,7 @@
             this.tabPageLanguages.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguages.Name = "tabPageLanguages";
             this.tabPageLanguages.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguages.Size = new System.Drawing.Size(800, 447);
+            this.tabPageLanguages.Size = new System.Drawing.Size(738, 354);
             this.tabPageLanguages.TabIndex = 1;
             this.tabPageLanguages.Text = "Languages";
             this.tabPageLanguages.UseVisualStyleBackColor = true;
@@ -743,7 +743,7 @@
             this.tabPageLanguageVernacular.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguageVernacular.Name = "tabPageLanguageVernacular";
             this.tabPageLanguageVernacular.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguageVernacular.Size = new System.Drawing.Size(800, 447);
+            this.tabPageLanguageVernacular.Size = new System.Drawing.Size(738, 354);
             this.tabPageLanguageVernacular.TabIndex = 5;
             this.tabPageLanguageVernacular.Text = "Story Language";
             this.tabPageLanguageVernacular.UseVisualStyleBackColor = true;
@@ -926,7 +926,7 @@
             this.tabPageLanguageNationalBT.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguageNationalBT.Name = "tabPageLanguageNationalBT";
             this.tabPageLanguageNationalBT.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguageNationalBT.Size = new System.Drawing.Size(800, 447);
+            this.tabPageLanguageNationalBT.Size = new System.Drawing.Size(738, 354);
             this.tabPageLanguageNationalBT.TabIndex = 4;
             this.tabPageLanguageNationalBT.Text = "National BT";
             this.tabPageLanguageNationalBT.UseVisualStyleBackColor = true;
@@ -1109,7 +1109,7 @@
             this.tabPageLanguageEnglishBT.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguageEnglishBT.Name = "tabPageLanguageEnglishBT";
             this.tabPageLanguageEnglishBT.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguageEnglishBT.Size = new System.Drawing.Size(800, 447);
+            this.tabPageLanguageEnglishBT.Size = new System.Drawing.Size(738, 354);
             this.tabPageLanguageEnglishBT.TabIndex = 2;
             this.tabPageLanguageEnglishBT.Text = "English BT";
             this.tabPageLanguageEnglishBT.UseVisualStyleBackColor = true;
@@ -1292,7 +1292,7 @@
             this.tabPageLanguageFreeTranslation.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguageFreeTranslation.Name = "tabPageLanguageFreeTranslation";
             this.tabPageLanguageFreeTranslation.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguageFreeTranslation.Size = new System.Drawing.Size(800, 447);
+            this.tabPageLanguageFreeTranslation.Size = new System.Drawing.Size(738, 354);
             this.tabPageLanguageFreeTranslation.TabIndex = 7;
             this.tabPageLanguageFreeTranslation.Text = "Free Tr";
             this.tabPageLanguageFreeTranslation.UseVisualStyleBackColor = true;
@@ -1479,7 +1479,7 @@
             this.tabPageMemberRoles.Location = new System.Drawing.Point(4, 22);
             this.tabPageMemberRoles.Name = "tabPageMemberRoles";
             this.tabPageMemberRoles.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMemberRoles.Size = new System.Drawing.Size(800, 447);
+            this.tabPageMemberRoles.Size = new System.Drawing.Size(738, 354);
             this.tabPageMemberRoles.TabIndex = 3;
             this.tabPageMemberRoles.Text = "Team Members";
             this.tabPageMemberRoles.UseVisualStyleBackColor = true;
@@ -1552,7 +1552,7 @@
             this.tabPageAIBT.Location = new System.Drawing.Point(4, 22);
             this.tabPageAIBT.Name = "tabPageAIBT";
             this.tabPageAIBT.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAIBT.Size = new System.Drawing.Size(800, 447);
+            this.tabPageAIBT.Size = new System.Drawing.Size(738, 354);
             this.tabPageAIBT.TabIndex = 8;
             this.tabPageAIBT.Text = "AdaptIt";
             this.tabPageAIBT.UseVisualStyleBackColor = true;
