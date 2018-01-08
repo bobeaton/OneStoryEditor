@@ -19,7 +19,7 @@ bld/
 
 /packages
 /DepDLLs/AiChorus.*
-/DepDLLs/AutoUpgrade.Lib.*
+/DepDLLs/AutoUpgrade.*
 /StoryEditor/StoryProject.xsc
 /OneStory Releases/OSE4.0/zipped
 /OneStory Releases/OSE4.0/StoryEditor.exe.manifest - Copy.xml
@@ -28,3 +28,7 @@ bld/
 /OneStory Releases/OSE4.0/StoryEditor.exe.manifest - Copy (4).xml
 /OneStory Releases/OSE4.0/StoryEditor.exe.manifest - Copy (3).xml
 /OneStory Releases/OSE4.0/StoryEditor.exe.manifest - Copy (2).xml
+/OneStory Releases/OSE4.0/client/AutoUpgrade.xml
+/OneStory Releases/OSE4.0/client/AutoUpgrade.pdb
+/OneStory Releases/OSE4.0/client/AutoUpgrade.Lib.xml
+/OneStory Releases/OSE4.0/client/AutoUpgrade.Lib.pdb
