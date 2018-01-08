@@ -4,12 +4,11 @@
   <ApplicationExecutable />
   <ApplicationName>OneStory Editor AutoUpdater</ApplicationName>
   <FullUpgradeFileName />
-  <OffsetFromUctWhereManifestWasOriginallyCreated>2018-01-07T18:56:08.1431992-06:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+  <OffsetFromUctWhereManifestWasOriginallyCreated>2018-01-08T09:18:32.4525148-06:00</OffsetFromUctWhereManifestWasOriginallyCreated>
   <ManifestFiles>
     <File name="AdaptIt-ChorusPlugin.dll" method="version" action="copy" version="4.0.0.0" optional="false" size="6718">AdaptIt ChorusPlugin</File>
     <File name="AiChorus.exe" method="version" action="copy" version="4.0.0.0" optional="false" size="27280">AiChorus</File>
     <File name="AiChorus.exe.config" method="md5" action="copy" version="1c501292e6a1e8baca82bc2e157001f5" optional="false" size="775" />
-    <File name="AiChorus.pdb" method="md5" action="copy" version="82b07b28671ab44b8ae6db1596b5b81b" optional="false" size="17254" />
     <File name="AIGuesserEC.dll" method="version" action="copy" version="4.0.4.0" optional="false" size="44425">AdaptIt Encoding Converters</File>
     <File name="AutoUpgrade.exe.config" method="md5" action="copy" version="f8d26c196c9aa0f39458a5bed0d35c1f" optional="false" size="756" />
     <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="4.0.0.0" optional="false" size="15771">AutoUpgrade Lib</File>
@@ -17,9 +16,8 @@
     <File name="OneStory-ChorusPlugin.dll" method="version" action="copy" version="4.0.0.0" optional="false" size="8345">OneStory ChorusPlugin</File>
     <File name="rdeStarksoft.Net.Ftp.dll" method="version" action="copy" version="1.0.158.0" optional="false" size="31230">Starksoft.Net.Ftp</File>
     <File name="Starksoft.Net.Proxy.dll" method="version" action="copy" version="1.0.131.0" optional="false" size="11449">Starksoft.Net.Proxy</File>
-    <File name="StoryEditor.exe" method="version" action="copy" version="4.0.0.1" optional="false" size="509341">OneStory Editor</File>
+    <File name="StoryEditor.exe" method="version" action="copy" version="4.0.0.1" optional="false" size="507484">OneStory Editor</File>
     <File name="StoryEditor.exe.config" method="md5" action="copy" version="742c4cc8a5868ee477c7a374e4bae3c1" optional="false" size="3107" />
-    <File name="StoryEditor.pdb" method="md5" action="copy" version="0103f9d0ba6b821f2edc663be9f21315" optional="false" size="663237" />
     <File name="LocData\es.xml" method="md5" action="copy" version="4652054b3d0ae91f92ef4d3cc28af30d" optional="false" size="41487" />
     <File name="LocData\fr.xml" method="md5" action="copy" version="30ae5ae806e027e643b2578bb171bea6" optional="false" size="39690" />
     <File name="LocData\id.xml" method="md5" action="copy" version="95117e37c86b72d51dff5c2389d36ae1" optional="false" size="40941" />
