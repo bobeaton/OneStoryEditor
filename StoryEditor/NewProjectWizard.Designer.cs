@@ -156,6 +156,7 @@
             this.buttonPrevious = new System.Windows.Forms.Button();
             this.fontDialog = new System.Windows.Forms.FontDialog();
             this.folderBrowserDropbox = new System.Windows.Forms.FolderBrowserDialog();
+            this.tableLayoutPanelProjectName = new System.Windows.Forms.TableLayoutPanel();
             this.tabControl.SuspendLayout();
             this.tabPageProjectName.SuspendLayout();
             this.tabPageInternetRepository.SuspendLayout();
@@ -173,6 +174,7 @@
             this.tabPageMemberRoles.SuspendLayout();
             this.tabPageAIBT.SuspendLayout();
             this.tlpAdaptItConfiguration.SuspendLayout();
+            this.tableLayoutPanelProjectName.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
@@ -198,14 +200,12 @@
             // 
             // tabPageProjectName
             // 
-            this.tabPageProjectName.Controls.Add(this.checkBoxUseDropBox);
-            this.tabPageProjectName.Controls.Add(this.checkBoxUseInternetRepo);
+            this.tabPageProjectName.Controls.Add(this.tableLayoutPanelProjectName);
             this.tabPageProjectName.Controls.Add(this.textBoxProjectNameInstructions);
-            this.tabPageProjectName.Controls.Add(this.textBoxProjectName);
             this.tabPageProjectName.Location = new System.Drawing.Point(4, 22);
             this.tabPageProjectName.Name = "tabPageProjectName";
             this.tabPageProjectName.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageProjectName.Size = new System.Drawing.Size(738, 354);
+            this.tabPageProjectName.Size = new System.Drawing.Size(800, 447);
             this.tabPageProjectName.TabIndex = 0;
             this.tabPageProjectName.Text = "Project";
             this.tabPageProjectName.UseVisualStyleBackColor = true;
@@ -213,7 +213,7 @@
             // checkBoxUseDropBox
             // 
             this.checkBoxUseDropBox.AutoSize = true;
-            this.checkBoxUseDropBox.Location = new System.Drawing.Point(17, 85);
+            this.checkBoxUseDropBox.Location = new System.Drawing.Point(3, 52);
             this.checkBoxUseDropBox.Name = "checkBoxUseDropBox";
             this.checkBoxUseDropBox.Size = new System.Drawing.Size(502, 17);
             this.checkBoxUseDropBox.TabIndex = 3;
@@ -225,7 +225,7 @@
             // checkBoxUseInternetRepo
             // 
             this.checkBoxUseInternetRepo.AutoSize = true;
-            this.checkBoxUseInternetRepo.Location = new System.Drawing.Point(17, 62);
+            this.checkBoxUseInternetRepo.Location = new System.Drawing.Point(3, 29);
             this.checkBoxUseInternetRepo.Name = "checkBoxUseInternetRepo";
             this.checkBoxUseInternetRepo.Size = new System.Drawing.Size(243, 17);
             this.checkBoxUseInternetRepo.TabIndex = 1;
@@ -250,9 +250,9 @@
             // textBoxProjectName
             // 
             this.textBoxProjectName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxProjectName.Location = new System.Drawing.Point(17, 27);
+            this.textBoxProjectName.Location = new System.Drawing.Point(3, 3);
             this.textBoxProjectName.Name = "textBoxProjectName";
-            this.textBoxProjectName.Size = new System.Drawing.Size(705, 20);
+            this.textBoxProjectName.Size = new System.Drawing.Size(699, 20);
             this.textBoxProjectName.TabIndex = 0;
             // 
             // tabPageInternetRepository
@@ -261,7 +261,7 @@
             this.tabPageInternetRepository.Location = new System.Drawing.Point(4, 22);
             this.tabPageInternetRepository.Name = "tabPageInternetRepository";
             this.tabPageInternetRepository.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageInternetRepository.Size = new System.Drawing.Size(738, 354);
+            this.tabPageInternetRepository.Size = new System.Drawing.Size(800, 447);
             this.tabPageInternetRepository.TabIndex = 6;
             this.tabPageInternetRepository.Text = "Internet Repository";
             this.tabPageInternetRepository.UseVisualStyleBackColor = true;
@@ -395,7 +395,7 @@
             this.tabPageLanguages.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguages.Name = "tabPageLanguages";
             this.tabPageLanguages.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguages.Size = new System.Drawing.Size(738, 354);
+            this.tabPageLanguages.Size = new System.Drawing.Size(800, 447);
             this.tabPageLanguages.TabIndex = 1;
             this.tabPageLanguages.Text = "Languages";
             this.tabPageLanguages.UseVisualStyleBackColor = true;
@@ -743,7 +743,7 @@
             this.tabPageLanguageVernacular.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguageVernacular.Name = "tabPageLanguageVernacular";
             this.tabPageLanguageVernacular.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguageVernacular.Size = new System.Drawing.Size(738, 354);
+            this.tabPageLanguageVernacular.Size = new System.Drawing.Size(800, 447);
             this.tabPageLanguageVernacular.TabIndex = 5;
             this.tabPageLanguageVernacular.Text = "Story Language";
             this.tabPageLanguageVernacular.UseVisualStyleBackColor = true;
@@ -926,7 +926,7 @@
             this.tabPageLanguageNationalBT.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguageNationalBT.Name = "tabPageLanguageNationalBT";
             this.tabPageLanguageNationalBT.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguageNationalBT.Size = new System.Drawing.Size(738, 354);
+            this.tabPageLanguageNationalBT.Size = new System.Drawing.Size(800, 447);
             this.tabPageLanguageNationalBT.TabIndex = 4;
             this.tabPageLanguageNationalBT.Text = "National BT";
             this.tabPageLanguageNationalBT.UseVisualStyleBackColor = true;
@@ -1109,7 +1109,7 @@
             this.tabPageLanguageEnglishBT.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguageEnglishBT.Name = "tabPageLanguageEnglishBT";
             this.tabPageLanguageEnglishBT.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguageEnglishBT.Size = new System.Drawing.Size(738, 354);
+            this.tabPageLanguageEnglishBT.Size = new System.Drawing.Size(800, 447);
             this.tabPageLanguageEnglishBT.TabIndex = 2;
             this.tabPageLanguageEnglishBT.Text = "English BT";
             this.tabPageLanguageEnglishBT.UseVisualStyleBackColor = true;
@@ -1292,7 +1292,7 @@
             this.tabPageLanguageFreeTranslation.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguageFreeTranslation.Name = "tabPageLanguageFreeTranslation";
             this.tabPageLanguageFreeTranslation.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanguageFreeTranslation.Size = new System.Drawing.Size(738, 354);
+            this.tabPageLanguageFreeTranslation.Size = new System.Drawing.Size(800, 447);
             this.tabPageLanguageFreeTranslation.TabIndex = 7;
             this.tabPageLanguageFreeTranslation.Text = "Free Tr";
             this.tabPageLanguageFreeTranslation.UseVisualStyleBackColor = true;
@@ -1479,7 +1479,7 @@
             this.tabPageMemberRoles.Location = new System.Drawing.Point(4, 22);
             this.tabPageMemberRoles.Name = "tabPageMemberRoles";
             this.tabPageMemberRoles.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMemberRoles.Size = new System.Drawing.Size(738, 354);
+            this.tabPageMemberRoles.Size = new System.Drawing.Size(800, 447);
             this.tabPageMemberRoles.TabIndex = 3;
             this.tabPageMemberRoles.Text = "Team Members";
             this.tabPageMemberRoles.UseVisualStyleBackColor = true;
@@ -1552,7 +1552,7 @@
             this.tabPageAIBT.Location = new System.Drawing.Point(4, 22);
             this.tabPageAIBT.Name = "tabPageAIBT";
             this.tabPageAIBT.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAIBT.Size = new System.Drawing.Size(738, 354);
+            this.tabPageAIBT.Size = new System.Drawing.Size(800, 447);
             this.tabPageAIBT.TabIndex = 8;
             this.tabPageAIBT.Text = "AdaptIt";
             this.tabPageAIBT.UseVisualStyleBackColor = true;
@@ -1709,6 +1709,22 @@
             this.folderBrowserDropbox.RootFolder = System.Environment.SpecialFolder.MyComputer;
             this.folderBrowserDropbox.ShowNewFolderButton = false;
             // 
+            // tableLayoutPanelProjectName
+            // 
+            this.tableLayoutPanelProjectName.ColumnCount = 1;
+            this.tableLayoutPanelProjectName.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelProjectName.Controls.Add(this.textBoxProjectName, 0, 0);
+            this.tableLayoutPanelProjectName.Controls.Add(this.checkBoxUseDropBox, 0, 2);
+            this.tableLayoutPanelProjectName.Controls.Add(this.checkBoxUseInternetRepo, 0, 1);
+            this.tableLayoutPanelProjectName.Location = new System.Drawing.Point(17, 18);
+            this.tableLayoutPanelProjectName.Name = "tableLayoutPanelProjectName";
+            this.tableLayoutPanelProjectName.RowCount = 3;
+            this.tableLayoutPanelProjectName.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelProjectName.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelProjectName.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelProjectName.Size = new System.Drawing.Size(705, 144);
+            this.tableLayoutPanelProjectName.TabIndex = 4;
+            // 
             // NewProjectWizard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1750,6 +1766,8 @@
             this.tabPageAIBT.PerformLayout();
             this.tlpAdaptItConfiguration.ResumeLayout(false);
             this.tlpAdaptItConfiguration.PerformLayout();
+            this.tableLayoutPanelProjectName.ResumeLayout(false);
+            this.tableLayoutPanelProjectName.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1882,5 +1900,6 @@
         private System.Windows.Forms.Button buttonBrowseEthnologueCodesNationalBt;
         private System.Windows.Forms.Button buttonBrowseEthnologueCodesInternationalBt;
         private System.Windows.Forms.Button buttonBrowseEthnologueCodesFreeTranslation;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelProjectName;
     }
 }
