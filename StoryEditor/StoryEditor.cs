@@ -2603,13 +2603,16 @@ namespace OneStoryProjectEditor
                 // it's annoying that the keyboard doesn't deactivate so I can just type 'y' for "Yes"
                 Program.ActivateDefaultKeyboard(); // ... do it manually
 
-                var res = QuerySave();
-                if (res == DialogResult.Cancel)
-                    return false;
-                if (res == DialogResult.No)
+                if (!advancedSaveTimeoutAsSilentlyAsPossibleMenu.Checked)
                 {
-                    Modified = false;
-                    return true;
+                    var res = QuerySave();
+                    if (res == DialogResult.Cancel)
+                        return false;
+                    if (res == DialogResult.No)
+                    {
+                        Modified = false;
+                        return true;
+                    }
                 }
 
                 SaveClicked();
@@ -3500,17 +3503,20 @@ namespace OneStoryProjectEditor
 
             if (Modified)
             {
-                DialogResult res = QuerySave();
-                if (res == DialogResult.Cancel)
+                if (!advancedSaveTimeoutAsSilentlyAsPossibleMenu.Checked)
                 {
-                    e.Cancel = true;
-                    return;
-                }
+                    DialogResult res = QuerySave();
+                    if (res == DialogResult.Cancel)
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
 
-                if (res != DialogResult.Yes)
-                {
-                    Modified = false;
-                    return;
+                    if (res != DialogResult.Yes)
+                    {
+                        Modified = false;
+                        return;
+                    }
                 }
 
                 SaveClicked();
