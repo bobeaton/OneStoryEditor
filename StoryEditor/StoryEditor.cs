@@ -3321,10 +3321,15 @@ namespace OneStoryProjectEditor
 
                 storySynchronizeSharedAdaptItProjectsMenu.Visible = bAnySharedProjects;
 
+                // if they're all invisible, then disable the parent as well
+                storyUseAdaptItForBackTranslationMenu.Enabled = (storyAdaptItVernacularToNationalMenu.Visible ||
+                                                                 storyAdaptItVernacularToEnglishMenu.Visible ||
+                                                                 storyAdaptItNationalToEnglishMenu.Visible);
+
                 storyOverrideTasksMenu.Enabled = ((_theCurrentStory != null) &&
-                                              TeamMemberData.IsUser(_theCurrentStory.ProjStage.MemberTypeWithEditToken,
-                                                                    TeamMemberData.UserTypes.ProjectFacilitator |
-                                                                    TeamMemberData.UserTypes.ConsultantInTraining));
+                                                    TeamMemberData.IsUser(_theCurrentStory.ProjStage.MemberTypeWithEditToken,
+                                                                          TeamMemberData.UserTypes.ProjectFacilitator |
+                                                                          TeamMemberData.UserTypes.ConsultantInTraining));
             }
             else
                 storyOverrideTasksMenu.Enabled = 

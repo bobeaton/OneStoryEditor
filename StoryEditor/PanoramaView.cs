@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define UseArialUnicodeMs
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -30,7 +32,9 @@ namespace OneStoryProjectEditor
         protected StoriesData _stories;
         protected bool _bInCtor = true;
         protected ProjectSettings.LanguageInfo MainLang { get; set; }
-        protected Font _fontForDev = new Font("Arial Unicode MS", 11);
+#if UseArialUnicodeMs
+        protected Font _fontForDev = new Font("Arial Unicode MS", 10);
+#endif
         // protected TermRenderingsList renderings;
         // TermLocalizations termLocalizations;
 
@@ -53,8 +57,12 @@ namespace OneStoryProjectEditor
             
             richTextBoxPanoramaFrontMatter.Rtf = storyProject.PanoramaFrontMatter;
             _bInCtor = false;   // prevent the _TextChanged during ctor
-            dataGridViewPanorama.Columns[CnColumnStoryName].DefaultCellStyle.Font =
-                dataGridViewPanorama.Columns[CnColumnStoryPurpose].DefaultCellStyle.Font = _fontForDev;
+#if UseArialUnicodeMs
+            foreach (DataGridViewColumn col in dataGridViewPanorama.Columns)
+                col.DefaultCellStyle.Font = _fontForDev;
+            //dataGridViewPanorama.Columns[CnColumnStoryName].DefaultCellStyle.Font =
+            //    dataGridViewPanorama.Columns[CnColumnStoryPurpose].DefaultCellStyle.Font = _fontForDev;
+#endif
 
             if (_storyProject.ProjSettings.Vernacular.HasData)
                 MainLang = _storyProject.ProjSettings.Vernacular;
@@ -208,7 +216,9 @@ namespace OneStoryProjectEditor
 #if ShowingState
                 aRow.Tag = st;
 #endif
-                aRow.Height = _fontForDev.Height + 4;
+#if UseArialUnicodeMs
+                aRow.Height = _fontForDev.Height + 8;
+#endif
 
                 if (bInLoggedInUsersTurn)
                     aRow.DefaultCellStyle.BackColor = Color.Yellow;
