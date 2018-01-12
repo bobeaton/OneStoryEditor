@@ -1,4 +1,5 @@
-﻿#define UseArialUnicodeMs
+﻿#define EnabledDragDrop
+#define UseArialUnicodeMs
 
 using System;
 using System.Collections;
@@ -41,6 +42,11 @@ namespace OneStoryProjectEditor
         protected const int CnColumnGloss = 0;
         protected const int CnColumnRenderings = 1;
         protected const int CnColumnNotes = 2;
+
+#if EnabledDragDrop
+        protected int rowDragFromIndex { get; set; }
+        protected DataGridViewRow rowDragFrom { get; set; }
+#endif
 
         private PanoramaView()
         {
@@ -213,6 +219,9 @@ namespace OneStoryProjectEditor
                 };
                 int nRowIndex = dataGridViewPanorama.Rows.Add(aObs);
                 var aRow = dataGridViewPanorama.Rows[nRowIndex];
+#if EnabledDragDrop
+                aRow.HeaderCell.ToolTipText = Localizer.Str("Click and Drag -- using the right mouse button -- to reorder stories");
+#endif
 #if ShowingState
                 aRow.Tag = st;
 #endif
@@ -340,6 +349,7 @@ namespace OneStoryProjectEditor
             }
         }
 
+#if !EnabledDragDrop
         private void buttonMoveUp_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedCells.Count < 2);   // 1 or 0
@@ -423,7 +433,7 @@ namespace OneStoryProjectEditor
                 Modified = true;
             }
         }
-
+#endif
         private void ButtonCopyToOldStoriesClick(object sender, EventArgs e)
         {
             contextMenuMove.Show(Cursor.Position);
@@ -805,5 +815,72 @@ namespace OneStoryProjectEditor
         }
         */
         #endregion obsolete code
+
+#if EnabledDragDrop
+        private void dataGridViewPanorama_MouseDown(object sender, MouseEventArgs e)
+        {
+            var rowTargetIndex = dataGridViewPanorama.HitTest(e.X, e.Y).RowIndex;
+            if ((rowTargetIndex < 0) || (rowTargetIndex > dataGridViewPanorama.Rows.Count))
+                return;
+            System.Diagnostics.Debug.WriteLine("Select row index: " + rowTargetIndex.ToString());
+
+            if (e.Button == MouseButtons.Right)
+            {
+                rowDragFrom = dataGridViewPanorama.Rows[rowTargetIndex];
+                rowDragFromIndex = rowTargetIndex;
+                System.Diagnostics.Debug.WriteLine("about to start DragDrop");
+                dataGridViewPanorama.DoDragDrop(rowDragFrom, DragDropEffects.Move);
+                System.Diagnostics.Debug.WriteLine("finished DragDrop");
+            }
+        }
+
+        private void dataGridViewPanorama_MouseUp(object sender, MouseEventArgs e)
+        {
+            rowDragFromIndex = -1;
+            rowDragFrom = null;
+            System.Diagnostics.Debug.WriteLine("MouseUp");
+        }
+
+        private void dataGridViewPanorama_DragOver(object sender, DragEventArgs e)
+        {
+            var pt = dataGridViewPanorama.PointToClient(new Point(e.X, e.Y));
+            var hitTestInfo = dataGridViewPanorama.HitTest(pt.X, pt.Y);
+            var rowTargetIndex = hitTestInfo.RowIndex;
+            if ((rowTargetIndex < 0) || (rowTargetIndex > dataGridViewPanorama.Rows.Count) || (rowDragFrom == null))
+                e.Effect = DragDropEffects.None;
+            else
+                e.Effect = DragDropEffects.Move;
+            if (hitTestInfo.Type == DataGridViewHitTestType.Cell)
+            {
+                dataGridViewPanorama.Rows[rowTargetIndex].Selected = true;
+            }
+            System.Diagnostics.Debug.WriteLine("DragOver");
+        }
+
+        private void dataGridViewPanorama_DragDrop(object sender, DragEventArgs e)
+        {
+            var pt = dataGridViewPanorama.PointToClient(new Point(e.X, e.Y));
+            var rowTargetIndex = dataGridViewPanorama.HitTest(pt.X, pt.Y).RowIndex;
+            System.Diagnostics.Debug.WriteLine("DragDrop to: " + rowTargetIndex.ToString());
+            if (e.Effect == DragDropEffects.Move)
+            {
+                var strName = rowDragFrom.Cells[CnColumnStoryName].Value?.ToString();
+                var theSDToMove = _stories.GetStoryFromName(strName);
+                if (theSDToMove == null)
+                    return;
+
+                _stories.Remove(theSDToMove);
+                _stories.Insert(rowTargetIndex, theSDToMove);
+
+                InitGrid();
+                System.Diagnostics.Debug.Assert(rowTargetIndex < dataGridViewPanorama.Rows.Count);
+                dataGridViewPanorama.Rows[rowTargetIndex].Selected = true;
+                dataGridViewPanorama.Rows[rowTargetIndex].Cells[CnColumnStoryName].Selected = true;
+                Modified = true;
+                rowDragFromIndex = -1;
+                rowDragFrom = null;
+            }
+        }
+#endif
     }
 }
