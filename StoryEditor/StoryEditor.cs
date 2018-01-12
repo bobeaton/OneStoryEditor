@@ -3409,10 +3409,15 @@ namespace OneStoryProjectEditor
             }
 
             if (String.IsNullOrEmpty(dlg.JumpToStory))
-                comboBoxStorySelector.SelectedIndex = 0;
+            {
+                if (comboBoxStorySelector.Items.Count > 0)
+                    comboBoxStorySelector.SelectedIndex = 0;
+            }
             else
+            {
                 NavigateTo(dlg.SelectedStorySetName, dlg.JumpToStory, 1, null);
                 // JumpToStory(dlg.JumpToStory);
+            }
         }
 
         private void JumpToStory(string jumpToStory)
