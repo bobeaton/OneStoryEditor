@@ -108,6 +108,7 @@ namespace OneStoryProjectEditor
 
                     tabControlSets.Controls.Add(addlTab);
 
+#if !EnabledDragDrop
                     // also have to add menu items to the contextMenuMove Item collection
                     var moveToThisSetMenu = new ToolStripMenuItem($"Move selected story to \'{storySet.SetName}\' tab")
                     {
@@ -124,6 +125,7 @@ namespace OneStoryProjectEditor
                     };
                     copyToThisSetMenu.Click += new EventHandler(this.CopyToStoriesMenuClick);
                     this.contextMenuMove.Items.Add(copyToThisSetMenu);
+#endif
                 }
             }
 
@@ -220,7 +222,7 @@ namespace OneStoryProjectEditor
                 int nRowIndex = dataGridViewPanorama.Rows.Add(aObs);
                 var aRow = dataGridViewPanorama.Rows[nRowIndex];
 #if EnabledDragDrop
-                aRow.HeaderCell.ToolTipText = Localizer.Str("Click and Drag -- using the right mouse button -- to reorder stories");
+                aRow.HeaderCell.ToolTipText = Localizer.Str("Click and Drag -- using the right mouse button -- to reorder stories. You can also drag and drop a story on another tab. Hold down the Ctrl key to to 'copy' instead of 'move' the story");
 #endif
 #if ShowingState
                 aRow.Tag = st;
@@ -433,7 +435,7 @@ namespace OneStoryProjectEditor
                 Modified = true;
             }
         }
-#endif
+
         private void ButtonCopyToOldStoriesClick(object sender, EventArgs e)
         {
             contextMenuMove.Show(Cursor.Position);
@@ -461,6 +463,7 @@ namespace OneStoryProjectEditor
                 }
             }
         }
+#endif
 
         private static string CstrMoved
         {
@@ -479,8 +482,8 @@ namespace OneStoryProjectEditor
             var finalIndex = destTabText.LastIndexOf('\'');
             int startIndex = "Move selected story to \'".Length;
             var destTabSetName = destTabText.Substring(startIndex, finalIndex - startIndex);
-            MoveCopyStoryToOtherStoriesSet(destTabSetName,
-                                           false, true, true);
+            MoveCopyStoryToOtherStoriesSet(destTabSetName, false, 
+                                           (SelectedStorySetName != Properties.Resources.IDS_NonBibStoriesSet));    // it's a biblical story if it's not coming from the Non-Biblical stories tab
         }
 
         private void MoveToStoriesMenuClick(object sender, EventArgs e)
@@ -490,12 +493,11 @@ namespace OneStoryProjectEditor
             var finalIndex = destTabText.LastIndexOf('\'');
             int startIndex = "Move selected story to \'".Length;
             var destTabSetName = destTabText.Substring(startIndex, finalIndex - startIndex);
-            MoveCopyStoryToOtherStoriesSet(destTabSetName,
-                                           true, true, true);
+            MoveCopyStoryToOtherStoriesSet(destTabSetName, true,
+                                           (SelectedStorySetName != Properties.Resources.IDS_NonBibStoriesSet));    // it's a biblical story if it's not coming from the Non-Biblical stories tab
         }
 
-        private void MoveCopyStoryToOtherStoriesSet(string strDestSet, bool bMove,
-            bool bAdjustCraftingInfo, bool bIsBiblicalStory)
+        private void MoveCopyStoryToOtherStoriesSet(string strDestSet, bool bMove, bool bIsBiblicalStory)
         {
             System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedRows.Count < 2);   // 1 or 0
             if (dataGridViewPanorama.SelectedRows.Count != 1)
@@ -526,8 +528,7 @@ namespace OneStoryProjectEditor
             // if copying, then it needs its own guids
             theSd = new StoryData(theOrigSd);
 
-            if (bAdjustCraftingInfo)
-                theSd.CraftingInfo.IsBiblicalStory = bIsBiblicalStory;
+            theSd.CraftingInfo.IsBiblicalStory = bIsBiblicalStory;
 
             StoryEditor.InsertInOtherSetInsureUnique(_storyProject[strDestSet], theSd);
 
@@ -541,43 +542,43 @@ namespace OneStoryProjectEditor
 
         private void ButtonDeleteClick(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedCells.Count < 2);   // 1 or 0
-            if (dataGridViewPanorama.SelectedCells.Count != 1)
+            System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedRows.Count < 2);   // 1 or 0
+            if (dataGridViewPanorama.SelectedRows.Count != 1)
                 return;
 
-            int nSelectedRowIndex = dataGridViewPanorama.SelectedCells[0].RowIndex;
-            if (nSelectedRowIndex <= dataGridViewPanorama.Rows.Count - 1)
+            int nSelectedRowIndex = dataGridViewPanorama.SelectedRows[0].Index;
+            if ((nSelectedRowIndex < 0) || (nSelectedRowIndex > dataGridViewPanorama.Rows.Count - 1))
+                return;
+
+            DataGridViewRow theRow = dataGridViewPanorama.Rows[nSelectedRowIndex];
+            DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
+            if (theNameCell.Value == null)
+                return; // shouldn't happen, but...
+
+            var strName = theNameCell.Value as String;
+
+            StoryData theSd = _stories.GetStoryFromName(strName);
+            if (theSd == null)
+                return;
+
+            // make sure the user really wants to do this
+            if (StoryEditor.QueryDeleteStory(strName))
+                return;
+
+            RemoveStoryFromCurrentList(nSelectedRowIndex, theSd);
+
+            // if it isn't already in the Old Set, then just move it there
+            if (_stories.SetName != Properties.Resources.IDS_ObsoleteStoriesSet)
             {
-                DataGridViewRow theRow = dataGridViewPanorama.Rows[nSelectedRowIndex];
-                DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
-                if (theNameCell.Value == null)
-                    return; // shouldn't happen, but...
-
-                var strName = theNameCell.Value as String;
-
-                StoryData theSd = _stories.GetStoryFromName(strName);
-                if (theSd == null)
-                    return;
-
-                // make sure the user really wants to do this
-                if (StoryEditor.QueryDeleteStory(strName))
-                    return;
-
-                RemoveStoryFromCurrentList(nSelectedRowIndex, theSd);
-
-                // if it isn't already in the Old Set, then just move it there
-                if (_stories.SetName != Properties.Resources.IDS_ObsoleteStoriesSet)
-                {
-                    // make a copy (so it has new guids) -- this is just in case, someone simultaneously
-                    //  edits and so this isn't actually deleted which could result in two story's with the
-                    //  same guids
-                    theSd = new StoryData(theSd);
-                    StoryEditor.InsertInOtherSetInsureUnique(_storyProject[Properties.Resources.IDS_ObsoleteStoriesSet],
-                                                             theSd);
-                }
-
-                Modified = true;
+                // make a copy (so it has new guids) -- this is just in case, someone simultaneously
+                //  edits and so this isn't actually deleted which could result in two story's with the
+                //  same guids
+                theSd = new StoryData(theSd);
+                StoryEditor.InsertInOtherSetInsureUnique(_storyProject[Properties.Resources.IDS_ObsoleteStoriesSet],
+                                                            theSd);
             }
+
+            Modified = true;
         }
 
         private void RemoveStoryFromCurrentList(int nSelectedRowIndex, StoryData theSd)
@@ -829,7 +830,7 @@ namespace OneStoryProjectEditor
                 rowDragFrom = dataGridViewPanorama.Rows[rowTargetIndex];
                 rowDragFromIndex = rowTargetIndex;
                 System.Diagnostics.Debug.WriteLine("about to start DragDrop");
-                dataGridViewPanorama.DoDragDrop(rowDragFrom, DragDropEffects.Move);
+                dataGridViewPanorama.DoDragDrop(rowDragFrom, DragDropEffects.Move | DragDropEffects.Copy);
                 System.Diagnostics.Debug.WriteLine("finished DragDrop");
             }
         }
@@ -843,18 +844,29 @@ namespace OneStoryProjectEditor
 
         private void dataGridViewPanorama_DragOver(object sender, DragEventArgs e)
         {
+            if (rowDragFrom == null)
+                return;
+
+            System.Diagnostics.Debug.WriteLine($"DragOver w/ sender: {sender} @ {DateTime.Now}");
+
             var pt = dataGridViewPanorama.PointToClient(new Point(e.X, e.Y));
             var hitTestInfo = dataGridViewPanorama.HitTest(pt.X, pt.Y);
             var rowTargetIndex = hitTestInfo.RowIndex;
-            if ((rowTargetIndex < 0) || (rowTargetIndex > dataGridViewPanorama.Rows.Count) || (rowDragFrom == null))
-                e.Effect = DragDropEffects.None;
-            else
-                e.Effect = DragDropEffects.Move;
-            if (hitTestInfo.Type == DataGridViewHitTestType.Cell)
+            if ((rowTargetIndex < 0) || (rowTargetIndex > dataGridViewPanorama.Rows.Count))
             {
-                dataGridViewPanorama.Rows[rowTargetIndex].Selected = true;
+                e.Effect = DragDropEffects.None;
             }
-            System.Diagnostics.Debug.WriteLine("DragOver");
+            else
+            {
+                // dragging over something in the data grid
+                e.Effect = DragDropEffects.Move;
+
+                // highlight the row that the mouse is over
+                if (hitTestInfo.Type == DataGridViewHitTestType.Cell)
+                {
+                    dataGridViewPanorama.Rows[rowTargetIndex].Selected = true;
+                }
+            }
         }
 
         private void dataGridViewPanorama_DragDrop(object sender, DragEventArgs e)
@@ -880,6 +892,62 @@ namespace OneStoryProjectEditor
                 rowDragFromIndex = -1;
                 rowDragFrom = null;
             }
+        }
+
+        private int getHoverTabIndex(TabControl tc)
+        {
+            for (int i = 1; i < tc.TabPages.Count; i++)
+            {
+                if (tc.GetTabRect(i).Contains(tc.PointToClient(Cursor.Position)))
+                    return i;
+            }
+
+            return -1;
+        }
+
+        private void tabControlSets_DragOver(object sender, DragEventArgs e)
+        {
+            int hoverTab_index = getHoverTabIndex(tabControlSets);
+            if (hoverTab_index < 1) // < 1 bkz we can't copy to tab 0
+            {
+                e.Effect = DragDropEffects.None;
+            }
+            else
+            {
+                var hoverTab = tabControlSets.TabPages[hoverTab_index];
+                var bCopy = ((e.KeyState & 8) == 8);
+
+                if (_storyProject.Keys.Contains(hoverTab.Text) &&
+                    ((hoverTab.Text != SelectedStorySetName) || bCopy))   // either it's not the current story set or the control key is pressed so it's a copy
+                {
+                    e.Effect = (bCopy) ? DragDropEffects.Copy : DragDropEffects.Move;
+                }
+                else
+                {
+                    e.Effect = DragDropEffects.None;
+                }
+            }
+        }
+
+        private void tabControlSets_DragDrop(object sender, DragEventArgs e)
+        {
+            int hoverTab_index = getHoverTabIndex(tabControlSets);
+            if (hoverTab_index < 1) // < 1 bkz we can't copy to tab 0
+                return;
+
+            var hoverTab = tabControlSets.TabPages[hoverTab_index];
+
+            // set the dragged row as selected so this method will move *it*
+            rowDragFrom.Selected = true;
+            var destStorySetName = hoverTab.Text;
+
+            MoveCopyStoryToOtherStoriesSet(destStorySetName, 
+                                           (e.Effect == DragDropEffects.Move), 
+                                           (SelectedStorySetName != Properties.Resources.IDS_NonBibStoriesSet));    // it's a biblical story if it's not coming from the Non-Biblical stories tab
+
+            // if copy to self, then we need to update the grid
+            if (destStorySetName == SelectedStorySetName)
+                InitGrid();
         }
 #endif
     }

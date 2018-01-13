@@ -33,14 +33,6 @@ namespace OneStoryProjectEditor
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PanoramaView));
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.buttonCopyToOldStories = new System.Windows.Forms.Button();
-            this.contextMenuMove = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.moveToStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyToStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.moveToNonBibStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyToNonBibStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.moveToOldStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyToOldStoriesMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonDelete = new System.Windows.Forms.Button();
             this.tabPageOldStories = new System.Windows.Forms.TabPage();
             this.tabPageNonBibStories = new System.Windows.Forms.TabPage();
@@ -58,7 +50,6 @@ namespace OneStoryProjectEditor
             this.tabPageFrontMatter = new System.Windows.Forms.TabPage();
             this.richTextBoxPanoramaFrontMatter = new System.Windows.Forms.RichTextBox();
             this.tabControlSets = new System.Windows.Forms.TabControl();
-            this.contextMenuMove.SuspendLayout();
             this.tabPagePanorama.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPanorama)).BeginInit();
@@ -66,80 +57,11 @@ namespace OneStoryProjectEditor
             this.tabControlSets.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonCopyToOldStories
-            // 
-            this.buttonCopyToOldStories.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.buttonCopyToOldStories.ContextMenuStrip = this.contextMenuMove;
-            this.buttonCopyToOldStories.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonCopyToOldStories.Image = global::OneStoryProjectEditor.Properties.Resources.CopyHS;
-            this.buttonCopyToOldStories.Location = new System.Drawing.Point(819, 222);
-            this.buttonCopyToOldStories.Name = "buttonCopyToOldStories";
-            this.buttonCopyToOldStories.Size = new System.Drawing.Size(26, 23);
-            this.buttonCopyToOldStories.TabIndex = 3;
-            this.toolTip.SetToolTip(this.buttonCopyToOldStories, "Copy the selected story to one of the other lists");
-            this.buttonCopyToOldStories.UseVisualStyleBackColor = true;
-            this.buttonCopyToOldStories.Click += new System.EventHandler(this.ButtonCopyToOldStoriesClick);
-            // 
-            // contextMenuMove
-            // 
-            this.contextMenuMove.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.moveToStoriesMenu,
-            this.copyToStoriesMenu,
-            this.moveToNonBibStoriesMenu,
-            this.copyToNonBibStoriesMenu,
-            this.moveToOldStoriesMenu,
-            this.copyToOldStoriesMenu});
-            this.contextMenuMove.Name = "contextMenuMove";
-            this.contextMenuMove.Size = new System.Drawing.Size(327, 158);
-            this.contextMenuMove.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuMoveOpening);
-            // 
-            // moveToStoriesMenu
-            // 
-            this.moveToStoriesMenu.Name = "moveToStoriesMenu";
-            this.moveToStoriesMenu.Size = new System.Drawing.Size(326, 22);
-            this.moveToStoriesMenu.Text = "Move selected story to \'Stories\' tab";
-            this.moveToStoriesMenu.Click += new System.EventHandler(this.MoveToStoriesMenuClick);
-            // 
-            // copyToStoriesMenu
-            // 
-            this.copyToStoriesMenu.Name = "copyToStoriesMenu";
-            this.copyToStoriesMenu.Size = new System.Drawing.Size(326, 22);
-            this.copyToStoriesMenu.Text = "Copy selected story to \'Stories\' tab";
-            this.copyToStoriesMenu.Click += new System.EventHandler(this.CopyToStoriesMenuClick);
-            // 
-            // moveToNonBibStoriesMenu
-            // 
-            this.moveToNonBibStoriesMenu.Name = "moveToNonBibStoriesMenu";
-            this.moveToNonBibStoriesMenu.Size = new System.Drawing.Size(326, 22);
-            this.moveToNonBibStoriesMenu.Text = "Move selected story to \'Non-Biblical Stories\' tab";
-            this.moveToNonBibStoriesMenu.Click += new System.EventHandler(this.MoveToStoriesMenuClick);
-            // 
-            // copyToNonBibStoriesMenu
-            // 
-            this.copyToNonBibStoriesMenu.Name = "copyToNonBibStoriesMenu";
-            this.copyToNonBibStoriesMenu.Size = new System.Drawing.Size(326, 22);
-            this.copyToNonBibStoriesMenu.Text = "Copy selected story to \'Non-Biblical Stories\' tab";
-            this.copyToNonBibStoriesMenu.Click += new System.EventHandler(this.CopyToStoriesMenuClick);
-            // 
-            // moveToOldStoriesMenu
-            // 
-            this.moveToOldStoriesMenu.Name = "moveToOldStoriesMenu";
-            this.moveToOldStoriesMenu.Size = new System.Drawing.Size(326, 22);
-            this.moveToOldStoriesMenu.Text = "Move selected story to \'Old Stories\' tab";
-            this.moveToOldStoriesMenu.Click += new System.EventHandler(this.MoveToStoriesMenuClick);
-            // 
-            // copyToOldStoriesMenu
-            // 
-            this.copyToOldStoriesMenu.Name = "copyToOldStoriesMenu";
-            this.copyToOldStoriesMenu.Size = new System.Drawing.Size(326, 22);
-            this.copyToOldStoriesMenu.Text = "Copy selected story to \'Old Stories\' tab";
-            this.copyToOldStoriesMenu.Click += new System.EventHandler(this.CopyToStoriesMenuClick);
-            // 
             // buttonDelete
             // 
             this.buttonDelete.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.buttonDelete.Image = global::OneStoryProjectEditor.Properties.Resources.DeleteHS;
-            this.buttonDelete.Location = new System.Drawing.Point(819, 193);
+            this.buttonDelete.Location = new System.Drawing.Point(819, 140);
             this.buttonDelete.Name = "buttonDelete";
             this.buttonDelete.Size = new System.Drawing.Size(26, 23);
             this.buttonDelete.TabIndex = 2;
@@ -185,7 +107,6 @@ namespace OneStoryProjectEditor
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel.Controls.Add(this.dataGridViewPanorama, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.buttonDelete, 1, 1);
-            this.tableLayoutPanel.Controls.Add(this.buttonCopyToOldStories, 1, 2);
             this.tableLayoutPanel.Controls.Add(this.buttonCopyToClipboard, 0, 4);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(3, 3);
@@ -225,7 +146,7 @@ namespace OneStoryProjectEditor
             this.dataGridViewPanorama.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.tableLayoutPanel.SetRowSpan(this.dataGridViewPanorama, 4);
             this.dataGridViewPanorama.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewPanorama.Size = new System.Drawing.Size(810, 432);
+            this.dataGridViewPanorama.Size = new System.Drawing.Size(810, 433);
             this.dataGridViewPanorama.TabIndex = 0;
             this.dataGridViewPanorama.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPanorama_CellBeginEdit);
             this.dataGridViewPanorama.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPanorama_CellEndEdit);
@@ -290,7 +211,7 @@ namespace OneStoryProjectEditor
             // buttonCopyToClipboard
             // 
             this.buttonCopyToClipboard.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.buttonCopyToClipboard.Location = new System.Drawing.Point(327, 441);
+            this.buttonCopyToClipboard.Location = new System.Drawing.Point(327, 442);
             this.buttonCopyToClipboard.Name = "buttonCopyToClipboard";
             this.buttonCopyToClipboard.Size = new System.Drawing.Size(161, 23);
             this.buttonCopyToClipboard.TabIndex = 5;
@@ -321,6 +242,7 @@ namespace OneStoryProjectEditor
             // 
             // tabControlSets
             // 
+            this.tabControlSets.AllowDrop = true;
             this.tabControlSets.Controls.Add(this.tabPageFrontMatter);
             this.tabControlSets.Controls.Add(this.tabPagePanorama);
             this.tabControlSets.Controls.Add(this.tabPageNonBibStories);
@@ -332,6 +254,8 @@ namespace OneStoryProjectEditor
             this.tabControlSets.Size = new System.Drawing.Size(862, 500);
             this.tabControlSets.TabIndex = 4;
             this.tabControlSets.Selected += new System.Windows.Forms.TabControlEventHandler(this.TabControlSetsSelected);
+            this.tabControlSets.DragDrop += new System.Windows.Forms.DragEventHandler(this.tabControlSets_DragDrop);
+            this.tabControlSets.DragOver += new System.Windows.Forms.DragEventHandler(this.tabControlSets_DragOver);
             // 
             // PanoramaView
             // 
@@ -343,7 +267,6 @@ namespace OneStoryProjectEditor
             this.Name = "PanoramaView";
             this.Text = "Panorama View";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PanoramaViewFormClosing);
-            this.contextMenuMove.ResumeLayout(false);
             this.tabPagePanorama.ResumeLayout(false);
             this.tableLayoutPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPanorama)).EndInit();
@@ -369,17 +292,9 @@ namespace OneStoryProjectEditor
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTestQuestions;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWordCount;
         private System.Windows.Forms.Button buttonDelete;
-        private System.Windows.Forms.Button buttonCopyToOldStories;
         private System.Windows.Forms.TabPage tabPageFrontMatter;
         private System.Windows.Forms.RichTextBox richTextBoxPanoramaFrontMatter;
         private System.Windows.Forms.TabControl tabControlSets;
-        private ContextMenuStrip contextMenuMove;
-        private ToolStripMenuItem copyToNonBibStoriesMenu;
-        private ToolStripMenuItem copyToOldStoriesMenu;
-        private ToolStripMenuItem copyToStoriesMenu;
-        private ToolStripMenuItem moveToStoriesMenu;
-        private ToolStripMenuItem moveToNonBibStoriesMenu;
-        private ToolStripMenuItem moveToOldStoriesMenu;
         private Button buttonCopyToClipboard;
     }
 }
