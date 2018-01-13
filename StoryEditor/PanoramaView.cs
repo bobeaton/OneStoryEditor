@@ -497,14 +497,14 @@ namespace OneStoryProjectEditor
         private void MoveCopyStoryToOtherStoriesSet(string strDestSet, bool bMove,
             bool bAdjustCraftingInfo, bool bIsBiblicalStory)
         {
-            System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedCells.Count < 2);   // 1 or 0
-            if (dataGridViewPanorama.SelectedCells.Count != 1)
+            System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedRows.Count < 2);   // 1 or 0
+            if (dataGridViewPanorama.SelectedRows.Count != 1)
                 return;
 
             System.Diagnostics.Debug.Assert(_storyProject.ContainsKey(strDestSet));
 
-            int nSelectedRowIndex = dataGridViewPanorama.SelectedCells[0].RowIndex;
-            if (nSelectedRowIndex > dataGridViewPanorama.Rows.Count - 1)
+            int nSelectedRowIndex = dataGridViewPanorama.SelectedRows[0].Index;
+            if ((nSelectedRowIndex < 0) || (nSelectedRowIndex > dataGridViewPanorama.Rows.Count - 1))
                 return;
 
             DataGridViewRow theRow = dataGridViewPanorama.Rows[nSelectedRowIndex];

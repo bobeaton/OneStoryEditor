@@ -90,49 +90,49 @@ namespace OneStoryProjectEditor
             this.moveToOldStoriesMenu,
             this.copyToOldStoriesMenu});
             this.contextMenuMove.Name = "contextMenuMove";
-            this.contextMenuMove.Size = new System.Drawing.Size(327, 136);
+            this.contextMenuMove.Size = new System.Drawing.Size(327, 158);
             this.contextMenuMove.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuMoveOpening);
             // 
             // moveToStoriesMenu
             // 
             this.moveToStoriesMenu.Name = "moveToStoriesMenu";
             this.moveToStoriesMenu.Size = new System.Drawing.Size(326, 22);
-            this.moveToStoriesMenu.Text = "Move selected story to \'&Stories\' tab";
+            this.moveToStoriesMenu.Text = "Move selected story to \'Stories\' tab";
             this.moveToStoriesMenu.Click += new System.EventHandler(this.MoveToStoriesMenuClick);
             // 
             // copyToStoriesMenu
             // 
             this.copyToStoriesMenu.Name = "copyToStoriesMenu";
             this.copyToStoriesMenu.Size = new System.Drawing.Size(326, 22);
-            this.copyToStoriesMenu.Text = "Copy selected story to \'&Stories\' tab";
+            this.copyToStoriesMenu.Text = "Copy selected story to \'Stories\' tab";
             this.copyToStoriesMenu.Click += new System.EventHandler(this.CopyToStoriesMenuClick);
             // 
             // moveToNonBibStoriesMenu
             // 
-            this.moveToNonBibStoriesMenu.Name = "moveToNon-BiblicalStoriesMenu";
+            this.moveToNonBibStoriesMenu.Name = "moveToNonBibStoriesMenu";
             this.moveToNonBibStoriesMenu.Size = new System.Drawing.Size(326, 22);
-            this.moveToNonBibStoriesMenu.Text = "Move selected story to \'&Non-Biblical Stories\' tab";
+            this.moveToNonBibStoriesMenu.Text = "Move selected story to \'Non-Biblical Stories\' tab";
             this.moveToNonBibStoriesMenu.Click += new System.EventHandler(this.MoveToStoriesMenuClick);
             // 
             // copyToNonBibStoriesMenu
             // 
-            this.copyToNonBibStoriesMenu.Name = "copyToNon-BiblicalStoriesMenu";
+            this.copyToNonBibStoriesMenu.Name = "copyToNonBibStoriesMenu";
             this.copyToNonBibStoriesMenu.Size = new System.Drawing.Size(326, 22);
-            this.copyToNonBibStoriesMenu.Text = "Copy selected story to \'&Non-Biblical Stories\' tab";
+            this.copyToNonBibStoriesMenu.Text = "Copy selected story to \'Non-Biblical Stories\' tab";
             this.copyToNonBibStoriesMenu.Click += new System.EventHandler(this.CopyToStoriesMenuClick);
             // 
             // moveToOldStoriesMenu
             // 
             this.moveToOldStoriesMenu.Name = "moveToOldStoriesMenu";
             this.moveToOldStoriesMenu.Size = new System.Drawing.Size(326, 22);
-            this.moveToOldStoriesMenu.Text = "Move selected story to \'&Old Stories\' tab";
+            this.moveToOldStoriesMenu.Text = "Move selected story to \'Old Stories\' tab";
             this.moveToOldStoriesMenu.Click += new System.EventHandler(this.MoveToStoriesMenuClick);
             // 
             // copyToOldStoriesMenu
             // 
             this.copyToOldStoriesMenu.Name = "copyToOldStoriesMenu";
             this.copyToOldStoriesMenu.Size = new System.Drawing.Size(326, 22);
-            this.copyToOldStoriesMenu.Text = "Copy selected story to \'&Old Stories\' tab";
+            this.copyToOldStoriesMenu.Text = "Copy selected story to \'Old Stories\' tab";
             this.copyToOldStoriesMenu.Click += new System.EventHandler(this.CopyToStoriesMenuClick);
             // 
             // buttonDelete
