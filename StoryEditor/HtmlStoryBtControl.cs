@@ -1729,9 +1729,10 @@ namespace OneStoryProjectEditor
                 return;
 
             int nLineIndex;
-            VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
+            var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
             moveLineUp.Enabled = (nLineIndex > 1);
             moveLineDown.Enabled = (nLineIndex < theSe.TheCurrentStory.Verses.Count);
+            hideVerseToolStripMenuItem.Text = (verseData.IsVisible) ? VerseBtControl.CstrMenuLabelHide : VerseBtControl.CstrMenuLabelUnhide;
 
             // the join story menu should be enabled as long as there's a following story
             var nIndexOfCurrentStory = theSe.TheCurrentStoriesSet.IndexOf(theSe.TheCurrentStory);
