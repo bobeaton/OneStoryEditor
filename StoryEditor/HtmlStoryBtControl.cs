@@ -754,6 +754,7 @@ namespace OneStoryProjectEditor
             ReloadAllWindows();
         }
 
+#if UseOlderMsgBox
         public static DialogResult QueryAboutHidingVerseInstead()
         {
             return LocalizableMessageBox.Show(
@@ -761,6 +762,7 @@ namespace OneStoryProjectEditor
                               Environment.NewLine),
                 StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
         }
+#endif
 
         public static bool UserConfirmDeletion
         {
@@ -894,9 +896,16 @@ namespace OneStoryProjectEditor
 
             if (verseData.HasData)
             {
+#if !UseOlderMsgBox
+                var res = new CustomMsgBox(Localizer.Str("Delete or Hide?"), "This line isn't empty! Instead of deleting it, it would be better to just hide it so it will be left around for history. Click 'Delete' to delete the line or click 'Hide' to hide it?", "Delete", "Hide")
+                               .ShowDialog();
+
+                if (res == DialogResult.Retry)
+#else
                 var res = QueryAboutHidingVerseInstead();
 
                 if (res == DialogResult.Yes)
+#endif
                 {
                     theSe.VisiblizeVerse(verseData, false);
                     return;

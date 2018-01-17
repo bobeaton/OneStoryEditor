@@ -99,6 +99,14 @@ namespace OneStoryProjectEditor
             if (!base.CheckForRequirements())
                 return;
 
+            // make sure that only one of these is a required task
+            if (TasksCit.IsTaskOn(TasksRequired, TasksCit.TaskSettings.SendToCoachForReview) && TasksCit.IsTaskOn(TasksRequired, TasksCit.TaskSettings.SendToProjectFacilitatorForRevision))
+            {
+                LocalizableMessageBox.Show(Localizer.Str("Only one of these should be a required task. Please uncheck one of them and click 'OK' again."),
+                                           StoryEditor.OseCaption);
+                return;
+            }
+
             DialogResult = DialogResult.OK;
             Close();
         }
