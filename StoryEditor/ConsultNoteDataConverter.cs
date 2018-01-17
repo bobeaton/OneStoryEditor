@@ -160,7 +160,7 @@ namespace OneStoryProjectEditor
             eStickyNote                 // a note that is always editable by anyone on the team
         }
 
-        protected ConsultNoteDataConverter(string strReferringText, TeamMemberData loggedOnMember, 
+        protected ConsultNoteDataConverter(string strReferringText, TeamMemberData loggedOnMember,
                                            StoryEditor.TextFields conNoteType)
         {
             guid = Guid.NewGuid().ToString();
@@ -299,7 +299,7 @@ namespace OneStoryProjectEditor
                                     WhichField);
         }
 
-        protected virtual bool LoggedOnMentoreeHasResponsePrivilege(TeamMemberData loggedOnMember, 
+        protected virtual bool LoggedOnMentoreeHasResponsePrivilege(TeamMemberData loggedOnMember,
             StoryData theStory)
         {
             return IsMenteeLoggedOn(loggedOnMember)
@@ -322,15 +322,15 @@ namespace OneStoryProjectEditor
             //      has privilege to respond
             if (Count == 0)
                 return IsMentorLoggedOn(loggedOnMember);
-            
+
             // otherwise, the last comment has to be from the mentoree AND
             // either the conversation is just beginning or the same mentor has to have
             //  initiated the conversation AND
             // the logged on mentor must have the privilege to make a response.
-            return (!IsStickyNote && 
+            return (!IsStickyNote &&
                     IsFromMentee(FinalComment) &&
-                    ((Count < 2) || 
-                        InitiatedConversation(loggedOnMember) || 
+                    ((Count < 2) ||
+                        InitiatedConversation(loggedOnMember) ||
                         (InitiatedByMentoree && InitialFollowupBy(loggedOnMember))) &&
                     !IsNoteToSelf &&
                     LoggedOnMentorHasResponsePrivilege(loggedOnMember, theTeamMembers, theStory));
@@ -348,11 +348,11 @@ namespace OneStoryProjectEditor
 
             return (!IsStickyNote &&
                     IsFromMentor(FinalComment) &&
-                    ((Count < 2) || 
-                        InitiatedConversation(loggedOnMember) || 
+                    ((Count < 2) ||
+                        InitiatedConversation(loggedOnMember) ||
                         (InitiatedByMentor && InitialFollowupBy(loggedOnMember))) &&
                     !NoteNeedsApproval &&
-                    !IsNoteToSelf && 
+                    !IsNoteToSelf &&
                     LoggedOnMentoreeHasResponsePrivilege(loggedOnMember, theStory));
         }
 
@@ -471,7 +471,7 @@ namespace OneStoryProjectEditor
         {
             return /* IsMemberAnLsrThatIsntAlsoTheStoryPf(theMember, theStoryPfMemberId)
                        ? Color.Coral
-                       : */ Color.Cornsilk; 
+                       : */ Color.Cornsilk;
         }
 
         protected abstract string InstanceElementName   // *Conversation
@@ -599,7 +599,7 @@ namespace OneStoryProjectEditor
         {
             get { return Localizer.Str("End conversation"); }
         }
-        
+
         public static string CstrCitLabel
         {
             get { return Localizer.Str("cit:"); }
@@ -615,7 +615,7 @@ namespace OneStoryProjectEditor
             get { return Localizer.Str("con:"); }
         }
 
-        public bool IsEditable(TeamMemberData loggedOnMember, 
+        public bool IsEditable(TeamMemberData loggedOnMember,
             TeamMembersData theTeamMembers, StoryData theStory)
         {
             var theFinalComment = FinalComment;
@@ -641,11 +641,11 @@ namespace OneStoryProjectEditor
 
         public bool HasAllMentoreeMemberIdData
         {
-            get 
+            get
             {
-                return this.All(aCi => 
-                    !IsFromMentee(aCi) || 
-                    !String.IsNullOrEmpty(aCi.MemberId)); 
+                return this.All(aCi =>
+                    !IsFromMentee(aCi) ||
+                    !String.IsNullOrEmpty(aCi.MemberId));
             }
         }
 
@@ -654,7 +654,7 @@ namespace OneStoryProjectEditor
             get
             {
                 return this.All(aCi =>
-                    !IsFromMentor(aCi) || 
+                    !IsFromMentor(aCi) ||
                     !String.IsNullOrEmpty(aCi.MemberId));
             }
         }
@@ -740,15 +740,15 @@ namespace OneStoryProjectEditor
             {
                 // for non-en localizations, also add all the localized strings
                 Debug.Assert(NetBibleViewer.MapBookNames != null);
-                strLine = NetBibleViewer.MapBookNames.Aggregate(strLine, 
+                strLine = NetBibleViewer.MapBookNames.Aggregate(strLine,
                     (current, mapBookName) => current + ("|" + mapBookName.Value));
             }
 
             _regexBibRef = new Regex(CstrBibRefRegexFormat.Replace("{0}", strLine), RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         }
 
-        public string Html(object htmlConNoteCtrl, 
-            TeamMembersData theTeamMembers, TeamMemberData loggedOnMember, 
+        public string Html(object htmlConNoteCtrl,
+            TeamMembersData theTeamMembers, TeamMemberData loggedOnMember,
             StoryData theStory, int nVerseIndex, int nConversationIndex)
         {
             // don't show anything if
@@ -833,12 +833,12 @@ namespace OneStoryProjectEditor
                 //  note pane, this could be any mentoree (PF, LSR, or CIT).
                 // Re: 2) that depends on whether the ...
                 string strHtmlElementId;
-                if (bLastOne && 
+                if (bLastOne &&
                     IsEditable(loggedOnMember, theTeamMembers, theStory))
                 {
                     strHtmlElementId = TextareaId(nVerseIndex, nConversationIndex);
                     strRow += String.Format(Resources.HTML_TableCellForTextArea,
-                                            SetHyperlinks(strReferringHtml) + 
+                                            SetHyperlinks(strReferringHtml) +
                                             String.Format(Resources.HTML_TextareaWithRefDrop,
                                                           strHtmlElementId,
                                                           StoryData.CstrLangInternationalBtStyleClassName,
@@ -950,7 +950,7 @@ namespace OneStoryProjectEditor
             //  initiated by the mentoree
             // and the last comment visible is from a mentor
             return LoggedOnMentorHasResponsePrivilege(loggedOnMember, theTeamMembers, theStory) &&
-                   (InitiatedConversation(loggedOnMember) || 
+                   (InitiatedConversation(loggedOnMember) ||
                         (InitiatedByMentoree && InitialFollowupBy(loggedOnMember))) &&
                    IsFromMentor(aCiLast);
         }
@@ -958,7 +958,7 @@ namespace OneStoryProjectEditor
         // certain members won't get a regular turn (e.g. an LSR or a Coach when the 
         //  project is not specified as a manage with coaching situation). In these cases,
         //  just allow them to have their 'End', 'Hide', etc, buttons.
-        private static bool OtherwiseDoesntHaveaTurn(TeamMemberData loggedOnMember, 
+        private static bool OtherwiseDoesntHaveaTurn(TeamMemberData loggedOnMember,
             StoryData theStory, TeamMembersData theTeamMembers)
         {
             return IsMemberAnLsrThatIsntAlsoTheStoryPf(loggedOnMember, theStory.CraftingInfo.ProjectFacilitator.MemberId) ||
@@ -980,8 +980,8 @@ namespace OneStoryProjectEditor
             //  However, for an LSR, there's never an explicit turn, so allow them to do
             //  it anytime.
             string strRow = null;
-            if (!DontShowButtonsOverride && 
-                InitiatedConversation(loggedOnMember) && 
+            if (!DontShowButtonsOverride &&
+                (InitiatedConversation(loggedOnMember) || IsMentorLoggedOn(loggedOnMember)) &&  // update 1/17/18: allow mentors to delete notes also
                 (loggedOnMember.IsEditAllowed(theStory) ||
                     OtherwiseDoesntHaveaTurn(loggedOnMember, theStory, theTeamMembers) ||
                     AllowButtonsOverride ||
