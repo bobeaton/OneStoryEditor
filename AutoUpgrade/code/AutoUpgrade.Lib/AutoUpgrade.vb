@@ -13,6 +13,7 @@ Imports System.Security.Cryptography
 Imports Starksoft.Net.Ftp
 Imports Ionic.Zip
 Imports System.Text
+Imports System.Threading.Tasks
 
 Namespace devX
 
@@ -172,7 +173,7 @@ Namespace devX
             Return wsClient.Create(strManifestPath)
         End Function
 
-        Private Shared Function MyCertValidationCb(ByVal sender As Object, ByVal certificate As X509Certificate, _
+        Private Shared Function MyCertValidationCb(ByVal sender As Object, ByVal certificate As X509Certificate,
                                             ByVal chain As X509Chain, ByVal sslPolicyErrors As System.Net.Security.SslPolicyErrors) As Boolean
             Return True
         End Function
@@ -200,7 +201,7 @@ Namespace devX
                 'ftpWebRequest.UsePassive = True
                 ftpWebRequest.Timeout = 120000  ' increase to two minutes
 #End If
-                GetWebRequest = FtpWebRequest
+                GetWebRequest = ftpWebRequest
             End If
         End Function
 
@@ -236,7 +237,7 @@ Namespace devX
                     ' application files by setting SourcePath in the xml manifest data
 
                     If upgInstance.SourcePath.Length = 0 Then
-                        upgInstance.SourcePath = _
+                        upgInstance.SourcePath =
                          strManifestPath.Substring(0, Len(strManifestPath) - Len(Path.GetFileName(strManifestPath)) - 1)
                         ' upgInstance.SourcePath = Path.Combine(upgInstance.SourcePath, "client")
                     End If
@@ -328,8 +329,24 @@ Namespace devX
                 ' RaiseEvent UpgradeProgress("Committing " & manCurrentAutoUpgradeFile.Description, manCurrentAutoUpgradeFile.Name, Me.PercentComplete, Me.EstimatedTimeRemaining, mblnCancel)
                 If mblnCancel Then Exit For
 
-                CommitAndRegisterSingleFile(manCurrentAutoUpgradeFile)
+                Dim bCopied As Boolean = False
+                For index As Integer = 1 To 5
+                    If (Not TryCommitAndRegisterSingleFile(manCurrentAutoUpgradeFile)) Then
+                        bCopied = True
+                        Exit For
+                    End If
+                Next
                 mlngTotalBytesRead = mlngTotalBytesRead + manCurrentAutoUpgradeFile.Size
+
+                If (Not bCopied) Then
+                    If (MessageBox.Show(String.Format("Unable to copy the file {0}{0}{1}{0}{0}to: {0}{0}{2}{0}{0}even after 5 tries! Is something blocking it (virus scanner or is it still running in Task Manager or do you need to restart the computer)? You should copy the file to the target location with Windows Explorer manually and then click 'OK'",
+                                                  Environment.NewLine,
+                                                  Path.Combine(UpgradeDirectory, manCurrentAutoUpgradeFile.Name),
+                                                  Path.Combine(ApplicationBasePath, Path.GetFileName(manCurrentAutoUpgradeFile.Name))),
+                                    "OneStory Editor Updater", MessageBoxButtons.OKCancel) = DialogResult.Cancel) Then
+                        Throw New ApplicationException("Upgrade cancelled.")
+                    End If
+                End If
             Next
 
             ' finally, if this was the new version of AutoUpgrade, then copy over the old one
@@ -341,11 +358,30 @@ Namespace devX
             End If
         End Sub
 
+        Private Function TryCommitAndRegisterSingleFile(manCurrentAutoUpgradeFile As File) As Boolean
+            Try
+                CommitAndRegisterSingleFile(manCurrentAutoUpgradeFile)
+            Catch ex As Exception
+                If ((TypeOf ex Is IOException) And ex.Message.Contains("The process cannot access the file")) Then
+                    Delay(TimeSpan.FromSeconds(2))
+                    Return True
+                End If
+            End Try
+            Return False
+        End Function
+
+        Public Sub Delay(timeSpan As TimeSpan)
+            Dim t = Task.Run(Async Function()
+                                 Await Task.Delay(timeSpan)
+                             End Function)
+            t.Wait()
+        End Sub
+
         Public Sub CommitAndRegisterSingleFile(ByVal manCurrentAutoUpgradeFile As AutoUpgrade.File)
             Dim strLocalFile As String
             Dim strCacheFile As String
 
-            strLocalFile = Path.Combine( _
+            strLocalFile = Path.Combine(
              Me.ApplicationBasePath, manCurrentAutoUpgradeFile.Name)
 
             ' Make sure the directory/subdirectory exists
@@ -353,7 +389,7 @@ Namespace devX
                 IO.Directory.CreateDirectory(Path.GetDirectoryName(strLocalFile))
             End If
 
-            strCacheFile = _
+            strCacheFile =
              Path.Combine(UpgradeDirectory, manCurrentAutoUpgradeFile.Name)
 
             Select Case manCurrentAutoUpgradeFile.Action
@@ -541,10 +577,10 @@ Namespace devX
                         mlngTotalBytesRead = mlngTotalBytesRead + lngBytesRead
                         localFile.Write(dlBuffer, 0, lngBytesRead)
 
-                        RaiseEvent UpgradeProgress( _
-                         "Downloading " & strDescription, _
-                         strFileName, _
-                         Me.PercentComplete, _
+                        RaiseEvent UpgradeProgress(
+                         "Downloading " & strDescription,
+                         strFileName,
+                         Me.PercentComplete,
                          Me.EstimatedTimeRemaining, mblnCancel)
 
                     Loop Until lngBytesRead = 0 Or mblnCancel
@@ -582,7 +618,7 @@ Namespace devX
 
                             ' this has to be adjusted based on how far we are now from when this was created
                             Dim nowOffset As DateTimeOffset = New DateTimeOffset(DateTime.Now)
-                            Dim cultureInfo As CultureInfo = cultureInfo.CreateSpecificCulture("en-US")
+                            Dim cultureInfo As CultureInfo = CultureInfo.CreateSpecificCulture("en-US")
                             Dim thenOffset As DateTimeOffset = DateTimeOffset.ParseExact(Me.OffsetFromUctWhereManifestWasOriginallyCreated, "o", cultureInfo)
                             dateLastModified -= nowOffset.Offset - thenOffset.Offset
                             MySetLastWriteTime(strLocalPath, dateLastModified)
@@ -649,7 +685,7 @@ Namespace devX
                 ' format), it'll fail. So be sure to back off to the older mechanism in
                 ' the catch
                 Try
-                    Dim cultureInfo As CultureInfo = cultureInfo.CreateSpecificCulture("en-US")
+                    Dim cultureInfo As CultureInfo = CultureInfo.CreateSpecificCulture("en-US")
                     mtsOffsetToUCT = DateTimeOffset.ParseExact(value, "o", cultureInfo)
                 Catch ex As Exception
                     mtsOffsetToUCT = DateTimeOffset.Parse(value)

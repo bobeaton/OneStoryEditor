@@ -1,7 +1,9 @@
 Imports System.Environment
+Imports System.IO
+Imports System.Threading.Tasks
 
 Namespace AutoUpgrade
-	Module Startup
+    Module Startup
 
         Sub Main()
             Debug.Fail("Debugging")
@@ -12,18 +14,18 @@ Namespace AutoUpgrade
             End If
         End Sub
 
-		Sub Generate()
-			Dim upgAuto As New devX.AutoUpgrade()
+        Sub Generate()
+            Dim upgAuto As New devX.AutoUpgrade()
             Dim strPath, strZipPath As String
             Dim strTarget As String
 
             If GetCommandLineArgs.Length <> 4 Then
-                MsgBox( _
-                 "Syntax:  To generate a manifest, use the syntax AutoUpgrade.exe " & _
-                 "path target, where path is the path you want to search for files " & _
-                 "to add to the manifest, and target is where you want to save the " & _
-                 "manifest file.  To run an AutoUpgrade, run with no arguments.  All " & _
-                 "settings are read from the manifest.xml file in the same directory " & _
+                MsgBox(
+                 "Syntax:  To generate a manifest, use the syntax AutoUpgrade.exe " &
+                 "path target, where path is the path you want to search for files " &
+                 "to add to the manifest, and target is where you want to save the " &
+                 "manifest file.  To run an AutoUpgrade, run with no arguments.  All " &
+                 "settings are read from the manifest.xml file in the same directory " &
                  "as AutoUpgrade.exe", MsgBoxStyle.Exclamation, "Invalid Syntax")
             Else
                 ' Get the command line args
@@ -70,7 +72,7 @@ Namespace AutoUpgrade
 
                     ' Pause for a couple of seconds to give the original app time
                     ' to shut down
-                    Threading.Thread.Sleep(8000)
+                    upgAuto.Delay(TimeSpan.FromSeconds(8))
 
                     ' Start the upgrade.  Status messages are processed in the OnProgress event
                     ' AddHandler upgAuto.UpgradeProgress, AddressOf frmStatus.OnProgress
@@ -109,6 +111,7 @@ Namespace AutoUpgrade
                 MsgBox(strError, MsgBoxStyle.Critical, "AutoUpgrade")
             End Try
         End Sub
-	End Module
+
+    End Module
 
 End Namespace
