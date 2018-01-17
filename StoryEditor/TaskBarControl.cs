@@ -144,6 +144,9 @@ namespace OneStoryProjectEditor
             buttonSendToCoach.Visible = (TasksCit.IsTaskOn(TheStory.TasksAllowedCit,
                                                            TasksCit.TaskSettings.SendToCoachForReview));
 
+            buttonMarkPreliminaryApproval.Visible =
+                buttonMarkFinalApproval.Visible = !TasksCit.IsTaskOn(TheStory.TasksRequiredCit, TasksCit.TaskSettings.SendToCoachForReview);
+
             _checker = new ConsultantInTrainingRequirementsCheck(TheSe, TheStory);
         }
 
