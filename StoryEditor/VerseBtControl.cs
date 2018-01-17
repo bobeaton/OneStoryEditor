@@ -312,9 +312,9 @@ namespace OneStoryProjectEditor
             }
 
             else if (_verseData.IsVisible)
-                hideVerseToolStripMenuItem.Text = Localizer.Str("&Hide line");
+                hideVerseToolStripMenuItem.Text = CstrMenuLabelHide;
             else
-                hideVerseToolStripMenuItem.Text = Localizer.Str("&Unhide line");
+                hideVerseToolStripMenuItem.Text = CstrMenuLabelUnhide;
 
             moveSelectedTextToANewLineToolStripMenuItem.Enabled =
                 tableLayoutPanel.Controls.ContainsKey(CstrFieldNameStoryLine);
@@ -324,6 +324,16 @@ namespace OneStoryProjectEditor
                                                   _verseData.ExegeticalHelpNotes.HasData ||
                                                   _verseData.ConsultantNotes.HasData ||
                                                   _verseData.CoachNotes.HasData);
+        }
+
+        public static string CstrMenuLabelHide
+        {
+            get { return Localizer.Str("&Hide line"); }
+        }
+
+        public static string CstrMenuLabelUnhide
+        {
+            get { return Localizer.Str("&Unhide line"); }
         }
 
         private void moveItemsToolStripMenuItem_Click(object sender, EventArgs e)
