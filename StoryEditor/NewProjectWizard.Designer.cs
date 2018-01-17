@@ -220,16 +220,16 @@
             this.tableLayoutPanelProjectName.Location = new System.Drawing.Point(17, 18);
             this.tableLayoutPanelProjectName.Name = "tableLayoutPanelProjectName";
             this.tableLayoutPanelProjectName.RowCount = 3;
-            this.tableLayoutPanelProjectName.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelProjectName.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelProjectName.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelProjectName.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutPanelProjectName.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutPanelProjectName.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanelProjectName.Size = new System.Drawing.Size(714, 144);
             this.tableLayoutPanelProjectName.TabIndex = 4;
             // 
             // textBoxProjectName
             // 
             this.textBoxProjectName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxProjectName.Location = new System.Drawing.Point(3, 3);
+            this.textBoxProjectName.Location = new System.Drawing.Point(3, 11);
             this.textBoxProjectName.Name = "textBoxProjectName";
             this.textBoxProjectName.Size = new System.Drawing.Size(708, 20);
             this.textBoxProjectName.TabIndex = 0;
@@ -237,7 +237,7 @@
             // checkBoxUseDropBox
             // 
             this.checkBoxUseDropBox.AutoSize = true;
-            this.checkBoxUseDropBox.Location = new System.Drawing.Point(3, 52);
+            this.checkBoxUseDropBox.Location = new System.Drawing.Point(3, 89);
             this.checkBoxUseDropBox.Name = "checkBoxUseDropBox";
             this.checkBoxUseDropBox.Size = new System.Drawing.Size(502, 17);
             this.checkBoxUseDropBox.TabIndex = 3;
@@ -249,7 +249,7 @@
             // checkBoxUseInternetRepo
             // 
             this.checkBoxUseInternetRepo.AutoSize = true;
-            this.checkBoxUseInternetRepo.Location = new System.Drawing.Point(3, 29);
+            this.checkBoxUseInternetRepo.Location = new System.Drawing.Point(3, 46);
             this.checkBoxUseInternetRepo.Name = "checkBoxUseInternetRepo";
             this.checkBoxUseInternetRepo.Size = new System.Drawing.Size(243, 17);
             this.checkBoxUseInternetRepo.TabIndex = 1;
