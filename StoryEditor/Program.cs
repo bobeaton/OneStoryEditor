@@ -221,7 +221,7 @@ namespace OneStoryProjectEditor
 
         internal static void CheckForProgramUpdate(AutoUpgrade autoUpgrade, string strManifestAddress)
         {
-            if (autoUpgrade == null)
+            if ((autoUpgrade == null) || (autoUpgrade.SourcePath != strManifestAddress))
             {
                 autoUpgrade = AutoUpgrade.Create(strManifestAddress, true);
                 if (!autoUpgrade.IsUpgradeAvailable())

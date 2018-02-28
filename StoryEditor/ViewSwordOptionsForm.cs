@@ -1,4 +1,5 @@
-﻿#define UseOseServer
+﻿#define UseFluentFtp
+#define UseOseServer
 
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,11 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using NetLoc;
+#if UseFluentFtp
+using FluentFTP;
+#else
 using Starksoft.Net.Ftp;
+#endif
 using devX;
 
 namespace OneStoryProjectEditor
@@ -129,11 +134,15 @@ namespace OneStoryProjectEditor
         {
             if (_ftp != null)
             {
+#if UseFluentFtp
+                _ftp.Disconnect();
+#else
                 _ftp.Close();
                 _ftp.Dispose();
-                _ftp = null;
                 System.Threading.Thread.Sleep(2000);
                 Application.DoEvents(); // let it get a chance to complete the releasing of the Ftp connection
+#endif
+                _ftp = null;
             }
         }
 
@@ -188,7 +197,9 @@ namespace OneStoryProjectEditor
                 const string user = "onestory";
                 const string pass = "yrotseno23";
 #endif
+#if !UseFluentFtp
                 const int port = 21;
+#endif
 
                 if (_mapShortCodes2SwordData == null)
                     _mapShortCodes2SwordData = new Dictionary<string, SwordModuleData>();
@@ -199,14 +210,30 @@ namespace OneStoryProjectEditor
                 // the SSL 3.0 protocol or the TLS 1.0 protocol depending on what the FTP server supports
                 var ftp = new FtpClient(host, port, FtpSecurityProtocol.Tls1OrSsl3Explicit);
 #else
+#if UseFluentFtp
+                var ftp = new FtpClient(host)
+                {
+                    Credentials = new System.Net.NetworkCredential(user, pass)
+                };
+                ftp.Connect();
+#else
                 var ftp = new FtpClient(host, port);
 #endif
+#if UseSeedCo || !UseFluentFtp
                 // register an event hook so that we can view and accept the security certificate that is given by the FTP server
                 ftp.ValidateServerCertificate += FtpValidateServerCertificate;
                 ftp.ConnectionClosed += FtpConnectionClosed;
                 ftp.Open(user, pass);
+#endif
+#endif
                 return ftp;
             }
+        }
+
+#if !UseFluentFtp
+        private static void FtpValidateServerCertificate(object sender, ValidateServerCertificateEventArgs e)
+        {
+            e.IsCertificateValid = true;
         }
 
         private void FtpConnectionClosed(object sender, ConnectionClosedEventArgs e)
@@ -214,6 +241,7 @@ namespace OneStoryProjectEditor
             // not sure if this occurs but we should definitely try to make sure we dispose of things properly.
             CloseFtpConnection();
         }
+#endif
 
         private static readonly Regex RegexModsReaderShortCode = new Regex(@"\[(.+?)\]", RegexOptions.Compiled | RegexOptions.Singleline);
         private static readonly Regex RegexModsReaderDesc = new Regex("Description=(.+?)[\n\r]", RegexOptions.Compiled | RegexOptions.Singleline);
@@ -244,11 +272,6 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        private static void FtpValidateServerCertificate(object sender, ValidateServerCertificateEventArgs e)
-        {
-            e.IsCertificateValid = true;
-        }
-
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (tabControl.SelectedTab == tabPageSeedConnect)
@@ -259,14 +282,23 @@ namespace OneStoryProjectEditor
                 {
                     if (_ftp == null)
                         _ftp = FtpClient;
-                    var files = _ftp.GetDirList(CstrPathSwordRemote + CstrPathModsD, true);
                     checkedListBoxDownloadable.Items.Clear();   // in case it's a repeat
                     _mapShortCodes2SwordData.Clear();
                     bool bAtLeastOneToInstall = false;
+
+#if UseFluentFtp
+                    var files = _ftp.GetListing(CstrPathSwordRemote + CstrPathModsD, FtpListOption.AllFiles);
+                    foreach (var file in files)
+                    {
+                        var strTempFilename = Path.GetTempFileName();
+                        _ftp.DownloadFile(strTempFilename, file.FullName);
+#else
+                    var files = _ftp.GetDirList(CstrPathSwordRemote + CstrPathModsD, true);
                     foreach (var file in files)
                     {
                         var strTempFilename = Path.GetTempFileName();
                         _ftp.GetFile(file.FullPath, strTempFilename, FileAction.Create);
+#endif
                         SwordModuleData data;
                         if (!GetInformation(strTempFilename, out data))
                             continue;
@@ -327,8 +359,12 @@ namespace OneStoryProjectEditor
             if (_lstBibleResources.Any(p => p.Name == data.SwordShortCode))
             {
                 var strLocalFilepath = Path.Combine(StoryProjectData.GetRunningFolder,
+#if UseFluentFtp
+                                                    data.ModsDfile.FullName.Substring(1).Replace('/', '\\'));
+#else
                                                     data.ModsDfile.FullPath.Substring(1).Replace('/', '\\'));
-                
+#endif
+
                 if (File.Exists(strLocalFilepath))
                 {
                     var dtLocal = File.GetLastWriteTime(strLocalFilepath);
@@ -345,7 +381,11 @@ namespace OneStoryProjectEditor
     {
         public string SwordShortCode { get; set; }
         public string SwordDescription { get; set; }
+#if UseFluentFtp
+        public FtpListItem ModsDfile { get; set; }
+#else
         public FtpItem ModsDfile { get; set; }
+#endif
         public string ModsTempFilePath { get; set; }
         public string ModulesDataPath { get; set; }
         public bool DirectionRtl { get; set; }

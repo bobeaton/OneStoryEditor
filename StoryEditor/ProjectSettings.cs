@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -10,9 +9,7 @@ using System.Xml.Linq;
 using Chorus.sync;
 using Chorus.UI.Clone;
 using Chorus.UI.Sync;
-using Chorus.Utilities;
 using Chorus.VcsDrivers;
-using Chorus.VcsDrivers.Mercurial;
 using Microsoft.Win32;
 using NetLoc;
 using SilEncConverters40;

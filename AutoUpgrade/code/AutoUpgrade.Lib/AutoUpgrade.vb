@@ -1,3 +1,5 @@
+#Const UseFluentFtp = True
+
 Imports System.Runtime.InteropServices
 Imports System
 Imports System.Xml.Serialization
@@ -10,7 +12,11 @@ Imports System.Windows.Forms
 Imports System.IO
 Imports System.Collections.Generic
 Imports System.Security.Cryptography
+#If UseFluentFtp Then
+Imports FluentFTP
+#Else
 Imports Starksoft.Net.Ftp
+#End If
 Imports Ionic.Zip
 Imports System.Text
 Imports System.Threading.Tasks
@@ -371,9 +377,9 @@ Namespace devX
         End Function
 
         Public Sub Delay(timeSpan As TimeSpan)
-            Dim t = Task.Run(Async Function()
-                                 Await Task.Delay(timeSpan)
-                             End Function)
+            Dim t As Task = Task.Run(Async Function()
+                                         Await Task.Delay(timeSpan)
+                                     End Function)
             t.Wait()
         End Sub
 
@@ -1189,6 +1195,23 @@ Namespace devX
             Return downloader
         End Function
 
+#If UseFluentFtp Then
+        <CLSCompliant(False)>
+        Public Function AddModuleToManifest(ftp As FtpClient, ftpItemModsD As FtpListItem, strRemoteDataFolder As String) As Boolean
+
+            ' copy the downloaded (temporary) mods file to the proper path
+            AddToManifest(UpgradeDirectory, ftpItemModsD)
+
+            ' Get the files to it
+            Dim files As FtpListItem() = ftp.GetListing(strRemoteDataFolder, FtpListOption.AllFiles)
+
+            For Each file As FtpListItem In files
+                ' create the local path for the data files
+                AddToManifest(UpgradeDirectory, file)
+            Next
+
+        End Function
+#Else
         Public Function AddModuleToManifest(ftp As FtpClient, ftpItemModsD As FtpItem, strRemoteDataFolder As String) As Boolean
 
             ' copy the downloaded (temporary) mods file to the proper path
@@ -1203,6 +1226,7 @@ Namespace devX
             Next
 
         End Function
+#End If
 
         Private Shared ReadOnly _achPathDelim() As Char = {"/"}
 
@@ -1217,6 +1241,28 @@ Namespace devX
 
         ' strRootPath is the path to the upgrade folder (e.g. "C:\...\"
         ' strFilepath is relative to the upgrade folder (e.g. "SWORD\mods.d\bbe.conf")
+#If UseFluentFtp Then
+        <CLSCompliant(False)>
+        Public Sub AddToManifest(strRootPath As String, ftpFile As FtpListItem)
+            Dim newFileEntry As File = New File()
+            newFileEntry.Action = File.UpgradeAction.copy
+
+            ' Store name and path relative to strPath
+            Dim strFile As String = GetLocalPath(strRootPath, ftpFile.FullName)
+            newFileEntry.Name = strFile.Substring(strRootPath.Length + 1)
+
+            newFileEntry.Size = ftpFile.Size
+
+            newFileEntry.Version = Nothing
+            ' GetMd5Hash(strFile) file doesn't exist locally at this point, so can't do this
+
+            ' sword files will never have a version, so just say it's a one-off (copy if not there)
+            newFileEntry.Method = File.CompareMethod.OneOff
+
+            ManifestFiles.Add(newFileEntry)
+
+        End Sub
+#Else
         Public Sub AddToManifest(strRootPath As String, ftpFile As FtpItem)
             Dim newFileEntry As File = New File()
             newFileEntry.Action = File.UpgradeAction.copy
@@ -1236,7 +1282,7 @@ Namespace devX
             ManifestFiles.Add(newFileEntry)
 
         End Sub
-
+#End If
         ' Run the AutoUpgrade.EXE stub (with elevated privilege) to copy the files into the protected folder.
         Public Sub PrepareModuleForInstall()
             CreateUpgradeDirectory()
