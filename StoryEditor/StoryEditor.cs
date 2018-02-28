@@ -3408,6 +3408,11 @@ namespace OneStoryProjectEditor
                 Modified = true;
             }
 
+            // not sure why we had this null case, but it's causing Irene grief by shifting to the 1st story in the set when you just exit the Panorama window
+#if true
+            if (!String.IsNullOrEmpty(dlg.JumpToStory))
+                NavigateTo(dlg.SelectedStorySetName, dlg.JumpToStory, 1, null);
+#else
             if (String.IsNullOrEmpty(dlg.JumpToStory))
             {
                 if (comboBoxStorySelector.Items.Count > 0)
@@ -3418,9 +3423,10 @@ namespace OneStoryProjectEditor
                 NavigateTo(dlg.SelectedStorySetName, dlg.JumpToStory, 1, null);
                 // JumpToStory(dlg.JumpToStory);
             }
-        }
+#endif
+            }
 
-        private void JumpToStory(string jumpToStory)
+            private void JumpToStory(string jumpToStory)
         {
             comboBoxStorySelector.SelectedItem =
                 comboBoxStorySelector.Text = jumpToStory;
