@@ -480,7 +480,7 @@ namespace OneStoryProjectEditor
             int startIndex = "Move selected story to \'".Length;
             var destTabSetName = destTabText.Substring(startIndex, finalIndex - startIndex);
             MoveCopyStoryToOtherStoriesSet(destTabSetName, false, 
-                                           (SelectedStorySetName != Properties.Resources.IDS_NonBibStoriesSet));    // it's a biblical story if it's not coming from the Non-Biblical stories tab
+                                           (destTabSetName != Properties.Resources.IDS_NonBibStoriesSet));    // it's a biblical story if it's not coming from the Non-Biblical stories tab
         }
 
         private void MoveToStoriesMenuClick(object sender, EventArgs e)
@@ -491,7 +491,7 @@ namespace OneStoryProjectEditor
             int startIndex = "Move selected story to \'".Length;
             var destTabSetName = destTabText.Substring(startIndex, finalIndex - startIndex);
             MoveCopyStoryToOtherStoriesSet(destTabSetName, true,
-                                           (SelectedStorySetName != Properties.Resources.IDS_NonBibStoriesSet));    // it's a biblical story if it's not coming from the Non-Biblical stories tab
+                                           (destTabSetName != Properties.Resources.IDS_NonBibStoriesSet));    // it's a biblical story if it's not coming from the Non-Biblical stories tab
         }
 
         private void MoveCopyStoryToOtherStoriesSet(string strDestSet, bool bMove, bool bIsBiblicalStory)
@@ -940,7 +940,7 @@ namespace OneStoryProjectEditor
 
             MoveCopyStoryToOtherStoriesSet(destStorySetName, 
                                            (e.Effect == DragDropEffects.Move), 
-                                           (SelectedStorySetName != Properties.Resources.IDS_NonBibStoriesSet));    // it's a biblical story if it's not coming from the Non-Biblical stories tab
+                                           (destStorySetName != Properties.Resources.IDS_NonBibStoriesSet));    // it's a biblical story if it's not coming from the Non-Biblical stories tab
 
             // if copy to self, then we need to update the grid
             if (destStorySetName == SelectedStorySetName)
