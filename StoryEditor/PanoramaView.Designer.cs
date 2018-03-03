@@ -50,6 +50,7 @@ namespace OneStoryProjectEditor
             this.tabPageFrontMatter = new System.Windows.Forms.TabPage();
             this.richTextBoxPanoramaFrontMatter = new System.Windows.Forms.RichTextBox();
             this.tabControlSets = new System.Windows.Forms.TabControl();
+            this.labelInstructions = new System.Windows.Forms.Label();
             this.tabPagePanorama.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPanorama)).BeginInit();
@@ -61,7 +62,7 @@ namespace OneStoryProjectEditor
             // 
             this.buttonDelete.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.buttonDelete.Image = global::OneStoryProjectEditor.Properties.Resources.DeleteHS;
-            this.buttonDelete.Location = new System.Drawing.Point(819, 140);
+            this.buttonDelete.Location = new System.Drawing.Point(819, 174);
             this.buttonDelete.Name = "buttonDelete";
             this.buttonDelete.Size = new System.Drawing.Size(26, 23);
             this.buttonDelete.TabIndex = 2;
@@ -108,14 +109,15 @@ namespace OneStoryProjectEditor
             this.tableLayoutPanel.Controls.Add(this.dataGridViewPanorama, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.buttonDelete, 1, 1);
             this.tableLayoutPanel.Controls.Add(this.buttonCopyToClipboard, 0, 4);
+            this.tableLayoutPanel.Controls.Add(this.labelInstructions, 0, 3);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.RowCount = 5;
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.Size = new System.Drawing.Size(848, 468);
             this.tableLayoutPanel.TabIndex = 2;
@@ -144,9 +146,9 @@ namespace OneStoryProjectEditor
             this.dataGridViewPanorama.Name = "dataGridViewPanorama";
             this.dataGridViewPanorama.RowHeadersWidth = 25;
             this.dataGridViewPanorama.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.tableLayoutPanel.SetRowSpan(this.dataGridViewPanorama, 4);
+            this.tableLayoutPanel.SetRowSpan(this.dataGridViewPanorama, 3);
             this.dataGridViewPanorama.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewPanorama.Size = new System.Drawing.Size(810, 433);
+            this.dataGridViewPanorama.Size = new System.Drawing.Size(810, 399);
             this.dataGridViewPanorama.TabIndex = 0;
             this.dataGridViewPanorama.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPanorama_CellBeginEdit);
             this.dataGridViewPanorama.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPanorama_CellEndEdit);
@@ -257,6 +259,16 @@ namespace OneStoryProjectEditor
             this.tabControlSets.DragDrop += new System.Windows.Forms.DragEventHandler(this.tabControlSets_DragDrop);
             this.tabControlSets.DragOver += new System.Windows.Forms.DragEventHandler(this.tabControlSets_DragOver);
             // 
+            // labelInstructions
+            // 
+            this.labelInstructions.AutoSize = true;
+            this.labelInstructions.Location = new System.Drawing.Point(3, 405);
+            this.labelInstructions.Name = "labelInstructions";
+            this.labelInstructions.Padding = new System.Windows.Forms.Padding(4);
+            this.labelInstructions.Size = new System.Drawing.Size(796, 34);
+            this.labelInstructions.TabIndex = 6;
+            this.labelInstructions.Text = resources.GetString("labelInstructions.Text");
+            // 
             // PanoramaView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -269,6 +281,7 @@ namespace OneStoryProjectEditor
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PanoramaViewFormClosing);
             this.tabPagePanorama.ResumeLayout(false);
             this.tableLayoutPanel.ResumeLayout(false);
+            this.tableLayoutPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPanorama)).EndInit();
             this.tabPageFrontMatter.ResumeLayout(false);
             this.tabControlSets.ResumeLayout(false);
@@ -296,5 +309,6 @@ namespace OneStoryProjectEditor
         private System.Windows.Forms.RichTextBox richTextBoxPanoramaFrontMatter;
         private System.Windows.Forms.TabControl tabControlSets;
         private Button buttonCopyToClipboard;
+        private Label labelInstructions;
     }
 }

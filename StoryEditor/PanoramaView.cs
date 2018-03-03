@@ -222,7 +222,8 @@ namespace OneStoryProjectEditor
                 int nRowIndex = dataGridViewPanorama.Rows.Add(aObs);
                 var aRow = dataGridViewPanorama.Rows[nRowIndex];
 #if EnabledDragDrop
-                aRow.HeaderCell.ToolTipText = Localizer.Str("Click and Drag -- using the right mouse button -- to reorder stories. You can also drag and drop a story on another tab. Hold down the Ctrl key to to 'copy' instead of 'move' the story");
+                var resources = new System.ComponentModel.ComponentResourceManager(typeof(PanoramaView));
+                aRow.HeaderCell.ToolTipText = resources.GetString("labelInstructions.Text");
 #endif
 #if ShowingState
                 aRow.Tag = st;
