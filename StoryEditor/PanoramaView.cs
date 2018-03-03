@@ -221,10 +221,6 @@ namespace OneStoryProjectEditor
                 };
                 int nRowIndex = dataGridViewPanorama.Rows.Add(aObs);
                 var aRow = dataGridViewPanorama.Rows[nRowIndex];
-#if EnabledDragDrop
-                var resources = new System.ComponentModel.ComponentResourceManager(typeof(PanoramaView));
-                aRow.HeaderCell.ToolTipText = resources.GetString("labelInstructions.Text");
-#endif
 #if ShowingState
                 aRow.Tag = st;
 #endif
