@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
@@ -35,4 +35,4 @@ bld/
 /OneStory Releases/OSE4.0/client/AutoUpgrade.Lib.xml
 /OneStory Releases/OSE4.0/client/AutoUpgrade.Lib.pdb
 /MercurialExtensions
-/OneStory Releases/Test
+/OneStory Releases
