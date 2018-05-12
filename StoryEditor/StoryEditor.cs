@@ -3322,12 +3322,8 @@ namespace OneStoryProjectEditor
                 else
                     storyAdaptItNationalToEnglishMenu.Visible = false;
 
-                storySynchronizeSharedAdaptItProjectsMenu.Visible = bAnySharedProjects;
-
-                // if they're all invisible, then disable the parent as well
-                storyUseAdaptItForBackTranslationMenu.Enabled = (storyAdaptItVernacularToNationalMenu.Visible ||
-                                                                 storyAdaptItVernacularToEnglishMenu.Visible ||
-                                                                 storyAdaptItNationalToEnglishMenu.Visible);
+                storyUseAdaptItForBackTranslationMenu.Enabled = 
+                    storySynchronizeSharedAdaptItProjectsMenu.Visible = bAnySharedProjects;
 
                 storyOverrideTasksMenu.Enabled = ((_theCurrentStory != null) &&
                                                     TeamMemberData.IsUser(_theCurrentStory.ProjStage.MemberTypeWithEditToken,
@@ -4345,11 +4341,14 @@ namespace OneStoryProjectEditor
         {
             ProjectSettings.LanguageInfo liSourceLang, liTargetLang;
             AdaptItEncConverter theEC;
+            string strAdaptationFilespec = null;
             try
             {
                 theEC = AdaptItGlossing.InitLookupAdapter(StoryProject.ProjSettings,
                                                           eBtDirection, LoggedOnMember,
                                                           out liSourceLang, out liTargetLang);
+
+                strAdaptationFilespec = AdaptationFilespec(theEC.ConverterIdentifier, TheCurrentStory.Name);
             }
             catch (Exception ex)
             {
@@ -4357,7 +4356,6 @@ namespace OneStoryProjectEditor
                 return;
             }
 
-            string strAdaptationFilespec = AdaptationFilespec(theEC.ConverterIdentifier, TheCurrentStory.Name);
             string strProjectName =
                 AdaptItGlossing.GetAiProjectFolderNameFromConverterIdentifier(theEC.ConverterIdentifier);
 
@@ -4649,8 +4647,16 @@ namespace OneStoryProjectEditor
 
         protected string AdaptationFilespec(string strConverterFilespec, string strStoryName)
         {
-            return Path.Combine(AdaptItGlossing.GetAiProjectFolderFromConverterIdentifier(strConverterFilespec),
-                Path.Combine("Adaptations", String.Format(@"{0}.xml", strStoryName)));
+            var path = Path.Combine(AdaptItGlossing.GetAiProjectFolderFromConverterIdentifier(strConverterFilespec),
+                       Path.Combine("Adaptations", String.Format(@"{0}.xml", strStoryName)));
+
+            char[] invalidChars = Path.GetInvalidFileNameChars();
+            if (path.IndexOfAny(invalidChars) != -1)
+            {
+                throw new ApplicationException(Localizer.Str("The story name contains characters which won't work in AdaptIt, so you'll have to change the name of the story to remove any of these characters: ") + String.Join(", ", invalidChars));
+            }
+
+            return path;
         }
 
         private void UpdateUiMenusAfterProjectOpen()
