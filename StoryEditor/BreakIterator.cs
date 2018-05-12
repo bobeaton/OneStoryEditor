@@ -12,7 +12,7 @@ namespace OneStoryProjectEditor
         public BreakIterator()
         {
             var aIcu4Net = Assembly.LoadFile(Path.Combine(StoryProjectData.GetRunningFolder,
-                                                          "ICU4NETExtension.dll"));
+                                                          "IcuEC.dll"));    // ICU57 should be here now
             if (aIcu4Net == null)
                 return;
 
@@ -42,7 +42,7 @@ namespace OneStoryProjectEditor
             get
             {
                 var pathToIcu4Net = Path.Combine(StoryProjectData.GetRunningFolder,
-                                                 "ICU4NETExtension.dll");
+                                                 "IcuEC.dll");
                 return File.Exists(pathToIcu4Net);
             }
         }

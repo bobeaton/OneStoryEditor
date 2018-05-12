@@ -796,26 +796,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="1.4 to 1.5.xslt" />
-    <Content Include="..\DepDLLs\ICU4NET.dll">
-      <Link>ICU4NET.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DepDLLs\ICU4NETExtension.dll">
-      <Link>ICU4NETExtension.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DepDLLs\Icu\icudt48.dll">
-      <Link>icudt48.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DepDLLs\Icu\icuin48.dll">
-      <Link>icuin48.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DepDLLs\Icu\icuuc48.dll">
-      <Link>icuuc48.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\DepDLLs\libsword.dll">
       <Link>libsword.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

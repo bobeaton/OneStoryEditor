@@ -203,8 +203,8 @@ namespace OneStoryProjectEditor
         }
 
 #if UseOseServer
-        public static string IDS_OSEUpgradeServer = $"ftp://OseProgram:OseAccess!2O@{Properties.Settings.Default.OseServerIpAddress}/OSE4.0/StoryEditor.exe.manifest.xml";
-        public static string IDS_OSEUpgradeServerNextMajorUpgrade = $"ftp://OseProgram:OseAccess!2O@{Properties.Settings.Default.OseServerIpAddress}/OSE4.1/StoryEditor.exe.manifest.xml";
+        public static string IDS_OSEUpgradeServer = $"ftp://OseProgram:OseAccess!2O@{Properties.Settings.Default.OseServerIpAddress}/OSE4.1/StoryEditor.exe.manifest.xml";
+        public static string IDS_OSEUpgradeServerNextMajorUpgrade = $"ftp://OseProgram:OseAccess!2O@{Properties.Settings.Default.OseServerIpAddress}/OSE4.2/StoryEditor.exe.manifest.xml";
         public static string IDS_OSEUpgradeServerSword = $"ftp://OseProgram:OseAccess!2O@{Properties.Settings.Default.OseServerIpAddress}";
         public static string IDS_OSEUpgradeServerTest = $"ftp://OseProgram:OseAccess!2O@{Properties.Settings.Default.OseServerIpAddress}/Test/testmanifest.xml";
 #elif UseSeedCo
