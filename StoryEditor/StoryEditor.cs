@@ -26,6 +26,9 @@ using Control=System.Windows.Forms.Control;
 using Timer=System.Windows.Forms.Timer;
 using NetLoc;
 using SIL.Reporting;
+#if EmbedSayMore
+using SayMore.UI.SessionRecording;
+#endif
 
 namespace OneStoryProjectEditor
 {
@@ -304,6 +307,28 @@ namespace OneStoryProjectEditor
             if (Settings.Default.AutoCheckForProgramUpdatesAtStartup)
                 backgroundWorker.RunWorkerAsync();
 #endif
+
+#if EmbedSayMore
+            try
+            {
+                AppDomain currentDomain = AppDomain.CurrentDomain;
+                currentDomain.AssemblyResolve += new ResolveEventHandler(FindSaymoreAssembly);
+
+                SaymoreInterface.LaunchSessionRecorder();
+            }
+            catch (Exception)
+            {
+            }
+#endif
+        }
+
+        private static Assembly FindSaymoreAssembly(object sender, ResolveEventArgs args)
+        {
+            // "C:\Program Files (x86)\SayMore\SayMore.exe"
+            var sayMoreAssembly = Assembly.LoadFrom(@"C:\Program Files (x86)\SayMore\SayMore.exe");
+
+            //Return the loaded assembly.
+            return sayMoreAssembly;
         }
 
         private void InitializeCurrentStoriesSetName(string strStoriesSet)
@@ -2686,10 +2711,9 @@ namespace OneStoryProjectEditor
         {
             var strTempFilename = SaveXElementWithBadExtn(elem, strFilename);
 
-#if DEBUGBOB
-            // always do the reload test in debug mode
+            // always do the reload (to stop the 'Root element is null' error)
             bDoReloadTest = true;
-#endif
+
             // this reload test is nice, but costly at the end of a project (where time
             //  is of an essense... so just check this when we're storing in the repo
             if (bDoReloadTest)
@@ -2781,7 +2805,8 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                ErrorReport.ReportNonFatalException(new Exception(ex.Message));
+                // too severe: ErrorReport.ReportNonFatalException(new Exception(ex.Message));
+                LocalizableMessageBox.Show(ex.Message, OseCaption);
                 return;
             }
 
