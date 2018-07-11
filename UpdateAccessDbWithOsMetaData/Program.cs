@@ -93,11 +93,12 @@ namespace UpdateAccessDbWithOsMetaData
 
         private static void ProcessProject(string strProjectFolder, DatabaseContext db)
         {
+            var dateTimeOfProjectFile = GetProjectFileDateTime(strProjectFolder);
             var strOsMetaDataFile = Path.Combine(strProjectFolder, CstrOsMetaDataFilename);
             var osMetaData = OsMetaDataModel.Load(strOsMetaDataFile);
             var osMetaDataModelRecord = osMetaData.OsProjects.First();
             var record = db.ExecuteSingle("select * from Projects where ose_proj_id = @oseProjectId",
-                                           new Param("@oseProjectId", osMetaDataModelRecord.OseProjId, OleDbType.Numeric));
+                                           new Param("@oseProjectId", osMetaDataModelRecord.OseProjId, OleDbType.VarWChar));
             if (record == null)
             {
                 LogMessage(String.Format("inserting new record for project, '{0}' from data in '{1}'", 
@@ -111,7 +112,7 @@ namespace UpdateAccessDbWithOsMetaData
                                             "SC_workshop, currently_using_OSE, ose_proj_id, ES_Consultant, ES_Coach, ES_stories_sent, " +
                                             "Process_Check, Multiplication_workshop, Number_SFGs, PS_Consultant, PS_Coach, " +
                                             "PS_stories_prelim_approv, LSR, Number_Final_Stories, Set_Finished_Date, " +
-                                            "Uploaded_to_OSMedia, Set_Copyrighted) " +
+                                            "Uploaded_to_OSMedia, Set_Copyrighted, DateLastChangeProjectFile) " +
                                    "values (@ProjectName, @LanguageName, @EthnologueCode, @Continent, @Country, @Methodology, " +
                                            "@ManagingPartner, @Entity, @ContactPerson, @ContactPersonEmail, @PrioritiesCategory, " +
                                            "@ScriptureStatus, @ScriptureStatusNotes, @ProjectFacilitators, @PfCategory, " +
@@ -119,8 +120,8 @@ namespace UpdateAccessDbWithOsMetaData
                                            "@LcaWorkshop, @LcaCoach, @ScWorkshop, @IsCurrentlyUsingOse, @OseProjId, @EsConsultant, " +
                                            "@EsCoach, @EsStoriesSent, @ProcessCheck, @MultiplicationWorkshop, @NumberSfgs, " +
                                            "@PsConsultant, @PsCoach, @PsStoriesPrelimApprov, @Lsr, @NumInFinalApprov, " +
-                                           "@SetFinishedDate, @IsUploadedToOsMedia, @SetCopyrighted)", 
-                                   GetParameterArray(osMetaDataModelRecord)
+                                           "@SetFinishedDate, @IsUploadedToOsMedia, @SetCopyrighted, @DateLastChangeProjectFile)", 
+                                   GetParameterArray(osMetaDataModelRecord, dateTimeOfProjectFile)
                                 );
             }
             else
@@ -165,61 +166,95 @@ namespace UpdateAccessDbWithOsMetaData
                                        "[Number_Final_Stories] = @NumInFinalApprov, " +
                                        "[Set_Finished_Date] = @SetFinishedDate, " +
                                        "[Uploaded_to_OSMedia] = @IsUploadedToOsMedia, " +
-                                       "[Set_Copyrighted] = @SetCopyrighted " +
-                                    "WHERE [ose_proj_id] = @OseProjId; ",
-                                    GetParameterArray(osMetaDataModelRecord)
+                                       "[Set_Copyrighted] = @SetCopyrighted, " +
+                                       "[DateLastChangeProjectFile] = @DateLastChangeProjectFile " + 
+                                    "WHERE [ose_proj_id] = @OseProjId;",
+                                    GetParameterArray(osMetaDataModelRecord, dateTimeOfProjectFile)
                                    );
             }
         }
 
-        private static Param[] GetParameterArray(OsMetaDataModelRecord osMetaDataModelRecord)
+        private static DateTime GetProjectFileDateTime(string strProjectFolder)
         {
-            var dtSetFinished = (osMetaDataModelRecord.SetFinishedDate == DateTime.MinValue) ? (object)DBNull.Value : osMetaDataModelRecord.SetFinishedDate;
-            var psCoach = (String.IsNullOrEmpty(osMetaDataModelRecord.PsCoach)) ? (object)DBNull.Value : osMetaDataModelRecord.PsCoach;
-            var esCoach = (String.IsNullOrEmpty(osMetaDataModelRecord.EsCoach)) ? (object)DBNull.Value : osMetaDataModelRecord.EsCoach;
-            var psConsultant = (String.IsNullOrEmpty(osMetaDataModelRecord.PsConsultant)) ? (object)DBNull.Value : osMetaDataModelRecord.PsConsultant;
-            var esConsultant = (String.IsNullOrEmpty(osMetaDataModelRecord.EsConsultant)) ? (object)DBNull.Value : osMetaDataModelRecord.EsConsultant;
+            // start by assuming that the project file name is the same as the project folder name
+            // e.g. get lb1-hindi from "C:\Users\BEaton\Documents\OneStory Editor Projects\lb1-hindi"
+            var filename = Path.GetFileName(strProjectFolder);
+            var filespec = Path.Combine(strProjectFolder, $"{filename}.onestory");
+
+            var newestDateTime = DateTime.MinValue;
+            if (File.Exists(filespec))
+            {
+                newestDateTime = File.GetLastWriteTime(filespec);
+            }
+            else
+            {
+                // see if we can find a single *.onestory file
+                var onestoryFiles = Directory.GetFiles(strProjectFolder, "*.onestory")
+                                             .ToList();
+
+                if (onestoryFiles.Any())
+                {
+                    newestDateTime = onestoryFiles.Select(fs => new FileInfo(fs).LastWriteTime)
+                                                  .Max();
+                }
+            }
+            return newestDateTime;
+        }
+
+        private static Param[] GetParameterArray(OsMetaDataModelRecord osMetaDataModelRecord, DateTime dateTimeOfProjectFile)
+        {
             return new[]
             {
-                new Param("@ProjectName", osMetaDataModelRecord.ProjectName, OleDbType.VarWChar),
-                new Param("@LanguageName", osMetaDataModelRecord.LanguageName, OleDbType.VarWChar),
-                new Param("@EthnologueCode", osMetaDataModelRecord.EthnologueCode, OleDbType.VarWChar),
-                new Param("@Continent", osMetaDataModelRecord.Continent, OleDbType.VarWChar),
-                new Param("@Country", osMetaDataModelRecord.Country, OleDbType.VarWChar),
-                new Param("@Methodology", osMetaDataModelRecord.Methodology, OleDbType.VarWChar), 
-                new Param("@ManagingPartner", osMetaDataModelRecord.ManagingPartner, OleDbType.VarWChar),
-                new Param("@Entity", osMetaDataModelRecord.Entity, OleDbType.VarWChar),
-                new Param("@ContactPerson", osMetaDataModelRecord.ContactPerson, OleDbType.VarWChar), 
-                new Param("@ContactPersonEmail", osMetaDataModelRecord.ContactPersonEmail, OleDbType.VarWChar), 
-                new Param("@PrioritiesCategory", osMetaDataModelRecord.PrioritiesCategory, OleDbType.VarWChar),
-                new Param("@ScriptureStatus", osMetaDataModelRecord.ScriptureStatus, OleDbType.VarWChar),
-                new Param("@ScriptureStatusNotes", osMetaDataModelRecord.ScriptureStatusNotes, OleDbType.VarWChar),
-                new Param("@ProjectFacilitators", osMetaDataModelRecord.ProjectFacilitators, OleDbType.VarWChar),
-                new Param("@PfCategory", osMetaDataModelRecord.PfCategory, OleDbType.VarWChar),
-                new Param("@PfAffiliation", osMetaDataModelRecord.PfAffiliation, OleDbType.VarWChar),
-                new Param("@Notes", osMetaDataModelRecord.Notes, OleDbType.VarWChar),
-                new Param("@Status", osMetaDataModelRecord.Status, OleDbType.VarWChar),
-                new Param("@StartDate", osMetaDataModelRecord.StartDate, OleDbType.DBDate),
-                new Param("@LcaWorkshop", osMetaDataModelRecord.LcaWorkshop, OleDbType.VarWChar),
-                new Param("@LcaCoach", osMetaDataModelRecord.LcaCoach, OleDbType.VarWChar),
-                new Param("@ScWorkshop", osMetaDataModelRecord.ScWorkshop, OleDbType.VarWChar),
+                new Param("@ProjectName", CheckForNull(osMetaDataModelRecord.ProjectName), OleDbType.VarWChar),
+                new Param("@LanguageName", CheckForNull(osMetaDataModelRecord.LanguageName), OleDbType.VarWChar),
+                new Param("@EthnologueCode", CheckForNull(osMetaDataModelRecord.EthnologueCode), OleDbType.VarWChar),
+                new Param("@Continent", CheckForNull(osMetaDataModelRecord.Continent), OleDbType.VarWChar),
+                new Param("@Country", CheckForNull(osMetaDataModelRecord.Country), OleDbType.VarWChar),
+                new Param("@Methodology", CheckForNull(osMetaDataModelRecord.Methodology), OleDbType.VarWChar),
+                new Param("@ManagingPartner", CheckForNull(osMetaDataModelRecord.ManagingPartner), OleDbType.VarWChar),
+                new Param("@Entity", CheckForNull(osMetaDataModelRecord.Entity), OleDbType.VarWChar),
+                new Param("@ContactPerson", CheckForNull(osMetaDataModelRecord.ContactPerson), OleDbType.VarWChar),
+                new Param("@ContactPersonEmail", CheckForNull(osMetaDataModelRecord.ContactPersonEmail), OleDbType.VarWChar),
+                new Param("@PrioritiesCategory", CheckForNull(osMetaDataModelRecord.PrioritiesCategory), OleDbType.VarWChar),
+                new Param("@ScriptureStatus", CheckForNull(osMetaDataModelRecord.ScriptureStatus), OleDbType.VarWChar),
+                new Param("@ScriptureStatusNotes", CheckForNull(osMetaDataModelRecord.ScriptureStatusNotes), OleDbType.VarWChar),
+                new Param("@ProjectFacilitators", CheckForNull(osMetaDataModelRecord.ProjectFacilitators), OleDbType.VarWChar),
+                new Param("@PfCategory", CheckForNull(osMetaDataModelRecord.PfCategory), OleDbType.VarWChar),
+                new Param("@PfAffiliation", CheckForNull(osMetaDataModelRecord.PfAffiliation), OleDbType.VarWChar),
+                new Param("@Notes", CheckForNull(osMetaDataModelRecord.Notes), OleDbType.VarWChar),
+                new Param("@Status", CheckForNull(osMetaDataModelRecord.Status), OleDbType.VarWChar),
+                new Param("@StartDate", CheckForNull(osMetaDataModelRecord.StartDate), OleDbType.DBDate),
+                new Param("@LcaWorkshop", CheckForNull(osMetaDataModelRecord.LcaWorkshop), OleDbType.VarWChar),
+                new Param("@LcaCoach", CheckForNull(osMetaDataModelRecord.LcaCoach), OleDbType.VarWChar),
+                new Param("@ScWorkshop", CheckForNull(osMetaDataModelRecord.ScWorkshop), OleDbType.VarWChar),
                 new Param("@IsCurrentlyUsingOse", osMetaDataModelRecord.IsCurrentlyUsingOse, OleDbType.Boolean),
-                new Param("@OseProjId", osMetaDataModelRecord.OseProjId, OleDbType.VarWChar),
-                new Param("@EsConsultant", esConsultant, OleDbType.VarWChar),
-                new Param("@EsCoach", esCoach, OleDbType.VarWChar),
+                new Param("@OseProjId", osMetaDataModelRecord.OseProjId, OleDbType.VarWChar),   // not allowed to be null!
+                new Param("@EsConsultant", CheckForNull(osMetaDataModelRecord.EsConsultant), OleDbType.VarWChar),
+                new Param("@EsCoach", CheckForNull(osMetaDataModelRecord.EsCoach), OleDbType.VarWChar),
                 new Param("@EsStoriesSent", osMetaDataModelRecord.EsStoriesSent, OleDbType.Integer),
-                new Param("@ProcessCheck", osMetaDataModelRecord.ProcessCheck, OleDbType.VarWChar),
-                new Param("@MultiplicationWorkshop", osMetaDataModelRecord.MultiplicationWorkshop, OleDbType.VarWChar),
+                new Param("@ProcessCheck", CheckForNull(osMetaDataModelRecord.ProcessCheck), OleDbType.VarWChar),
+                new Param("@MultiplicationWorkshop", CheckForNull(osMetaDataModelRecord.MultiplicationWorkshop), OleDbType.VarWChar),
                 new Param("@NumberSfgs", osMetaDataModelRecord.NumberSfgs, OleDbType.Integer),
-                new Param("@PsConsultant", psConsultant, OleDbType.VarWChar),
-                new Param("@PsCoach", psCoach, OleDbType.VarWChar),
+                new Param("@PsConsultant", CheckForNull(osMetaDataModelRecord.PsConsultant), OleDbType.VarWChar),
+                new Param("@PsCoach", CheckForNull(osMetaDataModelRecord.PsCoach), OleDbType.VarWChar),
                 new Param("@PsStoriesPrelimApprov", osMetaDataModelRecord.PsStoriesPrelimApprov, OleDbType.Integer),
-                new Param("@Lsr", osMetaDataModelRecord.Lsr, OleDbType.VarWChar),
+                new Param("@Lsr", CheckForNull(osMetaDataModelRecord.Lsr), OleDbType.VarWChar),
                 new Param("@NumInFinalApprov", osMetaDataModelRecord.NumInFinalApprov, OleDbType.Integer),
-                new Param("@SetFinishedDate", dtSetFinished, OleDbType.DBDate),
+                new Param("@SetFinishedDate", CheckForNull(osMetaDataModelRecord.SetFinishedDate), OleDbType.DBDate),
                 new Param("@IsUploadedToOsMedia", osMetaDataModelRecord.IsUploadedToOsMedia, OleDbType.Boolean),
-                new Param("@SetCopyrighted", osMetaDataModelRecord.SetCopyrighted, OleDbType.VarWChar)
+                new Param("@SetCopyrighted", CheckForNull(osMetaDataModelRecord.SetCopyrighted), OleDbType.VarWChar),
+                new Param("@DateLastChangeProjectFile", CheckForNull(dateTimeOfProjectFile), OleDbType.DBDate)
             };
+        }
+
+        private static object CheckForNull(DateTime dateTime)
+        {
+            return (dateTime == DateTime.MinValue) ? (object)DBNull.Value : dateTime;
+        }
+
+        private static object CheckForNull(string str)
+        {
+            return (String.IsNullOrEmpty(str)) ? (object)DBNull.Value : str;
         }
 
         private static void ProcessOsMetaDataDatabase(string strPathToAccessDatabase)
