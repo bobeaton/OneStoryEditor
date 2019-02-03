@@ -78,6 +78,15 @@ namespace OneStoryProjectEditor
                 MainLang = _storyProject.ProjSettings.InternationalBT;
         }
 
+        private Dictionary<string, string> _mapTabNamesToLocalizationWords = new Dictionary<string, string>
+        {
+            { "Stories", "Panorama" },
+            { "Old Stories", "Obsolete" },
+            { "Non-Biblical Stories", "NonBibStories" }
+        };
+        private string StoriesSetName { get; set; } = "Stories";
+        private string StoriesSetNameLocalized { get; set; }
+
         public DialogResult ShowDialog(string storySetName)
         {
             if (Properties.Settings.Default.PanoramaViewDlgHeight != 0)
@@ -92,21 +101,15 @@ namespace OneStoryProjectEditor
             foreach (var control in tabControlSets.Controls)
                 lstTabTextNames.Add(((TabPage)control).Text);
 
-            foreach (var storySet in _storyProject.Values)
-            {
-                if (!lstTabTextNames.Any(sn => sn == storySet.SetName))
-                {
-                    var addlTab = new TabPage(storySet.SetName)
-                    {
-                        Location = new Point(4, 22),
-                        Name = $"tabPage{storySet.SetName}",
-                        Padding = new Padding(3),
-                        Size = new Size(854, 474),
-                        TabIndex = tabControlSets.Controls.Count,
-                        UseVisualStyleBackColor = true
-                    };
+            StoriesSetNameLocalized = lstTabTextNames.Last();
 
-                    tabControlSets.Controls.Add(addlTab);
+            var nIndex = 2;
+            foreach (var storySet in _storyProject.Values.Skip(1))  // skip the main "Stories" tab (which might have a localized name)
+            {
+                string setName = storySet.SetName;
+                if (!lstTabTextNames.Any(sn => sn == setName))
+                {
+                    AddTabPage(setName, nIndex++);
 
 #if !EnabledDragDrop
                     // also have to add menu items to the contextMenuMove Item collection
@@ -133,6 +136,34 @@ namespace OneStoryProjectEditor
             tabControlSets.SelectTab(tab);
 
             return ShowDialog();
+        }
+
+        private void AddTabPage(string setName, int nIndex)
+        {
+            var addlTab = new TabPage(setName)
+            {
+                Location = new Point(4, 22),
+                Name = $"tabPage{setName}",
+                Padding = new Padding(3),
+                Size = new Size(854, 474),
+                TabIndex = tabControlSets.Controls.Count,
+                UseVisualStyleBackColor = true
+            };
+
+            tabControlSets.Controls.Add(addlTab);
+            var currIndex = tabControlSets.Controls.GetChildIndex(addlTab);
+            if (currIndex != nIndex)
+            {
+                tabControlSets.Controls.SetChildIndex(addlTab, nIndex);
+                var list = new List<TabPage>();
+                for (int i = nIndex + 1; i < tabControlSets.Controls.Count;)
+                {
+                    TabPage page = (TabPage)tabControlSets.Controls[i];
+                    tabControlSets.Controls.Remove(page);
+                    list.Add(page);
+                }
+                list.ForEach(p => tabControlSets.Controls.Add(p));
+            }
         }
 
         public string SelectedStorySetName; 
@@ -472,6 +503,7 @@ namespace OneStoryProjectEditor
             get { return Localizer.Str("copied"); }
         }
 
+        /*
         private void CopyToStoriesMenuClick(object sender, EventArgs e)
         {
             var tsmi = (ToolStripMenuItem)sender;
@@ -493,6 +525,7 @@ namespace OneStoryProjectEditor
             MoveCopyStoryToOtherStoriesSet(destTabSetName, true,
                                            (destTabSetName != Properties.Resources.IDS_NonBibStoriesSet));    // it's a biblical story if it's not coming from the Non-Biblical stories tab
         }
+        */
 
         private void MoveCopyStoryToOtherStoriesSet(string strDestSet, bool bMove, bool bIsBiblicalStory)
         {
@@ -600,17 +633,27 @@ namespace OneStoryProjectEditor
 
         private TabPage InitStoriesTab(string currentStoriesSetName)
         {
+            if (currentStoriesSetName == StoriesSetNameLocalized)
+                currentStoriesSetName = StoriesSetName;
+
             System.Diagnostics.Debug.Assert(_storyProject.ContainsKey(currentStoriesSetName));
             SelectedStorySetName = currentStoriesSetName;
             _stories = _storyProject[currentStoriesSetName];
 
             TabPage tab = null;
-            foreach (var control in tabControlSets.Controls)
+            if (currentStoriesSetName == StoriesSetName)
             {
-                TabPage tabControl = (TabPage)control;
-                var tabText = tabControl.Text;
-                if (tabText == currentStoriesSetName)
-                    tab = tabControl;
+                tab = tabPagePanorama;
+            }
+            else
+            {
+                foreach (var control in tabControlSets.Controls)
+                {
+                    TabPage tabControl = (TabPage)control;
+                    var tabText = tabControl.Text;
+                    if (tabText == currentStoriesSetName)
+                        tab = tabControl;
+                }
             }
 
             System.Diagnostics.Debug.Assert(tab != null);
@@ -891,11 +934,11 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private int getHoverTabIndex(TabControl tc)
+        private int getHoverTabIndex(TabControl tc, Point point)
         {
             for (int i = 1; i < tc.TabPages.Count; i++)
             {
-                if (tc.GetTabRect(i).Contains(tc.PointToClient(Cursor.Position)))
+                if (tc.GetTabRect(i).Contains(tc.PointToClient(point)))
                     return i;
             }
 
@@ -904,7 +947,7 @@ namespace OneStoryProjectEditor
 
         private void tabControlSets_DragOver(object sender, DragEventArgs e)
         {
-            int hoverTab_index = getHoverTabIndex(tabControlSets);
+            int hoverTab_index = getHoverTabIndex(tabControlSets, Cursor.Position);
             if (hoverTab_index < 1) // < 1 bkz we can't copy to tab 0
             {
                 e.Effect = DragDropEffects.None;
@@ -912,10 +955,11 @@ namespace OneStoryProjectEditor
             else
             {
                 var hoverTab = tabControlSets.TabPages[hoverTab_index];
+                var hoverTabText = (hoverTab.Text == StoriesSetNameLocalized) ? StoriesSetName : hoverTab.Text;
                 var bCopy = ((e.KeyState & 8) == 8);
 
-                if (_storyProject.Keys.Contains(hoverTab.Text) &&
-                    ((hoverTab.Text != SelectedStorySetName) || bCopy))   // either it's not the current story set or the control key is pressed so it's a copy
+                if (_storyProject.ContainsKey(hoverTabText) &&
+                    ((hoverTabText != SelectedStorySetName) || bCopy))   // either it's not the current story set or the control key is pressed so it's a copy
                 {
                     e.Effect = (bCopy) ? DragDropEffects.Copy : DragDropEffects.Move;
                 }
@@ -928,15 +972,15 @@ namespace OneStoryProjectEditor
 
         private void tabControlSets_DragDrop(object sender, DragEventArgs e)
         {
-            int hoverTab_index = getHoverTabIndex(tabControlSets);
+            int hoverTab_index = getHoverTabIndex(tabControlSets, Cursor.Position);
             if (hoverTab_index < 1) // < 1 bkz we can't copy to tab 0
                 return;
 
             var hoverTab = tabControlSets.TabPages[hoverTab_index];
+            var destStorySetName = (hoverTab.Text == StoriesSetNameLocalized) ? StoriesSetName : hoverTab.Text;
 
             // set the dragged row as selected so this method will move *it*
             rowDragFrom.Selected = true;
-            var destStorySetName = hoverTab.Text;
 
             MoveCopyStoryToOtherStoriesSet(destStorySetName, 
                                            (e.Effect == DragDropEffects.Move), 
@@ -945,6 +989,77 @@ namespace OneStoryProjectEditor
             // if copy to self, then we need to update the grid
             if (destStorySetName == SelectedStorySetName)
                 InitGrid();
+        }
+
+        private int _lastTabSelected;
+        private void tabControlSets_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Right)
+                return;
+
+            for (int i = 1; i < tabControlSets.TabPages.Count; i++)
+            {
+                Rectangle r = tabControlSets.GetTabRect(i);
+                if (r.Contains(e.Location) /* && it is the header that was clicked*/)
+                {
+                    _lastTabSelected = i;
+                    contextMenuStripTabs.Show(tabControlSets, e.Location);
+                    break;
+                }
+            }
+        }
+
+        private void menuAddNew_Click(object sender, EventArgs e)
+        {
+            var point = new Point(contextMenuStripTabs.Left, contextMenuStripTabs.Top);
+            int hoverTab_index = getHoverTabIndex(tabControlSets, point) + 1;  // it'll be the next index
+
+            if ((tabControlSets.Controls.Count < hoverTab_index) || (hoverTab_index < 2))
+                return; // not a legitimate value
+
+            var strStoriesSetName = StoryEditor.QueryForNewStorySetName(_storyProject, hoverTab_index);
+            if (String.IsNullOrEmpty(strStoriesSetName))
+                return;
+
+            AddTabPage(strStoriesSetName, hoverTab_index);
+            Modified = true;
+        }
+
+        private void menuDelete_Click(object sender, EventArgs e)
+        {
+            var point = new Point(contextMenuStripTabs.Left, contextMenuStripTabs.Top);
+            int hoverTab_index = getHoverTabIndex(tabControlSets, point);
+            if ((tabControlSets.Controls.Count < hoverTab_index) || (hoverTab_index < 2))
+                return; // not a legitimate value
+
+            var hoverTab = tabControlSets.TabPages[hoverTab_index];
+
+            var theStorySetToDelete = _storyProject[hoverTab_index - 1];    // project doesn't have 'FrontMatter', so the index is one less
+
+            if ((theStorySetToDelete != null) && 
+                StoryEditor.QueryDeleteStoriesSet(hoverTab.Text, theStorySetToDelete.Select(ss => ss.Name).ToList()))
+                return;
+
+            _storyProject.Remove(theStorySetToDelete.SetName);
+            tabControlSets.Controls.Remove(hoverTab);
+
+            Modified = true;
+        }
+
+        private void menuRename_Click(object sender, EventArgs e)
+        {
+            var point = new Point(contextMenuStripTabs.Left, contextMenuStripTabs.Top);
+            int hoverTab_index = getHoverTabIndex(tabControlSets, point);
+            if ((tabControlSets.Controls.Count < hoverTab_index) || (hoverTab_index < 2))
+                return; // not a legitimate value
+
+            var strStoriesSetName = StoryEditor.QueryForRenamedStorySet(_storyProject, hoverTab_index - 1);    // project doesn't have 'FrontMatter', so the index is one less
+            if (String.IsNullOrEmpty(strStoriesSetName))
+                return;
+
+            var hoverTab = tabControlSets.TabPages[hoverTab_index];
+            hoverTab.Text = Localizer.Str(strStoriesSetName);
+            Modified = true;
         }
 #endif
     }

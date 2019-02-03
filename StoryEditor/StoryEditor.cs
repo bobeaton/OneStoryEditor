@@ -3266,12 +3266,12 @@ namespace OneStoryProjectEditor
             if (isStoryInsertable)
             {
                 var iData = Clipboard.GetDataObject();
-                storyCopyFromAnotherProjectMenu.Enabled = (iData != null) &&
-                                                          iData.GetDataPresent(DataFormats.UnicodeText) &&
-                                                          (iData.GetData(DataFormats.UnicodeText).
-                                                              ToString().Contains(
-                                                                  StoryProjectData.
-                                                                      CstrElementOseStoryToCopy));
+                if ((iData != null) && iData.GetDataPresent(DataFormats.UnicodeText))
+                {
+                    var txtFromClipboard = iData.GetData(DataFormats.UnicodeText)?.ToString();
+                    storyCopyFromAnotherProjectMenu.Enabled = !String.IsNullOrEmpty(txtFromClipboard) &&
+                                                                txtFromClipboard.Contains(StoryProjectData.CstrElementOseStoryToCopy);
+                }
             }
             else
                 storyCopyFromAnotherProjectMenu.Enabled = false;
@@ -3281,7 +3281,7 @@ namespace OneStoryProjectEditor
             //  story and before the add anchors stage or a non-biblical story and
             //  before the consultant check stage...
             if ((TheCurrentStory != null) 
-                && (_theCurrentStory.Verses != null) && (TheCurrentStory.Verses.Count > 0)
+                && (TheCurrentStory.Verses != null) && (TheCurrentStory.Verses.Count > 0)
                 && (TheCurrentStory.CraftingInfo != null)
                 && ((TheCurrentStory.CraftingInfo.IsBiblicalStory ||
                         (TheCurrentStory.ProjStage.ProjectStage < StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory))))
@@ -3302,6 +3302,7 @@ namespace OneStoryProjectEditor
             if ((StoryProject != null)
                 && (StoryProject.ProjSettings != null)
                 && (TheCurrentStory != null)
+                && (TheCurrentStory.Verses != null) 
                 && (TheCurrentStory.Verses.Count > 0))
             {
                 storyUseAdaptItForBackTranslationMenu.Enabled = true;
@@ -3350,8 +3351,8 @@ namespace OneStoryProjectEditor
                 storyUseAdaptItForBackTranslationMenu.Enabled = 
                     storySynchronizeSharedAdaptItProjectsMenu.Visible = bAnySharedProjects;
 
-                storyOverrideTasksMenu.Enabled = ((_theCurrentStory != null) &&
-                                                    TeamMemberData.IsUser(_theCurrentStory.ProjStage.MemberTypeWithEditToken,
+                storyOverrideTasksMenu.Enabled = ((TheCurrentStory != null) &&
+                                                    TeamMemberData.IsUser(TheCurrentStory.ProjStage.MemberTypeWithEditToken,
                                                                           TeamMemberData.UserTypes.ProjectFacilitator |
                                                                           TeamMemberData.UserTypes.ConsultantInTraining));
             }
@@ -3520,6 +3521,19 @@ namespace OneStoryProjectEditor
         {
             return (LocalizableMessageBox.Show(String.Format(Localizer.Str("Are you sure you want to delete the '{0}' story?"),
                                                   strName),
+                                    OseCaption,
+                                    MessageBoxButtons.YesNoCancel)
+                    != DialogResult.Yes);
+        }
+
+        public static bool QueryDeleteStoriesSet(string strSetName, List<string> storyNames)
+        {
+            var formatText = Localizer.Str("Are you sure you want to delete the whole '{0}' story set (and all the stories in it)?");
+            if (storyNames.Count > 0)
+                formatText += Environment.NewLine + Environment.NewLine + String.Join(Environment.NewLine, storyNames);
+
+            return (LocalizableMessageBox.Show(String.Format(formatText,
+                                                             strSetName),
                                     OseCaption,
                                     MessageBoxButtons.YesNoCancel)
                     != DialogResult.Yes);
@@ -4954,6 +4968,56 @@ namespace OneStoryProjectEditor
             SwitchToNewStoriesSet(strStoriesSetName);
         }
 
+        public static string QueryForNewStorySetName(StoryProjectData storyProject, int? nIndex = null)
+        {
+            // ask the user for what they want to call the new stories set
+            var strStoriesSetName =
+                LocalizableMessageBox.InputBox(Localizer.Str("Enter the name of the new story set to add"),
+                                               OseCaption, "New Panorama Name");
+            if (String.IsNullOrEmpty(strStoriesSetName))
+                return null;
+
+            if (storyProject.ContainsKey(strStoriesSetName))
+            {
+                LocalizableMessageBox.Show(
+                    Localizer.Str(
+                        String.Format("A story set by the name '{0}' already exists. Choose a different name", strStoriesSetName)),
+                    OseCaption);
+                return null;
+            }
+
+            if (nIndex != null)
+            {
+                storyProject.Insert((int)nIndex - 1, strStoriesSetName, new StoriesData(strStoriesSetName));
+            }
+            return strStoriesSetName;
+        }
+
+        public static string QueryForRenamedStorySet(StoryProjectData storyProject, int nIndex)
+        {
+            // ask the user for what they want to rename the stories set to
+            var theStorySet = storyProject[nIndex];
+            var strStoriesSetName =
+                LocalizableMessageBox.InputBox(Localizer.Str("Enter the new name of the story set"),
+                                               OseCaption, theStorySet.SetName);
+            if (String.IsNullOrEmpty(strStoriesSetName) || (theStorySet.SetName == strStoriesSetName))
+                return null;
+
+            if (storyProject.ContainsKey(strStoriesSetName))
+            {
+                LocalizableMessageBox.Show(
+                    Localizer.Str(
+                        String.Format("A story set by the name '{0}' already exists. Choose a different name", strStoriesSetName)),
+                    OseCaption);
+                return null;
+            }
+
+            storyProject.RemoveAt(nIndex);
+            theStorySet.SetName = strStoriesSetName;
+            storyProject.Insert(nIndex, strStoriesSetName, theStorySet);
+            return strStoriesSetName;
+        }
+
         private void SwitchToNewStoriesSet(string strStoriesSetName)
         {
             CheckForSaveDirtyFile();
@@ -4961,23 +5025,10 @@ namespace OneStoryProjectEditor
             // query for new set name:
             if (strStoriesSetName == CstrAddNewStorySetMenuText)
             {
-                // ask the user for what they want to call the new stories set
-                strStoriesSetName =
-                    LocalizableMessageBox.InputBox(Localizer.Str("Enter the name of the new story set to add"),
-                                                   OseCaption, "New Panorama Name");
+                strStoriesSetName = QueryForNewStorySetName(StoryProject);
                 if (String.IsNullOrEmpty(strStoriesSetName))
                     return;
 
-                if (StoryProject.ContainsKey(strStoriesSetName))
-                {
-                    LocalizableMessageBox.Show(
-                        Localizer.Str(
-                            String.Format("A story set by the name '{0}' already exists. Choose a different name", strStoriesSetName)),
-                        OseCaption);
-                    return;
-                }
-
-                StoryProject.Add(strStoriesSetName, new StoriesData(strStoriesSetName));
                 InitializeViewStorySetNameDropDown();
                 Modified = true;
             }
@@ -5413,6 +5464,7 @@ namespace OneStoryProjectEditor
         }
 
         internal SearchForm m_frmFind = null;
+
         private void editFindToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!UsingHtmlForStoryBtPane)

@@ -11,6 +11,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml.Xsl;
 using NetLoc;
+using System.Collections.Specialized;
 
 namespace OneStoryProjectEditor
 {
@@ -1883,7 +1884,7 @@ namespace OneStoryProjectEditor
         }
     }
 
-    public class StoryProjectData : Dictionary<string, StoriesData>
+    public class StoryProjectData : OrderedDictionary   // <string, StoriesData>
     {
         public TeamMembersData TeamMembers;
         public ProjectSettings ProjSettings;
@@ -1915,6 +1916,35 @@ namespace OneStoryProjectEditor
             Add(Properties.Resources.IDS_MainStoriesSet, new StoriesData(Properties.Resources.IDS_MainStoriesSet));
             Add(Properties.Resources.IDS_NonBibStoriesSet, new StoriesData(Properties.Resources.IDS_NonBibStoriesSet));
             Add(Properties.Resources.IDS_ObsoleteStoriesSet, new StoriesData(Properties.Resources.IDS_ObsoleteStoriesSet));
+        }
+
+        public new StoriesData this[int key]
+        {
+            get { return (StoriesData) base[key]; }
+        }
+
+        public new StoriesData this[object key]
+        {
+            get { return (StoriesData) base[key]; }
+        }
+
+        public new List<StoriesData> Values
+        {
+            get
+            {
+                var list = new List<StoriesData>();
+                foreach (StoriesData item in base.Values)
+                    list.Add(item);
+                return list;
+            }
+        }
+
+        public bool ContainsKey(string key)
+        {
+            foreach (string _key in Keys)
+                if (_key == key)
+                    return true;
+            return false;
         }
 
         private static bool _bProjectConvertWarnedOnce;
