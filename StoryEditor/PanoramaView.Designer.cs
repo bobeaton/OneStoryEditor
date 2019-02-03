@@ -142,6 +142,7 @@ namespace OneStoryProjectEditor
             this.dataGridViewPanorama.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridViewPanoramaCellMouseDoubleClick);
             this.dataGridViewPanorama.DragDrop += new System.Windows.Forms.DragEventHandler(this.dataGridViewPanorama_DragDrop);
             this.dataGridViewPanorama.DragOver += new System.Windows.Forms.DragEventHandler(this.dataGridViewPanorama_DragOver);
+            this.dataGridViewPanorama.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dataGridViewPanorama_KeyUp);
             this.dataGridViewPanorama.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridViewPanorama_MouseDown);
             this.dataGridViewPanorama.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dataGridViewPanorama_MouseUp);
             // 
@@ -307,6 +308,7 @@ namespace OneStoryProjectEditor
             this.Name = "PanoramaView";
             this.Text = "Panorama View";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PanoramaViewFormClosing);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.PanoramaView_KeyUp);
             this.tabPagePanorama.ResumeLayout(false);
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();

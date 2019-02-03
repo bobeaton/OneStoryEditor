@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using NetLoc;
 
 namespace OneStoryProjectEditor
@@ -262,6 +263,8 @@ namespace OneStoryProjectEditor
                 if (bInLoggedInUsersTurn)
                     aRow.DefaultCellStyle.BackColor = Color.Yellow;
             }
+
+            dataGridViewPanorama.Select();  // copy keyboard copy/pastes will go there...
         }
 
         private static bool IsInLoggedInUsersTurn(DataGridViewBand theRow)
@@ -1060,6 +1063,94 @@ namespace OneStoryProjectEditor
             var hoverTab = tabControlSets.TabPages[hoverTab_index];
             hoverTab.Text = Localizer.Str(strStoriesSetName);
             Modified = true;
+        }
+
+        private void dataGridViewPanorama_KeyUp(object sender, KeyEventArgs e)
+        {
+            DealWithCopyPaste(e);
+        }
+
+        private void PanoramaView_KeyUp(object sender, KeyEventArgs e)
+        {
+            DealWithCopyPaste(e);
+        }
+
+        private void DealWithCopyPaste(KeyEventArgs e)
+        {
+            if (Control.ModifierKeys == Keys.Control)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.C:
+                        var theSelectedStory = GetSelectedStory;
+                        if (theSelectedStory == null)
+                            return;
+                        StoryEditor.CopyStoryToClipboard(_storyProject, theSelectedStory);
+                        break;
+
+                    case Keys.V:
+                        PasteStoryCopy(SelectedStorySetName, false, (SelectedStorySetName != Properties.Resources.IDS_NonBibStoriesSet));
+                        break;
+                }
+            }
+        }
+
+        private void PasteStoryCopy(string strDestSet, bool bMove, bool bIsBiblicalStory)
+        {
+            var iData = Clipboard.GetDataObject();
+            if (iData == null)
+                return;
+
+            string strData;
+            if (!iData.GetDataPresent(DataFormats.UnicodeText) ||
+                ((strData = (string)iData.GetData(DataFormats.UnicodeText)) == null) ||
+                !strData.Contains(StoryProjectData.CstrElementOseStoryToCopy))
+                return;
+
+            var theStoryToCopyPlusMembersXElement = XElement.Parse(strData);
+            var theStoryToCopyXElement = theStoryToCopyPlusMembersXElement.Element(StoryData.CstrElementNameStory);
+
+            // find all of the descendent attributes for 'memberId'
+            if (theStoryToCopyXElement == null)
+                return;
+
+            var theStoryToCopyXmlNode = theStoryToCopyXElement.GetXmlNode();
+            var theStoryToCopy = new StoryData(theStoryToCopyXmlNode.FirstChild, _storyProject.ProjSettings.ProjectFolder);
+            theStoryToCopy = new StoryData(theStoryToCopy); // yes, we have to do this again, because the XmlNode ctor won't re-do the guids
+            theStoryToCopy.CraftingInfo.IsBiblicalStory = bIsBiblicalStory;
+            StoryEditor.InsertInOtherSetInsureUnique(_storyProject[strDestSet], theStoryToCopy);
+
+            LocalizableMessageBox.Show(String.Format(Localizer.Str("The story '{0}' has been {1} to the '{2}' list"),
+                                                     theStoryToCopy.Name,
+                                                     (bMove) ? CstrMoved : CstrCopied,
+                                                     strDestSet),
+                                       StoryEditor.OseCaption);
+            InitGrid();
+            Modified = true;
+        }
+
+        public StoryData GetSelectedStory
+        {
+            get
+            {
+                System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedRows.Count < 2);   // 1 or 0
+                if (dataGridViewPanorama.SelectedRows.Count != 1)
+                    return null;
+
+                int nSelectedRowIndex = dataGridViewPanorama.SelectedRows[0].Index;
+                if ((nSelectedRowIndex < 0) || (nSelectedRowIndex > dataGridViewPanorama.Rows.Count - 1))
+                    return null;
+
+                DataGridViewRow theRow = dataGridViewPanorama.Rows[nSelectedRowIndex];
+                DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
+                if (theNameCell.Value == null)
+                    return null; // shouldn't happen, but...
+
+                var strName = theNameCell.Value as String;
+
+                var theStory = _stories.GetStoryFromName(strName);
+                return theStory;
+            }
         }
 #endif
     }

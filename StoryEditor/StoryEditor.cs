@@ -7344,7 +7344,12 @@ namespace OneStoryProjectEditor
         {
             // iterate thru the verses and copy them to the clipboard
             Debug.Assert(TheCurrentStory != null);
-            var xmlOfStoryToCopy = StoryProject.GetXmlToCopyStory(TheCurrentStory);
+            CopyStoryToClipboard(StoryProject, TheCurrentStory);
+        }
+
+        internal static void CopyStoryToClipboard(StoryProjectData storyProject, StoryData storyToCopy)
+        {
+            var xmlOfStoryToCopy = storyProject.GetXmlToCopyStory(storyToCopy);
             Clipboard.SetDataObject(xmlOfStoryToCopy.ToString());
         }
 
