@@ -1270,7 +1270,7 @@ namespace OneStoryProjectEditor.Properties {
         /// *
         /// * Date: Sat Feb 13 22:33:48 2010 -0500
         /// */
-        ///(function(A,w){function ma(){if(!c.isReady){try{s.documentElement.doScroll(&quot;left&quot;)}catch(a){setTimeout(ma,1);return}c.ready()}}function Qa(a,b){b [rest of string was truncated]&quot;;.
+        ///(function(A,w){function ma(){if(!c.isReady){try{s.documentElement.doScroll(&quot;left&quot;)}catch(a){setTimeout(ma,1);return}c.ready()}}fun [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string jquery_min {
             get {

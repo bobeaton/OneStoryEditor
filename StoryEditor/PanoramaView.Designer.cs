@@ -65,7 +65,7 @@ namespace OneStoryProjectEditor
             // 
             this.buttonDelete.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.buttonDelete.Image = global::OneStoryProjectEditor.Properties.Resources.DeleteHS;
-            this.buttonDelete.Location = new System.Drawing.Point(1646, 373);
+            this.buttonDelete.Location = new System.Drawing.Point(1646, 348);
             this.buttonDelete.Margin = new System.Windows.Forms.Padding(6);
             this.buttonDelete.Name = "buttonDelete";
             this.buttonDelete.Size = new System.Drawing.Size(52, 44);
@@ -135,7 +135,7 @@ namespace OneStoryProjectEditor
             this.dataGridViewPanorama.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.tableLayoutPanel.SetRowSpan(this.dataGridViewPanorama, 3);
             this.dataGridViewPanorama.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewPanorama.Size = new System.Drawing.Size(1628, 778);
+            this.dataGridViewPanorama.Size = new System.Drawing.Size(1628, 753);
             this.dataGridViewPanorama.TabIndex = 0;
             this.dataGridViewPanorama.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPanorama_CellBeginEdit);
             this.dataGridViewPanorama.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPanorama_CellEndEdit);
@@ -188,7 +188,6 @@ namespace OneStoryProjectEditor
             this.ColumnTestQuestions.Name = "ColumnTestQuestions";
             this.ColumnTestQuestions.ReadOnly = true;
             this.ColumnTestQuestions.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnTestQuestions.Width = 90;
             // 
             // ColumnWordCount
             // 
@@ -196,7 +195,7 @@ namespace OneStoryProjectEditor
             this.ColumnWordCount.HeaderText = "# of Words";
             this.ColumnWordCount.Name = "ColumnWordCount";
             this.ColumnWordCount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnWordCount.Width = 110;
+            this.ColumnWordCount.Width = 122;
             // 
             // buttonCopyToClipboard
             // 
@@ -213,11 +212,11 @@ namespace OneStoryProjectEditor
             // labelInstructions
             // 
             this.labelInstructions.AutoSize = true;
-            this.labelInstructions.Location = new System.Drawing.Point(6, 790);
+            this.labelInstructions.Location = new System.Drawing.Point(6, 765);
             this.labelInstructions.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelInstructions.Name = "labelInstructions";
             this.labelInstructions.Padding = new System.Windows.Forms.Padding(8);
-            this.labelInstructions.Size = new System.Drawing.Size(1621, 66);
+            this.labelInstructions.Size = new System.Drawing.Size(1621, 91);
             this.labelInstructions.TabIndex = 6;
             this.labelInstructions.Text = resources.GetString("labelInstructions.Text");
             // 
