@@ -2273,7 +2273,7 @@ namespace OneStoryProjectEditor
             string strProjectFile = File.ReadAllText(strProjectFilePath);
             var streamData = new MemoryStream(Encoding.UTF8.GetBytes(strProjectFile));
 
-#if DEBUG
+#if false // DEBUG
             string strXslt = File.ReadAllText(@"D:\src\StoryEditor\StoryEditor\Resources\1.3 to 1.4.xslt");
             System.Diagnostics.Debug.Assert(strXslt == Properties.Resources.project_1_3_to_1_4);
 #else

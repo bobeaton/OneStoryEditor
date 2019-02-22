@@ -2,6 +2,6 @@ rem "C:\Program Files\Microsoft\ILMerge\ILMerge.exe" /out:C:\src\StoryEditor\Sto
 rem "C:\Program Files\Microsoft SDKs\Windows\v6.0A\bin\mt.exe" -manifest C:\src\StoryEditor\StoryEditor\OtherStuff.dll.manifest -outputresource:C:\src\StoryEditor\StoryEditor\OtherStuff.dll
 rem "C:\Program Files\Microsoft SDKs\Windows\v6.0A\bin\sn.exe" -R C:\src\StoryEditor\StoryEditor\OtherStuff.dll C:\src\StoryEditor\FieldWorks.snk
 
-"C:\Program Files\Microsoft\ILMerge\ILMerge.exe" /out:C:\src\StoryEditor\StoryEditor\ChorusStuff.exe /keyfile:C:\src\StoryEditor\FieldWorks.snk C:\Code\chorus\src\Chorus\bin\x86\Release\Chorus.exe C:\Code\chorus\src\Chorus\bin\x86\Release\LibChorus.dll
-"C:\Program Files\Microsoft SDKs\Windows\v6.0A\bin\mt.exe" -manifest C:\src\StoryEditor\StoryEditor\ChorusStuff.exe.manifest -outputresource:C:\src\StoryEditor\StoryEditor\ChorusStuff.exe
-"C:\Program Files\Microsoft SDKs\Windows\v6.0A\bin\sn.exe" -R C:\src\StoryEditor\StoryEditor\ChorusStuff.exe C:\src\StoryEditor\FieldWorks.snk
+"C:\Program Files\Microsoft\ILMerge\ILMerge.exe" /out:%USERPROFILE%\source\repos\OneStoryEditor\StoryEditor\ChorusStuff.exe /keyfile:%USERPROFILE%\source\repos\OneStoryEditor\FieldWorks.snk C:\Code\chorus\src\Chorus\bin\x86\Release\Chorus.exe C:\Code\chorus\src\Chorus\bin\x86\Release\LibChorus.dll
+"C:\Program Files\Microsoft SDKs\Windows\v6.0A\bin\mt.exe" -manifest %USERPROFILE%\source\repos\OneStoryEditor\StoryEditor\ChorusStuff.exe.manifest -outputresource:%USERPROFILE%\source\repos\OneStoryEditor\StoryEditor\ChorusStuff.exe
+"C:\Program Files\Microsoft SDKs\Windows\v6.0A\bin\sn.exe" -R %USERPROFILE%\source\repos\OneStoryEditor\StoryEditor\ChorusStuff.exe %USERPROFILE%\source\repos\OneStoryEditor\FieldWorks.snk
