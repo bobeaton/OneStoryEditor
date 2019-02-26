@@ -237,3 +237,7 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+/DepDLLs/AutoUpgrade.Lib.xml
+/DepDLLs/AutoUpgrade.Lib.dll
+/DepDLLs/AiChorus.exe.config
+/DepDLLs/AiChorus.exe
