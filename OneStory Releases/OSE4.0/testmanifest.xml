@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<AutoUpgrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.devx.com/schemas/autoupgrade/1.0">
+  <ApplicationBasePath />
+  <ApplicationExecutable />
+  <ApplicationName>OneStory Editor AutoUpdater</ApplicationName>
+  <FullUpgradeFileName />
+  <OffsetFromUctWhereManifestWasOriginallyCreated>2014-03-20T15:45:07.9116745-05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+  <ManifestFiles>
+    <File name="AdaptIt ChorusPlugin.dll" method="version" action="copy" version="3.2.0.0" optional="false" size="6797">AdaptIt ChorusPlugin</File>
+    <File name="AiChorus.exe" method="version" action="copy" version="3.2.0.0" optional="false" size="37022">AiChorus</File>
+    <File name="AIGuesserEC.dll" method="version" action="copy" version="4.0.4.0" optional="false" size="44425">AdaptIt Encoding Converters</File>
+    <File name="Autofac.dll" method="version" action="copy" version="2.6.3.862" optional="false" size="74881">Autofac</File>
+    <File name="AutoUpgrade.exe.config" method="md5" action="copy" version="e5343cf7cb0da7c8dba6660d9f51523f" optional="false" size="754" />
+    <File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="3.2.0.0" optional="false" size="16424">AutoUpgrade Lib</File>
+    <File name="AutoUpgrade.Lib.pdb" method="md5" action="copy" version="1bbab77df7cd85581ac83225f23e42e4" optional="false" size="18360" />
+    <File name="AutoUpgrade.Lib.xml" method="md5" action="copy" version="22180aae235efa32362d3d76a2755a98" optional="false" size="295" />
+    <File name="CcEC.dll" method="version" action="copy" version="4.0.1.0" optional="false" size="9182">CcEC</File>
+    <File name="chorus.exe" method="version" action="copy" version="2.4.151.0" optional="false" size="329152">Chorus</File>
+    <File name="chorushub.exe" method="version" action="copy" version="2.4.151.0" optional="false" size="41952">ChorusHub</File>
+    <File name="chorusmerge.exe" method="version" action="copy" version="2.4.151.0" optional="false" size="2740">ChorusMerge</File>
+    <File name="ClipboardEC.exe" method="version" action="copy" version="4.0.1.1" optional="false" size="13827">Clipboard EncConverters</File>
+    <File name="ECInterfaces.dll" method="version" action="copy" version="4.0.2.0" optional="false" size="47833">Encoding Converters Interfaces</File>
+    <File name="ECInterfaces.tlb" method="md5" action="copy" version="0fd4f4b87dbafdfe32dd8a3998ea3676" optional="false" size="26052" />
+    <File name="geckofx-core-14.dll" method="version" action="copy" version="10.0.0.0" optional="false" size="534376">GeckoFx</File>
+    <File name="Geckofx-Winforms-14.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="51413">Geckofx-Winforms</File>
+    <File name="HtmlEditor.dll" method="version" action="copy" version="7.0.100.5147" optional="false" size="65068"> </File>
+    <File name="icu.net.DLL" method="version" action="copy" version="1.1.58.0" optional="false" size="22398">icu.net</File>
+    <File name="ICU4NET.dll" method="md5" action="copy" version="0dd13fbceac2283341b3688bfa6b5475" optional="false" size="33364" />
+    <File name="ICU4NETExtension.dll" method="version" action="copy" version="1.0.0.1" optional="false" size="4673">ICU4NETExtension</File>
+    <File name="icudt40.dll" method="version" action="copy" version="4.0.0.0" optional="false" size="158188">ICU Data DLL</File>
+    <File name="IcuECLib.dll" method="version" action="copy" version="4.0.0.0" optional="false" size="6655"> </File>
+    <File name="icuin40.dll" method="version" action="copy" version="4.0.0.0" optional="false" size="133860">IBM ICU I18N DLL</File>
+    <File name="icuuc40.dll" method="version" action="copy" version="4.0.0.0" optional="false" size="388195">IBM ICU Common DLL</File>
+    <File name="Ionic.Zip.dll" method="version" action="copy" version="1.9.1.8" optional="false" size="279057">Ionic's Zip Library</File>
+    <File name="Keyman7Interop.dll" method="version" action="copy" version="1.4.0.0" optional="false" size="12113"> </File>
+    <File name="KeymanLink.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="7348">KeymanLink</File>
+    <File name="L10NSharp.dll" method="version" action="copy" version="1.1.3" optional="false" size="98679">L10NSharp</File>
+    <File name="LanguageCodes.tab" method="md5" action="copy" version="efa5ea7e530b50e0dfcd895065425d91" optional="false" size="62763" />
+    <File name="libchorus.dll" method="version" action="copy" version="2.4.151.0" optional="false" size="154180">Chorus</File>
+    <File name="libsword.dll" method="md5" action="copy" version="c16a4c2ac5aaa3866526d57734a14466" optional="false" size="298584" />
+    <File name="libsword_csharpsword.dll" method="md5" action="copy" version="d3d82faf56b12595f78dd5be1a6e5be6" optional="false" size="54514" />
+    <File name="MAPIEx.dll" method="md5" action="copy" version="dda16cb2ff94bed1566d69748916617f" optional="false" size="795238" />
+    <File name="Microsoft.mshtml.dll" method="version" action="copy" version="7.0.3300.0" optional="false" size="1676642"> </File>
+    <File name="NetLoc.dll" method="version" action="copy" version="7.0.100.5038" optional="false" size="50854">NetLoc</File>
+    <File name="NetMAPI.dll" method="version" action="copy" version="1.0.4454.25896" optional="false" size="11647"> </File>
+    <File name="OneStory ChorusPlugin.dll" method="version" action="copy" version="3.2.0.0" optional="false" size="8437">OneStory ChorusPlugin</File>
+    <File name="Palaso.dll" method="version" action="copy" version="2.5.71.0" optional="false" size="643330">Palaso</File>
+    <File name="Palaso.Lift.dll" method="version" action="copy" version="2.5.71.0" optional="false" size="58546">Palaso.Lift</File>
+    <File name="PalasoUIWindowsForms.dll" method="version" action="copy" version="2.5.71.0" optional="false" size="721615">PalasoUIWindowsForms</File>
+    <File name="ParatextShared.dll" method="version" action="copy" version="7.0.100.5029" optional="false" size="423316">ParatextShared</File>
+    <File name="rdeStarksoft.Net.Ftp.dll" method="version" action="copy" version="1.0.158.0" optional="false" size="31230">Starksoft.Net.Ftp</File>
+    <File name="SharedScrUtils.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="20758">SharedScrUtils</File>
+    <File name="SilEncConverters40.dll" method="version" action="copy" version="4.0.2.0" optional="false" size="85647">Encoding Converters</File>
+    <File name="SilEncConverters40.tlb" method="md5" action="copy" version="d8c737c366e947e74cf0c2e7d8d53dbd" optional="false" size="6418" />
+    <File name="Starksoft.Net.Proxy.dll" method="version" action="copy" version="1.0.131.0" optional="false" size="11449">Starksoft.Net.Proxy</File>
+    <File name="stdole.dll" method="version" action="copy" version="7.00.9466" optional="false" size="11226" />
+    <File name="StoryEditor.exe" method="version" action="copy" version="3.2.0.0" optional="false" size="498596">OneStory Editor</File>
+    <File name="StoryEditor.exe.config" method="md5" action="copy" version="a59481a8ff955ba66ec88d3be5b75725" optional="false" size="2994" />
+    <File name="SwigSword.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="38678">SwigSword.Properties</File>
+    <File name="Utilities.dll" method="version" action="copy" version="7.0.100.5029" optional="false" size="102143"> </File>
+    <File name="Vulcan.Uczniowie.HelpProvider.dll" method="version" action="copy" version="1.0.15.0" optional="false" size="19093">HelpProvider</File>
+    <File name="LocData\es.xml" method="md5" action="copy" version="a71961f81d25830f1692de957b1002e4" optional="false" size="38331" />
+    <File name="LocData\fr.xml" method="md5" action="copy" version="30ae5ae806e027e643b2578bb171bea6" optional="false" size="39690" />
+    <File name="LocData\id.xml" method="md5" action="copy" version="0da1eb9615fd7d6d579d28a87d3f671f" optional="false" size="40206" />
+    <File name="LocData\pt.xml" method="md5" action="copy" version="f1614dd35e28cd4072af7ae4faec4028" optional="false" size="31194" />
+    <File name="mercurial\mercurial.ini" method="OneOff" action="copy" version="e0c4f0a8ecd4011a2cc5f44323c691a5" optional="false" size="342" />
+    <File name="MercurialExtensions\fixutf8\buildcpmap.py" method="OneOff" action="copy" version="a536bb9f983a32f91b4025053ca09a5b" optional="false" size="737" />
+    <File name="MercurialExtensions\fixutf8\fixutf8.py" method="OneOff" action="copy" version="42357f19106fd47acf3ca4e878315986" optional="false" size="3114" />
+    <File name="MercurialExtensions\fixutf8\osutil.py" method="OneOff" action="copy" version="d3b120c6e6b2bf48fbb78ecacf307090" optional="false" size="661" />
+    <File name="MercurialExtensions\fixutf8\win32helper.py" method="OneOff" action="copy" version="06c40b491f2db8f7ddb9096f9db41c0e" optional="false" size="1533" />
+  </ManifestFiles>
+  <SourcePath />
+  <UpgradeFiles />
+</AutoUpgrade>

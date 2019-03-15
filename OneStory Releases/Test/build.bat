@@ -1,0 +1,1 @@
+client\autoupgrade client zipped testmanifest.xml

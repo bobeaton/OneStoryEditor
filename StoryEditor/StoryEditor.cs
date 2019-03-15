@@ -3395,6 +3395,19 @@ namespace OneStoryProjectEditor
 
             if (dlg.Modified)
             {
+                Debug.Assert(StoryProject != null);
+                if (!StoryProject.ContainsKey(CurrentStoriesSetName))
+                {
+                    var chooseOne = StoryProject.Values.FirstOrDefault();
+                    if (chooseOne == null)
+                        return;
+
+                    InitializeCurrentStoriesSetName(chooseOne.SetName);
+                    TheCurrentStory = null;
+                    nIndex = 0;
+                    Debug.Assert(!String.IsNullOrEmpty(CurrentStoriesSetName) && (StoryProject[CurrentStoriesSetName] != null));
+                }
+
                 // this means that the order was probably switched, so we have to reload the combo box
                 comboBoxStorySelector.Items.Clear();
                 foreach (StoryData aStory in TheCurrentStoriesSet)
@@ -3431,24 +3444,11 @@ namespace OneStoryProjectEditor
             }
 
             // not sure why we had this null case, but it's causing Irene grief by shifting to the 1st story in the set when you just exit the Panorama window
-#if true
             if (!String.IsNullOrEmpty(dlg.JumpToStory))
                 NavigateTo(dlg.SelectedStorySetName, dlg.JumpToStory, 1, null);
-#else
-            if (String.IsNullOrEmpty(dlg.JumpToStory))
-            {
-                if (comboBoxStorySelector.Items.Count > 0)
-                    comboBoxStorySelector.SelectedIndex = 0;
-            }
-            else
-            {
-                NavigateTo(dlg.SelectedStorySetName, dlg.JumpToStory, 1, null);
-                // JumpToStory(dlg.JumpToStory);
-            }
-#endif
-            }
+        }
 
-            private void JumpToStory(string jumpToStory)
+        private void JumpToStory(string jumpToStory)
         {
             comboBoxStorySelector.SelectedItem =
                 comboBoxStorySelector.Text = jumpToStory;
@@ -4989,6 +4989,10 @@ namespace OneStoryProjectEditor
             if (nIndex != null)
             {
                 storyProject.Insert((int)nIndex - 1, strStoriesSetName, new StoriesData(strStoriesSetName));
+            }
+            else
+            {
+                storyProject.Add(strStoriesSetName, new StoriesData(strStoriesSetName));
             }
             return strStoriesSetName;
         }

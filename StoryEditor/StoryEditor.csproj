@@ -1047,8 +1047,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /S /I $(SolutionDir)ChorusDeps\mercurial $(SolutionDir)output\$(ConfigurationName)\mercurial
-xcopy /S /I $(SolutionDir)ChorusDeps\MercurialExtensions $(SolutionDir)output\$(ConfigurationName)\MercurialExtensions</PostBuildEvent>
+    <PostBuildEvent>xcopy /S /Y /I $(SolutionDir)ChorusDeps\mercurial $(SolutionDir)output\$(ConfigurationName)\mercurial
+xcopy /S /Y /I $(SolutionDir)ChorusDeps\MercurialExtensions $(SolutionDir)output\$(ConfigurationName)\MercurialExtensions</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
