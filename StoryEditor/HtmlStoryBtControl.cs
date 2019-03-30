@@ -1556,10 +1556,8 @@ namespace OneStoryProjectEditor
         internal void GetSelectedLanguageText(out string strVernacular, out string strNationalBt,
                                               out string strInternationalBt, out string strFreeTranslation)
         {
-            System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(LastTextareaInFocusId));
-
             TextAreaIdentifier textAreaIdentifier;
-            if (!TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
+            if (String.IsNullOrEmpty(LastTextareaInFocusId) || !TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
             {
                 strVernacular = strNationalBt = strInternationalBt = strFreeTranslation = null;
                 return;
