@@ -888,6 +888,7 @@
     <None Include="Resources\graphhs.png" />
     <None Include="Resources\FillDownHS.png" />
     <None Include="Resources\FillUpHS.png" />
+    <None Include="Resources\Bell1.png" />
     <Content Include="StageTransitions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

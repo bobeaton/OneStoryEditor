@@ -117,77 +117,218 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="DataContainer_MoveNextHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DataContainer_MoveNextHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="HTML_TableCellWithSpan" xml:space="preserve">
+    <value>&lt;td colspan="{0}"&gt;{1}&lt;/td&gt;</value>
   </data>
-  <data name="oneStory2ConNotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oneStory2ConNotes.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="IDS_MustBeCloneRepo" xml:space="preserve">
-    <value>The network repository must be identical (a "clone") of the repository in the local machine. Contact your workshop advisor.</value>
-  </data>
-  <data name="IDS_CanDeleteOnlyFromMyBiblicalTerms" xml:space="preserve">
-    <value>You can only delete a key term from the editable key term (i.e. "My Biblical Terms") list, which is not currently selected.</value>
-  </data>
-  <data name="Hyperlink" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Hyperlink.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IDS_TbxFile_EmptyLnC" xml:space="preserve">
-    <value>\_sh v3.0  374  LnC Note
-\_DateStampHasFourDigitYear
+  <data name="IDS_EmailMessageBody" xml:space="preserve">
+    <value>This is an automated message from OSE v{0}:
 
-\r
-\wrd
-\co</value>
+{1}</value>
   </data>
-  <data name="AddToFavoritesHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AddToFavoritesHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="EditTableHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EditTableHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="IDS_KeyTermsProblem" xml:space="preserve">
-    <value>Unable to process Key Terms: cause: {0}{0}{1}</value>
+  <data name="HTML_HeaderPresentation" xml:space="preserve">
+    <value>&lt;html&gt;
+{0}
+&lt;head&gt;
+&lt;script type="text/javascript"&gt;
+{1}
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+{2}
+&lt;/body&gt;
+&lt;script&gt;
+{3}
+&lt;/script&gt;
+&lt;/html&gt;</value>
   </data>
-  <data name="IDS_UnableToContinue" xml:space="preserve">
-    <value>Unable to continue! Cause: {0}</value>
+  <data name="DefMyDocsSubfolder" xml:space="preserve">
+    <value>OneStory Editor Projects</value>
   </data>
-  <data name="oneStory2storyingBT" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oneStory2storyingBT.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="EditInformationHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EditInformationHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="DataContainer_MoveLastHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DataContainer_MoveLastHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="jquery_min" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\js\jquery.min.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="IDS_NonBibStoriesSet" xml:space="preserve">
+    <value>Non-Biblical Stories</value>
+  </data>
+  <data name="StageTransition20Update" xml:space="preserve">
+    <value>&lt;StateTransition stage="eProjFacTypeFreeTranslation" MemberTypeWithEditToken="eProjectFacilitator" RequiresUsingFreeTranslation="true"&gt;
+    &lt;StageDisplayString&gt;Project Facilitator enters Free Translation&lt;/StageDisplayString&gt;
+    &lt;TransitionDisplayString&gt;enter the Free Translation&lt;/TransitionDisplayString&gt;
+    &lt;StageInstructions&gt;
+In this stage, you (the project facilitator) will enter the Free translation (FT) of the story.
+This Free Translation should be done by a UNS directly and you (the project facilitator) will just 
+type in what they say.
+
+When you are finished entering the Free translation, then click the "Select State" menu item
+and in the resulting window click on the next (green) state.
+    &lt;/StageInstructions&gt;
+    &lt;AllowableForewardsTransitions&gt;
+      &lt;AllowableTransition&gt;eProjFacAddAnchors&lt;/AllowableTransition&gt;
+      &lt;AllowableTransition&gt;eConsultantCheckNonBiblicalStory&lt;/AllowableTransition&gt;
+    &lt;/AllowableForewardsTransitions&gt;
+    &lt;ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewFreeTranslationField="true" viewAnchorField="false" viewStoryTestingQuestions="false" viewStoryTestingAnswers="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" /&gt;
+  &lt;/StateTransition&gt;</value>
+  </data>
+  <data name="IDS_ConfirmDeleteStateTransitions" xml:space="preserve">
+    <value>The file that stores the view settings must be deleted to upgrade to the new format (these customizations were done via 'Select State', 'Advanced' button, and then right-click on a state button to check or uncheck view fields for a given state). Because of this, it means that you will need to redo the settings.</value>
   </data>
   <data name="IDS_CheckOnKeyTerms" xml:space="preserve">
     <value>Are there any key terms in this story that you should check? To check key terms, right-click on an anchor button and choose the 'Edit Key Terms' command. Click the "Retry" button to continue on to the next state. Click the 'Cancel' button to stay in this state to look for key terms to check.</value>
   </data>
-  <data name="IDS_NeedToReboot" xml:space="preserve">
-    <value>Problem initializing Sword (the Net Bible viewer):{0}{0}{1}</value>
+  <data name="HTML_LangStyle" xml:space="preserve">
+    <value>.{0} {{
+      font-family: "{1}";
+      font-size: {2} pt;
+      color: {3};
+      direction: {4};
+      text-align: {5};
+  }}</value>
   </data>
-  <data name="oneStory2storyingRetelling" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oneStory2storyingRetelling.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="HTML_TableCell" xml:space="preserve">
+    <value>&lt;td&gt;{0}&lt;/td&gt;</value>
+  </data>
+  <data name="HTML_Header" xml:space="preserve">
+    <value>&lt;html&gt;
+{0}
+&lt;head&gt;
+{1}
+&lt;/head&gt;
+&lt;body onKeyDown="return OnKeyDown();" onscroll="window.external.OnScroll();" onmouseup="OnMouseUp();"&gt;
+{2}
+&lt;/body&gt;
+{3}
+&lt;/html&gt;</value>
+  </data>
+  <data name="HTML_LangStyleCenter" xml:space="preserve">
+    <value>.{0} {{
+      font-family: "{1}";
+      font-size: {2} pt;
+  }}</value>
+  </data>
+  <data name="IDS_CantEditPanoramaView" xml:space="preserve">
+    <value>The program can't make this change right now. If this error continues, contact bob_eaton@sall.com for help</value>
+  </data>
+  <data name="OpenSelectedItemHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\OpenSelectedItemHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Hyperlink" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Hyperlink.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IDS_ProjectFileCorruptedNoCraftingInfo" xml:space="preserve">
+    <value>The project file is corrupted. No 'CraftingInfo' record found. Send to bob_eaton@sall.com for help.</value>
+  </data>
+  <data name="IDS_MustBeCloneRepo" xml:space="preserve">
+    <value>The network repository must be identical (a "clone") of the repository in the local machine. Contact your workshop advisor.</value>
+  </data>
+  <data name="StoryBtHtml" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\html\storybt.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="AudioFileSearchFilter" xml:space="preserve">
+    <value>Audio files|*.mp3;*.wav;*.wma|All files|*.*</value>
+  </data>
+  <data name="HTML_TableNoBorder" xml:space="preserve">
+    <value>&lt;table style="width:100%;"&gt;
+{0}
+&lt;/table&gt;</value>
+  </data>
+  <data name="oneStory2ConNotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oneStory2ConNotes.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="AddTableHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddTableHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IDS_UnableToOpenProjectFile" xml:space="preserve">
+    <value>Unable to open project '{1}'{0}{0}{2}{0}{0}{3}{0}{0}Send the project file along with the error message to bob_eaton@sall.com for help</value>
+  </data>
+  <data name="HTML_TableCellWidth" xml:space="preserve">
+    <value>&lt;td width="{0}%"&gt;{1}&lt;/td&gt;</value>
+  </data>
+  <data name="HTML_StyleDefinition" xml:space="preserve">
+    <value>&lt;style type="text/css"&gt;
+  body    {{ margin:0 }}
+  textarea {{ 
+      width:100%; 
+      overflow:visible;
+  }}
+  table {{
+   font-size: {0};
+  }}
+  button 
+  {{
+    font-size: {1};
+    padding: 0 2px;
+    overflow: visible;
+  }}  
+  p 
+  {{
+    margin-top: 0em; 
+    margin-bottom: 0em;
+  }} 
+  {2}
+  .hasPlaceholder {{
+     color: #777;
+  }}
+  .Retelling {{
+	color: {3}
+  }}
+  .TestQuestion {{
+	color: {4}
+  }}
+  .TestQuestionAnswer {{
+	color: {5}
+  }}
+  .readonly {{
+    background-color:Azure;
+  }}
+  .highlight {{
+	background-color:#0099ff;
+	color:white;
+  }}
+&lt;/style&gt;</value>
+  </data>
+  <data name="HTML_TableCellWidthAlignTop" xml:space="preserve">
+    <value>&lt;td width="{0}%" valign="top"&gt;{1}&lt;/td&gt;</value>
+  </data>
+  <data name="HTML_TableCellWidthPixels" xml:space="preserve">
+    <value>&lt;td width="{0}"&gt;{1}&lt;/td&gt;</value>
   </data>
   <data name="Arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Arrow.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="IDS_NoProjectFromInternet" xml:space="preserve">
-    <value>No project file was found at the internet repository: {0}{0}{1}{0}{0}Are you sure it there is one in the repository yet?</value>
+  <data name="IDS_ProjectFileCorrupted" xml:space="preserve">
+    <value>The project file is corrupted. No 'StoryCrafterMemberID' record found. Send to bob_eaton@sall.com for help.</value>
   </data>
-  <data name="IDS_AddRetellingTestQuery" xml:space="preserve">
-    <value>Click 'Yes' to add boxes for the retelling lines? Or click 'No' if you already have boxes (you might have them if you had earlier clicked "Edit", "Add retelling test results")</value>
+  <data name="HTML_TableCellNoWrapWithToolTip" xml:space="preserve">
+    <value>&lt;td NOWRAP title="{0}"&gt;{1}&lt;/td&gt;</value>
   </data>
-  <data name="IDS_UseStoryCollapse" xml:space="preserve">
-    <value>Line number '{0}' has multiple sentences in the {1} column. Use the "Story" menu, "Collapse into 1 line" command followed by the "Split into Lines" command to break the story (and any back-translations) into lines based on sentence final punctuation (see "Project", "Settings" and any of the "Language" tabs to configure sentence final punctuation). The command "Story", "Re-align story lines" can also be used, which calls both of the above commands in one click</value>
-  </data>
-  <data name="DeleteHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DeleteHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="StoryBtPsJs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\js\storybtps.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="BuilderDialog_moveup1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BuilderDialog_moveup.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CopyHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CopyHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="oneStory2KeyTerms" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oneStory2KeyTerms.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="IDS_AddAnotherTestQuery" xml:space="preserve">
-    <value>Click 'Yes' if you want to enter the results for another UNS retelling test, or click 'No' to send to the consultant for checking</value>
+  <data name="gradient" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gradient.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IDS_SaveKeyTermsPrompt" xml:space="preserve">
+    <value>A key term or its status has changed. Do you wish to save these changes?</value>
+    <comment>ख़ास शब्‍द या उसका स्टैटस बदल गया है। इन परिवर्तनों को सेव किया जाए?</comment>
+  </data>
+  <data name="HTML_EmphasizedText" xml:space="preserve">
+    <value>&lt;em&gt;{0}&lt;/em&gt;</value>
+  </data>
+  <data name="project_1_3_to_1_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\1.3 to 1.4.xslt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="IDS_CreateMyBiblicalTermsQuery" xml:space="preserve">
     <value>In order to add or edit key terms, you have to begin using a local copy of one of the existing key
@@ -210,468 +351,256 @@ overwrite the editable copy of the 'My Biblical Terms' list, you may be overwrit
 another team member has created and added to. So be sure that you discuss this with the rest 
 of the team before overwriting a list</value>
   </data>
-  <data name="IDS_UnableToOpenMemberList" xml:space="preserve">
-    <value>Unable to open the member list{0}{0}{1}{0}{0}Contact bob_eaton@sall.com for help</value>
-  </data>
-  <data name="RegexHelpProgram" xml:space="preserve">
-    <value>http://msdn2.microsoft.com/en-us/library/az24scfc.aspx</value>
-  </data>
-  <data name="EditTableHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\EditTableHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IDS_UnableToOpenProjectFile" xml:space="preserve">
-    <value>Unable to open project '{1}'{0}{0}{2}{0}{0}{3}{0}{0}Send the project file along with the error message to bob_eaton@sall.com for help</value>
-  </data>
-  <data name="ShowAllCommentsHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ShowAllCommentsHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="oneStory2KeyTerms" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oneStory2KeyTerms.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="DataContainer_MoveFirstHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DataContainer_MoveFirstHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="AddTableHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AddTableHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IDS_DefaultRepoServer" xml:space="preserve">
-    <value>LanguageDepot.org [private]</value>
-  </data>
-  <data name="IDS_SaveKeyTermsPrompt" xml:space="preserve">
-    <value>A key term or its status has changed. Do you wish to save these changes?</value>
-    <comment>ख़ास शब्‍द या उसका स्टैटस बदल गया है। इन परिवर्तनों को सेव किया जाए?</comment>
-  </data>
-  <data name="DataContainer_MovePreviousHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DataContainer_MovePreviousHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IDS_CopyrightInfo" xml:space="preserve">
-    <value>&lt;head&gt;
-&lt;meta http-equiv=Content-Type content="text/html; charset=windows-1252"&gt;
-&lt;meta name=ProgId content=Word.Document&gt;
-&lt;meta name=Generator content="Microsoft Word 11"&gt;
-&lt;meta name=Originator content="Microsoft Word 11"&gt;
-&lt;link rel=File-List href="OneStory%20Editor%20is%20Copyright_files/filelist.xml"&gt;
-&lt;title&gt;OneStory Editor is Copyright © 2009-2017 SIL International &lt;/title&gt;
-&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
- &lt;o:DocumentProperties&gt;
-  &lt;o:Author&gt;Bob Eaton&lt;/o:Author&gt;
-  &lt;o:LastAuthor&gt;Bob Eaton&lt;/o:LastAuthor&gt;
-  &lt;o:Revision&gt;1&lt;/o:Revision&gt;
-  &lt;o:TotalTime&gt;26&lt;/o:TotalTime&gt;
-  &lt;o:Created&gt;2009-09-25T20:16:00Z&lt;/o:Created&gt;
-  &lt;o:LastSaved&gt;2009-09-25T20:42:00Z&lt;/o:LastSaved&gt;
-  &lt;o:Pages&gt;1&lt;/o:Pages&gt;
-  &lt;o:Words&gt;105&lt;/o:Words&gt;
-  &lt;o:Characters&gt;600&lt;/o:Characters&gt;
-  &lt;o:Company&gt;SIL&lt;/o:Company&gt;
-  &lt;o:Lines&gt;5&lt;/o:Lines&gt;
-  &lt;o:Paragraphs&gt;1&lt;/o:Paragraphs&gt;
-  &lt;o:CharactersWithSpaces&gt;704&lt;/o:CharactersWithSpaces&gt;
-  &lt;o:Version&gt;11.9999&lt;/o:Version&gt;
- &lt;/o:DocumentProperties&gt;
-&lt;/xml&gt;&lt;![endif]--&gt;&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
- &lt;w:WordDocument&gt;
-  &lt;w:SpellingState&gt;Clean&lt;/w:SpellingState&gt;
-  &lt;w:GrammarState&gt;Clean&lt;/w:GrammarState&gt;
-  &lt;w:PunctuationKerning/&gt;
-  &lt;w:ValidateAgainstSchemas/&gt;
-  &lt;w:SaveIfXMLInvalid&gt;false&lt;/w:SaveIfXMLInvalid&gt;
-  &lt;w:IgnoreMixedContent&gt;false&lt;/w:IgnoreMixedContent&gt;
-  &lt;w:AlwaysShowPlaceholderText&gt;false&lt;/w:AlwaysShowPlaceholderText&gt;
-  &lt;w:Compatibility&gt;
-   &lt;w:BreakWrappedTables/&gt;
-   &lt;w:SnapToGridInCell/&gt;
-   &lt;w:WrapTextWithPunct/&gt;
-   &lt;w:UseAsianBreakRules/&gt;
-   &lt;w:DontGrowAutofit/&gt;
-  &lt;/w:Compatibility&gt;
-  &lt;w:BrowserLevel&gt;MicrosoftInternetExplorer4&lt;/w:BrowserLevel&gt;
- &lt;/w:WordDocument&gt;
-&lt;/xml&gt;&lt;![endif]--&gt;&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
- &lt;w:LatentStyles DefLockedState="false" LatentStyleCount="156"&gt;
- &lt;/w:LatentStyles&gt;
-&lt;/xml&gt;&lt;![endif]--&gt;
-&lt;style&gt;
-&lt;!--
- /* Font Definitions */
- @font-face
-	{font-family:Mangal;
-	panose-1:0 0 4 0 0 0 0 0 0 0;
-	mso-font-charset:1;
-	mso-generic-font-family:auto;
-	mso-font-pitch:variable;
-	mso-font-signature:32768 0 0 0 0 0;}
-@font-face
-	{font-family:"Arial Unicode MS";
-	panose-1:2 11 6 4 2 2 2 2 2 4;
-	mso-font-charset:128;
-	mso-generic-font-family:swiss;
-	mso-font-pitch:variable;
-	mso-font-signature:-1 -369098753 63 0 4129279 0;}
-@font-face
-	{font-family:"BEN Bhagirati";
-	mso-font-alt:Symbol;
-	mso-font-charset:2;
-	mso-generic-font-family:auto;
-	mso-font-pitch:variable;
-	mso-font-signature:0 268435456 0 0 -2147483648 0;}
-@font-face
-	{font-family:"\@Arial Unicode MS";
-	panose-1:2 11 6 4 2 2 2 2 2 4;
-	mso-font-charset:128;
-	mso-generic-font-family:swiss;
-	mso-font-pitch:variable;
-	mso-font-signature:-1 -369098753 63 0 4129279 0;}
-@font-face
-	{font-family:"DEV Panini";
-	mso-font-alt:Symbol;
-	mso-font-charset:2;
-	mso-generic-font-family:auto;
-	mso-font-pitch:variable;
-	mso-font-signature:0 268435456 0 0 -2147483648 0;}
-@font-face
-	{font-family:"GUJ Gir";
-	mso-font-alt:Symbol;
-	mso-font-charset:2;
-	mso-generic-font-family:auto;
-	mso-font-pitch:variable;
-	mso-font-signature:0 268435456 0 0 -2147483648 0;}
-@font-face
-	{font-family:"GUR Arjun";
-	mso-font-alt:Symbol;
-	mso-font-charset:2;
-	mso-generic-font-family:auto;
-	mso-font-pitch:variable;
-	mso-font-signature:0 268435456 0 0 -2147483648 0;}
-@font-face
-	{font-family:"KAN Badami";
-	mso-font-alt:Symbol;
-	mso-font-charset:2;
-	mso-generic-font-family:auto;
-	mso-font-pitch:variable;
-	mso-font-signature:0 268435456 0 0 -2147483648 0;}
-@font-face
-	{font-family:"MAL Vayalar";
-	mso-font-alt:Symbol;
-	mso-font-charset:2;
-	mso-generic-font-family:auto;
-	mso-font-pitch:variable;
-	mso-font-signature:0 268435456 0 0 -2147483648 0;}
-@font-face
-	{font-family:"ORI Asika";
-	mso-font-alt:Symbol;
-	mso-font-charset:2;
-	mso-generic-font-family:auto;
-	mso-font-pitch:variable;
-	mso-font-signature:0 268435456 0 0 -2147483648 0;}
-@font-face
-	{font-family:"TAM ThiruValluvar";
-	mso-font-alt:Symbol;
-	mso-font-charset:2;
-	mso-generic-font-family:auto;
-	mso-font-pitch:variable;
-	mso-font-signature:0 268435456 0 0 -2147483648 0;}
-@font-face
-	{font-family:"TEL Nirmal";
-	mso-font-alt:Symbol;
-	mso-font-charset:2;
-	mso-generic-font-family:auto;
-	mso-font-pitch:variable;
-	mso-font-signature:0 268435456 0 0 -2147483648 0;}
- /* Style Definitions */
- p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{mso-style-parent:"";
-	margin:0in;
-	margin-bottom:.0001pt;
-	mso-pagination:widow-orphan;
-	font-size:12.0pt;
-	font-family:"Times New Roman";
-	mso-fareast-font-family:"Times New Roman";
-	mso-bidi-font-family:Mangal;}
-p.MsoFootnoteText, li.MsoFootnoteText, div.MsoFootnoteText
-	{mso-style-update:auto;
-	margin:0in;
-	margin-bottom:.0001pt;
-	text-align:justify;
-	mso-pagination:widow-orphan;
-	font-size:16.0pt;
-	font-family:"Times New Roman";
-	mso-fareast-font-family:"Times New Roman";
-	mso-bidi-font-family:"Arial Unicode MS";}
-a:link, span.MsoHyperlink
-	{color:blue;
-	text-decoration:underline;
-	text-underline:single;}
-a:visited, span.MsoHyperlinkFollowed
-	{color:purple;
-	text-decoration:underline;
-	text-underline:single;}
-p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
-	{margin:0in;
-	margin-bottom:.0001pt;
-	mso-pagination:widow-orphan;
-	font-size:10.0pt;
-	font-family:"Courier New";
-	mso-fareast-font-family:"Times New Roman";
-	mso-bidi-font-family:"Times New Roman";
-	mso-ansi-language:EN-GB;
-	mso-bidi-language:AR-SA;}
-p.IntroOutlineLevel1io1, li.IntroOutlineLevel1io1, div.IntroOutlineLevel1io1
-	{mso-style-name:"Intro Outline Level 1 \(io1\)";
-	mso-style-update:auto;
-	margin-top:0in;
-	margin-right:0in;
-	margin-bottom:6.0pt;
-	margin-left:0in;
-	text-align:justify;
-	text-indent:.5in;
-	line-height:120%;
-	mso-pagination:widow-orphan;
-	font-size:16.0pt;
-	font-family:"Times New Roman";
-	mso-fareast-font-family:"Times New Roman";
-	mso-bidi-font-family:"Arial Unicode MS";}
-p.NormalParagraph, li.NormalParagraph, div.NormalParagraph
-	{mso-style-name:"Normal Paragraph";
-	mso-style-update:auto;
-	margin-top:6.0pt;
-	margin-right:0in;
-	margin-bottom:6.0pt;
-	margin-left:0in;
-	text-align:justify;
-	text-indent:.5in;
-	line-height:110%;
-	mso-pagination:widow-orphan;
-	tab-stops:5.25in;
-	font-size:18.0pt;
-	font-family:"Times New Roman";
-	mso-fareast-font-family:"Times New Roman";
-	mso-bidi-font-family:"Arial Unicode MS";}
-p.BENParagraph, li.BENParagraph, div.BENParagraph
-	{mso-style-name:"BEN Paragraph";
-	margin:0in;
-	margin-bottom:.0001pt;
-	mso-pagination:widow-orphan;
-	font-size:20.0pt;
-	mso-bidi-font-size:10.0pt;
-	font-family:"BEN Bhagirati";
-	mso-fareast-font-family:"Times New Roman";
-	mso-bidi-font-family:"Times New Roman";
-	mso-ansi-language:EN-GB;
-	mso-bidi-language:AR-SA;}
-p.DEVParagraph, li.DEVParagraph, div.DEVParagraph
-	{mso-style-name:"DEV Paragraph";
-	margin:0in;
-	margin-bottom:.0001pt;
-	mso-pagination:widow-orphan;
-	font-size:20.0pt;
-	mso-bidi-font-size:10.0pt;
-	font-family:"DEV Panini";
-	mso-fareast-font-family:"Times New Roman";
-	mso-bidi-font-family:"Times New Roman";
-	mso-ansi-language:EN-GB;
-	mso-bidi-language:AR-SA;}
-p.GUJParagraph, li.GUJParagraph, div.GUJParagraph
-	{mso-style-name:"GUJ Paragraph";
-	margin:0in;
-	margin-bottom:.0001pt;
-	mso-pagination:widow-orphan;
-	font-size:20.0pt;
-	mso-bidi-font-size:10.0pt;
-	font-family:"GUJ Gir";
-	mso-fareast-font-family:"Times New Roman";
-	mso-bidi-font-family:"Times New Roman";
-	mso-ansi-language:EN-GB;
-	mso-bidi-language:AR-SA;}
-p.GURParagraph, li.GURParagraph, div.GURParagraph
-	{mso-style-name:"GUR Paragraph";
-	margin:0in;
-	margin-bottom:.0001pt;
-	mso-pagination:widow-orphan;
-	font-size:20.0pt;
-	mso-bidi-font-size:10.0pt;
-	font-family:"GUR Arjun";
-	mso-fareast-font-family:"Times New Roman";
-	mso-bidi-font-family:"Times New Roman";
-	mso-ansi-language:EN-GB;
-	mso-bidi-language:AR-SA;}
-p.KANParagraph, li.KANParagraph, div.KANParagraph
-	{mso-style-name:"KAN Paragraph";
-	margin:0in;
-	margin-bottom:.0001pt;
-	mso-pagination:widow-orphan;
-	font-size:20.0pt;
-	mso-bidi-font-size:10.0pt;
-	font-family:"KAN Badami";
-	mso-fareast-font-family:"Times New Roman";
-	mso-bidi-font-family:"Times New Roman";
-	mso-ansi-language:EN-GB;
-	mso-bidi-language:AR-SA;}
-p.MALParagraph, li.MALParagraph, div.MALParagraph
-	{mso-style-name:"MAL Paragraph";
-	margin:0in;
-	margin-bottom:.0001pt;
-	mso-pagination:widow-orphan;
-	font-size:20.0pt;
-	mso-bidi-font-size:10.0pt;
-	font-family:"MAL Vayalar";
-	mso-fareast-font-family:"Times New Roman";
-	mso-bidi-font-family:"Times New Roman";
-	mso-ansi-language:EN-GB;
-	mso-bidi-language:AR-SA;}
-p.ORIParagraph, li.ORIParagraph, div.ORIParagraph
-	{mso-style-name:"ORI Paragraph";
-	margin:0in;
-	margin-bottom:.0001pt;
-	mso-pagination:widow-orphan;
-	font-size:20.0pt;
-	mso-bidi-font-size:10.0pt;
-	font-family:"ORI Asika";
-	mso-fareast-font-family:"Times New Roman";
-	mso-bidi-font-family:"Times New Roman";
-	mso-ansi-language:EN-GB;
-	mso-bidi-language:AR-SA;}
-p.TAMParagraph, li.TAMParagraph, div.TAMParagraph
-	{mso-style-name:"TAM Paragraph";
-	margin:0in;
-	margin-bottom:.0001pt;
-	mso-pagination:widow-orphan;
-	font-size:20.0pt;
-	mso-bidi-font-size:10.0pt;
-	font-family:"TAM ThiruValluvar";
-	mso-fareast-font-family:"Times New Roman";
-	mso-bidi-font-family:"Times New Roman";
-	mso-ansi-language:EN-GB;
-	mso-bidi-language:AR-SA;}
-p.TELParagraph, li.TELParagraph, div.TELParagraph
-	{mso-style-name:"TEL Paragraph";
-	margin:0in;
-	margin-bottom:.0001pt;
-	mso-pagination:widow-orphan;
-	font-size:20.0pt;
-	mso-bidi-font-size:10.0pt;
-	font-family:"TEL Nirmal";
-	mso-fareast-font-family:"Times New Roman";
-	mso-bidi-font-family:"Times New Roman";
-	mso-ansi-language:EN-GB;
-	mso-bidi-language:AR-SA;}
-p.NonRoman, li.NonRoman, div.NonRoman
-	{mso-style-name:NonRoman;
-	margin:0in;
-	margin-bottom:.0001pt;
-	mso-pagination:widow-orphan;
-	font-size:11.0pt;
-	mso-bidi-font-size:10.0pt;
-	font-family:"Times New Roman";
-	mso-fareast-font-family:"Times New Roman";
-	mso-bidi-font-family:"Times New Roman";
-	mso-ansi-language:EN-GB;
-	mso-bidi-language:AR-SA;}
-p.NormalWithSpaceAfter, li.NormalWithSpaceAfter, div.NormalWithSpaceAfter
-	{mso-style-name:"Normal With Space After";
-	mso-style-next:Normal;
-	margin-top:0in;
-	margin-right:0in;
-	margin-bottom:30.0pt;
-	margin-left:0in;
-	mso-pagination:widow-orphan;
-	font-size:11.0pt;
-	mso-bidi-font-size:10.0pt;
-	font-family:"Times New Roman";
-	mso-fareast-font-family:"Times New Roman";
-	mso-bidi-font-family:"Times New Roman";
-	mso-ansi-language:EN-GB;
-	mso-bidi-language:AR-SA;}
-span.SpellE
-	{mso-style-name:"";
-	mso-spl-e:yes;}
-span.GramE
-	{mso-style-name:"";
-	mso-gram-e:yes;}
-@page Section1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.25in 1.0in 1.25in;
-	mso-header-margin:.5in;
-	mso-footer-margin:.5in;
-	mso-paper-source:0;}
-div.Section1
-	{page:Section1;}
---&gt;
-&lt;/style&gt;
-&lt;!--[if gte mso 10]&gt;
-&lt;style&gt;
- /* Style Definitions */
- table.MsoNormalTable
-	{mso-style-name:"Table Normal";
-	mso-tstyle-rowband-size:0;
-	mso-tstyle-colband-size:0;
-	mso-style-noshow:yes;
-	mso-style-parent:"";
-	mso-padding-alt:0in 5.4pt 0in 5.4pt;
-	mso-para-margin:0in;
-	mso-para-margin-bottom:.0001pt;
-	mso-pagination:widow-orphan;
-	font-size:10.0pt;
-	font-family:"Times New Roman";
-	mso-ansi-language:#0400;
-	mso-fareast-language:#0400;
-	mso-bidi-language:#0400;}
-&lt;/style&gt;
-&lt;![endif]--&gt;&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
- &lt;o:shapedefaults v:ext="edit" spidmax="2050"/&gt;
-&lt;/xml&gt;&lt;![endif]--&gt;&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
- &lt;o:shapelayout v:ext="edit"&gt;
-  &lt;o:idmap v:ext="edit" data="1"/&gt;
- &lt;/o:shapelayout&gt;&lt;/xml&gt;&lt;![endif]--&gt;
-&lt;/head&gt;
-
-&lt;body lang=EN-US link=blue vlink=purple style='tab-interval:.5in'&gt;
-
-&lt;div class=Section1&gt;
-
-&lt;p class=MsoNormal&gt;&lt;span class=SpellE&gt;OneStory&lt;/span&gt; Editor is Copyright ©
-2009-2019 SIL International &lt;/p&gt;
-
-&lt;p class=MsoNormal&gt;For limited support, contact: &lt;a
-href="mailto:bob_eaton@sall.com"&gt;bob_eaton@sall.com&lt;/a&gt;&lt;/p&gt;
-
-&lt;p class=MsoNormal&gt;&lt;o:p&gt;&amp;nbsp;&lt;/o:p&gt;&lt;/p&gt;
-
-&lt;p class=MsoNormal&gt;The names: THE NET BIBLE®, NEW ENGLISH TRANSLATION COPYRIGHT
-(c) 1996 BY BIBLICAL STUDIES PRESS, L.L.C.&lt;/p&gt;
-
-&lt;p class=MsoNormal&gt;&lt;o:p&gt;&amp;nbsp;&lt;/o:p&gt;&lt;/p&gt;
-
-&lt;p class=MsoNormal&gt;NET Bible® IS A REGISTERED TRADEMARK THE NET BIBLE® LOGO,
-SERVICE MARK COPYRIGHT (c) 1997 BY BIBLICAL STUDIES PRESS, L.L.C. ALL RIGHTS
-RESERVED&lt;/p&gt;
-
-&lt;p class=MsoNormal&gt;&lt;o:p&gt;&amp;nbsp;&lt;/o:p&gt;&lt;/p&gt;
-
-&lt;p class=MsoNormal&gt;The &lt;span class=SpellE&gt;NETBible&lt;/span&gt; with all 60,000+ notes
-has been supplied to the &lt;span class=SpellE&gt;OneStory&lt;/span&gt; Editor free of
-charge, however, a &lt;span class=GramE&gt;donation&lt;span style='mso-spacerun:yes'&gt; 
-&lt;/span&gt;would&lt;/span&gt; be much appreciated &lt;a href="http://bible.org/donate"&gt;http://bible.org/donate&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p class=MsoNormal&gt;&lt;o:p&gt;&amp;nbsp;&lt;/o:p&gt;&lt;/p&gt;
-
-&lt;p class=MsoNormal&gt;Visit: &lt;a href="http://netbible.org/"&gt;http://netbible.org&lt;/a&gt;
-for more extensive study materials.&lt;/p&gt;
-
-&lt;/div&gt;
-
-&lt;/body&gt;
-
-&lt;/html&gt;</value>
-  </data>
-  <data name="IDS_CheckForSkipToUnsCheck" xml:space="preserve">
-    <value>Click 'Yes' to enter UNS test results now or click 'No' to send the story to the consultant first for checking.</value>
+  <data name="PrintHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PrintHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="DragDropHandle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DragDropHandle.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="IDS_GoBackwardsYoungMan" xml:space="preserve">
-    <value>This story has already reached the final state. If you mean to go to some previous state, click the 'Select State' menu at the top of the window and choose the previous state you want to go to.</value>
+  <data name="Pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Pause.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HTML_ButtonClass" xml:space="preserve">
+    <value>&lt;button id="{0}" class="{1}" onClick="{2}"&gt;{3}&lt;/button&gt;</value>
+  </data>
+  <data name="IDS_AdaptItProjectFolderFormat" xml:space="preserve">
+    <value>{0} to {1} adaptations</value>
+  </data>
+  <data name="IDS_EmailSubjectLine" xml:space="preserve">
+    <value>[OSE says]: {0}</value>
+  </data>
+  <data name="IDS_MyDropboxReferalString" xml:space="preserve">
+    <value>http://db.tt/4VwBmut</value>
+  </data>
+  <data name="oneStory2CoachNotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oneStory2CoachNotes.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="IDS_UnableToOpenStageTransitionsXml" xml:space="preserve">
+    <value>Unable to process the state customization file (i.e. {0}). If you've customized which fields show by default in various states, then you need to delete the version of the customization file in the project folder (i.e. "{1}\{0}") so the program can re-create it using the newly upgraded version</value>
+  </data>
+  <data name="_1_4_to_1_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\1.4 to 1.5.xslt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="IDS_AdaptItConverterDoesntExist" xml:space="preserve">
+    <value>The Adapt It converter named '{0}' doesn't exist! You probably need to do 'Project', 'Settings' and configure it on the 'Adapt It' tab</value>
+  </data>
+  <data name="StoryBtPlaceholders" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\js\storybtplaceholders.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="IDS_MainStoriesSet" xml:space="preserve">
+    <value>Stories</value>
+  </data>
+  <data name="HTML_Button" xml:space="preserve">
+    <value>&lt;button id="{0}" onClick="{1}"&gt;{2}&lt;/button&gt;</value>
+  </data>
+  <data name="HTML_TextareaWithRefDrop" xml:space="preserve">
+    <value>&lt;textarea id="{0}" class="{1}"&gt;{2}&lt;/textarea&gt;</value>
+    <comment>added to HTML_Script_AddTextareaMouseDown</comment>
+  </data>
+  <data name="HTML_ButtonToolTip" xml:space="preserve">
+    <value>&lt;button id="{0}" name="{1}" onMouseUp="{2}" title="{3}"&gt;{4}&lt;/button&gt;</value>
+  </data>
+  <data name="RegexHelpProgram" xml:space="preserve">
+    <value>http://msdn2.microsoft.com/en-us/library/az24scfc.aspx</value>
+  </data>
+  <data name="ShowAllCommentsHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ShowAllCommentsHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HTML_HttpLink" xml:space="preserve">
+    <value>&lt;a href="{0}" target="_blank"&gt;here&lt;/a&gt; </value>
+  </data>
+  <data name="Edit_Undo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Edit_Undo.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HTML_TableForLine" xml:space="preserve">
+    <value>&lt;table id="{0}" style="width:100%;"&gt;
+{1}
+&lt;/table&gt;</value>
+  </data>
+  <data name="IDS_DefaultPanoramaFrontMatter" xml:space="preserve">
+    <value>{\rtf1\adeflang1081\ansi\ansicpg1252\uc1\adeff0\deff0\stshfdbch0\stshfloch0\stshfhich0\stshfbi0\deflang1033\deflangfe1033{\fonttbl{\f0\froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f312\froman\fcharset238\fprq2 Times New Roman CE;}{\f313\froman\fcharset204\fprq2 Times New Roman Cyr;}
+{\f315\froman\fcharset161\fprq2 Times New Roman Greek;}{\f316\froman\fcharset162\fprq2 Times New Roman Tur;}{\f317\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew);}{\f318\fbidi \froman\fcharset178\fprq2 Times New Roman (Arabic);}
+{\f319\froman\fcharset186\fprq2 Times New Roman Baltic;}{\f320\froman\fcharset163\fprq2 Times New Roman (Vietnamese);}}{\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red0\green255\blue255;\red0\green255\blue0;\red255\green0\blue255;
+\red255\green0\blue0;\red255\green255\blue0;\red255\green255\blue255;\red0\green0\blue128;\red0\green128\blue128;\red0\green128\blue0;\red128\green0\blue128;\red128\green0\blue0;\red128\green128\blue0;\red128\green128\blue128;\red192\green192\blue192;}
+{\stylesheet{\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \snext0 Normal;}{\*\cs10 \additive Default Paragraph Font;}{\*
+\ts11\tsrowd\trftsWidthB3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\trcbpat1\trcfpat1\tblind0\tblindtype3\tscellwidthfts0\tsvertalt\tsbrdrt\tsbrdrl\tsbrdrb\tsbrdrr\tsbrdrdgl\tsbrdrdgr\tsbrdrh\tsbrdrv 
+\ql \li0\ri0\widctlpar\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20 \ltrch\fcs0 \fs20\lang1024\langfe1024\cgrid\langnp1024\langfenp1024 \snext11 \ssemihidden Normal Table;}{
+\s15\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext15 Anchor;}{
+\s16\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext16 Back translation;}{\*\cs17 \additive Catetory;}{
+\s18\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext18 Comment;}{\*\cs19 \additive Consultant checked;}{
+\s20\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext20 Crafting Note;}{
+\s21\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext21 Date;}{
+\s22\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext22 French;}{
+\s23\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext23 ID of Text;}{
+\s24\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext24 Line number;}{\*\cs25 \additive Old version;}{\*\cs26 \additive 
+Stage;}{\*\cs27 \additive Testing Questions;}{\s28\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext28 Title;}{
+\s29\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext29 _DateStampHasFourDigitYear;}{
+\s30\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext30 _sh;}{\s31\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 
+\rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext31 ans;}{\s32\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 
+\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext32 ansid;}{\s33\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
+\sbasedon0 \snext33 ansplm;}{\*\cs34 \additive bold;}{\s35\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext35 bt1;}{
+\s36\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext36 bt2;}{\s37\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 
+\rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext37 bteng;}{\s38\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 
+\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext38 btn;}{\s39\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
+\sbasedon0 \snext39 c;}{\s40\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext40 eans;}{
+\s41\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext41 en;}{\s42\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 
+\rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext42 eng;}{\s43\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 
+\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext43 ert1;}{\s44\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
+\sbasedon0 \snext44 ert2;}{\s45\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext45 etst;}{
+\s46\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext46 fix;}{\s47\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 
+\rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext47 footer;}{\*\cs48 \additive \rtlch\fcs1 \af0 \ltrch\fcs0 \sbasedon10 footnote reference;}{
+\s49\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext49 footnote text;}{\*\cs50 \additive for revision;}{
+\s51\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext51 gtst;}{
+\s52\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext52 gtstid;}{
+\s53\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext53 header;}{
+\s54\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext54 ind;}{\s55\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 
+\rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext55 mnd;}{\s56\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 
+\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext56 mrt1;}{\s57\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
+\sbasedon0 \snext57 mrt2;}{\s58\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext58 nat;}{
+\s59\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext59 olden;}{
+\s60\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext60 oldid;}{
+\s61\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext61 p;}{\s62\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 
+\rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext62 ret;}{\*\cs63 \additive retelling 1;}{\s64\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 
+\af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext64 retelling 2;}{\s65\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 
+\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext65 rtl3;}{\s66\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
+\sbasedon0 \snext66 rtl4;}{\*\cs67 \additive secondary comment;}{\s68\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext68 tra;}
+{\s69\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext69 tst1;}{
+\s70\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext70 tsta;}{
+\s71\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext71 ver;}}{\*\latentstyles\lsdstimax156\lsdlockeddef0}
+{\*\rsidtbl \rsid150813\rsid6567156\rsid12199339\rsid16282371}{\*\generator Microsoft Word 11.0.0000;}{\info{\operator Bob Eaton}{\creatim\yr2009\mo10\dy3\hr8\min55}{\revtim\yr2009\mo10\dy3\hr9\min4}{\version4}{\edmins9}{\nofpages1}{\nofwords86}
+{\nofchars494}{\nofcharsws579}{\vern24615}{\*\password 00000000}}{\*\xmlnstbl {\xmlns1 http://schemas.microsoft.com/office/word/2003/wordml}}\paperw12240\paperh15840\margl1800\margr1800\margt1440\margb1440\gutter0\ltrsect 
+\facingp\widowctrl\ftnbj\aenddoc\donotembedsysfont0\donotembedlingdata1\grfdocevents0\validatexml0\showplaceholdtext0\ignoremixedcontent0\saveinvalidxml0\showxmlerrors0\horzdoc\dghspace120\dgvspace120\dghorigin1701\dgvorigin1984\dghshow0\dgvshow3
+\jcompress\viewkind1\viewscale100\rsidroot16282371 \fet0{\*\wgrffmtfilter 013f}\ilfomacatclnup0{\*\ftnsep \ltrpar \pard\plain \ltrpar\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 
+\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 \chftnsep 
+\par }}{\*\ftnsepc \ltrpar \pard\plain \ltrpar\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
+\chftnsepc 
+\par }}{\*\aftnsep \ltrpar \pard\plain \ltrpar\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
+\chftnsep 
+\par }}{\*\aftnsepc \ltrpar \pard\plain \ltrpar\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
+\chftnsepc 
+\par }}\ltrpar \sectd \ltrsect\sbknone\linex0\sectdefaultcl\sftnbj {\headerl \ltrpar \pard\plain \ltrpar\s53\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 
+\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 \tab \tab 
+\par }}{\headerr \ltrpar \pard\plain \ltrpar\s53\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 \tab 
+\tab 
+\par }}{\footerl \ltrpar \pard\plain \ltrpar\s47\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\field{\*\fldinst {\rtlch\fcs1 \af0 \ltrch\fcs0 
+\insrsid6567156 PAGE}}{\fldrslt {\rtlch\fcs1 \af0 \ltrch\fcs0 \lang1024\langfe1024\noproof\insrsid16282371 2}}}\sectd \linex0\endnhere\sectdefaultcl\sftnbj {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 \tab asdg.rtf\tab }{\field{\*\fldinst {\rtlch\fcs1 
+\af0 \ltrch\fcs0 \insrsid6567156 DATE}}{\fldrslt {\rtlch\fcs1 \af0 \ltrch\fcs0 \lang1024\langfe1024\noproof\insrsid16282371 10/3/2009}}}\sectd \linex0\endnhere\sectdefaultcl\sftnbj {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
+\par }}{\footerr \ltrpar \pard\plain \ltrpar\s47\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\field{\*\fldinst {\rtlch\fcs1 \af0 \ltrch\fcs0 
+\insrsid6567156 DATE}}{\fldrslt {\rtlch\fcs1 \af0 \ltrch\fcs0 \lang1024\langfe1024\noproof\insrsid16282371 10/3/2009}}}\sectd \linex0\endnhere\sectdefaultcl\sftnbj {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 \tab asdg.rtf\tab }{\field{\*\fldinst {
+\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 PAGE}}{\fldrslt {\rtlch\fcs1 \af0 \ltrch\fcs0 \lang1024\langfe1024\noproof\insrsid6567156 1}}}\sectd \linex0\endnhere\sectdefaultcl\sftnbj {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
+\par }}{\*\pnseclvl1\pnucrm\pnstart1\pnindent720\pnhang {\pntxta .}}{\*\pnseclvl2\pnucltr\pnstart1\pnindent720\pnhang {\pntxta .}}{\*\pnseclvl3\pndec\pnstart1\pnindent720\pnhang {\pntxta .}}{\*\pnseclvl4\pnlcltr\pnstart1\pnindent720\pnhang {\pntxta )}}
+{\*\pnseclvl5\pndec\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl6\pnlcltr\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl7\pnlcrm\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl8
+\pnlcltr\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl9\pnlcrm\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}\pard\plain \ltrpar\s16\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 
+\ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \b\insrsid6567156\charrsid16282371 Target audience: }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371\charrsid16282371 &lt;Target audience name&gt;}{\rtlch\fcs1 
+\ab\af0 \ltrch\fcs0 \b\insrsid6567156\charrsid16282371 
+\par }\pard\plain \ltrpar\s18\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 &lt;
+enter description here&gt;}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
+\par }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 
+\par }\pard\plain \ltrpar\s16\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \b\insrsid6567156\charrsid16282371 Re
+demptive theme:}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156  }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 &lt;Redemptive theme&gt;}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
+\par }\pard\plain \ltrpar\s18\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 &lt;enter description here
+&gt;}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
+\par }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 
+\par }\pard\plain \ltrpar\s16\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \b\insrsid6567156\charrsid16282371 Gr
+eater Panorama
+\par }\pard\plain \ltrpar\s18\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 Spiritual World}{
+\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid150813  (background)}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 
+\par Creation}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid150813  (God as creator)}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 
+\par \'85
+\par &lt;Prophesy Story&gt;
+\par \'85
+\par }\pard \ltrpar\s18\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0\pararsid16282371 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 Mary and Joseph}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156  (Jesus as Solution)}{\rtlch\fcs1 \af0 \ltrch\fcs0 
+\insrsid16282371 
+\par }\pard \ltrpar\s18\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 Birth of Jesus
+\par Baptism of Jesus
+\par \'85
+\par 99 + one/doctor for the sick/Prayer of the Pharisee and tax collector (for coverage of why the priests wanted to kill Jesus)
+\par Jesus foreshadows the future (for prophesy of his death and background of Holy Spirit)
+\par }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 Trial}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371  and death of Jesus}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
+\par Resurrection
+\par }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 Coming of the Holy Spirit (response)}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
+\par }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
+\par }}</value>
+  </data>
+  <data name="IDS_DefaultRepoServer" xml:space="preserve">
+    <value>LanguageDepot.org [private]</value>
+  </data>
+  <data name="BuilderDialog_movedown1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BuilderDialog_movedown.PNG;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DataContainer_MovePreviousHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DataContainer_MovePreviousHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AdaptItProjectRepositoryFormat" xml:space="preserve">
+    <value>aikb-{0}-{1}</value>
+  </data>
+  <data name="DataContainer_MoveLastHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DataContainer_MoveLastHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IDS_CanDeleteOnlyFromMyBiblicalTerms" xml:space="preserve">
+    <value>You can only delete a key term from the editable key term (i.e. "My Biblical Terms") list, which is not currently selected.</value>
+  </data>
+  <data name="IDS_AddAnotherTestQuery" xml:space="preserve">
+    <value>Click 'Yes' if you want to enter the results for another UNS retelling test, or click 'No' to send to the consultant for checking</value>
+  </data>
+  <data name="FillDownHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FillDownHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="oneStory2storyingRetelling" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oneStory2storyingRetelling.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="HTML_LinkJumpLine" xml:space="preserve">
+    <value>&lt;a href="conNote.jumpToLine" name="{0}" class="{1}" onClick="return OnVerseLineJump(this);"&gt;{2}&lt;/a&gt;</value>
+  </data>
+  <data name="DeleteHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DeleteHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HTML_ParagraphText" xml:space="preserve">
+    <value>&lt;p class="{0}"&gt;{1}&lt;/p&gt;</value>
+  </data>
+  <data name="IDS_QueryConvertProjectFile1_3to1_4" xml:space="preserve">
+    <value>The project file you're trying to open (i.e. '{0}') was lasted edited by an earlier version of the OneStory editor. I can automatically upgrade the project file to be readable by this newer version, but it will make it inaccessible to the earlier version. So if the rest of the team (Project Facilitators, Consultant, etc) have all: a) done a 'Project', 'Send/receive' to send all of their outstanding changes, and b) upgraded to the new version of OSE, then if you want the project file to be converted to the new format, click 'Yes'</value>
+  </data>
+  <data name="graphhs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\graphhs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="StoryBtJs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\js\storybt.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="IDS_CheckForSkipToUnsCheck" xml:space="preserve">
+    <value>Click 'Yes' to enter UNS test results now or click 'No' to send the story to the consultant first for checking.</value>
+  </data>
+  <data name="HTML_TableCellWidthDropAnchor" xml:space="preserve">
+    <value>&lt;td id="{0}" width="{1}%" ondragover="window.event.returnValue=false" ondrop="window.external.AddScriptureReference(this.id)" onmouseup="OnEmptyAnchorClick(this.id);"&gt;{2}&lt;/td&gt;</value>
+  </data>
+  <data name="IDS_TbxFile_EmptyLnC" xml:space="preserve">
+    <value>\_sh v3.0  374  LnC Note
+\_DateStampHasFourDigitYear
+
+\r
+\wrd
+\co</value>
+  </data>
+  <data name="HTML_TableCellClass" xml:space="preserve">
+    <value>&lt;td class="{0}"&gt;&lt;font color="{1}"&gt;{2}&lt;/font&gt;&lt;/td&gt;</value>
+  </data>
+  <data name="IDS_AddRetellingTestQuery" xml:space="preserve">
+    <value>Click 'Yes' to add boxes for the retelling lines? Or click 'No' if you already have boxes (you might have them if you had earlier clicked "Edit", "Add retelling test results")</value>
+  </data>
+  <data name="IDS_NeedToReboot" xml:space="preserve">
+    <value>Problem initializing Sword (the Net Bible viewer):{0}{0}{1}</value>
+  </data>
+  <data name="HTML_Textarea" xml:space="preserve">
+    <value>&lt;textarea id="{0}" class="{1}"&gt;{2}&lt;/textarea&gt;</value>
+  </data>
+  <data name="DataContainer_MoveNextHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DataContainer_MoveNextHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CopyHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CopyHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HTML_SpanLangQuote" xml:space="preserve">
+    <value>&lt;SPAN class="{0} {1}"&gt;{2}&lt;/SPAN&gt;</value>
   </data>
   <data name="IDS_NetBibleDonateMessage" xml:space="preserve">
     <value>&lt;html xmlns:v="urn:schemas-microsoft-com:vml"
@@ -1313,26 +1242,472 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
 
 &lt;/html&gt;</value>
   </data>
-  <data name="IDS_FromStoryForDiscourseCharting" xml:space="preserve">
-    <value>&amp;From {0} (for Discourse Charting)</value>
-  </data>
-  <data name="oneStory2CoachNotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oneStory2CoachNotes.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
   <data name="IDS_ConfirmDeleteKeyTerm" xml:space="preserve">
     <value>Are you sure you want to delete the key term:{0}{1}</value>
   </data>
-  <data name="IDS_UnableToSave" xml:space="preserve">
-    <value>Unable to save the project file '{1}'{0}{0}{2}</value>
+  <data name="IDS_IllFormedJumpTarget" xml:space="preserve">
+    <value>The project file has an ill-formed Anchor! Wasn't expecting to see '{0}'. Contact bob_eaton@sall.com and mention which the project name.</value>
   </data>
-  <data name="EditInformationHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\EditInformationHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="IDS_CopyrightInfo" xml:space="preserve">
+    <value>&lt;head&gt;
+&lt;meta http-equiv=Content-Type content="text/html; charset=windows-1252"&gt;
+&lt;meta name=ProgId content=Word.Document&gt;
+&lt;meta name=Generator content="Microsoft Word 11"&gt;
+&lt;meta name=Originator content="Microsoft Word 11"&gt;
+&lt;link rel=File-List href="OneStory%20Editor%20is%20Copyright_files/filelist.xml"&gt;
+&lt;title&gt;OneStory Editor is Copyright © 2009-2017 SIL International &lt;/title&gt;
+&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
+ &lt;o:DocumentProperties&gt;
+  &lt;o:Author&gt;Bob Eaton&lt;/o:Author&gt;
+  &lt;o:LastAuthor&gt;Bob Eaton&lt;/o:LastAuthor&gt;
+  &lt;o:Revision&gt;1&lt;/o:Revision&gt;
+  &lt;o:TotalTime&gt;26&lt;/o:TotalTime&gt;
+  &lt;o:Created&gt;2009-09-25T20:16:00Z&lt;/o:Created&gt;
+  &lt;o:LastSaved&gt;2009-09-25T20:42:00Z&lt;/o:LastSaved&gt;
+  &lt;o:Pages&gt;1&lt;/o:Pages&gt;
+  &lt;o:Words&gt;105&lt;/o:Words&gt;
+  &lt;o:Characters&gt;600&lt;/o:Characters&gt;
+  &lt;o:Company&gt;SIL&lt;/o:Company&gt;
+  &lt;o:Lines&gt;5&lt;/o:Lines&gt;
+  &lt;o:Paragraphs&gt;1&lt;/o:Paragraphs&gt;
+  &lt;o:CharactersWithSpaces&gt;704&lt;/o:CharactersWithSpaces&gt;
+  &lt;o:Version&gt;11.9999&lt;/o:Version&gt;
+ &lt;/o:DocumentProperties&gt;
+&lt;/xml&gt;&lt;![endif]--&gt;&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
+ &lt;w:WordDocument&gt;
+  &lt;w:SpellingState&gt;Clean&lt;/w:SpellingState&gt;
+  &lt;w:GrammarState&gt;Clean&lt;/w:GrammarState&gt;
+  &lt;w:PunctuationKerning/&gt;
+  &lt;w:ValidateAgainstSchemas/&gt;
+  &lt;w:SaveIfXMLInvalid&gt;false&lt;/w:SaveIfXMLInvalid&gt;
+  &lt;w:IgnoreMixedContent&gt;false&lt;/w:IgnoreMixedContent&gt;
+  &lt;w:AlwaysShowPlaceholderText&gt;false&lt;/w:AlwaysShowPlaceholderText&gt;
+  &lt;w:Compatibility&gt;
+   &lt;w:BreakWrappedTables/&gt;
+   &lt;w:SnapToGridInCell/&gt;
+   &lt;w:WrapTextWithPunct/&gt;
+   &lt;w:UseAsianBreakRules/&gt;
+   &lt;w:DontGrowAutofit/&gt;
+  &lt;/w:Compatibility&gt;
+  &lt;w:BrowserLevel&gt;MicrosoftInternetExplorer4&lt;/w:BrowserLevel&gt;
+ &lt;/w:WordDocument&gt;
+&lt;/xml&gt;&lt;![endif]--&gt;&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
+ &lt;w:LatentStyles DefLockedState="false" LatentStyleCount="156"&gt;
+ &lt;/w:LatentStyles&gt;
+&lt;/xml&gt;&lt;![endif]--&gt;
+&lt;style&gt;
+&lt;!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Mangal;
+	panose-1:0 0 4 0 0 0 0 0 0 0;
+	mso-font-charset:1;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:32768 0 0 0 0 0;}
+@font-face
+	{font-family:"Arial Unicode MS";
+	panose-1:2 11 6 4 2 2 2 2 2 4;
+	mso-font-charset:128;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:-1 -369098753 63 0 4129279 0;}
+@font-face
+	{font-family:"BEN Bhagirati";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"\@Arial Unicode MS";
+	panose-1:2 11 6 4 2 2 2 2 2 4;
+	mso-font-charset:128;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:-1 -369098753 63 0 4129279 0;}
+@font-face
+	{font-family:"DEV Panini";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"GUJ Gir";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"GUR Arjun";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"KAN Badami";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"MAL Vayalar";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"ORI Asika";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"TAM ThiruValluvar";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"TEL Nirmal";
+	mso-font-alt:Symbol;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:Mangal;}
+p.MsoFootnoteText, li.MsoFootnoteText, div.MsoFootnoteText
+	{mso-style-update:auto;
+	margin:0in;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	font-size:16.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Arial Unicode MS";}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Courier New";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.IntroOutlineLevel1io1, li.IntroOutlineLevel1io1, div.IntroOutlineLevel1io1
+	{mso-style-name:"Intro Outline Level 1 \(io1\)";
+	mso-style-update:auto;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-align:justify;
+	text-indent:.5in;
+	line-height:120%;
+	mso-pagination:widow-orphan;
+	font-size:16.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Arial Unicode MS";}
+p.NormalParagraph, li.NormalParagraph, div.NormalParagraph
+	{mso-style-name:"Normal Paragraph";
+	mso-style-update:auto;
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-align:justify;
+	text-indent:.5in;
+	line-height:110%;
+	mso-pagination:widow-orphan;
+	tab-stops:5.25in;
+	font-size:18.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Arial Unicode MS";}
+p.BENParagraph, li.BENParagraph, div.BENParagraph
+	{mso-style-name:"BEN Paragraph";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"BEN Bhagirati";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.DEVParagraph, li.DEVParagraph, div.DEVParagraph
+	{mso-style-name:"DEV Paragraph";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"DEV Panini";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.GUJParagraph, li.GUJParagraph, div.GUJParagraph
+	{mso-style-name:"GUJ Paragraph";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"GUJ Gir";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.GURParagraph, li.GURParagraph, div.GURParagraph
+	{mso-style-name:"GUR Paragraph";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"GUR Arjun";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.KANParagraph, li.KANParagraph, div.KANParagraph
+	{mso-style-name:"KAN Paragraph";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"KAN Badami";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.MALParagraph, li.MALParagraph, div.MALParagraph
+	{mso-style-name:"MAL Paragraph";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"MAL Vayalar";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.ORIParagraph, li.ORIParagraph, div.ORIParagraph
+	{mso-style-name:"ORI Paragraph";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"ORI Asika";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.TAMParagraph, li.TAMParagraph, div.TAMParagraph
+	{mso-style-name:"TAM Paragraph";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"TAM ThiruValluvar";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.TELParagraph, li.TELParagraph, div.TELParagraph
+	{mso-style-name:"TEL Paragraph";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"TEL Nirmal";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.NonRoman, li.NonRoman, div.NonRoman
+	{mso-style-name:NonRoman;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+p.NormalWithSpaceAfter, li.NormalWithSpaceAfter, div.NormalWithSpaceAfter
+	{mso-style-name:"Normal With Space After";
+	mso-style-next:Normal;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:30.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:EN-GB;
+	mso-bidi-language:AR-SA;}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+span.GramE
+	{mso-style-name:"";
+	mso-gram-e:yes;}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+--&gt;
+&lt;/style&gt;
+&lt;!--[if gte mso 10]&gt;
+&lt;style&gt;
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+&lt;/style&gt;
+&lt;![endif]--&gt;&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
+ &lt;o:shapedefaults v:ext="edit" spidmax="2050"/&gt;
+&lt;/xml&gt;&lt;![endif]--&gt;&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
+ &lt;o:shapelayout v:ext="edit"&gt;
+  &lt;o:idmap v:ext="edit" data="1"/&gt;
+ &lt;/o:shapelayout&gt;&lt;/xml&gt;&lt;![endif]--&gt;
+&lt;/head&gt;
+
+&lt;body lang=EN-US link=blue vlink=purple style='tab-interval:.5in'&gt;
+
+&lt;div class=Section1&gt;
+
+&lt;p class=MsoNormal&gt;&lt;span class=SpellE&gt;OneStory&lt;/span&gt; Editor is Copyright ©
+2009-2019 SIL International &lt;/p&gt;
+
+&lt;p class=MsoNormal&gt;For limited support, contact: &lt;a
+href="mailto:bob_eaton@sall.com"&gt;bob_eaton@sall.com&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=MsoNormal&gt;&lt;o:p&gt;&amp;nbsp;&lt;/o:p&gt;&lt;/p&gt;
+
+&lt;p class=MsoNormal&gt;The names: THE NET BIBLE®, NEW ENGLISH TRANSLATION COPYRIGHT
+(c) 1996 BY BIBLICAL STUDIES PRESS, L.L.C.&lt;/p&gt;
+
+&lt;p class=MsoNormal&gt;&lt;o:p&gt;&amp;nbsp;&lt;/o:p&gt;&lt;/p&gt;
+
+&lt;p class=MsoNormal&gt;NET Bible® IS A REGISTERED TRADEMARK THE NET BIBLE® LOGO,
+SERVICE MARK COPYRIGHT (c) 1997 BY BIBLICAL STUDIES PRESS, L.L.C. ALL RIGHTS
+RESERVED&lt;/p&gt;
+
+&lt;p class=MsoNormal&gt;&lt;o:p&gt;&amp;nbsp;&lt;/o:p&gt;&lt;/p&gt;
+
+&lt;p class=MsoNormal&gt;The &lt;span class=SpellE&gt;NETBible&lt;/span&gt; with all 60,000+ notes
+has been supplied to the &lt;span class=SpellE&gt;OneStory&lt;/span&gt; Editor free of
+charge, however, a &lt;span class=GramE&gt;donation&lt;span style='mso-spacerun:yes'&gt; 
+&lt;/span&gt;would&lt;/span&gt; be much appreciated &lt;a href="http://bible.org/donate"&gt;http://bible.org/donate&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p class=MsoNormal&gt;&lt;o:p&gt;&amp;nbsp;&lt;/o:p&gt;&lt;/p&gt;
+
+&lt;p class=MsoNormal&gt;Visit: &lt;a href="http://netbible.org/"&gt;http://netbible.org&lt;/a&gt;
+for more extensive study materials.&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;</value>
   </data>
-  <data name="BuilderDialog_movedown1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BuilderDialog_movedown.PNG;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="IDS_NoProjectFromInternet" xml:space="preserve">
+    <value>No project file was found at the internet repository: {0}{0}{1}{0}{0}Are you sure it there is one in the repository yet?</value>
   </data>
-  <data name="gradient" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\gradient.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="IDS_UnableToContinue" xml:space="preserve">
+    <value>Unable to continue! Cause: {0}</value>
+  </data>
+  <data name="IDS_UnableToOpenMemberList" xml:space="preserve">
+    <value>Unable to open the member list{0}{0}{1}{0}{0}Contact bob_eaton@sall.com for help</value>
+  </data>
+  <data name="IDS_FromStoryForDiscourseCharting" xml:space="preserve">
+    <value>&amp;From {0} (for Discourse Charting)</value>
+  </data>
+  <data name="HTML_TableCellRightAlign" xml:space="preserve">
+    <value>&lt;td align="right"&gt;{0}&lt;/td&gt;</value>
+  </data>
+  <data name="HTML_Table" xml:space="preserve">
+    <value>  &lt;table style="width:100%;" border="1" cellspacing="0" cellpadding="0"&gt;
+  {0}
+  &lt;/table&gt;</value>
+  </data>
+  <data name="IDS_LoginAsCoach" xml:space="preserve">
+    <value>You will need to log in as a coach to be able to respond to the CIT/LSR comments</value>
+  </data>
+  <data name="HTML_ParagraphTextId" xml:space="preserve">
+    <value>&lt;p id="{0}" class="{1}"&gt;{2}&lt;/p&gt;</value>
+  </data>
+  <data name="IDS_AddInferenceTestQuery" xml:space="preserve">
+    <value>Click 'Yes' to add boxes for answers to the testing questions? Or click 'No' if you already have boxes (you might have them if you had earlier clicked "Edit", "Add story test results")</value>
+  </data>
+  <data name="HTML_TableCellNoWrap" xml:space="preserve">
+    <value>&lt;td NOWRAP&gt;{0}&lt;/td&gt;</value>
+  </data>
+  <data name="HTML_TableRow" xml:space="preserve">
+    <value>  &lt;tr&gt;
+    {0}
+  &lt;/tr&gt;
+    </value>
+  </data>
+  <data name="IDS_WarnAboutNotEnoughTqs" xml:space="preserve">
+    <value>You don't have at least half as many story testing questions as lines in the story. Unless you have prior permission from your consultant, you should click Cancel and add at least {0} more testing question(s). (right-click on the 'line options' button and choose 'Add a story testing question'). Otherwise, click 'Yes' to continue on to the next state.</value>
   </data>
   <data name="IDS_TbxFile_StoryBT" xml:space="preserve">
     <value>\+DatabaseType StoryBT
@@ -1708,83 +2083,41 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
 \HideFields
 \-DatabaseType</value>
   </data>
-  <data name="OpenSelectedItemHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\OpenSelectedItemHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="HTML_TableRowColor" xml:space="preserve">
+    <value>&lt;tr BGCOLOR="{0}"&gt;{1}&lt;/tr&gt;</value>
+  </data>
+  <data name="oneStory2storyingBT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oneStory2storyingBT.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="HTML_LinkJumpTargetBibleReference" xml:space="preserve">
+    <value>&lt;a href="bibleViewer.setReference" name="{0}" onClick="return OnBibRefJump(this);"&gt;{0}&lt;/a&gt;</value>
+  </data>
+  <data name="HTML_TableRowId" xml:space="preserve">
+    <value>&lt;tr id="{0}"&gt;{1}&lt;/tr&gt;    </value>
+  </data>
+  <data name="HTML_TableCellForTextArea" xml:space="preserve">
+    <value>&lt;td width="100%"&gt;{0}&lt;/td&gt;</value>
+  </data>
+  <data name="IDS_KeyTermsProblem" xml:space="preserve">
+    <value>Unable to process Key Terms: cause: {0}{0}{1}</value>
+  </data>
+  <data name="IDS_UseStoryCollapse" xml:space="preserve">
+    <value>Line number '{0}' has multiple sentences in the {1} column. Use the "Story" menu, "Collapse into 1 line" command followed by the "Split into Lines" command to break the story (and any back-translations) into lines based on sentence final punctuation (see "Project", "Settings" and any of the "Language" tabs to configure sentence final punctuation). The command "Story", "Re-align story lines" can also be used, which calls both of the above commands in one click</value>
+  </data>
+  <data name="IDS_GoBackwardsYoungMan" xml:space="preserve">
+    <value>This story has already reached the final state. If you mean to go to some previous state, click the 'Select State' menu at the top of the window and choose the previous state you want to go to.</value>
   </data>
   <data name="SplashScreenImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SplashScreenImage.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="IDS_VerifyOverwriteMyBiblicalTerms" xml:space="preserve">
-    <value>Click 'Ignore' to overwrite the existing 'My Biblical Terms' list with the contents of the '{0}' list. Otherwise, click 'Retry' to merge the contents of the '{0}' list into the existing 'My Biblical Terms' list.</value>
+  <data name="HTML_TableCellId" xml:space="preserve">
+    <value>&lt;td id="{0}"&gt;{1}&lt;/td&gt;</value>
   </data>
-  <data name="search" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\search.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="IDS_ObsoleteStoriesSet" xml:space="preserve">
+    <value>Old Stories</value>
   </data>
-  <data name="StageTransition20Update" xml:space="preserve">
-    <value>&lt;StateTransition stage="eProjFacTypeFreeTranslation" MemberTypeWithEditToken="eProjectFacilitator" RequiresUsingFreeTranslation="true"&gt;
-    &lt;StageDisplayString&gt;Project Facilitator enters Free Translation&lt;/StageDisplayString&gt;
-    &lt;TransitionDisplayString&gt;enter the Free Translation&lt;/TransitionDisplayString&gt;
-    &lt;StageInstructions&gt;
-In this stage, you (the project facilitator) will enter the Free translation (FT) of the story.
-This Free Translation should be done by a UNS directly and you (the project facilitator) will just 
-type in what they say.
-
-When you are finished entering the Free translation, then click the "Select State" menu item
-and in the resulting window click on the next (green) state.
-    &lt;/StageInstructions&gt;
-    &lt;AllowableForewardsTransitions&gt;
-      &lt;AllowableTransition&gt;eProjFacAddAnchors&lt;/AllowableTransition&gt;
-      &lt;AllowableTransition&gt;eConsultantCheckNonBiblicalStory&lt;/AllowableTransition&gt;
-    &lt;/AllowableForewardsTransitions&gt;
-    &lt;ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewFreeTranslationField="true" viewAnchorField="false" viewStoryTestingQuestions="false" viewStoryTestingAnswers="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" /&gt;
-  &lt;/StateTransition&gt;</value>
-  </data>
-  <data name="IDS_AdaptItConverterDoesntExist" xml:space="preserve">
-    <value>The Adapt It converter named '{0}' doesn't exist! You probably need to do 'Project', 'Settings' and configure it on the 'Adapt It' tab</value>
-  </data>
-  <data name="IDS_AdaptItProjectFolderFormat" xml:space="preserve">
-    <value>{0} to {1} adaptations</value>
-  </data>
-  <data name="project_1_3_to_1_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\1.3 to 1.4.xslt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="AdaptItProjectRepositoryFormat" xml:space="preserve">
-    <value>aikb-{0}-{1}</value>
-  </data>
-  <data name="IDS_ConfirmDeleteStateTransitions" xml:space="preserve">
-    <value>The file that stores the view settings must be deleted to upgrade to the new format (these customizations were done via 'Select State', 'Advanced' button, and then right-click on a state button to check or uncheck view fields for a given state). Because of this, it means that you will need to redo the settings.</value>
-  </data>
-  <data name="IDS_AddInferenceTestQuery" xml:space="preserve">
-    <value>Click 'Yes' to add boxes for answers to the testing questions? Or click 'No' if you already have boxes (you might have them if you had earlier clicked "Edit", "Add story test results")</value>
-  </data>
-  <data name="_1_4_to_1_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\1.4 to 1.5.xslt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="IDS_WarnAboutNotEnoughTqs" xml:space="preserve">
-    <value>You don't have at least half as many story testing questions as lines in the story. Unless you have prior permission from your consultant, you should click Cancel and add at least {0} more testing question(s). (right-click on the 'line options' button and choose 'Add a story testing question'). Otherwise, click 'Yes' to continue on to the next state.</value>
-  </data>
-  <data name="IDS_CantEditPanoramaView" xml:space="preserve">
-    <value>The program can't make this change right now. If this error continues, contact bob_eaton@sall.com for help</value>
-  </data>
-  <data name="IDS_UnableToOpenStageTransitionsXml" xml:space="preserve">
-    <value>Unable to process the state customization file (i.e. {0}). If you've customized which fields show by default in various states, then you need to delete the version of the customization file in the project folder (i.e. "{1}\{0}") so the program can re-create it using the newly upgraded version</value>
-  </data>
-  <data name="IDS_LoginAsCoach" xml:space="preserve">
-    <value>You will need to log in as a coach to be able to respond to the CIT/LSR comments</value>
-  </data>
-  <data name="IDS_EmailMessageBody" xml:space="preserve">
-    <value>This is an automated message from OSE v{0}:
-
-{1}</value>
-  </data>
-  <data name="IDS_EmailSubjectLine" xml:space="preserve">
-    <value>[OSE says]: {0}</value>
-  </data>
-  <data name="DefMyDocsSubfolder" xml:space="preserve">
-    <value>OneStory Editor Projects</value>
-  </data>
-  <data name="HTML_Button" xml:space="preserve">
-    <value>&lt;button id="{0}" onClick="{1}"&gt;{2}&lt;/button&gt;</value>
+  <data name="AddToFavoritesHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddToFavoritesHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="HTML_ButtonLineOptions" xml:space="preserve">
     <value>&lt;button id="{0}" onmouseup="{1}" style="height:20px; width:20px;"&gt;{2}&lt;/button&gt;</value>
@@ -1876,341 +2209,14 @@ and in the resulting window click on the next (green) state.
 	}
 &lt;/script&gt;</value>
   </data>
-  <data name="HTML_EmphasizedText" xml:space="preserve">
-    <value>&lt;em&gt;{0}&lt;/em&gt;</value>
-  </data>
-  <data name="HTML_Header" xml:space="preserve">
-    <value>&lt;html&gt;
-{0}
-&lt;head&gt;
-{1}
-&lt;/head&gt;
-&lt;body onKeyDown="return OnKeyDown();" onscroll="window.external.OnScroll();" onmouseup="OnMouseUp();"&gt;
-{2}
-&lt;/body&gt;
-{3}
-&lt;/html&gt;</value>
-  </data>
-  <data name="HTML_HeaderPresentation" xml:space="preserve">
-    <value>&lt;html&gt;
-{0}
-&lt;head&gt;
-&lt;script type="text/javascript"&gt;
-{1}
-&lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-{2}
-&lt;/body&gt;
-&lt;script&gt;
-{3}
-&lt;/script&gt;
-&lt;/html&gt;</value>
-  </data>
-  <data name="HTML_HttpLink" xml:space="preserve">
-    <value>&lt;a href="{0}" target="_blank"&gt;here&lt;/a&gt; </value>
-  </data>
-  <data name="HTML_LangStyle" xml:space="preserve">
-    <value>.{0} {{
-      font-family: "{1}";
-      font-size: {2} pt;
-      color: {3};
-      direction: {4};
-      text-align: {5};
-  }}</value>
-  </data>
-  <data name="HTML_LinkJumpLine" xml:space="preserve">
-    <value>&lt;a href="conNote.jumpToLine" name="{0}" class="{1}" onClick="return OnVerseLineJump(this);"&gt;{2}&lt;/a&gt;</value>
-  </data>
-  <data name="HTML_LinkJumpTargetBibleReference" xml:space="preserve">
-    <value>&lt;a href="bibleViewer.setReference" name="{0}" onClick="return OnBibRefJump(this);"&gt;{0}&lt;/a&gt;</value>
-  </data>
-  <data name="HTML_ParagraphTextId" xml:space="preserve">
-    <value>&lt;p id="{0}" class="{1}"&gt;{2}&lt;/p&gt;</value>
-  </data>
-  <data name="HTML_StyleDefinition" xml:space="preserve">
-    <value>&lt;style type="text/css"&gt;
-  body    {{ margin:0 }}
-  textarea {{ 
-      width:100%; 
-      overflow:visible;
-  }}
-  table {{
-   font-size: {0};
-  }}
-  button 
-  {{
-    font-size: {1};
-    padding: 0 2px;
-    overflow: visible;
-  }}  
-  p 
-  {{
-    margin-top: 0em; 
-    margin-bottom: 0em;
-  }} 
-  {2}
-  .hasPlaceholder {{
-     color: #777;
-  }}
-  .Retelling {{
-	color: {3}
-  }}
-  .TestQuestion {{
-	color: {4}
-  }}
-  .TestQuestionAnswer {{
-	color: {5}
-  }}
-  .readonly {{
-    background-color:Azure;
-  }}
-  .highlight {{
-	background-color:#0099ff;
-	color:white;
-  }}
-&lt;/style&gt;</value>
-  </data>
-  <data name="HTML_Table" xml:space="preserve">
-    <value>  &lt;table style="width:100%;" border="1" cellspacing="0" cellpadding="0"&gt;
-  {0}
-  &lt;/table&gt;</value>
-  </data>
-  <data name="HTML_TableCell" xml:space="preserve">
-    <value>&lt;td&gt;{0}&lt;/td&gt;</value>
-  </data>
-  <data name="HTML_TableCellForTextArea" xml:space="preserve">
-    <value>&lt;td width="100%"&gt;{0}&lt;/td&gt;</value>
-  </data>
-  <data name="HTML_TableCellId" xml:space="preserve">
-    <value>&lt;td id="{0}"&gt;{1}&lt;/td&gt;</value>
-  </data>
-  <data name="HTML_TableCellNoWrap" xml:space="preserve">
-    <value>&lt;td NOWRAP&gt;{0}&lt;/td&gt;</value>
-  </data>
-  <data name="HTML_TableCellRightAlign" xml:space="preserve">
-    <value>&lt;td align="right"&gt;{0}&lt;/td&gt;</value>
-  </data>
-  <data name="HTML_TableCellWidth" xml:space="preserve">
-    <value>&lt;td width="{0}%"&gt;{1}&lt;/td&gt;</value>
-  </data>
-  <data name="HTML_TableCellWidthAlignTop" xml:space="preserve">
-    <value>&lt;td width="{0}%" valign="top"&gt;{1}&lt;/td&gt;</value>
+  <data name="HTML_TableRowIdColor" xml:space="preserve">
+    <value>&lt;tr id="{0}" BGCOLOR="{1}"&gt;{2}&lt;/tr&gt;    </value>
   </data>
   <data name="HTML_TableCellWidthId" xml:space="preserve">
     <value>&lt;td id="{0}" width="{1}%"&gt;{2}&lt;/td&gt;</value>
   </data>
-  <data name="HTML_TableCellWidthPixels" xml:space="preserve">
-    <value>&lt;td width="{0}"&gt;{1}&lt;/td&gt;</value>
-  </data>
-  <data name="HTML_TableCellWithSpan" xml:space="preserve">
-    <value>&lt;td colspan="{0}"&gt;{1}&lt;/td&gt;</value>
-  </data>
-  <data name="HTML_TableCellWithSpanAndWidth" xml:space="preserve">
-    <value>&lt;td width="{0}%" colspan="{1}"&gt;{2}&lt;/td&gt;</value>
-  </data>
-  <data name="HTML_TableNoBorder" xml:space="preserve">
-    <value>&lt;table style="width:100%;"&gt;
-{0}
-&lt;/table&gt;</value>
-  </data>
-  <data name="HTML_TableRow" xml:space="preserve">
-    <value>  &lt;tr&gt;
-    {0}
-  &lt;/tr&gt;
-    </value>
-  </data>
-  <data name="HTML_TableRowColor" xml:space="preserve">
-    <value>&lt;tr BGCOLOR="{0}"&gt;{1}&lt;/tr&gt;</value>
-  </data>
-  <data name="HTML_TableRowId" xml:space="preserve">
-    <value>&lt;tr id="{0}"&gt;{1}&lt;/tr&gt;    </value>
-  </data>
-  <data name="HTML_TableRowIdColor" xml:space="preserve">
-    <value>&lt;tr id="{0}" BGCOLOR="{1}"&gt;{2}&lt;/tr&gt;    </value>
-  </data>
-  <data name="HTML_Textarea" xml:space="preserve">
-    <value>&lt;textarea id="{0}" class="{1}"&gt;{2}&lt;/textarea&gt;</value>
-  </data>
-  <data name="HTML_TextareaWithRefDrop" xml:space="preserve">
-    <value>&lt;textarea id="{0}" class="{1}"&gt;{2}&lt;/textarea&gt;</value>
-    <comment>added to HTML_Script_AddTextareaMouseDown</comment>
-  </data>
-  <data name="IDS_DefaultPanoramaFrontMatter" xml:space="preserve">
-    <value>{\rtf1\adeflang1081\ansi\ansicpg1252\uc1\adeff0\deff0\stshfdbch0\stshfloch0\stshfhich0\stshfbi0\deflang1033\deflangfe1033{\fonttbl{\f0\froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f312\froman\fcharset238\fprq2 Times New Roman CE;}{\f313\froman\fcharset204\fprq2 Times New Roman Cyr;}
-{\f315\froman\fcharset161\fprq2 Times New Roman Greek;}{\f316\froman\fcharset162\fprq2 Times New Roman Tur;}{\f317\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew);}{\f318\fbidi \froman\fcharset178\fprq2 Times New Roman (Arabic);}
-{\f319\froman\fcharset186\fprq2 Times New Roman Baltic;}{\f320\froman\fcharset163\fprq2 Times New Roman (Vietnamese);}}{\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red0\green255\blue255;\red0\green255\blue0;\red255\green0\blue255;
-\red255\green0\blue0;\red255\green255\blue0;\red255\green255\blue255;\red0\green0\blue128;\red0\green128\blue128;\red0\green128\blue0;\red128\green0\blue128;\red128\green0\blue0;\red128\green128\blue0;\red128\green128\blue128;\red192\green192\blue192;}
-{\stylesheet{\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \snext0 Normal;}{\*\cs10 \additive Default Paragraph Font;}{\*
-\ts11\tsrowd\trftsWidthB3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\trcbpat1\trcfpat1\tblind0\tblindtype3\tscellwidthfts0\tsvertalt\tsbrdrt\tsbrdrl\tsbrdrb\tsbrdrr\tsbrdrdgl\tsbrdrdgr\tsbrdrh\tsbrdrv 
-\ql \li0\ri0\widctlpar\wrapdefault\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20 \ltrch\fcs0 \fs20\lang1024\langfe1024\cgrid\langnp1024\langfenp1024 \snext11 \ssemihidden Normal Table;}{
-\s15\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext15 Anchor;}{
-\s16\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext16 Back translation;}{\*\cs17 \additive Catetory;}{
-\s18\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext18 Comment;}{\*\cs19 \additive Consultant checked;}{
-\s20\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext20 Crafting Note;}{
-\s21\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext21 Date;}{
-\s22\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext22 French;}{
-\s23\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext23 ID of Text;}{
-\s24\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext24 Line number;}{\*\cs25 \additive Old version;}{\*\cs26 \additive 
-Stage;}{\*\cs27 \additive Testing Questions;}{\s28\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext28 Title;}{
-\s29\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext29 _DateStampHasFourDigitYear;}{
-\s30\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext30 _sh;}{\s31\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 
-\rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext31 ans;}{\s32\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 
-\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext32 ansid;}{\s33\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
-\sbasedon0 \snext33 ansplm;}{\*\cs34 \additive bold;}{\s35\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext35 bt1;}{
-\s36\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext36 bt2;}{\s37\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 
-\rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext37 bteng;}{\s38\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 
-\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext38 btn;}{\s39\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
-\sbasedon0 \snext39 c;}{\s40\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext40 eans;}{
-\s41\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext41 en;}{\s42\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 
-\rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext42 eng;}{\s43\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 
-\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext43 ert1;}{\s44\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
-\sbasedon0 \snext44 ert2;}{\s45\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext45 etst;}{
-\s46\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext46 fix;}{\s47\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 
-\rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext47 footer;}{\*\cs48 \additive \rtlch\fcs1 \af0 \ltrch\fcs0 \sbasedon10 footnote reference;}{
-\s49\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext49 footnote text;}{\*\cs50 \additive for revision;}{
-\s51\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext51 gtst;}{
-\s52\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext52 gtstid;}{
-\s53\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext53 header;}{
-\s54\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext54 ind;}{\s55\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 
-\rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext55 mnd;}{\s56\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 
-\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext56 mrt1;}{\s57\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
-\sbasedon0 \snext57 mrt2;}{\s58\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext58 nat;}{
-\s59\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext59 olden;}{
-\s60\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext60 oldid;}{
-\s61\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext61 p;}{\s62\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 
-\rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext62 ret;}{\*\cs63 \additive retelling 1;}{\s64\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 
-\af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext64 retelling 2;}{\s65\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 
-\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext65 rtl3;}{\s66\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 
-\sbasedon0 \snext66 rtl4;}{\*\cs67 \additive secondary comment;}{\s68\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext68 tra;}
-{\s69\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext69 tst1;}{
-\s70\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext70 tsta;}{
-\s71\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 \sbasedon0 \snext71 ver;}}{\*\latentstyles\lsdstimax156\lsdlockeddef0}
-{\*\rsidtbl \rsid150813\rsid6567156\rsid12199339\rsid16282371}{\*\generator Microsoft Word 11.0.0000;}{\info{\operator Bob Eaton}{\creatim\yr2009\mo10\dy3\hr8\min55}{\revtim\yr2009\mo10\dy3\hr9\min4}{\version4}{\edmins9}{\nofpages1}{\nofwords86}
-{\nofchars494}{\nofcharsws579}{\vern24615}{\*\password 00000000}}{\*\xmlnstbl {\xmlns1 http://schemas.microsoft.com/office/word/2003/wordml}}\paperw12240\paperh15840\margl1800\margr1800\margt1440\margb1440\gutter0\ltrsect 
-\facingp\widowctrl\ftnbj\aenddoc\donotembedsysfont0\donotembedlingdata1\grfdocevents0\validatexml0\showplaceholdtext0\ignoremixedcontent0\saveinvalidxml0\showxmlerrors0\horzdoc\dghspace120\dgvspace120\dghorigin1701\dgvorigin1984\dghshow0\dgvshow3
-\jcompress\viewkind1\viewscale100\rsidroot16282371 \fet0{\*\wgrffmtfilter 013f}\ilfomacatclnup0{\*\ftnsep \ltrpar \pard\plain \ltrpar\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 
-\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 \chftnsep 
-\par }}{\*\ftnsepc \ltrpar \pard\plain \ltrpar\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\chftnsepc 
-\par }}{\*\aftnsep \ltrpar \pard\plain \ltrpar\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\chftnsep 
-\par }}{\*\aftnsepc \ltrpar \pard\plain \ltrpar\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\chftnsepc 
-\par }}\ltrpar \sectd \ltrsect\sbknone\linex0\sectdefaultcl\sftnbj {\headerl \ltrpar \pard\plain \ltrpar\s53\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 
-\fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 \tab \tab 
-\par }}{\headerr \ltrpar \pard\plain \ltrpar\s53\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 \tab 
-\tab 
-\par }}{\footerl \ltrpar \pard\plain \ltrpar\s47\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\field{\*\fldinst {\rtlch\fcs1 \af0 \ltrch\fcs0 
-\insrsid6567156 PAGE}}{\fldrslt {\rtlch\fcs1 \af0 \ltrch\fcs0 \lang1024\langfe1024\noproof\insrsid16282371 2}}}\sectd \linex0\endnhere\sectdefaultcl\sftnbj {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 \tab asdg.rtf\tab }{\field{\*\fldinst {\rtlch\fcs1 
-\af0 \ltrch\fcs0 \insrsid6567156 DATE}}{\fldrslt {\rtlch\fcs1 \af0 \ltrch\fcs0 \lang1024\langfe1024\noproof\insrsid16282371 10/3/2009}}}\sectd \linex0\endnhere\sectdefaultcl\sftnbj {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\par }}{\footerr \ltrpar \pard\plain \ltrpar\s47\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\field{\*\fldinst {\rtlch\fcs1 \af0 \ltrch\fcs0 
-\insrsid6567156 DATE}}{\fldrslt {\rtlch\fcs1 \af0 \ltrch\fcs0 \lang1024\langfe1024\noproof\insrsid16282371 10/3/2009}}}\sectd \linex0\endnhere\sectdefaultcl\sftnbj {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 \tab asdg.rtf\tab }{\field{\*\fldinst {
-\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 PAGE}}{\fldrslt {\rtlch\fcs1 \af0 \ltrch\fcs0 \lang1024\langfe1024\noproof\insrsid6567156 1}}}\sectd \linex0\endnhere\sectdefaultcl\sftnbj {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\par }}{\*\pnseclvl1\pnucrm\pnstart1\pnindent720\pnhang {\pntxta .}}{\*\pnseclvl2\pnucltr\pnstart1\pnindent720\pnhang {\pntxta .}}{\*\pnseclvl3\pndec\pnstart1\pnindent720\pnhang {\pntxta .}}{\*\pnseclvl4\pnlcltr\pnstart1\pnindent720\pnhang {\pntxta )}}
-{\*\pnseclvl5\pndec\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl6\pnlcltr\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl7\pnlcrm\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl8
-\pnlcltr\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl9\pnlcrm\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}\pard\plain \ltrpar\s16\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 
-\ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \b\insrsid6567156\charrsid16282371 Target audience: }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371\charrsid16282371 &lt;Target audience name&gt;}{\rtlch\fcs1 
-\ab\af0 \ltrch\fcs0 \b\insrsid6567156\charrsid16282371 
-\par }\pard\plain \ltrpar\s18\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 &lt;
-enter description here&gt;}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\par }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 
-\par }\pard\plain \ltrpar\s16\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \b\insrsid6567156\charrsid16282371 Re
-demptive theme:}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156  }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 &lt;Redemptive theme&gt;}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\par }\pard\plain \ltrpar\s18\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 &lt;enter description here
-&gt;}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\par }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 
-\par }\pard\plain \ltrpar\s16\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \ab\af0 \ltrch\fcs0 \b\insrsid6567156\charrsid16282371 Gr
-eater Panorama
-\par }\pard\plain \ltrpar\s18\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 \rtlch\fcs1 \af0\afs20\alang1081 \ltrch\fcs0 \fs20\lang1033\langfe1033\cgrid\langnp1033\langfenp1033 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 Spiritual World}{
-\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid150813  (background)}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 
-\par Creation}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid150813  (God as creator)}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 
-\par \'85
-\par &lt;Prophesy Story&gt;
-\par \'85
-\par }\pard \ltrpar\s18\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0\pararsid16282371 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 Mary and Joseph}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156  (Jesus as Solution)}{\rtlch\fcs1 \af0 \ltrch\fcs0 
-\insrsid16282371 
-\par }\pard \ltrpar\s18\ql \li0\ri0\nowidctlpar\wrapdefault\faauto\rin0\lin0\itap0 {\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 Birth of Jesus
-\par Baptism of Jesus
-\par \'85
-\par 99 + one/doctor for the sick/Prayer of the Pharisee and tax collector (for coverage of why the priests wanted to kill Jesus)
-\par Jesus foreshadows the future (for prophesy of his death and background of Holy Spirit)
-\par }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 Trial}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371  and death of Jesus}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\par Resurrection
-\par }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid16282371 Coming of the Holy Spirit (response)}{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\par }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
-\par }}</value>
-  </data>
-  <data name="IDS_IllFormedJumpTarget" xml:space="preserve">
-    <value>The project file has an ill-formed Anchor! Wasn't expecting to see '{0}'. Contact bob_eaton@sall.com and mention which the project name.</value>
-  </data>
-  <data name="IDS_MainStoriesSet" xml:space="preserve">
-    <value>Stories</value>
-  </data>
-  <data name="IDS_ObsoleteStoriesSet" xml:space="preserve">
-    <value>Old Stories</value>
-  </data>
-  <data name="IDS_ProjectFileCorrupted" xml:space="preserve">
-    <value>The project file is corrupted. No 'StoryCrafterMemberID' record found. Send to bob_eaton@sall.com for help.</value>
-  </data>
-  <data name="IDS_ProjectFileCorruptedNoCraftingInfo" xml:space="preserve">
-    <value>The project file is corrupted. No 'CraftingInfo' record found. Send to bob_eaton@sall.com for help.</value>
-  </data>
-  <data name="IDS_QueryConvertProjectFile1_3to1_4" xml:space="preserve">
-    <value>The project file you're trying to open (i.e. '{0}') was lasted edited by an earlier version of the OneStory editor. I can automatically upgrade the project file to be readable by this newer version, but it will make it inaccessible to the earlier version. So if the rest of the team (Project Facilitators, Consultant, etc) have all: a) done a 'Project', 'Send/receive' to send all of their outstanding changes, and b) upgraded to the new version of OSE, then if you want the project file to be converted to the new format, click 'Yes'</value>
-  </data>
-  <data name="HTML_ButtonClass" xml:space="preserve">
-    <value>&lt;button id="{0}" class="{1}" onClick="{2}"&gt;{3}&lt;/button&gt;</value>
-  </data>
-  <data name="HTML_LangStyleCenter" xml:space="preserve">
-    <value>.{0} {{
-      font-family: "{1}";
-      font-size: {2} pt;
-  }}</value>
-  </data>
-  <data name="HTML_TableCellClass" xml:space="preserve">
-    <value>&lt;td class="{0}"&gt;&lt;font color="{1}"&gt;{2}&lt;/font&gt;&lt;/td&gt;</value>
-  </data>
-  <data name="IDS_NonBibStoriesSet" xml:space="preserve">
-    <value>Non-Biblical Stories</value>
-  </data>
-  <data name="HTML_TableCellWidthDropAnchor" xml:space="preserve">
-    <value>&lt;td id="{0}" width="{1}%" ondragover="window.event.returnValue=false" ondrop="window.external.AddScriptureReference(this.id)" onmouseup="OnEmptyAnchorClick(this.id);"&gt;{2}&lt;/td&gt;</value>
-  </data>
-  <data name="HTML_ParagraphText" xml:space="preserve">
-    <value>&lt;p class="{0}"&gt;{1}&lt;/p&gt;</value>
-  </data>
-  <data name="HTML_TableBorder" xml:space="preserve">
-    <value>  &lt;table style="width:100%;" border="1"&gt;
-  {0}
-  &lt;/table&gt;</value>
-  </data>
-  <data name="PrintHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PrintHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="StoryBtJs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\js\storybt.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="StoryBtPsJs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\js\storybtps.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="jquery_min" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\js\jquery.min.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="StoryBtHtml" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\html\storybt.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="StoryBtPlaceholders" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\js\storybtplaceholders.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="HTML_ButtonToolTip" xml:space="preserve">
-    <value>&lt;button id="{0}" name="{1}" onMouseUp="{2}" title="{3}"&gt;{4}&lt;/button&gt;</value>
-  </data>
-  <data name="Edit_Undo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Edit_Undo.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Pause.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="FillUpHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FillUpHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="HTML_Script_AddTextareaMouseDown" xml:space="preserve">
     <value>&lt;script type="text/javascript"&gt;
@@ -2226,30 +2232,27 @@ eater Panorama
   }
 &lt;/script&gt;</value>
   </data>
-  <data name="IDS_MyDropboxReferalString" xml:space="preserve">
-    <value>http://db.tt/4VwBmut</value>
+  <data name="IDS_UnableToSave" xml:space="preserve">
+    <value>Unable to save the project file '{1}'{0}{0}{2}</value>
   </data>
-  <data name="AudioFileSearchFilter" xml:space="preserve">
-    <value>Audio files|*.mp3;*.wav;*.wma|All files|*.*</value>
+  <data name="HTML_TableBorder" xml:space="preserve">
+    <value>  &lt;table style="width:100%;" border="1"&gt;
+  {0}
+  &lt;/table&gt;</value>
   </data>
-  <data name="graphhs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\graphhs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="search" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\search.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="HTML_TableForLine" xml:space="preserve">
-    <value>&lt;table id="{0}" style="width:100%;"&gt;
-{1}
-&lt;/table&gt;</value>
+  <data name="DataContainer_MoveFirstHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DataContainer_MoveFirstHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="FillDownHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FillDownHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="IDS_VerifyOverwriteMyBiblicalTerms" xml:space="preserve">
+    <value>Click 'Ignore' to overwrite the existing 'My Biblical Terms' list with the contents of the '{0}' list. Otherwise, click 'Retry' to merge the contents of the '{0}' list into the existing 'My Biblical Terms' list.</value>
   </data>
-  <data name="HTML_SpanLangQuote" xml:space="preserve">
-    <value>&lt;SPAN class="{0} {1}"&gt;{2}&lt;/SPAN&gt;</value>
+  <data name="HTML_TableCellWithSpanAndWidth" xml:space="preserve">
+    <value>&lt;td width="{0}%" colspan="{1}"&gt;{2}&lt;/td&gt;</value>
   </data>
-  <data name="FillUpHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FillUpHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="HTML_TableCellNoWrapWithToolTip" xml:space="preserve">
-    <value>&lt;td NOWRAP title="{0}"&gt;{1}&lt;/td&gt;</value>
+  <data name="Bell" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Bell1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -7753,6 +7753,72 @@ namespace OneStoryProjectEditor
             }
         }
 
+        private void toolStripButtonShowStoriesInYourState_Click(object sender, EventArgs e)
+        {
+            if (StoryProject == null)
+                return;
+
+            // keep track of the index of the current story (in case it gets deleted)
+            int nIndex = (TheCurrentStory != null) ? TheCurrentStoriesSet.IndexOf(TheCurrentStory) : -1;
+
+            var dlg = new PanoramaView(StoryProject, LoggedOnMember);
+            dlg.ShowDialog(CurrentStoriesSetName);
+
+            if (dlg.Modified)
+            {
+                Debug.Assert(StoryProject != null);
+                if (!StoryProject.ContainsKey(CurrentStoriesSetName))
+                {
+                    var chooseOne = StoryProject.Values.FirstOrDefault();
+                    if (chooseOne == null)
+                        return;
+
+                    InitializeCurrentStoriesSetName(chooseOne.SetName);
+                    TheCurrentStory = null;
+                    nIndex = 0;
+                    Debug.Assert(!String.IsNullOrEmpty(CurrentStoriesSetName) && (StoryProject[CurrentStoriesSetName] != null));
+                }
+
+                // this means that the order was probably switched, so we have to reload the combo box
+                comboBoxStorySelector.Items.Clear();
+                foreach (StoryData aStory in TheCurrentStoriesSet)
+                    comboBoxStorySelector.Items.Add(aStory.Name);
+
+                // if the current story has been deleted, then choose another
+                if (TheCurrentStory != null)
+                {
+                    int nNewIndex = TheCurrentStoriesSet.IndexOf(TheCurrentStory);
+                    if (nNewIndex != -1)
+                    {
+                        nIndex = -1;
+
+                        // also check to see if its name has been changed
+                        UpdateStoryNameComboBox();
+                    }
+                }
+
+                if (nIndex > 0)
+                    nIndex--;
+
+                // if we get here, it's because we deleted the current story
+                if (TheCurrentStoriesSet.Count == 0)
+                {
+                    // just close the project
+                    ClearState();
+                }
+                else if ((nIndex >= 0) && (nIndex < TheCurrentStoriesSet.Count))
+                {
+                    JumpToStory(TheCurrentStoriesSet[nIndex].Name);
+                }
+
+                Modified = true;
+            }
+
+            // not sure why we had this null case, but it's causing Irene grief by shifting to the 1st story in the set when you just exit the Panorama window
+            if (!String.IsNullOrEmpty(dlg.JumpToStory))
+                NavigateTo(dlg.SelectedStorySetName, dlg.JumpToStory, 1, null);
+        }
+
         private void panoramaNextStoryMenu_Click(object sender, EventArgs e)
         {
             GoToNextStory();

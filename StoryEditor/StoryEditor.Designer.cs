@@ -205,6 +205,7 @@ namespace OneStoryProjectEditor
             this.textBoxCoachNotes = new System.Windows.Forms.TextBox();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.toolStripRecordNavigation = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonShowStoriesInYourState = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonShowPanoramaStories = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonFirst = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonPrevious = new System.Windows.Forms.ToolStripButton();
@@ -979,7 +980,7 @@ namespace OneStoryProjectEditor
             this.viewTransliterationVernacular.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewTransliteratorVernacularConfigureToolStripMenuItem});
             this.viewTransliterationVernacular.Name = "viewTransliterationVernacular";
-            this.viewTransliterationVernacular.Size = new System.Drawing.Size(157, 22);
+            this.viewTransliterationVernacular.Size = new System.Drawing.Size(158, 22);
             this.viewTransliterationVernacular.Text = "Story Language";
             this.viewTransliterationVernacular.ToolTipText = "Check this menu to turn on a transliterator for the story language boxes";
             this.viewTransliterationVernacular.Click += new System.EventHandler(this.viewTransliterationVernacular_Click);
@@ -997,7 +998,7 @@ namespace OneStoryProjectEditor
             this.viewTransliterationNationalBT.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewTransliteratorNationalBTConfigureToolStripMenuItem});
             this.viewTransliterationNationalBT.Name = "viewTransliterationNationalBT";
-            this.viewTransliterationNationalBT.Size = new System.Drawing.Size(157, 22);
+            this.viewTransliterationNationalBT.Size = new System.Drawing.Size(158, 22);
             this.viewTransliterationNationalBT.Text = "National BT";
             this.viewTransliterationNationalBT.ToolTipText = "Check this menu to turn on a transliterator for the national language BT boxes";
             this.viewTransliterationNationalBT.Click += new System.EventHandler(this.viewTransliterationNationalBT_Click);
@@ -1015,7 +1016,7 @@ namespace OneStoryProjectEditor
             this.viewTransliterationInternationalBt.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewTransliteratorInternationalBtConfigureToolStripMenuItem});
             this.viewTransliterationInternationalBt.Name = "viewTransliterationInternationalBt";
-            this.viewTransliterationInternationalBt.Size = new System.Drawing.Size(157, 22);
+            this.viewTransliterationInternationalBt.Size = new System.Drawing.Size(158, 22);
             this.viewTransliterationInternationalBt.Text = "International BT";
             this.viewTransliterationInternationalBt.ToolTipText = "Check this menu to turn on a transliterator for the International/English languag" +
     "e boxes";
@@ -1034,7 +1035,7 @@ namespace OneStoryProjectEditor
             this.viewTransliterationFreeTranslation.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewTransliteratorFreeTranslationConfigureToolStripMenuItem});
             this.viewTransliterationFreeTranslation.Name = "viewTransliterationFreeTranslation";
-            this.viewTransliterationFreeTranslation.Size = new System.Drawing.Size(157, 22);
+            this.viewTransliterationFreeTranslation.Size = new System.Drawing.Size(158, 22);
             this.viewTransliterationFreeTranslation.Text = "Free Translation";
             this.viewTransliterationFreeTranslation.ToolTipText = "Check this menu to turn on a transliterator for the Free Translation language box" +
     "es";
@@ -1298,7 +1299,7 @@ namespace OneStoryProjectEditor
             // tasksToolStripMenu
             // 
             this.tasksToolStripMenu.Name = "tasksToolStripMenu";
-            this.tasksToolStripMenu.Size = new System.Drawing.Size(50, 27);
+            this.tasksToolStripMenu.Size = new System.Drawing.Size(51, 27);
             this.tasksToolStripMenu.Text = "&Tasks!";
             this.tasksToolStripMenu.Click += new System.EventHandler(this.tasksToolStripMenu_Click);
             // 
@@ -1854,16 +1855,30 @@ namespace OneStoryProjectEditor
             this.toolStripRecordNavigation.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStripRecordNavigation.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStripRecordNavigation.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonShowStoriesInYourState,
             this.toolStripButtonShowPanoramaStories,
             this.toolStripButtonFirst,
             this.toolStripButtonPrevious,
             this.toolStripButtonNext,
             this.toolStripButtonLast});
-            this.toolStripRecordNavigation.Location = new System.Drawing.Point(994, 0);
+            this.toolStripRecordNavigation.Location = new System.Drawing.Point(940, 0);
             this.toolStripRecordNavigation.Name = "toolStripRecordNavigation";
-            this.toolStripRecordNavigation.Size = new System.Drawing.Size(118, 25);
+            this.toolStripRecordNavigation.Size = new System.Drawing.Size(172, 25);
             this.toolStripRecordNavigation.TabIndex = 3;
             this.toolStripRecordNavigation.Text = "<no need to localize/translate>";
+            // 
+            // toolStripButtonShowStoriesInYourState
+            // 
+            this.toolStripButtonShowStoriesInYourState.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonShowStoriesInYourState.Image = global::OneStoryProjectEditor.Properties.Resources.Bell;
+            this.toolStripButtonShowStoriesInYourState.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButtonShowStoriesInYourState.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonShowStoriesInYourState.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.toolStripButtonShowStoriesInYourState.Name = "toolStripButtonShowStoriesInYourState";
+            this.toolStripButtonShowStoriesInYourState.Size = new System.Drawing.Size(23, 23);
+            this.toolStripButtonShowStoriesInYourState.Text = "Show Panorama Stories";
+            this.toolStripButtonShowStoriesInYourState.ToolTipText = "Click to view the full list of stories (same as \"Panorama\", \"Show\")";
+            this.toolStripButtonShowStoriesInYourState.Click += new System.EventHandler(this.toolStripButtonShowStoriesInYourState_Click);
             // 
             // toolStripButtonShowPanoramaStories
             // 
@@ -2171,6 +2186,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem advancedAutomaticallyLoadProjectMenu;
         private ToolStripMenuItem editDeleteChooseFieldsMenu;
         private ToolStripSeparator toolStripSeparator11;
+        private ToolStripButton toolStripButtonShowStoriesInYourState;
     }
 
 #if UsingHtmlDisplayForConNotes
