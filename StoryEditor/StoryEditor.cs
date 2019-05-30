@@ -330,10 +330,24 @@ namespace OneStoryProjectEditor
             //Return the loaded assembly.
             return sayMoreAssembly;
         }
-
         private void InitializeCurrentStoriesSetName(string strStoriesSet)
         {
             CurrentStoriesSetName = strStoriesSet;
+
+            string strMemberId = null;
+            var bInLoggedInUsersTurn = true;
+            var storySet = TheCurrentStoriesSet;
+            foreach (var story in storySet)
+            {
+                //string strMemberId = null;
+                if ((_loggedOnMember != null) && (_loggedOnMember.MemberGuid == strMemberId))
+                {
+                    // popup
+                    LocalizableMessageBox.Show(Localizer.Str("There are other stories in your state. Would you like to go there ?"),
+                                               OseCaption);
+                    break;
+                }
+            }
         }
 
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
