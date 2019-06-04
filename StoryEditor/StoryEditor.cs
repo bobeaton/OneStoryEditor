@@ -7833,6 +7833,16 @@ namespace OneStoryProjectEditor
                 NavigateTo(dlg.SelectedStorySetName, dlg.JumpToStory, 1, null);
         }
 
+        private void advancedAutomaticallyLoadProjectMenu_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void panoramaNextStoryMenu_Click(object sender, EventArgs e)
         {
             GoToNextStory();

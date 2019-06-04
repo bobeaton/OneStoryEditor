@@ -181,6 +181,7 @@ namespace OneStoryProjectEditor
             this.advancedSwapDataColumns = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedOneStoryProjectMetaData = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedUseDialogToPreviewConNotes = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedAutomaticallyLoadProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -214,7 +215,7 @@ namespace OneStoryProjectEditor
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeftRight)).BeginInit();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
@@ -1324,6 +1325,7 @@ namespace OneStoryProjectEditor
             this.advancedOneStoryProjectMetaData,
             this.advancedUseDialogToPreviewConNotes,
             this.toolStripMenuItem1,
+            this.toolStripMenuItem3,
             this.advancedAutomaticallyLoadProjectMenu});
             this.advancedToolStripMenu.Name = "advancedToolStripMenu";
             this.advancedToolStripMenu.Size = new System.Drawing.Size(72, 27);
@@ -1548,6 +1550,18 @@ namespace OneStoryProjectEditor
     "n notes";
             this.advancedUseDialogToPreviewConNotes.Click += new System.EventHandler(this.advancedUseDialogToPreviewConNotes_Click);
             // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Checked = true;
+            this.toolStripMenuItem1.CheckOnClick = true;
+            this.toolStripMenuItem1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(314, 22);
+            this.toolStripMenuItem1.Text = "Auto&matically Load Project";
+            this.toolStripMenuItem1.ToolTipText = "Uncheck this menu if you don\'t want OSE to automatically load the last project op" +
+    "ened";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
             // advancedAutomaticallyLoadProjectMenu
             // 
             this.advancedAutomaticallyLoadProjectMenu.Checked = true;
@@ -1555,10 +1569,11 @@ namespace OneStoryProjectEditor
             this.advancedAutomaticallyLoadProjectMenu.CheckState = System.Windows.Forms.CheckState.Checked;
             this.advancedAutomaticallyLoadProjectMenu.Name = "advancedAutomaticallyLoadProjectMenu";
             this.advancedAutomaticallyLoadProjectMenu.Size = new System.Drawing.Size(314, 22);
-            this.advancedAutomaticallyLoadProjectMenu.Text = "Stories in Your State";
+            this.advancedAutomaticallyLoadProjectMenu.Text = "Automatically Send/Receive Window";
             this.advancedAutomaticallyLoadProjectMenu.ToolTipText = "Uncheck this menu if you don\'t want OSE to automatically load the last project op" +
     "ened";
             this.advancedAutomaticallyLoadProjectMenu.CheckStateChanged += new System.EventHandler(this.advancedAutomaticallyLoadProjectMenu_CheckStateChanged);
+            this.advancedAutomaticallyLoadProjectMenu.Click += new System.EventHandler(this.advancedAutomaticallyLoadProjectMenu_Click);
             // 
             // aboutToolStripMenu
             // 
@@ -1973,15 +1988,15 @@ namespace OneStoryProjectEditor
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
             // 
-            // toolStripMenuItem1
+            // toolStripMenuItem3
             // 
-            this.toolStripMenuItem1.Checked = true;
-            this.toolStripMenuItem1.CheckOnClick = true;
-            this.toolStripMenuItem1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(314, 22);
-            this.toolStripMenuItem1.Text = "Auto&matically Load Project";
-            this.toolStripMenuItem1.ToolTipText = "Uncheck this menu if you don\'t want OSE to automatically load the last project op" +
+            this.toolStripMenuItem3.Checked = true;
+            this.toolStripMenuItem3.CheckOnClick = true;
+            this.toolStripMenuItem3.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(314, 22);
+            this.toolStripMenuItem3.Text = "Stories in Your State";
+            this.toolStripMenuItem3.ToolTipText = "Uncheck this menu if you don\'t want OSE to automatically load the last project op" +
     "ened";
             // 
             // StoryEditor
@@ -2201,6 +2216,7 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator11;
         private ToolStripButton toolStripButtonShowStoriesInYourState;
         private ToolStripMenuItem toolStripMenuItem1;
+        private ToolStripMenuItem toolStripMenuItem3;
     }
 
 #if UsingHtmlDisplayForConNotes
