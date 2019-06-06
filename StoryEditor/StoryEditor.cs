@@ -112,6 +112,7 @@ namespace OneStoryProjectEditor
         private PrintForm m_dlgPrintForm;
 
         public static TextPaster TextPaster = null;
+        protected StoryProjectData _storyProject;
 
         [Flags]
         public enum TextFields
@@ -330,11 +331,13 @@ namespace OneStoryProjectEditor
             //Return the loaded assembly.
             return sayMoreAssembly;
         }
+
         private void InitializeCurrentStoriesSetName(string strStoriesSet)
         {
             CurrentStoriesSetName = strStoriesSet;
 
             string strMemberId = null;
+
             var bInLoggedInUsersTurn = true;
             var storySet = TheCurrentStoriesSet;
             foreach (var story in storySet)
@@ -3529,6 +3532,45 @@ namespace OneStoryProjectEditor
                 theStory.guid = Guid.NewGuid().ToString();
             }
             theSds.Add(theStory);
+        }
+
+        public static void MemberIDWithEditToken(string strNMemberID)
+        {
+            dataGridViewPanorama.Rows.Clear();
+            if (_stories == null)
+                return;
+
+            foreach (StoryData aSD in _stories)
+            {
+                DateTime dateTime;
+                var nCount = aSD.TransitionHistory.Count;
+                if (nCount == 0)
+                    dateTime = aSD.StageTimeStamp;
+                else
+                {
+                    var storyStateTransition = aSD.TransitionHistory[nCount - 1];
+                    dateTime = storyStateTransition.TransitionDateTime;
+                }
+
+                string strWhoHasEditToken =
+                    PanoramaView.GetMemberWithEditTokenAsDisplayString(_storyProject.TeamMembers,
+                                          aSD.ProjStage.MemberTypeWithEditToken);
+
+                string strMemberId = null;
+                if (strWhoHasEditToken == TeamMemberData.CstrProjectFacilitatorDisplay)
+                {
+                    strMemberId = MemberIdInfo.SafeGetMemberId(aSD.CraftingInfo.ProjectFacilitator);
+                }
+                else if ((strWhoHasEditToken == TeamMemberData.CstrConsultantInTrainingDisplay) ||
+                    (strWhoHasEditToken == TeamMemberData.CstrIndependentConsultantDisplay))
+                {
+                    strMemberId = MemberIdInfo.SafeGetMemberId(aSD.CraftingInfo.Consultant);
+                }
+                else if (strWhoHasEditToken == TeamMemberData.CstrCoachDisplay)
+                {
+                    strMemberId = MemberIdInfo.SafeGetMemberId(aSD.CraftingInfo.Coach);
+                }
+            }
         }
 
         public static bool QueryDeleteStory(string strName)
