@@ -181,7 +181,7 @@ namespace OneStoryProjectEditor
             this.advancedSwapDataColumns = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedOneStoryProjectMetaData = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedUseDialogToPreviewConNotes = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedAutomaticallySendandReceiveWindowMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedAutomaticallyLoadProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -1324,7 +1324,7 @@ namespace OneStoryProjectEditor
             this.advancedSwapDataColumns,
             this.advancedOneStoryProjectMetaData,
             this.advancedUseDialogToPreviewConNotes,
-            this.toolStripMenuItem1,
+            this.advancedAutomaticallySendandReceiveWindowMenu,
             this.toolStripMenuItem3,
             this.advancedAutomaticallyLoadProjectMenu});
             this.advancedToolStripMenu.Name = "advancedToolStripMenu";
@@ -1550,17 +1550,17 @@ namespace OneStoryProjectEditor
     "n notes";
             this.advancedUseDialogToPreviewConNotes.Click += new System.EventHandler(this.advancedUseDialogToPreviewConNotes_Click);
             // 
-            // toolStripMenuItem1
+            // advancedAutomaticallySendandReceiveWindowMenu
             // 
-            this.toolStripMenuItem1.Checked = true;
-            this.toolStripMenuItem1.CheckOnClick = true;
-            this.toolStripMenuItem1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(314, 22);
-            this.toolStripMenuItem1.Text = "Auto&matically Load Project";
-            this.toolStripMenuItem1.ToolTipText = "Uncheck this menu if you don\'t want OSE to automatically load the last project op" +
+            this.advancedAutomaticallySendandReceiveWindowMenu.Checked = true;
+            this.advancedAutomaticallySendandReceiveWindowMenu.CheckOnClick = true;
+            this.advancedAutomaticallySendandReceiveWindowMenu.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.advancedAutomaticallySendandReceiveWindowMenu.Name = "advancedAutomaticallySendandReceiveWindowMenu";
+            this.advancedAutomaticallySendandReceiveWindowMenu.Size = new System.Drawing.Size(314, 22);
+            this.advancedAutomaticallySendandReceiveWindowMenu.Text = "Automatically Send/Receive Window";
+            this.advancedAutomaticallySendandReceiveWindowMenu.ToolTipText = "Automatically launch the Send/Receive dialog after changing a story to another team member's turn" +
     "ened";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            this.advancedAutomaticallySendandReceiveWindowMenu.Click += new System.EventHandler(this.advancedAutomaticallySendandReceiveWindowMenu_Click);
             // 
             // advancedAutomaticallyLoadProjectMenu
             // 
@@ -1569,7 +1569,7 @@ namespace OneStoryProjectEditor
             this.advancedAutomaticallyLoadProjectMenu.CheckState = System.Windows.Forms.CheckState.Checked;
             this.advancedAutomaticallyLoadProjectMenu.Name = "advancedAutomaticallyLoadProjectMenu";
             this.advancedAutomaticallyLoadProjectMenu.Size = new System.Drawing.Size(314, 22);
-            this.advancedAutomaticallyLoadProjectMenu.Text = "Automatically Send/Receive Window";
+            this.advancedAutomaticallyLoadProjectMenu.Text = "Auto&matically Load Project";
             this.advancedAutomaticallyLoadProjectMenu.ToolTipText = "Uncheck this menu if you don\'t want OSE to automatically load the last project op" +
     "ened";
             this.advancedAutomaticallyLoadProjectMenu.CheckStateChanged += new System.EventHandler(this.advancedAutomaticallyLoadProjectMenu_CheckStateChanged);
@@ -2215,7 +2215,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem editDeleteChooseFieldsMenu;
         private ToolStripSeparator toolStripSeparator11;
         private ToolStripButton toolStripButtonShowStoriesInYourState;
-        private ToolStripMenuItem toolStripMenuItem1;
+        private ToolStripMenuItem advancedAutomaticallySendandReceiveWindowMenu;
         private ToolStripMenuItem toolStripMenuItem3;
     }
 

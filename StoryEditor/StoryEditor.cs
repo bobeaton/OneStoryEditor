@@ -7838,7 +7838,7 @@ namespace OneStoryProjectEditor
 
         }
 
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        private void advancedAutomaticallySendandReceiveWindowMenu_Click(object sender, EventArgs e)
         {
 
         }
