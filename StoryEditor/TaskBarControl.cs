@@ -164,6 +164,7 @@ namespace OneStoryProjectEditor
         {
             buttonViewTasksPf.Visible = true;
             
+            
             if (!TheSe.LoggedOnMember.IsEditAllowed(TheStory))
                 return;
 
@@ -171,6 +172,7 @@ namespace OneStoryProjectEditor
             // allow either one... (requested by Irene and I think Nathan at one point)
             buttonMarkPreliminaryApproval.Visible =
                 buttonMarkFinalApproval.Visible = true;
+            buttonSendToCoach.Visible = true;
 #else
             if (TheStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eTeamComplete)
                 buttonMarkFinalApproval.Visible = true;
