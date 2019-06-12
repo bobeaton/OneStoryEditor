@@ -332,17 +332,46 @@ namespace OneStoryProjectEditor
             return sayMoreAssembly;
         }
 
+        // override to handle the case were the project state says it's in the 
+        //  CIT's state, but really, it's an independent consultant
+        public static string GetMemberWithEditTokenAsDisplayString(TeamMembersData teamMembers,
+            TeamMemberData.UserTypes eMemberType)
+        {
+            if ((eMemberType != TeamMemberData.UserTypes.AnyEditor) &&
+                 TeamMemberData.IsUser(eMemberType,
+                        TeamMemberData.UserTypes.IndependentConsultant |
+                        TeamMemberData.UserTypes.ConsultantInTraining))
+            {
+                // this is a special case where both the CIT and Independant Consultant are acceptable
+                return TeamMemberData.GetMemberTypeAsDisplayString(
+                    teamMembers.HasIndependentConsultant
+                        ? TeamMemberData.UserTypes.IndependentConsultant
+                        : TeamMemberData.UserTypes.ConsultantInTraining);
+            }
+
+            if (eMemberType == TeamMemberData.UserTypes.AnyEditor)
+                eMemberType &= (teamMembers.HasIndependentConsultant)
+                                   ? ~(TeamMemberData.UserTypes.ConsultantInTraining |
+                                       TeamMemberData.UserTypes.Coach |
+                                       TeamMemberData.UserTypes.FirstPassMentor)
+                                   : ~(TeamMemberData.UserTypes.IndependentConsultant |
+                                       TeamMemberData.UserTypes.FirstPassMentor);
+
+            // otherwise, let the other version do it
+            return TeamMemberData.GetMemberTypeAsDisplayString(eMemberType);
+        }
+
         private void InitializeCurrentStoriesSetName(string strStoriesSet)
         {
             CurrentStoriesSetName = strStoriesSet;
 
-            string strMemberId = null;
-
-            var bInLoggedInUsersTurn = true;
             var storySet = TheCurrentStoriesSet;
             foreach (var story in storySet)
             {
-                //string strMemberId = null;
+                string strRoleThatHasEditToken = GetMemberWithEditTokenAsDisplayString(_storyProject.TeamMembers,
+                                                                                       story.ProjStage.MemberTypeWithEditToken);
+
+                string strMemberId = MemberIDWithEditToken(story, strRoleThatHasEditToken);
                 if ((_loggedOnMember != null) && (_loggedOnMember.MemberGuid == strMemberId))
                 {
                     // popup
@@ -3534,43 +3563,27 @@ namespace OneStoryProjectEditor
             theSds.Add(theStory);
         }
 
-        public static void MemberIDWithEditToken(string strNMemberID)
+        public static string MemberIDWithEditToken(StoryData theStory, string strRoleThatHasEditToken)
         {
-            dataGridViewPanorama.Rows.Clear();
-            if (_stories == null)
-                return;
+            if (theStory == null)
+                return null;
 
-            foreach (StoryData aSD in _stories)
+            string strMemberId = null;
+            if (strRoleThatHasEditToken == TeamMemberData.CstrProjectFacilitatorDisplay)
             {
-                DateTime dateTime;
-                var nCount = aSD.TransitionHistory.Count;
-                if (nCount == 0)
-                    dateTime = aSD.StageTimeStamp;
-                else
-                {
-                    var storyStateTransition = aSD.TransitionHistory[nCount - 1];
-                    dateTime = storyStateTransition.TransitionDateTime;
-                }
-
-                string strWhoHasEditToken =
-                    PanoramaView.GetMemberWithEditTokenAsDisplayString(_storyProject.TeamMembers,
-                                          aSD.ProjStage.MemberTypeWithEditToken);
-
-                string strMemberId = null;
-                if (strWhoHasEditToken == TeamMemberData.CstrProjectFacilitatorDisplay)
-                {
-                    strMemberId = MemberIdInfo.SafeGetMemberId(aSD.CraftingInfo.ProjectFacilitator);
-                }
-                else if ((strWhoHasEditToken == TeamMemberData.CstrConsultantInTrainingDisplay) ||
-                    (strWhoHasEditToken == TeamMemberData.CstrIndependentConsultantDisplay))
-                {
-                    strMemberId = MemberIdInfo.SafeGetMemberId(aSD.CraftingInfo.Consultant);
-                }
-                else if (strWhoHasEditToken == TeamMemberData.CstrCoachDisplay)
-                {
-                    strMemberId = MemberIdInfo.SafeGetMemberId(aSD.CraftingInfo.Coach);
-                }
+                strMemberId = MemberIdInfo.SafeGetMemberId(theStory.CraftingInfo.ProjectFacilitator);
             }
+            else if ((strRoleThatHasEditToken == TeamMemberData.CstrConsultantInTrainingDisplay) ||
+                (strRoleThatHasEditToken == TeamMemberData.CstrIndependentConsultantDisplay))
+            {
+                strMemberId = MemberIdInfo.SafeGetMemberId(theStory.CraftingInfo.Consultant);
+            }
+            else if (strRoleThatHasEditToken == TeamMemberData.CstrCoachDisplay)
+            {
+                strMemberId = MemberIdInfo.SafeGetMemberId(theStory.CraftingInfo.Coach);
+            }
+
+            return strMemberId;
         }
 
         public static bool QueryDeleteStory(string strName)
