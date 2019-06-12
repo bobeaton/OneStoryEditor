@@ -256,7 +256,7 @@
             this.labelEthnologueCode.Name = "labelEthnologueCode";
             this.labelEthnologueCode.Size = new System.Drawing.Size(92, 13);
             this.labelEthnologueCode.TabIndex = 4;
-            this.labelEthnologueCode.Text = "Ethnologue Code:";
+            this.labelEthnologueCode.Text = "ISO 639-3 (Language) Code:";
             // 
             // textBoxEthnologueCode
             // 
@@ -318,7 +318,7 @@
             this.labelManagingPartner.Name = "labelManagingPartner";
             this.labelManagingPartner.Size = new System.Drawing.Size(94, 13);
             this.labelManagingPartner.TabIndex = 10;
-            this.labelManagingPartner.Text = "Managing Partner:";
+            this.labelManagingPartner.Text = "Technical Partner:";
             // 
             // comboBoxManagingPartner
             // 
@@ -348,7 +348,7 @@
             this.labelLocalEntity.Name = "labelLocalEntity";
             this.labelLocalEntity.Size = new System.Drawing.Size(65, 13);
             this.labelLocalEntity.TabIndex = 12;
-            this.labelLocalEntity.Text = "Local Entity:";
+            this.labelLocalEntity.Text = "Local Partner:";
             // 
             // textBoxLocalEntity
             // 
@@ -377,14 +377,14 @@
             this.comboBoxMethodology.Items.AddRange(new object[] {
             "OneStory",
             "OBS",
-            "IVR",
+            "Craft2Tell",
             "Story Together",
             "Other"});
             this.comboBoxMethodology.Location = new System.Drawing.Point(103, 187);
             this.comboBoxMethodology.Name = "comboBoxMethodology";
             this.comboBoxMethodology.Size = new System.Drawing.Size(671, 21);
             this.comboBoxMethodology.TabIndex = 27;
-            this.toolTip.SetToolTip(this.comboBoxMethodology, "training and consulting standards followed, i.e. OneStory, OBS, SOS, IVR, Story T" +
+            this.toolTip.SetToolTip(this.comboBoxMethodology, "training and consulting standards followed, i.e. OneStory, OBS, SOS, Craft2Tell, Story T" +
                     "ogether, or other");
             // 
             // labelContactPerson
@@ -466,7 +466,7 @@
             this.comboBoxScriptureStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxScriptureStatus.FormattingEnabled = true;
             this.comboBoxScriptureStatus.Items.AddRange(new object[] {
-            "1. Pre-translation (started but not published)",
+            "1. Pre-translation (Storying is first work)",
             "2. Mid-translation",
             "3. Post-translation (portions)",
             "4. Post-translation (New Testament)",
@@ -694,11 +694,10 @@
             this.comboBoxStatus.Items.AddRange(new object[] {
             "1. Prospective",
             "2. Preliminary",
-            "3. Exploratory Stage",
-            "4. Production Stage",
-            "5. Set Complete",
+            "3. Storycrafting Phase",
+            "4. Set Complete",
             "X. Suspended (not continuing)",
-            "Z. Disassociated (but continuing)"});
+            "Z. Suspended (not continuing)"});
             this.comboBoxStatus.Location = new System.Drawing.Point(102, 3);
             this.comboBoxStatus.Name = "comboBoxStatus";
             this.comboBoxStatus.Size = new System.Drawing.Size(672, 21);
@@ -763,7 +762,7 @@
             this.tableLayoutPanelProjectSequence.SetRowSpan(this.labelExploratoryStage, 5);
             this.labelExploratoryStage.Size = new System.Drawing.Size(93, 13);
             this.labelExploratoryStage.TabIndex = 11;
-            this.labelExploratoryStage.Text = "Exploratory Stage:";
+            this.labelExploratoryStage.Text = "Storycrafting Phase:";
             // 
             // labelScWorkshop
             // 
