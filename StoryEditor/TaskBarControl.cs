@@ -648,11 +648,11 @@ namespace OneStoryProjectEditor
                             "An automated message has been put into your email's Outbox to inform {0} that it is now his/her turn to work on the story. When you're finished, you should click 'Project', 'Send/Receive' to synchronize your changes to the Internet repository (or thumbdrive) and then do a Send/Receive of your email as well, so the other person gets the message"),
                         member.Name), StoryEditor.OseCaption);
 
-                var strProjectFolder = StoryProject.ProjSettings.ProjectFolder;
-                var strProjectName = StoryProject.ProjSettings.ProjectName;
+                var strProjectFolder = theProject.ProjSettings.ProjectFolder;
+                var strProjectName = theProject.ProjSettings.ProjectName;
                 Program.QueryHgRepoParameters(strProjectFolder,
                                               strProjectName,
-                                              LoggedOnMember);
+                                              loggedOnMember);
 
                 Program.SyncWithRepository(strProjectFolder, true);
             }
