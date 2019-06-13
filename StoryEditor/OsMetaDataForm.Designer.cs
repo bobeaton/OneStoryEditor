@@ -72,33 +72,33 @@
             this.labelStatus = new System.Windows.Forms.Label();
             this.comboBoxStatus = new System.Windows.Forms.ComboBox();
             this.buttonPreliminaryStage = new System.Windows.Forms.Button();
-            this.textBoxLcaWorkshop = new System.Windows.Forms.TextBox();
+            //this.textBoxLcaWorkshop = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBoxLcaCoach = new System.Windows.Forms.TextBox();
+            //this.textBoxLcaCoach = new System.Windows.Forms.TextBox();
             this.textBoxExploratoryStage = new System.Windows.Forms.Button();
             this.labelExploratoryStage = new System.Windows.Forms.Label();
             this.labelScWorkshop = new System.Windows.Forms.Label();
-            this.textBoxScWorkshop = new System.Windows.Forms.TextBox();
+            //this.textBoxScWorkshop = new System.Windows.Forms.TextBox();
             this.labelEsConsultant = new System.Windows.Forms.Label();
             this.textBoxEsConsultant = new System.Windows.Forms.TextBox();
             this.labelEsCoach = new System.Windows.Forms.Label();
             this.textBoxEsCoach = new System.Windows.Forms.TextBox();
             this.labelNumOfEsStoriesSent = new System.Windows.Forms.Label();
             this.textBoxNumOfEsStoriesSent = new System.Windows.Forms.TextBox();
-            this.labelProcessCheck = new System.Windows.Forms.Label();
-            this.textBoxProcessCheck = new System.Windows.Forms.TextBox();
+            //this.labelProcessCheck = new System.Windows.Forms.Label();
+            //this.textBoxProcessCheck = new System.Windows.Forms.TextBox();
             this.buttonProductionStage = new System.Windows.Forms.Button();
             this.labelProductionStage = new System.Windows.Forms.Label();
-            this.labelMultiWorkshop = new System.Windows.Forms.Label();
-            this.textBoxMultiWorkshop = new System.Windows.Forms.TextBox();
+            //this.labelMultiWorkshop = new System.Windows.Forms.Label();
+            //this.textBoxMultiWorkshop = new System.Windows.Forms.TextBox();
             this.labelNumOfSfgs = new System.Windows.Forms.Label();
             this.textBoxNumOfSfgs = new System.Windows.Forms.TextBox();
             this.labelPsConsultant = new System.Windows.Forms.Label();
             this.labelPsCoach = new System.Windows.Forms.Label();
             this.buttonCompletionStage = new System.Windows.Forms.Button();
-            this.labelLsr = new System.Windows.Forms.Label();
+            //this.labelLsr = new System.Windows.Forms.Label();
             this.labelCompletionStage = new System.Windows.Forms.Label();
-            this.textBoxLsr = new System.Windows.Forms.TextBox();
+            //this.textBoxLsr = new System.Windows.Forms.TextBox();
             this.labelFinalReview = new System.Windows.Forms.Label();
             this.textBoxFinalReview = new System.Windows.Forms.TextBox();
             this.labelSetFinishedDate = new System.Windows.Forms.Label();
@@ -108,7 +108,7 @@
             this.textBoxPsConsultant = new System.Windows.Forms.TextBox();
             this.textBoxPsCoach = new System.Windows.Forms.TextBox();
             this.dateTimePickerStartDate = new System.Windows.Forms.DateTimePicker();
-            this.labelLcaWorkshop = new System.Windows.Forms.Label();
+            //this.labelLcaWorkshop = new System.Windows.Forms.Label();
             this.labelPreliminaryStage = new System.Windows.Forms.Label();
             this.dateTimePickerSetFinishedDate = new System.Windows.Forms.DateTimePicker();
             this.checkBoxIsUploadedToOsMedia = new System.Windows.Forms.CheckBox();
@@ -593,33 +593,33 @@
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelStatus, 0, 0);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.comboBoxStatus, 1, 0);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.buttonPreliminaryStage, 0, 2);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxLcaWorkshop, 2, 3);
+            //this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxLcaWorkshop, 2, 3);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.label2, 1, 4);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxLcaCoach, 2, 4);
+            //this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxLcaCoach, 2, 4);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxExploratoryStage, 0, 5);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelExploratoryStage, 0, 6);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelScWorkshop, 1, 6);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxScWorkshop, 2, 6);
+            //this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxScWorkshop, 2, 6);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelEsConsultant, 1, 7);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxEsConsultant, 2, 7);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelEsCoach, 1, 8);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxEsCoach, 2, 8);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelNumOfEsStoriesSent, 1, 9);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxNumOfEsStoriesSent, 2, 9);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.labelProcessCheck, 1, 10);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxProcessCheck, 2, 10);
+            //this.tableLayoutPanelProjectSequence.Controls.Add(this.labelProcessCheck, 1, 10);
+            //this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxProcessCheck, 2, 10);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.buttonProductionStage, 0, 11);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelProductionStage, 0, 12);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.labelMultiWorkshop, 1, 12);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxMultiWorkshop, 2, 12);
+            //this.tableLayoutPanelProjectSequence.Controls.Add(this.labelMultiWorkshop, 1, 12);
+            //this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxMultiWorkshop, 2, 12);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelNumOfSfgs, 1, 13);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxNumOfSfgs, 2, 13);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelPsConsultant, 1, 14);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelPsCoach, 1, 15);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.buttonCompletionStage, 0, 17);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.labelLsr, 1, 18);
+            //this.tableLayoutPanelProjectSequence.Controls.Add(this.labelLsr, 1, 18);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelCompletionStage, 0, 18);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxLsr, 2, 18);
+            //this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxLsr, 2, 18);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelFinalReview, 1, 19);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxFinalReview, 2, 19);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelSetFinishedDate, 1, 20);
@@ -629,7 +629,7 @@
             this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxPsConsultant, 2, 14);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxPsCoach, 2, 15);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.dateTimePickerStartDate, 1, 1);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.labelLcaWorkshop, 1, 3);
+            //this.tableLayoutPanelProjectSequence.Controls.Add(this.labelLcaWorkshop, 1, 3);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelPreliminaryStage, 0, 3);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.dateTimePickerSetFinishedDate, 2, 20);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.checkBoxIsUploadedToOsMedia, 2, 21);
@@ -716,31 +716,31 @@
             // 
             // textBoxLcaWorkshop
             // 
-            this.textBoxLcaWorkshop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxLcaWorkshop.Location = new System.Drawing.Point(214, 76);
-            this.textBoxLcaWorkshop.Name = "textBoxLcaWorkshop";
-            this.textBoxLcaWorkshop.Size = new System.Drawing.Size(560, 20);
-            this.textBoxLcaWorkshop.TabIndex = 7;
-            this.toolTip.SetToolTip(this.textBoxLcaWorkshop, "Date and Location");
+            //this.textBoxLcaWorkshop.Dock = System.Windows.Forms.DockStyle.Fill;
+            //this.textBoxLcaWorkshop.Location = new System.Drawing.Point(214, 76);
+            //this.textBoxLcaWorkshop.Name = "textBoxLcaWorkshop";
+            //this.textBoxLcaWorkshop.Size = new System.Drawing.Size(560, 20);
+            //this.textBoxLcaWorkshop.TabIndex = 7;
+            //this.toolTip.SetToolTip(this.textBoxLcaWorkshop, "Date and Location");
             // 
             // label2
             // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(144, 105);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(64, 13);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "LCA Coach:";
+            //this.label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            //this.label2.AutoSize = true;
+            //this.label2.Location = new System.Drawing.Point(144, 105);
+            //this.label2.Name = "label2";
+            //this.label2.Size = new System.Drawing.Size(64, 13);
+            //this.label2.TabIndex = 8;
+            //this.label2.Text = "LCA Coach:";
             // 
             // textBoxLcaCoach
             // 
-            this.textBoxLcaCoach.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxLcaCoach.Location = new System.Drawing.Point(214, 102);
-            this.textBoxLcaCoach.Name = "textBoxLcaCoach";
-            this.textBoxLcaCoach.Size = new System.Drawing.Size(560, 20);
-            this.textBoxLcaCoach.TabIndex = 9;
-            this.toolTip.SetToolTip(this.textBoxLcaCoach, "Name");
+            //this.textBoxLcaCoach.Dock = System.Windows.Forms.DockStyle.Fill;
+            //this.textBoxLcaCoach.Location = new System.Drawing.Point(214, 102);
+            //this.textBoxLcaCoach.Name = "textBoxLcaCoach";
+            //this.textBoxLcaCoach.Size = new System.Drawing.Size(560, 20);
+            //this.textBoxLcaCoach.TabIndex = 9;
+            //this.toolTip.SetToolTip(this.textBoxLcaCoach, "Name");
             // 
             // textBoxExploratoryStage
             // 
@@ -766,22 +766,22 @@
             // 
             // labelScWorkshop
             // 
-            this.labelScWorkshop.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.labelScWorkshop.AutoSize = true;
-            this.labelScWorkshop.Location = new System.Drawing.Point(132, 151);
-            this.labelScWorkshop.Name = "labelScWorkshop";
-            this.labelScWorkshop.Size = new System.Drawing.Size(76, 13);
-            this.labelScWorkshop.TabIndex = 12;
-            this.labelScWorkshop.Text = "SC Workshop:";
+            //this.labelScWorkshop.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            //this.labelScWorkshop.AutoSize = true;
+            //this.labelScWorkshop.Location = new System.Drawing.Point(132, 151);
+            //this.labelScWorkshop.Name = "labelScWorkshop";
+            //this.labelScWorkshop.Size = new System.Drawing.Size(76, 13);
+            //this.labelScWorkshop.TabIndex = 12;
+            //this.labelScWorkshop.Text = "SC Workshop:";
             // 
             // textBoxScWorkshop
             // 
-            this.textBoxScWorkshop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxScWorkshop.Location = new System.Drawing.Point(214, 148);
-            this.textBoxScWorkshop.Name = "textBoxScWorkshop";
-            this.textBoxScWorkshop.Size = new System.Drawing.Size(560, 20);
-            this.textBoxScWorkshop.TabIndex = 13;
-            this.toolTip.SetToolTip(this.textBoxScWorkshop, "(ASW, O&S/ASW combo, or something equivalent) Date and Location.");
+            //this.textBoxScWorkshop.Dock = System.Windows.Forms.DockStyle.Fill;
+            //this.textBoxScWorkshop.Location = new System.Drawing.Point(214, 148);
+            //this.textBoxScWorkshop.Name = "textBoxScWorkshop";
+            //this.textBoxScWorkshop.Size = new System.Drawing.Size(560, 20);
+            //this.textBoxScWorkshop.TabIndex = 13;
+            //this.toolTip.SetToolTip(this.textBoxScWorkshop, "(ASW, O&S/ASW combo, or something equivalent) Date and Location.");
             // 
             // labelEsConsultant
             // 
@@ -839,22 +839,22 @@
             // 
             // labelProcessCheck
             // 
-            this.labelProcessCheck.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.labelProcessCheck.AutoSize = true;
-            this.labelProcessCheck.Location = new System.Drawing.Point(126, 255);
-            this.labelProcessCheck.Name = "labelProcessCheck";
-            this.labelProcessCheck.Size = new System.Drawing.Size(82, 13);
-            this.labelProcessCheck.TabIndex = 20;
-            this.labelProcessCheck.Text = "Process Check:";
+            //this.labelProcessCheck.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            //this.labelProcessCheck.AutoSize = true;
+            //this.labelProcessCheck.Location = new System.Drawing.Point(126, 255);
+            //this.labelProcessCheck.Name = "labelProcessCheck";
+            //this.labelProcessCheck.Size = new System.Drawing.Size(82, 13);
+            //this.labelProcessCheck.TabIndex = 20;
+            //this.labelProcessCheck.Text = "Process Check:";
             // 
             // textBoxProcessCheck
             // 
-            this.textBoxProcessCheck.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxProcessCheck.Location = new System.Drawing.Point(214, 252);
-            this.textBoxProcessCheck.Name = "textBoxProcessCheck";
-            this.textBoxProcessCheck.Size = new System.Drawing.Size(560, 20);
-            this.textBoxProcessCheck.TabIndex = 21;
-            this.toolTip.SetToolTip(this.textBoxProcessCheck, "Date, location, and consultant");
+            //this.textBoxProcessCheck.Dock = System.Windows.Forms.DockStyle.Fill;
+            //this.textBoxProcessCheck.Location = new System.Drawing.Point(214, 252);
+            //this.textBoxProcessCheck.Name = "textBoxProcessCheck";
+            //this.textBoxProcessCheck.Size = new System.Drawing.Size(560, 20);
+            //this.textBoxProcessCheck.TabIndex = 21;
+            //this.toolTip.SetToolTip(this.textBoxProcessCheck, "Date, location, and consultant");
             // 
             // buttonProductionStage
             // 
@@ -880,22 +880,22 @@
             // 
             // labelMultiWorkshop
             // 
-            this.labelMultiWorkshop.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.labelMultiWorkshop.AutoSize = true;
-            this.labelMultiWorkshop.Location = new System.Drawing.Point(121, 301);
-            this.labelMultiWorkshop.Name = "labelMultiWorkshop";
-            this.labelMultiWorkshop.Size = new System.Drawing.Size(87, 13);
-            this.labelMultiWorkshop.TabIndex = 23;
-            this.labelMultiWorkshop.Text = "Multi. Workshop:";
+            //this.labelMultiWorkshop.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            //this.labelMultiWorkshop.AutoSize = true;
+            //this.labelMultiWorkshop.Location = new System.Drawing.Point(121, 301);
+            //this.labelMultiWorkshop.Name = "labelMultiWorkshop";
+            //this.labelMultiWorkshop.Size = new System.Drawing.Size(87, 13);
+            //this.labelMultiWorkshop.TabIndex = 23;
+            //this.labelMultiWorkshop.Text = "Multi. Workshop:";
             // 
             // textBoxMultiWorkshop
             // 
-            this.textBoxMultiWorkshop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxMultiWorkshop.Location = new System.Drawing.Point(214, 298);
-            this.textBoxMultiWorkshop.Name = "textBoxMultiWorkshop";
-            this.textBoxMultiWorkshop.Size = new System.Drawing.Size(560, 20);
-            this.textBoxMultiWorkshop.TabIndex = 24;
-            this.toolTip.SetToolTip(this.textBoxMultiWorkshop, "Date and Location");
+            //this.textBoxMultiWorkshop.Dock = System.Windows.Forms.DockStyle.Fill;
+            //this.textBoxMultiWorkshop.Location = new System.Drawing.Point(214, 298);
+            //this.textBoxMultiWorkshop.Name = "textBoxMultiWorkshop";
+            //this.textBoxMultiWorkshop.Size = new System.Drawing.Size(560, 20);
+            //this.textBoxMultiWorkshop.TabIndex = 24;
+            //this.toolTip.SetToolTip(this.textBoxMultiWorkshop, "Date and Location");
             // 
             // labelNumOfSfgs
             // 
@@ -948,13 +948,13 @@
             // 
             // labelLsr
             // 
-            this.labelLsr.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.labelLsr.AutoSize = true;
-            this.labelLsr.Location = new System.Drawing.Point(177, 451);
-            this.labelLsr.Name = "labelLsr";
-            this.labelLsr.Size = new System.Drawing.Size(31, 13);
-            this.labelLsr.TabIndex = 36;
-            this.labelLsr.Text = "LSR:";
+            //this.labelLsr.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            //this.labelLsr.AutoSize = true;
+            //this.labelLsr.Location = new System.Drawing.Point(177, 451);
+            //this.labelLsr.Name = "labelLsr";
+            //this.labelLsr.Size = new System.Drawing.Size(31, 13);
+            //this.labelLsr.TabIndex = 36;
+            //this.labelLsr.Text = "LSR:";
             // 
             // labelCompletionStage
             // 
@@ -969,12 +969,12 @@
             // 
             // textBoxLsr
             // 
-            this.textBoxLsr.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxLsr.Location = new System.Drawing.Point(214, 448);
-            this.textBoxLsr.Name = "textBoxLsr";
-            this.textBoxLsr.Size = new System.Drawing.Size(560, 20);
-            this.textBoxLsr.TabIndex = 37;
-            this.toolTip.SetToolTip(this.textBoxLsr, "Language Speciality Review date and reviewer\'s name");
+            //this.textBoxLsr.Dock = System.Windows.Forms.DockStyle.Fill;
+            //this.textBoxLsr.Location = new System.Drawing.Point(214, 448);
+            //this.textBoxLsr.Name = "textBoxLsr";
+            //this.textBoxLsr.Size = new System.Drawing.Size(560, 20);
+            //this.textBoxLsr.TabIndex = 37;
+            //this.toolTip.SetToolTip(this.textBoxLsr, "Language Speciality Review date and reviewer\'s name");
             // 
             // labelFinalReview
             // 
@@ -1013,7 +1013,7 @@
             this.labelUploadedOsMedia.Name = "labelUploadedOsMedia";
             this.labelUploadedOsMedia.Size = new System.Drawing.Size(106, 13);
             this.labelUploadedOsMedia.TabIndex = 42;
-            this.labelUploadedOsMedia.Text = "Uploaded OS Media:";
+            this.labelUploadedOsMedia.Text = "Uploaded to OS Media:";
             // 
             // labelSetCopyright
             // 
@@ -1064,13 +1064,13 @@
             // 
             // labelLcaWorkshop
             // 
-            this.labelLcaWorkshop.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.labelLcaWorkshop.AutoSize = true;
-            this.labelLcaWorkshop.Location = new System.Drawing.Point(129, 79);
-            this.labelLcaWorkshop.Name = "labelLcaWorkshop";
-            this.labelLcaWorkshop.Size = new System.Drawing.Size(79, 13);
-            this.labelLcaWorkshop.TabIndex = 6;
-            this.labelLcaWorkshop.Text = "LCA workshop:";
+            //this.labelLcaWorkshop.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            //this.labelLcaWorkshop.AutoSize = true;
+            //this.labelLcaWorkshop.Location = new System.Drawing.Point(129, 79);
+            //this.labelLcaWorkshop.Name = "labelLcaWorkshop";
+            //this.labelLcaWorkshop.Size = new System.Drawing.Size(79, 13);
+            //this.labelLcaWorkshop.TabIndex = 6;
+            //this.labelLcaWorkshop.Text = "LCA workshop:";
             // 
             // labelPreliminaryStage
             // 
@@ -1203,34 +1203,34 @@
         private System.Windows.Forms.Label labelStatus;
         private System.Windows.Forms.ComboBox comboBoxStatus;
         private System.Windows.Forms.Button buttonPreliminaryStage;
-        private System.Windows.Forms.Label labelLcaWorkshop;
-        private System.Windows.Forms.TextBox textBoxLcaWorkshop;
+        //private System.Windows.Forms.Label labelLcaWorkshop;
+        //private System.Windows.Forms.TextBox textBoxLcaWorkshop;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBoxLcaCoach;
+        //private System.Windows.Forms.TextBox textBoxLcaCoach;
         private System.Windows.Forms.Button textBoxExploratoryStage;
         private System.Windows.Forms.Label labelExploratoryStage;
         private System.Windows.Forms.Label labelScWorkshop;
-        private System.Windows.Forms.TextBox textBoxScWorkshop;
+        //private System.Windows.Forms.TextBox textBoxScWorkshop;
         private System.Windows.Forms.Label labelEsConsultant;
         private System.Windows.Forms.TextBox textBoxEsConsultant;
         private System.Windows.Forms.Label labelEsCoach;
         private System.Windows.Forms.TextBox textBoxEsCoach;
         private System.Windows.Forms.Label labelNumOfEsStoriesSent;
         private System.Windows.Forms.TextBox textBoxNumOfEsStoriesSent;
-        private System.Windows.Forms.Label labelProcessCheck;
-        private System.Windows.Forms.TextBox textBoxProcessCheck;
+        //private System.Windows.Forms.Label labelProcessCheck;
+        //private System.Windows.Forms.TextBox textBoxProcessCheck;
         private System.Windows.Forms.Button buttonProductionStage;
         private System.Windows.Forms.Label labelProductionStage;
-        private System.Windows.Forms.Label labelMultiWorkshop;
-        private System.Windows.Forms.TextBox textBoxMultiWorkshop;
+        //private System.Windows.Forms.Label labelMultiWorkshop;
+        //private System.Windows.Forms.TextBox textBoxMultiWorkshop;
         private System.Windows.Forms.Label labelNumOfSfgs;
         private System.Windows.Forms.TextBox textBoxNumOfSfgs;
         private System.Windows.Forms.Label labelPsConsultant;
         private System.Windows.Forms.Label labelPsCoach;
         private System.Windows.Forms.Button buttonCompletionStage;
-        private System.Windows.Forms.Label labelLsr;
+        //private System.Windows.Forms.Label labelLsr;
         private System.Windows.Forms.Label labelCompletionStage;
-        private System.Windows.Forms.TextBox textBoxLsr;
+        //private System.Windows.Forms.TextBox textBoxLsr;
         private System.Windows.Forms.Label labelFinalReview;
         private System.Windows.Forms.TextBox textBoxFinalReview;
         private System.Windows.Forms.Label labelSetFinishedDate;
