@@ -54,6 +54,7 @@ namespace OneStoryProjectEditor
             Initialize(textBoxFinalReview, record.NumInFinalApprov.ToString(CultureInfo.InvariantCulture));
             Initialize(dateTimePickerSetFinishedDate, record.SetFinishedDate);
             Initialize(checkBoxIsUploadedToOsMedia, record.IsUploadedToOsMedia);
+            Initialize(checkBoxIsUploadedToTWR360, record.IsUploadedToTWR360);
             Initialize(textBoxSetCopyright, record.SetCopyrighted);
 
             // if we're in Exploratory Phase, then don't allow editing of the ES fields
@@ -150,6 +151,7 @@ namespace OneStoryProjectEditor
             // record.NumInFinalApprov = RetrieveInt(textBoxFinalReview);
             record.SetFinishedDate = Retrieve(dateTimePickerSetFinishedDate, record.SetFinishedDate);
             record.IsUploadedToOsMedia = Retrieve(checkBoxIsUploadedToOsMedia);
+            record.IsUploadedToTWR360 = Retrieve(checkBoxIsUploadedToTWR360);
             record.SetCopyrighted = Retrieve(textBoxSetCopyright);
         }
 

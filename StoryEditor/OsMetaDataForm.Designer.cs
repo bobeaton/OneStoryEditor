@@ -98,7 +98,7 @@
             this.labelNumInPreliminaryApproval = new System.Windows.Forms.Label();
             this.textBoxNumInPreliminaryApproval = new System.Windows.Forms.TextBox();
             this.labelUploadedToTWR360 = new System.Windows.Forms.Label();
-            this.checkBoxUploadedToTWR360 = new System.Windows.Forms.CheckBox();
+            this.checkBoxIsUploadedToTWR360 = new System.Windows.Forms.CheckBox();
             this.labelAlsoOnlineAt = new System.Windows.Forms.Label();
             this.buttonOk = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
@@ -607,7 +607,7 @@
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelNumInPreliminaryApproval, 1, 13);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxNumInPreliminaryApproval, 2, 13);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelUploadedToTWR360, 1, 19);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.checkBoxUploadedToTWR360, 2, 19);
+            this.tableLayoutPanelProjectSequence.Controls.Add(this.checkBoxIsUploadedToTWR360, 2, 19);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelAlsoOnlineAt, 1, 20);
             this.tableLayoutPanelProjectSequence.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelProjectSequence.Location = new System.Drawing.Point(3, 3);
@@ -934,15 +934,15 @@
             this.labelUploadedToTWR360.TabIndex = 46;
             this.labelUploadedToTWR360.Text = "Uploaded to TWR360:";
             // 
-            // checkBoxUploadedToTWR360
+            // checkBoxIsUploadedToTWR360
             // 
-            this.checkBoxUploadedToTWR360.AutoSize = true;
-            this.checkBoxUploadedToTWR360.Location = new System.Drawing.Point(191, 370);
-            this.checkBoxUploadedToTWR360.Name = "checkBoxUploadedToTWR360";
-            this.checkBoxUploadedToTWR360.Size = new System.Drawing.Size(15, 14);
-            this.checkBoxUploadedToTWR360.TabIndex = 47;
-            this.toolTip.SetToolTip(this.checkBoxUploadedToTWR360, "has the story set been uploaded to onestory-media.org");
-            this.checkBoxUploadedToTWR360.UseVisualStyleBackColor = true;
+            this.checkBoxIsUploadedToTWR360.AutoSize = true;
+            this.checkBoxIsUploadedToTWR360.Location = new System.Drawing.Point(191, 370);
+            this.checkBoxIsUploadedToTWR360.Name = "checkBoxIsUploadedToTWR360";
+            this.checkBoxIsUploadedToTWR360.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxIsUploadedToTWR360.TabIndex = 47;
+            this.toolTip.SetToolTip(this.checkBoxIsUploadedToTWR360, "has the story set been uploaded to onestory-media.org");
+            this.checkBoxIsUploadedToTWR360.UseVisualStyleBackColor = true;
             // 
             // labelAlsoOnlineAt
             // 
@@ -984,7 +984,7 @@
             this.textBoxAlsoOnlineAt.Name = "textBoxAlsoOnlineAt";
             this.textBoxAlsoOnlineAt.Size = new System.Drawing.Size(583, 20);
             this.textBoxAlsoOnlineAt.TabIndex = 49;
-            this.toolTip.SetToolTip(this.textBoxAlsoOnlineAt, "date and copyright holder");
+            this.toolTip.SetToolTip(this.textBoxAlsoOnlineAt, "Paste the link you have uploaded to TWR360");
             // 
             // OsMetaDataForm
             // 
@@ -1092,7 +1092,7 @@
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.TextBox textBoxSetCopyright;
         private System.Windows.Forms.Label labelUploadedToTWR360;
-        private System.Windows.Forms.CheckBox checkBoxUploadedToTWR360;
+        private System.Windows.Forms.CheckBox checkBoxIsUploadedToTWR360;
         private System.Windows.Forms.Label labelAlsoOnlineAt;
         private System.Windows.Forms.TextBox textBoxAlsoOnlineAt;
     }

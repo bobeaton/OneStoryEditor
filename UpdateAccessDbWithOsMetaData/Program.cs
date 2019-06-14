@@ -120,7 +120,7 @@ namespace UpdateAccessDbWithOsMetaData
                                            "@LcaWorkshop, @LcaCoach, @ScWorkshop, @IsCurrentlyUsingOse, @OseProjId, @EsConsultant, " +
                                            "@EsCoach, @EsStoriesSent, @ProcessCheck, @MultiplicationWorkshop, @NumberSfgs, " +
                                            "@PsConsultant, @PsCoach, @PsStoriesPrelimApprov, @Lsr, @NumInFinalApprov, " +
-                                           "@SetFinishedDate, @IsUploadedToOsMedia, @SetCopyrighted, @DateLastChangeProjectFile)", 
+                                           "@SetFinishedDate, @IsUploadedToOsMedia, @IsUploadedToTWR360, @SetCopyrighted, @DateLastChangeProjectFile)", 
                                    GetParameterArray(osMetaDataModelRecord, dateTimeOfProjectFile)
                                 );
             }
@@ -166,6 +166,7 @@ namespace UpdateAccessDbWithOsMetaData
                                        "[Number_Final_Stories] = @NumInFinalApprov, " +
                                        "[Set_Finished_Date] = @SetFinishedDate, " +
                                        "[Uploaded_to_OSMedia] = @IsUploadedToOsMedia, " +
+                                       "[Uploaded_to_TWR360] = @IsUploadedToTWR360, " +
                                        "[Set_Copyrighted] = @SetCopyrighted, " +
                                        "[DateLastChangeProjectFile] = @DateLastChangeProjectFile " + 
                                     "WHERE [ose_proj_id] = @OseProjId;",
@@ -242,6 +243,7 @@ namespace UpdateAccessDbWithOsMetaData
                 new Param("@NumInFinalApprov", osMetaDataModelRecord.NumInFinalApprov, OleDbType.Integer),
                 new Param("@SetFinishedDate", CheckForNull(osMetaDataModelRecord.SetFinishedDate), OleDbType.DBDate),
                 new Param("@IsUploadedToOsMedia", osMetaDataModelRecord.IsUploadedToOsMedia, OleDbType.Boolean),
+                new Param("@IsUploadedToTWR360", osMetaDataModelRecord.IsUploadedToTWR360, OleDbType.Boolean),
                 new Param("@SetCopyrighted", CheckForNull(osMetaDataModelRecord.SetCopyrighted), OleDbType.VarWChar),
                 new Param("@DateLastChangeProjectFile", CheckForNull(dateTimeOfProjectFile), OleDbType.DBDate)
             };
