@@ -99,10 +99,11 @@
             this.textBoxNumInPreliminaryApproval = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.labelAlsoOnlineAt = new System.Windows.Forms.Label();
             this.buttonOk = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.textBoxAlsoOnlineAt = new System.Windows.Forms.TextBox();
             this.tabControl.SuspendLayout();
             this.tabPageProjectInformation.SuspendLayout();
             this.tableLayoutPanelProjectInformation.SuspendLayout();
@@ -575,6 +576,7 @@
             this.tableLayoutPanelProjectSequence.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelProjectSequence.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelProjectSequence.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxAlsoOnlineAt, 2, 20);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelStartDate, 0, 1);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.labelStatus, 0, 0);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.comboBoxStatus, 1, 0);
@@ -606,7 +608,7 @@
             this.tableLayoutPanelProjectSequence.Controls.Add(this.textBoxNumInPreliminaryApproval, 2, 13);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.label1, 1, 19);
             this.tableLayoutPanelProjectSequence.Controls.Add(this.checkBox1, 2, 19);
-            this.tableLayoutPanelProjectSequence.Controls.Add(this.label2, 1, 20);
+            this.tableLayoutPanelProjectSequence.Controls.Add(this.labelAlsoOnlineAt, 1, 20);
             this.tableLayoutPanelProjectSequence.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelProjectSequence.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanelProjectSequence.Name = "tableLayoutPanelProjectSequence";
@@ -631,9 +633,9 @@
             this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanelProjectSequence.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
             this.tableLayoutPanelProjectSequence.Size = new System.Drawing.Size(777, 574);
             this.tableLayoutPanelProjectSequence.TabIndex = 0;
             // 
@@ -842,7 +844,7 @@
             // 
             this.labelSetCopyright.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelSetCopyright.AutoSize = true;
-            this.labelSetCopyright.Location = new System.Drawing.Point(112, 413);
+            this.labelSetCopyright.Location = new System.Drawing.Point(112, 419);
             this.labelSetCopyright.Name = "labelSetCopyright";
             this.labelSetCopyright.Size = new System.Drawing.Size(73, 13);
             this.labelSetCopyright.TabIndex = 44;
@@ -851,7 +853,7 @@
             // textBoxSetCopyright
             // 
             this.textBoxSetCopyright.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxSetCopyright.Location = new System.Drawing.Point(191, 410);
+            this.textBoxSetCopyright.Location = new System.Drawing.Point(191, 416);
             this.textBoxSetCopyright.Name = "textBoxSetCopyright";
             this.textBoxSetCopyright.Size = new System.Drawing.Size(583, 20);
             this.textBoxSetCopyright.TabIndex = 45;
@@ -944,16 +946,16 @@
             this.toolTip.SetToolTip(this.checkBox1, "has the story set been uploaded to onestory-media.org");
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // labelAlsoOnlineAt
             // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(110, 390);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(75, 13);
-            this.label2.TabIndex = 48;
-            this.label2.Text = "Also Online at:";
-            this.label2.UseWaitCursor = true;
+            this.labelAlsoOnlineAt.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelAlsoOnlineAt.AutoSize = true;
+            this.labelAlsoOnlineAt.Location = new System.Drawing.Point(110, 393);
+            this.labelAlsoOnlineAt.Name = "labelAlsoOnlineAt";
+            this.labelAlsoOnlineAt.Size = new System.Drawing.Size(75, 13);
+            this.labelAlsoOnlineAt.TabIndex = 48;
+            this.labelAlsoOnlineAt.Text = "Also Online at:";
+            this.labelAlsoOnlineAt.UseWaitCursor = true;
             // 
             // buttonOk
             // 
@@ -976,6 +978,15 @@
             this.buttonCancel.TabIndex = 1;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
+            // 
+            // textBoxAlsoOnlineAt
+            // 
+            this.textBoxAlsoOnlineAt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxAlsoOnlineAt.Location = new System.Drawing.Point(191, 390);
+            this.textBoxAlsoOnlineAt.Name = "textBoxAlsoOnlineAt";
+            this.textBoxAlsoOnlineAt.Size = new System.Drawing.Size(583, 20);
+            this.textBoxAlsoOnlineAt.TabIndex = 49;
+            this.toolTip.SetToolTip(this.textBoxAlsoOnlineAt, "date and copyright holder");
             // 
             // OsMetaDataForm
             // 
@@ -1084,6 +1095,7 @@
         private System.Windows.Forms.TextBox textBoxSetCopyright;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelAlsoOnlineAt;
+        private System.Windows.Forms.TextBox textBoxAlsoOnlineAt;
     }
 }
