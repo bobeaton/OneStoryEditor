@@ -190,10 +190,5 @@ namespace OneStoryProjectEditor
             Debug.Assert(dtPicker != null, "dtPicker != null");
             dtPicker.Tag = 1;   // to indicate that it's been changed
         }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
