@@ -112,7 +112,6 @@ namespace OneStoryProjectEditor
         private PrintForm m_dlgPrintForm;
 
         public static TextPaster TextPaster = null;
-        protected StoryProjectData _storyProject;
 
         [Flags]
         public enum TextFields
@@ -365,17 +364,27 @@ namespace OneStoryProjectEditor
         {
             CurrentStoriesSetName = strStoriesSet;
 
+            // check to see if any of the stories are in the currently logged in member
+            //  (for starters, there must *be* a currently logged in member)
+            var teamMembers = StoryProject?.TeamMembers;
+            if (teamMembers == null)
+                return;
+
             var storySet = TheCurrentStoriesSet;
             foreach (var story in storySet)
             {
-                string strRoleThatHasEditToken = GetMemberWithEditTokenAsDisplayString(_storyProject.TeamMembers,
+                // get the type of the member with the edit token for this story (e.g. Project Facilitator)
+                string strRoleThatHasEditToken = GetMemberWithEditTokenAsDisplayString(teamMembers,
                                                                                        story.ProjStage.MemberTypeWithEditToken);
 
+                // get the specific memberId for that member
                 string strMemberId = MemberIDWithEditToken(story, strRoleThatHasEditToken);
+
+                // if it's the same as the logged in member's ID, then ...
                 if ((_loggedOnMember != null) && (_loggedOnMember.MemberGuid == strMemberId))
                 {
                     // popup
-                    LocalizableMessageBox.Show(Localizer.Str("There are other stories in your state. Would you like to go there ?"),
+                    LocalizableMessageBox.Show(Localizer.Str("There are other stories in your state. Would you like to go there?"),
                                                OseCaption);
                     break;
                 }
