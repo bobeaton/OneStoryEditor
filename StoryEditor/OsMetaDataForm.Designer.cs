@@ -665,12 +665,10 @@
             this.comboBoxStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxStatus.FormattingEnabled = true;
             this.comboBoxStatus.Items.AddRange(new object[] {
-            "1. Prospective",
-            "2. Preliminary",
-            "3. Storycrafting Phase",
-            "4. Set Complete",
-            "X. Suspended (not continuing)",
-            "Z. Suspended (not continuing)"});
+            "1. Preliminary Phase",
+            "2. Storycrafting Phase",
+            "3. Set Complete",
+            "4. Set Complete but stories being added"});
             this.comboBoxStatus.Location = new System.Drawing.Point(67, 3);
             this.comboBoxStatus.Name = "comboBoxStatus";
             this.comboBoxStatus.Size = new System.Drawing.Size(707, 21);
