@@ -363,31 +363,69 @@ namespace OneStoryProjectEditor
         private void InitializeCurrentStoriesSetName(string strStoriesSet)
         {
             CurrentStoriesSetName = strStoriesSet;
+        }
 
+        private bool MoveToNextStoryInLoggedInMembersTurn()
+        {
             // check to see if any of the stories are in the currently logged in member
             //  (for starters, there must *be* a currently logged in member)
-            var teamMembers = StoryProject?.TeamMembers;
-            if (teamMembers == null)
-                return;
-
-            var storySet = TheCurrentStoriesSet;
-            foreach (var story in storySet)
+            var startingStoryName = TheCurrentStory?.Name;
+            var storyName = NextStoryNameInTheLoggedInMembersTurn;
+            if (!String.IsNullOrEmpty(storyName))
             {
-                // get the type of the member with the edit token for this story (e.g. Project Facilitator)
-                string strRoleThatHasEditToken = GetMemberWithEditTokenAsDisplayString(teamMembers,
-                                                                                       story.ProjStage.MemberTypeWithEditToken);
-
-                // get the specific memberId for that member
-                string strMemberId = MemberIDWithEditToken(story, strRoleThatHasEditToken);
-
-                // if it's the same as the logged in member's ID, then ...
-                if ((_loggedOnMember != null) && (_loggedOnMember.MemberGuid == strMemberId))
+                // if it's not the current story, then ask if they want to go there...
+                if (storyName != startingStoryName)
                 {
-                    // popup
-                    LocalizableMessageBox.Show(Localizer.Str("There are other stories in your state. Would you like to go there?"),
-                                               OseCaption);
-                    break;
+                    var res = LocalizableMessageBox.Show(Localizer.Str("There are stories in your turn. Would you like to go to one?"),
+                                                     OseCaption,
+                                                     MessageBoxButtons.YesNoCancel);
+                    if (res == DialogResult.Yes)
+                    {
+                        NavigateTo(CurrentStoriesSetName, storyName, 1, null);
+                    }
                 }
+                return true;
+            }
+            return false;
+        }
+
+        public string NextStoryNameInTheLoggedInMembersTurn
+        {
+            get
+            {
+                // check to see if any of the stories are in the currently logged in member
+                //  (for starters, there must *be* a currently logged in member)
+                var teamMembers = StoryProject?.TeamMembers;
+                var storyName = TheCurrentStory?.Name;
+                if ((teamMembers == null) || (storyName == null))
+                    return null;
+
+                var storySet = TheCurrentStoriesSet;
+                var storyToStartFrom = storySet.FirstOrDefault(s => s.Name == storyName);
+                var startIndex = storySet.IndexOf(storyToStartFrom) + 1;
+                var numOfStoriesToCheck = storySet.Count;
+
+                for (var i = startIndex; numOfStoriesToCheck-- > 0; i++)
+                {
+                    if (i == storySet.Count)
+                        i = 0;  // start over at the beginning
+
+                    var story = storySet[i];
+
+                    // get the type of the member with the edit token for this story (e.g. Project Facilitator)
+                    string strRoleThatHasEditToken = GetMemberWithEditTokenAsDisplayString(teamMembers,
+                                                                                            story.ProjStage.MemberTypeWithEditToken);
+
+                    // get the specific memberId for that member
+                    string strMemberId = MemberIDWithEditToken(story, strRoleThatHasEditToken);
+
+                    // if it's the same as the logged in member's ID, then ...
+                    if ((_loggedOnMember != null) && (_loggedOnMember.MemberGuid == strMemberId))
+                    {
+                        return story.Name;
+                    }
+                }
+                return null;
             }
         }
 
@@ -913,6 +951,7 @@ namespace OneStoryProjectEditor
                         WarnIfNotProperMemberType();
                     }
                 }
+                UpdateNotificationBellUI();
             }
             catch { }   // this might throw if the user cancels, but we don't care
         }
@@ -1055,8 +1094,6 @@ namespace OneStoryProjectEditor
                 if ((TheCurrentStoriesSet.Count > 0) && (String.IsNullOrEmpty(strStoryToLoad) || !comboBoxStorySelector.Items.Contains(strStoryToLoad)))
                     strStoryToLoad = TheCurrentStoriesSet[0].Name;    // default
 
-                UpdateUiMenusAfterProjectOpen(); 
-
                 // at least temporarily reset the 'Use for all stories' flag so that 
                 //  we don't not reset the view for this new project settings (which
                 //  calls SetViews during the SelectedItem handler below)
@@ -1077,6 +1114,8 @@ namespace OneStoryProjectEditor
 #endif
                 // show the chorus notes at load time
                 // InitProjectNotes(projSettings, LoggedOnMember.Name);
+
+                UpdateUiMenusAfterProjectOpen();
             }
             catch (StoryProjectData.BackOutWithNoUIException)
             {
@@ -3446,13 +3485,16 @@ namespace OneStoryProjectEditor
             int nIndex = (TheCurrentStory != null) ? TheCurrentStoriesSet.IndexOf(TheCurrentStory) : -1;
 
             var dlg = new PanoramaView(StoryProject, LoggedOnMember);
-            dlg.ShowDialog(CurrentStoriesSetName);
+            var theStartingStoriesSetName = CurrentStoriesSetName;
+            dlg.ShowDialog(theStartingStoriesSetName);
 
             if (dlg.Modified)
             {
                 Debug.Assert(StoryProject != null);
-                if (!StoryProject.ContainsKey(CurrentStoriesSetName))
+                // if the story set name has been changed...
+                if (!StoryProject.ContainsKey(theStartingStoriesSetName))
                 {
+                    // ... then just pick the first set and plan to go to it
                     var chooseOne = StoryProject.Values.FirstOrDefault();
                     if (chooseOne == null)
                         return;
@@ -3460,6 +3502,7 @@ namespace OneStoryProjectEditor
                     InitializeCurrentStoriesSetName(chooseOne.SetName);
                     TheCurrentStory = null;
                     nIndex = 0;
+                    UpdateNotificationBellUI();
                     Debug.Assert(!String.IsNullOrEmpty(CurrentStoriesSetName) && (StoryProject[CurrentStoriesSetName] != null));
                 }
 
@@ -3468,7 +3511,7 @@ namespace OneStoryProjectEditor
                 foreach (StoryData aStory in TheCurrentStoriesSet)
                     comboBoxStorySelector.Items.Add(aStory.Name);
 
-                // if the current story has been deleted, then choose another
+                // if the current story is no longer valid, then choose another
                 if (TheCurrentStory != null)
                 {
                     int nNewIndex = TheCurrentStoriesSet.IndexOf(TheCurrentStory);
@@ -3500,7 +3543,13 @@ namespace OneStoryProjectEditor
 
             // not sure why we had this null case, but it's causing Irene grief by shifting to the 1st story in the set when you just exit the Panorama window
             if (!String.IsNullOrEmpty(dlg.JumpToStory))
+            {
                 NavigateTo(dlg.SelectedStorySetName, dlg.JumpToStory, 1, null);
+
+                // if we're shifting to a different story set, then update the UI
+                if (theStartingStoriesSetName != dlg.SelectedStorySetName)
+                    UpdateNotificationBellUI();
+            }
         }
 
         private void JumpToStory(string jumpToStory)
@@ -4790,7 +4839,19 @@ namespace OneStoryProjectEditor
                 viewFreeTranslationMenu.Visible = StoryProject.ProjSettings.FreeTranslation.HasData;
             // viewStoriesSetMenu.Checked = false;
             UpdateUIMenusWithShortCuts();
+            UpdateNotificationBellUI();
             _bDisableReInitVerseControls = false;
+        }
+
+        public void UpdateNotificationBellUI()
+        {
+            // TODO: the proper bell needs to be set
+            if (MoveToNextStoryInLoggedInMembersTurn())
+            {
+            }
+            else
+            {
+            }
         }
 
         protected void UpdateUIMenusWithShortCuts()
@@ -5131,6 +5192,7 @@ namespace OneStoryProjectEditor
             Text = GetFrameTitle(true);
 
             InitAllPanes();
+            UpdateNotificationBellUI();
         }
 
         /*
@@ -7833,6 +7895,31 @@ namespace OneStoryProjectEditor
 
         private void toolStripButtonShowStoriesInYourState_Click(object sender, EventArgs e)
         {
+#if true
+            // three cases: 
+            //  1) there is only one story in the person's turn and it's the current story
+            //  2) there are others also
+            //  3) there are no others
+            var startingStoryName = TheCurrentStory?.Name;
+            var storyName = NextStoryNameInTheLoggedInMembersTurn;
+            if (String.IsNullOrEmpty(storyName))
+            {
+                // case 3
+                LocalizableMessageBox.Show(Localizer.Str("There are no stories in your turn."),
+                                           OseCaption);
+            }
+            else if (storyName != startingStoryName)
+            {
+                // case 2 -- navigate to one of them (implied that they want to go there)
+                NavigateTo(CurrentStoriesSetName, storyName, 1, null);
+            }
+            else
+            {
+                // case 1
+                LocalizableMessageBox.Show(Localizer.Str("There are no other stories in your turn."),
+                                           OseCaption);
+            }
+#else
             if (StoryProject == null)
                 return;
 
@@ -7895,6 +7982,7 @@ namespace OneStoryProjectEditor
             // not sure why we had this null case, but it's causing Irene grief by shifting to the 1st story in the set when you just exit the Panorama window
             if (!String.IsNullOrEmpty(dlg.JumpToStory))
                 NavigateTo(dlg.SelectedStorySetName, dlg.JumpToStory, 1, null);
+#endif
         }
 
         private void panoramaNextStoryMenu_Click(object sender, EventArgs e)
