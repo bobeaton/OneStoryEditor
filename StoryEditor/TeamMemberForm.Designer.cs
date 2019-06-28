@@ -49,7 +49,11 @@ namespace OneStoryProjectEditor
             this.listBoxTeamMembers = new System.Windows.Forms.ListBox();
             this.tableLayoutPanelTeamMembers = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxMemberNames = new System.Windows.Forms.TextBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabEditors = new System.Windows.Forms.TabPage();
+            this.tabCollaborators = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelTeamMembers.SuspendLayout();
+            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonCancel
@@ -87,7 +91,7 @@ namespace OneStoryProjectEditor
             this.buttonMergeProjectFacilitators.TabIndex = 6;
             this.buttonMergeProjectFacilitators.Text = "&Merge Project Facilitators";
             this.toolTip.SetToolTip(this.buttonMergeProjectFacilitators, "Click this button to merge a different Project Facilitator with the selected Proj" +
-                    "ect Facilitator (so all references will be to the selected Project Facilitator)");
+        "ect Facilitator (so all references will be to the selected Project Facilitator)");
             this.buttonMergeProjectFacilitators.UseVisualStyleBackColor = true;
             this.buttonMergeProjectFacilitators.Visible = false;
             this.buttonMergeProjectFacilitators.Click += new System.EventHandler(this.buttonMergeProjectFacilitators_Click);
@@ -101,7 +105,7 @@ namespace OneStoryProjectEditor
             this.buttonMergeCrafter.TabIndex = 7;
             this.buttonMergeCrafter.Text = "&Merge Crafters";
             this.toolTip.SetToolTip(this.buttonMergeCrafter, "Click this button to merge a different Crafter with the selected Crafter (so all " +
-                    "references will be to the selected Crafter)");
+        "references will be to the selected Crafter)");
             this.buttonMergeCrafter.UseVisualStyleBackColor = true;
             this.buttonMergeCrafter.Visible = false;
             this.buttonMergeCrafter.Click += new System.EventHandler(this.buttonMergeCrafter_Click);
@@ -115,7 +119,7 @@ namespace OneStoryProjectEditor
             this.buttonMergeConsultant.TabIndex = 5;
             this.buttonMergeConsultant.Text = "&Merge Consultant/CIT";
             this.toolTip.SetToolTip(this.buttonMergeConsultant, "Click this button to merge a different Consultant or CIT with the selected Consul" +
-                    "tant/CIT (so all references will be to the selected Consultant/CIT)");
+        "tant/CIT (so all references will be to the selected Consultant/CIT)");
             this.buttonMergeConsultant.UseVisualStyleBackColor = true;
             this.buttonMergeConsultant.Visible = false;
             this.buttonMergeConsultant.Click += new System.EventHandler(this.buttonMergeConsultant_Click);
@@ -129,7 +133,7 @@ namespace OneStoryProjectEditor
             this.buttonMergeCoach.TabIndex = 4;
             this.buttonMergeCoach.Text = "&Merge Coaches";
             this.toolTip.SetToolTip(this.buttonMergeCoach, "Click this button to merge a different Coach with the selected Coach (so all refe" +
-                    "rences will be to the selected Coach)");
+        "rences will be to the selected Coach)");
             this.buttonMergeCoach.UseVisualStyleBackColor = true;
             this.buttonMergeCoach.Visible = false;
             this.buttonMergeCoach.Click += new System.EventHandler(this.buttonMergeCoach_Click);
@@ -143,7 +147,7 @@ namespace OneStoryProjectEditor
             this.buttonMergeUns.TabIndex = 8;
             this.buttonMergeUns.Text = "&Merge UNSs";
             this.toolTip.SetToolTip(this.buttonMergeUns, "Click this button to merge a different UNS with the selected UNS (so all referenc" +
-                    "es will be to the selected UNS)");
+        "es will be to the selected UNS)");
             this.buttonMergeUns.UseVisualStyleBackColor = true;
             this.buttonMergeUns.Visible = false;
             this.buttonMergeUns.Click += new System.EventHandler(this.buttonMergeUns_Click);
@@ -158,7 +162,7 @@ namespace OneStoryProjectEditor
             this.buttonDeleteMember.TabIndex = 3;
             this.buttonDeleteMember.Text = "&Delete Member";
             this.toolTip.SetToolTip(this.buttonDeleteMember, "The selected member isn\'t associated with any stories, so you can delete it if yo" +
-                    "u want.");
+        "u want.");
             this.buttonDeleteMember.UseVisualStyleBackColor = true;
             this.buttonDeleteMember.Visible = false;
             this.buttonDeleteMember.Click += new System.EventHandler(this.buttonDeleteMember_Click);
@@ -204,11 +208,11 @@ namespace OneStoryProjectEditor
             this.listBoxTeamMembers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listBoxTeamMembers.FormattingEnabled = true;
             this.helpProvider.SetHelpString(this.listBoxTeamMembers, resources.GetString("listBoxTeamMembers.HelpString"));
-            this.listBoxTeamMembers.Location = new System.Drawing.Point(3, 38);
+            this.listBoxTeamMembers.Location = new System.Drawing.Point(3, 290);
             this.listBoxTeamMembers.Name = "listBoxTeamMembers";
-            this.tableLayoutPanelTeamMembers.SetRowSpan(this.listBoxTeamMembers, 9);
+            this.tableLayoutPanelTeamMembers.SetRowSpan(this.listBoxTeamMembers, 2);
             this.helpProvider.SetShowHelp(this.listBoxTeamMembers, true);
-            this.listBoxTeamMembers.Size = new System.Drawing.Size(508, 404);
+            this.listBoxTeamMembers.Size = new System.Drawing.Size(508, 152);
             this.listBoxTeamMembers.Sorted = true;
             this.listBoxTeamMembers.TabIndex = 1;
             this.listBoxTeamMembers.SelectedIndexChanged += new System.EventHandler(this.listBoxTeamMembers_SelectedIndexChanged);
@@ -216,14 +220,14 @@ namespace OneStoryProjectEditor
             // 
             // tableLayoutPanelTeamMembers
             // 
-            this.tableLayoutPanelTeamMembers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelTeamMembers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelTeamMembers.ColumnCount = 2;
             this.tableLayoutPanelTeamMembers.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelTeamMembers.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelTeamMembers.Controls.Add(this.textBoxMemberNames, 0, 0);
-            this.tableLayoutPanelTeamMembers.Controls.Add(this.listBoxTeamMembers, 0, 1);
+            this.tableLayoutPanelTeamMembers.Controls.Add(this.listBoxTeamMembers, 0, 8);
             this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonAddNewMember, 1, 1);
             this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonDeleteMember, 1, 8);
             this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonEditMember, 1, 2);
@@ -232,6 +236,7 @@ namespace OneStoryProjectEditor
             this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonMergeCrafter, 1, 6);
             this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonMergeConsultant, 1, 4);
             this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonMergeUns, 1, 7);
+            this.tableLayoutPanelTeamMembers.Controls.Add(this.tabControl1, 0, 1);
             this.tableLayoutPanelTeamMembers.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanelTeamMembers.Name = "tableLayoutPanelTeamMembers";
             this.tableLayoutPanelTeamMembers.RowCount = 9;
@@ -245,6 +250,10 @@ namespace OneStoryProjectEditor
             this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanelTeamMembers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanelTeamMembers.Size = new System.Drawing.Size(710, 445);
             this.tableLayoutPanelTeamMembers.TabIndex = 1;
             // 
@@ -259,6 +268,41 @@ namespace OneStoryProjectEditor
             this.textBoxMemberNames.TabIndex = 0;
             this.textBoxMemberNames.Text = "Team Members";
             this.textBoxMemberNames.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabEditors);
+            this.tabControl1.Controls.Add(this.tabCollaborators);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(3, 38);
+            this.tabControl1.Name = "tabControl1";
+            this.tableLayoutPanelTeamMembers.SetRowSpan(this.tabControl1, 7);
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(508, 246);
+            this.tabControl1.TabIndex = 9;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.listBoxTeamMembers_SelectedIndexChanged);
+            this.tabControl1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxTeamMembers_MouseDoubleClick);
+            // 
+            // tabEditors
+            // 
+            this.tabEditors.Location = new System.Drawing.Point(4, 22);
+            this.tabEditors.Name = "tabEditors";
+            this.tabEditors.Padding = new System.Windows.Forms.Padding(3);
+            this.tabEditors.Size = new System.Drawing.Size(500, 220);
+            this.tabEditors.TabIndex = 0;
+            this.tabEditors.Text = "Editors";
+            this.tabEditors.UseVisualStyleBackColor = true;
+            this.tabEditors.Click += new System.EventHandler(this.tabEditors_Click);
+            // 
+            // tabCollaborators
+            // 
+            this.tabCollaborators.Location = new System.Drawing.Point(4, 22);
+            this.tabCollaborators.Name = "tabCollaborators";
+            this.tabCollaborators.Padding = new System.Windows.Forms.Padding(3);
+            this.tabCollaborators.Size = new System.Drawing.Size(500, 220);
+            this.tabCollaborators.TabIndex = 1;
+            this.tabCollaborators.Text = "Collaborators";
+            this.tabCollaborators.UseVisualStyleBackColor = true;
             // 
             // TeamMemberForm
             // 
@@ -278,6 +322,7 @@ namespace OneStoryProjectEditor
             this.Text = "Login";
             this.tableLayoutPanelTeamMembers.ResumeLayout(false);
             this.tableLayoutPanelTeamMembers.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -301,5 +346,8 @@ namespace OneStoryProjectEditor
         private System.Windows.Forms.Button buttonMergeCoach;
         private System.Windows.Forms.Button buttonMergeConsultant;
         private Button buttonMergeUns;
+        private TabControl tabControl1;
+        private TabPage tabEditors;
+        private TabPage tabCollaborators;
     }
 }

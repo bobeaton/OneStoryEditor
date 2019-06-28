@@ -469,5 +469,37 @@ namespace OneStoryProjectEditor
             if (TeamMemberData.IsUser(eRoles, TeamMemberData.UserTypes.UNS))
                 _theStoryProjectData.ReplaceUns(strOldMemberGuid, strNewMemberGuid);
         }
+
+        private void tabEditors_Click(object sender, EventArgs e)
+        {
+            bool bOneSelected = (listBoxTeamMembers.SelectedIndex != -1);
+            buttonEditMember.Enabled = buttonOK.Enabled = bOneSelected;
+
+            if (bOneSelected)
+            {
+                TeamMemberData.UserTypes eUserType;
+                ParseListBoxItem((string)listBoxTeamMembers.SelectedItem,
+                                 out m_strSelectedMemberName, out eUserType);
+
+                if (_dataTeamMembers.ContainsKey(m_strSelectedMemberName))
+                {
+                    var theMember = _dataTeamMembers[m_strSelectedMemberName];
+                    buttonMergeUns.Visible = (TeamMemberData.IsUser(theMember.MemberType,
+                                                                    TeamMemberData.UserTypes.UNS));
+                    buttonMergeCrafter.Visible = (TeamMemberData.IsUser(theMember.MemberType,
+                                                                        TeamMemberData.UserTypes.Crafter));
+                    buttonMergeProjectFacilitators.Visible = (TeamMemberData.IsUser(theMember.MemberType,
+                                                                                    TeamMemberData.UserTypes.
+                                                                                        ProjectFacilitator));
+                    buttonMergeConsultant.Visible = (TeamMemberData.IsUser(theMember.MemberType,
+                        TeamMemberData.UserTypes.ConsultantInTraining | TeamMemberData.UserTypes.IndependentConsultant));
+
+                    buttonMergeCoach.Visible = (TeamMemberData.IsUser(theMember.MemberType, TeamMemberData.UserTypes.Coach));
+
+                    buttonDeleteMember.Visible = !_theStoryProjectData.DoesReferenceExist(theMember) &&                                             // no references
+                        ((m_strSelectedMemberName != TeamMembersData.CstrBrowserMemberName) && (eUserType != TeamMemberData.UserTypes.JustLooking));// but ignore the Browser (Just Looking) one (no need to delete that)
+                }
+            }
+        }
     }
 }
