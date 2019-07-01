@@ -144,6 +144,26 @@ namespace OneStoryProjectEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap bell_with_notifications {
+            get {
+                object obj = ResourceManager.GetObject("bell-with-notifications", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap bell_without_notifications {
+            get {
+                object obj = ResourceManager.GetObject("bell-without-notifications", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BuilderDialog_movedown1 {
             get {
                 object obj = ResourceManager.GetObject("BuilderDialog_movedown1", resourceCulture);
