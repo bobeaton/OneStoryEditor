@@ -1883,7 +1883,7 @@ namespace OneStoryProjectEditor
             // toolStripButtonShowStoriesInYourState
             // 
             this.toolStripButtonShowStoriesInYourState.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonShowStoriesInYourState.Image = global::OneStoryProjectEditor.Properties.Resources.bell_with_notifications;
+            //this.toolStripButtonShowStoriesInYourState.Image = global::OneStoryProjectEditor.Properties.Resources.bell_with_notifications;
             this.toolStripButtonShowStoriesInYourState.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonShowStoriesInYourState.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonShowStoriesInYourState.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
@@ -1896,7 +1896,7 @@ namespace OneStoryProjectEditor
             // toolStripButtonShowPanoramaStories
             // 
             this.toolStripButtonShowPanoramaStories.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonShowPanoramaStories.Image = global::OneStoryProjectEditor.Properties.Resources.bell_without_notifications;
+            //this.toolStripButtonShowPanoramaStories.Image = global::OneStoryProjectEditor.Properties.Resources.bell_without_notifications;
             this.toolStripButtonShowPanoramaStories.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonShowPanoramaStories.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonShowPanoramaStories.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);

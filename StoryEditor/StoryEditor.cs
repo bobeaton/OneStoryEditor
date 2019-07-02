@@ -4845,13 +4845,18 @@ namespace OneStoryProjectEditor
 
         public void UpdateNotificationBellUI()
         {
+            this.toolStripRecordNavigation.SuspendLayout();
             // TODO: the proper bell needs to be set
             if (MoveToNextStoryInLoggedInMembersTurn())
             {
+                this.toolStripButtonShowStoriesInYourState.Image = global::OneStoryProjectEditor.Properties.Resources.bell_with_notifications;
             }
             else
             {
+                this.toolStripButtonShowPanoramaStories.Image = global::OneStoryProjectEditor.Properties.Resources.bell_without_notifications;
             }
+            this.toolStripRecordNavigation.ResumeLayout(false);
+            this.toolStripRecordNavigation.PerformLayout();
         }
 
         protected void UpdateUIMenusWithShortCuts()
