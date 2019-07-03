@@ -134,9 +134,9 @@ namespace OneStoryProjectEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Bell {
+        internal static System.Drawing.Bitmap BellWithNotifications {
             get {
-                object obj = ResourceManager.GetObject("Bell", resourceCulture);
+                object obj = ResourceManager.GetObject("BellWithNotifications", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -144,19 +144,9 @@ namespace OneStoryProjectEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap bell_with_notifications {
+        internal static System.Drawing.Bitmap BellWithoutNotifications {
             get {
-                object obj = ResourceManager.GetObject("bell-with-notifications", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap bell_without_notifications {
-            get {
-                object obj = ResourceManager.GetObject("bell-without-notifications", resourceCulture);
+                object obj = ResourceManager.GetObject("BellWithoutNotifications", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

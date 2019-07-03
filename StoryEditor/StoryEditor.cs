@@ -4849,12 +4849,12 @@ namespace OneStoryProjectEditor
             // TODO: the proper bell needs to be set
             if (MoveToNextStoryInLoggedInMembersTurn())
             {
-                this.toolStripButtonShowStoriesInYourState.Image = global::OneStoryProjectEditor.Properties.Resources.bell_with_notifications;
+                this.toolStripButtonShowStoriesInYourState.Image = global::OneStoryProjectEditor.Properties.Resources.BellWithNotifications;
                 this.toolStripButtonShowStoriesInYourState.ToolTipText = "Click cycle thru all the stories in your turn";
             }
             else
             {
-                this.toolStripButtonShowStoriesInYourState.Image = global::OneStoryProjectEditor.Properties.Resources.bell_without_notifications;
+                this.toolStripButtonShowStoriesInYourState.Image = global::OneStoryProjectEditor.Properties.Resources.BellWithoutNotifications;
                 this.toolStripButtonShowStoriesInYourState.ToolTipText = "There are no stories in your turn";
             }
             this.toolStripRecordNavigation.ResumeLayout(false);

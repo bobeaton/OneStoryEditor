@@ -318,9 +318,6 @@ and in the resulting window click on the next (green) state.
   <data name="project_1_3_to_1_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\1.3 to 1.4.xslt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="Bell" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Bell1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="IDS_CreateMyBiblicalTermsQuery" xml:space="preserve">
     <value>In order to add or edit key terms, you have to begin using a local copy of one of the existing key
 terms list (i.e. a copy generated, for example, from the Paratext "Major Key Terms" or "All Key 
@@ -2112,7 +2109,7 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   <data name="HTML_TableCellId" xml:space="preserve">
     <value>&lt;td id="{0}"&gt;{1}&lt;/td&gt;</value>
   </data>
-  <data name="bell-with-notifications" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="BellWithNotifications" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bell-with-notifications.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="AddToFavoritesHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -2258,7 +2255,7 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   <data name="HTML_ButtonLineOptions" xml:space="preserve">
     <value>&lt;button id="{0}" onmouseup="{1}" style="height:20px; width:20px;"&gt;{2}&lt;/button&gt;</value>
   </data>
-  <data name="bell-without-notifications" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="BellWithoutNotifications" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bell-without-notifications.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
