@@ -527,6 +527,7 @@ namespace OneStoryProjectEditor
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
                 TheStory.CraftingInfo.OutsideEnglishBackTranslator,
                 FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
+            CheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
         }
 
         private void buttonSendToConsultant_Click(object sender, EventArgs e)
@@ -602,6 +603,7 @@ namespace OneStoryProjectEditor
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
                 TheStory.CraftingInfo.Consultant,
                 FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
+            CheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
         }
 
         private static void SendEmail(StoryProjectData theProject, StoryData theStory, 
@@ -616,7 +618,7 @@ namespace OneStoryProjectEditor
 
             // e.g. ‘Bob Eaton’ has set the story ‘01 creation’ to your turn
             string strDetails = String.Format(Localizer.Str("‘{0}’ has set the story ‘{1}’ from project '{2}' to your turn"),
-                                              loggedOnMember.Name, 
+                                              loggedOnMember.Name,
                                               theStory.Name,
                                               theProject.ProjSettings.ProjectName);
 
@@ -647,18 +649,26 @@ namespace OneStoryProjectEditor
                         Localizer.Str(
                             "An automated message has been put into your email's Outbox to inform {0} that it is now his/her turn to work on the story. When you're finished, you should click 'Project', 'Send/Receive' to synchronize your changes to the Internet repository (or thumbdrive) and then do a Send/Receive of your email as well, so the other person gets the message"),
                         member.Name), StoryEditor.OseCaption);
-
-                var strProjectFolder = theProject.ProjSettings.ProjectFolder;
-                var strProjectName = theProject.ProjSettings.ProjectName;
-                Program.QueryHgRepoParameters(strProjectFolder,
-                                              strProjectName,
-                                              loggedOnMember);
-
-                Program.SyncWithRepository(strProjectFolder, true);
             }
             catch (Exception ex)
             {
                 Program.ShowException(ex);
+            }
+        }
+
+        private static void CheckForAutoSendReceive(StoryProjectData theProject, TeamMemberData loggedOnMember)
+        {
+            try
+            {
+                if (Properties.Settings.Default.AutoSendReceiveAfterTurnChange)
+                {
+                    theProject.ProjSettings.SyncWithRepository(loggedOnMember.HgUsername, loggedOnMember.HgPassword);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
             }
         }
 
@@ -711,6 +721,7 @@ namespace OneStoryProjectEditor
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
                 TheStory.CraftingInfo.ProjectFacilitator,
                 FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
+            CheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
         }
 
         private bool CheckIfReadyToReturnToPf()
@@ -807,6 +818,7 @@ namespace OneStoryProjectEditor
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
                 TheStory.CraftingInfo.ProjectFacilitator,
                 FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
+            CheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
         }
 
         private void buttonMarkFinalApproval_Click(object sender, EventArgs e)
@@ -818,6 +830,7 @@ namespace OneStoryProjectEditor
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
                       TheStory.CraftingInfo.ProjectFacilitator,
                       FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
+            CheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
         }
 
         private void buttonSendToCoach_Click(object sender, EventArgs e)
@@ -857,6 +870,7 @@ namespace OneStoryProjectEditor
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
                 TheStory.CraftingInfo.Coach,
                 FinalConNoteComments(TheStory.Verses.FirstVerse.CoachNotes));
+            CheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
         }
 
         private string FinalConNoteComments(IEnumerable<ConsultNoteDataConverter> theStoryLine)
@@ -910,6 +924,7 @@ namespace OneStoryProjectEditor
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
                 TheStory.CraftingInfo.Consultant,
                 FinalConNoteComments(TheStory.Verses.FirstVerse.CoachNotes));
+            CheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
         }
 
         private void buttonViewTasksPf_Click(object sender, EventArgs e)

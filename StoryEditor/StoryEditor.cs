@@ -248,6 +248,7 @@ namespace OneStoryProjectEditor
             advancedEmailMenu.Checked = Settings.Default.UseMapiPlus;
             advancedUseWordBreaks.Enabled = BreakIterator.IsAvailable;
             advancedAutomaticallyLoadProjectMenu.Checked = Settings.Default.AutoLoadLastProject;
+            advancedAutomaticallySendandReceiveWindowMenu.Checked = Settings.Default.AutoSendReceiveAfterTurnChange;
 
             if (advancedSaveTimeoutEnabledMenu.Checked)
             {
@@ -6684,6 +6685,12 @@ namespace OneStoryProjectEditor
             Settings.Default.Save();
         }
 
+        private void advancedAutomaticallySendandReceiveWindowMenu_CheckStateChanged(object sender, EventArgs e)
+        {
+            Settings.Default.AutoSendReceiveAfterTurnChange = advancedAutomaticallySendandReceiveWindowMenu.Checked;
+            Settings.Default.Save();
+        }
+
         private void sendReceiveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Debug.Assert((StoryProject != null) &&
@@ -7998,16 +8005,6 @@ namespace OneStoryProjectEditor
             if (!String.IsNullOrEmpty(dlg.JumpToStory))
                 NavigateTo(dlg.SelectedStorySetName, dlg.JumpToStory, 1, null);
 #endif
-        }
-
-        private void advancedAutomaticallyLoadProjectMenu_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void advancedAutomaticallySendandReceiveWindowMenu_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void panoramaNextStoryMenu_Click(object sender, EventArgs e)
