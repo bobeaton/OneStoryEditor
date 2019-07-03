@@ -4850,10 +4850,12 @@ namespace OneStoryProjectEditor
             if (MoveToNextStoryInLoggedInMembersTurn())
             {
                 this.toolStripButtonShowStoriesInYourState.Image = global::OneStoryProjectEditor.Properties.Resources.bell_with_notifications;
+                this.toolStripButtonShowStoriesInYourState.ToolTipText = "Click cycle thru all the stories in your turn";
             }
             else
             {
-                this.toolStripButtonShowPanoramaStories.Image = global::OneStoryProjectEditor.Properties.Resources.bell_without_notifications;
+                this.toolStripButtonShowStoriesInYourState.Image = global::OneStoryProjectEditor.Properties.Resources.bell_without_notifications;
+                this.toolStripButtonShowStoriesInYourState.ToolTipText = "There are no stories in your turn";
             }
             this.toolStripRecordNavigation.ResumeLayout(false);
             this.toolStripRecordNavigation.PerformLayout();
@@ -6441,8 +6443,10 @@ namespace OneStoryProjectEditor
 
         private void GoToFirstStory()
         {
-            if ((TheCurrentStoriesSet != null) && (TheCurrentStory != null))
-                comboBoxStorySelector.SelectedIndex = 0;
+            if ((StoryProject == null) || (TheCurrentStoriesSet == null) || (TheCurrentStory == null))
+                return;
+
+            comboBoxStorySelector.SelectedIndex = 0;
         }
 
         private void toolStripButtonPrevious_Click(object sender, EventArgs e)
@@ -6452,7 +6456,7 @@ namespace OneStoryProjectEditor
 
         private void GoToPreviousStory()
         {
-            if ((TheCurrentStoriesSet == null) || (TheCurrentStory == null))
+            if ((StoryProject == null) || (TheCurrentStoriesSet == null) || (TheCurrentStory == null))
                 return;
 
             int nIndex = TheCurrentStoriesSet.IndexOf(TheCurrentStory);
@@ -6485,8 +6489,10 @@ namespace OneStoryProjectEditor
 
         private void GoToLastStory()
         {
-            if ((TheCurrentStoriesSet != null) && (TheCurrentStory != null))
-                comboBoxStorySelector.SelectedIndex = (TheCurrentStoriesSet.Count - 1);
+            if ((StoryProject == null) || (TheCurrentStoriesSet == null) || (TheCurrentStory == null))
+                return;
+
+            comboBoxStorySelector.SelectedIndex = (TheCurrentStoriesSet.Count - 1);
         }
 
         private void viewOnlyOpenConversationsMenu_CheckStateChanged(object sender, EventArgs e)
@@ -7901,6 +7907,10 @@ namespace OneStoryProjectEditor
         private void toolStripButtonShowStoriesInYourState_Click(object sender, EventArgs e)
         {
 #if true
+            // if there is no project open, then do nothing
+            if (StoryProject == null)
+                return;
+
             // three cases: 
             //  1) there is only one story in the person's turn and it's the current story
             //  2) there are others also
