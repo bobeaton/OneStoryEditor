@@ -130,6 +130,7 @@ namespace OneStoryProjectEditor
         public DateTime SetFinishedDate { get; set; }       // Set_Finished_Date
         public bool IsUploadedToOsMedia { get; set; }       // Uploaded_to_OSMedia
         public bool IsUploadedToTWR360 { get; set; }       // Uploaded_to_TWR360
+        public string AlsoOnlineAt { get; set; }          // Set_Copyrighted
         public string SetCopyrighted { get; set; }          // Set_Copyrighted
 
         // these are kept so we can do calculation at a particular time, but are not
@@ -177,6 +178,7 @@ namespace OneStoryProjectEditor
             SetFinishedDate = rhs.SetFinishedDate;
             IsUploadedToOsMedia = rhs.IsUploadedToOsMedia;
             IsUploadedToTWR360 = rhs.IsUploadedToTWR360;
+            AlsoOnlineAt = rhs.AlsoOnlineAt;
             SetCopyrighted = rhs.SetCopyrighted;
         }
     }

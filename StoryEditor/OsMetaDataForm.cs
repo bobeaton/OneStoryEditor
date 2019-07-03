@@ -55,6 +55,7 @@ namespace OneStoryProjectEditor
             Initialize(dateTimePickerSetFinishedDate, record.SetFinishedDate);
             Initialize(checkBoxIsUploadedToOsMedia, record.IsUploadedToOsMedia);
             Initialize(checkBoxIsUploadedToTWR360, record.IsUploadedToTWR360);
+            Initialize(textBoxAlsoOnlineAt, record.AlsoOnlineAt);
             Initialize(textBoxSetCopyright, record.SetCopyrighted);
 
             // if we're in Exploratory Phase, then don't allow editing of the ES fields
@@ -152,6 +153,7 @@ namespace OneStoryProjectEditor
             record.SetFinishedDate = Retrieve(dateTimePickerSetFinishedDate, record.SetFinishedDate);
             record.IsUploadedToOsMedia = Retrieve(checkBoxIsUploadedToOsMedia);
             record.IsUploadedToTWR360 = Retrieve(checkBoxIsUploadedToTWR360);
+            record.AlsoOnlineAt = Retrieve(textBoxAlsoOnlineAt);
             record.SetCopyrighted = Retrieve(textBoxSetCopyright);
         }
 

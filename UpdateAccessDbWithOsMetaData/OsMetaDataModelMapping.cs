@@ -46,6 +46,7 @@ namespace UpdateAccessDbWithOsMetaData
             Map("Set_Finished_Date", "SetFinishedDate");
             Map("Uploaded_to_OSMedia", "IsUploadedToOsMedia");
             Map("Uploaded_to_TWR360", "IsUploadedToTWR360");
+            Map("Also_Online_At", "AlsoOnlineAt");
             Map("Set_Copyrighted", "SetCopyrighted");
             Map("DateLastChangeProjectFile", "DateLastChangeProjectFile");
         }
