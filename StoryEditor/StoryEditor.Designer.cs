@@ -215,7 +215,6 @@ namespace OneStoryProjectEditor
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeftRight)).BeginInit();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
@@ -1325,7 +1324,6 @@ namespace OneStoryProjectEditor
             this.advancedOneStoryProjectMetaData,
             this.advancedUseDialogToPreviewConNotes,
             this.advancedAutomaticallySendandReceiveWindowMenu,
-            this.toolStripMenuItem3,
             this.advancedAutomaticallyLoadProjectMenu});
             this.advancedToolStripMenu.Name = "advancedToolStripMenu";
             this.advancedToolStripMenu.Size = new System.Drawing.Size(72, 27);
@@ -1878,23 +1876,23 @@ namespace OneStoryProjectEditor
             this.toolStripButtonPrevious,
             this.toolStripButtonNext,
             this.toolStripButtonLast});
-            this.toolStripRecordNavigation.Location = new System.Drawing.Point(971, 0);
+            this.toolStripRecordNavigation.Location = new System.Drawing.Point(940, 0);
             this.toolStripRecordNavigation.Name = "toolStripRecordNavigation";
-            this.toolStripRecordNavigation.Size = new System.Drawing.Size(141, 25);
+            this.toolStripRecordNavigation.Size = new System.Drawing.Size(172, 25);
             this.toolStripRecordNavigation.TabIndex = 3;
             this.toolStripRecordNavigation.Text = "<no need to localize/translate>";
             // 
             // toolStripButtonShowStoriesInYourState
             // 
             this.toolStripButtonShowStoriesInYourState.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonShowStoriesInYourState.Image = global::OneStoryProjectEditor.Properties.Resources.Bell;
+            this.toolStripButtonShowStoriesInYourState.Image = global::OneStoryProjectEditor.Properties.Resources.BellWithoutNotifications;
             this.toolStripButtonShowStoriesInYourState.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonShowStoriesInYourState.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonShowStoriesInYourState.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
             this.toolStripButtonShowStoriesInYourState.Name = "toolStripButtonShowStoriesInYourState";
             this.toolStripButtonShowStoriesInYourState.Size = new System.Drawing.Size(23, 23);
             this.toolStripButtonShowStoriesInYourState.Text = "Show Panorama Stories";
-            this.toolStripButtonShowStoriesInYourState.ToolTipText = "Click to view the full list of stories (same as \"Panorama\", \"Show\")";
+            this.toolStripButtonShowStoriesInYourState.ToolTipText = "There are no stories in your turn";
             this.toolStripButtonShowStoriesInYourState.Click += new System.EventHandler(this.toolStripButtonShowStoriesInYourState_Click);
             // 
             // toolStripButtonShowPanoramaStories
@@ -1987,17 +1985,6 @@ namespace OneStoryProjectEditor
             // 
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Checked = true;
-            this.toolStripMenuItem3.CheckOnClick = true;
-            this.toolStripMenuItem3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(314, 22);
-            this.toolStripMenuItem3.Text = "Stories in Your State";
-            this.toolStripMenuItem3.ToolTipText = "Uncheck this menu if you don\'t want OSE to automatically load the last project op" +
-    "ened";
             // 
             // StoryEditor
             // 
@@ -2216,7 +2203,6 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator11;
         private ToolStripButton toolStripButtonShowStoriesInYourState;
         private ToolStripMenuItem advancedAutomaticallySendandReceiveWindowMenu;
-        private ToolStripMenuItem toolStripMenuItem3;
     }
 
 #if UsingHtmlDisplayForConNotes
