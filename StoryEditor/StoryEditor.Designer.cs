@@ -181,7 +181,6 @@ namespace OneStoryProjectEditor
             this.advancedSwapDataColumns = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedOneStoryProjectMetaData = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedUseDialogToPreviewConNotes = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedAutomaticallyLoadProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -981,7 +980,7 @@ namespace OneStoryProjectEditor
             this.viewTransliterationVernacular.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewTransliteratorVernacularConfigureToolStripMenuItem});
             this.viewTransliterationVernacular.Name = "viewTransliterationVernacular";
-            this.viewTransliterationVernacular.Size = new System.Drawing.Size(158, 22);
+            this.viewTransliterationVernacular.Size = new System.Drawing.Size(157, 22);
             this.viewTransliterationVernacular.Text = "Story Language";
             this.viewTransliterationVernacular.ToolTipText = "Check this menu to turn on a transliterator for the story language boxes";
             this.viewTransliterationVernacular.Click += new System.EventHandler(this.viewTransliterationVernacular_Click);
@@ -999,7 +998,7 @@ namespace OneStoryProjectEditor
             this.viewTransliterationNationalBT.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewTransliteratorNationalBTConfigureToolStripMenuItem});
             this.viewTransliterationNationalBT.Name = "viewTransliterationNationalBT";
-            this.viewTransliterationNationalBT.Size = new System.Drawing.Size(158, 22);
+            this.viewTransliterationNationalBT.Size = new System.Drawing.Size(157, 22);
             this.viewTransliterationNationalBT.Text = "National BT";
             this.viewTransliterationNationalBT.ToolTipText = "Check this menu to turn on a transliterator for the national language BT boxes";
             this.viewTransliterationNationalBT.Click += new System.EventHandler(this.viewTransliterationNationalBT_Click);
@@ -1017,7 +1016,7 @@ namespace OneStoryProjectEditor
             this.viewTransliterationInternationalBt.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewTransliteratorInternationalBtConfigureToolStripMenuItem});
             this.viewTransliterationInternationalBt.Name = "viewTransliterationInternationalBt";
-            this.viewTransliterationInternationalBt.Size = new System.Drawing.Size(158, 22);
+            this.viewTransliterationInternationalBt.Size = new System.Drawing.Size(157, 22);
             this.viewTransliterationInternationalBt.Text = "International BT";
             this.viewTransliterationInternationalBt.ToolTipText = "Check this menu to turn on a transliterator for the International/English languag" +
     "e boxes";
@@ -1036,7 +1035,7 @@ namespace OneStoryProjectEditor
             this.viewTransliterationFreeTranslation.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewTransliteratorFreeTranslationConfigureToolStripMenuItem});
             this.viewTransliterationFreeTranslation.Name = "viewTransliterationFreeTranslation";
-            this.viewTransliterationFreeTranslation.Size = new System.Drawing.Size(158, 22);
+            this.viewTransliterationFreeTranslation.Size = new System.Drawing.Size(157, 22);
             this.viewTransliterationFreeTranslation.Text = "Free Translation";
             this.viewTransliterationFreeTranslation.ToolTipText = "Check this menu to turn on a transliterator for the Free Translation language box" +
     "es";
@@ -1300,7 +1299,7 @@ namespace OneStoryProjectEditor
             // tasksToolStripMenu
             // 
             this.tasksToolStripMenu.Name = "tasksToolStripMenu";
-            this.tasksToolStripMenu.Size = new System.Drawing.Size(51, 27);
+            this.tasksToolStripMenu.Size = new System.Drawing.Size(50, 27);
             this.tasksToolStripMenu.Text = "&Tasks!";
             this.tasksToolStripMenu.Click += new System.EventHandler(this.tasksToolStripMenu_Click);
             // 
@@ -1323,7 +1322,6 @@ namespace OneStoryProjectEditor
             this.advancedSwapDataColumns,
             this.advancedOneStoryProjectMetaData,
             this.advancedUseDialogToPreviewConNotes,
-            this.toolStripMenuItem1,
             this.advancedAutomaticallyLoadProjectMenu});
             this.advancedToolStripMenu.Name = "advancedToolStripMenu";
             this.advancedToolStripMenu.Size = new System.Drawing.Size(72, 27);
@@ -1548,17 +1546,6 @@ namespace OneStoryProjectEditor
     "n notes";
             this.advancedUseDialogToPreviewConNotes.Click += new System.EventHandler(this.advancedUseDialogToPreviewConNotes_Click);
             // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Checked = true;
-            this.toolStripMenuItem1.CheckOnClick = true;
-            this.toolStripMenuItem1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(314, 22);
-            this.toolStripMenuItem1.Text = "Auto&matically Load Project";
-            this.toolStripMenuItem1.ToolTipText = "Uncheck this menu if you don\'t want OSE to automatically load the last project op" +
-    "ened";
-            // 
             // advancedAutomaticallyLoadProjectMenu
             // 
             this.advancedAutomaticallyLoadProjectMenu.Checked = true;
@@ -1566,7 +1553,7 @@ namespace OneStoryProjectEditor
             this.advancedAutomaticallyLoadProjectMenu.CheckState = System.Windows.Forms.CheckState.Checked;
             this.advancedAutomaticallyLoadProjectMenu.Name = "advancedAutomaticallyLoadProjectMenu";
             this.advancedAutomaticallyLoadProjectMenu.Size = new System.Drawing.Size(314, 22);
-            this.advancedAutomaticallyLoadProjectMenu.Text = "Stories in Your State";
+            this.advancedAutomaticallyLoadProjectMenu.Text = "Auto&matically Load Project";
             this.advancedAutomaticallyLoadProjectMenu.ToolTipText = "Uncheck this menu if you don\'t want OSE to automatically load the last project op" +
     "ened";
             this.advancedAutomaticallyLoadProjectMenu.CheckStateChanged += new System.EventHandler(this.advancedAutomaticallyLoadProjectMenu_CheckStateChanged);
@@ -2200,7 +2187,6 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem editDeleteChooseFieldsMenu;
         private ToolStripSeparator toolStripSeparator11;
         private ToolStripButton toolStripButtonShowStoriesInYourState;
-        private ToolStripMenuItem toolStripMenuItem1;
     }
 
 #if UsingHtmlDisplayForConNotes
