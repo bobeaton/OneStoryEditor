@@ -2194,9 +2194,10 @@ namespace OneStoryProjectEditor
                 var record = new OsMetaDataModelRecord();
                 OsMetaData.OsProjects.Add(record);
 
+                record.ProjectName = ProjSettings.ProjectName;
                 if (ProjSettings.Vernacular.HasData)
                 {
-                    record.ProjectName = record.LanguageName = ProjSettings.Vernacular.LangName;
+                    record.LanguageName = ProjSettings.Vernacular.LangName;
                     record.EthnologueCode = ProjSettings.Vernacular.LangCode;
                 }
 

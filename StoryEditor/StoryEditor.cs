@@ -773,6 +773,8 @@ namespace OneStoryProjectEditor
                 {
                     SaveClicked();
                     Text = GetFrameTitle(true);
+                    StoryProject.OsMetaData = StoryProject.InitializeMetaData;
+                    StoryProject.SaveProjectMetaData(LoggedOnMember);
                 }
 
                 return true;
@@ -7638,7 +7640,6 @@ namespace OneStoryProjectEditor
 
         public static bool LaunchOsMetaDataDialog(StoryProjectData storyProject)
         {
-
             var dlg = new OsMetaDataForm(storyProject.OsMetaData ?? storyProject.InitializeMetaData);
             return (dlg.ShowDialog() == DialogResult.OK);
         }
