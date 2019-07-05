@@ -164,6 +164,7 @@ namespace OneStoryProjectEditor
         {
             buttonViewTasksPf.Visible = true;
             
+            
             if (!TheSe.LoggedOnMember.IsEditAllowed(TheStory))
                 return;
 
@@ -171,6 +172,7 @@ namespace OneStoryProjectEditor
             // allow either one... (requested by Irene and I think Nathan at one point)
             buttonMarkPreliminaryApproval.Visible =
                 buttonMarkFinalApproval.Visible = true;
+            buttonSendToCoach.Visible = true;
 #else
             if (TheStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eTeamComplete)
                 buttonMarkFinalApproval.Visible = true;
@@ -835,12 +837,16 @@ namespace OneStoryProjectEditor
         private void buttonSendToCoach_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Assert(ParentForm != null);
-            System.Diagnostics.Debug.Assert(_checker != null);
+            // if this is a case of an IC sending to a Coach (non-standard), then there won't be a checker
+            //  System.Diagnostics.Debug.Assert(_checker != null);
             System.Diagnostics.Debug.Assert(TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
-                                                                  TeamMemberData.UserTypes.ConsultantInTraining));
+                                                                  TeamMemberData.UserTypes.ConsultantInTraining) ||
+                                            TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
+                                                                  TeamMemberData.UserTypes.IndependentConsultant));
             
             ParentForm.Close();
-            if (!_checker.CheckIfRequirementsAreMet(true))
+
+            if ((_checker != null) && !_checker.CheckIfRequirementsAreMet(true))
                 return;
 
             // if the consultant isn't configured yet (e.g. a new story), but there's 
