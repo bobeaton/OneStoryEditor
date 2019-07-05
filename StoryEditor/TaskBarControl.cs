@@ -667,8 +667,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-
-                throw;
+                Program.ShowException(ex);
             }
         }
 
