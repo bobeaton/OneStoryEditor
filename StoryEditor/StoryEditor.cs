@@ -248,6 +248,7 @@ namespace OneStoryProjectEditor
             advancedEmailMenu.Checked = Settings.Default.UseMapiPlus;
             advancedUseWordBreaks.Enabled = BreakIterator.IsAvailable;
             advancedAutomaticallyLoadProjectMenu.Checked = Settings.Default.AutoLoadLastProject;
+            advancedAutomaticallySendandReceiveWindowMenu.Checked = Settings.Default.AutoSendReceiveAfterTurnChange;
 
             if (advancedSaveTimeoutEnabledMenu.Checked)
             {
@@ -6681,6 +6682,12 @@ namespace OneStoryProjectEditor
         private void advancedAutomaticallyLoadProjectMenu_CheckStateChanged(object sender, EventArgs e)
         {
             Settings.Default.AutoLoadLastProject = advancedAutomaticallyLoadProjectMenu.Checked;
+            Settings.Default.Save();
+        }
+
+        private void advancedAutomaticallySendandReceiveWindowMenu_CheckStateChanged(object sender, EventArgs e)
+        {
+            Settings.Default.AutoSendReceiveAfterTurnChange = advancedAutomaticallySendandReceiveWindowMenu.Checked;
             Settings.Default.Save();
         }
 

@@ -181,6 +181,7 @@ namespace OneStoryProjectEditor
             this.advancedSwapDataColumns = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedOneStoryProjectMetaData = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedUseDialogToPreviewConNotes = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedAutomaticallySendandReceiveWindowMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedAutomaticallyLoadProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -1322,6 +1323,7 @@ namespace OneStoryProjectEditor
             this.advancedSwapDataColumns,
             this.advancedOneStoryProjectMetaData,
             this.advancedUseDialogToPreviewConNotes,
+            this.advancedAutomaticallySendandReceiveWindowMenu,
             this.advancedAutomaticallyLoadProjectMenu});
             this.advancedToolStripMenu.Name = "advancedToolStripMenu";
             this.advancedToolStripMenu.Size = new System.Drawing.Size(72, 27);
@@ -1545,6 +1547,18 @@ namespace OneStoryProjectEditor
             this.advancedUseDialogToPreviewConNotes.ToolTipText = "Uncheck this menu if you *don\'t* want the preview dialog to appear when adding co" +
     "n notes";
             this.advancedUseDialogToPreviewConNotes.Click += new System.EventHandler(this.advancedUseDialogToPreviewConNotes_Click);
+            // 
+            // advancedAutomaticallySendandReceiveWindowMenu
+            // 
+            this.advancedAutomaticallySendandReceiveWindowMenu.Checked = true;
+            this.advancedAutomaticallySendandReceiveWindowMenu.CheckOnClick = true;
+            this.advancedAutomaticallySendandReceiveWindowMenu.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.advancedAutomaticallySendandReceiveWindowMenu.Name = "advancedAutomaticallySendandReceiveWindowMenu";
+            this.advancedAutomaticallySendandReceiveWindowMenu.Size = new System.Drawing.Size(314, 22);
+            this.advancedAutomaticallySendandReceiveWindowMenu.Text = "Automatically Send/Receive Window";
+            this.advancedAutomaticallySendandReceiveWindowMenu.ToolTipText = "Automatically launch the Send/Receive dialog after changing a story to another te" +
+    "am member\'s turnened";
+            this.advancedAutomaticallySendandReceiveWindowMenu.CheckStateChanged += new System.EventHandler(this.advancedAutomaticallySendandReceiveWindowMenu_CheckStateChanged);
             // 
             // advancedAutomaticallyLoadProjectMenu
             // 
@@ -1861,9 +1875,9 @@ namespace OneStoryProjectEditor
             this.toolStripButtonPrevious,
             this.toolStripButtonNext,
             this.toolStripButtonLast});
-            this.toolStripRecordNavigation.Location = new System.Drawing.Point(940, 0);
+            this.toolStripRecordNavigation.Location = new System.Drawing.Point(971, 0);
             this.toolStripRecordNavigation.Name = "toolStripRecordNavigation";
-            this.toolStripRecordNavigation.Size = new System.Drawing.Size(172, 25);
+            this.toolStripRecordNavigation.Size = new System.Drawing.Size(141, 25);
             this.toolStripRecordNavigation.TabIndex = 3;
             this.toolStripRecordNavigation.Text = "<no need to localize/translate>";
             // 
@@ -2187,6 +2201,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem editDeleteChooseFieldsMenu;
         private ToolStripSeparator toolStripSeparator11;
         private ToolStripButton toolStripButtonShowStoriesInYourState;
+        private ToolStripMenuItem advancedAutomaticallySendandReceiveWindowMenu;
     }
 
 #if UsingHtmlDisplayForConNotes
