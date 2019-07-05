@@ -172,7 +172,7 @@ namespace OneStoryProjectEditor
             // allow either one... (requested by Irene and I think Nathan at one point)
             buttonMarkPreliminaryApproval.Visible =
                 buttonMarkFinalApproval.Visible = true;
-            buttonSendToCoach.Visible = true;
+            buttonSendToCoach.Visible = !TheSe.StoryProject.TeamMembers.HasIndependentConsultant && TheSe.StoryProject.TeamMembers.IsThereAnIndependentConsultant;
 #else
             if (TheStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eTeamComplete)
                 buttonMarkFinalApproval.Visible = true;

@@ -2857,7 +2857,10 @@ namespace OneStoryProjectEditor
             // since this can affect things, if things were changed, then update the panes
             //  (e.g. change of Consultant could result in different buttons)
             if ((dlg.ShowDialog() == DialogResult.OK) && dlg.Modified)
+            {
                 InitAllPanes();
+                UpdateNotificationBellUI();
+            }
         }
 
         protected void SaveFile(string strFilename, bool bDoReloadTest)
