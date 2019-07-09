@@ -280,11 +280,19 @@ namespace OneStoryProjectEditor
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(508, 246);
             this.tabControl1.TabIndex = 9;
-            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.listBoxTeamMembers_SelectedIndexChanged);
-            this.tabControl1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxTeamMembers_MouseDoubleClick);
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabEditors_SelectedIndexChanged);
+            this.tabControl1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tabEditors_MouseDoubleClick);
             // 
             // tabEditors
             // 
+
+
+            this.tabEditors.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.helpProvider.SetHelpString(this.listBoxTeamMembers, resources.GetString("listBoxTeamMembers.HelpString"));
+            this.tabEditors.Location = new System.Drawing.Point(3, 290);
+            this.tableLayoutPanelTeamMembers.SetRowSpan(this.listBoxTeamMembers, 2);
+            this.helpProvider.SetShowHelp(this.listBoxTeamMembers, true);
+            this.tabEditors.Size = new System.Drawing.Size(508, 152);
             this.tabEditors.Location = new System.Drawing.Point(4, 22);
             this.tabEditors.Name = "tabEditors";
             this.tabEditors.Padding = new System.Windows.Forms.Padding(3);
@@ -292,7 +300,10 @@ namespace OneStoryProjectEditor
             this.tabEditors.TabIndex = 0;
             this.tabEditors.Text = "Editors";
             this.tabEditors.UseVisualStyleBackColor = true;
-            this.tabEditors.Click += new System.EventHandler(this.tabEditors_Click);
+            this.tabEditors.TabIndex = 1;
+            //this.tabEditors.SelectedIndexChanged += new System.EventHandler(this.tabEditors_SelectedIndexChanged);
+            this.tabEditors.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tabEditors_MouseDoubleClick);
+            this.tabEditors.Click += new System.EventHandler(this.tabEditors_SelectedIndexChanged);
             // 
             // tabCollaborators
             // 
@@ -303,6 +314,9 @@ namespace OneStoryProjectEditor
             this.tabCollaborators.TabIndex = 1;
             this.tabCollaborators.Text = "Collaborators";
             this.tabCollaborators.UseVisualStyleBackColor = true;
+            //this.tabCollaborators.SelectedIndexChanged += new System.EventHandler(this.tabEditors_SelectedIndexChanged);
+            this.tabCollaborators.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tabEditors_MouseDoubleClick);
+            this.tabCollaborators.Click += new System.EventHandler(this.tabCollaborators_Click);
             // 
             // TeamMemberForm
             // 
@@ -325,6 +339,11 @@ namespace OneStoryProjectEditor
             this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
 
+        }
+
+        private void TabControl1_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            throw new System.NotImplementedException();
         }
 
         #endregion
