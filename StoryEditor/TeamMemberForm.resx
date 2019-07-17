@@ -129,9 +129,15 @@
   <metadata name="folderBrowserDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>204, 17</value>
   </metadata>
-  <data name="listBoxTeamMembers.HelpString" xml:space="preserve">
+  <data name="listBoxTeamMembersEditors.HelpString" xml:space="preserve">
     <value>This list shows all the members of the team. To edit stories, you generally need to be logged in as a 'Project Facilitator'. So whichever member of the team will be typing in the documentation needs to have a 'Project Facilitator' role. The other main editors are a Consultant-in-training (for the Consultant Notes Pane), or a Coach (for the Coach Notes pane). The Crafter and UNS member types are respectively for the names of the one(s) who crafted the story and the testing helper(s). You will need to indicate who did these roles as you progress in the documentation process, but you wouldn't log in as one of them since they can’t edit the project file. To log in, select your name from the list of member names and click "Login" button.</value>
   </data>
+  <data name="listBoxTeamMembersCollaborators.HelpString" xml:space="preserve">
+    <value>This list shows all the members of the team. To edit stories, you generally need to be logged in as a 'Project Facilitator'. So whichever member of the team will be typing in the documentation needs to have a 'Project Facilitator' role. The other main editors are a Consultant-in-training (for the Consultant Notes Pane), or a Coach (for the Coach Notes pane). The Crafter and UNS member types are respectively for the names of the one(s) who crafted the story and the testing helper(s). You will need to indicate who did these roles as you progress in the documentation process, but you wouldn't log in as one of them since they can’t edit the project file. To log in, select your name from the list of member names and click "Login" button.</value>
+  </data>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>38</value>
+  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

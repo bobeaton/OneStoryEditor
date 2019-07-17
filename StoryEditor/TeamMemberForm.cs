@@ -44,18 +44,32 @@ namespace OneStoryProjectEditor
             InitializeComponent();
             Localizer.Ctrl(this);
 
-            Localizer.Default.LocLanguage.SetFont(listBoxTeamMembers);
+            Localizer.Default.LocLanguage.SetFont(listBoxTeamMembersEditors);
             foreach (var aMember in _dataTeamMembers.Values)
-                listBoxTeamMembers.Items.Add(GetListBoxItem(aMember));
+                listBoxTeamMembersEditors.Items.Add(GetListBoxItem(aMember));
 
-            if (listBoxTeamMembers.Items.Count > 0)
+            Localizer.Default.LocLanguage.SetFont(listBoxTeamMembersCollaborators);
+            foreach (var aMember in _dataTeamMembers.Values)
+                listBoxTeamMembersCollaborators.Items.Add(GetListBoxItem(aMember));
+
+            if (listBoxTeamMembersEditors.Items.Count > 0)
             {
                 string strLastMemberLogin;
                 if ((theProjSettings != null) && 
                     Program.MapProjectNameToLastMemberLogin.TryGetValue(theProjSettings.ProjectName, out strLastMemberLogin))
-                    listBoxTeamMembers.SelectedItem = strLastMemberLogin;
+                    listBoxTeamMembersEditors.SelectedItem = strLastMemberLogin;
                 else if (!String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
-                    listBoxTeamMembers.SelectedItem = Properties.Settings.Default.LastMemberLogin;
+                    listBoxTeamMembersEditors.SelectedItem = Properties.Settings.Default.LastMemberLogin;
+            }
+
+            if (listBoxTeamMembersCollaborators.Items.Count > 0)
+            {
+                string strLastMemberLogin;
+                if ((theProjSettings != null) &&
+                    Program.MapProjectNameToLastMemberLogin.TryGetValue(theProjSettings.ProjectName, out strLastMemberLogin))
+                    listBoxTeamMembersCollaborators.SelectedItem = strLastMemberLogin;
+                else if (!String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
+                    listBoxTeamMembersCollaborators.SelectedItem = Properties.Settings.Default.LastMemberLogin;
             }
 
             if (bUseLoginLabel)
@@ -95,7 +109,7 @@ namespace OneStoryProjectEditor
         {
             set
             {
-                listBoxTeamMembers.SelectedItem = value;
+                listBoxTeamMembersEditors.SelectedItem = value;
             }
         }
         
@@ -107,13 +121,77 @@ namespace OneStoryProjectEditor
 
         private void listBoxTeamMembers_SelectedIndexChanged(object sender, EventArgs e)
         {
-            bool bOneSelected = (listBoxTeamMembers.SelectedIndex != -1);
+            bool bOneSelected = (listBoxTeamMembersEditors.SelectedIndex != -1);
             buttonEditMember.Enabled = buttonOK.Enabled = bOneSelected;
 
             if (bOneSelected)
             {
                 TeamMemberData.UserTypes eUserType;
-                ParseListBoxItem((string) listBoxTeamMembers.SelectedItem,
+                ParseListBoxItem((string) listBoxTeamMembersEditors.SelectedItem,
+                                 out m_strSelectedMemberName, out eUserType);
+
+                if (_dataTeamMembers.ContainsKey(m_strSelectedMemberName))
+                {
+                    var theMember = _dataTeamMembers[m_strSelectedMemberName];
+                    buttonMergeUns.Visible = (TeamMemberData.IsUser(theMember.MemberType,
+                                                                    TeamMemberData.UserTypes.UNS));
+                    buttonMergeCrafter.Visible = (TeamMemberData.IsUser(theMember.MemberType,
+                                                                        TeamMemberData.UserTypes.Crafter));
+                    buttonMergeProjectFacilitators.Visible = (TeamMemberData.IsUser(theMember.MemberType,
+                                                                                    TeamMemberData.UserTypes.
+                                                                                        ProjectFacilitator));
+                    buttonMergeConsultant.Visible = (TeamMemberData.IsUser(theMember.MemberType,
+                        TeamMemberData.UserTypes.ConsultantInTraining | TeamMemberData.UserTypes.IndependentConsultant));
+
+                    buttonMergeCoach.Visible = (TeamMemberData.IsUser(theMember.MemberType, TeamMemberData.UserTypes.Coach));
+
+                    buttonDeleteMember.Visible = !_theStoryProjectData.DoesReferenceExist(theMember) &&                                             // no references
+                        ((m_strSelectedMemberName != TeamMembersData.CstrBrowserMemberName) && (eUserType != TeamMemberData.UserTypes.JustLooking));// but ignore the Browser (Just Looking) one (no need to delete that)
+                }
+            }
+        }
+
+        private void listBoxTeamMembersEditors_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            bool bOneSelected = (listBoxTeamMembersEditors.SelectedIndex != -1);
+            buttonEditMember.Enabled = buttonOK.Enabled = bOneSelected;
+
+            if (bOneSelected)
+            {
+                TeamMemberData.UserTypes eUserType;
+                ParseListBoxItem((string)listBoxTeamMembersEditors.SelectedItem,
+                                 out m_strSelectedMemberName, out eUserType);
+
+                if (_dataTeamMembers.ContainsKey(m_strSelectedMemberName))
+                {
+                    var theMember = _dataTeamMembers[m_strSelectedMemberName];
+                    buttonMergeUns.Visible = (TeamMemberData.IsUser(theMember.MemberType,
+                                                                    TeamMemberData.UserTypes.UNS));
+                    buttonMergeCrafter.Visible = (TeamMemberData.IsUser(theMember.MemberType,
+                                                                        TeamMemberData.UserTypes.Crafter));
+                    buttonMergeProjectFacilitators.Visible = (TeamMemberData.IsUser(theMember.MemberType,
+                                                                                    TeamMemberData.UserTypes.
+                                                                                        ProjectFacilitator));
+                    buttonMergeConsultant.Visible = (TeamMemberData.IsUser(theMember.MemberType,
+                        TeamMemberData.UserTypes.ConsultantInTraining | TeamMemberData.UserTypes.IndependentConsultant));
+
+                    buttonMergeCoach.Visible = (TeamMemberData.IsUser(theMember.MemberType, TeamMemberData.UserTypes.Coach));
+
+                    buttonDeleteMember.Visible = !_theStoryProjectData.DoesReferenceExist(theMember) &&                                             // no references
+                        ((m_strSelectedMemberName != TeamMembersData.CstrBrowserMemberName) && (eUserType != TeamMemberData.UserTypes.JustLooking));// but ignore the Browser (Just Looking) one (no need to delete that)
+                }
+            }
+        }
+
+        private void listBoxTeamMembersCollaborators_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            bool bOneSelected = (listBoxTeamMembersCollaborators.SelectedIndex != -1);
+            buttonEditMember.Enabled = buttonOK.Enabled = bOneSelected;
+
+            if (bOneSelected)
+            {
+                TeamMemberData.UserTypes eUserType;
+                ParseListBoxItem((string)listBoxTeamMembersCollaborators.SelectedItem,
                                  out m_strSelectedMemberName, out eUserType);
 
                 if (_dataTeamMembers.ContainsKey(m_strSelectedMemberName))
@@ -140,8 +218,8 @@ namespace OneStoryProjectEditor
         private void buttonOK_Click(object sender, EventArgs e)
         {
             // this button should only be enabled if a team member is selected
-            System.Diagnostics.Debug.Assert(listBoxTeamMembers.SelectedIndex != -1);
-            if (listBoxTeamMembers.SelectedIndex == -1)
+            System.Diagnostics.Debug.Assert(listBoxTeamMembersEditors.SelectedIndex != -1 || listBoxTeamMembersCollaborators.SelectedIndex != -1);
+            if (listBoxTeamMembersEditors.SelectedIndex == -1 || listBoxTeamMembersCollaborators.SelectedIndex == -1)
                 return;
 
             // if the selected user is a UNS, this is probably a mistake.
@@ -184,13 +262,14 @@ namespace OneStoryProjectEditor
         {
             // unselect any member and set the target tab (see 
             //  tabControlProjectMetaData_Selected for what happens)
-            listBoxTeamMembers.SelectedIndex = -1;
+            listBoxTeamMembersEditors.SelectedIndex = -1;
+            listBoxTeamMembersCollaborators.SelectedIndex = -1;
 
             var dlg = new EditMemberForm(null, _theProjSettings, true);
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 string strItem = GetListBoxItem(dlg.MemberName, dlg.MemberType);
-                if (listBoxTeamMembers.Items.Contains(strItem) ||
+                if (listBoxTeamMembersEditors.Items.Contains(strItem) || listBoxTeamMembersCollaborators.Items.Contains(strItem) ||
                     _dataTeamMembers.ContainsKey(dlg.MemberName))
                 {
                     LocalizableMessageBox.Show(
@@ -212,7 +291,7 @@ namespace OneStoryProjectEditor
                     System.Diagnostics.Debug.Assert(false);
 
                     // must just be editing the already added member...
-                    System.Diagnostics.Debug.Assert(listBoxTeamMembers.Items.Contains(strItem));
+                    System.Diagnostics.Debug.Assert(listBoxTeamMembersEditors.Items.Contains(strItem));
 
                     theNewMemberData.MemberType = dlg.MemberType;
                     theNewMemberData.Email = dlg.Email;
@@ -223,7 +302,8 @@ namespace OneStoryProjectEditor
                     theNewMemberData.TeamViewerID = dlg.TeamViewerID;
 
                     // update the role listbox
-                    int nIndex = listBoxTeamMembers.Items.IndexOf(strItem);
+                    int nIndex = listBoxTeamMembersEditors.Items.IndexOf(strItem);
+                    //int nIndex = listBoxTeamMembersCollaborators.Items.IndexOf(strItem);
                     // listBoxMemberRoles.Items[nIndex] = TeamMemberData.GetMemberTypeAsDisplayString(theNewMemberData.MemberType);
                 }
                 else
@@ -240,9 +320,12 @@ namespace OneStoryProjectEditor
 
                     _dataTeamMembers.Add(dlg.MemberName, theNewMemberData);
                     m_mapNewMembersThisSession.Add(dlg.MemberName, theNewMemberData);
-                    listBoxTeamMembers.Items.Add(strItem);
+                    listBoxTeamMembersEditors.Items.Add(strItem);
+                    listBoxTeamMembersCollaborators.Items.Add(strItem);
+
                     // listBoxMemberRoles.Items.Insert(nIndex, TeamMemberData.GetMemberTypeAsDisplayString(theNewMemberData.MemberType));
-                    listBoxTeamMembers.SelectedItem = strItem;
+                    listBoxTeamMembersEditors.SelectedItem = strItem;
+                    listBoxTeamMembersCollaborators.SelectedItem = strItem;
                 }
             }
         }
@@ -250,11 +333,11 @@ namespace OneStoryProjectEditor
         private void buttonEditMember_Click(object sender, EventArgs e)
         {
             // this button should only be enabled if a team member is selected
-            System.Diagnostics.Debug.Assert(listBoxTeamMembers.SelectedIndex != -1);
-            int nIndex = listBoxTeamMembers.SelectedIndex;
+            System.Diagnostics.Debug.Assert(listBoxTeamMembersEditors.SelectedIndex != -1);
+            int nIndex = listBoxTeamMembersEditors.SelectedIndex;
 
             TeamMemberData.UserTypes eMemberRole;
-            ParseListBoxItem((string) listBoxTeamMembers.SelectedItem,
+            ParseListBoxItem((string) listBoxTeamMembersEditors.SelectedItem,
                              out m_strSelectedMemberName, out eMemberRole);
 
             System.Diagnostics.Debug.Assert(_dataTeamMembers.ContainsKey(m_strSelectedMemberName));
@@ -298,7 +381,7 @@ namespace OneStoryProjectEditor
                 _dataTeamMembers.Add(m_strSelectedMemberName, theMemberData);
             }
 
-            listBoxTeamMembers.Items[nIndex] = GetListBoxItem(theMemberData);
+            listBoxTeamMembersEditors.Items[nIndex] = GetListBoxItem(theMemberData);
 
             // keep a hang on it so we don't try to, for example, give it a new guid
             if (!m_mapNewMembersThisSession.ContainsKey(dlg.MemberName))
@@ -308,9 +391,9 @@ namespace OneStoryProjectEditor
         private void buttonDeleteMember_Click(object sender, EventArgs e)
         {
             // this is only enabled if we added the member this session
-            System.Diagnostics.Debug.Assert(listBoxTeamMembers.SelectedItem != null);
+            System.Diagnostics.Debug.Assert(listBoxTeamMembersEditors.SelectedItem != null);
             TeamMemberData.UserTypes eUserType;
-            ParseListBoxItem((string) listBoxTeamMembers.SelectedItem,
+            ParseListBoxItem((string) listBoxTeamMembersEditors.SelectedItem,
                                 out m_strSelectedMemberName, out eUserType);
 
             RemoveTracesOfMember(m_strSelectedMemberName, eUserType);
@@ -320,6 +403,16 @@ namespace OneStoryProjectEditor
         }
 
         private void listBoxTeamMembers_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            buttonOK_Click(sender, e);
+        }
+
+        private void listBoxTeamMembersEditors_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            buttonOK_Click(sender, e);
+        }
+
+        private void listBoxTeamMembersCollaborators_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             buttonOK_Click(sender, e);
         }
@@ -363,11 +456,11 @@ namespace OneStoryProjectEditor
 
         private void ReplaceMember(TeamMemberData.UserTypes eRole, ReplaceMemberDelegate replaceMemberDelegate)
         {
-            System.Diagnostics.Debug.Assert(listBoxTeamMembers.SelectedIndex != -1);
-            int nIndex = listBoxTeamMembers.SelectedIndex;
+            System.Diagnostics.Debug.Assert(listBoxTeamMembersEditors.SelectedIndex != -1);
+            int nIndex = listBoxTeamMembersEditors.SelectedIndex;
 
             TeamMemberData.UserTypes eMemberRole;
-            ParseListBoxItem((string) listBoxTeamMembers.SelectedItem,
+            ParseListBoxItem((string) listBoxTeamMembersEditors.SelectedItem,
                              out m_strSelectedMemberName, out eMemberRole);
 
             System.Diagnostics.Debug.Assert(_dataTeamMembers.ContainsKey(m_strSelectedMemberName));
@@ -414,13 +507,13 @@ namespace OneStoryProjectEditor
 
                     // get the index for the member we're about to add new roles to 
                     //  (since we have to update his role list)
-                    nIndex = listBoxTeamMembers.FindString(GetListBoxItem(theMemberData));
+                    nIndex = listBoxTeamMembersEditors.FindString(GetListBoxItem(theMemberData));
 
                     // now add those roles just in case they aren't already
                     theMemberData.MemberType |= dlg.SelectedMember.MemberType;
 
                     if (nIndex != -1)
-                        listBoxTeamMembers.Items[nIndex] = GetListBoxItem(theMemberData);
+                        listBoxTeamMembersEditors.Items[nIndex] = GetListBoxItem(theMemberData);
                     else
                         System.Diagnostics.Debug.Assert(false);
                 }
@@ -456,9 +549,9 @@ namespace OneStoryProjectEditor
         {
             _dataTeamMembers.Remove(strNameToDelete);
 
-            int nIndex = listBoxTeamMembers.FindString(GetListBoxItem(strNameToDelete, eRoles));
+            int nIndex = listBoxTeamMembersEditors.FindString(GetListBoxItem(strNameToDelete, eRoles));
             if (nIndex != -1)
-                listBoxTeamMembers.Items.RemoveAt(nIndex);
+                listBoxTeamMembersEditors.Items.RemoveAt(nIndex);
             else
                 System.Diagnostics.Debug.Assert(false);
 
@@ -477,13 +570,13 @@ namespace OneStoryProjectEditor
 
         private void tabEditors_SelectedIndexChanged(object sender, EventArgs e)
         {
-            bool bOneSelected = (listBoxTeamMembers.SelectedIndex != -1);
+            bool bOneSelected = (listBoxTeamMembersEditors.SelectedIndex != -1);
             buttonEditMember.Enabled = buttonOK.Enabled = bOneSelected;
 
             if (bOneSelected)
             {
                 TeamMemberData.UserTypes eUserType;
-                ParseListBoxItem((string)listBoxTeamMembers.SelectedItem,
+                ParseListBoxItem((string)listBoxTeamMembersEditors.SelectedItem,
                                  out m_strSelectedMemberName, out eUserType);
 
                 if (_dataTeamMembers.ContainsKey(m_strSelectedMemberName))
@@ -509,13 +602,13 @@ namespace OneStoryProjectEditor
 
         private void tabCollaborators_Click(object sender, EventArgs e)
         {
-            bool bOneSelected = (listBoxTeamMembers.SelectedIndex != -1);
+            bool bOneSelected = (listBoxTeamMembersEditors.SelectedIndex != -1);
             buttonEditMember.Enabled = buttonOK.Enabled = bOneSelected;
 
             if (bOneSelected)
             {
                 TeamMemberData.UserTypes eUserType;
-                ParseListBoxItem((string)listBoxTeamMembers.SelectedItem,
+                ParseListBoxItem((string)listBoxTeamMembersEditors.SelectedItem,
                                  out m_strSelectedMemberName, out eUserType);
 
                 if (_dataTeamMembers.ContainsKey(m_strSelectedMemberName))

@@ -46,7 +46,8 @@ namespace OneStoryProjectEditor
             this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.buttonAddNewMember = new System.Windows.Forms.Button();
             this.buttonEditMember = new System.Windows.Forms.Button();
-            this.listBoxTeamMembers = new System.Windows.Forms.ListBox();
+            this.listBoxTeamMembersEditors = new System.Windows.Forms.ListBox();
+            this.listBoxTeamMembersCollaborators = new System.Windows.Forms.ListBox();
             this.tableLayoutPanelTeamMembers = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxMemberNames = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -54,6 +55,8 @@ namespace OneStoryProjectEditor
             this.tabCollaborators = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelTeamMembers.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tabEditors.SuspendLayout();
+            this.tabCollaborators.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonCancel
@@ -202,21 +205,35 @@ namespace OneStoryProjectEditor
             this.buttonEditMember.UseVisualStyleBackColor = true;
             this.buttonEditMember.Click += new System.EventHandler(this.buttonEditMember_Click);
             // 
-            // listBoxTeamMembers
+            // listBoxTeamMembersEditors
             // 
-            this.listBoxTeamMembers.ColumnWidth = 151;
-            this.listBoxTeamMembers.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBoxTeamMembers.FormattingEnabled = true;
-            this.helpProvider.SetHelpString(this.listBoxTeamMembers, resources.GetString("listBoxTeamMembers.HelpString"));
-            this.listBoxTeamMembers.Location = new System.Drawing.Point(3, 290);
-            this.listBoxTeamMembers.Name = "listBoxTeamMembers";
-            this.tableLayoutPanelTeamMembers.SetRowSpan(this.listBoxTeamMembers, 2);
-            this.helpProvider.SetShowHelp(this.listBoxTeamMembers, true);
-            this.listBoxTeamMembers.Size = new System.Drawing.Size(508, 152);
-            this.listBoxTeamMembers.Sorted = true;
-            this.listBoxTeamMembers.TabIndex = 1;
-            this.listBoxTeamMembers.SelectedIndexChanged += new System.EventHandler(this.listBoxTeamMembers_SelectedIndexChanged);
-            this.listBoxTeamMembers.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxTeamMembers_MouseDoubleClick);
+            this.listBoxTeamMembersEditors.ColumnWidth = 151;
+            this.listBoxTeamMembersEditors.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBoxTeamMembersEditors.FormattingEnabled = true;
+            this.helpProvider.SetHelpString(this.listBoxTeamMembersEditors, resources.GetString("listBoxTeamMembersEditors.HelpString"));
+            this.listBoxTeamMembersEditors.Location = new System.Drawing.Point(3, 3);
+            this.listBoxTeamMembersEditors.Name = "listBoxTeamMembersEditors";
+            this.helpProvider.SetShowHelp(this.listBoxTeamMembersEditors, true);
+            this.listBoxTeamMembersEditors.Size = new System.Drawing.Size(494, 372);
+            this.listBoxTeamMembersEditors.Sorted = true;
+            this.listBoxTeamMembersEditors.TabIndex = 1;
+            this.listBoxTeamMembersEditors.SelectedIndexChanged += new System.EventHandler(this.listBoxTeamMembersEditors_SelectedIndexChanged);
+            this.listBoxTeamMembersEditors.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxTeamMembersEditors_MouseDoubleClick);
+            // 
+            // listBoxTeamMembersCollaborators
+            // 
+            this.listBoxTeamMembersCollaborators.ColumnWidth = 151;
+            this.listBoxTeamMembersCollaborators.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBoxTeamMembersCollaborators.FormattingEnabled = true;
+            this.helpProvider.SetHelpString(this.listBoxTeamMembersCollaborators, resources.GetString("listBoxTeamMembersCollaborators.HelpString"));
+            this.listBoxTeamMembersCollaborators.Location = new System.Drawing.Point(3, 3);
+            this.listBoxTeamMembersCollaborators.Name = "listBoxTeamMembersCollaborators";
+            this.helpProvider.SetShowHelp(this.listBoxTeamMembersCollaborators, true);
+            this.listBoxTeamMembersCollaborators.Size = new System.Drawing.Size(494, 372);
+            this.listBoxTeamMembersCollaborators.Sorted = true;
+            this.listBoxTeamMembersCollaborators.TabIndex = 2;
+            this.listBoxTeamMembersCollaborators.SelectedIndexChanged += new System.EventHandler(this.listBoxTeamMembersCollaborators_SelectedIndexChanged);
+            this.listBoxTeamMembersCollaborators.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxTeamMembersCollaborators_MouseDoubleClick);
             // 
             // tableLayoutPanelTeamMembers
             // 
@@ -227,7 +244,6 @@ namespace OneStoryProjectEditor
             this.tableLayoutPanelTeamMembers.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelTeamMembers.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelTeamMembers.Controls.Add(this.textBoxMemberNames, 0, 0);
-            this.tableLayoutPanelTeamMembers.Controls.Add(this.listBoxTeamMembers, 0, 8);
             this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonAddNewMember, 1, 1);
             this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonDeleteMember, 1, 8);
             this.tableLayoutPanelTeamMembers.Controls.Add(this.buttonEditMember, 1, 2);
@@ -276,47 +292,39 @@ namespace OneStoryProjectEditor
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(3, 38);
             this.tabControl1.Name = "tabControl1";
-            this.tableLayoutPanelTeamMembers.SetRowSpan(this.tabControl1, 7);
+            this.tableLayoutPanelTeamMembers.SetRowSpan(this.tabControl1, 9);
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(508, 246);
+            this.tabControl1.Size = new System.Drawing.Size(508, 404);
             this.tabControl1.TabIndex = 9;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabEditors_SelectedIndexChanged);
             this.tabControl1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tabEditors_MouseDoubleClick);
             // 
             // tabEditors
             // 
-
-
+            this.tabEditors.Controls.Add(this.listBoxTeamMembersEditors);
             this.tabEditors.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.helpProvider.SetHelpString(this.listBoxTeamMembers, resources.GetString("listBoxTeamMembers.HelpString"));
-            this.tabEditors.Location = new System.Drawing.Point(3, 290);
-            this.tableLayoutPanelTeamMembers.SetRowSpan(this.listBoxTeamMembers, 2);
-            this.helpProvider.SetShowHelp(this.listBoxTeamMembers, true);
-            this.tabEditors.Size = new System.Drawing.Size(508, 152);
             this.tabEditors.Location = new System.Drawing.Point(4, 22);
             this.tabEditors.Name = "tabEditors";
             this.tabEditors.Padding = new System.Windows.Forms.Padding(3);
-            this.tabEditors.Size = new System.Drawing.Size(500, 220);
-            this.tabEditors.TabIndex = 0;
+            this.tabEditors.Size = new System.Drawing.Size(500, 378);
+            this.tabEditors.TabIndex = 1;
             this.tabEditors.Text = "Editors";
             this.tabEditors.UseVisualStyleBackColor = true;
-            this.tabEditors.TabIndex = 1;
-            //this.tabEditors.SelectedIndexChanged += new System.EventHandler(this.tabEditors_SelectedIndexChanged);
-            this.tabEditors.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tabEditors_MouseDoubleClick);
             this.tabEditors.Click += new System.EventHandler(this.tabEditors_SelectedIndexChanged);
+            this.tabEditors.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tabEditors_MouseDoubleClick);
             // 
             // tabCollaborators
             // 
+            this.tabCollaborators.Controls.Add(this.listBoxTeamMembersCollaborators);
             this.tabCollaborators.Location = new System.Drawing.Point(4, 22);
             this.tabCollaborators.Name = "tabCollaborators";
             this.tabCollaborators.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCollaborators.Size = new System.Drawing.Size(500, 220);
+            this.tabCollaborators.Size = new System.Drawing.Size(500, 378);
             this.tabCollaborators.TabIndex = 1;
             this.tabCollaborators.Text = "Collaborators";
             this.tabCollaborators.UseVisualStyleBackColor = true;
-            //this.tabCollaborators.SelectedIndexChanged += new System.EventHandler(this.tabEditors_SelectedIndexChanged);
-            this.tabCollaborators.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tabEditors_MouseDoubleClick);
             this.tabCollaborators.Click += new System.EventHandler(this.tabCollaborators_Click);
+            this.tabCollaborators.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tabEditors_MouseDoubleClick);
             // 
             // TeamMemberForm
             // 
@@ -337,6 +345,8 @@ namespace OneStoryProjectEditor
             this.tableLayoutPanelTeamMembers.ResumeLayout(false);
             this.tableLayoutPanelTeamMembers.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            this.tabEditors.ResumeLayout(false);
+            this.tabCollaborators.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -357,7 +367,7 @@ namespace OneStoryProjectEditor
         private System.Windows.Forms.Button buttonAddNewMember;
         private System.Windows.Forms.Button buttonEditMember;
         private System.Windows.Forms.Button buttonDeleteMember;
-        private System.Windows.Forms.ListBox listBoxTeamMembers;
+        private System.Windows.Forms.ListBox listBoxTeamMembersEditors;
         private System.Windows.Forms.TextBox textBoxMemberNames;
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button buttonMergeProjectFacilitators;
@@ -368,5 +378,6 @@ namespace OneStoryProjectEditor
         private TabControl tabControl1;
         private TabPage tabEditors;
         private TabPage tabCollaborators;
+        private ListBox listBoxTeamMembersCollaborators;
     }
 }
