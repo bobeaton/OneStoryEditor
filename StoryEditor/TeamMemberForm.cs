@@ -46,11 +46,25 @@ namespace OneStoryProjectEditor
 
             Localizer.Default.LocLanguage.SetFont(listBoxTeamMembersEditors);
             foreach (var aMember in _dataTeamMembers.Values)
-                listBoxTeamMembersEditors.Items.Add(GetListBoxItem(aMember));
+            {
+                if ((!TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.UNS) && 
+                    !TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.Crafter)) || 
+                    TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator))
+                {
+                    listBoxTeamMembersEditors.Items.Add(GetListBoxItem(aMember));
+                }
+            }
 
             Localizer.Default.LocLanguage.SetFont(listBoxTeamMembersCollaborators);
             foreach (var aMember in _dataTeamMembers.Values)
-                listBoxTeamMembersCollaborators.Items.Add(GetListBoxItem(aMember));
+            {
+                if ((TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.UNS) ||
+                    TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.Crafter)) && 
+                    !TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator))
+                {
+                    listBoxTeamMembersCollaborators.Items.Add(GetListBoxItem(aMember));
+                }
+            }
 
             if (listBoxTeamMembersEditors.Items.Count > 0)
             {
@@ -218,8 +232,8 @@ namespace OneStoryProjectEditor
         private void buttonOK_Click(object sender, EventArgs e)
         {
             // this button should only be enabled if a team member is selected
-            System.Diagnostics.Debug.Assert(listBoxTeamMembersEditors.SelectedIndex != -1 || listBoxTeamMembersCollaborators.SelectedIndex != -1);
-            if (listBoxTeamMembersEditors.SelectedIndex == -1 || listBoxTeamMembersCollaborators.SelectedIndex == -1)
+            System.Diagnostics.Debug.Assert(listBoxTeamMembersEditors.SelectedIndex != -1);
+            if (listBoxTeamMembersEditors.SelectedIndex == -1)
                 return;
 
             // if the selected user is a UNS, this is probably a mistake.
