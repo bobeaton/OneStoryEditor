@@ -362,6 +362,7 @@ namespace OneStoryProjectEditor
         private System.Windows.Forms.Button buttonEditMember;
         private System.Windows.Forms.Button buttonDeleteMember;
         private System.Windows.Forms.ListBox listBoxTeamMembersEditors;
+        private System.Windows.Forms.ListBox listBoxTeamMembersCollaborators;
         private System.Windows.Forms.TextBox textBoxMemberNames;
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button buttonMergeProjectFacilitators;
@@ -372,6 +373,5 @@ namespace OneStoryProjectEditor
         private TabControl tabControl1;
         private TabPage tabEditors;
         private TabPage tabCollaborators;
-        private ListBox listBoxTeamMembersCollaborators;
     }
 }
