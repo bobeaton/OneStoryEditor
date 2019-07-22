@@ -133,38 +133,6 @@ namespace OneStoryProjectEditor
             Close();
         }
 
-        private void listBoxTeamMembers_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            bool bOneSelected = (listBoxTeamMembersEditors.SelectedIndex != -1);
-            buttonEditMember.Enabled = buttonOK.Enabled = bOneSelected;
-
-            if (bOneSelected)
-            {
-                TeamMemberData.UserTypes eUserType;
-                ParseListBoxItem((string) listBoxTeamMembersEditors.SelectedItem,
-                                 out m_strSelectedMemberName, out eUserType);
-
-                if (_dataTeamMembers.ContainsKey(m_strSelectedMemberName))
-                {
-                    var theMember = _dataTeamMembers[m_strSelectedMemberName];
-                    buttonMergeUns.Visible = (TeamMemberData.IsUser(theMember.MemberType,
-                                                                    TeamMemberData.UserTypes.UNS));
-                    buttonMergeCrafter.Visible = (TeamMemberData.IsUser(theMember.MemberType,
-                                                                        TeamMemberData.UserTypes.Crafter));
-                    buttonMergeProjectFacilitators.Visible = (TeamMemberData.IsUser(theMember.MemberType,
-                                                                                    TeamMemberData.UserTypes.
-                                                                                        ProjectFacilitator));
-                    buttonMergeConsultant.Visible = (TeamMemberData.IsUser(theMember.MemberType,
-                        TeamMemberData.UserTypes.ConsultantInTraining | TeamMemberData.UserTypes.IndependentConsultant));
-
-                    buttonMergeCoach.Visible = (TeamMemberData.IsUser(theMember.MemberType, TeamMemberData.UserTypes.Coach));
-
-                    buttonDeleteMember.Visible = !_theStoryProjectData.DoesReferenceExist(theMember) &&                                             // no references
-                        ((m_strSelectedMemberName != TeamMembersData.CstrBrowserMemberName) && (eUserType != TeamMemberData.UserTypes.JustLooking));// but ignore the Browser (Just Looking) one (no need to delete that)
-                }
-            }
-        }
-
         private void listBoxTeamMembersEditors_SelectedIndexChanged(object sender, EventArgs e)
         {
             bool bOneSelected = (listBoxTeamMembersEditors.SelectedIndex != -1);
@@ -346,60 +314,120 @@ namespace OneStoryProjectEditor
 
         private void buttonEditMember_Click(object sender, EventArgs e)
         {
-            // this button should only be enabled if a team member is selected
-            System.Diagnostics.Debug.Assert(listBoxTeamMembersEditors.SelectedIndex != -1);
-            int nIndex = listBoxTeamMembersEditors.SelectedIndex;
-
-            TeamMemberData.UserTypes eMemberRole;
-            ParseListBoxItem((string) listBoxTeamMembersEditors.SelectedItem,
-                             out m_strSelectedMemberName, out eMemberRole);
-
-            System.Diagnostics.Debug.Assert(_dataTeamMembers.ContainsKey(m_strSelectedMemberName));
-            TeamMemberData theMemberData = _dataTeamMembers[m_strSelectedMemberName];
-            var dlg = new EditMemberForm(theMemberData, _theProjSettings, true);
-            if (dlg.ShowDialog() != DialogResult.OK) 
-                return;
-
-            Modified = true;
-
-            // if the name of the edited item has been changed and the new name is already 
-            //  in use, then don't change the name
-            if ((dlg.MemberName != m_strSelectedMemberName) 
-                && _dataTeamMembers.ContainsKey(dlg.MemberName))
+            if(tabControl1.SelectedTab == tabEditors)
             {
-                LocalizableMessageBox.Show(
-                    String.Format(
-                        Localizer.Str(
-                            "Oops... you already have a member with the name, '{0}'. If you meant to edit that member, then select the name in the listbox and click the 'Edit Member' button."),
-                        dlg.MemberName), StoryEditor.OseCaption);
+                // this button should only be enabled if a team member is selected
+                System.Diagnostics.Debug.Assert(listBoxTeamMembersEditors.SelectedIndex != -1);
+                int nIndex = listBoxTeamMembersEditors.SelectedIndex;
+
+                TeamMemberData.UserTypes eMemberRole;
+                ParseListBoxItem((string)listBoxTeamMembersEditors.SelectedItem,
+                                 out m_strSelectedMemberName, out eMemberRole);
+
+                System.Diagnostics.Debug.Assert(_dataTeamMembers.ContainsKey(m_strSelectedMemberName));
+                TeamMemberData theMemberData = _dataTeamMembers[m_strSelectedMemberName];
+                var dlg = new EditMemberForm(theMemberData, _theProjSettings, true);
+                if (dlg.ShowDialog() != DialogResult.OK)
+                    return;
+
+                Modified = true;
+
+                // if the name of the edited item has been changed and the new name is already 
+                //  in use, then don't change the name
+                if ((dlg.MemberName != m_strSelectedMemberName)
+                    && _dataTeamMembers.ContainsKey(dlg.MemberName))
+                {
+                    LocalizableMessageBox.Show(
+                        String.Format(
+                            Localizer.Str(
+                                "Oops... you already have a member with the name, '{0}'. If you meant to edit that member, then select the name in the listbox and click the 'Edit Member' button."),
+                            dlg.MemberName), StoryEditor.OseCaption);
+                }
+                else
+                    theMemberData.Name = dlg.MemberName;
+
+                theMemberData.MemberType = dlg.MemberType;
+                theMemberData.Email = dlg.Email;
+                theMemberData.AltPhone = dlg.AltPhone;
+                theMemberData.Phone = dlg.Phone;
+                theMemberData.BioData = dlg.BioData;
+                theMemberData.SkypeID = dlg.SkypeID;
+                theMemberData.TeamViewerID = dlg.TeamViewerID;
+                theMemberData.DefaultAllowed = dlg.DefaultAllowed;
+                theMemberData.DefaultRequired = dlg.DefaultRequired;
+
+                // update the role listbox
+                // listBoxMemberRoles.Items[nIndex] = TeamMemberData.GetMemberTypeAsDisplayString(theMemberData.MemberType);
+                if (theMemberData.Name != m_strSelectedMemberName)
+                {
+                    _dataTeamMembers.Remove(m_strSelectedMemberName);
+                    m_strSelectedMemberName = theMemberData.Name;
+                    _dataTeamMembers.Add(m_strSelectedMemberName, theMemberData);
+                }
+
+                listBoxTeamMembersEditors.Items[nIndex] = GetListBoxItem(theMemberData);
+
+                // keep a hang on it so we don't try to, for example, give it a new guid
+                if (!m_mapNewMembersThisSession.ContainsKey(dlg.MemberName))
+                    m_mapNewMembersThisSession.Add(dlg.MemberName, theMemberData);
             }
             else
-                theMemberData.Name = dlg.MemberName;
-
-            theMemberData.MemberType = dlg.MemberType;
-            theMemberData.Email = dlg.Email;
-            theMemberData.AltPhone = dlg.AltPhone;
-            theMemberData.Phone = dlg.Phone;
-            theMemberData.BioData = dlg.BioData;
-            theMemberData.SkypeID = dlg.SkypeID;
-            theMemberData.TeamViewerID = dlg.TeamViewerID;
-            theMemberData.DefaultAllowed = dlg.DefaultAllowed;
-            theMemberData.DefaultRequired = dlg.DefaultRequired;
-
-            // update the role listbox
-            // listBoxMemberRoles.Items[nIndex] = TeamMemberData.GetMemberTypeAsDisplayString(theMemberData.MemberType);
-            if (theMemberData.Name != m_strSelectedMemberName)
             {
-                _dataTeamMembers.Remove(m_strSelectedMemberName);
-                m_strSelectedMemberName = theMemberData.Name;
-                _dataTeamMembers.Add(m_strSelectedMemberName, theMemberData);
+                // this button should only be enabled if a team member is selected
+                System.Diagnostics.Debug.Assert(listBoxTeamMembersCollaborators.SelectedIndex != -1);
+                int nIndex = listBoxTeamMembersCollaborators.SelectedIndex;
+
+                TeamMemberData.UserTypes eMemberRole;
+                ParseListBoxItem((string)listBoxTeamMembersCollaborators.SelectedItem,
+                                 out m_strSelectedMemberName, out eMemberRole);
+
+                System.Diagnostics.Debug.Assert(_dataTeamMembers.ContainsKey(m_strSelectedMemberName));
+                TeamMemberData theMemberData = _dataTeamMembers[m_strSelectedMemberName];
+                var dlg = new EditMemberForm(theMemberData, _theProjSettings, true);
+                if (dlg.ShowDialog() != DialogResult.OK)
+                    return;
+
+                Modified = true;
+
+                // if the name of the edited item has been changed and the new name is already 
+                //  in use, then don't change the name
+                if ((dlg.MemberName != m_strSelectedMemberName)
+                    && _dataTeamMembers.ContainsKey(dlg.MemberName))
+                {
+                    LocalizableMessageBox.Show(
+                        String.Format(
+                            Localizer.Str(
+                                "Oops... you already have a member with the name, '{0}'. If you meant to edit that member, then select the name in the listbox and click the 'Edit Member' button."),
+                            dlg.MemberName), StoryEditor.OseCaption);
+                }
+                else
+                    theMemberData.Name = dlg.MemberName;
+
+                theMemberData.MemberType = dlg.MemberType;
+                theMemberData.Email = dlg.Email;
+                theMemberData.AltPhone = dlg.AltPhone;
+                theMemberData.Phone = dlg.Phone;
+                theMemberData.BioData = dlg.BioData;
+                theMemberData.SkypeID = dlg.SkypeID;
+                theMemberData.TeamViewerID = dlg.TeamViewerID;
+                theMemberData.DefaultAllowed = dlg.DefaultAllowed;
+                theMemberData.DefaultRequired = dlg.DefaultRequired;
+
+                // update the role listbox
+                // listBoxMemberRoles.Items[nIndex] = TeamMemberData.GetMemberTypeAsDisplayString(theMemberData.MemberType);
+                if (theMemberData.Name != m_strSelectedMemberName)
+                {
+                    _dataTeamMembers.Remove(m_strSelectedMemberName);
+                    m_strSelectedMemberName = theMemberData.Name;
+                    _dataTeamMembers.Add(m_strSelectedMemberName, theMemberData);
+                }
+
+                listBoxTeamMembersCollaborators.Items[nIndex] = GetListBoxItem(theMemberData);
+
+                // keep a hang on it so we don't try to, for example, give it a new guid
+                if (!m_mapNewMembersThisSession.ContainsKey(dlg.MemberName))
+                    m_mapNewMembersThisSession.Add(dlg.MemberName, theMemberData);
             }
-
-            listBoxTeamMembersEditors.Items[nIndex] = GetListBoxItem(theMemberData);
-
-            // keep a hang on it so we don't try to, for example, give it a new guid
-            if (!m_mapNewMembersThisSession.ContainsKey(dlg.MemberName))
-                m_mapNewMembersThisSession.Add(dlg.MemberName, theMemberData);
         }
 
         private void buttonDeleteMember_Click(object sender, EventArgs e)
@@ -427,11 +455,6 @@ namespace OneStoryProjectEditor
         }
 
         private void listBoxTeamMembersCollaborators_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            buttonOK_Click(sender, e);
-        }
-
-        private void tabEditors_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             buttonOK_Click(sender, e);
         }
@@ -580,70 +603,6 @@ namespace OneStoryProjectEditor
                 _theStoryProjectData.ReplaceCrafter(strOldMemberGuid, strNewMemberGuid);
             if (TeamMemberData.IsUser(eRoles, TeamMemberData.UserTypes.UNS))
                 _theStoryProjectData.ReplaceUns(strOldMemberGuid, strNewMemberGuid);
-        }
-
-        private void tabEditors_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            bool bOneSelected = (listBoxTeamMembersEditors.SelectedIndex != -1);
-            buttonEditMember.Enabled = buttonOK.Enabled = bOneSelected;
-
-            if (bOneSelected)
-            {
-                TeamMemberData.UserTypes eUserType;
-                ParseListBoxItem((string)listBoxTeamMembersEditors.SelectedItem,
-                                 out m_strSelectedMemberName, out eUserType);
-
-                if (_dataTeamMembers.ContainsKey(m_strSelectedMemberName))
-                {
-                    var theMember = _dataTeamMembers[m_strSelectedMemberName];
-                    buttonMergeUns.Visible = (TeamMemberData.IsUser(theMember.MemberType,
-                                                                    TeamMemberData.UserTypes.UNS));
-                    buttonMergeCrafter.Visible = (TeamMemberData.IsUser(theMember.MemberType,
-                                                                        TeamMemberData.UserTypes.Crafter));
-                    buttonMergeProjectFacilitators.Visible = (TeamMemberData.IsUser(theMember.MemberType,
-                                                                                    TeamMemberData.UserTypes.
-                                                                                        ProjectFacilitator));
-                    buttonMergeConsultant.Visible = (TeamMemberData.IsUser(theMember.MemberType,
-                        TeamMemberData.UserTypes.ConsultantInTraining | TeamMemberData.UserTypes.IndependentConsultant));
-
-                    buttonMergeCoach.Visible = (TeamMemberData.IsUser(theMember.MemberType, TeamMemberData.UserTypes.Coach));
-
-                    buttonDeleteMember.Visible = !_theStoryProjectData.DoesReferenceExist(theMember) &&                                             // no references
-                        ((m_strSelectedMemberName != TeamMembersData.CstrBrowserMemberName) && (eUserType != TeamMemberData.UserTypes.JustLooking));// but ignore the Browser (Just Looking) one (no need to delete that)
-                }
-            }
-        }
-
-        private void tabCollaborators_Click(object sender, EventArgs e)
-        {
-            bool bOneSelected = (listBoxTeamMembersEditors.SelectedIndex != -1);
-            buttonEditMember.Enabled = buttonOK.Enabled = bOneSelected;
-
-            if (bOneSelected)
-            {
-                TeamMemberData.UserTypes eUserType;
-                ParseListBoxItem((string)listBoxTeamMembersEditors.SelectedItem,
-                                 out m_strSelectedMemberName, out eUserType);
-
-                if (_dataTeamMembers.ContainsKey(m_strSelectedMemberName))
-                {
-                    var theMember = _dataTeamMembers[m_strSelectedMemberName];
-                    buttonMergeUns.Visible = (TeamMemberData.IsUser(theMember.MemberType,
-                                                                    TeamMemberData.UserTypes.UNS));
-                    buttonMergeCrafter.Visible = (TeamMemberData.IsUser(theMember.MemberType,
-                                                                        TeamMemberData.UserTypes.Crafter));
-                    buttonMergeProjectFacilitators.Visible = (TeamMemberData.IsUser(theMember.MemberType,
-                                                                                    TeamMemberData.UserTypes.
-                                                                                        ProjectFacilitator));
-                    buttonMergeConsultant.Visible = (TeamMemberData.IsUser(theMember.MemberType,
-                        TeamMemberData.UserTypes.ConsultantInTraining | TeamMemberData.UserTypes.IndependentConsultant));
-
-                    buttonMergeCoach.Visible = (TeamMemberData.IsUser(theMember.MemberType, TeamMemberData.UserTypes.Coach));
-
-                    buttonDeleteMember.Visible = !_theStoryProjectData.DoesReferenceExist(theMember) &&                                             // no references
-                        ((m_strSelectedMemberName != TeamMembersData.CstrBrowserMemberName) && (eUserType != TeamMemberData.UserTypes.JustLooking));// but ignore the Browser (Just Looking) one (no need to delete that)
-                }
-            }
         }
     }
 }

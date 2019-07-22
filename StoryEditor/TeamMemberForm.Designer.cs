@@ -296,8 +296,6 @@ namespace OneStoryProjectEditor
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(508, 404);
             this.tabControl1.TabIndex = 9;
-            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabEditors_SelectedIndexChanged);
-            this.tabControl1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tabEditors_MouseDoubleClick);
             // 
             // tabEditors
             // 
@@ -310,8 +308,6 @@ namespace OneStoryProjectEditor
             this.tabEditors.TabIndex = 1;
             this.tabEditors.Text = "Editors";
             this.tabEditors.UseVisualStyleBackColor = true;
-            this.tabEditors.Click += new System.EventHandler(this.tabEditors_SelectedIndexChanged);
-            this.tabEditors.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tabEditors_MouseDoubleClick);
             // 
             // tabCollaborators
             // 
@@ -323,8 +319,6 @@ namespace OneStoryProjectEditor
             this.tabCollaborators.TabIndex = 1;
             this.tabCollaborators.Text = "Collaborators";
             this.tabCollaborators.UseVisualStyleBackColor = true;
-            this.tabCollaborators.Click += new System.EventHandler(this.tabCollaborators_Click);
-            this.tabCollaborators.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tabEditors_MouseDoubleClick);
             // 
             // TeamMemberForm
             // 
