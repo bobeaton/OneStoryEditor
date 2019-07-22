@@ -1354,7 +1354,8 @@ namespace OneStoryProjectEditor
             Debug.Assert(TeamMemberData.IsUser(LoggedOnMember.MemberType,
                                                TeamMemberData.UserTypes.ProjectFacilitator));
             Debug.Assert(StoryProject.TeamMembers != null);
-            bool bIsBiblicalStory = (CurrentStoriesSetName == Resources.IDS_MainStoriesSet);
+            // assume it's a biblical story set if it's not the one specifically named non-biblical stories
+            bool bIsBiblicalStory = (CurrentStoriesSetName != Resources.IDS_NonBibStoriesSet);
             var theNewStory = new StoryData(strStoryName, strCrafterGuid,
                                             LoggedOnMember.MemberGuid,
                                             bIsBiblicalStory,
