@@ -111,9 +111,6 @@ namespace OneStoryProjectEditor
         public string Notes { get; set; }                   // Notes
         public string Status { get; set; }                  // Status
         public DateTime StartDate { get; set; }             // Start_Date
-        public string LcaWorkshop { get; set; }             // LCA_Workshop
-        public string LcaCoach { get; set; }                // LCA_Coach
-        public string ScWorkshop { get; set; }              // SC_workshop
         public bool IsCurrentlyUsingOse { get; set; }       // currently_using_OSE
         public string OseProjId { get; set; }               // ose_proj_id
         public string EsConsultant { get; set; }            // ES_Consultant
@@ -159,21 +156,15 @@ namespace OneStoryProjectEditor
             Notes = rhs.Notes;
             Status = rhs.Status;
             StartDate = rhs.StartDate;
-            LcaWorkshop = rhs.LcaWorkshop;
-            LcaCoach = rhs.LcaCoach;
-            ScWorkshop = rhs.ScWorkshop;
             IsCurrentlyUsingOse = rhs.IsCurrentlyUsingOse;
             OseProjId = rhs.OseProjId;
             EsConsultant = rhs.EsConsultant;
             EsCoach = rhs.EsCoach;
             EsStoriesSent = rhs.EsStoriesSent;
-            ProcessCheck = rhs.ProcessCheck;
-            MultiplicationWorkshop = rhs.MultiplicationWorkshop;
             NumberSfgs = rhs.NumberSfgs;
             PsConsultant = rhs.PsConsultant;
             PsCoach = rhs.PsCoach;
             PsStoriesPrelimApprov = rhs.PsStoriesPrelimApprov;
-            Lsr = rhs.Lsr;
             NumInFinalApprov = rhs.NumInFinalApprov;
             SetFinishedDate = rhs.SetFinishedDate;
             IsUploadedToOsMedia = rhs.IsUploadedToOsMedia;
