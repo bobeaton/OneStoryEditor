@@ -116,13 +116,10 @@ namespace OneStoryProjectEditor
         public string EsConsultant { get; set; }            // ES_Consultant
         public string EsCoach { get; set; }                 // ES_Coach
         public int EsStoriesSent { get; set; }              // ES_stories_sent
-        public string ProcessCheck { get; set; }            // Process_Check
-        public string MultiplicationWorkshop { get; set; }  // Multiplication_workshop
         public int NumberSfgs { get; set; }                 // Number_SFGs
         public string PsConsultant { get; set; }            // PS_Consultant
         public string PsCoach { get; set; }                 // PS_Coach
         public int PsStoriesPrelimApprov { get; set; }      // PS_stories_prelim_approv
-        public string Lsr { get; set; }                     // LSR
         public int NumInFinalApprov { get; set; }           // Number_Final_Stories
         public DateTime SetFinishedDate { get; set; }       // Set_Finished_Date
         public bool IsUploadedToOsMedia { get; set; }       // Uploaded_to_OSMedia
