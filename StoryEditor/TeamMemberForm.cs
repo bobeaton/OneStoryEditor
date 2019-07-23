@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
-using System.IO;
 using NetLoc;
+using System.Linq;
 
 namespace OneStoryProjectEditor
 {
@@ -78,26 +77,30 @@ namespace OneStoryProjectEditor
         private void InitializeListBoxes()
         {
             listBoxTeamMembersEditors.Items.Clear();
-            foreach (var aMember in _dataTeamMembers.Values)
+            foreach (var aMember in _dataTeamMembers.Values.Where(m => IsEditor(m)))
             {
-                if ((!TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.UNS) &&
-                    !TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.Crafter)) ||
-                    TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator))
-                {
-                    listBoxTeamMembersEditors.Items.Add(GetListBoxItem(aMember));
-                }
+                listBoxTeamMembersEditors.Items.Add(GetListBoxItem(aMember));
             }
 
             listBoxTeamMembersCollaborators.Items.Clear();
-            foreach (var aMember in _dataTeamMembers.Values)
+            foreach (var aMember in _dataTeamMembers.Values.Where(m => IsCollaborator(m)))
             {
-                if ((TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.UNS) ||
-                    TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.Crafter)) &&
-                    !TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator))
-                {
-                    listBoxTeamMembersCollaborators.Items.Add(GetListBoxItem(aMember));
-                }
+                listBoxTeamMembersCollaborators.Items.Add(GetListBoxItem(aMember));
             }
+        }
+
+        private static bool IsCollaborator(TeamMemberData aMember)
+        {
+            return (TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.UNS) ||
+                                TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.Crafter)) &&
+                                !TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator);
+        }
+
+        private static bool IsEditor(TeamMemberData aMember)
+        {
+            return (!TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.UNS) &&
+                                !TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.Crafter)) ||
+                                TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator);
         }
 
         private static string GetListBoxItem(TeamMemberData theTeamMember)
@@ -145,45 +148,23 @@ namespace OneStoryProjectEditor
 
         private void listBoxTeamMembersEditors_SelectedIndexChanged(object sender, EventArgs e)
         {
-            bool bOneSelected = (listBoxTeamMembersEditors.SelectedIndex != -1);
-            buttonEditMember.Enabled = buttonOK.Enabled = bOneSelected;
-
-            if (bOneSelected)
-            {
-                TeamMemberData.UserTypes eUserType;
-                ParseListBoxItem((string)listBoxTeamMembersEditors.SelectedItem,
-                                 out m_strSelectedMemberName, out eUserType);
-
-                if (_dataTeamMembers.ContainsKey(m_strSelectedMemberName))
-                {
-                    var theMember = _dataTeamMembers[m_strSelectedMemberName];
-                    buttonMergeUns.Visible = (TeamMemberData.IsUser(theMember.MemberType,
-                                                                    TeamMemberData.UserTypes.UNS));
-                    buttonMergeCrafter.Visible = (TeamMemberData.IsUser(theMember.MemberType,
-                                                                        TeamMemberData.UserTypes.Crafter));
-                    buttonMergeProjectFacilitators.Visible = (TeamMemberData.IsUser(theMember.MemberType,
-                                                                                    TeamMemberData.UserTypes.
-                                                                                        ProjectFacilitator));
-                    buttonMergeConsultant.Visible = (TeamMemberData.IsUser(theMember.MemberType,
-                        TeamMemberData.UserTypes.ConsultantInTraining | TeamMemberData.UserTypes.IndependentConsultant));
-
-                    buttonMergeCoach.Visible = (TeamMemberData.IsUser(theMember.MemberType, TeamMemberData.UserTypes.Coach));
-
-                    buttonDeleteMember.Visible = !_theStoryProjectData.DoesReferenceExist(theMember) &&                                             // no references
-                        ((m_strSelectedMemberName != TeamMembersData.CstrBrowserMemberName) && (eUserType != TeamMemberData.UserTypes.JustLooking));// but ignore the Browser (Just Looking) one (no need to delete that)
-                }
-            }
+            ProcessSelectedIndexChanged(listBoxTeamMembersEditors);
         }
 
         private void listBoxTeamMembersCollaborators_SelectedIndexChanged(object sender, EventArgs e)
         {
-            bool bOneSelected = (listBoxTeamMembersCollaborators.SelectedIndex != -1);
+            ProcessSelectedIndexChanged(listBoxTeamMembersCollaborators);
+        }
+
+        private void ProcessSelectedIndexChanged(ListBox listBoxTeamMembers)
+        {
+            bool bOneSelected = (listBoxTeamMembers.SelectedIndex != -1);
             buttonEditMember.Enabled = buttonOK.Enabled = bOneSelected;
 
             if (bOneSelected)
             {
                 TeamMemberData.UserTypes eUserType;
-                ParseListBoxItem((string)listBoxTeamMembersCollaborators.SelectedItem,
+                ParseListBoxItem((string)listBoxTeamMembers.SelectedItem,
                                  out m_strSelectedMemberName, out eUserType);
 
                 if (_dataTeamMembers.ContainsKey(m_strSelectedMemberName))
@@ -259,139 +240,78 @@ namespace OneStoryProjectEditor
         {
             if (tabControl1.SelectedTab == tabEditors)
             {
-                // unselect any member and set the target tab (see 
-                //  tabControlProjectMetaData_Selected for what happens)
-                listBoxTeamMembersEditors.SelectedIndex = -1;
-
-                var dlg = new EditMemberForm(null, _theProjSettings, true);
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
-                    string strItem = GetListBoxItem(dlg.MemberName, dlg.MemberType);
-                    if (listBoxTeamMembersEditors.Items.Contains(strItem) ||
-                        _dataTeamMembers.ContainsKey(dlg.MemberName))
-                    {
-                        LocalizableMessageBox.Show(
-                            String.Format(
-                                Localizer.Str(
-                                    "Oops... you already have a member with the name, '{0}'. If you meant to edit that member, then select the name in the listbox and click the 'Edit Member' button"),
-                                dlg.MemberName), StoryEditor.OseCaption);
-                        return;
-                    }
-
-                    Modified = true;
-
-                    TeamMemberData theNewMemberData;
-                    if (m_mapNewMembersThisSession.TryGetValue(dlg.MemberName, out theNewMemberData))
-                    {
-                        // I don't see how this could happen... this must have been from back when
-                        //  you could edit and add in a similar way. Now *Add* means *add a new one*
-                        //  and they can't exist in this map...
-                        System.Diagnostics.Debug.Assert(false);
-
-                        // must just be editing the already added member...
-                        System.Diagnostics.Debug.Assert(listBoxTeamMembersEditors.Items.Contains(strItem));
-
-                        theNewMemberData.MemberType = dlg.MemberType;
-                        theNewMemberData.Email = dlg.Email;
-                        theNewMemberData.AltPhone = dlg.AltPhone;
-                        theNewMemberData.Phone = dlg.Phone;
-                        theNewMemberData.BioData = dlg.BioData;
-                        theNewMemberData.SkypeID = dlg.SkypeID;
-                        theNewMemberData.TeamViewerID = dlg.TeamViewerID;
-
-                        // update the role listbox
-                        int nIndex = listBoxTeamMembersEditors.Items.IndexOf(strItem);
-                        // listBoxMemberRoles.Items[nIndex] = TeamMemberData.GetMemberTypeAsDisplayString(theNewMemberData.MemberType);
-                    }
-                    else
-                    {
-                        // add this new user to the proj file
-                        theNewMemberData = new TeamMemberData(dlg.MemberName,
-                            dlg.MemberType, String.Format("mem-{0}", Guid.NewGuid()),
-                            dlg.Email, dlg.SkypeID, dlg.TeamViewerID, dlg.Phone, dlg.AltPhone,
-                            dlg.BioData)
-                        {
-                            DefaultAllowed = dlg.DefaultAllowed,
-                            DefaultRequired = dlg.DefaultRequired
-                        };
-
-                        _dataTeamMembers.Add(dlg.MemberName, theNewMemberData);
-                        m_mapNewMembersThisSession.Add(dlg.MemberName, theNewMemberData);
-                        // listBoxTeamMembersEditors.Items.Add(strItem);
-                        InitializeListBoxes();  // this function decides which list it goes into
-
-                        // listBoxMemberRoles.Items.Insert(nIndex, TeamMemberData.GetMemberTypeAsDisplayString(theNewMemberData.MemberType));
-                        listBoxTeamMembersEditors.SelectedItem = strItem;
-                    }
-                }
+                processAddNewMember(listBoxTeamMembersEditors);
             }
             else
             {
-                // unselect any member and set the target tab (see 
-                //  tabControlProjectMetaData_Selected for what happens)
-                listBoxTeamMembersCollaborators.SelectedIndex = -1;
+                processAddNewMember(listBoxTeamMembersCollaborators);
+            }
+        }
 
-                var dlg = new EditMemberForm(null, _theProjSettings, true);
-                if (dlg.ShowDialog() == DialogResult.OK)
+        private void processAddNewMember(ListBox listBoxTeamMembers)
+        {
+            // unselect any member and set the target tab (see 
+            //  tabControlProjectMetaData_Selected for what happens)
+            listBoxTeamMembers.SelectedIndex = -1;
+
+            var dlg = new EditMemberForm(null, _theProjSettings, true);
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                var strItem = GetListBoxItem(dlg.MemberName, dlg.MemberType);
+                if (listBoxTeamMembers.Items.Contains(strItem) ||
+                    _dataTeamMembers.ContainsKey(dlg.MemberName))
                 {
-                    string strItem = GetListBoxItem(dlg.MemberName, dlg.MemberType);
-                    if (listBoxTeamMembersCollaborators.Items.Contains(strItem) ||
-                        _dataTeamMembers.ContainsKey(dlg.MemberName))
-                    {
-                        LocalizableMessageBox.Show(
-                            String.Format(
-                                Localizer.Str(
-                                    "Oops... you already have a member with the name, '{0}'. If you meant to edit that member, then select the name in the listbox and click the 'Edit Member' button"),
-                                dlg.MemberName), StoryEditor.OseCaption);
-                        return;
-                    }
-
-                    Modified = true;
-
-                    TeamMemberData theNewMemberData;
-                    if (m_mapNewMembersThisSession.TryGetValue(dlg.MemberName, out theNewMemberData))
-                    {
-                        // I don't see how this could happen... this must have been from back when
-                        //  you could edit and add in a similar way. Now *Add* means *add a new one*
-                        //  and they can't exist in this map...
-                        System.Diagnostics.Debug.Assert(false);
-
-                        // must just be editing the already added member...
-                        System.Diagnostics.Debug.Assert(listBoxTeamMembersCollaborators.Items.Contains(strItem));
-
-                        theNewMemberData.MemberType = dlg.MemberType;
-                        theNewMemberData.Email = dlg.Email;
-                        theNewMemberData.AltPhone = dlg.AltPhone;
-                        theNewMemberData.Phone = dlg.Phone;
-                        theNewMemberData.BioData = dlg.BioData;
-                        theNewMemberData.SkypeID = dlg.SkypeID;
-                        theNewMemberData.TeamViewerID = dlg.TeamViewerID;
-
-                        // update the role listbox
-                        int nIndex = listBoxTeamMembersCollaborators.Items.IndexOf(strItem);
-                        // listBoxMemberRoles.Items[nIndex] = TeamMemberData.GetMemberTypeAsDisplayString(theNewMemberData.MemberType);
-                    }
-                    else
-                    {
-                        // add this new user to the proj file
-                        theNewMemberData = new TeamMemberData(dlg.MemberName,
-                            dlg.MemberType, String.Format("mem-{0}", Guid.NewGuid()),
-                            dlg.Email, dlg.SkypeID, dlg.TeamViewerID, dlg.Phone, dlg.AltPhone,
-                            dlg.BioData)
-                        {
-                            DefaultAllowed = dlg.DefaultAllowed,
-                            DefaultRequired = dlg.DefaultRequired
-                        };
-
-                        _dataTeamMembers.Add(dlg.MemberName, theNewMemberData);
-                        m_mapNewMembersThisSession.Add(dlg.MemberName, theNewMemberData);
-                        // listBoxTeamMembersCollaborators.Items.Add(strItem);
-                        InitializeListBoxes();  // this function decides which list it goes into
-
-                        // listBoxMemberRoles.Items.Insert(nIndex, TeamMemberData.GetMemberTypeAsDisplayString(theNewMemberData.MemberType));
-                        listBoxTeamMembersCollaborators.SelectedItem = strItem;
-                    }
+                    LocalizableMessageBox.Show(
+                        String.Format(
+                            Localizer.Str(
+                                "Oops... you already have a member with the name, '{0}'. If you meant to edit that member, then select the name in the listbox and click the 'Edit Member' button"),
+                            dlg.MemberName), StoryEditor.OseCaption);
+                    return;
                 }
+
+                Modified = true;
+
+                // add this new user to the proj file
+                var theNewMemberData = new TeamMemberData(dlg.MemberName,
+                        dlg.MemberType, String.Format("mem-{0}", Guid.NewGuid()),
+                        dlg.Email, dlg.SkypeID, dlg.TeamViewerID, dlg.Phone, dlg.AltPhone,
+                        dlg.BioData)
+                {
+                    DefaultAllowed = dlg.DefaultAllowed,
+                    DefaultRequired = dlg.DefaultRequired
+                };
+
+                _dataTeamMembers.Add(dlg.MemberName, theNewMemberData);
+                m_mapNewMembersThisSession.Add(dlg.MemberName, theNewMemberData);
+                // listBoxTeamMembers.Items.Add(strItem);
+                InitializeListBoxes();  // this function decides which list it goes into
+
+                // let's also make sure the correct tab is selected
+                InsureCorrectTableIsSelected(theNewMemberData).SelectedItem = strItem;
+            }
+        }
+
+        /// <summary>
+        /// this method will determine if the correct tab is shown for the given member and
+        /// as a short cut (e.g. to selecting a record in the list box), it will return the 
+        /// relevant listbox for visible tab
+        /// </summary>
+        /// <param name="theMember"></param>
+        /// <returns></returns>
+        private ListBox InsureCorrectTableIsSelected(TeamMemberData theMember)
+        {
+            if (IsEditor(theMember))
+            {
+                if (tabControl1.SelectedTab == tabCollaborators)
+                    tabControl1.SelectedTab = tabEditors;
+                return listBoxTeamMembersEditors;
+            }
+            else
+            {
+                System.Diagnostics.Debug.Assert(IsCollaborator(theMember));
+                if (tabControl1.SelectedTab == tabEditors)
+                    tabControl1.SelectedTab = tabCollaborators;
+                return listBoxTeamMembersCollaborators;
             }
         }
 
@@ -459,8 +379,10 @@ namespace OneStoryProjectEditor
                 _dataTeamMembers.Add(m_strSelectedMemberName, theMemberData);
             }
 
-            // listBoxTeamMembersEditors.Items[nIndex] = GetListBoxItem(theMemberData);
             InitializeListBoxes();
+
+            var strItem = GetListBoxItem(theMemberData.Name, theMemberData.MemberType);
+            InsureCorrectTableIsSelected(theMemberData).SelectedItem = strItem;
 
             // keep a hang on it so we don't try to, for example, give it a new guid
             if (!m_mapNewMembersThisSession.ContainsKey(dlg.MemberName))
