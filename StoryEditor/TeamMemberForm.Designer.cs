@@ -233,7 +233,6 @@ namespace OneStoryProjectEditor
             this.listBoxTeamMembersCollaborators.Sorted = true;
             this.listBoxTeamMembersCollaborators.TabIndex = 2;
             this.listBoxTeamMembersCollaborators.SelectedIndexChanged += new System.EventHandler(this.listBoxTeamMembersCollaborators_SelectedIndexChanged);
-            this.listBoxTeamMembersCollaborators.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxTeamMembersCollaborators_MouseDoubleClick);
             // 
             // tableLayoutPanelTeamMembers
             // 

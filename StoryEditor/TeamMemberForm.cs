@@ -209,10 +209,15 @@ namespace OneStoryProjectEditor
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            // this button should only be enabled if a team member is selected
-            System.Diagnostics.Debug.Assert(listBoxTeamMembersEditors.SelectedIndex != -1);
-            if (listBoxTeamMembersEditors.SelectedIndex == -1)
+            if (tabControl1.SelectedTab == tabCollaborators)
+            {
+                tabControl1.SelectedTab = tabEditors;
                 return;
+            }
+
+            // this button should only be enabled if a team member is selected
+            if (listBoxTeamMembersEditors.SelectedIndex == -1)
+            return;
 
             // if the selected user is a UNS, this is probably a mistake.
             TeamMemberData theMember = _dataTeamMembers[m_strSelectedMemberName];
@@ -545,11 +550,6 @@ namespace OneStoryProjectEditor
             buttonOK_Click(sender, e);
         }
 
-        private void listBoxTeamMembersCollaborators_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            buttonOK_Click(sender, e);
-        }
-
         private void buttonMergeUns_Click(object sender, EventArgs e)
         {
             // this button should only be enabled if a team member is selected
@@ -586,185 +586,102 @@ namespace OneStoryProjectEditor
         {
             if(tabControl1.SelectedTab == tabEditors)
             {
-                System.Diagnostics.Debug.Assert(listBoxTeamMembersEditors.SelectedIndex != -1);
-                int nIndex = listBoxTeamMembersEditors.SelectedIndex;
-
-                TeamMemberData.UserTypes eMemberRole;
-                ParseListBoxItem((string)listBoxTeamMembersEditors.SelectedItem,
-                                 out m_strSelectedMemberName, out eMemberRole);
-
-                System.Diagnostics.Debug.Assert(_dataTeamMembers.ContainsKey(m_strSelectedMemberName));
-                TeamMemberData theMemberData = _dataTeamMembers[m_strSelectedMemberName];
-
-                // query the UNS to merge into this UNS record
-                var dlg = new MemberPicker(_theStoryProjectData, eRole)
-                {
-                    Text =
-                                      String.Format(Localizer.Str("Choose the {0} to merge into the record for '{1}'"),
-                                                    TeamMemberData.GetMemberTypeAsDisplayString(eRole),
-                                                    theMemberData.Name),
-                    ItemToBlock = theMemberData.Name
-                };
-
-                DialogResult res = dlg.ShowDialog();
-                if (res != DialogResult.OK)
-                    return;
-
-                string strOldMemberGuid = dlg.SelectedMember.MemberGuid;
-                TeamMemberData.UserTypes eOrigRoles = dlg.SelectedMember.MemberType;
-                try
-                {
-                    replaceMemberDelegate(strOldMemberGuid, theMemberData.MemberGuid);
-                    theMemberData.MergeWith(dlg.SelectedMember);
-                    Modified = true;
-
-                    dlg.SelectedMember.MemberType &= ~eRole;
-                    if (dlg.SelectedMember.MemberType != TeamMemberData.UserTypes.Undefined)
-                    {
-                        res = LocalizableMessageBox.Show(String.Format(Localizer.Str("'{0}' has these additional roles: '{1}'. Would you like to add those roles to '{2}' also?"),
-                                                            _dataTeamMembers.GetNameFromMemberId(strOldMemberGuid),
-                                                            TeamMemberData.GetMemberTypeAsDisplayString(
-                                                                dlg.SelectedMember.MemberType),
-                                                            _dataTeamMembers.GetNameFromMemberId(theMemberData.MemberGuid)),
-                                              StoryEditor.OseCaption,
-                                              MessageBoxButtons.YesNoCancel);
-                        if (res != DialogResult.Yes)
-                            return;
-
-                        MergeOtherRoles(dlg.SelectedMember.MemberType,
-                                        strOldMemberGuid,
-                                        theMemberData.MemberGuid);
-
-                        // get the index for the member we're about to add new roles to 
-                        //  (since we have to update his role list)
-                        nIndex = listBoxTeamMembersEditors.FindString(GetListBoxItem(theMemberData));
-
-                        // now add those roles just in case they aren't already
-                        theMemberData.MemberType |= dlg.SelectedMember.MemberType;
-
-                        if (nIndex != -1)
-                            listBoxTeamMembersEditors.Items[nIndex] = GetListBoxItem(theMemberData);
-                        else
-                            System.Diagnostics.Debug.Assert(false);
-                    }
-
-                    res = LocalizableMessageBox.Show(String.Format(Localizer.Str("All of the information associated with member '{0}' is now associated with member '{1}'. Click 'Yes' to delete the record for '{0}'"),
-                                                        dlg.SelectedMember.Name,
-                                                        theMemberData.Name),
-                                          StoryEditor.OseCaption,
-                                          MessageBoxButtons.YesNoCancel);
-
-                    if (res != DialogResult.Yes)
-                        return;
-
-                    string strNameToDelete = _dataTeamMembers.GetNameFromMemberId(strOldMemberGuid);
-                    RemoveTracesOfMember(strNameToDelete, eOrigRoles);
-                }
-                catch (StoryProjectData.ReplaceMemberException ex)
-                {
-                    var strErrorMsg = String.Format(Localizer.Str("Unable to merge member '{0}' into member '{1}' because in story '{2}', {3}"),
-                                                    _dataTeamMembers.GetNameFromMemberId(
-                                                        strOldMemberGuid),
-                                                    _dataTeamMembers.GetNameFromMemberId(
-                                                        theMemberData.MemberGuid),
-                                                    ex.StoryName,
-                                                    String.Format(ex.Format,
-                                                                  _dataTeamMembers.GetNameFromMemberId(
-                                                                      ex.MemberGuid)));
-                    LocalizableMessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
-                }
+                ProcessReplaceMember(listBoxTeamMembersEditors, eRole, replaceMemberDelegate);
             }
             else
             {
-                System.Diagnostics.Debug.Assert(listBoxTeamMembersCollaborators.SelectedIndex != -1);
-                int nIndex = listBoxTeamMembersCollaborators.SelectedIndex;
+                ProcessReplaceMember(listBoxTeamMembersCollaborators, eRole, replaceMemberDelegate);
+            }
+        }
 
-                TeamMemberData.UserTypes eMemberRole;
-                ParseListBoxItem((string)listBoxTeamMembersCollaborators.SelectedItem,
-                                 out m_strSelectedMemberName, out eMemberRole);
+        private void ProcessReplaceMember(ListBox listBoxTeamMembers, TeamMemberData.UserTypes eRole, ReplaceMemberDelegate replaceMemberDelegate)
+        {
+            System.Diagnostics.Debug.Assert(listBoxTeamMembers.SelectedIndex != -1);
+            int nIndex = listBoxTeamMembers.SelectedIndex;
 
-                System.Diagnostics.Debug.Assert(_dataTeamMembers.ContainsKey(m_strSelectedMemberName));
-                TeamMemberData theMemberData = _dataTeamMembers[m_strSelectedMemberName];
+            TeamMemberData.UserTypes eMemberRole;
+            ParseListBoxItem((string)listBoxTeamMembers.SelectedItem,
+                             out m_strSelectedMemberName, out eMemberRole);
 
-                // query the UNS to merge into this UNS record
-                var dlg = new MemberPicker(_theStoryProjectData, eRole)
+            System.Diagnostics.Debug.Assert(_dataTeamMembers.ContainsKey(m_strSelectedMemberName));
+            TeamMemberData theMemberData = _dataTeamMembers[m_strSelectedMemberName];
+
+            // query the UNS to merge into this UNS record
+            var dlg = new MemberPicker(_theStoryProjectData, eRole)
+            {
+                Text = String.Format(Localizer.Str("Choose the {0} to merge into the record for '{1}'"),
+                                     TeamMemberData.GetMemberTypeAsDisplayString(eRole),
+                                     theMemberData.Name),
+                ItemToBlock = theMemberData.Name
+            };
+
+            DialogResult res = dlg.ShowDialog();
+            if (res != DialogResult.OK)
+                return;
+
+            string strOldMemberGuid = dlg.SelectedMember.MemberGuid;
+            TeamMemberData.UserTypes eOrigRoles = dlg.SelectedMember.MemberType;
+            try
+            {
+                replaceMemberDelegate(strOldMemberGuid, theMemberData.MemberGuid);
+                theMemberData.MergeWith(dlg.SelectedMember);
+                Modified = true;
+
+                dlg.SelectedMember.MemberType &= ~eRole;
+                if (dlg.SelectedMember.MemberType != TeamMemberData.UserTypes.Undefined)
                 {
-                    Text =
-                                      String.Format(Localizer.Str("Choose the {0} to merge into the record for '{1}'"),
-                                                    TeamMemberData.GetMemberTypeAsDisplayString(eRole),
-                                                    theMemberData.Name),
-                    ItemToBlock = theMemberData.Name
-                };
-
-                DialogResult res = dlg.ShowDialog();
-                if (res != DialogResult.OK)
-                    return;
-
-                string strOldMemberGuid = dlg.SelectedMember.MemberGuid;
-                TeamMemberData.UserTypes eOrigRoles = dlg.SelectedMember.MemberType;
-                try
-                {
-                    replaceMemberDelegate(strOldMemberGuid, theMemberData.MemberGuid);
-                    theMemberData.MergeWith(dlg.SelectedMember);
-                    Modified = true;
-
-                    dlg.SelectedMember.MemberType &= ~eRole;
-                    if (dlg.SelectedMember.MemberType != TeamMemberData.UserTypes.Undefined)
-                    {
-                        res = LocalizableMessageBox.Show(String.Format(Localizer.Str("'{0}' has these additional roles: '{1}'. Would you like to add those roles to '{2}' also?"),
-                                                            _dataTeamMembers.GetNameFromMemberId(strOldMemberGuid),
-                                                            TeamMemberData.GetMemberTypeAsDisplayString(
-                                                                dlg.SelectedMember.MemberType),
-                                                            _dataTeamMembers.GetNameFromMemberId(theMemberData.MemberGuid)),
-                                              StoryEditor.OseCaption,
-                                              MessageBoxButtons.YesNoCancel);
-                        if (res != DialogResult.Yes)
-                            return;
-
-                        MergeOtherRoles(dlg.SelectedMember.MemberType,
-                                        strOldMemberGuid,
-                                        theMemberData.MemberGuid);
-
-                        // get the index for the member we're about to add new roles to 
-                        //  (since we have to update his role list)
-                        nIndex = listBoxTeamMembersCollaborators.FindString(GetListBoxItem(theMemberData));
-
-                        // now add those roles just in case they aren't already
-                        theMemberData.MemberType |= dlg.SelectedMember.MemberType;
-
-                        if (nIndex != -1)
-                            listBoxTeamMembersCollaborators.Items[nIndex] = GetListBoxItem(theMemberData);
-                        else
-                            System.Diagnostics.Debug.Assert(false);
-                    }
-
-                    res = LocalizableMessageBox.Show(String.Format(Localizer.Str("All of the information associated with member '{0}' is now associated with member '{1}'. Click 'Yes' to delete the record for '{0}'"),
-                                                        dlg.SelectedMember.Name,
-                                                        theMemberData.Name),
+                    res = LocalizableMessageBox.Show(String.Format(Localizer.Str("'{0}' has these additional roles: '{1}'. Would you like to add those roles to '{2}' also?"),
+                                                        _dataTeamMembers.GetNameFromMemberId(strOldMemberGuid),
+                                                        TeamMemberData.GetMemberTypeAsDisplayString(
+                                                            dlg.SelectedMember.MemberType),
+                                                        _dataTeamMembers.GetNameFromMemberId(theMemberData.MemberGuid)),
                                           StoryEditor.OseCaption,
                                           MessageBoxButtons.YesNoCancel);
-
                     if (res != DialogResult.Yes)
                         return;
 
-                    string strNameToDelete = _dataTeamMembers.GetNameFromMemberId(strOldMemberGuid);
-                    RemoveTracesOfMember(strNameToDelete, eOrigRoles);
-                }
-                catch (StoryProjectData.ReplaceMemberException ex)
-                {
-                    var strErrorMsg = String.Format(Localizer.Str("Unable to merge member '{0}' into member '{1}' because in story '{2}', {3}"),
-                                                    _dataTeamMembers.GetNameFromMemberId(
-                                                        strOldMemberGuid),
-                                                    _dataTeamMembers.GetNameFromMemberId(
-                                                        theMemberData.MemberGuid),
-                                                    ex.StoryName,
-                                                    String.Format(ex.Format,
-                                                                  _dataTeamMembers.GetNameFromMemberId(
-                                                                      ex.MemberGuid)));
-                    LocalizableMessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
-                }
-            }
+                    MergeOtherRoles(dlg.SelectedMember.MemberType,
+                                    strOldMemberGuid,
+                                    theMemberData.MemberGuid);
 
+                    // get the index for the member we're about to add new roles to 
+                    //  (since we have to update his role list)
+                    nIndex = listBoxTeamMembers.FindString(GetListBoxItem(theMemberData));
+
+                    // now add those roles just in case they aren't already
+                    theMemberData.MemberType |= dlg.SelectedMember.MemberType;
+
+                    if (nIndex != -1)
+                        listBoxTeamMembers.Items[nIndex] = GetListBoxItem(theMemberData);
+                    else
+                        System.Diagnostics.Debug.Assert(false);
+                }
+
+                res = LocalizableMessageBox.Show(String.Format(Localizer.Str("All of the information associated with member '{0}' is now associated with member '{1}'. Click 'Yes' to delete the record for '{0}'"),
+                                                    dlg.SelectedMember.Name,
+                                                    theMemberData.Name),
+                                      StoryEditor.OseCaption,
+                                      MessageBoxButtons.YesNoCancel);
+
+                if (res != DialogResult.Yes)
+                    return;
+
+                string strNameToDelete = _dataTeamMembers.GetNameFromMemberId(strOldMemberGuid);
+                RemoveTracesOfMember(strNameToDelete, eOrigRoles);
+            }
+            catch (StoryProjectData.ReplaceMemberException ex)
+            {
+                var strErrorMsg = String.Format(Localizer.Str("Unable to merge member '{0}' into member '{1}' because in story '{2}', {3}"),
+                                                _dataTeamMembers.GetNameFromMemberId(
+                                                    strOldMemberGuid),
+                                                _dataTeamMembers.GetNameFromMemberId(
+                                                    theMemberData.MemberGuid),
+                                                ex.StoryName,
+                                                String.Format(ex.Format,
+                                                              _dataTeamMembers.GetNameFromMemberId(
+                                                                  ex.MemberGuid)));
+                LocalizableMessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
+            }
         }
 
         private void RemoveTracesOfMember(string strNameToDelete, TeamMemberData.UserTypes eRoles)
