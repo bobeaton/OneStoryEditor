@@ -45,31 +45,13 @@ namespace OneStoryProjectEditor
             Localizer.Ctrl(this);
 
             Localizer.Default.LocLanguage.SetFont(listBoxTeamMembersEditors);
-            foreach (var aMember in _dataTeamMembers.Values)
-            {
-                if ((!TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.UNS) && 
-                    !TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.Crafter)) || 
-                    TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator))
-                {
-                    listBoxTeamMembersEditors.Items.Add(GetListBoxItem(aMember));
-                }
-            }
-
             Localizer.Default.LocLanguage.SetFont(listBoxTeamMembersCollaborators);
-            foreach (var aMember in _dataTeamMembers.Values)
-            {
-                if ((TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.UNS) ||
-                    TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.Crafter)) && 
-                    !TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator))
-                {
-                    listBoxTeamMembersCollaborators.Items.Add(GetListBoxItem(aMember));
-                }
-            }
+            InitializeListBoxes();
 
             if (listBoxTeamMembersEditors.Items.Count > 0)
             {
                 string strLastMemberLogin;
-                if ((theProjSettings != null) && 
+                if ((theProjSettings != null) &&
                     Program.MapProjectNameToLastMemberLogin.TryGetValue(theProjSettings.ProjectName, out strLastMemberLogin))
                     listBoxTeamMembersEditors.SelectedItem = strLastMemberLogin;
                 else if (!String.IsNullOrEmpty(Properties.Settings.Default.LastMemberLogin))
@@ -91,6 +73,31 @@ namespace OneStoryProjectEditor
 
             buttonOK.Text = CstrReturnLabel;
             toolTip.SetToolTip(buttonOK, Localizer.Str("Click to return to the previous window"));
+        }
+
+        private void InitializeListBoxes()
+        {
+            listBoxTeamMembersEditors.Items.Clear();
+            foreach (var aMember in _dataTeamMembers.Values)
+            {
+                if ((!TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.UNS) &&
+                    !TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.Crafter)) ||
+                    TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator))
+                {
+                    listBoxTeamMembersEditors.Items.Add(GetListBoxItem(aMember));
+                }
+            }
+
+            listBoxTeamMembersCollaborators.Items.Clear();
+            foreach (var aMember in _dataTeamMembers.Values)
+            {
+                if ((TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.UNS) ||
+                    TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.Crafter)) &&
+                    !TeamMemberData.IsUser(aMember.MemberType, TeamMemberData.UserTypes.ProjectFacilitator))
+                {
+                    listBoxTeamMembersCollaborators.Items.Add(GetListBoxItem(aMember));
+                }
+            }
         }
 
         private static string GetListBoxItem(TeamMemberData theTeamMember)
@@ -305,7 +312,8 @@ namespace OneStoryProjectEditor
 
                         _dataTeamMembers.Add(dlg.MemberName, theNewMemberData);
                         m_mapNewMembersThisSession.Add(dlg.MemberName, theNewMemberData);
-                        listBoxTeamMembersEditors.Items.Add(strItem);
+                        // listBoxTeamMembersEditors.Items.Add(strItem);
+                        InitializeListBoxes();  // this function decides which list it goes into
 
                         // listBoxMemberRoles.Items.Insert(nIndex, TeamMemberData.GetMemberTypeAsDisplayString(theNewMemberData.MemberType));
                         listBoxTeamMembersEditors.SelectedItem = strItem;
@@ -372,7 +380,8 @@ namespace OneStoryProjectEditor
 
                         _dataTeamMembers.Add(dlg.MemberName, theNewMemberData);
                         m_mapNewMembersThisSession.Add(dlg.MemberName, theNewMemberData);
-                        listBoxTeamMembersCollaborators.Items.Add(strItem);
+                        // listBoxTeamMembersCollaborators.Items.Add(strItem);
+                        InitializeListBoxes();  // this function decides which list it goes into
 
                         // listBoxMemberRoles.Items.Insert(nIndex, TeamMemberData.GetMemberTypeAsDisplayString(theNewMemberData.MemberType));
                         listBoxTeamMembersCollaborators.SelectedItem = strItem;
@@ -434,7 +443,8 @@ namespace OneStoryProjectEditor
                     _dataTeamMembers.Add(m_strSelectedMemberName, theMemberData);
                 }
 
-                listBoxTeamMembersEditors.Items[nIndex] = GetListBoxItem(theMemberData);
+                // listBoxTeamMembersEditors.Items[nIndex] = GetListBoxItem(theMemberData);
+                InitializeListBoxes();
 
                 // keep a hang on it so we don't try to, for example, give it a new guid
                 if (!m_mapNewMembersThisSession.ContainsKey(dlg.MemberName))
@@ -491,7 +501,8 @@ namespace OneStoryProjectEditor
                     _dataTeamMembers.Add(m_strSelectedMemberName, theMemberData);
                 }
 
-                listBoxTeamMembersCollaborators.Items[nIndex] = GetListBoxItem(theMemberData);
+                // listBoxTeamMembersCollaborators.Items[nIndex] = GetListBoxItem(theMemberData);
+                InitializeListBoxes();
 
                 // keep a hang on it so we don't try to, for example, give it a new guid
                 if (!m_mapNewMembersThisSession.ContainsKey(dlg.MemberName))
