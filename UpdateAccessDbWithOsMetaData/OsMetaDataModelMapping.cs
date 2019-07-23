@@ -27,24 +27,20 @@ namespace UpdateAccessDbWithOsMetaData
             Map("Notes", "Notes");
             Map("Status", "Status");
             Map("Start_Date", "StartDate");
-            Map("LCA_Workshop", "LcaWorkshop");
-            Map("LCA_Coach", "LcaCoach");
-            Map("SC_workshop", "ScWorkshop");
             Map("currently_using_OSE", "IsCurrentlyUsingOse");
             Map("ose_proj_id", "OseProjId");
             Map("ES_Consultant", "EsConsultant");
             Map("ES_Coach", "EsCoach");
             Map("ES_stories_sent", "EsStoriesSent");
-            Map("Process_Check", "ProcessCheck");
-            Map("Multiplication_workshop", "MultiplicationWorkshop");
             Map("Number_SFGs", "NumberSfgs");
             Map("PS_Consultant", "PsConsultant");
             Map("PS_Coach", "PsCoach");
             Map("PS_stories_prelim_approv", "PsStoriesPrelimApprov");
-            Map("LSR", "Lsr");
             Map("Number_Final_Stories", "NumInFinalApprov");
             Map("Set_Finished_Date", "SetFinishedDate");
             Map("Uploaded_to_OSMedia", "IsUploadedToOsMedia");
+            Map("Uploaded_to_TWR360", "IsUploadedToTWR360");
+            Map("Also_Online_At", "AlsoOnlineAt");
             Map("Set_Copyrighted", "SetCopyrighted");
             Map("DateLastChangeProjectFile", "DateLastChangeProjectFile");
         }

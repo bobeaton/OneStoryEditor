@@ -111,24 +111,20 @@ namespace OneStoryProjectEditor
         public string Notes { get; set; }                   // Notes
         public string Status { get; set; }                  // Status
         public DateTime StartDate { get; set; }             // Start_Date
-        public string LcaWorkshop { get; set; }             // LCA_Workshop
-        public string LcaCoach { get; set; }                // LCA_Coach
-        public string ScWorkshop { get; set; }              // SC_workshop
         public bool IsCurrentlyUsingOse { get; set; }       // currently_using_OSE
         public string OseProjId { get; set; }               // ose_proj_id
         public string EsConsultant { get; set; }            // ES_Consultant
         public string EsCoach { get; set; }                 // ES_Coach
         public int EsStoriesSent { get; set; }              // ES_stories_sent
-        public string ProcessCheck { get; set; }            // Process_Check
-        public string MultiplicationWorkshop { get; set; }  // Multiplication_workshop
         public int NumberSfgs { get; set; }                 // Number_SFGs
         public string PsConsultant { get; set; }            // PS_Consultant
         public string PsCoach { get; set; }                 // PS_Coach
         public int PsStoriesPrelimApprov { get; set; }      // PS_stories_prelim_approv
-        public string Lsr { get; set; }                     // LSR
         public int NumInFinalApprov { get; set; }           // Number_Final_Stories
         public DateTime SetFinishedDate { get; set; }       // Set_Finished_Date
         public bool IsUploadedToOsMedia { get; set; }       // Uploaded_to_OSMedia
+        public bool IsUploadedToTWR360 { get; set; }       // Uploaded_to_TWR360
+        public string AlsoOnlineAt { get; set; }          // Set_Copyrighted
         public string SetCopyrighted { get; set; }          // Set_Copyrighted
 
         // these are kept so we can do calculation at a particular time, but are not
@@ -157,24 +153,20 @@ namespace OneStoryProjectEditor
             Notes = rhs.Notes;
             Status = rhs.Status;
             StartDate = rhs.StartDate;
-            LcaWorkshop = rhs.LcaWorkshop;
-            LcaCoach = rhs.LcaCoach;
-            ScWorkshop = rhs.ScWorkshop;
             IsCurrentlyUsingOse = rhs.IsCurrentlyUsingOse;
             OseProjId = rhs.OseProjId;
             EsConsultant = rhs.EsConsultant;
             EsCoach = rhs.EsCoach;
             EsStoriesSent = rhs.EsStoriesSent;
-            ProcessCheck = rhs.ProcessCheck;
-            MultiplicationWorkshop = rhs.MultiplicationWorkshop;
             NumberSfgs = rhs.NumberSfgs;
             PsConsultant = rhs.PsConsultant;
             PsCoach = rhs.PsCoach;
             PsStoriesPrelimApprov = rhs.PsStoriesPrelimApprov;
-            Lsr = rhs.Lsr;
             NumInFinalApprov = rhs.NumInFinalApprov;
             SetFinishedDate = rhs.SetFinishedDate;
             IsUploadedToOsMedia = rhs.IsUploadedToOsMedia;
+            IsUploadedToTWR360 = rhs.IsUploadedToTWR360;
+            AlsoOnlineAt = rhs.AlsoOnlineAt;
             SetCopyrighted = rhs.SetCopyrighted;
         }
     }

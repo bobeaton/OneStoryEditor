@@ -38,22 +38,24 @@ namespace OneStoryProjectEditor
             Initialize(textBoxNotes, record.Notes);
             Initialize(comboBoxStatus, record.Status);
             Initialize(dateTimePickerStartDate, record.StartDate);
-            Initialize(textBoxLcaWorkshop, record.LcaWorkshop);
-            Initialize(textBoxLcaCoach, record.LcaCoach);
-            Initialize(textBoxScWorkshop, record.ScWorkshop);
+            //Initialize(textBoxLcaWorkshop, record.LcaWorkshop);
+            //Initialize(textBoxLcaCoach, record.LcaCoach);
+            //Initialize(textBoxScWorkshop, record.ScWorkshop);
             Initialize(textBoxEsConsultant, record.EsConsultant);
             Initialize(textBoxEsCoach, record.EsCoach);
             Initialize(textBoxNumOfEsStoriesSent, record.EsStoriesSent.ToString(CultureInfo.InvariantCulture));
-            Initialize(textBoxProcessCheck, record.ProcessCheck);
-            Initialize(textBoxMultiWorkshop, record.MultiplicationWorkshop);
+            //Initialize(textBoxProcessCheck, record.ProcessCheck);
+            //Initialize(textBoxMultiWorkshop, record.MultiplicationWorkshop);
             Initialize(textBoxNumOfSfgs, record.NumberSfgs.ToString(CultureInfo.InvariantCulture));
             Initialize(textBoxPsConsultant, record.PsConsultant);
             Initialize(textBoxPsCoach, record.PsCoach);
             Initialize(textBoxNumInPreliminaryApproval, record.PsStoriesPrelimApprov.ToString(CultureInfo.InvariantCulture));
-            Initialize(textBoxLsr, record.Lsr);
+            //Initialize(textBoxLsr, record.Lsr);
             Initialize(textBoxFinalReview, record.NumInFinalApprov.ToString(CultureInfo.InvariantCulture));
             Initialize(dateTimePickerSetFinishedDate, record.SetFinishedDate);
             Initialize(checkBoxIsUploadedToOsMedia, record.IsUploadedToOsMedia);
+            Initialize(checkBoxIsUploadedToTWR360, record.IsUploadedToTWR360);
+            Initialize(textBoxAlsoOnlineAt, record.AlsoOnlineAt);
             Initialize(textBoxSetCopyright, record.SetCopyrighted);
 
             // if we're in Exploratory Phase, then don't allow editing of the ES fields
@@ -127,17 +129,17 @@ namespace OneStoryProjectEditor
             record.Notes = Retrieve(textBoxNotes);
             record.Status = Retrieve(comboBoxStatus);
             record.StartDate = Retrieve(dateTimePickerStartDate, record.StartDate);
-            record.LcaWorkshop = Retrieve(textBoxLcaWorkshop);
-            record.LcaCoach = Retrieve(textBoxLcaCoach);
-            record.ScWorkshop = Retrieve(textBoxScWorkshop);
+            //record.LcaWorkshop = Retrieve(textBoxLcaWorkshop);
+            //record.LcaCoach = Retrieve(textBoxLcaCoach);
+            //record.ScWorkshop = Retrieve(textBoxScWorkshop);
             if (!bEsFieldsReadOnly)
             {
                 record.EsConsultant = Retrieve(textBoxEsConsultant);
                 record.EsCoach = Retrieve(textBoxEsCoach);
                 record.EsStoriesSent = RetrieveInt(textBoxNumOfEsStoriesSent);
             }
-            record.ProcessCheck = Retrieve(textBoxProcessCheck);
-            record.MultiplicationWorkshop = Retrieve(textBoxMultiWorkshop);
+            //record.ProcessCheck = Retrieve(textBoxProcessCheck);
+            //record.MultiplicationWorkshop = Retrieve(textBoxMultiWorkshop);
             record.NumberSfgs = RetrieveInt(textBoxNumOfSfgs);
 
             if (!bPsFieldsReadOnly)
@@ -146,10 +148,12 @@ namespace OneStoryProjectEditor
                 record.PsCoach = Retrieve(textBoxPsCoach);
                 record.PsStoriesPrelimApprov = RetrieveInt(textBoxNumInPreliminaryApproval);
             }
-            record.Lsr = Retrieve(textBoxLsr);
+            //record.Lsr = Retrieve(textBoxLsr);
             // record.NumInFinalApprov = RetrieveInt(textBoxFinalReview);
             record.SetFinishedDate = Retrieve(dateTimePickerSetFinishedDate, record.SetFinishedDate);
             record.IsUploadedToOsMedia = Retrieve(checkBoxIsUploadedToOsMedia);
+            record.IsUploadedToTWR360 = Retrieve(checkBoxIsUploadedToTWR360);
+            record.AlsoOnlineAt = Retrieve(textBoxAlsoOnlineAt);
             record.SetCopyrighted = Retrieve(textBoxSetCopyright);
         }
 

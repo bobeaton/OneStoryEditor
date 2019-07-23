@@ -108,19 +108,19 @@ namespace UpdateAccessDbWithOsMetaData
                                            "(Project_Name, Language_Name, Ethnologue_Code, Continent, Country, Methodology, " +
                                            "Managing_Partner, Entity, Contact_Person, Contact_Person_Email, Priorities_Category, " +
                                            "Scripture_Status, Scrip_Status_Notes, Project_Facilitators, " +
-                                            "PF_Category, PF_Affiliation, Notes, Status, Start_Date, LCA_Workshop, LCA_Coach, " +
-                                            "SC_workshop, currently_using_OSE, ose_proj_id, ES_Consultant, ES_Coach, ES_stories_sent, " +
-                                            "Process_Check, Multiplication_workshop, Number_SFGs, PS_Consultant, PS_Coach, " +
-                                            "PS_stories_prelim_approv, LSR, Number_Final_Stories, Set_Finished_Date, " +
-                                            "Uploaded_to_OSMedia, Set_Copyrighted, DateLastChangeProjectFile) " +
+                                            "PF_Category, PF_Affiliation, Notes, Status, Start_Date, " +
+                                            "currently_using_OSE, ose_proj_id, ES_Consultant, ES_Coach, ES_stories_sent, " +
+                                            "Number_SFGs, PS_Consultant, PS_Coach, " +
+                                            "PS_stories_prelim_approv, Number_Final_Stories, Set_Finished_Date, " +
+                                            "Uploaded_to_OSMedia, Uploaded_to_TWR360, Also_Online_At, Set_Copyrighted, DateLastChangeProjectFile) " +
                                    "values (@ProjectName, @LanguageName, @EthnologueCode, @Continent, @Country, @Methodology, " +
                                            "@ManagingPartner, @Entity, @ContactPerson, @ContactPersonEmail, @PrioritiesCategory, " +
                                            "@ScriptureStatus, @ScriptureStatusNotes, @ProjectFacilitators, @PfCategory, " +
                                            "@PfAffiliation, @Notes, @Status, @StartDate, " +
-                                           "@LcaWorkshop, @LcaCoach, @ScWorkshop, @IsCurrentlyUsingOse, @OseProjId, @EsConsultant, " +
-                                           "@EsCoach, @EsStoriesSent, @ProcessCheck, @MultiplicationWorkshop, @NumberSfgs, " +
-                                           "@PsConsultant, @PsCoach, @PsStoriesPrelimApprov, @Lsr, @NumInFinalApprov, " +
-                                           "@SetFinishedDate, @IsUploadedToOsMedia, @SetCopyrighted, @DateLastChangeProjectFile)", 
+                                           "@IsCurrentlyUsingOse, @OseProjId, @EsConsultant, " +
+                                           "@EsCoach, @EsStoriesSent, @NumberSfgs, " +
+                                           "@PsConsultant, @PsCoach, @PsStoriesPrelimApprov, @NumInFinalApprov, " +
+                                           "@SetFinishedDate, @IsUploadedToOsMedia, @IsUploadedToTWR360, @AlsoOnlineAt, @SetCopyrighted, @DateLastChangeProjectFile)", 
                                    GetParameterArray(osMetaDataModelRecord, dateTimeOfProjectFile)
                                 );
             }
@@ -148,24 +148,20 @@ namespace UpdateAccessDbWithOsMetaData
                                        "[Notes] = @Notes, " + 
                                        "[Status] = @Status, " +
                                        "[Start_Date] = @StartDate, " +
-                                       "[LCA_Workshop] = @LcaWorkshop, " +
-                                       "[LCA_Coach] = @LcaCoach, " +
-                                       "[SC_workshop] = @ScWorkshop, " +
                                        "[currently_using_OSE] = @IsCurrentlyUsingOse, " +
                                        "[ose_proj_id] = @OseProjId, " +
                                        "[ES_Consultant] = @EsConsultant, " +
                                        "[ES_Coach] = @EsCoach, " +
                                        "[ES_stories_sent] = @EsStoriesSent, " +
-                                       "[Process_Check] = @ProcessCheck, " +
-                                       "[Multiplication_workshop] = @MultiplicationWorkshop, " +
                                        "[Number_SFGs] = @NumberSfgs, " +
                                        "[PS_Consultant] = @PsConsultant, " +
                                        "[PS_Coach] = @PsCoach, " +
                                        "[PS_stories_prelim_approv] = @PsStoriesPrelimApprov, " +
-                                       "[LSR] = @Lsr, " +
                                        "[Number_Final_Stories] = @NumInFinalApprov, " +
                                        "[Set_Finished_Date] = @SetFinishedDate, " +
                                        "[Uploaded_to_OSMedia] = @IsUploadedToOsMedia, " +
+                                       "[Uploaded_to_TWR360] = @IsUploadedToTWR360, " +
+                                       "[Also_Online_At] = @AlsoOnlineAt, " +
                                        "[Set_Copyrighted] = @SetCopyrighted, " +
                                        "[DateLastChangeProjectFile] = @DateLastChangeProjectFile " + 
                                     "WHERE [ose_proj_id] = @OseProjId;",
@@ -224,24 +220,20 @@ namespace UpdateAccessDbWithOsMetaData
                 new Param("@Notes", CheckForNull(osMetaDataModelRecord.Notes), OleDbType.VarWChar),
                 new Param("@Status", CheckForNull(osMetaDataModelRecord.Status), OleDbType.VarWChar),
                 new Param("@StartDate", CheckForNull(osMetaDataModelRecord.StartDate), OleDbType.DBDate),
-                new Param("@LcaWorkshop", CheckForNull(osMetaDataModelRecord.LcaWorkshop), OleDbType.VarWChar),
-                new Param("@LcaCoach", CheckForNull(osMetaDataModelRecord.LcaCoach), OleDbType.VarWChar),
-                new Param("@ScWorkshop", CheckForNull(osMetaDataModelRecord.ScWorkshop), OleDbType.VarWChar),
                 new Param("@IsCurrentlyUsingOse", osMetaDataModelRecord.IsCurrentlyUsingOse, OleDbType.Boolean),
                 new Param("@OseProjId", osMetaDataModelRecord.OseProjId, OleDbType.VarWChar),   // not allowed to be null!
                 new Param("@EsConsultant", CheckForNull(osMetaDataModelRecord.EsConsultant), OleDbType.VarWChar),
                 new Param("@EsCoach", CheckForNull(osMetaDataModelRecord.EsCoach), OleDbType.VarWChar),
                 new Param("@EsStoriesSent", osMetaDataModelRecord.EsStoriesSent, OleDbType.Integer),
-                new Param("@ProcessCheck", CheckForNull(osMetaDataModelRecord.ProcessCheck), OleDbType.VarWChar),
-                new Param("@MultiplicationWorkshop", CheckForNull(osMetaDataModelRecord.MultiplicationWorkshop), OleDbType.VarWChar),
                 new Param("@NumberSfgs", osMetaDataModelRecord.NumberSfgs, OleDbType.Integer),
                 new Param("@PsConsultant", CheckForNull(osMetaDataModelRecord.PsConsultant), OleDbType.VarWChar),
                 new Param("@PsCoach", CheckForNull(osMetaDataModelRecord.PsCoach), OleDbType.VarWChar),
                 new Param("@PsStoriesPrelimApprov", osMetaDataModelRecord.PsStoriesPrelimApprov, OleDbType.Integer),
-                new Param("@Lsr", CheckForNull(osMetaDataModelRecord.Lsr), OleDbType.VarWChar),
                 new Param("@NumInFinalApprov", osMetaDataModelRecord.NumInFinalApprov, OleDbType.Integer),
                 new Param("@SetFinishedDate", CheckForNull(osMetaDataModelRecord.SetFinishedDate), OleDbType.DBDate),
                 new Param("@IsUploadedToOsMedia", osMetaDataModelRecord.IsUploadedToOsMedia, OleDbType.Boolean),
+                new Param("@IsUploadedToTWR360", osMetaDataModelRecord.IsUploadedToTWR360, OleDbType.Boolean),
+                new Param("@AlsoOnlineAt", CheckForNull(osMetaDataModelRecord.AlsoOnlineAt), OleDbType.VarWChar),
                 new Param("@SetCopyrighted", CheckForNull(osMetaDataModelRecord.SetCopyrighted), OleDbType.VarWChar),
                 new Param("@DateLastChangeProjectFile", CheckForNull(dateTimeOfProjectFile), OleDbType.DBDate)
             };
