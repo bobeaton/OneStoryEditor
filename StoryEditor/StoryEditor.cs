@@ -3094,6 +3094,13 @@ namespace OneStoryProjectEditor
             projectPrintMenu.Enabled = (StoryProject != null);
         }
 
+        private void openNewOSEWindowProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var strStoryEditorPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            strStoryEditorPath = Path.Combine(strStoryEditorPath, "StoryEditor.exe");
+            LaunchProgram(strStoryEditorPath, null);
+        }
+
         private void recentProjectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var aRecentFile = (ToolStripDropDownItem)sender;
@@ -3101,7 +3108,17 @@ namespace OneStoryProjectEditor
             Debug.Assert(Settings.Default.RecentProjects.Contains(strProjectName));
             int nIndexOfPath = Settings.Default.RecentProjects.IndexOf(strProjectName);
             string strProjectPath = Settings.Default.RecentProjectPaths[nIndexOfPath];
-            DoReopen(strProjectPath, strProjectName);
+            if((ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                var strStoryEditorPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                Debug.Assert(strStoryEditorPath != null, "strStoryEditorExePath != null");
+                strStoryEditorPath = Path.Combine(strStoryEditorPath, "StoryEditor.exe");
+                LaunchProgram(strStoryEditorPath, Path.Combine(strProjectPath, strProjectName));
+            }
+            else
+            {
+                DoReopen(strProjectPath, strProjectName);
+            }
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)

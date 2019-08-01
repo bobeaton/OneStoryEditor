@@ -43,6 +43,7 @@ namespace OneStoryProjectEditor
             this.projectToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.projectRecentProjectsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.projectSendReceiveMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectOpenNewOSEWindowMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.projectCloseProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.projectSaveProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -255,6 +256,7 @@ namespace OneStoryProjectEditor
             this.projectToolStripMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.projectRecentProjectsMenu,
             this.projectSendReceiveMenu,
+            this.projectOpenNewOSEWindowMenu,
             this.projectCloseProjectMenu,
             this.projectSaveProjectMenu,
             this.toolStripSeparator1,
@@ -291,6 +293,14 @@ namespace OneStoryProjectEditor
             this.projectSendReceiveMenu.Text = "Sen&d/Receive...";
             this.projectSendReceiveMenu.ToolTipText = "Click to synchronize this project with the Internet (or thumbdrive) repository";
             this.projectSendReceiveMenu.Click += new System.EventHandler(this.sendReceiveToolStripMenuItem_Click);
+            // 
+            // projectOpenNewOSEWindowMenu
+            // 
+            this.projectOpenNewOSEWindowMenu.Name = "projectOpenNewOSEWindowMenu";
+            this.projectOpenNewOSEWindowMenu.Size = new System.Drawing.Size(286, 22);
+            this.projectOpenNewOSEWindowMenu.Text = "&Open new OSE Window";
+            this.projectOpenNewOSEWindowMenu.ToolTipText = "Click to open new OSE Window";
+            this.projectOpenNewOSEWindowMenu.Click += new System.EventHandler(this.openNewOSEWindowProjectToolStripMenuItem_Click);
             // 
             // projectCloseProjectMenu
             // 
@@ -2154,6 +2164,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem editAddGeneralTestQuestionMenu;
         internal ToolStripMenuItem viewGeneralTestingsQuestionMenu;
         private ToolStripMenuItem projectToAThumbdriveMenu;
+        private ToolStripMenuItem projectOpenNewOSEWindowMenu;
         private ToolStripMenuItem projectCloseProjectMenu;
         internal ToolStripMenuItem viewExegeticalHelps;
         private BackgroundWorker backgroundWorker;
