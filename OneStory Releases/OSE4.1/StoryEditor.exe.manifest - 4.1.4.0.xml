@@ -4,19 +4,19 @@
 	<ApplicationExecutable/>
 	<ApplicationName>OneStory Editor AutoUpdater</ApplicationName>
 	<FullUpgradeFileName/>
-	<OffsetFromUctWhereManifestWasOriginallyCreated>2019-07-31T11:35:20.4709090-05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+	<OffsetFromUctWhereManifestWasOriginallyCreated>2019-03-01T09:50:04.8344591-06:00</OffsetFromUctWhereManifestWasOriginallyCreated>
 	<ManifestFiles>
-		<File name="AdaptIt-ChorusPlugin.dll" method="version" action="copy" version="4.0.0.0" optional="false" size="6737">AdaptIt ChorusPlugin</File>
-		<File name="AiChorus.exe" method="version" action="copy" version="4.0.1.0" optional="false" size="27288">AiChorus</File>
+		<File name="AdaptIt-ChorusPlugin.dll" method="version" action="copy" version="4.0.0.0" optional="false" size="6731">AdaptIt ChorusPlugin</File>
+		<File name="AiChorus.exe" method="version" action="copy" version="4.0.1.0" optional="false" size="27286">AiChorus</File>
 		<File name="AiChorus.exe.config" method="md5" action="copy" version="1c501292e6a1e8baca82bc2e157001f5" optional="false" size="775"/>
 		<File name="AIGuesserEC.dll" method="version" action="copy" version="4.0.5.0" optional="false" size="44346">AdaptIt Encoding Converters</File>
 		<File name="AutoUpgrade.exe.config" method="md5" action="copy" version="f8d26c196c9aa0f39458a5bed0d35c1f" optional="false" size="756"/>
-		<File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="4.0.0.1" optional="false" size="16885">AutoUpgrade Lib</File>
+		<File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="4.0.0.1" optional="false" size="16884">AutoUpgrade Lib</File>
 		<File name="FluentFTP.dll" method="OneOff" action="copy" version="19.1.2.0" optional="false" size="88398">FluentFTP</File>
 		<File name="Ionic.Zip.dll" method="version" action="copy" version="1.9.1.8" optional="false" size="279057">Ionic's Zip Library</File>
-		<File name="OneStory-ChorusPlugin.dll" method="version" action="copy" version="4.0.0.0" optional="false" size="8361">OneStory ChorusPlugin</File>
-		<File name="StoryEditor.exe" method="version" action="copy" version="4.1.5.0" optional="false" size="514006">OneStory Editor</File>
-		<File name="StoryEditor.exe.config" method="md5" action="copy" version="8769233145ba6ae0465aa211bfa9b671" optional="false" size="3125"/>
+		<File name="OneStory-ChorusPlugin.dll" method="version" action="copy" version="4.0.0.0" optional="false" size="8363">OneStory ChorusPlugin</File>
+		<File name="StoryEditor.exe" method="version" action="copy" version="4.1.4.0" optional="false" size="511289">OneStory Editor</File>
+		<File name="StoryEditor.exe.config" method="md5" action="copy" version="02cfcfb820136f9dea5da8c5326f5af1" optional="false" size="3105"/>
 		<File name="LocData\es.xml" method="md5" action="copy" version="4652054b3d0ae91f92ef4d3cc28af30d" optional="false" size="41487"/>
 		<File name="LocData\fr.xml" method="md5" action="copy" version="30ae5ae806e027e643b2578bb171bea6" optional="false" size="39690"/>
 		<File name="LocData\id.xml" method="md5" action="copy" version="95117e37c86b72d51dff5c2389d36ae1" optional="false" size="40941"/>
