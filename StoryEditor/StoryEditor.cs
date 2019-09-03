@@ -8029,6 +8029,19 @@ namespace OneStoryProjectEditor
 #endif
         }
 
+        private void StoryEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            //
+            if (e.Alt && e.KeyCode.ToString() == "F")
+                GoToFirstStory();
+            else if (e.Alt && e.KeyCode.ToString() == "R")
+                GoToPreviousStory();
+            else if (e.Alt && e.KeyCode.ToString() == "X")
+                GoToNextStory();
+            else if (e.Alt && e.KeyCode.ToString() == "L")
+                GoToLastStory();
+        }
+
         private void panoramaNextStoryMenu_Click(object sender, EventArgs e)
         {
             GoToNextStory();
