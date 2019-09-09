@@ -3551,7 +3551,7 @@ namespace OneStoryProjectEditor
             // not sure why we had this null case, but it's causing Irene grief by shifting to the 1st story in the set when you just exit the Panorama window
             if (!String.IsNullOrEmpty(dlg.JumpToStory))
             {
-                NavigateTo(dlg.SelectedStorySetName, dlg.JumpToStory, 1, null);
+                NavigateTo(dlg.SelectedStorySetName, dlg.JumpToStory, 0, null);
 
                 // if we're shifting to a different story set, then update the UI
                 if (theStartingStoriesSetName != dlg.SelectedStorySetName)
@@ -7938,7 +7938,7 @@ namespace OneStoryProjectEditor
             else if (storyName != startingStoryName)
             {
                 // case 2 -- navigate to one of them (implied that they want to go there)
-                NavigateTo(CurrentStoriesSetName, storyName, 1, null);
+                NavigateTo(CurrentStoriesSetName, storyName, 0, null);
             }
             else
             {
