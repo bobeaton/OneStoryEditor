@@ -224,6 +224,8 @@ namespace OneStoryProjectEditor
             Localizer.Ctrl(this);
         }
 
+        private const string TriggerNewProjectOnOpen = "OpenNew";
+
         public StoryEditor(string strProjectFilePath)
         {
             myFocusTimer.Tick += TimeToSetFocus;
@@ -281,8 +283,10 @@ namespace OneStoryProjectEditor
                 try
                 {
                     if (String.IsNullOrEmpty(Settings.Default.LastUserType))
+                    {
                         NewProjectFile();
-                    else if (advancedAutomaticallyLoadProjectMenu.Checked)
+                    }
+                    else if (advancedAutomaticallyLoadProjectMenu.Checked && (strProjectFilePath != TriggerNewProjectOnOpen))
                     {
                         var eRole = TeamMemberData.GetMemberType(Settings.Default.LastUserType);
                         if (TeamMemberData.IsUser(eRole, TeamMemberData.UserTypes.ProjectFacilitator)
@@ -3098,7 +3102,7 @@ namespace OneStoryProjectEditor
         {
             var strStoryEditorPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             strStoryEditorPath = Path.Combine(strStoryEditorPath, "StoryEditor.exe");
-            LaunchProgram(strStoryEditorPath, null);
+            LaunchProgram(strStoryEditorPath, TriggerNewProjectOnOpen);
         }
 
         private void recentProjectsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3113,7 +3117,8 @@ namespace OneStoryProjectEditor
                 var strStoryEditorPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 Debug.Assert(strStoryEditorPath != null, "strStoryEditorExePath != null");
                 strStoryEditorPath = Path.Combine(strStoryEditorPath, "StoryEditor.exe");
-                LaunchProgram(strStoryEditorPath, Path.Combine(strProjectPath, strProjectName));
+                string pathToProject = "\"" + Path.Combine(strProjectPath, ProjectSettings.OneStoryFileName(strProjectName)) + "\"";
+                LaunchProgram(strStoryEditorPath, pathToProject, ProcessWindowStyle.Normal);
             }
             else
             {
@@ -4797,7 +4802,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        internal static void LaunchProgram(string strProgram, string strArguments)
+        internal static void LaunchProgram(string strProgram, string strArguments, ProcessWindowStyle processWindowStyle = ProcessWindowStyle.Minimized)
         {
             try
             {
@@ -4807,7 +4812,7 @@ namespace OneStoryProjectEditor
                                                 {
                                                     FileName = strProgram,
                                                     Arguments = strArguments,
-                                                    WindowStyle = ProcessWindowStyle.Minimized
+                                                    WindowStyle = processWindowStyle
                                                 }
                                         };
                 myProcess.Start();
