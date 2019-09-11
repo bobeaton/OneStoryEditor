@@ -37,7 +37,7 @@ namespace OneStoryProjectEditor
         {
             StrIdToScrollTo = VersesData.LineId(nVerseIndex);
             if (!String.IsNullOrEmpty(StrIdToScrollTo))
-                ScrollToElement(StrIdToScrollTo, true);
+                ScrollToElement(StrIdToScrollTo, false);
         }
 
         public void OnSaveDocument()
@@ -203,7 +203,7 @@ namespace OneStoryProjectEditor
         private void HtmlConNoteControl_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             if (!String.IsNullOrEmpty(StrIdToScrollTo))
-                ScrollToElement(StrIdToScrollTo, true);
+                ScrollToElement(StrIdToScrollTo, false);
         }
 
         protected VerseData GetVerseData(int nLineIndex)

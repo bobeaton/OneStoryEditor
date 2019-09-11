@@ -127,6 +127,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ChorusDeps\SIL.Core.dll</HintPath>
     </Reference>
+    <Reference Include="SIL.Core.Desktop, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ChorusDeps\SIL.Core.Desktop.dll</HintPath>
+    </Reference>
     <Reference Include="SIL.Windows.Forms, Version=3.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ChorusDeps\SIL.Windows.Forms.dll</HintPath>

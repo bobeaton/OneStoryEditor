@@ -224,6 +224,8 @@ namespace OneStoryProjectEditor
             Localizer.Ctrl(this);
         }
 
+        private const string TriggerNewProjectOnOpen = "OpenNew";
+
         public StoryEditor(string strProjectFilePath)
         {
             myFocusTimer.Tick += TimeToSetFocus;
@@ -281,8 +283,10 @@ namespace OneStoryProjectEditor
                 try
                 {
                     if (String.IsNullOrEmpty(Settings.Default.LastUserType))
+                    {
                         NewProjectFile();
-                    else if (advancedAutomaticallyLoadProjectMenu.Checked)
+                    }
+                    else if (advancedAutomaticallyLoadProjectMenu.Checked && (strProjectFilePath != TriggerNewProjectOnOpen))
                     {
                         var eRole = TeamMemberData.GetMemberType(Settings.Default.LastUserType);
                         if (TeamMemberData.IsUser(eRole, TeamMemberData.UserTypes.ProjectFacilitator)
@@ -3094,6 +3098,13 @@ namespace OneStoryProjectEditor
             projectPrintMenu.Enabled = (StoryProject != null);
         }
 
+        private void openNewOSEWindowProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var strStoryEditorPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            strStoryEditorPath = Path.Combine(strStoryEditorPath, "StoryEditor.exe");
+            LaunchProgram(strStoryEditorPath, TriggerNewProjectOnOpen);
+        }
+
         private void recentProjectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var aRecentFile = (ToolStripDropDownItem)sender;
@@ -3101,7 +3112,18 @@ namespace OneStoryProjectEditor
             Debug.Assert(Settings.Default.RecentProjects.Contains(strProjectName));
             int nIndexOfPath = Settings.Default.RecentProjects.IndexOf(strProjectName);
             string strProjectPath = Settings.Default.RecentProjectPaths[nIndexOfPath];
-            DoReopen(strProjectPath, strProjectName);
+            if((ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                var strStoryEditorPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                Debug.Assert(strStoryEditorPath != null, "strStoryEditorExePath != null");
+                strStoryEditorPath = Path.Combine(strStoryEditorPath, "StoryEditor.exe");
+                string pathToProject = "\"" + Path.Combine(strProjectPath, ProjectSettings.OneStoryFileName(strProjectName)) + "\"";
+                LaunchProgram(strStoryEditorPath, pathToProject, ProcessWindowStyle.Normal);
+            }
+            else
+            {
+                DoReopen(strProjectPath, strProjectName);
+            }
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4780,7 +4802,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        internal static void LaunchProgram(string strProgram, string strArguments)
+        internal static void LaunchProgram(string strProgram, string strArguments, ProcessWindowStyle processWindowStyle = ProcessWindowStyle.Minimized)
         {
             try
             {
@@ -4790,7 +4812,7 @@ namespace OneStoryProjectEditor
                                                 {
                                                     FileName = strProgram,
                                                     Arguments = strArguments,
-                                                    WindowStyle = ProcessWindowStyle.Minimized
+                                                    WindowStyle = processWindowStyle
                                                 }
                                         };
                 myProcess.Start();
@@ -8010,6 +8032,19 @@ namespace OneStoryProjectEditor
             if (!String.IsNullOrEmpty(dlg.JumpToStory))
                 NavigateTo(dlg.SelectedStorySetName, dlg.JumpToStory, 1, null);
 #endif
+        }
+
+        private void StoryEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            //
+            if (e.Alt && e.KeyCode.ToString() == "F")
+                GoToFirstStory();
+            else if (e.Alt && e.KeyCode.ToString() == "R")
+                GoToPreviousStory();
+            else if (e.Alt && e.KeyCode.ToString() == "X")
+                GoToNextStory();
+            else if (e.Alt && e.KeyCode.ToString() == "L")
+                GoToLastStory();
         }
 
         private void panoramaNextStoryMenu_Click(object sender, EventArgs e)
