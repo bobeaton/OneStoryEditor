@@ -133,6 +133,9 @@ namespace OneStoryProjectEditor
                 }
             }
 
+            tabControlSets.DrawMode = TabDrawMode.OwnerDrawFixed;
+            tabControlSets.DrawItem += TabControlOnDrawItem;
+
             var tab = InitStoriesTab(storySetName);
             tabControlSets.SelectTab(tab);
 
@@ -165,6 +168,70 @@ namespace OneStoryProjectEditor
                 }
                 list.ForEach(p => tabControlSets.Controls.Add(p));
             }
+        }
+
+        private FontStyle HasNotification(string tabText)
+        {
+            StoriesData stories = _storyProject[tabText];
+            var status = haveLoginUserTurn(stories);
+            return status ? FontStyle.Bold : FontStyle.Regular;
+        }
+
+        private void TabControlOnDrawItem(object sender, DrawItemEventArgs e)
+        {
+            var tab = (TabControl)sender;
+
+            var tabText = tab.TabPages[e.Index].Text;
+
+            StoriesData stories = _storyProject[tabText];
+            var status = haveLoginUserTurn(stories);
+            Font font = new Font(tab.Font, status ? FontStyle.Regular : FontStyle.Regular);
+
+
+            using (Brush br = new SolidBrush(tab.TabPages[e.Index].BackColor))
+            {
+                Rectangle rect = e.Bounds;
+
+                rect.Width += 2;
+                e.Graphics.FillRectangle(br, rect);
+                
+                if (status)
+                {
+                    using (var src = new Bitmap(global::OneStoryProjectEditor.Properties.Resources.RedDot))
+                    {
+                        e.Graphics.DrawImage(src, rect.Right - 8, rect.Top + 5);
+                    }
+
+                    e.Graphics.DrawRectangle(Pens.DarkGray, rect);
+                    e.DrawFocusRectangle();
+                }
+                e.Graphics.DrawString(tabText, font, Brushes.Black, new PointF(e.Bounds.X + 0, e.Bounds.Y + 0));
+
+            }
+        }
+
+        protected Boolean haveLoginUserTurn(StoriesData stories)
+        {
+            if (stories == null)
+                return false;
+
+            foreach (StoryData aSD in stories)
+            {
+                string strWhoHasEditToken = StoryEditor.GetMemberWithEditTokenAsDisplayString(_storyProject.TeamMembers,
+                                                                                              aSD.ProjStage.MemberTypeWithEditToken);
+                string strMemberId = StoryEditor.MemberIDWithEditToken(aSD, strWhoHasEditToken);
+
+                var bInLoggedInUsersTurn = false;
+                if (!String.IsNullOrEmpty(strMemberId))
+                {
+                    // if we have a single person's turn who has the edit token and they are the current user, 
+                    bInLoggedInUsersTurn = ((_loggedOnMember != null) && (_loggedOnMember.MemberGuid == strMemberId));
+                }
+
+                if (bInLoggedInUsersTurn)
+                    return true;
+            }
+            return false;
         }
 
         public string SelectedStorySetName; 
