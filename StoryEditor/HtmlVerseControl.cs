@@ -35,9 +35,13 @@ namespace OneStoryProjectEditor
 
         public virtual void ScrollToVerse(int nVerseIndex)
         {
+            if (nVerseIndex > 6)
+            {
+                nVerseIndex = nVerseIndex - 2;
+            }
             StrIdToScrollTo = VersesData.LineId(nVerseIndex);
             if (!String.IsNullOrEmpty(StrIdToScrollTo))
-                ScrollToElement(StrIdToScrollTo, false);
+                ScrollToElement(StrIdToScrollTo, true);
         }
 
         public void OnSaveDocument()

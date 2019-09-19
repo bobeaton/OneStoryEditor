@@ -152,6 +152,7 @@ namespace OneStoryProjectEditor
             this.panoramaShowMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaInsertNewStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaAddNewStoryAfterMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.panoramaGotoNextStoryinYourStateMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaFirstStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaPreviousStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaNextStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -1241,6 +1242,7 @@ namespace OneStoryProjectEditor
             this.panoramaShowMenu,
             this.panoramaInsertNewStoryMenu,
             this.panoramaAddNewStoryAfterMenu,
+            this.panoramaGotoNextStoryinYourStateMenu,
             this.panoramaFirstStoryMenu,
             this.panoramaPreviousStoryMenu,
             this.panoramaNextStoryMenu,
@@ -1274,6 +1276,14 @@ namespace OneStoryProjectEditor
             this.panoramaAddNewStoryAfterMenu.Text = "&Add new story after current";
             this.panoramaAddNewStoryAfterMenu.ToolTipText = "Click to add a new, empty story after the one currently shown";
             this.panoramaAddNewStoryAfterMenu.Click += new System.EventHandler(this.AddNewStoryAfterToolStripMenuItemClick);
+            // 
+            // panoramaGotoNextStoryinYourStateMenu
+            // 
+            this.panoramaGotoNextStoryinYourStateMenu.Name = "panoramaGotoNextStoryinYourStateMenu";
+            this.panoramaGotoNextStoryinYourStateMenu.Size = new System.Drawing.Size(235, 22);
+            this.panoramaGotoNextStoryinYourStateMenu.Text = "&Go to next story in your state";
+            this.panoramaGotoNextStoryinYourStateMenu.ToolTipText = "Click to go to next story in your state";
+            this.panoramaGotoNextStoryinYourStateMenu.Click += new System.EventHandler(this.toolStripButtonShowStoriesInYourState_Click);
             // 
             // panoramaFirstStoryMenu
             // 
@@ -2075,6 +2085,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem panoramaInsertNewStoryMenu;
         private ToolStripMenuItem storyDeleteStoryMenu;
         private ToolStripMenuItem panoramaAddNewStoryAfterMenu;
+        private ToolStripMenuItem panoramaGotoNextStoryinYourStateMenu;
         private ToolStripMenuItem storyStoryInformationMenu;
         private ToolStripMenuItem storyToolStripMenu;
         private ToolStripMenuItem editToolStripMenu;

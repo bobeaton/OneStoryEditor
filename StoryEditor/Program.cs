@@ -359,7 +359,8 @@ namespace OneStoryProjectEditor
                             var message = new MAPIMessage();
                             if (message.Create(mapi, MAPIMessage.Importance.IMPORTANCE_NORMAL))
                             {
-                                message.SetSender(StoryEditor.OseCaption, strSenderEmail.ToString());
+                                // No need to add Sender Details as per updated API.
+                                //message.SetSender(StoryEditor.OseCaption, strSenderEmail.ToString());
                                 message.SetSubject(strSubjectLine);
                                 message.SetBody(strBodyText);
                                 message.AddRecipient(strEmailAddress);
