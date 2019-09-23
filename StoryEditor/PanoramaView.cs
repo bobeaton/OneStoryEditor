@@ -1109,6 +1109,39 @@ namespace OneStoryProjectEditor
                 return theStory;
             }
         }
+
+        private void tabControlSets_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            TabPage page = tabControlSets.TabPages[e.Index];
+            e.Graphics.FillRectangle(new SolidBrush(page.BackColor), e.Bounds);
+
+            Rectangle paddedBounds = e.Bounds;
+            int yOffset = (e.State == DrawItemState.Selected) ? -2 : 1;
+            paddedBounds.Offset(1, yOffset);
+
+            var font = e.Font;
+
+            StoriesData stories = null;
+            var tabText = (page.Text == StoriesSetNameLocalized) ? StoriesSetName : page.Text;
+            if (_storyProject.ContainsKey(tabText))
+                stories = _storyProject[tabText];
+
+            if ((stories != null) && stories.Any(s =>
+            {
+                string strWhoHasEditToken = StoryEditor.GetMemberWithEditTokenAsDisplayString(_storyProject.TeamMembers,
+                                                                                              s.ProjStage.MemberTypeWithEditToken);
+
+                string strMemberId = StoryEditor.MemberIDWithEditToken(s, strWhoHasEditToken);
+
+                // if it's the same as the logged in member's ID, then ...
+                return ((_loggedOnMember != null) && (_loggedOnMember.MemberGuid == strMemberId));
+            }))
+            {
+                font = new Font(e.Font, FontStyle.Italic | FontStyle.Underline);
+            }
+
+            TextRenderer.DrawText(e.Graphics, page.Text, font, paddedBounds, page.ForeColor);
+        }
 #endif
     }
 }

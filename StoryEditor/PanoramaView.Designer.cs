@@ -65,10 +65,9 @@ namespace OneStoryProjectEditor
             // 
             this.buttonDelete.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.buttonDelete.Image = global::OneStoryProjectEditor.Properties.Resources.DeleteHS;
-            this.buttonDelete.Location = new System.Drawing.Point(1646, 348);
-            this.buttonDelete.Margin = new System.Windows.Forms.Padding(6);
+            this.buttonDelete.Location = new System.Drawing.Point(759, 128);
             this.buttonDelete.Name = "buttonDelete";
-            this.buttonDelete.Size = new System.Drawing.Size(52, 44);
+            this.buttonDelete.Size = new System.Drawing.Size(26, 23);
             this.buttonDelete.TabIndex = 2;
             this.toolTip.SetToolTip(this.buttonDelete, "Delete the selected story");
             this.buttonDelete.UseVisualStyleBackColor = true;
@@ -77,11 +76,10 @@ namespace OneStoryProjectEditor
             // tabPagePanorama
             // 
             this.tabPagePanorama.Controls.Add(this.tableLayoutPanel);
-            this.tabPagePanorama.Location = new System.Drawing.Point(4, 34);
-            this.tabPagePanorama.Margin = new System.Windows.Forms.Padding(6);
+            this.tabPagePanorama.Location = new System.Drawing.Point(4, 22);
             this.tabPagePanorama.Name = "tabPagePanorama";
-            this.tabPagePanorama.Padding = new System.Windows.Forms.Padding(6);
-            this.tabPagePanorama.Size = new System.Drawing.Size(1716, 924);
+            this.tabPagePanorama.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPagePanorama.Size = new System.Drawing.Size(794, 433);
             this.tabPagePanorama.TabIndex = 1;
             this.tabPagePanorama.Text = "Stories";
             this.tabPagePanorama.UseVisualStyleBackColor = true;
@@ -96,8 +94,7 @@ namespace OneStoryProjectEditor
             this.tableLayoutPanel.Controls.Add(this.buttonCopyToClipboard, 0, 4);
             this.tableLayoutPanel.Controls.Add(this.labelInstructions, 0, 3);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel.Location = new System.Drawing.Point(6, 6);
-            this.tableLayoutPanel.Margin = new System.Windows.Forms.Padding(6);
+            this.tableLayoutPanel.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.RowCount = 5;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -105,7 +102,7 @@ namespace OneStoryProjectEditor
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.Size = new System.Drawing.Size(1704, 912);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(788, 427);
             this.tableLayoutPanel.TabIndex = 2;
             // 
             // dataGridViewPanorama
@@ -127,15 +124,14 @@ namespace OneStoryProjectEditor
             this.ColumnWordCount});
             this.dataGridViewPanorama.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewPanorama.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
-            this.dataGridViewPanorama.Location = new System.Drawing.Point(6, 6);
-            this.dataGridViewPanorama.Margin = new System.Windows.Forms.Padding(6);
+            this.dataGridViewPanorama.Location = new System.Drawing.Point(3, 3);
             this.dataGridViewPanorama.MultiSelect = false;
             this.dataGridViewPanorama.Name = "dataGridViewPanorama";
             this.dataGridViewPanorama.RowHeadersWidth = 25;
             this.dataGridViewPanorama.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.tableLayoutPanel.SetRowSpan(this.dataGridViewPanorama, 3);
             this.dataGridViewPanorama.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewPanorama.Size = new System.Drawing.Size(1628, 753);
+            this.dataGridViewPanorama.Size = new System.Drawing.Size(750, 345);
             this.dataGridViewPanorama.TabIndex = 0;
             this.dataGridViewPanorama.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPanorama_CellBeginEdit);
             this.dataGridViewPanorama.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPanorama_CellEndEdit);
@@ -179,7 +175,7 @@ namespace OneStoryProjectEditor
             this.ColumnLineCount.Name = "ColumnLineCount";
             this.ColumnLineCount.ReadOnly = true;
             this.ColumnLineCount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnLineCount.Width = 112;
+            this.ColumnLineCount.Width = 60;
             // 
             // ColumnTestQuestions
             // 
@@ -188,6 +184,7 @@ namespace OneStoryProjectEditor
             this.ColumnTestQuestions.Name = "ColumnTestQuestions";
             this.ColumnTestQuestions.ReadOnly = true;
             this.ColumnTestQuestions.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.ColumnTestQuestions.Width = 55;
             // 
             // ColumnWordCount
             // 
@@ -195,15 +192,14 @@ namespace OneStoryProjectEditor
             this.ColumnWordCount.HeaderText = "# of Words";
             this.ColumnWordCount.Name = "ColumnWordCount";
             this.ColumnWordCount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ColumnWordCount.Width = 122;
+            this.ColumnWordCount.Width = 66;
             // 
             // buttonCopyToClipboard
             // 
             this.buttonCopyToClipboard.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.buttonCopyToClipboard.Location = new System.Drawing.Point(659, 862);
-            this.buttonCopyToClipboard.Margin = new System.Windows.Forms.Padding(6);
+            this.buttonCopyToClipboard.Location = new System.Drawing.Point(297, 401);
             this.buttonCopyToClipboard.Name = "buttonCopyToClipboard";
-            this.buttonCopyToClipboard.Size = new System.Drawing.Size(322, 44);
+            this.buttonCopyToClipboard.Size = new System.Drawing.Size(161, 23);
             this.buttonCopyToClipboard.TabIndex = 5;
             this.buttonCopyToClipboard.Text = "&Copy to clipboard";
             this.buttonCopyToClipboard.UseVisualStyleBackColor = true;
@@ -212,22 +208,20 @@ namespace OneStoryProjectEditor
             // labelInstructions
             // 
             this.labelInstructions.AutoSize = true;
-            this.labelInstructions.Location = new System.Drawing.Point(6, 765);
-            this.labelInstructions.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.labelInstructions.Location = new System.Drawing.Point(3, 351);
             this.labelInstructions.Name = "labelInstructions";
-            this.labelInstructions.Padding = new System.Windows.Forms.Padding(8);
-            this.labelInstructions.Size = new System.Drawing.Size(1621, 91);
+            this.labelInstructions.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.labelInstructions.Size = new System.Drawing.Size(740, 47);
             this.labelInstructions.TabIndex = 6;
             this.labelInstructions.Text = resources.GetString("labelInstructions.Text");
             // 
             // tabPageFrontMatter
             // 
             this.tabPageFrontMatter.Controls.Add(this.richTextBoxPanoramaFrontMatter);
-            this.tabPageFrontMatter.Location = new System.Drawing.Point(4, 34);
-            this.tabPageFrontMatter.Margin = new System.Windows.Forms.Padding(6);
+            this.tabPageFrontMatter.Location = new System.Drawing.Point(4, 22);
             this.tabPageFrontMatter.Name = "tabPageFrontMatter";
-            this.tabPageFrontMatter.Padding = new System.Windows.Forms.Padding(6);
-            this.tabPageFrontMatter.Size = new System.Drawing.Size(1716, 924);
+            this.tabPageFrontMatter.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageFrontMatter.Size = new System.Drawing.Size(794, 433);
             this.tabPageFrontMatter.TabIndex = 0;
             this.tabPageFrontMatter.Text = "Front Matter";
             this.tabPageFrontMatter.UseVisualStyleBackColor = true;
@@ -235,10 +229,9 @@ namespace OneStoryProjectEditor
             // richTextBoxPanoramaFrontMatter
             // 
             this.richTextBoxPanoramaFrontMatter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBoxPanoramaFrontMatter.Location = new System.Drawing.Point(6, 6);
-            this.richTextBoxPanoramaFrontMatter.Margin = new System.Windows.Forms.Padding(6);
+            this.richTextBoxPanoramaFrontMatter.Location = new System.Drawing.Point(3, 3);
             this.richTextBoxPanoramaFrontMatter.Name = "richTextBoxPanoramaFrontMatter";
-            this.richTextBoxPanoramaFrontMatter.Size = new System.Drawing.Size(1704, 912);
+            this.richTextBoxPanoramaFrontMatter.Size = new System.Drawing.Size(788, 427);
             this.richTextBoxPanoramaFrontMatter.TabIndex = 0;
             this.richTextBoxPanoramaFrontMatter.Text = "";
             this.richTextBoxPanoramaFrontMatter.TextChanged += new System.EventHandler(this.RichTextBoxPanoramaFrontMatterTextChanged);
@@ -249,12 +242,13 @@ namespace OneStoryProjectEditor
             this.tabControlSets.Controls.Add(this.tabPageFrontMatter);
             this.tabControlSets.Controls.Add(this.tabPagePanorama);
             this.tabControlSets.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlSets.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.tabControlSets.Location = new System.Drawing.Point(0, 0);
-            this.tabControlSets.Margin = new System.Windows.Forms.Padding(6);
             this.tabControlSets.Name = "tabControlSets";
             this.tabControlSets.SelectedIndex = 0;
-            this.tabControlSets.Size = new System.Drawing.Size(1724, 962);
+            this.tabControlSets.Size = new System.Drawing.Size(802, 459);
             this.tabControlSets.TabIndex = 4;
+            this.tabControlSets.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControlSets_DrawItem);
             this.tabControlSets.Selected += new System.Windows.Forms.TabControlEventHandler(this.TabControlSetsSelected);
             this.tabControlSets.DragDrop += new System.Windows.Forms.DragEventHandler(this.tabControlSets_DragDrop);
             this.tabControlSets.DragOver += new System.Windows.Forms.DragEventHandler(this.tabControlSets_DragOver);
@@ -268,13 +262,13 @@ namespace OneStoryProjectEditor
             this.menuRename,
             this.menuDelete});
             this.contextMenuStripTabs.Name = "contextMenuStripTabs";
-            this.contextMenuStripTabs.Size = new System.Drawing.Size(282, 112);
+            this.contextMenuStripTabs.Size = new System.Drawing.Size(169, 70);
             // 
             // menuAddNew
             // 
             this.menuAddNew.AutoToolTip = true;
             this.menuAddNew.Name = "menuAddNew";
-            this.menuAddNew.Size = new System.Drawing.Size(281, 36);
+            this.menuAddNew.Size = new System.Drawing.Size(168, 22);
             this.menuAddNew.Text = "&Add new story set";
             this.menuAddNew.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
             this.menuAddNew.ToolTipText = "Add new story set to the right of this tab";
@@ -284,7 +278,7 @@ namespace OneStoryProjectEditor
             // 
             this.menuRename.AutoToolTip = true;
             this.menuRename.Name = "menuRename";
-            this.menuRename.Size = new System.Drawing.Size(281, 36);
+            this.menuRename.Size = new System.Drawing.Size(168, 22);
             this.menuRename.Text = "&Rename story set";
             this.menuRename.Click += new System.EventHandler(this.menuRename_Click);
             // 
@@ -292,18 +286,18 @@ namespace OneStoryProjectEditor
             // 
             this.menuDelete.AutoToolTip = true;
             this.menuDelete.Name = "menuDelete";
-            this.menuDelete.Size = new System.Drawing.Size(281, 36);
+            this.menuDelete.Size = new System.Drawing.Size(168, 22);
             this.menuDelete.Text = "&Delete story set";
             this.menuDelete.Click += new System.EventHandler(this.menuDelete_Click);
             // 
             // PanoramaView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1724, 962);
+            this.ClientSize = new System.Drawing.Size(802, 459);
             this.Controls.Add(this.tabControlSets);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(12);
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "PanoramaView";
             this.Text = "Panorama View";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PanoramaViewFormClosing);
