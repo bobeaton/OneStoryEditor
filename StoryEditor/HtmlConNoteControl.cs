@@ -309,6 +309,15 @@ namespace OneStoryProjectEditor
                                                                                      theCNDC.Count - 1);
             }
 
+            if (elemButton.InnerText != ConsultNoteDataConverter.CstrButtonLabelConversationReopen)
+            {
+                StrIdToScrollTo = ConsultNoteDataConverter.TextareaId(nVerseIndex, nConversationIndex);
+            }
+            else
+            {
+                StrIdToScrollTo = ConsultNoteDataConverter.TextareaReadonlyRowId(nVerseIndex, nConversationIndex, theCNDC.Count - 1);
+            }
+
             LoadDocument();
             return true;
         }
