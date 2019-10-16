@@ -680,13 +680,14 @@ namespace OneStoryProjectEditor
                 
                 if (res != DialogResult.Yes)
 #else
-                ShowError(theSE,
-                          String.Format(
+                return (LocalizableMessageBox.Show(
+                    String.Format(
                               Localizer.Str(
-                                  "You should have at least half as many Story Testing Questions as lines in the story. Please add at least {0} more testing question(s). (right-click on the 'line options' button and choose 'Add a story testing question')"),
-                              nNumLacking));
+                                  "You don’t have many testing questions yet. Are you sure you want to send it to the consultant yet? \n \n(Tip: Right-click on the 'line options' button and choose 'Add a story testing question')"),
+                              nNumLacking), "",
+                    MessageBoxButtons.YesNoCancel) == DialogResult.Yes);
 #endif
-                    return false;
+                
             }
             return true;
         }

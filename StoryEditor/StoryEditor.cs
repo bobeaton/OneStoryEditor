@@ -41,6 +41,7 @@ namespace OneStoryProjectEditor
         internal StoryProjectData StoryProject;
         internal string CurrentStoriesSetName;
 
+        public static String currentStoryName;
         private StoryData _theCurrentStory;
         public StoryData TheCurrentStory
         {
@@ -48,6 +49,7 @@ namespace OneStoryProjectEditor
             set
             {
                 _theCurrentStory = value;
+                currentStoryName = _theCurrentStory?.Name;
                 // since the task link visibility is based on this too, check and update
                 if (LoggedOnMember != null)
                     UpdateTaskLinkVisibility(LoggedOnMember);

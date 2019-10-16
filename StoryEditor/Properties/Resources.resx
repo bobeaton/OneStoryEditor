@@ -315,6 +315,9 @@ and in the resulting window click on the next (green) state.
   <data name="HTML_EmphasizedText" xml:space="preserve">
     <value>&lt;em&gt;{0}&lt;/em&gt;</value>
   </data>
+  <data name="HTML_BoldText" xml:space="preserve">
+    <value>&lt;b&gt;{0}&lt;/b&gt;</value>
+  </data>
   <data name="project_1_3_to_1_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\1.3 to 1.4.xslt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -2206,6 +2209,41 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
 		if (window.event.button == 2) 
 			window.external.ShowContextMenu();
 	}
+  function OnTextAreaKeyDown() {
+     if (window.event.ctrlKey &amp;&amp; (window.event.keyCode == 66)) {
+        transformText("$")
+     } else if (window.event.ctrlKey &amp;&amp; (window.event.keyCode == 73)) {
+        transformText("*")
+     }
+  }
+  
+  function transformText(type) {
+    if (document.selection) {
+      var rangeSelection = document.selection.createRange();
+      var selectVal = rangeSelection.text;
+      selectVal = textTrim(selectVal);
+      if(selectVal){
+        if(!startsWith(selectVal, type) || !endsWith(selectVal, type)){
+          selectVal = type+selectVal+type+" ";
+          rangeSelection.text = selectVal;
+          rangeSelection.select();
+        }
+      }
+    }
+    window.event.returnValue = false;
+    window.event.keyCode = 0;
+  }
+  
+  function textTrim(x) {
+    return x.replace(/^\s+|\s+$/gm,'');
+  }
+  function startsWith(str, word) {
+    return str.lastIndexOf(word, 0) === 0;
+  }
+  function endsWith(str, word) {
+    return str.indexOf(word, str.length - word.length) !== -1;
+  }
+      
 &lt;/script&gt;</value>
   </data>
   <data name="HTML_TableRowIdColor" xml:space="preserve">
@@ -2257,5 +2295,8 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   </data>
   <data name="BellWithoutNotifications" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bell-without-notifications.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HTML_TextareaWithRefDoubleClick" xml:space="preserve">
+    <value>&lt;textarea id="{0}" ondblclick="OnDoubleClick()" onKeyDown="OnTextAreaKeyDown()" class="{1}"&gt;{2}&lt;/textarea&gt;</value>
   </data>
 </root>

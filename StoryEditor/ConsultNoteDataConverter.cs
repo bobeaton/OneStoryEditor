@@ -725,6 +725,7 @@ namespace OneStoryProjectEditor
         readonly static Regex RegexItalics = new Regex(@"\*\b(.+?)\b\*", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         readonly static Regex RegexHttpRef = new Regex(@"((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?)", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         readonly static Regex RegexLangQuote = new Regex(@"([SRTA])?([1-4]):\/(.+?)\/", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+        readonly static Regex RegexBold = new Regex(@"\$(.+?)\$", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
 
         public static void OnLocalizationChange()
         {
@@ -839,7 +840,7 @@ namespace OneStoryProjectEditor
                     strHtmlElementId = TextareaId(nVerseIndex, nConversationIndex);
                     strRow += String.Format(Resources.HTML_TableCellForTextArea,
                                             SetHyperlinks(strReferringHtml) +
-                                            String.Format(Resources.HTML_TextareaWithRefDrop,
+                                            String.Format(Resources.HTML_TextareaWithRefDoubleClick,
                                                           strHtmlElementId,
                                                           StoryData.CstrLangInternationalBtStyleClassName,
                                                           aCI));
@@ -912,6 +913,7 @@ namespace OneStoryProjectEditor
             strHyperlinkedText = _regexBibRef.Replace(strHyperlinkedText, BibleReferenceFound);
             strHyperlinkedText = _regexLineRef.Replace(strHyperlinkedText, LineReferenceFound);
             strHyperlinkedText = RegexItalics.Replace(strHyperlinkedText, EmphasizedTextFound);
+            strHyperlinkedText = RegexBold.Replace(strHyperlinkedText, BoldTextFound); 
             strHyperlinkedText = RegexHttpRef.Replace(strHyperlinkedText, HttpReferenceFound);
             strHyperlinkedText = RegexLangQuote.Replace(strHyperlinkedText, LangQuoteFound);
             return strHyperlinkedText;
@@ -1221,6 +1223,13 @@ namespace OneStoryProjectEditor
         static string EmphasizedTextFound(Match m)
         {
             string str = String.Format(Resources.HTML_EmphasizedText,
+                m.Groups[1]);
+            return str;
+        }
+
+        static string BoldTextFound(Match m)
+        {
+            string str = String.Format(Resources.HTML_BoldText,
                 m.Groups[1]);
             return str;
         }

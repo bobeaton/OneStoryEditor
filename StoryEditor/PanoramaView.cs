@@ -246,6 +246,9 @@ namespace OneStoryProjectEditor
                 aRow.Height = _fontForDev.Height + 8;
 #endif
 
+                if (aSD.Name == StoryEditor.currentStoryName)
+                    dataGridViewPanorama.Rows[nRowIndex].Cells[0].Selected = true;
+
                 if (bInLoggedInUsersTurn)
                     aRow.DefaultCellStyle.BackColor = Color.Yellow;
             }
