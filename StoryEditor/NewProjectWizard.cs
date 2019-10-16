@@ -12,6 +12,7 @@ namespace OneStoryProjectEditor
     {
         protected StoryProjectData _storyProjectData;
         public TeamMemberData LoggedInMember;
+        public Boolean isNext = false;
 
         private bool _bStartedWithVernacular;
         private bool _bStartedWithNationalBt;
@@ -110,6 +111,7 @@ namespace OneStoryProjectEditor
             }
 
             UpdateTabPageAIBT();
+            ProcessNext();
         }
 
         private void ProcessNext()
@@ -179,7 +181,8 @@ namespace OneStoryProjectEditor
                 checkBoxDropboxRetelling.Visible = checkBoxUseDropBox.Checked;
                 checkBoxDropboxAnswers.Visible = checkBoxUseDropBox.Checked;
 
-                tabControl.SelectedIndex++;
+                if (isNext)
+                    tabControl.SelectedIndex++;
             }
             else if (tabControl.SelectedTab == tabPageInternetRepository)
             {
@@ -196,7 +199,8 @@ namespace OneStoryProjectEditor
                 Program.SetHgParameters(ProjSettings.ProjectFolder,
                     ProjSettings.ProjectName, Url, HgUsername);
 
-                tabControl.SelectedIndex++;
+                if (isNext)
+                    tabControl.SelectedIndex++;
             }
             else if (tabControl.SelectedTab == tabPageLanguages)
             {
@@ -318,7 +322,8 @@ namespace OneStoryProjectEditor
                     throw new UserException(Localizer.Str("You are configured to use Dropbox for recordings, but you didn't select any recording types (i.e. Story, Retelling or Answers) to prompt the user to copy. Either check at least one of the recording types or uncheck the Dropbox-related checkbox on the Project tab."),
                         checkBoxLanguageInternationalBT, tabPageLanguages);
                 }
-                tabControl.SelectedIndex++;
+                if (isNext)
+                    tabControl.SelectedIndex++;
             }
             else if (tabControl.SelectedTab == tabPageLanguageVernacular)
             {
@@ -401,7 +406,8 @@ namespace OneStoryProjectEditor
                                            ProjSettings.NationalBT.LangName,
                                            ProjSettings.InternationalBT.LangName);
                 }
-                tabControl.SelectedIndex++;
+                if (isNext)
+                    tabControl.SelectedIndex++;
             }
             else if (tabControl.SelectedTab == tabPageAIBT)
             {
@@ -607,6 +613,7 @@ namespace OneStoryProjectEditor
                 else
                 {
                     _bEnableTabSelection = true;
+                    isNext = true;
                     ProcessNext();
                 }
             }
@@ -624,7 +631,7 @@ namespace OneStoryProjectEditor
                 if (tabControl.SelectedIndex == (tabControl.TabPages.Count - 1))
                     buttonNext.Text = strFinishButtonText;
             }
-        }
+        }        
 
         private void FinishEdit()
         {
@@ -780,7 +787,8 @@ namespace OneStoryProjectEditor
             li.LangCode = ThrowIfTextNullOrEmpty(textBoxEthCode, Localizer.Str("Ethnologue Code"));
             li.FullStop = ThrowIfTextNullOrEmpty(textBoxSentFullStop, Localizer.Str("Sentence Final Punctuation"));
 
-            tabControl.SelectedIndex++;
+            if(isNext)
+                tabControl.SelectedIndex++;
         }
 
         private DialogResult QueryOverride(string strProperty, string strValue)
@@ -1048,8 +1056,16 @@ namespace OneStoryProjectEditor
         // for users that
         private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            if (!_bEnableTabSelection)
-                e.Cancel = true;
+            /*if (!_bEnableTabSelection)
+                e.Cancel = true;*/
+            if (tabControl.SelectedIndex == (tabControl.TabPages.Count - 1))
+            {
+                buttonNext.Text = Localizer.Str("&Finish");
+            }                
+            else
+            {
+                buttonNext.Text = Localizer.Str("&Next");
+            }
         }
 
         protected void SetKeyboard(string strKeyboardToSet)
@@ -1296,6 +1312,23 @@ namespace OneStoryProjectEditor
         private void ButtonBrowseEthnologueCodesFreeTranslationClick(object sender, EventArgs e)
         {
             ButtonBrowseEthnologueCodesClick(textBoxEthCodeFreeTranslation);
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                isNext = false;
+                ProcessNext();
+            }
+            catch (UserException ex)
+            {
+                if (ex.Tab != null)
+                    tabControl.SelectedTab = ex.Tab;
+                if (ex.Control != null)
+                    ex.Control.Focus();
+                LocalizableMessageBox.Show(ex.Message, StoryEditor.OseCaption);
+            }
         }
     }
 
