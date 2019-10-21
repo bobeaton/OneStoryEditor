@@ -793,7 +793,7 @@ namespace OneStoryProjectEditor
 
         private DialogResult QueryOverride(string strProperty, string strValue)
         {
-            return LocalizableMessageBox.Show(String.Format(Localizer.Str("Click 'Yes' to override the '{0}' {1} for yourself ('{2}') only. Click 'No' to make this change apply to every member of the team (if you all are switching to a new {1})"),
+            return LocalizableMessageBox.Show(String.Format(Localizer.Str("Do you want to override the font with '{0}' {1}? \n\nClick 'Yes' for your current login('{2}') only or click 'No' for all members in the project (if you all are switching to a new {1})."),
                                                  strProperty, strValue, LoggedInMember.Name),
                                    StoryEditor.OseCaption,
                                    MessageBoxButtons.YesNoCancel);
