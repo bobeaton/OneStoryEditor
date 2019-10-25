@@ -95,6 +95,9 @@
     <Reference Include="FluentFTP, Version=19.1.2.0, Culture=neutral, PublicKeyToken=f4af092b1d8df44f, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentFTP.19.1.2\lib\net45\FluentFTP.dll</HintPath>
     </Reference>
+    <Reference Include="GemBox.Document, Version=31.0.35.1035, Culture=neutral, PublicKeyToken=b1b72c69714d4847, processorArchitecture=MSIL">
+      <HintPath>..\packages\GemBox.Document.31.0.0.1035\lib\net35\GemBox.Document.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlEditor, Version=7.0.100.5147, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\HtmlEditor.dll</HintPath>
