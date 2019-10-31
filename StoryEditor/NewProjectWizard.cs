@@ -1056,15 +1056,17 @@ namespace OneStoryProjectEditor
         // for users that
         private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            /*if (!_bEnableTabSelection)
-                e.Cancel = true;*/
-            if (tabControl.SelectedIndex == (tabControl.TabPages.Count - 1))
+            if (!_bEnableTabSelection)
             {
-                buttonNext.Text = Localizer.Str("&Finish");
-            }                
-            else
-            {
-                buttonNext.Text = Localizer.Str("&Next");
+                // e.Cancel = true;
+                if (tabControl.SelectedIndex == (tabControl.TabPages.Count - 1))
+                {
+                    buttonNext.Text = Localizer.Str("&Finish");
+                }
+                else
+                {
+                    buttonNext.Text = Localizer.Str("&Next");
+                }
             }
         }
 
