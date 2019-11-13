@@ -253,6 +253,7 @@ namespace OneStoryProjectEditor
             advancedUseWordBreaks.Enabled = BreakIterator.IsAvailable;
             advancedAutomaticallyLoadProjectMenu.Checked = Settings.Default.AutoLoadLastProject;
             advancedAutomaticallySendandReceiveWindowMenu.Checked = Settings.Default.AutoSendReceiveAfterTurnChange;
+            advancedPopupReminderForStoryInYourStateMenu.Checked = Settings.Default.AutoPopupReminderAfterTurnChange;
 
             if (advancedSaveTimeoutEnabledMenu.Checked)
             {
@@ -6718,6 +6719,12 @@ namespace OneStoryProjectEditor
         private void advancedAutomaticallySendandReceiveWindowMenu_CheckStateChanged(object sender, EventArgs e)
         {
             Settings.Default.AutoSendReceiveAfterTurnChange = advancedAutomaticallySendandReceiveWindowMenu.Checked;
+            Settings.Default.Save();
+        }
+
+        private void advancedPopupReminderForStoryInYourStateMenu_CheckStateChanged(object sender, EventArgs e)
+        {
+            Settings.Default.AutoPopupReminderAfterTurnChange = advancedPopupReminderForStoryInYourStateMenu.Checked;
             Settings.Default.Save();
         }
 

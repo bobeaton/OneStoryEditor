@@ -185,7 +185,7 @@ namespace OneStoryProjectEditor
             this.advancedUseDialogToPreviewConNotes = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedAutomaticallySendandReceiveWindowMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedAutomaticallyLoadProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.advancedpopupReminderForStoryInYourStateMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedPopupReminderForStoryInYourStateMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -1346,7 +1346,7 @@ namespace OneStoryProjectEditor
             this.advancedUseDialogToPreviewConNotes,
             this.advancedAutomaticallySendandReceiveWindowMenu,
             this.advancedAutomaticallyLoadProjectMenu,
-            this.advancedpopupReminderForStoryInYourStateMenu});
+            this.advancedPopupReminderForStoryInYourStateMenu});
             this.advancedToolStripMenu.Name = "advancedToolStripMenu";
             this.advancedToolStripMenu.Size = new System.Drawing.Size(72, 27);
             this.advancedToolStripMenu.Text = "A&dvanced";
@@ -1594,16 +1594,16 @@ namespace OneStoryProjectEditor
     "ened";
             this.advancedAutomaticallyLoadProjectMenu.CheckStateChanged += new System.EventHandler(this.advancedAutomaticallyLoadProjectMenu_CheckStateChanged);
             // 
-            // advancedpopupReminderForStoryInYourStateMenu
+            // advancedPopupReminderForStoryInYourStateMenu
             // 
-            this.advancedpopupReminderForStoryInYourStateMenu.Checked = true;
-            this.advancedpopupReminderForStoryInYourStateMenu.CheckOnClick = true;
-            this.advancedpopupReminderForStoryInYourStateMenu.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.advancedpopupReminderForStoryInYourStateMenu.Name = "advancedpopupReminderForStoryInYourStateMenu";
-            this.advancedpopupReminderForStoryInYourStateMenu.Size = new System.Drawing.Size(314, 22);
-            this.advancedpopupReminderForStoryInYourStateMenu.Text = "Popup Reminder for Story in your State";
-            this.advancedpopupReminderForStoryInYourStateMenu.ToolTipText = "An option to enable/disable the Popup reminder for \'story in your state\'";
-            //this.advancedpopupReminderForStoryInYourStateMenu.CheckStateChanged += new System.EventHandler(this.advancedpopupReminderForStoryInYourStateMenu_CheckStateChanged);
+            this.advancedPopupReminderForStoryInYourStateMenu.Checked = true;
+            this.advancedPopupReminderForStoryInYourStateMenu.CheckOnClick = true;
+            this.advancedPopupReminderForStoryInYourStateMenu.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.advancedPopupReminderForStoryInYourStateMenu.Name = "advancedpopupReminderForStoryInYourStateMenu";
+            this.advancedPopupReminderForStoryInYourStateMenu.Size = new System.Drawing.Size(314, 22);
+            this.advancedPopupReminderForStoryInYourStateMenu.Text = "Popup Reminder for Story in your State";
+            this.advancedPopupReminderForStoryInYourStateMenu.ToolTipText = "An option to enable/disable the Popup reminder for \'story in your state\'";
+            this.advancedPopupReminderForStoryInYourStateMenu.CheckStateChanged += new System.EventHandler(this.advancedPopupReminderForStoryInYourStateMenu_CheckStateChanged);
             // 
             // aboutToolStripMenu
             // 
@@ -2238,7 +2238,7 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator11;
         private ToolStripButton toolStripButtonShowStoriesInYourState;
         private ToolStripMenuItem advancedAutomaticallySendandReceiveWindowMenu;
-        private ToolStripMenuItem advancedpopupReminderForStoryInYourStateMenu;
+        private ToolStripMenuItem advancedPopupReminderForStoryInYourStateMenu;
     }
 
 #if UsingHtmlDisplayForConNotes
