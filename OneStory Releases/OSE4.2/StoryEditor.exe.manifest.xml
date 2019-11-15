@@ -4,7 +4,7 @@
 	<ApplicationExecutable/>
 	<ApplicationName>OneStory Editor AutoUpdater</ApplicationName>
 	<FullUpgradeFileName/>
-	<OffsetFromUctWhereManifestWasOriginallyCreated>2019-08-03T11:28:51.5955393-05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+	<OffsetFromUctWhereManifestWasOriginallyCreated>2019-10-05T15:09:34.7654065-05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
 	<ManifestFiles>
 		<File name="AdaptIt-ChorusPlugin.dll" method="version" action="copy" version="4.2.0.0" optional="false" size="6750">AdaptIt ChorusPlugin</File>
 		<File name="AiChorus.exe" method="version" action="copy" version="4.2.0.0" optional="false" size="27293">AiChorus</File>
@@ -70,7 +70,7 @@
 		<File name="SIL.WritingSystems.dll" method="version" action="copy" version="6.0.0.287" optional="false" size="725849">SIL.WritingSystems</File>
 		<File name="SIL.WritingSystems.pdb" method="md5" action="copy" version="6f28089bb4ed7563b1f7623e8b7ba847" optional="false" size="62984"/>
 		<File name="Spart.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="11219">Spart</File>
-		<File name="StoryEditor.exe" method="version" action="copy" version="4.2.0.0" optional="false" size="514021">OneStory Editor</File>
+		<File name="StoryEditor.exe" method="version" action="copy" version="4.2.1.0" optional="false" size="514189">OneStory Editor</File>
 		<File name="StoryEditor.exe.config" method="md5" action="copy" version="8769233145ba6ae0465aa211bfa9b671" optional="false" size="3125"/>
 		<File name="taglib-sharp.dll" method="version" action="copy" version="2.1.2.0" optional="false" size="170411">TagLib#</File>
 		<File name="Vulcan.Uczniowie.HelpProvider.dll" method="version" action="copy" version="1.0.2.0" optional="false" size="19782">Vulcan.Uczniowie.HelpProvider</File>
