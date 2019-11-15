@@ -46,16 +46,23 @@ namespace OneStoryProjectEditor
             if (saveWordFileDialog.ShowDialog() != DialogResult.OK)
                 return;
 
-            ComponentInfo.SetLicense("FREE-LIMITED-KEY");
-            ComponentInfo.FreeLimitReached += (senders, e1) => e1.FreeLimitReachedAction = FreeLimitReachedAction.ContinueAsTrial;
-            string strDocumentText = webBrowser.DocumentText;
-
-            var htmlLoadOptions = new HtmlLoadOptions();
-            using (var htmlStream = new MemoryStream(htmlLoadOptions.Encoding.GetBytes(strDocumentText)))
+            try
             {
-                var document = DocumentModel.Load(htmlStream, htmlLoadOptions);
-                // Save output PDF file.
-                document.Save(saveWordFileDialog.FileName);
+                ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+                ComponentInfo.FreeLimitReached += (senders, e1) => e1.FreeLimitReachedAction = FreeLimitReachedAction.ContinueAsTrial;
+                string strDocumentText = webBrowser.DocumentText;
+
+                var htmlLoadOptions = new HtmlLoadOptions();
+                using (var htmlStream = new MemoryStream(htmlLoadOptions.Encoding.GetBytes(strDocumentText)))
+                {
+                    var document = DocumentModel.Load(htmlStream, htmlLoadOptions);
+                    // Save output PDF file.
+                    document.Save(saveWordFileDialog.FileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                Program.ShowException(ex);
             }
         }
     }

@@ -6935,7 +6935,6 @@ namespace OneStoryProjectEditor
                 {
                     Program.ShowException(ex);
                 }
-
             }
         }
 
