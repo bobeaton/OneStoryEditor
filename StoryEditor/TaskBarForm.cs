@@ -25,5 +25,13 @@ namespace OneStoryProjectEditor
             Localizer.Ctrl(this);
             taskBarControl.Initialize(theSe, theStoryProjectData, theStory);
         }
+
+        public bool CheckForAutoSendReceive
+        {
+            get
+            {
+                return this.taskBarControl.CheckForAutoSendReceive;
+            }
+        }
     }
 }

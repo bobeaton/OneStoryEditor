@@ -4877,6 +4877,9 @@ namespace OneStoryProjectEditor
 
         public void UpdateNotificationBellUI()
         {
+            if (!this.advancedPopupReminderForStoryInYourStateMenu.Checked)
+                return;
+
             this.toolStripRecordNavigation.SuspendLayout();
             // TODO: the proper bell needs to be set
             if (MoveToNextStoryInLoggedInMembersTurn())
@@ -6921,6 +6924,19 @@ namespace OneStoryProjectEditor
 
             var dlg = new TaskBarForm(this, StoryProject, TheCurrentStory);
             dlg.ShowDialog();
+
+            if (dlg.CheckForAutoSendReceive && (StoryProject?.ProjSettings != null) && (LoggedOnMember != null))
+            {
+                try
+                {
+                    sendReceiveToolStripMenuItem_Click(null, null);
+                }
+                catch (Exception ex)
+                {
+                    Program.ShowException(ex);
+                }
+
+            }
         }
 
         private void synchronizeSharedAdaptItProjectsToolStripMenuItem_Click(object sender, EventArgs e)
