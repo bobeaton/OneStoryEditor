@@ -507,7 +507,7 @@ namespace OneStoryProjectEditor
                     return;
 
                 TheSe.SetNextStateAdvancedOverride(
-                    StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBTTest1, true);
+                    StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBTTest1, false);
             }
             // ... or coming backwards from the CIT/IC
             else if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType,
@@ -520,7 +520,7 @@ namespace OneStoryProjectEditor
                 TheSe.SetNextStateAdvancedOverride(
                     TheStory.CraftingInfo.IsBiblicalStory
                         ? StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotesAfterUnsTest
-                        : StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotesBeforeUnsTest, true);
+                        : StoryStageLogic.ProjectStages.eBackTranslatorTranslateConNotesBeforeUnsTest, false);
             }
 
             // TODO: Add OutsideEnglishBackTranslator to the StoryFrontMatterForm
@@ -529,7 +529,7 @@ namespace OneStoryProjectEditor
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
                 TheStory.CraftingInfo.OutsideEnglishBackTranslator,
                 FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
-            CheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
+            SetCheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
             TheSe.UpdateNotificationBellUI();
         }
 
@@ -600,13 +600,13 @@ namespace OneStoryProjectEditor
                         TasksCit.TaskSettings.SendToCoachForReview;
             }
 
-            TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eConsultantCheck2, true);
+            TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eConsultantCheck2, false);
 
             // Send the consultant for this story an email
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
                 TheStory.CraftingInfo.Consultant,
                 FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
-            CheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
+            SetCheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
             TheSe.UpdateNotificationBellUI();
         }
 
@@ -660,19 +660,11 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private static void CheckForAutoSendReceive(StoryProjectData theProject, TeamMemberData loggedOnMember)
+        public bool CheckForAutoSendReceive { get; set; }
+
+        private void SetCheckForAutoSendReceive(StoryProjectData theProject, TeamMemberData loggedOnMember)
         {
-            try
-            {
-                if (Properties.Settings.Default.AutoSendReceiveAfterTurnChange)
-                {
-                    theProject.ProjSettings.SyncWithRepository(loggedOnMember.HgUsername, loggedOnMember.HgPassword);
-                }
-            }
-            catch (Exception ex)
-            {
-                Program.ShowException(ex);
-            }
+            CheckForAutoSendReceive = true;
         }
 
         private bool CheckForPfDone()
@@ -719,12 +711,12 @@ namespace OneStoryProjectEditor
             }
 
             // this applies regardless of who it's coming from
-            TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacRevisesAfterUnsTest, true);
+            TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eProjFacRevisesAfterUnsTest, false);
 
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
                 TheStory.CraftingInfo.ProjectFacilitator,
                 FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
-            CheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
+            SetCheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
             TheSe.UpdateNotificationBellUI();
         }
 
@@ -817,24 +809,24 @@ namespace OneStoryProjectEditor
             if (!CheckEndOfStateTransition.CheckThatCITAnsweredPFsQuestions(TheSe, TheStory))
                 return;
 
-            TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eTeamComplete, true);
+            TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eTeamComplete, false);
 
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
                 TheStory.CraftingInfo.ProjectFacilitator,
                 FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
-            CheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
+            SetCheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
         }
 
         private void buttonMarkFinalApproval_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Assert(ParentForm != null);
             ParentForm.Close();
-            TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eTeamFinalApproval, true);
+            TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eTeamFinalApproval, false);
             
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
                       TheStory.CraftingInfo.ProjectFacilitator,
                       FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
-            CheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
+            SetCheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
         }
 
         private void buttonSendToCoach_Click(object sender, EventArgs e)
@@ -873,12 +865,12 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eCoachReviewRound2Notes, true);
+            TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eCoachReviewRound2Notes, false);
 
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
                 TheStory.CraftingInfo.Coach,
                 FinalConNoteComments(TheStory.Verses.FirstVerse.CoachNotes));
-            CheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
+            SetCheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
             TheSe.UpdateNotificationBellUI();
         }
 
@@ -928,12 +920,12 @@ namespace OneStoryProjectEditor
             if (!SetCitTasksForm.EditCitTasks(ref TheStory))
                 return;
 
-            TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eConsultantCauseRevisionAfterUnsTest, true);
+            TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eConsultantCauseRevisionAfterUnsTest, false);
 
             SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
                 TheStory.CraftingInfo.Consultant,
                 FinalConNoteComments(TheStory.Verses.FirstVerse.CoachNotes));
-            CheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
+            SetCheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
             TheSe.UpdateNotificationBellUI();
         }
 

@@ -1101,5 +1101,17 @@ namespace OneStoryProjectEditor.Properties {
                 this["AutoSendReceiveAfterTurnChange"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoPopupReminderAfterTurnChange {
+            get {
+                return ((bool)(this["AutoPopupReminderAfterTurnChange"]));
+            }
+            set {
+                this["AutoPopupReminderAfterTurnChange"] = value;
+            }
+        }
     }
 }

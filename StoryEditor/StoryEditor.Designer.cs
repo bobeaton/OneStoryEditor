@@ -185,6 +185,7 @@ namespace OneStoryProjectEditor
             this.advancedUseDialogToPreviewConNotes = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedAutomaticallySendandReceiveWindowMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedAutomaticallyLoadProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedPopupReminderForStoryInYourStateMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -1344,7 +1345,8 @@ namespace OneStoryProjectEditor
             this.advancedOneStoryProjectMetaData,
             this.advancedUseDialogToPreviewConNotes,
             this.advancedAutomaticallySendandReceiveWindowMenu,
-            this.advancedAutomaticallyLoadProjectMenu});
+            this.advancedAutomaticallyLoadProjectMenu,
+            this.advancedPopupReminderForStoryInYourStateMenu});
             this.advancedToolStripMenu.Name = "advancedToolStripMenu";
             this.advancedToolStripMenu.Size = new System.Drawing.Size(72, 27);
             this.advancedToolStripMenu.Text = "A&dvanced";
@@ -1591,6 +1593,17 @@ namespace OneStoryProjectEditor
             this.advancedAutomaticallyLoadProjectMenu.ToolTipText = "Uncheck this menu if you don\'t want OSE to automatically load the last project op" +
     "ened";
             this.advancedAutomaticallyLoadProjectMenu.CheckStateChanged += new System.EventHandler(this.advancedAutomaticallyLoadProjectMenu_CheckStateChanged);
+            // 
+            // advancedPopupReminderForStoryInYourStateMenu
+            // 
+            this.advancedPopupReminderForStoryInYourStateMenu.Checked = true;
+            this.advancedPopupReminderForStoryInYourStateMenu.CheckOnClick = true;
+            this.advancedPopupReminderForStoryInYourStateMenu.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.advancedPopupReminderForStoryInYourStateMenu.Name = "advancedpopupReminderForStoryInYourStateMenu";
+            this.advancedPopupReminderForStoryInYourStateMenu.Size = new System.Drawing.Size(314, 22);
+            this.advancedPopupReminderForStoryInYourStateMenu.Text = "Popup Reminder for Story in your State";
+            this.advancedPopupReminderForStoryInYourStateMenu.ToolTipText = "An option to enable/disable the Popup reminder for \'story in your state\'";
+            this.advancedPopupReminderForStoryInYourStateMenu.CheckStateChanged += new System.EventHandler(this.advancedPopupReminderForStoryInYourStateMenu_CheckStateChanged);
             // 
             // aboutToolStripMenu
             // 
@@ -2225,6 +2238,7 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator11;
         private ToolStripButton toolStripButtonShowStoriesInYourState;
         private ToolStripMenuItem advancedAutomaticallySendandReceiveWindowMenu;
+        private ToolStripMenuItem advancedPopupReminderForStoryInYourStateMenu;
     }
 
 #if UsingHtmlDisplayForConNotes

@@ -253,6 +253,7 @@ namespace OneStoryProjectEditor
             advancedUseWordBreaks.Enabled = BreakIterator.IsAvailable;
             advancedAutomaticallyLoadProjectMenu.Checked = Settings.Default.AutoLoadLastProject;
             advancedAutomaticallySendandReceiveWindowMenu.Checked = Settings.Default.AutoSendReceiveAfterTurnChange;
+            advancedPopupReminderForStoryInYourStateMenu.Checked = Settings.Default.AutoPopupReminderAfterTurnChange;
 
             if (advancedSaveTimeoutEnabledMenu.Checked)
             {
@@ -4876,6 +4877,9 @@ namespace OneStoryProjectEditor
 
         public void UpdateNotificationBellUI()
         {
+            if (!this.advancedPopupReminderForStoryInYourStateMenu.Checked)
+                return;
+
             this.toolStripRecordNavigation.SuspendLayout();
             // TODO: the proper bell needs to be set
             if (MoveToNextStoryInLoggedInMembersTurn())
@@ -6721,6 +6725,12 @@ namespace OneStoryProjectEditor
             Settings.Default.Save();
         }
 
+        private void advancedPopupReminderForStoryInYourStateMenu_CheckStateChanged(object sender, EventArgs e)
+        {
+            Settings.Default.AutoPopupReminderAfterTurnChange = advancedPopupReminderForStoryInYourStateMenu.Checked;
+            Settings.Default.Save();
+        }
+
         private void sendReceiveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Debug.Assert((StoryProject != null) &&
@@ -6914,6 +6924,19 @@ namespace OneStoryProjectEditor
 
             var dlg = new TaskBarForm(this, StoryProject, TheCurrentStory);
             dlg.ShowDialog();
+
+            if (dlg.CheckForAutoSendReceive && (StoryProject?.ProjSettings != null) && (LoggedOnMember != null))
+            {
+                try
+                {
+                    sendReceiveToolStripMenuItem_Click(null, null);
+                }
+                catch (Exception ex)
+                {
+                    Program.ShowException(ex);
+                }
+
+            }
         }
 
         private void synchronizeSharedAdaptItProjectsToolStripMenuItem_Click(object sender, EventArgs e)
