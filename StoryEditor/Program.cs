@@ -771,7 +771,7 @@ namespace OneStoryProjectEditor
                 }
                 catch { }
 
-                if (!String.IsNullOrEmpty(strRepoUrl))
+                /*if (!String.IsNullOrEmpty(strRepoUrl))
                 {
                     var nullProgress = new NullProgress();
                     var repo = new HgRepository(strProjectFolder, nullProgress);
@@ -782,7 +782,7 @@ namespace OneStoryProjectEditor
                             if (String.IsNullOrEmpty(strSharedNetworkUrl))
                                 return;
                         }
-                }
+                } */
 
                 SyncWithAiRepo(strProjectFolder, strProjectName, strRepoUrl, strSharedNetworkUrl, HaveCalledAdaptIt);
             }
