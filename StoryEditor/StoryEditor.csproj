@@ -1055,7 +1055,8 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /S /Y /I $(SolutionDir)ChorusDeps\mercurial $(SolutionDir)output\$(ConfigurationName)\mercurial
-xcopy /S /Y /I $(SolutionDir)ChorusDeps\MercurialExtensions $(SolutionDir)output\$(ConfigurationName)\MercurialExtensions</PostBuildEvent>
+xcopy /S /Y /I $(SolutionDir)ChorusDeps\MercurialExtensions $(SolutionDir)output\$(ConfigurationName)\MercurialExtensions
+xcopy /S /Y /I $(SolutionDir)DepDLLs\EC\Plugins $(SolutionDir)output\$(ConfigurationName)\EC\Plugins</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

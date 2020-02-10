@@ -39,7 +39,7 @@ namespace OneStoryProjectEditor
         internal const string CstrButtonDropTargetName = "buttonDropTarget";
 
         internal StoryProjectData StoryProject;
-        internal string CurrentStoriesSetName;
+        internal string CurrentStoriesSetName = Resources.IDS_MainStoriesSet;   // otherwise Add New Project errors out
 
         public static String currentStoryName;
         private StoryData _theCurrentStory;

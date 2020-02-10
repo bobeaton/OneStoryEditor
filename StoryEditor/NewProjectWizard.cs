@@ -111,7 +111,8 @@ namespace OneStoryProjectEditor
             }
 
             UpdateTabPageAIBT();
-            ProcessNext();
+            // I think we don't want this until the user presses Next
+            //  ProcessNext();
         }
 
         private void ProcessNext()

@@ -271,6 +271,13 @@ namespace OneStoryProjectEditor
                     "UNICODE", "UNICODE", ProcessTypeFlags.DontKnow);
 
                 IEncConverter theEc = theECs[strConverterName];
+                if (theEc == null)
+                {
+                    LocalizableMessageBox.Show(Localizer.Str(@"Unable to create an AdaptIt glossing converter for the project! Are you missing the file <InstallDir>\EC\Plugins\AI 4.0.0.0 Plugin Details.xml"),
+                                               StoryEditor.OseCaption,
+                                               MessageBoxButtons.OKCancel);
+                    return;
+                }
                 AdaptItConverterName = theEc.Name;
             }
             else // the project *is* on this machine...
