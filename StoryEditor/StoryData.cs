@@ -2038,11 +2038,13 @@ namespace OneStoryProjectEditor
                 projFile.stories.AddstoriesRow(Properties.Resources.IDS_ObsoleteStoriesSet,
                     projFile.StoryProject[0]);
             }
-                // new 'non-biblical' stories set added in 2.4
-            else if (projFile.stories.Count == 2)
-                projFile.stories.AddstoriesRow(Properties.Resources.IDS_NonBibStoriesSet,
-                    projFile.StoryProject[0]);
-
+            // new 'non-biblical' stories set added in 2.4 
+            // UPDATE (2/11/20): unless it's already there -- see trio-mina rev 91
+            else if ((projFile.stories.Count == 2) && 
+                     !projFile.StoryProject[0].GetstoriesRows().Any(s => s.SetName == Properties.Resources.IDS_NonBibStoriesSet))
+            {
+                projFile.stories.AddstoriesRow(Properties.Resources.IDS_NonBibStoriesSet, projFile.StoryProject[0]);
+            }
             TeamMembers = new TeamMembersData(projFile);
             ProjSettings.SerializeProjectSettings(projFile);
             LnCNotes = new LnCNotesData(projFile);
