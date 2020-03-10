@@ -4,20 +4,21 @@
 	<ApplicationExecutable/>
 	<ApplicationName>OneStory Editor AutoUpdater</ApplicationName>
 	<FullUpgradeFileName/>
-	<OffsetFromUctWhereManifestWasOriginallyCreated>2019-10-05T15:09:34.7654065-05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+	<OffsetFromUctWhereManifestWasOriginallyCreated>2020-03-10T07:15:52.1185820-05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
 	<ManifestFiles>
-		<File name="AdaptIt-ChorusPlugin.dll" method="version" action="copy" version="4.2.0.0" optional="false" size="6750">AdaptIt ChorusPlugin</File>
-		<File name="AiChorus.exe" method="version" action="copy" version="4.2.0.0" optional="false" size="27293">AiChorus</File>
+		<File name="AdaptIt-ChorusPlugin.dll" method="version" action="copy" version="4.2.0.0" optional="false" size="6751">AdaptIt ChorusPlugin</File>
+		<File name="AiChorus.exe" method="version" action="copy" version="4.2.0.0" optional="false" size="27291">AiChorus</File>
 		<File name="AiChorus.exe.config" method="md5" action="copy" version="1c501292e6a1e8baca82bc2e157001f5" optional="false" size="775"/>
-		<File name="AIGuesserEC.dll" method="version" action="copy" version="4.0.4.0" optional="false" size="44128">AdaptIt Encoding Converters</File>
+		<File name="AIGuesserEC.dll" method="version" action="copy" version="4.0.4.0" optional="false" size="44428">AdaptIt Encoding Converters</File>
 		<File name="Autofac.DLL" method="version" action="copy" version="2.6.3.862" optional="false" size="74881">Autofac</File>
 		<File name="AutoUpgrade.exe.config" method="md5" action="copy" version="f8d26c196c9aa0f39458a5bed0d35c1f" optional="false" size="756"/>
-		<File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="4.0.0.1" optional="false" size="16885">AutoUpgrade Lib</File>
+		<File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="4.0.0.1" optional="false" size="16884">AutoUpgrade Lib</File>
 		<File name="ChorusHub.exe" method="version" action="copy" version="2.6.384.0" optional="false" size="11132">ChorusHub</File>
 		<File name="ChorusHub.pdb" method="md5" action="copy" version="0df5e2d358e71cfe6266028327b18def" optional="false" size="10686"/>
 		<File name="ChorusHubApp.exe" method="version" action="copy" version="2.6.384.0" optional="false" size="7289">ChorusHub</File>
 		<File name="ChorusHubApp.pdb" method="md5" action="copy" version="8403b69391965b7706aef4e527f5457e" optional="false" size="3424"/>
 		<File name="Commons.Xml.Relaxng.dll" method="version" action="copy" version="4.0.0.0" optional="false" size="84150"/>
+		<File name="ECInterfaces.dll" method="version" action="copy" version="4.0.2.0" optional="false" size="47048">Encoding Converters Interfaces</File>
 		<File name="Enchant.Net.dll" method="version" action="copy" version="1.4.3.1" optional="false" size="8265">Enchant.Net</File>
 		<File name="Enchant.Net.dll.config" method="md5" action="copy" version="f43e536803e4c02fc20eeb11801c2ab9" optional="false" size="315"/>
 		<File name="FluentFTP.dll" method="OneOff" action="copy" version="19.1.2.0" optional="false" size="88398">FluentFTP</File>
@@ -36,7 +37,7 @@
 		<File name="L10NSharp.pdb" method="md5" action="copy" version="8c2cbf9aa628863b0a4cc5d66137098a" optional="false" size="47066"/>
 		<File name="NDesk.DBus.DLL" method="version" action="copy" version="1.0.0.0" optional="false" size="52711"/>
 		<File name="Newtonsoft.Json.dll" method="version" action="copy" version="11.0.1.21818" optional="false" size="249976">Json.NET</File>
-		<File name="OneStory-ChorusPlugin.dll" method="version" action="copy" version="4.2.0.0" optional="false" size="8375">OneStory ChorusPlugin</File>
+		<File name="OneStory-ChorusPlugin.dll" method="version" action="copy" version="4.2.0.0" optional="false" size="8373">OneStory ChorusPlugin</File>
 		<File name="SIL.Archiving.dll" method="version" action="copy" version="6.0.0.287" optional="false" size="80978">SIL.Archiving</File>
 		<File name="SIL.Archiving.dll.config" method="md5" action="copy" version="d3c988fff01bdce3d9b995dfe8a24202" optional="false" size="756"/>
 		<File name="SIL.Archiving.pdb" method="md5" action="copy" version="47c2a599da9039b278565c19761a6a11" optional="false" size="95298"/>
@@ -69,9 +70,11 @@
 		<File name="SIL.Windows.Forms.WritingSystems.pdb" method="md5" action="copy" version="ca1864b97a31b630882d9acb2d8e6197" optional="false" size="82684"/>
 		<File name="SIL.WritingSystems.dll" method="version" action="copy" version="6.0.0.287" optional="false" size="725849">SIL.WritingSystems</File>
 		<File name="SIL.WritingSystems.pdb" method="md5" action="copy" version="6f28089bb4ed7563b1f7623e8b7ba847" optional="false" size="62984"/>
+		<File name="SilEncConverters40.dll" method="version" action="copy" version="4.0.2.0" optional="false" size="83449">Encoding Converters</File>
 		<File name="Spart.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="11219">Spart</File>
-		<File name="StoryEditor.exe" method="version" action="copy" version="4.2.1.0" optional="false" size="514189">OneStory Editor</File>
-		<File name="StoryEditor.exe.config" method="md5" action="copy" version="8769233145ba6ae0465aa211bfa9b671" optional="false" size="3125"/>
+		<File name="StoryEditor.exe" method="version" action="copy" version="4.2.3.0" optional="false" size="517068">OneStory Editor</File>
+		<File name="StoryEditor.exe.config" method="md5" action="copy" version="956728ac63054f767cf23bcce795a6f2" optional="false" size="3136"/>
+		<File name="StoryEditor.pdb" method="md5" action="copy" version="3838eeb59a1b5ff15e31b85a0175737e" optional="false" size="668774"/>
 		<File name="taglib-sharp.dll" method="version" action="copy" version="2.1.2.0" optional="false" size="170411">TagLib#</File>
 		<File name="Vulcan.Uczniowie.HelpProvider.dll" method="version" action="copy" version="1.0.2.0" optional="false" size="19782">Vulcan.Uczniowie.HelpProvider</File>
 		<File name="LocData\es.xml" method="md5" action="copy" version="4652054b3d0ae91f92ef4d3cc28af30d" optional="false" size="41487"/>
