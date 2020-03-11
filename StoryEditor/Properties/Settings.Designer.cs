@@ -1072,7 +1072,7 @@ namespace OneStoryProjectEditor.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("40.69.190.10")]
+        [global::System.Configuration.DefaultSettingValueAttribute("ose.centralus.cloudapp.azure.com")]
         public string OseServerIpAddress {
             get {
                 return ((string)(this["OseServerIpAddress"]));

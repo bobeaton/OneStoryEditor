@@ -73,6 +73,7 @@ Namespace devX
             ' This version of Create is designed for use when the manifest data is
             ' returned independantly of this class (for example, my Login webservice
             ' returns the manifest data on success in order to save a round-trip).
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12
             Dim upgInstance As AutoUpgrade
             Dim xmlSerializer As XmlSerializer
 
@@ -189,9 +190,10 @@ Namespace devX
                 GetWebRequest = System.Net.WebRequest.Create(strFilename)
             Else
 #If UseSeedCo Then
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12
                 ServicePointManager.ServerCertificateValidationCallback = AddressOf MyCertValidationCb
                 Dim ftpWebRequest As FtpWebRequest = System.Net.WebRequest.Create(strFilename)
-                ftpWebRequest.KeepAlive = False
+                ftpWebRequest.KeepAlive = True
                 ftpWebRequest.EnableSsl = True
                 ftpWebRequest.UsePassive = True
                 ftpWebRequest.UseBinary = True

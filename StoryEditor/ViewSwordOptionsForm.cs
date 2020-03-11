@@ -213,7 +213,8 @@ namespace OneStoryProjectEditor
 #if UseFluentFtp
                 var ftp = new FtpClient(host)
                 {
-                    Credentials = new System.Net.NetworkCredential(user, pass)
+                    Credentials = new System.Net.NetworkCredential(user, pass),
+                    SslProtocols = System.Security.Authentication.SslProtocols.Tls12
                 };
                 ftp.Connect();
 #else

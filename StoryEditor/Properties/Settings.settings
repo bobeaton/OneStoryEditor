@@ -385,7 +385,7 @@
         </Value>
     </Setting>
     <Setting Name="OseServerIpAddress" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">40.69.190.10</Value>
+      <Value Profile="(Default)">ose.centralus.cloudapp.azure.com</Value>
     </Setting>
     <Setting Name="ProjectNameToLastStoriesSetWorkedOn" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
@@ -395,6 +395,6 @@
     </Setting>
     <Setting Name="AutoPopupReminderAfterTurnChange" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
-    </Setting>    
+    </Setting>
   </Settings>
 </SettingsFile>
