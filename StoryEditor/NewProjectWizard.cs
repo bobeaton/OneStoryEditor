@@ -112,7 +112,7 @@ namespace OneStoryProjectEditor
 
             UpdateTabPageAIBT();
             // I think we don't want this until the user presses Next
-            //  ProcessNext();
+            ProcessNext();
         }
 
         private void ProcessNext()
