@@ -237,5 +237,10 @@ namespace OneStoryProjectEditor
             Properties.Settings.Default.LastPrintSettings = ViewSettings.LongValue;
             Properties.Settings.Default.Save();
         }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
