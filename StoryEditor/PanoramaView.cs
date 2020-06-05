@@ -977,6 +977,11 @@ namespace OneStoryProjectEditor
             var point = new Point(contextMenuStripTabs.Left, contextMenuStripTabs.Top);
             int hoverTab_index = getHoverTabIndex(tabControlSets, point) + 1;  // it'll be the next index
 
+            var hoverTab = tabControlSets.TabPages[hoverTab_index-1];
+            if (hoverTab.Text == StoriesSetNameLocalized)
+            {
+                hoverTab_index = hoverTab_index - 1;
+            }
             if ((tabControlSets.Controls.Count < hoverTab_index) || (hoverTab_index < 2))
                 return; // not a legitimate value
 
@@ -987,7 +992,7 @@ namespace OneStoryProjectEditor
             AddTabPage(strStoriesSetName, hoverTab_index);
             Modified = true;
         }
-
+        
         private void menuDelete_Click(object sender, EventArgs e)
         {
             var point = new Point(contextMenuStripTabs.Left, contextMenuStripTabs.Top);
