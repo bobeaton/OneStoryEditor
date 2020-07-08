@@ -908,7 +908,6 @@ namespace OneStoryProjectEditor
 
                 if (Modified)
                 {
-                    LocalizableMessageBox.Show("Do you want to save the changes ?", OseCaption, MessageBoxButtons.YesNo);
                     SaveClicked();
 
                     if (TheCurrentStory != null)

@@ -607,6 +607,18 @@ namespace OneStoryProjectEditor
             var strFinishButtonText = Localizer.Str("&Finish");
             try
             {
+                if (buttonNext.Text != strFinishButtonText && Modified)
+                {
+                    var res = LocalizableMessageBox.Show("Do you want to save the changes ?", StoryEditor.OseCaption, MessageBoxButtons.YesNo);
+                    if (res == DialogResult.Yes)
+                    {
+                        FinishEdit();
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
                 if (buttonNext.Text == strFinishButtonText)
                 {
                     FinishEdit();
