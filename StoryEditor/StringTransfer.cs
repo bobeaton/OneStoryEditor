@@ -165,10 +165,10 @@ namespace OneStoryProjectEditor
         {
             string str = Value;
             Transliterator = transliterator;    // need to to properly set 'readonly' if it's turned on
-            if (transliterator != null)
+            if (!String.IsNullOrEmpty(str) && (transliterator != null))
                 try
                 {
-                    str = transliterator.Convert(Value);
+                    str = transliterator.Convert(str);
                 }
                 catch { }
 
