@@ -535,11 +535,31 @@ namespace OneStoryProjectEditor
 
         private void ButtonDeleteClick(object sender, EventArgs e)
         {
-            // make sure the user really wants to do this
-            if (LocalizableMessageBox.Show(Localizer.Str("Are you sure you want to delete selected stories ?"),
-                                StoryEditor.OseCaption,
-                                MessageBoxButtons.YesNoCancel) == DialogResult.No)
+            string storyNames = null;
+            foreach (DataGridViewRow row in dataGridViewPanorama.SelectedRows)
+            {
+                int nSelectedRowIndex = row.Index;
+                if ((nSelectedRowIndex < 0) || (nSelectedRowIndex > dataGridViewPanorama.Rows.Count - 1))
+                    return;
+
+                DataGridViewRow theRow = dataGridViewPanorama.Rows[nSelectedRowIndex];
+                DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
+                if (theNameCell.Value == null)
+                    return; // shouldn't happen, but...
+
+                storyNames += Environment.NewLine + theNameCell.Value as string;
+            }
+
+            if (String.IsNullOrEmpty(storyNames))
                 return;
+
+            // make sure the user really wants to do this
+            else if (LocalizableMessageBox.Show(String.Format(Localizer.Str("Are you sure you want to delete these stories?{0}{0}{1}"), Environment.NewLine, storyNames),
+                                                StoryEditor.OseCaption,
+                                                MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+            {
+                return;
+            }
 
             //System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedRows.Count < 2);   // 1 or 0
             //if (dataGridViewPanorama.SelectedRows.Count != 1)
@@ -599,7 +619,10 @@ namespace OneStoryProjectEditor
             TabPage tab = e.TabPage;
             if ((tab != null) && (tab != tabPageFrontMatter))
             {
-                InitStoriesTab(tab.Text);
+                if (tab == newTabPage)
+                    menuAddNew_Click(sender, null);
+                else
+                    InitStoriesTab(tab.Text);
             }
         }
 
@@ -984,6 +1007,8 @@ namespace OneStoryProjectEditor
         {
             var point = new Point(contextMenuStripTabs.Left, contextMenuStripTabs.Top);
             int hoverTab_index = getHoverTabIndex(tabControlSets, point) + 1;  // it'll be the next index
+            if ((hoverTab_index <= 0) || (hoverTab_index > tabControlSets.TabPages.Count))
+                return;
 
             var hoverTab = tabControlSets.TabPages[hoverTab_index-1];
             if (hoverTab.Text == StoriesSetNameLocalized)

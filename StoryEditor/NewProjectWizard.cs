@@ -12,7 +12,8 @@ namespace OneStoryProjectEditor
     {
         protected StoryProjectData _storyProjectData;
         public TeamMemberData LoggedInMember;
-        public Boolean isNext = false;
+        public bool isNext = false;
+        public bool Modified = false;
 
         private bool _bStartedWithVernacular;
         private bool _bStartedWithNationalBt;
@@ -113,6 +114,7 @@ namespace OneStoryProjectEditor
             UpdateTabPageAIBT();
             // I think we don't want this until the user presses Next
             ProcessNext();
+            Modified = false;   // just so we don't let setting controls above make it think there was a change
         }
 
         private void ProcessNext()
@@ -607,21 +609,23 @@ namespace OneStoryProjectEditor
             var strFinishButtonText = Localizer.Str("&Finish");
             try
             {
-                if (buttonNext.Text != strFinishButtonText && Modified)
-                {
-                    var res = LocalizableMessageBox.Show("Do you want to save the changes ?", StoryEditor.OseCaption, MessageBoxButtons.YesNo);
-                    if (res == DialogResult.Yes)
-                    {
-                        FinishEdit();
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
                 if (buttonNext.Text == strFinishButtonText)
                 {
-                    FinishEdit();
+                    if (Modified)
+                    {
+                        var res = LocalizableMessageBox.Show("Do you want to save the changes?", StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
+                        if (res == DialogResult.Cancel)
+                            return;
+
+                        else if (res == DialogResult.Yes)
+                        {
+                            FinishEdit();
+                            return;
+                        }
+                    }
+
+                    DialogResult = DialogResult.OK;
+                    Close();
                 }
                 else
                 {
@@ -730,8 +734,6 @@ namespace OneStoryProjectEditor
                         null, null);
             }
         }
-
-        public bool Modified;
 
         protected bool _bEnableTabSelection;
 
