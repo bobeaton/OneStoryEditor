@@ -535,43 +535,52 @@ namespace OneStoryProjectEditor
 
         private void ButtonDeleteClick(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedRows.Count < 2);   // 1 or 0
-            if (dataGridViewPanorama.SelectedRows.Count != 1)
-                return;
-
-            int nSelectedRowIndex = dataGridViewPanorama.SelectedRows[0].Index;
-            if ((nSelectedRowIndex < 0) || (nSelectedRowIndex > dataGridViewPanorama.Rows.Count - 1))
-                return;
-
-            DataGridViewRow theRow = dataGridViewPanorama.Rows[nSelectedRowIndex];
-            DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
-            if (theNameCell.Value == null)
-                return; // shouldn't happen, but...
-
-            var strName = theNameCell.Value as String;
-
-            StoryData theSd = _stories.GetStoryFromName(strName);
-            if (theSd == null)
-                return;
-
             // make sure the user really wants to do this
-            if (StoryEditor.QueryDeleteStory(strName))
+            if (LocalizableMessageBox.Show(Localizer.Str("Are you sure you want to delete selected stories ?"),
+                                StoryEditor.OseCaption,
+                                MessageBoxButtons.YesNoCancel) == DialogResult.No)
                 return;
 
-            RemoveStoryFromCurrentList(nSelectedRowIndex, theSd);
-
-            // if it isn't already in the Old Set, then just move it there
-            if (_stories.SetName != Properties.Resources.IDS_ObsoleteStoriesSet)
+            //System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedRows.Count < 2);   // 1 or 0
+            //if (dataGridViewPanorama.SelectedRows.Count != 1)
+            //   return;
+            foreach (DataGridViewRow row in dataGridViewPanorama.SelectedRows)
             {
-                // make a copy (so it has new guids) -- this is just in case, someone simultaneously
-                //  edits and so this isn't actually deleted which could result in two story's with the
-                //  same guids
-                theSd = new StoryData(theSd);
-                StoryEditor.InsertInOtherSetInsureUnique(_storyProject[Properties.Resources.IDS_ObsoleteStoriesSet],
-                                                            theSd);
-            }
+                //int nSelectedRowIndex = dataGridViewPanorama.SelectedRows[0].Index;
+                int nSelectedRowIndex = row.Index;
+                if ((nSelectedRowIndex < 0) || (nSelectedRowIndex > dataGridViewPanorama.Rows.Count - 1))
+                    return;
 
-            Modified = true;
+                DataGridViewRow theRow = dataGridViewPanorama.Rows[nSelectedRowIndex];
+                DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
+                if (theNameCell.Value == null)
+                    return; // shouldn't happen, but...
+
+                var strName = theNameCell.Value as String;
+                StoryData theSd = _stories.GetStoryFromName(strName);
+                if (theSd == null)
+                    return;
+
+                // make sure the user really wants to do this
+                //if (StoryEditor.QueryDeleteStory(strName))
+                //    return;
+
+                //RemoveStoryFromCurrentList(nSelectedRowIndex, theSd);
+                _stories.Remove(theSd);
+                dataGridViewPanorama.Rows.RemoveAt(nSelectedRowIndex);
+
+                // if it isn't already in the Old Set, then just move it there
+                if (_stories.SetName != Properties.Resources.IDS_ObsoleteStoriesSet)
+                {
+                    // make a copy (so it has new guids) -- this is just in case, someone simultaneously
+                    //  edits and so this isn't actually deleted which could result in two story's with the
+                    //  same guids
+                    theSd = new StoryData(theSd);
+                    StoryEditor.InsertInOtherSetInsureUnique(_storyProject[Properties.Resources.IDS_ObsoleteStoriesSet],
+                                                                theSd);
+                }
+                Modified = true;
+            }
         }
 
         private void RemoveStoryFromCurrentList(int nSelectedRowIndex, StoryData theSd)
@@ -947,8 +956,7 @@ namespace OneStoryProjectEditor
 
             MoveCopyStoryToOtherStoriesSet(destStorySetName, 
                                            (e.Effect == DragDropEffects.Move), 
-                                           (destStorySetName != Properties.Resources.IDS_NonBibStoriesSet));    // it's a biblical story if it's not coming from the Non-Biblical stories tab
-
+                                           (destStorySetName != Properties.Resources.IDS_NonBibStoriesSet));    // it's a biblical story if it's not coming from the Non-Biblical stories tab         
             // if copy to self, then we need to update the grid
             if (destStorySetName == SelectedStorySetName)
                 InitGrid();
