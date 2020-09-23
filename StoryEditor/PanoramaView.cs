@@ -649,10 +649,7 @@ namespace OneStoryProjectEditor
             TabPage tab = e.TabPage;
             if ((tab != null) && (tab != tabPageFrontMatter))
             {
-                if (tab == newTabPage)
-                    menuAddNew_Click(sender, null);
-                else
-                    InitStoriesTab(tab.Text);
+               InitStoriesTab(tab.Text);
             }
         }
 
@@ -1018,6 +1015,9 @@ namespace OneStoryProjectEditor
         private int _lastTabSelected;
         private void tabControlSets_MouseClick(object sender, MouseEventArgs e)
         {
+            if (tabControlSets.SelectedTab.Name == "NewTabPage")
+                return;
+
             if (e.Button != MouseButtons.Right)
                 return;
 
@@ -1048,6 +1048,24 @@ namespace OneStoryProjectEditor
             if ((tabControlSets.Controls.Count < hoverTab_index) || (hoverTab_index < 2))
                 return; // not a legitimate value
 
+            var strStoriesSetName = StoryEditor.QueryForNewStorySetName(_storyProject, hoverTab_index);
+            if (String.IsNullOrEmpty(strStoriesSetName))
+                return;
+
+            AddTabPage(strStoriesSetName, hoverTab_index);
+            Modified = true;
+        }
+
+        private void addNewStorySet(object sender, EventArgs e)
+        {
+            var point = new Point(contextMenuStripTabs.Left, contextMenuStripTabs.Top);
+            int hoverTab_index = tabControlSets.TabIndex;
+            var hoverTab = tabControlSets.TabPages[hoverTab_index - 1];
+            if (hoverTab.Text == StoriesSetNameLocalized)
+            {
+                hoverTab_index = hoverTab_index - 1;
+            }
+            
             var strStoriesSetName = StoryEditor.QueryForNewStorySetName(_storyProject, hoverTab_index);
             if (String.IsNullOrEmpty(strStoriesSetName))
                 return;
