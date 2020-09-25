@@ -887,7 +887,7 @@ namespace OneStoryProjectEditor
                 return;
             System.Diagnostics.Debug.WriteLine("Select row index: " + rowTargetIndex.ToString());
 
-            if (e.Button == MouseButtons.Right)
+            if (e.Button == MouseButtons.Left)
             {
                 rowDragFrom = dataGridViewPanorama.Rows[rowTargetIndex];
                 rowDragFromIndex = rowTargetIndex;
