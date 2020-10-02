@@ -789,19 +789,13 @@ namespace OneStoryProjectEditor
 
         private void dataGridViewPanorama_KeyEnter(object sender, KeyEventArgs e)
         {
-            Console.WriteLine(dataGridViewPanorama.CurrentRow.Index);
-            Console.WriteLine(dataGridViewPanorama.Rows.Count);
-            Console.WriteLine(dataGridViewPanorama.CurrentCell);
             if (e.KeyCode == Keys.Enter)
-                Console.WriteLine("in enter key");
             {
                 if ((dataGridViewPanorama.CurrentRow.Index < 0) || (dataGridViewPanorama.CurrentRow.Index >= dataGridViewPanorama.Rows.Count))
                     return;
-                Console.WriteLine("first if condition");
+
                 var theRow = dataGridViewPanorama.CurrentRow;
                 var theNameCell = theRow.Cells[CnColumnStoryName];
-                Console.WriteLine(theRow);
-                Console.WriteLine(theNameCell);
                 if (theNameCell.Value == null)
                     return; // shouldn't happen, but...
 
@@ -811,8 +805,6 @@ namespace OneStoryProjectEditor
                 if (theSD == null)
                     return;
 
-                Console.WriteLine(dataGridViewPanorama.CurrentCell);
-                Console.WriteLine(CnColumnStoryName);
                 if (dataGridViewPanorama.CurrentCell == theNameCell)
                 {
                     JumpToStory = strName;
