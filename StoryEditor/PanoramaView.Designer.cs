@@ -255,7 +255,7 @@ namespace OneStoryProjectEditor
             this.newTabPageFun.Name = "NewTabPage";
             this.newTabPageFun.Size = new System.Drawing.Size(788, 427);
             this.newTabPageFun.TabIndex = 4;
-            this.newTabPageFun.Enter += new System.EventHandler(this.addNewStorySet);
+            this.newTabPageFun.Enter += new System.EventHandler(this.menuAddNew_Click);
             //
             // tabControlSets
             // 

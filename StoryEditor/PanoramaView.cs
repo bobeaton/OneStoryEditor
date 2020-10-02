@@ -153,6 +153,9 @@ namespace OneStoryProjectEditor
 
             tabControlSets.Controls.Add(addlTab);
             var currIndex = tabControlSets.Controls.GetChildIndex(addlTab);
+            
+            // remove the new one so we can add it back at the end
+            tabControlSets.Controls.Remove(newTabPage);
             if (currIndex != nIndex)
             {
                 tabControlSets.Controls.SetChildIndex(addlTab, nIndex);
@@ -165,6 +168,7 @@ namespace OneStoryProjectEditor
                 }
                 list.ForEach(p => tabControlSets.Controls.Add(p));
             }
+            tabControlSets.Controls.Add(newTabPage);
         }
 
         public string SelectedStorySetName; 
@@ -516,13 +520,7 @@ namespace OneStoryProjectEditor
             {
                 return;
             }
-            /*System.Diagnostics.Debug.Assert(dataGridViewPanorama.SelectedRows.Count < 2);   // 1 or 0
-            if (dataGridViewPanorama.SelectedRows.Count != 1)
-                return;
 
-            System.Diagnostics.Debug.Assert(_storyProject.ContainsKey(strDestSet));
-
-            int nSelectedRowIndex = dataGridViewPanorama.SelectedRows[0].Index;*/
             foreach (DataGridViewRow row in dataGridViewPanorama.SelectedRows)
             {
                 int nSelectedRowIndex = row.Index;
@@ -543,9 +541,10 @@ namespace OneStoryProjectEditor
                 var theSd = theOrigSd;
                 // if moving, then we have to remove it out of the current list
                 if (bMove)
-                _stories.Remove(theSd);
-                dataGridViewPanorama.Rows.RemoveAt(nSelectedRowIndex);
-                //RemoveStoryFromCurrentList(nSelectedRowIndex, theSd);
+                {
+                    _stories.Remove(theSd);
+                    dataGridViewPanorama.Rows.RemoveAt(nSelectedRowIndex);
+                }
 
                 // if copying, then it needs its own guids
                 theSd = new StoryData(theOrigSd);
@@ -554,11 +553,6 @@ namespace OneStoryProjectEditor
 
                 StoryEditor.InsertInOtherSetInsureUnique(_storyProject[strDestSet], theSd);
 
-                /*LocalizableMessageBox.Show(String.Format(Localizer.Str("The story '{0}' has been {1} to the '{2}' list"),
-                                                         theSd.Name,
-                                                         (bMove) ? CstrMoved : CstrCopied,
-                                                         strDestSet),
-                                           StoryEditor.OseCaption);*/
                 Modified = true;
             }
         }
@@ -669,19 +663,26 @@ namespace OneStoryProjectEditor
             }
             else
             {
-                foreach (var control in tabControlSets.Controls)
-                {
-                    TabPage tabControl = (TabPage)control;
-                    var tabText = tabControl.Text;
-                    if (tabText == currentStoriesSetName)
-                        tab = tabControl;
-                }
+                tab = FindTabByName(currentStoriesSetName);
             }
 
             System.Diagnostics.Debug.Assert(tab != null);
             InitParentTab(tab);
             InitGrid();
             return tab;
+        }
+
+        private TabPage FindTabByName(string currentStoriesSetName)
+        {
+            foreach (var control in tabControlSets.Controls)
+            {
+                TabPage tabControl = (TabPage)control;
+                var tabText = tabControl.Text;
+                if (tabText == currentStoriesSetName)
+                    return tabControl;
+            }
+
+            return null;
         }
 
         protected void InitParentTab(TabPage tab)
@@ -922,12 +923,13 @@ namespace OneStoryProjectEditor
             {
                 // dragging over something in the data grid
                 e.Effect = DragDropEffects.Move;
-
+                /* UPDATE: now that we're using left mouse for drag, we don't want to select while we're dragging
                 // highlight the row that the mouse is over
                 if (hitTestInfo.Type == DataGridViewHitTestType.Cell)
                 {
                     dataGridViewPanorama.Rows[rowTargetIndex].Selected = true;
                 }
+                */
             }
         }
 
@@ -1035,16 +1037,28 @@ namespace OneStoryProjectEditor
 
         private void menuAddNew_Click(object sender, EventArgs e)
         {
-            var point = new Point(contextMenuStripTabs.Left, contextMenuStripTabs.Top);
-            int hoverTab_index = getHoverTabIndex(tabControlSets, point) + 1;  // it'll be the next index
-            if ((hoverTab_index <= 0) || (hoverTab_index > tabControlSets.TabPages.Count))
-                return;
-
-            var hoverTab = tabControlSets.TabPages[hoverTab_index-1];
-            if (hoverTab.Text == StoriesSetNameLocalized)
+            string originalTab;
+            int hoverTab_index;
+            if (sender is RichTextBox) // means it's the 'Add New Tab' tab
             {
-                hoverTab_index = hoverTab_index - 1;
+                hoverTab_index = tabControlSets.Controls.Count - 1;
+                originalTab = SelectedStorySetName;
             }
+            else
+            {
+                var point = new Point(contextMenuStripTabs.Left, contextMenuStripTabs.Top);
+                hoverTab_index = getHoverTabIndex(tabControlSets, point) + 1;  // it'll be the next index
+                if ((hoverTab_index <= 0) || (hoverTab_index > tabControlSets.TabPages.Count))
+                    return;
+
+                var hoverTab = tabControlSets.TabPages[hoverTab_index - 1];
+                if (hoverTab.Text == StoriesSetNameLocalized)
+                {
+                    hoverTab_index = hoverTab_index - 1;
+                }
+                originalTab = hoverTab.Text;
+            }
+
             if ((tabControlSets.Controls.Count < hoverTab_index) || (hoverTab_index < 2))
                 return; // not a legitimate value
 
@@ -1054,26 +1068,10 @@ namespace OneStoryProjectEditor
 
             AddTabPage(strStoriesSetName, hoverTab_index);
             Modified = true;
+            tabControlSets.SelectedTab = FindTabByName(originalTab);
+            InitStoriesTab(originalTab);
         }
 
-        private void addNewStorySet(object sender, EventArgs e)
-        {
-            var point = new Point(contextMenuStripTabs.Left, contextMenuStripTabs.Top);
-            int hoverTab_index = tabControlSets.TabIndex;
-            var hoverTab = tabControlSets.TabPages[hoverTab_index - 1];
-            if (hoverTab.Text == StoriesSetNameLocalized)
-            {
-                hoverTab_index = hoverTab_index - 1;
-            }
-            
-            var strStoriesSetName = StoryEditor.QueryForNewStorySetName(_storyProject, hoverTab_index);
-            if (String.IsNullOrEmpty(strStoriesSetName))
-                return;
-
-            AddTabPage(strStoriesSetName, hoverTab_index);
-            Modified = true;
-        }
-        
         private void menuDelete_Click(object sender, EventArgs e)
         {
             var point = new Point(contextMenuStripTabs.Left, contextMenuStripTabs.Top);
