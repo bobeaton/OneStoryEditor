@@ -530,7 +530,8 @@ namespace OneStoryProjectEditor
                 TheStory.CraftingInfo.OutsideEnglishBackTranslator,
                 FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
             SetCheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
-            TheSe.UpdateNotificationBellUI();
+            if (!TheSe.advancedAutomaticallySendandReceiveWindowMenu.Checked)
+                TheSe.UpdateNotificationBellUI();
         }
 
         private void buttonSendToConsultant_Click(object sender, EventArgs e)
@@ -607,7 +608,9 @@ namespace OneStoryProjectEditor
                 TheStory.CraftingInfo.Consultant,
                 FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
             SetCheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
-            TheSe.UpdateNotificationBellUI();
+
+            if (!TheSe.advancedAutomaticallySendandReceiveWindowMenu.Checked)
+                TheSe.UpdateNotificationBellUI();
         }
 
         private static void SendEmail(StoryProjectData theProject, StoryData theStory, 
@@ -717,7 +720,8 @@ namespace OneStoryProjectEditor
                 TheStory.CraftingInfo.ProjectFacilitator,
                 FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
             SetCheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
-            TheSe.UpdateNotificationBellUI();
+            if (!TheSe.advancedAutomaticallySendandReceiveWindowMenu.Checked)
+                TheSe.UpdateNotificationBellUI();
         }
 
         private bool CheckIfReadyToReturnToPf()
@@ -871,7 +875,8 @@ namespace OneStoryProjectEditor
                 TheStory.CraftingInfo.Coach,
                 FinalConNoteComments(TheStory.Verses.FirstVerse.CoachNotes));
             SetCheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
-            TheSe.UpdateNotificationBellUI();
+            if (!TheSe.advancedAutomaticallySendandReceiveWindowMenu.Checked)
+                TheSe.UpdateNotificationBellUI();
         }
 
         private string FinalConNoteComments(IEnumerable<ConsultNoteDataConverter> theStoryLine)
@@ -926,7 +931,8 @@ namespace OneStoryProjectEditor
                 TheStory.CraftingInfo.Consultant,
                 FinalConNoteComments(TheStory.Verses.FirstVerse.CoachNotes));
             SetCheckForAutoSendReceive(TheSe.StoryProject, TheSe.LoggedOnMember);
-            TheSe.UpdateNotificationBellUI();
+            if (!TheSe.advancedAutomaticallySendandReceiveWindowMenu.Checked)
+                TheSe.UpdateNotificationBellUI();
         }
 
         private void buttonViewTasksPf_Click(object sender, EventArgs e)

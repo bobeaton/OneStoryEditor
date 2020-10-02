@@ -144,6 +144,7 @@ namespace OneStoryProjectEditor
             this.dataGridViewPanorama.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dataGridViewPanorama_KeyUp);
             this.dataGridViewPanorama.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridViewPanorama_MouseDown);
             this.dataGridViewPanorama.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dataGridViewPanorama_MouseUp);
+            this.dataGridViewPanorama.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewPanorama_KeyEnter);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -255,7 +256,8 @@ namespace OneStoryProjectEditor
             this.newTabPageFun.Name = "NewTabPage";
             this.newTabPageFun.Size = new System.Drawing.Size(788, 427);
             this.newTabPageFun.TabIndex = 4;
-            // 
+            this.newTabPageFun.Enter += new System.EventHandler(this.menuAddNew_Click);
+            //
             // tabControlSets
             // 
             this.tabControlSets.AllowDrop = true;

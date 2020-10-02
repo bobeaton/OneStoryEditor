@@ -2237,7 +2237,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem editDeleteChooseFieldsMenu;
         private ToolStripSeparator toolStripSeparator11;
         private ToolStripButton toolStripButtonShowStoriesInYourState;
-        private ToolStripMenuItem advancedAutomaticallySendandReceiveWindowMenu;
+        internal ToolStripMenuItem advancedAutomaticallySendandReceiveWindowMenu;
         private ToolStripMenuItem advancedPopupReminderForStoryInYourStateMenu;
     }
 
