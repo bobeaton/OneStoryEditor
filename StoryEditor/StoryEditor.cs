@@ -379,6 +379,7 @@ namespace OneStoryProjectEditor
             //  (for starters, there must *be* a currently logged in member)
             var startingStoryName = TheCurrentStory?.Name;
             var storyName = NextStoryNameInTheLoggedInMembersTurn;
+
             if (!String.IsNullOrEmpty(storyName))
             {
                 // if it's not the current story, then ask if they want to go there...
@@ -386,7 +387,7 @@ namespace OneStoryProjectEditor
                 {
                     var res = LocalizableMessageBox.Show(Localizer.Str("There are stories in your turn. Would you like to go to one?"),
                                                      OseCaption,
-                                                     MessageBoxButtons.YesNoCancel);
+                                                     MessageBoxButtons.YesNo);
                     if (res == DialogResult.Yes)
                     {
                         NavigateTo(CurrentStoriesSetName, storyName, 1, null);
