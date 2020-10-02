@@ -787,6 +787,50 @@ namespace OneStoryProjectEditor
             dlg.ShowDialog();
         }
 
+        private void dataGridViewPanorama_KeyEnter(object sender, KeyEventArgs e)
+        {
+            Console.WriteLine(dataGridViewPanorama.CurrentRow.Index);
+            Console.WriteLine(dataGridViewPanorama.Rows.Count);
+            Console.WriteLine(dataGridViewPanorama.CurrentCell);
+            if (e.KeyCode == Keys.Enter)
+                Console.WriteLine("in enter key");
+            {
+                if ((dataGridViewPanorama.CurrentRow.Index < 0) || (dataGridViewPanorama.CurrentRow.Index >= dataGridViewPanorama.Rows.Count))
+                    return;
+                Console.WriteLine("first if condition");
+                var theRow = dataGridViewPanorama.CurrentRow;
+                var theNameCell = theRow.Cells[CnColumnStoryName];
+                Console.WriteLine(theRow);
+                Console.WriteLine(theNameCell);
+                if (theNameCell.Value == null)
+                    return; // shouldn't happen, but...
+
+                var strName = theNameCell.Value as String;
+                var theSD = _stories.GetStoryFromName(strName);
+
+                if (theSD == null)
+                    return;
+
+                Console.WriteLine(dataGridViewPanorama.CurrentCell);
+                Console.WriteLine(CnColumnStoryName);
+                if (dataGridViewPanorama.CurrentCell == theNameCell)
+                {
+                    JumpToStory = strName;
+                    Close();
+                    return;
+                }
+
+                if (!theSD.TransitionHistory.HasData)
+                {
+                    StoryEditor.WarnNoTransitionHistory();
+                    return;
+                }
+
+                var dlg = new TransitionHistoryForm(theSD.TransitionHistory, _storyProject.TeamMembers);
+                dlg.ShowDialog();
+            }
+        }
+
         private void CopyGridToClipboard(IEnumerable dataGridViewRowCollection)
         {
             var strHtml = "<tr><th>Story Name</th><th>Purpose</th><th>Who Edits</th><th>Time in Turn</th><th># of Lines</th><th># of TQs</th><th># of Words</th></tr>";

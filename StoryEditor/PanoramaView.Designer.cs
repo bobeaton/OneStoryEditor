@@ -144,6 +144,7 @@ namespace OneStoryProjectEditor
             this.dataGridViewPanorama.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dataGridViewPanorama_KeyUp);
             this.dataGridViewPanorama.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridViewPanorama_MouseDown);
             this.dataGridViewPanorama.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dataGridViewPanorama_MouseUp);
+            this.dataGridViewPanorama.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewPanorama_KeyEnter);
             // 
             // dataGridViewTextBoxColumn1
             // 
