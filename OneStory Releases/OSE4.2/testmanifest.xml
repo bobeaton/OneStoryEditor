@@ -4,24 +4,28 @@
 	<ApplicationExecutable/>
 	<ApplicationName>OneStory Editor AutoUpdater</ApplicationName>
 	<FullUpgradeFileName/>
-	<OffsetFromUctWhereManifestWasOriginallyCreated>2020-03-10T07:15:52.1185820-05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
+	<OffsetFromUctWhereManifestWasOriginallyCreated>2020-09-07T12:05:53.7456710-05:00</OffsetFromUctWhereManifestWasOriginallyCreated>
 	<ManifestFiles>
-		<File name="AdaptIt-ChorusPlugin.dll" method="version" action="copy" version="4.2.0.0" optional="false" size="6751">AdaptIt ChorusPlugin</File>
-		<File name="AiChorus.exe" method="version" action="copy" version="4.2.0.0" optional="false" size="27291">AiChorus</File>
+		<File name="AdaptIt-ChorusPlugin.dll" method="version" action="copy" version="4.2.0.0" optional="false" size="6750">AdaptIt ChorusPlugin</File>
+		<File name="AiChorus.exe" method="version" action="copy" version="4.2.0.0" optional="false" size="27293">AiChorus</File>
 		<File name="AiChorus.exe.config" method="md5" action="copy" version="1c501292e6a1e8baca82bc2e157001f5" optional="false" size="775"/>
 		<File name="AIGuesserEC.dll" method="version" action="copy" version="4.0.4.0" optional="false" size="44428">AdaptIt Encoding Converters</File>
+		<File name="app.config" method="md5" action="copy" version="1c501292e6a1e8baca82bc2e157001f5" optional="false" size="757"/>
 		<File name="Autofac.DLL" method="version" action="copy" version="2.6.3.862" optional="false" size="74881">Autofac</File>
 		<File name="AutoUpgrade.exe.config" method="md5" action="copy" version="f8d26c196c9aa0f39458a5bed0d35c1f" optional="false" size="756"/>
-		<File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="4.0.0.1" optional="false" size="16884">AutoUpgrade Lib</File>
+		<File name="AutoUpgrade.Lib.dll" method="version" action="copy" version="4.0.0.1" optional="false" size="16924">AutoUpgrade Lib</File>
+		<File name="chorus.exe" method="version" action="copy" version="2.6.384.0" optional="false" size="316704">Chorus</File>
 		<File name="ChorusHub.exe" method="version" action="copy" version="2.6.384.0" optional="false" size="11132">ChorusHub</File>
 		<File name="ChorusHub.pdb" method="md5" action="copy" version="0df5e2d358e71cfe6266028327b18def" optional="false" size="10686"/>
 		<File name="ChorusHubApp.exe" method="version" action="copy" version="2.6.384.0" optional="false" size="7289">ChorusHub</File>
 		<File name="ChorusHubApp.pdb" method="md5" action="copy" version="8403b69391965b7706aef4e527f5457e" optional="false" size="3424"/>
+		<File name="chorusmerge.exe" method="version" action="copy" version="2.6.384.0" optional="false" size="2821">ChorusMerge</File>
 		<File name="Commons.Xml.Relaxng.dll" method="version" action="copy" version="4.0.0.0" optional="false" size="84150"/>
 		<File name="ECInterfaces.dll" method="version" action="copy" version="4.0.2.0" optional="false" size="47048">Encoding Converters Interfaces</File>
 		<File name="Enchant.Net.dll" method="version" action="copy" version="1.4.3.1" optional="false" size="8265">Enchant.Net</File>
 		<File name="Enchant.Net.dll.config" method="md5" action="copy" version="f43e536803e4c02fc20eeb11801c2ab9" optional="false" size="315"/>
 		<File name="FluentFTP.dll" method="OneOff" action="copy" version="19.1.2.0" optional="false" size="88398">FluentFTP</File>
+		<File name="HtmlEditor.dll" method="version" action="copy" version="7.0.100.5147" optional="false" size="65068"/>
 		<File name="icu.net.DLL" method="version" action="copy" version="2.5.2.0" optional="false" size="50477">icu.net</File>
 		<File name="icu.net.dll.config" method="md5" action="copy" version="feb8a12f54cdbca11133449147e40b28" optional="false" size="270"/>
 		<File name="icudt54.dll" method="version" action="copy" version="54.1.0.0" optional="false" size="316419">ICU Data DLL</File>
@@ -35,14 +39,25 @@
 		<File name="KeymanLink.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="7348">KeymanLink</File>
 		<File name="L10NSharp.dll" method="version" action="copy" version="4.0.1.0" optional="false" size="133107"/>
 		<File name="L10NSharp.pdb" method="md5" action="copy" version="8c2cbf9aa628863b0a4cc5d66137098a" optional="false" size="47066"/>
+		<File name="libchorus.dll" method="version" action="copy" version="2.6.384.0" optional="false" size="161792">Chorus</File>
+		<File name="libsword.dll" method="md5" action="copy" version="c16a4c2ac5aaa3866526d57734a14466" optional="false" size="298584"/>
+		<File name="libsword_csharpsword.dll" method="md5" action="copy" version="d3d82faf56b12595f78dd5be1a6e5be6" optional="false" size="54514"/>
+		<File name="MAPIEx.dll" method="md5" action="copy" version="dda16cb2ff94bed1566d69748916617f" optional="false" size="795238"/>
 		<File name="NDesk.DBus.DLL" method="version" action="copy" version="1.0.0.0" optional="false" size="52711"/>
+		<File name="NDesk.DBus.dll.config" method="md5" action="copy" version="9818a34b86868d29f8c18579274fb87a" optional="false" size="292"/>
+		<File name="NetLoc.dll" method="version" action="copy" version="7.0.100.5038" optional="false" size="50854">NetLoc</File>
+		<File name="NetMAPI.dll" method="version" action="copy" version="1.0.4454.25896" optional="false" size="11647"/>
 		<File name="Newtonsoft.Json.dll" method="version" action="copy" version="11.0.1.21818" optional="false" size="249976">Json.NET</File>
-		<File name="OneStory-ChorusPlugin.dll" method="version" action="copy" version="4.2.0.0" optional="false" size="8373">OneStory ChorusPlugin</File>
+		<File name="OneStory-ChorusPlugin.dll" method="version" action="copy" version="4.2.0.0" optional="false" size="8375">OneStory ChorusPlugin</File>
+		<File name="ParatextShared.dll" method="version" action="copy" version="7.0.100.5029" optional="false" size="423316">ParatextShared</File>
+		<File name="SharedScrUtils.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="20758">SharedScrUtils</File>
 		<File name="SIL.Archiving.dll" method="version" action="copy" version="6.0.0.287" optional="false" size="80978">SIL.Archiving</File>
 		<File name="SIL.Archiving.dll.config" method="md5" action="copy" version="d3c988fff01bdce3d9b995dfe8a24202" optional="false" size="756"/>
 		<File name="SIL.Archiving.pdb" method="md5" action="copy" version="47c2a599da9039b278565c19761a6a11" optional="false" size="95298"/>
 		<File name="SIL.Core.Desktop.dll" method="version" action="copy" version="6.0.0.287" optional="false" size="46504">SIL.Core.Desktop</File>
 		<File name="SIL.Core.Desktop.pdb" method="md5" action="copy" version="7bc159be3e87b6f0ab7be5b3c23e9dd1" optional="false" size="55879"/>
+		<File name="SIL.Core.dll" method="version" action="copy" version="6.0.0.287" optional="false" size="127165">SIL.Core</File>
+		<File name="SIL.Core.dll.config" method="md5" action="copy" version="149d92f415a776008bac4f77b4e67816" optional="false" size="1131"/>
 		<File name="SIL.Core.pdb" method="md5" action="copy" version="9ef541bd0aa4d105d7f59d597fb733ef" optional="false" size="67476"/>
 		<File name="SIL.DblBundle.dll" method="version" action="copy" version="6.0.0.287" optional="false" size="18799">SIL.DblBundle</File>
 		<File name="SIL.DblBundle.pdb" method="md5" action="copy" version="2f70768142a18a79414a8ffcbdc6589b" optional="false" size="5735"/>
@@ -50,6 +65,7 @@
 		<File name="SIL.DictionaryServices.pdb" method="md5" action="copy" version="31eee6fb6acce433213b3aede646b99b" optional="false" size="49155"/>
 		<File name="SIL.Lexicon.dll" method="version" action="copy" version="6.0.0.287" optional="false" size="7238">SIL.Lexicon</File>
 		<File name="SIL.Lexicon.pdb" method="md5" action="copy" version="7f1a42fb3cbf8848b4dc8c5221996424" optional="false" size="6986"/>
+		<File name="SIL.Lift.dll" method="version" action="copy" version="6.0.0.287" optional="false" size="57965">SIL.Lift</File>
 		<File name="SIL.Lift.pdb" method="md5" action="copy" version="6a5c3407dde59bf9007e1c13a25c2960" optional="false" size="85435"/>
 		<File name="SIL.Media.dll" method="version" action="copy" version="6.0.0.287" optional="false" size="38053">SIL.Media</File>
 		<File name="SIL.Media.dll.config" method="md5" action="copy" version="a7557a3d6339366f33abfb2fd4fcca6f" optional="false" size="321"/>
@@ -72,10 +88,15 @@
 		<File name="SIL.WritingSystems.pdb" method="md5" action="copy" version="6f28089bb4ed7563b1f7623e8b7ba847" optional="false" size="62984"/>
 		<File name="SilEncConverters40.dll" method="version" action="copy" version="4.0.2.0" optional="false" size="83449">Encoding Converters</File>
 		<File name="Spart.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="11219">Spart</File>
-		<File name="StoryEditor.exe" method="version" action="copy" version="4.2.3.0" optional="false" size="517068">OneStory Editor</File>
+		<File name="StageTransitions.xml" method="md5" action="copy" version="e72ebbc01f2d531cbd75578824b6a402" optional="false" size="15205"/>
+		<File name="StageTransitionsId.xml" method="md5" action="copy" version="d13eada9150f3e289206c1dc0daf6826" optional="false" size="16318"/>
+		<File name="stdole.dll" method="version" action="copy" version="7.00.9466" optional="false" size="11226"/>
+		<File name="StoryEditor.exe" method="version" action="copy" version="4.2.4.0" optional="false" size="517578">OneStory Editor</File>
 		<File name="StoryEditor.exe.config" method="md5" action="copy" version="956728ac63054f767cf23bcce795a6f2" optional="false" size="3136"/>
-		<File name="StoryEditor.pdb" method="md5" action="copy" version="3838eeb59a1b5ff15e31b85a0175737e" optional="false" size="668774"/>
+		<File name="SwigSword.dll" method="version" action="copy" version="1.0.0.0" optional="false" size="38678">SwigSword.Properties</File>
 		<File name="taglib-sharp.dll" method="version" action="copy" version="2.1.2.0" optional="false" size="170411">TagLib#</File>
+		<File name="UpdateAccessDbWithOsMetaData.exe.config" method="md5" action="copy" version="9a3d99ab612161dfe2116f5939b8bc05" optional="false" size="373"/>
+		<File name="Utilities.dll" method="version" action="copy" version="7.0.100.5029" optional="false" size="102143"/>
 		<File name="Vulcan.Uczniowie.HelpProvider.dll" method="version" action="copy" version="1.0.2.0" optional="false" size="19782">Vulcan.Uczniowie.HelpProvider</File>
 		<File name="LocData\es.xml" method="md5" action="copy" version="4652054b3d0ae91f92ef4d3cc28af30d" optional="false" size="41487"/>
 		<File name="LocData\fr.xml" method="md5" action="copy" version="30ae5ae806e027e643b2578bb171bea6" optional="false" size="39690"/>
