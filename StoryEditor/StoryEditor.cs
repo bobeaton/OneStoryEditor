@@ -607,7 +607,7 @@ namespace OneStoryProjectEditor
                     }
 
                     // Added following two lines to send receive window come up after you have loaded the project.
-                    var strProjectFolder = StoryProject.ProjSettings.ProjectFolder;
+                    var strProjectFolder = StoryProject?.ProjSettings?.ProjectFolder;
                     Program.SyncWithRepository(strProjectFolder, true);
 
                     var projSettings = new ProjectSettings(Path.GetDirectoryName(openFileDialog.FileName), strProjectName, true);
