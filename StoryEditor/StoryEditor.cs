@@ -7289,7 +7289,6 @@ namespace OneStoryProjectEditor
         {
             get { return Localizer.Str("Back-translate to &English"); }
         }
-        public object OneStoryProject { get; private set; }
         private void advancedCoachNotesToConsultantNotesPane_Click(object sender, EventArgs e)
         {
             TheCurrentStory.MoveCoachNotesToConsultantNotePane();
