@@ -42,6 +42,7 @@ namespace OneStoryProjectEditor
         internal string CurrentStoriesSetName = Resources.IDS_MainStoriesSet;   // otherwise Add New Project errors out
 
         public static String currentStoryName;
+        public static bool manuallySendReceive;
         private StoryData _theCurrentStory;
         public StoryData TheCurrentStory
         {
@@ -379,7 +380,6 @@ namespace OneStoryProjectEditor
             //  (for starters, there must *be* a currently logged in member)
             var startingStoryName = TheCurrentStory?.Name;
             var storyName = NextStoryNameInTheLoggedInMembersTurn;
-
             if (!String.IsNullOrEmpty(storyName))
             {
                 // if it's not the current story, then ask if they want to go there...
@@ -1016,7 +1016,10 @@ namespace OneStoryProjectEditor
                 if (!SaveAndCloseProject())
                     return;
 
-                projSettings.SyncWithRepository(strUsername, strPassword);
+                if (advancedAutomaticallySendandReceiveWindowMenu.Checked || manuallySendReceive)
+                {
+                    projSettings.SyncWithRepository(strUsername, strPassword);
+                }                
                 // Program.SyncWithRepository(projSettings.ProjectFolder, true);
             }
 
@@ -2868,7 +2871,6 @@ namespace OneStoryProjectEditor
         internal void QueryStoryPurpose()
         {
             var dlg = new StoryFrontMatterForm(this, StoryProject, TheCurrentStory);
-
             // since this can affect things, if things were changed, then update the panes
             //  (e.g. change of Consultant could result in different buttons)
             if ((dlg.ShowDialog() == DialogResult.OK) && dlg.Modified)
@@ -6738,6 +6740,7 @@ namespace OneStoryProjectEditor
 
         private void sendReceiveToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            manuallySendReceive = true;
             Debug.Assert((StoryProject != null) &&
                 (StoryProject.ProjSettings != null) &&
                 (LoggedOnMember != null));
@@ -6745,6 +6748,7 @@ namespace OneStoryProjectEditor
             string strProjectName = StoryProject.ProjSettings.ProjectName;
             string strProjectPath = StoryProject.ProjSettings.ProjectFolder;
             DoReopen(strProjectPath, strProjectName);
+            manuallySendReceive = false;
         }
 
         private void DoReopen(string strProjectPath, string strProjectName)
@@ -6930,7 +6934,8 @@ namespace OneStoryProjectEditor
             var dlg = new TaskBarForm(this, StoryProject, TheCurrentStory);
             dlg.ShowDialog();
 
-            if (dlg.CheckForAutoSendReceive && (StoryProject?.ProjSettings != null) && (LoggedOnMember != null))
+            if (dlg.CheckForAutoSendReceive && (StoryProject?.ProjSettings != null) && (LoggedOnMember != null)
+                && advancedAutomaticallySendandReceiveWindowMenu.Checked)
             {
                 try
                 {
@@ -7284,7 +7289,7 @@ namespace OneStoryProjectEditor
         {
             get { return Localizer.Str("Back-translate to &English"); }
         }
-        
+        public object OneStoryProject { get; private set; }
         private void advancedCoachNotesToConsultantNotesPane_Click(object sender, EventArgs e)
         {
             TheCurrentStory.MoveCoachNotesToConsultantNotePane();
@@ -7980,6 +7985,7 @@ namespace OneStoryProjectEditor
             //  3) there are no others
             var startingStoryName = TheCurrentStory?.Name;
             var storyName = NextStoryNameInTheLoggedInMembersTurn;
+
             if (String.IsNullOrEmpty(storyName))
             {
                 // case 3
