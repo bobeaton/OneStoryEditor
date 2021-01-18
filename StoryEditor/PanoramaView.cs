@@ -243,12 +243,14 @@ namespace OneStoryProjectEditor
                 };
                 int nRowIndex = dataGridViewPanorama.Rows.Add(aObs);
                 var aRow = dataGridViewPanorama.Rows[nRowIndex];
+
+                SetToolTipText(dataGridViewPanorama.Rows[nRowIndex], "Double click to open,Single click to rename, Right click to move");
 #if ShowingState
                 aRow.Tag = st;
 #endif
 #if UseArialUnicodeMs
                 aRow.Height = _fontForDev.Height + 8;
-#endif
+#endif               
 
                 if (aSD.Name == StoryEditor.currentStoryName)
                     dataGridViewPanorama.Rows[nRowIndex].Cells[0].Selected = true;
@@ -263,6 +265,20 @@ namespace OneStoryProjectEditor
         private static bool IsInLoggedInUsersTurn(DataGridViewBand theRow)
         {
             return (theRow.DefaultCellStyle.BackColor == Color.Yellow);
+        }
+
+        private void SetToolTipText(DataGridViewRow row, String message)
+        {
+            for (int i = 0; i < dataGridViewPanorama.Rows.Count; i++)
+            {
+                var oneRow = dataGridViewPanorama.Rows[i];
+                String ProCol = oneRow.Cells[0].ToString();
+                if (ProCol.Length != 0)
+                {
+                    oneRow.Cells[0].ToolTipText = message;
+                }
+            }
+
         }
 
         private StoryData _theStoryBeingEdited;
