@@ -834,8 +834,9 @@ namespace OneStoryProjectEditor
                 //  note pane, this could be any mentoree (PF, LSR, or CIT).
                 // Re: 2) that depends on whether the ...
                 string strHtmlElementId;
-                if (bLastOne &&
-                    IsEditable(loggedOnMember, theTeamMembers, theStory))
+                //if (bLastOne &&
+                    //IsEditable(loggedOnMember, theTeamMembers, theStory))
+                 if (IsEditable(loggedOnMember, theTeamMembers, theStory))
                 {
                     strHtmlElementId = TextareaId(nVerseIndex, nConversationIndex);
                     strRow += String.Format(Resources.HTML_TableCellForTextArea,
