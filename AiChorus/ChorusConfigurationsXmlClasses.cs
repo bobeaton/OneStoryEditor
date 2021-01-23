@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Serialization;
 using OneStoryProjectEditor;
@@ -90,6 +91,21 @@ namespace AiChorus
 
         [XmlAttribute]
         public string ServerName { get; set; }
+
+        /// <summary>
+        /// This member gives the url to a google spreadsheet to be first emptied and then filled with the data requested (see GoogleDocProjections)
+        /// for the projects in this *.cpc file. 
+        /// </summary>
+        [XmlAttribute]
+        public string GoogleSheetUrl { get; set; }    // e.g. https://docs.google.com/spreadsheets/d/1hnKQ_qCbl_Pxp7pDPYfLHgiwVjoyjz991fM8TLf2TUE/edit?usp=sharing
+
+        private Regex _regEx = new Regex("/spreadsheets/d/([a-zA-Z0-9-_]+)");
+
+        [XmlIgnore]
+        public string GoogleSheetId
+        {
+            get { return _regEx.Match(GoogleSheetUrl).Groups[1].Value; }
+        }
 
         [XmlElement(ElementName = "Project")]
         public List<Project> Projects { get; set; }

@@ -19,5 +19,11 @@
   &lt;string&gt;http://hg-public.languagedepot.org&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
+    <Setting Name="GoogleSheetsClientId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">368241377596-r8llc2og0en7inv9ubhgbro6qitgpq5k.apps.googleusercontent.com</Value>
+    </Setting>
+    <Setting Name="GoogleSheetsClientSecret" Type="System.String" Scope="User">
+      <Value Profile="(Default)">v40N9qlIejq8CZiskgrYd-ZX</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

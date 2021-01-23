@@ -12,7 +12,7 @@ namespace AiChorus.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.5.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.8.1.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -64,6 +64,30 @@ namespace AiChorus.Properties {
             }
             set {
                 this["ServerLabelsToUrls"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("368241377596-r8llc2og0en7inv9ubhgbro6qitgpq5k.apps.googleusercontent.com")]
+        public string GoogleSheetsClientId {
+            get {
+                return ((string)(this["GoogleSheetsClientId"]));
+            }
+            set {
+                this["GoogleSheetsClientId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("v40N9qlIejq8CZiskgrYd-ZX")]
+        public string GoogleSheetsClientSecret {
+            get {
+                return ((string)(this["GoogleSheetsClientSecret"]));
+            }
+            set {
+                this["GoogleSheetsClientSecret"] = value;
             }
         }
     }
