@@ -69,25 +69,26 @@ namespace AiChorus.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("368241377596-r8llc2og0en7inv9ubhgbro6qitgpq5k.apps.googleusercontent.com")]
-        public string GoogleSheetsClientId {
+        [global::System.Configuration.DefaultSettingValueAttribute("hqMOEEijf4CWzwvir5l/DALL9DspvG52f5JApiquXyLtpPgKGTNNtJmoFSyeKcK+VaJm88/tCaHGwW30j" +
+            "W7T4jqYsNdCt5kE0uajYg3VQLE=")]
+        public string GoogleSheetsClientIdEncrypted {
             get {
-                return ((string)(this["GoogleSheetsClientId"]));
+                return ((string)(this["GoogleSheetsClientIdEncrypted"]));
             }
             set {
-                this["GoogleSheetsClientId"] = value;
+                this["GoogleSheetsClientIdEncrypted"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("v40N9qlIejq8CZiskgrYd-ZX")]
-        public string GoogleSheetsClientSecret {
+        [global::System.Configuration.DefaultSettingValueAttribute("zwyP9UhVu5PidI+xrb0to7lou92s7O/cbS9nCD1mClU=")]
+        public string GoogleSheetsClientSecretEncrypted {
             get {
-                return ((string)(this["GoogleSheetsClientSecret"]));
+                return ((string)(this["GoogleSheetsClientSecretEncrypted"]));
             }
             set {
-                this["GoogleSheetsClientSecret"] = value;
+                this["GoogleSheetsClientSecretEncrypted"] = value;
             }
         }
     }

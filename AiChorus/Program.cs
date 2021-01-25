@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using AiChorus.Properties;
 using Chorus.UI.Clone;
 using ECInterfaces;
+using OneStoryProjectEditor;
 using SilEncConverters40;
 
 namespace AiChorus
@@ -78,8 +79,10 @@ namespace AiChorus
             }
 
 #if !UsingCsvAndDrive
+            var clientId = EncryptionClass.Decrypt(Settings.Default.GoogleSheetsClientIdEncrypted);
+            var clientSecret = EncryptionClass.Decrypt(Settings.Default.GoogleSheetsClientSecretEncrypted);
             GoogleSheetHandler.UpdateGoogleSheet(mapProjectsToProjectData, serverSetting.GoogleSheetId,
-                    Settings.Default.GoogleSheetsClientId, Settings.Default.GoogleSheetsClientSecret);
+                                                 clientId, clientSecret);
 #else
             var googleDocUrl = serverSetting.GoogleDocUrl;
             var googleDocProjections = ConvertToList(serverSetting.GoogleDocProjections);

@@ -19,11 +19,11 @@
   &lt;string&gt;http://hg-public.languagedepot.org&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
-    <Setting Name="GoogleSheetsClientId" Type="System.String" Scope="User">
-      <Value Profile="(Default)">368241377596-r8llc2og0en7inv9ubhgbro6qitgpq5k.apps.googleusercontent.com</Value>
+    <Setting Name="GoogleSheetsClientIdEncrypted" Type="System.String" Scope="User">
+      <Value Profile="(Default)">hqMOEEijf4CWzwvir5l/DALL9DspvG52f5JApiquXyLtpPgKGTNNtJmoFSyeKcK+VaJm88/tCaHGwW30jW7T4jqYsNdCt5kE0uajYg3VQLE=</Value>
     </Setting>
-    <Setting Name="GoogleSheetsClientSecret" Type="System.String" Scope="User">
-      <Value Profile="(Default)">v40N9qlIejq8CZiskgrYd-ZX</Value>
+    <Setting Name="GoogleSheetsClientSecretEncrypted" Type="System.String" Scope="User">
+      <Value Profile="(Default)">zwyP9UhVu5PidI+xrb0to7lou92s7O/cbS9nCD1mClU=</Value>
     </Setting>
   </Settings>
 </SettingsFile>
