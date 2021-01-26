@@ -28,6 +28,12 @@ namespace AiChorus
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+#if encryptingNewCredentials
+            var specialDecryptionKey = File.ReadAllText("gdck.dat");
+            var clientId = EncryptionClass.Encrypt(..., specialDecryptionKey);
+            var clientSecret = EncryptionClass.Encrypt(..., specialDecryptionKey);
+#endif
+
             if (Settings.Default.UpgradeSettings)
             {
                 Settings.Default.Upgrade();
@@ -79,8 +85,9 @@ namespace AiChorus
             }
 
 #if !UsingCsvAndDrive
-            var clientId = EncryptionClass.Decrypt(Settings.Default.GoogleSheetsClientIdEncrypted);
-            var clientSecret = EncryptionClass.Decrypt(Settings.Default.GoogleSheetsClientSecretEncrypted);
+            var specialDecryptionKey = File.ReadAllText("gdck.dat");
+            var clientId = EncryptionClass.Decrypt(Settings.Default.GoogleSheetsCredentialsClientId, specialDecryptionKey);
+            var clientSecret = EncryptionClass.Decrypt(Settings.Default.GoogleSheetsCredentialsClientSecret, specialDecryptionKey);
             GoogleSheetHandler.UpdateGoogleSheet(mapProjectsToProjectData, serverSetting.GoogleSheetId,
                                                  clientId, clientSecret);
 #else

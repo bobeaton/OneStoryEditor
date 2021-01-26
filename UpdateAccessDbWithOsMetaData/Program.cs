@@ -317,10 +317,14 @@ namespace UpdateAccessDbWithOsMetaData
         public static void ProcessException(Exception ex)
         {
             var strErrorMsg = ex.Message;
-            if (ex.InnerException != null)
+            var innerException = ex.InnerException;
+            while (innerException != null)
+            {
                 strErrorMsg += String.Format("{0}{0}{1}",
                                             Environment.NewLine,
-                                            ex.InnerException.Message);
+                                            innerException.Message);
+                innerException = innerException.InnerException;
+            }
             LogMessage(strErrorMsg);
         }
 
