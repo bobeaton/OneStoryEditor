@@ -177,10 +177,12 @@ namespace AiChorus
             var ts = DateTime.Now - dateTimeLastChange;
             string strTimeInState = "";
             if (ts.Days > 0)
-                strTimeInState += String.Format("{0} days, ", ts.Days);
+                strTimeInState += String.Format("{0} days", ts.Days);
+#if AddTimeInHoursAlso
             if (ts.Hours > 0)
                 strTimeInState += String.Format("{0} hours, ", ts.Hours);
             strTimeInState += String.Format("{0} minutes", ts.Minutes);
+#endif
             return strTimeInState;
         }
 

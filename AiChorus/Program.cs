@@ -78,7 +78,7 @@ namespace AiChorus
         {
             var mapProjectsToProjectData = new Dictionary<string, List<OseProjectData>>();
 
-            foreach (var project in serverSetting.Projects)
+            foreach (var project in serverSetting.Projects.Where(p => p.ExcludeFromGoogleSheet != true))
             {
                 LogMessage(String.Format("Harvesting data from the project: '{0}'", project.ProjectId));
                 HarvestProjectData(project, serverSetting, mapProjectsToProjectData);
@@ -453,7 +453,7 @@ namespace AiChorus
 
         private static void SyncServer(ServerSetting serverSetting)
         {
-            foreach (var project in serverSetting.Projects)
+            foreach (var project in serverSetting.Projects.Where(p => p.ExcludeFromSyncing != true))
             {
                 LogMessage(String.Format("Processing the project: '{0}'", project.ProjectId));
                 SyncProject(project, serverSetting);

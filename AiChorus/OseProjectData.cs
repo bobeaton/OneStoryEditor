@@ -140,8 +140,10 @@ namespace AiChorus
                     return $"{memberName} (Coach)";
 
                 case "TeamComplete":
+                    return "Preliminary Approval";
+
                 case "TeamFinalApproval":
-                    return "Any Editor";
+                    return "Final Approval";
 
                 default:
                     return "Unknown!";

@@ -143,5 +143,19 @@ namespace AiChorus
 
         [XmlAttribute]
         public string FolderName { get; set; }
+
+        /// <summary>
+        /// Set this attr to 'true' to have the project not be sync'd on Nathan Payne's machine for
+        /// daily updates
+        /// </summary>
+        [XmlAttribute]
+        public bool ExcludeFromSyncing { get; set; } = false;
+
+        /// <summary>
+        /// Set this attr to 'true' to have this project excluded from a configured GoogleSheet extract (see 
+        /// GoogleSheetUrl above)
+        /// </summary>
+        [XmlAttribute]
+        public bool ExcludeFromGoogleSheet { get; set; } = false;
     }
 }
