@@ -380,10 +380,11 @@ namespace OneStoryProjectEditor
             //  (for starters, there must *be* a currently logged in member)
             var startingStoryName = TheCurrentStory?.Name;
             var storyName = NextStoryNameInTheLoggedInMembersTurn;
+            var CurrentStoryNameLoggedInTurn = CurrentStoryNameInTheLoggedInMembersTurn;
             if (!String.IsNullOrEmpty(storyName))
             {
                 // if it's not the current story, then ask if they want to go there...
-                if (storyName != startingStoryName)
+                if (CurrentStoryNameLoggedInTurn != startingStoryName)
                 {
                     var res = LocalizableMessageBox.Show(Localizer.Str("There are stories in your turn. Would you like to go to one?"),
                                                      OseCaption,
@@ -432,6 +433,47 @@ namespace OneStoryProjectEditor
                     if ((_loggedOnMember != null) && (_loggedOnMember.MemberGuid == strMemberId))
                     {
                         return story.Name;
+                    }
+                }
+                return null;
+            }
+        }
+
+        public string CurrentStoryNameInTheLoggedInMembersTurn
+        {
+            get
+            {
+                // check to see if any of the stories are in the currently logged in member
+                //  (for starters, there must *be* a currently logged in member)
+                var teamMembers = StoryProject?.TeamMembers;
+                var storyName = TheCurrentStory?.Name;
+                if ((teamMembers == null) || (storyName == null))
+                    return null;
+
+                var storySet = TheCurrentStoriesSet;
+                var storyToStartFrom = storySet.FirstOrDefault(s => s.Name == storyName);
+                var startIndex = storySet.IndexOf(storyToStartFrom) + 1;
+                var numOfStoriesToCheck = storySet.Count;
+
+                for (var i = startIndex; numOfStoriesToCheck-- > 0; i++)
+                {
+                    if (i == storySet.Count)
+                        i = 0;  // start over at the beginning
+
+                    var story = storySet[i];
+
+                    // get the type of the member with the edit token for this story (e.g. Project Facilitator)
+                    string strRoleThatHasEditToken = GetMemberWithEditTokenAsDisplayString(teamMembers,
+                                              story.ProjStage.MemberTypeWithEditToken);
+
+                    // get the specific memberId for that member
+                    string strMemberId = MemberIDWithEditToken(story, strRoleThatHasEditToken);
+
+                    // if it's the same as the logged in member's ID, then ...
+                    if ((_loggedOnMember != null) && (_loggedOnMember.MemberGuid == strMemberId))
+                    {
+                        if (story.Name == storyName)
+                            return story.Name;
                     }
                 }
                 return null;

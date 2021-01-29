@@ -238,7 +238,7 @@ namespace OneStoryProjectEditor
 #endif
                     strTimeInState,
                     aSD.NumOfLines,
-                    aSD.NumOfTestQuestions,
+                    //aSD.NumOfTestQuestions,
                     aSD.NumOfWords(_storyProject.ProjSettings)
                 };
                 int nRowIndex = dataGridViewPanorama.Rows.Add(aObs);
@@ -1280,6 +1280,13 @@ namespace OneStoryProjectEditor
             }
 
             TextRenderer.DrawText(e.Graphics, page.Text, font, paddedBounds, page.ForeColor);
+        }
+        private void dataGridViewPanorama_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            using (SolidBrush b = new SolidBrush(dataGridViewPanorama.RowHeadersDefaultCellStyle.ForeColor))
+            {
+                e.Graphics.DrawString((e.RowIndex + 1).ToString(), e.InheritedRowStyle.Font, b, e.RowBounds.Location.X + 10, e.RowBounds.Location.Y + 4);
+            }
         }
 #endif
     }
