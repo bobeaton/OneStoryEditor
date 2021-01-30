@@ -116,23 +116,29 @@ namespace AiChorus
             var storySets = doc.Root.Descendants("stories").Where(ss => !_lstStorySetsToIgnore.Contains(ss.Attribute("SetName").Value))
                                     .Descendants("story");
 
+            if (!(PullLanguageInfo(doc, "Vernacular", out XElement languageInfo, out string languageName) ||
+                  PullLanguageInfo(doc, "NationalBt", out languageInfo, out languageName) ||
+                  PullLanguageInfo(doc, "InternationalBt", out languageInfo, out languageName) ||
+                  PullLanguageInfo(doc, "FreeTranslation", out languageInfo, out languageName)))
+            {
+                throw new ApplicationException($"Couldn't find any configured language information in the project ({projectFileSpec})!");
+            }
+
+            var memberInfo = doc.Root.Descendants("Member");
             var storyInfos = new List<OseProjectData>();
             foreach (var story in storySets)
             {
                 var lastStateTransition = story.Descendants("StateTransition")?.LastOrDefault();
                 var craftingInfo = story.Descendants("CraftingInfo").FirstOrDefault();
-                var memberInfo = doc.Root.Descendants("Member");
                 XAttribute visible;
                 var verses = story.Descendants("Verse").Where(v => ((v.Attribute("first") == null) &&
                                                                    (((visible = v.Attribute("visible")) == null) || (visible.Value == "true"))))
                                                        .ToList();
 
-                var vernacularLanguageInfo = doc.Root.Descendants("LanguageInfo").FirstOrDefault(l => l.Attribute("lang").Value == "Vernacular");
-
                 var storyInfo = new OseProjectData
                 {
                     { OseProjectData.KeyProjectName, Project.ProjectId },
-                    { OseProjectData.KeyStoryLanguageName, vernacularLanguageInfo?.Attribute("name").Value },
+                    { OseProjectData.KeyStoryLanguageName, languageName },
                     { OseProjectData.KeyStorySetName, story.Parent.Attribute("SetName").Value },
                     { OseProjectData.KeyStoryName, story.Attribute("name").Value },
                     { OseProjectData.KeyStoryPurpose, craftingInfo?.Descendants("StoryPurpose")?.FirstOrDefault()?.Value },
@@ -144,16 +150,26 @@ namespace AiChorus
                     { OseProjectData.KeyStoryCrafter, MemberLookup(memberInfo, craftingInfo?.Descendants("StoryCrafter")?.FirstOrDefault()?.Attribute("memberID")?.Value) },
                     { OseProjectData.KeyNumberOfLines, verses.Count.ToString() },
                     { OseProjectData.KeyNumberOfTestQuestions, verses.Sum(v => v.Descendants("TestQuestion").Count()).ToString() },
-                    { OseProjectData.KeyNumberOfWords, CalculateWordCount(verses, vernacularLanguageInfo).ToString() },
+                    { OseProjectData.KeyNumberOfWords, CalculateWordCount(verses, languageInfo).ToString() },
                 };
 
                 storyInfo.Add(OseProjectData.KeyCurrentEditor, storyInfo.EditorFromState(story.Attribute("stage").Value));
+
+                // spreadsheet doesn't like null values (or the lower cells bump up, I think)
+                storyInfo.Values.Where(v => v == null).ToList().ForEach(v => v = String.Empty);
 
                 Console.WriteLine($"In project {Project.ProjectId}, found story info: {storyInfo}");
                 storyInfos.Add(storyInfo);
             }
 
             mapProjectsToProjectData.Add(Project.ProjectId, storyInfos);
+        }
+
+        private static bool PullLanguageInfo(XDocument doc, string languageId, out XElement languageInfo, out string languageName)
+        {
+            languageInfo = doc.Root.Descendants("LanguageInfo").FirstOrDefault(l => l.Attribute("lang").Value == languageId);
+            languageName = languageInfo?.Attribute("name")?.Value;
+            return !String.IsNullOrEmpty(languageName);
         }
 
         private int CalculateWordCount(List<XElement> verses, XElement vernacularLanguageInfo)
