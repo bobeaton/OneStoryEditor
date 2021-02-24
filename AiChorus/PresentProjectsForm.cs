@@ -20,7 +20,9 @@ namespace AiChorus
         private const int CnColumnApplicationType = 1;
         private const int CnColumnProjectId = 2;
         private const int CnColumnFolderName = 3;
+#if AllowServerToBeConfigured
         private const int CnColumnServerName = 4;
+#endif
 
         private ChorusConfigurations _chorusConfigs;
 
@@ -53,12 +55,18 @@ namespace AiChorus
 
             var aos =
                 new object[]
-                    {strButtonLabel, strApplicationName, project.ProjectId, project.FolderName, serverSetting.ServerName};
+                    {strButtonLabel, strApplicationName, project.ProjectId, project.FolderName
+#if AllowServerToBeConfigured
+                    , serverSetting.ServerName
+#endif
+                    };
             var nRow = dataGridViewProjects.Rows.Add(aos);
             var row = dataGridViewProjects.Rows[nRow];
+#if AllowServerToBeConfigured
             row.Cells[CnColumnServerName].ToolTipText =
                 String.Format("Your username is '{0}' and password is '{1}'",
                               serverSetting.Username, serverSetting.Password);
+#endif
             row.Tag = appHandler;
         }
 
@@ -73,26 +81,8 @@ namespace AiChorus
             {
                 if (theRow.Tag == null)
                 {
-                    // means add a new one (for the project managers)
-                    var serverSettings = _chorusConfigs.ServerSettings.FirstOrDefault();
-                    string serverName = null, hgUsername = null, hgPassword = null;
-                    if (serverSettings != null)
-                    {
-                        serverName = serverSettings.ServerName;
-                        hgUsername = serverSettings.Username;
-                        hgPassword = serverSettings.DecryptedPassword;
-                    }
-
-                    if (String.IsNullOrEmpty(serverName))
-                        serverName = Properties.Resources.IDS_DefaultRepoServer;
-
-                    var model = new GetCloneFromInternetModel
-                                    {
-                                        SelectedServerLabel = serverName,
-                                        AccountName = hgUsername,
-                                        Password = hgPassword
-                                    };
-                    using (var dlg = new QueryApplicationTypeForm(_chorusConfigs, model))
+                    // means the user is adding a new one (by clicking on the bottom row)
+                    using (var dlg = new QueryApplicationTypeForm(_chorusConfigs))
                     {
                         if (dlg.ShowDialog() == DialogResult.OK)
                         {
@@ -101,7 +91,7 @@ namespace AiChorus
                     }
                     return;
                 }
-                System.Diagnostics.Debug.Assert(theRow.Tag is ApplicationSyncHandler);
+                Debug.Assert(theRow.Tag is ApplicationSyncHandler);
                 var appSyncHandler = theRow.Tag as ApplicationSyncHandler;
                 Debug.Assert(appSyncHandler != null);
                 var strOption = theRow.Cells[CnColumnOptionsButton].Value.ToString();

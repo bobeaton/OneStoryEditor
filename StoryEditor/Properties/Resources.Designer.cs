@@ -19,7 +19,7 @@ namespace OneStoryProjectEditor.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -929,11 +929,12 @@ namespace OneStoryProjectEditor.Properties {
         ///&lt;meta name=Generator content=&quot;Microsoft Word 11&quot;&gt;
         ///&lt;meta name=Originator content=&quot;Microsoft Word 11&quot;&gt;
         ///&lt;link rel=File-List href=&quot;OneStory%20Editor%20is%20Copyright_files/filelist.xml&quot;&gt;
-        ///&lt;title&gt;OneStory Editor is Copyright © 2009-2017 SIL International &lt;/title&gt;
+        ///&lt;title&gt;OneStory Editor is Copyright © 2009-2021 SIL International &lt;/title&gt;
         ///&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
         /// &lt;o:DocumentProperties&gt;
         ///  &lt;o:Author&gt;Bob Eaton&lt;/o:Author&gt;
-        ///  &lt;o:LastAuthor&gt;Bob Eaton&lt;/o:LastAuthor&gt;        /// [rest of string was truncated]&quot;;.
+        ///  &lt;o:LastAuthor&gt;Bob Eaton&lt;/o:LastAuthor&gt;
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IDS_CopyrightInfo {
             get {
@@ -966,7 +967,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to LanguageDepot.org [private].
+        ///   Looks up a localized string similar to resumable.languageforge.org.
         /// </summary>
         internal static string IDS_DefaultRepoServer {
             get {
@@ -1212,7 +1213,8 @@ namespace OneStoryProjectEditor.Properties {
         ///
         ///\+mkr ans
         ///\nam Answers
-        ///\lng InternationalBT        /// [rest of string was truncated]&quot;;.
+        ///\lng InternationalBT
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IDS_TbxFile_StoryBT {
             get {
@@ -1330,7 +1332,8 @@ namespace OneStoryProjectEditor.Properties {
         ///    &lt;!-- oneStory2CoachNotes.xsl         
         ///        create by Bob Eaton based on Jim Albright&apos;s script for storyingBT 
         ///        (to handle conversion of onestory to sfm)
-        ///        2010-04-05        /// [rest of string was truncated]&quot;;.
+        ///        2010-04-05
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string oneStory2CoachNotes {
             get {

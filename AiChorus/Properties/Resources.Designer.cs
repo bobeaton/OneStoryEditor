@@ -19,7 +19,7 @@ namespace AiChorus.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -80,7 +80,7 @@ namespace AiChorus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to LanguageDepot.org [resumable sync].
+        ///   Looks up a localized string similar to resumable.languageforge.org.
         /// </summary>
         internal static string IDS_DefaultRepoServer {
             get {
@@ -107,7 +107,7 @@ namespace AiChorus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Usage: &apos;AiChorus /f&apos; to open the project editor, and &apos;AiChorus /e&apos; to edit an Adapt It knowledge base.
+        ///   Looks up a localized string similar to Usage: &apos;AiChorus /f&apos; to open the project editor, &apos;AiChorus /e&apos; to edit an Adapt It knowledge base, &apos;AiChorus /s &lt;path to .cpc file&gt;&apos; to synchronize all projects in the file.
         /// </summary>
         internal static string UsageString {
             get {

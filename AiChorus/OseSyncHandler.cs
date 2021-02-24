@@ -85,11 +85,14 @@ namespace AiChorus
 
         public override void DoSynchronize()
         {
+            // why would we do this? Why not just do this:
+            DoSilentSynchronize();
+            /*
 #if AiChorusInOseFolder
             Program.LaunchProgram(OseRunningPath, ProjectFileSpec);
 #else
-            /* string strProjectFolder, string strProjectName, string strHgRepoUrlHost,
-            string strUsername, string strPassword*/
+            // string strProjectFolder, string strProjectName, string strHgRepoUrlHost,
+            // string strUsername, string strPassword
             var oParams = new object[]
                               {
                                   Path.Combine(AppDataRoot, Project.FolderName), 
@@ -101,6 +104,7 @@ namespace AiChorus
                               };
             _methodSyncWithRepository.Invoke(_theStoryEditor, oParams);
 #endif
+            */
         }
 
         private static List<string> _lstStorySetsToIgnore = new List<string> { "Non-Biblical Stories", "Old Stories" };
@@ -226,7 +230,8 @@ namespace AiChorus
 
         public override ProjectFolderConfiguration GetProjectFolderConfiguration(string strProjectFolder)
         {
-            var projectConfig = new ProjectFolderConfiguration(strProjectFolder);
+            var projectConfig = base.GetProjectFolderConfiguration(strProjectFolder);
+
             projectConfig.IncludePatterns.Add("*.onestory");
             projectConfig.IncludePatterns.Add("*.xml"); // the P7 key terms list
             projectConfig.IncludePatterns.Add("*.bad"); // if we write a bad file, commit that as well

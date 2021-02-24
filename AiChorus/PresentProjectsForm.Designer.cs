@@ -33,12 +33,11 @@
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.dataGridViewProjects = new System.Windows.Forms.DataGridView();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.ColumnButton = new System.Windows.Forms.DataGridViewButtonColumn();
             this.ColumnApplication = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnProjectId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnFolderName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnServerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProjects)).BeginInit();
             this.SuspendLayout();
@@ -92,8 +91,7 @@
             this.ColumnButton,
             this.ColumnApplication,
             this.ColumnProjectId,
-            this.ColumnFolderName,
-            this.ColumnServerName});
+            this.ColumnFolderName});
             this.tableLayoutPanel.SetColumnSpan(this.dataGridViewProjects, 2);
             this.dataGridViewProjects.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewProjects.Location = new System.Drawing.Point(3, 3);
@@ -101,6 +99,12 @@
             this.dataGridViewProjects.Size = new System.Drawing.Size(705, 209);
             this.dataGridViewProjects.TabIndex = 6;
             this.dataGridViewProjects.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OptionsButtonClicked);
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.DefaultExt = "cpc";
+            this.saveFileDialog.Filter = "Chorus Project Configuration Files|*.cpc|All files|*.*";
+            this.saveFileDialog.Title = "Save Project Configuration";
             // 
             // ColumnButton
             // 
@@ -138,22 +142,6 @@
     "wnloaded (cloned)";
             this.ColumnFolderName.Width = 92;
             // 
-            // ColumnServerName
-            // 
-            this.ColumnServerName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.ColumnServerName.HeaderText = "Server name";
-            this.ColumnServerName.Name = "ColumnServerName";
-            this.ColumnServerName.ReadOnly = true;
-            this.ColumnServerName.ToolTipText = "The server on which this project is stored (i.e. private.languageDepot.org or lan" +
-    "guageDepot.org, etc)";
-            this.ColumnServerName.Width = 92;
-            // 
-            // saveFileDialog
-            // 
-            this.saveFileDialog.DefaultExt = "cpc";
-            this.saveFileDialog.Filter = "Chorus Project Configuration Files|*.cpc|All files|*.*";
-            this.saveFileDialog.Title = "Save Project Configuration";
-            // 
             // PresentProjectsForm
             // 
             this.AcceptButton = this.buttonSave;
@@ -177,11 +165,10 @@
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.DataGridView dataGridViewProjects;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.DataGridViewButtonColumn ColumnButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnApplication;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnProjectId;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnFolderName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnServerName;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog;
     }
 }

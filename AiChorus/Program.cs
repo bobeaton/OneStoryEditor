@@ -69,6 +69,12 @@ namespace AiChorus
         private static void HarvestProjectData(string strPathToProjectFile)
         {
             LogMessage(String.Format("Harvesting data from the projects in the .cpc file: '{0}'", strPathToProjectFile));
+
+            if (!File.Exists("gdck.dat"))
+            {
+                LogMessage($"Missing the keyfile, 'gdck.dat'!");
+            }
+
             var chorusConfig = ChorusConfigurations.Load(strPathToProjectFile);
             foreach (var server in chorusConfig.ServerSettings)
                 HarvestProjectData(server, Path.GetFileNameWithoutExtension(strPathToProjectFile));
@@ -470,7 +476,7 @@ namespace AiChorus
             }
         }
 
-        private static void LogMessage(string strOutput)
+        public static void LogMessage(string strOutput)
         {
             Console.WriteLine(strOutput);
             var strLine = String.Format("{0}: {1}{2}", DateTime.Now, strOutput, Environment.NewLine);
@@ -615,21 +621,22 @@ namespace AiChorus
             if (Directory.Exists(strHindiToUrduProjectFolder))
                 Directory.Delete(strHindiToUrduProjectFolder, true);
             var strProjectId = "aikb-hindi-urdu";
-            var strAccountName = "bobeaton";
+            var strUsername = "bobeaton";
             var strLocalFolderName = cstrHindiToUrdu;
             var strServerName = Resources.IDS_DefaultRepoServer;
             var strPassword = "helpmepld";
 #endif
-            CloneProject(strLocalFolderName, strServerName, strAccountName, strAdaptItWorkFolder, strPassword, strProjectId);
+            CloneProject(strLocalFolderName, strServerName, strUsername, strAdaptItWorkFolder, strPassword, strProjectId);
         }
         */
+
         internal static bool CloneProject(ServerSetting serverSetting, Project project, string strProjectFolderRoot)
         {
             return CloneProject(project.FolderName, serverSetting.ServerName, serverSetting.Username,
                          strProjectFolderRoot, serverSetting.DecryptedPassword, project.ProjectId);
         }
 
-        private static bool CloneProject(string strLocalFolderName, string strServerName, string strAccountName,
+        private static bool CloneProject(string strLocalFolderName, string strServerName, string strUsername,
                                          string strProjectFolderRoot, string strPassword, string strProjectId)
         {
             if (!Directory.Exists(strProjectFolderRoot))
@@ -638,10 +645,9 @@ namespace AiChorus
             var model = new GetCloneFromInternetModel(strProjectFolderRoot)
             {
                 ProjectId = strProjectId,
-                AccountName = strAccountName,
+                Username = strUsername,
                 Password = strPassword,
-                LocalFolderName = strLocalFolderName,
-                SelectedServerLabel = strServerName
+                LocalFolderName = strLocalFolderName
             };
 
             using (var dlg = new GetCloneFromInternetDialog(model))

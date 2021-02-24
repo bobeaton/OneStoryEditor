@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="OneStory Editor" Language="1033" Version="5.0.0.0" Manufacturer="SIL" UpgradeCode="d1b1653e-35eb-4f23-b493-b8810d29962c">
+    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
+    <Condition Message="You need to be an administrator to install this product.">Privileged</Condition>
+    <Condition Message="[ProductName] will only run on Windows 2000 or better. You cannot intall it on this machine.">
+      <![CDATA[(NOT Version9X) OR (NOT VersionNT OR (VersionNT >= 500))]]>
+    </Condition>
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+
+    <Media Id='1' Cabinet='Ose1.cab' EmbedCab='yes' CompressionLevel='high'/>
+
+    <Feature Id="Always" Title="Always" Display="hidden" Level="1" AllowAdvertise="no">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentRef Id="MyAppFolder"/>
+      <MergeRef Id="OseMergeModule"/>
+      <MergeRef Id="ChorusMergeModule"/>
+      <MergeRef Id="Microsoft_VC90_CRT_x86"/>
+      <MergeRef Id="policy_9_0_Microsoft_VC90_CRT_x86"/>
+      <MergeRef Id="AIGuesserMM"/>
+      <MergeRef Id="CcDLLsMM"/>
+      <MergeRef Id="ClipboardEncConverter"/>
+      <MergeRef Id="EC_40_MM"/>
+      <MergeRef Id="Microsoft_VC100_CRT_x86"/>
+      <MergeRef Id="SEC_ICU_40"/>
+      <MergeRef Id="SetPath"/>
+      <MergeRef Id="SetSwordPath"/>
+      <MergeRef Id="TECkitDLLsMM"/>
+    </Feature>
+
+    <PropertyRef Id='MergeModulesFragment'/>
+
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="SIL" Name="SIL">
+          <Directory Id="INSTALLFOLDER" Name="OneStory Editor">
+            <Component Id="MyAppFolder" Guid="{F13C74FF-6D0C-41CC-B812-1C992FD2F49E}">
+              <CreateFolder />
+              <RemoveFile Id="PurgeAppFolder" Name="*.*" On="uninstall" />
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+      <Directory Id="WindowsFolder" SourceName="Windows">
+        <Directory Id="SystemFolder" SourceName="System32" />
+      </Directory>
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+      <Component Id="ProductComponent" Guid="{EABF30C7-D7A8-421A-9B7C-B3A58F654041}">
+        <RegistryValue Root="HKLM" Key="Software\Microsoft\Internet Explorer\MAIN\FeatureControl\FEATURE_BROWSER_EMULATION" Name="StoryEditor.exe" Type="integer" Value="9999" />
+        <RegistryValue Root="HKLM" Key="Software\Wow6432Node\Internet Explorer\MAIN\FeatureControl\FEATURE_BROWSER_EMULATION" Name="StoryEditor.exe" Type="integer" Value="9999" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

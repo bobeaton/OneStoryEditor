@@ -359,7 +359,7 @@ namespace OneStoryProjectEditor
             this.projectToAThumbdriveMenu.Size = new System.Drawing.Size(286, 22);
             this.projectToAThumbdriveMenu.Text = "Transfer via thum&bdrive...";
             this.projectToAThumbdriveMenu.ToolTipText = resources.GetString("projectToAThumbdriveMenu.ToolTipText");
-            this.projectToAThumbdriveMenu.Click += new System.EventHandler(this.toAThumbdriveToolStripMenuItem_Click);
+            this.projectToAThumbdriveMenu.Click += new System.EventHandler(this.toTheInternetToolStripMenuItem_Click);
             // 
             // projectFromASharedNetworkDriveMenu
             // 

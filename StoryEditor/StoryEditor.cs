@@ -26,6 +26,7 @@ using Control=System.Windows.Forms.Control;
 using Timer=System.Windows.Forms.Timer;
 using NetLoc;
 using SIL.Reporting;
+using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 #if EmbedSayMore
 using SayMore.UI.SessionRecording;
 #endif
@@ -608,9 +609,9 @@ namespace OneStoryProjectEditor
 
                     // Added following two lines to send receive window come up after you have loaded the project.
                     var strProjectFolder = StoryProject?.ProjSettings?.ProjectFolder;
-                    Program.SyncWithRepository(strProjectFolder, true);
+                    Program.SyncWithOneStoryRepository(strProjectFolder, true);
 
-                    var projSettings = new ProjectSettings(Path.GetDirectoryName(openFileDialog.FileName), strProjectName, true);
+                    var projSettings = new ProjectSettings(Path.GetDirectoryName(openFileDialog.FileName), strProjectName);
                     OpenProject(projSettings);
                 }
             }
@@ -646,14 +647,10 @@ namespace OneStoryProjectEditor
         {
             var model = new GetCloneFromInternetModel(ProjectSettings.OneStoryProjectFolderRoot)
             {
-                SelectedServerLabel = Resources.IDS_DefaultRepoServer
+                Username = LoggedOnMember?.HgUsername,
+                Password = LoggedOnMember?.HgPassword,
+                HasLoggedIn = true
             };
-
-            if (LoggedOnMember != null)
-            {
-                model.AccountName = LoggedOnMember.HgUsername;
-                model.Password = LoggedOnMember.HgPassword;
-            }
 
             using (var dlg = new GetCloneFromInternetDialog(model))
             {
@@ -662,16 +659,27 @@ namespace OneStoryProjectEditor
 
                 string strProjectName = Path.GetFileNameWithoutExtension(dlg.PathToNewlyClonedFolder);
 
+#if !UseUrlsWithChorus
+                if (LoggedOnMember != null)
+                {
+                    if (LoggedOnMember?.HgUsername == null)
+                    {
+                        LoggedOnMember.HgUsername = model.Username;
+                    }
+                    if (LoggedOnMember?.HgPassword == null)
+                    {
+                        LoggedOnMember.HgPassword = model.Password;
+                    }
+                }
+#else
                 // we can save this information so we can use it automatically during the next restart
                 string strFullUrl = dlg.ThreadSafeUrl;
                 var uri = new Uri(strFullUrl);
                 string strUsername, strDummy, strBaseUrl = null;
                 GetDetailsFromUri(uri, out strUsername, out strDummy, ref strBaseUrl);
                 Program.SetHgParameters(dlg.PathToNewlyClonedFolder, strProjectName, strFullUrl, strUsername);
-                var projSettings = new ProjectSettings(dlg.PathToNewlyClonedFolder, strProjectName, false)
-                                       {
-                                           HgRepoUrlHost = strBaseUrl
-                                       };
+#endif
+                var projSettings = new ProjectSettings(dlg.PathToNewlyClonedFolder, strProjectName);
                 try
                 {
                     OpenProject(projSettings);
@@ -683,12 +691,13 @@ namespace OneStoryProjectEditor
                 catch (Exception)
                 {
                     string strErrorMsg = String.Format(Resources.IDS_NoProjectFromInternet,
-                                                       Environment.NewLine, strFullUrl);
+                                                       Environment.NewLine, dlg.ThreadSafeUrl);
                     LocalizableMessageBox.Show(strErrorMsg, OseCaption);
                 }
             }
         }
 
+#if UseUrlsWithChorus
         internal static void GetDetailsFromUri(Uri uri, out string strUsername,
             out string strPassword, ref string strHgUrlBase)
         {
@@ -703,9 +712,11 @@ namespace OneStoryProjectEditor
             if (String.IsNullOrEmpty(strHgUrlBase))
                 strHgUrlBase = uri.Scheme + "://" + uri.Host;
         }
+#endif
 
         private void projectFromASharedNetworkDriveToolStripMenu_Click(object sender, EventArgs e)
         {
+#if UseUrlsWithChorus
             // has to be a "same-named" project open currently that we're just going to push
             //  to the network drive
             Debug.Assert((StoryProject != null) && (StoryProject.ProjSettings != null));
@@ -767,6 +778,7 @@ namespace OneStoryProjectEditor
                                     StoryEditor.OseCaption);
                 }
             }
+#endif
 #endif
         }
 
@@ -1000,14 +1012,14 @@ namespace OneStoryProjectEditor
 
         protected void OpenProject(string strProjectFolder, string strProjectName)
         {
-            var projSettings = new ProjectSettings(strProjectFolder, strProjectName, true);
+            var projSettings = new ProjectSettings(strProjectFolder, strProjectName);
 
             // see if we can update from a repository first before opening.
-            string strDotHgFolder = Path.Combine(projSettings.ProjectFolder, ".hg");
+            string strDotHgFolder = Program.PathToHgRepoFolder(projSettings.ProjectFolder);
             if (IsInStoriesSet && Directory.Exists(strDotHgFolder))
             {
-                string strUsername, strPassword;
-                TeamMemberData.GetHgParameters(LoggedOnMember, out strUsername, out strPassword);
+                string strUsername = null, strPassword = null;
+                LoggedOnMember?.GetHgParameters(out strUsername, out strPassword);
 
                 // can't allow a sync if two instances are running with the same project
                 Program.InsureSingleInstanceOfProgramName(strProjectName);
@@ -1016,8 +1028,11 @@ namespace OneStoryProjectEditor
                 if (!SaveAndCloseProject())
                     return;
 
+#if UseUrlsWithChorus
                 projSettings.SyncWithRepository(strUsername, strPassword);
-                // Program.SyncWithRepository(projSettings.ProjectFolder, true);
+#else
+                Program.SyncWithOneStoryRepository(projSettings.ProjectFolder, true);
+#endif
             }
 
             OpenProject(projSettings);
@@ -2797,7 +2812,7 @@ namespace OneStoryProjectEditor
             {
                 try
                 {
-                    Program.BackupInRepo(StoryProject.ProjSettings.ProjectFolder);
+                    Program.SyncWithOneStoryRepository(StoryProject.ProjSettings.ProjectFolder, false);
                 }
                 catch (Exception ex)
                 {
@@ -3074,8 +3089,8 @@ namespace OneStoryProjectEditor
                 projectRecentProjectsMenu.Enabled = (projectRecentProjectsMenu.DropDownItems.Count > 0);
 
                 projectToTheInternetMenu.Enabled =
-                    projectFromASharedNetworkDriveMenu.Enabled =
-                        ((StoryProject != null) && (StoryProject.ProjSettings != null));
+                    projectToAThumbdriveMenu.Enabled = 
+                    ((StoryProject != null) && (StoryProject.ProjSettings != null));
 
                 projectSaveProjectMenu.Enabled = Modified;
 
@@ -3087,14 +3102,13 @@ namespace OneStoryProjectEditor
                 projectLoginMenu.Enabled = (StoryProject != null);
 
                 if ((StoryProject != null) && (StoryProject.ProjSettings != null))
-                    projectSendReceiveMenu.Enabled = !String.IsNullOrEmpty(StoryProject.ProjSettings.HgRepoUrlHost);
+                    projectSendReceiveMenu.Enabled = Directory.Exists(Program.PathToHgRepoFolder(StoryProject.ProjSettings.ProjectFolder));
                 else
                     projectSendReceiveMenu.Enabled = false;
             }
             else
             {
                 projectToTheInternetMenu.Enabled =
-                    projectFromASharedNetworkDriveMenu.Enabled =
                     projectRecentProjectsMenu.Enabled =
                     projectSaveProjectMenu.Enabled =
                     projectBrowseForProjectFileMenu.Enabled =
@@ -3104,6 +3118,9 @@ namespace OneStoryProjectEditor
             }
 
             projectPrintMenu.Enabled = (StoryProject != null);
+
+            // force users to use the settings dialog in the S/R dialog to set this up
+            projectFromASharedNetworkDriveMenu.Visible = projectFromASharedNetworkDriveMenu.Enabled = false;
         }
 
         private void openNewOSEWindowProjectToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5767,20 +5784,23 @@ namespace OneStoryProjectEditor
 
             var strProjectFolder = StoryProject.ProjSettings.ProjectFolder;
             var strProjectName = StoryProject.ProjSettings.ProjectName;
+
+            /*
             Program.QueryHgRepoParameters(strProjectFolder,
                                           strProjectName,
                                           LoggedOnMember);
-
+            */
             // clean up any existing open project
             if (!SaveAndCloseProject())
                 return;
 
-            Program.SyncWithRepository(strProjectFolder, true);
+            Program.SyncWithOneStoryRepository(strProjectFolder, true);
 
-            var projSettings = new ProjectSettings(strProjectFolder, strProjectName, true);
+            var projSettings = new ProjectSettings(strProjectFolder, strProjectName);
             OpenProject(projSettings);
         }
 
+#if UseUrlsWithChorus
         private void toAThumbdriveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // if we're starting from a blank editor
@@ -5824,6 +5844,7 @@ namespace OneStoryProjectEditor
                 Program.ShowException(ex);
             }
         }
+#endif
 
         private void storyCopyWithNewNameToolStripMenuItem_Click(object sender, EventArgs e)
         {

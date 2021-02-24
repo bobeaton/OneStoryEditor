@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment Id="MergeModulesFragment">
+    <Property Id='MergeModulesFragment' Value='1'/>
+
+    <!-- Media item 1 has to be defined in Product element in Product.wxs
+    <Media Id='2' Cabinet='Ose2.cab' EmbedCab='yes' CompressionLevel='high'/>
+    <Media Id='3' Cabinet='Ose3.cab' EmbedCab='yes' CompressionLevel='high'/>-->
+
+    <DirectoryRef Id="INSTALLFOLDER">
+      <Merge Id="OseMergeModule" Language="1033" SourceFile="..\..\DepDLLs\OseMergeModule.msm" DiskId="1"/>
+      <!-- by using the package's reference, it forces us to update the merge module if the nuget is ever updated (but you have
+          to download the msm from the palaso build machine artifacts for the version of nuget you have installed. See:
+          https://build.palaso.org/viewType.html?buildTypeId=Chorus_ChorusWin32featureNugetContinuous or
+          https://build.palaso.org/repository/download/Chorus_ChorusWin32featureNugetContinuous/252172:id/ChorusMergeModule.msm-->
+      <Merge Id="ChorusMergeModule" Language="1033" SourceFile="..\..\packages\SIL.Chorus.App.3.1.0-beta0055\ChorusMergeModule.msm" DiskId="1"/>
+      <Merge Id="AIGuesserMM" Language="1033" SourceFile="..\..\packages\Encoding-Converters-Core.0.2.6\MergeModules\x86\AIGuesserMM.msm" DiskId="1"/>
+      <Merge Id="CcDLLsMM" Language="1033" SourceFile="..\..\packages\Encoding-Converters-Core.0.2.6\MergeModules\x86\CcDLLsMM.msm" DiskId="1"/>
+      <Merge Id="ClipboardEncConverter" Language="1033" SourceFile="..\..\DepDLLs\ClipboardEncConverterMM.msm" DiskId="1"/>
+      <Merge Id="EC_40_MM" Language="1033" SourceFile="..\..\packages\Encoding-Converters-Core.0.2.6\MergeModules\x86\EC_40_MM.msm" DiskId="1"/>
+      <Merge Id="SEC_ICU_40" Language="1033" SourceFile="..\..\DepDLLs\SEC_ICU_40.msm" DiskId="1"/>
+      <Merge Id="SetPath" Language="1033" SourceFile="..\..\DepDLLs\SetPath.msm" DiskId="1"/>
+      <Merge Id="SetSwordPath" Language="1033" SourceFile="..\..\DepDLLs\SetSwordPath.msm" DiskId="1"/>
+      <Merge Id="TECkitDLLsMM" Language="1033" SourceFile="..\..\packages\Encoding-Converters-Core.0.2.6\MergeModules\x86\TECkitDLLsMM.msm" DiskId="1"/>
+    </DirectoryRef>
+
+    <DirectoryRef Id="SystemFolder">
+      <Merge Id="Microsoft_VC90_CRT_x86" Language="1033" SourceFile="..\..\DepDLLs\Microsoft_VC90_CRT_x86.msm" DiskId="1"/>
+      <Merge Id="policy_9_0_Microsoft_VC90_CRT_x86" Language="1033" SourceFile="..\..\DepDLLs\policy_9_0_Microsoft_VC90_CRT_x86.msm" DiskId="1"/>
+      <Merge Id="Microsoft_VC100_CRT_x86" Language="1033" SourceFile="C:\Program Files (x86)\Common Files\Merge Modules\Microsoft_VC100_CRT_x86.msm" DiskId="1"/>
+    </DirectoryRef>
+  </Fragment>
+</Wix>

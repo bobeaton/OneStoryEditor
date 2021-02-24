@@ -419,9 +419,6 @@ of the team before overwriting a list</value>
 {1}
 &lt;/table&gt;</value>
   </data>
-  <data name="IDS_DefaultRepoServer" xml:space="preserve">
-    <value>LanguageDepot.org [private]</value>
-  </data>
   <data name="IDS_DefaultPanoramaFrontMatter" xml:space="preserve">
     <value>{\rtf1\adeflang1081\ansi\ansicpg1252\uc1\adeff0\deff0\stshfdbch0\stshfloch0\stshfhich0\stshfbi0\deflang1033\deflangfe1033{\fonttbl{\f0\froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f312\froman\fcharset238\fprq2 Times New Roman CE;}{\f313\froman\fcharset204\fprq2 Times New Roman Cyr;}
 {\f315\froman\fcharset161\fprq2 Times New Roman Greek;}{\f316\froman\fcharset162\fprq2 Times New Roman Tur;}{\f317\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew);}{\f318\fbidi \froman\fcharset178\fprq2 Times New Roman (Arabic);}
@@ -617,7 +614,7 @@ eater Panorama
 &lt;meta name=Generator content="Microsoft Word 11"&gt;
 &lt;meta name=Originator content="Microsoft Word 11"&gt;
 &lt;link rel=File-List href="OneStory%20Editor%20is%20Copyright_files/filelist.xml"&gt;
-&lt;title&gt;OneStory Editor is Copyright © 2009-2017 SIL International &lt;/title&gt;
+&lt;title&gt;OneStory Editor is Copyright © 2009-2021 SIL International &lt;/title&gt;
 &lt;!--[if gte mso 9]&gt;&lt;xml&gt;
  &lt;o:DocumentProperties&gt;
   &lt;o:Author&gt;Bob Eaton&lt;/o:Author&gt;
@@ -996,7 +993,7 @@ div.Section1
 &lt;div class=Section1&gt;
 
 &lt;p class=MsoNormal&gt;&lt;span class=SpellE&gt;OneStory&lt;/span&gt; Editor is Copyright ©
-2009-2019 SIL International &lt;/p&gt;
+2009-2021 SIL International &lt;/p&gt;
 
 &lt;p class=MsoNormal&gt;For limited support, contact: &lt;a
 href="mailto:bob_eaton@sall.com"&gt;bob_eaton@sall.com&lt;/a&gt;&lt;/p&gt;
@@ -2298,5 +2295,8 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   </data>
   <data name="HTML_TextareaWithRefDoubleClick" xml:space="preserve">
     <value>&lt;textarea id="{0}" ondblclick="OnDoubleClick()" onKeyDown="OnTextAreaKeyDown()" class="{1}"&gt;{2}&lt;/textarea&gt;</value>
+  </data>
+  <data name="IDS_DefaultRepoServer" xml:space="preserve">
+    <value>resumable.languageforge.org</value>
   </data>
 </root>

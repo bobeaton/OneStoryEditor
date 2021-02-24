@@ -12,7 +12,7 @@ namespace OneStoryProjectEditor.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.8.1.0")]
     public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -853,26 +853,6 @@ namespace OneStoryProjectEditor.Properties {
             }
             set {
                 this["ListSwordModuleToRtl"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>LanguageDepot.org [resumable sync]</string>
-  <string>http://resumable.languagedepot.org</string>
-  <string>LanguageDepot.org [private]</string>
-  <string>http://hg-private.languagedepot.org</string>
-  <string>LanguageDepot.org [legacy sync]</string>
-  <string>http://hg-public.languagedepot.org</string>
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection AdaptItDefaultServerLabels {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["AdaptItDefaultServerLabels"]));
-            }
-            set {
-                this["AdaptItDefaultServerLabels"] = value;
             }
         }
         

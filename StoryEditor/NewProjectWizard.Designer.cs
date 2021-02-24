@@ -37,17 +37,6 @@
             this.checkBoxUseDropBox = new System.Windows.Forms.CheckBox();
             this.checkBoxUseInternetRepo = new System.Windows.Forms.CheckBox();
             this.textBoxProjectNameInstructions = new System.Windows.Forms.TextBox();
-            this.tabPageInternetRepository = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanelInternetRepo = new System.Windows.Forms.TableLayoutPanel();
-            this.textBoxInternetRepoInstructions = new System.Windows.Forms.TextBox();
-            this.textBoxHgRepoUrlBase = new System.Windows.Forms.TextBox();
-            this.labelUrlBase = new System.Windows.Forms.Label();
-            this.textBoxUsername = new System.Windows.Forms.TextBox();
-            this.labelUsername = new System.Windows.Forms.Label();
-            this.textBoxHgRepoUrl = new System.Windows.Forms.TextBox();
-            this.labelUrl = new System.Windows.Forms.Label();
-            this.textBoxPassword = new System.Windows.Forms.TextBox();
-            this.labelPassword = new System.Windows.Forms.Label();
             this.tabPageLanguages = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelWhichLanguagesWhere = new System.Windows.Forms.TableLayoutPanel();
             this.labelDropbox = new System.Windows.Forms.Label();
@@ -158,11 +147,10 @@
             this.fontDialog = new System.Windows.Forms.FontDialog();
             this.folderBrowserDropbox = new System.Windows.Forms.FolderBrowserDialog();
             this.button1 = new System.Windows.Forms.Button();
+            this.buttonConfigureInternetRepo = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabPageProjectName.SuspendLayout();
             this.tableLayoutPanelProjectName.SuspendLayout();
-            this.tabPageInternetRepository.SuspendLayout();
-            this.tableLayoutPanelInternetRepo.SuspendLayout();
             this.tabPageLanguages.SuspendLayout();
             this.tableLayoutPanelWhichLanguagesWhere.SuspendLayout();
             this.tabPageLanguageVernacular.SuspendLayout();
@@ -184,7 +172,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabPageProjectName);
-            this.tabControl.Controls.Add(this.tabPageInternetRepository);
             this.tabControl.Controls.Add(this.tabPageLanguages);
             this.tabControl.Controls.Add(this.tabPageLanguageVernacular);
             this.tabControl.Controls.Add(this.tabPageLanguageNationalBT);
@@ -213,11 +200,13 @@
             // 
             // tableLayoutPanelProjectName
             // 
-            this.tableLayoutPanelProjectName.ColumnCount = 1;
-            this.tableLayoutPanelProjectName.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelProjectName.ColumnCount = 2;
+            this.tableLayoutPanelProjectName.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanelProjectName.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelProjectName.Controls.Add(this.textBoxProjectName, 0, 0);
             this.tableLayoutPanelProjectName.Controls.Add(this.checkBoxUseDropBox, 0, 2);
             this.tableLayoutPanelProjectName.Controls.Add(this.checkBoxUseInternetRepo, 0, 1);
+            this.tableLayoutPanelProjectName.Controls.Add(this.buttonConfigureInternetRepo, 1, 1);
             this.tableLayoutPanelProjectName.Location = new System.Drawing.Point(17, 18);
             this.tableLayoutPanelProjectName.Name = "tableLayoutPanelProjectName";
             this.tableLayoutPanelProjectName.RowCount = 3;
@@ -230,6 +219,7 @@
             // textBoxProjectName
             // 
             this.textBoxProjectName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelProjectName.SetColumnSpan(this.textBoxProjectName, 2);
             this.textBoxProjectName.Location = new System.Drawing.Point(3, 11);
             this.textBoxProjectName.Name = "textBoxProjectName";
             this.textBoxProjectName.Size = new System.Drawing.Size(708, 20);
@@ -238,6 +228,7 @@
             // checkBoxUseDropBox
             // 
             this.checkBoxUseDropBox.AutoSize = true;
+            this.tableLayoutPanelProjectName.SetColumnSpan(this.checkBoxUseDropBox, 2);
             this.checkBoxUseDropBox.Location = new System.Drawing.Point(3, 89);
             this.checkBoxUseDropBox.Name = "checkBoxUseDropBox";
             this.checkBoxUseDropBox.Size = new System.Drawing.Size(502, 17);
@@ -271,138 +262,6 @@
             this.textBoxProjectNameInstructions.TabIndex = 2;
             this.textBoxProjectNameInstructions.TabStop = false;
             this.textBoxProjectNameInstructions.Text = resources.GetString("textBoxProjectNameInstructions.Text");
-            // 
-            // tabPageInternetRepository
-            // 
-            this.tabPageInternetRepository.Controls.Add(this.tableLayoutPanelInternetRepo);
-            this.tabPageInternetRepository.Location = new System.Drawing.Point(4, 22);
-            this.tabPageInternetRepository.Name = "tabPageInternetRepository";
-            this.tabPageInternetRepository.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageInternetRepository.Size = new System.Drawing.Size(750, 335);
-            this.tabPageInternetRepository.TabIndex = 6;
-            this.tabPageInternetRepository.Text = "Internet Repository";
-            this.tabPageInternetRepository.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanelInternetRepo
-            // 
-            this.tableLayoutPanelInternetRepo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanelInternetRepo.ColumnCount = 2;
-            this.tableLayoutPanelInternetRepo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelInternetRepo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelInternetRepo.Controls.Add(this.textBoxInternetRepoInstructions, 0, 6);
-            this.tableLayoutPanelInternetRepo.Controls.Add(this.textBoxHgRepoUrlBase, 0, 0);
-            this.tableLayoutPanelInternetRepo.Controls.Add(this.labelUrlBase, 0, 1);
-            this.tableLayoutPanelInternetRepo.Controls.Add(this.textBoxUsername, 0, 2);
-            this.tableLayoutPanelInternetRepo.Controls.Add(this.labelUsername, 0, 3);
-            this.tableLayoutPanelInternetRepo.Controls.Add(this.textBoxHgRepoUrl, 0, 4);
-            this.tableLayoutPanelInternetRepo.Controls.Add(this.labelUrl, 0, 5);
-            this.tableLayoutPanelInternetRepo.Controls.Add(this.textBoxPassword, 1, 2);
-            this.tableLayoutPanelInternetRepo.Controls.Add(this.labelPassword, 1, 3);
-            this.tableLayoutPanelInternetRepo.Location = new System.Drawing.Point(15, 15);
-            this.tableLayoutPanelInternetRepo.Name = "tableLayoutPanelInternetRepo";
-            this.tableLayoutPanelInternetRepo.RowCount = 7;
-            this.tableLayoutPanelInternetRepo.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelInternetRepo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9F));
-            this.tableLayoutPanelInternetRepo.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelInternetRepo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9F));
-            this.tableLayoutPanelInternetRepo.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelInternetRepo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9F));
-            this.tableLayoutPanelInternetRepo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 73F));
-            this.tableLayoutPanelInternetRepo.Size = new System.Drawing.Size(718, 302);
-            this.tableLayoutPanelInternetRepo.TabIndex = 1;
-            // 
-            // textBoxInternetRepoInstructions
-            // 
-            this.textBoxInternetRepoInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanelInternetRepo.SetColumnSpan(this.textBoxInternetRepoInstructions, 2);
-            this.textBoxInternetRepoInstructions.Location = new System.Drawing.Point(3, 141);
-            this.textBoxInternetRepoInstructions.Multiline = true;
-            this.textBoxInternetRepoInstructions.Name = "textBoxInternetRepoInstructions";
-            this.textBoxInternetRepoInstructions.ReadOnly = true;
-            this.textBoxInternetRepoInstructions.Size = new System.Drawing.Size(712, 158);
-            this.textBoxInternetRepoInstructions.TabIndex = 8;
-            this.textBoxInternetRepoInstructions.TabStop = false;
-            this.textBoxInternetRepoInstructions.Text = resources.GetString("textBoxInternetRepoInstructions.Text");
-            // 
-            // textBoxHgRepoUrlBase
-            // 
-            this.tableLayoutPanelInternetRepo.SetColumnSpan(this.textBoxHgRepoUrlBase, 2);
-            this.textBoxHgRepoUrlBase.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxHgRepoUrlBase.Location = new System.Drawing.Point(3, 3);
-            this.textBoxHgRepoUrlBase.Name = "textBoxHgRepoUrlBase";
-            this.textBoxHgRepoUrlBase.Size = new System.Drawing.Size(712, 20);
-            this.textBoxHgRepoUrlBase.TabIndex = 0;
-            this.textBoxHgRepoUrlBase.TextChanged += new System.EventHandler(this.textBoxHgRepo_TextChanged);
-            // 
-            // labelUrlBase
-            // 
-            this.labelUrlBase.AutoSize = true;
-            this.tableLayoutPanelInternetRepo.SetColumnSpan(this.labelUrlBase, 2);
-            this.labelUrlBase.Location = new System.Drawing.Point(3, 26);
-            this.labelUrlBase.Name = "labelUrlBase";
-            this.labelUrlBase.Size = new System.Drawing.Size(166, 13);
-            this.labelUrlBase.TabIndex = 1;
-            this.labelUrlBase.Text = "Internet host address of repository";
-            // 
-            // textBoxUsername
-            // 
-            this.textBoxUsername.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxUsername.Location = new System.Drawing.Point(3, 49);
-            this.textBoxUsername.Name = "textBoxUsername";
-            this.textBoxUsername.Size = new System.Drawing.Size(353, 20);
-            this.textBoxUsername.TabIndex = 2;
-            this.textBoxUsername.TextChanged += new System.EventHandler(this.textBoxHgRepo_TextChanged);
-            // 
-            // labelUsername
-            // 
-            this.labelUsername.AutoSize = true;
-            this.labelUsername.Location = new System.Drawing.Point(3, 72);
-            this.labelUsername.Name = "labelUsername";
-            this.labelUsername.Size = new System.Drawing.Size(155, 13);
-            this.labelUsername.TabIndex = 3;
-            this.labelUsername.Text = "Username on the repository site";
-            // 
-            // textBoxHgRepoUrl
-            // 
-            this.tableLayoutPanelInternetRepo.SetColumnSpan(this.textBoxHgRepoUrl, 2);
-            this.textBoxHgRepoUrl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxHgRepoUrl.Location = new System.Drawing.Point(3, 95);
-            this.textBoxHgRepoUrl.Name = "textBoxHgRepoUrl";
-            this.textBoxHgRepoUrl.ReadOnly = true;
-            this.textBoxHgRepoUrl.Size = new System.Drawing.Size(712, 20);
-            this.textBoxHgRepoUrl.TabIndex = 6;
-            this.textBoxHgRepoUrl.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBoxHgRepoUrl_MouseClick);
-            // 
-            // labelUrl
-            // 
-            this.labelUrl.AutoSize = true;
-            this.labelUrl.Location = new System.Drawing.Point(3, 118);
-            this.labelUrl.Name = "labelUrl";
-            this.labelUrl.Size = new System.Drawing.Size(178, 13);
-            this.labelUrl.TabIndex = 7;
-            this.labelUrl.Text = "Internet address of project repository";
-            // 
-            // textBoxPassword
-            // 
-            this.textBoxPassword.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxPassword.Location = new System.Drawing.Point(362, 49);
-            this.textBoxPassword.Name = "textBoxPassword";
-            this.textBoxPassword.Size = new System.Drawing.Size(353, 20);
-            this.textBoxPassword.TabIndex = 4;
-            this.textBoxPassword.TextChanged += new System.EventHandler(this.textBoxHgRepo_TextChanged);
-            // 
-            // labelPassword
-            // 
-            this.labelPassword.AutoSize = true;
-            this.labelPassword.Location = new System.Drawing.Point(362, 72);
-            this.labelPassword.Name = "labelPassword";
-            this.labelPassword.Size = new System.Drawing.Size(153, 13);
-            this.labelPassword.TabIndex = 5;
-            this.labelPassword.Text = "Password on the repository site";
             // 
             // tabPageLanguages
             // 
@@ -1736,6 +1595,16 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.buttonSave_Click);
             // 
+            // buttonConfigureInternetRepo
+            // 
+            this.buttonConfigureInternetRepo.Location = new System.Drawing.Point(360, 46);
+            this.buttonConfigureInternetRepo.Name = "buttonConfigureInternetRepo";
+            this.buttonConfigureInternetRepo.Size = new System.Drawing.Size(75, 23);
+            this.buttonConfigureInternetRepo.TabIndex = 4;
+            this.buttonConfigureInternetRepo.Text = "Configure";
+            this.buttonConfigureInternetRepo.UseVisualStyleBackColor = true;
+            this.buttonConfigureInternetRepo.Click += new System.EventHandler(this.buttonConfigureInternetRepo_Click);
+            // 
             // NewProjectWizard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1755,9 +1624,6 @@
             this.tabPageProjectName.PerformLayout();
             this.tableLayoutPanelProjectName.ResumeLayout(false);
             this.tableLayoutPanelProjectName.PerformLayout();
-            this.tabPageInternetRepository.ResumeLayout(false);
-            this.tableLayoutPanelInternetRepo.ResumeLayout(false);
-            this.tableLayoutPanelInternetRepo.PerformLayout();
             this.tabPageLanguages.ResumeLayout(false);
             this.tabPageLanguages.PerformLayout();
             this.tableLayoutPanelWhichLanguagesWhere.ResumeLayout(false);
@@ -1840,17 +1706,6 @@
         private System.Windows.Forms.CheckBox checkBoxIsRTLVernacular;
         private System.Windows.Forms.TextBox textBoxSentFullStopVernacular;
         private System.Windows.Forms.ComboBox comboBoxKeyboardVernacular;
-        private System.Windows.Forms.TabPage tabPageInternetRepository;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelInternetRepo;
-        private System.Windows.Forms.TextBox textBoxHgRepoUrlBase;
-        private System.Windows.Forms.Label labelUrlBase;
-        private System.Windows.Forms.TextBox textBoxUsername;
-        private System.Windows.Forms.Label labelUsername;
-        private System.Windows.Forms.Label labelPassword;
-        private System.Windows.Forms.TextBox textBoxHgRepoUrl;
-        private System.Windows.Forms.Label labelUrl;
-        private System.Windows.Forms.TextBox textBoxInternetRepoInstructions;
-        private System.Windows.Forms.TextBox textBoxPassword;
         private System.Windows.Forms.CheckBox checkBoxUseInternetRepo;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Button buttonPrevious;
@@ -1914,5 +1769,6 @@
         private System.Windows.Forms.Button buttonBrowseEthnologueCodesFreeTranslation;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelProjectName;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonConfigureInternetRepo;
     }
 }

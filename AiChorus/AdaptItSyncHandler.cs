@@ -27,6 +27,8 @@ namespace AiChorus
         {
             var strProjectFolder = Path.Combine(AppDataRoot, Project.FolderName);
             var strProjectName = Project.ProjectId;
+
+#if UseUrlsWithChorus
             var uri = new Uri("http://resumable.languagedepot.org");
             var strPassword = ServerSetting.DecryptedPassword;
             var strRepoUrl = String.Format("{0}://{1}{2}@{3}/{4}",
@@ -35,13 +37,12 @@ namespace AiChorus
                                                ? null
                                                : ':' + strPassword,
                                            uri.Host, strProjectName);
-
-            SyncWithAiRepo(strProjectFolder, strProjectName, strRepoUrl);
+#endif
+            SyncWithAiRepo(strProjectFolder, strProjectName);
         }
 
         // taken wholesale from OSE (so we don't need to depend on OSE--before we just called OSE to do it)
-        public const string CstrInternetName = "Internet";
-        private void SyncWithAiRepo(string strProjectFolder, string strProjectName, string strRepoUrl)
+        private void SyncWithAiRepo(string strProjectFolder, string strProjectName)
         {
             // AdaptIt creates the xml file in a different way than we'd like (it
             //  triggers a whole file change set). So before we attempt to merge, let's
@@ -69,8 +70,11 @@ namespace AiChorus
             using (var dlg = new SyncDialog(projectConfig, SyncUIDialogBehaviors.Lazy, SyncUIFeatures.NormalRecommended))
             {
                 dlg.UseTargetsAsSpecifiedInSyncOptions = true;
+#if UseUrlsWithChorus
+                // shouldn't need to do this, bkz we wouldn't be here if it wasn't already cloned
                 if (!String.IsNullOrEmpty(strRepoUrl))
                     dlg.SyncOptions.RepositorySourcesToTry.Add(RepositoryAddress.Create(CstrInternetName, strRepoUrl));
+#endif
                 dlg.Text = Resources.SynchronizingAdaptItDialogTitle + strProjectName;
                 dlg.ShowDialog();
             }
@@ -107,9 +111,9 @@ namespace AiChorus
 
         public override ProjectFolderConfiguration GetProjectFolderConfiguration(string strProjectFolder)
         {
-            // if there's no repo yet, then create one (even if we aren't going
-            //  to ultimately push with an internet repo, we still want one locally)
-            var projectConfig = new ProjectFolderConfiguration(strProjectFolder);
+            var projectConfig = base.GetProjectFolderConfiguration(strProjectFolder);
+
+            // initalize the files that we want the repo to keep track of            
             projectConfig.IncludePatterns.Add("*.xml"); // AI KB
             projectConfig.IncludePatterns.Add("*.ChorusNotes"); // the new conflict file
             projectConfig.IncludePatterns.Add("*.aic");

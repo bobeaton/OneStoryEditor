@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Chorus.Model;
 using Chorus.sync;
 using Chorus.UI.Sync;
 
@@ -70,6 +71,10 @@ namespace AiChorus
                 dlg.UseTargetsAsSpecifiedInSyncOptions = true;
                 dlg.Text = "Synchronizing Project: " + Project.FolderName;
                 dlg.ShowDialog();
+                if (!dlg.SyncResult.Succeeded)
+                {
+                    Program.LogMessage($"Silent sync failed for {strProjectFolder}. Reason: {dlg.SyncResult.ErrorEncountered}");
+                }
             }
 
         }
@@ -97,6 +102,24 @@ namespace AiChorus
             throw new NotImplementedException();
         }
 
-        public abstract ProjectFolderConfiguration GetProjectFolderConfiguration(string strProjectFolder);
+        public virtual ProjectFolderConfiguration GetProjectFolderConfiguration(string strProjectFolder)
+        {
+            // until some future version of Chorus, we might need to programmatically trigger
+            //  the update to the hgrc file... check if that's needed
+            var hgrcPath = Path.Combine(Path.Combine(strProjectFolder, ".hg"), "hgrc");
+            var hgrcLines = File.ReadAllLines(hgrcPath);
+            var languageDepotPaths = hgrcLines.Where(l => l.Contains("languagedepot.org")).ToList();
+            if (languageDepotPaths.Any())
+            {
+                var model = new ServerSettingsModel()
+                {
+                    Username = ServerSetting.Username,
+                    Password = ServerSetting.DecryptedPassword
+                };
+                model.InitFromProjectPath(strProjectFolder);
+                model.SaveSettings();
+            }
+            return new ProjectFolderConfiguration(strProjectFolder);
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using Chorus.UI.Clone;
 using ECInterfaces;
 using NetLoc;
 using SilEncConverters40;
@@ -258,7 +259,7 @@ namespace OneStoryProjectEditor
             if (res == DialogResult.No)
             {
                 string strProjectFolder;
-                DoPushPull(out strProjectFolder);
+                DoPull(out strProjectFolder);
                 if (String.IsNullOrEmpty(strProjectFolder))
                     return;
 
@@ -338,12 +339,81 @@ namespace OneStoryProjectEditor
 
                 // now we know which local AI project it is and it's EncConverter, but now
                 //  we need to possibly push the project.
-                DoPushPull(out strProjectFolder);
+                DoPush(out strProjectFolder);
                 if (!String.IsNullOrEmpty(strProjectFolder))
                     _strAdaptItProjectFolderName = Path.GetFileNameWithoutExtension(strProjectFolder);
             }
         }
 
+#if !UseUrlsWithChorus
+        private void DoPull(out string strProjectFolder)
+        {
+            strProjectFolder = null;
+            string strAiWorkFolder;
+            string strProjectFolderName;
+            if (!GetAiRepoSettings(out strAiWorkFolder, out strProjectFolderName))
+                return;
+
+            if (!Directory.Exists(strAiWorkFolder))
+                Directory.CreateDirectory(strAiWorkFolder);
+
+            var model = new GetCloneFromInternetModel(strAiWorkFolder)
+            {
+                Username = Parent?.LoggedInMember?.HgUsername,
+                Password = Parent?.LoggedInMember?.HgPassword,
+                LocalFolderName = strProjectFolderName
+            };
+
+            using (var dlg = new GetCloneFromInternetDialog(model))
+            {
+                if (DialogResult.OK == dlg.ShowDialog())
+                {
+                    strProjectFolder = dlg.PathToNewlyClonedFolder;
+
+                    // here (with pull) is one of the few places we actually query the user
+                    //  for a username/password. Currently, the code assumes that they will
+                    //  be the same as the project account, so make sure that's the case
+                    if ((Parent != null) && (Parent.LoggedInMember != null))
+                    {
+                        // in the case that the project isn't being used on the internet, but
+                        //  the AdaptIt project is, then set the username/password for it.
+                        if (String.IsNullOrEmpty(Parent.LoggedInMember.HgUsername))
+                            Parent.LoggedInMember.HgUsername = model.Username;
+
+                        if (String.IsNullOrEmpty(Parent.LoggedInMember.HgPassword))
+                            Parent.LoggedInMember.HgPassword = model.Password;
+                    }
+
+                    Program.SetAiProjectForSyncage(strProjectFolder, model.ProjectId);
+                }
+            }
+        }
+
+        private bool GetAiRepoSettings(out string strAiWorkFolder, out string strProjectFolderName)
+        {
+            // e.g. <My Documents>\Adapt It Unicode Work
+            strAiWorkFolder = AdaptItKBReader.AdaptItWorkFolder;
+
+            // e.g. "Kangri to Hindi adaptations"
+            strProjectFolderName = String.Format(Properties.Resources.IDS_AdaptItProjectFolderFormat,
+                                                 SourceLanguageName, TargetLanguageName);
+
+            return true;
+        }
+
+        private void DoPush(out string strProjectFolder)
+        {
+            strProjectFolder = null;
+            string strAiWorkFolder, strProjectFolderName;
+            if (!GetAiRepoSettings(out strAiWorkFolder, out strProjectFolderName))
+                return;
+
+            var strValue = LocalizableMessageBox.InputBox(Localizer.Str("Enter the AdaptIt knowledge base project name (e.g. aikb-hindi-english)"),
+                                StoryEditor.OseCaption, "aikb-");
+
+            Program.SyncWithAiRepository(strAiWorkFolder, strValue, true, true);
+        }
+#else
         private void DoPushPull(out string strProjectFolder)
         {
             strProjectFolder = null;
@@ -376,6 +446,7 @@ namespace OneStoryProjectEditor
                 LocalizableMessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
             }
         }
+#endif
 
         private void radioButtonNone_Click(object sender, EventArgs e)
         {

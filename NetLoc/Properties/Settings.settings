@@ -1,9 +1,0 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="NetLoc.Properties" GeneratedClassName="Settings">
-  <Profiles />
-  <Settings>
-    <Setting Name="NetLoc_com_microsofttranslator_api_Soap" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://api.microsofttranslator.com/V1/Soap.svc</Value>
-    </Setting>
-  </Settings>
-</SettingsFile>

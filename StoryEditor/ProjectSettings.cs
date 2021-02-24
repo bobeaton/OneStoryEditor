@@ -23,7 +23,6 @@ namespace OneStoryProjectEditor
         public string ProjectName;
         protected string _strProjectFolder;
 
-        public string HgRepoUrlHost;    // e.g. http://hg-private.languagedepot.org
         public bool UseDropbox;
         public bool DropboxStory;
         public bool DropboxRetelling;
@@ -50,24 +49,26 @@ namespace OneStoryProjectEditor
         public ShowLanguageFields ShowTestQuestions = new ShowLanguageFields();
         public ShowLanguageFields ShowAnswers = new ShowLanguageFields();
 
-        public ProjectSettings(string strProjectFolderDefaultIfNull, string strProjectName,
-            bool bLookForHgUrlHost)
+        public ProjectSettings(string strProjectFolderDefaultIfNull, string strProjectName)
         {
             ProjectName = strProjectName;
             if (String.IsNullOrEmpty(strProjectFolderDefaultIfNull))
                 _strProjectFolder = GetDefaultProjectPath(ProjectName);
             else
             {
-                System.Diagnostics.Debug.Assert(strProjectFolderDefaultIfNull[strProjectFolderDefaultIfNull.Length - 1] != '\\');
+                Debug.Assert(strProjectFolderDefaultIfNull[strProjectFolderDefaultIfNull.Length - 1] != '\\');
                 _strProjectFolder = strProjectFolderDefaultIfNull;
             }
 
+#if UseUrlsWithChorus
             if (bLookForHgUrlHost)
             {
                 HgRepoUrlHost = GetHgRepoUrlHostFromProjectFile();
             }
+#endif
         }
 
+#if UseUrlsWithChorus
         private string GetHgRepoUrlHostFromProjectFile()
         {
             if (!File.Exists(ProjectFilePath))
@@ -104,6 +105,7 @@ namespace OneStoryProjectEditor
             }
             return strBaseUrl;
         }
+#endif
 
         public ProjectSettings(XmlNode node, string strProjectFolder)
         {
@@ -113,10 +115,6 @@ namespace OneStoryProjectEditor
                               : null;
 
             _strProjectFolder = strProjectFolder;
-
-            HgRepoUrlHost = ((attr = node.Attributes[StoryProjectData.CstrAttributeHgRepoUrlHost]) != null)
-                                 ? attr.Value
-                                 : null;
 
             UseDropbox = ((attr = node.Attributes[StoryProjectData.CstrAttributeUseDropbox]) != null) && (attr.Value == "true");
             DropboxStory = ((attr = node.Attributes[StoryProjectData.CstrAttributeDropboxStory]) != null) && (attr.Value == "true");
@@ -139,7 +137,7 @@ namespace OneStoryProjectEditor
 
         public void SerializeProjectSettings(NewDataSet projFile)
         {
-            System.Diagnostics.Debug.Assert((projFile != null) && (projFile.StoryProject[0].ProjectName == ProjectName));
+            Debug.Assert((projFile != null) && (projFile.StoryProject[0].ProjectName == ProjectName));
 
             NewDataSet.LanguagesRow theLangRow = InsureLanguagesRow(projFile);
 
@@ -216,7 +214,7 @@ namespace OneStoryProjectEditor
             if (!bFoundInternationalBt)
             {
                 InternationalBT.LangName = null;
-                System.Diagnostics.Debug.Assert(!InternationalBT.HasData);
+                Debug.Assert(!InternationalBT.HasData);
             }
 
             // the "international language" will appear to "have data" even when it shouldn't
@@ -224,7 +222,7 @@ namespace OneStoryProjectEditor
             if (!bFoundFreeTranslation)
             {
                 FreeTranslation.LangName = null;
-                System.Diagnostics.Debug.Assert(!FreeTranslation.HasData);
+                Debug.Assert(!FreeTranslation.HasData);
             }
 
             // if we're setting this up from the file, then we're "configured"
@@ -280,7 +278,6 @@ namespace OneStoryProjectEditor
             public string RepoProjectName { get; set; }
             public string RepositoryServer { get; set; }
             public string NetworkRepositoryPath { get; set; }
-
             public bool HasData
             {
                 get { return (ProjectType != AdaptItProjectType.None); }
@@ -290,7 +287,7 @@ namespace OneStoryProjectEditor
             {
                 get
                 {
-                    System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(ConverterName));
+                    Debug.Assert(!String.IsNullOrEmpty(ConverterName));
                     var elem = new XElement(CstrElementLabelAdaptItConfiguration,
                                             new XAttribute(CstrAttributeLabelBtDirection, BtDirection.ToString()),
                                             new XAttribute(CstrAttributeLabelProjectType, ProjectType.ToString()),
@@ -315,11 +312,12 @@ namespace OneStoryProjectEditor
             public bool AlreadyCheckedForSync;
             public void CheckForSync(string strProjectFolder, TeamMemberData loggedOnMember)
             {
-                System.Diagnostics.Debug.Assert(ProjectType == AdaptItProjectType.SharedAiProject);
+                Debug.Assert(ProjectType == AdaptItProjectType.SharedAiProject);
                 if (!AlreadyCheckedForSync
                     && !String.IsNullOrEmpty(strProjectFolder)
                     && !String.IsNullOrEmpty(RepoProjectName))
                 {
+#if UseUrlsWithChorus
                     if (!Program.AreAdaptItHgParametersSet(RepoProjectName))
                     {
                         Program.SetAdaptItHgParameters(strProjectFolder,
@@ -328,13 +326,13 @@ namespace OneStoryProjectEditor
                                                        loggedOnMember.HgUsername,
                                                        loggedOnMember.HgPassword);
                     }
-
+#endif
                     // if the folder doesn't exist or the repo doesn't exist...
                     if (!Directory.Exists(strProjectFolder) ||
-                        !Directory.Exists(Path.Combine(strProjectFolder, ".hg")))
+                        !Directory.Exists(Program.PathToHgRepoFolder(strProjectFolder)))
                     {
                         // offer to clone it
-                        if (LocalizableMessageBox.Show(Localizer.Str("The shared Adapt It project for this field is not on the local computer. Please enter the necessary information in the next window to download it from the internet (i.e. the repository server, username and password). These should be in an email message you received previously"),
+                        if (LocalizableMessageBox.Show(Localizer.Str("The shared Adapt It project for this field is not on the local computer. Please enter the necessary information in the next window to download it from the internet (i.e. username, password, etc). These should be in an email message you received previously or contact your consultant."),
                                             StoryEditor.OseCaption,
                                             MessageBoxButtons.OKCancel) == DialogResult.Cancel)
                             return;
@@ -343,7 +341,7 @@ namespace OneStoryProjectEditor
                             return;
                     }
                     else
-                        Program.SyncWithAiRepository(strProjectFolder, RepoProjectName, true);
+                        Program.SyncWithAiRepository(strProjectFolder, RepoProjectName, true, true);
 
                     Program.SetAiProjectForSyncage(strProjectFolder, RepoProjectName);
                     AlreadyCheckedForSync = true;
@@ -353,11 +351,7 @@ namespace OneStoryProjectEditor
             public bool DoPossiblePull(string strProjectFolder, TeamMemberData loggedOnMember)
             {
                 string strHgUsername = null, strHgPassword = null;
-                if (loggedOnMember != null)
-                {
-                    strHgUsername = loggedOnMember.HgUsername;
-                    strHgPassword = loggedOnMember.HgPassword;
-                }
+                loggedOnMember?.GetHgParameters(out strHgUsername, out strHgPassword);
 
                 // the GetClone dialog is expecting that the parent folder exist (e.g.
                 //  C:\Documents and Settings\Bob\My Documents\Adapt It Unicode Work)
@@ -373,24 +367,19 @@ namespace OneStoryProjectEditor
 
                 var model = new GetCloneFromInternetModel(strAiWorkFolder)
                 {
+                    // to edit an existing, LocalFolderName, Username, Password, and call InitFromUri
                     ProjectId = RepoProjectName,
-                    SelectedServerLabel = strServerLabel,
+                    // SelectedServerLabel = strServerLabel,
                     LocalFolderName = strAiProjectFolderName,
-                    AccountName = strHgUsername,
-                    Password = strHgPassword
+                    Username = strHgUsername,
+                    Password = strHgPassword,
                 };
+
+                model.InitFromProjectPath(Path.Combine(strAiWorkFolder, strAiProjectFolderName));
 
                 using (var dlg = new GetCloneFromInternetDialog(model))
                 {
-                    if (DialogResult.Cancel == dlg.ShowDialog())
-                        return false;
-
-                    // we can save this information so we can use it automatically during the next restart
-                    Program.SetAdaptItHgParameters(dlg.PathToNewlyClonedFolder,
-                                                   RepoProjectName = model.ProjectId,
-                                                   RepositoryServer = model.SelectedServerLabel,
-                                                   model.AccountName,
-                                                   model.Password);
+                    dlg.ShowDialog();
                 }
 
                 return true;
@@ -479,7 +468,7 @@ namespace OneStoryProjectEditor
                     if (!value)
                         LangName = null;
                     else
-                        System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(LangName));
+                        Debug.Assert(!String.IsNullOrEmpty(LangName));
                 }
             }
 
@@ -692,7 +681,7 @@ namespace OneStoryProjectEditor
             get
             {
                 // have to have one or the other languages
-                System.Diagnostics.Debug.Assert(Vernacular.HasData || NationalBT.HasData || InternationalBT.HasData || FreeTranslation.HasData);
+                Debug.Assert(Vernacular.HasData || NationalBT.HasData || InternationalBT.HasData || FreeTranslation.HasData);
 
                 var elem = new XElement(CstrElementLabelLanguages,
                     new XAttribute(CstrAttributeLabelUseRetellingVernacular, ShowRetellings.Vernacular),
@@ -735,7 +724,7 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                System.Diagnostics.Debug.Assert(HasAdaptItConfigurationData);
+                Debug.Assert(HasAdaptItConfigurationData);
                 var elem = new XElement(CstrElementLabelAdaptItConfigurations);
 
                 if ((VernacularToNationalBt != null) && VernacularToNationalBt.HasData)
@@ -753,7 +742,7 @@ namespace OneStoryProjectEditor
 
         protected NewDataSet.LanguagesRow InsureLanguagesRow(NewDataSet projFile)
         {
-            System.Diagnostics.Debug.Assert(projFile.StoryProject.Count == 1);
+            Debug.Assert(projFile.StoryProject.Count == 1);
             if (projFile.Languages.Count == 0)
                 return projFile.Languages.AddLanguagesRow(
                     ShowRetellings.Vernacular, ShowRetellings.NationalBt, ShowRetellings.InternationalBt,
@@ -761,7 +750,7 @@ namespace OneStoryProjectEditor
                     ShowAnswers.Vernacular, ShowAnswers.NationalBt, ShowAnswers.InternationalBt,
                     projFile.StoryProject[0]);
 
-            System.Diagnostics.Debug.Assert(projFile.Languages.Count == 1);
+            Debug.Assert(projFile.Languages.Count == 1);
             return projFile.Languages[0];
         }
 
@@ -793,6 +782,7 @@ namespace OneStoryProjectEditor
             FreeTranslation.InvertRtl = loggedOnMember.OverrideRtlFreeTranslation;
         }
 
+#if UseUrlsWithChorus
         public void SyncWithRepository(string strUsername, string strPassword)
         {
             SyncWithRepository(ProjectFolder, ProjectName, HgRepoUrlHost, strUsername, strPassword,
@@ -831,15 +821,7 @@ namespace OneStoryProjectEditor
             // if there's no repo yet, then create one (even if we aren't going
             //  to ultimately push with an internet repo, we still want one locally)
             var projectConfig = Program.GetProjectFolderConfiguration(strProjectFolder);
-            /*
-            var nullProgress = new NullProgress();
-            var repo = new HgRepository(strProjectFolder, nullProgress);
-            if (!repo.GetCanConnectToRemote(strRepoUrl, nullProgress))
-                if (Program.UserCancelledNotConnectToInternetWarning)
-                {
-                    return;
-                }
-            */
+
             // for when we launch the program, just do a quick & dirty send/receive, 
             //  but for closing (or if we have a network drive also), then we want to 
             //  be more informative
@@ -866,8 +848,10 @@ namespace OneStoryProjectEditor
                 Debug.WriteLine(res.ToString());
             }
         }
+#endif
     }
 
+#if UseUrlsWithChorus
     public class MySyncDialog : SyncDialog
     {
         public MySyncDialog(ProjectFolderConfiguration projectFolderConfiguration)
@@ -907,6 +891,7 @@ namespace OneStoryProjectEditor
             }
         }
     }
+#endif
 
     public class ShowLanguageFields
     {

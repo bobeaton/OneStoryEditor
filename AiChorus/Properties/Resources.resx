@@ -121,10 +121,10 @@
     <value>AdaptIt Chorus</value>
   </data>
   <data name="IDS_DefaultRepoServer" xml:space="preserve">
-    <value>LanguageDepot.org [resumable sync]</value>
+    <value>resumable.languageforge.org</value>
   </data>
   <data name="UsageString" xml:space="preserve">
-    <value>Usage: 'AiChorus /f' to open the project editor, and 'AiChorus /e' to edit an Adapt It knowledge base</value>
+    <value>Usage: 'AiChorus /f' to open the project editor, 'AiChorus /e' to edit an Adapt It knowledge base, 'AiChorus /s &lt;path to .cpc file&gt;' to synchronize all projects in the file</value>
   </data>
   <data name="MustUseAiLookupConverterToEdit" xml:space="preserve">
     <value>This only works if you choose an Adapt It Lookup Converter! Do you want to try again?</value>
