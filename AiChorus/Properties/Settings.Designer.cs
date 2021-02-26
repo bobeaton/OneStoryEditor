@@ -12,7 +12,7 @@ namespace AiChorus.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.5.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.8.1.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -64,6 +64,31 @@ namespace AiChorus.Properties {
             }
             set {
                 this["ServerLabelsToUrls"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("k6/KWKfduEWPXvdayves4DBdLgdR9w09GICKWVMO4PeOzf6YGbGAGCPwgwIgoP4tuzE4LOvL4jLSUuQ5v" +
+            "W5nyEJsj/0DjMV3e5lMq+pEm0U=")]
+        public string GoogleSheetsCredentialsClientId {
+            get {
+                return ((string)(this["GoogleSheetsCredentialsClientId"]));
+            }
+            set {
+                this["GoogleSheetsCredentialsClientId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("bQyMqDyAzkDFPoAGRydbKCDx3QfoS2X9UNB9IqeqMss=")]
+        public string GoogleSheetsCredentialsClientSecret {
+            get {
+                return ((string)(this["GoogleSheetsCredentialsClientSecret"]));
+            }
+            set {
+                this["GoogleSheetsCredentialsClientSecret"] = value;
             }
         }
     }
