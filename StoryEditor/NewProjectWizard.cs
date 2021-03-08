@@ -949,6 +949,11 @@ namespace OneStoryProjectEditor
             Modified = true;
         }
 
+        private void checkBoxRetelling_OR_Tests_CheckedChanged(object sender, EventArgs e)
+        {
+            Modified = true;
+        }
+
         private void checkBoxOutsideEnglishBackTranslator_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxOutsideEnglishBackTranslator.Checked

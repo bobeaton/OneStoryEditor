@@ -609,6 +609,7 @@
             this.checkBoxRetellingsVernacular.TabIndex = 5;
             this.checkBoxRetellingsVernacular.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBoxRetellingsVernacular.UseVisualStyleBackColor = true;
+            this.checkBoxRetellingsVernacular.CheckedChanged += new System.EventHandler(this.checkBoxRetelling_OR_Tests_CheckedChanged);
             // 
             // checkBoxTestQuestionsVernacular
             // 
@@ -621,6 +622,7 @@
             this.checkBoxTestQuestionsVernacular.TabIndex = 8;
             this.checkBoxTestQuestionsVernacular.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBoxTestQuestionsVernacular.UseVisualStyleBackColor = true;
+            this.checkBoxTestQuestionsVernacular.CheckedChanged += new System.EventHandler(this.checkBoxRetelling_OR_Tests_CheckedChanged);
             // 
             // checkBoxAnswersVernacular
             // 
@@ -645,6 +647,7 @@
             this.checkBoxRetellingsNationalBT.TabIndex = 6;
             this.checkBoxRetellingsNationalBT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBoxRetellingsNationalBT.UseVisualStyleBackColor = true;
+            this.checkBoxRetellingsNationalBT.CheckedChanged += new System.EventHandler(this.checkBoxRetelling_OR_Tests_CheckedChanged);
             // 
             // checkBoxRetellingsInternationalBT
             // 
@@ -658,6 +661,7 @@
             this.checkBoxRetellingsInternationalBT.TabIndex = 7;
             this.checkBoxRetellingsInternationalBT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBoxRetellingsInternationalBT.UseVisualStyleBackColor = true;
+            this.checkBoxRetellingsInternationalBT.CheckedChanged += new System.EventHandler(this.checkBoxRetelling_OR_Tests_CheckedChanged);
             // 
             // checkBoxTestQuestionsNationalBT
             // 
@@ -670,6 +674,7 @@
             this.checkBoxTestQuestionsNationalBT.TabIndex = 9;
             this.checkBoxTestQuestionsNationalBT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBoxTestQuestionsNationalBT.UseVisualStyleBackColor = true;
+            this.checkBoxTestQuestionsNationalBT.CheckedChanged += new System.EventHandler(this.checkBoxRetelling_OR_Tests_CheckedChanged);
             // 
             // checkBoxTestQuestionsInternationalBT
             // 
@@ -683,6 +688,7 @@
             this.checkBoxTestQuestionsInternationalBT.TabIndex = 10;
             this.checkBoxTestQuestionsInternationalBT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBoxTestQuestionsInternationalBT.UseVisualStyleBackColor = true;
+            this.checkBoxTestQuestionsInternationalBT.CheckedChanged += new System.EventHandler(this.checkBoxRetelling_OR_Tests_CheckedChanged);
             // 
             // checkBoxAnswersNationalBT
             // 
