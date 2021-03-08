@@ -145,12 +145,12 @@
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxVernacular);
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxNationalBT);
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxEnglishBT);
-            //this.flowLayoutPanelViews.Controls.Add(this.checkBoxFreeTranslation);
+            this.flowLayoutPanelViews.Controls.Add(this.checkBoxFreeTranslation);
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxAnchors);
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxGeneralTestingQuestions);
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxStoryTestingQuestions);
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxStoryTestingQuestionAnswers);
-            //this.flowLayoutPanelViews.Controls.Add(this.checkBoxRetelling);
+            this.flowLayoutPanelViews.Controls.Add(this.checkBoxRetelling);
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxConsultantNotes);
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxCoachNotes);
             this.flowLayoutPanelViews.Controls.Add(this.checkBoxBiblePane);

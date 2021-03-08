@@ -51,6 +51,53 @@ namespace OneStoryProjectEditor
             eTeamFinalApproval
         }
 
+        public static bool IsRetellingRelatedStage(ProjectStages eStage)
+        {
+            switch (eStage)
+            {
+                case ProjectStages.eProjFacEnterRetellingOfTest1:
+                    return true;
+                default: 
+                    return false;
+            }
+        }
+
+        public static bool IsTestingQuestionRelatedStage(ProjectStages eStage)
+        {
+            switch (eStage)
+            {
+                case ProjectStages.eProjFacAddStoryQuestions:
+                case ProjectStages.eConsultantCheckStoryQuestions:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public static bool IsTestingQuestionAnswerRelatedStage(ProjectStages eStage)
+        {
+            switch (eStage)
+            {
+                case ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1:
+                case ProjectStages.eConsultantCheckStoryQuestions:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        private static bool IsTestRelated(ProjectStages eStage)
+        {
+            switch (eStage)
+            {
+                case ProjectStages.eProjFacReadyForTest1:
+                case ProjectStages.eProjFacRevisesAfterUnsTest:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         public static TeamMemberData.UserTypes WhoseTurn(ProjectStages eStage)
         {
             switch (eStage)
@@ -684,6 +731,12 @@ namespace OneStoryProjectEditor
                                 storyProjectData.TeamMembers.HasOutsideEnglishBTer))
                         && (!RequiresManageWithCoaching || !storyProjectData.TeamMembers.HasIndependentConsultant)
                         && (!DontShowTilPast || ((int)theCurrentStory.ProjStage.ProjectStage >= (int)CurrentStage))
+                        && (!IsRetellingRelatedStage(CurrentStage) || storyProjectData.ProjSettings.ShowRetellings.Configured)
+                        && (!IsTestingQuestionRelatedStage(CurrentStage) || storyProjectData.ProjSettings.ShowTestQuestions.Configured)
+                        && (!IsTestingQuestionAnswerRelatedStage(CurrentStage) || storyProjectData.ProjSettings.ShowAnswers.Configured)
+                        && (!IsTestRelated(CurrentStage) ||
+                            storyProjectData.ProjSettings.ShowTestQuestions.Configured ||
+                            storyProjectData.ProjSettings.ShowAnswers.Configured)
                         );
             }
 

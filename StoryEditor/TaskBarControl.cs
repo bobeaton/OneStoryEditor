@@ -221,9 +221,9 @@ namespace OneStoryProjectEditor
             if (TheStory.CraftingInfo.IsBiblicalStory)
             {
                 buttonAnchors.Visible = bEditAllowed;
-                // buttonViewRetellings.Visible = bEditAllowed;
-                buttonViewTestQuestions.Visible = bEditAllowed;
-                // buttonViewTestQuestionAnswers.Visible = bEditAllowed;
+                buttonViewRetellings.Visible = bEditAllowed && projSettings.ShowRetellings.Configured;
+                buttonViewTestQuestions.Visible = bEditAllowed && projSettings.ShowTestQuestions.Configured;
+                buttonViewTestQuestionAnswers.Visible = bEditAllowed && projSettings.ShowAnswers.Configured;
             }
 
             SetButtonsAndTooltip(buttonVernacular,
@@ -262,19 +262,22 @@ namespace OneStoryProjectEditor
                                  Localizer.Str("Enter &Anchors"));
 
             SetButtonsAndTooltip(buttonAddRetellingBoxes,
-                                 bEditAllowed,
+                                 bEditAllowed && projSettings.ShowRetellings.Configured,
                                  true,
                                  TasksPf.TaskSettings.Retellings | TasksPf.TaskSettings.Retellings2,
                                  LocalizeRetelling,
                                  null);
 
             // then enable it whether there are any more tests to do
-            if (TasksPf.IsTaskOn(TheStory.TasksRequiredPf, TasksPf.TaskSettings.Retellings | TasksPf.TaskSettings.Retellings2))
+            if (TasksPf.IsTaskOn(TheStory.TasksRequiredPf, TasksPf.TaskSettings.Retellings | TasksPf.TaskSettings.Retellings2) &&
+                projSettings.ShowRetellings.Configured)
             {
                 if ((TheStory.CountRetellingsTests > 0) ||
                     (TasksPf.IsTaskOn(TheStory.TasksAllowedPf, TasksPf.TaskSettings.Retellings | TasksPf.TaskSettings.Retellings2)))
+                {
                     toolTip.SetToolTip(buttonAddRetellingBoxes, TooltipRequiredTasksToDo(LocalizeRetelling,
                                                                                          TheStory.CountRetellingsTests));
+                }
                 else
                 {
                     toolTip.SetToolTip(buttonAddRetellingBoxes, TooltipRequiredTasksDone(LocalizeRetelling));
@@ -283,27 +286,30 @@ namespace OneStoryProjectEditor
             }
 
             SetButtonsAndTooltip(buttonViewTestQuestions,
-                                 bEditAllowed,
-                                 true,
-                                 TasksPf.TaskSettings.TestQuestions,
-                                 Localizer.Str("story testing question"),
-                                 Localizer.Str("Enter &Testing Questions"));
-            
-            SetButtonsAndTooltip(buttonAddBoxesForAnswers,
-                                 bEditAllowed,
-                                 true,
-                                 TasksPf.TaskSettings.Answers | TasksPf.TaskSettings.Answers2,
-                                 Localizer.Str("answer"),
-                                 null);
+                                bEditAllowed && projSettings.ShowTestQuestions.Configured,
+                                true,
+                                TasksPf.TaskSettings.TestQuestions,
+                                Localizer.Str("story testing question"),
+                                Localizer.Str("Enter &Testing Questions"));
 
-            if (TasksPf.IsTaskOn(TheStory.TasksRequiredPf, TasksPf.TaskSettings.Answers | TasksPf.TaskSettings.Answers2))
+            SetButtonsAndTooltip(buttonAddBoxesForAnswers,
+                                bEditAllowed && projSettings.ShowAnswers.Configured,
+                                true,
+                                TasksPf.TaskSettings.Answers | TasksPf.TaskSettings.Answers2,
+                                Localizer.Str("answer"),
+                                null);
+
+            if (TasksPf.IsTaskOn(TheStory.TasksRequiredPf, TasksPf.TaskSettings.Answers | TasksPf.TaskSettings.Answers2) &&
+                projSettings.ShowTestQuestions.Configured)
             {
                 // then enable it whether there are any more tests to do
                 if ((TheStory.CountTestingQuestionTests > 0) ||
                     (TasksPf.IsTaskOn(TheStory.TasksAllowedPf, TasksPf.TaskSettings.Answers | TasksPf.TaskSettings.Answers2)))
+                {
                     toolTip.SetToolTip(buttonAddBoxesForAnswers, TooltipRequiredTasksToDo(LocalizeStoryQuestion,
                                                                                           TheStory.
                                                                                               CountTestingQuestionTests));
+                }
                 else
                 {
                     toolTip.SetToolTip(buttonAddBoxesForAnswers, TooltipRequiredTasksDone(LocalizeStoryQuestion));
