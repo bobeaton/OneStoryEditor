@@ -42,7 +42,6 @@ namespace OneStoryProjectEditor
         internal string CurrentStoriesSetName = Resources.IDS_MainStoriesSet;   // otherwise Add New Project errors out
 
         public static String currentStoryName;
-        public static bool manuallySendReceive;
         private StoryData _theCurrentStory;
         public StoryData TheCurrentStory
         {
@@ -1058,10 +1057,7 @@ namespace OneStoryProjectEditor
                 if (!SaveAndCloseProject())
                     return;
 
-                if (advancedAutomaticallySendandReceiveWindowMenu.Checked || manuallySendReceive)
-                {
-                    projSettings.SyncWithRepository(strUsername, strPassword);
-                }                
+                projSettings.SyncWithRepository(strUsername, strPassword);
                 // Program.SyncWithRepository(projSettings.ProjectFolder, true);
             }
 
@@ -6782,7 +6778,6 @@ namespace OneStoryProjectEditor
 
         private void sendReceiveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            manuallySendReceive = true;
             Debug.Assert((StoryProject != null) &&
                 (StoryProject.ProjSettings != null) &&
                 (LoggedOnMember != null));
@@ -6790,7 +6785,6 @@ namespace OneStoryProjectEditor
             string strProjectName = StoryProject.ProjSettings.ProjectName;
             string strProjectPath = StoryProject.ProjSettings.ProjectFolder;
             DoReopen(strProjectPath, strProjectName);
-            manuallySendReceive = false;
         }
 
         private void DoReopen(string strProjectPath, string strProjectName)
