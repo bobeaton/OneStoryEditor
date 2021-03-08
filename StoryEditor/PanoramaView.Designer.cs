@@ -42,7 +42,7 @@ namespace OneStoryProjectEditor
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnTimeInState = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnLineCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            //this.ColumnTestQuestions = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnTestQuestions = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnWordCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buttonCopyToClipboard = new System.Windows.Forms.Button();
             this.labelInstructions = new System.Windows.Forms.Label();
@@ -123,7 +123,7 @@ namespace OneStoryProjectEditor
             this.dataGridViewTextBoxColumn3,
             this.ColumnTimeInState,
             this.ColumnLineCount,
-            //this.ColumnTestQuestions,
+            this.ColumnTestQuestions,
             this.ColumnWordCount});
             this.dataGridViewPanorama.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewPanorama.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
@@ -184,12 +184,12 @@ namespace OneStoryProjectEditor
             // 
             // ColumnTestQuestions
             // 
-            //this.ColumnTestQuestions.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            //this.ColumnTestQuestions.HeaderText = "# of TQs";
-            //this.ColumnTestQuestions.Name = "ColumnTestQuestions";
-            //this.ColumnTestQuestions.ReadOnly = true;
-            //this.ColumnTestQuestions.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            //this.ColumnTestQuestions.Width = 55;
+            this.ColumnTestQuestions.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ColumnTestQuestions.HeaderText = "# of TQs";
+            this.ColumnTestQuestions.Name = "ColumnTestQuestions";
+            this.ColumnTestQuestions.ReadOnly = true;
+            this.ColumnTestQuestions.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.ColumnTestQuestions.Width = 55;
             // 
             // ColumnWordCount
             // 
@@ -349,7 +349,7 @@ namespace OneStoryProjectEditor
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTimeInState;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnLineCount;
-        //private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTestQuestions;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTestQuestions;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnWordCount;
         private System.Windows.Forms.Button buttonDelete;
         private System.Windows.Forms.TabPage tabPageFrontMatter;

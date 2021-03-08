@@ -238,13 +238,13 @@ namespace OneStoryProjectEditor
 #endif
                     strTimeInState,
                     aSD.NumOfLines,
-                    //aSD.NumOfTestQuestions,
+                    aSD.NumOfTestQuestions,
                     aSD.NumOfWords(_storyProject.ProjSettings)
                 };
                 int nRowIndex = dataGridViewPanorama.Rows.Add(aObs);
                 var aRow = dataGridViewPanorama.Rows[nRowIndex];
 
-                SetToolTipText(dataGridViewPanorama.Rows[nRowIndex], "Double click to open,Single click to rename, Right click to move");
+                SetToolTipText(dataGridViewPanorama.Rows[nRowIndex], "Double click to open, Single click to rename, Right click to move");
 #if ShowingState
                 aRow.Tag = st;
 #endif
@@ -989,21 +989,55 @@ namespace OneStoryProjectEditor
         {
             var pt = dataGridViewPanorama.PointToClient(new Point(e.X, e.Y));
             var rowTargetIndex = dataGridViewPanorama.HitTest(pt.X, pt.Y).RowIndex;
+            if ((rowTargetIndex < 0) || (rowTargetIndex > dataGridViewPanorama.Rows.Count - 1))
+                return;
+
             System.Diagnostics.Debug.WriteLine("DragDrop to: " + rowTargetIndex.ToString());
             if (e.Effect == DragDropEffects.Move)
             {
-                var strName = rowDragFrom.Cells[CnColumnStoryName].Value?.ToString();
-                var theSDToMove = _stories.GetStoryFromName(strName);
-                if (theSDToMove == null)
-                    return;
+                bool? movingUpTheGrid = null;
+                var movedRowStoryNames = new List<string>();
+                // request was to allow the moving of multiple selected rows to another position
+                foreach (DataGridViewRow row in dataGridViewPanorama.SelectedRows)
+                {
+                    int nSelectedRowIndex = row.Index;
+                    if ((nSelectedRowIndex < 0) || (nSelectedRowIndex > dataGridViewPanorama.Rows.Count - 1))
+                        return;
 
-                _stories.Remove(theSDToMove);
-                _stories.Insert(rowTargetIndex, theSDToMove);
+                    // if we're moving up the grid, we have to do inserts differently than moving down
+                    //  (and all moves should behave the same way)
+                    if (movingUpTheGrid == null)
+                        movingUpTheGrid = (rowTargetIndex < nSelectedRowIndex);
+
+                    DataGridViewRow theRow = dataGridViewPanorama.Rows[nSelectedRowIndex];
+                    DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
+                    if (theNameCell.Value == null)
+                        return; // shouldn't happen, but...
+
+                    var strName = theNameCell.Value.ToString();
+                    var theSDToMove = _stories.GetStoryFromName(strName);
+                    if (theSDToMove == null)
+                        return;
+
+                    _stories.Remove(theSDToMove);
+
+                    var insertRow = ((bool)movingUpTheGrid)
+                                        ? rowTargetIndex++
+                                        : rowTargetIndex + 1;
+                    _stories.Insert(insertRow, theSDToMove);
+                    movedRowStoryNames.Add(strName);
+                }
 
                 InitGrid();
-                System.Diagnostics.Debug.Assert(rowTargetIndex < dataGridViewPanorama.Rows.Count);
-                dataGridViewPanorama.Rows[rowTargetIndex].Selected = true;
-                dataGridViewPanorama.Rows[rowTargetIndex].Cells[CnColumnStoryName].Selected = true;
+                dataGridViewPanorama.ClearSelection();
+                dataGridViewPanorama.Rows.Cast<DataGridViewRow>()
+                                         .Where(r => movedRowStoryNames.Contains(r.Cells[CnColumnStoryName]?.Value))
+                                         .ToList()
+                                         .ForEach(r =>
+                {
+                    r.Selected = true;
+                    r.Cells[CnColumnStoryName].Selected = true;
+                });
                 Modified = true;
                 rowDragFromIndex = -1;
                 rowDragFrom = null;
@@ -1289,5 +1323,5 @@ namespace OneStoryProjectEditor
             }
         }
 #endif
-    }
+            }
 }
