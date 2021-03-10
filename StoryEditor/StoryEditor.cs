@@ -1297,7 +1297,8 @@ namespace OneStoryProjectEditor
 
         private bool FindIndexToInsertAt(string strStoryName, out int nIndexForInsert)
         {
-            if (TheCurrentStoriesSet.Count > 0)
+            if ((StoryProject != null) && !String.IsNullOrEmpty(CurrentStoriesSetName) && (StoryProject[CurrentStoriesSetName] != null)
+                && TheCurrentStoriesSet.Any())
             {
                 if (TheCurrentStoriesSet.Any(s => s.Name == strStoryName))
                 {
