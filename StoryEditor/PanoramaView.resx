@@ -142,7 +142,7 @@
     <value>True</value>
   </metadata>
   <data name="labelInstructions.Text" xml:space="preserve">
-    <value>Click and Drag -- using the right mouse button -- to reorder stories. You can also drag and drop a story on another tab to move it to another set. Hold down the Ctrl key while dragging to 'copy' instead of 'move' the story. You can also press "Ctrl+C" to copy the selected story, and after switching to another tab, press "Ctrl+V" to paste it in the current tab</value>
+    <value>Click and Drag -- using the right mouse button -- to reorder stories. Hold down the Ctrl key --to select multiple rows --to move selected stories using the right mouse button with drag.Hold down the Ctrl key while dragging to 'copy' instead of 'move' the story. You can also press "Ctrl+C" to copy the selected story, and after switching to another tab, press "Ctrl+V" to paste it in the current tab</value>
   </data>
   <metadata name="contextMenuStripTabs.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>107, 17</value>

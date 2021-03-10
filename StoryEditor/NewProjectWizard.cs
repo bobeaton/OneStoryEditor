@@ -113,7 +113,7 @@ namespace OneStoryProjectEditor
 
             UpdateTabPageAIBT();
             // I think we don't want this until the user presses Next
-            ProcessNext();
+            // ProcessNext();
             Modified = false;   // just so we don't let setting controls above make it think there was a change
         }
 
@@ -946,6 +946,11 @@ namespace OneStoryProjectEditor
             }
             else
                 tabControl.TabPages.Remove(tabPageLanguageFreeTranslation);
+            Modified = true;
+        }
+
+        private void checkBoxRetelling_OR_Tests_CheckedChanged(object sender, EventArgs e)
+        {
             Modified = true;
         }
 

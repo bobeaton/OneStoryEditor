@@ -243,12 +243,14 @@ namespace OneStoryProjectEditor
                 };
                 int nRowIndex = dataGridViewPanorama.Rows.Add(aObs);
                 var aRow = dataGridViewPanorama.Rows[nRowIndex];
+
+                SetToolTipText(dataGridViewPanorama.Rows[nRowIndex], "Double click to open, Single click to rename, Right click to move");
 #if ShowingState
                 aRow.Tag = st;
 #endif
 #if UseArialUnicodeMs
                 aRow.Height = _fontForDev.Height + 8;
-#endif
+#endif               
 
                 if (aSD.Name == StoryEditor.currentStoryName)
                     dataGridViewPanorama.Rows[nRowIndex].Cells[0].Selected = true;
@@ -263,6 +265,20 @@ namespace OneStoryProjectEditor
         private static bool IsInLoggedInUsersTurn(DataGridViewBand theRow)
         {
             return (theRow.DefaultCellStyle.BackColor == Color.Yellow);
+        }
+
+        private void SetToolTipText(DataGridViewRow row, String message)
+        {
+            for (int i = 0; i < dataGridViewPanorama.Rows.Count; i++)
+            {
+                var oneRow = dataGridViewPanorama.Rows[i];
+                String ProCol = oneRow.Cells[0].ToString();
+                if (ProCol.Length != 0)
+                {
+                    oneRow.Cells[0].ToolTipText = message;
+                }
+            }
+
         }
 
         private StoryData _theStoryBeingEdited;
@@ -924,7 +940,7 @@ namespace OneStoryProjectEditor
                 return;
             System.Diagnostics.Debug.WriteLine("Select row index: " + rowTargetIndex.ToString());
 
-            if (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Right)
             {
                 rowDragFrom = dataGridViewPanorama.Rows[rowTargetIndex];
                 rowDragFromIndex = rowTargetIndex;
@@ -973,21 +989,55 @@ namespace OneStoryProjectEditor
         {
             var pt = dataGridViewPanorama.PointToClient(new Point(e.X, e.Y));
             var rowTargetIndex = dataGridViewPanorama.HitTest(pt.X, pt.Y).RowIndex;
+            if ((rowTargetIndex < 0) || (rowTargetIndex > dataGridViewPanorama.Rows.Count - 1))
+                return;
+
             System.Diagnostics.Debug.WriteLine("DragDrop to: " + rowTargetIndex.ToString());
             if (e.Effect == DragDropEffects.Move)
             {
-                var strName = rowDragFrom.Cells[CnColumnStoryName].Value?.ToString();
-                var theSDToMove = _stories.GetStoryFromName(strName);
-                if (theSDToMove == null)
-                    return;
+                bool? movingUpTheGrid = null;
+                var movedRowStoryNames = new List<string>();
+                // request was to allow the moving of multiple selected rows to another position
+                foreach (DataGridViewRow row in dataGridViewPanorama.SelectedRows)
+                {
+                    int nSelectedRowIndex = row.Index;
+                    if ((nSelectedRowIndex < 0) || (nSelectedRowIndex > dataGridViewPanorama.Rows.Count - 1))
+                        return;
 
-                _stories.Remove(theSDToMove);
-                _stories.Insert(rowTargetIndex, theSDToMove);
+                    // if we're moving up the grid, we have to do inserts differently than moving down
+                    //  (and all moves should behave the same way)
+                    if (movingUpTheGrid == null)
+                        movingUpTheGrid = (rowTargetIndex < nSelectedRowIndex);
+
+                    DataGridViewRow theRow = dataGridViewPanorama.Rows[nSelectedRowIndex];
+                    DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
+                    if (theNameCell.Value == null)
+                        return; // shouldn't happen, but...
+
+                    var strName = theNameCell.Value.ToString();
+                    var theSDToMove = _stories.GetStoryFromName(strName);
+                    if (theSDToMove == null)
+                        return;
+
+                    _stories.Remove(theSDToMove);
+
+                    var insertRow = ((bool)movingUpTheGrid)
+                                        ? rowTargetIndex++
+                                        : rowTargetIndex + 1;
+                    _stories.Insert(insertRow, theSDToMove);
+                    movedRowStoryNames.Add(strName);
+                }
 
                 InitGrid();
-                System.Diagnostics.Debug.Assert(rowTargetIndex < dataGridViewPanorama.Rows.Count);
-                dataGridViewPanorama.Rows[rowTargetIndex].Selected = true;
-                dataGridViewPanorama.Rows[rowTargetIndex].Cells[CnColumnStoryName].Selected = true;
+                dataGridViewPanorama.ClearSelection();
+                dataGridViewPanorama.Rows.Cast<DataGridViewRow>()
+                                         .Where(r => movedRowStoryNames.Contains(r.Cells[CnColumnStoryName]?.Value))
+                                         .ToList()
+                                         .ForEach(r =>
+                {
+                    r.Selected = true;
+                    r.Cells[CnColumnStoryName].Selected = true;
+                });
                 Modified = true;
                 rowDragFromIndex = -1;
                 rowDragFrom = null;
@@ -1265,6 +1315,13 @@ namespace OneStoryProjectEditor
 
             TextRenderer.DrawText(e.Graphics, page.Text, font, paddedBounds, page.ForeColor);
         }
+        private void dataGridViewPanorama_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            using (SolidBrush b = new SolidBrush(dataGridViewPanorama.RowHeadersDefaultCellStyle.ForeColor))
+            {
+                e.Graphics.DrawString((e.RowIndex + 1).ToString(), e.InheritedRowStyle.Font, b, e.RowBounds.Location.X + 10, e.RowBounds.Location.Y + 4);
+            }
+        }
 #endif
-    }
+            }
 }

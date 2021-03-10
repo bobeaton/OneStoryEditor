@@ -139,6 +139,7 @@ namespace OneStoryProjectEditor
             this.dataGridViewPanorama.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPanorama_CellBeginEdit);
             this.dataGridViewPanorama.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPanorama_CellEndEdit);
             this.dataGridViewPanorama.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridViewPanoramaCellMouseDoubleClick);
+            this.dataGridViewPanorama.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridViewPanorama_RowPostPaint);
             this.dataGridViewPanorama.DragDrop += new System.Windows.Forms.DragEventHandler(this.dataGridViewPanorama_DragDrop);
             this.dataGridViewPanorama.DragOver += new System.Windows.Forms.DragEventHandler(this.dataGridViewPanorama_DragOver);
             this.dataGridViewPanorama.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dataGridViewPanorama_KeyUp);
