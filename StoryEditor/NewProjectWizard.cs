@@ -113,7 +113,7 @@ namespace OneStoryProjectEditor
 
             UpdateTabPageAIBT();
             // I think we don't want this until the user presses Next
-            ProcessNext();
+            // ProcessNext();
             Modified = false;   // just so we don't let setting controls above make it think there was a change
         }
 
