@@ -1023,7 +1023,9 @@ namespace OneStoryProjectEditor
 
                     var insertRow = ((bool)movingUpTheGrid)
                                         ? rowTargetIndex++
-                                        : rowTargetIndex + 1;
+                                        : (rowTargetIndex < (dataGridViewPanorama.Rows.Count - 1))
+                                            ? rowTargetIndex + 1
+                                            : rowTargetIndex;
                     _stories.Insert(insertRow, theSDToMove);
                     movedRowStoryNames.Add(strName);
                 }
