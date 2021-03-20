@@ -42,7 +42,6 @@ namespace OneStoryProjectEditor
         internal string CurrentStoriesSetName = Resources.IDS_MainStoriesSet;   // otherwise Add New Project errors out
 
         public static String currentStoryName;
-        public static bool manuallySendReceive;
         private StoryData _theCurrentStory;
         public StoryData TheCurrentStory
         {
@@ -380,10 +379,11 @@ namespace OneStoryProjectEditor
             //  (for starters, there must *be* a currently logged in member)
             var startingStoryName = TheCurrentStory?.Name;
             var storyName = NextStoryNameInTheLoggedInMembersTurn;
+            var CurrentStoryNameLoggedInTurn = CurrentStoryNameInTheLoggedInMembersTurn;
             if (!String.IsNullOrEmpty(storyName))
             {
                 // if it's not the current story, then ask if they want to go there...
-                if (storyName != startingStoryName)
+                if (CurrentStoryNameLoggedInTurn != startingStoryName)
                 {
                     var res = LocalizableMessageBox.Show(Localizer.Str("There are stories in your turn. Would you like to go to one?"),
                                                      OseCaption,
@@ -432,6 +432,47 @@ namespace OneStoryProjectEditor
                     if ((_loggedOnMember != null) && (_loggedOnMember.MemberGuid == strMemberId))
                     {
                         return story.Name;
+                    }
+                }
+                return null;
+            }
+        }
+
+        public string CurrentStoryNameInTheLoggedInMembersTurn
+        {
+            get
+            {
+                // check to see if any of the stories are in the currently logged in member
+                //  (for starters, there must *be* a currently logged in member)
+                var teamMembers = StoryProject?.TeamMembers;
+                var storyName = TheCurrentStory?.Name;
+                if ((teamMembers == null) || (storyName == null))
+                    return null;
+
+                var storySet = TheCurrentStoriesSet;
+                var storyToStartFrom = storySet.FirstOrDefault(s => s.Name == storyName);
+                var startIndex = storySet.IndexOf(storyToStartFrom) + 1;
+                var numOfStoriesToCheck = storySet.Count;
+
+                for (var i = startIndex; numOfStoriesToCheck-- > 0; i++)
+                {
+                    if (i == storySet.Count)
+                        i = 0;  // start over at the beginning
+
+                    var story = storySet[i];
+
+                    // get the type of the member with the edit token for this story (e.g. Project Facilitator)
+                    string strRoleThatHasEditToken = GetMemberWithEditTokenAsDisplayString(teamMembers,
+                                              story.ProjStage.MemberTypeWithEditToken);
+
+                    // get the specific memberId for that member
+                    string strMemberId = MemberIDWithEditToken(story, strRoleThatHasEditToken);
+
+                    // if it's the same as the logged in member's ID, then ...
+                    if ((_loggedOnMember != null) && (_loggedOnMember.MemberGuid == strMemberId))
+                    {
+                        if (story.Name == storyName)
+                            return story.Name;
                     }
                 }
                 return null;
@@ -607,7 +648,7 @@ namespace OneStoryProjectEditor
                     }
 
                     // Added following two lines to send receive window come up after you have loaded the project.
-                    var strProjectFolder = StoryProject.ProjSettings.ProjectFolder;
+                    var strProjectFolder = StoryProject?.ProjSettings?.ProjectFolder;
                     Program.SyncWithRepository(strProjectFolder, true);
 
                     var projSettings = new ProjectSettings(Path.GetDirectoryName(openFileDialog.FileName), strProjectName, true);
@@ -1016,10 +1057,7 @@ namespace OneStoryProjectEditor
                 if (!SaveAndCloseProject())
                     return;
 
-                if (advancedAutomaticallySendandReceiveWindowMenu.Checked || manuallySendReceive)
-                {
-                    projSettings.SyncWithRepository(strUsername, strPassword);
-                }                
+                projSettings.SyncWithRepository(strUsername, strPassword);
                 // Program.SyncWithRepository(projSettings.ProjectFolder, true);
             }
 
@@ -1259,7 +1297,8 @@ namespace OneStoryProjectEditor
 
         private bool FindIndexToInsertAt(string strStoryName, out int nIndexForInsert)
         {
-            if (TheCurrentStoriesSet.Count > 0)
+            if ((StoryProject != null) && !String.IsNullOrEmpty(CurrentStoriesSetName) && (StoryProject[CurrentStoriesSetName] != null)
+                && TheCurrentStoriesSet.Any())
             {
                 if (TheCurrentStoriesSet.Any(s => s.Name == strStoryName))
                 {
@@ -6740,7 +6779,6 @@ namespace OneStoryProjectEditor
 
         private void sendReceiveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            manuallySendReceive = true;
             Debug.Assert((StoryProject != null) &&
                 (StoryProject.ProjSettings != null) &&
                 (LoggedOnMember != null));
@@ -6748,7 +6786,6 @@ namespace OneStoryProjectEditor
             string strProjectName = StoryProject.ProjSettings.ProjectName;
             string strProjectPath = StoryProject.ProjSettings.ProjectFolder;
             DoReopen(strProjectPath, strProjectName);
-            manuallySendReceive = false;
         }
 
         private void DoReopen(string strProjectPath, string strProjectName)

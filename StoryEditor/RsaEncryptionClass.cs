@@ -72,13 +72,13 @@ End Class
         */
         private static byte[] _key;
         private static byte[] _IV = { 0xEB, 0xC9, 0xA3, 0x48, 0x3E, 0xE1, 0x4a, 0x75 };
-        private static string strEncryptionKey = "yeh to mai nahii.n huu.n";
+        private const string strEncryptionKey = "yeh to mai nahii.n huu.n";
 
-        static public string Encrypt(string stringToEncrypt)
+        static public string Encrypt(string stringToEncrypt, string specialDecryptionKey = strEncryptionKey)
         {
             try
             {
-                _key = Encoding.UTF8.GetBytes(strEncryptionKey.Substring(0, 8));
+                _key = Encoding.UTF8.GetBytes(specialDecryptionKey.Substring(0, 8));
                 var des = new DESCryptoServiceProvider();
                 byte[] inputByteArray = Encoding.UTF8.GetBytes(stringToEncrypt);
                 var ms = new MemoryStream();
@@ -98,11 +98,11 @@ End Class
             }
         }
 
-        static public string Decrypt(string stringToDecrypt)
+        static public string Decrypt(string stringToDecrypt, string specialDecryptionKey = strEncryptionKey)
         {
             try
             {
-                _key = Encoding.UTF8.GetBytes(strEncryptionKey.Substring(0, 8));
+                _key = Encoding.UTF8.GetBytes(specialDecryptionKey.Substring(0, 8));
                 var des = new DESCryptoServiceProvider();
 
                 // we have a base 64 encoded string so first must decode to regular unencoded (encrypted) string

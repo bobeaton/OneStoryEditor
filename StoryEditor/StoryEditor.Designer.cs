@@ -1578,8 +1578,7 @@ namespace OneStoryProjectEditor
             this.advancedAutomaticallySendandReceiveWindowMenu.Name = "advancedAutomaticallySendandReceiveWindowMenu";
             this.advancedAutomaticallySendandReceiveWindowMenu.Size = new System.Drawing.Size(314, 22);
             this.advancedAutomaticallySendandReceiveWindowMenu.Text = "Automatically Send/Receive Window";
-            this.advancedAutomaticallySendandReceiveWindowMenu.ToolTipText = "Automatically launch the Send/Receive dialog after changing a story to another te" +
-    "am member\'s turnened";
+            this.advancedAutomaticallySendandReceiveWindowMenu.ToolTipText = "Automatically launch the Send/Receive dialog after changing a story to another team member\'s turn";
             this.advancedAutomaticallySendandReceiveWindowMenu.CheckStateChanged += new System.EventHandler(this.advancedAutomaticallySendandReceiveWindowMenu_CheckStateChanged);
             // 
             // advancedAutomaticallyLoadProjectMenu
