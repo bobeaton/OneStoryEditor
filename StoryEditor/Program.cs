@@ -705,8 +705,8 @@ namespace OneStoryProjectEditor
                 // for when we launch the program, just do a quick & dirty send/receive, 
                 //  but for closing (or if we have a network drive also), then we want to 
                 //  be more informative
-                SyncUIDialogBehaviors suidb = SyncUIDialogBehaviors.Lazy;
-                SyncUIFeatures suif = SyncUIFeatures.NormalRecommended;
+                var suidb = SyncUIDialogBehaviors.Lazy;
+                var suif = SyncUIFeatures.NormalRecommended;
                 using (var dlg = new SyncDialog(projectConfig, suidb, suif))
                 {
                     dlg.UseTargetsAsSpecifiedInSyncOptions = true;

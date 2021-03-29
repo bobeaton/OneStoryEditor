@@ -12,8 +12,18 @@ namespace OneStoryProjectEditor
     {
         protected StoryProjectData _storyProjectData;
         public TeamMemberData LoggedInMember;
-        public bool isNext = false;
-        public bool Modified = false;
+        // public bool isNext = false;
+        private bool _modified = false;
+        public bool Modified
+        {
+            get { return _modified; }
+            set 
+            { 
+                _modified = value;
+                buttonSave.Enabled = _modified;
+                buttonCancel.Text = (_modified) ? Localizer.Str("Cancel") : Localizer.Str("Close");
+            }
+        }
 
         private bool _bStartedWithVernacular;
         private bool _bStartedWithNationalBt;
@@ -65,7 +75,9 @@ namespace OneStoryProjectEditor
 
             if ((_storyProjectData.ProjSettings == null)
                 || !_storyProjectData.ProjSettings.Vernacular.HasData)
+            {
                 tabControl.TabPages.Remove(tabPageLanguageVernacular);
+            }
             else
             {
                 _bStartedWithVernacular = checkBoxLanguageVernacular.Checked = true;
@@ -76,7 +88,9 @@ namespace OneStoryProjectEditor
 
             if ((_storyProjectData.ProjSettings == null)
                 || !_storyProjectData.ProjSettings.NationalBT.HasData)
+            {
                 tabControl.TabPages.Remove(tabPageLanguageNationalBT);
+            }
             else
             {
                 _bStartedWithNationalBt = checkBoxLanguageNationalBT.Checked = true;
@@ -85,8 +99,8 @@ namespace OneStoryProjectEditor
                 checkBoxAnswersNationalBT.Checked = _storyProjectData.ProjSettings.ShowAnswers.NationalBt;
             }
 
-            if ((_storyProjectData.ProjSettings != null)
-                && !_storyProjectData.ProjSettings.InternationalBT.HasData)
+            if ((_storyProjectData.ProjSettings == null) ||
+                !_storyProjectData.ProjSettings.InternationalBT.HasData)
             {
                 checkBoxLanguageInternationalBT.Checked = false;
                 tabControl.TabPages.Remove(tabPageLanguageEnglishBT);
@@ -112,309 +126,367 @@ namespace OneStoryProjectEditor
             }
 
             UpdateTabPageAIBT();
+
+            if ((ProjSettings != null) && !String.IsNullOrEmpty(ProjSettings.ProjectName))
+                InitializeOnceWeHaveProjectName();
+
             // I think we don't want this until the user presses Next
             // ProcessNext();
-            Modified = false;   // just so we don't let setting controls above make it think there was a change
+            Modified = (_storyProjectData.ProjSettings == null);   // just so we don't let setting controls above make it think there was a change
         }
 
         private void ProcessNext()
         {
+
             if (tabControl.SelectedTab == tabPageProjectName)
             {
-                if (String.IsNullOrEmpty(ProjectName))
-                    throw new UserException(Localizer.Str("Unable to create a project without a project name!"),
-                        textBoxProjectName, tabPageProjectName);
-
-                if (ProjSettings == null)
-                {
-                    // this means that we are doing "new" (as opposed to "edit" settings)
-                    // first check if this means we have to overwrite a project
-                    string strFilename = ProjectSettings.GetDefaultProjectFilePath(ProjectName);
-                    if (File.Exists(strFilename))
-                    {
-                        DialogResult res = StoryEditor.QueryOverwriteProject(ProjectName);
-                        if (res != DialogResult.Yes)
-                            return;
-
-                        RemoveProject(strFilename, ProjectName);
-                    }
-
-                    ProjSettings = new ProjectSettings((string)null, ProjectName, false);
-
-                    // make sure the 'new' folder exists
-                    Directory.CreateDirectory(ProjSettings.ProjectFolder);
-                    
-                    // initialize dropbox now that we have a ProjSettings
-                    InitializeDropbox();
-                }
-                else
-                    ProjSettings.ProjectName = ProjectName;
-
-                string strUsername, strRepoUrl, strPassword;
-                UrlBase = _storyProjectData.GetHgRepoUsernamePassword(ProjectName, LoggedInMember,
-                                                                      out strUsername, 
-                                                                      out strPassword, 
-                                                                      out strRepoUrl)
-                              ? strRepoUrl
-                              : Program.LookupRepoUrlHost(Properties.Resources.IDS_DefaultRepoServer);
-
-                // these *might* have been initialized even if the call to GetHg... fails
-                HgUsername = strUsername;
-                HgPassword = strPassword;
-
-                InitLanguageControls(tabPageLanguageVernacular, ProjSettings.Vernacular);
-                if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideVernacularKeyboard)))
-                    comboBoxKeyboardVernacular.SelectedItem = LoggedInMember.OverrideVernacularKeyboard;
-
-                InitLanguageControls(tabPageLanguageNationalBT, ProjSettings.NationalBT);
-                if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideNationalBTKeyboard)))
-                    comboBoxKeyboardNationalBT.SelectedItem = LoggedInMember.OverrideNationalBTKeyboard;
-
-                InitLanguageControls(tabPageLanguageEnglishBT, ProjSettings.InternationalBT);
-                if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideInternationalBTKeyboard)))
-                    comboBoxKeyboardEnglishBT.SelectedItem = LoggedInMember.OverrideInternationalBTKeyboard;
-
-                InitLanguageControls(tabPageLanguageFreeTranslation, ProjSettings.FreeTranslation);
-                if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideFreeTranslationKeyboard)))
-                    comboBoxKeyboardFreeTranslation.SelectedItem = LoggedInMember.OverrideFreeTranslationKeyboard;
-
-                // also visibalize the dropbox settings
-                labelDropbox.Visible = checkBoxUseDropBox.Checked;
-                checkBoxDropboxStory.Visible = checkBoxUseDropBox.Checked;
-                checkBoxDropboxRetelling.Visible = checkBoxUseDropBox.Checked;
-                checkBoxDropboxAnswers.Visible = checkBoxUseDropBox.Checked;
-
-                if (isNext)
-                    tabControl.SelectedIndex++;
+                OnBlurProjectTab();
             }
             else if (tabControl.SelectedTab == tabPageInternetRepository)
             {
-                // do we need to check whether it's available?
-                if ((LoggedInMember != null)
-                    && (!String.IsNullOrEmpty(HgUsername))
-                    && (!String.IsNullOrEmpty(HgPassword)))
-                {
-                    LoggedInMember.HgUsername = HgUsername;
-                    LoggedInMember.HgPassword = HgPassword;
-                }
-
-                ProjSettings.HgRepoUrlHost = UrlBase;
-                Program.SetHgParameters(ProjSettings.ProjectFolder,
-                    ProjSettings.ProjectName, Url, HgUsername);
-
-                if (isNext)
-                    tabControl.SelectedIndex++;
+                OnBlurInternetRepo();
             }
             else if (tabControl.SelectedTab == tabPageLanguages)
             {
-                if (!checkBoxLanguageVernacular.Checked
-                    && !checkBoxLanguageNationalBT.Checked
-                    && !checkBoxLanguageInternationalBT.Checked
-                    && !checkBoxLanguageFreeTranslation.Checked)
-                {
-                    throw new UserException(Localizer.Str("A project must have at least one language selected"),
-                        checkBoxLanguageInternationalBT, tabPageLanguages);
-                }
-
-                // if we're editing the settings and we didn't start with Vern, but now have it...
-                SetDefaultAllowedForNewField(_bStartedWithVernacular,
-                                             checkBoxLanguageVernacular, 
-                                             TasksPf.TaskSettings.VernacularLangFields);
-
-                if (!checkBoxLanguageVernacular.Checked)
-                {
-                    Debug.Assert(!checkBoxRetellingsVernacular.Checked
-                                                    && !checkBoxTestQuestionsVernacular.Checked
-                                                    && !checkBoxAnswersVernacular.Checked);
-                    ProjSettings.Vernacular.HasData = false;
-                }
-                else
-                {
-                    if (String.IsNullOrEmpty(textBoxLanguageNameVernacular.Text))
-                        textBoxLanguageNameVernacular.Text = (!String.IsNullOrEmpty(ProjSettings.Vernacular.LangName))
-                                                                 ? ProjSettings.Vernacular.LangName 
-                                                                 : null;
-                }
-
-                SetDefaultAllowedForNewField(_bStartedWithNationalBt,
-                                             checkBoxLanguageNationalBT,
-                                             TasksPf.TaskSettings.NationalBtLangFields);
-
-                if (!checkBoxLanguageNationalBT.Checked)
-                {
-                    Debug.Assert(!checkBoxRetellingsNationalBT.Checked
-                                                    && !checkBoxTestQuestionsNationalBT.Checked
-                                                    && !checkBoxAnswersNationalBT.Checked);
-                    ProjSettings.NationalBT.HasData = false;
-                }
-
-                SetDefaultAllowedForNewField(_bStartedWithInternationalBt,
-                                             checkBoxLanguageInternationalBT,
-                                             TasksPf.TaskSettings.InternationalBtFields);
-
-                if (checkBoxLanguageInternationalBT.Checked)
-                {
-                    if (String.IsNullOrEmpty(textBoxLanguageNameEnglishBT.Text)
-                        && !ProjSettings.InternationalBT.HasData)
-                        textBoxLanguageNameEnglishBT.Text = ProjectSettings.DefInternationalLanguageName;
-                }
-                else
-                {
-                    Debug.Assert(!checkBoxRetellingsInternationalBT.Checked
-                                                    && !checkBoxTestQuestionsInternationalBT.Checked
-                                                    && !checkBoxAnswersInternationalBT.Checked);
-                    _storyProjectData.TeamMembers.HasOutsideEnglishBTer =
-                        ProjSettings.InternationalBT.HasData = false;
-                }
-
-                SetDefaultAllowedForNewField(_bStartedWithFreeTranslation,
-                                             checkBoxLanguageFreeTranslation,
-                                             TasksPf.TaskSettings.FreeTranslationFields);
-
-                if (checkBoxLanguageFreeTranslation.Checked)
-                {
-                    if (String.IsNullOrEmpty(textBoxLanguageNameFreeTranslation.Text)
-                        && !ProjSettings.FreeTranslation.HasData)
-                        textBoxLanguageNameFreeTranslation.Text = ProjectSettings.DefInternationalLanguageName;
-                    
-                    // make them different...
-                    if (textBoxLanguageNameEnglishBT.Text == ProjectSettings.DefInternationalLanguageName)
-                        textBoxLanguageNameFreeTranslation.Text = ProjectSettings.DefInternationalLanguageName + 
-                            Localizer.Str(" FT");
-                }
-                else
-                    ProjSettings.FreeTranslation.HasData = false;
-
-                // can't have an outside english bter, if we don't have an English BT or only an English BT
-                //  (the PF has to put something in!)
-                checkBoxOutsideEnglishBackTranslator.Enabled = (
-                                                   (checkBoxLanguageInternationalBT.Checked ||
-                                                    checkBoxLanguageFreeTranslation.Checked)
-                                                   &&
-                                                   (checkBoxLanguageNationalBT.Checked ||
-                                                    checkBoxLanguageVernacular.Checked));
-
-                checkBoxOutsideEnglishBackTranslator.Checked = _storyProjectData.TeamMembers.HasOutsideEnglishBTer;
-                radioButtonIndependentConsultant.Checked = _storyProjectData.TeamMembers.HasIndependentConsultant;
-
-                // now deal with the AdaptIt BT helpers (doing this here, because by now LoggedOnMember
-                //  will be initialized)
-                SetAdaptItControlVisibility(checkBoxLanguageVernacular,
-                                            checkBoxLanguageNationalBT,
-                                            labelAdaptItVernacularToNationalBt,
-                                            adaptItConfigCtrlVernacularToNationalBt,
-                                            0);
-
-                SetAdaptItControlVisibility(checkBoxLanguageVernacular,
-                                            checkBoxLanguageInternationalBT,
-                                            labelAdaptItVernacularToInternationalBt,
-                                            adaptItConfigCtrlVernacularToInternationalBt,
-                                            1);
-
-                SetAdaptItControlVisibility(checkBoxLanguageNationalBT,
-                                            checkBoxLanguageInternationalBT,
-                                            labelAdaptItNationalBtToInternationalBt,
-                                            adaptItConfigCtrlNationalBtToInternationalBt,
-                                            2);
-
-                if (checkBoxUseDropBox.Checked && 
-                    !checkBoxDropboxStory.Checked &&
-                    !checkBoxDropboxRetelling.Checked &&
-                    !checkBoxDropboxAnswers.Checked)
-                {
-                    throw new UserException(Localizer.Str("You are configured to use Dropbox for recordings, but you didn't select any recording types (i.e. Story, Retelling or Answers) to prompt the user to copy. Either check at least one of the recording types or uncheck the Dropbox-related checkbox on the Project tab."),
-                        checkBoxLanguageInternationalBT, tabPageLanguages);
-                }
-                if (isNext)
-                    tabControl.SelectedIndex++;
+                VerifyLanguages();
             }
             else if (tabControl.SelectedTab == tabPageLanguageVernacular)
             {
-                bool bRtfOverride = false;
-                string strKeyboardOverride = null;
-                ProcessLanguageTab(comboBoxKeyboardVernacular, ProjSettings.Vernacular, checkBoxIsRTLVernacular,
-                    textBoxLanguageNameVernacular, textBoxEthCodeVernacular, textBoxSentFullStopVernacular,
-                    ref strKeyboardOverride, ref bRtfOverride);
-                if (LoggedInMember != null)
-                {
-                    LoggedInMember.OverrideVernacularKeyboard = strKeyboardOverride;
-                    LoggedInMember.OverrideRtlVernacular = bRtfOverride;
-                }
             }
             else if (tabControl.SelectedTab == tabPageLanguageNationalBT)
             {
-                bool bRtfOverride = false;
-                string strKeyboardOverride = null;
-                ProcessLanguageTab(comboBoxKeyboardNationalBT, ProjSettings.NationalBT, checkBoxIsRTLNationalBT,
-                    textBoxLanguageNameNationalBT, textBoxEthCodeNationalBT, textBoxSentFullStopNationalBT,
-                    ref strKeyboardOverride, ref bRtfOverride);
-                if (LoggedInMember != null)
-                {
-                    LoggedInMember.OverrideNationalBTKeyboard = strKeyboardOverride;
-                    LoggedInMember.OverrideRtlNationalBT = bRtfOverride;
-                }
             }
             else if (tabControl.SelectedTab == tabPageLanguageEnglishBT)
             {
-                bool bRtfOverride = false;
-                string strKeyboardOverride = null;
-                ProcessLanguageTab(comboBoxKeyboardEnglishBT, ProjSettings.InternationalBT, checkBoxIsRTLEnglishBT,
-                    textBoxLanguageNameEnglishBT, textBoxEthCodeEnglishBT, textBoxSentFullStopEnglishBT,
-                    ref strKeyboardOverride, ref bRtfOverride);
-                if (LoggedInMember != null)
-                {
-                    LoggedInMember.OverrideInternationalBTKeyboard = strKeyboardOverride;
-                    LoggedInMember.OverrideRtlInternationalBT = bRtfOverride;
-                }
             }
             else if (tabControl.SelectedTab == tabPageLanguageFreeTranslation)
             {
-                bool bRtfOverride = false;
-                string strKeyboardOverride = null;
-                ProcessLanguageTab(comboBoxKeyboardFreeTranslation, ProjSettings.FreeTranslation, checkBoxIsRTLFreeTranslation,
-                    textBoxLanguageNameFreeTranslation, textBoxEthCodeFreeTranslation, textBoxSentFullStopFreeTranslation,
-                    ref strKeyboardOverride, ref bRtfOverride);
-                if (LoggedInMember != null)
-                {
-                    LoggedInMember.OverrideFreeTranslationKeyboard = strKeyboardOverride;
-                    LoggedInMember.OverrideRtlFreeTranslation = bRtfOverride;
-                }
             }
             else if (tabControl.SelectedTab == tabPageMemberRoles)
             {
-                if (tlpAdaptItConfiguration.Controls.ContainsKey(adaptItConfigCtrlVernacularToNationalBt.Name))
-                {
-                    ConfigureAdaptItConfig(adaptItConfigCtrlVernacularToNationalBt,
-                                           labelAdaptItVernacularToNationalBt,
-                                           ProjSettings.VernacularToNationalBt,
-                                           ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt,
-                                           ProjSettings.Vernacular.LangName,
-                                           ProjSettings.NationalBT.LangName);
-                }
-                if (tlpAdaptItConfiguration.Controls.ContainsKey(adaptItConfigCtrlVernacularToInternationalBt.Name))
-                {
-                    ConfigureAdaptItConfig(adaptItConfigCtrlVernacularToInternationalBt,
-                                           labelAdaptItVernacularToInternationalBt,
-                                           ProjSettings.VernacularToInternationalBt,
-                                           ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToInternationalBt,
-                                           ProjSettings.Vernacular.LangName,
-                                           ProjSettings.InternationalBT.LangName);
-                }
-                if (tlpAdaptItConfiguration.Controls.ContainsKey(adaptItConfigCtrlNationalBtToInternationalBt.Name))
-                {
-                    ConfigureAdaptItConfig(adaptItConfigCtrlNationalBtToInternationalBt,
-                                           labelAdaptItNationalBtToInternationalBt,
-                                           ProjSettings.NationalBtToInternationalBt,
-                                           ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.NationalBtToInternationalBt,
-                                           ProjSettings.NationalBT.LangName,
-                                           ProjSettings.InternationalBT.LangName);
-                }
-                if (isNext)
-                    tabControl.SelectedIndex++;
             }
             else if (tabControl.SelectedTab == tabPageAIBT)
             {
             }
+        }
+
+        private void InitializeAdaptItSettings()
+        {
+            if (tlpAdaptItConfiguration.Controls.ContainsKey(adaptItConfigCtrlVernacularToNationalBt.Name))
+            {
+                ConfigureAdaptItConfig(adaptItConfigCtrlVernacularToNationalBt,
+                                       labelAdaptItVernacularToNationalBt,
+                                       ProjSettings.VernacularToNationalBt,
+                                       ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt,
+                                       ProjSettings.Vernacular.LangName,
+                                       ProjSettings.NationalBT.LangName);
+            }
+            if (tlpAdaptItConfiguration.Controls.ContainsKey(adaptItConfigCtrlVernacularToInternationalBt.Name))
+            {
+                ConfigureAdaptItConfig(adaptItConfigCtrlVernacularToInternationalBt,
+                                       labelAdaptItVernacularToInternationalBt,
+                                       ProjSettings.VernacularToInternationalBt,
+                                       ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToInternationalBt,
+                                       ProjSettings.Vernacular.LangName,
+                                       ProjSettings.InternationalBT.LangName);
+            }
+            if (tlpAdaptItConfiguration.Controls.ContainsKey(adaptItConfigCtrlNationalBtToInternationalBt.Name))
+            {
+                ConfigureAdaptItConfig(adaptItConfigCtrlNationalBtToInternationalBt,
+                                       labelAdaptItNationalBtToInternationalBt,
+                                       ProjSettings.NationalBtToInternationalBt,
+                                       ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.NationalBtToInternationalBt,
+                                       ProjSettings.NationalBT.LangName,
+                                       ProjSettings.InternationalBT.LangName);
+            }
+        }
+
+        private void ValidateFreeTranslation()
+        {
+            if (!checkBoxLanguageFreeTranslation.Checked)
+                return;
+
+            bool bRtfOverride = false;
+            string strKeyboardOverride = null;
+            ProcessLanguageTab(comboBoxKeyboardFreeTranslation, ProjSettings.FreeTranslation, checkBoxIsRTLFreeTranslation,
+                textBoxLanguageNameFreeTranslation, textBoxEthCodeFreeTranslation, textBoxSentFullStopFreeTranslation,
+                tabPageLanguageFreeTranslation, ref strKeyboardOverride, ref bRtfOverride);
+            if (LoggedInMember != null)
+            {
+                LoggedInMember.OverrideFreeTranslationKeyboard = strKeyboardOverride;
+                LoggedInMember.OverrideRtlFreeTranslation = bRtfOverride;
+            }
+        }
+
+        private void ValidateLanguageEnglish()
+        {
+            if (!checkBoxLanguageInternationalBT.Checked)
+                return;
+
+            bool bRtfOverride = false;
+            string strKeyboardOverride = null;
+            ProcessLanguageTab(comboBoxKeyboardEnglishBT, ProjSettings.InternationalBT, checkBoxIsRTLEnglishBT,
+                textBoxLanguageNameEnglishBT, textBoxEthCodeEnglishBT, textBoxSentFullStopEnglishBT,
+                tabPageLanguageEnglishBT, ref strKeyboardOverride, ref bRtfOverride);
+            if (LoggedInMember != null)
+            {
+                LoggedInMember.OverrideInternationalBTKeyboard = strKeyboardOverride;
+                LoggedInMember.OverrideRtlInternationalBT = bRtfOverride;
+            }
+        }
+
+        private void ValidateLanguageNationalBT()
+        {
+            if (!checkBoxLanguageNationalBT.Checked)
+                return;
+
+            bool bRtfOverride = false;
+            string strKeyboardOverride = null;
+            ProcessLanguageTab(comboBoxKeyboardNationalBT, ProjSettings.NationalBT, checkBoxIsRTLNationalBT,
+                textBoxLanguageNameNationalBT, textBoxEthCodeNationalBT, textBoxSentFullStopNationalBT,
+                tabPageLanguageNationalBT, ref strKeyboardOverride, ref bRtfOverride);
+            if (LoggedInMember != null)
+            {
+                LoggedInMember.OverrideNationalBTKeyboard = strKeyboardOverride;
+                LoggedInMember.OverrideRtlNationalBT = bRtfOverride;
+            }
+        }
+
+        private void ValidateLanguageVernacular()
+        {
+            if (!checkBoxLanguageVernacular.Checked)
+                return;
+
+            bool bRtfOverride = false;
+            string strKeyboardOverride = null;
+            ProcessLanguageTab(comboBoxKeyboardVernacular, ProjSettings.Vernacular, checkBoxIsRTLVernacular,
+                textBoxLanguageNameVernacular, textBoxEthCodeVernacular, textBoxSentFullStopVernacular,
+                tabPageLanguageVernacular, ref strKeyboardOverride, ref bRtfOverride);
+            if (LoggedInMember != null)
+            {
+                LoggedInMember.OverrideVernacularKeyboard = strKeyboardOverride;
+                LoggedInMember.OverrideRtlVernacular = bRtfOverride;
+            }
+        }
+
+        private void VerifyLanguages()
+        {
+            // if we're editing the settings and we didn't start with Vern, but now have it...
+            SetDefaultAllowedForNewField(_bStartedWithVernacular,
+                                         checkBoxLanguageVernacular,
+                                         TasksPf.TaskSettings.VernacularLangFields);
+
+            if (!checkBoxLanguageVernacular.Checked)
+            {
+                Debug.Assert(!checkBoxRetellingsVernacular.Checked
+                                                && !checkBoxTestQuestionsVernacular.Checked
+                                                && !checkBoxAnswersVernacular.Checked);
+                ProjSettings.Vernacular.HasData = false;
+            }
+            else
+            {
+                if (String.IsNullOrEmpty(textBoxLanguageNameVernacular.Text))
+                    textBoxLanguageNameVernacular.Text = (!String.IsNullOrEmpty(ProjSettings.Vernacular.LangName))
+                                                             ? ProjSettings.Vernacular.LangName
+                                                             : null;
+            }
+
+            SetDefaultAllowedForNewField(_bStartedWithNationalBt,
+                                         checkBoxLanguageNationalBT,
+                                         TasksPf.TaskSettings.NationalBtLangFields);
+
+            if (!checkBoxLanguageNationalBT.Checked)
+            {
+                Debug.Assert(!checkBoxRetellingsNationalBT.Checked
+                                                && !checkBoxTestQuestionsNationalBT.Checked
+                                                && !checkBoxAnswersNationalBT.Checked);
+                ProjSettings.NationalBT.HasData = false;
+            }
+
+            SetDefaultAllowedForNewField(_bStartedWithInternationalBt,
+                                         checkBoxLanguageInternationalBT,
+                                         TasksPf.TaskSettings.InternationalBtFields);
+
+            if (checkBoxLanguageInternationalBT.Checked)
+            {
+                if (String.IsNullOrEmpty(textBoxLanguageNameEnglishBT.Text)
+                    && !ProjSettings.InternationalBT.HasData)
+                    textBoxLanguageNameEnglishBT.Text = ProjectSettings.DefInternationalLanguageName;
+            }
+            else
+            {
+                Debug.Assert(!checkBoxRetellingsInternationalBT.Checked
+                                                && !checkBoxTestQuestionsInternationalBT.Checked
+                                                && !checkBoxAnswersInternationalBT.Checked);
+                _storyProjectData.TeamMembers.HasOutsideEnglishBTer =
+                    ProjSettings.InternationalBT.HasData = false;
+            }
+
+            SetDefaultAllowedForNewField(_bStartedWithFreeTranslation,
+                                         checkBoxLanguageFreeTranslation,
+                                         TasksPf.TaskSettings.FreeTranslationFields);
+
+            if (checkBoxLanguageFreeTranslation.Checked)
+            {
+                if (String.IsNullOrEmpty(textBoxLanguageNameFreeTranslation.Text)
+                    && !ProjSettings.FreeTranslation.HasData)
+                    textBoxLanguageNameFreeTranslation.Text = ProjectSettings.DefInternationalLanguageName;
+
+                // make them different...
+                if (textBoxLanguageNameEnglishBT.Text == ProjectSettings.DefInternationalLanguageName)
+                    textBoxLanguageNameFreeTranslation.Text = ProjectSettings.DefInternationalLanguageName +
+                        Localizer.Str(" FT");
+            }
+            else
+                ProjSettings.FreeTranslation.HasData = false;
+
+            // can't have an outside english bter, if we don't have an English BT or only an English BT
+            //  (the PF has to put something in!)
+            checkBoxOutsideEnglishBackTranslator.Enabled = (
+                                               (checkBoxLanguageInternationalBT.Checked ||
+                                                checkBoxLanguageFreeTranslation.Checked)
+                                               &&
+                                               (checkBoxLanguageNationalBT.Checked ||
+                                                checkBoxLanguageVernacular.Checked));
+
+            checkBoxOutsideEnglishBackTranslator.Checked = _storyProjectData.TeamMembers.HasOutsideEnglishBTer;
+            radioButtonIndependentConsultant.Checked = _storyProjectData.TeamMembers.HasIndependentConsultant;
+
+            // now deal with the AdaptIt BT helpers (doing this here, because by now LoggedOnMember
+            //  will be initialized)
+            SetAdaptItControlVisibility(checkBoxLanguageVernacular,
+                                        checkBoxLanguageNationalBT,
+                                        labelAdaptItVernacularToNationalBt,
+                                        adaptItConfigCtrlVernacularToNationalBt,
+                                        0);
+
+            SetAdaptItControlVisibility(checkBoxLanguageVernacular,
+                                        checkBoxLanguageInternationalBT,
+                                        labelAdaptItVernacularToInternationalBt,
+                                        adaptItConfigCtrlVernacularToInternationalBt,
+                                        1);
+
+            SetAdaptItControlVisibility(checkBoxLanguageNationalBT,
+                                        checkBoxLanguageInternationalBT,
+                                        labelAdaptItNationalBtToInternationalBt,
+                                        adaptItConfigCtrlNationalBtToInternationalBt,
+                                        2);
+        }
+
+        private void VerifyDropboxSettings()
+        {
+            if (checkBoxUseDropBox.Checked &&
+                !checkBoxDropboxStory.Checked &&
+                !checkBoxDropboxRetelling.Checked &&
+                !checkBoxDropboxAnswers.Checked)
+            {
+                throw new UserException(Localizer.Str("You are configured to use Dropbox for recordings, but you didn't select any recording types (i.e. Story, Retelling or Answers) to prompt the user to copy. Either check at least one of the recording types or uncheck the Dropbox-related checkbox on the Project tab."),
+                    checkBoxLanguageInternationalBT, tabPageLanguages);
+            }
+        }
+
+        private bool _dontContinueToAsk = false;
+
+        private void OnBlurInternetRepo()
+        {
+            // do we need to check whether it's available?
+            if (LoggedInMember != null)
+            {
+                if (!String.IsNullOrEmpty(HgUsername) && !String.IsNullOrEmpty(HgPassword))
+                {
+                    LoggedInMember.HgUsername = HgUsername;
+                    LoggedInMember.HgPassword = HgPassword;
+                }
+                else if (!_dontContinueToAsk)
+                {
+                    var res = LocalizableMessageBox.Show(Localizer.Str("Did you mean to leave the internet repository username and password blank? You can configure them in the Send/Receive dialog itself by clicking on the 'Settings...' link. Otherwise, click 'Yes' to configure them here."),
+                                                         StoryEditor.OseCaption,
+                                                         MessageBoxButtons.YesNoCancel);
+
+                    if (res == DialogResult.Yes)
+                    {
+                        throw new UserException(Localizer.Str("Configure the internet repository username and password here"),
+                                                textBoxUsername, tabPageInternetRepository);
+                    }
+
+                    _dontContinueToAsk = true;
+                }
+            }
+
+            ProjSettings.HgRepoUrlHost = UrlBase;
+            Program.SetHgParameters(ProjSettings.ProjectFolder,
+                ProjSettings.ProjectName, Url, HgUsername);
+        }
+
+        private void OnBlurProjectTab()
+        {
+            if (String.IsNullOrEmpty(ProjectName))
+                throw new UserException(Localizer.Str("Unable to create a project without a project name!"),
+                    textBoxProjectName, tabPageProjectName);
+
+            if (ProjSettings == null)
+            {
+                // this means that we are doing "new" (as opposed to "edit" settings)
+                // first check if this means we have to overwrite a project
+                string strFilename = ProjectSettings.GetDefaultProjectFilePath(ProjectName);
+                if (File.Exists(strFilename))
+                {
+                    DialogResult res = StoryEditor.QueryOverwriteProject(ProjectName);
+                    if (res != DialogResult.Yes)
+                        return;
+
+                    RemoveProject(strFilename, ProjectName);
+                }
+
+                ProjSettings = new ProjectSettings((string)null, ProjectName, false);
+
+                // make sure the 'new' folder exists
+                Directory.CreateDirectory(ProjSettings.ProjectFolder);
+
+                // initialize dropbox now that we have a ProjSettings
+                InitializeDropbox();
+            }
+            else
+                ProjSettings.ProjectName = ProjectName;
+
+            InitializeOnceWeHaveProjectName();
+        }
+
+        private void InitializeOnceWeHaveProjectName()
+        {
+            string strUsername, strRepoUrl, strPassword;
+            UrlBase = _storyProjectData.GetHgRepoUsernamePassword(ProjectName, LoggedInMember,
+                                                                  out strUsername,
+                                                                  out strPassword,
+                                                                  out strRepoUrl)
+                          ? strRepoUrl
+                          : Program.LookupRepoUrlHost(Properties.Resources.IDS_DefaultRepoServer);
+
+            // these *might* have been initialized even if the call to GetHg... fails
+            HgUsername = strUsername;
+            HgPassword = strPassword;
+
+            InitLanguageControls(tabPageLanguageVernacular, ProjSettings.Vernacular);
+            if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideVernacularKeyboard)))
+                comboBoxKeyboardVernacular.SelectedItem = LoggedInMember.OverrideVernacularKeyboard;
+
+            InitLanguageControls(tabPageLanguageNationalBT, ProjSettings.NationalBT);
+            if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideNationalBTKeyboard)))
+                comboBoxKeyboardNationalBT.SelectedItem = LoggedInMember.OverrideNationalBTKeyboard;
+
+            InitLanguageControls(tabPageLanguageEnglishBT, ProjSettings.InternationalBT);
+            if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideInternationalBTKeyboard)))
+                comboBoxKeyboardEnglishBT.SelectedItem = LoggedInMember.OverrideInternationalBTKeyboard;
+
+            InitLanguageControls(tabPageLanguageFreeTranslation, ProjSettings.FreeTranslation);
+            if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideFreeTranslationKeyboard)))
+                comboBoxKeyboardFreeTranslation.SelectedItem = LoggedInMember.OverrideFreeTranslationKeyboard;
+
+            // also visibalize the dropbox settings
+            labelDropbox.Visible = checkBoxUseDropBox.Checked;
+            checkBoxDropboxStory.Visible = checkBoxUseDropBox.Checked;
+            checkBoxDropboxRetelling.Visible = checkBoxUseDropBox.Checked;
+            checkBoxDropboxAnswers.Visible = checkBoxUseDropBox.Checked;
         }
 
         private void SetDefaultAllowedForNewField(bool bStartedWith, 
@@ -586,7 +658,7 @@ namespace OneStoryProjectEditor
         {
             try
             {
-                _bEnableTabSelection = true;
+                // _bEnableTabSelection = true;
                 if (tabControl.SelectedIndex > 0)
                     tabControl.SelectedIndex--;
             }
@@ -598,7 +670,7 @@ namespace OneStoryProjectEditor
             }
             finally
             {
-                _bEnableTabSelection = false;
+                // _bEnableTabSelection = false;
                 if (tabControl.SelectedIndex != (tabControl.TabPages.Count - 1))
                     buttonNext.Text = Localizer.Str("&Next");
             }
@@ -606,33 +678,9 @@ namespace OneStoryProjectEditor
 
         private void buttonNext_Click(object sender, EventArgs e)
         {
-            var strFinishButtonText = Localizer.Str("&Finish");
             try
             {
-                if (buttonNext.Text == strFinishButtonText)
-                {
-                    if (Modified)
-                    {
-                        var res = LocalizableMessageBox.Show("Do you want to save the changes?", StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
-                        if (res == DialogResult.Cancel)
-                            return;
-
-                        else if (res == DialogResult.Yes)
-                        {
-                            FinishEdit();
-                            return;
-                        }
-                    }
-
-                    DialogResult = DialogResult.OK;
-                    Close();
-                }
-                else
-                {
-                    _bEnableTabSelection = true;
-                    isNext = true;
-                    ProcessNext();
-                }
+                tabControl.SelectedIndex++;
             }
             catch (UserException ex)
             {
@@ -641,12 +689,6 @@ namespace OneStoryProjectEditor
                 if (ex.Control != null)
                     ex.Control.Focus();
                 LocalizableMessageBox.Show(ex.Message, StoryEditor.OseCaption);
-            }
-            finally
-            {
-                _bEnableTabSelection = false;
-                if (tabControl.SelectedIndex == (tabControl.TabPages.Count - 1))
-                    buttonNext.Text = strFinishButtonText;
             }
         }        
 
@@ -679,7 +721,13 @@ namespace OneStoryProjectEditor
                     : null;
 
             if (!checkBoxUseInternetRepo.Checked)
+            {
                 Program.ClearHgParameters(ProjectName);
+            }
+            else
+            {
+                OnBlurInternetRepo();   // in case it wasn't done before
+            }
 
             // this is now configured!
             ProjSettings.IsConfigured = true;
@@ -687,9 +735,6 @@ namespace OneStoryProjectEditor
             ProjSettings.DropboxStory = checkBoxDropboxStory.Checked;
             ProjSettings.DropboxRetelling = checkBoxDropboxRetelling.Checked;
             ProjSettings.DropboxAnswers = checkBoxDropboxAnswers.Checked;
-
-            DialogResult = DialogResult.OK;
-            Close();
         }
 
         private void VerifyAiConfiguration()
@@ -735,11 +780,11 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected bool _bEnableTabSelection;
+        // protected bool _bEnableTabSelection;
 
         protected void ProcessLanguageTab(ComboBox cb, ProjectSettings.LanguageInfo li, 
             CheckBox cbRtl, TextBox textBoxLanguageName, TextBox textBoxEthCode, 
-            TextBox textBoxSentFullStop, ref string strKeyboardOverride, ref bool bRtfOverride)
+            TextBox textBoxSentFullStop, TabPage gotoTab, ref string strKeyboardOverride, ref bool bRtfOverride)
         {
             // if there is a default keyboard (from before) and the user has chosen another 
             //  one, then see if they mean to change it for everyone or just themselves 
@@ -792,18 +837,18 @@ namespace OneStoryProjectEditor
             else
                 li.DefaultRtl = cbRtl.Checked;
 
-            li.LangName = ThrowIfTextNullOrEmpty(textBoxLanguageName, Localizer.Str("Language Name"));
+            li.LangName = ThrowIfTextNullOrEmpty(textBoxLanguageName, Localizer.Str("Language Name"), gotoTab);
 
             // can't allow 's in the language name or it screws with javascript
             if (li.LangName.Contains("'"))
                 throw new UserException(Localizer.Str("The Language 'Name' field is not allowed to have a single quote character (i.e. ') in it"),
                                         textBoxLanguageName, tabControl.SelectedTab);
 
-            li.LangCode = ThrowIfTextNullOrEmpty(textBoxEthCode, Localizer.Str("Ethnologue Code"));
-            li.FullStop = ThrowIfTextNullOrEmpty(textBoxSentFullStop, Localizer.Str("Sentence Final Punctuation"));
+            li.LangCode = ThrowIfTextNullOrEmpty(textBoxEthCode, Localizer.Str("Ethnologue Code"), gotoTab);
+            li.FullStop = ThrowIfTextNullOrEmpty(textBoxSentFullStop, Localizer.Str("Sentence Final Punctuation"), gotoTab);
 
-            if(isNext)
-                tabControl.SelectedIndex++;
+            //if(isNext)
+            //    tabControl.SelectedIndex++;
         }
 
         private DialogResult QueryOverride(string strProperty, string strValue)
@@ -814,12 +859,12 @@ namespace OneStoryProjectEditor
                                    MessageBoxButtons.YesNoCancel);
         }
 
-        protected string ThrowIfTextNullOrEmpty(TextBox tb, string strErrorMessage)
+        protected string ThrowIfTextNullOrEmpty(TextBox tb, string strErrorMessage, TabPage gotoTab)
         {
             if (String.IsNullOrEmpty(tb.Text))
                 throw new UserException(String.Format(Localizer.Str("You have to configure the {0} first"),
                                                       strErrorMessage),
-                                        tb, tabControl.SelectedTab);
+                                        tb, gotoTab);
             return tb.Text;
         }
 
@@ -1073,23 +1118,6 @@ namespace OneStoryProjectEditor
             ProposeEthnologueCode(textBoxLanguageNameFreeTranslation.Text, textBoxEthCodeFreeTranslation);
         }
 
-        // for users that
-        private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
-        {
-            if (!_bEnableTabSelection)
-            {
-                // e.Cancel = true;
-                if (tabControl.SelectedIndex == (tabControl.TabPages.Count - 1))
-                {
-                    buttonNext.Text = Localizer.Str("&Finish");
-                }
-                else
-                {
-                    buttonNext.Text = Localizer.Str("&Next");
-                }
-            }
-        }
-
         protected void SetKeyboard(string strKeyboardToSet)
         {
 #if !DEBUGBOB
@@ -1246,6 +1274,7 @@ namespace OneStoryProjectEditor
         {
             if (ProjSettings != null)
                 InitializeDropbox();
+            Modified = true;
         }
 
         private void InitializeDropbox()
@@ -1340,7 +1369,47 @@ namespace OneStoryProjectEditor
         {
             try
             {
-                isNext = false;
+                // gotta have at least one language
+                if (!checkBoxLanguageVernacular.Checked
+                    && !checkBoxLanguageNationalBT.Checked
+                    && !checkBoxLanguageInternationalBT.Checked
+                    && !checkBoxLanguageFreeTranslation.Checked)
+                {
+                    throw new UserException(Localizer.Str("A project must have at least one language selected"),
+                        checkBoxLanguageInternationalBT, tabPageLanguages);
+                }
+
+                // validate the languages before we leave
+                ValidateSettings();
+
+                FinishEdit();
+
+                Modified = false;
+            }
+            catch (UserException ex)
+            {
+                if (ex.Tab != null)
+                    tabControl.SelectedTab = ex.Tab;
+                if (ex.Control != null)
+                    ex.Control.Focus();
+                LocalizableMessageBox.Show(ex.Message, StoryEditor.OseCaption);
+            }
+        }
+
+        private void ValidateSettings()
+        {
+            ValidateLanguageVernacular();
+            ValidateLanguageNationalBT();
+            ValidateLanguageEnglish();
+            ValidateFreeTranslation();
+            VerifyLanguages();
+            VerifyDropboxSettings();
+        }
+
+        private void tabControl_Deselecting(object sender, TabControlCancelEventArgs e)
+        {
+            try
+            {
                 ProcessNext();
             }
             catch (UserException ex)
@@ -1350,6 +1419,73 @@ namespace OneStoryProjectEditor
                 if (ex.Control != null)
                     ex.Control.Focus();
                 LocalizableMessageBox.Show(ex.Message, StoryEditor.OseCaption);
+                e.Cancel = true;
+            }
+        }
+
+        private void textBoxProjectName_TextChanged(object sender, EventArgs e)
+        {
+            Modified = true;
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Close();
+                if (!Modified)
+                    DialogResult = DialogResult.OK;
+            }
+            catch (UserException ex)
+            {
+                if (ex.Tab != null)
+                    tabControl.SelectedTab = ex.Tab;
+                if (ex.Control != null)
+                    ex.Control.Focus();
+                LocalizableMessageBox.Show(ex.Message, StoryEditor.OseCaption);
+            }
+        }
+
+        private void NewProjectWizard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (Modified)
+            {
+                var res = LocalizableMessageBox.Show("Do you want to save the changes?", StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel);
+                if (res == DialogResult.Cancel)
+                {
+                    e.Cancel = true;
+                }
+
+                else if (res == DialogResult.Yes)
+                {
+                    buttonSave_Click(sender, null);
+                    e.Cancel = true;
+                }
+                else
+                {
+                    _storyProjectData = null;   // forget what we were doing
+                }
+            }
+        }
+
+        private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            if (e.TabPage == tabPageAIBT)
+            {
+                try
+                {
+                    ValidateSettings();
+                    InitializeAdaptItSettings();
+                }
+                catch (UserException ex)
+                {
+                    if (ex.Tab != null)
+                        tabControl.SelectedTab = ex.Tab;
+                    if (ex.Control != null)
+                        ex.Control.Focus();
+                    LocalizableMessageBox.Show(ex.Message, StoryEditor.OseCaption);
+                    // since we changed it above, here we don't want to cancel it...   e.Cancel = true;
+                }
             }
         }
     }

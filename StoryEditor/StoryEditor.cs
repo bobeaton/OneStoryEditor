@@ -815,6 +815,7 @@ namespace OneStoryProjectEditor
         {
             StoryProject = null;
             LoggedOnMember = null;
+            CurrentStoriesSetName = Resources.IDS_MainStoriesSet;
             if (m_dlgNotes != null)
             {
                 m_dlgNotes.Close();
@@ -844,6 +845,8 @@ namespace OneStoryProjectEditor
                 splitContainerUpDown.Restore();
 
             _dateTimeLastSaved = DateTime.MinValue;
+
+            Text = GetFrameTitle(false);
         }
 
         protected void ReInitMenuVisibility()
@@ -914,7 +917,8 @@ namespace OneStoryProjectEditor
                 StoryProject = new StoryProjectData();    // null causes us to query for the project name
                 Modified |= StoryProject.InitializeProjectSettings(LoggedOnMember);
                 CheckForLogon(StoryProject);
-                Debug.Assert(LoggedOnMember != null);
+                if (LoggedOnMember == null)
+                    return false; // nothing more to do if the user cancels
 
                 if (Modified)
                 {
@@ -1235,7 +1239,7 @@ namespace OneStoryProjectEditor
 
         protected void CheckForLogon(StoryProjectData theStoryProject)
         {
-            if (LoggedOnMember == null)
+            if ((LoggedOnMember == null) && (theStoryProject.ProjSettings != null))
                 LoggedOnMember = theStoryProject.GetLogin(ref Modified);
         }
 

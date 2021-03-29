@@ -133,6 +133,9 @@ namespace OneStoryProjectEditor
                 }
             }
 
+            tabControlSets.DrawMode = TabDrawMode.OwnerDrawFixed;
+            tabControlSets.DrawItem += TabControlOnDrawItem;
+
             var tab = InitStoriesTab(storySetName);
             tabControlSets.SelectTab(tab);
 
@@ -169,6 +172,75 @@ namespace OneStoryProjectEditor
                 list.ForEach(p => tabControlSets.Controls.Add(p));
             }
             tabControlSets.Controls.Add(newTabPage);
+        }
+
+        private FontStyle HasNotification(string tabText)
+        {
+            StoriesData stories = _storyProject[tabText];
+            var status = haveLoginUserTurn(stories);
+            return status ? FontStyle.Bold : FontStyle.Regular;
+        }
+
+        private void TabControlOnDrawItem(object sender, DrawItemEventArgs e)
+        {
+            var tab = (TabControl)sender;
+
+            var tabPage = tab.TabPages[e.Index];
+            var tabText = (tabPage.Text == StoriesSetNameLocalized) ? StoriesSetName : tabPage.Text;
+
+            StoriesData stories = null;
+            if (_storyProject.ContainsKey(tabText))
+                stories = _storyProject[tabText];
+
+            Font font = new Font(tab.Font, FontStyle.Regular);
+            if (stories != null)
+            {
+                var status = haveLoginUserTurn(stories);
+                using (Brush br = new SolidBrush(tabPage.BackColor))
+                {
+                    Rectangle rect = e.Bounds;
+
+                    // rect.Width += 2;
+                    e.Graphics.FillRectangle(br, rect);
+
+                    if (status)
+                    {
+                        using (var src = new Bitmap(Properties.Resources.RedDot))
+                        {
+                            e.Graphics.DrawImage(src, rect.Left + 2, rect.Top + 3);
+                        }
+
+                        e.Graphics.DrawRectangle(Pens.DarkGray, rect);
+                        e.DrawFocusRectangle();
+                    }
+                }
+            }
+
+            e.Graphics.DrawString($"     {tabText}     ", font, Brushes.Black, new PointF(e.Bounds.X + 0, e.Bounds.Y + 0));
+        }
+
+        protected Boolean haveLoginUserTurn(StoriesData stories)
+        {
+            if (stories == null)
+                return false;
+
+            foreach (StoryData aSD in stories)
+            {
+                string strWhoHasEditToken = StoryEditor.GetMemberWithEditTokenAsDisplayString(_storyProject.TeamMembers,
+                                                                                              aSD.ProjStage.MemberTypeWithEditToken);
+                string strMemberId = StoryEditor.MemberIDWithEditToken(aSD, strWhoHasEditToken);
+
+                var bInLoggedInUsersTurn = false;
+                if (!String.IsNullOrEmpty(strMemberId))
+                {
+                    // if we have a single person's turn who has the edit token and they are the current user, 
+                    bInLoggedInUsersTurn = ((_loggedOnMember != null) && (_loggedOnMember.MemberGuid == strMemberId));
+                }
+
+                if (bInLoggedInUsersTurn)
+                    return true;
+            }
+            return false;
         }
 
         public string SelectedStorySetName; 
@@ -1317,6 +1389,7 @@ namespace OneStoryProjectEditor
 
             TextRenderer.DrawText(e.Graphics, page.Text, font, paddedBounds, page.ForeColor);
         }
+
         private void dataGridViewPanorama_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
             using (SolidBrush b = new SolidBrush(dataGridViewPanorama.RowHeadersDefaultCellStyle.ForeColor))
