@@ -268,7 +268,6 @@ namespace OneStoryProjectEditor
             this.tabControlSets.Controls.Add(this.tabPagePanorama);
             this.tabControlSets.Controls.Add(this.newTabPage);
             this.tabControlSets.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlSets.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.tabControlSets.Location = new System.Drawing.Point(0, 0);
             this.tabControlSets.Name = "tabControlSets";
             this.tabControlSets.Padding = new System.Drawing.Point(18, 4);

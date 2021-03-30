@@ -102,7 +102,8 @@ namespace OneStoryProjectEditor
             foreach (var control in tabControlSets.Controls)
                 lstTabTextNames.Add(((TabPage)control).Text);
 
-            StoriesSetNameLocalized = lstTabTextNames.Last();
+            System.Diagnostics.Debug.Assert(lstTabTextNames.Count == 3, "if you add a tab page to the collection, then make sure the following line points to the main 'stories' tab");
+            StoriesSetNameLocalized = lstTabTextNames[1];   // should be: FrontMatter, then 'stories' (and then 'old stories', but apparently, we're now just treating that as any other possible tab)
 
             var nIndex = 2;
             foreach (var storySet in _storyProject.Values.Skip(1))  // skip the main "Stories" tab (which might have a localized name)
@@ -729,9 +730,12 @@ namespace OneStoryProjectEditor
         private void TabControlSetsSelected(object sender, TabControlEventArgs e)
         {
             TabPage tab = e.TabPage;
-            if ((tab != null) && (tab != tabPageFrontMatter))
+            if (tab != null)
             {
-               InitStoriesTab(tab.Text);
+                if (tab == newTabPage)
+                    menuAddNew_Click(sender, e);
+                else if (tab != tabPageFrontMatter)
+                    InitStoriesTab(tab.Text);
             }
         }
 
@@ -1177,7 +1181,7 @@ namespace OneStoryProjectEditor
         private int _lastTabSelected;
         private void tabControlSets_MouseClick(object sender, MouseEventArgs e)
         {
-            if (tabControlSets.SelectedTab.Name == "NewTabPage")
+            if (tabControlSets.SelectedTab == newTabPage)
                 return;
 
             if (e.Button != MouseButtons.Right)
@@ -1199,7 +1203,12 @@ namespace OneStoryProjectEditor
         {
             string originalTab;
             int hoverTab_index;
-            if (sender is RichTextBox) // means it's the 'Add New Tab' tab
+
+            // one previous implementation was to have a RichTextBox in the "+Add New" tabPage and the Enter key
+            //  is what triggers this function. But why not just get here thru selecting the "+Add New" page. either
+            //  way has a different sender, but both should be valid
+            if (((sender is TabControl) && (e is TabControlEventArgs) && (((TabControlEventArgs)e).TabPage == newTabPage)) || 
+                (sender is RichTextBox)) // means it's the 'Add New Tab' tab
             {
                 hoverTab_index = tabControlSets.Controls.Count - 1;
                 originalTab = SelectedStorySetName;
@@ -1223,11 +1232,11 @@ namespace OneStoryProjectEditor
                 return; // not a legitimate value
 
             var strStoriesSetName = StoryEditor.QueryForNewStorySetName(_storyProject, hoverTab_index);
-            if (String.IsNullOrEmpty(strStoriesSetName))
-                return;
-
-            AddTabPage(strStoriesSetName, hoverTab_index);
-            Modified = true;
+            if (!String.IsNullOrEmpty(strStoriesSetName))
+            {
+                AddTabPage(strStoriesSetName, hoverTab_index);
+                Modified = true;
+            }
             tabControlSets.SelectedTab = FindTabByName(originalTab);
             InitStoriesTab(originalTab);
         }
