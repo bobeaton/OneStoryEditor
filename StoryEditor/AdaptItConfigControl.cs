@@ -169,6 +169,7 @@ namespace OneStoryProjectEditor
                             _strAdaptItProjectFolderName =
                                 Path.GetFileNameWithoutExtension(
                                     AdaptItGlossing.GetAiProjectFolderFromConverterIdentifier(theEc.ConverterIdentifier));
+                            Parent.Modified = true;
                             return;
                         }
                     }
@@ -205,6 +206,8 @@ namespace OneStoryProjectEditor
             // 'No' means browse for it
             if (res == DialogResult.No)
                 buttonBrowse_Click(sender, e);
+
+            Parent.Modified = true;
         }
 
         private void radioButtonShared_Click(object sender, EventArgs e)
@@ -245,6 +248,8 @@ namespace OneStoryProjectEditor
             {
                 DoSharedAiProjectClick();
             }
+
+            Parent.Modified = true;
         }
 
         private void DoSharedAiProjectClick()
@@ -381,6 +386,7 @@ namespace OneStoryProjectEditor
         {
             ResetSharedOnlyFields();
             AdaptItConverterName = null;
+            Parent.Modified = true;
         }
     }
 }

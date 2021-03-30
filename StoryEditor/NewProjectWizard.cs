@@ -125,6 +125,9 @@ namespace OneStoryProjectEditor
                     checkBoxLanguageFreeTranslation.Checked = true;
             }
 
+            checkBoxOutsideEnglishBackTranslator.Checked = _storyProjectData.TeamMembers.HasOutsideEnglishBTer;
+            radioButtonIndependentConsultant.Checked = _storyProjectData.TeamMembers.HasIndependentConsultant;
+
             UpdateTabPageAIBT();
 
             if ((ProjSettings != null) && !String.IsNullOrEmpty(ProjSettings.ProjectName))
@@ -172,6 +175,24 @@ namespace OneStoryProjectEditor
 
         private void InitializeAdaptItSettings()
         {
+            SetAdaptItControlVisibility(checkBoxLanguageVernacular,
+                                        checkBoxLanguageNationalBT,
+                                        labelAdaptItVernacularToNationalBt,
+                                        adaptItConfigCtrlVernacularToNationalBt,
+                                        0);
+
+            SetAdaptItControlVisibility(checkBoxLanguageVernacular,
+                                        checkBoxLanguageInternationalBT,
+                                        labelAdaptItVernacularToInternationalBt,
+                                        adaptItConfigCtrlVernacularToInternationalBt,
+                                        1);
+
+            SetAdaptItControlVisibility(checkBoxLanguageNationalBT,
+                                        checkBoxLanguageInternationalBT,
+                                        labelAdaptItNationalBtToInternationalBt,
+                                        adaptItConfigCtrlNationalBtToInternationalBt,
+                                        2);
+
             if (tlpAdaptItConfiguration.Controls.ContainsKey(adaptItConfigCtrlVernacularToNationalBt.Name))
             {
                 ConfigureAdaptItConfig(adaptItConfigCtrlVernacularToNationalBt,
@@ -348,29 +369,6 @@ namespace OneStoryProjectEditor
                                                &&
                                                (checkBoxLanguageNationalBT.Checked ||
                                                 checkBoxLanguageVernacular.Checked));
-
-            checkBoxOutsideEnglishBackTranslator.Checked = _storyProjectData.TeamMembers.HasOutsideEnglishBTer;
-            radioButtonIndependentConsultant.Checked = _storyProjectData.TeamMembers.HasIndependentConsultant;
-
-            // now deal with the AdaptIt BT helpers (doing this here, because by now LoggedOnMember
-            //  will be initialized)
-            SetAdaptItControlVisibility(checkBoxLanguageVernacular,
-                                        checkBoxLanguageNationalBT,
-                                        labelAdaptItVernacularToNationalBt,
-                                        adaptItConfigCtrlVernacularToNationalBt,
-                                        0);
-
-            SetAdaptItControlVisibility(checkBoxLanguageVernacular,
-                                        checkBoxLanguageInternationalBT,
-                                        labelAdaptItVernacularToInternationalBt,
-                                        adaptItConfigCtrlVernacularToInternationalBt,
-                                        1);
-
-            SetAdaptItControlVisibility(checkBoxLanguageNationalBT,
-                                        checkBoxLanguageInternationalBT,
-                                        labelAdaptItNationalBtToInternationalBt,
-                                        adaptItConfigCtrlNationalBtToInternationalBt,
-                                        2);
         }
 
         private void VerifyDropboxSettings()
@@ -994,7 +992,7 @@ namespace OneStoryProjectEditor
             Modified = true;
         }
 
-        private void checkBoxRetelling_OR_Tests_CheckedChanged(object sender, EventArgs e)
+        private void checkBox_Checked_OR_TextBoxChanged(object sender, EventArgs e)
         {
             Modified = true;
         }
@@ -1009,10 +1007,12 @@ namespace OneStoryProjectEditor
                                        {
                                            Text = Localizer.Str("Choose the member that will do English BTs")
                                        };
-                if (dlg.ShowDialog() == DialogResult.OK)
-                    return;
 
-                checkBoxOutsideEnglishBackTranslator.Checked = false;
+                if (dlg.ShowDialog() == DialogResult.Cancel)
+                {
+                    checkBoxOutsideEnglishBackTranslator.Checked = false;
+                    return;
+                }
             }
             Modified = true;
         }
@@ -1028,10 +1028,13 @@ namespace OneStoryProjectEditor
                 {
                     Text = Localizer.Str("Choose the member that is the independent consultant")
                 };
-                if (dlg.ShowDialog() == DialogResult.OK)
-                    return;
 
-                radioButtonIndependentConsultant.Checked = false;
+                if (dlg.ShowDialog() == DialogResult.Cancel)
+                {
+                    // go back and we're done
+                    radioButtonManageWithCoaching.Checked = true;
+                    return;
+                }
             }
             Modified = true;
         }
@@ -1265,11 +1268,6 @@ namespace OneStoryProjectEditor
 #endif
         }
 
-        private void ComboBoxKeyboardSelectionChangeCommitted(object sender, EventArgs e)
-        {
-            Modified = true;
-        }
-
         private void CheckBoxUseDropBoxClick(object sender, EventArgs e)
         {
             if (ProjSettings != null)
@@ -1421,11 +1419,6 @@ namespace OneStoryProjectEditor
                 LocalizableMessageBox.Show(ex.Message, StoryEditor.OseCaption);
                 e.Cancel = true;
             }
-        }
-
-        private void textBoxProjectName_TextChanged(object sender, EventArgs e)
-        {
-            Modified = true;
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
