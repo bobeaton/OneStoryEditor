@@ -68,7 +68,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\DepDLLs\</OutputPath>
+    <OutputPath>..\..\..\output\release\</OutputPath>
     <BaseAddress>285212672</BaseAddress>
     <DocumentationFile>AutoUpgrade.Lib.xml</DocumentationFile>
     <Optimize>true</Optimize>

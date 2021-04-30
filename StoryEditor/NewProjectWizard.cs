@@ -149,10 +149,12 @@ namespace OneStoryProjectEditor
             {
                 OnBlurProjectTab();
             }
+#if UseUrlsWithChorus
             else if (tabControl.SelectedTab == tabPageInternetRepository)
             {
                 OnBlurInternetRepo();
             }
+#endif
             else if (tabControl.SelectedTab == tabPageLanguages)
             {
                 VerifyLanguages();
@@ -387,6 +389,7 @@ namespace OneStoryProjectEditor
             }
         }
 
+#if UseUrlsWithChorus
         private bool _dontContinueToAsk = false;
 
         private void OnBlurInternetRepo()
@@ -419,6 +422,7 @@ namespace OneStoryProjectEditor
             Program.SetHgParameters(ProjSettings.ProjectFolder,
                 ProjSettings.ProjectName, Url, HgUsername);
         }
+#endif
 
         private void OnBlurProjectTab()
         {
@@ -440,7 +444,7 @@ namespace OneStoryProjectEditor
                     RemoveProject(strFilename, ProjectName);
                 }
 
-                ProjSettings = new ProjectSettings((string)null, ProjectName, false);
+                ProjSettings = new ProjectSettings((string)null, ProjectName);
 
                 // make sure the 'new' folder exists
                 Directory.CreateDirectory(ProjSettings.ProjectFolder);
@@ -456,6 +460,7 @@ namespace OneStoryProjectEditor
 
         private void InitializeOnceWeHaveProjectName()
         {
+#if UseUrlsWithChorus
             string strUsername, strRepoUrl, strPassword;
             UrlBase = _storyProjectData.GetHgRepoUsernamePassword(ProjectName, LoggedInMember,
                                                                   out strUsername,
@@ -467,6 +472,7 @@ namespace OneStoryProjectEditor
             // these *might* have been initialized even if the call to GetHg... fails
             HgUsername = strUsername;
             HgPassword = strPassword;
+#endif
 
             InitLanguageControls(tabPageLanguageVernacular, ProjSettings.Vernacular);
             if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideVernacularKeyboard)))
@@ -733,7 +739,7 @@ namespace OneStoryProjectEditor
             {
                 OnBlurInternetRepo();   // in case it wasn't done before
             }
-
+#endif
             // this is now configured!
             ProjSettings.IsConfigured = true;
             ProjSettings.UseDropbox = checkBoxUseDropBox.Checked;
