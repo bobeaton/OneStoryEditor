@@ -110,25 +110,34 @@ namespace OneStoryProjectEditor
                     TasksPf.TaskSettings.Anchors,
                     tasksAllowed, tasksRequired);
 
-                SetCheckState(CstrRetellingTest1,
-                    TasksPf.TaskSettings.Retellings,
-                    tasksAllowed, tasksRequired);
+                if (projSettings.ShowRetellings.Configured)
+                {
+                    SetCheckState(CstrRetellingTest1,
+                        TasksPf.TaskSettings.Retellings,
+                        tasksAllowed, tasksRequired);
 
-                SetCheckState(CstrRetellingTest2,
-                    TasksPf.TaskSettings.Retellings2,
-                    tasksAllowed, tasksRequired);
+                    SetCheckState(CstrRetellingTest2,
+                        TasksPf.TaskSettings.Retellings2,
+                        tasksAllowed, tasksRequired);
+                }
 
-                SetCheckState(CstrTestQuestion,
-                    TasksPf.TaskSettings.TestQuestions,
-                    tasksAllowed, tasksRequired);
+                if (projSettings.ShowTestQuestions.Configured)
+                {
+                    SetCheckState(CstrTestQuestion,
+                        TasksPf.TaskSettings.TestQuestions,
+                        tasksAllowed, tasksRequired);
+                }
 
-                SetCheckState(CstrAnswers1,
-                    TasksPf.TaskSettings.Answers,
-                    tasksAllowed, tasksRequired);
+                if (projSettings.ShowAnswers.Configured)
+                {
+                    SetCheckState(CstrAnswers1,
+                        TasksPf.TaskSettings.Answers,
+                        tasksAllowed, tasksRequired);
 
-                SetCheckState(CstrAnswers2,
-                    TasksPf.TaskSettings.Answers2,
-                    tasksAllowed, tasksRequired);
+                    SetCheckState(CstrAnswers2,
+                        TasksPf.TaskSettings.Answers2,
+                        tasksAllowed, tasksRequired);
+                }
             }
 
             _projSettings = projSettings;

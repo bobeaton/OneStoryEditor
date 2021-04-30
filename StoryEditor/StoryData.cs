@@ -2327,7 +2327,6 @@ namespace OneStoryProjectEditor
         // if this is 'new', then we won't have a project name yet, so query the user for it
         public bool InitializeProjectSettings(TeamMemberData loggedOnMember)
         {
-            bool bRet = false;
 #if !DataDllBuild
             var dlg = new NewProjectWizard(this) 
             { 
@@ -2339,9 +2338,8 @@ namespace OneStoryProjectEditor
 
             // otherwise, it has our new project settings
             ProjSettings = dlg.ProjSettings;
-            bRet = dlg.Modified;
 #endif
-            return bRet;
+            return true;    // if we get here, there are settings
         }
 
         // routines can use this exception to back out of creating a new project without UI 

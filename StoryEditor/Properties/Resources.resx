@@ -2111,7 +2111,7 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   </data>
   <data name="BellWithNotifications" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bell-with-notifications.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
+  </data>  
   <data name="AddToFavoritesHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AddToFavoritesHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -2292,6 +2292,9 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   </data>
   <data name="BellWithoutNotifications" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bell-without-notifications.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RedDot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\red-dot.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="HTML_TextareaWithRefDoubleClick" xml:space="preserve">
     <value>&lt;textarea id="{0}" ondblclick="OnDoubleClick()" onKeyDown="OnTextAreaKeyDown()" class="{1}"&gt;{2}&lt;/textarea&gt;</value>

@@ -102,7 +102,8 @@ namespace OneStoryProjectEditor
             foreach (var control in tabControlSets.Controls)
                 lstTabTextNames.Add(((TabPage)control).Text);
 
-            StoriesSetNameLocalized = lstTabTextNames.Last();
+            System.Diagnostics.Debug.Assert(lstTabTextNames.Count == 3, "if you add a tab page to the collection, then make sure the following line points to the main 'stories' tab");
+            StoriesSetNameLocalized = lstTabTextNames[1];   // should be: FrontMatter, then 'stories' (and then 'old stories', but apparently, we're now just treating that as any other possible tab)
 
             var nIndex = 2;
             foreach (var storySet in _storyProject.Values.Skip(1))  // skip the main "Stories" tab (which might have a localized name)
@@ -132,6 +133,9 @@ namespace OneStoryProjectEditor
 #endif
                 }
             }
+
+            tabControlSets.DrawMode = TabDrawMode.OwnerDrawFixed;
+            tabControlSets.DrawItem += TabControlOnDrawItem;
 
             var tab = InitStoriesTab(storySetName);
             tabControlSets.SelectTab(tab);
@@ -169,6 +173,75 @@ namespace OneStoryProjectEditor
                 list.ForEach(p => tabControlSets.Controls.Add(p));
             }
             tabControlSets.Controls.Add(newTabPage);
+        }
+
+        private FontStyle HasNotification(string tabText)
+        {
+            StoriesData stories = _storyProject[tabText];
+            var status = haveLoginUserTurn(stories);
+            return status ? FontStyle.Bold : FontStyle.Regular;
+        }
+
+        private void TabControlOnDrawItem(object sender, DrawItemEventArgs e)
+        {
+            var tab = (TabControl)sender;
+
+            var tabPage = tab.TabPages[e.Index];
+            var tabText = (tabPage.Text == StoriesSetNameLocalized) ? StoriesSetName : tabPage.Text;
+
+            StoriesData stories = null;
+            if (_storyProject.ContainsKey(tabText))
+                stories = _storyProject[tabText];
+
+            Font font = new Font(tab.Font, FontStyle.Regular);
+            if (stories != null)
+            {
+                var status = haveLoginUserTurn(stories);
+                using (Brush br = new SolidBrush(tabPage.BackColor))
+                {
+                    Rectangle rect = e.Bounds;
+
+                    // rect.Width += 2;
+                    e.Graphics.FillRectangle(br, rect);
+
+                    if (status)
+                    {
+                        using (var src = new Bitmap(Properties.Resources.RedDot))
+                        {
+                            e.Graphics.DrawImage(src, rect.Left + 2, rect.Top + 3);
+                        }
+
+                        e.Graphics.DrawRectangle(Pens.DarkGray, rect);
+                        e.DrawFocusRectangle();
+                    }
+                }
+            }
+
+            e.Graphics.DrawString($"     {tabText}     ", font, Brushes.Black, new PointF(e.Bounds.X + 0, e.Bounds.Y + 0));
+        }
+
+        protected Boolean haveLoginUserTurn(StoriesData stories)
+        {
+            if (stories == null)
+                return false;
+
+            foreach (StoryData aSD in stories)
+            {
+                string strWhoHasEditToken = StoryEditor.GetMemberWithEditTokenAsDisplayString(_storyProject.TeamMembers,
+                                                                                              aSD.ProjStage.MemberTypeWithEditToken);
+                string strMemberId = StoryEditor.MemberIDWithEditToken(aSD, strWhoHasEditToken);
+
+                var bInLoggedInUsersTurn = false;
+                if (!String.IsNullOrEmpty(strMemberId))
+                {
+                    // if we have a single person's turn who has the edit token and they are the current user, 
+                    bInLoggedInUsersTurn = ((_loggedOnMember != null) && (_loggedOnMember.MemberGuid == strMemberId));
+                }
+
+                if (bInLoggedInUsersTurn)
+                    return true;
+            }
+            return false;
         }
 
         public string SelectedStorySetName; 
@@ -243,12 +316,14 @@ namespace OneStoryProjectEditor
                 };
                 int nRowIndex = dataGridViewPanorama.Rows.Add(aObs);
                 var aRow = dataGridViewPanorama.Rows[nRowIndex];
+
+                SetToolTipText(dataGridViewPanorama.Rows[nRowIndex], "Double click to open, Single click to rename, Right click to move");
 #if ShowingState
                 aRow.Tag = st;
 #endif
 #if UseArialUnicodeMs
                 aRow.Height = _fontForDev.Height + 8;
-#endif
+#endif               
 
                 if (aSD.Name == StoryEditor.currentStoryName)
                     dataGridViewPanorama.Rows[nRowIndex].Cells[0].Selected = true;
@@ -263,6 +338,20 @@ namespace OneStoryProjectEditor
         private static bool IsInLoggedInUsersTurn(DataGridViewBand theRow)
         {
             return (theRow.DefaultCellStyle.BackColor == Color.Yellow);
+        }
+
+        private void SetToolTipText(DataGridViewRow row, String message)
+        {
+            for (int i = 0; i < dataGridViewPanorama.Rows.Count; i++)
+            {
+                var oneRow = dataGridViewPanorama.Rows[i];
+                String ProCol = oneRow.Cells[0].ToString();
+                if (ProCol.Length != 0)
+                {
+                    oneRow.Cells[0].ToolTipText = message;
+                }
+            }
+
         }
 
         private StoryData _theStoryBeingEdited;
@@ -641,9 +730,12 @@ namespace OneStoryProjectEditor
         private void TabControlSetsSelected(object sender, TabControlEventArgs e)
         {
             TabPage tab = e.TabPage;
-            if ((tab != null) && (tab != tabPageFrontMatter))
+            if (tab != null)
             {
-               InitStoriesTab(tab.Text);
+                if (tab == newTabPage)
+                    menuAddNew_Click(sender, e);
+                else if (tab != tabPageFrontMatter)
+                    InitStoriesTab(tab.Text);
             }
         }
 
@@ -924,7 +1016,7 @@ namespace OneStoryProjectEditor
                 return;
             System.Diagnostics.Debug.WriteLine("Select row index: " + rowTargetIndex.ToString());
 
-            if (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Right)
             {
                 rowDragFrom = dataGridViewPanorama.Rows[rowTargetIndex];
                 rowDragFromIndex = rowTargetIndex;
@@ -973,21 +1065,57 @@ namespace OneStoryProjectEditor
         {
             var pt = dataGridViewPanorama.PointToClient(new Point(e.X, e.Y));
             var rowTargetIndex = dataGridViewPanorama.HitTest(pt.X, pt.Y).RowIndex;
+            if ((rowTargetIndex < 0) || (rowTargetIndex > dataGridViewPanorama.Rows.Count - 1))
+                return;
+
             System.Diagnostics.Debug.WriteLine("DragDrop to: " + rowTargetIndex.ToString());
             if (e.Effect == DragDropEffects.Move)
             {
-                var strName = rowDragFrom.Cells[CnColumnStoryName].Value?.ToString();
-                var theSDToMove = _stories.GetStoryFromName(strName);
-                if (theSDToMove == null)
-                    return;
+                bool? movingUpTheGrid = null;
+                var movedRowStoryNames = new List<string>();
+                // request was to allow the moving of multiple selected rows to another position
+                foreach (DataGridViewRow row in dataGridViewPanorama.SelectedRows)
+                {
+                    int nSelectedRowIndex = row.Index;
+                    if ((nSelectedRowIndex < 0) || (nSelectedRowIndex > dataGridViewPanorama.Rows.Count - 1))
+                        return;
 
-                _stories.Remove(theSDToMove);
-                _stories.Insert(rowTargetIndex, theSDToMove);
+                    // if we're moving up the grid, we have to do inserts differently than moving down
+                    //  (and all moves should behave the same way)
+                    if (movingUpTheGrid == null)
+                        movingUpTheGrid = (rowTargetIndex < nSelectedRowIndex);
+
+                    DataGridViewRow theRow = dataGridViewPanorama.Rows[nSelectedRowIndex];
+                    DataGridViewCell theNameCell = theRow.Cells[CnColumnStoryName];
+                    if (theNameCell.Value == null)
+                        return; // shouldn't happen, but...
+
+                    var strName = theNameCell.Value.ToString();
+                    var theSDToMove = _stories.GetStoryFromName(strName);
+                    if (theSDToMove == null)
+                        return;
+
+                    _stories.Remove(theSDToMove);
+
+                    var insertRow = ((bool)movingUpTheGrid)
+                                        ? rowTargetIndex++
+                                        : (rowTargetIndex < (dataGridViewPanorama.Rows.Count - 1))
+                                            ? rowTargetIndex + 1
+                                            : rowTargetIndex;
+                    _stories.Insert(insertRow, theSDToMove);
+                    movedRowStoryNames.Add(strName);
+                }
 
                 InitGrid();
-                System.Diagnostics.Debug.Assert(rowTargetIndex < dataGridViewPanorama.Rows.Count);
-                dataGridViewPanorama.Rows[rowTargetIndex].Selected = true;
-                dataGridViewPanorama.Rows[rowTargetIndex].Cells[CnColumnStoryName].Selected = true;
+                dataGridViewPanorama.ClearSelection();
+                dataGridViewPanorama.Rows.Cast<DataGridViewRow>()
+                                         .Where(r => movedRowStoryNames.Contains(r.Cells[CnColumnStoryName]?.Value))
+                                         .ToList()
+                                         .ForEach(r =>
+                {
+                    r.Selected = true;
+                    r.Cells[CnColumnStoryName].Selected = true;
+                });
                 Modified = true;
                 rowDragFromIndex = -1;
                 rowDragFrom = null;
@@ -1053,7 +1181,7 @@ namespace OneStoryProjectEditor
         private int _lastTabSelected;
         private void tabControlSets_MouseClick(object sender, MouseEventArgs e)
         {
-            if (tabControlSets.SelectedTab.Name == "NewTabPage")
+            if (tabControlSets.SelectedTab == newTabPage)
                 return;
 
             if (e.Button != MouseButtons.Right)
@@ -1075,7 +1203,12 @@ namespace OneStoryProjectEditor
         {
             string originalTab;
             int hoverTab_index;
-            if (sender is RichTextBox) // means it's the 'Add New Tab' tab
+
+            // one previous implementation was to have a RichTextBox in the "+Add New" tabPage and the Enter key
+            //  is what triggers this function. But why not just get here thru selecting the "+Add New" page. either
+            //  way has a different sender, but both should be valid
+            if (((sender is TabControl) && (e is TabControlEventArgs) && (((TabControlEventArgs)e).TabPage == newTabPage)) || 
+                (sender is RichTextBox)) // means it's the 'Add New Tab' tab
             {
                 hoverTab_index = tabControlSets.Controls.Count - 1;
                 originalTab = SelectedStorySetName;
@@ -1099,11 +1232,11 @@ namespace OneStoryProjectEditor
                 return; // not a legitimate value
 
             var strStoriesSetName = StoryEditor.QueryForNewStorySetName(_storyProject, hoverTab_index);
-            if (String.IsNullOrEmpty(strStoriesSetName))
-                return;
-
-            AddTabPage(strStoriesSetName, hoverTab_index);
-            Modified = true;
+            if (!String.IsNullOrEmpty(strStoriesSetName))
+            {
+                AddTabPage(strStoriesSetName, hoverTab_index);
+                Modified = true;
+            }
             tabControlSets.SelectedTab = FindTabByName(originalTab);
             InitStoriesTab(originalTab);
         }
@@ -1265,6 +1398,14 @@ namespace OneStoryProjectEditor
 
             TextRenderer.DrawText(e.Graphics, page.Text, font, paddedBounds, page.ForeColor);
         }
+
+        private void dataGridViewPanorama_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            using (SolidBrush b = new SolidBrush(dataGridViewPanorama.RowHeadersDefaultCellStyle.ForeColor))
+            {
+                e.Graphics.DrawString((e.RowIndex + 1).ToString(), e.InheritedRowStyle.Font, b, e.RowBounds.Location.X + 10, e.RowBounds.Location.Y + 4);
+            }
+        }
 #endif
-    }
+            }
 }

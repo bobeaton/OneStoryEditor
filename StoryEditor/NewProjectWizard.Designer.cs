@@ -146,8 +146,8 @@
             this.buttonPrevious = new System.Windows.Forms.Button();
             this.fontDialog = new System.Windows.Forms.FontDialog();
             this.folderBrowserDropbox = new System.Windows.Forms.FolderBrowserDialog();
-            this.button1 = new System.Windows.Forms.Button();
             this.buttonConfigureInternetRepo = new System.Windows.Forms.Button();
+            this.buttonSave = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabPageProjectName.SuspendLayout();
             this.tableLayoutPanelProjectName.SuspendLayout();
@@ -185,6 +185,7 @@
             this.tabControl.Size = new System.Drawing.Size(758, 361);
             this.tabControl.TabIndex = 0;
             this.tabControl.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl_Selecting);
+            this.tabControl.Deselecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl_Deselecting);
             // 
             // tabPageProjectName
             // 
@@ -224,6 +225,7 @@
             this.textBoxProjectName.Name = "textBoxProjectName";
             this.textBoxProjectName.Size = new System.Drawing.Size(708, 20);
             this.textBoxProjectName.TabIndex = 0;
+            this.textBoxProjectName.TextChanged += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             // 
             // checkBoxUseDropBox
             // 
@@ -468,6 +470,7 @@
             this.checkBoxRetellingsVernacular.TabIndex = 5;
             this.checkBoxRetellingsVernacular.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBoxRetellingsVernacular.UseVisualStyleBackColor = true;
+            this.checkBoxRetellingsVernacular.CheckedChanged += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             // 
             // checkBoxTestQuestionsVernacular
             // 
@@ -480,6 +483,7 @@
             this.checkBoxTestQuestionsVernacular.TabIndex = 8;
             this.checkBoxTestQuestionsVernacular.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBoxTestQuestionsVernacular.UseVisualStyleBackColor = true;
+            this.checkBoxTestQuestionsVernacular.CheckedChanged += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             // 
             // checkBoxAnswersVernacular
             // 
@@ -492,6 +496,7 @@
             this.checkBoxAnswersVernacular.TabIndex = 11;
             this.checkBoxAnswersVernacular.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBoxAnswersVernacular.UseVisualStyleBackColor = true;
+            this.checkBoxAnswersVernacular.CheckedChanged += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             // 
             // checkBoxRetellingsNationalBT
             // 
@@ -504,6 +509,7 @@
             this.checkBoxRetellingsNationalBT.TabIndex = 6;
             this.checkBoxRetellingsNationalBT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBoxRetellingsNationalBT.UseVisualStyleBackColor = true;
+            this.checkBoxRetellingsNationalBT.CheckedChanged += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             // 
             // checkBoxRetellingsInternationalBT
             // 
@@ -517,6 +523,7 @@
             this.checkBoxRetellingsInternationalBT.TabIndex = 7;
             this.checkBoxRetellingsInternationalBT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBoxRetellingsInternationalBT.UseVisualStyleBackColor = true;
+            this.checkBoxRetellingsInternationalBT.CheckedChanged += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             // 
             // checkBoxTestQuestionsNationalBT
             // 
@@ -529,6 +536,7 @@
             this.checkBoxTestQuestionsNationalBT.TabIndex = 9;
             this.checkBoxTestQuestionsNationalBT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBoxTestQuestionsNationalBT.UseVisualStyleBackColor = true;
+            this.checkBoxTestQuestionsNationalBT.CheckedChanged += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             // 
             // checkBoxTestQuestionsInternationalBT
             // 
@@ -542,6 +550,7 @@
             this.checkBoxTestQuestionsInternationalBT.TabIndex = 10;
             this.checkBoxTestQuestionsInternationalBT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBoxTestQuestionsInternationalBT.UseVisualStyleBackColor = true;
+            this.checkBoxTestQuestionsInternationalBT.CheckedChanged += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             // 
             // checkBoxAnswersNationalBT
             // 
@@ -554,6 +563,7 @@
             this.checkBoxAnswersNationalBT.TabIndex = 12;
             this.checkBoxAnswersNationalBT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBoxAnswersNationalBT.UseVisualStyleBackColor = true;
+            this.checkBoxAnswersNationalBT.CheckedChanged += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             // 
             // checkBoxAnswersInternationalBT
             // 
@@ -567,6 +577,7 @@
             this.checkBoxAnswersInternationalBT.TabIndex = 13;
             this.checkBoxAnswersInternationalBT.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.checkBoxAnswersInternationalBT.UseVisualStyleBackColor = true;
+            this.checkBoxAnswersInternationalBT.CheckedChanged += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             // 
             // checkBoxDropboxStory
             // 
@@ -577,6 +588,7 @@
             this.checkBoxDropboxStory.Size = new System.Drawing.Size(15, 14);
             this.checkBoxDropboxStory.TabIndex = 15;
             this.checkBoxDropboxStory.UseVisualStyleBackColor = true;
+            this.checkBoxDropboxStory.CheckedChanged += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             // 
             // checkBoxDropboxRetelling
             // 
@@ -587,6 +599,7 @@
             this.checkBoxDropboxRetelling.Size = new System.Drawing.Size(15, 14);
             this.checkBoxDropboxRetelling.TabIndex = 15;
             this.checkBoxDropboxRetelling.UseVisualStyleBackColor = true;
+            this.checkBoxDropboxRetelling.CheckedChanged += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             // 
             // checkBoxDropboxAnswers
             // 
@@ -597,6 +610,7 @@
             this.checkBoxDropboxAnswers.Size = new System.Drawing.Size(15, 14);
             this.checkBoxDropboxAnswers.TabIndex = 15;
             this.checkBoxDropboxAnswers.UseVisualStyleBackColor = true;
+            this.checkBoxDropboxAnswers.CheckedChanged += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             // 
             // textBox2
             // 
@@ -740,6 +754,7 @@
             this.checkBoxIsRTLVernacular.TabIndex = 8;
             this.checkBoxIsRTLVernacular.Text = "Right to left";
             this.checkBoxIsRTLVernacular.UseVisualStyleBackColor = true;
+            this.checkBoxIsRTLVernacular.CheckedChanged += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             // 
             // labelSentenceTermVernacular
             // 
@@ -759,6 +774,7 @@
             this.textBoxSentFullStopVernacular.Name = "textBoxSentFullStopVernacular";
             this.textBoxSentFullStopVernacular.Size = new System.Drawing.Size(609, 20);
             this.textBoxSentFullStopVernacular.TabIndex = 10;
+            this.textBoxSentFullStopVernacular.TextChanged += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             this.textBoxSentFullStopVernacular.Enter += new System.EventHandler(this.textBoxSentFullStopVernacular_Enter);
             this.textBoxSentFullStopVernacular.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
             // 
@@ -783,7 +799,7 @@
             this.comboBoxKeyboardVernacular.Name = "comboBoxKeyboardVernacular";
             this.comboBoxKeyboardVernacular.Size = new System.Drawing.Size(609, 21);
             this.comboBoxKeyboardVernacular.TabIndex = 5;
-            this.comboBoxKeyboardVernacular.SelectionChangeCommitted += new System.EventHandler(this.ComboBoxKeyboardSelectionChangeCommitted);
+            this.comboBoxKeyboardVernacular.SelectionChangeCommitted += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             // 
             // buttonBrowseEthnologueCodesVernacular
             // 
@@ -908,6 +924,7 @@
             this.checkBoxIsRTLNationalBT.TabIndex = 8;
             this.checkBoxIsRTLNationalBT.Text = "Right to left";
             this.checkBoxIsRTLNationalBT.UseVisualStyleBackColor = true;
+            this.checkBoxIsRTLNationalBT.CheckedChanged += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             // 
             // labelSentenceTermNationalBT
             // 
@@ -927,6 +944,7 @@
             this.textBoxSentFullStopNationalBT.Name = "textBoxSentFullStopNationalBT";
             this.textBoxSentFullStopNationalBT.Size = new System.Drawing.Size(609, 20);
             this.textBoxSentFullStopNationalBT.TabIndex = 10;
+            this.textBoxSentFullStopNationalBT.TextChanged += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             this.textBoxSentFullStopNationalBT.Enter += new System.EventHandler(this.textBoxSentFullStopNationalBT_Enter);
             this.textBoxSentFullStopNationalBT.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
             // 
@@ -951,7 +969,7 @@
             this.comboBoxKeyboardNationalBT.Name = "comboBoxKeyboardNationalBT";
             this.comboBoxKeyboardNationalBT.Size = new System.Drawing.Size(609, 21);
             this.comboBoxKeyboardNationalBT.TabIndex = 5;
-            this.comboBoxKeyboardNationalBT.SelectionChangeCommitted += new System.EventHandler(this.ComboBoxKeyboardSelectionChangeCommitted);
+            this.comboBoxKeyboardNationalBT.SelectionChangeCommitted += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             // 
             // textBoxLanguageTabInstructionsNationalBT
             // 
@@ -1116,6 +1134,7 @@
             this.checkBoxIsRTLEnglishBT.TabIndex = 8;
             this.checkBoxIsRTLEnglishBT.Text = "Right to left";
             this.checkBoxIsRTLEnglishBT.UseVisualStyleBackColor = true;
+            this.checkBoxIsRTLEnglishBT.CheckedChanged += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             // 
             // labelSentenceTermEnglishBT
             // 
@@ -1135,6 +1154,7 @@
             this.textBoxSentFullStopEnglishBT.Name = "textBoxSentFullStopEnglishBT";
             this.textBoxSentFullStopEnglishBT.Size = new System.Drawing.Size(609, 20);
             this.textBoxSentFullStopEnglishBT.TabIndex = 10;
+            this.textBoxSentFullStopEnglishBT.TextChanged += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             this.textBoxSentFullStopEnglishBT.Enter += new System.EventHandler(this.textBoxSentFullStopEnglishBT_Enter);
             this.textBoxSentFullStopEnglishBT.Leave += new System.EventHandler(this.textBoxSentFullStop_Leave);
             // 
@@ -1159,7 +1179,7 @@
             this.comboBoxKeyboardEnglishBT.Name = "comboBoxKeyboardEnglishBT";
             this.comboBoxKeyboardEnglishBT.Size = new System.Drawing.Size(609, 21);
             this.comboBoxKeyboardEnglishBT.TabIndex = 5;
-            this.comboBoxKeyboardEnglishBT.SelectionChangeCommitted += new System.EventHandler(this.ComboBoxKeyboardSelectionChangeCommitted);
+            this.comboBoxKeyboardEnglishBT.SelectionChangeCommitted += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             // 
             // tabPageLanguageFreeTranslation
             // 
@@ -1499,6 +1519,7 @@
             this.adaptItConfigCtrlVernacularToNationalBt.SourceLanguageName = null;
             this.adaptItConfigCtrlVernacularToNationalBt.TabIndex = 6;
             this.adaptItConfigCtrlVernacularToNationalBt.TargetLanguageName = null;
+            this.adaptItConfigCtrlVernacularToNationalBt.Click += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
             // 
             // adaptItConfigCtrlVernacularToInternationalBt
             // 
@@ -1561,6 +1582,7 @@
             this.buttonCancel.TabIndex = 2;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // buttonPrevious
             // 
@@ -1584,16 +1606,16 @@
             this.folderBrowserDropbox.RootFolder = System.Environment.SpecialFolder.MyComputer;
             this.folderBrowserDropbox.ShowNewFolderButton = false;
             // 
-            // button1
+            // buttonSave
             // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.button1.Location = new System.Drawing.Point(452, 380);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "&Save";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.buttonSave_Click);
+            this.buttonSave.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.buttonSave.Location = new System.Drawing.Point(452, 380);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(75, 23);
+            this.buttonSave.TabIndex = 3;
+            this.buttonSave.Text = "&Save";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // buttonConfigureInternetRepo
             // 
@@ -1609,9 +1631,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(783, 415);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonPrevious);
             this.Controls.Add(this.buttonNext);
@@ -1619,6 +1640,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "NewProjectWizard";
             this.Text = "New Project Wizard";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NewProjectWizard_FormClosing);
             this.tabControl.ResumeLayout(false);
             this.tabPageProjectName.ResumeLayout(false);
             this.tabPageProjectName.PerformLayout();
@@ -1768,7 +1790,7 @@
         private System.Windows.Forms.Button buttonBrowseEthnologueCodesInternationalBt;
         private System.Windows.Forms.Button buttonBrowseEthnologueCodesFreeTranslation;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelProjectName;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonConfigureInternetRepo;
     }
 }
