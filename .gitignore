@@ -54,6 +54,7 @@ artifacts/
 *.obj
 *.pch
 *.pdb
+!DepDLLs/**/*.pdb
 *.pgc
 *.pgd
 *.rsp
@@ -241,6 +242,9 @@ _Pvt_Extensions
 /DepDLLs/AutoUpgrade.Lib.dll
 /DepDLLs/AiChorus.exe.config
 /DepDLLs/AiChorus.exe
+/DepDLLs/AiChorus.pdb
+/DepDLLs/OseMergeModule.msm
+/DepDLLs/OseMergeModule.wixpdb
 /OneStory Releases/OSE4.0/client
 /OneStory Releases/OSE4.0/zipped
 /OneStory Releases/OSE4.0/StoryEditor.exe.manifest - Copy.xml
