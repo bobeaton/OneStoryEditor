@@ -81,8 +81,16 @@
     <Reference Include="AIGuesserEC">
       <HintPath>..\packages\Encoding-Converters-Core.0.2.28\runtimes\win-x86\native\AIGuesserEC.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac, Version=6.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.6.2.0\lib\netstandard2.0\Autofac.dll</HintPath>
+    <Reference Include="CcEC">
+      <HintPath>..\packages\Encoding-Converters-Core.0.2.28\runtimes\win-x86\native\CcEC.dll</HintPath>
+    </Reference>
+    <Reference Include="chorus, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ChorusDeps\chorus.exe</HintPath>
+    </Reference>
+    <Reference Include="chorus, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ChorusDeps\chorus.exe</HintPath>
     </Reference>
     <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
@@ -591,6 +599,9 @@
     <EmbeddedResource Include="AddLnCNoteForm.resx">
       <DependentUpon>AddLnCNoteForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AiRepoSelectionForm.resx">
+      <DependentUpon>AiRepoSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AnchorControl.resx">
       <DependentUpon>AnchorControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -973,6 +984,7 @@
     <None Include="Resources\graphhs.png" />
     <None Include="Resources\FillDownHS.png" />
     <None Include="Resources\FillUpHS.png" />
+    <None Include="Resources\SyncArrowVertical_16x.png" />
     <Content Include="StageTransitions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

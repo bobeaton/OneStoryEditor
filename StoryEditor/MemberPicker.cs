@@ -91,7 +91,7 @@ namespace OneStoryProjectEditor
             {
                 bool bModified = false;
                 TeamMemberData theMember = _theStoryProjectData.EditTeamMembers(null,
-                                                                                TeamMemberData.UserTypes.Undefined,
+                                                                                _eWantedType, // was: TeamMemberData.UserTypes.Undefined,
                                                                                 false, 
                                                                                 _theStoryProjectData.ProjSettings,
                                                                                 false,

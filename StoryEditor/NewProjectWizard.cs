@@ -1420,6 +1420,15 @@ namespace OneStoryProjectEditor
         {
             try
             {
+                if (e.TabPage == tabPageAIBT)
+                {
+                    buttonNext.Enabled = true;  // reenable the 'next' button if we're no longer on the AI tab
+                }
+                else if (e.TabPage == tabPageProjectName)
+                {
+                    buttonPrevious.Enabled = true;
+                }
+
                 ProcessNext();
             }
             catch (UserException ex)
@@ -1481,6 +1490,7 @@ namespace OneStoryProjectEditor
                 {
                     ValidateSettings();
                     InitializeAdaptItSettings();
+                    buttonNext.Enabled = false; // can't go 'next' from AI tab
                 }
                 catch (UserException ex)
                 {
@@ -1491,6 +1501,10 @@ namespace OneStoryProjectEditor
                     LocalizableMessageBox.Show(ex.Message, StoryEditor.OseCaption);
                     // since we changed it above, here we don't want to cancel it...   e.Cancel = true;
                 }
+            }
+            else if (e.TabPage == tabPageProjectName)
+            {
+                buttonPrevious.Enabled = false;
             }
         }
 
