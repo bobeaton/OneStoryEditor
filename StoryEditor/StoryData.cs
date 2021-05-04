@@ -1920,12 +1920,12 @@ namespace OneStoryProjectEditor
 
         public new StoriesData this[int key]
         {
-            get { return (StoriesData) base[key]; }
+            get { return (StoriesData)base[key]; }
         }
 
         public new StoriesData this[object key]
         {
-            get { return (StoriesData) base[key]; }
+            get { return (StoriesData)base[key]; }
         }
 
         public new List<StoriesData> Values
@@ -1949,7 +1949,7 @@ namespace OneStoryProjectEditor
 
         private static bool _bProjectConvertWarnedOnce;
         private static bool _bStopNaggingPf;
-                
+
         public StoryProjectData(NewDataSet projFile, ProjectSettings projSettings)
         {
             // this version comes with a project settings object
@@ -1964,7 +1964,7 @@ namespace OneStoryProjectEditor
                                                          Properties.Resources.
                                                              IDS_DefaultPanoramaFrontMatter,
                                                          ProjSettings.UseDropbox,
-                                                         ProjSettings.DropboxStory, 
+                                                         ProjSettings.DropboxStory,
                                                          ProjSettings.DropboxRetelling,
                                                          ProjSettings.DropboxAnswers);
             }
@@ -2002,7 +2002,7 @@ namespace OneStoryProjectEditor
 
                 else if (projFile.StoryProject[0].version.CompareTo(XmlDataVersion) > 0)
                 {
-                    if ((projFile.StoryProject[0].version != CxmlDataVersionReferringText) && 
+                    if ((projFile.StoryProject[0].version != CxmlDataVersionReferringText) &&
                         (projFile.StoryProject[0].version != CxmlDataVersionStickyNote))
                     {
                         LocalizableMessageBox.Show(Localizer.Str("One of the team members is using a newer version of OSE to edit the file, which is not compatible with the version you are using. You might try, \"Advanced\", \"Program Updates\", \"Check now\" or \"Check now for next major update\" or you may have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the \"Setup OneStory Editor.zip\" file"), StoryEditor.OseCaption);
@@ -2040,7 +2040,7 @@ namespace OneStoryProjectEditor
             }
             // new 'non-biblical' stories set added in 2.4 
             // UPDATE (2/11/20): unless it's already there -- see trio-mina rev 91
-            else if ((projFile.stories.Count == 2) && 
+            else if ((projFile.stories.Count == 2) &&
                      !projFile.StoryProject[0].GetstoriesRows().Any(s => s.SetName == Properties.Resources.IDS_NonBibStoriesSet))
             {
                 projFile.stories.AddstoriesRow(Properties.Resources.IDS_NonBibStoriesSet, projFile.StoryProject[0]);
@@ -2051,7 +2051,7 @@ namespace OneStoryProjectEditor
 
             // finally, if it's not new, then it might (should) have stories as well
             foreach (NewDataSet.storiesRow aStoriesRow in projFile.StoryProject[0].GetstoriesRows())
-                Add(aStoriesRow.SetName, new StoriesData(aStoriesRow, 
+                Add(aStoriesRow.SetName, new StoriesData(aStoriesRow,
                                                          projFile,
                                                          ProjSettings.ProjectFolder));
 
@@ -2106,13 +2106,13 @@ namespace OneStoryProjectEditor
 
             // check to see if we should nag the PF about the number of SFGs
             if (loggedOnMember.IsPfAndNotLsr &&
-                !_bStopNaggingPf && 
+                !_bStopNaggingPf &&
                 ((record.Status == CstrOsMetaDataStatusProduction) ||
                  (record.Status == CstrOsMetaDataStatusSetComplete)) &&
                 ((record.LastQueriedPfNumOfSfgs == DateTime.MinValue) ||
                  ((DateTime.Now - record.LastQueriedPfNumOfSfgs) > timeDiff)))
             {
-                _bStopNaggingPf = true; 
+                _bStopNaggingPf = true;
                 QueryPfForNumberOfSfgs(record);
             }
 
@@ -2336,8 +2336,8 @@ namespace OneStoryProjectEditor
         public bool InitializeProjectSettings(TeamMemberData loggedOnMember)
         {
 #if !DataDllBuild
-            var dlg = new NewProjectWizard(this) 
-            { 
+            var dlg = new NewProjectWizard(this)
+            {
                 LoggedInMember = loggedOnMember,
                 Text = Localizer.Str("Edit Project Settings")
             };
@@ -2407,7 +2407,7 @@ namespace OneStoryProjectEditor
 
             // otherwise, fall thru and make them pick it.
             if (loggedOnMember == null)
-                loggedOnMember = EditTeamMembers(strMemberName, eRole, true, 
+                loggedOnMember = EditTeamMembers(strMemberName, eRole, true,
                     ProjSettings, true, ref bModified);
 
             // if we have a logged on person, then initialize the overrides for that
@@ -2443,8 +2443,8 @@ namespace OneStoryProjectEditor
         }
 
         // returns the logged in member
-        internal TeamMemberData EditTeamMembers(string strMemberName, 
-            TeamMemberData.UserTypes eRole, bool bUseLoginLabel, 
+        internal TeamMemberData EditTeamMembers(string strMemberName,
+            TeamMemberData.UserTypes eRole, bool bUseLoginLabel,
             ProjectSettings projSettings, bool bLoginRequired, ref bool bModified)
         {
             var dlg = new TeamMemberForm(TeamMembers, bUseLoginLabel, projSettings, this);
@@ -2465,7 +2465,12 @@ namespace OneStoryProjectEditor
             if (dlg.Modified)
                 bModified = true;
 
-            if (res != DialogResult.OK)
+            // if they didn't click 'OK' (they might not if they're selecting a collaborator), then
+            //  just backout... BUT not if they actually selected a member of the correct type 
+            //  (in which case, let it fall thru)
+            if ((res != DialogResult.OK) && (String.IsNullOrEmpty(dlg.SelectedMemberName)
+                                            || !TeamMembers.ContainsKey(dlg.SelectedMemberName)
+                                            || !TeamMemberData.IsUser(TeamMembers[dlg.SelectedMemberName].MemberType, eRole)))
             {
                 if (bUseLoginLabel && bLoginRequired)
                     LocalizableMessageBox.Show(
