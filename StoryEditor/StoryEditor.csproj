@@ -80,6 +80,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\AIGuesserEC.dll</HintPath>
     </Reference>
+    <Reference Include="CcEC">
+      <HintPath>..\packages\Encoding-Converters-Core.0.2.28\runtimes\win-x86\native\CcEC.dll</HintPath>
+    </Reference>
     <Reference Include="chorus, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ChorusDeps\chorus.exe</HintPath>
@@ -510,6 +513,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AiRepoSelectionForm.resx">
       <DependentUpon>AiRepoSelectionForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="AnchorControl.resx">
       <DependentUpon>AnchorControl.cs</DependentUpon>
@@ -895,6 +899,7 @@
     <None Include="Resources\graphhs.png" />
     <None Include="Resources\FillDownHS.png" />
     <None Include="Resources\FillUpHS.png" />
+    <None Include="Resources\SyncArrowVertical_16x.png" />
     <Content Include="StageTransitions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

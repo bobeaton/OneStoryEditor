@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Chorus.UI.Clone;
@@ -51,6 +45,16 @@ namespace OneStoryProjectEditor
         public string ProjectFolder { get; set; }
         public string SourceLanguageName { get; set; }
         public string TargetLanguageName { get; set; }
+        private bool? _doingPush;
+        public bool? DoingPush
+        {
+            get { return _doingPush; }
+            set
+            {
+                _doingPush = value;
+                UpdateLabels();
+            }
+        }
 
         public string NetworkAddress
         {
@@ -115,6 +119,14 @@ namespace OneStoryProjectEditor
 
         private void buttonPushToInternet_Click(object sender, EventArgs e)
         {
+            if (DoingPush == true)
+                DoPush();
+            else if (DoingPush == false)
+                DoPull();
+        }
+
+        private void DoPush()
+        {
             string strAiWorkFolder, strProjectFolderName, strHgUsername, strHgPassword;
             if (!GetAiRepoSettings(out strAiWorkFolder,
                 out strProjectFolderName, out strHgUsername, out strHgPassword))
@@ -137,6 +149,11 @@ namespace OneStoryProjectEditor
         }
 
         private void buttonPullFromInternet_Click(object sender, EventArgs e)
+        {
+            DoPull();
+        }
+
+        private void DoPull()
         {
             string strAiWorkFolder;
             string strProjectFolderName;
@@ -294,7 +311,24 @@ namespace OneStoryProjectEditor
         private void UpdateLabels()
         {
             buttonPushToNetwork.Enabled = checkBoxNetwork.Checked;
-            buttonPullFromInternet.Enabled = buttonPushToInternet.Enabled = checkBoxInternet.Checked;
+            buttonPushToInternet.Enabled = checkBoxInternet.Checked;
+
+            // if the '...' button was clicked, then show both arrow buttons
+            if (DoingPush == null)
+            {
+                buttonPullFromInternet.Visible = true;
+            }
+            else
+            {
+                buttonPullFromInternet.Visible = false;
+                buttonPushToInternet.Image = Properties.Resources.SyncArrowVertical_16x;
+                buttonPullFromInternet.Refresh();
+                toolTip.SetToolTip(buttonPullFromInternet,
+                                   ((bool)DoingPush) 
+                                        ? Localizer.Str("Click to upload the shared project to the internet")
+                                        : Localizer.Str("Click to download the shared project from the internet"));
+            }
+
             labelNetworkPath.Text = GetFullNetworkAddress(NetworkAddress, ProjectName);
             labelFullInternetUrl.Text = GetFullInternetAddress(InternetAddress, ProjectName);
         }

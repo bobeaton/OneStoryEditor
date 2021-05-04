@@ -126,8 +126,11 @@
 {1}</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="OpenSelectedItemHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\OpenSelectedItemHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="EditTableHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EditTableHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AddToFavoritesHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddToFavoritesHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="HTML_HeaderPresentation" xml:space="preserve">
     <value>&lt;html&gt;
@@ -148,33 +151,25 @@
   <data name="DefMyDocsSubfolder" xml:space="preserve">
     <value>OneStory Editor Projects</value>
   </data>
-  <data name="EditInformationHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\EditInformationHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="HTML_TableCellClass" xml:space="preserve">
+    <value>&lt;td class="{0}"&gt;&lt;font color="{1}"&gt;{2}&lt;/font&gt;&lt;/td&gt;</value>
+  </data>
+  <data name="HTML_TableNoBorder" xml:space="preserve">
+    <value>&lt;table style="width:100%;"&gt;
+{0}
+&lt;/table&gt;</value>
   </data>
   <data name="jquery_min" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\js\jquery.min.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="BellWithoutNotifications" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bell-without-notifications.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="IDS_NonBibStoriesSet" xml:space="preserve">
     <value>Non-Biblical Stories</value>
   </data>
-  <data name="StageTransition20Update" xml:space="preserve">
-    <value>&lt;StateTransition stage="eProjFacTypeFreeTranslation" MemberTypeWithEditToken="eProjectFacilitator" RequiresUsingFreeTranslation="true"&gt;
-    &lt;StageDisplayString&gt;Project Facilitator enters Free Translation&lt;/StageDisplayString&gt;
-    &lt;TransitionDisplayString&gt;enter the Free Translation&lt;/TransitionDisplayString&gt;
-    &lt;StageInstructions&gt;
-In this stage, you (the project facilitator) will enter the Free translation (FT) of the story.
-This Free Translation should be done by a UNS directly and you (the project facilitator) will just 
-type in what they say.
-
-When you are finished entering the Free translation, then click the "Select State" menu item
-and in the resulting window click on the next (green) state.
-    &lt;/StageInstructions&gt;
-    &lt;AllowableForewardsTransitions&gt;
-      &lt;AllowableTransition&gt;eProjFacAddAnchors&lt;/AllowableTransition&gt;
-      &lt;AllowableTransition&gt;eConsultantCheckNonBiblicalStory&lt;/AllowableTransition&gt;
-    &lt;/AllowableForewardsTransitions&gt;
-    &lt;ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewFreeTranslationField="true" viewAnchorField="false" viewStoryTestingQuestions="false" viewStoryTestingAnswers="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" /&gt;
-  &lt;/StateTransition&gt;</value>
+  <data name="Pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Pause.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IDS_ConfirmDeleteStateTransitions" xml:space="preserve">
     <value>The file that stores the view settings must be deleted to upgrade to the new format (these customizations were done via 'Select State', 'Advanced' button, and then right-click on a state button to check or uncheck view fields for a given state). Because of this, it means that you will need to redo the settings.</value>
@@ -194,23 +189,23 @@ and in the resulting window click on the next (green) state.
   <data name="HTML_TableCell" xml:space="preserve">
     <value>&lt;td&gt;{0}&lt;/td&gt;</value>
   </data>
-  <data name="HTML_Header" xml:space="preserve">
-    <value>&lt;html&gt;
-{0}
-&lt;head&gt;
-{1}
-&lt;/head&gt;
-&lt;body onKeyDown="return OnKeyDown();" onscroll="window.external.OnScroll();" onmouseup="OnMouseUp();"&gt;
-{2}
-&lt;/body&gt;
-{3}
-&lt;/html&gt;</value>
+  <data name="project_1_3_to_1_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\1.3 to 1.4.xslt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="StoryBtPlaceholders" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\js\storybtplaceholders.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="HTML_TextareaWithRefDoubleClick" xml:space="preserve">
+    <value>&lt;textarea id="{0}" ondblclick="OnDoubleClick()" onKeyDown="OnTextAreaKeyDown()" class="{1}"&gt;{2}&lt;/textarea&gt;</value>
+  </data>
+  <data name="HTML_TableCellId" xml:space="preserve">
+    <value>&lt;td id="{0}"&gt;{1}&lt;/td&gt;</value>
+  </data>
   <data name="IDS_CantEditPanoramaView" xml:space="preserve">
     <value>The program can't make this change right now. If this error continues, contact bob_eaton@sall.com for help</value>
+  </data>
+  <data name="OpenSelectedItemHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\OpenSelectedItemHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Hyperlink" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Hyperlink.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -224,22 +219,11 @@ and in the resulting window click on the next (green) state.
   <data name="StoryBtHtml" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\html\storybt.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="HTML_TableNoBorder" xml:space="preserve">
-    <value>&lt;table style="width:100%;"&gt;
-{0}
-&lt;/table&gt;</value>
+  <data name="IDS_LoginAsCoach" xml:space="preserve">
+    <value>You will need to log in as a coach to be able to respond to the CIT/LSR comments</value>
   </data>
-  <data name="oneStory2ConNotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oneStory2ConNotes.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="AddTableHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AddTableHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IDS_UnableToOpenProjectFile" xml:space="preserve">
-    <value>Unable to open project '{1}'{0}{0}{2}{0}{0}{3}{0}{0}Send the project file along with the error message to bob_eaton@sall.com for help</value>
-  </data>
-  <data name="HTML_TableCellWidth" xml:space="preserve">
-    <value>&lt;td width="{0}%"&gt;{1}&lt;/td&gt;</value>
+  <data name="IDS_VerifyOverwriteMyBiblicalTerms" xml:space="preserve">
+    <value>Click 'Ignore' to overwrite the existing 'My Biblical Terms' list with the contents of the '{0}' list. Otherwise, click 'Retry' to merge the contents of the '{0}' list into the existing 'My Biblical Terms' list.</value>
   </data>
   <data name="HTML_StyleDefinition" xml:space="preserve">
     <value>&lt;style type="text/css"&gt;
@@ -284,6 +268,15 @@ and in the resulting window click on the next (green) state.
   }}
 &lt;/style&gt;</value>
   </data>
+  <data name="AddTableHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddTableHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IDS_UnableToOpenProjectFile" xml:space="preserve">
+    <value>Unable to open project '{1}'{0}{0}{2}{0}{0}{3}{0}{0}Send the project file along with the error message to bob_eaton@sall.com for help</value>
+  </data>
+  <data name="IDS_AddInferenceTestQuery" xml:space="preserve">
+    <value>Click 'Yes' to add boxes for answers to the testing questions? Or click 'No' if you already have boxes (you might have them if you had earlier clicked "Edit", "Add story test results")</value>
+  </data>
   <data name="HTML_TableCellWidthAlignTop" xml:space="preserve">
     <value>&lt;td width="{0}%" valign="top"&gt;{1}&lt;/td&gt;</value>
   </data>
@@ -299,11 +292,11 @@ and in the resulting window click on the next (green) state.
   <data name="StoryBtPsJs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\js\storybtps.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="BuilderDialog_moveup1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BuilderDialog_moveup.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="oneStory2KeyTerms" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oneStory2KeyTerms.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="HTML_LangStyleCenter" xml:space="preserve">
+    <value>.{0} {{
+      font-family: "{1}";
+      font-size: {2} pt;
+  }}</value>
   </data>
   <data name="gradient" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\gradient.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -312,14 +305,14 @@ and in the resulting window click on the next (green) state.
     <value>A key term or its status has changed. Do you wish to save these changes?</value>
     <comment>ख़ास शब्‍द या उसका स्टैटस बदल गया है। इन परिवर्तनों को सेव किया जाए?</comment>
   </data>
-  <data name="HTML_EmphasizedText" xml:space="preserve">
-    <value>&lt;em&gt;{0}&lt;/em&gt;</value>
+  <data name="oneStory2CoachNotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oneStory2CoachNotes.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="HTML_BoldText" xml:space="preserve">
-    <value>&lt;b&gt;{0}&lt;/b&gt;</value>
+  <data name="IDS_UnableToOpenStageTransitionsXml" xml:space="preserve">
+    <value>Unable to process the state customization file (i.e. {0}). If you've customized which fields show by default in various states, then you need to delete the version of the customization file in the project folder (i.e. "{1}\{0}") so the program can re-create it using the newly upgraded version</value>
   </data>
-  <data name="project_1_3_to_1_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\1.3 to 1.4.xslt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="HTML_HttpLink" xml:space="preserve">
+    <value>&lt;a href="{0}" target="_blank"&gt;here&lt;/a&gt; </value>
   </data>
   <data name="IDS_CreateMyBiblicalTermsQuery" xml:space="preserve">
     <value>In order to add or edit key terms, you have to begin using a local copy of one of the existing key
@@ -348,6 +341,9 @@ of the team before overwriting a list</value>
   <data name="DragDropHandle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DragDropHandle.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="IDS_QueryConvertProjectFile1_3to1_4" xml:space="preserve">
+    <value>The project file you're trying to open (i.e. '{0}') was lasted edited by an earlier version of the OneStory editor. I can automatically upgrade the project file to be readable by this newer version, but it will make it inaccessible to the earlier version. So if the rest of the team (Project Facilitators, Consultant, etc) have all: a) done a 'Project', 'Send/receive' to send all of their outstanding changes, and b) upgraded to the new version of OSE, then if you want the project file to be converted to the new format, click 'Yes'</value>
+  </data>
   <data name="HTML_ButtonClass" xml:space="preserve">
     <value>&lt;button id="{0}" class="{1}" onClick="{2}"&gt;{3}&lt;/button&gt;</value>
   </data>
@@ -360,20 +356,14 @@ of the team before overwriting a list</value>
   <data name="IDS_MyDropboxReferalString" xml:space="preserve">
     <value>http://db.tt/4VwBmut</value>
   </data>
-  <data name="oneStory2CoachNotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oneStory2CoachNotes.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="FillDownHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FillDownHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="IDS_UnableToOpenStageTransitionsXml" xml:space="preserve">
-    <value>Unable to process the state customization file (i.e. {0}). If you've customized which fields show by default in various states, then you need to delete the version of the customization file in the project folder (i.e. "{1}\{0}") so the program can re-create it using the newly upgraded version</value>
-  </data>
-  <data name="_1_4_to_1_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\1.4 to 1.5.xslt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="RedDot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\red-dot.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IDS_AdaptItConverterDoesntExist" xml:space="preserve">
     <value>The Adapt It converter named '{0}' doesn't exist! You probably need to do 'Project', 'Settings' and configure it on the 'Adapt It' tab</value>
-  </data>
-  <data name="EditTableHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\EditTableHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="HTML_Script_AddTextareaMouseDown" xml:space="preserve">
     <value>&lt;script type="text/javascript"&gt;
@@ -395,12 +385,15 @@ of the team before overwriting a list</value>
   <data name="HTML_Button" xml:space="preserve">
     <value>&lt;button id="{0}" onClick="{1}"&gt;{2}&lt;/button&gt;</value>
   </data>
+  <data name="HTML_ButtonLineOptions" xml:space="preserve">
+    <value>&lt;button id="{0}" onmouseup="{1}" style="height:20px; width:20px;"&gt;{2}&lt;/button&gt;</value>
+  </data>
+  <data name="oneStory2ConNotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oneStory2ConNotes.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="HTML_TextareaWithRefDrop" xml:space="preserve">
     <value>&lt;textarea id="{0}" class="{1}"&gt;{2}&lt;/textarea&gt;</value>
     <comment>added to HTML_Script_AddTextareaMouseDown</comment>
-  </data>
-  <data name="HTML_ButtonToolTip" xml:space="preserve">
-    <value>&lt;button id="{0}" name="{1}" onMouseUp="{2}" title="{3}"&gt;{4}&lt;/button&gt;</value>
   </data>
   <data name="RegexHelpProgram" xml:space="preserve">
     <value>http://msdn2.microsoft.com/en-us/library/az24scfc.aspx</value>
@@ -411,13 +404,8 @@ of the team before overwriting a list</value>
   <data name="HTML_TableRowId" xml:space="preserve">
     <value>&lt;tr id="{0}"&gt;{1}&lt;/tr&gt;    </value>
   </data>
-  <data name="Edit_Undo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Edit_Undo.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="HTML_TableForLine" xml:space="preserve">
-    <value>&lt;table id="{0}" style="width:100%;"&gt;
-{1}
-&lt;/table&gt;</value>
+  <data name="oneStory2storyingBT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oneStory2storyingBT.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="IDS_DefaultRepoServer" xml:space="preserve">
     <value>LanguageDepot.org [private]</value>
@@ -527,26 +515,26 @@ eater Panorama
 \par }{\rtlch\fcs1 \af0 \ltrch\fcs0 \insrsid6567156 
 \par }}</value>
   </data>
-  <data name="FillDownHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FillDownHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="IDS_UseStoryCollapse" xml:space="preserve">
+    <value>Line number '{0}' has multiple sentences in the {1} column. Use the "Story" menu, "Collapse into 1 line" command followed by the "Split into Lines" command to break the story (and any back-translations) into lines based on sentence final punctuation (see "Project", "Settings" and any of the "Language" tabs to configure sentence final punctuation). The command "Story", "Re-align story lines" can also be used, which calls both of the above commands in one click</value>
+  </data>
+  <data name="DataContainer_MovePreviousHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DataContainer_MovePreviousHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="AdaptItProjectRepositoryFormat" xml:space="preserve">
     <value>aikb-{0}-{1}</value>
   </data>
-  <data name="BuilderDialog_movedown1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BuilderDialog_movedown.PNG;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="DataContainer_MoveLastHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DataContainer_MoveLastHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HTML_TableCellWidthDropAnchor" xml:space="preserve">
+    <value>&lt;td id="{0}" width="{1}%" ondragover="window.event.returnValue=false" ondrop="window.external.AddScriptureReference(this.id)" onmouseup="OnEmptyAnchorClick(this.id);"&gt;{2}&lt;/td&gt;</value>
   </data>
   <data name="IDS_CanDeleteOnlyFromMyBiblicalTerms" xml:space="preserve">
     <value>You can only delete a key term from the editable key term (i.e. "My Biblical Terms") list, which is not currently selected.</value>
   </data>
   <data name="AudioFileSearchFilter" xml:space="preserve">
     <value>Audio files|*.mp3;*.wav;*.wma|All files|*.*</value>
-  </data>
-  <data name="IDS_AddAnotherTestQuery" xml:space="preserve">
-    <value>Click 'Yes' if you want to enter the results for another UNS retelling test, or click 'No' to send to the consultant for checking</value>
-  </data>
-  <data name="oneStory2storyingRetelling" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oneStory2storyingRetelling.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="HTML_LinkJumpLine" xml:space="preserve">
     <value>&lt;a href="conNote.jumpToLine" name="{0}" class="{1}" onClick="return OnVerseLineJump(this);"&gt;{2}&lt;/a&gt;</value>
@@ -557,20 +545,17 @@ eater Panorama
   <data name="HTML_ParagraphText" xml:space="preserve">
     <value>&lt;p class="{0}"&gt;{1}&lt;/p&gt;</value>
   </data>
-  <data name="IDS_QueryConvertProjectFile1_3to1_4" xml:space="preserve">
-    <value>The project file you're trying to open (i.e. '{0}') was lasted edited by an earlier version of the OneStory editor. I can automatically upgrade the project file to be readable by this newer version, but it will make it inaccessible to the earlier version. So if the rest of the team (Project Facilitators, Consultant, etc) have all: a) done a 'Project', 'Send/receive' to send all of their outstanding changes, and b) upgraded to the new version of OSE, then if you want the project file to be converted to the new format, click 'Yes'</value>
-  </data>
-  <data name="HTML_LinkJumpTargetBibleReference" xml:space="preserve">
-    <value>&lt;a href="bibleViewer.setReference" name="{0}" onClick="return OnBibRefJump(this);"&gt;{0}&lt;/a&gt;</value>
-  </data>
   <data name="graphhs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\graphhs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="oneStory2storyingRetelling" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oneStory2storyingRetelling.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="IDS_CheckForSkipToUnsCheck" xml:space="preserve">
     <value>Click 'Yes' to enter UNS test results now or click 'No' to send the story to the consultant first for checking.</value>
   </data>
-  <data name="HTML_TableCellWidthDropAnchor" xml:space="preserve">
-    <value>&lt;td id="{0}" width="{1}%" ondragover="window.event.returnValue=false" ondrop="window.external.AddScriptureReference(this.id)" onmouseup="OnEmptyAnchorClick(this.id);"&gt;{2}&lt;/td&gt;</value>
+  <data name="HTML_ButtonToolTip" xml:space="preserve">
+    <value>&lt;button id="{0}" name="{1}" onMouseUp="{2}" title="{3}"&gt;{4}&lt;/button&gt;</value>
   </data>
   <data name="IDS_TbxFile_EmptyLnC" xml:space="preserve">
     <value>\_sh v3.0  374  LnC Note
@@ -580,8 +565,24 @@ eater Panorama
 \wrd
 \co</value>
   </data>
-  <data name="HTML_TableCellClass" xml:space="preserve">
-    <value>&lt;td class="{0}"&gt;&lt;font color="{1}"&gt;{2}&lt;/font&gt;&lt;/td&gt;</value>
+  <data name="StageTransition20Update" xml:space="preserve">
+    <value>&lt;StateTransition stage="eProjFacTypeFreeTranslation" MemberTypeWithEditToken="eProjectFacilitator" RequiresUsingFreeTranslation="true"&gt;
+    &lt;StageDisplayString&gt;Project Facilitator enters Free Translation&lt;/StageDisplayString&gt;
+    &lt;TransitionDisplayString&gt;enter the Free Translation&lt;/TransitionDisplayString&gt;
+    &lt;StageInstructions&gt;
+In this stage, you (the project facilitator) will enter the Free translation (FT) of the story.
+This Free Translation should be done by a UNS directly and you (the project facilitator) will just 
+type in what they say.
+
+When you are finished entering the Free translation, then click the "Select State" menu item
+and in the resulting window click on the next (green) state.
+    &lt;/StageInstructions&gt;
+    &lt;AllowableForewardsTransitions&gt;
+      &lt;AllowableTransition&gt;eProjFacAddAnchors&lt;/AllowableTransition&gt;
+      &lt;AllowableTransition&gt;eConsultantCheckNonBiblicalStory&lt;/AllowableTransition&gt;
+    &lt;/AllowableForewardsTransitions&gt;
+    &lt;ViewSettings viewVernacularLangField="true" viewNationalLangField="true" viewEnglishBTField="true" viewFreeTranslationField="true" viewAnchorField="false" viewStoryTestingQuestions="false" viewStoryTestingAnswers="false" viewRetellingField="false" viewConsultantNoteField="false" viewCoachNotesField="false" viewNetBible="false" /&gt;
+  &lt;/StateTransition&gt;</value>
   </data>
   <data name="IDS_AddRetellingTestQuery" xml:space="preserve">
     <value>Click 'Yes' to add boxes for the retelling lines? Or click 'No' if you already have boxes (you might have them if you had earlier clicked "Edit", "Add retelling test results")</value>
@@ -592,8 +593,8 @@ eater Panorama
   <data name="HTML_Textarea" xml:space="preserve">
     <value>&lt;textarea id="{0}" class="{1}"&gt;{2}&lt;/textarea&gt;</value>
   </data>
-  <data name="HTML_TableCellWidthPixels" xml:space="preserve">
-    <value>&lt;td width="{0}"&gt;{1}&lt;/td&gt;</value>
+  <data name="HTML_EmphasizedText" xml:space="preserve">
+    <value>&lt;em&gt;{0}&lt;/em&gt;</value>
   </data>
   <data name="CopyHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CopyHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -601,11 +602,23 @@ eater Panorama
   <data name="HTML_SpanLangQuote" xml:space="preserve">
     <value>&lt;SPAN class="{0} {1}"&gt;{2}&lt;/SPAN&gt;</value>
   </data>
-  <data name="DataContainer_MovePreviousHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DataContainer_MovePreviousHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="HTML_Header" xml:space="preserve">
+    <value>&lt;html&gt;
+{0}
+&lt;head&gt;
+{1}
+&lt;/head&gt;
+&lt;body onKeyDown="return OnKeyDown();" onscroll="window.external.OnScroll();" onmouseup="OnMouseUp();"&gt;
+{2}
+&lt;/body&gt;
+{3}
+&lt;/html&gt;</value>
   </data>
   <data name="IDS_ConfirmDeleteKeyTerm" xml:space="preserve">
     <value>Are you sure you want to delete the key term:{0}{1}</value>
+  </data>
+  <data name="BuilderDialog_moveup1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BuilderDialog_moveup.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IDS_IllFormedJumpTarget" xml:space="preserve">
     <value>The project file has an ill-formed Anchor! Wasn't expecting to see '{0}'. Contact bob_eaton@sall.com and mention which the project name.</value>
@@ -1039,6 +1052,9 @@ for more extensive study materials.&lt;/p&gt;
   <data name="IDS_UnableToOpenMemberList" xml:space="preserve">
     <value>Unable to open the member list{0}{0}{1}{0}{0}Contact bob_eaton@sall.com for help</value>
   </data>
+  <data name="HTML_TableCellNoWrap" xml:space="preserve">
+    <value>&lt;td NOWRAP&gt;{0}&lt;/td&gt;</value>
+  </data>
   <data name="IDS_FromStoryForDiscourseCharting" xml:space="preserve">
     <value>&amp;From {0} (for Discourse Charting)</value>
   </data>
@@ -1050,17 +1066,17 @@ for more extensive study materials.&lt;/p&gt;
   {0}
   &lt;/table&gt;</value>
   </data>
-  <data name="IDS_LoginAsCoach" xml:space="preserve">
-    <value>You will need to log in as a coach to be able to respond to the CIT/LSR comments</value>
+  <data name="HTML_BoldText" xml:space="preserve">
+    <value>&lt;b&gt;{0}&lt;/b&gt;</value>
   </data>
-  <data name="HTML_ParagraphTextId" xml:space="preserve">
-    <value>&lt;p id="{0}" class="{1}"&gt;{2}&lt;/p&gt;</value>
+  <data name="_1_4_to_1_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\1.4 to 1.5.xslt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="HTML_HttpLink" xml:space="preserve">
-    <value>&lt;a href="{0}" target="_blank"&gt;here&lt;/a&gt; </value>
+  <data name="Edit_Undo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Edit_Undo.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="HTML_TableCellNoWrap" xml:space="preserve">
-    <value>&lt;td NOWRAP&gt;{0}&lt;/td&gt;</value>
+  <data name="BuilderDialog_movedown1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BuilderDialog_movedown.PNG;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="HTML_TableRow" xml:space="preserve">
     <value>  &lt;tr&gt;
@@ -1448,14 +1464,185 @@ for more extensive study materials.&lt;/p&gt;
   <data name="HTML_TableRowColor" xml:space="preserve">
     <value>&lt;tr BGCOLOR="{0}"&gt;{1}&lt;/tr&gt;</value>
   </data>
-  <data name="IDS_AddInferenceTestQuery" xml:space="preserve">
-    <value>Click 'Yes' to add boxes for answers to the testing questions? Or click 'No' if you already have boxes (you might have them if you had earlier clicked "Edit", "Add story test results")</value>
+  <data name="BellWithNotifications" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bell-with-notifications.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="oneStory2storyingBT" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\oneStory2storyingBT.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="HTML_TableCellWithSpanAndWidth" xml:space="preserve">
+    <value>&lt;td width="{0}%" colspan="{1}"&gt;{2}&lt;/td&gt;</value>
   </data>
-  <data name="Pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Pause.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="HTML_TableBorder" xml:space="preserve">
+    <value>  &lt;table style="width:100%;" border="1"&gt;
+  {0}
+  &lt;/table&gt;</value>
+  </data>
+  <data name="HTML_LinkJumpTargetBibleReference" xml:space="preserve">
+    <value>&lt;a href="bibleViewer.setReference" name="{0}" onClick="return OnBibRefJump(this);"&gt;{0}&lt;/a&gt;</value>
+  </data>
+  <data name="HTML_TableCellWidthPixels" xml:space="preserve">
+    <value>&lt;td width="{0}"&gt;{1}&lt;/td&gt;</value>
+  </data>
+  <data name="IDS_KeyTermsProblem" xml:space="preserve">
+    <value>Unable to process Key Terms: cause: {0}{0}{1}</value>
+  </data>
+  <data name="HTML_TableCellWidth" xml:space="preserve">
+    <value>&lt;td width="{0}%"&gt;{1}&lt;/td&gt;</value>
+  </data>
+  <data name="DataContainer_MoveNextHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DataContainer_MoveNextHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SplashScreenImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SplashScreenImage.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IDS_AddAnotherTestQuery" xml:space="preserve">
+    <value>Click 'Yes' if you want to enter the results for another UNS retelling test, or click 'No' to send to the consultant for checking</value>
+  </data>
+  <data name="HTML_TableForLine" xml:space="preserve">
+    <value>&lt;table id="{0}" style="width:100%;"&gt;
+{1}
+&lt;/table&gt;</value>
+  </data>
+  <data name="IDS_NeedToReboot" xml:space="preserve">
+    <value>Problem initializing Sword (the Net Bible viewer):{0}{0}{1}</value>
+  </data>
+  <data name="StoryBtJs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\js\storybt.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="IDS_UnableToSave" xml:space="preserve">
+    <value>Unable to save the project file '{1}'{0}{0}{2}</value>
+  </data>
+  <data name="HTML_DOM_Prefix" xml:space="preserve">
+    <value>&lt;script&gt;
+    function OnBibRefJump(link) {
+        window.external.OnBibRefJump(link.name);
+        return false; // cause the href navigation to not happen
+    }
+    function OnVerseLineJump(link) {
+        window.external.OnVerseLineJump(link.name);
+        return false; // cause the href navigation to not happen
+    }
+	
+    var s_key = 83;
+    var f5_key = 116;
+    function OnKeyDown() {
+        if (window.event.keyCode == f5_key) {
+            // let the form handle it
+            window.external.LoadDocument();
+
+            // disable the propagation of the F5 event
+            window.event.keyCode = 0;
+            window.event.returnValue = false;
+            return false;
+        }
+        else if (window.event.ctrlKey &amp;&amp; (window.event.keyCode == 70)) {
+            if (window.event.stopPropagation) {
+                window.event.stopPropagation();
+            }
+            else {
+                window.event.cancelBubble = true;
+                window.event.returnValue = false;
+                window.event.keyCode = 0;
+            }
+            window.external.DoFind();
+            return false;
+        }
+        else if (window.event.ctrlKey &amp;&amp; (window.event.keyCode == s_key)) {
+            if (window.event.stopPropagation) {
+                window.event.stopPropagation();
+            }
+            else {
+                window.event.cancelBubble = true;
+                window.event.returnValue = false;
+                window.event.keyCode = 0;
+            }
+            window.external.OnSaveDocument();
+            return false;
+        }
+    }
+    function OnDoubleClick() {
+        if (document.selection)
+        {
+            var sel = document.selection;
+            var rng = sel.createRange();
+		    rng.expand("word");
+            rng.select();
+        }
+    }
+    function textboxSetSelection(strId, iStart, iLen) {
+        var oTextbox = document.getElementById(strId);
+        var oRange = oTextbox.createTextRange();
+        oRange.moveStart("character", iStart);
+        oRange.moveEnd("character", -oTextbox.value.length + iStart + iLen);
+        oRange.select();
+    }
+    function textboxSetSelectionTextReturnEndPosition(strId, strNewValue) {
+        var oTextbox = document.getElementById(strId);
+        var rangeSelection = document.selection.createRange();
+        var rangeElement = rangeSelection.duplicate();
+        rangeElement.moveToElementText(oTextbox);
+        var nEndPoint = 0;
+        if (rangeElement.inRange(rangeSelection)) {
+            rangeSelection.text = strNewValue;
+            rangeSelection.select();
+            while (rangeElement.compareEndPoints('StartToEnd', rangeSelection) &lt; 0) {
+                rangeElement.moveStart('character', 1);
+                nEndPoint++;
+            }
+        }
+        return nEndPoint;
+    }
+	function OnMouseUp() {
+		// if the user right-clicks, then ask the ConNote pane to show the context menu
+		if (window.event.button == 2) 
+			window.external.ShowContextMenu();
+	}
+  function OnTextAreaKeyDown() {
+     if (window.event.ctrlKey &amp;&amp; (window.event.keyCode == 66)) {
+        transformText("$")
+     } else if (window.event.ctrlKey &amp;&amp; (window.event.keyCode == 73)) {
+        transformText("*")
+     }
+  }
+  
+  function transformText(type) {
+    if (document.selection) {
+      var rangeSelection = document.selection.createRange();
+      var selectVal = rangeSelection.text;
+      selectVal = textTrim(selectVal);
+      if(selectVal){
+        if(!startsWith(selectVal, type) || !endsWith(selectVal, type)){
+          selectVal = type+selectVal+type+" ";
+          rangeSelection.text = selectVal;
+          rangeSelection.select();
+        }
+      }
+    }
+    window.event.returnValue = false;
+    window.event.keyCode = 0;
+  }
+  
+  function textTrim(x) {
+    return x.replace(/^\s+|\s+$/gm,'');
+  }
+  function startsWith(str, word) {
+    return str.lastIndexOf(word, 0) === 0;
+  }
+  function endsWith(str, word) {
+    return str.indexOf(word, str.length - word.length) !== -1;
+  }
+      
+&lt;/script&gt;</value>
+  </data>
+  <data name="oneStory2KeyTerms" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\oneStory2KeyTerms.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="HTML_TableRowIdColor" xml:space="preserve">
+    <value>&lt;tr id="{0}" BGCOLOR="{1}"&gt;{2}&lt;/tr&gt;    </value>
+  </data>
+  <data name="HTML_TableCellWidthId" xml:space="preserve">
+    <value>&lt;td id="{0}" width="{1}%"&gt;{2}&lt;/td&gt;</value>
+  </data>
+  <data name="IDS_ProjectFileCorrupted" xml:space="preserve">
+    <value>The project file is corrupted. No 'StoryCrafterMemberID' record found. Send to bob_eaton@sall.com for help.</value>
   </data>
   <data name="IDS_NetBibleDonateMessage" xml:space="preserve">
     <value>&lt;html xmlns:v="urn:schemas-microsoft-com:vml"
@@ -2097,186 +2284,8 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
 
 &lt;/html&gt;</value>
   </data>
-  <data name="IDS_KeyTermsProblem" xml:space="preserve">
-    <value>Unable to process Key Terms: cause: {0}{0}{1}</value>
-  </data>
-  <data name="IDS_UseStoryCollapse" xml:space="preserve">
-    <value>Line number '{0}' has multiple sentences in the {1} column. Use the "Story" menu, "Collapse into 1 line" command followed by the "Split into Lines" command to break the story (and any back-translations) into lines based on sentence final punctuation (see "Project", "Settings" and any of the "Language" tabs to configure sentence final punctuation). The command "Story", "Re-align story lines" can also be used, which calls both of the above commands in one click</value>
-  </data>
-  <data name="DataContainer_MoveNextHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DataContainer_MoveNextHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SplashScreenImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SplashScreenImage.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="HTML_TableCellId" xml:space="preserve">
-    <value>&lt;td id="{0}"&gt;{1}&lt;/td&gt;</value>
-  </data>
-  <data name="BellWithNotifications" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\bell-with-notifications.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>  
-  <data name="AddToFavoritesHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AddToFavoritesHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IDS_NeedToReboot" xml:space="preserve">
-    <value>Problem initializing Sword (the Net Bible viewer):{0}{0}{1}</value>
-  </data>
-  <data name="StoryBtJs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\js\storybt.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="HTML_DOM_Prefix" xml:space="preserve">
-    <value>&lt;script&gt;
-    function OnBibRefJump(link) {
-        window.external.OnBibRefJump(link.name);
-        return false; // cause the href navigation to not happen
-    }
-    function OnVerseLineJump(link) {
-        window.external.OnVerseLineJump(link.name);
-        return false; // cause the href navigation to not happen
-    }
-	
-    var s_key = 83;
-    var f5_key = 116;
-    function OnKeyDown() {
-        if (window.event.keyCode == f5_key) {
-            // let the form handle it
-            window.external.LoadDocument();
-
-            // disable the propagation of the F5 event
-            window.event.keyCode = 0;
-            window.event.returnValue = false;
-            return false;
-        }
-        else if (window.event.ctrlKey &amp;&amp; (window.event.keyCode == 70)) {
-            if (window.event.stopPropagation) {
-                window.event.stopPropagation();
-            }
-            else {
-                window.event.cancelBubble = true;
-                window.event.returnValue = false;
-                window.event.keyCode = 0;
-            }
-            window.external.DoFind();
-            return false;
-        }
-        else if (window.event.ctrlKey &amp;&amp; (window.event.keyCode == s_key)) {
-            if (window.event.stopPropagation) {
-                window.event.stopPropagation();
-            }
-            else {
-                window.event.cancelBubble = true;
-                window.event.returnValue = false;
-                window.event.keyCode = 0;
-            }
-            window.external.OnSaveDocument();
-            return false;
-        }
-    }
-    function OnDoubleClick() {
-        if (document.selection)
-        {
-            var sel = document.selection;
-            var rng = sel.createRange();
-		    rng.expand("word");
-            rng.select();
-        }
-    }
-    function textboxSetSelection(strId, iStart, iLen) {
-        var oTextbox = document.getElementById(strId);
-        var oRange = oTextbox.createTextRange();
-        oRange.moveStart("character", iStart);
-        oRange.moveEnd("character", -oTextbox.value.length + iStart + iLen);
-        oRange.select();
-    }
-    function textboxSetSelectionTextReturnEndPosition(strId, strNewValue) {
-        var oTextbox = document.getElementById(strId);
-        var rangeSelection = document.selection.createRange();
-        var rangeElement = rangeSelection.duplicate();
-        rangeElement.moveToElementText(oTextbox);
-        var nEndPoint = 0;
-        if (rangeElement.inRange(rangeSelection)) {
-            rangeSelection.text = strNewValue;
-            rangeSelection.select();
-            while (rangeElement.compareEndPoints('StartToEnd', rangeSelection) &lt; 0) {
-                rangeElement.moveStart('character', 1);
-                nEndPoint++;
-            }
-        }
-        return nEndPoint;
-    }
-	function OnMouseUp() {
-		// if the user right-clicks, then ask the ConNote pane to show the context menu
-		if (window.event.button == 2) 
-			window.external.ShowContextMenu();
-	}
-  function OnTextAreaKeyDown() {
-     if (window.event.ctrlKey &amp;&amp; (window.event.keyCode == 66)) {
-        transformText("$")
-     } else if (window.event.ctrlKey &amp;&amp; (window.event.keyCode == 73)) {
-        transformText("*")
-     }
-  }
-  
-  function transformText(type) {
-    if (document.selection) {
-      var rangeSelection = document.selection.createRange();
-      var selectVal = rangeSelection.text;
-      selectVal = textTrim(selectVal);
-      if(selectVal){
-        if(!startsWith(selectVal, type) || !endsWith(selectVal, type)){
-          selectVal = type+selectVal+type+" ";
-          rangeSelection.text = selectVal;
-          rangeSelection.select();
-        }
-      }
-    }
-    window.event.returnValue = false;
-    window.event.keyCode = 0;
-  }
-  
-  function textTrim(x) {
-    return x.replace(/^\s+|\s+$/gm,'');
-  }
-  function startsWith(str, word) {
-    return str.lastIndexOf(word, 0) === 0;
-  }
-  function endsWith(str, word) {
-    return str.indexOf(word, str.length - word.length) !== -1;
-  }
-      
-&lt;/script&gt;</value>
-  </data>
-  <data name="HTML_TableRowIdColor" xml:space="preserve">
-    <value>&lt;tr id="{0}" BGCOLOR="{1}"&gt;{2}&lt;/tr&gt;    </value>
-  </data>
-  <data name="DataContainer_MoveLastHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DataContainer_MoveLastHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="HTML_TableCellWidthId" xml:space="preserve">
-    <value>&lt;td id="{0}" width="{1}%"&gt;{2}&lt;/td&gt;</value>
-  </data>
-  <data name="FillUpHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FillUpHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IDS_ProjectFileCorrupted" xml:space="preserve">
-    <value>The project file is corrupted. No 'StoryCrafterMemberID' record found. Send to bob_eaton@sall.com for help.</value>
-  </data>
-  <data name="HTML_LangStyleCenter" xml:space="preserve">
-    <value>.{0} {{
-      font-family: "{1}";
-      font-size: {2} pt;
-  }}</value>
-  </data>
-  <data name="IDS_UnableToSave" xml:space="preserve">
-    <value>Unable to save the project file '{1}'{0}{0}{2}</value>
-  </data>
-  <data name="HTML_TableBorder" xml:space="preserve">
-    <value>  &lt;table style="width:100%;" border="1"&gt;
-  {0}
-  &lt;/table&gt;</value>
-  </data>
-  <data name="DataContainer_MoveFirstHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DataContainer_MoveFirstHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="HTML_ParagraphTextId" xml:space="preserve">
+    <value>&lt;p id="{0}" class="{1}"&gt;{2}&lt;/p&gt;</value>
   </data>
   <data name="search" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\search.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -2284,22 +2293,16 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   <data name="HTML_TableCellForTextArea" xml:space="preserve">
     <value>&lt;td width="100%"&gt;{0}&lt;/td&gt;</value>
   </data>
-  <data name="IDS_VerifyOverwriteMyBiblicalTerms" xml:space="preserve">
-    <value>Click 'Ignore' to overwrite the existing 'My Biblical Terms' list with the contents of the '{0}' list. Otherwise, click 'Retry' to merge the contents of the '{0}' list into the existing 'My Biblical Terms' list.</value>
+  <data name="DataContainer_MoveFirstHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DataContainer_MoveFirstHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="HTML_TableCellWithSpanAndWidth" xml:space="preserve">
-    <value>&lt;td width="{0}%" colspan="{1}"&gt;{2}&lt;/td&gt;</value>
+  <data name="FillUpHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FillUpHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="HTML_ButtonLineOptions" xml:space="preserve">
-    <value>&lt;button id="{0}" onmouseup="{1}" style="height:20px; width:20px;"&gt;{2}&lt;/button&gt;</value>
+  <data name="EditInformationHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EditInformationHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="BellWithoutNotifications" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\bell-without-notifications.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RedDot" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\red-dot.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="HTML_TextareaWithRefDoubleClick" xml:space="preserve">
-    <value>&lt;textarea id="{0}" ondblclick="OnDoubleClick()" onKeyDown="OnTextAreaKeyDown()" class="{1}"&gt;{2}&lt;/textarea&gt;</value>
+  <data name="SyncArrowVertical_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SyncArrowVertical_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

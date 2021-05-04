@@ -185,24 +185,11 @@ namespace OneStoryProjectEditor
             // 'Yes' means the user is asking us to create the AI project
             if (res == DialogResult.Yes)
             {
-                try
-                {
-                    ProjectSettings.LanguageInfo liSource, liTarget;
-                    var theEc = AdaptItGlossing.InitLookupAdapter(Parent.ProjSettings, BtDirection,
-                                                                  Parent.LoggedInMember,
-                                                                  out liSource, out liTarget);
-                    AdaptItConverterName = theEc.Name;
-                    _strAdaptItProjectFolderName =
-                        Path.GetFileNameWithoutExtension(
-                            AdaptItGlossing.GetAiProjectFolderFromConverterIdentifier(theEc.ConverterIdentifier));
-                }
-                catch (Exception ex)
-                {
-                    Program.ShowException(ex);
-                }
-                return;
+                CreateAiProject();
+                // this return was uncommented here, but I think we want to make it 'modified' (i.e. fall thru below) if we do this...
+                // return;
             }
-            
+
             // 'No' means browse for it
             if (res == DialogResult.No)
                 buttonBrowse_Click(sender, e);
@@ -210,9 +197,28 @@ namespace OneStoryProjectEditor
             Parent.Modified = true;
         }
 
+        private void CreateAiProject()
+        {
+            try
+            {
+                ProjectSettings.LanguageInfo liSource, liTarget;
+                var theEc = AdaptItGlossing.InitLookupAdapter(Parent.ProjSettings, BtDirection,
+                                                              Parent.LoggedInMember,
+                                                              out liSource, out liTarget);
+                AdaptItConverterName = theEc.Name;
+                _strAdaptItProjectFolderName =
+                    Path.GetFileNameWithoutExtension(
+                        AdaptItGlossing.GetAiProjectFolderFromConverterIdentifier(theEc.ConverterIdentifier));
+            }
+            catch (Exception ex)
+            {
+                Program.ShowException(ex);
+            }
+        }
+
         private void radioButtonShared_Click(object sender, EventArgs e)
         {
-            buttonBrowse_Click(sender, e);
+            DoSharedAiProjectClick(null);
         }
 
         private EncConverters _theECs;
@@ -246,110 +252,131 @@ namespace OneStoryProjectEditor
 
             if (AdaptItProjectType == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.SharedAiProject)
             {
-                DoSharedAiProjectClick();
+                DoSharedAiProjectClick(null);
             }
 
             Parent.Modified = true;
         }
 
-        private void DoSharedAiProjectClick()
+        private void DoSharedAiProjectClick(bool? doingPush)
         {
-            DialogResult res = LocalizableMessageBox.Show(Localizer.Str("Is the shared Adapt It project on your computer now? (click 'Yes' to browse for it; click 'No' to enter the repository information for it)"),
-                                               StoryEditor.OseCaption,
-                                               MessageBoxButtons.YesNoCancel);
-            if (res == DialogResult.Cancel)
+            IEncConverter theEc = null;
+            string strProjectFolder, strConverterName;
+
+            if (String.IsNullOrEmpty(_strAdaptItProjectName) || String.IsNullOrEmpty(_strAdaptItRepositoryServer))
+            {
+                // means it isn't initialized
+                DialogResult res = LocalizableMessageBox.Show(Localizer.Str("Is the shared Adapt It project on your computer now? (click 'Yes' to browse for it; click 'No' to enter the repository information for it)"),
+                                                   StoryEditor.OseCaption,
+                                                   MessageBoxButtons.YesNoCancel);
+                if (res == DialogResult.Cancel)
+                    return;
+
+                if (res == DialogResult.No)
+                {
+                    // if it doesn't already exist, then we should create it... but not if they are intending to pull it
+                    res = LocalizableMessageBox.Show(Localizer.Str("Is the shared Adapt It project already on the internet? (i.e. will you downloading it? click 'No' if you want to create a new empty project for it)"),
+                                                     StoryEditor.OseCaption,
+                                                     MessageBoxButtons.YesNoCancel);
+                    if (res == DialogResult.Cancel)
+                        return;
+
+                    doingPush = (res == DialogResult.No);
+                    if (doingPush == true)
+                        CreateAiProject();
+
+                    // then fall thru
+                }
+                else // the project *is* on this machine...
+                {
+                    // first let's see if an AI Lookup transducer already exists with the
+                    //  proper name
+                    strConverterName = AdaptItKBReader.AdaptItLookupConverterName(SourceLanguageName,
+                                                                                  TargetLanguageName);
+                    if (theECs.ContainsKey(strConverterName))
+                    {
+                        theEc = theECs[strConverterName];
+                        if (theEc is AdaptItEncConverter)
+                        {
+                            AdaptItConverterName = theEc.Name;
+                            strProjectFolder =
+                                AdaptItGlossing.GetAiProjectFolderFromConverterIdentifier(theEc.ConverterIdentifier);
+                            res = LocalizableMessageBox.Show(String.Format(Localizer.Str("Is the shared Adapt It project in the '{0}' folder?"),
+                                                                strProjectFolder),
+                                                  StoryEditor.OseCaption,
+                                                  MessageBoxButtons.YesNoCancel);
+                            if (res == DialogResult.Cancel)
+                                return;
+
+                            if (res == DialogResult.No)
+                                theEc = null;
+
+                            // the 'yes' case falls through and skips the next if statement
+                            _strAdaptItProjectFolderName = Path.GetFileNameWithoutExtension(strProjectFolder);
+                        }
+                    }
+
+                    if (theEc == null)
+                    {
+                        // this means we don't know which one it was, so query for which project 
+                        //  the user wants to share
+                        theEc = new AdaptItEncConverter();
+                        if (theECs.AutoConfigureEx(theEc,
+                                                   ConvType.Unicode_to_from_Unicode,
+                                                   ref strConverterName,
+                                                   "UNICODE", "UNICODE"))
+                        {
+                            AdaptItConverterName = theEc.Name;
+                            _strAdaptItProjectFolderName =
+                                Path.GetFileNameWithoutExtension(
+                                    AdaptItGlossing.GetAiProjectFolderFromConverterIdentifier(theEc.ConverterIdentifier));
+                        }
+                        else
+                            return;
+                    }
+
+                    // in case the user has just created it via Local and switches to Shared, we
+                    //  need to re setup the project name, etc...
+                    if (String.IsNullOrEmpty(_strAdaptItProjectName) ||
+                        String.IsNullOrEmpty(_strAdaptItRepositoryServer))
+                        InitSharedOnlyFieldDefaults();
+
+                    // now we know which local AI project it is and it's EncConverter, but now
+                    //  we need to possibly push the project.
+                    DoPushPull(true, out strProjectFolder);
+                    if (!String.IsNullOrEmpty(strProjectFolder))
+                        _strAdaptItProjectFolderName = Path.GetFileNameWithoutExtension(strProjectFolder);
+                    Parent.Modified = true;
+                    return;
+                }
+            }
+
+            DoPushPull(doingPush, out strProjectFolder);
+            if (String.IsNullOrEmpty(strProjectFolder))
                 return;
 
-            if (res == DialogResult.No)
+            _strAdaptItProjectFolderName = Path.GetFileNameWithoutExtension(strProjectFolder);
+            Parent.Modified = true;
+
+            strConverterName = "Lookup in " + _strAdaptItProjectFolderName;
+            string strConverterSpec = Path.Combine(strProjectFolder,
+                                                   _strAdaptItProjectFolderName + ".xml");
+            theECs.AddConversionMap(strConverterName, strConverterSpec,
+                ConvType.Unicode_to_from_Unicode, EncConverters.strTypeSILadaptit,
+                "UNICODE", "UNICODE", ProcessTypeFlags.DontKnow);
+
+            theEc = theECs[strConverterName];
+            if (theEc == null)
             {
-                string strProjectFolder;
-                DoPushPull(out strProjectFolder);
-                if (String.IsNullOrEmpty(strProjectFolder))
-                    return;
-
-                _strAdaptItProjectFolderName = Path.GetFileNameWithoutExtension(strProjectFolder);
-                string strConverterName = "Lookup in " + _strAdaptItProjectFolderName;
-                string strConverterSpec = Path.Combine(strProjectFolder,
-                                                       _strAdaptItProjectFolderName + ".xml");
-                theECs.AddConversionMap(strConverterName, strConverterSpec,
-                    ConvType.Unicode_to_from_Unicode, EncConverters.strTypeSILadaptit,
-                    "UNICODE", "UNICODE", ProcessTypeFlags.DontKnow);
-
-                IEncConverter theEc = theECs[strConverterName];
-                if (theEc == null)
-                {
-                    LocalizableMessageBox.Show(Localizer.Str(@"Unable to create an AdaptIt glossing converter for the project! Are you missing the file <InstallDir>\EC\Plugins\AI 4.0.0.0 Plugin Details.xml"),
-                                               StoryEditor.OseCaption,
-                                               MessageBoxButtons.OKCancel);
-                    return;
-                }
-                AdaptItConverterName = theEc.Name;
+                LocalizableMessageBox.Show(Localizer.Str(@"Unable to create an AdaptIt glossing converter for the project! Are you missing the file <InstallDir>\EC\Plugins\AI 4.0.0.0 Plugin Details.xml"),
+                                           StoryEditor.OseCaption,
+                                           MessageBoxButtons.OKCancel);
+                return;
             }
-            else // the project *is* on this machine...
-            {
-                // first let's see if an AI Lookup transducer already exists with the
-                //  proper name
-                string strProjectFolder,
-                       strConverterName = AdaptItKBReader.AdaptItLookupConverterName(SourceLanguageName,
-                                                                                     TargetLanguageName);
-                IEncConverter theEc = null;
-                if (theECs.ContainsKey(strConverterName))
-                {
-                    theEc = theECs[strConverterName];
-                    if (theEc is AdaptItEncConverter)
-                    {
-                        AdaptItConverterName = theEc.Name;
-                        strProjectFolder =
-                            AdaptItGlossing.GetAiProjectFolderFromConverterIdentifier(theEc.ConverterIdentifier);
-                        res = LocalizableMessageBox.Show(String.Format(Localizer.Str("Is the shared Adapt It project in the '{0}' folder?"),
-                                                            strProjectFolder),
-                                              StoryEditor.OseCaption,
-                                              MessageBoxButtons.YesNoCancel);
-                        if (res == DialogResult.Cancel)
-                            return;
-
-                        if (res == DialogResult.No)
-                            theEc = null;
-
-                        // the 'yes' case falls through and skips the next if statement
-                        _strAdaptItProjectFolderName = Path.GetFileNameWithoutExtension(strProjectFolder);
-                    }
-                }
-
-                if (theEc == null)
-                {
-                    // this means we don't know which one it was, so query for which project 
-                    //  the user wants to share
-                    theEc = new AdaptItEncConverter();
-                    if (theECs.AutoConfigureEx(theEc,
-                                               ConvType.Unicode_to_from_Unicode,
-                                               ref strConverterName,
-                                               "UNICODE", "UNICODE"))
-                    {
-                        AdaptItConverterName = theEc.Name;
-                        _strAdaptItProjectFolderName =
-                            Path.GetFileNameWithoutExtension(
-                                AdaptItGlossing.GetAiProjectFolderFromConverterIdentifier(theEc.ConverterIdentifier));
-                    }
-                    else
-                        return;
-                }
-
-                // in case the user has just created it via Local and switches to Shared, we
-                //  need to re setup the project name, etc...
-                if (String.IsNullOrEmpty(_strAdaptItProjectName) || 
-                    String.IsNullOrEmpty(_strAdaptItRepositoryServer))
-                    InitSharedOnlyFieldDefaults();
-
-                // now we know which local AI project it is and it's EncConverter, but now
-                //  we need to possibly push the project.
-                DoPushPull(out strProjectFolder);
-                if (!String.IsNullOrEmpty(strProjectFolder))
-                    _strAdaptItProjectFolderName = Path.GetFileNameWithoutExtension(strProjectFolder);
-            }
+            AdaptItConverterName = theEc.Name;
         }
 
-        private void DoPushPull(out string strProjectFolder)
+        private void DoPushPull(bool? doingPush, out string strProjectFolder)
         {
             strProjectFolder = null;
             var dlg = new AiRepoSelectionForm
@@ -359,7 +386,8 @@ namespace OneStoryProjectEditor
                               InternetAddress = _strAdaptItRepositoryServer,
                               NetworkAddress = _strAdaptItNetworkRepositoryPath,
                               ProjectName = _strAdaptItProjectName,
-                              Parent = Parent
+                              Parent = Parent,
+                              DoingPush = doingPush
                           };
 
             try
