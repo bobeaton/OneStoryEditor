@@ -3112,12 +3112,16 @@ namespace OneStoryProjectEditor
                 {
                     string strRecentFile = Settings.Default.RecentProjects[i];
                     ToolStripItem tsi = projectRecentProjectsMenu.DropDownItems.Add(strRecentFile, null, recentProjectsToolStripMenuItem_Click);
-                    //tsi.ToolTipText = String.Format(Localizer.Str("Located in folder '{0}'"),
-                    //                                Settings.Default.RecentProjectPaths[i]);
-                    string toolTipMsg = String.Format("Located in folder {0} \n" +
-                                                      "Hold the control key when you click here to open this project in a new window",
-                                                      Settings.Default.RecentProjectPaths[i], "");
-                    tsi.ToolTipText = String.Format(Localizer.Str(toolTipMsg), "");
+                    if ((StoryProject?.ProjSettings != null) && (StoryProject.ProjSettings.ProjectName == strRecentFile))
+                    {
+                        tsi.ToolTipText = String.Format(Localizer.Str("Located in folder '{0}'"),
+                                                        Settings.Default.RecentProjectPaths[i]);
+                    }
+                    else
+                    {
+                        tsi.ToolTipText = String.Format(Localizer.Str("Located in folder {1}{0}Hold the control key when you click here to open this project in a new window"),
+                                                        Environment.NewLine, Settings.Default.RecentProjectPaths[i]);
+                    }
                 }
 
                 projectRecentProjectsMenu.Enabled = (projectRecentProjectsMenu.DropDownItems.Count > 0);
