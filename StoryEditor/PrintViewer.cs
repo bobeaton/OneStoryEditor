@@ -18,6 +18,9 @@ namespace OneStoryProjectEditor
         {
             InitializeComponent();
             Localizer.Ctrl(this);
+
+            // Irene wants this disabled since it apparently doesn't work the way she wants:
+            buttonExportWord.Visible = false;
         }
 
         private void ButtonSaveHtmlClick(object sender, EventArgs e)

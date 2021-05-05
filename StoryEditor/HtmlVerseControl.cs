@@ -203,7 +203,7 @@ namespace OneStoryProjectEditor
         private void HtmlConNoteControl_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             if (!String.IsNullOrEmpty(StrIdToScrollTo))
-                ScrollToElement(StrIdToScrollTo, false);
+                ScrollToElement(StrIdToScrollTo, true);
         }
 
         protected VerseData GetVerseData(int nLineIndex)
@@ -223,6 +223,8 @@ namespace OneStoryProjectEditor
                 HtmlElement elem = doc.GetElementById(strElemName);
                 if (elem != null)
                 {
+                    // for some reason, there's an event waiting that wants to bring the doc to the top... so let that run first...
+                    Application.DoEvents();
                     elem.ScrollIntoView(bAlignWithTop);
                     if (!bAlignWithTop)
                         elem.Focus();

@@ -309,6 +309,8 @@ namespace OneStoryProjectEditor
                                                                                      theCNDC.Count - 1);
             }
 
+#if false   // this doesn't really help (it makes it want to bring either the editable box (if reopening) or the
+            // the now readonly final box (if closed) to either the top or bottom... jumps around too much
             if (elemButton.InnerText != ConsultNoteDataConverter.CstrButtonLabelConversationReopen)
             {
                 StrIdToScrollTo = ConsultNoteDataConverter.TextareaId(nVerseIndex, nConversationIndex);
@@ -317,7 +319,7 @@ namespace OneStoryProjectEditor
             {
                 StrIdToScrollTo = ConsultNoteDataConverter.TextareaReadonlyRowId(nVerseIndex, nConversationIndex, theCNDC.Count - 1);
             }
-
+#endif
             LoadDocument();
             return true;
         }
