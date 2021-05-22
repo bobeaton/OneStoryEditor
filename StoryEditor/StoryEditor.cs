@@ -1158,7 +1158,7 @@ namespace OneStoryProjectEditor
                 //  we don't not reset the view for this new project settings (which
                 //  calls SetViews during the SelectedItem handler below)
                 bool bUseForAllStories = viewUseSameSettingsForAllStoriesMenu.Checked;
-                viewUseSameSettingsForAllStoriesMenu.Checked = false;
+                viewUseSameSettingsForAllStoriesMenu.Checked = true;
 
                 if (!String.IsNullOrEmpty(strStoryToLoad) && comboBoxStorySelector.Items.Contains(strStoryToLoad))
                     JumpToStory(strStoryToLoad);
