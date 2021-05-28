@@ -2,14 +2,10 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
-using Chorus.sync;
 using Chorus.UI.Clone;
-using Chorus.UI.Sync;
-using Chorus.VcsDrivers;
 using Microsoft.Win32;
 using NetLoc;
 using SilEncConverters40;
@@ -361,15 +357,15 @@ namespace OneStoryProjectEditor
                     Directory.CreateDirectory(strAiWorkFolder);
 
                 string strAiProjectFolderName = Path.GetFileNameWithoutExtension(strProjectFolder);
-                var strServerLabel = RepositoryServer;
-                if (String.IsNullOrEmpty(strServerLabel))
-                    strServerLabel = Properties.Resources.IDS_DefaultRepoServer;
+                var url = RepositoryServer;
+                if (String.IsNullOrEmpty(url))
+                    url = Properties.Resources.IDS_DefaultRepoUrl;
 
                 var model = new GetCloneFromInternetModel(strAiWorkFolder)
                 {
                     // to edit an existing, LocalFolderName, Username, Password, and call InitFromUri
                     ProjectId = RepoProjectName,
-                    // SelectedServerLabel = strServerLabel,
+                    CustomUrl = url,
                     LocalFolderName = strAiProjectFolderName,
                     Username = strHgUsername,
                     Password = strHgPassword,

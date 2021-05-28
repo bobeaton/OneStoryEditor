@@ -9,8 +9,6 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using Chorus.sync;
-using Chorus.UI.Sync;
-using Chorus.VcsDrivers;
 using Chorus.VcsDrivers.Mercurial;
 using Microsoft.Win32;
 using SIL.Progress;
@@ -24,6 +22,7 @@ using SIL.Keyboarding;
 using SIL.Windows.Forms.Reporting;
 using System.Linq;
 using Chorus.Model;
+using Chorus.UI.Sync;
 
 namespace OneStoryProjectEditor
 {
@@ -165,6 +164,11 @@ namespace OneStoryProjectEditor
                 SIL.Windows.Forms.Keyboarding.KeyboardController.Shutdown();
 #endif
             }
+        }
+
+        public static string UpgradeCacheDir
+        {
+            get { return Path.Combine(Application.UserAppDataPath, "upgrade-cache"); }
         }
 
         public static void ActivateDefaultKeyboard()
@@ -405,7 +409,7 @@ namespace OneStoryProjectEditor
         public static Dictionary<string, string> MapSwordModuleToFont;
         public static Dictionary<string, string> MapSwordModuleToEncryption;
         
-        public const string CstrChorusPathForInternetRepoName = "languageForge.org";
+        public const string CstrChorusPathForInternetRepoName = "languageforge.org";
         public const string CstrNetworkDriveName = "Network Drive";
 
         private static EventWaitHandle EventForProjectName;
@@ -746,7 +750,8 @@ namespace OneStoryProjectEditor
                 var nullProgress = new NullProgress();
                 var repo = new HgRepository(strProjectFolder, nullProgress);
                 var paths = repo.GetRepositoryPathsInHgrc().ToList();
-                var pathToInternet = paths.FirstOrDefault(path => path.Name.Contains(CstrChorusPathForInternetRepoName));
+                var pathToInternet = paths.FirstOrDefault(path => path.Name.ToLower().Contains(CstrChorusPathForInternetRepoName)) ??
+                                     paths.FirstOrDefault();    // just in case someone is using their own repo, let's give it a try
 #if NeedToAddInternetAsAPath
                 string strRepoUrl;
                 if (pathInternet == null)
@@ -760,13 +765,20 @@ namespace OneStoryProjectEditor
 #else
                 var strRepoUrl = pathToInternet?.URI;
 #endif
-                if (!repo.GetCanConnectToRemote(strRepoUrl, nullProgress))
+                if (String.IsNullOrEmpty(strRepoUrl))
+                {
+                    throw new ApplicationException(String.Format(Localizer.Str("The repository config file:{0}'{1}\\.hg\\hgrc'{0}{0}doesn't contain a path to the server to use for this project. It should contain something like:{0}{0}[paths]{0}hg-private.languageforge.org = https://hg-private.languageforge.org/{2}{0}Click 'Project', 'Settings' and see if you can configure it with the Internet Repository 'Configure' button"),
+                                                                 Environment.NewLine, strProjectFolder, strProjectName));
+                }
+                else if (!repo.GetCanConnectToRemote(strRepoUrl, nullProgress))
+                {
                     if (UserCancelledNotConnectToInternetWarning)
                     {
                         strRepoUrl = null;
                         if (paths.FirstOrDefault(path => path.Name == CstrNetworkDriveName) == null)
                             return;
                     }
+                }
 
                 // for when we launch the program, just do a quick & dirty send/receive, 
                 //  but for closing (or if we have a network drive also), then we want to 

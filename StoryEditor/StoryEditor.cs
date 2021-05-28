@@ -15,7 +15,6 @@ using System.Windows.Forms;
 using System.IO;
 using System.Xml.XPath;
 using System.Xml.Xsl;
-using Chorus.UI.Clone;
 using ECInterfaces;
 using Microsoft.Win32;
 using OneStoryProjectEditor.Properties;
@@ -25,8 +24,8 @@ using devX;
 using Control=System.Windows.Forms.Control;
 using Timer=System.Windows.Forms.Timer;
 using NetLoc;
-using SIL.Reporting;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
+using Chorus.UI.Clone;
 #if EmbedSayMore
 using SayMore.UI.SessionRecording;
 #endif

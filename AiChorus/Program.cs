@@ -18,6 +18,7 @@ namespace AiChorus
     {
         public const string CstrApplicationTypeOse = "OneStory Editor";
         public const string CstrApplicationTypeAi = "Adapt It";
+        private const string KeyFileName = "gdck.dat";
 
         /// <summary>
         /// The main entry point for the application.
@@ -29,9 +30,9 @@ namespace AiChorus
             Application.SetCompatibleTextRenderingDefault(false);
 
 #if encryptingNewCredentials
-            var specialDecryptionKey = File.ReadAllText("gdck.dat");
-            var clientId = EncryptionClass.Encrypt(..., specialDecryptionKey);
-            var clientSecret = EncryptionClass.Encrypt(..., specialDecryptionKey);
+            var specialEncryptionKey = File.ReadAllText(KeyFileName);
+            var clientId = EncryptionClass.Encrypt(..., specialEncryptionKey);
+            var clientSecret = EncryptionClass.Encrypt(..., specialEncryptionKey);
 #endif
 
             if (Settings.Default.UpgradeSettings)
@@ -70,9 +71,9 @@ namespace AiChorus
         {
             LogMessage(String.Format("Harvesting data from the projects in the .cpc file: '{0}'", strPathToProjectFile));
 
-            if (!File.Exists("gdck.dat"))
+            if (!File.Exists(KeyFileName))
             {
-                LogMessage($"Missing the keyfile, 'gdck.dat'!");
+                LogMessage($"Missing the keyfile, '{KeyFileName}'!");
             }
 
             var chorusConfig = ChorusConfigurations.Load(strPathToProjectFile);
@@ -91,7 +92,7 @@ namespace AiChorus
             }
 
 #if !UsingCsvAndDrive
-            var specialDecryptionKey = File.ReadAllText("gdck.dat");
+            var specialDecryptionKey = File.ReadAllText(KeyFileName);
             var clientId = EncryptionClass.Decrypt(Settings.Default.GoogleSheetsCredentialsClientId, specialDecryptionKey);
             var clientSecret = EncryptionClass.Decrypt(Settings.Default.GoogleSheetsCredentialsClientSecret, specialDecryptionKey);
             GoogleSheetHandler.UpdateGoogleSheet(mapProjectsToProjectData, serverSetting.GoogleSheetId,
