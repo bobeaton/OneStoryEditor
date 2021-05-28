@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using Chorus.Model;
 using Chorus.UI.Clone;
+using Chorus.UI.Misc;
 using ECInterfaces;
 using NetLoc;
 using SilEncConverters40;
@@ -61,8 +63,12 @@ namespace OneStoryProjectEditor
                 _adaptItConfiguration.ConverterName = AdaptItConverterName;
                 _adaptItConfiguration.ProjectFolderName = _strAdaptItProjectFolderName;
                 _adaptItConfiguration.RepoProjectName = GetProjectNameOrDefault(eType);
+#if UseAiRepoSelectionForm
                 _adaptItConfiguration.RepositoryServer = _strAdaptItRepositoryServer;
                 _adaptItConfiguration.NetworkRepositoryPath = _strAdaptItNetworkRepositoryPath;
+#else
+                _adaptItConfiguration.RepositoryServer = _adaptItRepositoryUrl;
+#endif
                 return _adaptItConfiguration;
             }
             set
@@ -73,8 +79,12 @@ namespace OneStoryProjectEditor
                     AdaptItConverterName = _adaptItConfiguration.ConverterName;
                     _strAdaptItProjectFolderName = _adaptItConfiguration.ProjectFolderName;
                     _strAdaptItProjectName = _adaptItConfiguration.RepoProjectName;
+#if UseAiRepoSelectionForm
                     _strAdaptItRepositoryServer = _adaptItConfiguration.RepositoryServer;
                     _strAdaptItNetworkRepositoryPath = _adaptItConfiguration.NetworkRepositoryPath;
+#else
+                    _adaptItRepositoryUrl = _adaptItConfiguration.RepositoryServer;
+#endif
                     AdaptItProjectType = _adaptItConfiguration.ProjectType;
                     System.Diagnostics.Debug.Assert(_adaptItConfiguration.BtDirection == BtDirection);
                 }
@@ -82,7 +92,11 @@ namespace OneStoryProjectEditor
                 {
                     textBoxProjectPath.Clear();
                     AdaptItProjectType = ProjectSettings.AdaptItConfiguration.AdaptItProjectType.None;
-                    AdaptItConverterName = _strAdaptItNetworkRepositoryPath = null;
+                    AdaptItConverterName =
+#if UseAiRepoSelectionForm
+_strAdaptItNetworkRepositoryPath = 
+#endif
+                        null;
                     InitSharedOnlyFieldDefaults();
                 }
             }
@@ -91,14 +105,23 @@ namespace OneStoryProjectEditor
         private void InitSharedOnlyFieldDefaults()
         {
             _strAdaptItProjectName = GetProjectNameOrDefault(AdaptItProjectType);
+#if UseAiRepoSelectionForm
             _strAdaptItRepositoryServer = Properties.Resources.IDS_DefaultRepoServer;
+#else
+            _adaptItRepositoryUrl = Properties.Resources.IDS_DefaultRepoUrl;
+#endif
         }
 
         private void ResetSharedOnlyFields()
         {
-            _strAdaptItProjectName = 
+            _strAdaptItProjectName =
+#if UseAiRepoSelectionForm
                 _strAdaptItRepositoryServer = 
-                _strAdaptItNetworkRepositoryPath = null;
+                _strAdaptItNetworkRepositoryPath = 
+#else
+                _adaptItRepositoryUrl = 
+#endif
+                    null;
         }
 
         private string AdaptItConverterName
@@ -109,8 +132,12 @@ namespace OneStoryProjectEditor
 
         private string _strAdaptItProjectFolderName;
         private string _strAdaptItProjectName;
+#if UseAiRepoSelectionForm
         private string _strAdaptItRepositoryServer;
         private string _strAdaptItNetworkRepositoryPath;
+#else
+        private string _adaptItRepositoryUrl;
+#endif
 
         private string GetProjectNameOrDefault(ProjectSettings.AdaptItConfiguration.AdaptItProjectType eType)
         {
@@ -264,7 +291,13 @@ namespace OneStoryProjectEditor
             IEncConverter theEc = null;
             string strProjectFolder, strConverterName;
 
-            if (String.IsNullOrEmpty(_strAdaptItProjectName) || String.IsNullOrEmpty(_strAdaptItRepositoryServer))
+            if (String.IsNullOrEmpty(_strAdaptItProjectName)
+#if UseAiRepoSelectionForm
+                || String.IsNullOrEmpty(_strAdaptItRepositoryServer)
+#else
+                || String.IsNullOrEmpty(_adaptItRepositoryUrl)
+#endif
+            )
             {
                 // means it isn't initialized
                 DialogResult res = LocalizableMessageBox.Show(Localizer.Str("Is the shared Adapt It project on your computer now? (click 'Yes' to browse for it; click 'No' to enter the repository information for it)"),
@@ -338,9 +371,16 @@ namespace OneStoryProjectEditor
 
                     // in case the user has just created it via Local and switches to Shared, we
                     //  need to re setup the project name, etc...
-                    if (String.IsNullOrEmpty(_strAdaptItProjectName) ||
-                        String.IsNullOrEmpty(_strAdaptItRepositoryServer))
+                    if (String.IsNullOrEmpty(_strAdaptItProjectName)
+#if UseAiRepoSelectionForm
+                        || String.IsNullOrEmpty(_strAdaptItRepositoryServer)
+#else
+                        || String.IsNullOrEmpty(_adaptItRepositoryUrl)
+#endif
+                    )
+                    {
                         InitSharedOnlyFieldDefaults();
+                    }
 
                     // now we know which local AI project it is and it's EncConverter, but now
                     //  we need to possibly push the project.
@@ -379,7 +419,14 @@ namespace OneStoryProjectEditor
 
         private void DoPushPull(bool? doingPush, out string strProjectFolder)
         {
-            strProjectFolder = null;
+#if !UseAiRepoSelectionForm
+            if (doingPush == true)
+                DoPush(out strProjectFolder);
+            else if (doingPush == false)
+                DoPull(out strProjectFolder);
+            else
+                strProjectFolder = null;
+#else
             var dlg = new AiRepoSelectionForm
                           {
                               SourceLanguageName = SourceLanguageName,
@@ -409,8 +456,96 @@ namespace OneStoryProjectEditor
                     ((ex.InnerException != null) ? ex.InnerException.Message : ""), ex.Message);
                 LocalizableMessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
             }
-        }
 #endif
+        }
+
+        private void DoPush(out string strProjectFolder)
+        {
+            string strAiWorkFolder;
+            string strProjectFolderName;
+            GetAiRepoSettings(out strAiWorkFolder, out strProjectFolderName);
+            strProjectFolder = Path.Combine(strAiWorkFolder, strProjectFolderName);
+
+            var model = new ServerSettingsModel()
+            {
+                Username = Parent?.LoggedInMember?.HgUsername,
+                Password = Parent?.LoggedInMember?.HgPassword,
+                HasLoggedIn = true
+            };
+            model.InitFromProjectPath(strProjectFolder);
+            var dlg = new ServerSettingsDialog(model);
+            dlg.ShowDialog();
+            _strAdaptItProjectFolderName = strProjectFolderName;
+            _strAdaptItProjectName = model.URL;
+        }
+
+        private bool GetAiRepoSettings(out string strAiWorkFolder, out string strProjectFolderName)
+        {
+            // e.g. <My Documents>\Adapt It Unicode Work
+            strAiWorkFolder = AdaptItKBReader.AdaptItWorkFolder;
+
+            // e.g. "Kangri to Hindi adaptations"
+            strProjectFolderName = String.Format(Properties.Resources.IDS_AdaptItProjectFolderFormat,
+                                                 SourceLanguageName, TargetLanguageName);
+
+            return true;
+        }
+
+        private void DoPull(out string strProjectFolder)
+        {
+            string strAiWorkFolder;
+            string strProjectFolderName;
+            GetAiRepoSettings(out strAiWorkFolder, out strProjectFolderName);
+
+            var projectId = LocalizableMessageBox.InputBox(
+                Localizer.Str(String.Format("Enter the repository id for the Adapt it project in '{0}\\{1}' (e.g. aikb-hindi-english)",
+                                            strAiWorkFolder, strProjectFolderName)),
+                StoryEditor.OseCaption, "");
+
+            if (String.IsNullOrEmpty(projectId))
+            {
+                strProjectFolder = null;
+                return;
+            }
+
+            if (!Directory.Exists(strAiWorkFolder))
+                Directory.CreateDirectory(strAiWorkFolder);
+
+            var model = new GetCloneFromInternetModel(strAiWorkFolder)
+            {
+                Username = Parent?.LoggedInMember?.HgUsername,
+                Password = Parent?.LoggedInMember?.HgPassword,
+                ProjectId = projectId,
+                LocalFolderName = strProjectFolderName
+            };
+
+            using (var dlg = new GetCloneFromInternetDialog(model))
+            {
+                if (DialogResult.OK == dlg.ShowDialog())
+                {
+                    strProjectFolder = _strAdaptItProjectFolderName = dlg.PathToNewlyClonedFolder;
+                    _strAdaptItProjectName = model.ProjectId;
+                    
+                    // here (with pull) is one of the few places we actually query the user
+                    //  for a username/password. Currently, the code assumes that they will
+                    //  be the same as the project account, so make sure that's the case
+                    if ((Parent != null) && (Parent.LoggedInMember != null))
+                    {
+                        // in the case that the project isn't being used on the internet, but
+                        //  the AdaptIt project is, then set the username/password for it.
+                        if (String.IsNullOrEmpty(Parent.LoggedInMember.HgUsername))
+                            Parent.LoggedInMember.HgUsername = model.Username;
+
+                        if (String.IsNullOrEmpty(Parent.LoggedInMember.HgPassword))
+                            Parent.LoggedInMember.HgPassword = model.Password;
+                    }
+
+                    Program.SetAiProjectForSyncage(_strAdaptItProjectFolderName, _strAdaptItProjectName);
+                }
+                else
+                    strProjectFolder = null;
+            }
+        }
 
         private void radioButtonNone_Click(object sender, EventArgs e)
         {

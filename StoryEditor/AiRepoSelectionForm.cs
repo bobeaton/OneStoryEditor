@@ -17,8 +17,10 @@ namespace OneStoryProjectEditor
             InitializeComponent();
             Localizer.Ctrl(this);
 
+#if UseUrlsWithChorus
             foreach (string strServerLabel in Program.MapServerToUrlHost.Keys)
                 comboBoxServer.Items.Add(strServerLabel);
+#endif
         }
 
         public string InternetAddress
@@ -83,10 +85,14 @@ namespace OneStoryProjectEditor
 
         public static string GetFullInternetAddress(string strServer, string strProjectName)
         {
-            string strInternetAddress;
+            string strInternetAddress = null;
             if (String.IsNullOrEmpty(strProjectName) 
                 || String.IsNullOrEmpty(strServer)
+#if UseUrlsWithChorus
                 || String.IsNullOrEmpty(strInternetAddress = Program.LookupRepoUrlHost(strServer)))
+#else
+                )
+#endif
                 return null;
 
             return String.Format("{0}/{1}", strInternetAddress, strProjectName);
@@ -127,13 +133,12 @@ namespace OneStoryProjectEditor
 
         private void DoPush()
         {
-            string strAiWorkFolder, strProjectFolderName, strHgUsername, strHgPassword;
-            if (!GetAiRepoSettings(out strAiWorkFolder,
-                out strProjectFolderName, out strHgUsername, out strHgPassword))
+            string strAiWorkFolder, strProjectFolderName;
+            if (!GetAiRepoSettings(out strAiWorkFolder, out strProjectFolderName))
                 return;
 
 #if !UseUrlsWithChorus
-            Program.SyncWithAiRepository(ProjectFolder, ProjectName, true);
+            Program.SyncWithAiRepository(ProjectFolder, ProjectName, true, true);
 #else
             ProjectFolder = Path.Combine(strAiWorkFolder, strProjectFolderName);
             var dlg = new HgRepoForm
@@ -279,8 +284,9 @@ namespace OneStoryProjectEditor
                 return;
 
             ProjectFolder = Path.Combine(strAiWorkFolder, strProjectFolderName);
-            Program.SetAdaptItHgParametersNetworkDrive(ProjectFolder, ProjectName, NetworkAddress);
-            Program.SyncWithAiRepository(ProjectFolder, ProjectName, true);
+            // not supported yet w/ the new Chorus:
+            // Program.SetAdaptItHgParametersNetworkDrive(ProjectFolder, ProjectName, NetworkAddress);
+            Program.SyncWithAiRepository(ProjectFolder, ProjectName, true, true);
         }
 
         private Regex FilterProjectName = new Regex("[A-Z]");
@@ -309,6 +315,7 @@ namespace OneStoryProjectEditor
             if (DoingPush == null)
             {
                 buttonPullFromInternet.Visible = true;
+                buttonPullFromInternet.Enabled = checkBoxInternet.Checked;
             }
             else
             {

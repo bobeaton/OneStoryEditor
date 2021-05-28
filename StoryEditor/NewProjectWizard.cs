@@ -1517,8 +1517,23 @@ namespace OneStoryProjectEditor
                 HasLoggedIn = true
             };
             model.InitFromProjectPath(ProjSettings.ProjectFolder);
+
             var dlg = new ServerSettingsDialog(model);
-            dlg.ShowDialog();
+            var result = dlg.ShowDialog();
+
+            if ((result == DialogResult.OK) && (LoggedInMember != null))
+            {
+                if (model.Username != LoggedInMember.HgUsername)
+                {
+                    LoggedInMember.HgUsername = model.Username;
+                    Modified = true;
+                }
+                if (model.Password != LoggedInMember.HgPassword)
+                {
+                    LoggedInMember.HgPassword = model.Password;
+                    Modified = true;
+                }
+            }
         }
     }
 
