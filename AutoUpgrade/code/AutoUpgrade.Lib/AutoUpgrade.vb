@@ -1,20 +1,16 @@
-#Const UseFluentFtp = True
+' #Const UseFluentFtp = True
+#Const UsingCSwordRemoteManager = True
 
-Imports System.Runtime.InteropServices
-Imports System
 Imports System.Xml.Serialization
 Imports System.Net
 Imports System.Security.Cryptography.X509Certificates
-Imports System.Security.Policy
-Imports System.Net.Security
 Imports System.Globalization
 Imports System.Windows.Forms
 Imports System.IO
 Imports System.Collections.Generic
-Imports System.Security.Cryptography
 #If UseFluentFtp Then
 Imports FluentFTP
-#Else
+#ElseIf Not UsingCSwordRemoteManager Then
 Imports Starksoft.Net.Ftp
 #End If
 Imports Ionic.Zip
@@ -1157,7 +1153,7 @@ Namespace devX
                 Else
                     ' Caller is an application, append "upgrade-cache" to BaseDirectory
                     ' Return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "upgrade-cache")
-                    Return Path.Combine(System.Windows.Forms.Application.UserAppDataPath, "upgrade-cache")
+                    Return Path.Combine(Application.UserAppDataPath, "upgrade-cache")
                 End If
             End Get
         End Property
@@ -1197,7 +1193,41 @@ Namespace devX
             Return downloader
         End Function
 
-#If UseFluentFtp Then
+#If UsingCSwordRemoteManager Then
+        Public Function AddModuleToManifest(swordConfigFileSpec As String, swordDataFileSpecs As List(Of String)) As Boolean
+
+            ' copy the downloaded (temporary) mods file to the proper path
+            AddToManifest(UpgradeDirectory, swordConfigFileSpec)
+
+            For Each fileSpec As String In swordDataFileSpecs
+                ' create the local path for the data files
+                AddToManifest(UpgradeDirectory, fileSpec)
+            Next
+
+        End Function
+
+        <CLSCompliant(False)>
+        Public Sub AddToManifest(strRootPath As String, fileSpec As String)
+            Dim newFileEntry As File = New File With {
+                .Action = File.UpgradeAction.copy
+            }
+
+            ' Store name and path relative to strPath
+            Dim strFile As String = GetLocalPath(strRootPath, fileSpec)
+            newFileEntry.Name = strFile.Substring(strRootPath.Length + 1)
+
+            newFileEntry.Size = New FileInfo(fileSpec).Length
+
+            newFileEntry.Version = Nothing
+            ' GetMd5Hash(strFile) file doesn't exist locally at this point, so can't do this
+
+            ' sword files will never have a version, so just say it's a one-off (copy if not there)
+            newFileEntry.Method = File.CompareMethod.OneOff
+
+            ManifestFiles.Add(newFileEntry)
+
+        End Sub
+#ElseIf UseFluentFtp Then
         <CLSCompliant(False)>
         Public Function AddModuleToManifest(ftp As FtpClient, ftpItemModsD As FtpListItem, strRemoteDataFolder As String) As Boolean
 
@@ -1264,26 +1294,6 @@ Namespace devX
             ManifestFiles.Add(newFileEntry)
 
         End Sub
-#Else
-        Public Sub AddToManifest(strRootPath As String, ftpFile As FtpItem)
-            Dim newFileEntry As File = New File()
-            newFileEntry.Action = File.UpgradeAction.copy
-
-            ' Store name and path relative to strPath
-            Dim strFile As String = GetLocalPath(strRootPath, ftpFile.FullPath)
-            newFileEntry.Name = strFile.Substring(strRootPath.Length + 1)
-
-            newFileEntry.Size = ftpFile.Size
-
-            newFileEntry.Version = Nothing
-            ' GetMd5Hash(strFile) file doesn't exist locally at this point, so can't do this
-
-            ' sword files will never have a version, so just say it's a one-off (copy if not there)
-            newFileEntry.Method = File.CompareMethod.OneOff
-
-            ManifestFiles.Add(newFileEntry)
-
-        End Sub
 #End If
         ' Run the AutoUpgrade.EXE stub (with elevated privilege) to copy the files into the protected folder.
         Public Sub PrepareModuleForInstall()
@@ -1316,8 +1326,13 @@ Namespace devX
             IO.File.Copy(Path.Combine(ApplicationBasePath, LIBDLL_FILENAME), _
                          Path.Combine(UpgradeDirectory, LIBDLL_FILENAME), True)
 
+#If UsingCSwordRemoteManager Then
+            ' since we've already downloaded the files, all we need to do is create the 'I'm done downloading' file so OSE knows it's ready
+            IO.File.Create(Path.Combine(UpgradeDirectory, DownloadCompleteFileSpec))
+#Else
             ' Download files to upgrade-cache directory
             DownloadFiles(False)
+#End If
         End Sub
 
         Public Shared Sub LaunchUpgrade()

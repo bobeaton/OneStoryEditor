@@ -91,15 +91,19 @@ namespace OneStoryProjectEditor
             Properties.Settings.Default.Save();
         }
 
-        private void ScrollToElement(int nElemName)
+        private bool ScrollToElement(int nElemName)
         {
             if (webBrowser.Document != null)
             {
                 HtmlDocument doc = webBrowser.Document;
                 HtmlElement elem = doc.GetElementById(NetBibleViewer.CommentaryHeader + nElemName.ToString());
                 if (elem != null)
+                {
                     elem.ScrollIntoView(true);
+                    return true;
+                }
             }
+            return false;
         }
 
         private int _nNumResources = 0;
@@ -116,7 +120,8 @@ namespace OneStoryProjectEditor
         private void buttonNext_Click(object sender, EventArgs e)
         {
             _nIndexToScrollTo = Math.Min(++_nIndexToScrollTo, NumberOfResources - 1);
-            ScrollToElement(_nIndexToScrollTo);
+            while (!ScrollToElement(_nIndexToScrollTo) && (++_nIndexToScrollTo <= NumberOfResources - 1))
+                ;
 
             UpdateButtonEnabledState(false);
         }
@@ -124,7 +129,8 @@ namespace OneStoryProjectEditor
         private void buttonPrev_Click(object sender, EventArgs e)
         {
             _nIndexToScrollTo = Math.Max(--_nIndexToScrollTo, 0);
-            ScrollToElement(_nIndexToScrollTo);
+            while (!ScrollToElement(_nIndexToScrollTo) && (--_nIndexToScrollTo >= 0))
+                ;
 
             UpdateButtonEnabledState(false);
         }

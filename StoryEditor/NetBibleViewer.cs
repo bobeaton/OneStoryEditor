@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
@@ -10,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using NetLoc;
+using Sword;
 
 namespace OneStoryProjectEditor
 {
@@ -83,9 +83,8 @@ namespace OneStoryProjectEditor
         #endregion
 
         #region "Defines for Sword capability"
-        MarkupFilterMgr filterManager;
-        SWMgr manager;
-        SWModule moduleVersion;
+        Manager manager;
+        Module moduleVersion;
         NetBibleFootnoteTooltip tooltipNBFNs;
         int m_nBook = 0, m_nChapter = 0, m_nVerse = 0;
         // protected const string CstrNetFreeModuleName = "NETfree";
@@ -93,22 +92,9 @@ namespace OneStoryProjectEditor
         protected const string CstrOtherSwordModules = "Other";
         protected const string CstrRadioButtonPrefix = "radioButton";
 
-        public class SwordResource
-        {
-            internal string Name;
-            internal string Description;
-            internal bool Loaded;
-
-            internal SwordResource(string strName, string strDescription, bool bLoaded)
-            {
-                Name = strName;
-                Description = strDescription;
-                Loaded = bLoaded;
-            }
-        }
-
-        protected List<SwordResource> lstBibleResources = new List<SwordResource>();
-        protected List<SWModule> lstBibleCommentaries = new List<SWModule>();
+        public const string ModInfoDeltaLoaded = "Loaded";  // since we don't use the Delta field for anything, let's use it to indicate whether it's loaded or not
+        protected List<ModInfo> lstBibleResources = new List<ModInfo>();
+        protected List<Module> lstBibleCommentaries = new List<Module>();
 
         protected static char[] achAnchorDelimiters = new char[] { ' ', ':' };
         protected List<string> lstModulesToSuppress = new List<string>
@@ -118,7 +104,7 @@ namespace OneStoryProjectEditor
 
         internal static Dictionary<string, string> MapBookNames;
 
-        #endregion
+#endregion
 
         public NetBibleViewer()
         {
@@ -302,70 +288,53 @@ namespace OneStoryProjectEditor
             }
         }
 
-        #region "Code for Sword support"
+        public const string SwordResourceCategoryBiblicalText = "Biblical Texts";
+        public const string SwordResourcePathSubfolderName = "SWORD";
+
+#region "Code for Sword support"
         protected void InitializeSword()
         {
             // Initialize Module Variables
-            filterManager = new MarkupFilterMgr((char)Sword.FMT_HTMLHREF, (char)Sword.ENC_HTML);
-
-            /* NOTE: GC.SuppressFinalize(filterManager);
-			 *  This must be placed here so the garbage collector (GC) doesn't try to clean up
-			 * something that was already cleaned up.  If this is not left in an error will
-			 * occur when the application closes.  This happens because when the SWMgr is
-			 * cleaned by the GC it cleans its own filter and removes it from memory.  When
-			 * the GC then tries to clean up the filterManager object it doesn't really
-			 * exist in memory anymore and therefore it throws an exception saying some
-			 * memory is probably corrupt because this object points to trash in memory.
-			 * -Richard Parsons 11-21-2006
-			 */
-            GC.SuppressFinalize(filterManager);
-
-            manager = new SWMgr(filterManager);
+            manager = new Manager(SwordResourcePathSubfolderName, MarkupFilter.FMT_HTMLHREF, TextEncoding.ENC_HTML);
             if (manager == null)
                 throw new ApplicationException("Unable to create the Sword utility manager");
 
-            /*
-            var strPath = Path.Combine(StoryProjectData.GetRunningFolder, "SWORD");
-            manager.augmentModules(strPath);
-            var paths = GetModuleLocations();
-            foreach (string strPath in paths)
-                manager.augmentModules(strPath);
-            */
-
             // first determine all the possible resources available
-            var moduleMap = manager.getModules();
-            int numOfModules = moduleMap.Count;
-            for (int i = 0; i < numOfModules; i++)
+            var moduleMap = manager.GetModInfoList();
+            foreach (var modInfo in moduleMap)
             {
-                var moduleAt = manager.getModuleAt(i);
-                string strModuleName = moduleAt.Name();
+                var strModuleName = modInfo.Name;
                 if (lstModulesToSuppress.Contains(strModuleName))
                     continue;
 
-                if (manager.getModuleAt(i).Type().Equals("Biblical Texts"))
+                if (modInfo.Category == SwordResourceCategoryBiblicalText)
                 {
-                    string strModuleDesc = moduleAt.Description();
+                    string strModuleDesc = modInfo.Description;
                     if (Properties.Settings.Default.SwordModulesUsed.Contains(strModuleName))
                     {
-                        lstBibleResources.Add(new SwordResource(strModuleName, strModuleDesc, true));
+                        modInfo.Delta = ModInfoDeltaLoaded;
+                        lstBibleResources.Add(modInfo);
                         InitSwordResourceRadioButton(strModuleName, strModuleDesc);
                     }
                     else
-                        lstBibleResources.Add(new SwordResource(strModuleName, strModuleDesc, false));
+                    {
+                        modInfo.Delta = null;
+                        lstBibleResources.Add(modInfo);
+                    }
 
                     // if the module has encryption, then get the decrypt key
                     string strUnlockKey;
                     if (Program.MapSwordModuleToEncryption.TryGetValue(strModuleName, out strUnlockKey))
                     {
                         strUnlockKey = EncryptionClass.Decrypt(strUnlockKey);
-                        manager.setCipherKey(strModuleName, strUnlockKey);
+                        manager.SetCipherKey(strModuleName, Encoding.UTF8.GetBytes(strUnlockKey));
                     }
                 }
                 else
                 {
-                    // otherwise 'commentaries'?
-                    // SwordResource sr = new SwordResource(strModuleName, strModuleDesc, true);
-                    SWModule swm = manager.getModule(strModuleName);
+                    // otherwise commentaries/lexicons, etc?
+                    //  add them here so they can be used if the user clicks on a verse button
+                    var swm = manager.GetModuleByName(strModuleName);
                     lstBibleCommentaries.Add(swm);
                 }
             }
@@ -377,7 +346,7 @@ namespace OneStoryProjectEditor
                 moduleToStartWith = Properties.Settings.Default.LastSwordModuleUsed;
             }
 
-            moduleVersion = manager.getModule(moduleToStartWith);
+            moduleVersion = manager.GetModuleByName(moduleToStartWith);
             // may fail :-(
             /*
             if (moduleVersion == null)
@@ -386,12 +355,12 @@ namespace OneStoryProjectEditor
             }
             */
 
-            // Setup the active module
-            // Word of Christ in red
-            manager.setGlobalOption("Words of Christ in Red", "On");
-
-            //Footnotes
-            manager.setGlobalOption("Footnotes", "On");
+            // Setup display options for the active module: Word of Christ in red, etc...
+            manager.SetGlobalOption("Footnotes", "On");
+            manager.SetGlobalOption("Words of Christ in Red", "On");
+            manager.SetGlobalOption("Glosses", "On");
+            manager.SetGlobalOption("Cross-references", "On");
+            manager.SetGlobalOption("Textual Variants", "On");
 
             /* NOTE: This is needed so the DOM Script I'm using for strongs numbers,
              * morph, and footnote tags will work.  This basicly allows the webbrowser
@@ -432,35 +401,35 @@ namespace OneStoryProjectEditor
 
         private void RadioButtonShowOtherSwordResourcesClick(object sender, EventArgs e)
         {
-            var dlg = new ViewSwordOptionsForm(ref lstBibleResources);
+            var dlg = new ViewSwordOptionsForm(ref lstBibleResources, lstBibleCommentaries);
             RadioButton rbOn = null;
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                foreach (SwordResource aSR in lstBibleResources)
+                foreach (var modInfo in lstBibleResources)
                 {
-                    if (aSR.Loaded)
+                    if (modInfo.Delta == ModInfoDeltaLoaded)
                     {
-                        if (tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + aSR.Name] == null)
+                        if (tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + modInfo.Name] == null)
                             // means the user selected it, but it's not there. So add it
-                            rbOn = InitSwordResourceRadioButton(aSR.Name, aSR.Description);
+                            rbOn = InitSwordResourceRadioButton(modInfo.Name, modInfo.Description);
                         else
-                            rbOn = (RadioButton)tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + aSR.Name];
+                            rbOn = (RadioButton)tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + modInfo.Name];
 
                         // add this one to the user's list of used modules
-                        if (!Properties.Settings.Default.SwordModulesUsed.Contains(aSR.Name))
-                            Properties.Settings.Default.SwordModulesUsed.Add(aSR.Name);
+                        if (!Properties.Settings.Default.SwordModulesUsed.Contains(modInfo.Name))
+                            Properties.Settings.Default.SwordModulesUsed.Add(modInfo.Name);
                     }
                     else
                     {
-                        if (tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + aSR.Name] != null)
+                        if (tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + modInfo.Name] != null)
                         {
                             // means the user deselected it and it's there. So remove it.
-                            tableLayoutPanelSpinControls.Controls.RemoveByKey(CstrRadioButtonPrefix + aSR.Name);
+                            tableLayoutPanelSpinControls.Controls.RemoveByKey(CstrRadioButtonPrefix + modInfo.Name);
                         }
 
                         // remove this one to the user's list of used modules
-                        if (Properties.Settings.Default.SwordModulesUsed.Contains(aSR.Name))
-                            Properties.Settings.Default.SwordModulesUsed.Remove(aSR.Name);
+                        if (Properties.Settings.Default.SwordModulesUsed.Contains(modInfo.Name))
+                            Properties.Settings.Default.SwordModulesUsed.Remove(modInfo.Name);
                     }
                 }
             }
@@ -483,7 +452,7 @@ namespace OneStoryProjectEditor
 
         protected void TurnOnResource(string strModuleName)
         {
-            moduleVersion = manager.getModule(strModuleName);
+            moduleVersion = manager.GetModuleByName(strModuleName);
             System.Diagnostics.Debug.Assert(moduleVersion != null);
             m_nBook = 0;    // forces a refresh
             m_nChapter = 0;
@@ -524,6 +493,40 @@ namespace OneStoryProjectEditor
             buttonNextReference.Enabled = (m_astrReferences.Count >= (m_nReferenceArrayIndex + 2));
         }
 
+        public class SwordKeyChildren
+        {
+            public SwordKeyChildren(IEnumerable<string> keys)
+            {
+                if ((keys != null) && (keys.Count() >= 9))
+                {
+                    Testament = Convert.ToInt32(keys.ElementAt(0));
+                    BookIndex = Convert.ToInt32(keys.ElementAt(1));
+                    Chapter = Convert.ToInt32(keys.ElementAt(2));
+                    Verse = Convert.ToInt32(keys.ElementAt(3));
+                    ChapterMax = Convert.ToInt32(keys.ElementAt(4));
+                    VerseMax = Convert.ToInt32(keys.ElementAt(5));
+                    BookName = keys.ElementAt(6);
+                    OsisRef = keys.ElementAt(7);
+                    NormalRef = keys.ElementAt(8);
+                    BookAbbreviation = keys.ElementAt(9);
+                }
+            }
+            public int Testament { get; set; }
+            public int BookIndex { get; set; }
+            public int Chapter { get; set; }
+            public int Verse { get; set; }
+            public int ChapterMax { get; set; }
+            public int VerseMax { get; set; }
+            public string BookName { get; set; }
+            public string OsisRef { get; set; }
+            public string NormalRef { get; set; }
+            public string BookAbbreviation { get; set; }
+            public string KeyText
+            {
+                get { return $"{BookAbbreviation} {Chapter}:{Verse}"; }
+            }
+        }
+
         protected void DisplayVerses()
         {
             if (moduleVersion == null)
@@ -540,10 +543,16 @@ namespace OneStoryProjectEditor
             if ((nIndex = strBookNameLocalized.IndexOf(' ')) != -1)
                 strBookNameLocalized = strBookNameLocalized.Substring(0, nIndex);
 
-            var keyVerse = new VerseKey(strScriptureReference);
-            int nBook = keyVerse.Book();
-            int nChapter = keyVerse.Chapter();
-            int nVerse = keyVerse.Verse();
+            moduleVersion.KeyText = strScriptureReference;
+            var swordModuleInfo = new SwordKeyChildren(moduleVersion.KeyChildren);
+
+            int nBook = swordModuleInfo.BookIndex;
+            int nChapter = swordModuleInfo.Chapter;
+            int nVerse = swordModuleInfo.Verse;
+
+            string strFontName, strFontSize, strModuleVersion = moduleVersion.Name;
+            var bSpecifyFont = ReadFontNameAndSizeFromUserConfig(strModuleVersion, out strFontName, out strFontSize);
+            bool bDirectionRtl = Properties.Settings.Default.ListSwordModuleToRtl.Contains(strModuleVersion);
 
             bool bJustUpdated = false;
             if ((nBook != m_nBook) || (nChapter != m_nChapter))
@@ -552,27 +561,25 @@ namespace OneStoryProjectEditor
                 // Build up the string which we're going to put in the HTML viewer
                 var sb = new StringBuilder(CstrHtmlTableBegin);
 
-                // Do the whole chapter
-                var keyWholeOfChapter = new VerseKey(keyVerse);
-                keyWholeOfChapter.Verse(1);
-                string strFontName, strFontSize, strModuleVersion = moduleVersion.Name();
-                var bSpecifyFont = ReadFontNameAndSizeFromUserConfig(strModuleVersion, out strFontName, out strFontSize);
+                // Load the whole chapter (even if we're going to later jump to some other verse in the chapter)
+                swordModuleInfo.Verse = 1;
 
-                bool bDirectionRtl = Properties.Settings.Default.ListSwordModuleToRtl.Contains(strModuleVersion);
-                while ((keyWholeOfChapter.Chapter() == nChapter) && (keyWholeOfChapter.Book() == nBook) && (keyWholeOfChapter.Error() == '\0'))
+                while (swordModuleInfo.Verse <= swordModuleInfo.VerseMax)
                 {
                     // get the verse and remove any line break signals
-                    string strVerseHtml = moduleVersion.RenderText(keyWholeOfChapter).Replace(verseLineBreak, null);
+                    moduleVersion.KeyText = swordModuleInfo.KeyText;
+                    var text = moduleVersion.RenderText();
+                    var strVerseHtml = text.Replace(verseLineBreak, null);
                     if (String.IsNullOrEmpty(strVerseHtml))
                         strVerseHtml = Localizer.Str("Passage not available in this version");
 
                     string strButtonId = String.Format("{0} {1}:{2}",
                                                        scriptureReferenceBookName,
-                                                       nChapter, keyWholeOfChapter.Verse());
+                                                       nChapter, swordModuleInfo.Verse);
 
                     string strButtonLabel = String.Format("{0} {1}:{2}",
                                                           strBookNameLocalized,
-                                                          nChapter, keyWholeOfChapter.Verse());
+                                                          nChapter, swordModuleInfo.Verse);
 
                     string strButtonCell = String.Format(CstrHtmlButtonCell,
                                                          strButtonId,
@@ -582,13 +589,13 @@ namespace OneStoryProjectEditor
                                                        strVerseHtml,
                                                        (bDirectionRtl) ? "rtl" : "ltr");
                     string strLineHtml = String.Format(CstrHtmlRowFormat, 
-                        keyWholeOfChapter.Verse(),
+                        swordModuleInfo.Verse,
                         (bDirectionRtl) ? strTextCell : strButtonCell,
                         (bDirectionRtl) ? strButtonCell : strTextCell);
                     sb.Append(strLineHtml);
 
                     // next verse until end of chapter
-                    keyWholeOfChapter.Verse(keyWholeOfChapter.Verse() + 1);
+                    swordModuleInfo.Verse++;
                 }
 
                 // delimit the table
@@ -616,8 +623,11 @@ namespace OneStoryProjectEditor
             // sometimes this throws randomly
             try
             {
-                // update the updown controls
-                UpdateUpDowns(keyVerse);
+                // reset to the originally requested verse and update the updown controls
+                moduleVersion.KeyText = strScriptureReference;
+                swordModuleInfo = new SwordKeyChildren(moduleVersion.KeyChildren);
+
+                UpdateUpDowns(swordModuleInfo);
             }
             catch { }
         }
@@ -658,25 +668,30 @@ namespace OneStoryProjectEditor
 
         private void DisplayCommentary(string strJumpTarget)
         {
-            var keyVerse = new VerseKey(strJumpTarget);
-
             // Build up the string which we're going to put in the HTML viewer
             var sb = new StringBuilder(CstrHtmlTableBegin);
 
             int i;
             for (i = 0; i < lstBibleCommentaries.Count; i++)
             {
-                SWModule swm = lstBibleCommentaries[i];
+                Module swm = lstBibleCommentaries[i];
 
                 // get the verse and remove any line break signals
-                string strVerseHtml = swm.RenderText(keyVerse);
-                if (String.IsNullOrEmpty(strVerseHtml))
-                    continue;
+                swm.KeyText = strJumpTarget;
+                var strVerseHtml = swm.RenderText();
 
+                // add the name of the commentary (so you can see it even if there's no comment on this verse)
                 sb.Append(String.Format(CstrHtmlLineFormatCommentaryHeader,
-                    CommentaryHeader + i, swm.Description()));
+                    CommentaryHeader + i, swm.Description));
 
-                sb.Append(String.Format(CstrHtmlLineFormatCommentary, strVerseHtml));
+                if (String.IsNullOrEmpty(strVerseHtml))
+                {
+                    sb.Append(String.Format(CstrHtmlLineFormatCommentary, Localizer.Str("No commentary for this verse")));
+                }
+                else
+                {
+                    sb.Append(String.Format(CstrHtmlLineFormatCommentary, strVerseHtml));
+                }
             }
 
             if (sb.Length == CstrHtmlTableBegin.Length)
@@ -715,36 +730,36 @@ namespace OneStoryProjectEditor
             }
         }
 
-        protected void UpdateUpDowns(VerseKey keyVerse)
+        protected void UpdateUpDowns(SwordKeyChildren swordModuleInfo)
         {
             System.Diagnostics.Debug.Assert(!m_bDisableInterrupts);
             m_bDisableInterrupts = true;
 
             // initialize the combo boxes for this new situation
-            if (keyVerse.Book() != m_nBook)
+            if (swordModuleInfo.BookIndex != m_nBook)
             {
-                domainUpDownBookNames.SelectedItem = keyVerse.getBookAbbrev();
-                m_nBook = keyVerse.Book();
+                domainUpDownBookNames.SelectedItem = swordModuleInfo.BookAbbreviation;
+                m_nBook = swordModuleInfo.BookIndex;
 
-                int nNumChapters = keyVerse.chapterCount(keyVerse.Testament(), keyVerse.Book());
+                int nNumChapters = swordModuleInfo.ChapterMax;    // chapterCount(keyVerse.Testament(), keyVerse.Book());
                 numericUpDownChapterNumber.Maximum = nNumChapters;
 
                 // if the book changes, then the chapter number changes implicitly
                 m_nChapter = 0;
             }
 
-            if (keyVerse.Chapter() != m_nChapter)
+            if (swordModuleInfo.Chapter != m_nChapter)
             {
-                m_nChapter = keyVerse.Chapter();
+                m_nChapter = swordModuleInfo.Chapter;
                 numericUpDownChapterNumber.Value = m_nChapter;
 
-                int nNumVerses = keyVerse.verseCount(keyVerse.Testament(), keyVerse.Book(), keyVerse.Chapter());
+                int nNumVerses = swordModuleInfo.VerseMax;    // verseCount(keyVerse.Testament(), keyVerse.Book(), keyVerse.Chapter());
                 numericUpDownVerseNumber.Maximum = nNumVerses;
             }
 
-            if (keyVerse.Verse() != m_nVerse)
+            if (swordModuleInfo.Verse != m_nVerse)
             {
-                m_nVerse = keyVerse.Verse();
+                m_nVerse = swordModuleInfo.Verse;
                 numericUpDownVerseNumber.Value = (decimal)m_nVerse;
             }
 
@@ -780,13 +795,13 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return Path.Combine(StoryProjectData.GetRunningFolder, "SWORD");
+                return Path.Combine(StoryProjectData.GetRunningFolder, SwordResourcePathSubfolderName);
             }
         }
 
-        #endregion  // "Defines for Sword capability"
+#endregion  // "Defines for Sword capability"
 
-        #region "Callbacks from HTML script"
+#region "Callbacks from HTML script"
         protected bool m_bMouseDown = false;
 
         public void OnMouseDown()
@@ -851,7 +866,7 @@ namespace OneStoryProjectEditor
             _theFootnoteForm.ShowFootnote(s, ptTooltip);
             System.Diagnostics.Debug.WriteLine("ShowHoverOver");
         }
-        #endregion // "Callbacks from HTML script"
+#endregion // "Callbacks from HTML script"
 
         protected bool m_bDisableInterrupts = false;
         protected void CallUpdateUpDowns()

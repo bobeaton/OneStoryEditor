@@ -97,13 +97,22 @@
         <Component Id="LanguageCodes.tab" Guid="{056F4214-4E79-4860-9713-CB05412DD627}">
           <File Id="LanguageCodes.tab" Name="LanguageCodes.tab" KeyPath="yes" Source="..\..\output\release\LanguageCodes.tab"/>
         </Component>
+
+        <!--The following 5 components are needed for SWORD support-->
         <Component Id="libsword.dll" Guid="{B5D08D96-A5B2-48E2-8D52-2EE0CEA47CEA}">
           <File Id="libsword.dll" Name="libsword.dll" Vital="yes" KeyPath="yes" Source="..\..\output\release\libsword.dll"/>
         </Component>
-        <Component Id="libsword_csharpsword.dll" Guid="{8395E9EC-C4A8-47BB-BBA4-146AE5D9336E}">
-          <File Id="libsword_csharpsword.dll" Name="libsword_csharpsword.dll" Vital="yes" KeyPath="yes" Source="..\..\output\release\libsword_csharpsword.dll"/>
+        <Component Id="libbz2.dll" Guid="{372BC160-7213-4159-B7B8-5B10CA3BC67C}">
+          <File Id="libbz2.dll" Name="libbz2.dll" Vital="yes" KeyPath="yes" Source="..\..\DepDLLs\libbz2.dll"/>
+        </Component>
+        <Component Id="liblzma.dll" Guid="{5D737217-9B5F-4A0C-BA9E-26CBEE486F1F}">
+          <File Id="liblzma.dll" Name="liblzma.dll" Vital="yes" KeyPath="yes" Source="..\..\DepDLLs\liblzma.dll"/>
+        </Component>
+        <Component Id="CSSword.dll" Guid="{BFCB1E49-EAA4-49A4-A685-E0DAD1B169A4}">
+          <File Id="CSSword.dll" Name="CSSword.dll" Vital="yes" KeyPath="yes" AssemblyManifest="CSSword.dll" AssemblyApplication="CSSword.dll" Assembly=".net" Source="..\..\DepDLLs\CSSword.dll"/>
           <Environment Id="SWORD_PATH" Name="SWORD_PATH" Action="set" System="yes" Part="first" Value="[MergeRedirectFolder]SWORD" />
         </Component>
+        
         <Directory Id="EC" Name="EC">
           <Directory Id="Plugins" Name="Plugins">
             <Component Id="SIEC4.0.0.0PluginDetails.xml" Guid="{90F9F43E-DFB2-4DE2-8994-5AA83F275E06}">
@@ -223,9 +232,6 @@
         </Component>
         <Component Id="StageTransitionsId.xml" Guid="{595F8689-FEB7-490C-9043-4FEDEC74BADB}">
           <File Id="StageTransitionsId.xml" Name="StageTransitionsId.xml" KeyPath="yes" Source="..\..\output\release\StageTransitionsId.xml"/>
-        </Component>
-        <Component Id="SwigSword.dll" Guid="{C0D98182-9B63-4A05-8F8E-12794BE75E73}">
-          <File Id="SwigSword.dll" Name="SwigSword.dll" Vital="yes" KeyPath="yes" AssemblyManifest="SwigSword.dll" AssemblyApplication="SwigSword.dll" Assembly=".net" Source="..\..\output\release\SwigSword.dll"/>
         </Component>
         <Directory Id="SWORD" Name="SWORD">
           <Directory Id="mods.d" Name="mods.d">
