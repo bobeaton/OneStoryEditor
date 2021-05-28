@@ -2261,14 +2261,13 @@ namespace OneStoryProjectEditor
             // if the user had 1.3 and customized the state transition xml file, 
             //  then blow it away.
             string strProjectFolder = Path.GetDirectoryName(strProjectFilePath);
-            string strStateTransitions = Path.Combine(strProjectFolder, StoryStageLogic.StateTransitions.CstrStateTransitionsXmlFilename);
-            if (File.Exists(strStateTransitions))
+            if (StoryStageLogic.StateTransitions.DoesStateTransitionFileOverrideExist(strProjectFolder))
             {
                 if (LocalizableMessageBox.Show(Properties.Resources.IDS_ConfirmDeleteStateTransitions,
                     StoryEditor.OseCaption, MessageBoxButtons.OKCancel) == DialogResult.Cancel)
                     throw BackOutWithNoUI;
 
-                File.Delete(strStateTransitions);
+                StoryStageLogic.StateTransitions.DeleteStateTransitionFileOverride(strProjectFolder);
             }
 
             // get the xml (.onestory) file into a memory string so it can be the 

@@ -248,7 +248,6 @@ namespace OneStoryProjectEditor
             advancedSaveTimeoutEnabledMenu.Checked = Settings.Default.AutoSaveTimeoutEnabled;
             advancedSaveTimeoutAsSilentlyAsPossibleMenu.Checked = Settings.Default.DoAutoSaveSilently;
             advancedUseDialogToPreviewConNotes.Checked = Settings.Default.UsePreviewDialogWhenAddingConNotes;
-            viewUseSameSettingsForAllStoriesMenu.Checked = Settings.Default.LastUseForAllStories;
             advancedEmailMenu.Checked = Settings.Default.UseMapiPlus;
             advancedUseWordBreaks.Enabled = BreakIterator.IsAvailable;
             advancedAutomaticallyLoadProjectMenu.Checked = Settings.Default.AutoLoadLastProject;
@@ -1157,14 +1156,23 @@ namespace OneStoryProjectEditor
                 // at least temporarily reset the 'Use for all stories' flag so that 
                 //  we don't not reset the view for this new project settings (which
                 //  calls SetViews during the SelectedItem handler below)
-                bool bUseForAllStories = viewUseSameSettingsForAllStoriesMenu.Checked;
-                viewUseSameSettingsForAllStoriesMenu.Checked = false;
+                // UPDATE (2021-05-28): this seems to reset the view if it is set to be the same. Irene requested we not do that
+                //  The only reason I can think this is there is if there is an explicit override file... so if there isn't
+                //  one of those, then don't do this
+                if (StoryStageLogic.StateTransitions.DoesStateTransitionFileOverrideExist(projSettings.ProjectFolder))
+                {
+                    bool bUseForAllStories = viewUseSameSettingsForAllStoriesMenu.Checked;
+                    viewUseSameSettingsForAllStoriesMenu.Checked = false;
 
-                if (!String.IsNullOrEmpty(strStoryToLoad) && comboBoxStorySelector.Items.Contains(strStoryToLoad))
+                    if (!String.IsNullOrEmpty(strStoryToLoad) && comboBoxStorySelector.Items.Contains(strStoryToLoad))
+                        JumpToStory(strStoryToLoad);
+
+                    // reset the 'use for all stories' flag to whatever it used to be
+                    viewUseSameSettingsForAllStoriesMenu.Checked = bUseForAllStories;
+                }
+                else if (!String.IsNullOrEmpty(strStoryToLoad) && comboBoxStorySelector.Items.Contains(strStoryToLoad))
                     JumpToStory(strStoryToLoad);
 
-                // reset the 'use for all stories' flag to whatever it used to be
-                viewUseSameSettingsForAllStoriesMenu.Checked = bUseForAllStories;
 
                 Text = GetFrameTitle(true);
 
