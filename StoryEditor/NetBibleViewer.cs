@@ -622,7 +622,7 @@ namespace OneStoryProjectEditor
             catch { }
         }
 
-        private static bool ReadFontNameAndSizeFromUserConfig(string strModuleVersion, out string strFontName,
+        public static bool ReadFontNameAndSizeFromUserConfig(string strModuleVersion, out string strFontName,
             out string strFontSize)
         {
             strFontSize = null;
