@@ -547,6 +547,7 @@ namespace OneStoryProjectEditor
         private const string CstrParagraphHighlightBegin = "<span style=\"background-color:Blue; color: White\">";
         private ToolStripMenuItem menuAddNote;
         private ToolStripMenuItem menuAddNoteToSelf;
+        private ToolStripMenuItem menuConNoteToFont;
         private const string CstrParagraphHighlightEnd = "</span>";
 
         public void SetSelection(StringTransfer stringTransfer,
@@ -669,6 +670,7 @@ namespace OneStoryProjectEditor
             this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuAddNote = new System.Windows.Forms.ToolStripMenuItem();
             this.menuAddNoteToSelf = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuConNoteToFont = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -676,7 +678,8 @@ namespace OneStoryProjectEditor
             // 
             this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuAddNote,
-            this.menuAddNoteToSelf});
+            this.menuAddNoteToSelf,
+            this.menuConNoteToFont});
             this.contextMenu.Name = "contextMenu";
             this.contextMenu.Size = new System.Drawing.Size(244, 48);
             // 
@@ -694,6 +697,13 @@ namespace OneStoryProjectEditor
             this.menuAddNoteToSelf.Text = "Add note to self on selected text";
             this.menuAddNoteToSelf.Click += new System.EventHandler(this.menuAddNoteToSelf_Click);
             // 
+            // menuConNoteToFont
+            // 
+            this.menuConNoteToFont.Name = "menuConNoteToFont";
+            this.menuConNoteToFont.Size = new System.Drawing.Size(243, 22);
+            this.menuConNoteToFont.Text = "Change font to conNote pane";
+            this.menuConNoteToFont.Click += new System.EventHandler(this.toolStripMenuItemConNoteChangeFont_Click);
+            // 
             // HtmlConNoteControl
             // 
             // this is now down manually (see ShowContextMenu) so we can turn it off when TextPaster is active
@@ -708,6 +718,42 @@ namespace OneStoryProjectEditor
         {
             bool bNoteToSelf = true;
             ConNoteAddNote(bNoteToSelf);
+        }
+
+        private void toolStripMenuItemConNoteChangeFont_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("Properties.Settings.Default.LastSwordModuleUsed: " + Properties.Settings.Default.LastSwordModuleUsed);
+
+            // if we have this in the user config, then pre-select it for the Font dialog
+            var fontDialog = new FontDialog();
+            string strFontName, strFontSize;
+            if (NetBibleViewer.ReadFontNameAndSizeFromUserConfig(Properties.Settings.Default.FontForConNotePane,
+                out strFontName, out strFontSize))
+            {
+                float fFontSize;
+                if (!float.TryParse(strFontSize, out fFontSize))
+                    fFontSize = 12F;
+                fontDialog = new FontDialog { Font = new System.Drawing.Font(strFontName, fFontSize) };
+            }
+
+            // query what the user wants
+            if (fontDialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            strFontName = String.Format("{0};{1}", fontDialog.Font.Name, fontDialog.Font.Size);
+            if (!Program.MapSwordModuleToFont.ContainsKey(Properties.Settings.Default.FontForConNotePane))
+            {
+                Program.MapSwordModuleToFont.Add(Properties.Settings.Default.FontForConNotePane, strFontName);
+            }
+            else
+            {
+                Program.MapSwordModuleToFont[Properties.Settings.Default.FontForConNotePane] = strFontName;
+            }
+
+            // save the changes/additions
+            Properties.Settings.Default.SwordModuleToFont = Program.DictionaryToArray(Program.MapSwordModuleToFont);
+            Properties.Settings.Default.Save();
+            //NetBibleViewer.TurnOnResource(Properties.Settings.Default.FontForConNotePane);
         }
 
         private static Regex regExReadLineNumber = new Regex(@"id=tp_(\d+?)_", RegexOptions.Compiled);

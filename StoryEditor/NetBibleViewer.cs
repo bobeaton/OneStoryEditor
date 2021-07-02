@@ -481,7 +481,7 @@ namespace OneStoryProjectEditor
             Properties.Settings.Default.Save();
         }
 
-        protected void TurnOnResource(string strModuleName)
+        public void TurnOnResource(string strModuleName)
         {
             moduleVersion = manager.getModule(strModuleName);
             System.Diagnostics.Debug.Assert(moduleVersion != null);
@@ -622,7 +622,7 @@ namespace OneStoryProjectEditor
             catch { }
         }
 
-        private static bool ReadFontNameAndSizeFromUserConfig(string strModuleVersion, out string strFontName,
+        public static bool ReadFontNameAndSizeFromUserConfig(string strModuleVersion, out string strFontName,
             out string strFontSize)
         {
             strFontSize = null;

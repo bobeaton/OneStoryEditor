@@ -1113,5 +1113,17 @@ namespace OneStoryProjectEditor.Properties {
                 this["AutoPopupReminderAfterTurnChange"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("NET")]
+        public string FontForConNotePane {
+            get {
+                return ((string)(this["FontForConNotePane"]));
+            }
+            set {
+                this["FontForConNotePane"] = value;
+            }
+        }
     }
 }
