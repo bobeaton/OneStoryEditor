@@ -481,7 +481,7 @@ namespace OneStoryProjectEditor
             Properties.Settings.Default.Save();
         }
 
-        protected void TurnOnResource(string strModuleName)
+        public void TurnOnResource(string strModuleName)
         {
             moduleVersion = manager.getModule(strModuleName);
             System.Diagnostics.Debug.Assert(moduleVersion != null);
@@ -662,7 +662,8 @@ namespace OneStoryProjectEditor
 
             // Build up the string which we're going to put in the HTML viewer
             var sb = new StringBuilder(CstrHtmlTableBegin);
-
+            string strFontName, strFontSize, strModuleVersion = moduleVersion.Name();
+            var cSpecifyFont = ReadFontNameAndSizeFromUserConfig("ConNoteFontChange", out strFontName, out strFontSize);
             int i;
             for (i = 0; i < lstBibleCommentaries.Count; i++)
             {
@@ -783,6 +784,8 @@ namespace OneStoryProjectEditor
                 return Path.Combine(StoryProjectData.GetRunningFolder, "SWORD");
             }
         }
+
+        public static bool cSpecifyFont { get; internal set; }
 
         #endregion  // "Defines for Sword capability"
 
@@ -971,10 +974,10 @@ namespace OneStoryProjectEditor
         }
 
         private const string CstrBibRefRegexFormat = @"\b([a-zA-Z]{3,4}|[1-3][a-zA-Z]{2,5}).(\d{2,3}):(\d{2,3})\b";
-
         private static Regex _regexBibRef;
 
         private static char[] _achTrimChars = new char[] {'.', ':', ' ', ',', ';'};
+
         private void textBoxNetFlixViewer_MouseDown(object sender, MouseEventArgs e)
         {
             if (StoryEditor.TextPaster == null)

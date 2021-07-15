@@ -768,7 +768,6 @@ namespace OneStoryProjectEditor
             {
                 return null;
             }
-
             string strHtml = HtmlGetButtonRow(loggedOnMember,
                                               theStory,
                                               theTeamMembers,
@@ -838,12 +837,24 @@ namespace OneStoryProjectEditor
                     IsEditable(loggedOnMember, theTeamMembers, theStory))
                 {
                     strHtmlElementId = TextareaId(nVerseIndex, nConversationIndex);
-                    strRow += String.Format(Resources.HTML_TableCellForTextArea,
-                                            SetHyperlinks(strReferringHtml) +
-                                            String.Format(Resources.HTML_TextareaWithRefDoubleClick,
-                                                          strHtmlElementId,
-                                                          StoryData.CstrLangInternationalBtStyleClassName,
-                                                          aCI));
+                    if (!NetBibleViewer.cSpecifyFont)
+                    {
+                        strRow += String.Format(Resources.HTML_TableCellForTextArea,
+                                                SetHyperlinks(strReferringHtml) +
+                                                String.Format(Resources.HTML_TextareaWithRefDoubleClick,
+                                                              strHtmlElementId,
+                                                              StoryData.CstrLangInternationalBtStyleClassName,
+                                                              aCI));
+                    }
+                    else
+                    {
+                        strRow += String.Format(Resources.HTML_TableCellForTextArea,
+                                                SetHyperlinks(strReferringHtml) +
+                                                String.Format(Resources.HTML_TextareaWithRefDoubleClick,
+                                                              strHtmlElementId,
+                                                              StoryData.CstrConsultantNotePaneStyleClassName,
+                                                              aCI));
+                    }
 
                     strHtmlTable += String.Format(Resources.HTML_TableRowIdColor,
                                                   TextareaRowId(nVerseIndex, nConversationIndex),
@@ -859,12 +870,22 @@ namespace OneStoryProjectEditor
                         strHyperlinkedText += aCI.ToString().Replace("\r\n", "<br />");   // regexParagraph.Replace(aCI.ToString(), ParagraphFound);
                         strHyperlinkedText = SetHyperlinks(strHyperlinkedText);
                     }
-
-                    strRow += String.Format(Resources.HTML_TableCellWidth, 100,
+                    if (!NetBibleViewer.cSpecifyFont)
+                    {
+                        strRow += String.Format(Resources.HTML_TableCellWidth, 100,
                                             String.Format(Resources.HTML_ParagraphTextId,
                                                           strHtmlElementId,
                                                           StoryData.CstrLangInternationalBtStyleClassName,
                                                           strHyperlinkedText));
+                    }
+                    else
+                    {
+                        strRow += String.Format(Resources.HTML_TableCellWidth, 100,
+                                            String.Format(Resources.HTML_ParagraphTextId,
+                                                          strHtmlElementId,
+                                                          StoryData.CstrConsultantNotePaneStyleClassName,
+                                                          strHyperlinkedText));
+                    }
 
                     strHtmlTable += String.Format(Resources.HTML_TableRowIdColor,
                                                   TextareaReadonlyRowId(nVerseIndex, nConversationIndex, i),

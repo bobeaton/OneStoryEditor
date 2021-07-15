@@ -631,6 +631,7 @@ namespace OneStoryProjectEditor
         public const string CstrLangVernacularStyleClassName = "LangVernacular";
         public const string CstrLangNationalBtStyleClassName = "LangNationalBT";
         public const string CstrLangInternationalBtStyleClassName = "LangInternationalBT";
+        public const string CstrConsultantNotePaneStyleClassName = "ConsultantNotePaneFont";
         public const string CstrLangFreeTranslationStyleClassName = "LangFreeTranslation";
         public const string CstrLangLocalizationStyleClassName = "LocalizationStyle";
         public const string CstrLangLocalizationEdgeStyleClassName = "LocalizationEdgeStyle";

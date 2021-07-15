@@ -699,7 +699,7 @@ namespace OneStoryProjectEditor
             // 
             this.menuConNoteToFont.Name = "menuConNoteToFont";
             this.menuConNoteToFont.Size = new System.Drawing.Size(243, 22);
-            this.menuConNoteToFont.Text = "Change font to conNote pane";
+            this.menuConNoteToFont.Text = "Change font to connote pane";
             this.menuConNoteToFont.Click += new System.EventHandler(this.toolStripMenuItemConNoteChangeFont_Click);
             // 
             // HtmlConNoteControl
@@ -720,13 +720,12 @@ namespace OneStoryProjectEditor
 
         private void toolStripMenuItemConNoteChangeFont_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Properties.Settings.Default.LastSwordModuleUsed: " + Properties.Settings.Default.LastSwordModuleUsed);
+            System.Diagnostics.Debug.WriteLine("ConNoteFontChange: " + Properties.Settings.Default.FontForConNoteFont);
 
             // if we have this in the user config, then pre-select it for the Font dialog
             var fontDialog = new FontDialog();
             string strFontName, strFontSize;
-            if (NetBibleViewer.ReadFontNameAndSizeFromUserConfig(Properties.Settings.Default.LastSwordModuleUsed,
-                out strFontName, out strFontSize))
+            if (NetBibleViewer.ReadFontNameAndSizeFromUserConfig("ConNoteFontChange",out strFontName, out strFontSize))
             {
                 float fFontSize;
                 if (!float.TryParse(strFontSize, out fFontSize))
@@ -736,22 +735,23 @@ namespace OneStoryProjectEditor
 
             // query what the user wants
             if (fontDialog.ShowDialog() != DialogResult.OK)
+
                 return;
 
             strFontName = String.Format("{0};{1}", fontDialog.Font.Name, fontDialog.Font.Size);
-            if (!Program.MapSwordModuleToFont.ContainsKey(Properties.Settings.Default.LastSwordModuleUsed))
+            if (!Program.MapSwordModuleToFont.ContainsKey("ConNoteFontChange"))
             {
-                Program.MapSwordModuleToFont.Add(Properties.Settings.Default.LastSwordModuleUsed, strFontName);
+                Program.MapSwordModuleToFont.Add("ConNoteFontChange", strFontName);
             }
             else
             {
-                Program.MapSwordModuleToFont[Properties.Settings.Default.LastSwordModuleUsed] = strFontName;
+                Program.MapSwordModuleToFont["ConNoteFontChange"] = strFontName;
             }
 
             // save the changes/additions
             Properties.Settings.Default.SwordModuleToFont = Program.DictionaryToArray(Program.MapSwordModuleToFont);
             Properties.Settings.Default.Save();
-            //TurnOnResource(Properties.Settings.Default.LastSwordModuleUsed);
+            //NetBibleViewer.TurnOnResource("ConNoteFontChange");
         }
 
 
