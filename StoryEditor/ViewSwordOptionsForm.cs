@@ -423,6 +423,7 @@ namespace OneStoryProjectEditor
             {
                 try
                 {
+                    comboCheckBoxListForSwordSources.Visible = true;
                     bool bAtLeastOneInstallable = false;
                     checkedListBoxDownloadable.Items.Clear();   // in case it's a repeat
                     _mapShortCodes2SwordData.Clear();
@@ -484,6 +485,8 @@ namespace OneStoryProjectEditor
                         Program.ShowException(ex);
                 }
             }
+            else
+                comboCheckBoxListForSwordSources.Visible = false;
         }
 
         private static string DownloadLabel
@@ -503,6 +506,8 @@ namespace OneStoryProjectEditor
                     _lstBibleCommentaries.Any(c => c.Name == modInfo.Name);
         }
 
+        private Dictionary<string, List<ModInfo>> _mapSwordSourceToModInfos = new Dictionary<string, List<ModInfo>>();
+
         private void backgroundWorkerLoadDownloadListBox_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             var cursor = Cursor;
@@ -517,9 +522,14 @@ namespace OneStoryProjectEditor
                 {
                     foreach (var source in installManager.RemoteSources)
                     {
-                        backgroundWorkerLoadDownloadListBox.ReportProgress(0, String.Format(Localizer.Str("Gathering resources available from '{0}'..."), source));
-                        installManager.RefreshRemoteSource(source);
-                        var modInfos = installManager.GetRemoteModInfoList(manager, source).ToList();
+                        if (!_mapSwordSourceToModInfos.TryGetValue(source, out List<ModInfo> modInfos))
+                        {
+                            backgroundWorkerLoadDownloadListBox.ReportProgress(0, source);
+                            installManager.RefreshRemoteSource(source);
+                            modInfos = installManager.GetRemoteModInfoList(manager, source).ToList();
+                            _mapSwordSourceToModInfos.Add(source, modInfos);
+                        }
+
                         foreach (var modInfo in modInfos)
                         {
                             if (this.backgroundWorkerLoadDownloadListBox.CancellationPending)
@@ -528,26 +538,27 @@ namespace OneStoryProjectEditor
                                 return;
                             }
 
-                            if (IsAlreadyInstalled(modInfo) || _mapShortCodes2SwordData.ContainsKey(modInfo.Name))
-                                continue;
-
-                            string item = GetDisplayString(modInfo.Name, modInfo.Category, modInfo.Description);
-                            if (checkedListBoxDownloadable.Items.Contains(item))
-                                continue;
-
-                            backgroundWorkerLoadDownloadListBox.ReportProgress(1, item);
-                            var swordModuleData = new SwordModuleData
+                            if (!_mapShortCodes2SwordData.TryGetValue(modInfo.Name, out SwordModuleData swordModuleData))
                             {
-                                SwordRemoteSource = source,
-                                SwordShortCode = modInfo.Name,
-                                SwordDescription = modInfo.Description,
-                                SwordModInfo = modInfo
-                            };
+                                swordModuleData = new SwordModuleData
+                                {
+                                    SwordRemoteSource = source,
+                                    SwordShortCode = modInfo.Name,
+                                    SwordDescription = modInfo.Description,
+                                    SwordModInfo = modInfo
+                                };
 
-                            _mapShortCodes2SwordData.Add(swordModuleData.SwordShortCode, swordModuleData);
+                                _mapShortCodes2SwordData.Add(swordModuleData.SwordShortCode, swordModuleData);
+                            }
+
+                            if (IsAlreadyInstalled(modInfo) ||  // already on the first tab of installed items (don't show in the download tab)
+                                Properties.Settings.Default.SwordSourcesToExclude.Contains(source)) // don't add it to the checkboxlist if the user had previously unchecked its source
+                                    continue;
+
+                            AddToDownloadCheckBoxList(modInfo);
                         }
                     }
-                    backgroundWorkerLoadDownloadListBox.ReportProgress(0, Localizer.Str("All accessible resources listed"));
+                    backgroundWorkerLoadDownloadListBox.ReportProgress(3, Localizer.Str("All accessible resources listed"));
                 }
             }
             catch (Exception ex)
@@ -559,6 +570,28 @@ namespace OneStoryProjectEditor
                 CrossWireInstallManager = null;
                 backgroundWorkerLoadDownloadListBox.ReportProgress(2, cursor);  // restore/turn off wait cursor
             }
+        }
+
+        private bool AddToDownloadCheckBoxList(ModInfo modInfo)
+        {
+            string item = GetDisplayString(modInfo.Name, modInfo.Category, modInfo.Description);
+            if (checkedListBoxDownloadable.Items.Contains(item))
+                return false;
+
+            if (backgroundWorkerLoadDownloadListBox.IsBusy)
+                backgroundWorkerLoadDownloadListBox.ReportProgress(1, item);
+            else
+                checkedListBoxDownloadable.Items.Add(item, false);
+
+            return true;
+        }
+
+        private void AddSourceToDropdownComboBox(string source)
+        {
+            var item = new CCBoxItem() { Name = source };
+            var idx = comboCheckBoxListForSwordSources.Items.Add(item);
+            var uncheckedState = Properties.Settings.Default.SwordSourcesToExclude.Contains(source);
+            comboCheckBoxListForSwordSources.SetItemChecked(idx, !uncheckedState);
         }
 
         private static string GetDisplayString(string moduleName, string moduleCategory, string moduleDescription)
@@ -580,13 +613,18 @@ namespace OneStoryProjectEditor
                 var data = e.UserState as string;
                 if (e.ProgressPercentage == 0)
                 {
-                    labelDownloadProgress.Text = data;
+                    AddSourceToDropdownComboBox(data);
+                    labelDownloadProgress.Text = String.Format(Localizer.Str("Gathering resources available from '{0}'..."), data);
                 }
                 else if (e.ProgressPercentage == 1)
                 {
                     checkedListBoxDownloadable.Items.Add(data, false);
                 }
-                else
+                else if (e.ProgressPercentage == 3)
+                {
+                    labelDownloadProgress.Text = data;
+                }
+                else 
                     System.Diagnostics.Debug.Fail("Did you add a new type?");
             }
         }
@@ -613,6 +651,75 @@ namespace OneStoryProjectEditor
             return false;
         }
 #endif
+
+        Dictionary<string, bool> _mapSwordSourceToShowState = new Dictionary<string, bool>();
+
+        private void ccb_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            var ccb = comboCheckBoxListForSwordSources.Items[e.Index] as CCBoxItem;
+            var source = ccb.Name;
+            if (e.NewValue == CheckState.Checked)
+            {
+                // do we need to add it back?
+                labelDownloadProgress.Text = String.Format(Localizer.Str("Added resources available from '{0}'..."), source);
+                if (_mapSwordSourceToModInfos.TryGetValue(source, out List<ModInfo> modInfos))
+                {
+                    foreach (var modInfo in modInfos)
+                    {
+                        AddToDownloadCheckBoxList(modInfo);
+                    }
+                    AddRemoveSwordSourceSetting(source, add: true);
+                }
+            }
+            else
+            {
+                // remove these from the list box. First get the descending indices to remove
+                labelDownloadProgress.Text = String.Format(Localizer.Str("Removed resources available from '{0}'..."), source);
+                if (_mapSwordSourceToModInfos.TryGetValue(source, out List<ModInfo> modInfos))
+                {
+                    foreach (var modInfo in modInfos)
+                    {
+                        var checkListBoxItemValue = GetDisplayString(modInfo.Name, modInfo.Category, modInfo.Description);
+                        var idx = checkedListBoxDownloadable.Items.IndexOf(checkListBoxItemValue);
+                        if (idx >= 0)
+                            checkedListBoxDownloadable.Items.RemoveAt(idx);
+                    }
+                }
+                /*
+                List<int> descendingIndiciesToRemove = new List<int>();
+                for (var j = checkedListBoxDownloadable.Items.Count - 1; j >= 0; j--)
+                {
+                    var item = checkedListBoxDownloadable.Items[j] as String;
+                    ParseCheckBoxItem(item, out string moduleName);
+                    System.Diagnostics.Debug.Assert(_mapShortCodes2SwordData.ContainsKey(moduleName));
+                    var modInfo = _mapShortCodes2SwordData[moduleName];
+                    if (source == modInfo.SwordRemoteSource)
+                        descendingIndiciesToRemove.Add(j);
+                }
+
+                descendingIndiciesToRemove.ForEach(idx => checkedListBoxDownloadable.Items.RemoveAt(idx));
+                */
+                checkedListBoxDownloadable.Refresh();
+                AddRemoveSwordSourceSetting(source, add: false);
+            }
+        }
+
+        private static void AddRemoveSwordSourceSetting(string source, bool add)
+        {
+            var inSettingsAlready = Properties.Settings.Default.SwordSourcesToExclude.Contains(source);
+            if (add && !inSettingsAlready)
+            {
+                Properties.Settings.Default.SwordSourcesToExclude.Add(source);
+            }
+            else if (!add && inSettingsAlready)
+            {
+                Properties.Settings.Default.SwordSourcesToExclude.Remove(source);
+            }
+            else
+                return;
+
+            Properties.Settings.Default.Save();
+        }
     }
 
     public class SwordModuleData

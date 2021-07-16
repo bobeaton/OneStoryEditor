@@ -312,6 +312,9 @@
     </Compile>
     <Compile Include="BiblicalTermsHTMLBuilder.cs" />
     <Compile Include="BreakIterator.cs" />
+    <Compile Include="CheckedComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CheckEndOfStateTransition.cs" />
     <Compile Include="ChooseWhichTestToDisplayForm.cs">
       <SubType>Form</SubType>

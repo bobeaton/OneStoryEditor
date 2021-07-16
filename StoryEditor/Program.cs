@@ -269,6 +269,8 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.RecentProjectPaths = new StringCollection();
             if (Properties.Settings.Default.SwordModulesUsed == null)
                 Properties.Settings.Default.SwordModulesUsed = new StringCollection();
+            if (Properties.Settings.Default.SwordSourcesToExclude == null)
+                Properties.Settings.Default.SwordSourcesToExclude = new StringCollection();
 
             // regardless of what happens, we *have* to have the Net bible (the only one guaranteed
             //  to be here)

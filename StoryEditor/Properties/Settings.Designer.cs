@@ -1093,5 +1093,16 @@ namespace OneStoryProjectEditor.Properties {
                 this["AutoPopupReminderAfterTurnChange"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection SwordSourcesToExclude {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["SwordSourcesToExclude"]));
+            }
+            set {
+                this["SwordSourcesToExclude"] = value;
+            }
+        }
     }
 }
