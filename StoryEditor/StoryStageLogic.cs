@@ -375,6 +375,18 @@ namespace OneStoryProjectEditor
                 return File.Exists(strCustomFilepath);
             }
 
+            public static bool DoesStateTransitionFileOverrideExist(string strProjectFolder)
+            {
+                var strStateTransitions = Path.Combine(strProjectFolder, CstrStateTransitionsXmlFilename);
+                return File.Exists(strStateTransitions);
+            }
+
+            public static void DeleteStateTransitionFileOverride(string strProjectFolder)
+            {
+                var strStateTransitions = Path.Combine(strProjectFolder, CstrStateTransitionsXmlFilename);
+                File.Delete(strStateTransitions);
+            }
+
             protected void InitStateTransitionsFromXml(string strProjectFolder)
             {
                 try
