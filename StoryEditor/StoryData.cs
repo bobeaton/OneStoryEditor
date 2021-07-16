@@ -525,7 +525,7 @@ namespace OneStoryProjectEditor
                                  Properties.Resources.jquery_min,
                                  Properties.Resources.StoryBtJs,
                                  GetPlaceHolders(projSettings),
-                                 StylePrefix(projSettings),
+                                 StylePrefix(projSettings, null, null),
                                  strHtmlInside,
                                  Properties.Resources.StoryBtPsJs);
         }
@@ -634,8 +634,9 @@ namespace OneStoryProjectEditor
         public const string CstrLangFreeTranslationStyleClassName = "LangFreeTranslation";
         public const string CstrLangLocalizationStyleClassName = "LocalizationStyle";
         public const string CstrLangLocalizationEdgeStyleClassName = "LocalizationEdgeStyle";
+        public const string CstrLangTextAreaStyleClassName = "TextAreaStyle";
 
-        public static string StylePrefix(ProjectSettings projSettings)
+        public static string StylePrefix(ProjectSettings projSettings, string strFontName, string strFontSize)
         {
             string strLangStyles = null;
             if (projSettings.Vernacular.HasData)
@@ -657,6 +658,19 @@ namespace OneStoryProjectEditor
                 strLangStyles += projSettings.Localization.HtmlStyle(CstrLangLocalizationEdgeStyleClassName);
             }
 
+            if (!String.IsNullOrEmpty(strFontName))
+            {
+                strLangStyles += String.Format(Properties.Resources.HTML_LangStyleCenter,
+                                               CstrLangTextAreaStyleClassName,
+                                               strFontName,
+                                               strFontSize);
+            }
+            else
+            {
+                // otherwise, just use the English style for ConNotes
+                strLangStyles += projSettings.InternationalBT.HtmlStyle(CstrLangTextAreaStyleClassName);
+            }
+
             return String.Format(Properties.Resources.HTML_StyleDefinition,
                                  Properties.Settings.Default.ConNoteTableFontSize,
                                  Properties.Settings.Default.ConNoteButtonFontSize,
@@ -673,9 +687,12 @@ namespace OneStoryProjectEditor
             string strHtml = theCnDc.Html(htmlConNoteCtrl, teamMembers, loggedOnMember, this,
                                           nVerseIndex,
                                           nConversationIndex);
-            
+
+            string strFontName, strFontSize;
+            NetBibleViewer.ReadFontNameAndSizeFromUserConfig(htmlConNoteCtrl.SettingsKeyForFontToUse, out strFontName, out strFontSize);
+
             return String.Format(Properties.Resources.HTML_Header,
-                                 StylePrefix(projSettings),
+                                 StylePrefix(projSettings, strFontName, strFontSize),
                                  Properties.Resources.HTML_DOM_Prefix,
                                  strHtml,
                                  Properties.Resources.HTML_Script_AddTextareaMouseDown);
@@ -684,13 +701,13 @@ namespace OneStoryProjectEditor
 
         public string ConsultantNotesHtml(object htmlConNoteCtrl, 
             ProjectSettings projSettings, TeamMemberData LoggedOnMember, 
-            TeamMembersData teamMembers, bool bViewHidden, bool bShowOnlyOpenConversations)
+            TeamMembersData teamMembers, bool bViewHidden, bool bShowOnlyOpenConversations, string strFontName, string strFontSize)
         {
             string strHtml = Verses.ConsultantNotesHtml(htmlConNoteCtrl, LoggedOnMember, 
                 teamMembers, this, bViewHidden, bShowOnlyOpenConversations);
 
             return String.Format(Properties.Resources.HTML_Header,
-                                 StylePrefix(projSettings),
+                                 StylePrefix(projSettings, strFontName, strFontSize),
                                  Properties.Resources.HTML_DOM_Prefix,
                                  strHtml,
                                  Properties.Resources.HTML_Script_AddTextareaMouseDown);
@@ -698,13 +715,13 @@ namespace OneStoryProjectEditor
 
         public string CoachNotesHtml(object htmlConNoteCtrl, 
             ProjectSettings projSettings, TeamMemberData LoggedOnMember, 
-            TeamMembersData teamMembers, bool bViewHidden, bool bShowOnlyOpenConversations)
+            TeamMembersData teamMembers, bool bViewHidden, bool bShowOnlyOpenConversations, string strFontName, string strFontSize)
         {
             string strHtml = Verses.CoachNotesHtml(htmlConNoteCtrl, LoggedOnMember, 
                 teamMembers, this, bViewHidden, bShowOnlyOpenConversations);
 
             return String.Format(Properties.Resources.HTML_Header,
-                                 StylePrefix(projSettings),
+                                 StylePrefix(projSettings, strFontName, strFontSize),
                                  Properties.Resources.HTML_DOM_Prefix,
                                  strHtml,
                                  Properties.Resources.HTML_Script_AddTextareaMouseDown);

@@ -842,7 +842,7 @@ namespace OneStoryProjectEditor
                                             SetHyperlinks(strReferringHtml) +
                                             String.Format(Resources.HTML_TextareaWithRefDoubleClick,
                                                           strHtmlElementId,
-                                                          StoryData.CstrLangInternationalBtStyleClassName,
+                                                          StoryData.CstrLangTextAreaStyleClassName,
                                                           aCI));
 
                     strHtmlTable += String.Format(Resources.HTML_TableRowIdColor,

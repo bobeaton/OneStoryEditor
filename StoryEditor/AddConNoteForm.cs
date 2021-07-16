@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using NetLoc;
 
@@ -30,6 +24,7 @@ namespace OneStoryProjectEditor
             pane.TheSE = theSe;
             pane.StoryData = storyData;
             pane.Dock = DockStyle.Fill;
+            pane.Tag = "Don't LoadDocument if font is changed";
             tableLayoutPanel.Controls.Add(pane, 0, 1);
             tableLayoutPanel.SetColumnSpan(pane, 2);
             textBoxConNotes.Text = pane.PaneLabel();
