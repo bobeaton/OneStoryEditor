@@ -100,7 +100,7 @@
 
         <!--The following 5 components are needed for SWORD support-->
         <Component Id="libsword.dll" Guid="{B5D08D96-A5B2-48E2-8D52-2EE0CEA47CEA}">
-          <File Id="libsword.dll" Name="libsword.dll" Vital="yes" KeyPath="yes" Source="..\..\output\release\libsword.dll"/>
+          <File Id="libsword.dll" Name="libsword.dll" Vital="yes" KeyPath="yes" Source="..\..\DepDLLs\libsword.dll"/>
         </Component>
         <Component Id="libbz2.dll" Guid="{372BC160-7213-4159-B7B8-5B10CA3BC67C}">
           <File Id="libbz2.dll" Name="libbz2.dll" Vital="yes" KeyPath="yes" Source="..\..\DepDLLs\libbz2.dll"/>
