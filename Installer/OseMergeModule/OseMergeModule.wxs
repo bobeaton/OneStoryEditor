@@ -68,6 +68,9 @@
         <Component Id="AutoUpgrade.Lib.dll" Guid="{A086B029-833C-4754-B383-8790F79190D4}">
           <File Id="AutoUpgrade.Lib.dll" Name="AutoUpgrade.Lib.dll" Vital="yes" KeyPath="yes" AssemblyManifest="AutoUpgrade.Lib.dll" AssemblyApplication="AutoUpgrade.Lib.dll" Assembly=".net" Source="..\..\output\release\AutoUpgrade.Lib.dll"/>
         </Component>
+        <Component Id="LICENSE.txt" Guid="{2E63C2A9-0F99-4382-9F31-39070CBDD475}">
+          <File Id="LICENSE.txt" Name="LICENSE.txt" KeyPath="yes" Source="..\..\LICENSE.txt"/>
+        </Component>
         <Directory Id="BiblicalTerms" Name="BiblicalTerms">
           <Component Id="AllBiblicalTerms.xml" Guid="{978EC61A-478F-42C5-BC88-B1461DCE9388}">
             <File Id="AllBiblicalTerms.xml" Name="AllBiblicalTerms.xml" KeyPath="yes" Source="..\..\output\release\BiblicalTerms\AllBiblicalTerms.xml"/>
