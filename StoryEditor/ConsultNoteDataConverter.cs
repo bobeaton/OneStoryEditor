@@ -856,14 +856,14 @@ namespace OneStoryProjectEditor
                     string strHyperlinkedText = strReferringHtml;
                     if (aCI.HasData)
                     {
-                        strHyperlinkedText += aCI.ToString().Replace("\r\n", "<br />");   // regexParagraph.Replace(aCI.ToString(), ParagraphFound);
+                        strHyperlinkedText += String.Format(Resources.HTML_Paragraph, aCI.ToString().Replace("\r\n", "<br />"));
                         strHyperlinkedText = SetHyperlinks(strHyperlinkedText);
                     }
 
                     strRow += String.Format(Resources.HTML_TableCellWidth, 100,
-                                            String.Format(Resources.HTML_ParagraphTextId,
+                                            String.Format(Resources.HTML_DivisionId,
                                                           strHtmlElementId,
-                                                          StoryData.CstrLangInternationalBtStyleClassName,
+                                                          StoryData.CstrLangTextAreaStyleClassName,
                                                           strHyperlinkedText));
 
                     strHtmlTable += String.Format(Resources.HTML_TableRowIdColor,

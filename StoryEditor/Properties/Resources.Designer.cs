@@ -366,6 +366,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;div id=&quot;{0}&quot; class=&quot;{1}&quot;&gt;{2}&lt;/div&gt;.
+        /// </summary>
+        internal static string HTML_DivisionId {
+            get {
+                return ResourceManager.GetString("HTML_DivisionId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;script&gt;
         ///    function OnBibRefJump(link) {
         ///        window.external.OnBibRefJump(link.name);
@@ -489,6 +498,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string HTML_LinkJumpTargetBibleReference {
             get {
                 return ResourceManager.GetString("HTML_LinkJumpTargetBibleReference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;{0}&lt;/p&gt;.
+        /// </summary>
+        internal static string HTML_Paragraph {
+            get {
+                return ResourceManager.GetString("HTML_Paragraph", resourceCulture);
             }
         }
         
