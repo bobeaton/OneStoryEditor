@@ -318,8 +318,6 @@ namespace OneStoryProjectEditor
 
         private void backgroundWorkerLoadDownloadListBox_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            var cursor = Cursor;
-            backgroundWorkerLoadDownloadListBox.ReportProgress(2, Cursors.WaitCursor);  // turn on wait cursor
             try
             {
                 var installManager = CrossWireInstallManager;
@@ -328,23 +326,31 @@ namespace OneStoryProjectEditor
 
                 using (Manager manager = new Manager())
                 {
-                    foreach (var source in installManager.RemoteSources)
+                    // load hte checkListBox first (so it happens quickly)
+                    foreach (var source in installManager.RemoteSources.OrderBy(s => Properties.Settings.Default.SwordSourcesToExclude.Contains(s)))
+                    {
+                        backgroundWorkerLoadDownloadListBox.ReportProgress(0, source);
+                    }
+
+                    // now go back thru it and (in the background), update their resources in case we want to add them later
+                    foreach (var source in installManager.RemoteSources.OrderBy(s => Properties.Settings.Default.SwordSourcesToExclude.Contains(s)))
                     {
                         if (!_mapSwordSourceToModInfos.TryGetValue(source, out List<ModInfo> modInfos))
                         {
-                            backgroundWorkerLoadDownloadListBox.ReportProgress(0, source);
                             installManager.RefreshRemoteSource(source);
                             modInfos = installManager.GetRemoteModInfoList(manager, source).ToList();
                             _mapSwordSourceToModInfos.Add(source, modInfos);
                         }
 
-                        foreach (var modInfo in modInfos)
+                        foreach (var modInfo in modInfos.OrderBy(m => m.Name))
                         {
                             if (this.backgroundWorkerLoadDownloadListBox.CancellationPending)
                             {
                                 e.Cancel = true;
                                 return;
                             }
+                            else
+                                Application.DoEvents(); // so the UI doesn't seem locked out
 
                             if (!_mapShortCodes2SwordData.TryGetValue(modInfo.Name, out SwordModuleData swordModuleData))
                             {
@@ -376,7 +382,6 @@ namespace OneStoryProjectEditor
             finally
             {
                 CrossWireInstallManager = null;
-                backgroundWorkerLoadDownloadListBox.ReportProgress(2, cursor);  // restore/turn off wait cursor
             }
         }
 
@@ -454,7 +459,7 @@ namespace OneStoryProjectEditor
                     {
                         AddToDownloadCheckBoxList(modInfo);
                     }
-                    AddRemoveSwordSourceSetting(source, add: true);
+                    AddRemoveSwordSourceSetting(source, exclude: false);
                 }
             }
             else
@@ -486,18 +491,18 @@ namespace OneStoryProjectEditor
                 descendingIndiciesToRemove.ForEach(idx => checkedListBoxDownloadable.Items.RemoveAt(idx));
                 */
                 checkedListBoxDownloadable.Refresh();
-                AddRemoveSwordSourceSetting(source, add: false);
+                AddRemoveSwordSourceSetting(source, exclude: true);
             }
         }
 
-        private static void AddRemoveSwordSourceSetting(string source, bool add)
+        private static void AddRemoveSwordSourceSetting(string source, bool exclude)
         {
-            var inSettingsAlready = Properties.Settings.Default.SwordSourcesToExclude.Contains(source);
-            if (add && !inSettingsAlready)
+            var alreadyExcluded = Properties.Settings.Default.SwordSourcesToExclude.Contains(source);
+            if (exclude && !alreadyExcluded)
             {
                 Properties.Settings.Default.SwordSourcesToExclude.Add(source);
             }
-            else if (!add && inSettingsAlready)
+            else if (!exclude && alreadyExcluded)
             {
                 Properties.Settings.Default.SwordSourcesToExclude.Remove(source);
             }
