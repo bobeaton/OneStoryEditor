@@ -366,6 +366,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;div id=&quot;{0}&quot; class=&quot;{1}&quot;&gt;{2}&lt;/div&gt;.
+        /// </summary>
+        internal static string HTML_DivisionId {
+            get {
+                return ResourceManager.GetString("HTML_DivisionId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;script&gt;
         ///    function OnBibRefJump(link) {
         ///        window.external.OnBibRefJump(link.name);
@@ -489,6 +498,15 @@ namespace OneStoryProjectEditor.Properties {
         internal static string HTML_LinkJumpTargetBibleReference {
             get {
                 return ResourceManager.GetString("HTML_LinkJumpTargetBibleReference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;{0}&lt;/p&gt;.
+        /// </summary>
+        internal static string HTML_Paragraph {
+            get {
+                return ResourceManager.GetString("HTML_Paragraph", resourceCulture);
             }
         }
         
@@ -933,8 +951,7 @@ namespace OneStoryProjectEditor.Properties {
         ///&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
         /// &lt;o:DocumentProperties&gt;
         ///  &lt;o:Author&gt;Bob Eaton&lt;/o:Author&gt;
-        ///  &lt;o:LastAuthor&gt;Bob Eaton&lt;/o:LastAuthor&gt;
-        /// [rest of string was truncated]&quot;;.
+        ///  &lt;o:LastAuthor&gt;Bob Eaton&lt;/o:LastAuthor&gt;        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IDS_CopyrightInfo {
             get {
@@ -1213,8 +1230,7 @@ namespace OneStoryProjectEditor.Properties {
         ///
         ///\+mkr ans
         ///\nam Answers
-        ///\lng InternationalBT
-        /// [rest of string was truncated]&quot;;.
+        ///\lng InternationalBT        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IDS_TbxFile_StoryBT {
             get {
@@ -1332,8 +1348,7 @@ namespace OneStoryProjectEditor.Properties {
         ///    &lt;!-- oneStory2CoachNotes.xsl         
         ///        create by Bob Eaton based on Jim Albright&apos;s script for storyingBT 
         ///        (to handle conversion of onestory to sfm)
-        ///        2010-04-05
-        /// [rest of string was truncated]&quot;;.
+        ///        2010-04-05        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string oneStory2CoachNotes {
             get {
