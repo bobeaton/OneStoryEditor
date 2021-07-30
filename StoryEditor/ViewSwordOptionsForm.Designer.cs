@@ -35,7 +35,7 @@ namespace OneStoryProjectEditor
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.linkLabelLinkToSword = new System.Windows.Forms.LinkLabel();
-            this.tabControl = new System.Windows.Forms.TabControl();
+            this.tabControlB = new System.Windows.Forms.TabControl();
             this.tabPageInstalled = new System.Windows.Forms.TabPage();
             this.checkedListBoxSwordBibles = new System.Windows.Forms.CheckedListBox();
             this.tabPageSeedConnect = new System.Windows.Forms.TabPage();
@@ -44,19 +44,27 @@ namespace OneStoryProjectEditor
             this.backgroundWorkerLoadDownloadListBox = new System.ComponentModel.BackgroundWorker();
             this.comboCheckBoxListForSwordSources = new OneStoryProjectEditor.CheckedComboBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tabControl.SuspendLayout();
+            this.textBoxFilter = new System.Windows.Forms.TextBox();
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.checkedListBoxInstalled = new System.Windows.Forms.CheckedListBox();
+            this.listViewSwordModules = new System.Windows.Forms.ListView();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabControlB.SuspendLayout();
             this.tabPageInstalled.SuspendLayout();
             this.tabPageSeedConnect.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.tabControl.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonOK
             // 
             this.buttonOK.AutoSize = true;
             this.buttonOK.Dock = System.Windows.Forms.DockStyle.Right;
-            this.buttonOK.Location = new System.Drawing.Point(192, 373);
+            this.buttonOK.Location = new System.Drawing.Point(192, 372);
             this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(75, 25);
+            this.buttonOK.Size = new System.Drawing.Size(75, 26);
             this.buttonOK.TabIndex = 1;
             this.buttonOK.Text = "&OK";
             this.buttonOK.UseVisualStyleBackColor = true;
@@ -67,9 +75,9 @@ namespace OneStoryProjectEditor
             this.buttonCancel.AutoSize = true;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.buttonCancel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.buttonCancel.Location = new System.Drawing.Point(273, 373);
+            this.buttonCancel.Location = new System.Drawing.Point(273, 372);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 25);
+            this.buttonCancel.Size = new System.Drawing.Size(75, 26);
             this.buttonCancel.TabIndex = 2;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
@@ -80,7 +88,7 @@ namespace OneStoryProjectEditor
             this.linkLabelLinkToSword.AutoSize = true;
             this.tableLayoutPanel1.SetColumnSpan(this.linkLabelLinkToSword, 2);
             this.linkLabelLinkToSword.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.linkLabelLinkToSword.Location = new System.Drawing.Point(3, 353);
+            this.linkLabelLinkToSword.Location = new System.Drawing.Point(3, 352);
             this.linkLabelLinkToSword.Name = "linkLabelLinkToSword";
             this.linkLabelLinkToSword.Size = new System.Drawing.Size(534, 17);
             this.linkLabelLinkToSword.TabIndex = 3;
@@ -89,18 +97,17 @@ namespace OneStoryProjectEditor
             this.linkLabelLinkToSword.UseCompatibleTextRendering = true;
             this.linkLabelLinkToSword.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelLinkToSword_LinkClicked);
             // 
-            // tabControl
+            // tabControlB
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.tabControl, 2);
-            this.tabControl.Controls.Add(this.tabPageInstalled);
-            this.tabControl.Controls.Add(this.tabPageSeedConnect);
-            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl.Location = new System.Drawing.Point(3, 30);
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(534, 285);
-            this.tabControl.TabIndex = 4;
-            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
+            this.tableLayoutPanel1.SetColumnSpan(this.tabControlB, 2);
+            this.tabControlB.Controls.Add(this.tabPageInstalled);
+            this.tabControlB.Controls.Add(this.tabPageSeedConnect);
+            this.tabControlB.Location = new System.Drawing.Point(3, 175);
+            this.tabControlB.Name = "tabControlB";
+            this.tabControlB.SelectedIndex = 0;
+            this.tabControlB.Size = new System.Drawing.Size(534, 139);
+            this.tabControlB.TabIndex = 4;
+            this.tabControlB.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
             // 
             // tabPageInstalled
             // 
@@ -108,7 +115,7 @@ namespace OneStoryProjectEditor
             this.tabPageInstalled.Location = new System.Drawing.Point(4, 22);
             this.tabPageInstalled.Name = "tabPageInstalled";
             this.tabPageInstalled.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageInstalled.Size = new System.Drawing.Size(526, 259);
+            this.tabPageInstalled.Size = new System.Drawing.Size(526, 113);
             this.tabPageInstalled.TabIndex = 0;
             this.tabPageInstalled.Text = "Installed";
             this.tabPageInstalled.UseVisualStyleBackColor = true;
@@ -120,7 +127,8 @@ namespace OneStoryProjectEditor
             this.checkedListBoxSwordBibles.FormattingEnabled = true;
             this.checkedListBoxSwordBibles.Location = new System.Drawing.Point(3, 3);
             this.checkedListBoxSwordBibles.Name = "checkedListBoxSwordBibles";
-            this.checkedListBoxSwordBibles.Size = new System.Drawing.Size(520, 253);
+            this.checkedListBoxSwordBibles.Size = new System.Drawing.Size(520, 107);
+            this.checkedListBoxSwordBibles.Sorted = true;
             this.checkedListBoxSwordBibles.TabIndex = 1;
             // 
             // tabPageSeedConnect
@@ -129,7 +137,7 @@ namespace OneStoryProjectEditor
             this.tabPageSeedConnect.Location = new System.Drawing.Point(4, 22);
             this.tabPageSeedConnect.Name = "tabPageSeedConnect";
             this.tabPageSeedConnect.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSeedConnect.Size = new System.Drawing.Size(526, 259);
+            this.tabPageSeedConnect.Size = new System.Drawing.Size(526, 113);
             this.tabPageSeedConnect.TabIndex = 1;
             this.tabPageSeedConnect.Text = "Download";
             this.tabPageSeedConnect.UseVisualStyleBackColor = true;
@@ -141,7 +149,7 @@ namespace OneStoryProjectEditor
             this.checkedListBoxDownloadable.FormattingEnabled = true;
             this.checkedListBoxDownloadable.Location = new System.Drawing.Point(3, 3);
             this.checkedListBoxDownloadable.Name = "checkedListBoxDownloadable";
-            this.checkedListBoxDownloadable.Size = new System.Drawing.Size(520, 253);
+            this.checkedListBoxDownloadable.Size = new System.Drawing.Size(520, 107);
             this.checkedListBoxDownloadable.TabIndex = 2;
             // 
             // labelDownloadProgress
@@ -150,7 +158,7 @@ namespace OneStoryProjectEditor
             this.tableLayoutPanel1.SetColumnSpan(this.labelDownloadProgress, 2);
             this.labelDownloadProgress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelDownloadProgress.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.labelDownloadProgress.Location = new System.Drawing.Point(3, 318);
+            this.labelDownloadProgress.Location = new System.Drawing.Point(3, 317);
             this.labelDownloadProgress.Name = "labelDownloadProgress";
             this.labelDownloadProgress.Size = new System.Drawing.Size(534, 35);
             this.labelDownloadProgress.TabIndex = 5;
@@ -166,18 +174,18 @@ namespace OneStoryProjectEditor
             // comboCheckBoxListForSwordSources
             // 
             this.comboCheckBoxListForSwordSources.CheckOnClick = true;
+            this.comboCheckBoxListForSwordSources.DisplayMember = "SWORD resource servers";
             this.comboCheckBoxListForSwordSources.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboCheckBoxListForSwordSources.DropDownHeight = 1;
             this.comboCheckBoxListForSwordSources.FormattingEnabled = true;
             this.comboCheckBoxListForSwordSources.IntegralHeight = false;
             this.comboCheckBoxListForSwordSources.Location = new System.Drawing.Point(273, 3);
+            this.comboCheckBoxListForSwordSources.MaxDropDownItems = 10;
             this.comboCheckBoxListForSwordSources.Name = "comboCheckBoxListForSwordSources";
             this.comboCheckBoxListForSwordSources.Size = new System.Drawing.Size(264, 21);
             this.comboCheckBoxListForSwordSources.TabIndex = 0;
             this.comboCheckBoxListForSwordSources.ValueSeparator = ", ";
-            this.comboCheckBoxListForSwordSources.DisplayMember = "SWORD resource servers";
             this.comboCheckBoxListForSwordSources.Visible = false;
-            this.comboCheckBoxListForSwordSources.MaxDropDownItems = 10;
             this.comboCheckBoxListForSwordSources.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.ccb_ItemCheck);
             // 
             // tableLayoutPanel1
@@ -189,22 +197,89 @@ namespace OneStoryProjectEditor
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.comboCheckBoxListForSwordSources, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tabControlB, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.labelDownloadProgress, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.linkLabelLinkToSword, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.buttonOK, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.buttonCancel, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.textBoxFilter, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tabControl, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.labelDownloadProgress, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.linkLabelLinkToSword, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.buttonOK, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.buttonCancel, 1, 4);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowCount = 5;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.Size = new System.Drawing.Size(540, 401);
             this.tableLayoutPanel1.TabIndex = 6;
+            // 
+            // textBoxFilter
+            // 
+            this.textBoxFilter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxFilter.Location = new System.Drawing.Point(3, 3);
+            this.textBoxFilter.Name = "textBoxFilter";
+            this.textBoxFilter.Size = new System.Drawing.Size(264, 20);
+            this.textBoxFilter.TabIndex = 6;
+            this.textBoxFilter.TextChanged += new System.EventHandler(this.textBoxFilter_TextChanged);
+            // 
+            // tabControl
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.tabControl, 2);
+            this.tabControl.Controls.Add(this.tabPage1);
+            this.tabControl.Controls.Add(this.tabPage2);
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl.Location = new System.Drawing.Point(3, 30);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(534, 139);
+            this.tabControl.TabIndex = 4;
+            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.checkedListBoxInstalled);
+            this.tabPage1.Controls.Add(this.listViewSwordModules);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(526, 113);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Installed";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // checkedListBoxInstalled
+            // 
+            this.checkedListBoxInstalled.CheckOnClick = true;
+            this.checkedListBoxInstalled.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkedListBoxInstalled.FormattingEnabled = true;
+            this.checkedListBoxInstalled.Location = new System.Drawing.Point(3, 3);
+            this.checkedListBoxInstalled.Name = "checkedListBoxInstalled";
+            this.checkedListBoxInstalled.Size = new System.Drawing.Size(520, 107);
+            this.checkedListBoxInstalled.Sorted = true;
+            this.checkedListBoxInstalled.TabIndex = 2;
+            // 
+            // listViewSwordModules
+            // 
+            this.listViewSwordModules.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewSwordModules.HideSelection = false;
+            this.listViewSwordModules.Location = new System.Drawing.Point(3, 3);
+            this.listViewSwordModules.Name = "listViewSwordModules";
+            this.listViewSwordModules.Size = new System.Drawing.Size(520, 107);
+            this.listViewSwordModules.TabIndex = 0;
+            this.listViewSwordModules.UseCompatibleStateImageBehavior = false;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(526, 113);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Download";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // ViewSwordOptionsForm
             // 
@@ -219,11 +294,13 @@ namespace OneStoryProjectEditor
             this.MinimizeBox = false;
             this.Name = "ViewSwordOptionsForm";
             this.Text = "Sword Resources (Biblical Texts, etc.)";
-            this.tabControl.ResumeLayout(false);
+            this.tabControlB.ResumeLayout(false);
             this.tabPageInstalled.ResumeLayout(false);
             this.tabPageSeedConnect.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.tabControl.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -233,7 +310,7 @@ namespace OneStoryProjectEditor
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.LinkLabel linkLabelLinkToSword;
-        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabControl tabControlB;
         private System.Windows.Forms.TabPage tabPageInstalled;
         private System.Windows.Forms.CheckedListBox checkedListBoxSwordBibles;
         private System.Windows.Forms.TabPage tabPageSeedConnect;
@@ -242,5 +319,11 @@ namespace OneStoryProjectEditor
         private System.ComponentModel.BackgroundWorker backgroundWorkerLoadDownloadListBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private CheckedComboBox comboCheckBoxListForSwordSources;
+        private TextBox textBoxFilter;
+        private TabControl tabControl;
+        private TabPage tabPage1;
+        private ListView listViewSwordModules;
+        private TabPage tabPage2;
+        private CheckedListBox checkedListBoxInstalled;
     }
 }
