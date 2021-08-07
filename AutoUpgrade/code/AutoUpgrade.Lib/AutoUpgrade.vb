@@ -1171,7 +1171,8 @@ Namespace devX
 
         Public Shared Function CreateSwordDownloader(strSourcePath As String) As AutoUpgrade
             Dim downloader As New AutoUpgrade()
-            downloader.CreateUpgradeDirectory(True)
+            downloader.CreateUpgradeDirectory() ' --(true), so we don't delete files we've already downloaded
+            ClearOutProcessedUpgrade()          ' do at least this to clobber the manifest file (it seems to be being appended to, rather than created from scratch!?)
 
             ' We only set the SourcePath if the manifest file doesn't already 
             ' contain one.  This way, if the host was a web service, or ASP page 

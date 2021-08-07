@@ -66,7 +66,7 @@ namespace OneStoryProjectEditor
         {
             StopBackgroundWorker();
 
-            if (tabControlB.SelectedTab == tabPageSeedConnect)
+            if (tabControl.SelectedTab == tabPageDownloadTree)
             {
                 var cursor = Cursor;
                 Cursor = Cursors.WaitCursor;
@@ -77,41 +77,19 @@ namespace OneStoryProjectEditor
                     var swordManifestCreator = AutoUpgrade.CreateSwordDownloader(Program.UpgradeCacheDir);
                     swordManifestCreator.ApplicationBasePath = StoryProjectData.GetRunningFolder;
 
-                    // create the path to the folder where we want to install them (the 'upgrade-cache', so the regular copy 
-                    //  handler at startup can see them)
-                    var upgradePath = Path.Combine(Program.UpgradeCacheDir, NetBibleViewer.SwordResourcePathSubfolderName);
-                    using (Manager manager = new Manager(upgradePath))
+                    // all the files in the SWORD resource have already been downloaded (when it was checked), so here we just need
+                    //  to create the manifest for them
+                    var resourcesToDownload = _mapSourceAndName2SwordData.Values.SelectMany(kvp => kvp.Values.Where(s => s.SwordDataFiles != null)).ToList();
+                    foreach (var data in resourcesToDownload)
                     {
-                        foreach (var item in from int checkedIndex in checkedListBoxDownloadable.CheckedIndices
-                                                select checkedListBoxDownloadable.Items[checkedIndex] as CheckBoxListItem)
+                        swordManifestCreator.AddModuleToManifest(data.ModsDfile, data.SwordDataFiles);
+
+                        if (data.DirectionRtl && !Properties.Settings.Default.ListSwordModuleToRtl.Contains(data.SwordShortCode))
                         {
-                            ParseCheckBoxItem(item.Text, out string moduleName);
-
-                            var data = _mapSourceAndName2SwordData[item.Source][moduleName];
-                            var installManager = CrossWireInstallManager;
-
-                            if (installManager.RemoteInstallModule(manager, data.SwordRemoteSource, data.SwordShortCode))
-                            {
-                                data.ModsDfile = Path.Combine(Path.Combine(upgradePath, CstrPathModsD),
-                                                              $"{data.SwordShortCode}.conf");
-                                if (!GetInformation(data.ModsDfile, ref data))
-                                    continue;
-
-                                var pathToDataFiles = Path.Combine(Program.UpgradeCacheDir, data.ModulesDataPath);
-                                data.SwordDataFiles = Directory.GetFiles(pathToDataFiles).ToList();
-
-                                swordManifestCreator.AddModuleToManifest(data.ModsDfile, data.SwordDataFiles);
-                                if (data.DirectionRtl && !Properties.Settings.Default.ListSwordModuleToRtl.Contains(data.SwordShortCode))
-                                {
-                                    Properties.Settings.Default.ListSwordModuleToRtl.Add(data.SwordShortCode);
-                                    Properties.Settings.Default.Save();
-                                }
-                            }
-                            else
-                                throw new ApplicationException(Localizer.Str("Unable to download requested SWORD module(s)... Try again later."));
+                            Properties.Settings.Default.ListSwordModuleToRtl.Add(data.SwordShortCode);
+                            Properties.Settings.Default.Save();
                         }
                     }
-                    CrossWireInstallManager = null;
 
                     // once we're done pulling the files from remote, then see about calling AutoUpdate to do its copy of the files
                     if (swordManifestCreator.IsUpgradeAvailable())
@@ -264,13 +242,15 @@ namespace OneStoryProjectEditor
         {
             StopBackgroundWorker();
 
-            if (tabControlB.SelectedTab == tabPageSeedConnect)
+            if (tabControl.SelectedTab == tabPageDownloadTree)
             {
                 try
                 {
-                    comboCheckBoxListForSwordSources.Visible = true;
+                    labelFilter.Visible = 
+                        textBoxFilter.Visible = 
+                        treeViewSourcesDownloadable.Visible = true;
                     bool bAtLeastOneInstallable = false;
-                    checkedListBoxDownloadable.Items.Clear();   // in case it's a repeat
+                    treeViewSourcesDownloadable.Nodes.Clear();  // in case it's a repeat
                     _mapSourceAndName2SwordData.Clear();
 
                     bAtLeastOneInstallable = true;  // this'll always be true
@@ -299,7 +279,11 @@ namespace OneStoryProjectEditor
                 }
             }
             else
-                comboCheckBoxListForSwordSources.Visible = false;
+            {
+                labelFilter.Visible = 
+                    textBoxFilter.Visible = 
+                    treeViewSourcesDownloadable.Visible = false;
+            }
         }
 
         private static string DownloadLabel
@@ -328,18 +312,23 @@ namespace OneStoryProjectEditor
 
                 using (Manager manager = new Manager())
                 {
-                    // load hte checkListBox first (so it happens quickly)
-                    foreach (var source in installManager.RemoteSources.OrderBy(s => Properties.Settings.Default.SwordSourcesToExclude.Contains(s)))
+                    // load the checkListBox first (so it happens quickly)
+                    var sources = installManager.RemoteSources.OrderBy(s => Properties.Settings.Default.SwordSourcesToExclude.Contains(s));
+                    foreach (var source in sources)
                     {
-                        backgroundWorkerLoadDownloadListBox.ReportProgress(0, source);
+                        // add the sources as the first level leaf nodes in the treeview
+                        var sourceTreeNode = new TreeNode(source) 
+                        {
+                            ToolTipText = $"Open this node to see the SWORD resources available from the {source} source",
+                            Name = source,
+                            Checked = !Properties.Settings.Default.SwordSourcesToExclude.Contains(source) 
+                        };
+                        backgroundWorkerLoadDownloadListBox.ReportProgress(0, sourceTreeNode);
                     }
 
                     // now go back thru it and (in the background), update their resources in case we want to add them later
-                    foreach (var source in installManager.RemoteSources.OrderBy(s => Properties.Settings.Default.SwordSourcesToExclude.Contains(s)))
+                    foreach (var source in sources)
                     {
-                        var count = _mapSourceAndName2SwordData.Values.Sum(n2s => n2s.Count);
-                        backgroundWorkerLoadDownloadListBox.ReportProgress(4, $"{source} (total: {count})");  // update the label
-
                         if (!_mapSourceAndName2SwordData.TryGetValue(source, out Dictionary<string, SwordModuleData> mapName2SwordData))
                         {
                             mapName2SwordData = new Dictionary<string, SwordModuleData>();
@@ -349,6 +338,11 @@ namespace OneStoryProjectEditor
                         }
 
                         var modInfos = installManager.GetRemoteModInfoList(manager, source).ToList();
+
+                        var count = modInfos.Count;
+                        int updateLabelFrequency = GetUpdateFrequency(count);   // don't allow it to be 0
+                        backgroundWorkerLoadDownloadListBox.ReportProgress(4, $"{source} (total: {count})");  // update the label
+
                         foreach (var modInfo in modInfos.OrderBy(m => m.Name))
                         {
                             if (this.backgroundWorkerLoadDownloadListBox.CancellationPending)
@@ -372,9 +366,15 @@ namespace OneStoryProjectEditor
                                 mapName2SwordData.Add(swordModuleData.SwordShortCode, swordModuleData);
                             }
 
+                            // add a '.' to the lable every so it shows progress
+                            if (--updateLabelFrequency == 0)
+                            {
+                                backgroundWorkerLoadDownloadListBox.ReportProgress(5, ".");  // update the label
+                                updateLabelFrequency = GetUpdateFrequency(count);
+                            }
+
                             string filter;
-                            if (IsAlreadyInstalled(modInfo) ||  // already on the first tab of installed items (don't show in the download tab)
-                                Properties.Settings.Default.SwordSourcesToExclude.Contains(source) ||   // don't add it to the checkboxlist if the user had previously unchecked its source
+                            if (Properties.Settings.Default.SwordSourcesToExclude.Contains(source) ||   // don't add it to the checkboxlist if the user had previously unchecked its source
                                 (!String.IsNullOrEmpty(filter = textBoxFilter.Text) && modInfo.Name.Contains(filter)))
                             {
                                 continue;
@@ -383,7 +383,7 @@ namespace OneStoryProjectEditor
                             AddToDownloadCheckBoxList(modInfo, source);
                         }
                     }
-                    backgroundWorkerLoadDownloadListBox.ReportProgress(3, String.Format(Localizer.Str("All accessible resources listed (total: {0})..."), checkedListBoxDownloadable.Items.Count));
+                    backgroundWorkerLoadDownloadListBox.ReportProgress(3, Localizer.Str("All accessible resources listed..."));
                 }
             }
             catch (Exception ex)
@@ -396,18 +396,46 @@ namespace OneStoryProjectEditor
             }
         }
 
+        private static int GetUpdateFrequency(int count)
+        {
+            return Math.Max(1, count / 20);
+        }
+
+        private bool IsFilterMatch(string filter, string inputText, bool caseSensitive)
+        {
+            return ((caseSensitive && inputText.Contains(filter)) ||
+                    (!caseSensitive && inputText.ToLower().Contains(filter)));
+        }
+
         private void textBoxFilter_TextChanged(object sender, EventArgs e)
         {
             var filter = textBoxFilter.Text;
-            var lstCheckListBoxItems = checkedListBoxDownloadable.Items.Cast<CheckBoxListItem>().ToList();
-            foreach (var item in lstCheckListBoxItems.Where(i => !i.ToString().Contains(filter)))
+            var anyUpperCase = filter.Any(char.IsUpper);
+
+            var checkedSourceNodes = treeViewSourcesDownloadable.Nodes.Cast<TreeNode>().ToList().Where(tn => tn.Checked).ToList();
+
+            // remove any resource nodes that don't contain the filter string in their 'Text' value (but only if the filter string is not null)
+            if (!String.IsNullOrEmpty(filter))
             {
-                checkedListBoxDownloadable.Items.Remove(item);
+                foreach (var sourceNode in checkedSourceNodes)
+                {
+                    foreach (var resourceNode in sourceNode.Nodes.Cast<TreeNode>().ToList().Where(rn => !IsFilterMatch(filter, rn.Text, anyUpperCase)))
+                    {
+                        resourceNode.Remove();
+                    }
+                }
             }
 
-            foreach (var kvp in _mapSourceAndName2SwordData.SelectMany(s => s.Value.Where(kvp => kvp.Key.Contains(filter)).ToList()))
+            // but only add them if the source node is checked (if we're in the process of filling it, the source map may not be present yet)
+            foreach (var sourceNode in checkedSourceNodes.Where(n => _mapSourceAndName2SwordData.ContainsKey(n.Name)).ToList())
             {
-                AddToDownloadCheckBoxList(kvp.Value.SwordModInfo, kvp.Value.SwordRemoteSource);
+                foreach (var resource in _mapSourceAndName2SwordData[sourceNode.Name].Values.Where(r => String.IsNullOrEmpty(filter) ||
+                                                                                                        IsFilterMatch(filter, 
+                                                                                                                      GetDisplayString(r.SwordModInfo.Name, r.SwordModInfo.Category, r.SwordModInfo.Description),
+                                                                                                                      anyUpperCase)).ToList())
+                {
+                    AddToDownloadCheckBoxList(resource.SwordModInfo, resource.SwordRemoteSource);
+                }
             }
         }
 
@@ -423,25 +451,22 @@ namespace OneStoryProjectEditor
 
         private bool AddToDownloadCheckBoxList(ModInfo modInfo, string source)
         {
-            string itemText = GetDisplayString(modInfo.Name, modInfo.Category, modInfo.Description);
-            var item = new CheckBoxListItem { Source = source, Text = itemText };
-            if (checkedListBoxDownloadable.Items.Cast<CheckBoxListItem>().ToList().Any(i => (i.Source == source) && (i.Text == itemText)))
+            var keyNode = treeViewSourcesDownloadable.Nodes.Find(source, false).First();
+
+            // make sure we haven't already added it
+            if (keyNode.Nodes.Find(modInfo.Name, false).Any())
                 return false;
+
+            var itemText = GetDisplayString(modInfo.Name, modInfo.Category, modInfo.Description);
+            var isInstalled = IsAlreadyInstalled(modInfo);
+            var item = new TreeNode(itemText) { Name = modInfo.Name, Checked = isInstalled, Tag = keyNode };  // add the source node as Tag, so we know which one to add it to
 
             if (backgroundWorkerLoadDownloadListBox.IsBusy)
                 backgroundWorkerLoadDownloadListBox.ReportProgress(1, item);
             else
-                checkedListBoxDownloadable.Items.Add(item, false);
+                keyNode.Nodes.Add(item);
 
             return true;
-        }
-
-        private void AddSourceToDropdownComboBox(string source)
-        {
-            var item = new CCBoxItem() { Name = source };
-            var idx = comboCheckBoxListForSwordSources.Items.Add(item);
-            var uncheckedState = Properties.Settings.Default.SwordSourcesToExclude.Contains(source);
-            comboCheckBoxListForSwordSources.SetItemChecked(idx, !uncheckedState);
         }
 
         private static string GetDisplayString(string moduleName, string moduleCategory, string moduleDescription)
@@ -453,10 +478,16 @@ namespace OneStoryProjectEditor
 
         private void backgroundWorkerLoadDownloadListBox_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
         {
-            if (e.ProgressPercentage == 1)
+            if (e.ProgressPercentage == 0)
             {
-                var data = e.UserState as CheckBoxListItem;
-                checkedListBoxDownloadable.Items.Add(data, false);
+                var sourceTreeNode = e.UserState as TreeNode;
+                treeViewSourcesDownloadable.Nodes.Add(sourceTreeNode);
+            }
+            else if (e.ProgressPercentage == 1)
+            {
+                var resourceTreeNode = e.UserState as TreeNode;
+                var sourceTreeNode = resourceTreeNode.Tag as TreeNode;
+                sourceTreeNode.Nodes.Add(resourceTreeNode);
             }
             else if (e.ProgressPercentage == 2)
             {
@@ -466,11 +497,7 @@ namespace OneStoryProjectEditor
             else
             {
                 var data = e.UserState as string;
-                if (e.ProgressPercentage == 0)
-                {
-                    AddSourceToDropdownComboBox(data);
-                }
-                else if (e.ProgressPercentage == 3)
+                if (e.ProgressPercentage == 3)
                 {
                     labelDownloadProgress.Text = data;
                 }
@@ -478,41 +505,109 @@ namespace OneStoryProjectEditor
                 {
                     labelDownloadProgress.Text = String.Format(Localizer.Str("Gathering resources available from {0}..."), data);
                 }
+                else if (e.ProgressPercentage == 5)
+                {
+                    labelDownloadProgress.Text += data;
+                    labelDownloadProgress.Update();
+                }
                 else 
                     System.Diagnostics.Debug.Fail("Did you add a new type?");
             }
         }
 
-        private void ccb_ItemCheck(object sender, ItemCheckEventArgs e)
+        private void treeViewSourcesDownloadable_AfterCheck(object sender, TreeViewEventArgs e)
         {
-            var ccb = comboCheckBoxListForSwordSources.Items[e.Index] as CCBoxItem;
-            var source = ccb.Name;
-            if (e.NewValue == CheckState.Checked)
+            var cursor = Cursor;
+            Cursor = Cursors.WaitCursor;
+            try
             {
-                // do we need to add it back?
-                labelDownloadProgress.Text = String.Format(Localizer.Str("Added resources available from '{0}'..."), source);
-                if (_mapSourceAndName2SwordData.TryGetValue(source, out Dictionary<string,SwordModuleData> swordModuleData))
+                ProcessCheckChangeInTreeView(e);
+            }
+            catch (Exception ex)
+            {
+                Program.ShowException(ex);
+            }
+            finally
+            {
+                Cursor = cursor;
+            }
+        }
+
+        private void ProcessCheckChangeInTreeView(TreeViewEventArgs e)
+        {
+            if (e.Node.Parent != null)  // means this is a resource node. Go ahead and download it now
+            {
+                var data = _mapSourceAndName2SwordData[e.Node.Parent.Name][e.Node.Name];
+                if (e.Node.Checked)
                 {
-                    foreach (var modInfo in swordModuleData.Select(s => s.Value.SwordModInfo))
+                    var upgradePath = Path.Combine(Program.UpgradeCacheDir, NetBibleViewer.SwordResourcePathSubfolderName);
+                    Directory.CreateDirectory(upgradePath);
+                    using (Manager manager = new Manager(upgradePath))
+                    {
+                        var installManager = CrossWireInstallManager;
+
+                        if (installManager.RemoteInstallModule(manager, data.SwordRemoteSource, data.SwordShortCode))
+                        {
+                            data.ModsDfile = Path.Combine(Path.Combine(upgradePath, CstrPathModsD),
+                                                          $"{data.SwordShortCode}.conf");
+                            if (!GetInformation(data.ModsDfile, ref data))
+                                return;
+
+                            var pathToDataFiles = Path.Combine(Program.UpgradeCacheDir, data.ModulesDataPath);
+                            SetFilePathSafe(data, pathToDataFiles);
+                        }
+                        else
+                        {
+                            LocalizableMessageBox.Show(
+                                String.Format(Localizer.Str("Some error is preventing the '{0}' SWORD module from being downloaded from the {1} repository."),
+                                              data.SwordShortCode, data.SwordRemoteSource),
+                                StoryEditor.OseCaption);
+                        }
+                        CrossWireInstallManager = null;
+                    }
+                }
+                else
+                {
+                    data.SwordDataFiles = null;
+                    data.ModsDfile = null;
+                    data.ModulesDataPath = null;
+                }
+            }
+            else    // a source checkbox was checked (or unchecked)
+            {
+                var source = e.Node.Name;
+                if (e.Node.Checked)
+                {
+                    // do we need to add it back?
+                    var filter = textBoxFilter.Text;
+                    var anyUpperCase = filter.Any(char.IsUpper);
+                    foreach (var modInfo in _mapSourceAndName2SwordData[source].Values.Where(r => String.IsNullOrEmpty(filter) ||
+                                                                                                  IsFilterMatch(filter,
+                                                                                                                GetDisplayString(r.SwordModInfo.Name, r.SwordModInfo.Category, r.SwordModInfo.Description),
+                                                                                                                anyUpperCase))
+                                                                               .Select(s => s.SwordModInfo))
                     {
                         AddToDownloadCheckBoxList(modInfo, source);
                     }
                     AddRemoveSwordSourceSetting(source, exclude: false);
                 }
-            }
-            else
-            {
-                // remove these from the list box. First get the descending indices to remove
-                labelDownloadProgress.Text = String.Format(Localizer.Str("Removed resources available from '{0}'..."), source);
-                foreach (var item in checkedListBoxDownloadable.Items.Cast<CheckBoxListItem>().ToList()
-                                                               .Where(i => i.Source == source))
+                else
                 {
-                    checkedListBoxDownloadable.Items.Remove(item);
+                    var sourceNode = treeViewSourcesDownloadable.Nodes.Find(source, false).First();
+                    sourceNode.Nodes.Clear();
+                    AddRemoveSwordSourceSetting(source, exclude: true);
                 }
-
-                checkedListBoxDownloadable.Refresh();
-                AddRemoveSwordSourceSetting(source, exclude: true);
             }
+        }
+
+        private static void SetFilePathSafe(SwordModuleData data, string pathToDataFiles)
+        {
+            // for some reason, a large number of *.conf files contain bad path to the data files (usually one sub-folder too much)
+            // so make sure the folder exists, before you look for the files:
+            while (!Directory.Exists(pathToDataFiles))
+                pathToDataFiles = Path.GetDirectoryName(pathToDataFiles);
+
+            data.SwordDataFiles = Directory.GetFiles(pathToDataFiles).ToList();
         }
 
         private static void AddRemoveSwordSourceSetting(string source, bool exclude)
