@@ -21,7 +21,7 @@ namespace OneStoryProjectEditor
         protected int m_nReferenceArrayIndex = -1;
 
         #region "format strings for HTML items"
-        protected const string CstrHtmlTableBegin = "<table border=\"1\">";
+        protected const string CstrHtmlTableBegin = "<table align={0} border=\"1\">";
         protected const string CstrHtmlButtonCell = "<td dir='{2}'><button id='{0}' type=\"button\">{1}</button></td>";
         protected const string CstrHtmlTextCell = "<td dir='{1}' class='TextStyle'>{0}</td>";
         protected const string CstrHtmlRowFormat = "<tr id=\"{0}\">{1}{2}</tr>";
@@ -559,7 +559,7 @@ namespace OneStoryProjectEditor
             {
                 // something changed
                 // Build up the string which we're going to put in the HTML viewer
-                var sb = new StringBuilder(CstrHtmlTableBegin);
+                var sb = new StringBuilder(String.Format(CstrHtmlTableBegin, (bDirectionRtl) ? "right" : "left"));
 
                 // Load the whole chapter (even if we're going to later jump to some other verse in the chapter)
                 swordModuleInfo.Verse = 1;
