@@ -272,6 +272,6 @@ _Pvt_Extensions
 /OneStory Releases
 /Setup OneStory Editor/OSE4.2MSI.zip
 /output/Installer
-/MercurialExtensions/fixutf8
-/DistFiles/MercurialExtensions/fixutf8
 /AiChorus/gdck.dat
+/output/Setup OneStory Editor_x86.msi
+*.pyc
