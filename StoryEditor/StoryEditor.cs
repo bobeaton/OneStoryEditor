@@ -995,7 +995,7 @@ namespace OneStoryProjectEditor
         {
             try
             {
-                if (StoryProject == null)
+                if ((StoryProject == null) || (StoryProject.ProjSettings == null))
                 {
                     InitNewStoryProjectObject();
                 }
