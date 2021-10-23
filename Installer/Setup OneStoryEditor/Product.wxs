@@ -42,6 +42,7 @@
     </Feature>
 
     <PropertyRef Id='MergeModulesFragment'/>
+    <Property Id="REBOOT" Value="Force"></Property>
 
   </Product>
 
