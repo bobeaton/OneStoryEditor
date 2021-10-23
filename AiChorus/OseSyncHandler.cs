@@ -73,13 +73,13 @@ namespace AiChorus
         }
 
         private static readonly List<string> _lstProjectsJustCloned = new List<string>();
-        protected override string GetSynchronizeOrOpenProjectLable
+        public override string GetSynchronizeOrOpenProjectLabel
         {
             get
             {
                 return (_lstProjectsJustCloned.Contains(Project.FolderName))
                            ? CstrOptionOpenProject
-                           : base.GetSynchronizeOrOpenProjectLable;
+                           : base.GetSynchronizeOrOpenProjectLabel;
             }
         }
 

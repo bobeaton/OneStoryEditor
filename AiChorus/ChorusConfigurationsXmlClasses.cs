@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,9 @@ namespace AiChorus
     [XmlRoot]
     public class ChorusConfigurations
     {
+        [XmlIgnore]
+        public string FileSpec { get; set; }
+
         public  ChorusConfigurations()
         {
             ServerSettings = new List<ServerSetting>();
@@ -55,6 +59,7 @@ namespace AiChorus
                 using (TextReader r = new StreamReader(strFilePath, Encoding.UTF8))
                 {
                     var data = (ChorusConfigurations)serializer.Deserialize(r);
+                    data.FileSpec = strFilePath;
                     return data;
                 }
             }
@@ -148,6 +153,7 @@ namespace AiChorus
         /// Set this attr to 'true' to have the project not be sync'd on Nathan Payne's machine for
         /// daily updates
         /// </summary>
+        [DefaultValue(false)]
         [XmlAttribute]
         public bool ExcludeFromSyncing { get; set; } = false;
 
@@ -155,6 +161,7 @@ namespace AiChorus
         /// Set this attr to 'true' to have this project excluded from a configured GoogleSheet extract (see 
         /// GoogleSheetUrl above)
         /// </summary>
+        [DefaultValue(false)]
         [XmlAttribute]
         public bool ExcludeFromGoogleSheet { get; set; } = false;
     }

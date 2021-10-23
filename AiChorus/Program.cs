@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using AiChorus.Properties;
 using Chorus.UI.Clone;
 using ECInterfaces;
+using Microsoft.Win32;
 using OneStoryProjectEditor;
 using SilEncConverters40;
 
@@ -19,6 +20,17 @@ namespace AiChorus
         public const string CstrApplicationTypeOse = "OneStory Editor";
         public const string CstrApplicationTypeAi = "Adapt It";
         private const string KeyFileName = "gdck.dat";
+
+        private static string KeyFileSpec
+        {
+            get
+            {
+                var dropboxPath = Path.Combine(Path.Combine(DropboxFolderRoot, "OSE CPCs"), KeyFileName);
+                return (File.Exists(dropboxPath))
+                        ? dropboxPath
+                        : KeyFileName;
+            }
+        }
 
         /// <summary>
         /// The main entry point for the application.
@@ -77,22 +89,59 @@ namespace AiChorus
             }
 
             var chorusConfig = ChorusConfigurations.Load(strPathToProjectFile);
-            foreach (var server in chorusConfig.ServerSettings)
-                HarvestProjectData(server, Path.GetFileNameWithoutExtension(strPathToProjectFile));
+            HarvestProjectSet(chorusConfig);
         }
 
-        private static void HarvestProjectData(ServerSetting serverSetting, string cpcFilename)
+        public static void HarvestProjectSet(ChorusConfigurations chorusConfig)
+        {
+            foreach (var server in chorusConfig.ServerSettings)
+                HarvestProjectData(server);
+        }
+
+        private const string OneStoryHiveRoot = @"Software\SIL\OneStory";
+        private const string CstrDropBoxRoot = "Dropbox Root";
+
+        public static string DropboxFolderRoot
+        {
+            get
+            {
+                string strDropboxRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                                                     "Dropbox");
+                if (Directory.Exists(strDropboxRoot))
+                    return strDropboxRoot;
+
+                strDropboxRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                                              "Dropbox");
+                if (Directory.Exists(strDropboxRoot))
+                    return strDropboxRoot;
+
+                // else check in the person's registry for it
+                var keyOneStoryHiveRoot = Registry.CurrentUser.OpenSubKey(OneStoryHiveRoot);
+                if (keyOneStoryHiveRoot != null)
+                    return (string)keyOneStoryHiveRoot.GetValue(CstrDropBoxRoot);
+                return null;
+            }
+            set
+            {
+                var keyOneStoryHiveRoot = Registry.CurrentUser.OpenSubKey(OneStoryHiveRoot, true) ??
+                                          Registry.CurrentUser.CreateSubKey(OneStoryHiveRoot);
+                if (keyOneStoryHiveRoot != null)
+                    keyOneStoryHiveRoot.SetValue(CstrDropBoxRoot, value);
+            }
+        }
+
+        private static void HarvestProjectData(ServerSetting serverSetting)
         {
             var mapProjectsToProjectData = new Dictionary<string, List<OseProjectData>>();
 
-            foreach (var project in serverSetting.Projects.Where(p => p.ExcludeFromGoogleSheet != true))
+            foreach (var project in serverSetting.Projects.Where(p => !p.ExcludeFromGoogleSheet))
             {
                 LogMessage(String.Format("Harvesting data from the project: '{0}'", project.ProjectId));
                 HarvestProjectData(project, serverSetting, mapProjectsToProjectData);
             }
 
 #if !UsingCsvAndDrive
-            var specialDecryptionKey = File.ReadAllText(KeyFileName);
+            var specialDecryptionKey = File.ReadAllText(KeyFileSpec);
             var clientId = EncryptionClass.Decrypt(Settings.Default.GoogleSheetsCredentialsClientId, specialDecryptionKey);
             var clientSecret = EncryptionClass.Decrypt(Settings.Default.GoogleSheetsCredentialsClientSecret, specialDecryptionKey);
             GoogleSheetHandler.UpdateGoogleSheet(mapProjectsToProjectData, serverSetting.GoogleSheetId,
@@ -454,6 +503,11 @@ namespace AiChorus
         {
             LogMessage(String.Format("Processing the file: '{0}'", strPathToProjectFile));
             var chorusConfig = ChorusConfigurations.Load(strPathToProjectFile);
+            SychronizeProjectSet(chorusConfig);
+        }
+
+        public static void SychronizeProjectSet(ChorusConfigurations chorusConfig)
+        {
             foreach (var server in chorusConfig.ServerSettings)
                 SyncServer(server);
         }
@@ -509,10 +563,11 @@ namespace AiChorus
                     appHandler.DoClone();
                     break;
                 case ApplicationSyncHandler.CstrOptionSendReceive:
+                case ApplicationSyncHandler.CstrOptionOpenProject:
                     appHandler.DoSilentSynchronize();
                     break;
                 default:
-                    System.Diagnostics.Debug.Assert(false, $"Not expecting {appHandler.ButtonLabel}. Should be either Clone or Send/Receive");
+                    Debug.Assert(false, $"Not expecting {appHandler.ButtonLabel}. Should be either Clone or Synchronize or Open Project");
                     break;
             }
         }

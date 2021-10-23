@@ -15,6 +15,7 @@ namespace AiChorus
     {
         public const string CstrOptionSendReceive = "Synchronize";
         public const string CstrOptionClone = "Download";
+        public const string CstrOptionHidden = "Hidden";            // if we're hiding from syncing
         public const string CstrOptionOpenProject = "Open Project";
 
         public Project Project { get; set; }
@@ -45,7 +46,7 @@ namespace AiChorus
             // check for the '.hg' folder
             var strProjectFolderHgPath = Path.Combine(strProjectFolderPath, ".hg");
             return Directory.Exists(strProjectFolderHgPath) 
-                        ? GetSynchronizeOrOpenProjectLable 
+                        ? GetSynchronizeOrOpenProjectLabel 
                         : CstrOptionClone;
         }
 
@@ -53,7 +54,7 @@ namespace AiChorus
         /// this normally gets just 'Synchronize', but some sub-classes might want to 
         /// override and also provide the 'Open Project' option
         /// </summary>
-        protected virtual string GetSynchronizeOrOpenProjectLable
+        public virtual string GetSynchronizeOrOpenProjectLabel
         {
             get { return CstrOptionSendReceive; }
         }
@@ -76,7 +77,6 @@ namespace AiChorus
                     Program.LogMessage($"Silent sync failed for {strProjectFolder}. Reason: {dlg.SyncResult.ErrorEncountered}");
                 }
             }
-
         }
 
 

@@ -80,13 +80,13 @@ namespace AiChorus
             }
         }
 
-        protected override string GetSynchronizeOrOpenProjectLable
+        public override string GetSynchronizeOrOpenProjectLabel
         {
             get
             {
                 return (_lstJustClonedProjects.Any(aEc => Path.GetFileNameWithoutExtension(aEc.ConverterIdentifier) == Project.FolderName))
                             ? CstrOptionOpenProject
-                            : base.GetSynchronizeOrOpenProjectLable;
+                            : base.GetSynchronizeOrOpenProjectLabel;
             }
         }
 
