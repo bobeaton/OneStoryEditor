@@ -23,17 +23,22 @@ using SIL.Windows.Forms.Reporting;
 using System.Linq;
 using Chorus.Model;
 using Chorus.UI.Sync;
+using Chorus.UI.Clone;
 
 namespace OneStoryProjectEditor
 {
     static class Program
     {
+        private const string ProjectTypeOneStory = "OneStory";
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main(string[] args)
         {
+            System.Diagnostics.Debug.Fail("Do you want to debug?");
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
@@ -70,70 +75,106 @@ namespace OneStoryProjectEditor
                 // add registry key to force IE9 (which supports double-click selects word
                 AddIe9RegistryKey();
 
-                if ((args.Length > 0) && (args[0] == "/sync_all"))
+                string strFilePathToOpen = null;
+                try
                 {
-                    var projectPathsWorkedOn = MapProjectNameToLastStoriesSetWorkedOn.Keys
-                                                .Select(projId => Path.Combine(ProjectSettings.OneStoryProjectFolderRoot, projId))
-                                                .ToList();
-                    _astrProjectForSync.AddRange(projectPathsWorkedOn);
-                    SyncBeforeClose(true);
-                }
-                else
-                {
-                    splashScreen.Close();
-                    string strFilePathToOpen = null;
                     if (args.Length > 0)
                     {
-                        strFilePathToOpen = args[0];
-                    }
-
-                    // if we sent some new locdata items in a recent program update, then copy them to the
-                    //  loc data folder
-                    var strPathToLocData = Path.Combine(ProjectSettings.OneStoryProjectFolderRoot,
-                        "LocData");
-
-                    if (!Directory.Exists(strPathToLocData))
-                        Directory.CreateDirectory(strPathToLocData);
-
-                    var strRunningLocData = Path.Combine(StoryProjectData.GetRunningFolder,
-                        "LocData");
-                    if (Directory.Exists(strRunningLocData))
-                    {
-                        var astrLocDataFiles = Directory.GetFiles(strRunningLocData, "*.xml");
-                        foreach (var file in astrLocDataFiles)
+                        if (args[0] == "/sync_all")
                         {
-                            var filename = Path.GetFileName(file);
-                            var targetFilename = Path.Combine(strPathToLocData, filename);
-                            if (!File.Exists(targetFilename) ||
-                                (File.GetLastWriteTime(file) > File.GetLastWriteTime(targetFilename)))
+                            var projectPathsWorkedOn = MapProjectNameToLastStoriesSetWorkedOn.Keys
+                                                    .Select(projId => Path.Combine(ProjectSettings.OneStoryProjectFolderRoot, projId))
+                                                    .ToList();
+                            _astrProjectForSync.AddRange(projectPathsWorkedOn);
+                            SyncBeforeClose(true);
+                            return;
+                        }
+                        else if (args[0] == "/sync")
+                        {
+                            var projectFolder = args[1];
+                            var projectType = args[2];
+                            var isOpening = (args[3] == bool.TrueString);
+                            if (projectType == ProjectTypeOneStory)
+                                SyncWithOneStoryRepository(projectFolder, isOpening);
+                            else
                             {
-                                File.Copy(file, targetFilename, true);
+                                var projectName = args[4];
+                                SyncWithAiRepository(projectFolder, projectName, isOpening, true);
                             }
+                            return;
+                        }
+                        else if (args[0] == "/clone")
+                        {
+                            var projectName = args[1];
+                            var parentDirToPutCloneIn = args[2];
+                            var localFolder = args[3];
+                            var username = args[4];
+                            var password = args[5];
+                            CloneRepository(projectName, parentDirToPutCloneIn, localFolder,
+                                            username, password);
+                            return;
+                        }
+                        else
+                        {
+                            strFilePathToOpen = args[0];
                         }
                     }
+                }
+                catch (Exception ex)
+                {
+                    ShowException(ex);
+                }
+                finally
+                {
+                    splashScreen.Close();
+                }
 
-                    Localizer.Default = new Localizer(strPathToLocData,
-                        Properties.Settings.Default.LastLocalizationId);
-                    Localizer.LocalizerStrUseStack = false;
-                    if (Properties.Settings.Default.LastLocalizationId != "en")
-                        StoryEditor.OnLocalizationChangeStatic();
+                // if we sent some new locdata items in a recent program update, then copy them to the
+                //  loc data folder
+                var strPathToLocData = Path.Combine(ProjectSettings.OneStoryProjectFolderRoot,
+                    "LocData");
 
-                    // after we've loaded the localization (in case the msg has to be localized), 
-                    //  check for a ready install before doing anything
-                    if (AutoUpgrade.IsUpgradeReadyToInstall() &&
-                        (LocalizableMessageBox.Show(
-                            Localizer.Str("There is an update available. Would you like to install it now?"),
-                            StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes))
+                if (!Directory.Exists(strPathToLocData))
+                    Directory.CreateDirectory(strPathToLocData);
+
+                var strRunningLocData = Path.Combine(StoryProjectData.GetRunningFolder,
+                    "LocData");
+                if (Directory.Exists(strRunningLocData))
+                {
+                    var astrLocDataFiles = Directory.GetFiles(strRunningLocData, "*.xml");
+                    foreach (var file in astrLocDataFiles)
                     {
-                        AutoUpgrade.LaunchUpgrade();
-                        return;
+                        var filename = Path.GetFileName(file);
+                        var targetFilename = Path.Combine(strPathToLocData, filename);
+                        if (!File.Exists(targetFilename) ||
+                            (File.GetLastWriteTime(file) > File.GetLastWriteTime(targetFilename)))
+                        {
+                            File.Copy(file, targetFilename, true);
+                        }
                     }
+                }
+
+                Localizer.Default = new Localizer(strPathToLocData,
+                    Properties.Settings.Default.LastLocalizationId);
+                Localizer.LocalizerStrUseStack = false;
+                if (Properties.Settings.Default.LastLocalizationId != "en")
+                    StoryEditor.OnLocalizationChangeStatic();
+
+                // after we've loaded the localization (in case the msg has to be localized), 
+                //  check for a ready install before doing anything
+                if (AutoUpgrade.IsUpgradeReadyToInstall() &&
+                    (LocalizableMessageBox.Show(
+                        Localizer.Str("There is an update available. Would you like to install it now?"),
+                        StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes))
+                {
+                    AutoUpgrade.LaunchUpgrade();
+                    return;
+                }
 
 #if !TurnOnKeyboarding
-                    SIL.Windows.Forms.Keyboarding.KeyboardController.Initialize();
+                SIL.Windows.Forms.Keyboarding.KeyboardController.Initialize();
 #endif
-                    Application.Run(new StoryEditor(strFilePathToOpen));
-                }
+                Application.Run(new StoryEditor(strFilePathToOpen));
             }
             catch (RestartException)
             {
@@ -163,6 +204,32 @@ namespace OneStoryProjectEditor
 #if !TurnOnKeyboarding
                 SIL.Windows.Forms.Keyboarding.KeyboardController.Shutdown();
 #endif
+            }
+        }
+
+        public static (GetCloneFromInternetModel model, GetCloneFromInternetDialog dlg) 
+                        CloneRepository(string projectName, string parentDirToPutCloneIn, string localFolder, 
+                                        string username, string password, string customUrl = null)
+        {
+            if (!Directory.Exists(parentDirToPutCloneIn))
+                Directory.CreateDirectory(parentDirToPutCloneIn);
+
+            var model = new GetCloneFromInternetModel(parentDirToPutCloneIn)
+            {
+                // to edit an existing, LocalFolderName, Username, Password, and call InitFromUri
+                ProjectId = projectName,
+                CustomUrl = customUrl ?? $"{Properties.Resources.IDS_DefaultRepoUrl}{projectName}",
+                LocalFolderName = localFolder,
+                Username = username,
+                Password = password,
+                // default, and setting it explicitly makes it stand out, which some users might want to argue with
+                // Bandwidth = ServerSettingsModel.Bandwidths[0],  // this mean 'low' bandwidth, cuz if we say 'high', Chorus defaults to hg-public, which doesn't work for us
+            };
+
+            using (var dlg = new GetCloneFromInternetDialog(model))
+            {
+                dlg.ShowDialog();
+                return (model, dlg);
             }
         }
 
@@ -677,7 +744,7 @@ namespace OneStoryProjectEditor
         public static void SyncWithOneStoryRepository(string strProjectFolder, bool bIsOpening)
         {
             var strProjectName = Path.GetFileNameWithoutExtension(strProjectFolder);
-            TrySyncWithRepository(strProjectFolder, strProjectName, bIsOpening, "OneStory", GetProjectFolderConfiguration);
+            TrySyncWithRepository(strProjectFolder, strProjectName, bIsOpening, ProjectTypeOneStory, GetProjectFolderConfiguration);
         }
 
         public static void SyncWithAiRepository(string strProjectFolder, string strProjectName, bool bIsOpening, bool bRewriteAdaptItKb)
@@ -745,28 +812,16 @@ namespace OneStoryProjectEditor
                         dlg.SyncOptions.DoPullFromOthers = false;
                         dlg.SyncOptions.DoSendToOthers = false;
                         dlg.ShowDialog();
+                        if (!dlg.SyncResult.Succeeded)
+                        {
+                            throw new ApplicationException($"Silent sync failed for {strProjectFolder}. Reason:", dlg.SyncResult.ErrorEncountered);
+                        }
                     }
                     return;
                 }
 
-                var nullProgress = new NullProgress();
-                var repo = new HgRepository(strProjectFolder, nullProgress);
-                var paths = repo.GetRepositoryPathsInHgrc().ToList();
-                var pathToInternet = paths.FirstOrDefault(path => path.Name.ToLower().Contains(CstrChorusPathForInternetRepoName)) ??
-                                     paths.FirstOrDefault();    // just in case someone is using their own repo, let's give it a try
-#if NeedToAddInternetAsAPath
-                string strRepoUrl;
-                if (pathInternet == null)
-                {
-                    strRepoUrl = GetDefaultServerUrl(strProjectName);
-                    var address = RepositoryAddress.Create(CstrInternetName, strRepoUrl);
-                    paths.Add(address);
-                    repo.SetKnownRepositoryAddresses(paths);
-                }
-                else
-#else
-                var strRepoUrl = pathToInternet?.URI;
-#endif
+                var strRepoUrl = InternetRepoUrl(strProjectFolder, out NullProgress nullProgress, out HgRepository repo, out List<Chorus.VcsDrivers.RepositoryAddress> paths);
+
                 if (String.IsNullOrEmpty(strRepoUrl))
                 {
                     throw new ApplicationException(String.Format(Localizer.Str("The repository config file:{0}'{1}\\.hg\\hgrc'{0}{0}doesn't contain a path to the server to use for this project. It should contain something like:{0}{0}[paths]{0}hg-private.languageforge.org = https://hg-private.languageforge.org/{2}{0}Click 'Project', 'Settings' and see if you can configure it with the Internet Repository 'Configure' button"),
@@ -788,14 +843,35 @@ namespace OneStoryProjectEditor
                 using (var dlg = new SyncDialog(projectConfig, SyncUIDialogBehaviors.Lazy, SyncUIFeatures.NormalRecommended))
                 {
                     dlg.UseTargetsAsSpecifiedInSyncOptions = true;
-                    dlg.Text = "Synchronizing OneStory Project: " + strProjectName;
+                    dlg.Text = $"Synchronizing {projectType} Project: " + strProjectName;
                     dlg.ShowDialog();
+                    if (!dlg.SyncResult.Succeeded && (dlg.SyncResult.ErrorEncountered != null))
+                    {
+                        throw new ApplicationException($"Sync failed for {strProjectFolder}. Reason:", dlg.SyncResult.ErrorEncountered);
+                    }
                 }
             }
             catch (Exception ex)
             {
                 ShowException(ex);
             }
+        }
+
+        public static bool HasInternetRepo(string strProjectFolder)
+        {
+            var strRepoUrl = InternetRepoUrl(strProjectFolder, out NullProgress nullProgress, out HgRepository repo, out List<Chorus.VcsDrivers.RepositoryAddress> paths);
+            return strRepoUrl != null;
+        }
+
+        public static string InternetRepoUrl(string strProjectFolder, out NullProgress nullProgress, out HgRepository repo, out List<Chorus.VcsDrivers.RepositoryAddress> paths)
+        {
+            nullProgress = new NullProgress();
+            repo = new HgRepository(strProjectFolder, nullProgress);
+            paths = repo.GetRepositoryPathsInHgrc().ToList();
+            var pathToInternet = paths.FirstOrDefault(path => path.Name.ToLower().Contains(CstrChorusPathForInternetRepoName)) ??
+paths.FirstOrDefault();    // just in case someone is using their own repo, let's give it a try
+
+            return pathToInternet?.URI;
         }
 
         public static bool UserCancelledNotConnectToInternetWarning
@@ -907,6 +983,7 @@ namespace OneStoryProjectEditor
             projectConfig.IncludePatterns.Add("*.ChorusNotes"); // the new conflict file
             projectConfig.IncludePatterns.Add("*.aic");
             projectConfig.IncludePatterns.Add("*.cct"); // possible normalization spellfixer files
+            projectConfig.ExcludePatterns.Add("*.bak"); // created as a result of the sorting xslt process
             return projectConfig;
         }
 

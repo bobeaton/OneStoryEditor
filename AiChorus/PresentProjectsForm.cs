@@ -57,8 +57,8 @@ namespace AiChorus
 
             if (!areSyncableProjects)
             {
-                toolStripMenuItemSynchronize.Enabled = false;
-                toolStripMenuItemSynchronize.ToolTipText = "You must first download the projects before you can synchronize them.";
+                toolStripMenuItemSynchronizeAll.Enabled = false;
+                toolStripMenuItemSynchronizeAll.ToolTipText = "You must first download the projects before you can synchronize them.";
             }
         }
 
@@ -129,7 +129,7 @@ namespace AiChorus
                             InitializeDataGrid(_chorusConfigs);
                         break;
                     case ApplicationSyncHandler.CstrOptionSendReceive:
-                        appSyncHandler.DoSynchronize();
+                        appSyncHandler.DoSynchronize(false);
                         break;
                     case ApplicationSyncHandler.CstrOptionOpenProject:
                         appSyncHandler.DoProjectOpen();
@@ -194,7 +194,7 @@ namespace AiChorus
             InitializeDataGrid(_chorusConfigs);
         }
 
-        private void toolStripMenuItemSynchronize_Click(object sender, EventArgs e)
+        private void toolStripMenuItemSynchronizeAll_Click(object sender, EventArgs e)
         {
             try
             {
@@ -258,6 +258,31 @@ namespace AiChorus
                     e.Cancel = true;
                     _modified = false;  // so it can close the next time
                 }
+            }
+        }
+
+        private void toolStripMenuItemSynchronize_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var ptMousePosition = dataGridViewProjects.PointToClient(MousePosition);
+                var hti = dataGridViewProjects.HitTest(ptMousePosition.X, ptMousePosition.Y);
+                if ((hti.ColumnIndex < 0) || (hti.ColumnIndex >= dataGridViewProjects.Columns.Count) ||
+                    (hti.RowIndex < 0) || (hti.RowIndex >= dataGridViewProjects.Rows.Count))
+                    return;
+
+                var theRow = dataGridViewProjects.Rows[hti.RowIndex];
+                if ((theRow == null) || (theRow.Tag == null))
+                    return;
+
+                Debug.Assert(theRow.Tag is ApplicationSyncHandler);
+                var appSyncHandler = theRow.Tag as ApplicationSyncHandler;
+                Debug.Assert(appSyncHandler != null);
+                appSyncHandler.DoSynchronize(true);
+            }
+            catch (Exception ex)
+            {
+                Program.ShowException(ex);
             }
         }
     }

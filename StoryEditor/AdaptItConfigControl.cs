@@ -2,7 +2,6 @@
 using System.IO;
 using System.Windows.Forms;
 using Chorus.Model;
-using Chorus.UI.Clone;
 using Chorus.UI.Misc;
 using ECInterfaces;
 using NetLoc;
@@ -62,13 +61,8 @@ namespace OneStoryProjectEditor
                 _adaptItConfiguration.ProjectType = AdaptItProjectType; // from user
                 _adaptItConfiguration.ConverterName = AdaptItConverterName;
                 _adaptItConfiguration.ProjectFolderName = _strAdaptItProjectFolderName;
-                _adaptItConfiguration.RepoProjectName = GetProjectNameOrDefault(eType);
-#if UseAiRepoSelectionForm
-                _adaptItConfiguration.RepositoryServer = _strAdaptItRepositoryServer;
-                _adaptItConfiguration.NetworkRepositoryPath = _strAdaptItNetworkRepositoryPath;
-#else
+                _adaptItConfiguration.RepoProjectName = _strAdaptItProjectName;
                 _adaptItConfiguration.RepositoryServer = _adaptItRepositoryUrl;
-#endif
                 return _adaptItConfiguration;
             }
             set
@@ -79,12 +73,7 @@ namespace OneStoryProjectEditor
                     AdaptItConverterName = _adaptItConfiguration.ConverterName;
                     _strAdaptItProjectFolderName = _adaptItConfiguration.ProjectFolderName;
                     _strAdaptItProjectName = _adaptItConfiguration.RepoProjectName;
-#if UseAiRepoSelectionForm
-                    _strAdaptItRepositoryServer = _adaptItConfiguration.RepositoryServer;
-                    _strAdaptItNetworkRepositoryPath = _adaptItConfiguration.NetworkRepositoryPath;
-#else
                     _adaptItRepositoryUrl = _adaptItConfiguration.RepositoryServer;
-#endif
                     AdaptItProjectType = _adaptItConfiguration.ProjectType;
                     System.Diagnostics.Debug.Assert(_adaptItConfiguration.BtDirection == BtDirection);
                 }
@@ -92,11 +81,7 @@ namespace OneStoryProjectEditor
                 {
                     textBoxProjectPath.Clear();
                     AdaptItProjectType = ProjectSettings.AdaptItConfiguration.AdaptItProjectType.None;
-                    AdaptItConverterName =
-#if UseAiRepoSelectionForm
-_strAdaptItNetworkRepositoryPath = 
-#endif
-                        null;
+                    AdaptItConverterName = null;
                     InitSharedOnlyFieldDefaults();
                 }
             }
@@ -104,23 +89,13 @@ _strAdaptItNetworkRepositoryPath =
 
         private void InitSharedOnlyFieldDefaults()
         {
-            _strAdaptItProjectName = GetProjectNameOrDefault(AdaptItProjectType);
-#if UseAiRepoSelectionForm
-            _strAdaptItRepositoryServer = Properties.Resources.IDS_DefaultRepoServer;
-#else
             _adaptItRepositoryUrl = Properties.Resources.IDS_DefaultRepoUrl;
-#endif
         }
 
         private void ResetSharedOnlyFields()
         {
             _strAdaptItProjectName =
-#if UseAiRepoSelectionForm
-                _strAdaptItRepositoryServer = 
-                _strAdaptItNetworkRepositoryPath = 
-#else
                 _adaptItRepositoryUrl = 
-#endif
                     null;
         }
 
@@ -132,28 +107,7 @@ _strAdaptItNetworkRepositoryPath =
 
         private string _strAdaptItProjectFolderName;
         private string _strAdaptItProjectName;
-#if UseAiRepoSelectionForm
-        private string _strAdaptItRepositoryServer;
-        private string _strAdaptItNetworkRepositoryPath;
-#else
         private string _adaptItRepositoryUrl;
-#endif
-
-        private string GetProjectNameOrDefault(ProjectSettings.AdaptItConfiguration.AdaptItProjectType eType)
-        {
-        /*
-            if (String.IsNullOrEmpty(_strAdaptItProjectName)
-                && !String.IsNullOrEmpty(SourceLanguageName)
-                && !String.IsNullOrEmpty(TargetLanguageName)
-                && (eType == ProjectSettings.AdaptItConfiguration.AdaptItProjectType.SharedAiProject))
-            {
-                _strAdaptItProjectName = String.Format(Properties.Resources.AdaptItProjectRepositoryFormat,
-                                                       SourceLanguageName.ToLower(), 
-                                                       TargetLanguageName.ToLower());
-            }
-        */
-            return _strAdaptItProjectName;
-        }
 
         private ProjectSettings.AdaptItConfiguration.AdaptItProjectType AdaptItProjectType
         {
@@ -292,11 +246,7 @@ _strAdaptItNetworkRepositoryPath =
             string strProjectFolder, strConverterName;
 
             if (String.IsNullOrEmpty(_strAdaptItProjectName)
-#if UseAiRepoSelectionForm
-                || String.IsNullOrEmpty(_strAdaptItRepositoryServer)
-#else
                 || String.IsNullOrEmpty(_adaptItRepositoryUrl)
-#endif
             )
             {
                 // means it isn't initialized
@@ -372,11 +322,7 @@ _strAdaptItNetworkRepositoryPath =
                     // in case the user has just created it via Local and switches to Shared, we
                     //  need to re setup the project name, etc...
                     if (String.IsNullOrEmpty(_strAdaptItProjectName)
-#if UseAiRepoSelectionForm
-                        || String.IsNullOrEmpty(_strAdaptItRepositoryServer)
-#else
                         || String.IsNullOrEmpty(_adaptItRepositoryUrl)
-#endif
                     )
                     {
                         InitSharedOnlyFieldDefaults();
@@ -419,44 +365,12 @@ _strAdaptItNetworkRepositoryPath =
 
         private void DoPushPull(bool? doingPush, out string strProjectFolder)
         {
-#if !UseAiRepoSelectionForm
             if (doingPush == true)
                 DoPush(out strProjectFolder);
             else if (doingPush == false)
                 DoPull(out strProjectFolder);
             else
                 strProjectFolder = null;
-#else
-            var dlg = new AiRepoSelectionForm
-                          {
-                              SourceLanguageName = SourceLanguageName,
-                              TargetLanguageName = TargetLanguageName,
-                              InternetAddress = _strAdaptItRepositoryServer,
-                              NetworkAddress = _strAdaptItNetworkRepositoryPath,
-                              ProjectName = _strAdaptItProjectName,
-                              Parent = Parent,
-                              DoingPush = doingPush
-                          };
-
-            try
-            {
-                // this dialog takes care of push and pull
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
-                    strProjectFolder = dlg.ProjectFolder;
-                    _strAdaptItProjectName = dlg.ProjectName;
-                    _strAdaptItRepositoryServer = dlg.InternetAddress;
-                    _strAdaptItNetworkRepositoryPath = dlg.NetworkAddress;
-                }
-            }
-            catch (Exception ex)
-            {
-                string strErrorMsg = String.Format(Localizer.Str("Unable to Send/Receive the AdaptIt project '{1}' from the requested server{0}{2}{0}{3}"),
-                    Environment.NewLine, _strAdaptItProjectName,
-                    ((ex.InnerException != null) ? ex.InnerException.Message : ""), ex.Message);
-                LocalizableMessageBox.Show(strErrorMsg, StoryEditor.OseCaption);
-            }
-#endif
         }
 
         private void DoPush(out string strProjectFolder)
@@ -476,7 +390,7 @@ _strAdaptItNetworkRepositoryPath =
             var dlg = new ServerSettingsDialog(model);
             dlg.ShowDialog();
             _strAdaptItProjectFolderName = strProjectFolderName;
-            _strAdaptItProjectName = model.URL;
+            _strAdaptItProjectName = model.ProjectId;
         }
 
         private bool GetAiRepoSettings(out string strAiWorkFolder, out string strProjectFolderName)
@@ -508,43 +422,13 @@ _strAdaptItNetworkRepositoryPath =
                 return;
             }
 
-            if (!Directory.Exists(strAiWorkFolder))
-                Directory.CreateDirectory(strAiWorkFolder);
+            var results = Program.CloneRepository(projectName: projectId, parentDirToPutCloneIn: strAiWorkFolder,
+                                                  localFolder: strProjectFolderName, 
+                                                  username: Parent?.LoggedInMember?.HgUsername, 
+                                                  password: Parent?.LoggedInMember?.HgPassword);
 
-            var model = new GetCloneFromInternetModel(strAiWorkFolder)
-            {
-                Username = Parent?.LoggedInMember?.HgUsername,
-                Password = Parent?.LoggedInMember?.HgPassword,
-                ProjectId = projectId,
-                LocalFolderName = strProjectFolderName
-            };
-
-            using (var dlg = new GetCloneFromInternetDialog(model))
-            {
-                if (DialogResult.OK == dlg.ShowDialog())
-                {
-                    strProjectFolder = _strAdaptItProjectFolderName = dlg.PathToNewlyClonedFolder;
-                    _strAdaptItProjectName = model.ProjectId;
-                    
-                    // here (with pull) is one of the few places we actually query the user
-                    //  for a username/password. Currently, the code assumes that they will
-                    //  be the same as the project account, so make sure that's the case
-                    if ((Parent != null) && (Parent.LoggedInMember != null))
-                    {
-                        // in the case that the project isn't being used on the internet, but
-                        //  the AdaptIt project is, then set the username/password for it.
-                        if (String.IsNullOrEmpty(Parent.LoggedInMember.HgUsername))
-                            Parent.LoggedInMember.HgUsername = model.Username;
-
-                        if (String.IsNullOrEmpty(Parent.LoggedInMember.HgPassword))
-                            Parent.LoggedInMember.HgPassword = model.Password;
-                    }
-
-                    Program.SetAiProjectForSyncage(_strAdaptItProjectFolderName, _strAdaptItProjectName);
-                }
-                else
-                    strProjectFolder = null;
-            }
+            _strAdaptItProjectName = AiRepoSelectionForm.HarvestResults(results, Parent, out strProjectFolder);
+            _strAdaptItProjectFolderName = strProjectFolder;
         }
 
         private void radioButtonNone_Click(object sender, EventArgs e)

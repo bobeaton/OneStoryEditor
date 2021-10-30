@@ -21,11 +21,10 @@ using OneStoryProjectEditor.Properties;
 using SilEncConverters40;
 using System.Diagnostics;               // Process
 using devX;
-using Control=System.Windows.Forms.Control;
-using Timer=System.Windows.Forms.Timer;
+using Control = System.Windows.Forms.Control;
+using Timer = System.Windows.Forms.Timer;
 using NetLoc;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
-using Chorus.UI.Clone;
 #if EmbedSayMore
 using SayMore.UI.SessionRecording;
 #endif
@@ -615,6 +614,7 @@ namespace OneStoryProjectEditor
                     // for this, we have to get the name to use for this project 
                     //  (which should be the filename without extension)
                     strProjectName = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
+                    var strProjectFolder = Path.GetDirectoryName(openFileDialog.FileName);
 
                     // possible scenario. The user has copied a file/project from another machine
                     //  and has actually put it into the default location. In this case, we don't
@@ -647,10 +647,9 @@ namespace OneStoryProjectEditor
                     }
 
                     // Added following two lines to send receive window come up after you have loaded the project.
-                    var strProjectFolder = StoryProject?.ProjSettings?.ProjectFolder;
                     Program.SyncWithOneStoryRepository(strProjectFolder, true);
 
-                    var projSettings = new ProjectSettings(Path.GetDirectoryName(openFileDialog.FileName), strProjectName);
+                    var projSettings = new ProjectSettings(strProjectFolder, strProjectName);
                     OpenProject(projSettings);
                 }
             }
@@ -684,74 +683,43 @@ namespace OneStoryProjectEditor
 
         private void projectFromTheInternetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var model = new GetCloneFromInternetModel(ProjectSettings.OneStoryProjectFolderRoot)
+            var results = Program.CloneRepository(projectName: null, ProjectSettings.OneStoryProjectFolderRoot,
+                                                  localFolder: null, username: LoggedOnMember?.HgUsername,
+                                                  password: LoggedOnMember?.HgPassword);
+
+            if (results.dlg.DialogResult == DialogResult.Cancel)
+                return;
+
+            if (LoggedOnMember != null)
             {
-                Username = LoggedOnMember?.HgUsername,
-                Password = LoggedOnMember?.HgPassword,
-                HasLoggedIn = true
-            };
-
-            using (var dlg = new GetCloneFromInternetDialog(model))
-            {
-                if (DialogResult.Cancel == dlg.ShowDialog())
-                    return;
-
-                string strProjectName = Path.GetFileNameWithoutExtension(dlg.PathToNewlyClonedFolder);
-
-#if !UseUrlsWithChorus
-                if (LoggedOnMember != null)
+                if (LoggedOnMember?.HgUsername == null)
                 {
-                    if (LoggedOnMember?.HgUsername == null)
-                    {
-                        LoggedOnMember.HgUsername = model.Username;
-                    }
-                    if (LoggedOnMember?.HgPassword == null)
-                    {
-                        LoggedOnMember.HgPassword = model.Password;
-                    }
+                    LoggedOnMember.HgUsername = results.model.Username;
                 }
-#else
-                // we can save this information so we can use it automatically during the next restart
-                string strFullUrl = dlg.ThreadSafeUrl;
-                var uri = new Uri(strFullUrl);
-                string strUsername, strDummy, strBaseUrl = null;
-                GetDetailsFromUri(uri, out strUsername, out strDummy, ref strBaseUrl);
-                Program.SetHgParameters(dlg.PathToNewlyClonedFolder, strProjectName, strFullUrl, strUsername);
-#endif
-                var projSettings = new ProjectSettings(dlg.PathToNewlyClonedFolder, strProjectName);
-                try
+                if (LoggedOnMember?.HgPassword == null)
                 {
-                    OpenProject(projSettings);
-                }
-                catch (Program.RestartException)
-                {
-                    Close();
-                }
-                catch (Exception)
-                {
-                    string strErrorMsg = String.Format(Resources.IDS_NoProjectFromInternet,
-                                                       Environment.NewLine, dlg.ThreadSafeUrl);
-                    LocalizableMessageBox.Show(strErrorMsg, OseCaption);
+                    LoggedOnMember.HgPassword = results.model.Password;
                 }
             }
-        }
 
-#if UseUrlsWithChorus
-        internal static void GetDetailsFromUri(Uri uri, out string strUsername,
-            out string strPassword, ref string strHgUrlBase)
-        {
-            strUsername = strPassword = null;
-            if (!String.IsNullOrEmpty(uri.UserInfo) && (uri.UserInfo.IndexOf(':') != -1))
+            var projectFolder = results.dlg.PathToNewlyClonedFolder;
+            var projectName = Path.GetFileNameWithoutExtension(projectFolder);
+            var projSettings = new ProjectSettings(projectFolder, projectName);
+            try
             {
-                string[] astrUserInfo = uri.UserInfo.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
-                strUsername = astrUserInfo[0];
-                strPassword = astrUserInfo[1];
+                OpenProject(projSettings);
             }
-
-            if (String.IsNullOrEmpty(strHgUrlBase))
-                strHgUrlBase = uri.Scheme + "://" + uri.Host;
+            catch (Program.RestartException)
+            {
+                Close();
+            }
+            catch (Exception)
+            {
+                string strErrorMsg = String.Format(Resources.IDS_NoProjectFromInternet,
+                                                    Environment.NewLine, results.dlg.ThreadSafeUrl);
+                LocalizableMessageBox.Show(strErrorMsg, OseCaption);
+            }
         }
-#endif
 
         private void projectFromASharedNetworkDriveToolStripMenu_Click(object sender, EventArgs e)
         {
@@ -1074,7 +1042,10 @@ namespace OneStoryProjectEditor
 #if UseUrlsWithChorus
                 projSettings.SyncWithRepository(strUsername, strPassword);
 #else
-                Program.SyncWithOneStoryRepository(projSettings.ProjectFolder, true);
+                if (Program.HasInternetRepo(strProjectFolder))
+                {
+                    Program.SyncWithOneStoryRepository(projSettings.ProjectFolder, true);
+                }               
 #endif
             }
 
@@ -3815,7 +3786,7 @@ namespace OneStoryProjectEditor
             if (!_bRestarting)
             {
                 Cursor = Cursors.WaitCursor;
-                Program.SyncBeforeClose(false);
+                Program.SyncBeforeClose(true);
                 Cursor = Cursors.Default;
             }
         }

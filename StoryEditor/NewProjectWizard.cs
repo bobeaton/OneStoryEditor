@@ -63,13 +63,7 @@ namespace OneStoryProjectEditor
                     toolTip.SetToolTip(checkBoxUseDropBox, Localizer.Str("Your consultant wants you to use Dropbox to transfer recordings, but OSE can't find your dropbox folder. Click here to browse for it or find the site to download it from"));
                 }
 
-                var path = ProjSettings.ProjectFolder;
-                if (Directory.Exists(path))
-                {
-                    path = Program.PathToHgRepoFolder(path);
-                    if (Directory.Exists(path))
-                        checkBoxUseInternetRepo.Checked = true;
-                }
+                checkBoxUseInternetRepo.Checked = Program.HasInternetRepo(ProjSettings.ProjectFolder);
 
                 // don't allow the project name to be changed! (if there's an internet repo)
                 textBoxProjectName.Enabled = !checkBoxUseInternetRepo.Checked;

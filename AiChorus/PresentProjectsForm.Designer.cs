@@ -43,8 +43,9 @@
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemDownloadAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemSynchronize = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSynchronizeAll = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemUpdateGoogleSheetUrl = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSynchronize = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProjects)).BeginInit();
             this.contextMenu.SuspendLayout();
@@ -174,11 +175,12 @@
             // contextMenu
             // 
             this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemDownloadAll,
             this.toolStripMenuItemSynchronize,
+            this.toolStripMenuItemDownloadAll,
+            this.toolStripMenuItemSynchronizeAll,
             this.toolStripMenuItemUpdateGoogleSheetUrl});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(186, 92);
+            this.contextMenu.Size = new System.Drawing.Size(202, 114);
             // 
             // toolStripMenuItemDownloadAll
             // 
@@ -189,13 +191,13 @@
     "e";
             this.toolStripMenuItemDownloadAll.Click += new System.EventHandler(this.toolStripMenuItemDownloadAll_Click);
             // 
-            // toolStripMenuItemSynchronize
+            // toolStripMenuItemSynchronizeAll
             // 
-            this.toolStripMenuItemSynchronize.Name = "toolStripMenuItemSynchronize";
-            this.toolStripMenuItemSynchronize.Size = new System.Drawing.Size(185, 22);
-            this.toolStripMenuItemSynchronize.Text = "&Synchronize All";
-            this.toolStripMenuItemSynchronize.ToolTipText = "Click this item if you want to synchronize all downloaded projects";
-            this.toolStripMenuItemSynchronize.Click += new System.EventHandler(this.toolStripMenuItemSynchronize_Click);
+            this.toolStripMenuItemSynchronizeAll.Name = "toolStripMenuItemSynchronizeAll";
+            this.toolStripMenuItemSynchronizeAll.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItemSynchronizeAll.Text = "&Synchronize All";
+            this.toolStripMenuItemSynchronizeAll.ToolTipText = "Click this item if you want to synchronize all downloaded projects";
+            this.toolStripMenuItemSynchronizeAll.Click += new System.EventHandler(this.toolStripMenuItemSynchronizeAll_Click);
             // 
             // toolStripMenuItemUpdateGoogleSheetUrl
             // 
@@ -205,6 +207,15 @@
             this.toolStripMenuItemUpdateGoogleSheetUrl.ToolTipText = "Click this item if you want to update (or add) a Google Sheet extract url for thi" +
     "s project set";
             this.toolStripMenuItemUpdateGoogleSheetUrl.Click += new System.EventHandler(this.toolStripMenuItemUpdateGoogleSheet_Click);
+            // 
+            // toolStripMenuItemSynchronize
+            // 
+            this.toolStripMenuItemSynchronize.Name = "toolStripMenuItemSynchronize";
+            this.toolStripMenuItemSynchronize.Size = new System.Drawing.Size(201, 22);
+            this.toolStripMenuItemSynchronize.Text = "&Configure Send/Receive";
+            this.toolStripMenuItemSynchronize.ToolTipText = "Click this item if you want to open the Send/Receive dialog for the selected proj" +
+    "ect (e.g. if you want to configure any repository settings)";
+            this.toolStripMenuItemSynchronize.Click += new System.EventHandler(this.toolStripMenuItemSynchronize_Click);
             // 
             // PresentProjectsForm
             // 
@@ -234,7 +245,7 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.ContextMenuStrip contextMenu;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDownloadAll;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSynchronize;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSynchronizeAll;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemUpdateGoogleSheetUrl;
         private System.Windows.Forms.DataGridViewButtonColumn ColumnButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnApplication;
@@ -242,5 +253,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnFolderName;
         private System.Windows.Forms.DataGridViewCheckBoxColumn ExcludeFromSynchronizing;
         private System.Windows.Forms.DataGridViewCheckBoxColumn ExcludeFromGoogleSheet;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSynchronize;
     }
 }

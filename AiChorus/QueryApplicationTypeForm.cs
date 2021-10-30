@@ -107,6 +107,7 @@ namespace AiChorus
 
         private void RadioButtonOseCheckedChanged(object sender, EventArgs e)
         {
+            _targetFolderControl.Visible = false;
             SetApplicationToUse(typeof(OseSyncHandler));
         }
 
@@ -143,7 +144,7 @@ namespace AiChorus
             serverSetting.Username = model.Username;
 
             _project.ApplicationType = SelectedApplicationType;
-            _project.FolderName = model.LocalFolderName;
+            _project.FolderName = model.LocalFolderName ?? model.ProjectId; // for OSE, the LocalFolderName wasn't set, bkz it's the same as the ProjectId
             _project.ProjectId = model.ProjectId;
         }
     }

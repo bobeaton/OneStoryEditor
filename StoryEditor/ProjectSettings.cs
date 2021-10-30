@@ -55,53 +55,7 @@ namespace OneStoryProjectEditor
                 Debug.Assert(strProjectFolderDefaultIfNull[strProjectFolderDefaultIfNull.Length - 1] != '\\');
                 _strProjectFolder = strProjectFolderDefaultIfNull;
             }
-
-#if UseUrlsWithChorus
-            if (bLookForHgUrlHost)
-            {
-                HgRepoUrlHost = GetHgRepoUrlHostFromProjectFile();
-            }
-#endif
         }
-
-#if UseUrlsWithChorus
-        private string GetHgRepoUrlHostFromProjectFile()
-        {
-            if (!File.Exists(ProjectFilePath))
-                return null;
-
-            // this is kind of a hack, but it works for now. We're going to read in the 
-            //  project (xml) file as though it were just a utf-8 text file and look for 
-            //  the attribute at the beginning for the HgRepoUrl host (this is usually so 
-            //  we can build the sync command (see SyncWithRepository) to update the file 
-            //  before *actually* opening it.
-            // it's usually something like:
-            //  <StoryProject version="1.6" ProjectName="asdg" HgRepoUrlHost="http://hg-private.languagedepot.org" PanoramaFrontMatter=...
-            string strProjectFileContents = File.ReadAllText(ProjectFilePath, Encoding.UTF8);
-            const string strToSearchFor = StoryProjectData.CstrAttributeHgRepoUrlHost + "=\"";
-            int nIndex = strProjectFileContents.IndexOf(strToSearchFor);
-            if (nIndex >= 0)
-            {
-                // look past the attribute name...
-                nIndex += strToSearchFor.Length;
-
-                // get the index (or len) to the end of the attribute value and return
-                //  that substring
-                int nLength = strProjectFileContents.IndexOf('"', nIndex) - nIndex;
-                return strProjectFileContents.Substring(nIndex, nLength);
-            }
-
-            // finally, worst case, we *might* have it in the settings file
-            string strBaseUrl = null, strFullUri = Program.GetHgRepoFullUrl(ProjectName);
-            if (!String.IsNullOrEmpty(strFullUri))
-            {
-                var uri = new Uri(strFullUri);
-                string strDummy;
-                StoryEditor.GetDetailsFromUri(uri, out strDummy, out strDummy, ref strBaseUrl);
-            }
-            return strBaseUrl;
-        }
-#endif
 
         public ProjectSettings(XmlNode node, string strProjectFolder)
         {
@@ -313,16 +267,6 @@ namespace OneStoryProjectEditor
                     && !String.IsNullOrEmpty(strProjectFolder)
                     && !String.IsNullOrEmpty(RepoProjectName))
                 {
-#if UseUrlsWithChorus
-                    if (!Program.AreAdaptItHgParametersSet(RepoProjectName))
-                    {
-                        Program.SetAdaptItHgParameters(strProjectFolder,
-                                                       RepoProjectName,
-                                                       RepositoryServer,
-                                                       loggedOnMember.HgUsername,
-                                                       loggedOnMember.HgPassword);
-                    }
-#endif
                     // if the folder doesn't exist or the repo doesn't exist...
                     if (!Directory.Exists(strProjectFolder) ||
                         !Directory.Exists(Program.PathToHgRepoFolder(strProjectFolder)))
@@ -352,31 +296,16 @@ namespace OneStoryProjectEditor
                 // the GetClone dialog is expecting that the parent folder exist (e.g.
                 //  C:\Documents and Settings\Bob\My Documents\Adapt It Unicode Work)
                 string strAiWorkFolder = Path.GetDirectoryName(strProjectFolder);
-                Debug.Assert((strAiWorkFolder != null) && (strAiWorkFolder == AdaptItKBReader.AdaptItWorkFolder));
-                if (!Directory.Exists(strAiWorkFolder))
-                    Directory.CreateDirectory(strAiWorkFolder);
-
                 string strAiProjectFolderName = Path.GetFileNameWithoutExtension(strProjectFolder);
                 var url = RepositoryServer;
                 if (String.IsNullOrEmpty(url))
                     url = Properties.Resources.IDS_DefaultRepoUrl;
 
-                var model = new GetCloneFromInternetModel(strAiWorkFolder)
-                {
-                    // to edit an existing, LocalFolderName, Username, Password, and call InitFromUri
-                    ProjectId = RepoProjectName,
-                    CustomUrl = url,
-                    LocalFolderName = strAiProjectFolderName,
-                    Username = strHgUsername,
-                    Password = strHgPassword,
-                };
-
-                model.InitFromProjectPath(Path.Combine(strAiWorkFolder, strAiProjectFolderName));
-
-                using (var dlg = new GetCloneFromInternetDialog(model))
-                {
-                    dlg.ShowDialog();
-                }
+                Program.CloneRepository(projectName: RepoProjectName, parentDirToPutCloneIn: strAiWorkFolder,
+                                        localFolder: strAiProjectFolderName,
+                                        username: strHgUsername,
+                                        password: strHgPassword,
+                                        customUrl: url);
 
                 return true;
             }
@@ -777,117 +706,7 @@ namespace OneStoryProjectEditor
             InternationalBT.InvertRtl = loggedOnMember.OverrideRtlInternationalBT;
             FreeTranslation.InvertRtl = loggedOnMember.OverrideRtlFreeTranslation;
         }
-
-#if UseUrlsWithChorus
-        public void SyncWithRepository(string strUsername, string strPassword)
-        {
-            SyncWithRepository(ProjectFolder, ProjectName, HgRepoUrlHost, strUsername, strPassword,
-                Program.LookupSharedNetworkPath(ProjectFolder));
-        }
-
-        // e.g. http://bobeaton:helpmepld@hg-private.languagedepot.org/snwmtn-test
-        // or \\Bob-StudioXPS\Backup\Storying\snwmtn-test
-        public static void SyncWithRepository(string strProjectFolder, string strProjectName, string strHgRepoUrlHost,
-            string strUsername, string strPassword, string strSharedNetworkPath)
-        {
-            // the project folder name has come here bogus at times...
-            if (!Directory.Exists(strProjectFolder))
-                return;
-
-            try
-            {
-                string strHgUrl = Program.FormHgUrl(strHgRepoUrlHost,
-                                                    strUsername,
-                                                    strPassword,
-                                                    strProjectName);
-                if (String.IsNullOrEmpty(strHgUrl))
-                    Program.SyncWithRepository(strProjectFolder, true);
-                else
-                    TrySyncWithRepository(strProjectName, strProjectFolder, strHgUrl, strSharedNetworkPath);
-            }
-            catch (Exception ex)
-            {
-                Program.ShowException(ex);
-            }
-        }
-
-        private static void TrySyncWithRepository(string strProjectName,
-            string strProjectFolder, string strRepoUrl, string strSharedNetworkPath)
-        {
-            // if there's no repo yet, then create one (even if we aren't going
-            //  to ultimately push with an internet repo, we still want one locally)
-            var projectConfig = Program.GetProjectFolderConfiguration(strProjectFolder);
-
-            // for when we launch the program, just do a quick & dirty send/receive, 
-            //  but for closing (or if we have a network drive also), then we want to 
-            //  be more informative
-            using (var dlg = new MySyncDialog(projectConfig))
-            {
-                dlg.FormClosing += (sender, args) =>
-                {
-                    var me = sender as MySyncDialog;
-                    Debug.Assert(me != null, "me != null");
-                    if (!me.DontAllowXtoClose)
-                        return;
-
-                    args.Cancel = true;
-                    me.Text = Localizer.Str("Please click the 'Cancel' button first");
-                };
-                dlg.UseTargetsAsSpecifiedInSyncOptions = true;
-                if (!String.IsNullOrEmpty(strRepoUrl))
-                    dlg.SyncOptions.RepositorySourcesToTry.Add(RepositoryAddress.Create(Program.CstrInternetName, strRepoUrl));
-                if (!String.IsNullOrEmpty(strSharedNetworkPath))
-                    dlg.SyncOptions.RepositorySourcesToTry.Add(RepositoryAddress.Create(Program.CstrNetworkDriveName, strSharedNetworkPath));
-
-                dlg.Text = "Synchronizing OneStory Project: " + strProjectName;
-                var res = dlg.ShowDialog();
-                Debug.WriteLine(res.ToString());
-            }
-        }
-#endif
     }
-
-#if UseUrlsWithChorus
-    public class MySyncDialog : SyncDialog
-    {
-        public MySyncDialog(ProjectFolderConfiguration projectFolderConfiguration)
-            : base(projectFolderConfiguration, SyncUIDialogBehaviors.Lazy, SyncUIFeatures.NormalRecommended)
-        {
-        }
-
-        /*
-         * this code is if you want to disable the close button (but that won't work for here, because
-         * we have to be able to close it that way before the Internet button is pressed (it's the only way)
-        private const int CP_NOCLOSE_BUTTON = 0x200;
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                var myCp = base.CreateParams;
-                // myCp.ClassStyle = myCp.ClassStyle | CP_NOCLOSE_BUTTON;
-                return myCp;
-            }
-        }
-        */
-
-        public bool DontAllowXtoClose
-        {
-            get
-            {
-                // this was sort of reverse engineered, but 
-                // either the 'LastStatus' has to be null (i.e. haven't clicked 'Internet' yet)
-                //  or there's an error
-                //  or it succeeded or was cancelled
-                // OTHERWISE, don't let the user close the dialog
-                var bRes = (!String.IsNullOrEmpty(FinalStatus.LastStatus) &&
-                            (SyncResult.ErrorEncountered == null) &&
-                            !SyncResult.Succeeded &&
-                            !SyncResult.Cancelled);
-                return bRes;
-            }
-        }
-    }
-#endif
 
     public class ShowLanguageFields
     {

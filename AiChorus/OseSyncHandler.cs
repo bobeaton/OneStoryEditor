@@ -6,19 +6,14 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
-using Chorus.sync;
 
 namespace AiChorus
 {
     public class OseSyncHandler : ApplicationSyncHandler
     {
-        public const string CstrStoryEditorExe = "StoryEditor.exe";
         private const string CstrCantOpenOse = "Can't Open OneStory Editor";
 
         private Assembly _theStoryEditor;
-#if !AiChorusInOseFolder
-        private MethodInfo _methodSyncWithRepository;
-#endif
 
         public OseSyncHandler(Project project, ServerSetting serverSetting)
             : base(project, serverSetting)
@@ -26,7 +21,6 @@ namespace AiChorus
             
         }
 
-        public static string OseRunningPath;
         private static string _appDataRoot;
         public override string AppDataRoot
         {
@@ -34,21 +28,7 @@ namespace AiChorus
             {
                 if (_appDataRoot == null)
                 {
-#if AiChorusInOseFolder
-                    var strStoryEditorPath = OneStoryEditorExePath;
-#else
-                    // first see if OSE is installed
-                    // check in Program Files\SIL\OneStory Editor 2.0
-                    string strStoryEditorExePath =
-                        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                                     Path.Combine("SIL", Path.Combine("OneStory Editor 2.0", "StoryEditor.exe")));
-
-                    if (!File.Exists(strStoryEditorExePath))
-                    {
-                        MessageBox.Show("Unable to find OneStory Editor! Is it installed?", Properties.Resources.AiChorusCaption);
-                        return "Can't Find OneStory Editor";
-                    }
-#endif
+                    var strStoryEditorPath = Program.OneStoryEditorExePath;
 
                     // if it is there, then get the path to the project folder root
                     _theStoryEditor = Assembly.LoadFile(strStoryEditorPath);
@@ -59,11 +39,6 @@ namespace AiChorus
                     if (typeOseProjectSettings == null)
                         return CstrCantOpenOse;
 
-                    var typeString = typeof (string);
-#if !AiChorusInOseFolder
-                    var aTypeParams = new Type[] { typeString, typeString, typeString, typeString, typeString, typeString };
-                    _methodSyncWithRepository = typeOseProjectSettings.GetMethod("SyncWithRepository", aTypeParams);
-#endif
                     var propOneStoryProjectFolderRoot = typeOseProjectSettings.GetProperty("OneStoryProjectFolderRoot");
                     _appDataRoot = (string)propOneStoryProjectFolderRoot.GetValue(typeOseProjectSettings, null);
                 }
@@ -83,28 +58,11 @@ namespace AiChorus
             }
         }
 
-        public override void DoSynchronize()
+        public override void DoSynchronize(bool bIsOpening)
         {
-            // why would we do this? Why not just do this:
-            DoSilentSynchronize();
-            /*
-#if AiChorusInOseFolder
-            Program.LaunchProgram(OseRunningPath, ProjectFileSpec);
-#else
-            // string strProjectFolder, string strProjectName, string strHgRepoUrlHost,
-            // string strUsername, string strPassword
-            var oParams = new object[]
-                              {
-                                  Path.Combine(AppDataRoot, Project.FolderName), 
-                                  Project.ProjectId,
-                                  "http://resumable.languagedepot.org",    // for now
-                                  ServerSetting.Username, 
-                                  ServerSetting.Password, 
-                                  null                                      // shared network path
-                              };
-            _methodSyncWithRepository.Invoke(_theStoryEditor, oParams);
-#endif
-            */
+            // since StoryEditor.exe has to keep the Chorus credentials, we need to call it to do the syncing
+            var strProjectFolder = Path.Combine(AppDataRoot, Project.FolderName);
+            TrySyncWithRepository(strProjectFolder, Project.FolderName, bIsOpening, "OneStory");
         }
 
         private static List<string> _lstStorySetsToIgnore = new List<string> { "Non-Biblical Stories", "Old Stories" };
@@ -228,18 +186,6 @@ namespace AiChorus
             }
         }
 
-        public override ProjectFolderConfiguration GetProjectFolderConfiguration(string strProjectFolder)
-        {
-            var projectConfig = base.GetProjectFolderConfiguration(strProjectFolder);
-
-            projectConfig.IncludePatterns.Add("*.onestory");
-            projectConfig.IncludePatterns.Add("*.xml"); // the P7 key terms list
-            projectConfig.IncludePatterns.Add("*.bad"); // if we write a bad file, commit that as well
-            projectConfig.IncludePatterns.Add("*.conflict"); // include the conflicts file as well so we can fix them
-            projectConfig.IncludePatterns.Add("*.ChorusNotes"); // the new conflict file
-            return projectConfig;
-        }
-
         internal override bool DoClone()
         {
             if (base.DoClone())
@@ -253,7 +199,7 @@ namespace AiChorus
         public override void DoProjectOpen()
         {
             // for us, this is the same as Synchronize
-            DoSynchronize();
+            Program.LaunchProgram(Program.OneStoryEditorExePath, $"\"{ProjectFileSpec}\"");
         }
     }
 }
