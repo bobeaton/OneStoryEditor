@@ -528,6 +528,10 @@
         </Component>
         -->
 
+        <Component Id="System.ValueTuple.dll" Guid="{EF0E17FF-FACD-4CE1-A77E-314D9D432820}">
+          <File Id="System.ValueTuple.dll" Name="System.ValueTuple.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.ValueTuple.dll" AssemblyApplication="System.ValueTuple.dll" Assembly=".net" Source="..\..\output\release\System.ValueTuple.dll"/>
+        </Component>
+
       </Directory>
 
     </Directory>

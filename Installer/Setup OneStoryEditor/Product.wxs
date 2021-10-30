@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" 
      xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
   
-  <Product Id="*" Name="OneStory Editor 5.0" Language="1033" Version="5.0.0.0" Manufacturer="SIL" UpgradeCode="{92A9B369-3609-4129-A09D-5BB5BBE30AAB}">
+  <Product Id="*" Name="OneStory Editor 5.0" Language="1033" Version="5.0.0.0" Manufacturer="SIL International" UpgradeCode="{92A9B369-3609-4129-A09D-5BB5BBE30AAB}">
     <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
     <Condition Message="You need to be an administrator to install this product.">Privileged</Condition>
     <Condition Message="[ProductName] will only run on Windows 2000 or better. You cannot intall it on this machine.">
@@ -22,7 +22,7 @@
 
     <!-- Require .NET 4.5+ -->
     <PropertyRef Id="WIX_IS_NETFRAMEWORK_461_OR_LATER_INSTALLED"/>
-    <Condition Message="This application requires .NET Framework 4.6.1 or later. Please install the .NET Framework then run this installer again.">
+    <Condition Message="This application requires .NET Framework 4.6.1 or later. Please install the .NET Framework then run this installer again. (https://www.microsoft.com/en-us/download/details.aspx?id=49981)">
       <![CDATA[Installed OR WIX_IS_NETFRAMEWORK_461_OR_LATER_INSTALLED]]>
     </Condition>
     
@@ -44,6 +44,9 @@
     <PropertyRef Id='MergeModulesFragment'/>
     <Property Id="REBOOT" Value="Force"></Property>
 
+    <InstallExecuteSequence>
+      <WriteEnvironmentStrings />
+    </InstallExecuteSequence>
   </Product>
 
   <Fragment>
