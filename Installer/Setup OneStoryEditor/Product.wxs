@@ -13,7 +13,8 @@
     <Property Id="ARPPRODUCTICON" Value="OneStory.ico" />
 
     <Property Id="REINSTALLMODE" Value="amus" />
-    
+    <Property Id="DISABLEADVTSHORTCUTS" Value="1" />
+
     <MajorUpgrade Schedule='afterInstallInitialize'
                   DowngradeErrorMessage="A newer version of [ProductName] is already installed." 
                   AllowSameVersionUpgrades="yes" />
@@ -28,8 +29,13 @@
     
     <Feature Id="Always" Title="Always" Display="hidden" Level="1" AllowAdvertise="no">
       <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="BiblicalTermsComponents" />
+      <ComponentGroupRef Id="EcPluginsComponents" />
+      <ComponentGroupRef Id="LocDataComponents" />
+      <ComponentGroupRef Id="SwordModsComponents" />
+      <ComponentGroupRef Id="SwordNetBibleComponents" />
+      <ComponentGroupRef Id="ApplicationStartMenuFolderComponents" />
       <ComponentRef Id="MyAppFolder"/>
-      <MergeRef Id="OseMergeModule"/>
       <MergeRef Id="ChorusMergeModule"/>
       <MergeRef Id="CRT"/>
       <MergeRef Id="AIGuesserMM"/>
@@ -58,22 +64,37 @@
               <CreateFolder />
               <RemoveFile Id="PurgeAppFolder" Name="*.*" On="uninstall" />
             </Component>
+            <Directory Id="BiblicalTerms" Name="BiblicalTerms" />
+            <Directory Id="EC" Name="EC">
+              <Directory Id="Plugins" Name="Plugins" />
+            </Directory>
+            <Directory Id="LocData" Name="LocData" />
+            <Directory Id="SWORD" Name="SWORD">
+              <Directory Id="mods.d" Name="mods.d" />
+              <Directory Id="modules" Name="modules">
+                <Directory Id="texts" Name="texts">
+                  <Directory Id="ztext" Name="ztext">
+                    <Directory Id="net" Name="net" />
+                  </Directory>
+                </Directory>
+              </Directory>
+            </Directory>
           </Directory>
         </Directory>
       </Directory>
       <Directory Id="WindowsFolder" SourceName="Windows">
+        <Directory Id="ProfilesFolder" SourceName="Profiles">
+          <Directory Id="StartMenuFolder" SourceName="Start Menu">
+            <Directory Id="ProgramMenuFolder" SourceName="Programs">
+              <Directory Id="ApplicationStartMenuFolder" Name="OneStory Editor" />
+            </Directory>
+          </Directory>
+        </Directory>
+        <Directory Id="DesktopFolder"/>
         <Directory Id="SystemFolder" SourceName="System32" />
       </Directory>
+
     </Directory>
   </Fragment>
 
-  <Fragment>
-    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-      <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
-      <Component Id="ProductComponent" Guid="{EABF30C7-D7A8-421A-9B7C-B3A58F654041}">
-        <RegistryValue Root="HKLM" Key="Software\Microsoft\Internet Explorer\MAIN\FeatureControl\FEATURE_BROWSER_EMULATION" Name="StoryEditor.exe" Type="integer" Value="9999" />
-        <RegistryValue Root="HKLM" Key="Software\Wow6432Node\Internet Explorer\MAIN\FeatureControl\FEATURE_BROWSER_EMULATION" Name="StoryEditor.exe" Type="integer" Value="9999" />
-      </Component>
-    </ComponentGroup>
-  </Fragment>
 </Wix>

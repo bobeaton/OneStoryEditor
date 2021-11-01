@@ -19,7 +19,9 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BiblicalTermComponents.wxs" />
     <Compile Include="MergeModules.wxs" />
+    <Compile Include="OseComponents.wxs" />
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
