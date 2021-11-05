@@ -1149,6 +1149,9 @@ namespace OneStoryProjectEditor
                 //  or not). But if we call JumpToStory here, it'll cause the view to be set *before* we would have 
                 //  disabled any non-configured columns in the project. So move UpdateUiMenusAfterProjectOpen(); to just
                 //  before we might call JumpToStory and see if that works...
+                // If moving it here doesn't work, then consider putting it afterwards *also* (or breaking out the setting 
+                //  of the clicked and visible calls vs. the "Update*" calls in it OR call this during OpenProject, which 
+                //  is where this particular error started.
                 UpdateUiMenusAfterProjectOpen();
                 if (StoryStageLogic.StateTransitions.DoesStateTransitionFileOverrideExist(projSettings.ProjectFolder))
                 {
