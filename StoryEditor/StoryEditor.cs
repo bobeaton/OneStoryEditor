@@ -1144,6 +1144,12 @@ namespace OneStoryProjectEditor
                 // UPDATE (2021-05-28): this seems to reset the view if it is set to be the same. Irene requested we not do that
                 //  The only reason I can think this is there is if there is an explicit override file... so if there isn't
                 //  one of those, then don't do this
+                // UPDATE (2021-11-05): the call to UpdateUiMenusAfterProjectOpen(); was at the end of this function,
+                //  but caused this problem: that func sets whether certain fields are visible (e.g. bkz they're configured
+                //  or not). But if we call JumpToStory here, it'll cause the view to be set *before* we would have 
+                //  disabled any non-configured columns in the project. So move UpdateUiMenusAfterProjectOpen(); to just
+                //  before we might call JumpToStory and see if that works...
+                UpdateUiMenusAfterProjectOpen();
                 if (StoryStageLogic.StateTransitions.DoesStateTransitionFileOverrideExist(projSettings.ProjectFolder))
                 {
                     bool bUseForAllStories = viewUseSameSettingsForAllStoriesMenu.Checked;
@@ -1168,7 +1174,8 @@ namespace OneStoryProjectEditor
                 // show the chorus notes at load time
                 // InitProjectNotes(projSettings, LoggedOnMember.Name);
 
-                UpdateUiMenusAfterProjectOpen();
+                // moved above, so it happens before JumpToStory, though I wonder if we don't need to do it both places...
+                //  UpdateUiMenusAfterProjectOpen();
             }
             catch (StoryProjectData.BackOutWithNoUIException)
             {
