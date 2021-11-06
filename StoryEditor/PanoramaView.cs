@@ -315,21 +315,26 @@ namespace OneStoryProjectEditor
                     aSD.NumOfWords(_storyProject.ProjSettings)
                 };
                 int nRowIndex = dataGridViewPanorama.Rows.Add(aObs);
-                var aRow = dataGridViewPanorama.Rows[nRowIndex];
+                var theRow = dataGridViewPanorama.Rows[nRowIndex];
 
                 SetToolTipText(dataGridViewPanorama.Rows[nRowIndex], "Double click to open, Single click to rename, Right click to move");
 #if ShowingState
                 aRow.Tag = st;
 #endif
 #if UseArialUnicodeMs
-                aRow.Height = _fontForDev.Height + 8;
+                theRow.Height = _fontForDev.Height + 8;
 #endif               
 
                 if (aSD.Name == StoryEditor.currentStoryName)
-                    dataGridViewPanorama.Rows[nRowIndex].Cells[0].Selected = true;
+                {
+                    var currentCell = theRow.Cells[0];
+                    dataGridViewPanorama.CurrentCell = currentCell;
+                    currentCell.Selected = true;
+                    theRow.Selected = true;
+                }
 
                 if (bInLoggedInUsersTurn)
-                    aRow.DefaultCellStyle.BackColor = Color.Yellow;
+                    theRow.DefaultCellStyle.BackColor = Color.Yellow;
             }
 
             dataGridViewPanorama.Select();  // copy keyboard copy/pastes will go there...
@@ -716,17 +721,6 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private void RemoveStoryFromCurrentList(int nSelectedRowIndex, StoryData theSd)
-        {
-            _stories.Remove(theSd);
-            InitGrid();
-            if (nSelectedRowIndex >= dataGridViewPanorama.Rows.Count)
-                nSelectedRowIndex--;
-
-            if ((nSelectedRowIndex >= 0) && (nSelectedRowIndex < dataGridViewPanorama.Rows.Count))
-                dataGridViewPanorama.Rows[nSelectedRowIndex].Selected = true;
-        }
-
         private void TabControlSetsSelected(object sender, TabControlEventArgs e)
         {
             TabPage tab = e.TabPage;
@@ -1038,8 +1032,6 @@ namespace OneStoryProjectEditor
             if (rowDragFrom == null)
                 return;
 
-            System.Diagnostics.Debug.WriteLine($"DragOver w/ sender: {sender} @ {DateTime.Now}");
-
             var pt = dataGridViewPanorama.PointToClient(new Point(e.X, e.Y));
             var hitTestInfo = dataGridViewPanorama.HitTest(pt.X, pt.Y);
             var rowTargetIndex = hitTestInfo.RowIndex;
@@ -1068,7 +1060,6 @@ namespace OneStoryProjectEditor
             if ((rowTargetIndex < 0) || (rowTargetIndex > dataGridViewPanorama.Rows.Count - 1))
                 return;
 
-            System.Diagnostics.Debug.WriteLine("DragDrop to: " + rowTargetIndex.ToString());
             if (e.Effect == DragDropEffects.Move)
             {
                 bool? movingUpTheGrid = null;
@@ -1097,11 +1088,12 @@ namespace OneStoryProjectEditor
 
                     _stories.Remove(theSDToMove);
 
+                    System.Diagnostics.Debug.WriteLine($"movingUpTheGrid: {movingUpTheGrid}, rowTargetIndex: {rowTargetIndex}, dataGridViewPanorama.Rows.Count: {dataGridViewPanorama.Rows.Count}");
                     var insertRow = ((bool)movingUpTheGrid)
                                         ? rowTargetIndex++
-                                        : (rowTargetIndex < (dataGridViewPanorama.Rows.Count - 1))
-                                            ? rowTargetIndex + 1
-                                            : rowTargetIndex;
+                                        : rowTargetIndex;
+                    System.Diagnostics.Debug.WriteLine($"insertRow: {insertRow}");
+
                     _stories.Insert(insertRow, theSDToMove);
                     movedRowStoryNames.Add(strName);
                 }
