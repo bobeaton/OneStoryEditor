@@ -172,6 +172,30 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;script&gt;
+        ///    function OnBibRefJump(link) {
+        ///        window.external.OnBibRefJump(link.name);
+        ///        return false; // cause the href navigation to not happen
+        ///    }
+        ///    function OnVerseLineJump(link) {
+        ///        window.external.OnVerseLineJump(link.name);
+        ///        return false; // cause the href navigation to not happen
+        ///    }
+        ///
+        ///    var s_key = 83;
+        ///    var f5_key = 116;
+        ///    function OnKeyDown() {
+        ///        if (window.event.keyCode == f5_key) {
+        ///        // let the form handle it
+        ///        window.external. [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConNoteDomPrefix {
+            get {
+                return ResourceManager.GetString("ConNoteDomPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap CopyHS {
@@ -371,30 +395,6 @@ namespace OneStoryProjectEditor.Properties {
         internal static string HTML_DivisionId {
             get {
                 return ResourceManager.GetString("HTML_DivisionId", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;script&gt;
-        ///    function OnBibRefJump(link) {
-        ///        window.external.OnBibRefJump(link.name);
-        ///        return false; // cause the href navigation to not happen
-        ///    }
-        ///    function OnVerseLineJump(link) {
-        ///        window.external.OnVerseLineJump(link.name);
-        ///        return false; // cause the href navigation to not happen
-        ///    }
-        ///	
-        ///    var s_key = 83;
-        ///    var f5_key = 116;
-        ///    function OnKeyDown() {
-        ///        if (window.event.keyCode == f5_key) {
-        ///            // let the form handle it
-        ///            window. [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string HTML_DOM_Prefix {
-            get {
-                return ResourceManager.GetString("HTML_DOM_Prefix", resourceCulture);
             }
         }
         
@@ -814,7 +814,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; ondblclick=&quot;OnDoubleClick()&quot; onKeyDown=&quot;OnTextAreaKeyDown()&quot; class=&quot;{1}&quot;&gt;{2}&lt;/textarea&gt;.
+        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; ondblclick=&quot;OnDoubleClick(this)&quot; onKeyDown=&quot;OnTextAreaKeyDown()&quot; class=&quot;{1}&quot;&gt;{2}&lt;/textarea&gt;.
         /// </summary>
         internal static string HTML_TextareaWithRefDoubleClick {
             get {
@@ -1580,12 +1580,13 @@ namespace OneStoryProjectEditor.Properties {
         ///    &lt;/head&gt;
         ///    &lt;body onscroll=&quot;window.external.OnScroll();&quot;&gt;
         ///        &lt;!--for debugging: &lt;textarea id=&quot;osedebughtmlwindow&quot;&gt;&lt;/textarea&gt;--&gt;
+        ///        &lt;textarea id=&quot;osedebughtmlwindow&quot;&gt;&lt;/textarea&gt;
         ///{4}
         ///    &lt;/body&gt;
         ///&lt;script type=&quot;text/javascript&quot;&gt;
         ///{5}
         ///&lt;/script&gt;
-        ///&lt;/html&gt;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string StoryBtHtml {
             get {

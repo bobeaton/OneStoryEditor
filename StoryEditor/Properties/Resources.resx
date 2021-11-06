@@ -196,7 +196,7 @@
     <value>..\js\storybtplaceholders.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="HTML_TextareaWithRefDoubleClick" xml:space="preserve">
-    <value>&lt;textarea id="{0}" ondblclick="OnDoubleClick()" onKeyDown="OnTextAreaKeyDown()" class="{1}"&gt;{2}&lt;/textarea&gt;</value>
+    <value>&lt;textarea id="{0}" ondblclick="OnDoubleClick(this)" onKeyDown="OnTextAreaKeyDown()" class="{1}"&gt;{2}&lt;/textarea&gt;</value>
   </data>
   <data name="HTML_TableCellId" xml:space="preserve">
     <value>&lt;td id="{0}"&gt;{1}&lt;/td&gt;</value>
@@ -1507,128 +1507,6 @@ for more extensive study materials.&lt;/p&gt;
   <data name="IDS_UnableToSave" xml:space="preserve">
     <value>Unable to save the project file '{1}'{0}{0}{2}</value>
   </data>
-  <data name="HTML_DOM_Prefix" xml:space="preserve">
-    <value>&lt;script&gt;
-    function OnBibRefJump(link) {
-        window.external.OnBibRefJump(link.name);
-        return false; // cause the href navigation to not happen
-    }
-    function OnVerseLineJump(link) {
-        window.external.OnVerseLineJump(link.name);
-        return false; // cause the href navigation to not happen
-    }
-	
-    var s_key = 83;
-    var f5_key = 116;
-    function OnKeyDown() {
-        if (window.event.keyCode == f5_key) {
-            // let the form handle it
-            window.external.LoadDocument();
-
-            // disable the propagation of the F5 event
-            window.event.keyCode = 0;
-            window.event.returnValue = false;
-            return false;
-        }
-        else if (window.event.ctrlKey &amp;&amp; (window.event.keyCode == 70)) {
-            if (window.event.stopPropagation) {
-                window.event.stopPropagation();
-            }
-            else {
-                window.event.cancelBubble = true;
-                window.event.returnValue = false;
-                window.event.keyCode = 0;
-            }
-            window.external.DoFind();
-            return false;
-        }
-        else if (window.event.ctrlKey &amp;&amp; (window.event.keyCode == s_key)) {
-            if (window.event.stopPropagation) {
-                window.event.stopPropagation();
-            }
-            else {
-                window.event.cancelBubble = true;
-                window.event.returnValue = false;
-                window.event.keyCode = 0;
-            }
-            window.external.OnSaveDocument();
-            return false;
-        }
-    }
-    function OnDoubleClick() {
-        if (document.selection)
-        {
-            var sel = document.selection;
-            var rng = sel.createRange();
-		    rng.expand("word");
-            rng.select();
-        }
-    }
-    function textboxSetSelection(strId, iStart, iLen) {
-        var oTextbox = document.getElementById(strId);
-        var oRange = oTextbox.createTextRange();
-        oRange.moveStart("character", iStart);
-        oRange.moveEnd("character", -oTextbox.value.length + iStart + iLen);
-        oRange.select();
-    }
-    function textboxSetSelectionTextReturnEndPosition(strId, strNewValue) {
-        var oTextbox = document.getElementById(strId);
-        var rangeSelection = document.selection.createRange();
-        var rangeElement = rangeSelection.duplicate();
-        rangeElement.moveToElementText(oTextbox);
-        var nEndPoint = 0;
-        if (rangeElement.inRange(rangeSelection)) {
-            rangeSelection.text = strNewValue;
-            rangeSelection.select();
-            while (rangeElement.compareEndPoints('StartToEnd', rangeSelection) &lt; 0) {
-                rangeElement.moveStart('character', 1);
-                nEndPoint++;
-            }
-        }
-        return nEndPoint;
-    }
-	function OnMouseUp() {
-		// if the user right-clicks, then ask the ConNote pane to show the context menu
-		if (window.event.button == 2) 
-			window.external.ShowContextMenu();
-	}
-  function OnTextAreaKeyDown() {
-     if (window.event.ctrlKey &amp;&amp; (window.event.keyCode == 66)) {
-        transformText("$")
-     } else if (window.event.ctrlKey &amp;&amp; (window.event.keyCode == 73)) {
-        transformText("*")
-     }
-  }
-  
-  function transformText(type) {
-    if (document.selection) {
-      var rangeSelection = document.selection.createRange();
-      var selectVal = rangeSelection.text;
-      selectVal = textTrim(selectVal);
-      if(selectVal){
-        if(!startsWith(selectVal, type) || !endsWith(selectVal, type)){
-          selectVal = type+selectVal+type+" ";
-          rangeSelection.text = selectVal;
-          rangeSelection.select();
-        }
-      }
-    }
-    window.event.returnValue = false;
-    window.event.keyCode = 0;
-  }
-  
-  function textTrim(x) {
-    return x.replace(/^\s+|\s+$/gm,'');
-  }
-  function startsWith(str, word) {
-    return str.lastIndexOf(word, 0) === 0;
-  }
-  function endsWith(str, word) {
-    return str.indexOf(word, str.length - word.length) !== -1;
-  }
-      
-&lt;/script&gt;</value>
-  </data>
   <data name="oneStory2KeyTerms" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\oneStory2KeyTerms.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -2310,5 +2188,8 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   </data>
   <data name="IDS_DefaultRepoUrl" xml:space="preserve">
     <value>https://resumable.languageforge.org/</value>
+  </data>
+  <data name="ConNoteDomPrefix" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\js\connotedomprefix.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

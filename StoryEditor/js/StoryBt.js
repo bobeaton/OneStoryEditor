@@ -262,12 +262,37 @@ $(document).ready(function () {
                           (event.keyCode == x_key))) {  // cut
             $(this).removeAttr("selectedText"); // cut or paste means we no longer have a selection
         }
-        DisplayHtml(event.type + event.keyCode + this.value);
+        DisplayHtml(event.type + ": " + event.keyCode + ": " + this.value);
     }).dblclick(function (event) {
         var sel = document.selection;
         var rng = sel.createRange();
         rng.expand("word");
-        rng.select();
+
+        // if the user dblclicks on the last word in the textarea and it isn't followed by a punctuation char (in IE), 
+        //  then the range will be empty
+        if (!rng.text) {
+            var fullText = $(this).text();              // get the string of the contents...
+            if (fullText.length > 0) {
+                rng.moveToElementText(this);            // set the range to the entire contents of the text area
+                var words = fullText.split(' ');        //  and split by words
+                if (words.length >= 2) {                // if there is at least 2
+                    var lastWord = words[words.length - 1]; // get the (length of the) last word
+                    rng.moveStart('character', fullText.length - lastWord.length);  // move the start pos to the beginning of the last word
+                }
+            }
+        }
+        else {
+            // if there is no punctuation after the word, IE automatically selects the space afterwards, which I find annoying
+            while (rng.text.slice(-1) == ' ') {
+                rng.moveEnd('character', -1);
+            }
+        }
+
+        if (rng.text) {
+            rng.select();
+        }
+        rng.parentElement().focus();    // gotta focus or typing afterwards won't replace the selected text
+        DisplayHtml("dblclick: rng: '" + rng.text + "'");
     });
     $('.readonly').attr('readonly', 'readonly');
 });

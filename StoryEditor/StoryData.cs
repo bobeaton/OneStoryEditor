@@ -693,7 +693,7 @@ namespace OneStoryProjectEditor
 
             return String.Format(Properties.Resources.HTML_Header,
                                  StylePrefix(projSettings, strFontName, strFontSize),
-                                 Properties.Resources.HTML_DOM_Prefix,
+                                 Properties.Resources.ConNoteDomPrefix,
                                  strHtml,
                                  Properties.Resources.HTML_Script_AddTextareaMouseDown);
         
@@ -708,7 +708,7 @@ namespace OneStoryProjectEditor
 
             return String.Format(Properties.Resources.HTML_Header,
                                  StylePrefix(projSettings, strFontName, strFontSize),
-                                 Properties.Resources.HTML_DOM_Prefix,
+                                 Properties.Resources.ConNoteDomPrefix,
                                  strHtml,
                                  Properties.Resources.HTML_Script_AddTextareaMouseDown);
         }
@@ -722,7 +722,7 @@ namespace OneStoryProjectEditor
 
             return String.Format(Properties.Resources.HTML_Header,
                                  StylePrefix(projSettings, strFontName, strFontSize),
-                                 Properties.Resources.HTML_DOM_Prefix,
+                                 Properties.Resources.ConNoteDomPrefix,
                                  strHtml,
                                  Properties.Resources.HTML_Script_AddTextareaMouseDown);
         }

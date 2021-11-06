@@ -37,8 +37,6 @@ namespace OneStoryProjectEditor
         [STAThread]
         static void Main(string[] args)
         {
-            System.Diagnostics.Debug.Fail("Do you want to debug?");
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
