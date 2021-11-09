@@ -183,18 +183,22 @@ function TriggerMyBlur(bDontEmptySelection) {
             var offsets = tuple[1];
             var addTwo = tuple[2];
             DisplayHtml("TriggerMyBlur: offsets: '" + offsets + "', addTwo: '" + addTwo + "'");
+
+            // if they differ, then update the textarea with the version that has the special chars that won't get ignored by selection points
             if (html != htmlWithNewLines) {
                 $(oldThis).html(htmlWithNewLines);
                 DisplayHtml("TriggerMyBlur: htmlWithNewLines: '" + htmlWithNewLines + "', newHtml: '" + $(oldThis).html() + "', .value: '" + oldThis.value + "'");
             }
 
-            // if this text had the longer "<br>" in it and we haven't yet adjusted it...
+            // if this text had the longer "<br>" in it (rather than the shorter '\r\n's), then we possibly need to 
+            //  adjust the start and end points 
             if (addTwo && !oldThis.selectionAdjusted) {
-                // then adjust it now, but prevent a subsequent adjustment... 
-                //  ... but adjust each index carefully: if the adjustment is earlier in the text
+                oldThis.selectionAdjusted = true;   // (but only once)
+
+                //  adjust each index carefully: if the adjustment is earlier in the text
                 //  than the start index, then both start and end get bumped, else if the adjustment
-                //  is earlier than the end, then only it gets bumped, else if it's after the end
-                //  then neither get bumped
+                //  is earlier than the end, then only the end index gets bumped, else if it's after 
+                //  the end then neither get bumped
                 for (var i = 0; i < offsets.length; i++) {
                     if (offsets[i] < oldThis.selectionStart) {
                         oldThis.selectionStart = oldThis.selectionStart + 2;
@@ -204,12 +208,13 @@ function TriggerMyBlur(bDontEmptySelection) {
                         oldThis.selectionEnd = oldThis.selectionEnd + 2;
                     }
                 }
-                oldThis.selectionAdjusted = true;
-                DisplayHtml("TriggerMyBlur: selectionAdjusted: '" + oldThis.selectionAdjusted + "', now start: '" + oldThis.selectionStart + "', end: '" + oldThis.selectionEnd + "'");
+                DisplayHtml("TriggerMyBlur: now start: '" + oldThis.selectionStart + "', end: '" + oldThis.selectionEnd + "'");
             }
 
             var text = oldThis.value;
             DisplayHtml("TriggerMyBlur: text(" + text.length + "): '" + text + "', addTwo: '" + addTwo + "', start: '" + oldThis.selectionStart + "', end: '" + oldThis.selectionEnd + "'");
+
+            // calculate the portion of the string before the selection start point and after the end point
             var pre = (oldThis.selectionStart > 0)
                 ? text.substring(0, oldThis.selectionStart)
                 : "";
@@ -224,13 +229,15 @@ function TriggerMyBlur(bDontEmptySelection) {
             //  to cause all the text in the textarea to be selected. So before doing
             //  this replacement, go ahead and collapse the selected text. (but only
             //  if not triggered from this html (i.e. only if triggered from the app)
+            // UPDATE: I think the cause of the 'all the text in the textarea to be selected' was 
+            //  having the start and end index incorrect. Hopefully that's resolves now (w/ the adjustments
+            //  above), but this won't hurt to do anyway.
             if (!bDontEmptySelection)
                 document.selection.empty();
 
             var newHtml = NewLinesToBRs(pre + "<span class='" + oldThis.className + " highlight'>" + oldThis.selectedText + "</span>" + post);
-            DisplayHtml("myblur: newHtml: '" + newHtml + "'");
             $(oldThis).html(newHtml);
-            DisplayHtml("myblur: html: '" + $(oldThis).html() + "'");
+            DisplayHtml("myblur: before loading: newHtml: '" + newHtml + "', after loading: html: '" + $(oldThis).html() + "'");
         }
         window.oseConfig.idLastTextareaToBlur = null;
     }
@@ -242,19 +249,19 @@ $(document).ready(function () {
 
         // this is for when box 1 has something selected, and the user clicks in another box.
         //  we want to remember where the selection started and ended in the original box.
-        // No... I think this also happens when the user clicks in a box
+        // UPDATE: No... I think this also happens when the user clicks in a box
         var range = document.selection.createRange();
         if (range.htmlText.length > 0) {
             DisplayHtml(".select range.htmlText: '" + range.htmlText + "', selText: '" + this.selectedText + "', parentId: '" + range.parentElement().id + "'");
             var storedRange = range.duplicate();
             storedRange.moveToElementText(this);
             storedRange.setEndPoint('EndToEnd', range);
-            DisplayHtml("Select1 storedRange.htmlText.length: '" + storedRange.htmlText.length + "', range.htmlText.length: '" + range.htmlText.length + "'");
+            DisplayHtml(".select storedRange.htmlText.length: '" + storedRange.htmlText.length + "', range.htmlText.length: '" + range.htmlText.length + "'");
             this.selectionStart = storedRange.htmlText.length - range.htmlText.length;
             this.selectionEnd = this.selectionStart + range.htmlText.length;
             this.selectionAdjusted = $(this).has("br").length;
             this.selectedText = range.htmlText;
-            DisplayHtml("Select2 range.htmlText: '" + range.htmlText + "', selText: '" + this.selectedText + "', start: '" + this.selectionStart + "', end: '" + this.selectionEnd + "', selectionAdjusted: " + this.selectionAdjusted);
+            DisplayHtml(".select2 range.htmlText: '" + range.htmlText + "', selText: '" + this.selectedText + "', start: '" + this.selectionStart + "', end: '" + this.selectionEnd + "', selectionAdjusted: " + this.selectionAdjusted);
         }
         else {
             DisplayHtml(".select removeSelection: selText: '" + this.selectedText + "'");
@@ -321,7 +328,7 @@ $(document).ready(function () {
                     $(this).html(html);
                     range.moveToBookmark(bookmark);
                     DisplayHtml(".focus .selected '" + range.text + "', start: '" + this.selectionStart + "', end: '" + this.selectionEnd + "', htmlWithSpecialChars: '" + htmlWithSpecialChars + "'");
-                    // range.select();
+                    // range.select();   apparently not needed
                 }
             }
             window.external.TextareaOnFocus(this.id);
@@ -402,7 +409,7 @@ $(document).ready(function () {
             //  (but see note below)
             var html = NewLinesToBRs($(this).html());
             if (html.length > 0) {
-                var words = this.value.split(' ');          // split by words (here we can use the 'value', which ignores html bits)
+                var words = this.value.split(' ');          // split by words (here we can use the 'value', which strips out the html bits -- so we don't see "<br>" as a word)
                 if (words.length >= 2) {                    //  and if there are at least 2...
                     var lastWord = words[words.length - 1]; // get the (length of the) last word
 
@@ -413,8 +420,8 @@ $(document).ready(function () {
                     //  <br>s w/ the special character
                     // UPDATE: but this is all about getting the final word... so if I know how many offsets there 
                     //  are, then I worked out that there will be 3 * # of offsets that we have to reduce the start 
-                    //  and end indices by (bkz the br is somehow treated in html as 3 less than the 4 chars in "<br>" 
-                    //  (maybe as a single character vs 4? anyway, not sure why, but empirically this works)
+                    //  and end indices by (bkz the br is somehow treated in html as 3 less than the 4 chars in "<br>"??? 
+                    //  maybe as a single character vs 4? anyway, not sure why, but empirically this works)
                     var tuple = NewLinesToSpecialChars(html);
                     var offsets = tuple[1];
                     var extraNegIndexOffset = 3 * offsets.length;

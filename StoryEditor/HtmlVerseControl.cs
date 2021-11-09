@@ -33,6 +33,11 @@ namespace OneStoryProjectEditor
             DocumentCompleted += HtmlConNoteControl_DocumentCompleted;
         }
 
+        public void LogMessage(string str)
+        {
+            Debug.WriteLine(str);
+        }
+
         public virtual void ScrollToVerse(int nVerseIndex)
         {
             StrIdToScrollTo = VersesData.LineId(nVerseIndex);
