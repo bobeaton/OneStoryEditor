@@ -372,6 +372,9 @@
       <Component Id="System.ValueTuple.dll" Guid="{EF0E17FF-FACD-4CE1-A77E-314D9D432820}">
         <File Id="System.ValueTuple.dll" Name="System.ValueTuple.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.ValueTuple.dll" AssemblyApplication="System.ValueTuple.dll" Assembly=".net" Source="..\..\output\release\System.ValueTuple.dll"/>
       </Component>
+      <Component Id="System.Management.dll" Guid="{C016D47F-7EB0-4BF8-99F6-CE6E97161DEA}">
+        <File Id="System.Management.dll" Name="System.Management.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Management.dll" AssemblyApplication="System.Management.dll" Assembly=".net" Source="..\..\output\release\System.Management.dll"/>
+      </Component>
 
       <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
       <Component Id="WebBrowserComponent" Guid="{F0AFC8A8-A173-42A4-8B9F-20BBE96C8786}">
