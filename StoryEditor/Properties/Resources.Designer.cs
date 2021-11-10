@@ -172,22 +172,26 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;script&gt;
-        ///    function OnBibRefJump(link) {
-        ///        window.external.OnBibRefJump(link.name);
-        ///        return false; // cause the href navigation to not happen
-        ///    }
-        ///    function OnVerseLineJump(link) {
-        ///        window.external.OnVerseLineJump(link.name);
-        ///        return false; // cause the href navigation to not happen
-        ///    }
+        ///   Looks up a localized string similar to function DisplayHtml(str) {
+        ///    window.external.LogMessage(str.replace(/\r\n/gm, &quot;&lt;nl&gt;&quot;));
+        ///}
         ///
-        ///    var s_key = 83;
-        ///    var f5_key = 116;
-        ///    function OnKeyDown() {
-        ///        if (window.event.keyCode == f5_key) {
-        ///        // let the form handle it
-        ///        window.external. [rest of string was truncated]&quot;;.
+        ///function regexRemoveSpan(html) {
+        ///    return html.replace(/&lt;span class=&quot;.*?&quot;&gt;(.*?)&lt;\/span&gt;/gmi, &quot;$1&quot;);
+        ///}
+        ///
+        ///function ToNewLines(html) {
+        ///    return html.replace(/(&lt;br&gt;+)/gmi, &quot;\r\n&quot;);
+        ///}
+        ///
+        ///if (typeof String.prototype.trim !== &apos;function&apos;) {
+        ///    String.prototype.trim = function () {
+        ///        return this.replace(/^\s+|\s+$/g, &apos;&apos;);
+        ///    }
+        ///}
+        ///
+        ///function OnBibRefJump(link) {
+        ///    window.external.OnBibRefJump(link [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConNoteDomPrefix {
             get {
@@ -411,7 +415,9 @@ namespace OneStoryProjectEditor.Properties {
         ///   Looks up a localized string similar to &lt;html&gt;
         ///{0}
         ///&lt;head&gt;
+        ///&lt;script type=&quot;text/javascript&quot;&gt;
         ///{1}
+        ///&lt;/script&gt;
         ///&lt;/head&gt;
         ///&lt;body onKeyDown=&quot;return OnKeyDown();&quot; onscroll=&quot;window.external.OnScroll();&quot; onmouseup=&quot;OnMouseUp();&quot;&gt;
         ///{2}
@@ -422,28 +428,6 @@ namespace OneStoryProjectEditor.Properties {
         internal static string HTML_Header {
             get {
                 return ResourceManager.GetString("HTML_Header", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;html&gt;
-        ///{0}
-        ///&lt;head&gt;
-        ///&lt;script type=&quot;text/javascript&quot;&gt;
-        ///{1}
-        ///&lt;/script&gt;
-        ///&lt;/head&gt;
-        ///&lt;body&gt;
-        ///{2}
-        ///&lt;/body&gt;
-        ///&lt;script&gt;
-        ///{3}
-        ///&lt;/script&gt;
-        ///&lt;/html&gt;.
-        /// </summary>
-        internal static string HTML_HeaderPresentation {
-            get {
-                return ResourceManager.GetString("HTML_HeaderPresentation", resourceCulture);
             }
         }
         
@@ -1580,13 +1564,12 @@ namespace OneStoryProjectEditor.Properties {
         ///    &lt;/head&gt;
         ///    &lt;body onscroll=&quot;window.external.OnScroll();&quot;&gt;
         ///        &lt;!--for debugging: &lt;textarea id=&quot;osedebughtmlwindow&quot;&gt;&lt;/textarea&gt;--&gt;
-        ///        &lt;textarea id=&quot;osedebughtmlwindow&quot;&gt;&lt;/textarea&gt;
         ///{4}
         ///    &lt;/body&gt;
         ///&lt;script type=&quot;text/javascript&quot;&gt;
         ///{5}
         ///&lt;/script&gt;
-        /// [rest of string was truncated]&quot;;.
+        ///&lt;/html&gt;.
         /// </summary>
         internal static string StoryBtHtml {
             get {
@@ -1641,11 +1624,9 @@ namespace OneStoryProjectEditor.Properties {
         ///for (var i = 0; i &lt; textareas.length; i++) {
         ///    // keep this one in this format (as opposed to jscript) since the C# code occasionally calls InvokeMember(&quot;onchange&quot;)
         ///    //  and if we don&apos;t have it in regular java, then C# invoke can&apos;t access it (I think)
-        ///    textareas[i].onchange = function() { return window.external.TextareaOnChange(this.id, this.value); };
-        ///}
-        ///
-        ///$(&apos;textarea&apos;).attr(&apos;placeholder&apos;, function () {
-        ///    if ($(this).hasClass(&apos;LangV [rest of string was truncated]&quot;;.
+        ///    // Now that we sometimes replace \r\n (which this.value can deal with), with things
+        ///    //  like &lt;br&gt;s (which this.value can&apos;t deal with), we have to switch them back before
+        ///    //  call [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string StoryBtPsJs {
             get {

@@ -132,22 +132,6 @@
   <data name="AddToFavoritesHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AddToFavoritesHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="HTML_HeaderPresentation" xml:space="preserve">
-    <value>&lt;html&gt;
-{0}
-&lt;head&gt;
-&lt;script type="text/javascript"&gt;
-{1}
-&lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-{2}
-&lt;/body&gt;
-&lt;script&gt;
-{3}
-&lt;/script&gt;
-&lt;/html&gt;</value>
-  </data>
   <data name="DefMyDocsSubfolder" xml:space="preserve">
     <value>OneStory Editor Projects</value>
   </data>
@@ -603,7 +587,9 @@ and in the resulting window click on the next (green) state.
     <value>&lt;html&gt;
 {0}
 &lt;head&gt;
+&lt;script type="text/javascript"&gt;
 {1}
+&lt;/script&gt;
 &lt;/head&gt;
 &lt;body onKeyDown="return OnKeyDown();" onscroll="window.external.OnScroll();" onmouseup="OnMouseUp();"&gt;
 {2}

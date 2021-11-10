@@ -10,11 +10,19 @@ function OnBibRefJump(btn) {
         window.external.OnBibRefJump(btn.name);
     return false; // cause the href navigation to not happen
 }
+
+if (typeof String.prototype.trim !== 'function') {
+    String.prototype.trim = function () {
+        return this.replace(/^\s+|\s+$/g, '');
+    }
+}
+
 // this one is called from the empty cell where the buttons go (for right-click to add Null Button)
 function OnEmptyAnchorClick(id) {
     if (event.button == 2)
         window.external.OnAnchorButton(id);
 }
+
 function OnLineOptionsButton(btn) {
     // capture the last textarea selected before it loses focus to do a context menu
     DisplayHtml("Calling TriggerMyBlur from OnLineOptionsButton");
@@ -55,43 +63,10 @@ function textboxSetSelectionTextReturnEndPosition(strId, strNewValue) {
     return nEndPoint;
 }
 
-/*
-function OnKeyDown() {
-    // if this is F5 (refresh)...
-    if (window.event.keyCode == 116) {
-        // let the form handle it
-        window.external.LoadDocument();
-
-        // disable the propagation of the F5 event
-        window.event.keyCode = 0;
-        window.event.returnValue = false;
-        return false;
-    }
-    /* this is for searching... not implemented yet
-    else if (window.event.ctrlKey && (window.event.keyCode == 70)) {
-        if (window.event.stopPropagation) {
-            window.event.stopPropagation();
-        }
-        else {
-            window.event.cancelBubble = true;
-            window.event.returnValue = false;
-            window.event.keyCode = 0;
-        }
-        window.external.DoFind();
-        return false;
-    }
-    // /
-    return true;
-}
-*/
 function DisplayHtml(str) {
     var debugWindow = $('#osedebughtmlwindow');
     if (debugWindow) {
         window.external.LogMessage(str.replace(/\r\n/gm, "<nl>"));
-        /*
-        var curVal = debugWindow.val();
-        $('#osedebughtmlwindow').val(curVal + " " + str);
-        */
     }
 }
 function removeSelection(jqtextarea) {
@@ -409,7 +384,7 @@ $(document).ready(function () {
             //  (but see note below)
             var html = NewLinesToBRs($(this).html());
             if (html.length > 0) {
-                var words = this.value.split(' ');          // split by words (here we can use the 'value', which strips out the html bits -- so we don't see "<br>" as a word)
+                var words = this.value.trim().split(' ');          // split by words (here we can use the 'value', which strips out the html bits -- so we don't see "<br>" as a word)
                 if (words.length >= 2) {                    //  and if there are at least 2...
                     var lastWord = words[words.length - 1]; // get the (length of the) last word
 
