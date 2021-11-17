@@ -18,12 +18,20 @@ namespace AiChorus
         private readonly TargetFolderControl _targetFolderControl;
         private readonly ChorusConfigurations _chorusConfigs;
         private Project _project = new Project();
-        public QueryApplicationTypeForm(ChorusConfigurations chorusConfigs, GetCloneFromInternetModel model)
+        public QueryApplicationTypeForm(ChorusConfigurations chorusConfigs)
         {
             InitializeComponent();
 
             _chorusConfigs = chorusConfigs;
-            ServerSettingsModel = model;
+            var serverSettings = _chorusConfigs.ServerSettings.FirstOrDefault();
+
+            var model = new GetCloneFromInternetModel(null)
+            {
+                Username = serverSettings?.Username,
+                Password = serverSettings?.DecryptedPassword,
+                HasLoggedIn = true
+            };
+
             _serverSettingsControl = new ServerSettingsControl()
                                          {
                                              TabIndex = 2, 
@@ -42,7 +50,9 @@ namespace AiChorus
             tableLayoutPanel.Controls.Add(_targetFolderControl, 2, 0);
             tableLayoutPanel.SetColumnSpan(_targetFolderControl, 2);
 
-            _targetFolderControl._downloadButton.Visible = false;
+            _targetFolderControl._downloadButton.Visible = 
+                _serverSettingsControl.Visible =
+                _targetFolderControl.Visible = false;
         }
 
         public string SelectedApplicationType
@@ -55,7 +65,14 @@ namespace AiChorus
             } 
         }
 
-        public GetCloneFromInternetModel ServerSettingsModel { get; set; }
+        public GetCloneFromInternetModel ServerSettingsModel
+        {
+            get
+            {
+                return (GetCloneFromInternetModel)_serverSettingsControl.Model;
+            }
+        }
+
         public ApplicationSyncHandler ApplicationToUse { get; set; }
 
         private void ButtonOkClick(object sender, EventArgs e)
@@ -90,16 +107,19 @@ namespace AiChorus
 
         private void RadioButtonOseCheckedChanged(object sender, EventArgs e)
         {
+            _targetFolderControl.Visible = false;
             SetApplicationToUse(typeof(OseSyncHandler));
         }
 
         private void radioButtonAdaptIt_CheckedChanged(object sender, EventArgs e)
         {
+            _targetFolderControl.Visible = true;
             SetApplicationToUse(typeof(AdaptItSyncHandler));
         }
 
         private void SetApplicationToUse(Type appToUse)
         {
+            _serverSettingsControl.Visible = true;
             ServerSetting serverSetting;
             GetProjectAndServerSettings(out serverSetting);
             var aObjects = new object[] {_project, serverSetting};
@@ -112,19 +132,20 @@ namespace AiChorus
 
         private void GetProjectAndServerSettings(out ServerSetting serverSetting)
         {
-            if (!_chorusConfigs.TryGet(ServerSettingsModel.SelectedServerLabel, out serverSetting))
+            var model = ServerSettingsModel;
+            if (!_chorusConfigs.TryGet(model.CustomUrl, out serverSetting))
             {
                 serverSetting = new ServerSetting();
                 _chorusConfigs.ServerSettings.Add(serverSetting);
             }
 
-            serverSetting.Password = ServerSettingsModel.Password;
-            serverSetting.ServerName = ServerSettingsModel.SelectedServerLabel;
-            serverSetting.Username = ServerSettingsModel.AccountName;
+            serverSetting.Password = model.Password;
+            serverSetting.ServerName = model.AliasName;
+            serverSetting.Username = model.Username;
 
             _project.ApplicationType = SelectedApplicationType;
-            _project.FolderName = ServerSettingsModel.LocalFolderName;
-            _project.ProjectId = ServerSettingsModel.ProjectId;
+            _project.FolderName = model.LocalFolderName ?? model.ProjectId; // for OSE, the LocalFolderName wasn't set, bkz it's the same as the ProjectId
+            _project.ProjectId = model.ProjectId;
         }
     }
 }

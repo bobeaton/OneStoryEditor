@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using System.Collections;
-using System.Xml;
+using Sword;
 
 namespace OneStoryProjectEditor
 {
@@ -53,11 +50,11 @@ namespace OneStoryProjectEditor
 
 	public class NetBibleFootnoteTooltip : MinimalHtmlForm
 	{
-        SWMgr _manager;
-        Dictionary<string, SWModule> _lstModules = new Dictionary<string, SWModule>();
+        Manager _manager;
+        Dictionary<string, Module> _lstModules = new Dictionary<string, Module>();
         string action, type, value;
 
-        public NetBibleFootnoteTooltip(SWMgr manager)
+        public NetBibleFootnoteTooltip(Manager manager)
 		{
             _manager = manager;
 		}
@@ -99,26 +96,30 @@ namespace OneStoryProjectEditor
                 ShowMorphRobinson(value);
             else 
             */
-            SWModule moduleForNote = null;
+
+            Module moduleForNote = null;
             if (action.Equals("showNote") && type.Contains("x") && !String.IsNullOrEmpty(strModule))
             {
                 // I'm imagining that the module of the note could be different from the module of the text
                 if (!_lstModules.TryGetValue(strModule, out moduleForNote))
                 {
-                    moduleForNote = _manager.getModule(strModule);
+                    moduleForNote = _manager.GetModuleByName(strModule);
                     _lstModules.Add(strModule, moduleForNote);
                 }
-                ShowNote(moduleForNote, new SWKey(strReference), value);
+
+                moduleForNote.KeyText = strReference;
+                ShowNote(moduleForNote, value);
             }
             else if (action.Equals("showNote") && type.Contains("n") && !String.IsNullOrEmpty(strModule))
             {
                 // I'm imagining that the module of the note could be different from the module of the text
                 if (!_lstModules.TryGetValue(strModule, out moduleForNote))
                 {
-                    moduleForNote = _manager.getModule(strModule);
+                    moduleForNote = _manager.GetModuleByName(strModule);
                     _lstModules.Add(strModule, moduleForNote);
                 }
-                ShowNote(moduleForNote, new SWKey(strReference), value);
+                moduleForNote.KeyText = strReference;
+                ShowNote(moduleForNote, value);
             }
             else
             {
@@ -130,25 +131,14 @@ namespace OneStoryProjectEditor
             webBrowser.Focus();
         }
 
-        private void ShowNote(SWModule module, SWKey tmpKey, string NoteType)
+        private void ShowNote(Module module, string NoteType)
         {
-            AttributeListMap list;
-            AttributeTypeListMap listType;
-            AttributeValueMap listValue;
-
-            // this line looks like it's not needed, but it is. It has some non-obvious side effect
-            //  such that if it's missing, then the call to "list.get(new SWBuf(NoteType));" fails
-            string s = module.RenderText(tmpKey);
-
-            listType = module.getEntryAttributesMap();
-            list = listType[new SWBuf("Footnote")];
-            listValue = list[new SWBuf(NoteType)];
-            string strFootnote = listValue[new SWBuf("body")].c_str();
-
-            SetDisplayText(module, strFootnote);    // module.StripText(strFootnote));
+            var footnoteLines = module.GetEntryAttribute("Footnote", NoteType, "body", '1');
+            var strFootnote = string.Join(Environment.NewLine, footnoteLines);
+            SetDisplayText(module, strFootnote);
         }
 
-        internal void SetDisplayText(SWModule module, string text)
+        internal void SetDisplayText(Module module, string text)
 		{
 			//Used until I 
 			if (string.IsNullOrEmpty(text))
@@ -165,7 +155,7 @@ namespace OneStoryProjectEditor
 
             if (module != null)
             {
-                string strFontName, strModuleVersion = module.Name();
+                string strFontName, strModuleVersion = module.Name;
                 if (Program.MapSwordModuleToFont.TryGetValue(strModuleVersion, out strFontName))
                     text = String.Format(NetBibleViewer.CstrAddFontFormat, text, strFontName);
             }

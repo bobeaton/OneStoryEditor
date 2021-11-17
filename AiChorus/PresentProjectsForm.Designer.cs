@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PresentProjectsForm));
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.buttonSave = new System.Windows.Forms.Button();
@@ -37,10 +38,17 @@
             this.ColumnApplication = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnProjectId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnFolderName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnServerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ExcludeFromSynchronizing = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ExcludeFromGoogleSheet = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemDownloadAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSynchronizeAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemUpdateGoogleSheetUrl = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSynchronize = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProjects)).BeginInit();
+            this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel
@@ -93,7 +101,8 @@
             this.ColumnApplication,
             this.ColumnProjectId,
             this.ColumnFolderName,
-            this.ColumnServerName});
+            this.ExcludeFromSynchronizing,
+            this.ExcludeFromGoogleSheet});
             this.tableLayoutPanel.SetColumnSpan(this.dataGridViewProjects, 2);
             this.dataGridViewProjects.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewProjects.Location = new System.Drawing.Point(3, 3);
@@ -101,6 +110,8 @@
             this.dataGridViewProjects.Size = new System.Drawing.Size(705, 209);
             this.dataGridViewProjects.TabIndex = 6;
             this.dataGridViewProjects.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OptionsButtonClicked);
+            this.dataGridViewProjects.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridViewProjects_CurrentCellDirtyStateChanged);
+            this.dataGridViewProjects.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dataGridViewProjects_MouseClick);
             // 
             // ColumnButton
             // 
@@ -138,21 +149,73 @@
     "wnloaded (cloned)";
             this.ColumnFolderName.Width = 92;
             // 
-            // ColumnServerName
+            // ExcludeFromSynchronizing
             // 
-            this.ColumnServerName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.ColumnServerName.HeaderText = "Server name";
-            this.ColumnServerName.Name = "ColumnServerName";
-            this.ColumnServerName.ReadOnly = true;
-            this.ColumnServerName.ToolTipText = "The server on which this project is stored (i.e. private.languageDepot.org or lan" +
-    "guageDepot.org, etc)";
-            this.ColumnServerName.Width = 92;
+            this.ExcludeFromSynchronizing.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.ExcludeFromSynchronizing.HeaderText = "ExcludeFromSynch";
+            this.ExcludeFromSynchronizing.Name = "ExcludeFromSynchronizing";
+            this.ExcludeFromSynchronizing.ToolTipText = "Indicates whether this project should be excluded from being synchronized during " +
+    "meta data harvesting (should be unchecked for active projects)";
+            this.ExcludeFromSynchronizing.Width = 104;
+            // 
+            // ExcludeFromGoogleSheet
+            // 
+            this.ExcludeFromGoogleSheet.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.ExcludeFromGoogleSheet.HeaderText = "ExcludeFromGoogleSheet";
+            this.ExcludeFromGoogleSheet.Name = "ExcludeFromGoogleSheet";
+            this.ExcludeFromGoogleSheet.ToolTipText = resources.GetString("ExcludeFromGoogleSheet.ToolTipText");
+            this.ExcludeFromGoogleSheet.Width = 136;
             // 
             // saveFileDialog
             // 
             this.saveFileDialog.DefaultExt = "cpc";
             this.saveFileDialog.Filter = "Chorus Project Configuration Files|*.cpc|All files|*.*";
             this.saveFileDialog.Title = "Save Project Configuration";
+            // 
+            // contextMenu
+            // 
+            this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemSynchronize,
+            this.toolStripMenuItemDownloadAll,
+            this.toolStripMenuItemSynchronizeAll,
+            this.toolStripMenuItemUpdateGoogleSheetUrl});
+            this.contextMenu.Name = "contextMenu";
+            this.contextMenu.Size = new System.Drawing.Size(202, 114);
+            // 
+            // toolStripMenuItemDownloadAll
+            // 
+            this.toolStripMenuItemDownloadAll.Name = "toolStripMenuItemDownloadAll";
+            this.toolStripMenuItemDownloadAll.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItemDownloadAll.Text = "Download &All";
+            this.toolStripMenuItemDownloadAll.ToolTipText = "Click this item if you want to download any projects not currently on this machin" +
+    "e";
+            this.toolStripMenuItemDownloadAll.Click += new System.EventHandler(this.toolStripMenuItemDownloadAll_Click);
+            // 
+            // toolStripMenuItemSynchronizeAll
+            // 
+            this.toolStripMenuItemSynchronizeAll.Name = "toolStripMenuItemSynchronizeAll";
+            this.toolStripMenuItemSynchronizeAll.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItemSynchronizeAll.Text = "&Synchronize All";
+            this.toolStripMenuItemSynchronizeAll.ToolTipText = "Click this item if you want to synchronize all downloaded projects";
+            this.toolStripMenuItemSynchronizeAll.Click += new System.EventHandler(this.toolStripMenuItemSynchronizeAll_Click);
+            // 
+            // toolStripMenuItemUpdateGoogleSheetUrl
+            // 
+            this.toolStripMenuItemUpdateGoogleSheetUrl.Name = "toolStripMenuItemUpdateGoogleSheetUrl";
+            this.toolStripMenuItemUpdateGoogleSheetUrl.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItemUpdateGoogleSheetUrl.Text = "Update &Google Sheet";
+            this.toolStripMenuItemUpdateGoogleSheetUrl.ToolTipText = "Click this item if you want to update (or add) a Google Sheet extract url for thi" +
+    "s project set";
+            this.toolStripMenuItemUpdateGoogleSheetUrl.Click += new System.EventHandler(this.toolStripMenuItemUpdateGoogleSheet_Click);
+            // 
+            // toolStripMenuItemSynchronize
+            // 
+            this.toolStripMenuItemSynchronize.Name = "toolStripMenuItemSynchronize";
+            this.toolStripMenuItemSynchronize.Size = new System.Drawing.Size(201, 22);
+            this.toolStripMenuItemSynchronize.Text = "&Configure Send/Receive";
+            this.toolStripMenuItemSynchronize.ToolTipText = "Click this item if you want to open the Send/Receive dialog for the selected proj" +
+    "ect (e.g. if you want to configure any repository settings)";
+            this.toolStripMenuItemSynchronize.Click += new System.EventHandler(this.toolStripMenuItemSynchronize_Click);
             // 
             // PresentProjectsForm
             // 
@@ -165,8 +228,10 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PresentProjectsForm";
             this.Text = "Your Chorus Projects";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PresentProjectsForm_FormClosing);
             this.tableLayoutPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProjects)).EndInit();
+            this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -177,11 +242,17 @@
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.DataGridView dataGridViewProjects;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.ContextMenuStrip contextMenu;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDownloadAll;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSynchronizeAll;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemUpdateGoogleSheetUrl;
         private System.Windows.Forms.DataGridViewButtonColumn ColumnButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnApplication;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnProjectId;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnFolderName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnServerName;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ExcludeFromSynchronizing;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ExcludeFromGoogleSheet;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSynchronize;
     }
 }

@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using Chorus.sync;
-using Chorus.UI.Sync;
 
 namespace AiChorus
 {
@@ -14,6 +8,7 @@ namespace AiChorus
     {
         public const string CstrOptionSendReceive = "Synchronize";
         public const string CstrOptionClone = "Download";
+        public const string CstrOptionHidden = "Hidden";            // if we're hiding from syncing
         public const string CstrOptionOpenProject = "Open Project";
 
         public Project Project { get; set; }
@@ -44,7 +39,7 @@ namespace AiChorus
             // check for the '.hg' folder
             var strProjectFolderHgPath = Path.Combine(strProjectFolderPath, ".hg");
             return Directory.Exists(strProjectFolderHgPath) 
-                        ? GetSynchronizeOrOpenProjectLable 
+                        ? GetSynchronizeOrOpenProjectLabel 
                         : CstrOptionClone;
         }
 
@@ -52,43 +47,41 @@ namespace AiChorus
         /// this normally gets just 'Synchronize', but some sub-classes might want to 
         /// override and also provide the 'Open Project' option
         /// </summary>
-        protected virtual string GetSynchronizeOrOpenProjectLable
+        public virtual string GetSynchronizeOrOpenProjectLabel
         {
             get { return CstrOptionSendReceive; }
         }
 
-        public abstract void DoSynchronize();
+        public abstract void DoSynchronize(bool bIsOpening);
         public void DoSilentSynchronize()
         {
-            // for when we launch the program, just do a quick & dirty send/receive, 
-            //  but for closing (or if we have a network drive also), then we want to 
-            //  be more informative
+            // in the latest Chorus, they remove the username and password from the hgrc file and store it in a settings file that
+            //  is based on the exe that clones the project. So we rely on StoryEditor.exe to do the cloning and then it'll be in 
+            //  the correct settings file. But that also means when we want to synchronize, we'll have to have StoryEditor do it also.
+            // "Silent" just means 'not opening' (so false for the isOpening parameter)
             var strProjectFolder = Path.Combine(AppDataRoot, Project.FolderName);
-            var projectConfig = GetProjectFolderConfiguration(strProjectFolder);
-            using (var dlg = new SyncDialog(projectConfig, SyncUIDialogBehaviors.StartImmediatelyAndCloseWhenFinished, SyncUIFeatures.Minimal))
-            {
-                dlg.UseTargetsAsSpecifiedInSyncOptions = true;
-                dlg.Text = "Synchronizing Project: " + Project.FolderName;
-                dlg.ShowDialog();
-            }
-
+            var args = $"/sync \"{strProjectFolder}\" \"\" false {Project.ProjectId}";
+            Program.LaunchProgram(Program.OneStoryEditorExePath, args, true);
         }
 
+        protected delegate ProjectFolderConfiguration ProjectFolderConfigurationFunc(string strFolderPath);
+
+        protected void TrySyncWithRepository(string strProjectFolder, string strProjectName, bool bIsOpening, string projectType)
+        {
+            // the project folder name has come here bogus at times...
+            if (String.IsNullOrEmpty(strProjectFolder) || String.IsNullOrEmpty(strProjectName))
+                return;
+
+            // in the latest Chorus, they remove the username and password from the hgrc file and store it in a settings file that
+            //  is based on the exe that clones the project. So we rely on StoryEditor.exe to do the cloning and then it'll be in 
+            //  the correct settings file. But that also means when we want to synchronize, we'll have to have StoryEditor do it also.
+            var args = $"/sync \"{strProjectFolder}\" \"{projectType}\" {bIsOpening} {strProjectName}";
+            Program.LaunchProgram(Program.OneStoryEditorExePath, args, true);
+        }
 
         internal virtual bool DoClone()
         {
             return Program.CloneProject(ServerSetting, Project, AppDataRoot);
-        }
-
-        protected static string OneStoryEditorExePath
-        {
-            get
-            {
-                var strStoryEditorPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                Debug.Assert(strStoryEditorPath != null, "strStoryEditorExePath != null");
-                OseSyncHandler.OseRunningPath = strStoryEditorPath = Path.Combine(strStoryEditorPath, OseSyncHandler.CstrStoryEditorExe);
-                return strStoryEditorPath;
-            }
         }
 
         // must be implmented by sub-classes who return CstrOptionOpenProject for the label
@@ -96,7 +89,5 @@ namespace AiChorus
         {
             throw new NotImplementedException();
         }
-
-        public abstract ProjectFolderConfiguration GetProjectFolderConfiguration(string strProjectFolder);
     }
 }

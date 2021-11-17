@@ -17,8 +17,10 @@ namespace OneStoryProjectEditor
             InitializeComponent();
             Localizer.Ctrl(this);
 
+#if UseUrlsWithChorus
             foreach (string strServerLabel in Program.MapServerToUrlHost.Keys)
                 comboBoxServer.Items.Add(strServerLabel);
+#endif
         }
 
         public string InternetAddress
@@ -42,7 +44,7 @@ namespace OneStoryProjectEditor
             set { textBoxProjectName.Text = value; }
         }
 
-        public string ProjectFolder { get; set; }
+        public string ProjectFolder;
         public string SourceLanguageName { get; set; }
         public string TargetLanguageName { get; set; }
         private bool? _doingPush;
@@ -83,10 +85,14 @@ namespace OneStoryProjectEditor
 
         public static string GetFullInternetAddress(string strServer, string strProjectName)
         {
-            string strInternetAddress;
+            string strInternetAddress = null;
             if (String.IsNullOrEmpty(strProjectName) 
                 || String.IsNullOrEmpty(strServer)
+#if UseUrlsWithChorus
                 || String.IsNullOrEmpty(strInternetAddress = Program.LookupRepoUrlHost(strServer)))
+#else
+                )
+#endif
                 return null;
 
             return String.Format("{0}/{1}", strInternetAddress, strProjectName);
@@ -127,25 +133,7 @@ namespace OneStoryProjectEditor
 
         private void DoPush()
         {
-            string strAiWorkFolder, strProjectFolderName, strHgUsername, strHgPassword;
-            if (!GetAiRepoSettings(out strAiWorkFolder,
-                out strProjectFolderName, out strHgUsername, out strHgPassword))
-                return;
-
-            ProjectFolder = Path.Combine(strAiWorkFolder, strProjectFolderName);
-            var dlg = new HgRepoForm
-            {
-                ProjectName = ProjectName,
-                UrlBase = Program.LookupRepoUrlHost(Properties.Resources.IDS_DefaultRepoServer),
-                Username = strHgUsername,
-                Password = strHgPassword
-            };
-
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                Program.SetAdaptItHgParameters(ProjectFolder, ProjectName, InternetAddress, strHgUsername, strHgPassword);
-                Program.SyncWithAiRepository(ProjectFolder, ProjectName, true);
-            }
+            Program.SyncWithAiRepository(ProjectFolder, ProjectName, true, true);
         }
 
         private void buttonPullFromInternet_Click(object sender, EventArgs e)
@@ -157,65 +145,46 @@ namespace OneStoryProjectEditor
         {
             string strAiWorkFolder;
             string strProjectFolderName;
-            string strHgUsername;
-            string strHgPassword;
-            if (!GetAiRepoSettings(out strAiWorkFolder, out strProjectFolderName, 
-                out strHgUsername, out strHgPassword))
+            if (!GetAiRepoSettings(out strAiWorkFolder, out strProjectFolderName))
                 return;
 
-            if (!Directory.Exists(strAiWorkFolder))
-                Directory.CreateDirectory(strAiWorkFolder);
+            var results = Program.CloneRepository(projectName: ProjectName, parentDirToPutCloneIn: strAiWorkFolder,
+                                                  localFolder: strProjectFolderName, 
+                                                  username: Parent?.LoggedInMember?.HgUsername,
+                                                  password: Parent?.LoggedInMember?.HgPassword);
 
-            var model = new GetCloneFromInternetModel(strAiWorkFolder)
-            {
-                AccountName = strHgUsername,
-                Password = strHgPassword,
-                ProjectId = ProjectName,
-                SelectedServerLabel = comboBoxServer.SelectedItem.ToString(),
-                LocalFolderName = strProjectFolderName
-            };
-
-            using (var dlg = new GetCloneFromInternetDialog(model))
-            {
-                if (DialogResult.OK == dlg.ShowDialog())
-                {
-                    ProjectFolder = dlg.PathToNewlyClonedFolder;
-                    ProjectName = model.ProjectId;
-
-                    // here (with pull) is one of the few places we actually query the user
-                    //  for a username/password. Currently, the code assumes that they will
-                    //  be the same as the project account, so make sure that's the case
-                    if ((Parent != null) && (Parent.LoggedInMember != null))
-                    {
-                        /* I think this is not a problem
-                        if ((!String.IsNullOrEmpty(Parent.LoggedInMember.HgUsername)
-                            && (Parent.LoggedInMember.HgUsername != model.AccountName))
-                            || (!String.IsNullOrEmpty(Parent.LoggedInMember.HgPassword)
-                            && (Parent.LoggedInMember.HgPassword != model.Password)))
-                        {
-                            // means the user entered a different account/password than what's
-                            //  being used by the project file
-                            throw new ApplicationException(
-                                "It isn't currently supported for your username and password to be different from the username/password for the project account. Contact bob_eaton@sall.com to correct this");
-                        }
-                        */
-                        // in the case that the project isn't being used on the internet, but
-                        //  the AdaptIt project is, then set the username/password for it.
-                        if (String.IsNullOrEmpty(Parent.LoggedInMember.HgUsername))
-                            Parent.LoggedInMember.HgUsername = model.AccountName;
-
-                        if (String.IsNullOrEmpty(Parent.LoggedInMember.HgPassword))
-                            Parent.LoggedInMember.HgPassword = model.Password;
-                    }
-
-                    Program.SetAdaptItHgParameters(ProjectFolder, ProjectName,
-                        dlg.ThreadSafeUrl);
-                    // don't need to do this if we just did a pull, no?
-                    //  Program.SyncWithAiRepository(ProjectFolder, ProjectName, true);
-                }
-            }
+            ProjectName = HarvestResults(results, Parent, out ProjectFolder);
         }
 
+        public static string HarvestResults((GetCloneFromInternetModel model, GetCloneFromInternetDialog dlg) results, NewProjectWizard parent, out string projectFolder)
+        {
+            if (results.dlg.DialogResult == DialogResult.OK)
+            {
+                projectFolder = results.dlg.PathToNewlyClonedFolder;
+
+                // here (with pull) is one of the few places we actually query the user
+                //  for a username/password. Currently, the code assumes that they will
+                //  be the same as the project account, so make sure that's the case
+                if ((parent != null) && (parent.LoggedInMember != null))
+                {
+                    // in the case that the project isn't being used on the internet, but
+                    //  the AdaptIt project is, then set the username/password for it.
+                    if (String.IsNullOrEmpty(parent.LoggedInMember.HgUsername))
+                        parent.LoggedInMember.HgUsername = results.model.Username;
+
+                    if (String.IsNullOrEmpty(parent.LoggedInMember.HgPassword))
+                        parent.LoggedInMember.HgPassword = results.model.Password;
+                }
+
+                Program.SetAiProjectForSyncage(projectFolder, results.model.ProjectId);
+            }
+            else
+                projectFolder = null;
+
+            return results.model.ProjectId;
+        }
+
+#if UseUrlsWithChorus
         private bool GetAiRepoSettings(out string strAiWorkFolder, 
             out string strProjectFolderName, out string strHgUsername, out string strHgPassword)
         {
@@ -236,6 +205,7 @@ namespace OneStoryProjectEditor
 
             return true;
         }
+#endif
 
         private bool GetAiRepoSettings(out string strAiWorkFolder, out string strProjectFolderName)
         {
@@ -287,8 +257,9 @@ namespace OneStoryProjectEditor
                 return;
 
             ProjectFolder = Path.Combine(strAiWorkFolder, strProjectFolderName);
-            Program.SetAdaptItHgParametersNetworkDrive(ProjectFolder, ProjectName, NetworkAddress);
-            Program.SyncWithAiRepository(ProjectFolder, ProjectName, true);
+            // not supported yet w/ the new Chorus:
+            // Program.SetAdaptItHgParametersNetworkDrive(ProjectFolder, ProjectName, NetworkAddress);
+            Program.SyncWithAiRepository(ProjectFolder, ProjectName, true, true);
         }
 
         private Regex FilterProjectName = new Regex("[A-Z]");
@@ -317,6 +288,7 @@ namespace OneStoryProjectEditor
             if (DoingPush == null)
             {
                 buttonPullFromInternet.Visible = true;
+                buttonPullFromInternet.Enabled = checkBoxInternet.Checked;
             }
             else
             {

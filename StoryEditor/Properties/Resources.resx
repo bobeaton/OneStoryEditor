@@ -132,22 +132,6 @@
   <data name="AddToFavoritesHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AddToFavoritesHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="HTML_HeaderPresentation" xml:space="preserve">
-    <value>&lt;html&gt;
-{0}
-&lt;head&gt;
-&lt;script type="text/javascript"&gt;
-{1}
-&lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-{2}
-&lt;/body&gt;
-&lt;script&gt;
-{3}
-&lt;/script&gt;
-&lt;/html&gt;</value>
-  </data>
   <data name="DefMyDocsSubfolder" xml:space="preserve">
     <value>OneStory Editor Projects</value>
   </data>
@@ -196,7 +180,7 @@
     <value>..\js\storybtplaceholders.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="HTML_TextareaWithRefDoubleClick" xml:space="preserve">
-    <value>&lt;textarea id="{0}" ondblclick="OnDoubleClick()" onKeyDown="OnTextAreaKeyDown()" class="{1}"&gt;{2}&lt;/textarea&gt;</value>
+    <value>&lt;textarea id="{0}" ondblclick="OnDoubleClick(this)" onKeyDown="OnTextAreaKeyDown()" class="{1}"&gt;{2}&lt;/textarea&gt;</value>
   </data>
   <data name="HTML_TableCellId" xml:space="preserve">
     <value>&lt;td id="{0}"&gt;{1}&lt;/td&gt;</value>
@@ -407,9 +391,6 @@ of the team before overwriting a list</value>
   <data name="oneStory2storyingBT" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\oneStory2storyingBT.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="IDS_DefaultRepoServer" xml:space="preserve">
-    <value>LanguageDepot.org [private]</value>
-  </data>
   <data name="IDS_DefaultPanoramaFrontMatter" xml:space="preserve">
     <value>{\rtf1\adeflang1081\ansi\ansicpg1252\uc1\adeff0\deff0\stshfdbch0\stshfloch0\stshfhich0\stshfbi0\deflang1033\deflangfe1033{\fonttbl{\f0\froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f312\froman\fcharset238\fprq2 Times New Roman CE;}{\f313\froman\fcharset204\fprq2 Times New Roman Cyr;}
 {\f315\froman\fcharset161\fprq2 Times New Roman Greek;}{\f316\froman\fcharset162\fprq2 Times New Roman Tur;}{\f317\fbidi \froman\fcharset177\fprq2 Times New Roman (Hebrew);}{\f318\fbidi \froman\fcharset178\fprq2 Times New Roman (Arabic);}
@@ -606,7 +587,9 @@ and in the resulting window click on the next (green) state.
     <value>&lt;html&gt;
 {0}
 &lt;head&gt;
+&lt;script type="text/javascript"&gt;
 {1}
+&lt;/script&gt;
 &lt;/head&gt;
 &lt;body onKeyDown="return OnKeyDown();" onscroll="window.external.OnScroll();" onmouseup="OnMouseUp();"&gt;
 {2}
@@ -630,7 +613,7 @@ and in the resulting window click on the next (green) state.
 &lt;meta name=Generator content="Microsoft Word 11"&gt;
 &lt;meta name=Originator content="Microsoft Word 11"&gt;
 &lt;link rel=File-List href="OneStory%20Editor%20is%20Copyright_files/filelist.xml"&gt;
-&lt;title&gt;OneStory Editor is Copyright © 2009-2017 SIL International &lt;/title&gt;
+&lt;title&gt;OneStory Editor is Copyright © 2009-2021 SIL International &lt;/title&gt;
 &lt;!--[if gte mso 9]&gt;&lt;xml&gt;
  &lt;o:DocumentProperties&gt;
   &lt;o:Author&gt;Bob Eaton&lt;/o:Author&gt;
@@ -1009,7 +992,7 @@ div.Section1
 &lt;div class=Section1&gt;
 
 &lt;p class=MsoNormal&gt;&lt;span class=SpellE&gt;OneStory&lt;/span&gt; Editor is Copyright ©
-2009-2019 SIL International &lt;/p&gt;
+2009-2021 SIL International &lt;/p&gt;
 
 &lt;p class=MsoNormal&gt;For limited support, contact: &lt;a
 href="mailto:bob_eaton@sall.com"&gt;bob_eaton@sall.com&lt;/a&gt;&lt;/p&gt;
@@ -1509,128 +1492,6 @@ for more extensive study materials.&lt;/p&gt;
   </data>
   <data name="IDS_UnableToSave" xml:space="preserve">
     <value>Unable to save the project file '{1}'{0}{0}{2}</value>
-  </data>
-  <data name="HTML_DOM_Prefix" xml:space="preserve">
-    <value>&lt;script&gt;
-    function OnBibRefJump(link) {
-        window.external.OnBibRefJump(link.name);
-        return false; // cause the href navigation to not happen
-    }
-    function OnVerseLineJump(link) {
-        window.external.OnVerseLineJump(link.name);
-        return false; // cause the href navigation to not happen
-    }
-	
-    var s_key = 83;
-    var f5_key = 116;
-    function OnKeyDown() {
-        if (window.event.keyCode == f5_key) {
-            // let the form handle it
-            window.external.LoadDocument();
-
-            // disable the propagation of the F5 event
-            window.event.keyCode = 0;
-            window.event.returnValue = false;
-            return false;
-        }
-        else if (window.event.ctrlKey &amp;&amp; (window.event.keyCode == 70)) {
-            if (window.event.stopPropagation) {
-                window.event.stopPropagation();
-            }
-            else {
-                window.event.cancelBubble = true;
-                window.event.returnValue = false;
-                window.event.keyCode = 0;
-            }
-            window.external.DoFind();
-            return false;
-        }
-        else if (window.event.ctrlKey &amp;&amp; (window.event.keyCode == s_key)) {
-            if (window.event.stopPropagation) {
-                window.event.stopPropagation();
-            }
-            else {
-                window.event.cancelBubble = true;
-                window.event.returnValue = false;
-                window.event.keyCode = 0;
-            }
-            window.external.OnSaveDocument();
-            return false;
-        }
-    }
-    function OnDoubleClick() {
-        if (document.selection)
-        {
-            var sel = document.selection;
-            var rng = sel.createRange();
-		    rng.expand("word");
-            rng.select();
-        }
-    }
-    function textboxSetSelection(strId, iStart, iLen) {
-        var oTextbox = document.getElementById(strId);
-        var oRange = oTextbox.createTextRange();
-        oRange.moveStart("character", iStart);
-        oRange.moveEnd("character", -oTextbox.value.length + iStart + iLen);
-        oRange.select();
-    }
-    function textboxSetSelectionTextReturnEndPosition(strId, strNewValue) {
-        var oTextbox = document.getElementById(strId);
-        var rangeSelection = document.selection.createRange();
-        var rangeElement = rangeSelection.duplicate();
-        rangeElement.moveToElementText(oTextbox);
-        var nEndPoint = 0;
-        if (rangeElement.inRange(rangeSelection)) {
-            rangeSelection.text = strNewValue;
-            rangeSelection.select();
-            while (rangeElement.compareEndPoints('StartToEnd', rangeSelection) &lt; 0) {
-                rangeElement.moveStart('character', 1);
-                nEndPoint++;
-            }
-        }
-        return nEndPoint;
-    }
-	function OnMouseUp() {
-		// if the user right-clicks, then ask the ConNote pane to show the context menu
-		if (window.event.button == 2) 
-			window.external.ShowContextMenu();
-	}
-  function OnTextAreaKeyDown() {
-     if (window.event.ctrlKey &amp;&amp; (window.event.keyCode == 66)) {
-        transformText("$")
-     } else if (window.event.ctrlKey &amp;&amp; (window.event.keyCode == 73)) {
-        transformText("*")
-     }
-  }
-  
-  function transformText(type) {
-    if (document.selection) {
-      var rangeSelection = document.selection.createRange();
-      var selectVal = rangeSelection.text;
-      selectVal = textTrim(selectVal);
-      if(selectVal){
-        if(!startsWith(selectVal, type) || !endsWith(selectVal, type)){
-          selectVal = type+selectVal+type+" ";
-          rangeSelection.text = selectVal;
-          rangeSelection.select();
-        }
-      }
-    }
-    window.event.returnValue = false;
-    window.event.keyCode = 0;
-  }
-  
-  function textTrim(x) {
-    return x.replace(/^\s+|\s+$/gm,'');
-  }
-  function startsWith(str, word) {
-    return str.lastIndexOf(word, 0) === 0;
-  }
-  function endsWith(str, word) {
-    return str.indexOf(word, str.length - word.length) !== -1;
-  }
-      
-&lt;/script&gt;</value>
   </data>
   <data name="oneStory2KeyTerms" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\oneStory2KeyTerms.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
@@ -2310,5 +2171,11 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   </data>
   <data name="HTML_Paragraph" xml:space="preserve">
     <value>&lt;p&gt;{0}&lt;/p&gt;</value>
+  </data>
+  <data name="IDS_DefaultRepoUrl" xml:space="preserve">
+    <value>https://resumable.languageforge.org/</value>
+  </data>
+  <data name="ConNoteDomPrefix" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\js\connotedomprefix.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

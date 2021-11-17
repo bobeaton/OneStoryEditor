@@ -172,6 +172,34 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to function DisplayHtml(str) {
+        ///    window.external.LogMessage(str.replace(/\r\n/gm, &quot;&lt;nl&gt;&quot;));
+        ///}
+        ///
+        ///function regexRemoveSpan(html) {
+        ///    return html.replace(/&lt;span class=&quot;.*?&quot;&gt;(.*?)&lt;\/span&gt;/gmi, &quot;$1&quot;);
+        ///}
+        ///
+        ///function ToNewLines(html) {
+        ///    return html.replace(/(&lt;br&gt;+)/gmi, &quot;\r\n&quot;);
+        ///}
+        ///
+        ///if (typeof String.prototype.trim !== &apos;function&apos;) {
+        ///    String.prototype.trim = function () {
+        ///        return this.replace(/^\s+|\s+$/g, &apos;&apos;);
+        ///    }
+        ///}
+        ///
+        ///function OnBibRefJump(link) {
+        ///    window.external.OnBibRefJump(link [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConNoteDomPrefix {
+            get {
+                return ResourceManager.GetString("ConNoteDomPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap CopyHS {
@@ -375,30 +403,6 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;script&gt;
-        ///    function OnBibRefJump(link) {
-        ///        window.external.OnBibRefJump(link.name);
-        ///        return false; // cause the href navigation to not happen
-        ///    }
-        ///    function OnVerseLineJump(link) {
-        ///        window.external.OnVerseLineJump(link.name);
-        ///        return false; // cause the href navigation to not happen
-        ///    }
-        ///	
-        ///    var s_key = 83;
-        ///    var f5_key = 116;
-        ///    function OnKeyDown() {
-        ///        if (window.event.keyCode == f5_key) {
-        ///            // let the form handle it
-        ///            window. [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string HTML_DOM_Prefix {
-            get {
-                return ResourceManager.GetString("HTML_DOM_Prefix", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &lt;em&gt;{0}&lt;/em&gt;.
         /// </summary>
         internal static string HTML_EmphasizedText {
@@ -411,7 +415,9 @@ namespace OneStoryProjectEditor.Properties {
         ///   Looks up a localized string similar to &lt;html&gt;
         ///{0}
         ///&lt;head&gt;
+        ///&lt;script type=&quot;text/javascript&quot;&gt;
         ///{1}
+        ///&lt;/script&gt;
         ///&lt;/head&gt;
         ///&lt;body onKeyDown=&quot;return OnKeyDown();&quot; onscroll=&quot;window.external.OnScroll();&quot; onmouseup=&quot;OnMouseUp();&quot;&gt;
         ///{2}
@@ -422,28 +428,6 @@ namespace OneStoryProjectEditor.Properties {
         internal static string HTML_Header {
             get {
                 return ResourceManager.GetString("HTML_Header", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;html&gt;
-        ///{0}
-        ///&lt;head&gt;
-        ///&lt;script type=&quot;text/javascript&quot;&gt;
-        ///{1}
-        ///&lt;/script&gt;
-        ///&lt;/head&gt;
-        ///&lt;body&gt;
-        ///{2}
-        ///&lt;/body&gt;
-        ///&lt;script&gt;
-        ///{3}
-        ///&lt;/script&gt;
-        ///&lt;/html&gt;.
-        /// </summary>
-        internal static string HTML_HeaderPresentation {
-            get {
-                return ResourceManager.GetString("HTML_HeaderPresentation", resourceCulture);
             }
         }
         
@@ -814,7 +798,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; ondblclick=&quot;OnDoubleClick()&quot; onKeyDown=&quot;OnTextAreaKeyDown()&quot; class=&quot;{1}&quot;&gt;{2}&lt;/textarea&gt;.
+        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; ondblclick=&quot;OnDoubleClick(this)&quot; onKeyDown=&quot;OnTextAreaKeyDown()&quot; class=&quot;{1}&quot;&gt;{2}&lt;/textarea&gt;.
         /// </summary>
         internal static string HTML_TextareaWithRefDoubleClick {
             get {
@@ -947,7 +931,7 @@ namespace OneStoryProjectEditor.Properties {
         ///&lt;meta name=Generator content=&quot;Microsoft Word 11&quot;&gt;
         ///&lt;meta name=Originator content=&quot;Microsoft Word 11&quot;&gt;
         ///&lt;link rel=File-List href=&quot;OneStory%20Editor%20is%20Copyright_files/filelist.xml&quot;&gt;
-        ///&lt;title&gt;OneStory Editor is Copyright © 2009-2017 SIL International &lt;/title&gt;
+        ///&lt;title&gt;OneStory Editor is Copyright © 2009-2021 SIL International &lt;/title&gt;
         ///&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
         /// &lt;o:DocumentProperties&gt;
         ///  &lt;o:Author&gt;Bob Eaton&lt;/o:Author&gt;
@@ -984,11 +968,11 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to LanguageDepot.org [private].
+        ///   Looks up a localized string similar to https://resumable.languageforge.org/.
         /// </summary>
-        internal static string IDS_DefaultRepoServer {
+        internal static string IDS_DefaultRepoUrl {
             get {
-                return ResourceManager.GetString("IDS_DefaultRepoServer", resourceCulture);
+                return ResourceManager.GetString("IDS_DefaultRepoUrl", resourceCulture);
             }
         }
         
@@ -1640,11 +1624,9 @@ namespace OneStoryProjectEditor.Properties {
         ///for (var i = 0; i &lt; textareas.length; i++) {
         ///    // keep this one in this format (as opposed to jscript) since the C# code occasionally calls InvokeMember(&quot;onchange&quot;)
         ///    //  and if we don&apos;t have it in regular java, then C# invoke can&apos;t access it (I think)
-        ///    textareas[i].onchange = function() { return window.external.TextareaOnChange(this.id, this.value); };
-        ///}
-        ///
-        ///$(&apos;textarea&apos;).attr(&apos;placeholder&apos;, function () {
-        ///    if ($(this).hasClass(&apos;LangV [rest of string was truncated]&quot;;.
+        ///    // Now that we sometimes replace \r\n (which this.value can deal with), with things
+        ///    //  like &lt;br&gt;s (which this.value can&apos;t deal with), we have to switch them back before
+        ///    //  call [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string StoryBtPsJs {
             get {

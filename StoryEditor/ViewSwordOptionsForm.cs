@@ -1,19 +1,13 @@
-﻿#define UseFluentFtp
-#define UseOseServer
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using NetLoc;
-#if UseFluentFtp
-using FluentFTP;
-#else
-using Starksoft.Net.Ftp;
-#endif
+using Sword;
 using devX;
+using Newtonsoft.Json;
 
 namespace OneStoryProjectEditor
 {
@@ -21,7 +15,8 @@ namespace OneStoryProjectEditor
     {
         protected const string CstrSwordLink = "www.crosswire.org/sword/modules/ModDisp.jsp?modType=Bibles";
 
-        protected List<NetBibleViewer.SwordResource> _lstBibleResources;
+        protected List<ModInfo> _lstBibleResources;
+        protected List<Module> _lstBibleCommentaries;
         protected int _nIndexOfNetBible = -1;
         protected bool _bInCtor;
 
@@ -31,9 +26,10 @@ namespace OneStoryProjectEditor
             Localizer.Ctrl(this);
         }
 
-        public ViewSwordOptionsForm(ref List<NetBibleViewer.SwordResource> lstBibleResources)
+        public ViewSwordOptionsForm(ref List<ModInfo> lstBibleResources, List<Module> lstBibleCommentaries)
         {
             _lstBibleResources = lstBibleResources;
+            _lstBibleCommentaries = lstBibleCommentaries;
 
             InitializeComponent();
             Localizer.Ctrl(this);
@@ -41,40 +37,53 @@ namespace OneStoryProjectEditor
             _bInCtor = true;
             for (int i = 0; i < lstBibleResources.Count; i++)
             {
-                NetBibleViewer.SwordResource aSR = lstBibleResources[i];
-                string strName = aSR.Name;
-                string strDesc = aSR.Description;
-                if (aSR.Name == "NET")
+                var modInfo = lstBibleResources[i];
+                string strName = modInfo.Name;
+                string strDesc = modInfo.Description;
+                if (modInfo.Name == "NET")
                     _nIndexOfNetBible = i;
-                checkedListBoxSwordBibles.Items.Add(String.Format("{0}: {1}", strName, strDesc), aSR.Loaded);
+                var item = GetDisplayString(strName, modInfo.Category, strDesc);
+                checkedListBoxSwordBibles.Items.Add(item, modInfo.Delta == NetBibleViewer.ModInfoDeltaLoaded);
+            }
+            for (int i = 0; i < lstBibleCommentaries.Count; i++)
+            {
+                var module = lstBibleCommentaries[i];
+                var item = GetDisplayString(module.Name, module.Category, module.Description);
+                checkedListBoxSwordBibles.Items.Add(item, true);    // by definition
             }
 
             linkLabelLinkToSword.Links.Add(6, 4, CstrSwordLink);
+            labelDownloadProgress.Text = "";
             _bInCtor = false;
         }
 
-        private FtpClient _ftp = null;
+        public static string SwordUpgradeCacheDir
+        {
+            get { return Path.Combine(Application.UserAppDataPath, "sword-upgrade-cache"); }
+        }
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            if (tabControl.SelectedTab == tabPageSeedConnect)
+            StopBackgroundWorker();
+
+            if (tabControl.SelectedTab == tabPageDownloadTree)
             {
-                AutoUpgrade swordDownloader = null;
                 var cursor = Cursor;
                 Cursor = Cursors.WaitCursor;
                 try
                 {
-                    if (_ftp == null)
-                        _ftp = FtpClient;
-                    swordDownloader = AutoUpgrade.CreateSwordDownloader(Program.IDS_OSEUpgradeServerSword);
-                    swordDownloader.ApplicationBasePath = StoryProjectData.GetRunningFolder;
-                    foreach (var strItem in from int checkedIndex in checkedListBoxDownloadable.CheckedIndices 
-                                            select checkedListBoxDownloadable.Items[checkedIndex] as String)
+                    // we used to use this to FTP download the files. Now we just want to create the manifest that makes OSE
+                    //  think there are modules to install in the folder (w/ elevated privileges)
+                    var swordManifestCreator = AutoUpgrade.CreateSwordDownloader(Program.UpgradeCacheDir);
+                    swordManifestCreator.ApplicationBasePath = StoryProjectData.GetRunningFolder;
+
+                    // all the files in the SWORD resource have already been downloaded (when it was checked), so here we just need
+                    //  to create the manifest for them
+                    var resourcesToDownload = _mapSourceAndName2SwordData.Values.SelectMany(kvp => kvp.Values.Where(s => s.SwordDataFiles != null)).ToList();
+                    foreach (var data in resourcesToDownload)
                     {
-                        System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strItem) && (strItem.IndexOf(':') != -1));
-                        var strShortCode = strItem.Substring(0, strItem.IndexOf(':'));
-                        var data = _mapShortCodes2SwordData[strShortCode];
-                        swordDownloader.AddModuleToManifest(_ftp, data.ModsDfile, data.ModulesDataPath);
+                        swordManifestCreator.AddModuleToManifest(data.ModsDfile, data.SwordDataFiles);
+
                         if (data.DirectionRtl && !Properties.Settings.Default.ListSwordModuleToRtl.Contains(data.SwordShortCode))
                         {
                             Properties.Settings.Default.ListSwordModuleToRtl.Add(data.SwordShortCode);
@@ -82,12 +91,10 @@ namespace OneStoryProjectEditor
                         }
                     }
 
-                    CloseFtpConnection();
-
-                    // once we close *our* ftp connection, then see about calling AutoUpdate to do its copy of the files
-                    if (swordDownloader.IsUpgradeAvailable())
+                    // once we're done pulling the files from remote, then see about calling AutoUpdate to do its copy of the files
+                    if (swordManifestCreator.IsUpgradeAvailable())
                     {
-                        swordDownloader.PrepareModuleForInstall();
+                        swordManifestCreator.PrepareModuleForInstall();
                         LocalizableMessageBox.Show(
                             Localizer.Str("The new SWORD module(s) are downloaded and will be installed the next time OneStory Editor is launched."),
                             StoryEditor.OseCaption);
@@ -98,51 +105,58 @@ namespace OneStoryProjectEditor
                 }
                 catch (Exception ex)
                 {
-                    if (ex.Message.IndexOf("Unable to read data from the transport connection: A non-blocking socket operation") == 0)
-                        LocalizableMessageBox.Show(
-                            Localizer.Str(
-                                "The connection to the server isn't fully closed down from a previous attempt. Please wait a few seconds and try again."),
-                            StoryEditor.OseCaption);
-                    else
-                        Program.ShowException(ex);
+                    Program.ShowException(ex);
                     return;
                 }
                 finally
                 {
-                    // need to have closed the connection before doing the next bit
-                    CloseFtpConnection();
                     Cursor = cursor;
                 }
             }
             else
             {
                 for (int i = 0; i < checkedListBoxSwordBibles.Items.Count; i++)
-                    _lstBibleResources[i].Loaded = checkedListBoxSwordBibles.GetItemChecked(i);
+                {
+                    var item = checkedListBoxSwordBibles.Items[i].ToString();
+                    ParseCheckBoxItem(item, out string moduleName);
+
+                    // if it were a commentary, then we don't really support uninstalling those and they aren't shown as active anyway.
+                    var modInfo = _lstBibleResources.FirstOrDefault(r => r.Name == moduleName);
+                    if (modInfo != null)
+                        modInfo.Delta = (checkedListBoxSwordBibles.GetItemChecked(i)) ? NetBibleViewer.ModInfoDeltaLoaded : null;
+                }
 
                 DialogResult = DialogResult.OK;
-                CloseFtpConnection();
                 Close();
             }
         }
 
-        private void buttonCancel_Click(object sender, EventArgs e)
+        private void ParseCheckBoxItem(string strItem, out string moduleName)
         {
-            CloseFtpConnection();
+            System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strItem) && (strItem.IndexOf(':') != -1));
+
+            // this will be the modules "Name" field... but if it were a commentary, then it'll also have " (Commentaries)" attached to it
+            var strShortCode = strItem.Substring(0, strItem.IndexOf(':'));
+            if (strShortCode.Contains('('))
+            {
+                strShortCode = strShortCode.Substring(0, strShortCode.IndexOf('(') - 1);
+            }
+            moduleName = strShortCode;
         }
 
-        private void CloseFtpConnection()
+        private void buttonCancel_Click(object sender, EventArgs e)
         {
-            if (_ftp != null)
+            StopBackgroundWorker();
+        }
+
+        private void StopBackgroundWorker()
+        {
+            if (backgroundWorkerLoadDownloadListBox.IsBusy)
+
             {
-#if UseFluentFtp
-                _ftp.Disconnect();
-#else
-                _ftp.Close();
-                _ftp.Dispose();
-                System.Threading.Thread.Sleep(2000);
-                Application.DoEvents(); // let it get a chance to complete the releasing of the Ftp connection
-#endif
-                _ftp = null;
+                backgroundWorkerLoadDownloadListBox.CancelAsync();
+                while (backgroundWorkerLoadDownloadListBox.IsBusy)
+                    Application.DoEvents();
             }
         }
 
@@ -170,86 +184,17 @@ namespace OneStoryProjectEditor
             }
         }
 
-#if UseOseServer
-        private const string CstrPathSwordRemote = "/SWORD/";
-#elif UseSeedCo
-        private const string CstrPathSwordRemote = "/SWORD/";
-#elif UsePalaso
-        private const string CstrPathSwordRemote = "/OseUpdates/SWORD/";
-#endif
         private const string CstrPathModsD = "mods.d";
-        private static Dictionary<string, SwordModuleData> _mapShortCodes2SwordData = null;
 
-        private FtpClient FtpClient
-        {
-            get
-            {
-#if UseOseServer
-                var host = Properties.Settings.Default.OseServerIpAddress;
-                const string user = "OseProgram";
-                const string pass = "OseAccess!2O";
-#elif UseSeedCo
-                const string host = "ftp.seedconnect.org";
-                const string user = "Bob_Eaton";
-                const string pass = "tsc2009";
-#elif UsePalaso
-                const string host = "palaso.org";
-                const string user = "onestory";
-                const string pass = "yrotseno23";
-#endif
-#if !UseFluentFtp
-                const int port = 21;
-#endif
-
-                if (_mapShortCodes2SwordData == null)
-                    _mapShortCodes2SwordData = new Dictionary<string, SwordModuleData>();
-
-                // create a new ftpclient object with the host and port number to use
-#if UseSeedCo
-                // set the security protocol to use - in this case we are instructing the FtpClient to use either
-                // the SSL 3.0 protocol or the TLS 1.0 protocol depending on what the FTP server supports
-                var ftp = new FtpClient(host, port, FtpSecurityProtocol.Tls1OrSsl3Explicit);
-#else
-#if UseFluentFtp
-                var ftp = new FtpClient(host)
-                {
-                    Credentials = new System.Net.NetworkCredential(user, pass),
-                    SslProtocols = System.Security.Authentication.SslProtocols.Tls12
-                };
-                ftp.Connect();
-#else
-                var ftp = new FtpClient(host, port);
-#endif
-#if UseSeedCo || !UseFluentFtp
-                // register an event hook so that we can view and accept the security certificate that is given by the FTP server
-                ftp.ValidateServerCertificate += FtpValidateServerCertificate;
-                ftp.ConnectionClosed += FtpConnectionClosed;
-                ftp.Open(user, pass);
-#endif
-#endif
-                return ftp;
-            }
-        }
-
-#if !UseFluentFtp
-        private static void FtpValidateServerCertificate(object sender, ValidateServerCertificateEventArgs e)
-        {
-            e.IsCertificateValid = true;
-        }
-
-        private void FtpConnectionClosed(object sender, ConnectionClosedEventArgs e)
-        {
-            // not sure if this occurs but we should definitely try to make sure we dispose of things properly.
-            CloseFtpConnection();
-        }
-#endif
+        // map of SWORD resource "sources" to a map of module names to module information
+        private static Dictionary<string, Dictionary<string, SwordModuleData>> _mapSourceAndName2SwordData = new Dictionary<string, Dictionary<string, SwordModuleData>>();
 
         private static readonly Regex RegexModsReaderShortCode = new Regex(@"\[(.+?)\]", RegexOptions.Compiled | RegexOptions.Singleline);
         private static readonly Regex RegexModsReaderDesc = new Regex("Description=(.+?)[\n\r]", RegexOptions.Compiled | RegexOptions.Singleline);
         private static readonly Regex RegexModsReaderDataPath = new Regex(@"DataPath=\.\/(.+?)[\n\r]", RegexOptions.Compiled | RegexOptions.Singleline);
-        private static bool GetInformation(string strFilename, out SwordModuleData data)
+
+        private static bool GetInformation(string strFilename, ref SwordModuleData data)
         {
-            data = new SwordModuleData {ModsTempFilePath = strFilename};
             string strContents = File.ReadAllText(strFilename);
             var match = RegexModsReaderShortCode.Match(strContents);
             if (match.Groups.Count != 2)
@@ -265,7 +210,8 @@ namespace OneStoryProjectEditor
             var strDataPath = match.Groups[1].Value;
             if (strDataPath[strDataPath.Length - 1] != '/')
                 strDataPath += '/';
-            data.ModulesDataPath = CstrPathSwordRemote + strDataPath;
+            strDataPath = strDataPath.Replace('/','\\');
+            data.ModulesDataPath = Path.Combine(NetBibleViewer.SwordResourcePathSubfolderName, strDataPath);
 
             const string cstrDirectionRtl = "Direction=RtoL";
             if (strContents.IndexOf(cstrDirectionRtl) != -1)
@@ -273,49 +219,43 @@ namespace OneStoryProjectEditor
             return true;
         }
 
+        private InstallManager _installManager;
+        private InstallManager CrossWireInstallManager
+        {
+            get
+            {
+                if (_installManager == null)
+                {
+                    _installManager = new InstallManager(SwordUpgradeCacheDir);
+                }
+                return _installManager;
+            }
+            set
+            {
+                if ((_installManager != null) && (value == null))
+                    _installManager.Dispose();
+                _installManager = value;
+            }
+        }
+
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl.SelectedTab == tabPageSeedConnect)
+            StopBackgroundWorker();
+
+            if (tabControl.SelectedTab == tabPageDownloadTree)
             {
-                var cursor = Cursor;
-                Cursor = Cursors.WaitCursor;
                 try
                 {
-                    if (_ftp == null)
-                        _ftp = FtpClient;
-                    checkedListBoxDownloadable.Items.Clear();   // in case it's a repeat
-                    _mapShortCodes2SwordData.Clear();
-                    bool bAtLeastOneToInstall = false;
+                    labelFilter.Visible = 
+                        textBoxFilter.Visible = 
+                        treeViewSourcesDownloadable.Visible = true;
+                    bool bAtLeastOneInstallable = false;
+                    treeViewSourcesDownloadable.Nodes.Clear();  // in case it's a repeat
+                    _mapSourceAndName2SwordData.Clear();
 
-#if UseFluentFtp
-                    var files = _ftp.GetListing(CstrPathSwordRemote + CstrPathModsD, FtpListOption.AllFiles);
-                    foreach (var file in files)
-                    {
-                        var strTempFilename = Path.GetTempFileName();
-                        _ftp.DownloadFile(strTempFilename, file.FullName);
-#else
-                    var files = _ftp.GetDirList(CstrPathSwordRemote + CstrPathModsD, true);
-                    foreach (var file in files)
-                    {
-                        var strTempFilename = Path.GetTempFileName();
-                        _ftp.GetFile(file.FullPath, strTempFilename, FileAction.Create);
-#endif
-                        SwordModuleData data;
-                        if (!GetInformation(strTempFilename, out data))
-                            continue;
-                        data.ModsDfile = file;  // add for later use
-
-                        // don't bother to add it to the list box if it's already installed with the same
-                        //  time/date stamp
-                        if (!IsAlreadyInstalled(data))
-                        {
-                            checkedListBoxDownloadable.Items.Add(String.Format("{0}: {1}", data.SwordShortCode, data.SwordDescription), false);
-                            _mapShortCodes2SwordData.Add(data.SwordShortCode, data);
-                            bAtLeastOneToInstall = true;
-                        }
-                    }
-
-                    if (!bAtLeastOneToInstall)
+                    bAtLeastOneInstallable = true;  // this'll always be true
+                    backgroundWorkerLoadDownloadListBox.RunWorkerAsync();
+                    if (!bAtLeastOneInstallable)
                     {
                         LocalizableMessageBox.Show(
                             Localizer.Str(
@@ -337,11 +277,12 @@ namespace OneStoryProjectEditor
                     else
                         Program.ShowException(ex);
                 }
-                finally
-                {
-                    // CloseFtpConnection();
-                    Cursor = cursor;
-                }
+            }
+            else
+            {
+                labelFilter.Visible = 
+                    textBoxFilter.Visible = 
+                    treeViewSourcesDownloadable.Visible = false;
             }
         }
 
@@ -355,26 +296,335 @@ namespace OneStoryProjectEditor
             get { return Localizer.Str("&Close"); }
         }
 
-        private bool IsAlreadyInstalled(SwordModuleData data)
+        private bool IsAlreadyInstalled(ModInfo modInfo)
         {
-            if (_lstBibleResources.Any(p => p.Name == data.SwordShortCode))
-            {
-                var strLocalFilepath = Path.Combine(StoryProjectData.GetRunningFolder,
-#if UseFluentFtp
-                                                    data.ModsDfile.FullName.Substring(1).Replace('/', '\\'));
-#else
-                                                    data.ModsDfile.FullPath.Substring(1).Replace('/', '\\'));
-#endif
+            return  _lstBibleResources.Any(p => p.Name == modInfo.Name) ||
+                    _lstBibleCommentaries.Any(c => c.Name == modInfo.Name);
+        }
 
-                if (File.Exists(strLocalFilepath))
+        private void backgroundWorkerLoadDownloadListBox_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            try
+            {
+                var installManager = CrossWireInstallManager;
+                installManager.SetUserDisclaimerConfirmed();
+                installManager.SyncConfig();
+
+                using (Manager manager = new Manager())
                 {
-                    var dtLocal = File.GetLastWriteTime(strLocalFilepath);
-                    return (Math.Abs((dtLocal - data.ModsDfile.Modified).TotalMinutes) < 3600);
+                    // load the checkListBox first (so it happens quickly)
+                    var sources = installManager.RemoteSources.OrderBy(s => Properties.Settings.Default.SwordSourcesToExclude.Contains(s));
+                    foreach (var source in sources)
+                    {
+                        // add the sources as the first level leaf nodes in the treeview
+                        var sourceTreeNode = new TreeNode(source) 
+                        {
+                            ToolTipText = $"Open this node to see the SWORD resources available from the {source} source",
+                            Name = source,
+                            Checked = !Properties.Settings.Default.SwordSourcesToExclude.Contains(source) 
+                        };
+                        backgroundWorkerLoadDownloadListBox.ReportProgress(0, sourceTreeNode);
+                    }
+
+                    // now go back thru it and (in the background), update their resources in case we want to add them later
+                    foreach (var source in sources)
+                    {
+                        if (!_mapSourceAndName2SwordData.TryGetValue(source, out Dictionary<string, SwordModuleData> mapName2SwordData))
+                        {
+                            mapName2SwordData = new Dictionary<string, SwordModuleData>();
+                            _mapSourceAndName2SwordData.Add(source, mapName2SwordData);
+
+                            installManager.RefreshRemoteSource(source);
+                        }
+
+                        var modInfos = installManager.GetRemoteModInfoList(manager, source).ToList();
+
+                        var count = modInfos.Count;
+                        int updateLabelFrequency = GetUpdateFrequency(count);   // don't allow it to be 0
+                        backgroundWorkerLoadDownloadListBox.ReportProgress(4, $"{source} (total: {count})");  // update the label
+
+                        foreach (var modInfo in modInfos.OrderBy(m => m.Name))
+                        {
+                            if (this.backgroundWorkerLoadDownloadListBox.CancellationPending)
+                            {
+                                e.Cancel = true;
+                                return;
+                            }
+                            else
+                                Application.DoEvents(); // so the UI doesn't seem locked out
+
+                            if (!mapName2SwordData.TryGetValue(modInfo.Name, out SwordModuleData swordModuleData))
+                            {
+                                swordModuleData = new SwordModuleData
+                                {
+                                    SwordRemoteSource = source,
+                                    SwordShortCode = modInfo.Name,
+                                    SwordDescription = modInfo.Description,
+                                    SwordModInfo = modInfo
+                                };
+
+                                mapName2SwordData.Add(swordModuleData.SwordShortCode, swordModuleData);
+                            }
+
+                            // add a '.' to the lable every so it shows progress
+                            if (--updateLabelFrequency == 0)
+                            {
+                                backgroundWorkerLoadDownloadListBox.ReportProgress(5, ".");  // update the label
+                                updateLabelFrequency = GetUpdateFrequency(count);
+                            }
+
+                            string filter;
+                            if (Properties.Settings.Default.SwordSourcesToExclude.Contains(source) ||   // don't add it to the checkboxlist if the user had previously unchecked its source
+                                (!String.IsNullOrEmpty(filter = textBoxFilter.Text) && modInfo.Name.Contains(filter)))
+                            {
+                                continue;
+                            }
+
+                            AddToDownloadCheckBoxList(modInfo, source);
+                        }
+                    }
+                    backgroundWorkerLoadDownloadListBox.ReportProgress(3, Localizer.Str("All accessible resources listed..."));
                 }
-                // else  it must mean it was in some other SWORD folder, so consider it not installed 
-                //  (so that it's displayed in the download list
             }
-            return false;
+            catch (Exception ex)
+            {
+                Program.ShowException(ex);
+            }
+            finally
+            {
+                CrossWireInstallManager = null;
+            }
+        }
+
+        private static int GetUpdateFrequency(int count)
+        {
+            return Math.Max(1, count / 20);
+        }
+
+        private bool IsFilterMatch(string filter, string inputText, bool caseSensitive)
+        {
+            return ((caseSensitive && inputText.Contains(filter)) ||
+                    (!caseSensitive && inputText.ToLower().Contains(filter)));
+        }
+
+        private void textBoxFilter_TextChanged(object sender, EventArgs e)
+        {
+            var filter = textBoxFilter.Text;
+            var anyUpperCase = filter.Any(char.IsUpper);
+
+            var checkedSourceNodes = treeViewSourcesDownloadable.Nodes.Cast<TreeNode>().ToList().Where(tn => tn.Checked).ToList();
+
+            // remove any resource nodes that don't contain the filter string in their 'Text' value (but only if the filter string is not null)
+            if (!String.IsNullOrEmpty(filter))
+            {
+                foreach (var sourceNode in checkedSourceNodes)
+                {
+                    foreach (var resourceNode in sourceNode.Nodes.Cast<TreeNode>().ToList().Where(rn => !IsFilterMatch(filter, rn.Text, anyUpperCase)))
+                    {
+                        resourceNode.Remove();
+                    }
+                }
+            }
+
+            // but only add them if the source node is checked (if we're in the process of filling it, the source map may not be present yet)
+            foreach (var sourceNode in checkedSourceNodes.Where(n => _mapSourceAndName2SwordData.ContainsKey(n.Name)).ToList())
+            {
+                foreach (var resource in _mapSourceAndName2SwordData[sourceNode.Name].Values.Where(r => String.IsNullOrEmpty(filter) ||
+                                                                                                        IsFilterMatch(filter, 
+                                                                                                                      GetDisplayString(r.SwordModInfo.Name, r.SwordModInfo.Category, r.SwordModInfo.Description),
+                                                                                                                      anyUpperCase)).ToList())
+                {
+                    AddToDownloadCheckBoxList(resource.SwordModInfo, resource.SwordRemoteSource);
+                }
+            }
+        }
+
+        public class CheckBoxListItem
+        {
+            public string Source { get; set; }
+            public string Text { get; set; }
+            public override string ToString()
+            {
+                return Text;
+            }
+        }
+
+        private bool AddToDownloadCheckBoxList(ModInfo modInfo, string source)
+        {
+            var keyNode = treeViewSourcesDownloadable.Nodes.Find(source, false).First();
+
+            // make sure we haven't already added it
+            if (keyNode.Nodes.Find(modInfo.Name, false).Any())
+                return false;
+
+            var itemText = GetDisplayString(modInfo.Name, modInfo.Category, modInfo.Description);
+            var isInstalled = IsAlreadyInstalled(modInfo);
+            var item = new TreeNode(itemText) { Name = modInfo.Name, Checked = isInstalled, Tag = keyNode };  // add the source node as Tag, so we know which one to add it to
+
+            if (backgroundWorkerLoadDownloadListBox.IsBusy)
+                backgroundWorkerLoadDownloadListBox.ReportProgress(1, item);
+            else
+                keyNode.Nodes.Add(item);
+
+            return true;
+        }
+
+        private static string GetDisplayString(string moduleName, string moduleCategory, string moduleDescription)
+        {
+            return (moduleCategory != NetBibleViewer.SwordResourceCategoryBiblicalText)
+                            ? $"{moduleName} ({moduleCategory}): {moduleDescription}"
+                            : $"{moduleName}: {moduleDescription}";
+        }
+
+        private void backgroundWorkerLoadDownloadListBox_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        {
+            if (e.ProgressPercentage == 0)
+            {
+                var sourceTreeNode = e.UserState as TreeNode;
+                treeViewSourcesDownloadable.Nodes.Add(sourceTreeNode);
+            }
+            else if (e.ProgressPercentage == 1)
+            {
+                var resourceTreeNode = e.UserState as TreeNode;
+                var sourceTreeNode = resourceTreeNode.Tag as TreeNode;
+                sourceTreeNode.Nodes.Add(resourceTreeNode);
+            }
+            else if (e.ProgressPercentage == 2)
+            {
+                var cursor = e.UserState as Cursor;
+                Cursor = cursor;
+            }
+            else
+            {
+                var data = e.UserState as string;
+                if (e.ProgressPercentage == 3)
+                {
+                    labelDownloadProgress.Text = data;
+                }
+                else if (e.ProgressPercentage == 4)
+                {
+                    labelDownloadProgress.Text = String.Format(Localizer.Str("Gathering resources available from {0}..."), data);
+                }
+                else if (e.ProgressPercentage == 5)
+                {
+                    labelDownloadProgress.Text += data;
+                    labelDownloadProgress.Update();
+                }
+                else 
+                    System.Diagnostics.Debug.Fail("Did you add a new type?");
+            }
+        }
+
+        private void treeViewSourcesDownloadable_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            var cursor = Cursor;
+            Cursor = Cursors.WaitCursor;
+            try
+            {
+                ProcessCheckChangeInTreeView(e);
+            }
+            catch (Exception ex)
+            {
+                Program.ShowException(ex);
+            }
+            finally
+            {
+                Cursor = cursor;
+            }
+        }
+
+        private void ProcessCheckChangeInTreeView(TreeViewEventArgs e)
+        {
+            if (e.Node.Parent != null)  // means this is a resource node. Go ahead and download it now
+            {
+                var data = _mapSourceAndName2SwordData[e.Node.Parent.Name][e.Node.Name];
+                if (e.Node.Checked)
+                {
+                    var upgradePath = Path.Combine(Program.UpgradeCacheDir, NetBibleViewer.SwordResourcePathSubfolderName);
+                    Directory.CreateDirectory(upgradePath);
+                    using (Manager manager = new Manager(upgradePath))
+                    {
+                        var installManager = CrossWireInstallManager;
+
+                        if (installManager.RemoteInstallModule(manager, data.SwordRemoteSource, data.SwordShortCode))
+                        {
+                            data.ModsDfile = Path.Combine(Path.Combine(upgradePath, CstrPathModsD),
+                                                          $"{data.SwordShortCode}.conf");
+                            if (!GetInformation(data.ModsDfile, ref data))
+                                return;
+
+                            var pathToDataFiles = Path.Combine(Program.UpgradeCacheDir, data.ModulesDataPath);
+                            SetFilePathSafe(data, pathToDataFiles);
+                        }
+                        else
+                        {
+                            LocalizableMessageBox.Show(
+                                String.Format(Localizer.Str("Some error is preventing the '{0}' SWORD module from being downloaded from the {1} repository."),
+                                              data.SwordShortCode, data.SwordRemoteSource),
+                                StoryEditor.OseCaption);
+                        }
+                        CrossWireInstallManager = null;
+                    }
+                }
+                else
+                {
+                    data.SwordDataFiles = null;
+                    data.ModsDfile = null;
+                    data.ModulesDataPath = null;
+                }
+            }
+            else    // a source checkbox was checked (or unchecked)
+            {
+                var source = e.Node.Name;
+                if (e.Node.Checked)
+                {
+                    // do we need to add it back?
+                    var filter = textBoxFilter.Text;
+                    var anyUpperCase = filter.Any(char.IsUpper);
+                    foreach (var modInfo in _mapSourceAndName2SwordData[source].Values.Where(r => String.IsNullOrEmpty(filter) ||
+                                                                                                  IsFilterMatch(filter,
+                                                                                                                GetDisplayString(r.SwordModInfo.Name, r.SwordModInfo.Category, r.SwordModInfo.Description),
+                                                                                                                anyUpperCase))
+                                                                               .Select(s => s.SwordModInfo))
+                    {
+                        AddToDownloadCheckBoxList(modInfo, source);
+                    }
+                    AddRemoveSwordSourceSetting(source, exclude: false);
+                }
+                else
+                {
+                    var sourceNode = treeViewSourcesDownloadable.Nodes.Find(source, false).First();
+                    sourceNode.Nodes.Clear();
+                    AddRemoveSwordSourceSetting(source, exclude: true);
+                }
+            }
+        }
+
+        private static void SetFilePathSafe(SwordModuleData data, string pathToDataFiles)
+        {
+            // for some reason, a large number of *.conf files contain bad path to the data files (usually one sub-folder too much)
+            // so make sure the folder exists, before you look for the files:
+            while (!Directory.Exists(pathToDataFiles))
+                pathToDataFiles = Path.GetDirectoryName(pathToDataFiles);
+
+            data.SwordDataFiles = Directory.GetFiles(pathToDataFiles).ToList();
+        }
+
+        private static void AddRemoveSwordSourceSetting(string source, bool exclude)
+        {
+            var alreadyExcluded = Properties.Settings.Default.SwordSourcesToExclude.Contains(source);
+            if (exclude && !alreadyExcluded)
+            {
+                Properties.Settings.Default.SwordSourcesToExclude.Add(source);
+            }
+            else if (!exclude && alreadyExcluded)
+            {
+                Properties.Settings.Default.SwordSourcesToExclude.Remove(source);
+            }
+            else
+                return;
+
+            Properties.Settings.Default.Save();
         }
     }
 
@@ -382,12 +632,11 @@ namespace OneStoryProjectEditor
     {
         public string SwordShortCode { get; set; }
         public string SwordDescription { get; set; }
-#if UseFluentFtp
-        public FtpListItem ModsDfile { get; set; }
-#else
-        public FtpItem ModsDfile { get; set; }
-#endif
-        public string ModsTempFilePath { get; set; }
+
+        public ModInfo SwordModInfo { get; set; }
+        public string SwordRemoteSource { get; set; }
+        public string ModsDfile { get; set; }   // path to .conf file
+        public List<string> SwordDataFiles { get; set; }    // path to the data files (e.g. in ./modules/texts/ztext/azeri/)
         public string ModulesDataPath { get; set; }
         public bool DirectionRtl { get; set; }
     }

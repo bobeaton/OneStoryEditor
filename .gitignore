@@ -54,6 +54,7 @@ artifacts/
 *.obj
 *.pch
 *.pdb
+!DepDLLs/**/*.pdb
 *.pgc
 *.pgd
 *.rsp
@@ -241,6 +242,9 @@ _Pvt_Extensions
 /DepDLLs/AutoUpgrade.Lib.dll
 /DepDLLs/AiChorus.exe.config
 /DepDLLs/AiChorus.exe
+/DepDLLs/AiChorus.pdb
+/DepDLLs/OseMergeModule.msm
+/DepDLLs/OseMergeModule.wixpdb
 /OneStory Releases/OSE4.0/client
 /OneStory Releases/OSE4.0/zipped
 /OneStory Releases/OSE4.0/StoryEditor.exe.manifest - Copy.xml
@@ -267,5 +271,8 @@ _Pvt_Extensions
 /OneStory Releases/OSE4.2MSI.zip
 /OneStory Releases
 /Setup OneStory Editor/OSE4.2MSI.zip
-/MercurialExtensions/fixutf8
+/output/Installer
 /AiChorus/gdck.dat
+/output/Setup OneStory Editor_x86.msi
+*.pyc
+/output/Setup OneStoryEditor_5.0_x86.exe

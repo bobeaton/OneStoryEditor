@@ -360,16 +360,44 @@ namespace UpdateAccessDbWithOsMetaData
             get { return Path.Combine(OneStoryProjectFolderRoot, CstrSubfolderToExtractedOsMetaDataFileFormat); }
         }
 
+        private const string CstrDropBoxRoot = "Dropbox Root";
+
+        public static string DropboxFolderRoot
+        {
+            get
+            {
+                string strDropboxRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                                                     "Dropbox");
+                if (Directory.Exists(strDropboxRoot))
+                    return strDropboxRoot;
+
+                strDropboxRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                                              "Dropbox");
+                if (Directory.Exists(strDropboxRoot))
+                    return strDropboxRoot;
+
+                // else check in the person's registry for it
+                var keyOneStoryHiveRoot = Registry.CurrentUser.OpenSubKey(OneStoryHiveRoot);
+                if (keyOneStoryHiveRoot != null)
+                    return (string)keyOneStoryHiveRoot.GetValue(CstrDropBoxRoot);
+                return null;
+            }
+            set
+            {
+                var keyOneStoryHiveRoot = Registry.CurrentUser.OpenSubKey(OneStoryHiveRoot, true) ??
+                                          Registry.CurrentUser.CreateSubKey(OneStoryHiveRoot);
+                if (keyOneStoryHiveRoot != null)
+                    keyOneStoryHiveRoot.SetValue(CstrDropBoxRoot, value);
+            }
+        }
+
         private static string _strLogFilepath;
         private static string LogPath
         {
             get
             {
                 return _strLogFilepath ??
-                       (_strLogFilepath = Path.Combine(Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
-                                                                                 "SIL"),
-                                                                    "OneStory Editor",
-                                                       "UpdateAccessDbWithOsMetaData.log")));
+                       (_strLogFilepath = Path.Combine(Path.Combine(DropboxFolderRoot, "OSE CPCs"),"UpdateAccessDbWithOsMetaData.log"));
             }
         }
 

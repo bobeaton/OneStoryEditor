@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" 
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+  
+  <Product Id="*" Name="OneStory Editor 5.0" Language="1033" Version="5.0.0.0" Manufacturer="SIL International" UpgradeCode="{92A9B369-3609-4129-A09D-5BB5BBE30AAB}">
+    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
+    <Condition Message="You need to be an administrator to install this product.">Privileged</Condition>
+    <Condition Message="[ProductName] will only run on Windows 2000 or better. You cannot intall it on this machine.">
+      <![CDATA[(NOT Version9X) OR (NOT VersionNT OR (VersionNT >= 500))]]>
+    </Condition>
+
+    <Icon Id="OneStory.ico" SourceFile="..\..\StoryEditor\OneStory.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="OneStory.ico" />
+
+    <Property Id="REINSTALLMODE" Value="amus" />
+    <Property Id="DISABLEADVTSHORTCUTS" Value="1" />
+
+    <MajorUpgrade Schedule='afterInstallInitialize'
+                  DowngradeErrorMessage="A newer version of [ProductName] is already installed." 
+                  AllowSameVersionUpgrades="yes" />
+
+    <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
+
+    <!-- Require .NET 4.5+ -->
+    <PropertyRef Id="WIX_IS_NETFRAMEWORK_461_OR_LATER_INSTALLED"/>
+    <Condition Message="This application requires .NET Framework 4.6.1 or later. Please install the .NET Framework then run this installer again. (https://www.microsoft.com/en-us/download/details.aspx?id=49981)">
+      <![CDATA[Installed OR WIX_IS_NETFRAMEWORK_461_OR_LATER_INSTALLED]]>
+    </Condition>
+    
+    <Feature Id="Always" Title="Always" Display="hidden" Level="1" AllowAdvertise="no">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="BiblicalTermsComponents" />
+      <ComponentGroupRef Id="EcPluginsComponents" />
+      <ComponentGroupRef Id="LocDataComponents" />
+      <ComponentGroupRef Id="SwordModsComponents" />
+      <ComponentGroupRef Id="SwordNetBibleComponents" />
+      <ComponentGroupRef Id="ApplicationStartMenuFolderComponents" />
+      <ComponentRef Id="MyAppFolder"/>
+      <MergeRef Id="ChorusMergeModule"/>
+      <MergeRef Id="CRT"/>
+      <MergeRef Id="AIGuesserMM"/>
+      <MergeRef Id="CcDLLsMM"/>
+      <MergeRef Id="ClipboardEncConverter"/>
+      <MergeRef Id="EC_40_MM"/>
+      <MergeRef Id="ICU_40"/>
+      <MergeRef Id="SetPath"/>
+      <MergeRef Id="TECkitDLLsMM"/>
+    </Feature>
+
+    <PropertyRef Id='MergeModulesFragment'/>
+
+    <InstallExecuteSequence>
+      <WriteEnvironmentStrings />
+    </InstallExecuteSequence>
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="SIL" Name="SIL">
+          <Directory Id="INSTALLFOLDER" Name="OneStory Editor">
+            <Component Id="MyAppFolder" Guid="{F13C74FF-6D0C-41CC-B812-1C992FD2F49E}">
+              <CreateFolder />
+              <RemoveFile Id="PurgeAppFolder" Name="*.*" On="uninstall" />
+            </Component>
+            <Directory Id="BiblicalTerms" Name="BiblicalTerms" />
+            <Directory Id="EC" Name="EC">
+              <Directory Id="Plugins" Name="Plugins" />
+            </Directory>
+            <Directory Id="LocData" Name="LocData" />
+            <Directory Id="SWORD" Name="SWORD">
+              <Directory Id="mods.d" Name="mods.d" />
+              <Directory Id="modules" Name="modules">
+                <Directory Id="texts" Name="texts">
+                  <Directory Id="ztext" Name="ztext">
+                    <Directory Id="net" Name="net" />
+                  </Directory>
+                </Directory>
+              </Directory>
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+      <Directory Id="WindowsFolder" SourceName="Windows">
+        <Directory Id="ProfilesFolder" SourceName="Profiles">
+          <Directory Id="StartMenuFolder" SourceName="Start Menu">
+            <Directory Id="ProgramMenuFolder" SourceName="Programs">
+              <Directory Id="ApplicationStartMenuFolder" Name="OneStory Editor" />
+            </Directory>
+          </Directory>
+        </Directory>
+        <Directory Id="DesktopFolder"/>
+        <Directory Id="SystemFolder" SourceName="System32" />
+      </Directory>
+
+    </Directory>
+  </Fragment>
+
+</Wix>

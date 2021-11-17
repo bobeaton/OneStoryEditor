@@ -538,28 +538,17 @@ namespace OneStoryProjectEditor
             */
         }
 
-        public static bool GetHgParameters(TeamMemberData loggedOnMember, 
-            out string strUsername, out string strPassword)
+        public bool GetHgParameters(out string strUsername, out string strPassword)
         {
-            if (loggedOnMember == null)
-            {
-                strUsername = strPassword = null;
-                return false;
-            }
-
-            strUsername = loggedOnMember.HgUsername;
-            strPassword = loggedOnMember.HgPassword;
+            strUsername = HgUsername;
+            strPassword = HgPassword;
             return true;
         }
 
-        public static void SetHgParameters(TeamMemberData loggedOnMember,
-            string strUsername, string strPassword)
+        public void SetHgParameters(string strUsername, string strPassword)
         {
-            if (loggedOnMember != null)
-            {
-                loggedOnMember.HgUsername = strUsername;
-                loggedOnMember.HgPassword = strPassword;
-            }
+            HgUsername = strUsername;
+            HgPassword = strPassword;
         }
 
         public const string CstrElementLabelMember = "Member";

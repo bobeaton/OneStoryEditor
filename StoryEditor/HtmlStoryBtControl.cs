@@ -147,7 +147,8 @@ namespace OneStoryProjectEditor
                 return null;
 
             var doc = Document;
-            
+
+            System.Diagnostics.Debug.WriteLine("Calling TriggerMyBlur from C#: GetSelectedTexts");
             TriggerOnBlur(doc);
     
             var strIdLn = VerseData.GetLineTableId(nLineNumber);
@@ -269,6 +270,7 @@ namespace OneStoryProjectEditor
         {
             // we'll get the value updates during OnChange, but in order to enable 
             //  the save menu, we have to set modified
+            System.Diagnostics.Debug.WriteLine($"TextareaOnKeyUp: strId: {strId}, strText: {strText}");
             LastTextareaInFocusId = strId;
             TheSE.LastKeyPressedTimeStamp = DateTime.Now;
             TextareaOnChange(strId, strText);
@@ -277,6 +279,7 @@ namespace OneStoryProjectEditor
 
         public bool TextareaOnChange(string strId, string strText)
         {
+            System.Diagnostics.Debug.WriteLine($"TextareaOnChange: strText: {strText}");
             StoryEditor theSe;
             if (!CheckForProperEditToken(out theSe))
                 return false;
@@ -394,6 +397,7 @@ namespace OneStoryProjectEditor
         {
             if (bIsRightButton)
             {
+                System.Diagnostics.Debug.WriteLine("Calling TriggerMyBlur from C#: OnLineOptionsButton");
                 TriggerOnBlur(Document);
                 _lastLineOptionsButtonClicked = strId;
                 contextMenuStripLineOptions.Show(MousePosition); 

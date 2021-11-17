@@ -693,7 +693,7 @@ namespace OneStoryProjectEditor
 
             return String.Format(Properties.Resources.HTML_Header,
                                  StylePrefix(projSettings, strFontName, strFontSize),
-                                 Properties.Resources.HTML_DOM_Prefix,
+                                 Properties.Resources.ConNoteDomPrefix,
                                  strHtml,
                                  Properties.Resources.HTML_Script_AddTextareaMouseDown);
         
@@ -708,7 +708,7 @@ namespace OneStoryProjectEditor
 
             return String.Format(Properties.Resources.HTML_Header,
                                  StylePrefix(projSettings, strFontName, strFontSize),
-                                 Properties.Resources.HTML_DOM_Prefix,
+                                 Properties.Resources.ConNoteDomPrefix,
                                  strHtml,
                                  Properties.Resources.HTML_Script_AddTextareaMouseDown);
         }
@@ -722,7 +722,7 @@ namespace OneStoryProjectEditor
 
             return String.Format(Properties.Resources.HTML_Header,
                                  StylePrefix(projSettings, strFontName, strFontSize),
-                                 Properties.Resources.HTML_DOM_Prefix,
+                                 Properties.Resources.ConNoteDomPrefix,
                                  strHtml,
                                  Properties.Resources.HTML_Script_AddTextareaMouseDown);
         }
@@ -1977,7 +1977,6 @@ namespace OneStoryProjectEditor
             {
                 projFile.StoryProject.AddStoryProjectRow(XmlDataVersion,
                                                          ProjSettings.ProjectName,
-                                                         ProjSettings.HgRepoUrlHost,
                                                          Properties.Resources.
                                                              IDS_DefaultPanoramaFrontMatter,
                                                          ProjSettings.UseDropbox,
@@ -1988,9 +1987,6 @@ namespace OneStoryProjectEditor
             else
             {
                 projFile.StoryProject[0].ProjectName = ProjSettings.ProjectName; // in case the user changed it.
-                if (projFile.StoryProject[0].IsHgRepoUrlHostNull() &&
-                    !String.IsNullOrEmpty(ProjSettings.HgRepoUrlHost))
-                    projFile.StoryProject[0].HgRepoUrlHost = ProjSettings.HgRepoUrlHost;
 
                 if (projFile.StoryProject[0].version.CompareTo("1.3") == 0)
                 {
@@ -2031,10 +2027,6 @@ namespace OneStoryProjectEditor
             PanoramaFrontMatter = projFile.StoryProject[0].PanoramaFrontMatter;
             if (String.IsNullOrEmpty(PanoramaFrontMatter))
                 PanoramaFrontMatter = Properties.Resources.IDS_DefaultPanoramaFrontMatter;
-
-            ProjSettings.HgRepoUrlHost = !projFile.StoryProject[0].IsHgRepoUrlHostNull()
-                                              ? projFile.StoryProject[0].HgRepoUrlHost
-                                              : null;
 
             ProjSettings.UseDropbox = !projFile.StoryProject[0].IsUseDropboxNull() &&
                                       projFile.StoryProject[0].UseDropbox;
@@ -2501,12 +2493,11 @@ namespace OneStoryProjectEditor
         }
 #endif
 
+#if UseUrlsWithChorus
         // use of this version factors in both the settings in the project file
         public bool GetHgRepoUsernamePassword(string strProjectName, 
-            TeamMemberData loggedOnMember, out string strUsername, out string strPassword, 
-            out string strHgUrlBase)
+            TeamMemberData loggedOnMember, out string strUsername, out string strPassword)
         {
-            strHgUrlBase = (ProjSettings != null) ? ProjSettings.HgRepoUrlHost : null;
             strPassword = null;    // just in case we don't have anything for this.
 
 #if !DataDllBuild
@@ -2538,6 +2529,7 @@ namespace OneStoryProjectEditor
 
             return !String.IsNullOrEmpty(strHgUrlBase);
         }
+#endif
 
         public bool IsASeparateEnglishBackTranslator
         {
@@ -2566,7 +2558,6 @@ namespace OneStoryProjectEditor
         public const string CstrAttributeVersion = "version";
 
         public const string CstrAttributeProjectName = "ProjectName";
-        public const string CstrAttributeHgRepoUrlHost = "HgRepoUrlHost";
         public const string CstrAttributeUseDropbox = "UseDropbox";
         public const string CstrAttributeDropboxStory = "DropboxStory";
         public const string CstrAttributeDropboxRetellings = "DropboxRetellings";
@@ -2599,10 +2590,6 @@ namespace OneStoryProjectEditor
                         elemStoryProject.Add(new XAttribute(CstrAttributeDropboxAnswers,
                                                             ProjSettings.DropboxAnswers));
                 }
-
-                if (!String.IsNullOrEmpty(ProjSettings.HgRepoUrlHost))
-                    elemStoryProject.Add(new XAttribute(CstrAttributeHgRepoUrlHost,
-                        ProjSettings.HgRepoUrlHost));
 
                 elemStoryProject.Add(new XAttribute("PanoramaFrontMatter", PanoramaFrontMatter),
                                      TeamMembers.GetXml,

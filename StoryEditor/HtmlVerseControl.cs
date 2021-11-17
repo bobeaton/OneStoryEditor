@@ -33,6 +33,11 @@ namespace OneStoryProjectEditor
             DocumentCompleted += HtmlConNoteControl_DocumentCompleted;
         }
 
+        public void LogMessage(string str)
+        {
+            Debug.WriteLine(str);
+        }
+
         public virtual void ScrollToVerse(int nVerseIndex)
         {
             StrIdToScrollTo = VersesData.LineId(nVerseIndex);
@@ -174,21 +179,27 @@ namespace OneStoryProjectEditor
                                                                      nTopScroll));
                 }
 #endif
-
-                // get all the 'row' elements that have 'ids' (these are the ones that we 
-                //  can scroll to if the need arises)
-                foreach (var elemLn in
-                    doc.GetElementsByTagName(strElementTagName).Cast<HtmlElement>().
-                        Where(elemLn => !String.IsNullOrEmpty(elemLn.Id)))
+                var docWindow = doc.Window;
+                elemLnPrev = doc.GetElementFromPoint(new Point { X = docWindow.Position.X, Y = docWindow.Position.Y });
+                
+                // if we don't get anything back from this, then go back to the original of finding it from the next highest line
+                if (elemLnPrev == null)
                 {
-                    // the first time through, the lhs might be a small # and the rhs 0
-                    //  so if st is 0, just pick the first one
-                    int nTopOffset = 0, nTopScroll = 0;
-                    HtmlElementTotalScrollTop(elemLn, ref nTopOffset, ref nTopScroll);
-                    if (nTopOffset <= (nScrollTop + 1))
-                        elemLnPrev = elemLn;
-                    else
-                        break;
+                    // get all the 'row' elements that have 'ids' (these are the ones that we 
+                    //  can scroll to if the need arises)
+                    foreach (var elemLn in
+                        doc.GetElementsByTagName(strElementTagName).Cast<HtmlElement>().
+                            Where(elemLn => !String.IsNullOrEmpty(elemLn.Id)))
+                    {
+                        // the first time through, the lhs might be a small # and the rhs 0
+                        //  so if st is 0, just pick the first one
+                        int nTopOffset = 0, nTopScroll = 0;
+                        HtmlElementTotalScrollTop(elemLn, ref nTopOffset, ref nTopScroll);
+                        if (nTopOffset <= (nScrollTop + 1))
+                            elemLnPrev = elemLn;
+                        else
+                            break;
+                    }
                 }
             }
 

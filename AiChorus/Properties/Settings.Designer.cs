@@ -49,26 +49,6 @@ namespace AiChorus.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>LanguageDepot.org [resumable sync]</string>
-  <string>http://resumable.languagedepot.org</string>
-  <string>LanguageDepot.org [private]</string>
-  <string>http://hg-private.languagedepot.org</string>
-  <string>LanguageDepot.org [legacy sync]</string>
-  <string>http://hg-public.languagedepot.org</string>
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection ServerLabelsToUrls {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["ServerLabelsToUrls"]));
-            }
-            set {
-                this["ServerLabelsToUrls"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("k6/KWKfduEWPXvdayves4DBdLgdR9w09GICKWVMO4PeOzf6YGbGAGCPwgwIgoP4tuzE4LOvL4jLSUuQ5v" +
             "W5nyEJsj/0DjMV3e5lMq+pEm0U=")]
         public string GoogleSheetsCredentialsClientId {

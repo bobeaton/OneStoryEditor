@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <Fragment>
+    <ComponentGroup Id="BiblicalTermsComponents" Directory="BiblicalTerms">
+
+      <Component Id="AllBiblicalTerms.xml" Guid="{978EC61A-478F-42C5-BC88-B1461DCE9388}">
+        <File Id="AllBiblicalTerms.xml" Name="AllBiblicalTerms.xml" KeyPath="yes" Source="..\..\output\release\BiblicalTerms\AllBiblicalTerms.xml"/>
+      </Component>
+      <Component Id="BiblicalTerms.xml" Guid="{97ECBA18-D583-40BD-B8D7-A9A499E43697}">
+        <File Id="BiblicalTerms.xml" Name="BiblicalTerms.xml" KeyPath="yes" Source="..\..\output\release\BiblicalTerms\BiblicalTerms.xml"/>
+      </Component>
+      <Component Id="BiblicalTermsEn.xml" Guid="{1CC5C3E4-D469-4C97-9EB9-C1342B19A95D}">
+        <File Id="BiblicalTermsEn.xml" Name="BiblicalTermsEn.xml" KeyPath="yes" Source="..\..\output\release\BiblicalTerms\BiblicalTermsEn.xml"/>
+      </Component>
+      <Component Id="MyBiblicalTerms.xml" Guid="{E266CD9D-4F7C-49DD-B0C6-B7E2C90B032E}">
+        <File Id="MyBiblicalTerms.xml" Name="MyBiblicalTerms.xml" KeyPath="yes" Source="..\..\output\release\BiblicalTerms\MyBiblicalTerms.xml"/>
+      </Component>
+      <Component Id="StatHasErrDenied.gif" Guid="{D232796E-6EEE-44A9-9A83-533C1270D3B0}">
+        <File Id="StatHasErrDenied.gif" Name="StatHasErrDenied.gif" KeyPath="yes" Source="..\..\output\release\BiblicalTerms\StatHasErrDenied.gif"/>
+      </Component>
+      <Component Id="StatHasErrors.gif" Guid="{B4F69A31-D0DB-45C0-8A5A-577533B8F0CA}">
+        <File Id="StatHasErrors.gif" Name="StatHasErrors.gif" KeyPath="yes" Source="..\..\output\release\BiblicalTerms\StatHasErrors.gif"/>
+      </Component>
+      <Component Id="StatHasNoErrors.gif" Guid="{2337A211-B530-4BEC-8D7C-0F42FABFF39F}">
+        <File Id="StatHasNoErrors.gif" Name="StatHasNoErrors.gif" KeyPath="yes" Source="..\..\output\release\BiblicalTerms\StatHasNoErrors.gif"/>
+      </Component>
+      <Component Id="Term.PNG" Guid="{2130D8B9-A215-4B3B-8468-04064DFA860A}">
+        <File Id="Term.PNG" Name="Term.PNG" KeyPath="yes" Source="..\..\output\release\BiblicalTerms\Term.PNG"/>
+      </Component>
+
+    </ComponentGroup>
+
+  </Fragment>
+
+</Wix>

@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Chorus.Model;
+using Chorus.UI.Misc;
 using NetLoc;
 using SIL.Keyboarding;
 
@@ -61,17 +63,13 @@ namespace OneStoryProjectEditor
                     toolTip.SetToolTip(checkBoxUseDropBox, Localizer.Str("Your consultant wants you to use Dropbox to transfer recordings, but OSE can't find your dropbox folder. Click here to browse for it or find the site to download it from"));
                 }
 
-                string strDummy;
-                if (!String.IsNullOrEmpty(ProjSettings.HgRepoUrlHost) ||
-                    Program.GetHgRepoParameters(ProjectName, out strDummy, out strDummy, out strDummy))
-                    checkBoxUseInternetRepo.Checked = true;
+                checkBoxUseInternetRepo.Checked = Program.HasInternetRepo(ProjSettings.ProjectFolder);
 
                 // don't allow the project name to be changed! (if there's an internet repo)
                 textBoxProjectName.Enabled = !checkBoxUseInternetRepo.Checked;
             }
-            
-            if (!checkBoxUseInternetRepo.Checked)
-                tabControl.TabPages.Remove(tabPageInternetRepository);
+
+            buttonConfigureInternetRepo.Visible = checkBoxUseInternetRepo.Checked;
 
             if ((_storyProjectData.ProjSettings == null)
                 || !_storyProjectData.ProjSettings.Vernacular.HasData)
@@ -145,10 +143,12 @@ namespace OneStoryProjectEditor
             {
                 OnBlurProjectTab();
             }
+#if UseUrlsWithChorus
             else if (tabControl.SelectedTab == tabPageInternetRepository)
             {
                 OnBlurInternetRepo();
             }
+#endif
             else if (tabControl.SelectedTab == tabPageLanguages)
             {
                 VerifyLanguages();
@@ -383,6 +383,7 @@ namespace OneStoryProjectEditor
             }
         }
 
+#if UseUrlsWithChorus
         private bool _dontContinueToAsk = false;
 
         private void OnBlurInternetRepo()
@@ -415,6 +416,7 @@ namespace OneStoryProjectEditor
             Program.SetHgParameters(ProjSettings.ProjectFolder,
                 ProjSettings.ProjectName, Url, HgUsername);
         }
+#endif
 
         private void OnBlurProjectTab()
         {
@@ -436,7 +438,7 @@ namespace OneStoryProjectEditor
                     RemoveProject(strFilename, ProjectName);
                 }
 
-                ProjSettings = new ProjectSettings((string)null, ProjectName, false);
+                ProjSettings = new ProjectSettings((string)null, ProjectName);
 
                 // make sure the 'new' folder exists
                 Directory.CreateDirectory(ProjSettings.ProjectFolder);
@@ -452,6 +454,7 @@ namespace OneStoryProjectEditor
 
         private void InitializeOnceWeHaveProjectName()
         {
+#if UseUrlsWithChorus
             string strUsername, strRepoUrl, strPassword;
             UrlBase = _storyProjectData.GetHgRepoUsernamePassword(ProjectName, LoggedInMember,
                                                                   out strUsername,
@@ -463,6 +466,7 @@ namespace OneStoryProjectEditor
             // these *might* have been initialized even if the call to GetHg... fails
             HgUsername = strUsername;
             HgPassword = strPassword;
+#endif
 
             InitLanguageControls(tabPageLanguageVernacular, ProjSettings.Vernacular);
             if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideVernacularKeyboard)))
@@ -622,6 +626,7 @@ namespace OneStoryProjectEditor
 
         public ProjectSettings ProjSettings;
 
+#if UseUrlsWithChorus
         public string UrlBase
         {
             get
@@ -651,6 +656,7 @@ namespace OneStoryProjectEditor
             get { return textBoxPassword.Text; }
             set { textBoxPassword.Text = value; }
         }
+#endif
 
         private void buttonPrevious_Click(object sender, EventArgs e)
         {
@@ -718,6 +724,7 @@ namespace OneStoryProjectEditor
                     ? adaptItConfigCtrlNationalBtToInternationalBt.AdaptItConfiguration
                     : null;
 
+#if UseUrlsWithChorus
             if (!checkBoxUseInternetRepo.Checked)
             {
                 Program.ClearHgParameters(ProjectName);
@@ -726,7 +733,7 @@ namespace OneStoryProjectEditor
             {
                 OnBlurInternetRepo();   // in case it wasn't done before
             }
-
+#endif
             // this is now configured!
             ProjSettings.IsConfigured = true;
             ProjSettings.UseDropbox = checkBoxUseDropBox.Checked;
@@ -880,10 +887,7 @@ namespace OneStoryProjectEditor
         private void checkBoxUseInternetRepo_CheckedChanged(object sender, EventArgs e)
         {
             Debug.Assert((sender is CheckBox) && (sender == checkBoxUseInternetRepo));
-            if (checkBoxUseInternetRepo.Checked)
-                tabControl.TabPages.Insert(1, tabPageInternetRepository);
-            else
-                tabControl.TabPages.Remove(tabPageInternetRepository);
+            buttonConfigureInternetRepo.Visible = checkBoxUseInternetRepo.Checked;
             Modified = true;
         }
 
@@ -1039,6 +1043,7 @@ namespace OneStoryProjectEditor
             Modified = true;
         }
 
+#if UseUrlsWithChorus
         private void textBoxHgRepo_TextChanged(object sender, EventArgs e)
         {
             try
@@ -1056,6 +1061,7 @@ namespace OneStoryProjectEditor
             textBoxHgRepoUrl.SelectAll();
             textBoxHgRepoUrl.Copy();
         }
+#endif
 
         string _strLangCodesFile;
 
@@ -1493,6 +1499,34 @@ namespace OneStoryProjectEditor
             else if (e.TabPage == tabPageProjectName)
             {
                 buttonPrevious.Enabled = false;
+            }
+        }
+
+        private void buttonConfigureInternetRepo_Click(object sender, EventArgs e)
+        {
+            var model = new ServerSettingsModel()
+            {
+                Username = LoggedInMember?.HgUsername,
+                Password = LoggedInMember?.HgPassword,
+                HasLoggedIn = true
+            };
+            model.InitFromProjectPath(ProjSettings.ProjectFolder);
+
+            var dlg = new ServerSettingsDialog(model);
+            var result = dlg.ShowDialog();
+
+            if ((result == DialogResult.OK) && (LoggedInMember != null))
+            {
+                if (model.Username != LoggedInMember.HgUsername)
+                {
+                    LoggedInMember.HgUsername = model.Username;
+                    Modified = true;
+                }
+                if (model.Password != LoggedInMember.HgPassword)
+                {
+                    LoggedInMember.HgPassword = model.Password;
+                    Modified = true;
+                }
             }
         }
     }

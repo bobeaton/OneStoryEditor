@@ -802,7 +802,11 @@ namespace OneStoryProjectEditor
                 return;
 
             while (!regExReadLineNumber.IsMatch(elem.innerHTML))
+            {
                 elem = elem.parentElement;
+                if (elem == null)
+                    return;
+            }
 
             var strLineNumber = regExReadLineNumber.Match(elem.innerHTML).Groups[1].Value;
             var nLineNumber = Int32.Parse(strLineNumber);

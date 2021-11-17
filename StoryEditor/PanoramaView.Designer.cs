@@ -68,7 +68,7 @@ namespace OneStoryProjectEditor
             // 
             this.buttonDelete.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.buttonDelete.Image = global::OneStoryProjectEditor.Properties.Resources.DeleteHS;
-            this.buttonDelete.Location = new System.Drawing.Point(759, 163);
+            this.buttonDelete.Location = new System.Drawing.Point(759, 137);
             this.buttonDelete.Name = "buttonDelete";
             this.buttonDelete.Size = new System.Drawing.Size(26, 23);
             this.buttonDelete.TabIndex = 2;
@@ -133,7 +133,7 @@ namespace OneStoryProjectEditor
             this.dataGridViewPanorama.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.tableLayoutPanel.SetRowSpan(this.dataGridViewPanorama, 3);
             this.dataGridViewPanorama.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewPanorama.Size = new System.Drawing.Size(750, 343);
+            this.dataGridViewPanorama.Size = new System.Drawing.Size(750, 317);
             this.dataGridViewPanorama.TabIndex = 0;
             this.dataGridViewPanorama.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewPanorama_CellBeginEdit);
             this.dataGridViewPanorama.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewPanorama_CellEndEdit);
@@ -212,10 +212,10 @@ namespace OneStoryProjectEditor
             // labelInstructions
             // 
             this.labelInstructions.AutoSize = true;
-            this.labelInstructions.Location = new System.Drawing.Point(3, 349);
+            this.labelInstructions.Location = new System.Drawing.Point(3, 323);
             this.labelInstructions.Name = "labelInstructions";
             this.labelInstructions.Padding = new System.Windows.Forms.Padding(4);
-            this.labelInstructions.Size = new System.Drawing.Size(740, 47);
+            this.labelInstructions.Size = new System.Drawing.Size(749, 73);
             this.labelInstructions.TabIndex = 7;
             this.labelInstructions.Text = resources.GetString("labelInstructions.Text");
             // 
