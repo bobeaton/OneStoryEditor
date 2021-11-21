@@ -47,12 +47,9 @@ jobs:
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
         run: msbuild /m /p:Configuration=${{matrix.build_configuration}} "${{env.SOLUTION_FILE_PATH}}"
 
-      - name: display BuildConfiguration
-        run: echo "Uploading ${{matrix.build_configuration}} installer to Deploying to ${{env.GITHUB_WORKSPACE}}/output/Setup OneStory Editor_x86.msi"
-        
-      - name: Upload Installer Artifact
+      - name: publish artifact
         if: ${{ success() && matrix.build_configuration == 'Release' }}
         uses: actions/upload-artifact@v2.2.4
         with: 
-          name: "Setup OneStory Editor_x86.msi"
-          path: "${{env.GITHUB_WORKSPACE}}/output/Setup OneStory Editor_x86.msi"
+          name: installer-asset
+          path: "output/Setup OneStory Editor_x86.msi"
