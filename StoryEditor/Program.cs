@@ -205,30 +205,32 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public static (GetCloneFromInternetModel model, GetCloneFromInternetDialog dlg) 
+        public static (GetCloneFromInternetModel model, GetCloneFromInternetDialog dlg)
                         CloneRepository(string projectName, string parentDirToPutCloneIn, string localFolder, 
                                         string username, string password, string customUrl = null)
         {
             if (!Directory.Exists(parentDirToPutCloneIn))
                 Directory.CreateDirectory(parentDirToPutCloneIn);
 
+            // projectName may come in from AiChorus, but otherwise, will be null, but show the user something
+            //  so they know they have to enter something in the custom URL and in the local folder name
+            const string InstructionsForEnteringProjectId = "ENTER PROJECT ID HERE";
+            var strProjectName = projectName ?? InstructionsForEnteringProjectId;
             var model = new GetCloneFromInternetModel(parentDirToPutCloneIn)
             {
-                // to edit an existing, LocalFolderName, Username, Password, and call InitFromUri
                 ProjectId = projectName,
-                CustomUrl = customUrl ?? $"{Properties.Resources.IDS_DefaultRepoUrl}{projectName}",
-                LocalFolderName = localFolder,
+                IsCustomUrl = true, // all OSE projects are custom
+                CustomUrl = customUrl ?? $"{Properties.Resources.IDS_DefaultRepoUrl}{strProjectName}",
+                LocalFolderName = localFolder ?? InstructionsForEnteringProjectId,
                 Username = username,
                 Password = password,
                 // default, and setting it explicitly makes it stand out, which some users might want to argue with
                 // Bandwidth = ServerSettingsModel.Bandwidths[0],  // this mean 'low' bandwidth, cuz if we say 'high', Chorus defaults to hg-public, which doesn't work for us
             };
 
-            using (var dlg = new GetCloneFromInternetDialog(model))
-            {
-                dlg.ShowDialog();
-                return (model, dlg);
-            }
+            var dlg = new GetCloneFromInternetDialog(model);
+            dlg.ShowDialog();
+            return (model, dlg);
         }
 
         public static string UpgradeCacheDir
