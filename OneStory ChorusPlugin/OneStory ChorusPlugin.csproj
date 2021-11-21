@@ -33,6 +33,7 @@
     <CodeAnalysisRuleDirectories>;$(DevEnvDir)..\..\Team Tools\Static Analysis Tools\FxCop\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
     <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>..\output\Release\</OutputPath>
@@ -50,6 +51,7 @@
     <CodeAnalysisRuleDirectories>;$(DevEnvDir)..\..\Team Tools\Static Analysis Tools\FxCop\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
     <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=6.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
