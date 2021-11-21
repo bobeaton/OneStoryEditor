@@ -47,16 +47,13 @@ jobs:
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
         run: msbuild /m /p:Configuration=${{matrix.build_configuration}} "${{env.SOLUTION_FILE_PATH}}"
 
-      - name: display github.run_number
-        run: echo "github.run_number is ${{github.run_number}}"
-        
       - name: rename installer
         if: ${{ success() && matrix.build_configuration == 'Release' }}
-        run: cp "output/Setup OneStoryEditor_5.0_x86.exe" "output/Setup OneStoryEditor_${{github.run_number}}.exe"
+        run: cp "output/Setup OneStoryEditor_5.0_x86.exe" "output/Setup OneStoryEditor_5.0.${{github.run_number}}.exe"
         
       - name: publish artifact
         if: ${{ success() && matrix.build_configuration == 'Release' }}
         uses: actions/upload-artifact@v2.2.4
         with: 
-          name: installer-asset-${{github.run_number}}
-          path: "output/Setup OneStoryEditor_${{github.run_number}}.exe"
+          name: onestory-editor-installer-v5.0.${{github.run_number}}
+          path: "output/Setup OneStoryEditor_5.0.${{github.run_number}}.exe"
