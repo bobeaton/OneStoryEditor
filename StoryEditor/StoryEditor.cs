@@ -182,7 +182,7 @@ namespace OneStoryProjectEditor
                 if (Equals(_value, TextFields.ConsultantNote))
                     return LocalizedConsultantNote;
                 return Equals(_value, TextFields.CoachNote)
-                        ? LocalizedCoachNote 
+                        ? LocalizedCoachNote
                         : _value.ToString();
             }
 
@@ -204,7 +204,7 @@ namespace OneStoryProjectEditor
                     return TextFields.ConsultantNote;
                 return (str == LocalizedCoachNote)
                             ? TextFields.CoachNote
-                            : (TextFields) Enum.Parse(typeof (TextFields), str);
+                            : (TextFields)Enum.Parse(typeof(TextFields), str);
             }
 
             public static implicit operator LocalizedEnum<T>(T value)
@@ -1021,7 +1021,7 @@ namespace OneStoryProjectEditor
             Settings.Default.Save();
         }
 
-        protected void OpenProject(string strProjectFolder, string strProjectName)
+        protected void OpenProject(string strProjectFolder, string strProjectName, VerseData.ViewSettings prevViewSettings = null)
         {
             var projSettings = new ProjectSettings(strProjectFolder, strProjectName);
 
@@ -1049,7 +1049,7 @@ namespace OneStoryProjectEditor
 #endif
             }
 
-            OpenProject(projSettings);
+            OpenProject(projSettings, prevViewSettings);
         }
 
         private DateTime _dateTimeLastSaved;
@@ -1088,7 +1088,7 @@ namespace OneStoryProjectEditor
             projectSendReceiveMenu.PerformClick();
         }
 
-        protected void OpenProject(ProjectSettings projSettings)
+        protected void OpenProject(ProjectSettings projSettings, VerseData.ViewSettings prevViewSettings = null)
         {
             // clean up any existing open projects
             if (!SaveAndCloseProject())
@@ -1152,7 +1152,7 @@ namespace OneStoryProjectEditor
                 // If moving it here doesn't work, then consider putting it afterwards *also* (or breaking out the setting 
                 //  of the clicked and visible calls vs. the "Update*" calls in it OR call this during OpenProject, which 
                 //  is where this particular error started.
-                UpdateUiMenusAfterProjectOpen();
+                UpdateUiMenusAfterProjectOpen(prevViewSettings);
                 if (StoryStageLogic.StateTransitions.DoesStateTransitionFileOverrideExist(projSettings.ProjectFolder))
                 {
                     bool bUseForAllStories = viewUseSameSettingsForAllStoriesMenu.Checked;
@@ -4920,18 +4920,22 @@ namespace OneStoryProjectEditor
             return path;
         }
 
-        private void UpdateUiMenusAfterProjectOpen()
+        private void UpdateUiMenusAfterProjectOpen(VerseData.ViewSettings prevViewSettings = null)
         {
             Debug.Assert(!_bDisableReInitVerseControls);
             _bDisableReInitVerseControls = true;
             viewVernacularLangMenu.Checked =
-                viewVernacularLangMenu.Visible = StoryProject.ProjSettings.Vernacular.HasData;
+                viewVernacularLangMenu.Visible = (StoryProject.ProjSettings.Vernacular.HasData && 
+                                                    (prevViewSettings?.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField) ?? true));
             viewNationalLangMenu.Checked =
-                viewNationalLangMenu.Visible = StoryProject.ProjSettings.NationalBT.HasData;
+                viewNationalLangMenu.Visible = (StoryProject.ProjSettings.NationalBT.HasData && 
+                                                    (prevViewSettings?.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField) ?? true));
             viewEnglishBtMenu.Checked =
-                viewEnglishBtMenu.Visible = StoryProject.ProjSettings.InternationalBT.HasData;
+                viewEnglishBtMenu.Visible = (StoryProject.ProjSettings.InternationalBT.HasData && 
+                                                    (prevViewSettings?.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.InternationalBtField) ?? true));
             viewFreeTranslationMenu.Checked =
-                viewFreeTranslationMenu.Visible = StoryProject.ProjSettings.FreeTranslation.HasData;
+                viewFreeTranslationMenu.Visible = (StoryProject.ProjSettings.FreeTranslation.HasData && 
+                                                    (prevViewSettings?.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField) ?? true));
             // viewStoriesSetMenu.Checked = false;
             UpdateUIMenusWithShortCuts();
             UpdateNotificationBellUI();
@@ -5036,7 +5040,9 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                return new VerseData.ViewSettings
+                return ((StoryProject?.ProjSettings == null) || (TheCurrentStory == null)) 
+                    ? null
+                    : new VerseData.ViewSettings
                     (
                     StoryProject.ProjSettings,
                     viewVernacularLangMenu.Checked,
@@ -6813,7 +6819,9 @@ namespace OneStoryProjectEditor
         {
             try
             {
-                OpenProject(strProjectPath, strProjectName);
+                // in order to maintain the current view settings (which otherwise go to the default for the project)
+                //  pass them in so they constrain the default settings when reopening)
+                OpenProject(strProjectPath, strProjectName, CurrentViewSettings);
             }
             catch (ProjectSettings.ProjectFileNotFoundException ex)
             {
