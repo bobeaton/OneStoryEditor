@@ -55,5 +55,5 @@ jobs:
         if: ${{ success() && matrix.build_configuration == 'Release' }}
         uses: actions/upload-artifact@v2.2.4
         with: 
-          name: onestory-editor-installer-v5.0.${{github.run_number}}
+          name: onestory-editor-installer-v5.0.latest
           path: "output/Setup OneStoryEditor_5.0.${{github.run_number}}.exe"
