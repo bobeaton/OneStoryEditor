@@ -3643,10 +3643,6 @@ namespace OneStoryProjectEditor
             if (!String.IsNullOrEmpty(dlg.JumpToStory))
             {
                 NavigateTo(dlg.SelectedStorySetName, dlg.JumpToStory, 0, null);
-
-                // if we're shifting to a different story set, then update the UI
-                if (theStartingStoriesSetName != dlg.SelectedStorySetName)
-                    UpdateNotificationBellUI();
             }
         }
 
