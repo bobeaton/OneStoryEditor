@@ -1179,6 +1179,9 @@ namespace OneStoryProjectEditor
 
                 // moved above, so it happens before JumpToStory, though I wonder if we don't need to do it both places...
                 //  UpdateUiMenusAfterProjectOpen();
+                // UPDATE: we at least need to do the bell notification of stories in the user's state here after we've 
+                //  landed on a story
+                UpdateNotificationBellUI();
             }
             catch (StoryProjectData.BackOutWithNoUIException)
             {
@@ -4942,7 +4945,6 @@ namespace OneStoryProjectEditor
                                                     (prevViewSettings?.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField) ?? true));
 
             UpdateUIMenusWithShortCuts();
-            UpdateNotificationBellUI();
             _bDisableReInitVerseControls = false;
         }
 
