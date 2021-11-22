@@ -4924,19 +4924,23 @@ namespace OneStoryProjectEditor
         {
             Debug.Assert(!_bDisableReInitVerseControls);
             _bDisableReInitVerseControls = true;
-            viewVernacularLangMenu.Checked =
-                viewVernacularLangMenu.Visible = (StoryProject.ProjSettings.Vernacular.HasData && 
+
+            viewVernacularLangMenu.Visible = StoryProject.ProjSettings.Vernacular.HasData;
+            viewVernacularLangMenu.Checked = (StoryProject.ProjSettings.Vernacular.HasData &&
                                                     (prevViewSettings?.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField) ?? true));
-            viewNationalLangMenu.Checked =
-                viewNationalLangMenu.Visible = (StoryProject.ProjSettings.NationalBT.HasData && 
+
+            viewNationalLangMenu.Visible = StoryProject.ProjSettings.NationalBT.HasData;
+            viewNationalLangMenu.Checked = (StoryProject.ProjSettings.NationalBT.HasData && 
                                                     (prevViewSettings?.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField) ?? true));
-            viewEnglishBtMenu.Checked =
-                viewEnglishBtMenu.Visible = (StoryProject.ProjSettings.InternationalBT.HasData && 
+
+            viewEnglishBtMenu.Visible = StoryProject.ProjSettings.InternationalBT.HasData;
+            viewEnglishBtMenu.Checked = (StoryProject.ProjSettings.InternationalBT.HasData && 
                                                     (prevViewSettings?.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.InternationalBtField) ?? true));
-            viewFreeTranslationMenu.Checked =
-                viewFreeTranslationMenu.Visible = (StoryProject.ProjSettings.FreeTranslation.HasData && 
+
+            viewFreeTranslationMenu.Visible = StoryProject.ProjSettings.FreeTranslation.HasData;
+            viewFreeTranslationMenu.Checked = (StoryProject.ProjSettings.FreeTranslation.HasData && 
                                                     (prevViewSettings?.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField) ?? true));
-            // viewStoriesSetMenu.Checked = false;
+
             UpdateUIMenusWithShortCuts();
             UpdateNotificationBellUI();
             _bDisableReInitVerseControls = false;
