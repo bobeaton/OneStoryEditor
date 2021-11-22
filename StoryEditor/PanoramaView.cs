@@ -77,6 +77,9 @@ namespace OneStoryProjectEditor
                 MainLang = _storyProject.ProjSettings.NationalBT;
             else
                 MainLang = _storyProject.ProjSettings.InternationalBT;
+
+            this.Text = Localizer.Str(String.Format("Panorama View for the '{0}' project currently viewing the '{1}' Story Set",
+                                                    _storyProject.ProjSettings.ProjectName, StoriesSetName));
         }
 
         private Dictionary<string, string> _mapTabNamesToLocalizationWords = new Dictionary<string, string>
