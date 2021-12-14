@@ -217,6 +217,23 @@
         <File Id="Utilities.dll" Name="Utilities.dll" KeyPath="yes" Source="..\..\output\release\Utilities.dll"/>
       </Component>
 
+      <!--SendGrid dependencies, pulled from output folder via nuget in the projects-->
+      <Component Id="SendGrid.dll" Guid="{34ABBA6F-1DA3-44BE-9D20-AF4111D4629A}">
+        <File Id="SendGrid.dll" Name="SendGrid.dll" Vital="yes" KeyPath="yes" AssemblyManifest="SendGrid.dll" AssemblyApplication="SendGrid.dll" Assembly=".net" Source="..\..\output\release\SendGrid.dll"/>
+      </Component>
+      <Component Id="SendGrid.pdb" Guid="{101F4A91-0956-46C2-8C58-3EDD10D330A5}">
+        <File Id="SendGrid.pdb" Name="SendGrid.pdb" KeyPath="yes" Source="..\..\output\release\SendGrid.pdb"/>
+      </Component>
+      <Component Id="SendGrid.xml" Guid="{CEA8A2C7-C230-49E8-B91F-186A89005CCF}">
+        <File Id="SendGrid.xml" Name="SendGrid.xml" KeyPath="yes" Source="..\..\output\release\SendGrid.xml"/>
+      </Component>
+      <Component Id="StarkbankEcdsa.dll" Guid="{1A017EA9-6FC2-49CB-A771-49F7B40784FA}">
+        <File Id="StarkbankEcdsa.dll" Name="StarkbankEcdsa.dll" Vital="yes" KeyPath="yes" AssemblyManifest="StarkbankEcdsa.dll" AssemblyApplication="StarkbankEcdsa.dll" Assembly=".net" Source="..\..\output\release\StarkbankEcdsa.dll"/>
+      </Component>
+      <Component Id="System.Net.Http.dll" Guid="{067B7144-A8D4-46F9-BBA7-99E4E690E1B0}">
+        <File Id="System.Net.Http.dll" Name="System.Net.Http.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Net.Http.dll" AssemblyApplication="System.Net.Http.dll" Assembly=".net" Source="..\..\output\release\System.Net.Http.dll"/>
+      </Component>
+
       <!--LibPalaso dependencies, pulled from output folder via nuget in the projects-->
       <Component Id="BouncyCastle.Crypto.dll" Guid="{4B0BC516-8CEC-487A-A9D0-4257680369A8}">
         <File Id="BouncyCastle.Crypto.dll" Name="BouncyCastle.Crypto.dll" Vital="yes" KeyPath="yes" AssemblyManifest="BouncyCastle.Crypto.dll" AssemblyApplication="BouncyCastle.Crypto.dll" Assembly=".net" Source="..\..\output\release\BouncyCastle.Crypto.dll"/>

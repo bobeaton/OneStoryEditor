@@ -388,5 +388,11 @@
     <Setting Name="SwordSourcesToExclude" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="EmailUseSendGrid" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="EncryptedSendGridApiKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">GJJVBZyktY9sqInLbqyPjUvU8/IKqEp/tKUHYYeDEtcSfywhxLJ1hdBSa40pQ/Hdyi2jXFVgGF3uN8x3ia/zZbXm3aT6O4dx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

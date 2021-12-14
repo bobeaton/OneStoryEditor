@@ -1104,5 +1104,30 @@ namespace OneStoryProjectEditor.Properties {
                 this["SwordSourcesToExclude"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EmailUseSendGrid {
+            get {
+                return ((bool)(this["EmailUseSendGrid"]));
+            }
+            set {
+                this["EmailUseSendGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("GJJVBZyktY9sqInLbqyPjUvU8/IKqEp/tKUHYYeDEtcSfywhxLJ1hdBSa40pQ/Hdyi2jXFVgGF3uN8x3i" +
+            "a/zZbXm3aT6O4dx")]
+        public string EncryptedSendGridApiKey {
+            get {
+                return ((string)(this["EncryptedSendGridApiKey"]));
+            }
+            set {
+                this["EncryptedSendGridApiKey"] = value;
+            }
+        }
     }
 }

@@ -24,6 +24,8 @@ using System.Linq;
 using Chorus.Model;
 using Chorus.UI.Sync;
 using Chorus.UI.Clone;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace OneStoryProjectEditor
 {
@@ -418,6 +420,20 @@ namespace OneStoryProjectEditor
 
         private static void SendEmail(string strEmailAddress, string strSubjectLine, string strBodyText)
         {
+            if (Properties.Settings.Default.EmailUseSendGrid)
+            {
+                var apiKey = EncryptionClass.Decrypt(Properties.Settings.Default.EncryptedSendGridApiKey);
+                var client = new SendGridClient(apiKey);
+                var from = new EmailAddress("OsMetaData@gmail.com", "OneStory Editor");
+                var to = new EmailAddress(strEmailAddress, "OSE User");
+                var msg = MailHelper.CreateSingleEmail(from, to, strSubjectLine, strBodyText, String.Empty);
+                var response = client.SendEmailAsync(msg).Result;   //.ConfigureAwait(false).GetAwaiter().GetResult();
+                Logger.WriteMinorEvent($"Just sent email (subj line: {strSubjectLine}) to {strEmailAddress} w/ response: {response?.StatusCode}");
+
+                if (response?.IsSuccessStatusCode ?? false)
+                    return;
+            }
+
             if (Properties.Settings.Default.UseMapiPlus)
             {
                 if (!NetMAPI.Init())

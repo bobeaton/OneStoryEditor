@@ -172,7 +172,9 @@ namespace OneStoryProjectEditor
             this.advancedSaveTimeoutAsSilentlyAsPossibleMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedResetStoredInformationMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedChangeProjectFolderRootMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.advancedEmailMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedEmailNotifications = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedEmailSendGrid = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedEmailMapi = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedUseOldStyleStoryBtPaneMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedUseWordBreaks = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedImportHelper = new System.Windows.Forms.ToolStripMenuItem();
@@ -457,7 +459,7 @@ namespace OneStoryProjectEditor
             this.editCopyEnglishBtMenu,
             this.editCopyFreeTranslationMenu});
             this.editCopyToolStripMenu.Name = "editCopyToolStripMenu";
-            this.editCopyToolStripMenu.Size = new System.Drawing.Size(269, 22);
+            this.editCopyToolStripMenu.Size = new System.Drawing.Size(270, 22);
             this.editCopyToolStripMenu.Text = "&Copy";
             // 
             // editCopySelectionMenu
@@ -507,7 +509,7 @@ namespace OneStoryProjectEditor
             // editPasteMenu
             // 
             this.editPasteMenu.Name = "editPasteMenu";
-            this.editPasteMenu.Size = new System.Drawing.Size(269, 22);
+            this.editPasteMenu.Size = new System.Drawing.Size(270, 22);
             this.editPasteMenu.Text = "&Paste";
             this.editPasteMenu.ToolTipText = "Paste the contents of the clipboard into the currently selected text box";
             this.editPasteMenu.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
@@ -522,7 +524,7 @@ namespace OneStoryProjectEditor
             this.editDeleteTestToolStripMenu,
             this.editDeleteChooseFieldsMenu});
             this.editDeleteToolStripMenu.Name = "editDeleteToolStripMenu";
-            this.editDeleteToolStripMenu.Size = new System.Drawing.Size(269, 22);
+            this.editDeleteToolStripMenu.Size = new System.Drawing.Size(270, 22);
             this.editDeleteToolStripMenu.Text = "&Delete";
             // 
             // editDeleteStoryLinesMenu
@@ -580,14 +582,14 @@ namespace OneStoryProjectEditor
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(266, 6);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(267, 6);
             // 
             // editFindMenu
             // 
             this.editFindMenu.Enabled = false;
             this.editFindMenu.Name = "editFindMenu";
             this.editFindMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.editFindMenu.Size = new System.Drawing.Size(269, 22);
+            this.editFindMenu.Size = new System.Drawing.Size(270, 22);
             this.editFindMenu.Text = "&Find";
             this.editFindMenu.Click += new System.EventHandler(this.editFindToolStripMenuItem_Click);
             // 
@@ -596,7 +598,7 @@ namespace OneStoryProjectEditor
             this.editFindNextMenu.Enabled = false;
             this.editFindNextMenu.Name = "editFindNextMenu";
             this.editFindNextMenu.ShortcutKeys = System.Windows.Forms.Keys.F3;
-            this.editFindNextMenu.Size = new System.Drawing.Size(269, 22);
+            this.editFindNextMenu.Size = new System.Drawing.Size(270, 22);
             this.editFindNextMenu.Text = "Find &Next";
             this.editFindNextMenu.Click += new System.EventHandler(this.findNextToolStripMenuItem_Click);
             // 
@@ -605,19 +607,19 @@ namespace OneStoryProjectEditor
             this.editReplaceMenu.Enabled = false;
             this.editReplaceMenu.Name = "editReplaceMenu";
             this.editReplaceMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.editReplaceMenu.Size = new System.Drawing.Size(269, 22);
+            this.editReplaceMenu.Size = new System.Drawing.Size(270, 22);
             this.editReplaceMenu.Text = "&Replace";
             this.editReplaceMenu.Click += new System.EventHandler(this.replaceToolStripMenuItem_Click);
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(266, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(267, 6);
             // 
             // editAddRetellingTestResultsMenu
             // 
             this.editAddRetellingTestResultsMenu.Name = "editAddRetellingTestResultsMenu";
-            this.editAddRetellingTestResultsMenu.Size = new System.Drawing.Size(269, 22);
+            this.editAddRetellingTestResultsMenu.Size = new System.Drawing.Size(270, 22);
             this.editAddRetellingTestResultsMenu.Text = "&Add retelling test boxes";
             this.editAddRetellingTestResultsMenu.ToolTipText = "Click here to add boxes for the retellings of the story";
             this.editAddRetellingTestResultsMenu.Click += new System.EventHandler(this.editAddTestResultsToolStripMenuItem_Click);
@@ -625,7 +627,7 @@ namespace OneStoryProjectEditor
             // editAddInferenceTestResultsMenu
             // 
             this.editAddInferenceTestResultsMenu.Name = "editAddInferenceTestResultsMenu";
-            this.editAddInferenceTestResultsMenu.Size = new System.Drawing.Size(269, 22);
+            this.editAddInferenceTestResultsMenu.Size = new System.Drawing.Size(270, 22);
             this.editAddInferenceTestResultsMenu.Text = "Add &story test question answer boxes";
             this.editAddInferenceTestResultsMenu.ToolTipText = "Click here to add boxes for the answers to the testing questions";
             this.editAddInferenceTestResultsMenu.Click += new System.EventHandler(this.editAddInferenceTestResultsToolStripMenuItem_Click);
@@ -633,7 +635,7 @@ namespace OneStoryProjectEditor
             // editAddGeneralTestQuestionMenu
             // 
             this.editAddGeneralTestQuestionMenu.Name = "editAddGeneralTestQuestionMenu";
-            this.editAddGeneralTestQuestionMenu.Size = new System.Drawing.Size(269, 22);
+            this.editAddGeneralTestQuestionMenu.Size = new System.Drawing.Size(270, 22);
             this.editAddGeneralTestQuestionMenu.Text = "Add &general test question";
             this.editAddGeneralTestQuestionMenu.Click += new System.EventHandler(this.addgeneralTestQuestionToolStripMenuItem_Click);
             // 
@@ -993,7 +995,7 @@ namespace OneStoryProjectEditor
             this.viewTransliterationVernacular.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewTransliteratorVernacularConfigureToolStripMenuItem});
             this.viewTransliterationVernacular.Name = "viewTransliterationVernacular";
-            this.viewTransliterationVernacular.Size = new System.Drawing.Size(158, 22);
+            this.viewTransliterationVernacular.Size = new System.Drawing.Size(156, 22);
             this.viewTransliterationVernacular.Text = "Story Language";
             this.viewTransliterationVernacular.ToolTipText = "Check this menu to turn on a transliterator for the story language boxes";
             this.viewTransliterationVernacular.Click += new System.EventHandler(this.viewTransliterationVernacular_Click);
@@ -1011,7 +1013,7 @@ namespace OneStoryProjectEditor
             this.viewTransliterationNationalBT.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewTransliteratorNationalBTConfigureToolStripMenuItem});
             this.viewTransliterationNationalBT.Name = "viewTransliterationNationalBT";
-            this.viewTransliterationNationalBT.Size = new System.Drawing.Size(158, 22);
+            this.viewTransliterationNationalBT.Size = new System.Drawing.Size(156, 22);
             this.viewTransliterationNationalBT.Text = "National BT";
             this.viewTransliterationNationalBT.ToolTipText = "Check this menu to turn on a transliterator for the national language BT boxes";
             this.viewTransliterationNationalBT.Click += new System.EventHandler(this.viewTransliterationNationalBT_Click);
@@ -1029,7 +1031,7 @@ namespace OneStoryProjectEditor
             this.viewTransliterationInternationalBt.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewTransliteratorInternationalBtConfigureToolStripMenuItem});
             this.viewTransliterationInternationalBt.Name = "viewTransliterationInternationalBt";
-            this.viewTransliterationInternationalBt.Size = new System.Drawing.Size(158, 22);
+            this.viewTransliterationInternationalBt.Size = new System.Drawing.Size(156, 22);
             this.viewTransliterationInternationalBt.Text = "International BT";
             this.viewTransliterationInternationalBt.ToolTipText = "Check this menu to turn on a transliterator for the International/English languag" +
     "e boxes";
@@ -1048,7 +1050,7 @@ namespace OneStoryProjectEditor
             this.viewTransliterationFreeTranslation.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewTransliteratorFreeTranslationConfigureToolStripMenuItem});
             this.viewTransliterationFreeTranslation.Name = "viewTransliterationFreeTranslation";
-            this.viewTransliterationFreeTranslation.Size = new System.Drawing.Size(158, 22);
+            this.viewTransliterationFreeTranslation.Size = new System.Drawing.Size(156, 22);
             this.viewTransliterationFreeTranslation.Text = "Free Translation";
             this.viewTransliterationFreeTranslation.ToolTipText = "Check this menu to turn on a transliterator for the Free Translation language box" +
     "es";
@@ -1321,7 +1323,7 @@ namespace OneStoryProjectEditor
             // tasksToolStripMenu
             // 
             this.tasksToolStripMenu.Name = "tasksToolStripMenu";
-            this.tasksToolStripMenu.Size = new System.Drawing.Size(51, 27);
+            this.tasksToolStripMenu.Size = new System.Drawing.Size(49, 27);
             this.tasksToolStripMenu.Text = "&Tasks!";
             this.tasksToolStripMenu.Click += new System.EventHandler(this.tasksToolStripMenu_Click);
             // 
@@ -1336,7 +1338,7 @@ namespace OneStoryProjectEditor
             this.advancedSaveTimeoutToolStripMenu,
             this.advancedResetStoredInformationMenu,
             this.advancedChangeProjectFolderRootMenu,
-            this.advancedEmailMenu,
+            this.advancedEmailNotifications,
             this.advancedUseOldStyleStoryBtPaneMenu,
             this.advancedUseWordBreaks,
             this.advancedImportHelper,
@@ -1367,7 +1369,7 @@ namespace OneStoryProjectEditor
             // 
             this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.CheckOnClick = true;
             this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.Name = "advancedProgramUpdatesAutomaticallyCheckAtStartupMenu";
-            this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.Size = new System.Drawing.Size(250, 22);
+            this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.Size = new System.Drawing.Size(251, 22);
             this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.Text = "&Automatically check at startup";
             this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.ToolTipText = "Uncheck this menu to stop the program from automatically checking for program upd" +
     "ates when the program is started (this can save startup time)";
@@ -1376,7 +1378,7 @@ namespace OneStoryProjectEditor
             // advancedProgramUpdatesCheckNowMenu
             // 
             this.advancedProgramUpdatesCheckNowMenu.Name = "advancedProgramUpdatesCheckNowMenu";
-            this.advancedProgramUpdatesCheckNowMenu.Size = new System.Drawing.Size(250, 22);
+            this.advancedProgramUpdatesCheckNowMenu.Size = new System.Drawing.Size(251, 22);
             this.advancedProgramUpdatesCheckNowMenu.Text = "&Check now";
             this.advancedProgramUpdatesCheckNowMenu.ToolTipText = "Click this menu to have the program manually check for program updates";
             this.advancedProgramUpdatesCheckNowMenu.Click += new System.EventHandler(this.checkForProgramUpdatesNowToolStripMenuItem_Click);
@@ -1384,7 +1386,7 @@ namespace OneStoryProjectEditor
             // advancedProgramUpdatesCheckNowForNextMajorUpdateMenu
             // 
             this.advancedProgramUpdatesCheckNowForNextMajorUpdateMenu.Name = "advancedProgramUpdatesCheckNowForNextMajorUpdateMenu";
-            this.advancedProgramUpdatesCheckNowForNextMajorUpdateMenu.Size = new System.Drawing.Size(250, 22);
+            this.advancedProgramUpdatesCheckNowForNextMajorUpdateMenu.Size = new System.Drawing.Size(251, 22);
             this.advancedProgramUpdatesCheckNowForNextMajorUpdateMenu.Text = "Check now for next &major update";
             this.advancedProgramUpdatesCheckNowForNextMajorUpdateMenu.ToolTipText = "Click this menu to have the program check if the next major update is available (" +
     "which wouldn\'t otherwise be installed by default)";
@@ -1471,16 +1473,36 @@ namespace OneStoryProjectEditor
     " Projects\") besides in your \"My Documents\" folder";
             this.advancedChangeProjectFolderRootMenu.Click += new System.EventHandler(this.changeProjectFolderRootToolStripMenuItem_Click);
             // 
-            // advancedEmailMenu
+            // advancedEmailNotifications
             // 
-            this.advancedEmailMenu.Checked = true;
-            this.advancedEmailMenu.CheckOnClick = true;
-            this.advancedEmailMenu.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.advancedEmailMenu.Name = "advancedEmailMenu";
-            this.advancedEmailMenu.Size = new System.Drawing.Size(314, 22);
-            this.advancedEmailMenu.Text = "&Email via MAPI+";
-            this.advancedEmailMenu.ToolTipText = resources.GetString("advancedEmailMenu.ToolTipText");
-            this.advancedEmailMenu.Click += new System.EventHandler(this.advancedEmailMenu_Click);
+            this.advancedEmailNotifications.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.advancedEmailSendGrid,
+            this.advancedEmailMapi});
+            this.advancedEmailNotifications.Name = "advancedEmailNotifications";
+            this.advancedEmailNotifications.Size = new System.Drawing.Size(314, 22);
+            this.advancedEmailNotifications.Text = "&Email notifications";
+            this.advancedEmailNotifications.ToolTipText = resources.GetString("advancedEmailNotifications.ToolTipText");
+            // 
+            // advancedEmailSendGrid
+            // 
+            this.advancedEmailSendGrid.CheckOnClick = true;
+            this.advancedEmailSendGrid.Name = "advancedEmailSendGrid";
+            this.advancedEmailSendGrid.Size = new System.Drawing.Size(180, 22);
+            this.advancedEmailSendGrid.Text = "&Online Email";
+            this.advancedEmailSendGrid.ToolTipText = "Check this menu to try to use the online email provider to send email notificatio" +
+    "ns (if the default doesn\'t work). This requires an active internet connection.";
+            this.advancedEmailSendGrid.Click += new System.EventHandler(this.advancedEmailSendGrid_Click);
+            // 
+            // advancedEmailMapi
+            // 
+            this.advancedEmailMapi.Checked = true;
+            this.advancedEmailMapi.CheckOnClick = true;
+            this.advancedEmailMapi.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.advancedEmailMapi.Name = "advancedEmailMapi";
+            this.advancedEmailMapi.Size = new System.Drawing.Size(180, 22);
+            this.advancedEmailMapi.Text = "Email via &MAPI+";
+            this.advancedEmailMapi.ToolTipText = resources.GetString("advancedEmailMapi.ToolTipText");
+            this.advancedEmailMapi.Click += new System.EventHandler(this.advancedEmailMapi_Click);
             // 
             // advancedUseOldStyleStoryBtPaneMenu
             // 
@@ -1578,7 +1600,8 @@ namespace OneStoryProjectEditor
             this.advancedAutomaticallySendandReceiveWindowMenu.Name = "advancedAutomaticallySendandReceiveWindowMenu";
             this.advancedAutomaticallySendandReceiveWindowMenu.Size = new System.Drawing.Size(314, 22);
             this.advancedAutomaticallySendandReceiveWindowMenu.Text = "Automatically Send/Receive Window";
-            this.advancedAutomaticallySendandReceiveWindowMenu.ToolTipText = "Automatically launch the Send/Receive dialog after changing a story to another team member\'s turn";
+            this.advancedAutomaticallySendandReceiveWindowMenu.ToolTipText = "Automatically launch the Send/Receive dialog after changing a story to another te" +
+    "am member\'s turn";
             this.advancedAutomaticallySendandReceiveWindowMenu.CheckStateChanged += new System.EventHandler(this.advancedAutomaticallySendandReceiveWindowMenu_CheckStateChanged);
             // 
             // advancedAutomaticallyLoadProjectMenu
@@ -1598,7 +1621,7 @@ namespace OneStoryProjectEditor
             this.advancedPopupReminderForStoryInYourStateMenu.Checked = true;
             this.advancedPopupReminderForStoryInYourStateMenu.CheckOnClick = true;
             this.advancedPopupReminderForStoryInYourStateMenu.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.advancedPopupReminderForStoryInYourStateMenu.Name = "advancedpopupReminderForStoryInYourStateMenu";
+            this.advancedPopupReminderForStoryInYourStateMenu.Name = "advancedPopupReminderForStoryInYourStateMenu";
             this.advancedPopupReminderForStoryInYourStateMenu.Size = new System.Drawing.Size(314, 22);
             this.advancedPopupReminderForStoryInYourStateMenu.Text = "Popup Reminder for Story in your State";
             this.advancedPopupReminderForStoryInYourStateMenu.ToolTipText = "An option to enable/disable the Popup reminder for \'story in your state\'";
@@ -2201,7 +2224,6 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem advancedLocalizationMenu;
         private ToolStripSeparator storyUseAdaptItToolStripSeparator;
         private ToolStripMenuItem advancedOverrideLocalizeStateViewSettingsMenu;
-        private ToolStripMenuItem advancedEmailMenu;
         private ToolStripMenuItem viewStoriesSetMenu;
         private ToolStripSeparator toolStripSeparator16;
         private ToolStripSeparator toolStripSeparator5;
@@ -2238,6 +2260,9 @@ namespace OneStoryProjectEditor
         private ToolStripButton toolStripButtonShowStoriesInYourState;
         internal ToolStripMenuItem advancedAutomaticallySendandReceiveWindowMenu;
         private ToolStripMenuItem advancedPopupReminderForStoryInYourStateMenu;
+        private ToolStripMenuItem advancedEmailNotifications;
+        private ToolStripMenuItem advancedEmailMapi;
+        private ToolStripMenuItem advancedEmailSendGrid;
     }
 
 #if UsingHtmlDisplayForConNotes

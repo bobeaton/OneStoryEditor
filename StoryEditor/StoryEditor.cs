@@ -247,7 +247,8 @@ namespace OneStoryProjectEditor
             advancedSaveTimeoutEnabledMenu.Checked = Settings.Default.AutoSaveTimeoutEnabled;
             advancedSaveTimeoutAsSilentlyAsPossibleMenu.Checked = Settings.Default.DoAutoSaveSilently;
             advancedUseDialogToPreviewConNotes.Checked = Settings.Default.UsePreviewDialogWhenAddingConNotes;
-            advancedEmailMenu.Checked = Settings.Default.UseMapiPlus;
+            advancedEmailMapi.Checked = Settings.Default.UseMapiPlus;
+            advancedEmailSendGrid.Checked = Settings.Default.EmailUseSendGrid;
             advancedUseWordBreaks.Enabled = BreakIterator.IsAvailable;
             advancedAutomaticallyLoadProjectMenu.Checked = Settings.Default.AutoLoadLastProject;
             advancedAutomaticallySendandReceiveWindowMenu.Checked = Settings.Default.AutoSendReceiveAfterTurnChange;
@@ -6685,7 +6686,8 @@ namespace OneStoryProjectEditor
                 ((StoryProject != null) && (TheCurrentStory != null));
 
             advancedNewProjectMenu.Enabled = (IsInStoriesSet);
-            advancedEmailMenu.Checked = Settings.Default.UseMapiPlus;
+            advancedEmailMapi.Checked = Settings.Default.UseMapiPlus;
+            advancedEmailSendGrid.Checked = Settings.Default.EmailUseSendGrid;
             advancedUseWordBreaks.Enabled = BreakIterator.IsAvailable;
             advancedOneStoryProjectMetaData.Enabled = (StoryProject != null) && (StoryProject.ProjSettings != null);
         }
@@ -7177,15 +7179,6 @@ namespace OneStoryProjectEditor
         public static string OseCaption
         {
             get { return Localizer.Str("OneStory Project Editor"); }
-        }
-
-        private void advancedEmailMenu_Click(object sender, EventArgs e)
-        {
-            if (sender != null)
-            {
-                Settings.Default.UseMapiPlus = (sender as ToolStripMenuItem).Checked;
-                Settings.Default.Save();
-            }
         }
 
         private bool LanguageInUse(ProjectSettings.LanguageInfo li)
@@ -8147,6 +8140,18 @@ namespace OneStoryProjectEditor
                 GoToNextStory();
             else if (e.Alt && e.KeyCode.ToString() == "L")
                 GoToLastStory();
+        }
+
+        private void advancedEmailMapi_Click(object sender, EventArgs e)
+        {
+            Settings.Default.UseMapiPlus = (sender as ToolStripMenuItem).Checked;
+            Settings.Default.Save();
+        }
+
+        private void advancedEmailSendGrid_Click(object sender, EventArgs e)
+        {
+            Settings.Default.EmailUseSendGrid = (sender as ToolStripMenuItem).Checked;
+            Settings.Default.Save();
         }
 
         private void panoramaNextStoryMenu_Click(object sender, EventArgs e)

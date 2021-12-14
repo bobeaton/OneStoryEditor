@@ -132,7 +132,10 @@
   <data name="advancedResetStoredInformationMenu.ToolTipText" xml:space="preserve">
     <value>Click this to delete the current user's information store (e.g. Recent Project, Transliteration settings, etc). This might be necessary, for example, if the project will no longer synchronize--e.g. if the Internet button is disabled</value>
   </data>
-  <data name="advancedEmailMenu.ToolTipText" xml:space="preserve">
+  <data name="advancedEmailMapi.ToolTipText" xml:space="preserve">
+    <value>Some email clients don't work via the MAPI+ protocol. If OSE isn't properly sending email to your team members when you change turns, you can uncheck this menu and have it try via regular MAPI protocol</value>
+  </data>
+  <data name="advancedEmailNotifications.ToolTipText" xml:space="preserve">
     <value>Some email clients don't work via the MAPI+ protocol. If OSE isn't properly sending email to your team members when you change turns, you can uncheck this menu and have it try via regular MAPI protocol</value>
   </data>
   <data name="advancedReassignNotesToProperMember.ToolTipText" xml:space="preserve">
