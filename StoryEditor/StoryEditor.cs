@@ -2901,10 +2901,13 @@ namespace OneStoryProjectEditor
         private static string SaveXElementWithBadExtn(XElement elem, string strFilename)
         {
             // create the root portions of the XML document and tack on the fragment we've been building
+#if !GoBackToOriginal
+            var doc = XDocument.Parse(elem.ToString());
+#else
             var doc = new XDocument(
                 new XDeclaration("1.0", "utf-8", "yes"),
                 elem);
-
+#endif
             var strFolderPath = Path.GetDirectoryName(strFilename);
             Debug.Assert(strFolderPath != null, "strFolderPath != null");
             if (!Directory.Exists(strFolderPath))
