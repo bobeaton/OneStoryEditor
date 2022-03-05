@@ -5,11 +5,13 @@
 
     <DirectoryRef Id="INSTALLFOLDER">
       <!-- by using the package's reference, it forces us to update the merge module if the nuget is ever updated (but you have
-          to download the msm from the palaso build machine artifacts for the version of nuget you have installed. See:
-          https://build.palaso.org/viewType.html?buildTypeId=Chorus_Win32masterContinuous or
-          https://build.palaso.org/repository/download/Chorus_Win32masterContinuous/295271:id/ChorusMergeModule.msm
+           to download the msm from the palaso build machine artifacts for the version of nuget you have installed (and put it in
+           the packages\SIL.Chorus.App... folder. 
+           Here are the links to find the proper build:
+           https://build.palaso.org/viewType.html?buildTypeId=Chorus_Win32masterContinuous or
+           https://build.palaso.org/repository/download/Chorus_Win32masterContinuous/308888:id/ChorusMergeModule.msm
       -->
-      <Merge Id="ChorusMergeModule" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\ChorusMergeModule.msm" DiskId="1"/>
+      <Merge Id="ChorusMergeModule" Language="1033" SourceFile="..\..\packages\SIL.Chorus.App.5.0.0-beta0017\ChorusMergeModule.msm" DiskId="1"/>
       <Merge Id="AIGuesserMM" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\AIGuesserMM.msm" DiskId="1"/>
       <Merge Id="CcDLLsMM" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\CcDLLsMM.msm" DiskId="1"/>
       <Merge Id="ClipboardEncConverter" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\ClipboardEncConverterMM.msm" DiskId="1"/>

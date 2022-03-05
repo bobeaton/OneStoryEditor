@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using Chorus.Utilities;
 using Chorus.merge.xml.generic;
 
-namespace OneStory_ChorusPlugin
+namespace Chorus.FileTypeHandlers.OneStory
 {
     class OneStoryContextGenerator : IGenerateContextDescriptor, IGenerateHtmlContext
     {

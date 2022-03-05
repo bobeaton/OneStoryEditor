@@ -7,7 +7,7 @@ using Chorus.merge.xml.generic;
 using Chorus.VcsDrivers.Mercurial;
 using SIL.Xml;
 
-namespace OneStory_ChorusPlugin
+namespace Chorus.FileTypeHandlers.OneStory
 {
     public class OneStoryDiffer
     {

@@ -18,7 +18,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>ApplicationName=OneStory Editor;SafeApplicationName=OneStoryEditor;TruncatedVersion=5.0.0;VersionNumber=5.0.0.1;UpgradeCode=92A9B369-3609-4129-A09D-5BB5BBE30AAB;Year=2021;Manufacturer=SIL International;EcDistFilesPath=$(EcDistFilesPath)</DefineConstants>
+    <DefineConstants>ApplicationName=OneStory Editor;SafeApplicationName=OneStoryEditor;TruncatedVersion=5.0.0;VersionNumber=5.0.1.0;UpgradeCode=92A9B369-3609-4129-A09D-5BB5BBE30AAB;Year=2022;Manufacturer=SIL International;EcDistFilesPath=$(EcDistFilesPath)</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Bundle.wxs" />

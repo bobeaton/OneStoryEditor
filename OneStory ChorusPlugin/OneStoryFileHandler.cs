@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
-using Chorus.FileTypeHandlers;
 using Chorus.FileTypeHandlers.xml;
 using Chorus.Utilities;
 using Chorus.merge;
@@ -13,12 +12,12 @@ using SIL.Progress;
 using SIL.IO;
 using System.ComponentModel.Composition;
 
-namespace OneStory_ChorusPlugin
+namespace Chorus.FileTypeHandlers.OneStory
 {
     [Export(typeof(IChorusFileTypeHandler))]
     public class OneStoryFileHandler : IChorusFileTypeHandler
     {
-		internal OneStoryFileHandler()
+        public OneStoryFileHandler()
 		{}
 
         public const string CstrAppName = "StoryEditor.exe";
@@ -54,11 +53,13 @@ namespace OneStory_ChorusPlugin
 
         public bool CanValidateFile(string pathToFile)
         {
-            return false;
+            return HasOneStoryExtension(pathToFile);
         }
+
         public string ValidateFile(string pathToFile, IProgress progress)
         {
-            throw new NotImplementedException();
+            //todo: lifted from 'lift' handler. For now, just make sure it is well-formed xml
+            return XmlValidation.ValidateFile(pathToFile, progress);
         }
 
         public void Do3WayMerge(MergeOrder mergeOrder)

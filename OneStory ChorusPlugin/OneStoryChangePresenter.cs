@@ -9,7 +9,7 @@ using Chorus.merge;
 using Chorus.merge.xml.generic;
 using Chorus.Utilities;
 
-namespace OneStory_ChorusPlugin
+namespace Chorus.FileTypeHandlers.OneStory
 {
     public class OneStoryChangePresenter : IChangePresenter
     {
