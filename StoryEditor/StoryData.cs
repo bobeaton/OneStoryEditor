@@ -1108,7 +1108,7 @@ namespace OneStoryProjectEditor
         {
             elem.Add(new XElement(strElementLabel,
                                   new XAttribute(CstrAttributeMemberID, MemberId),
-                                  MemberComment ?? ""));
+                                  MemberComment));
         }
 
         public bool IsConfigured
