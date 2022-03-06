@@ -37,9 +37,10 @@ jobs:
 
       # Download the ChorusMergeModule.msm and put it where the mm.wxs is expecting it (I put it in the packages folder, so if I upgrade Chorus, the link fails (when building locally) and reminds me that I need to pull it afresh)
       - name: download-chorusmergemodule
+        if: ${{ success() && matrix.build_configuration == 'Release' }}
         shell: powershell
         run: | 
-          (Get-Content 'C:\Users\pete_\source\repos\OneStoryEditor\Installer\Setup OneStoryEditor\MergeModules.wxs' -Raw) -match '(https://build.palaso.org/repository/download/Chorus_Win32masterContinuous/.*?:id/ChorusMergeModule.msm)(.*?\r?\n|$)+.*?SourceFile=\".*?\\(packages\\SIL.Chorus.App.*?\\ChorusMergeModule.msm)'
+          (Get-Content 'Installer\Setup OneStoryEditor\MergeModules.wxs' -Raw) -match '(https://build.palaso.org/repository/download/Chorus_Win32masterContinuous/.*?:id/ChorusMergeModule.msm)(.*?\r?\n|$)+.*?SourceFile=\".*?\\(packages\\SIL.Chorus.App.*?\\ChorusMergeModule.msm)'
           echo "downloading $($Matches.3) from $($Matches.1)"
           $WebClient = New-Object System.Net.WebClient
           $WebClient.DownloadFile("$($Matches.1)","$($Matches.1)")
