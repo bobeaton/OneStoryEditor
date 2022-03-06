@@ -22,7 +22,7 @@ jobs:
   # This workflow contains a single job called "build"
   build-windows:
     # The type of runner that the job will run on
-    runs-on: [windows-latest]
+    runs-on: windows-2019   # [windows-latest]   # VS 2022 doesn't automatically include the proper .net framework 
     strategy:
        # Keep building other jobs even if another fails, to show what _is_ still working.
        fail-fast: false
