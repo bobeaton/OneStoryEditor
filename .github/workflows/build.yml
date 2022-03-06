@@ -41,10 +41,12 @@ jobs:
         shell: powershell
         run: | 
           (Get-Content 'Installer\Setup OneStoryEditor\MergeModules.wxs' -Raw) -match '(https://build.palaso.org/repository/download/Chorus_Win32masterContinuous/.*?:id/ChorusMergeModule.msm)(.*?\r?\n|$)+.*?SourceFile=\".*?(\\packages\\SIL.Chorus.App.*?\\ChorusMergeModule.msm)'
-          echo "downloading $($Matches.3) from $($Matches.1) into ${{env.GITHUB_WORKSPACE}}$($Matches.3)"
+          $url = $Matches.1
+          $localDownloadPath = ${{env.GITHUB_WORKSPACE}} + $Matches.3
+          echo "downloading from $($url) into $($localDownloadPath)"
           [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
           $WebClient = New-Object System.Net.WebClient
-          $WebClient.DownloadFile("$($Matches.1)","${{env.GITHUB_WORKSPACE}}$($Matches.3)")
+          $WebClient.DownloadFile($url,$localDownloadPath)
       
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v1.0.2
