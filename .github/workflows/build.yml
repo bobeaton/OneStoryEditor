@@ -40,11 +40,11 @@ jobs:
         if: ${{ success() && matrix.build_configuration == 'Release' }}
         shell: powershell
         run: | 
-          (Get-Content 'Installer\Setup OneStoryEditor\MergeModules.wxs' -Raw) -match '(https://build.palaso.org/repository/download/Chorus_Win32masterContinuous/.*?:id/ChorusMergeModule.msm)(.*?\r?\n|$)+.*?SourceFile=\".*?\\(packages\\SIL.Chorus.App.*?\\ChorusMergeModule.msm)'
-          echo "downloading $($Matches.3) from $($Matches.1)"
+          (Get-Content 'Installer\Setup OneStoryEditor\MergeModules.wxs' -Raw) -match '(https://build.palaso.org/repository/download/Chorus_Win32masterContinuous/.*?:id/ChorusMergeModule.msm)(.*?\r?\n|$)+.*?SourceFile=\".*?\\(\\packages\\SIL.Chorus.App.*?\\ChorusMergeModule.msm)'
+          echo "downloading $($Matches.3) from $($Matches.1) into ${{env.SOLUTION_FILE_PATH}}$($Matches.3)"
           [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
           $WebClient = New-Object System.Net.WebClient
-          $WebClient.DownloadFile("$($Matches.1)","$($Matches.3)")
+          $WebClient.DownloadFile("$($Matches.1)","${{env.SOLUTION_FILE_PATH}}$($Matches.3)")
       
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v1.0.2
