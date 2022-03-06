@@ -35,6 +35,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      # get the url to the chorus MM on teamcity build maching
+      - name: set-chorusmergemodule-url-as-env
+        shell: powershell
+        run: echo "(Get-Content 'Installer\Setup OneStoryEditor\MergeModules.wxs' -Raw) -match 'https://build.palaso.org/repository/download/Chorus_Win32masterContinuous/.*?:id/ChorusMergeModule.msm'" >> $CHORUS_MERGE_MODULE_URL
+        
+      # Download the ChorusMergeModule.msm and put it where the mm.wxs is expecting it (I put it in the packages folder, so if I upgrade Chorus, the link fails (when building locally) and reminds me that I need to pull it afresh)
+      - name: download-chorusmergemodule
+        run: wget "${{$CHORUS_MERGE_MODULE_URL}}" -O 'packages\SIL.Chorus.App.5.0.0-beta0017\ChorusMergeModule.msm'
+      
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v1.0.2
 
