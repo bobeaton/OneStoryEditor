@@ -42,7 +42,7 @@ jobs:
         run: | 
           (Get-Content 'Installer\Setup OneStoryEditor\MergeModules.wxs' -Raw) -match '(https://build.palaso.org/repository/download/Chorus_Win32masterContinuous/.*?:id/ChorusMergeModule.msm)(.*?\r?\n|$)+.*?SourceFile=\".*?(\\packages\\SIL.Chorus.App.*?\\ChorusMergeModule.msm)'
           $url = $Matches.1
-          $localDownloadPath = ${{env.GITHUB_WORKSPACE}} + $Matches.3
+          $localDownloadPath = "${{env.GITHUB_WORKSPACE}}" + $Matches.3
           echo "downloading from $($url) into $($localDownloadPath)"
           [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
           $WebClient = New-Object System.Net.WebClient
