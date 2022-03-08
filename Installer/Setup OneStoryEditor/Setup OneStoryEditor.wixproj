@@ -30,7 +30,8 @@
       <Name>WixNetFxExtension</Name>
     </WixExtension>
   </ItemGroup>
-  <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
+  <!--<Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />-->
+  <Import Project="$(WIX)\SDK\wix.ca.targets" Condition="Exists('$(WIX)\SDK\wix.ca.targets')" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
   <Target Name="DebugWixTargets">
     <Warning Text="MSBuildExtensionsPath32 = $(MSBuildExtensionsPath32)" />
