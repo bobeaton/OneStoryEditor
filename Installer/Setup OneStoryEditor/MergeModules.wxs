@@ -9,7 +9,7 @@
            the packages\SIL.Chorus.App... folder. 
            Here are the links to find the proper build:
            https://build.palaso.org/viewType.html?buildTypeId=Chorus_Win32masterContinuous or
-           https://build.palaso.org/repository/download/Chorus_Win32masterContinuous/308888:id/ChorusMergeModule.msm
+           http://build.palaso.org/guestAuth/repository/download/Chorus_Win32masterContinuous/308888:id/ChorusMergeModule.msm
       -->
       <Merge Id="ChorusMergeModule" Language="1033" SourceFile="..\..\packages\SIL.Chorus.App.5.0.0-beta0017\ChorusMergeModule.msm" DiskId="1"/>
       <Merge Id="AIGuesserMM" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\AIGuesserMM.msm" DiskId="1"/>
