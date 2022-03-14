@@ -10,6 +10,11 @@
            Here are the links to find the proper build:
            https://build.palaso.org/viewType.html?buildTypeId=Chorus_Win32masterContinuous or
            https://build.palaso.org/guestAuth/repository/download/Chorus_Win32masterContinuous/308888:id/ChorusMergeModule.msm
+           These must be updated when you update to a new version of Chorus, bkz they're harvested from this very file by GitHub actions
+           to know how to download the proper msm. Also, if you change versions, you also have to go into:
+           TeamCity=>OneStory=>OneStory-develop-Win32-Installer=>Edit Buid Configuration=>Parameters and set these two config parameters to the (new) values:
+           vcsroot.OneStory_EditorCommon.chorusMergeModuleVersion
+           vcsroot.OneStory_EditorCommon.SilChorusAppNugetFolderName
       -->
       <Merge Id="ChorusMergeModule" Language="1033" SourceFile="..\..\packages\SIL.Chorus.App.5.0.0-beta0017\ChorusMergeModule.msm" DiskId="1"/>
       <Merge Id="AIGuesserMM" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\AIGuesserMM.msm" DiskId="1"/>
