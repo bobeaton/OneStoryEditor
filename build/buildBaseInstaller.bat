@@ -5,7 +5,3 @@ SET MsiFileName=%1
 SHIFT
 
 call signingProxy %MsiFileName%
-
-@REM Cleanup debris from this build
-DEL *.wixobj
-DEL *.wixpdb

@@ -69,7 +69,15 @@
 	Other similar extension points exist, see Wix.targets.
 	<Target Name="BeforeBuild">
 	</Target>
-	<Target Name="AfterBuild">
-	</Target>
 	-->
+	<Target Name="AfterBuild">
+		<PropertyGroup>
+		  <ExeFile>$(TargetName)_$(PlatformName)$(TargetExt)</ExeFile>
+		  <BaseBuildDir>"$(SolutionDir)build\"</BaseBuildDir>
+		  <OutputDir>$(SolutionDir)output</OutputDir>
+		  <BaseBuildArgs>"$(ExeFile)"</BaseBuildArgs>
+		</PropertyGroup>
+		<Warning Text="ExeFile: $(ExeFile), BaseBuildDir: $(BaseBuildDir), BaseBuildArgs: $(BaseBuildArgs)" />
+		<Exec WorkingDirectory="$(OutputDir)" Command="$(BaseBuildDir)buildBaseInstaller.bat $(BaseBuildArgs)" />
+	</Target>
 </Project>
