@@ -66,17 +66,19 @@
       <BuildVersion>5.0.1.1</BuildVersion>
       <ProductIdGuid>*</ProductIdGuid>
       <UpgradeCodeGuid>92A9B369-3609-4129-A09D-5BB5BBE30AAB</UpgradeCodeGuid>
-	  <AppBuildDir></AppBuildDir>
-	  <BinDirSuffix></BinDirSuffix>
-	  <DataDirSuffix></DataDirSuffix>
-	  <CopyrightYear>2022</CopyrightYear>
-	  <Manufacturer>SIL International</Manufacturer>
-      <MsiFile>$(SafeApplicationName)_$(VersionNumber).msi</MsiFile>
-      <BaseBuildDir>$(SolutionDir)Installer\Setup OneStoryEditor</BaseBuildDir>
-      <BaseBuildArgs>"$(ApplicationName)" $(SafeApplicationName) $(BuildVersion) $(ProductIdGuid) $(UpgradeCodeGuid) "$(AppBuildDir)/$(BinDirSuffix)" "$(AppBuildDir)/$(DataDirSuffix)" $(CopyrightYear) "$(Manufacturer)"</BaseBuildArgs>
-
+      <AppBuildDir />
+      <BinDirSuffix />
+      <DataDirSuffix />
+      <CopyrightYear>2022</CopyrightYear>
+      <Manufacturer>SIL International</Manufacturer>
+      <MsiFile>$(TargetName)_$(PlatformName)$(TargetExt)</MsiFile>
+      <BaseBuildDir>$(SolutionDir)output</BaseBuildDir>
+      <BaseBuildArgs>"$(MsiFile)"</BaseBuildArgs>
     </PropertyGroup>
     <Warning Text="MsiFile: $(MsiFile), BaseBuildDir: $(BaseBuildDir), BaseBuildArgs: $(BaseBuildArgs)" />
     <Exec WorkingDirectory="$(BaseBuildDir)" Command="buildBaseInstaller.bat $(BaseBuildArgs)" />
   </Target>
+  <PropertyGroup>
+    <PreBuildEvent>copy "$(SolutionDir)build\signingProxy.bat" "$(SolutionDir)output\"</PreBuildEvent>
+  </PropertyGroup>
 </Project>
