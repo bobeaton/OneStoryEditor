@@ -72,11 +72,12 @@
       <CopyrightYear>2022</CopyrightYear>
       <Manufacturer>SIL International</Manufacturer>
       <MsiFile>$(TargetName)_$(PlatformName)$(TargetExt)</MsiFile>
-      <BaseBuildDir>$(SolutionDir)output</BaseBuildDir>
+      <BaseBuildDir>"$(ProjectDir)"</BaseBuildDir>
+      <OutputDir>$(SolutionDir)output</OutputDir>
       <BaseBuildArgs>"$(MsiFile)"</BaseBuildArgs>
     </PropertyGroup>
     <Warning Text="MsiFile: $(MsiFile), BaseBuildDir: $(BaseBuildDir), BaseBuildArgs: $(BaseBuildArgs)" />
-    <Exec WorkingDirectory="$(BaseBuildDir)" Command="Installer\Setup OneStoryEditor\buildBaseInstaller.bat $(BaseBuildArgs)" />
+    <Exec WorkingDirectory="$(OutputDir)" Command="$(BaseBuildDir)buildBaseInstaller.bat $(BaseBuildArgs)" />
   </Target>
   <PropertyGroup>
     <PreBuildEvent>copy "$(SolutionDir)build\signingProxy.bat" "$(SolutionDir)output\"</PreBuildEvent>
