@@ -76,7 +76,7 @@
       <BaseBuildArgs>"$(MsiFile)"</BaseBuildArgs>
     </PropertyGroup>
     <Warning Text="MsiFile: $(MsiFile), BaseBuildDir: $(BaseBuildDir), BaseBuildArgs: $(BaseBuildArgs)" />
-    <Exec WorkingDirectory="$(BaseBuildDir)" Command="buildBaseInstaller.bat $(BaseBuildArgs)" />
+    <Exec WorkingDirectory="$(BaseBuildDir)" Command="Installer\Setup OneStoryEditor\buildBaseInstaller.bat $(BaseBuildArgs)" />
   </Target>
   <PropertyGroup>
     <PreBuildEvent>copy "$(SolutionDir)build\signingProxy.bat" "$(SolutionDir)output\"</PreBuildEvent>
