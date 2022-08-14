@@ -69,7 +69,7 @@ namespace OneStoryProjectEditor
                 textBoxProjectName.Enabled = !checkBoxUseInternetRepo.Checked;
             }
 
-            buttonConfigureInternetRepo.Visible = checkBoxUseInternetRepo.Checked;
+            buttonConfigureInternetRepo.Visible = ShouldEnableRepoConfigButton();
 
             if ((_storyProjectData.ProjSettings == null)
                 || !_storyProjectData.ProjSettings.Vernacular.HasData)
@@ -887,8 +887,13 @@ namespace OneStoryProjectEditor
         private void checkBoxUseInternetRepo_CheckedChanged(object sender, EventArgs e)
         {
             Debug.Assert((sender is CheckBox) && (sender == checkBoxUseInternetRepo));
-            buttonConfigureInternetRepo.Visible = checkBoxUseInternetRepo.Checked;
+            buttonConfigureInternetRepo.Visible = ShouldEnableRepoConfigButton();
             Modified = true;
+        }
+
+        private bool ShouldEnableRepoConfigButton()
+        {
+            return checkBoxUseInternetRepo.Enabled && checkBoxUseInternetRepo.Checked;
         }
 
         private void checkBoxStoryLanguage_CheckedChanged(object sender, EventArgs e)
@@ -1510,7 +1515,10 @@ namespace OneStoryProjectEditor
                 Password = LoggedInMember?.HgPassword,
                 HasLoggedIn = true
             };
-            model.InitFromProjectPath(ProjSettings.ProjectFolder);
+
+            // 2022-08-09: on Advanced, New Project usage, there is no ProjSettings or path to init from
+            if (ProjSettings?.ProjectFolder != null)
+                model.InitFromProjectPath(ProjSettings.ProjectFolder);
 
             var dlg = new ServerSettingsDialog(model);
             var result = dlg.ShowDialog();
@@ -1528,6 +1536,12 @@ namespace OneStoryProjectEditor
                     Modified = true;
                 }
             }
+        }
+
+        private void textBoxProjectName_TextChanged(object sender, EventArgs e)
+        {
+            checkBoxUseInternetRepo.Enabled = !String.IsNullOrEmpty(textBoxProjectName.Text);
+            Modified = true;
         }
     }
 

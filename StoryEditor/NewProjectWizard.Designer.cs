@@ -36,6 +36,7 @@
             this.textBoxProjectName = new System.Windows.Forms.TextBox();
             this.checkBoxUseDropBox = new System.Windows.Forms.CheckBox();
             this.checkBoxUseInternetRepo = new System.Windows.Forms.CheckBox();
+            this.buttonConfigureInternetRepo = new System.Windows.Forms.Button();
             this.textBoxProjectNameInstructions = new System.Windows.Forms.TextBox();
             this.tabPageLanguages = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelWhichLanguagesWhere = new System.Windows.Forms.TableLayoutPanel();
@@ -146,7 +147,6 @@
             this.buttonPrevious = new System.Windows.Forms.Button();
             this.fontDialog = new System.Windows.Forms.FontDialog();
             this.folderBrowserDropbox = new System.Windows.Forms.FolderBrowserDialog();
-            this.buttonConfigureInternetRepo = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabPageProjectName.SuspendLayout();
@@ -225,7 +225,7 @@
             this.textBoxProjectName.Name = "textBoxProjectName";
             this.textBoxProjectName.Size = new System.Drawing.Size(708, 20);
             this.textBoxProjectName.TabIndex = 0;
-            this.textBoxProjectName.TextChanged += new System.EventHandler(this.checkBox_Checked_OR_TextBoxChanged);
+            this.textBoxProjectName.TextChanged += new System.EventHandler(this.textBoxProjectName_TextChanged);
             // 
             // checkBoxUseDropBox
             // 
@@ -243,6 +243,7 @@
             // checkBoxUseInternetRepo
             // 
             this.checkBoxUseInternetRepo.AutoSize = true;
+            this.checkBoxUseInternetRepo.Enabled = false;
             this.checkBoxUseInternetRepo.Location = new System.Drawing.Point(3, 46);
             this.checkBoxUseInternetRepo.Name = "checkBoxUseInternetRepo";
             this.checkBoxUseInternetRepo.Size = new System.Drawing.Size(243, 17);
@@ -250,6 +251,16 @@
             this.checkBoxUseInternetRepo.Text = "&Is there an Internet Repository for this project?";
             this.checkBoxUseInternetRepo.UseVisualStyleBackColor = true;
             this.checkBoxUseInternetRepo.CheckedChanged += new System.EventHandler(this.checkBoxUseInternetRepo_CheckedChanged);
+            // 
+            // buttonConfigureInternetRepo
+            // 
+            this.buttonConfigureInternetRepo.Location = new System.Drawing.Point(360, 46);
+            this.buttonConfigureInternetRepo.Name = "buttonConfigureInternetRepo";
+            this.buttonConfigureInternetRepo.Size = new System.Drawing.Size(75, 23);
+            this.buttonConfigureInternetRepo.TabIndex = 4;
+            this.buttonConfigureInternetRepo.Text = "Configure";
+            this.buttonConfigureInternetRepo.UseVisualStyleBackColor = true;
+            this.buttonConfigureInternetRepo.Click += new System.EventHandler(this.buttonConfigureInternetRepo_Click);
             // 
             // textBoxProjectNameInstructions
             // 
@@ -1616,16 +1627,6 @@
             this.buttonSave.Text = "&Save";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-            // 
-            // buttonConfigureInternetRepo
-            // 
-            this.buttonConfigureInternetRepo.Location = new System.Drawing.Point(360, 46);
-            this.buttonConfigureInternetRepo.Name = "buttonConfigureInternetRepo";
-            this.buttonConfigureInternetRepo.Size = new System.Drawing.Size(75, 23);
-            this.buttonConfigureInternetRepo.TabIndex = 4;
-            this.buttonConfigureInternetRepo.Text = "Configure";
-            this.buttonConfigureInternetRepo.UseVisualStyleBackColor = true;
-            this.buttonConfigureInternetRepo.Click += new System.EventHandler(this.buttonConfigureInternetRepo_Click);
             // 
             // NewProjectWizard
             // 
