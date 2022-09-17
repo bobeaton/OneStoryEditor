@@ -73,11 +73,11 @@
   <Target Name="AfterBuild">
     <PropertyGroup>
       <ExeFile>$(TargetName)_$(PlatformName)$(TargetExt)</ExeFile>
-      <BaseBuildDir>"$(SolutionDir)build\"</BaseBuildDir>
-      <OutputDir>$(SolutionDir)output</OutputDir>
-      <BaseBuildArgs>"$(ExeFile)" UseInsignia</BaseBuildArgs>
+      <BaseBuildDir>$(SolutionDir)build\</BaseBuildDir>
+      <OutputDir>$(SolutionDir)output\</OutputDir>
+      <BaseBuildArgs>"$(OutputDir)$(ExeFile)" UseInsignia</BaseBuildArgs>
     </PropertyGroup>
-    <Warning Text="ExeFile: $(ExeFile), BaseBuildDir: $(BaseBuildDir), BaseBuildArgs: $(BaseBuildArgs)" />
-    <Exec WorkingDirectory="$(OutputDir)" Command="$(BaseBuildDir)buildBaseInstaller.bat $(BaseBuildArgs)" />
+    <Warning Text="ExeFile: $(ExeFile), SolutionDir: $(SolutionDir), BaseBuildDir: $(BaseBuildDir), OutputDir: $(OutputDir), BaseBuildArgs: $(BaseBuildArgs)" />
+    <Exec WorkingDirectory="$(BaseBuildDir)" Command="$(BaseBuildDir)buildBaseInstaller.bat $(BaseBuildArgs)" />
   </Target>
 </Project>
