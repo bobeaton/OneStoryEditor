@@ -20,7 +20,8 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>MySolutionDir=$(SolutionDir)</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BiblicalTermComponents.wxs" />
@@ -60,11 +61,11 @@
   <Target Name="AfterBuild">
     <PropertyGroup>
       <MsiFile>$(TargetName)_$(PlatformName)$(TargetExt)</MsiFile>
-      <BaseBuildDir>"$(MySolutionDir)build\"</BaseBuildDir>
-      <OutputDir>$(MySolutionDir)output\</OutputDir>
+      <BaseBuildDir>"$(SolutionDir)build\"</BaseBuildDir>
+      <OutputDir>$(SolutionDir)output\</OutputDir>
       <BaseBuildArgs>"$(OutputDir)$(MsiFile)"</BaseBuildArgs>
     </PropertyGroup>
-    <Warning Text="MsiFile: $(MsiFile), BaseBuildDir: $(BaseBuildDir), MySolutionDir: $(MySolutionDir), SolutionDir: $(SolutionDir), OutputDir: $(OutputDir), BaseBuildArgs: $(BaseBuildArgs)" />
+    <Warning Text="MsiFile: $(MsiFile), BaseBuildDir: $(BaseBuildDir), SolutionDir: $(SolutionDir), OutputDir: $(OutputDir), BaseBuildArgs: $(BaseBuildArgs)" />
     <Exec WorkingDirectory="$(BaseBuildDir)" Command="$(BaseBuildDir)buildBaseInstaller.bat $(BaseBuildArgs)" />
   </Target>
   <PropertyGroup>
