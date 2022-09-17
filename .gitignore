@@ -276,3 +276,4 @@ _Pvt_Extensions
 /output/Setup OneStory Editor_x86.msi
 *.pyc
 /output/Setup OneStoryEditor_5.0_x86.exe
+/output/previousInstallers
