@@ -5,8 +5,10 @@ using System.Linq;
 using System.Windows.Forms;
 using Chorus.Model;
 using Chorus.UI.Misc;
+using Chorus.VcsDrivers.Mercurial;
 using NetLoc;
 using SIL.Keyboarding;
+using SIL.Progress;
 
 namespace OneStoryProjectEditor
 {
@@ -1419,7 +1421,12 @@ namespace OneStoryProjectEditor
         {
             try
             {
-                if (e.TabPage == tabPageAIBT)
+                // get the last tab visiable
+                var lastControl = (tabControl.Contains(tabPageAIBT))
+                                    ? tabPageAIBT
+                                    : tabPageMemberRoles;
+
+                if (e.TabPage == lastControl)
                 {
                     buttonNext.Enabled = true;  // reenable the 'next' button if we're no longer on the AI tab
                 }
@@ -1483,7 +1490,12 @@ namespace OneStoryProjectEditor
 
         private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            if (e.TabPage == tabPageAIBT)
+            // get the last tab visiable
+            var lastControl = (tabControl.Contains(tabPageAIBT))
+                                ? tabPageAIBT
+                                : tabPageMemberRoles;
+
+            if (e.TabPage == lastControl)
             {
                 try
                 {
@@ -1517,8 +1529,16 @@ namespace OneStoryProjectEditor
             };
 
             // 2022-08-09: on Advanced, New Project usage, there is no ProjSettings or path to init from
+            if ((ProjSettings?.ProjectFolder == null) && !String.IsNullOrEmpty(ProjectName))
+            {
+                model.ProjectId = ProjectName;
+                OnBlurProjectTab();
+            }
+
             if (ProjSettings?.ProjectFolder != null)
+            {
                 model.InitFromProjectPath(ProjSettings.ProjectFolder);
+            }
 
             var dlg = new ServerSettingsDialog(model);
             var result = dlg.ShowDialog();
