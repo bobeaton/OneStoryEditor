@@ -26,6 +26,9 @@ using Chorus.UI.Sync;
 using Chorus.UI.Clone;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using System.Runtime.InteropServices;
+using System.ComponentModel;
+using System.Diagnostics;
 
 namespace OneStoryProjectEditor
 {
@@ -33,12 +36,30 @@ namespace OneStoryProjectEditor
     {
         private const string ProjectTypeOneStory = "OneStory";
 
+        // from https://stackoverflow.com/questions/32148151/setprocessdpiawareness-not-having-effect
+        // bkz of the chorus window opening and shrinking OSE's windows when on a high res screen
+        //  (this seems to stop that from happening)
+        [DllImport("SHCore.dll", SetLastError = true)]
+        private static extern bool SetProcessDpiAwareness(PROCESS_DPI_AWARENESS awareness);
+
+        [DllImport("SHCore.dll", SetLastError = true)]
+        private static extern void GetProcessDpiAwareness(IntPtr hprocess, out PROCESS_DPI_AWARENESS awareness);
+
+        private enum PROCESS_DPI_AWARENESS
+        {
+            Process_DPI_Unaware = 0,
+            Process_System_DPI_Aware = 1,
+            Process_Per_Monitor_DPI_Aware = 2
+        }
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main(string[] args)
         {
+            SetProcessDpiAwareness(PROCESS_DPI_AWARENESS.Process_DPI_Unaware);
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
