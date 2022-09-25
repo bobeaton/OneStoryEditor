@@ -58,14 +58,14 @@
 	<Target Name="BeforeBuild">
 	</Target>
 	-->
-  <Target Name="AfterBuild" Condition="'$(BuildingInsideVisualStudio)' == 'false'">
+  <Target Name="SignBuild" DependsOnTargets="Build">
     <PropertyGroup>
       <MsiFile>$(TargetName)_$(PlatformName)$(TargetExt)</MsiFile>
       <BaseBuildDir>$(SolutionDir)build\</BaseBuildDir>
       <OutputDir>$(SolutionDir)output\</OutputDir>
       <BaseBuildArgs>"$(OutputDir)$(MsiFile)"</BaseBuildArgs>
     </PropertyGroup>
-    <Warning Text="MsiFile: $(MsiFile), SolutionDir: $(SolutionDir), BaseBuildDir: $(BaseBuildDir), OutputDir: $(OutputDir), BaseBuildArgs: $(BaseBuildArgs)" />
+    <Warning Text="MsiFile: $(MsiFile), SolutionDir: $(SolutionDir), BaseBuildDir: $(BaseBuildDir), OutputDir: $(OutputDir), BaseBuildArgs: $(BaseBuildArgs), BuildingInsideVisualStudio: $(BuildingInsideVisualStudio)" />
     <Exec WorkingDirectory="$(BaseBuildDir)" Command="$(BaseBuildDir)buildBaseInstaller.bat $(BaseBuildArgs)" />
   </Target>
   <PropertyGroup>
