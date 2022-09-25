@@ -165,6 +165,12 @@
         <File Id="netstandard.dll" Name="netstandard.dll" Vital="yes" KeyPath="yes" AssemblyManifest="netstandard.dll" AssemblyApplication="netstandard.dll" Assembly=".net" Source="..\..\output\release\netstandard.dll"/>
       </Component>
       -->
+      <Component Id="CircularProgressBar.dll" Guid="{BBEAB31A-22AA-4809-B757-D242AE62F9B3}">
+        <File Id="CircularProgressBar.dll" Name="CircularProgressBar.dll" Vital="yes" KeyPath="yes" AssemblyManifest="CircularProgressBar.dll" AssemblyApplication="CircularProgressBar.dll" Assembly=".net" Source="..\..\output\release\CircularProgressBar.dll"/>
+      </Component>
+      <Component Id="WinFormAnimation.dll" Guid="{768C443C-B651-4280-9987-88B7F0ED85A9}">
+        <File Id="WinFormAnimation.dll" Name="WinFormAnimation.dll" Vital="yes" KeyPath="yes" AssemblyManifest="WinFormAnimation.dll" AssemblyApplication="WinFormAnimation.dll" Assembly=".net" Source="..\..\output\release\WinFormAnimation.dll"/>
+      </Component>
       <Component Id="ParatextShared.dll" Guid="{98F5F31F-03A4-4E85-BDB9-70CA223A1D1E}">
         <File Id="ParatextShared.dll" Name="ParatextShared.dll" Vital="yes" KeyPath="yes" AssemblyManifest="ParatextShared.dll" AssemblyApplication="ParatextShared.dll" Assembly=".net" Source="..\..\output\release\ParatextShared.dll"/>
       </Component>
