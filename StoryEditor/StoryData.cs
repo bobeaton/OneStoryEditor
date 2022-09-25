@@ -613,12 +613,15 @@ namespace OneStoryProjectEditor
                 || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions)
                 || viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
             {
-                strHtml += Verses.PresentationHtml((child != null) ? child.CraftingInfo : CraftingInfo,
-                                                   (child != null) ? child.Verses : null,
-                                                   nNumCols,
-                                                   viewSettings,
-                                                   teamMembers.HasOutsideEnglishBTer, presentationType, 
-                                                   teamMembers);
+                if (child != null)
+                    strHtml += Verses.PresentationHtmlWithDiffs(child.CraftingInfo, child.Verses, nNumCols, viewSettings,
+                                    teamMembers.HasOutsideEnglishBTer, presentationType, teamMembers);
+                else
+                    strHtml += Verses.PresentationHtml(CraftingInfo,
+                                                       nNumCols,
+                                                       viewSettings,
+                                                       teamMembers.HasOutsideEnglishBTer, presentationType, 
+                                                       teamMembers);
             }
             else
             {
