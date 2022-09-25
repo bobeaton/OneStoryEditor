@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" 
      xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
   
-  <Product Id="*" Name="OneStory Editor 5.0" Language="1033" Version="5.0.0.0" Manufacturer="SIL International" UpgradeCode="{92A9B369-3609-4129-A09D-5BB5BBE30AAB}">
+  <Product Id="*" Name="OneStory Editor 5.1" Language="1033" Version="5.1.0.0" Manufacturer="SIL International" UpgradeCode="{92A9B369-3609-4129-A09D-5BB5BBE30AAB}">
     <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
     <Condition Message="You need to be an administrator to install this product.">Privileged</Condition>
     <Condition Message="[ProductName] will only run on Windows 2000 or better. You cannot intall it on this machine.">
@@ -39,6 +39,7 @@
       <MergeRef Id="ChorusMergeModule"/>
       <MergeRef Id="CRT"/>
       <MergeRef Id="AIGuesserMM"/>
+      <MergeRef Id="EcTranslatorsMM"/>
       <MergeRef Id="CcDLLsMM"/>
       <MergeRef Id="ClipboardEncConverter"/>
       <MergeRef Id="EC_40_MM"/>

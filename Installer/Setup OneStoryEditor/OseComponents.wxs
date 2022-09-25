@@ -146,9 +146,11 @@
       <Component Id="Microsoft.mshtml.dll" Guid="{804A4109-1683-486B-9287-3E8970E0D460}">
         <File Id="Microsoft.mshtml.dll" Name="Microsoft.mshtml.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.mshtml.dll" AssemblyApplication="Microsoft.mshtml.dll" Assembly=".net" Source="..\..\output\release\Microsoft.mshtml.dll"/>
       </Component>
+      <!--
       <Component Id="Microsoft.Win32.Primitives.dll" Guid="{F8590416-8B65-4FC0-9846-5013905D4509}">
         <File Id="Microsoft.Win32.Primitives.dll" Name="Microsoft.Win32.Primitives.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.Win32.Primitives.dll" AssemblyApplication="Microsoft.Win32.Primitives.dll" Assembly=".net" Source="..\..\output\release\Microsoft.Win32.Primitives.dll"/>
       </Component>
+      -->
       <Component Id="NDesk.DBus.dll" Guid="{E41FE36F-7431-4A1F-BC17-7A552A96E1AF}">
         <File Id="NDesk.DBus.dll" Name="NDesk.DBus.dll" Vital="yes" KeyPath="yes" AssemblyManifest="NDesk.DBus.dll" AssemblyApplication="NDesk.DBus.dll" Assembly=".net" Source="..\..\output\release\NDesk.DBus.dll"/>
       </Component>
@@ -158,9 +160,11 @@
       <Component Id="NetMAPI.dll" Guid="{0469D932-5D37-408F-9652-BD4D534896D0}">
         <File Id="NetMAPI.dll" Name="NetMAPI.dll" Vital="yes" KeyPath="yes" AssemblyManifest="NetMAPI.dll" AssemblyApplication="NetMAPI.dll" Assembly=".net" Source="..\..\output\release\NetMAPI.dll"/>
       </Component>
+      <!--
       <Component Id="netstandard.dll" Guid="{DBF0CC3F-6BEC-42E8-90D9-593EEF0D80D5}">
         <File Id="netstandard.dll" Name="netstandard.dll" Vital="yes" KeyPath="yes" AssemblyManifest="netstandard.dll" AssemblyApplication="netstandard.dll" Assembly=".net" Source="..\..\output\release\netstandard.dll"/>
       </Component>
+      -->
       <Component Id="ParatextShared.dll" Guid="{98F5F31F-03A4-4E85-BDB9-70CA223A1D1E}">
         <File Id="ParatextShared.dll" Name="ParatextShared.dll" Vital="yes" KeyPath="yes" AssemblyManifest="ParatextShared.dll" AssemblyApplication="ParatextShared.dll" Assembly=".net" Source="..\..\output\release\ParatextShared.dll"/>
       </Component>
@@ -230,10 +234,12 @@
       <Component Id="StarkbankEcdsa.dll" Guid="{1A017EA9-6FC2-49CB-A771-49F7B40784FA}">
         <File Id="StarkbankEcdsa.dll" Name="StarkbankEcdsa.dll" Vital="yes" KeyPath="yes" AssemblyManifest="StarkbankEcdsa.dll" AssemblyApplication="StarkbankEcdsa.dll" Assembly=".net" Source="..\..\output\release\StarkbankEcdsa.dll"/>
       </Component>
+      <!--
       <Component Id="System.Net.Http.dll" Guid="{067B7144-A8D4-46F9-BBA7-99E4E690E1B0}">
         <File Id="System.Net.Http.dll" Name="System.Net.Http.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Net.Http.dll" AssemblyApplication="System.Net.Http.dll" Assembly=".net" Source="..\..\output\release\System.Net.Http.dll"/>
       </Component>
-
+      -->
+      
       <!--LibPalaso dependencies, pulled from output folder via nuget in the projects-->
       <Component Id="BouncyCastle.Crypto.dll" Guid="{4B0BC516-8CEC-487A-A9D0-4257680369A8}">
         <File Id="BouncyCastle.Crypto.dll" Name="BouncyCastle.Crypto.dll" Vital="yes" KeyPath="yes" AssemblyManifest="BouncyCastle.Crypto.dll" AssemblyApplication="BouncyCastle.Crypto.dll" Assembly=".net" Source="..\..\output\release\BouncyCastle.Crypto.dll"/>
@@ -268,9 +274,11 @@
       <Component Id="Mono.Posix.dll" Guid="{F1029F85-AAC1-474A-B0A0-53F65145AF3B}">
         <File Id="Mono.Posix.dll" Name="Mono.Posix.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Mono.Posix.dll" AssemblyApplication="Mono.Posix.dll" Assembly=".net" Source="..\..\output\release\Mono.Posix.dll"/>
       </Component>
+      <!--
       <Component Id="Newtonsoft.Json.dll" Guid="{2B6ED6CA-B9D3-4CD6-B360-97F52CE3C6C0}">
         <File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Newtonsoft.Json.dll" AssemblyApplication="Newtonsoft.Json.dll" Assembly=".net" Source="..\..\output\release\Newtonsoft.Json.dll"/>
       </Component>
+      -->
       <Component Id="SIL.Core.Desktop.dll" Guid="{1243E3B4-3DA4-44F8-9994-65C52AD26E8A}">
         <File Id="SIL.Core.Desktop.dll" Name="SIL.Core.Desktop.dll" Vital="yes" KeyPath="yes" AssemblyManifest="SIL.Core.Desktop.dll" AssemblyApplication="SIL.Core.Desktop.dll" Assembly=".net" Source="..\..\output\release\SIL.Core.Desktop.dll"/>
       </Component>
@@ -386,9 +394,15 @@
         </Component>
         -->
 
+        <Component Id="System.Resources.Extensions.dll" Guid="{2EF3BB75-9832-41D8-A9DD-A239E1A6DF05}">
+          <File Id="System.Resources.Extensions.dll" Name="System.Resources.Extensions.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Resources.Extensions.dll" AssemblyApplication="System.Resources.Extensions.dll" Assembly=".net" Source="..\..\output\release\System.Resources.Extensions.dll"/>
+        </Component>
+      
+      <!--
       <Component Id="System.ValueTuple.dll" Guid="{EF0E17FF-FACD-4CE1-A77E-314D9D432820}">
         <File Id="System.ValueTuple.dll" Name="System.ValueTuple.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.ValueTuple.dll" AssemblyApplication="System.ValueTuple.dll" Assembly=".net" Source="..\..\output\release\System.ValueTuple.dll"/>
       </Component>
+      -->
       <Component Id="System.Management.dll" Guid="{C016D47F-7EB0-4BF8-99F6-CE6E97161DEA}">
         <File Id="System.Management.dll" Name="System.Management.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Management.dll" AssemblyApplication="System.Management.dll" Assembly=".net" Source="..\..\output\release\System.Management.dll"/>
       </Component>
