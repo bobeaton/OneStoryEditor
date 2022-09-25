@@ -19,7 +19,7 @@ namespace OneStoryProjectEditor.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -1590,8 +1590,10 @@ namespace OneStoryProjectEditor.Properties {
         ///        window.external.OnBibRefJump(btn.name);
         ///    return false; // cause the href navigation to not happen
         ///}
-        ///// this one is called from the empty cell where the buttons go (for right-click to add Null Button)
-        ///function OnEmptyAnchorCl [rest of string was truncated]&quot;;.
+        ///
+        ///if (typeof String.prototype.trim !== &apos;function&apos;) {
+        ///    String.prototype.trim = function () {
+        ///        return this.replace( [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string StoryBtJs {
             get {
