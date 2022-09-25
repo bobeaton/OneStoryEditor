@@ -6183,6 +6183,7 @@ namespace OneStoryProjectEditor
                 }
             }
 
+            InitializeTransliterators();
             ReInitVerseControls();
         }
 

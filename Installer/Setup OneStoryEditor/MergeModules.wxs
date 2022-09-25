@@ -7,6 +7,10 @@
       <!-- by using the package's reference, it forces us to update the merge module if the nuget is ever updated (but you have
            to download the msm from the palaso build machine artifacts for the version of nuget you have installed (and put it in
            the packages\SIL.Chorus.App... folder. 
+           UPDATE (2022-09-25): they've stopped the build on TC and now it's in github actions, so until they add the msm to
+           as an artifact of the github build (from where we might could get it), I'll just put the msm in the ExternalMergeModules
+           folder w/ the others. So the below is not used anymore (in build.yml)
+           
            Here are the links to find the proper build:
            https://build.palaso.org/viewType.html?buildTypeId=Chorus_Win32masterContinuous or
            https://build.palaso.org/guestAuth/repository/download/Chorus_Win32masterContinuous/308888:id/ChorusMergeModule.msm
@@ -15,9 +19,11 @@
            TeamCity=>OneStory=>OneStory-develop-Win32-Installer=>Edit Buid Configuration=>Parameters and set these two config parameters to the (new) values:
            vcsroot.OneStory_EditorCommon.chorusMergeModuleVersion
            vcsroot.OneStory_EditorCommon.SilChorusAppNugetFolderName
+          <Merge Id="ChorusMergeModule" Language="1033" SourceFile="..\..\packages\SIL.Chorus.App.5.0.0\ChorusMergeModule.msm" DiskId="1"/>
       -->
-      <Merge Id="ChorusMergeModule" Language="1033" SourceFile="..\..\packages\SIL.Chorus.App.5.0.0-beta0017\ChorusMergeModule.msm" DiskId="1"/>
+      <Merge Id="ChorusMergeModule" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\ChorusMergeModule.msm" DiskId="1"/>
       <Merge Id="AIGuesserMM" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\AIGuesserMM.msm" DiskId="1"/>
+      <Merge Id="EcTranslatorsMM" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\EcTranslatorsMM.msm" DiskId="1"/>
       <Merge Id="CcDLLsMM" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\CcDLLsMM.msm" DiskId="1"/>
       <Merge Id="ClipboardEncConverter" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\ClipboardEncConverterMM.msm" DiskId="1"/>
       <Merge Id="EC_40_MM" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\EC_40_MM.msm" DiskId="1"/>

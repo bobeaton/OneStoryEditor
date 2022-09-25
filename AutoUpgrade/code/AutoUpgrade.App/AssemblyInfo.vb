@@ -10,8 +10,8 @@ Imports System.Reflection
 <Assembly: AssemblyDescription("Executes an automatic upgrade")> 
 <Assembly: AssemblyCompany("")> 
 <Assembly: AssemblyProduct("AutoUpgrade")>
-<Assembly: AssemblyCopyright("Copyright © SIL 2010-2021")>
-<Assembly: AssemblyTrademark("Copyright © SIL 2010-2021")>
+<Assembly: AssemblyCopyright("Copyright © SIL 2010-2022")>
+<Assembly: AssemblyTrademark("")>
 <Assembly: CLSCompliant(True)>
 
 ' Version information for an assembly consists of the following four values:
@@ -24,6 +24,6 @@ Imports System.Reflection
 ' You can specify all the values or you can default the Build and Revision Numbers 
 ' by using the '*' as shown below:
 
-<Assembly: AssemblyVersion("5.0.0.0")>
+<Assembly: AssemblyVersion("5.1.0.0")>
 
-<Assembly: AssemblyFileVersion("5.0.2.0")>
+<Assembly: AssemblyFileVersion("5.1.0.0")>

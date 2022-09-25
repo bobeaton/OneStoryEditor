@@ -7,6 +7,12 @@ using System.Xml.Linq;
 using System.Text;
 using NetLoc;
 using SilEncConverters40;
+using System.Collections.Concurrent;
+using static OneStoryProjectEditor.StoryData;
+using static OneStoryProjectEditor.VerseData;
+using System.Threading.Tasks;
+using System.Threading;
+using SIL.Windows.Forms.Extensions;
 
 namespace OneStoryProjectEditor
 {
@@ -506,6 +512,18 @@ namespace OneStoryProjectEditor
                 }
             }
 
+            public bool TransliterationOn
+            {
+                get
+                {
+                    return  (TransliteratorVernacular != null) ||
+                            (TransliteratorNationalBT != null) ||
+                            (TransliteratorInternationalBt != null) ||
+                            (TransliteratorFreeTranslation != null);
+
+                }
+            }
+
             public ViewSettings(long lSettings)
             {
                 LongValue = lSettings;
@@ -802,8 +820,15 @@ namespace OneStoryProjectEditor
             return false;
         }
 
+        // figure out the logic of what to show for the language fields of the story line
+        //  this should never be called in the scenario where there it no *this*
+        protected static string GetStoryLineString(DirectableEncConverter transliterator, StringTransfer stringTransfer)
+        {
+            return stringTransfer.GetValue(transliterator);
+        }
+
         // Html that shows the data in the StoryBt file, but in a fully read-only manner
-        public string PresentationHtml(int nLineId, int nNumCols, 
+        public string PresentationHtmlWithDiff(int nLineId, int nNumCols, 
             CraftingInfoData craftingInfo,
             ViewSettings viewSettings, 
             VerseData theChildVerse,
@@ -818,50 +843,50 @@ namespace OneStoryProjectEditor
             var isGeneralQuestionsLine = (nLineId == 0);
             if (!isGeneralQuestionsLine && bShowLangVernacular)
             {
-                strRow += GetHtmlCell(StoryLine.Vernacular,
-                                      () => theChildVerse.StoryLine.Vernacular,
-                                      nLineId,
-                                      nNumCols,
-                                      theChildVerse,
-                                      presentationType,
-                                      viewSettings,
-                                      viewSettings.TransliteratorVernacular);
+                strRow += GetHtmlCellWithDiff(StoryLine.Vernacular,
+                                              () => theChildVerse.StoryLine.Vernacular,
+                                              nLineId,
+                                              nNumCols,
+                                              theChildVerse,
+                                              presentationType,
+                                              viewSettings,
+                                              viewSettings.TransliteratorVernacular);
             }
 
             if (!isGeneralQuestionsLine && bShowLangNationalBt)
             {
-                strRow += GetHtmlCell(StoryLine.NationalBt,
-                                      () => theChildVerse.StoryLine.NationalBt,
-                                      nLineId,
-                                      nNumCols,
-                                      theChildVerse,
-                                      presentationType,
-                                      viewSettings,
-                                      viewSettings.TransliteratorNationalBT);
+                strRow += GetHtmlCellWithDiff(StoryLine.NationalBt,
+                                              () => theChildVerse.StoryLine.NationalBt,
+                                              nLineId,
+                                              nNumCols,
+                                              theChildVerse,
+                                              presentationType,
+                                              viewSettings,
+                                              viewSettings.TransliteratorNationalBT);
             }
 
             if (!isGeneralQuestionsLine && bShowLangEnglishBt)
             {
-                strRow += GetHtmlCell(StoryLine.InternationalBt,
-                                      () => theChildVerse.StoryLine.InternationalBt,
-                                      nLineId,
-                                      nNumCols,
-                                      theChildVerse,
-                                      presentationType,
-                                      viewSettings,
-                                      viewSettings.TransliteratorInternationalBt);
+                strRow += GetHtmlCellWithDiff(StoryLine.InternationalBt,
+                                              () => theChildVerse.StoryLine.InternationalBt,
+                                              nLineId,
+                                              nNumCols,
+                                              theChildVerse,
+                                              presentationType,
+                                              viewSettings,
+                                              viewSettings.TransliteratorInternationalBt);
             }
 
             if (!isGeneralQuestionsLine && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.FreeTranslationField))
             {
-                strRow += GetHtmlCell(StoryLine.FreeTranslation,
-                                      () => theChildVerse.StoryLine.FreeTranslation,
-                                      nLineId,
-                                      nNumCols,
-                                      theChildVerse,
-                                      presentationType,
-                                      viewSettings,
-                                      viewSettings.TransliteratorFreeTranslation);
+                strRow += GetHtmlCellWithDiff(StoryLine.FreeTranslation,
+                                              () => theChildVerse.StoryLine.FreeTranslation,
+                                              nLineId,
+                                              nNumCols,
+                                              theChildVerse,
+                                              presentationType,
+                                              viewSettings,
+                                              viewSettings.TransliteratorFreeTranslation);
             }
 
             var astrExegeticalHelpNotes = new List<string>();
@@ -953,8 +978,146 @@ namespace OneStoryProjectEditor
             return FinishPresentationHtml(strRow, strHtml, bShowAsHidden, viewSettings, nLineId);
         }
 
+        // Html that shows the data in the StoryBt file, but in a fully read-only manner
+        public string PresentationHtml(int nLineId, int nNumCols,
+            CraftingInfoData craftingInfo,
+            ViewSettings viewSettings,
+            StoryData.PresentationType presentationType,
+            TeamMembersData teamMembersData)
+        {
+            var bShowLangVernacular = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
+            var bShowLangNationalBt = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField);
+            var bShowLangEnglishBt = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.InternationalBtField);
+
+            string strRow = null, strHtml = null;
+            var isGeneralQuestionsLine = (nLineId == 0);
+            if (!isGeneralQuestionsLine && bShowLangVernacular)
+            {
+                strRow += GetHtmlCell(StoryLine.Vernacular,
+                                      nLineId,
+                                      nNumCols,
+                                      presentationType,
+                                      viewSettings,
+                                      viewSettings.TransliteratorVernacular);
+            }
+
+            if (!isGeneralQuestionsLine && bShowLangNationalBt)
+            {
+                strRow += GetHtmlCell(StoryLine.NationalBt,
+                                      nLineId,
+                                      nNumCols,
+                                      presentationType,
+                                      viewSettings,
+                                      viewSettings.TransliteratorNationalBT);
+            }
+
+            if (!isGeneralQuestionsLine && bShowLangEnglishBt)
+            {
+                strRow += GetHtmlCell(StoryLine.InternationalBt,
+                                      nLineId,
+                                      nNumCols,
+                                      presentationType,
+                                      viewSettings,
+                                      viewSettings.TransliteratorInternationalBt);
+            }
+
+            if (!isGeneralQuestionsLine && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.FreeTranslationField))
+            {
+                strRow += GetHtmlCell(StoryLine.FreeTranslation,
+                                      nLineId,
+                                      nNumCols,
+                                      presentationType,
+                                      viewSettings,
+                                      viewSettings.TransliteratorFreeTranslation);
+            }
+
+            var astrExegeticalHelpNotes = new List<string>();
+            if (!isGeneralQuestionsLine && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.AnchorFields))
+            {
+                strHtml += Anchors.PresentationHtml(nLineId,
+                                                    null,
+                                                    presentationType,
+                                                    ref astrExegeticalHelpNotes);
+            }
+
+            // this will turn cn notes into strings in the astr... list (but we don't want
+            //  that if we're using text areas (since in that case, we don't do diff'ing
+            //  nor print preview).
+#if true
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.ExegeticalHelps))
+                ExegeticalHelpNotes.PresentationHtml(null, ref astrExegeticalHelpNotes);
+#else
+            if (!viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.UseTextAreas) && 
+                 viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.ExegeticalHelps))
+                ExegeticalHelpNotes.PresentationHtml((theChildVerse != null) ? theChildVerse.ExegeticalHelpNotes : null,
+                                                     ref astrExegeticalHelpNotes);
+
+            // unless we're doing printing, we don't put anything else out into the display
+            if (presentationType != StoryData.PresentationType.Printing)
+                astrExegeticalHelpNotes.Clear();
+#endif
+            // the following call in either the case that we already have some html
+            //  (e.g. anchors which this method will wrap in a table necessary to get
+            //  the col span correct) or if there are sub-items that want to be put 
+            //  below the anchors (in the same table)
+            if (!String.IsNullOrEmpty(strHtml) || (astrExegeticalHelpNotes.Count > 0))
+                strHtml = ExegeticalHelpNotes.FinishPresentationHtml(strHtml,
+                                                                     nLineId,
+                                                                     nNumCols,
+                                                                     astrExegeticalHelpNotes,
+                                                                     viewSettings);
+
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields))
+            {
+                // whether we show answers or not depends on whether we're showing the language (e.g. bShowLangVernacular) 
+                //  AND whether it's configured to be shown (e.g. IsViewItemOn...)
+                var bShowRetellingsVernacular = bShowLangVernacular &&
+                                                viewSettings.IsViewItemOn(
+                                                    ViewSettings.ItemToInsureOn.RetellingsVernacular);
+                var bShowRetellingsNationalBt = bShowLangNationalBt &&
+                                                viewSettings.IsViewItemOn(
+                                                    ViewSettings.ItemToInsureOn.RetellingsNationalBT);
+                var bShowRetellingsEnglishBt = bShowLangEnglishBt &&
+                                               viewSettings.IsViewItemOn(
+                                                   ViewSettings.ItemToInsureOn.RetellingsInternationalBT);
+
+                // but if none of them are still on, that means we should at least warn the user...
+                if (!bShowRetellingsVernacular && !bShowRetellingsNationalBt && !bShowRetellingsEnglishBt)
+                    StoryEditor.WarnAboutNoLangsVisible(Localizer.Str("Retellings"));
+
+                strHtml += Retellings.PresentationHtml(nLineId, nNumCols, 0,
+                                                       craftingInfo.TestersToCommentsRetellings,
+                                                       null,
+                                                       presentationType, false,
+                                                       bShowRetellingsVernacular,
+                                                       bShowRetellingsNationalBt,
+                                                       bShowRetellingsEnglishBt,
+                                                       viewSettings,
+                                                       teamMembersData);
+            }
+
+            if ((!IsFirstVerse && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
+                                                            ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers)) ||
+                (IsFirstVerse && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.GeneralTestQuestions)))
+            {
+                strHtml += TestQuestions.PresentationHtml(nLineId, nNumCols, viewSettings,
+                                                          craftingInfo.TestersToCommentsTqAnswers,
+                                                          null,
+                                                          presentationType, IsFirstVerse,
+                                                          teamMembersData);
+            }
+
+            // show the row as hidden if either we're in print preview (and it's hidden)
+            //  OR based on whether the child is hidden or not
+            bool bShowAsHidden = (presentationType == StoryData.PresentationType.Printing)
+                                     ? !IsVisible
+                                     : false;
+            return FinishPresentationHtml(strRow, strHtml, bShowAsHidden, viewSettings, nLineId);
+        }
+
         private delegate StringTransfer ChildStringTransfer();
-        private static string GetHtmlCell(StringTransfer stringTransfer, ChildStringTransfer childStringTransfer,
+        
+        private static string GetHtmlCellWithDiff(StringTransfer stringTransfer, ChildStringTransfer childStringTransfer,
             int nVerseIndex, int nNumCols, VerseData theChildVerse, StoryData.PresentationType presentationType, ViewSettings viewSettings, 
             DirectableEncConverter transliterator)
         {
@@ -968,6 +1131,16 @@ namespace OneStoryProjectEditor
                                     childStringTransfer());
             }
 
+            return stringTransfer.FormatLanguageColumnHtml(nVerseIndex,
+                                                           nNumCols,
+                                                           str,
+                                                           viewSettings);
+        }
+
+        private static string GetHtmlCell(StringTransfer stringTransfer, int nVerseIndex, int nNumCols, 
+            StoryData.PresentationType presentationType, ViewSettings viewSettings, DirectableEncConverter transliterator)
+        {
+            var str = GetStoryLineString(transliterator, stringTransfer);
             return stringTransfer.FormatLanguageColumnHtml(nVerseIndex,
                                                            nNumCols,
                                                            str,
@@ -1598,18 +1771,18 @@ namespace OneStoryProjectEditor
             return null;
         }
 
-        public string PresentationHtml(CraftingInfoData craftingInfo, 
+        public string PresentationHtmlWithDiffs(CraftingInfoData craftingInfo,
             VersesData child,
-            int nNumCols, 
+            int nNumCols,
             VerseData.ViewSettings viewSettings,
             bool bHasOutsideEnglishBTer,
-            StoryData.PresentationType presentationType, 
+            StoryData.PresentationType presentationType,
             TeamMembersData teamMembersData)
         {
             string strHtml = null;
             bool bUseTextAreas = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.UseTextAreas);
             // first check on line 0 (general TQs)
-            if ((FirstVerse != null) && 
+            if ((FirstVerse != null) &&
                 viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions))
             {
                 var theChildFirstVerse = ((child != null) && (child.FirstVerse != null))
@@ -1617,11 +1790,11 @@ namespace OneStoryProjectEditor
                                              : null;
                 if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.ShowingLineNumbers))
                     strHtml += GetHeaderRow(CstrZerothLineNameBtPane, null, 0, bUseTextAreas, nNumCols);
-                strHtml += FirstVerse.PresentationHtml(0, nNumCols, craftingInfo,
-                                                       viewSettings, 
-                                                       theChildFirstVerse,
-                                                       presentationType, 
-                                                       teamMembersData);
+                strHtml += FirstVerse.PresentationHtmlWithDiff(0, nNumCols, craftingInfo,
+                                                               viewSettings,
+                                                               theChildFirstVerse,
+                                                               presentationType,
+                                                               teamMembersData);
             }
 
             int nInsertCount = 0;
@@ -1668,7 +1841,7 @@ namespace OneStoryProjectEditor
                                                                                      craftingInfo,
                                                                                      viewSettings,
                                                                                      bHasOutsideEnglishBTer,
-                                                                                     bUseTextAreas, 
+                                                                                     bUseTextAreas,
                                                                                      teamMembersData);
                                 bFoundOne = true;
                                 nInsertCount++;
@@ -1679,12 +1852,12 @@ namespace OneStoryProjectEditor
                             continue;
                     }
 
-                    strHtml += aVerseData.PresentationHtml(nLineIndex, nNumCols,
-                                                           craftingInfo,
-                                                           viewSettings,
-                                                           theChildVerse,
-                                                           presentationType, 
-                                                           teamMembersData);
+                    strHtml += aVerseData.PresentationHtmlWithDiff(nLineIndex, nNumCols,
+                                                                   craftingInfo,
+                                                                   viewSettings,
+                                                                   theChildVerse,
+                                                                   presentationType,
+                                                                   teamMembersData);
 
                     // if there is a child, but we couldn't find the equivalent verse...
                     if ((child != null) && (theChildVerse == null) && (child.Count >= i))
@@ -1698,7 +1871,7 @@ namespace OneStoryProjectEditor
                                                                                 craftingInfo,
                                                                                 viewSettings,
                                                                                 bHasOutsideEnglishBTer,
-                                                                                bUseTextAreas, 
+                                                                                bUseTextAreas,
                                                                                 teamMembersData);
                     }
                 }
@@ -1722,13 +1895,112 @@ namespace OneStoryProjectEditor
                                                                          craftingInfo,
                                                                          viewSettings,
                                                                          bHasOutsideEnglishBTer,
-                                                                         bUseTextAreas, 
+                                                                         bUseTextAreas,
                                                                          teamMembersData);
                     }
                     i++;
                 }
 
             return String.Format(Properties.Resources.HTML_Table, strHtml);
+        }
+
+        public string PresentationHtml(CraftingInfoData craftingInfo, 
+            int nNumCols, 
+            VerseData.ViewSettings viewSettings,
+            bool bHasOutsideEnglishBTer,
+            StoryData.PresentationType presentationType, 
+            TeamMembersData teamMembersData)
+        {
+            string strHtml = null;
+            bool bUseTextAreas = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.UseTextAreas);
+
+            // first check on line 0 (general TQs)
+            if ((FirstVerse != null) && viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions))
+            {
+                if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.ShowingLineNumbers))
+                    strHtml += GetHeaderRow(CstrZerothLineNameBtPane, null, 0, bUseTextAreas, nNumCols);
+
+                strHtml += FirstVerse.PresentationHtml(0, nNumCols, craftingInfo,
+                                                       viewSettings,
+                                                       presentationType,
+                                                       teamMembersData);
+            }
+
+            strHtml += PresentVersesParallel(craftingInfo, nNumCols, viewSettings, presentationType, teamMembersData, bUseTextAreas);
+
+            return String.Format(Properties.Resources.HTML_Table, strHtml);
+        }
+
+        public ManualResetEvent waitForPresentVersesParallelToFinish;
+
+        private string PresentVersesParallel(CraftingInfoData craftingInfo, int nNumCols, ViewSettings viewSettings, 
+                                PresentationType presentationType, TeamMembersData teamMembersData, bool bUseTextAreas)
+        {
+            waitForPresentVersesParallelToFinish = new ManualResetEvent(false);
+
+            var splashScreen = viewSettings.TransliterationOn ? new SplashScreenBusyTransliterator(this.Count) : null;
+            splashScreen?.Show();
+
+            string strHtml = null;
+            Thread thread = new(() =>
+            {
+                IEnumerable<string> results = Partitioner
+                    .Create(this, EnumerablePartitionerOptions.NoBuffering)
+                    .AsParallel()
+                    .AsOrdered()
+                    .WithMergeOptions(ParallelMergeOptions.NotBuffered)
+                    .Select((item, index) =>
+                    {
+                        var row = GetVerseRow(item, index + 1, bUseTextAreas, nNumCols, craftingInfo, viewSettings,
+                                              presentationType, teamMembersData);
+
+                        splashScreen?.InvokeIfRequired(() => splashScreen.BumpProgress());
+                        return row;
+                    })
+                    .AsEnumerable();
+
+                foreach (var str in results)
+                    strHtml += str;
+
+                waitForPresentVersesParallelToFinish.Set();
+            })
+            {
+                IsBackground = true
+            };
+            thread.Start();
+
+            // in order to not block the UI thread, check if the parallel processing thread is 
+            //  finished every 10ms and do events to allow the splash screen to keep working
+            while (!waitForPresentVersesParallelToFinish.WaitOne(10) && !splashScreen.CancelRequestReceived)
+                System.Windows.Forms.Application.DoEvents();
+            splashScreen?.Disable();
+
+            return strHtml;
+        }
+
+        private string GetVerseRow(VerseData aVerseData, int index, bool bUseTextAreas,
+                                   int nNumCols, CraftingInfoData craftingInfo, VerseData.ViewSettings viewSettings,
+                                   StoryData.PresentationType presentationType, TeamMembersData teamMembersData)
+        {
+            // process this as long as it *isn't* the first verse and either it's visible
+            //  or we're showing hidden material
+            string strHtml = null;
+            if (!aVerseData.IsFirstVerse && (aVerseData.IsVisible ||
+                viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.HiddenStuff)))
+            {
+                string strHeaderAdd = DetermineHiddenLabel(aVerseData.IsVisible, null);
+
+                if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.ShowingLineNumbers))
+                    strHtml += GetHeaderRow(LinePrefix + index, strHeaderAdd, index, bUseTextAreas, nNumCols);
+
+                strHtml += aVerseData.PresentationHtml(index, nNumCols,
+                                                       craftingInfo,
+                                                       viewSettings,
+                                                       presentationType,
+                                                       teamMembersData);
+            }
+
+            return strHtml;
         }
 
         public static string HiddenString

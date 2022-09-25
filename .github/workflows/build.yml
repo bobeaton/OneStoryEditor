@@ -42,17 +42,17 @@ jobs:
         run: nuget restore "${{env.SOLUTION_FILE_PATH}}"
 
       # Download the ChorusMergeModule.msm and put it where the mm.wxs is expecting it (I put it in the packages folder, so if I upgrade Chorus, the link fails (when building locally) and reminds me that I need to pull it afresh)
-      - name: download-chorusmergemodule
-        if: ${{ success() && matrix.build_configuration == 'Release' }}
-        shell: powershell
-        run: | 
-          (Get-Content 'Installer\Setup OneStoryEditor\MergeModules.wxs' -Raw) -match '(https://build.palaso.org/guestAuth/repository/download/Chorus_Win32masterContinuous/.*?:id/ChorusMergeModule.msm)(.*?\r?\n|$)+.*?SourceFile=\".*?(\\packages\\SIL.Chorus.App.*?\\ChorusMergeModule.msm)'
-          $url = $Matches.1
-          $localDownloadPath = $Env:GITHUB_WORKSPACE + $Matches.3
-          echo "downloading from $($url) into $($localDownloadPath)"
-          [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
-          $WebClient = New-Object System.Net.WebClient
-          $WebClient.DownloadFile($url,$localDownloadPath)
+      # - name: download-chorusmergemodule
+      #   if: ${{ success() && matrix.build_configuration == 'Release' }}
+      #   shell: powershell
+      #   run: | 
+      #     (Get-Content 'Installer\Setup OneStoryEditor\MergeModules.wxs' -Raw) -match '(https://build.palaso.org/guestAuth/repository/download/Chorus_Win32masterContinuous/.*?:id/ChorusMergeModule.msm)(.*?\r?\n|$)+.*?SourceFile=\".*?(\\packages\\SIL.Chorus.App.*?\\ChorusMergeModule.msm)'
+      #     $url = $Matches.1
+      #     $localDownloadPath = $Env:GITHUB_WORKSPACE + $Matches.3
+      #     echo "downloading from $($url) into $($localDownloadPath)"
+      #     [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
+      #     $WebClient = New-Object System.Net.WebClient
+      #     $WebClient.DownloadFile($url,$localDownloadPath)
       
       - name: Build
         working-directory: ${{env.GITHUB_WORKSPACE}}

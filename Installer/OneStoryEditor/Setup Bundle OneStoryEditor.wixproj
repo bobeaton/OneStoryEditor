@@ -7,7 +7,7 @@
     <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>f9469b39-b401-4a89-a144-f3cc753fc843</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>Setup OneStoryEditor_5.0</OutputName>
+    <OutputName>Setup OneStoryEditor_5.1</OutputName>
     <OutputType>Bundle</OutputType>
     <Name>Setup Bundle OneStoryEditor</Name>
     <NuGetPackageImportStamp>
@@ -21,7 +21,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>ApplicationName=OneStory Editor;SafeApplicationName=OneStoryEditor;TruncatedVersion=5.0.2;VersionNumber=5.0.2.0;UpgradeCode=92A9B369-3609-4129-A09D-5BB5BBE30AAB;Year=2022;Manufacturer=SIL International;EcDistFilesPath=$(EcDistFilesPath)</DefineConstants>
+    <DefineConstants>ApplicationName=OneStory Editor;SafeApplicationName=OneStoryEditor;TruncatedVersion=5.1.0;VersionNumber=5.1.0.0;UpgradeCode=92A9B369-3609-4129-A09D-5BB5BBE30AAB;Year=2022;Manufacturer=SIL International;EcDistFilesPath=$(EcDistFilesPath)</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Bundle.wxs" />
@@ -70,7 +70,7 @@
 	<Target Name="BeforeBuild">
 	</Target>
 	-->
-  <Target Name="AfterBuild">
+  <Target Name="AfterBuild" Condition="'$(BuildingInsideVisualStudio)' == 'false'">
     <PropertyGroup>
       <ExeFile>$(TargetName)_$(PlatformName)$(TargetExt)</ExeFile>
       <BaseBuildDir>$(SolutionDir)build\</BaseBuildDir>

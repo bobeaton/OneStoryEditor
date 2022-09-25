@@ -58,7 +58,7 @@
 	<Target Name="BeforeBuild">
 	</Target>
 	-->
-  <Target Name="AfterBuild">
+  <Target Name="AfterBuild" Condition="'$(BuildingInsideVisualStudio)' == 'false'">
     <PropertyGroup>
       <MsiFile>$(TargetName)_$(PlatformName)$(TargetExt)</MsiFile>
       <BaseBuildDir>$(SolutionDir)build\</BaseBuildDir>
