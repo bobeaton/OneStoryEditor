@@ -12,6 +12,7 @@
     <Name>Setup Bundle OneStoryEditor</Name>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <SolutionDir>$(MSBuildStartupDirectory)\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
@@ -70,10 +71,9 @@
 	<Target Name="BeforeBuild">
 	</Target>
 	-->
-  <Target Name="SignBuild" DependsOnTargets="Build">
+  <Target Name="SignBuild">
     <PropertyGroup>
       <ExeFile>$(TargetName)_$(PlatformName)$(TargetExt)</ExeFile>
-      <SolutionDir>$(MSBuildStartupDirectory)\</SolutionDir>
       <BaseBuildDir>$(SolutionDir)build\</BaseBuildDir>
       <OutputDir>$(SolutionDir)output\</OutputDir>
       <BaseBuildArgs>"$(OutputDir)$(ExeFile)" UseInsignia</BaseBuildArgs>
