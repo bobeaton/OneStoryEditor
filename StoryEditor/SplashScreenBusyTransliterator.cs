@@ -42,5 +42,13 @@ namespace OneStoryProjectEditor
         {
             Close();
         }
+
+        public bool CancelRequestReceived = false;
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+            // this means the user wants to cancel
+            CancelRequestReceived = true;
+        }
     }
 }
