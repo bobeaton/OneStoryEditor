@@ -8,7 +8,7 @@ namespace OneStoryProjectEditor
     //  controls they're associated with will be able to automatically update themselves
     public class StringTransfer
     {
-        protected string Value;
+        public string Value;
         public StoryEditor.TextFields WhichField;
 
         public string FormatLanguageColumnHtml(int nVerseIndex, 

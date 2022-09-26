@@ -13,6 +13,7 @@ using static OneStoryProjectEditor.VerseData;
 using System.Threading.Tasks;
 using System.Threading;
 using SIL.Windows.Forms.Extensions;
+using ECInterfaces;
 
 namespace OneStoryProjectEditor
 {
@@ -512,16 +513,27 @@ namespace OneStoryProjectEditor
                 }
             }
 
-            public bool TransliterationOn
+            /// <summary>
+            /// indicates whether any one of the tranliterators is an EcTranslator type (which requires
+            /// live internet and is otherwise slower than normal transliterators)
+            /// </summary>
+            public bool TransliteratorIsOnline
             {
                 get
                 {
-                    return  (TransliteratorVernacular != null) ||
-                            (TransliteratorNationalBT != null) ||
-                            (TransliteratorInternationalBt != null) ||
-                            (TransliteratorFreeTranslation != null);
+                    return  IsTransliteratorATranslator(TransliteratorVernacular) ||
+                            IsTransliteratorATranslator(TransliteratorNationalBT) ||
+                            IsTransliteratorATranslator(TransliteratorInternationalBt) ||
+                            IsTransliteratorATranslator(TransliteratorFreeTranslation);
 
                 }
+            }
+
+            private bool IsTransliteratorATranslator(DirectableEncConverter transliterator)
+            {
+                const int processType = (int)ProcessTypeFlags.Translation;
+                return (transliterator != null) && 
+                    ((transliterator.GetEncConverter.ProcessType & processType) == processType);
             }
 
             public ViewSettings(long lSettings)
@@ -724,6 +736,14 @@ namespace OneStoryProjectEditor
                 if (bShowLineNumbers)
                     _itemToInsureOn |= ItemToInsureOn.ShowingLineNumbers;
             }
+
+            public void DisableTransliterators()
+            {
+                TransliteratorVernacular =
+                    TransliteratorNationalBT =
+                    TransliteratorInternationalBt =
+                    TransliteratorFreeTranslation = null;
+            }
         }
 
         public static string HtmlColor(Color clrRow)
@@ -731,64 +751,6 @@ namespace OneStoryProjectEditor
             return String.Format("#{0:X2}{1:X2}{2:X2}",
                                  clrRow.R, clrRow.G, clrRow.B);
         }
-
-        /* don't think this used and it surely needs to be fixed
-        public string StoryBtHtml(ProjectSettings projectSettings, TeamMembersData membersData,
-            StoryStageLogic stageLogic, TeamMemberData loggedOnMember, int nVerseIndex, 
-            ViewSettings viewItemToInsureOn, int nNumCols)
-        {
-            string strRow = null;
-            if (viewItemToInsureOn.IsViewItemOn(ViewSettings.ItemToInsureOn.VernacularLangField))
-            {
-                strRow += FormatLanguageColumnHtml(nVerseIndex, nNumCols, LineData.CstrAttributeLangVernacular,
-                                               StoryData.CstrLangVernacularStyleClassName, 
-                                               StoryLine.Vernacular.ToString());
-            }
-
-            if (viewItemToInsureOn.IsViewItemOn(ViewSettings.ItemToInsureOn.NationalBTLangField))
-            {
-                strRow += FormatLanguageColumnHtml(nVerseIndex, nNumCols, LineData.CstrAttributeLangNationalBt,
-                                               StoryData.CstrLangNationalBtStyleClassName, 
-                                               StoryLine.NationalBt.ToString());
-            }
-
-            if (viewItemToInsureOn.IsViewItemOn(ViewSettings.ItemToInsureOn.EnglishBTField))
-            {
-                strRow += FormatLanguageColumnHtml(nVerseIndex, nNumCols, LineData.CstrAttributeLangInternationalBt,
-                                               StoryData.CstrLangInternationalBtStyleClassName, 
-                                               StoryLine.InternationalBt.ToString());
-            }
-
-            if (viewItemToInsureOn.IsViewItemOn(ViewSettings.ItemToInsureOn.FreeTranslationField))
-            {
-                strRow += FormatLanguageColumnHtml(nVerseIndex, nNumCols, LineData.CstrAttributeLangFreeTranslation,
-                                               StoryData.CstrLangFreeTranslationStyleClassName, 
-                                               StoryLine.FreeTranslation.ToString());
-            }
-
-            string strStoryLineRow = String.Format(Properties.Resources.HTML_TableRow,
-                                                   strRow);
-
-            if (viewItemToInsureOn.IsViewItemOn(ViewSettings.ItemToInsureOn.AnchorFields))
-                strStoryLineRow += Anchors.Html(nVerseIndex, nNumCols);
-
-            if (viewItemToInsureOn.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingFields)
-                && (Retellings.Count > 0))
-            {
-                strStoryLineRow += Retellings.Html(nVerseIndex, nNumCols,
-                    viewItemToInsureOn.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingsVernacular),
-                    viewItemToInsureOn.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingsNationalBT),
-                    viewItemToInsureOn.IsViewItemOn(ViewSettings.ItemToInsureOn.RetellingsInternationalBT));
-            }
-
-            if (viewItemToInsureOn.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions | ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers)
-                && (TestQuestions.Count > 0))
-                strStoryLineRow += TestQuestions.Html(projectSettings, viewItemToInsureOn,
-                    stageLogic, loggedOnMember, nVerseIndex, nNumCols);
-
-            return strStoryLineRow;
-        }
-        */
 
         public bool IsDiffProcessed;
 
@@ -820,10 +782,32 @@ namespace OneStoryProjectEditor
             return false;
         }
 
-        // figure out the logic of what to show for the language fields of the story line
-        //  this should never be called in the scenario where there it no *this*
+        private static Dictionary<string, Dictionary<string,string>> _previousTransliterations = new Dictionary<string, Dictionary<string, string>>();
+
+        // keep a local dictionary of the way certain lines were translated, so we can reuse them during one session
+        //  (to speed up the processing if going back and forth in a project)
         protected static string GetStoryLineString(DirectableEncConverter transliterator, StringTransfer stringTransfer)
         {
+            var value = stringTransfer.Value;
+            if (String.IsNullOrEmpty(value))
+                return value;
+
+            if (transliterator != null)
+            {
+                if (!_previousTransliterations.TryGetValue(transliterator.Name, out Dictionary<string, string> previousTransliteration))
+                {
+                    previousTransliteration = new Dictionary<string, string>();
+                    _previousTransliterations.Add(transliterator.Name, previousTransliteration);
+                }
+
+                if (!previousTransliteration.TryGetValue(value, out string transliteration))
+                {
+                    transliteration = stringTransfer.GetValue(transliterator);
+                    previousTransliteration.Add(value, transliteration);
+                }
+                return transliteration;
+            }
+
             return stringTransfer.GetValue(transliterator);
         }
 
@@ -1938,7 +1922,10 @@ namespace OneStoryProjectEditor
         {
             waitForPresentVersesParallelToFinish = new ManualResetEvent(false);
 
-            var splashScreen = viewSettings.TransliterationOn ? new SplashScreenBusyTransliterator(this.Count) : null;
+            var splashScreen = viewSettings.TransliteratorIsOnline 
+                                ? new SplashScreenBusyTransliterator(this.Count) 
+                                : null;
+
             splashScreen?.Show();
 
             string strHtml = null;
@@ -1971,9 +1958,17 @@ namespace OneStoryProjectEditor
 
             // in order to not block the UI thread, check if the parallel processing thread is 
             //  finished every 10ms and do events to allow the splash screen to keep working
-            while (!waitForPresentVersesParallelToFinish.WaitOne(10) && !splashScreen.CancelRequestReceived)
+            while (!waitForPresentVersesParallelToFinish.WaitOne(10))
+            {
+                if ((splashScreen != null) && splashScreen.CancelRequestReceived)
+                {
+                    viewSettings.DisableTransliterators();
+                }
                 System.Windows.Forms.Application.DoEvents();
+            }
+
             splashScreen?.Disable();
+            splashScreen = null;
 
             return strHtml;
         }
