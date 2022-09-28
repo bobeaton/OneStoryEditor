@@ -159,22 +159,21 @@ namespace OneStoryProjectEditor
 
         public virtual void AddXml(XElement elem, string strFieldName)
         {
-            if (Vernacular.HasData)
+            AddXmlField(elem, strFieldName, Vernacular, CstrAttributeLangVernacular);
+            AddXmlField(elem, strFieldName, NationalBt, CstrAttributeLangNationalBt);
+            AddXmlField(elem, strFieldName, InternationalBt, CstrAttributeLangInternationalBt);
+            AddXmlField(elem, strFieldName, FreeTranslation, CstrAttributeLangFreeTranslation);
+        }
+
+        public void AddXmlField(XElement elem, string strFieldName, StringTransfer field, string langFieldType, 
+                                DirectableEncConverter transliterator = null)
+        {
+            if (field.HasData)
                 elem.Add(new XElement(strFieldName,
-                    new XAttribute(CstrAttributeLang, CstrAttributeLangVernacular),
-                    Vernacular));
-            if (NationalBt.HasData)
-                elem.Add(new XElement(strFieldName,
-                    new XAttribute(CstrAttributeLang, CstrAttributeLangNationalBt),
-                    NationalBt));
-            if (InternationalBt.HasData)
-                elem.Add(new XElement(strFieldName,
-                    new XAttribute(CstrAttributeLang, CstrAttributeLangInternationalBt),
-                    InternationalBt));
-            if (FreeTranslation.HasData)
-                elem.Add(new XElement(strFieldName,
-                    new XAttribute(CstrAttributeLang, CstrAttributeLangFreeTranslation),
-                    FreeTranslation));
+                    new XAttribute(CstrAttributeLang, langFieldType),
+                    (transliterator != null)
+                        ? VerseData.GetStoryLineString(transliterator, field)
+                        : field));
         }
 
         public void ExtractSelectedText(out string strVernacular, out string strNationalBt, out string strEnglishBt, out string strFreeTranslation)
@@ -786,7 +785,7 @@ namespace OneStoryProjectEditor
 
         // keep a local dictionary of the way certain lines were translated, so we can reuse them during one session
         //  (to speed up the processing if going back and forth in a project)
-        protected static string GetStoryLineString(DirectableEncConverter transliterator, StringTransfer stringTransfer)
+        public static string GetStoryLineString(DirectableEncConverter transliterator, StringTransfer stringTransfer)
         {
             var value = stringTransfer.Value;
             if (String.IsNullOrEmpty(value))

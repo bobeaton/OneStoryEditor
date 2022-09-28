@@ -68,6 +68,10 @@ namespace OneStoryProjectEditor
             this.editCopyEnglishBtMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.editCopyFreeTranslationMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.editPasteMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editPasteStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editPasteNationalBtMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editPasteEnglishBtMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editPasteFreeTranslationMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.editDeleteToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.editDeleteStoryLinesMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.editDeleteNationalBtMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -508,11 +512,48 @@ namespace OneStoryProjectEditor
             // 
             // editPasteMenu
             // 
+            this.editPasteMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editPasteStoryMenu,
+            this.editPasteNationalBtMenu,
+            this.editPasteEnglishBtMenu,
+            this.editPasteFreeTranslationMenu});
             this.editPasteMenu.Name = "editPasteMenu";
             this.editPasteMenu.Size = new System.Drawing.Size(270, 22);
             this.editPasteMenu.Text = "&Paste";
             this.editPasteMenu.ToolTipText = "Paste the contents of the clipboard into the currently selected text box";
             this.editPasteMenu.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
+            // 
+            // editPasteStoryMenu
+            // 
+            this.editPasteStoryMenu.Name = "editPasteStoryMenu";
+            this.editPasteStoryMenu.Size = new System.Drawing.Size(208, 22);
+            this.editPasteStoryMenu.Text = "&Story";
+            this.editPasteStoryMenu.ToolTipText = "Paste the lines on the clipboard into the Story/Vernacular column of this story";
+            this.editPasteStoryMenu.Click += new System.EventHandler(this.editPasteStoryMenu_Click);
+            // 
+            // editPasteNationalBtMenu
+            // 
+            this.editPasteNationalBtMenu.Name = "editPasteNationalBtMenu";
+            this.editPasteNationalBtMenu.Size = new System.Drawing.Size(208, 22);
+            this.editPasteNationalBtMenu.Text = "&National back-translation";
+            this.editPasteNationalBtMenu.ToolTipText = "Paste the lines on the clipboard into the National back-translation column of this story";
+            this.editPasteNationalBtMenu.Click += new System.EventHandler(this.editPasteNationalBtMenu_Click);
+            // 
+            // editPasteEnglishBtMenu
+            // 
+            this.editPasteEnglishBtMenu.Name = "editPasteEnglishBtMenu";
+            this.editPasteEnglishBtMenu.Size = new System.Drawing.Size(208, 22);
+            this.editPasteEnglishBtMenu.Text = "&English back-translation";
+            this.editPasteEnglishBtMenu.ToolTipText = "Paste the lines on the clipboard into the English back-translation column of this story";
+            this.editPasteEnglishBtMenu.Click += new System.EventHandler(this.editPasteEnglishBtMenu_Click);
+            // 
+            // editPasteFreeTranslationMenu
+            // 
+            this.editPasteFreeTranslationMenu.Name = "editPasteFreeTranslationMenu";
+            this.editPasteFreeTranslationMenu.Size = new System.Drawing.Size(208, 22);
+            this.editPasteFreeTranslationMenu.Text = "&Free translation";
+            this.editPasteFreeTranslationMenu.ToolTipText = "Paste the lines on the clipboard into the Free translation column of this story";
+            this.editPasteFreeTranslationMenu.Click += new System.EventHandler(this.editPasteFreeTranslationMenu_Click);
             // 
             // editDeleteToolStripMenu
             // 
@@ -2263,6 +2304,10 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem advancedEmailNotifications;
         private ToolStripMenuItem advancedEmailMapi;
         private ToolStripMenuItem advancedEmailSendGrid;
+        private ToolStripMenuItem editPasteStoryMenu;
+        private ToolStripMenuItem editPasteNationalBtMenu;
+        private ToolStripMenuItem editPasteEnglishBtMenu;
+        private ToolStripMenuItem editPasteFreeTranslationMenu;
     }
 
 #if UsingHtmlDisplayForConNotes

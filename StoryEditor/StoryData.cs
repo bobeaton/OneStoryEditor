@@ -2567,6 +2567,7 @@ namespace OneStoryProjectEditor
         public const string CstrAttributeDropboxAnswers = "DropboxAnswers";
 
         public const string CstrElementOseStoryToCopy = "OseStoryToCopy";
+        public const string CstrElementOseColumnToCopy = "OseColumnToCopy";
 
         public XElement GetXml
         {
@@ -2627,6 +2628,20 @@ namespace OneStoryProjectEditor
                                 TeamMembers.GetXml,
                                 ProjSettings.GetXml,
                                 theStoryToCopy.GetXml);
+        }
+
+        // retrieve an xml fragment so we can copy a story to another project... 
+        //  just need the members (so we can add them to the new project, if used in this story) and the story itself
+        public XElement GetXmlToCopyColumn(VersesData theColumnToCopy, SilEncConverters40.DirectableEncConverter transliterator, Func<LineData, StringTransfer> getFieldFunc)
+        {
+            var elem = new XElement(CstrElementOseColumnToCopy);
+            foreach (var verse in theColumnToCopy)
+            {
+                var field = getFieldFunc(verse.StoryLine);
+                verse.StoryLine.AddXmlField(elem, "StoryLine", field, field.GetLanguageType, transliterator);
+            }
+
+            return elem;
         }
 
         private static bool SetNextVersionIfNeeded(ConsultNoteDataConverter.CommunicationDirections eNewType, XElement elemStoryProject, string strNewVersion)

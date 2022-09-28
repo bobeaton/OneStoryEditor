@@ -3830,7 +3830,36 @@ namespace OneStoryProjectEditor
 
             if (UsingHtmlForStoryBtPane)
             {
-                editPasteMenu.Enabled = !String.IsNullOrEmpty(HtmlStoryBtControl.LastTextareaInFocusId);
+                // check to see if we can paste a column of data in one of the fields
+                bool columnCopyable = false;
+                var iData = Clipboard.GetDataObject();
+                if ((iData != null) && iData.GetDataPresent(DataFormats.UnicodeText))
+                {
+                    var txtFromClipboard = iData.GetData(DataFormats.UnicodeText)?.ToString();
+                    columnCopyable = !String.IsNullOrEmpty(txtFromClipboard) &&
+                                        txtFromClipboard.Contains(StoryProjectData.CstrElementOseColumnToCopy);
+                }
+
+                if (columnCopyable)
+                {
+                    // then make visible and enable all the different "paste into" field menus (depending
+                    //  on whether they are enabled in the project or not)
+                    editPasteMenu.Enabled = true;
+                    editPasteStoryMenu.Visible = editPasteStoryMenu.Enabled = StoryProject.ProjSettings.Vernacular.HasData;
+                    editPasteNationalBtMenu.Visible = editPasteNationalBtMenu.Enabled = StoryProject.ProjSettings.NationalBT.HasData;
+                    editPasteEnglishBtMenu.Visible = editPasteEnglishBtMenu.Enabled = StoryProject.ProjSettings.InternationalBT.HasData;
+                    editPasteFreeTranslationMenu.Visible = editPasteFreeTranslationMenu.Enabled = StoryProject.ProjSettings.FreeTranslation.HasData;
+                }
+                else
+                {
+                    editPasteMenu.Enabled = !String.IsNullOrEmpty(HtmlStoryBtControl.LastTextareaInFocusId);
+
+                    // disable all the "paste into" menus, since we don't have what's needed on the clipboard
+                    editPasteStoryMenu.Visible = editPasteStoryMenu.Enabled =
+                        editPasteNationalBtMenu.Visible = editPasteNationalBtMenu.Enabled =
+                        editPasteEnglishBtMenu.Visible = editPasteEnglishBtMenu.Enabled =
+                        editPasteFreeTranslationMenu.Visible = editPasteFreeTranslationMenu.Enabled = false;
+                }
 
                 editCopySelectionMenu.Enabled = (!String.IsNullOrEmpty(HtmlStoryBtControl.LastTextareaInFocusId) &&
                                                  (!String.IsNullOrEmpty(htmlStoryBtControl.GetSelectedText)));
@@ -3897,6 +3926,60 @@ namespace OneStoryProjectEditor
             }
 
             UpdateUIMenusWithShortCuts();
+        }
+
+        private void PasteIntoColumn(Func<LineData, StringTransfer> getFieldFunc)
+        {
+            var iData = Clipboard.GetDataObject();
+            if (iData == null)
+                return;
+
+            string strData;
+            if (!iData.GetDataPresent(DataFormats.UnicodeText) ||
+                ((strData = (string)iData.GetData(DataFormats.UnicodeText)) == null) ||
+                !strData.Contains(StoryProjectData.CstrElementOseColumnToCopy))
+                return;
+
+            var theColumnToCopy = XElement.Parse(strData);
+            var columnData = theColumnToCopy.Elements("StoryLine").ToList();
+
+            var i = 0;
+            StringTransfer field = null;
+            for (; i < TheCurrentStory.Verses.Count; i++)
+            {
+                if (columnData.Count > i)
+                {
+                    var verse = TheCurrentStory.Verses[i];
+                    field = getFieldFunc(verse.StoryLine);
+                    field.SetValue(columnData[i].Value);
+                }
+            }
+
+            while (columnData.Count > i)
+                field.SetValue(field.Value + " " + columnData[i++].Value);
+
+            Modified = true;
+            InitAllPanes(TheCurrentStory.Verses);
+        }
+
+        private void editPasteFreeTranslationMenu_Click(object sender, EventArgs e)
+        {
+            PasteIntoColumn((LineData line) => { return line.FreeTranslation; });
+        }
+
+        private void editPasteEnglishBtMenu_Click(object sender, EventArgs e)
+        {
+            PasteIntoColumn((LineData line) => { return line.InternationalBt; });
+        }
+
+        private void editPasteNationalBtMenu_Click(object sender, EventArgs e)
+        {
+            PasteIntoColumn((LineData line) => { return line.NationalBt; });
+        }
+
+        private void editPasteStoryMenu_Click(object sender, EventArgs e)
+        {
+            PasteIntoColumn((LineData line) => { return line.Vernacular; });
         }
 
         private void editAddTestResultsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4355,104 +4438,77 @@ namespace OneStoryProjectEditor
             // iterate thru the verses and copy them to the clipboard
             Debug.Assert((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
 
-            string strStory = GetFullStoryContentsVernacular;
+            var strStory = GetFullStoryContentsForField(TheCurrentStory,
+                                                       HtmlStoryBtControl.TransliteratorVernacular,
+                                                       (LineData storyLine) => storyLine.Vernacular);
             PutOnClipboard(strStory);
         }
 
-        protected string GetFullStoryContentsVernacular
+        private string GetFullStoryContentsForField(StoryData theStoryData,
+                                                    DirectableEncConverter transliterator, 
+                                                    Func<LineData, StringTransfer> getFieldFunc,
+                                                    bool dontOfferToReturnTransliteration = false)
         {
-            get
+            Debug.Assert((theStoryData != null)
+                && (theStoryData.Verses.Count > 0));
+
+            // if it's being 'transliterated', then offer to copy the transliterated form
+            var isTransliterated = false;
+            if (transliterator != null)
             {
-                Debug.Assert((TheCurrentStory != null)
-                    && (TheCurrentStory.Verses.Count > 0));
-
-                VerseData aVerse = TheCurrentStory.Verses[0];
-                string strText = null;
-                if (aVerse.IsVisible)
-                    strText = aVerse.StoryLine.Vernacular.ToString();
-
-                for (int i = 1; i < TheCurrentStory.Verses.Count; i++)
+                // first, if it is transliterated, then see if they want to copy the transliterated value.
+                DialogResult res;
+                if ((res = LocalizableMessageBox.Show(String.Format(Localizer.Str("Do you want to copy the transliterated/translated form to the clipboard (i.e. the one using the {0} converter)?"),
+                                                                    transliterator.Name),
+                                                        OseCaption, MessageBoxButtons.YesNoCancel))
+                    == DialogResult.Yes)
                 {
-                    aVerse = TheCurrentStory.Verses[i];
-                    if (aVerse.IsVisible && aVerse.StoryLine.Vernacular.HasData)
-                        strText += ' ' + aVerse.StoryLine.Vernacular.ToString();
+                    // if it is, then see if their goal is to paste it in another field (in which case, we would put it in an xml format
+                    //  from which we could paste it into different rows (if not, then it's just one chunk of text).
+                    if ((res = LocalizableMessageBox.Show(Localizer.Str("Are you wanting to paste the transliterated/translated text in another field? (e.g. into the English BT field)"),
+                                                            OseCaption, MessageBoxButtons.YesNoCancel))
+                    == DialogResult.Yes)
+                    {
+                        var xmlToCopyColumn = StoryProject.GetXmlToCopyColumn(theStoryData.Verses, transliterator, getFieldFunc);
+                        return xmlToCopyColumn.ToString();
+                    }
+                    else if (res == DialogResult.No)
+                        isTransliterated = true;
+                    else
+                        return null;
                 }
-
-                return strText;
             }
-        }
+            else
+                return null;
 
-        protected string GetFullStoryContentsNationalBTText
-        {
-            get
+            VerseData aVerse = theStoryData.Verses[0];
+            string strText = null;
+            if (aVerse.IsVisible)
             {
-                Debug.Assert((TheCurrentStory != null)
-                    && (TheCurrentStory.Verses.Count > 0));
-
-                VerseData aVerse = TheCurrentStory.Verses[0];
-                string strText = null;
-                if (aVerse.IsVisible)
-                    strText = aVerse.StoryLine.NationalBt.ToString();
-
-                for (int i = 1; i < TheCurrentStory.Verses.Count; i++)
-                {
-                    aVerse = TheCurrentStory.Verses[i];
-                    if (aVerse.IsVisible && aVerse.StoryLine.NationalBt.HasData)
-                        strText += ' ' + aVerse.StoryLine.NationalBt.ToString();
-                }
-
-                return strText;
+                var field = getFieldFunc(aVerse.StoryLine);
+                strText = isTransliterated
+                            ? VerseData.GetStoryLineString(transliterator, field)
+                            : field.ToString();
             }
-        }
 
-        protected string GetFullStoryContentsInternationalBTText
-        {
-            get
+            for (int i = 1; i < theStoryData.Verses.Count; i++)
             {
-                Debug.Assert((TheCurrentStory != null)
-                    && (TheCurrentStory.Verses.Count > 0));
-
-                VerseData aVerse = TheCurrentStory.Verses[0];
-                string strText = null;
-                if (aVerse.IsVisible)
-                    strText = aVerse.StoryLine.InternationalBt.ToString();
-
-                for (int i = 1; i < TheCurrentStory.Verses.Count; i++)
-                {
-                    aVerse = TheCurrentStory.Verses[i];
-                    if (aVerse.IsVisible && aVerse.StoryLine.InternationalBt.HasData)
-                        strText += ' ' + aVerse.StoryLine.InternationalBt.ToString();
-                }
-
-                return strText;
+                aVerse = theStoryData.Verses[i];
+                var field = getFieldFunc(aVerse.StoryLine);
+                if (aVerse.IsVisible && field.HasData)
+                    strText += ' ' + (isTransliterated
+                                        ? VerseData.GetStoryLineString(transliterator, field)
+                                        : field.ToString());
             }
-        }
 
-        protected string GetFullStoryContentsFreeTranslationText
-        {
-            get
-            {
-                Debug.Assert((TheCurrentStory != null)
-                    && (TheCurrentStory.Verses.Count > 0));
-
-                VerseData aVerse = TheCurrentStory.Verses[0];
-                string strText = null;
-                if (aVerse.IsVisible)
-                    strText = aVerse.StoryLine.FreeTranslation.ToString();
-
-                for (int i = 1; i < TheCurrentStory.Verses.Count; i++)
-                {
-                    aVerse = TheCurrentStory.Verses[i];
-                    if (aVerse.IsVisible && aVerse.StoryLine.FreeTranslation.HasData)
-                        strText += ' ' + aVerse.StoryLine.FreeTranslation.ToString();
-                }
-
-                return strText;
-            }
+            return strText;
         }
 
         protected void PutOnClipboard(string strText)
         {
+            if (String.IsNullOrEmpty(strText))
+                return;
+
             try
             {
                 Clipboard.SetDataObject(strText);
@@ -4482,7 +4538,9 @@ namespace OneStoryProjectEditor
             // iterate thru the verses and copy them to the clipboard
             Debug.Assert((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
 
-            string strStory = GetFullStoryContentsNationalBTText;
+            var strStory = GetFullStoryContentsForField(TheCurrentStory,
+                                                        HtmlStoryBtControl.TransliteratorNationalBt,
+                                                        (LineData storyLine) => storyLine.NationalBt);
             PutOnClipboard(strStory);
         }
 
@@ -4491,7 +4549,9 @@ namespace OneStoryProjectEditor
             // iterate thru the verses and copy them to the clipboard
             Debug.Assert((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
 
-            string strStory = GetFullStoryContentsInternationalBTText;
+            string strStory = GetFullStoryContentsForField(TheCurrentStory,
+                                                           HtmlStoryBtControl.TransliteratorInternationalBt,
+                                                           (LineData storyLine) => storyLine.InternationalBt);
             PutOnClipboard(strStory);
         }
 
@@ -4500,7 +4560,10 @@ namespace OneStoryProjectEditor
             // iterate thru the verses and copy them to the clipboard
             Debug.Assert((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
 
-            string strStory = GetFullStoryContentsFreeTranslationText;
+            string strStory = GetFullStoryContentsForField(TheCurrentStory,
+                                                           HtmlStoryBtControl.TransliteratorFreeTranslation,
+                                                           (LineData storyLine) => storyLine.FreeTranslation);
+            GlossInAdaptIt(strStory, ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt);
             PutOnClipboard(strStory);
         }
 
@@ -5425,10 +5488,22 @@ namespace OneStoryProjectEditor
                 return true;
 
             // first 'collapse into 1 line'
-            string strVernacular = GetFullStoryContentsVernacular;
-            string strNationalBT = GetFullStoryContentsNationalBTText;
-            string strEnglishBT = GetFullStoryContentsInternationalBTText;
-            string strFreeTranslation = GetFullStoryContentsFreeTranslationText;
+            string strVernacular = GetFullStoryContentsForField(TheCurrentStory,
+                                                                HtmlStoryBtControl.TransliteratorVernacular,
+                                                                (LineData storyLine) => storyLine.Vernacular,
+                                                                dontOfferToReturnTransliteration: true);
+            string strNationalBT = GetFullStoryContentsForField(TheCurrentStory, 
+                                                                HtmlStoryBtControl.TransliteratorNationalBt, 
+                                                                (LineData storyLine) => storyLine.NationalBt,
+                                                                dontOfferToReturnTransliteration: true);
+            string strEnglishBT = GetFullStoryContentsForField(TheCurrentStory,
+                                                               HtmlStoryBtControl.TransliteratorInternationalBt,
+                                                               (LineData storyLine) => storyLine.InternationalBt,
+                                                               dontOfferToReturnTransliteration: true);
+            string strFreeTranslation = GetFullStoryContentsForField(TheCurrentStory,
+                                                                     HtmlStoryBtControl.TransliteratorFreeTranslation,
+                                                                     (LineData storyLine) => storyLine.FreeTranslation,
+                                                                     dontOfferToReturnTransliteration: true);
 
             TheCurrentStory.Verses.RemoveRange(0, TheCurrentStory.Verses.Count);
             TheCurrentStory.Verses.InsertVerse(0, strVernacular, strNationalBT,
@@ -5513,10 +5588,22 @@ namespace OneStoryProjectEditor
             else
             {
                 // means 'collapse into 1 line'
-                string strVernacular = GetFullStoryContentsVernacular;
-                string strNationalBT = GetFullStoryContentsNationalBTText;
-                string strEnglishBT = GetFullStoryContentsInternationalBTText;
-                string strFreeTranslation = GetFullStoryContentsFreeTranslationText;
+                string strVernacular = GetFullStoryContentsForField(TheCurrentStory,
+                                                                    HtmlStoryBtControl.TransliteratorVernacular,
+                                                                    (LineData storyLine) => storyLine.Vernacular,
+                                                                    dontOfferToReturnTransliteration: true);
+                string strNationalBT = GetFullStoryContentsForField(TheCurrentStory,
+                                                                    HtmlStoryBtControl.TransliteratorNationalBt,
+                                                                    (LineData storyLine) => storyLine.NationalBt,
+                                                                    dontOfferToReturnTransliteration: true);
+                string strEnglishBT = GetFullStoryContentsForField(TheCurrentStory,
+                                                                   HtmlStoryBtControl.TransliteratorInternationalBt,
+                                                                   (LineData storyLine) => storyLine.InternationalBt,
+                                                                   dontOfferToReturnTransliteration: true);
+                string strFreeTranslation = GetFullStoryContentsForField(TheCurrentStory,
+                                                                         HtmlStoryBtControl.TransliteratorFreeTranslation,
+                                                                         (LineData storyLine) => storyLine.FreeTranslation,
+                                                                         dontOfferToReturnTransliteration: true);
 
                 TheCurrentStory.Verses.RemoveRange(0, TheCurrentStory.Verses.Count);
                 TheCurrentStory.Verses.InsertVerse(0, strVernacular, strNationalBT,
@@ -6935,7 +7022,9 @@ namespace OneStoryProjectEditor
                 MoveToNationalBtState();
             }
 
-            string strStory = GetFullStoryContentsVernacular;
+            string strStory = GetFullStoryContentsForField(TheCurrentStory,
+                                                           HtmlStoryBtControl.TransliteratorVernacular,
+                                                           (LineData storyLine) => storyLine.Vernacular);
             GlossInAdaptIt(strStory, ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt);
         }
 
@@ -6963,7 +7052,9 @@ namespace OneStoryProjectEditor
                 MoveToInternationalBtState();
             }
 
-            string strStory = GetFullStoryContentsVernacular;
+            string strStory = GetFullStoryContentsForField(TheCurrentStory,
+                                                           HtmlStoryBtControl.TransliteratorVernacular,
+                                                           (LineData storyLine) => storyLine.Vernacular);
             GlossInAdaptIt(strStory, ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToInternationalBt);
         }
 
@@ -6991,7 +7082,9 @@ namespace OneStoryProjectEditor
                 MoveToInternationalBtState();
             }
 
-            string strStory = GetFullStoryContentsNationalBTText;
+            string strStory = GetFullStoryContentsForField(TheCurrentStory,
+                                                           HtmlStoryBtControl.TransliteratorNationalBt,
+                                                           (LineData storyLine) => storyLine.NationalBt);
             GlossInAdaptIt(strStory, ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.NationalBtToInternationalBt);
         }
 

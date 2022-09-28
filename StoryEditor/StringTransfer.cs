@@ -120,7 +120,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private string GetLanguageType
+        public string GetLanguageType
         {
             get
             {
