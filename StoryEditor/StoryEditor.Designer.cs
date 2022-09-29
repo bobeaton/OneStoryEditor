@@ -571,7 +571,7 @@ namespace OneStoryProjectEditor
             this.editDeleteStoryLinesMenu.Text = "&Story (all lines)";
             this.editDeleteStoryLinesMenu.ToolTipText = "Delete the contents of all of the text boxes of the story in the story language (" +
     "the lines will remain, but just be emptied)";
-            this.editDeleteStoryLinesMenu.Click += new System.EventHandler(this.deleteStoryVersesToolStripMenuItem_Click);
+            this.editDeleteStoryLinesMenu.Click += new System.EventHandler(this.editDeleteStoryVersesToolStripMenuItem_Click);
             // 
             // editDeleteNationalBtMenu
             // 
@@ -580,7 +580,7 @@ namespace OneStoryProjectEditor
             this.editDeleteNationalBtMenu.Text = "&National language back-translation (all lines)";
             this.editDeleteNationalBtMenu.ToolTipText = "Delete the contents of all of the text boxes of the national back-translation of " +
     "the story (the lines will remain, but just be emptied)";
-            this.editDeleteNationalBtMenu.Click += new System.EventHandler(this.deleteStoryNationalBackTranslationToolStripMenuItem_Click);
+            this.editDeleteNationalBtMenu.Click += new System.EventHandler(this.editDeleteStoryNationalBackTranslationToolStripMenuItem_Click);
             // 
             // editDeleteEnglishBtMenu
             // 
@@ -589,7 +589,7 @@ namespace OneStoryProjectEditor
             this.editDeleteEnglishBtMenu.Text = "&English back-translation (all lines)";
             this.editDeleteEnglishBtMenu.ToolTipText = "Delete the contents of all of the text boxes of the English back-translation of t" +
     "he story (the lines will remain, but just be emptied)";
-            this.editDeleteEnglishBtMenu.Click += new System.EventHandler(this.deleteEnglishBacktranslationToolStripMenuItem_Click);
+            this.editDeleteEnglishBtMenu.Click += new System.EventHandler(this.editDeleteEnglishBacktranslationToolStripMenuItem_Click);
             // 
             // editDeleteFreeTranslationMenu
             // 
@@ -598,7 +598,7 @@ namespace OneStoryProjectEditor
             this.editDeleteFreeTranslationMenu.Text = "&Free translation (all lines)";
             this.editDeleteFreeTranslationMenu.ToolTipText = "Delete the contents of all of the text boxes of the Free translation of the story" +
     " (the lines will remain, but just be emptied)";
-            this.editDeleteFreeTranslationMenu.Click += new System.EventHandler(this.deleteFreeTranslationToolStripMenuItem_Click);
+            this.editDeleteFreeTranslationMenu.Click += new System.EventHandler(this.editDeleteFreeTranslationToolStripMenuItem_Click);
             // 
             // editDeleteTestToolStripMenu
             // 

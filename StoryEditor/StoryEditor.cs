@@ -3930,6 +3930,9 @@ namespace OneStoryProjectEditor
 
         private void PasteIntoColumn(Func<LineData, StringTransfer> getFieldFunc)
         {
+            if (!CheckForProperEditToken(true))
+                return;
+
             var iData = Clipboard.GetDataObject();
             if (iData == null)
                 return;
@@ -4634,6 +4637,9 @@ namespace OneStoryProjectEditor
 
         private void DeleteFieldData(object sender, ResetValue delegateResetValue)
         {
+            if (!CheckForProperEditToken(true))
+                return;
+
             Debug.Assert((TheCurrentStory != null) && (sender is ToolStripItem));
 
             var tsi = sender as ToolStripItem;
@@ -4649,22 +4655,22 @@ namespace OneStoryProjectEditor
                 }
         }
 
-        private void deleteStoryVersesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void editDeleteStoryVersesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DeleteFieldData(sender, DeleteVernacular);
         }
 
-        private void deleteStoryNationalBackTranslationToolStripMenuItem_Click(object sender, EventArgs e)
+        private void editDeleteStoryNationalBackTranslationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DeleteFieldData(sender, DeleteNationalBt);
         }
 
-        private void deleteEnglishBacktranslationToolStripMenuItem_Click(object sender, EventArgs e)
+        private void editDeleteEnglishBacktranslationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DeleteFieldData(sender, DeleteInternationalBt);
         }
 
-        private void deleteFreeTranslationToolStripMenuItem_Click(object sender, EventArgs e)
+        private void editDeleteFreeTranslationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DeleteFieldData(sender, DeleteFreeTranslation);
         }
@@ -5408,7 +5414,7 @@ namespace OneStoryProjectEditor
 
         internal void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!CheckForProperEditToken())
+            if (!CheckForProperEditToken(true))
                 return;
 
             if (UsingHtmlForStoryBtPane)
@@ -7130,7 +7136,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private bool CheckForProperEditToken()
+        private bool CheckForProperEditToken(bool bShowErrorInDialog = false)
         {
             try
             {
@@ -7142,6 +7148,10 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 SetStatusBar(String.Format(Localizer.Str("Error: {0}"), ex.Message));
+
+                if (bShowErrorInDialog)
+                    MessageBox.Show(ex.Message);
+                
                 return false;
             }
 
@@ -7150,7 +7160,7 @@ namespace OneStoryProjectEditor
 
         private void addgeneralTestQuestionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!CheckForProperEditToken())
+            if (!CheckForProperEditToken(true))
                 return;
 
             TheCurrentStory.Verses.FirstVerse.TestQuestions.AddTestQuestion();
