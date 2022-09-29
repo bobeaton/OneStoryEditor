@@ -781,7 +781,8 @@ namespace OneStoryProjectEditor
             return false;
         }
 
-        private static Dictionary<string, Dictionary<string,string>> _previousTransliterations = new Dictionary<string, Dictionary<string, string>>();
+        private static ConcurrentDictionary<string, ConcurrentDictionary<string,string>> _previousTransliterations = 
+            new ConcurrentDictionary<string, ConcurrentDictionary<string, string>>();
 
         // keep a local dictionary of the way certain lines were translated, so we can reuse them during one session
         //  (to speed up the processing if going back and forth in a project)
@@ -793,16 +794,16 @@ namespace OneStoryProjectEditor
 
             if (transliterator != null)
             {
-                if (!_previousTransliterations.TryGetValue(transliterator.Name, out Dictionary<string, string> previousTransliteration))
+                if (!_previousTransliterations.TryGetValue(transliterator.Name, out ConcurrentDictionary<string, string> previousTransliteration))
                 {
-                    previousTransliteration = new Dictionary<string, string>();
-                    _previousTransliterations.Add(transliterator.Name, previousTransliteration);
+                    previousTransliteration = new ConcurrentDictionary<string, string>();
+                    _previousTransliterations.GetOrAdd(transliterator.Name, previousTransliteration);
                 }
 
                 if (!previousTransliteration.TryGetValue(value, out string transliteration))
                 {
                     transliteration = stringTransfer.GetValue(transliterator);
-                    previousTransliteration.Add(value, transliteration);
+                    previousTransliteration.GetOrAdd(value, transliteration);
                 }
                 return transliteration;
             }
