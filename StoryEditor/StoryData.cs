@@ -2635,6 +2635,9 @@ namespace OneStoryProjectEditor
         public XElement GetXmlToCopyColumn(VersesData theColumnToCopy, SilEncConverters40.DirectableEncConverter transliterator, Func<LineData, StringTransfer> getFieldFunc)
         {
             var elem = new XElement(CstrElementOseColumnToCopy);
+            if (transliterator != null)
+                elem.Add(new XAttribute("Transliterator", transliterator.Name));
+
             foreach (var verse in theColumnToCopy)
             {
                 var field = getFieldFunc(verse.StoryLine);

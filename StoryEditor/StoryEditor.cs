@@ -3941,6 +3941,20 @@ namespace OneStoryProjectEditor
                 return;
 
             var theColumnToCopy = XElement.Parse(strData);
+            var isTransliterated = theColumnToCopy.Attribute("Transliterator")?.Value != null;
+            var sourceColumnName = theColumnToCopy.Element("StoryLine")?.Attribute("lang")?.Value;
+            var verse = TheCurrentStory.Verses?[0];
+
+            // let's have them confirm
+            if (LocalizableMessageBox.Show(String.Format(Localizer.Str("Are you sure you want to paste/overwrite the data in the {0} fields of this story with the{1} data from the {2} field?"),
+                                                         getFieldFunc(verse.StoryLine).GetLanguageType,
+                                                         ((isTransliterated) ? " transliterated/translated" : String.Empty),
+                                                         sourceColumnName), OseCaption,
+                                           MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+            {
+                return;
+            }
+
             var columnData = theColumnToCopy.Elements("StoryLine").ToList();
 
             var i = 0;
@@ -3949,7 +3963,7 @@ namespace OneStoryProjectEditor
             {
                 if (columnData.Count > i)
                 {
-                    var verse = TheCurrentStory.Verses[i];
+                    verse = TheCurrentStory.Verses[i];
                     field = getFieldFunc(verse.StoryLine);
                     field.SetValue(columnData[i].Value);
                 }
@@ -3959,7 +3973,7 @@ namespace OneStoryProjectEditor
                 field.SetValue(field.Value + " " + columnData[i++].Value);
 
             Modified = true;
-            InitAllPanes(TheCurrentStory.Verses);
+            ReInitVerseControls();
         }
 
         private void editPasteFreeTranslationMenu_Click(object sender, EventArgs e)
@@ -4433,14 +4447,34 @@ namespace OneStoryProjectEditor
             tsm.DropDown.Items.Add(tsmSub);
         }
 
-        private void copyStoryToolStripMenuItem_Click(object sender, EventArgs e)
+        private void editCopyStoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CopyFieldToClipboard(HtmlStoryBtControl.TransliteratorVernacular, (LineData storyLine) => storyLine.Vernacular);
+        }
+
+        private void editCopyNationalBackTranslationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CopyFieldToClipboard(HtmlStoryBtControl.TransliteratorNationalBt, (LineData storyLine) => storyLine.NationalBt);
+        }
+
+        private void editCopyEnglishBackTranslationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CopyFieldToClipboard(HtmlStoryBtControl.TransliteratorInternationalBt, (LineData storyLine) => storyLine.InternationalBt);
+        }
+
+        private void editCopyFreeTranslationMenuItem_Click(object sender, EventArgs e)
+        {
+            CopyFieldToClipboard(HtmlStoryBtControl.TransliteratorFreeTranslation, (LineData storyLine) => storyLine.FreeTranslation);
+        }
+
+        private void CopyFieldToClipboard(DirectableEncConverter transliterator, Func<LineData, StringTransfer> fieldGetter)
         {
             // iterate thru the verses and copy them to the clipboard
             Debug.Assert((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
 
-            var strStory = GetFullStoryContentsForField(TheCurrentStory,
-                                                       HtmlStoryBtControl.TransliteratorVernacular,
-                                                       (LineData storyLine) => storyLine.Vernacular);
+            string strStory = GetFullStoryContentsForField(TheCurrentStory,
+                                                           transliterator,
+                                                           fieldGetter);
             PutOnClipboard(strStory);
         }
 
@@ -4453,32 +4487,37 @@ namespace OneStoryProjectEditor
                 && (theStoryData.Verses.Count > 0));
 
             // if it's being 'transliterated', then offer to copy the transliterated form
+            DialogResult res;
             var isTransliterated = false;
             if (transliterator != null)
             {
                 // first, if it is transliterated, then see if they want to copy the transliterated value.
-                DialogResult res;
-                if ((res = LocalizableMessageBox.Show(String.Format(Localizer.Str("Do you want to copy the transliterated/translated form to the clipboard (i.e. the one using the {0} converter)?"),
-                                                                    transliterator.Name),
+                if ((res = LocalizableMessageBox.Show(String.Format(Localizer.Str("Do you want to copy the transliterated/translated text to the clipboard (i.e. after the original has been converted using the {1} converter)?{0}{0}Click 'No' to copy the original text."),
+                                                                    Environment.NewLine, transliterator.Name),
                                                         OseCaption, MessageBoxButtons.YesNoCancel))
                     == DialogResult.Yes)
                 {
-                    // if it is, then see if their goal is to paste it in another field (in which case, we would put it in an xml format
-                    //  from which we could paste it into different rows (if not, then it's just one chunk of text).
-                    if ((res = LocalizableMessageBox.Show(Localizer.Str("Are you wanting to paste the transliterated/translated text in another field? (e.g. into the English BT field)"),
-                                                            OseCaption, MessageBoxButtons.YesNoCancel))
-                    == DialogResult.Yes)
-                    {
-                        var xmlToCopyColumn = StoryProject.GetXmlToCopyColumn(theStoryData.Verses, transliterator, getFieldFunc);
-                        return xmlToCopyColumn.ToString();
-                    }
-                    else if (res == DialogResult.No)
-                        isTransliterated = true;
-                    else
-                        return null;
+                    isTransliterated = true;
                 }
+                else if (res == DialogResult.No)
+                {
+                    transliterator = null;  // this just changes the local copy
+                }
+                else // cancel
+                    return null;
             }
-            else
+
+            // either way, next see if their goal is to paste it in another field (in which case, we would put it in an xml format
+            //  from which we could paste it into different rows (if not, then it's just one chunk of text).
+            if ((res = LocalizableMessageBox.Show(String.Format(Localizer.Str("Are you wanting to paste the{1} text in another field?{0}{0}Click 'No' to copy the data as a single paragraph of text. Click 'Yes' to copy the data to the clipboard in a format that allows it to be pasted into another field line by line (e.g. the English BT field)"),
+                                                                Environment.NewLine, isTransliterated ? "  transliterated/translated" : String.Empty),
+                                                  OseCaption, MessageBoxButtons.YesNoCancel))
+                == DialogResult.Yes)
+            {
+                var xmlToCopyColumn = StoryProject.GetXmlToCopyColumn(theStoryData.Verses, transliterator, getFieldFunc);
+                return xmlToCopyColumn.ToString();
+            }
+            else if (res == DialogResult.Cancel)
                 return null;
 
             VerseData aVerse = theStoryData.Verses[0];
@@ -4531,40 +4570,6 @@ namespace OneStoryProjectEditor
                                   ((ex.InnerException != null) ? ex.InnerException.Message : ""));
                 LocalizableMessageBox.Show(strErrorMsg, OseCaption);
             }
-        }
-
-        private void copyNationalBackTranslationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // iterate thru the verses and copy them to the clipboard
-            Debug.Assert((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
-
-            var strStory = GetFullStoryContentsForField(TheCurrentStory,
-                                                        HtmlStoryBtControl.TransliteratorNationalBt,
-                                                        (LineData storyLine) => storyLine.NationalBt);
-            PutOnClipboard(strStory);
-        }
-
-        private void copyEnglishBackTranslationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // iterate thru the verses and copy them to the clipboard
-            Debug.Assert((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
-
-            string strStory = GetFullStoryContentsForField(TheCurrentStory,
-                                                           HtmlStoryBtControl.TransliteratorInternationalBt,
-                                                           (LineData storyLine) => storyLine.InternationalBt);
-            PutOnClipboard(strStory);
-        }
-
-        private void copyFreeTranslationMenuItem_Click(object sender, EventArgs e)
-        {
-            // iterate thru the verses and copy them to the clipboard
-            Debug.Assert((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
-
-            string strStory = GetFullStoryContentsForField(TheCurrentStory,
-                                                           HtmlStoryBtControl.TransliteratorFreeTranslation,
-                                                           (LineData storyLine) => storyLine.FreeTranslation);
-            GlossInAdaptIt(strStory, ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt);
-            PutOnClipboard(strStory);
         }
 
         /*
@@ -6231,22 +6236,24 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private void viewTransliterationVernacular_Click(object sender, EventArgs e)
+
+        private void InitializeTransliterators(object sender, Func<ProjectSettings, ProjectSettings.LanguageInfo> getColumnSettingsFunc, 
+                                               DirectableEncConverter transliterator, Func<DirectableEncConverter, DirectableEncConverter> setter)
         {
             var tsmi = sender as ToolStripMenuItem;
             if (tsmi.Checked)
             {
-                if (LoggedOnMember.TransliteratorVernacular == null)
-                {
-                    LoggedOnMember.TransliteratorVernacular =
-                        GetDec(StoryProject.ProjSettings.Vernacular.LangName);
-                }
+                if (transliterator == null)
+                    setter(GetDec(getColumnSettingsFunc(StoryProject.ProjSettings).LangName));
+            }
+            else
+            {
+                setter(null);
             }
 
             InitializeTransliterators();
             ReInitVerseControls();
         }
-
         private DirectableEncConverter GetDec(string strLangName)
         {
             var aEc = DirectableEncConverter.EncConverters.AutoSelectWithTitle(ConvType.Unicode_to_from_Unicode,
@@ -6258,50 +6265,28 @@ namespace OneStoryProjectEditor
                        : null;
         }
 
+        private void viewTransliterationVernacular_Click(object sender, EventArgs e)
+        {
+            InitializeTransliterators(sender, (ProjectSettings projectSettings) => projectSettings.Vernacular, 
+                                      LoggedOnMember.TransliteratorVernacular, (DirectableEncConverter dec) => LoggedOnMember.TransliteratorVernacular = dec);
+        }
+
         private void viewTransliterationNationalBT_Click(object sender, EventArgs e)
         {
-            var tsmi = sender as ToolStripMenuItem;
-            if (tsmi.Checked)
-            {
-                if (LoggedOnMember.TransliteratorNationalBt == null)
-                {
-                    LoggedOnMember.TransliteratorNationalBt =
-                        GetDec(StoryProject.ProjSettings.NationalBT.LangName);
-                }
-            }
-
-            InitializeTransliterators();
-            ReInitVerseControls();
+            InitializeTransliterators(sender,  (ProjectSettings projectSettings) => projectSettings.NationalBT, 
+                                      LoggedOnMember.TransliteratorNationalBt, (DirectableEncConverter dec) => LoggedOnMember.TransliteratorNationalBt = dec);
         }
 
         private void viewTransliterationInternationalBt_Click(object sender, EventArgs e)
         {
-            var tsmi = sender as ToolStripMenuItem;
-            if (tsmi.Checked)
-            {
-                if (LoggedOnMember.TransliteratorInternationalBt == null)
-                {
-                    LoggedOnMember.TransliteratorInternationalBt =
-                        GetDec(StoryProject.ProjSettings.InternationalBT.LangName);
-                }
-            }
-
-            ReInitVerseControls();
+            InitializeTransliterators(sender,  (ProjectSettings projectSettings) => projectSettings.InternationalBT, 
+                                      LoggedOnMember.TransliteratorInternationalBt, (DirectableEncConverter dec) => LoggedOnMember.TransliteratorInternationalBt = dec);
         }
 
         private void viewTransliterationFreeTranslation_Click(object sender, EventArgs e)
         {
-            var tsmi = sender as ToolStripMenuItem;
-            if (tsmi.Checked)
-            {
-                if (LoggedOnMember.TransliteratorFreeTranslation == null)
-                {
-                    LoggedOnMember.TransliteratorFreeTranslation =
-                        GetDec(StoryProject.ProjSettings.FreeTranslation.LangName);
-                }
-            }
-
-            ReInitVerseControls();
+            InitializeTransliterators(sender, (ProjectSettings projectSettings) => projectSettings.FreeTranslation, 
+                                      LoggedOnMember.TransliteratorFreeTranslation, (DirectableEncConverter dec) => LoggedOnMember.TransliteratorFreeTranslation = dec);
         }
 
         private void viewTransliterationsToolStripMenuItem_DropDownOpening(object sender, EventArgs e)

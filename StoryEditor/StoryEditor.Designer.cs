@@ -479,36 +479,32 @@ namespace OneStoryProjectEditor
             this.editCopyStoryMenu.Name = "editCopyStoryMenu";
             this.editCopyStoryMenu.Size = new System.Drawing.Size(386, 22);
             this.editCopyStoryMenu.Text = "&Story";
-            this.editCopyStoryMenu.ToolTipText = "Copy all of the lines of text in the story language into one big paragraph of tex" +
-    "t";
-            this.editCopyStoryMenu.Click += new System.EventHandler(this.copyStoryToolStripMenuItem_Click);
+            this.editCopyStoryMenu.ToolTipText = "Copy all of the lines of text in the story language into one big paragraph of text or into a format that can be pasted into another column";
+            this.editCopyStoryMenu.Click += new System.EventHandler(this.editCopyStoryToolStripMenuItem_Click);
             // 
             // editCopyNationalBtMenu
             // 
             this.editCopyNationalBtMenu.Name = "editCopyNationalBtMenu";
             this.editCopyNationalBtMenu.Size = new System.Drawing.Size(386, 22);
             this.editCopyNationalBtMenu.Text = "&National back-translation";
-            this.editCopyNationalBtMenu.ToolTipText = "Copy all of the lines of text in the National back-translation language into one " +
-    "big paragraph of text";
-            this.editCopyNationalBtMenu.Click += new System.EventHandler(this.copyNationalBackTranslationToolStripMenuItem_Click);
+            this.editCopyNationalBtMenu.ToolTipText = "Copy all of the lines of text in the National back-translation language into one big paragraph of text or into a format that can be pasted into another column";
+            this.editCopyNationalBtMenu.Click += new System.EventHandler(this.editCopyNationalBackTranslationToolStripMenuItem_Click);
             // 
             // editCopyEnglishBtMenu
             // 
             this.editCopyEnglishBtMenu.Name = "editCopyEnglishBtMenu";
             this.editCopyEnglishBtMenu.Size = new System.Drawing.Size(386, 22);
             this.editCopyEnglishBtMenu.Text = "&English back-translation of the whole story to the clipboard";
-            this.editCopyEnglishBtMenu.ToolTipText = "Copy all of the lines of text in the English back-translation into one big paragr" +
-    "aph of text";
-            this.editCopyEnglishBtMenu.Click += new System.EventHandler(this.copyEnglishBackTranslationToolStripMenuItem_Click);
+            this.editCopyEnglishBtMenu.ToolTipText = "Copy all of the lines of text in the English back-translation into one big paragraph of text or into a format that can be pasted into another column";
+            this.editCopyEnglishBtMenu.Click += new System.EventHandler(this.editCopyEnglishBackTranslationToolStripMenuItem_Click);
             // 
             // editCopyFreeTranslationMenu
             // 
             this.editCopyFreeTranslationMenu.Name = "editCopyFreeTranslationMenu";
             this.editCopyFreeTranslationMenu.Size = new System.Drawing.Size(386, 22);
             this.editCopyFreeTranslationMenu.Text = "&Free translation of the whole story to the clipboard";
-            this.editCopyFreeTranslationMenu.ToolTipText = "Copy all of the lines of text in the Free translation into one big paragraph of t" +
-    "ext";
-            this.editCopyFreeTranslationMenu.Click += new System.EventHandler(this.copyFreeTranslationMenuItem_Click);
+            this.editCopyFreeTranslationMenu.ToolTipText = "Copy all of the lines of text in the Free translation into one big paragraph of text or into a format that can be pasted into another column";
+            this.editCopyFreeTranslationMenu.Click += new System.EventHandler(this.editCopyFreeTranslationMenuItem_Click);
             // 
             // editPasteMenu
             // 
