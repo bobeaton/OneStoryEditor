@@ -794,8 +794,6 @@ namespace OneStoryProjectEditor
 
             if (transliterator != null)
             {
-                stringTransfer.Transliterator = transliterator;    // need to be properly set 'readonly' if it's turned on
-
                 if (!_previousTransliterations.TryGetValue(transliterator.Name, out ConcurrentDictionary<string, string> previousTransliteration))
                 {
                     previousTransliteration = new ConcurrentDictionary<string, string>();
@@ -807,6 +805,9 @@ namespace OneStoryProjectEditor
                     transliteration = stringTransfer.GetValue(transliterator);
                     previousTransliteration.GetOrAdd(value, transliteration);
                 }
+                else
+                    stringTransfer.Transliterator = transliterator;    // need to be properly set 'readonly' if it's turned on
+
                 return transliteration;
             }
 

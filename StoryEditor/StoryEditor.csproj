@@ -523,6 +523,9 @@
     <Compile Include="MultipleLineDataConverter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MyLocalizableMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="NetBibleFootnoteTooltip.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -23,7 +23,6 @@ using System.Diagnostics;               // Process
 using devX;
 using Control = System.Windows.Forms.Control;
 using Timer = System.Windows.Forms.Timer;
-using NetLoc;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 #if EmbedSayMore
 using SayMore.UI.SessionRecording;
@@ -39,6 +38,33 @@ namespace OneStoryProjectEditor
 
         internal StoryProjectData StoryProject;
         internal string CurrentStoriesSetName = Resources.IDS_MainStoriesSet;   // otherwise Add New Project errors out
+
+        public class LocalizableMessageBox
+        {
+            public static DialogResult Show(string strMessage, string strCaption, MessageBoxButtons buttons)
+            {
+                return NetLoc.MyLocalizableMessageBox.Show(strMessage, strCaption, buttons);
+            }
+
+            internal static DialogResult Show(string strMessage, string strCaption)
+            {
+                return NetLoc.MyLocalizableMessageBox.Show(strMessage, strCaption);
+            }
+
+            internal static string InputBox(string strMessage, string strCaption, string strDefaultValue)
+            {
+                return NetLoc.MyLocalizableMessageBox.InputBox(strMessage, strCaption, strDefaultValue);
+            }
+        }
+
+        public class Localizer : NetLoc.Localizer
+        {
+            public Localizer(string str)
+                : base(str)
+            {
+
+            }
+        }
 
         public static String currentStoryName;
         private StoryData _theCurrentStory;
@@ -7216,19 +7242,19 @@ namespace OneStoryProjectEditor
             InitProjectNotes(StoryProject.ProjSettings, LoggedOnMember.Name);
         }
 
-        private LocDataEditorForm _localizationEditor;
+        private NetLoc.LocDataEditorForm _localizationEditor;
 
         private void localizationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_localizationEditor == null)
-                _localizationEditor = new LocDataEditorForm(Localizer.Default,
+                _localizationEditor = new NetLoc.LocDataEditorForm(Localizer.Default,
                                                             new[]
                                                                 {
                                                                     "OneStoryProjectEditor",
                                                                     "Chorus.UI.Sync.SyncDialog",
                                                                     "NetLoc"
                                                                 });
-            LocDataEditorForm.DelegateCallOnClose = OnCloseLocalizationDialog;
+            NetLoc.LocDataEditorForm.DelegateCallOnClose = OnCloseLocalizationDialog;
             _localizationEditor.Show();
         }
 
