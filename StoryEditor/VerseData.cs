@@ -531,7 +531,7 @@ namespace OneStoryProjectEditor
             private bool IsTransliteratorATranslator(DirectableEncConverter transliterator)
             {
                 const int processType = (int)ProcessTypeFlags.Translation;
-                return (transliterator != null) && 
+                return (transliterator?.GetEncConverter != null) && 
                     ((transliterator.GetEncConverter.ProcessType & processType) == processType);
             }
 
@@ -794,6 +794,8 @@ namespace OneStoryProjectEditor
 
             if (transliterator != null)
             {
+                stringTransfer.Transliterator = transliterator;    // need to be properly set 'readonly' if it's turned on
+
                 if (!_previousTransliterations.TryGetValue(transliterator.Name, out ConcurrentDictionary<string, string> previousTransliteration))
                 {
                     previousTransliteration = new ConcurrentDictionary<string, string>();
