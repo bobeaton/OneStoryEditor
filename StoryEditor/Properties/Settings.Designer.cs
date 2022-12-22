@@ -128,20 +128,6 @@ namespace OneStoryProjectEditor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
-            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
-            "tring>NET</string>\r\n</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection SwordModulesUsed {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["SwordModulesUsed"]));
-            }
-            set {
-                this["SwordModulesUsed"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("NET")]
         public string LastSwordModuleUsed {
             get {
@@ -817,24 +803,6 @@ namespace OneStoryProjectEditor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>BIMK04</string>
-  <string>DZnWNke9ScuB5IThEtS8txhiXMgy+5Ca</string>
-  <string>TBI74</string>
-  <string>DZnWNke9ScuB5IThEtS8txhiXMgy+5Ca</string>
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection SwordModuleToUnlockKey {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["SwordModuleToUnlockKey"]));
-            }
-            set {
-                this["SwordModuleToUnlockKey"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool UseMapiPlus {
             get {
@@ -922,30 +890,6 @@ namespace OneStoryProjectEditor.Properties {
             }
             set {
                 this["LnCNotesNoteFontSize"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>HINDI</string>
-  <string>Arial Unicode MS</string>
-  <string>HINWBTC</string>
-  <string>Arial Unicode MS</string>
-  <string>XNR</string>
-  <string>Arial Unicode MS</string>
-  <string>FarsiOPV</string>
-  <string>Nafees Nastaleeq</string>
-  <string>BurJudson</string>
-  <string>Padauk</string>
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection SwordModuleToFont {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["SwordModuleToFont"]));
-            }
-            set {
-                this["SwordModuleToFont"] = value;
             }
         }
         
@@ -1127,6 +1071,62 @@ namespace OneStoryProjectEditor.Properties {
             }
             set {
                 this["EncryptedSendGridApiKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsd=\"http://www.w3." +
+            "org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <s" +
+            "tring>NET</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection SwordModulesUsed {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["SwordModulesUsed"]));
+            }
+            set {
+                this["SwordModulesUsed"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+  <string>BIMK04</string>
+  <string>DZnWNke9ScuB5IThEtS8txhiXMgy+5Ca</string>
+  <string>TBI74</string>
+  <string>DZnWNke9ScuB5IThEtS8txhiXMgy+5Ca</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection SwordModuleToUnlockKey {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["SwordModuleToUnlockKey"]));
+            }
+            set {
+                this["SwordModuleToUnlockKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+  <string>HINDI</string>
+  <string>Arial Unicode MS</string>
+  <string>HINWBTC</string>
+  <string>Arial Unicode MS</string>
+  <string>XNR</string>
+  <string>Arial Unicode MS</string>
+  <string>FarsiOPV</string>
+  <string>Nafees Nastaleeq</string>
+  <string>BurJudson</string>
+  <string>Padauk</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection SwordModuleToFont {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["SwordModuleToFont"]));
+            }
+            set {
+                this["SwordModuleToFont"] = value;
             }
         }
     }

@@ -29,12 +29,6 @@
     <Setting Name="LastProjectPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="SwordModulesUsed" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;NET&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
-    </Setting>
     <Setting Name="LastSwordModuleUsed" Type="System.String" Scope="User">
       <Value Profile="(Default)">NET</Value>
     </Setting>
@@ -206,15 +200,6 @@
     <Setting Name="LastLocalizationId" Type="System.String" Scope="User">
       <Value Profile="(Default)">en</Value>
     </Setting>
-    <Setting Name="SwordModuleToUnlockKey" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;BIMK04&lt;/string&gt;
-  &lt;string&gt;DZnWNke9ScuB5IThEtS8txhiXMgy+5Ca&lt;/string&gt;
-  &lt;string&gt;TBI74&lt;/string&gt;
-  &lt;string&gt;DZnWNke9ScuB5IThEtS8txhiXMgy+5Ca&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
-    </Setting>
     <Setting Name="UseMapiPlus" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
@@ -238,21 +223,6 @@
     </Setting>
     <Setting Name="LnCNotesNoteFontSize" Type="System.Single" Scope="User">
       <Value Profile="(Default)">8.25</Value>
-    </Setting>
-    <Setting Name="SwordModuleToFont" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;HINDI&lt;/string&gt;
-  &lt;string&gt;Arial Unicode MS&lt;/string&gt;
-  &lt;string&gt;HINWBTC&lt;/string&gt;
-  &lt;string&gt;Arial Unicode MS&lt;/string&gt;
-  &lt;string&gt;XNR&lt;/string&gt;
-  &lt;string&gt;Arial Unicode MS&lt;/string&gt;
-  &lt;string&gt;FarsiOPV&lt;/string&gt;
-  &lt;string&gt;Nafees Nastaleeq&lt;/string&gt;
-  &lt;string&gt;BurJudson&lt;/string&gt;
-  &lt;string&gt;Padauk&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="UsePreviewDialogWhenAddingConNotes" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -393,6 +363,36 @@
     </Setting>
     <Setting Name="EncryptedSendGridApiKey" Type="System.String" Scope="User">
       <Value Profile="(Default)">GJJVBZyktY9sqInLbqyPjUvU8/IKqEp/tKUHYYeDEtcSfywhxLJ1hdBSa40pQ/Hdyi2jXFVgGF3uN8x3ia/zZbXm3aT6O4dx</Value>
+    </Setting>
+    <Setting Name="SwordModulesUsed" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;string&gt;NET&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="SwordModuleToUnlockKey" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;string&gt;BIMK04&lt;/string&gt;
+  &lt;string&gt;DZnWNke9ScuB5IThEtS8txhiXMgy+5Ca&lt;/string&gt;
+  &lt;string&gt;TBI74&lt;/string&gt;
+  &lt;string&gt;DZnWNke9ScuB5IThEtS8txhiXMgy+5Ca&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="SwordModuleToFont" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;string&gt;HINDI&lt;/string&gt;
+  &lt;string&gt;Arial Unicode MS&lt;/string&gt;
+  &lt;string&gt;HINWBTC&lt;/string&gt;
+  &lt;string&gt;Arial Unicode MS&lt;/string&gt;
+  &lt;string&gt;XNR&lt;/string&gt;
+  &lt;string&gt;Arial Unicode MS&lt;/string&gt;
+  &lt;string&gt;FarsiOPV&lt;/string&gt;
+  &lt;string&gt;Nafees Nastaleeq&lt;/string&gt;
+  &lt;string&gt;BurJudson&lt;/string&gt;
+  &lt;string&gt;Padauk&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
     </Setting>
   </Settings>
 </SettingsFile>
