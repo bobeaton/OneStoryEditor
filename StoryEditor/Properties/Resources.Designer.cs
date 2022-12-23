@@ -931,7 +931,7 @@ namespace OneStoryProjectEditor.Properties {
         ///&lt;meta name=Generator content=&quot;Microsoft Word 11&quot;&gt;
         ///&lt;meta name=Originator content=&quot;Microsoft Word 11&quot;&gt;
         ///&lt;link rel=File-List href=&quot;OneStory%20Editor%20is%20Copyright_files/filelist.xml&quot;&gt;
-        ///&lt;title&gt;OneStory Editor is Copyright © 2009-2021 SIL International &lt;/title&gt;
+        ///&lt;title&gt;OneStory Editor is Copyright © 2009-2022 SIL International &lt;/title&gt;
         ///&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
         /// &lt;o:DocumentProperties&gt;
         ///  &lt;o:Author&gt;Bob Eaton&lt;/o:Author&gt;
