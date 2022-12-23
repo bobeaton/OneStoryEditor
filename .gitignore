@@ -245,6 +245,15 @@ _Pvt_Extensions
 /DepDLLs/AiChorus.pdb
 /DepDLLs/OseMergeModule.msm
 /DepDLLs/OseMergeModule.wixpdb
+/Installer/ExternalMergeModules/AIGuesserMM.msm
+/Installer/ExternalMergeModules/CcDLLsMM.msm
+/Installer/ExternalMergeModules/EcFireFox.msm
+/Installer/ExternalMergeModules/EcTranslatorsMM.msm
+/Installer/ExternalMergeModules/EC_40_MM.msm
+/Installer/ExternalMergeModules/ICU_40.msm
+/Installer/ExternalMergeModules/PerlEcMM.msm
+/Installer/ExternalMergeModules/PythonEcMM.msm
+/Installer/ExternalMergeModules/TECkitDLLsMM.msm
 /OneStory Releases/OSE4.0/client
 /OneStory Releases/OSE4.0/zipped
 /OneStory Releases/OSE4.0/StoryEditor.exe.manifest - Copy.xml
@@ -275,5 +284,5 @@ _Pvt_Extensions
 /AiChorus/gdck.dat
 /output/Setup OneStory Editor_x86.msi
 *.pyc
-/output/Setup OneStoryEditor_5.0_x86.exe
+/output/Setup OneStoryEditor_5.1_x86.exe
 /output/previousInstallers

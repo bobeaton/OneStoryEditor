@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30804.86
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryEditor", "StoryEditor\StoryEditor.csproj", "{EE63B2ED-1488-491F-990A-3FA16E2DB135}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -41,6 +41,7 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Setup Bundle OneStoryEditor
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2EA316F1-ADE1-4BF9-B3FA-3AEB9396CC07}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		.github\workflows\build.yml = .github\workflows\build.yml
 	EndProjectSection
 EndProject
