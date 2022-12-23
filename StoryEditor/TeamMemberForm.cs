@@ -190,6 +190,16 @@ namespace OneStoryProjectEditor
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
+            // if it's marked as 'Return', then we don't want to switch back to the editor's tab
+            if ((tabControl1.SelectedTab == tabCollaborators) && (buttonOK.Text == CstrReturnLabel))
+            {
+                if (listBoxTeamMembersCollaborators.SelectedIndex == -1)
+                    return;
+
+                DialogResult = DialogResult.OK;
+                Close();
+            }
+
             if (tabControl1.SelectedTab == tabCollaborators)
             {
                 tabControl1.SelectedTab = tabEditors;
