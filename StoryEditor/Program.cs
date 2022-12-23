@@ -896,6 +896,9 @@ namespace OneStoryProjectEditor
 
         public static bool HasInternetRepo(string strProjectFolder)
         {
+            if (!Directory.Exists(PathToHgRepoFolder(strProjectFolder)))
+                return false;
+
             var strRepoUrl = InternetRepoUrl(strProjectFolder, out NullProgress nullProgress, out HgRepository repo, out List<Chorus.VcsDrivers.RepositoryAddress> paths);
             return strRepoUrl != null;
         }
