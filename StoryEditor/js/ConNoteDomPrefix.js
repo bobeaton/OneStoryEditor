@@ -24,6 +24,10 @@ function OnVerseLineJump(link) {
     window.external.OnVerseLineJump(link.name);
     return false; // cause the href navigation to not happen
 }
+function OnUrlJump(link) {
+    window.external.OnUrlJump(link.href);
+    return false; // cause the href navigation to not happen
+}
 
 var s_key = 83;
 var f5_key = 116;

@@ -296,7 +296,7 @@
     <value>Unable to process the state customization file (i.e. {0}). If you've customized which fields show by default in various states, then you need to delete the version of the customization file in the project folder (i.e. "{1}\{0}") so the program can re-create it using the newly upgraded version</value>
   </data>
   <data name="HTML_HttpLink" xml:space="preserve">
-    <value>&lt;a href="{0}" target="_blank"&gt;here&lt;/a&gt; </value>
+    <value>&lt;a href="{0}" onClick="return OnUrlJump(this);"&gt;here&lt;/a&gt; </value>
   </data>
   <data name="IDS_CreateMyBiblicalTermsQuery" xml:space="preserve">
     <value>In order to add or edit key terms, you have to begin using a local copy of one of the existing key

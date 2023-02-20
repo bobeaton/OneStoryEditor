@@ -33,6 +33,12 @@ namespace OneStoryProjectEditor
             DocumentCompleted += HtmlConNoteControl_DocumentCompleted;
         }
 
+        public void OnUrlJump(string url)
+        {
+            // doing it this way allows us to launch the default browser defined rather than IE
+            System.Diagnostics.Process.Start(url);
+        }
+
         public void LogMessage(string str)
         {
             Debug.WriteLine(str);

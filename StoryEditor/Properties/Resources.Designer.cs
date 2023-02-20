@@ -432,7 +432,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;a href=&quot;{0}&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt; .
+        ///   Looks up a localized string similar to &lt;a href=&quot;{0}&quot; onClick=&quot;return OnUrlJump(this);&quot;&gt;here&lt;/a&gt; .
         /// </summary>
         internal static string HTML_HttpLink {
             get {
