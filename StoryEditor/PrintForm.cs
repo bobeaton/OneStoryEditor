@@ -98,8 +98,8 @@ namespace OneStoryProjectEditor
                     checkBoxStoryTestingQuestions.Checked,
                     checkBoxAnswers.Checked,
                     checkBoxRetellings.Checked,
-                    false, // _theSE.viewConsultantNoteFieldMenuItem.Checked,
-                    false, // _theSE.viewCoachNotesFieldMenuItem.Checked,
+                    checkBoxConsultantComments.Checked,
+                    checkBoxCoachComments.Checked,
                     false, // _theSE.viewNetBibleMenuItem.Checked
                     checkBoxFrontMatter.Checked,
                     checkBoxShowHidden.Checked,

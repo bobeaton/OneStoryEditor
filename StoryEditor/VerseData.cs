@@ -1094,12 +1094,39 @@ namespace OneStoryProjectEditor
                                                           teamMembersData);
             }
 
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.ConsultantNoteFields) && ConsultantNotes.HasData && (presentationType == PresentationType.Printing))
+            {
+                strHtml += ConNotePresentationHtml(nLineId, nNumCols, craftingInfo, teamMembersData, 
+                                                   Localizer.Str("Consultant Notes"), ConsultantNotes);
+            }
+
+            if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.CoachNotesFields) && CoachNotes.HasData && (presentationType == PresentationType.Printing))
+            {
+                strHtml += ConNotePresentationHtml(nLineId, nNumCols, craftingInfo, teamMembersData, 
+                                                   Localizer.Str("Coach Notes"), CoachNotes);
+            }
+
             // show the row as hidden if either we're in print preview (and it's hidden)
             //  OR based on whether the child is hidden or not
             bool bShowAsHidden = (presentationType == StoryData.PresentationType.Printing)
                                      ? !IsVisible
                                      : false;
             return FinishPresentationHtml(strRow, strHtml, bShowAsHidden, viewSettings, nLineId);
+        }
+
+        string ConNotePresentationHtml(int nLineId, int nNumCols, CraftingInfoData craftingInfo, TeamMembersData teamMembersData, 
+                                       string PaneName, ConsultNotesDataConverter conNote)
+        {
+            var html = string.Format(Properties.Resources.HTML_TableRowColor, "#808080",    // Gray
+                        string.Format(Properties.Resources.HTML_TableCellWithSpan, nNumCols, PaneName));
+
+            html += conNote.PresentationHtml(nLineId, nNumCols,
+                                             teamMembersData,
+                                             craftingInfo,
+                                             IsVisible,
+                                             bViewHidden: false, bShowOnlyOpenConversations: false); // these might need to be selectable by the user
+
+            return String.Format(Properties.Resources.HTML_Table, html);
         }
 
         private delegate StringTransfer ChildStringTransfer();

@@ -58,6 +58,7 @@
             this.printViewer = new OneStoryProjectEditor.PrintViewer();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.checkBoxConsultantComments = new System.Windows.Forms.CheckBox();
+            this.checkBoxCoachComments = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel.SuspendLayout();
             this.groupBoxViewOptions.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -140,6 +141,7 @@
             this.flowLayoutPanel1.Controls.Add(this.checkBoxAnswers);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxShowHidden);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxConsultantComments);
+            this.flowLayoutPanel1.Controls.Add(this.checkBoxCoachComments);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 16);
@@ -379,7 +381,7 @@
             this.tabPagePrintPreviewConfig.Controls.Add(this.tableLayoutPanel);
             this.tabPagePrintPreviewConfig.Location = new System.Drawing.Point(4, 22);
             this.tabPagePrintPreviewConfig.Name = "tabPagePrintPreviewConfig";
-            this.tabPagePrintPreviewConfig.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPagePrintPreviewConfig.Padding = new System.Windows.Forms.Padding(3);
             this.tabPagePrintPreviewConfig.Size = new System.Drawing.Size(677, 363);
             this.tabPagePrintPreviewConfig.TabIndex = 0;
             this.tabPagePrintPreviewConfig.Text = "Configure";
@@ -391,7 +393,7 @@
             this.tabPagePrintPreview.Controls.Add(this.printViewer);
             this.tabPagePrintPreview.Location = new System.Drawing.Point(4, 22);
             this.tabPagePrintPreview.Name = "tabPagePrintPreview";
-            this.tabPagePrintPreview.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPagePrintPreview.Padding = new System.Windows.Forms.Padding(3);
             this.tabPagePrintPreview.Size = new System.Drawing.Size(677, 363);
             this.tabPagePrintPreview.TabIndex = 1;
             this.tabPagePrintPreview.Text = "Print Preview";
@@ -424,6 +426,18 @@
             this.checkBoxConsultantComments.TabIndex = 16;
             this.checkBoxConsultantComments.Text = "&Consultant comments";
             this.checkBoxConsultantComments.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCoachComments
+            // 
+            this.checkBoxCoachComments.AutoSize = true;
+            this.checkBoxCoachComments.Checked = true;
+            this.checkBoxCoachComments.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxCoachComments.Location = new System.Drawing.Point(216, 118);
+            this.checkBoxCoachComments.Name = "checkBoxCoachComments";
+            this.checkBoxCoachComments.Size = new System.Drawing.Size(108, 17);
+            this.checkBoxCoachComments.TabIndex = 16;
+            this.checkBoxCoachComments.Text = "C&oach comments";
+            this.checkBoxCoachComments.UseVisualStyleBackColor = true;
             // 
             // PrintForm
             // 
@@ -478,5 +492,6 @@
         private PrintViewer printViewer;
         private System.Windows.Forms.CheckBox checkBoxShowLineNumbers;
         private System.Windows.Forms.CheckBox checkBoxConsultantComments;
+        private System.Windows.Forms.CheckBox checkBoxCoachComments;
     }
 }

@@ -748,6 +748,98 @@ namespace OneStoryProjectEditor
             _regexBibRef = new Regex(CstrBibRefRegexFormat.Replace("{0}", strLine), RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
         }
 
+        internal string PresentationHtml(TeamMembersData theTeamMembers, CraftingInfoData craftingInfo, int nVerseIndex, int nConversationIndex)
+        {
+            string strHtml = null;
+
+            string strColor, strHtmlTable = null;
+            for (int i = 0; i < Count; i++)
+            {
+                CommInstance aCI = this[i];
+
+                TeamMemberData theCommentor = aCI.Commentor(theTeamMembers);
+
+                string strRow, theStoryPfMemberId = MemberIdInfo.SafeGetMemberId(craftingInfo.ProjectFacilitator);
+                Color clrRow;
+                if (IsFromMentor(aCI) || IsStickyNote)
+                {
+                    var label = (IsStickyNote)
+                                    ? Localizer.Str("Sticky:")
+                                    : MentorLabel(theCommentor,
+                                                  theStoryPfMemberId);
+                    clrRow = CommentColor(theCommentor, theStoryPfMemberId);
+                    strRow = String.Format(Resources.HTML_TableCellClass,
+                                           StoryData.CstrLangLocalizationStyleClassName,
+                                           VerseData.HtmlColor(Color.DodgerBlue),
+                                           label);
+                }
+                else
+                {
+                    clrRow = ResponseColor(theCommentor, theStoryPfMemberId);
+                    strRow = String.Format(Resources.HTML_TableCellClass,
+                                           StoryData.CstrLangLocalizationStyleClassName,
+                                           VerseData.HtmlColor(Color.ForestGreen),
+                                           MenteeLabel(theCommentor,
+                                                       theStoryPfMemberId));
+                }
+
+                if (IsaNoteToSelf(aCI))
+                    clrRow = AdjustSlightly(clrRow); // make it slightly different
+
+                strColor = VerseData.HtmlColor(clrRow);
+
+                string strReferringHtml = null;
+                if ((i == 0) && (ReferringText != null) && ReferringText.HasData)
+                {
+                    strReferringHtml = String.Format("<p ondblclick=\"OnDoubleClick(this)\">{0}</p>", ReferringText);
+                }
+
+                // there are two factors in deciding whether a conversation may be edited.
+                //  1) the right person is logged in and
+                //  2) the last comment box is for that person
+                // Re: 1) the conversation is editable if either the conversation initiator 
+                //  is logged in or a mentoree. For the ConsultantNote pane, this means the
+                //  specific project facilitator associated with the story. For the Coach
+                //  note pane, this could be any mentoree (PF, LSR, or CIT).
+                // Re: 2) that depends on whether the ...
+                string strHtmlElementId = TextParagraphId(nVerseIndex, nConversationIndex, i);
+                string strHyperlinkedText = strReferringHtml;
+                if (aCI.HasData)
+                {
+                    strHyperlinkedText += String.Format(Resources.HTML_Paragraph, aCI.ToString().Replace("\r\n", "<br />"));
+                    strHyperlinkedText = SetHyperlinks(strHyperlinkedText);
+                }
+
+                strRow += String.Format(Resources.HTML_TableCellWidth, 100,
+                                        String.Format(Resources.HTML_DivisionId,
+                                                        strHtmlElementId,
+                                                        StoryData.CstrLangTextAreaStyleClassName,
+                                                        strHyperlinkedText));
+
+                strHtmlTable += String.Format(Resources.HTML_TableRowIdColor,
+                                                TextareaReadonlyRowId(nVerseIndex, nConversationIndex, i),
+                                                strColor,
+                                                strRow);
+
+                // keep track of the element id so we can use it during 'Search/Replace' operations
+                aCI.HtmlElementId = strHtmlElementId;
+            }
+
+            string strEmbeddedTable = String.Format(Resources.HTML_Table,
+                                                    strHtmlTable);
+            if (Visible)
+                strColor = "#CCFFAA";
+            else
+                strColor = "#F0E68C";
+            strHtml += String.Format(Resources.HTML_TableRowIdColor,
+                                     ConversationTableRowId(nVerseIndex, nConversationIndex),
+                                     strColor,
+                                     String.Format(Resources.HTML_TableCellWithSpan, 5,
+                                                   strEmbeddedTable));
+
+            return strHtml;
+        }
+
         public string Html(object htmlConNoteCtrl,
             TeamMembersData theTeamMembers, TeamMemberData loggedOnMember,
             StoryData theStory, int nVerseIndex, int nConversationIndex)
@@ -1700,6 +1792,36 @@ namespace OneStoryProjectEditor
             // color changes if hidden
             string strColor;
             if (bVerseVisible)
+                strColor = "#FFFFFF";
+            else
+                strColor = "#F0E68C";   // khakhi
+
+            int nSpan = 3;
+            if (bShowOnlyOpenConversations)
+                nSpan++;
+
+            return String.Format(Properties.Resources.HTML_TableRowColor, strColor,
+                    String.Format(Properties.Resources.HTML_TableCellWithSpan, nSpan,
+                        String.Format(Properties.Resources.HTML_TableNoBorder, strHtml)));
+        }
+
+        internal string PresentationHtml(int nLineId, int nNumCols, TeamMembersData teamMembersData, CraftingInfoData craftingInfo, 
+                                         bool isVisible, bool bViewHidden, bool bShowOnlyOpenConversations)
+        {
+            string strHtml = null;
+            for (int i = 0; i < Count; i++)
+            {
+                ConsultNoteDataConverter aCNDC = this[i];
+                if ((aCNDC.Visible || bViewHidden)
+                    && (!bShowOnlyOpenConversations
+                        || !aCNDC.IsFinished
+                        || ShowOpenConversations))
+                    strHtml += aCNDC.PresentationHtml(teamMembersData, craftingInfo, nLineId, i);
+            }
+
+            // color changes if hidden
+            string strColor;
+            if (isVisible)
                 strColor = "#FFFFFF";
             else
                 strColor = "#F0E68C";   // khakhi
