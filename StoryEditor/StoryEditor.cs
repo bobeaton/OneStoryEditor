@@ -7927,6 +7927,12 @@ namespace OneStoryProjectEditor
                 }
                 else
                 {
+                    // Irene points out that for con/coach notes, we aren’t getting the FirstVerse. So do that here
+                    if ((kvp.Key == dlg.checkBoxConsultantNotes.Text) || (kvp.Key == dlg.checkBoxCoachNotes.Text))
+                    {
+                        resetFunction(theStoryToCopy.Verses.FirstVerse);
+                    }
+
                     foreach (var aVerse in theStoryToCopy.Verses)
                     {
                         resetFunction(aVerse);
