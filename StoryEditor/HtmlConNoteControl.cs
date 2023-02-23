@@ -104,7 +104,7 @@ namespace OneStoryProjectEditor
 
             // toggle state of 'Show All' or 'Hide Closed' button
             ConsultNotesDataConverter aCNsDC = DataConverter(nVerseIndex);
-            aCNsDC.ShowOpenConversations = (aCNsDC.ShowOpenConversations) ? false : true;
+            aCNsDC.ShowOpenConversations = !aCNsDC.ShowOpenConversations;
             
             // brute force (no need to repaint the button since the reload will do it for us
             LoadDocument();
@@ -116,11 +116,8 @@ namespace OneStoryProjectEditor
 
         public bool OnClickDelete(string strId)
         {
-            int nVerseIndex, nConversationIndex;
-            ConsultNotesDataConverter theCNsDC;
-            ConsultNoteDataConverter theCNDC;
-            if (!GetDataConverters(strId, out nVerseIndex, out nConversationIndex, 
-                out theCNsDC, out theCNDC))
+            if (!GetDataConverters(strId, out int nVerseIndex, out int nConversationIndex,
+                out ConsultNotesDataConverter theCNsDC, out ConsultNoteDataConverter theCNDC))
                 return false;
 
             if (theCNDC.HasData)
@@ -169,11 +166,8 @@ namespace OneStoryProjectEditor
 
         public bool OnClickHide(string strId)
         {
-            int nVerseIndex, nConversationIndex;
-            ConsultNotesDataConverter theCNsDC;
-            ConsultNoteDataConverter theCNDC;
-            if (!GetDataConverters(strId, out nVerseIndex, out nConversationIndex, 
-                out theCNsDC, out theCNDC))
+            if (!GetDataConverters(strId, out int nVerseIndex, out int nConversationIndex,
+                out ConsultNotesDataConverter theCNsDC, out ConsultNoteDataConverter theCNDC))
                 return false;
 
             // if there's only one and it's empty, then just delete it
@@ -181,7 +175,7 @@ namespace OneStoryProjectEditor
                 OnClickDelete(strId);
 
             StrIdToScrollTo = GetTopRowId;
-            theCNDC.Visible = (theCNDC.Visible) ? false : true;
+            theCNDC.Visible = !theCNDC.Visible;
 
             /*
             if (TheSE.hiddenVersesToolStripMenuItem.Checked)
@@ -243,11 +237,8 @@ namespace OneStoryProjectEditor
 
         public bool OnClickEndConversation(string strId)
         {
-            int nVerseIndex, nConversationIndex;
-            ConsultNotesDataConverter theCNsDC;
-            ConsultNoteDataConverter theCNDC;
-            if (!GetDataConverters(strId, out nVerseIndex, out nConversationIndex, 
-                out theCNsDC, out theCNDC))
+            if (!GetDataConverters(strId, out int nVerseIndex, out int nConversationIndex,
+                out ConsultNotesDataConverter theCNsDC, out ConsultNoteDataConverter theCNDC))
                 return false;
 
             System.Diagnostics.Debug.Assert(Document != null);
@@ -352,8 +343,7 @@ namespace OneStoryProjectEditor
         
         public void CopyScriptureReference(string strId)
         {
-            int nVerseIndex, nConversationIndex, nDontCare;
-            if (!GetIndicesFromId(strId, out nVerseIndex, out nConversationIndex, out nDontCare))
+            if (!GetIndicesFromId(strId, out int nVerseIndex, out int nConversationIndex, out int nDontCare))
                 return;
 
             ConsultNoteDataConverter theCNDC = DataConverter(nVerseIndex, nConversationIndex);
@@ -382,13 +372,11 @@ namespace OneStoryProjectEditor
 
         public bool TextareaOnKeyUp(string strId, string strText)
         {
-            int nVerseIndex, nConversationIndex, nDontCare;
-            if (!GetIndicesFromId(strId, out nVerseIndex, out nConversationIndex, out nDontCare))
+            if (!GetIndicesFromId(strId, out int nVerseIndex, out int nConversationIndex, out int nDontCare))
                 return false;
 
             ConsultNotesDataConverter theCNsDC = DataConverter(nVerseIndex);
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(theCNsDC, out theSE))
+            if (!CheckForProperEditToken(theCNsDC, out StoryEditor theSE))
                 return false;
 
             ConsultNoteDataConverter theCNDC = theCNsDC[nConversationIndex];
@@ -414,8 +402,7 @@ namespace OneStoryProjectEditor
             theCNsDC = null;
             theCNDC = null;
 
-            int nDontCare;
-            if (!GetIndicesFromId(strId, out nVerseIndex, out nConversationIndex, out nDontCare))
+            if (!GetIndicesFromId(strId, out nVerseIndex, out nConversationIndex, out int nDontCare))
                 return false;
 
             theCNsDC = DataConverter(nVerseIndex);
@@ -467,8 +454,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                if (theSE != null)
-                    theSE.SetStatusBar(String.Format(Localizer.Str("Error: {0}"), ex.Message));
+                theSE?.SetStatusBar(String.Format(Localizer.Str("Error: {0}"), ex.Message));
                 return false;
             }
 
@@ -479,8 +465,7 @@ namespace OneStoryProjectEditor
                                                   int nVerseIndex, ConsultNoteDataConverter.NoteType eNoteType)
         {
             // the only function of the button here is to add a slot to type a con note
-            StoryEditor theSE;
-            if (!CheckForProperEditToken(aCNsDC, out theSE))
+            if (!CheckForProperEditToken(aCNsDC, out StoryEditor theSE))
                 return null;
 
             // if we're not given anything to put in the box, at least put in the logged
@@ -532,8 +517,7 @@ namespace OneStoryProjectEditor
             if (TheSE.UsingHtmlForStoryBtPane)
                 return;
 
-            int nVerseIndex, nConversationIndex, nCommentIndex;
-            if (!GetIndicesFromId(strId, out nVerseIndex, out nConversationIndex, out nCommentIndex))
+            if (!GetIndicesFromId(strId, out int nVerseIndex, out int nConversationIndex, out int nCommentIndex))
                 return;
 
             ConsultNotesDataConverter theCNsDC = DataConverter(nVerseIndex);
@@ -631,22 +615,16 @@ namespace OneStoryProjectEditor
         protected bool SetDirectionTo(string strId, 
             bool? bNeedsApproval, bool bToMentorDirection, bool bToNoteToSelf = false)
         {
-            int nVerseIndex, nConversationIndex;
-            ConsultNotesDataConverter theCNsDC;
-            ConsultNoteDataConverter theCNDC;
-            if (!GetDataConverters(strId, out nVerseIndex, out nConversationIndex,
-                                   out theCNsDC, out theCNDC))
+            if (!GetDataConverters(strId, out int nVerseIndex, out int nConversationIndex,
+                                   out ConsultNotesDataConverter theCNsDC, out ConsultNoteDataConverter theCNDC))
             {
                 return false;
             }
 
             // means we should calculate whether it needs approval or not
-            if (bNeedsApproval == null)
-            {
-                // only needs approval if this is the consultant notes pane and ...
-                bNeedsApproval = (this is HtmlConsultantNotesControl) &&
-                                  ConsultantNoteData.CalculateWhetherNoteNeedsApproval(TheSE.LoggedOnMember, StoryData, ConsultNoteDataConverter.NoteType.RegularNote);
-            }
+            // only needs approval if this is the consultant notes pane and ...
+            bNeedsApproval ??= (this is HtmlConsultantNotesControl) &&
+                              ConsultantNoteData.CalculateWhetherNoteNeedsApproval(TheSE.LoggedOnMember, StoryData, ConsultNoteDataConverter.NoteType.RegularNote);
 
             theCNDC.FinalComment.Direction = (bToNoteToSelf)
                                                 ? (bToMentorDirection)
@@ -688,21 +666,21 @@ namespace OneStoryProjectEditor
             this.menuAddNote.Name = "menuAddNote";
             this.menuAddNote.Size = new System.Drawing.Size(243, 22);
             this.menuAddNote.Text = "Add note on selected text";
-            this.menuAddNote.Click += new System.EventHandler(this.menuAddNote_Click);
+            this.menuAddNote.Click += new System.EventHandler(this.MenuAddNote_Click);
             // 
             // menuAddNoteToSelf
             // 
             this.menuAddNoteToSelf.Name = "menuAddNoteToSelf";
             this.menuAddNoteToSelf.Size = new System.Drawing.Size(243, 22);
             this.menuAddNoteToSelf.Text = "Add note to self on selected text";
-            this.menuAddNoteToSelf.Click += new System.EventHandler(this.menuAddNoteToSelf_Click);
+            this.menuAddNoteToSelf.Click += new System.EventHandler(this.MenuAddNoteToSelf_Click);
             // 
             // menuConNoteToFont
             // 
             this.menuConNoteToFont.Name = "menuConNoteToFont";
             this.menuConNoteToFont.Size = new System.Drawing.Size(243, 22);
             this.menuConNoteToFont.Text = $"Change font used for {PaneLabel()} pane";
-            this.menuConNoteToFont.Click += new System.EventHandler(this.toolStripMenuItemConNoteChangeFont_Click);
+            this.menuConNoteToFont.Click += new System.EventHandler(this.ToolStripMenuItemConNoteChangeFont_Click);
             // 
             // HtmlConNoteControl
             // 
@@ -713,7 +691,7 @@ namespace OneStoryProjectEditor
             this.ResumeLayout(false);
         }
 
-        private void menuAddNoteToSelf_Click(object sender, EventArgs e)
+        private void MenuAddNoteToSelf_Click(object sender, EventArgs e)
         {
             bool bNoteToSelf = true;
             ConNoteAddNote(bNoteToSelf);
@@ -727,18 +705,16 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private void toolStripMenuItemConNoteChangeFont_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemConNoteChangeFont_Click(object sender, EventArgs e)
         {
             var settingKeyForFontToUse = SettingsKeyForFontToUse;
 
             // if we have this in the user config, then pre-select it for the Font dialog
             var fontDialog = new FontDialog();
-            string strFontName, strFontSize;
             if (NetBibleViewer.ReadFontNameAndSizeFromUserConfig(settingKeyForFontToUse,
-                out strFontName, out strFontSize))
+                out string strFontName, out string strFontSize))
             {
-                float fFontSize;
-                if (!float.TryParse(strFontSize, out fFontSize))
+                if (!float.TryParse(strFontSize, out float fFontSize))
                     fFontSize = 12F;
                 fontDialog = new FontDialog { Font = new System.Drawing.Font(strFontName, fFontSize) };
             }
@@ -772,23 +748,22 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private static Regex regExReadLineNumber = new Regex(@"id=tp_(\d+?)_", RegexOptions.Compiled);
+        private static readonly Regex regExReadLineNumber = new(@"id=tp_(\d+?)_", RegexOptions.Compiled);
 
-        private void menuAddNote_Click(object sender, EventArgs args)
+        private void MenuAddNote_Click(object sender, EventArgs args)
         {
             bool bNoteToSelf = false;
             ConNoteAddNote(bNoteToSelf);
         }
 
-        Regex regexStripTableBits = new Regex("</?(TD|TR|FONT|TEXTAREA|TBODY|TABLE|BUTTON).*?>", RegexOptions.Compiled | RegexOptions.Singleline);
+        readonly Regex regexStripTableBits = new("</?(TD|TR|FONT|TEXTAREA|TBODY|TABLE|BUTTON).*?>", RegexOptions.Compiled | RegexOptions.Singleline);
 
         private void ConNoteAddNote(bool bNoteToSelf)
         {
             if (Document == null)
                 return;
 
-            var htmlDocument = Document.DomDocument as IHTMLDocument2;
-            if (htmlDocument == null)
+            if (Document.DomDocument is not IHTMLDocument2 htmlDocument)
                 return;
 
             var selection = htmlDocument.selection;
@@ -866,8 +841,7 @@ namespace OneStoryProjectEditor
     {
         public override void LoadDocument()
         {
-            string strFontName, strFontSize;
-            NetBibleViewer.ReadFontNameAndSizeFromUserConfig(SettingsKeyForFontToUse, out strFontName, out strFontSize);
+            NetBibleViewer.ReadFontNameAndSizeFromUserConfig(SettingsKeyForFontToUse, out string strFontName, out string strFontSize);
 
             var strHtml = StoryData.ConsultantNotesHtml(this,
                                                         TheSE.StoryProject.ProjSettings,
@@ -914,8 +888,7 @@ namespace OneStoryProjectEditor
     {
         public override void LoadDocument()
         {
-            string strFontName, strFontSize;
-            NetBibleViewer.ReadFontNameAndSizeFromUserConfig(SettingsKeyForFontToUse, out strFontName, out strFontSize);
+            NetBibleViewer.ReadFontNameAndSizeFromUserConfig(SettingsKeyForFontToUse, out string strFontName, out string strFontSize);
 
             var strHtml = StoryData.CoachNotesHtml(this,
                                                    TheSE.StoryProject.ProjSettings,

@@ -104,7 +104,7 @@ namespace OneStoryProjectEditor
             get
             {
                 var elem = GetTopHtmlElementId("td");
-                return (elem != null) ? elem.Id : null;
+                return elem?.Id;
             }
         }
 
@@ -260,8 +260,7 @@ namespace OneStoryProjectEditor
             // update: if you *don't* want to jump there, then clear out StrIdToScrollTo manually. This needs
             //  to be here (e.g. for DoMove) which wants to go back to the same spot
             // StrIdToScrollTo = null;
-            if (Document != null)
-                Document.OpenNew(true);
+            Document?.OpenNew(true);
         }
 
         public bool OnBibRefJump(string strBibRef)
@@ -288,8 +287,7 @@ namespace OneStoryProjectEditor
             }
             catch (Exception ex)
             {
-                if (theSE != null)
-                    theSE.SetStatusBar(String.Format(Localizer.Str("Error: {0}"), ex.Message));
+                theSE?.SetStatusBar(String.Format(Localizer.Str("Error: {0}"), ex.Message));
                 return false;
             }
 
@@ -303,8 +301,7 @@ namespace OneStoryProjectEditor
             if (IsTextareaElement(stringTransfer.HtmlElementId) && (Document != null))
             {
                 var doc = Document;
-                var htmlDocument = doc.DomDocument as IHTMLDocument2;
-                if (htmlDocument != null)
+                if (doc.DomDocument is IHTMLDocument2 htmlDocument)
                 {
                     var selection = htmlDocument.selection;
                     if (selection.type.ToLower() != "text")
@@ -314,8 +311,7 @@ namespace OneStoryProjectEditor
                     }
                     else
                     {
-                        var rangeSelection = selection.createRange() as IHTMLTxtRange;
-                        if (rangeSelection != null)
+                        if (selection.createRange() is IHTMLTxtRange rangeSelection)
                             return rangeSelection.text;
                         // else otherwise nothing selected, so just return
                     }
@@ -349,8 +345,7 @@ namespace OneStoryProjectEditor
             if (Document != null)
             {
                 HtmlDocument doc = Document;
-                IHTMLDocument2 htmlDocument = doc.DomDocument as IHTMLDocument2;
-                if (htmlDocument != null)
+                if (doc.DomDocument is IHTMLDocument2)
                 {
                     object[] oaParams = new object[] { stringTransfer.HtmlElementId, strNewValue };
                     nNewEndPoint = (int)doc.InvokeScript("textboxSetSelectionTextReturnEndPosition", oaParams);
@@ -377,8 +372,7 @@ namespace OneStoryProjectEditor
                 HtmlDocument doc = Document;
                 if (IsTextareaElement(stringTransfer.HtmlElementId))
                 {
-                    IHTMLDocument2 htmlDocument = doc.DomDocument as IHTMLDocument2;
-                    if (htmlDocument != null)
+                    if (doc.DomDocument is IHTMLDocument2 htmlDocument)
                     {
                         IHTMLSelectionObject selection = htmlDocument.selection;
                         selection.empty();
