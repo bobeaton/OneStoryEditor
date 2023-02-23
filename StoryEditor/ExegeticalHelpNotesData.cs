@@ -177,10 +177,13 @@ namespace OneStoryProjectEditor
                     ? strExegeticalHelpNote
                     : "-";  // just so there's something there (or the cell doesn't show)
 
-                    strHtml += String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100/nNumCols,
+                    strHtml += String.Format(Properties.Resources.HTML_TableRow,
+                                    String.Format("{0}{1}",
+                                        String.Format(Properties.Resources.HTML_TableCell, CstrCnLable),
+                                        String.Format(Properties.Resources.HTML_TableCellWidthAlignTop, 100,
                                              String.Format(Properties.Resources.HTML_ParagraphText,
                                                            StoryData.CstrLangInternationalBtStyleClassName,
-                                                           strValue));
+                                                           strValue))));
                 }
             }
 
