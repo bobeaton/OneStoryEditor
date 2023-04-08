@@ -80,6 +80,7 @@
       <Component Id="GemBox.Document.dll" Guid="{22B409D8-B508-4B45-9003-0DA619B576B2}">
         <File Id="GemBox.Document.dll" Name="GemBox.Document.dll" Vital="yes" KeyPath="yes" AssemblyManifest="GemBox.Document.dll" AssemblyApplication="GemBox.Document.dll" Assembly=".net" Source="..\..\output\release\GemBox.Document.dll"/>
       </Component>
+      <!-- These are now included in EcCore in the EcTranslator package which is included
       <Component Id="Google.Apis.Auth.dll" Guid="{E7008ADF-B06B-4B33-AE69-9D7BCF87EF56}">
         <File Id="Google.Apis.Auth.dll" Name="Google.Apis.Auth.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Apis.Auth.dll" AssemblyApplication="Google.Apis.Auth.dll" Assembly=".net" Source="..\..\output\release\Google.Apis.Auth.dll"/>
       </Component>
@@ -113,6 +114,7 @@
       <Component Id="Google.Apis.PlatformServices.dll" Guid="{BA92C3F1-6887-4233-8271-D9F89E4F7D00}">
         <File Id="Google.Apis.PlatformServices.dll" Name="Google.Apis.PlatformServices.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Apis.PlatformServices.dll" AssemblyApplication="Google.Apis.PlatformServices.dll" Assembly=".net" Source="..\..\output\release\Google.Apis.PlatformServices.dll"/>
       </Component>
+      -->
       <Component Id="Google.Apis.Sheets.v4.dll" Guid="{C1F6937F-D0D8-4BC7-9D33-5F825C6CA016}">
         <File Id="Google.Apis.Sheets.v4.dll" Name="Google.Apis.Sheets.v4.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Apis.Sheets.v4.dll" AssemblyApplication="Google.Apis.Sheets.v4.dll" Assembly=".net" Source="..\..\output\release\Google.Apis.Sheets.v4.dll"/>
       </Component>
