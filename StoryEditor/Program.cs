@@ -29,6 +29,7 @@ using SendGrid.Helpers.Mail;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Diagnostics;
+using ECInterfaces;
 
 namespace OneStoryProjectEditor
 {
@@ -226,6 +227,13 @@ namespace OneStoryProjectEditor
                 SIL.Windows.Forms.Keyboarding.KeyboardController.Shutdown();
 #endif
             }
+        }
+
+        public static bool IsTransliteratorATranslator(DirectableEncConverter transliterator)
+        {
+            const int processType = (int)ProcessTypeFlags.Translation;
+            return (transliterator?.GetEncConverter != null) &&
+                ((transliterator.GetEncConverter.ProcessType & processType) == processType);
         }
 
         public static (GetCloneFromInternetModel model, GetCloneFromInternetDialog dlg)

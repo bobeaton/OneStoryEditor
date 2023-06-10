@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using OneStoryProjectEditor.Properties;
 using SilEncConverters40;
 
@@ -166,19 +167,34 @@ namespace OneStoryProjectEditor
             Value = strValue;
         }
 
+        private static readonly SemaphoreSlim semaphore = new SemaphoreSlim(1);
+
         public string GetValue(DirectableEncConverter transliterator)
         {
             string str = Value;
             Transliterator = transliterator;    // need to to properly set 'readonly' if it's turned on
             if (!String.IsNullOrEmpty(str) && (transliterator != null))
+            {
+                // it seems that ICU (and maybe teckit) aren't thread safe, so only do the parallel stuff if it's 
+                //  not one of the online translators (e.g. google translate)
+                var makeThreadSafe = !Program.IsTransliteratorATranslator(transliterator);
+                if (makeThreadSafe)
+                    semaphore.Wait();
                 try
                 {
                     str = transliterator.Convert(str);
                 }
                 catch { }
+                finally 
+                { 
+                    if (makeThreadSafe)
+                        semaphore.Release(); 
+                }
+            }
 
             return str;
         }
+
 #if !DataDllBuild
         public void SetAssociation(CtrlTextBox tb)
         {

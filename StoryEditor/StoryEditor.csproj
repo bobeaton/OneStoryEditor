@@ -1260,11 +1260,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-xcopy /S /Y /I "$(SolutionDir)Mercurial" "$(SolutionDir)output\$(ConfigurationName)\mercurial"
-xcopy /S /Y /I "$(SolutionDir)MercurialExtensions" "$(SolutionDir)output\$(ConfigurationName)\MercurialExtensions"
-xcopy /S /Y /I "$(EcDistFilesPath)\redist\EC\Plugins" "$(SolutionDir)output\$(ConfigurationName)\EC\Plugins"
-xcopy /S /Y /I "$(EcDistFilesPath)\MergeModules\x86" "$(SolutionDir)Installer\ExternalMergeModules"
-</PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -1290,6 +1286,12 @@ xcopy /S /Y /I "$(EcDistFilesPath)\MergeModules\x86" "$(SolutionDir)Installer\Ex
   <Import Project="..\packages\SIL.Windows.Forms.10.0.0\build\SIL.Windows.Forms.targets" Condition="Exists('..\packages\SIL.Windows.Forms.10.0.0\build\SIL.Windows.Forms.targets')" />
   <Import Project="..\packages\SIL.Windows.Forms.Keyboarding.10.0.0\build\SIL.Windows.Forms.Keyboarding.targets" Condition="Exists('..\packages\SIL.Windows.Forms.Keyboarding.10.0.0\build\SIL.Windows.Forms.Keyboarding.targets')" />
   <Import Project="..\packages\icu.net.2.9.0\build\icu.net.targets" Condition="Exists('..\packages\icu.net.2.9.0\build\icu.net.targets')" />
+  <PropertyGroup>
+    <PreBuildEvent>xcopy /S /Y /I "$(SolutionDir)Mercurial" "$(SolutionDir)output\$(ConfigurationName)\mercurial"
+xcopy /S /Y /I "$(SolutionDir)MercurialExtensions" "$(SolutionDir)output\$(ConfigurationName)\MercurialExtensions"
+xcopy /y "$(EcDistFilesPath)\win-x86\native\*.*" "$(SolutionDir)output\$(ConfigurationName)\"
+xcopy /s /y "$(EcDistFilesPath)\redist\*.*" "$(SolutionDir)output\$(ConfigurationName)\"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

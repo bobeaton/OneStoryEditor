@@ -520,19 +520,12 @@ namespace OneStoryProjectEditor
             {
                 get
                 {
-                    return  IsTransliteratorATranslator(TransliteratorVernacular) ||
-                            IsTransliteratorATranslator(TransliteratorNationalBT) ||
-                            IsTransliteratorATranslator(TransliteratorInternationalBt) ||
-                            IsTransliteratorATranslator(TransliteratorFreeTranslation);
+                    return  Program.IsTransliteratorATranslator(TransliteratorVernacular) ||
+                            Program.IsTransliteratorATranslator(TransliteratorNationalBT) ||
+                            Program.IsTransliteratorATranslator(TransliteratorInternationalBt) ||
+                            Program.IsTransliteratorATranslator(TransliteratorFreeTranslation);
 
                 }
-            }
-
-            private bool IsTransliteratorATranslator(DirectableEncConverter transliterator)
-            {
-                const int processType = (int)ProcessTypeFlags.Translation;
-                return (transliterator?.GetEncConverter != null) && 
-                    ((transliterator.GetEncConverter.ProcessType & processType) == processType);
             }
 
             public ViewSettings(long lSettings)

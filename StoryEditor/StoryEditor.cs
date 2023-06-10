@@ -4512,42 +4512,44 @@ namespace OneStoryProjectEditor
                                                     Func<LineData, StringTransfer> getFieldFunc,
                                                     bool dontOfferToReturnTransliteration = false)
         {
-            Debug.Assert((theStoryData != null)
-                && (theStoryData.Verses.Count > 0));
+            Debug.Assert((theStoryData != null) && (theStoryData.Verses.Count > 0));
 
-            // if it's being 'transliterated', then offer to copy the transliterated form
-            DialogResult res;
             var isTransliterated = false;
-            if (transliterator != null)
+            if (!dontOfferToReturnTransliteration)
             {
-                // first, if it is transliterated, then see if they want to copy the transliterated value.
-                if ((res = LocalizableMessageBox.Show(String.Format(Localizer.Str("Do you want to copy the transliterated/translated text to the clipboard (i.e. after the original has been converted using the {1} converter)?{0}{0}Click 'No' to copy the original text."),
-                                                                    Environment.NewLine, transliterator.Name),
-                                                        OseCaption, MessageBoxButtons.YesNoCancel))
+                // if it's being 'transliterated', then offer to copy the transliterated form
+                DialogResult res;
+                if (transliterator != null)
+                {
+                    // first, if it is transliterated, then see if they want to copy the transliterated value.
+                    if ((res = LocalizableMessageBox.Show(String.Format(Localizer.Str("Do you want to copy the transliterated/translated text to the clipboard (i.e. after the original has been converted using the {1} converter)?{0}{0}Click 'No' to copy the original text."),
+                                                                        Environment.NewLine, transliterator.Name),
+                                                            OseCaption, MessageBoxButtons.YesNoCancel))
+                        == DialogResult.Yes)
+                    {
+                        isTransliterated = true;
+                    }
+                    else if (res == DialogResult.No)
+                    {
+                        transliterator = null;  // this just changes the local copy
+                    }
+                    else // cancel
+                        return null;
+                }
+
+                // either way, next see if their goal is to paste it in another field (in which case, we would put it in an xml format
+                //  from which we could paste it into different rows (if not, then it's just one chunk of text).
+                if ((res = LocalizableMessageBox.Show(String.Format(Localizer.Str("Are you wanting to paste the{1} text in another field?{0}{0}Click 'No' to copy the data as a single paragraph of text. Click 'Yes' to copy the data to the clipboard in a format that allows it to be pasted into another field line by line (e.g. the English BT field)"),
+                                                                    Environment.NewLine, isTransliterated ? "  transliterated/translated" : String.Empty),
+                                                      OseCaption, MessageBoxButtons.YesNoCancel))
                     == DialogResult.Yes)
                 {
-                    isTransliterated = true;
+                    var xmlToCopyColumn = StoryProject.GetXmlToCopyColumn(theStoryData.Verses, transliterator, getFieldFunc);
+                    return xmlToCopyColumn.ToString();
                 }
-                else if (res == DialogResult.No)
-                {
-                    transliterator = null;  // this just changes the local copy
-                }
-                else // cancel
+                else if (res == DialogResult.Cancel)
                     return null;
             }
-
-            // either way, next see if their goal is to paste it in another field (in which case, we would put it in an xml format
-            //  from which we could paste it into different rows (if not, then it's just one chunk of text).
-            if ((res = LocalizableMessageBox.Show(String.Format(Localizer.Str("Are you wanting to paste the{1} text in another field?{0}{0}Click 'No' to copy the data as a single paragraph of text. Click 'Yes' to copy the data to the clipboard in a format that allows it to be pasted into another field line by line (e.g. the English BT field)"),
-                                                                Environment.NewLine, isTransliterated ? "  transliterated/translated" : String.Empty),
-                                                  OseCaption, MessageBoxButtons.YesNoCancel))
-                == DialogResult.Yes)
-            {
-                var xmlToCopyColumn = StoryProject.GetXmlToCopyColumn(theStoryData.Verses, transliterator, getFieldFunc);
-                return xmlToCopyColumn.ToString();
-            }
-            else if (res == DialogResult.Cancel)
-                return null;
 
             VerseData aVerse = theStoryData.Verses[0];
             string strText = null;
@@ -6282,6 +6284,11 @@ namespace OneStoryProjectEditor
             {
                 setter(null);
             }
+
+            // mark as modified so it offers to save the file (or we lose the fact that this value,
+            //  which is stored in the project file itself (under the per-user settings) has been
+            //  changed
+            Modified = true;    
 
             InitializeTransliterators();
             ReInitVerseControls();
