@@ -223,6 +223,12 @@
   <ItemGroup>
     <None Include="icu4c.readme.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OseCommon\OseCommon.csproj">
+      <Project>{25893762-b72e-4dc6-bf11-cbb3a025cbc2}</Project>
+      <Name>OseCommon</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

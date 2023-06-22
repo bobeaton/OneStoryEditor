@@ -229,6 +229,21 @@ namespace OneStoryProjectEditor
             }
         }
 
+
+        public static string FromException(Exception ex)
+        {
+            string strErrorMsg = ex.Message;
+            while (ex.InnerException != null)
+            {
+                strErrorMsg += String.Format("{0}{0}{1}",
+                                            Environment.NewLine,
+                                            ex.InnerException.Message);
+                ex = ex.InnerException;
+            }
+
+            return strErrorMsg;
+        }
+
         public static bool IsTransliteratorATranslator(DirectableEncConverter transliterator)
         {
             const int processType = (int)ProcessTypeFlags.Translation;
@@ -359,6 +374,7 @@ namespace OneStoryProjectEditor
             {
                 Properties.Settings.Default.Upgrade();
                 Properties.Settings.Default.UpgradeSettings = false;
+                Properties.Settings.Default.Save();
             }
 
             if (Properties.Settings.Default.RecentProjects == null)

@@ -1256,6 +1256,10 @@
       <Project>{46f3be0e-71c5-4fa2-872f-3ae6c51d09a5}</Project>
       <Name>AutoUpgrade.Lib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OseCommon\OseCommon.csproj">
+      <Project>{25893762-b72e-4dc6-bf11-cbb3a025cbc2}</Project>
+      <Name>OseCommon</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

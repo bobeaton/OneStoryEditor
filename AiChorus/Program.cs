@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
@@ -11,6 +10,8 @@ using AiChorus.Properties;
 using ECInterfaces;
 using Microsoft.Win32;
 using OneStoryProjectEditor;
+using SIL.IO;
+using System.IO;
 using SilEncConverters40;
 
 namespace AiChorus
@@ -27,7 +28,7 @@ namespace AiChorus
             get
             {
                 var dropboxPath = Path.Combine(Path.Combine(DropboxFolderRoot, "OSE CPCs"), KeyFileName);
-                return (File.Exists(dropboxPath))
+                return (RobustFile.Exists(dropboxPath))
                         ? dropboxPath
                         : KeyFileName;
             }
@@ -67,9 +68,9 @@ namespace AiChorus
                     ProcessChorusConfigFile((args.Length == 2) ? args[1] : null);
                 else if (args[0] == "/e")
                     DoEdit();
-                else if ((args[0] == "/s") && (args.Length == 2) && (File.Exists(args[1])))
+                else if ((args[0] == "/s") && (args.Length == 2) && (RobustFile.Exists(args[1])))
                     SyncChorusProjects(args[1]);
-                else if ((args[0] == "/h") && (args.Length == 2) && (File.Exists(args[1])))
+                else if ((args[0] == "/h") && (args.Length == 2) && (RobustFile.Exists(args[1])))
                     HarvestProjectData(args[1]);
                 else
                     LaunchProgram("Chorus.exe", $"\"{Settings.Default.LastProjectFolder}\"");
@@ -84,7 +85,7 @@ namespace AiChorus
         {
             LogMessage(String.Format("Harvesting data from the projects in the .cpc file: '{0}'", strPathToProjectFile));
 
-            if (!File.Exists(KeyFileName))
+            if (!RobustFile.Exists(KeyFileName))
             {
                 LogMessage($"Missing the keyfile, '{KeyFileName}'!");
             }
@@ -142,7 +143,7 @@ namespace AiChorus
                 HarvestProjectData(project, serverSetting, mapProjectsToProjectData);
             }
 
-            var specialDecryptionKey = File.ReadAllText(KeyFileSpec);
+            var specialDecryptionKey = RobustFile.ReadAllText(KeyFileSpec);
             var clientId = EncryptionClass.Decrypt(Settings.Default.GoogleSheetsCredentialsClientId, specialDecryptionKey);
             var clientSecret = EncryptionClass.Decrypt(Settings.Default.GoogleSheetsCredentialsClientSecret, specialDecryptionKey);
             GoogleSheetHandler.UpdateGoogleSheet(mapProjectsToProjectData, serverSetting.GoogleSheetId,
@@ -408,10 +409,13 @@ namespace AiChorus
         public static string FromException(Exception ex)
         {
             string strErrorMsg = ex.Message;
-            if (ex.InnerException != null)
+            while (ex.InnerException != null)
+            {
                 strErrorMsg += String.Format("{0}{0}{1}",
                                             Environment.NewLine,
                                             ex.InnerException.Message);
+                ex = ex.InnerException;
+            }
             return strErrorMsg;
         }
 
@@ -454,14 +458,14 @@ namespace AiChorus
 
             // then check to see if we have to make a copy (to keep the attributes, which 'rename' doesn't do)
             //  as a backup file.
-            if (!File.Exists(strFilepath))
+            if (!RobustFile.Exists(strFilepath))
                 return;
 
             // it exists, so make a backup
             var strBackupFilename = strFilepath + ".bak";
-            File.Delete(strBackupFilename); // just in case there was already a backup
-            File.Copy(strFilepath, strBackupFilename);
-            File.Delete(strFilepath);
+            RobustFile.Delete(strBackupFilename); // just in case there was already a backup
+            RobustFile.Copy(strFilepath, strBackupFilename);
+            RobustFile.Delete(strFilepath);
         }
 
         public static Dictionary<string, string> ArrayToDictionary(StringCollection data)

@@ -11,6 +11,8 @@ using Chorus.VcsDrivers.Mercurial;
 using SIL.Progress;
 using SIL.IO;
 using System.ComponentModel.Composition;
+using SIL.Reporting;
+using OseCommon;
 
 namespace Chorus.FileTypeHandlers.OneStory
 {
@@ -26,8 +28,7 @@ namespace Chorus.FileTypeHandlers.OneStory
         {
             get
             {
-                return File.Exists(Path.Combine(
-                                       ExecutionEnvironment.DirectoryOfExecutingAssembly, CstrAppName));
+                return RobustFile.Exists(Path.Combine(ExecutionEnvironment.DirectoryOfExecutingAssembly, CstrAppName));
             }
         }
 
@@ -75,7 +76,12 @@ namespace Chorus.FileTypeHandlers.OneStory
             //  "view changesets" in TortoiseHG (a line-by-line differencer) it will highlight bona fide differences as much 
             //  as possible.
             XDocument doc = XDocument.Parse(result.MergedNode.OuterXml);
-            doc.Save(mergeOrder.pathToOurs);
+
+            // it seems that there may be some situations in which the file is not properly written to the disk (see 
+            //  https://stackoverflow.com/questions/49260358/what-could-cause-an-xml-file-to-be-filled-with-null-characters
+            //  for example). To avoid this situation, let's use the SerializeToFileWithWriteThrough method in SIL.Core 
+            //  to see if that ends this problem
+            OseXmlSerializer.SaveDoc(mergeOrder.pathToOurs, doc, (Exception error) => Logger.WriteError(error));
         }
 
         private void SetupElementStrategies(XmlMerger merger)

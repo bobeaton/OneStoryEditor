@@ -11,6 +11,8 @@ using System.ComponentModel.Composition;
 using Chorus.FileTypeHandlers;
 using SIL.Progress;
 using SIL.IO;
+using SIL.Reporting;
+using OseCommon;
 
 namespace AdaptIt_ChorusPlugin
 {
@@ -104,7 +106,13 @@ namespace AdaptIt_ChorusPlugin
 #endif
             }
 
-            doc.Save(mergeOrder.pathToOurs);
+
+            // it seems that there may be some situations in which the file is not properly written to the disk (see 
+            //  https://stackoverflow.com/questions/49260358/what-could-cause-an-xml-file-to-be-filled-with-null-characters
+            //  for example). To avoid this situation, let's use the SerializeToFileWithWriteThrough method in SIL.Core 
+            //  to see if that ends this problem
+            // doc.Save(mergeOrder.pathToOurs);
+            OseXmlSerializer.SaveDoc(mergeOrder.pathToOurs, doc, (Exception error) => Logger.WriteError(error));
 #else
             File.WriteAllText(mergeOrder.pathToOurs, result.MergedNode.OuterXml);
 #endif
