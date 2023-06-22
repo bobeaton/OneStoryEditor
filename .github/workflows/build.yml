@@ -62,11 +62,11 @@ jobs:
 
       - name: rename installer
         if: ${{ success() && matrix.build_configuration == 'Release' }}
-        run: cp "output/Setup OneStoryEditor_5.1_x86.exe" "output/Setup OneStoryEditor_5.1.${{github.run_number}}.exe"
+        run: cp "output/Setup OneStoryEditor_5.2_x86.exe" "output/Setup OneStoryEditor_5.2.${{github.run_number}}.exe"
         
       - name: publish artifact
         if: ${{ success() && matrix.build_configuration == 'Release' }}
         uses: actions/upload-artifact@v2.2.4
         with: 
-          name: onestory-editor-installer-v5.1.latest
-          path: "output/Setup OneStoryEditor_5.1.${{github.run_number}}.exe"
+          name: onestory-editor-installer-v5.2.latest
+          path: "output/Setup OneStoryEditor_5.2.${{github.run_number}}.exe"
