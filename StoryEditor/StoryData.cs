@@ -1111,7 +1111,7 @@ namespace OneStoryProjectEditor
         {
             elem.Add(new XElement(strElementLabel,
                                   new XAttribute(CstrAttributeMemberID, MemberId),
-                                  MemberComment));
+                                  MemberComment ?? ""));    // merger now puts full closing tags, so do that here too, so we don't get false diffs
         }
 
         public bool IsConfigured
