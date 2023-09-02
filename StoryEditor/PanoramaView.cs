@@ -711,7 +711,9 @@ namespace OneStoryProjectEditor
                 dataGridViewPanorama.Rows.RemoveAt(nSelectedRowIndex);
 
                 // if it isn't already in the Old Set, then just move it there
-                if (_stories.SetName != Properties.Resources.IDS_ObsoleteStoriesSet)
+                // UPDATE (2023-09-02): some people get rid of or rename 'Old Stories', so just bit-bucket the story if they do
+                if ((_stories.SetName != Properties.Resources.IDS_ObsoleteStoriesSet) &&
+                    _storyProject.ContainsKey(Properties.Resources.IDS_ObsoleteStoriesSet))
                 {
                     // make a copy (so it has new guids) -- this is just in case, someone simultaneously
                     //  edits and so this isn't actually deleted which could result in two story's with the

@@ -3710,9 +3710,9 @@ namespace OneStoryProjectEditor
                 return;
 
             // remove it from this set and move it to Old Stories set (unless
-            //  this is the OldStories set)
+            //  this is the OldStories set OR the OldStories set doesn't exist -- it can be renamed or deleted)
             TheCurrentStoriesSet.RemoveAt(nIndex);
-            if (IsInStoriesSet)
+            if (IsInStoriesSet && StoryProject.ContainsKey(Resources.IDS_ObsoleteStoriesSet))
             {
                 InsertInOtherSetInsureUnique(StoryProject[Resources.IDS_ObsoleteStoriesSet],
                                              TheCurrentStory);
