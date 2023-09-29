@@ -43,10 +43,12 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\License.rtf">
+      <Link>License.rtf</Link>
+    </Content>
     <Content Include="BundleTheme.xml" />
     <Content Include="bundle_background.bmp" />
     <Content Include="Installer.ico" />
-    <Content Include="License.rtf" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

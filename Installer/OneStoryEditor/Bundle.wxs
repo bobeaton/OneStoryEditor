@@ -15,11 +15,11 @@
     <bal:Condition Message="XP is no longer supported."> (VersionNT &gt;= v6.0) </bal:Condition>
     <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
       <bal:WixStandardBootstrapperApplication
-            LicenseFile="License.rtf"
+            LicenseFile="..\License.rtf"
             />
     </BootstrapperApplicationRef>
 
-    <WixVariable Id="WixStdbaLicenseUrl" Value="License.rtf" />
+    <WixVariable Id="WixStdbaLicenseUrl" Value="..\License.rtf" />
     <WixVariable Id="WixStdbaLogo" Value="bundle_background.bmp" />
     <WixVariable Id="WixStdbaThemeXml" Value="BundleTheme.xml" />
     <WixVariable Id="WixStdbaThemeWxl" Value="BundleTheme.wxl" />
