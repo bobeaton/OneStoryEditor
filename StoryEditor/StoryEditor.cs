@@ -1,4 +1,5 @@
 ﻿#define UsingHtmlDisplayForConNotes
+#define GoBackToOriginal
 
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,6 @@ using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
 using System.Windows.Forms;
-using System.IO;
 using System.Xml.XPath;
 using System.Xml.Xsl;
 using ECInterfaces;
@@ -24,6 +24,9 @@ using devX;
 using Control = System.Windows.Forms.Control;
 using Timer = System.Windows.Forms.Timer;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
+using SIL.IO;
+using System.IO;
+using OseCommon;
 #if EmbedSayMore
 using SayMore.UI.SessionRecording;
 #endif
@@ -91,7 +94,7 @@ namespace OneStoryProjectEditor
                 _loggedOnMember = value;
                 if ((StoryProject != null)
                     && (StoryProject.ProjSettings != null)
-                    && (File.Exists(StoryProject.ProjSettings.ProjectFolder)))
+                    && (RobustFile.Exists(StoryProject.ProjSettings.ProjectFolder)))
                 {
                     InitProjectNotes(StoryProject.ProjSettings, value.Name);
                 }
@@ -300,7 +303,7 @@ namespace OneStoryProjectEditor
                                 OseCaption);
             }
 
-            if (!String.IsNullOrEmpty(strProjectFilePath) && File.Exists(strProjectFilePath))
+            if (!String.IsNullOrEmpty(strProjectFilePath) && RobustFile.Exists(strProjectFilePath))
             {
                 string strProjectPath = Path.GetDirectoryName(strProjectFilePath);
                 string strProjectName = Path.GetFileNameWithoutExtension(strProjectFilePath);
@@ -663,7 +666,7 @@ namespace OneStoryProjectEditor
                         //  want to do that... So let's be draconian and actually overwrite the file if they say 'yes'. This way, 
                         //  if they care, they'll say 'no' instead and give it a different name.
                         string strFilename = ProjectSettings.GetDefaultProjectFilePath(strProjectName);
-                        if (File.Exists(strFilename))
+                        if (RobustFile.Exists(strFilename))
                         {
                             DialogResult res = QueryOverwriteProject(strProjectName);
                             if (res != DialogResult.Yes)
@@ -1087,10 +1090,10 @@ namespace OneStoryProjectEditor
 
             // if we just saved, then don't bother the user anymore
             var strProjectFilePath = StoryProject.ProjSettings.ProjectFilePath;
-            if (!File.Exists(strProjectFilePath))
+            if (!RobustFile.Exists(strProjectFilePath))
                 return; // not written yet (during new project cycle)
 
-            var dateTimeCurrent = File.GetLastWriteTime(strProjectFilePath);
+            var dateTimeCurrent = RobustFile.GetLastWriteTime(strProjectFilePath);
             if (_dateTimeLastSaved == dateTimeCurrent)
                 return;
 
@@ -2917,14 +2920,14 @@ namespace OneStoryProjectEditor
             // Note: doing File.Move leaves the old file security settings rather than replacing them
             // based on the target directory. Copy, on the other hand, inherits
             // security settings from the target folder, which is what we want to do.
-            if (File.Exists(strFilename))
-                File.Copy(strFilename, GetBackupFilename(strFilename), true);
-            File.Delete(strFilename);
-            File.Copy(strTempFilename, strFilename, true);
-            File.Delete(strTempFilename);
+            if (RobustFile.Exists(strFilename))
+                RobustFile.Copy(strFilename, GetBackupFilename(strFilename), true);
+            RobustFile.Delete(strFilename);
+            RobustFile.Copy(strTempFilename, strFilename, true);
+            RobustFile.Delete(strTempFilename);
         }
 
-        private static string SaveXElementWithBadExtn(XElement elem, string strFilename)
+        private string SaveXElementWithBadExtn(XElement elem, string strFilename)
         {
             // create the root portions of the XML document and tack on the fragment we've been building
 #if !GoBackToOriginal
@@ -2941,7 +2944,11 @@ namespace OneStoryProjectEditor
 
             // save it with an extra extn.
             var strTempFilename = strFilename + CstrExtraExtnToAvoidClobberingFilesWithFailedSaves;
-            doc.Save(strTempFilename);
+
+            // doc.Save(strTempFilename);
+            OseXmlSerializer.SaveDoc(strTempFilename, doc, 
+                                     (Exception error) => { SetStatusBar(String.Format(Localizer.Str("Error: {0}"), Program.FromException(error))); });
+
             return strTempFilename;
         }
 
@@ -2976,7 +2983,7 @@ namespace OneStoryProjectEditor
                         QueryStoryPurpose();
                 }
 #endif
-                if (File.Exists(strFilename) && (_dateTimeLastSaved == DateTime.MinValue))
+                if (RobustFile.Exists(strFilename) && (_dateTimeLastSaved == DateTime.MinValue))
                 {
                     LocalizableMessageBox.Show(
                         Localizer.Str("You must reload the project before it can be saved again."), OseCaption);
@@ -2985,7 +2992,7 @@ namespace OneStoryProjectEditor
                 }
 
                 SaveXElement(GetXml, strFilename, bDoReloadTest);
-                _dateTimeLastSaved = File.GetLastWriteTime(strFilename);
+                _dateTimeLastSaved = RobustFile.GetLastWriteTime(strFilename);
             }
             catch (UnauthorizedAccessException)
             {
@@ -3703,9 +3710,9 @@ namespace OneStoryProjectEditor
                 return;
 
             // remove it from this set and move it to Old Stories set (unless
-            //  this is the OldStories set)
+            //  this is the OldStories set OR the OldStories set doesn't exist -- it can be renamed or deleted)
             TheCurrentStoriesSet.RemoveAt(nIndex);
-            if (IsInStoriesSet)
+            if (IsInStoriesSet && StoryProject.ContainsKey(Resources.IDS_ObsoleteStoriesSet))
             {
                 InsertInOtherSetInsureUnique(StoryProject[Resources.IDS_ObsoleteStoriesSet],
                                              TheCurrentStory);
@@ -4193,7 +4200,7 @@ namespace OneStoryProjectEditor
         private void WriteAudioFile(string strSourceFilepath, string strTargetFilepath)
         {
             // TODO: add convert capability also..
-            File.Copy(strSourceFilepath, strTargetFilepath, true);
+            RobustFile.Copy(strSourceFilepath, strTargetFilepath, true);
             File.SetLastWriteTime(strTargetFilepath, DateTime.Now);
         }
 
@@ -4512,42 +4519,44 @@ namespace OneStoryProjectEditor
                                                     Func<LineData, StringTransfer> getFieldFunc,
                                                     bool dontOfferToReturnTransliteration = false)
         {
-            Debug.Assert((theStoryData != null)
-                && (theStoryData.Verses.Count > 0));
+            Debug.Assert((theStoryData != null) && (theStoryData.Verses.Count > 0));
 
-            // if it's being 'transliterated', then offer to copy the transliterated form
-            DialogResult res;
             var isTransliterated = false;
-            if (transliterator != null)
+            if (!dontOfferToReturnTransliteration)
             {
-                // first, if it is transliterated, then see if they want to copy the transliterated value.
-                if ((res = LocalizableMessageBox.Show(String.Format(Localizer.Str("Do you want to copy the transliterated/translated text to the clipboard (i.e. after the original has been converted using the {1} converter)?{0}{0}Click 'No' to copy the original text."),
-                                                                    Environment.NewLine, transliterator.Name),
-                                                        OseCaption, MessageBoxButtons.YesNoCancel))
+                // if it's being 'transliterated', then offer to copy the transliterated form
+                DialogResult res;
+                if (transliterator != null)
+                {
+                    // first, if it is transliterated, then see if they want to copy the transliterated value.
+                    if ((res = LocalizableMessageBox.Show(String.Format(Localizer.Str("Do you want to copy the transliterated/translated text to the clipboard (i.e. after the original has been converted using the {1} converter)?{0}{0}Click 'No' to copy the original text."),
+                                                                        Environment.NewLine, transliterator.Name),
+                                                            OseCaption, MessageBoxButtons.YesNoCancel))
+                        == DialogResult.Yes)
+                    {
+                        isTransliterated = true;
+                    }
+                    else if (res == DialogResult.No)
+                    {
+                        transliterator = null;  // this just changes the local copy
+                    }
+                    else // cancel
+                        return null;
+                }
+
+                // either way, next see if their goal is to paste it in another field (in which case, we would put it in an xml format
+                //  from which we could paste it into different rows (if not, then it's just one chunk of text).
+                if ((res = LocalizableMessageBox.Show(String.Format(Localizer.Str("Are you wanting to paste the{1} text in another field?{0}{0}Click 'No' to copy the data as a single paragraph of text. Click 'Yes' to copy the data to the clipboard in a format that allows it to be pasted into another field line by line (e.g. the English BT field)"),
+                                                                    Environment.NewLine, isTransliterated ? "  transliterated/translated" : String.Empty),
+                                                      OseCaption, MessageBoxButtons.YesNoCancel))
                     == DialogResult.Yes)
                 {
-                    isTransliterated = true;
+                    var xmlToCopyColumn = StoryProject.GetXmlToCopyColumn(theStoryData.Verses, transliterator, getFieldFunc);
+                    return xmlToCopyColumn.ToString();
                 }
-                else if (res == DialogResult.No)
-                {
-                    transliterator = null;  // this just changes the local copy
-                }
-                else // cancel
+                else if (res == DialogResult.Cancel)
                     return null;
             }
-
-            // either way, next see if their goal is to paste it in another field (in which case, we would put it in an xml format
-            //  from which we could paste it into different rows (if not, then it's just one chunk of text).
-            if ((res = LocalizableMessageBox.Show(String.Format(Localizer.Str("Are you wanting to paste the{1} text in another field?{0}{0}Click 'No' to copy the data as a single paragraph of text. Click 'Yes' to copy the data to the clipboard in a format that allows it to be pasted into another field line by line (e.g. the English BT field)"),
-                                                                Environment.NewLine, isTransliterated ? "  transliterated/translated" : String.Empty),
-                                                  OseCaption, MessageBoxButtons.YesNoCancel))
-                == DialogResult.Yes)
-            {
-                var xmlToCopyColumn = StoryProject.GetXmlToCopyColumn(theStoryData.Verses, transliterator, getFieldFunc);
-                return xmlToCopyColumn.ToString();
-            }
-            else if (res == DialogResult.Cancel)
-                return null;
 
             VerseData aVerse = theStoryData.Verses[0];
             string strText = null;
@@ -4724,7 +4733,7 @@ namespace OneStoryProjectEditor
                 AdaptItGlossing.GetAiProjectFolderNameFromConverterIdentifier(theEC.ConverterIdentifier);
 
             DialogResult res = DialogResult.Yes;
-            if (File.Exists(strAdaptationFilespec))
+            if (RobustFile.Exists(strAdaptationFilespec))
             {
                 res =
                     LocalizableMessageBox.Show(
@@ -4740,10 +4749,10 @@ namespace OneStoryProjectEditor
                 if (res == DialogResult.Yes)
                 {
                     string strBackupName = strAdaptationFilespec + ".bak";
-                    if (File.Exists(strBackupName))
-                        File.Delete(strBackupName);
-                    File.Copy(strAdaptationFilespec, strBackupName);
-                    File.Delete(strAdaptationFilespec);
+                    if (RobustFile.Exists(strBackupName))
+                        RobustFile.Delete(strBackupName);
+                    RobustFile.Copy(strAdaptationFilespec, strBackupName);
+                    RobustFile.Delete(strAdaptationFilespec);
                 }
             }
 
@@ -6099,9 +6108,9 @@ namespace OneStoryProjectEditor
                 string strKeyTermDb = TermRenderingsList.FileName(StoryProject.ProjSettings.ProjectFolder,
                                                                   StoryProject.ProjSettings.Vernacular.LangCode);
 
-                if (File.Exists(strKeyTermDb))
+                if (RobustFile.Exists(strKeyTermDb))
                 {
-                    string strFileContents = File.ReadAllText(strKeyTermDb);
+                    string strFileContents = RobustFile.ReadAllText(strKeyTermDb);
                     streamData = new MemoryStream(Encoding.UTF8.GetBytes(strFileContents));
 
                     strXslt = Resources.oneStory2KeyTerms;
@@ -6113,7 +6122,7 @@ namespace OneStoryProjectEditor
 
                 FileInfo fiLnC = new FileInfo(strLnCNotesFilePath);
                 if (!fiLnC.Exists || fiLnC.Length == 0)
-                    File.WriteAllText(strLnCNotesFilePath,
+                    RobustFile.WriteAllText(strLnCNotesFilePath,
                         Resources.IDS_TbxFile_EmptyLnC);
 
                 CopyDefaultToolboxProjectFiles();
@@ -6145,8 +6154,8 @@ namespace OneStoryProjectEditor
             {
                 string strFilename = Path.GetFileName(strSrcFile);
                 string strDestFile = strDestFolder + strFilename;
-                if (!File.Exists(strDestFile))
-                    File.Copy(strSrcFile, strDestFile);
+                if (!RobustFile.Exists(strDestFile))
+                    RobustFile.Copy(strSrcFile, strDestFile);
             }
 
             // the files in the PathFixup folder need to have folder information put in
@@ -6157,7 +6166,7 @@ namespace OneStoryProjectEditor
 
             // do the StoryBT.typ file
             string strStoryBTFilename = strSrcFolder + CstrStoryBtTypFilename;
-            string strStoryBT = File.ReadAllText(strStoryBTFilename);
+            string strStoryBT = RobustFile.ReadAllText(strStoryBTFilename);
             strStoryBT = String.Format(strStoryBT,
                 (String.IsNullOrEmpty(StoryProject.ProjSettings.Vernacular.LangCode) ? "vrn" : StoryProject.ProjSettings.Vernacular.LangCode),
                 (String.IsNullOrEmpty(StoryProject.ProjSettings.Vernacular.LangName) ? "Vernacular Language" : StoryProject.ProjSettings.Vernacular.LangName),
@@ -6171,14 +6180,14 @@ namespace OneStoryProjectEditor
                 StoryProject.ProjSettings.ProjectName);
 
             strStoryBTFilename = strDestFolder + CstrStoryBtTypFilename;
-            if (!File.Exists(strStoryBTFilename))
+            if (!RobustFile.Exists(strStoryBTFilename))
 #if DEBUGBOB
             {
             }
             else
                 File.Delete(strStoryBTFilename);
 #endif
-            File.WriteAllText(strStoryBTFilename, strStoryBT);
+                RobustFile.WriteAllText(strStoryBTFilename, strStoryBT);
 
             // do the LCNote.typ file
             CreateTbxFileWithPathFixup(strSrcFolder, strDestFolder, CstrLCNoteTypFilename);
@@ -6199,21 +6208,21 @@ namespace OneStoryProjectEditor
             string strDestFolder, string strTbxFilename)
         {
             string strTbxFileFilename = strSrcFolder + strTbxFilename;
-            string strTbxFileContents = File.ReadAllText(strTbxFileFilename);
+            string strTbxFileContents = RobustFile.ReadAllText(strTbxFileFilename);
             strTbxFileContents = String.Format(strTbxFileContents,
                                               ProjectSettings.OneStoryProjectFolderRoot,
                                               StoryProject.ProjSettings.ProjectName);
 
             // now get the destination address
             strTbxFileFilename = strDestFolder + strTbxFilename;
-            if (!File.Exists(strTbxFileFilename))
+            if (!RobustFile.Exists(strTbxFileFilename))
 #if DEBUGBOB
             {
             }
             else
                 File.Delete(strTbxFileFilename);
 #endif
-            File.WriteAllText(strTbxFileFilename, strTbxFileContents);
+                RobustFile.WriteAllText(strTbxFileFilename, strTbxFileContents);
         }
 
         protected void ExportToToolbox(string strXsltFile, MemoryStream streamData,
@@ -6251,10 +6260,10 @@ namespace OneStoryProjectEditor
             Debug.Assert(Directory.Exists(Path.GetDirectoryName(strTbxFilename)));
 
             // overwrite existing version
-            if (File.Exists(strTbxFilename))
-                File.Delete(strTbxFilename);
+            if (RobustFile.Exists(strTbxFilename))
+                RobustFile.Delete(strTbxFilename);
 
-            File.WriteAllText(strTbxFilename, strBuilder.ToString());
+            RobustFile.WriteAllText(strTbxFilename, strBuilder.ToString());
         }
 
         private void statusLabel_Click(object sender, EventArgs e)
@@ -6282,6 +6291,11 @@ namespace OneStoryProjectEditor
             {
                 setter(null);
             }
+
+            // mark as modified so it offers to save the file (or we lose the fact that this value,
+            //  which is stored in the project file itself (under the per-user settings) has been
+            //  changed
+            Modified = true;    
 
             InitializeTransliterators();
             ReInitVerseControls();

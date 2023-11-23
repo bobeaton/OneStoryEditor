@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" 
      xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
   
-  <Product Id="*" Name="OneStory Editor 5.1" Language="1033" Version="5.1" Manufacturer="SIL International" 
+  <Product Id="*" Name="OneStory Editor 5.2" Language="1033" Version="5.2" Manufacturer="SIL International" 
            UpgradeCode="{92A9B369-3609-4129-A09D-5BB5BBE30AAB}">
     <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
     <Condition Message="You need to be an administrator to install this product.">Privileged</Condition>
@@ -54,6 +54,13 @@
     <InstallExecuteSequence>
       <WriteEnvironmentStrings />
     </InstallExecuteSequence>
+
+    <WixVariable Id="WixUILicenseRtf" Value="..\License.rtf" />
+    
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+
+    <UIRef Id="WixUI_InstallDir" />
+    
   </Product>
 
   <Fragment>

@@ -22,14 +22,14 @@
           <Merge Id="ChorusMergeModule" Language="1033" SourceFile="..\..\packages\SIL.Chorus.App.5.0.0\ChorusMergeModule.msm" DiskId="1"/>
       -->
       <Merge Id="ChorusMergeModule" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\ChorusMergeModule.msm" DiskId="1"/>
-      <Merge Id="AIGuesserMM" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\AIGuesserMM.msm" DiskId="1"/>
-      <Merge Id="EcTranslatorsMM" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\EcTranslatorsMM.msm" DiskId="1"/>
-      <Merge Id="CcDLLsMM" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\CcDLLsMM.msm" DiskId="1"/>
+      <Merge Id="AIGuesserMM" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\AIGuesserMM.msm" DiskId="1"/>
+      <Merge Id="EcTranslatorsMM" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\EcTranslatorsMM.msm" DiskId="1"/>
+      <Merge Id="CcDLLsMM" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\CcDLLsMM.msm" DiskId="1"/>
       <Merge Id="ClipboardEncConverter" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\ClipboardEncConverterMM.msm" DiskId="1"/>
-      <Merge Id="EC_40_MM" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\EC_40_MM.msm" DiskId="1"/>
-      <Merge Id="ICU_40" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\ICU_40.msm" DiskId="1"/>
+      <Merge Id="EC_40_MM" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\EC_40_MM.msm" DiskId="1"/>
+      <Merge Id="ICU_40" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\ICU_40.msm" DiskId="1"/>
       <Merge Id="SetPath" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\SetPath.msm" DiskId="1"/>
-      <Merge Id="TECkitDLLsMM" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\TECkitDLLsMM.msm" DiskId="1"/>
+      <Merge Id="TECkitDLLsMM" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\TECkitDLLsMM.msm" DiskId="1"/>
     </DirectoryRef>
 
     <DirectoryRef Id="SystemFolder">

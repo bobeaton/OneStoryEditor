@@ -10,7 +10,7 @@ Imports System.Reflection
 <Assembly: AssemblyDescription("AutoUpgrade Library")> 
 <Assembly: AssemblyCompany("")> 
 <Assembly: AssemblyProduct("AutoUpgrade")>
-<Assembly: AssemblyCopyright("Copyright © SIL 2010-2022")>
+<Assembly: AssemblyCopyright("Copyright © SIL 2012-2023")>
 <Assembly: AssemblyTrademark("")>
 <Assembly: CLSCompliant(True)>
 
@@ -24,6 +24,6 @@ Imports System.Reflection
 ' You can specify all the values or you can default the Build and Revision Numbers 
 ' by using the '*' as shown below:
 
-<Assembly: AssemblyVersion("5.1.0.0")>
+<Assembly: AssemblyVersion("5.2.0.0")>
 
-<Assembly: AssemblyFileVersion("5.1.0.0")>
+<Assembly: AssemblyFileVersion("5.2.0.0")>

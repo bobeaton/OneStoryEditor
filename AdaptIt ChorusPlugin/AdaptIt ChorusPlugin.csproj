@@ -61,6 +61,9 @@
     <Reference Include="Chorus, Version=5.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=MSIL">
       <HintPath>..\packages\SIL.Chorus.App.5.0.0\lib\net461\Chorus.exe</HintPath>
     </Reference>
+    <Reference Include="ChorusMerge, Version=5.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=MSIL">
+      <HintPath>..\packages\SIL.Chorus.ChorusMerge.5.0.0\lib\net461\ChorusMerge.exe</HintPath>
+    </Reference>
     <Reference Include="Commons.Xml.Relaxng, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\packages\RelaxNG.3.2.3\lib\net40\Commons.Xml.Relaxng.dll</HintPath>
     </Reference>
@@ -76,8 +79,8 @@
     <Reference Include="JetBrains.Annotations, Version=4242.42.42.42, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.Annotations.2022.3.1\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
-    <Reference Include="L10NSharp, Version=6.0.0.0, Culture=neutral, PublicKeyToken=fd0b3e309a5b7c28, processorArchitecture=MSIL">
-      <HintPath>..\packages\L10NSharp.6.0.0\lib\net461\L10NSharp.dll</HintPath>
+    <Reference Include="L10NSharp, Version=5.0.0.0, Culture=neutral, PublicKeyToken=fd0b3e309a5b7c28, processorArchitecture=MSIL">
+      <HintPath>..\packages\L10NSharp.5.0.0\lib\net461\L10NSharp.dll</HintPath>
     </Reference>
     <Reference Include="LibChorus, Version=5.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=MSIL">
       <HintPath>..\packages\SIL.Chorus.LibChorus.5.0.0\lib\net461\LibChorus.dll</HintPath>
@@ -197,8 +200,8 @@
     <Reference Include="System.Text.Encodings.Web, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encodings.Web.7.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
-    <Reference Include="System.Text.Json, Version=7.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Json.7.0.2\lib\net462\System.Text.Json.dll</HintPath>
+    <Reference Include="System.Text.Json, Version=7.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.7.0.3\lib\net462\System.Text.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
@@ -252,6 +255,12 @@
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.3.4\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.3.4\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OseCommon\OseCommon.csproj">
+      <Project>{25893762-b72e-4dc6-bf11-cbb3a025cbc2}</Project>
+      <Name>OseCommon</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

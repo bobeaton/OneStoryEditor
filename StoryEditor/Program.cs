@@ -29,6 +29,7 @@ using SendGrid.Helpers.Mail;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Diagnostics;
+using ECInterfaces;
 
 namespace OneStoryProjectEditor
 {
@@ -228,6 +229,28 @@ namespace OneStoryProjectEditor
             }
         }
 
+
+        public static string FromException(Exception ex)
+        {
+            string strErrorMsg = ex.Message;
+            while (ex.InnerException != null)
+            {
+                strErrorMsg += String.Format("{0}{0}{1}",
+                                            Environment.NewLine,
+                                            ex.InnerException.Message);
+                ex = ex.InnerException;
+            }
+
+            return strErrorMsg;
+        }
+
+        public static bool IsTransliteratorATranslator(DirectableEncConverter transliterator)
+        {
+            const int processType = (int)ProcessTypeFlags.Translation;
+            return (transliterator?.GetEncConverter != null) &&
+                ((transliterator.GetEncConverter.ProcessType & processType) == processType);
+        }
+
         public static (GetCloneFromInternetModel model, GetCloneFromInternetDialog dlg)
                         CloneRepository(string projectName, string parentDirToPutCloneIn, string localFolder, 
                                         string username, string password, string customUrl = null)
@@ -351,6 +374,7 @@ namespace OneStoryProjectEditor
             {
                 Properties.Settings.Default.Upgrade();
                 Properties.Settings.Default.UpgradeSettings = false;
+                Properties.Settings.Default.Save();
             }
 
             if (Properties.Settings.Default.RecentProjects == null)

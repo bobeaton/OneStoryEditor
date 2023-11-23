@@ -1,8 +1,10 @@
-﻿using System;
+﻿using OseCommon;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Xml.Serialization;
+using SIL.IO;
+using System.IO;
 
 namespace OneStoryProjectEditor
 {
@@ -50,6 +52,11 @@ namespace OneStoryProjectEditor
             if (!Directory.Exists(directoryName))
                 Directory.CreateDirectory(directoryName);
 
+#if !UsingOldSerializer
+            var ns = new XmlSerializerNamespaces();
+            ns.Add("", "");
+            OseXmlSerializer.SerializeXmlToFileWithWriteThrough(PathToMetaDataFile, this, ns);
+#else
             var x = new XmlSerializer(typeof(OsMetaDataModel));
             var sw = new StreamWriter(strFilepath);
 
@@ -60,6 +67,7 @@ namespace OneStoryProjectEditor
             // Serialize it out
             x.Serialize(sw, this, ns);
             sw.Close();
+#endif
         }
 
         /// <summary>
@@ -73,14 +81,14 @@ namespace OneStoryProjectEditor
 
             // then check to see if we have to make a copy (to keep the attributes, which 'rename' doesn't do)
             //  as a backup file.
-            if (!File.Exists(strFilepathOutput))
+            if (!RobustFile.Exists(strFilepathOutput))
                 return;
 
             // it exists, so make a backup
             var strBackupFilename = strFilepathOutput + ".bak";
-            File.Delete(strBackupFilename); // just in case there was already a backup
-            File.Copy(strFilepathOutput, strBackupFilename);
-            File.Delete(strFilepathOutput);
+            RobustFile.Delete(strBackupFilename); // just in case there was already a backup
+            RobustFile.Copy(strFilepathOutput, strBackupFilename);
+            RobustFile.Delete(strFilepathOutput);
         }
     }
 
