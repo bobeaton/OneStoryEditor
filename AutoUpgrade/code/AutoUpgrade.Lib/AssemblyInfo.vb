@@ -10,7 +10,7 @@ Imports System.Reflection
 <Assembly: AssemblyDescription("AutoUpgrade Library")> 
 <Assembly: AssemblyCompany("")> 
 <Assembly: AssemblyProduct("AutoUpgrade")>
-<Assembly: AssemblyCopyright("Copyright © SIL 2012-2023")>
+<Assembly: AssemblyCopyright("Copyright © SIL 2012-2024")>
 <Assembly: AssemblyTrademark("")>
 <Assembly: CLSCompliant(True)>
 

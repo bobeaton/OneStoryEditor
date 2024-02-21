@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SIL")]
 [assembly: AssemblyProduct("OneStory Editor")]
-[assembly: AssemblyCopyright("Copyright © SIL 2010-2023")]
+[assembly: AssemblyCopyright("Copyright © SIL 2010-2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

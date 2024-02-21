@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("UpdateAccessDbWithOsMetaData")]
-[assembly: AssemblyCopyright("Copyright ©  2014-2023")]
+[assembly: AssemblyCopyright("Copyright ©  2014-2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

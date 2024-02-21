@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AdaptIt ChorusPlugin")]
-[assembly: AssemblyCopyright("Copyright © SIL 2012-2023")]
+[assembly: AssemblyCopyright("Copyright © SIL 2012-2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
