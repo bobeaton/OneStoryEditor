@@ -164,7 +164,7 @@ namespace OneStoryProjectEditor
 
         public void SetValue(string strValue)
         {
-            Value = strValue;
+            Value = StoryData.NormalizeLineEndings(strValue);
         }
 
         private static readonly SemaphoreSlim semaphore = new SemaphoreSlim(1);

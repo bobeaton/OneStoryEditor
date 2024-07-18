@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using System.Xml.Xsl;
 using NetLoc;
 using System.Collections.Specialized;
+using System.Text.RegularExpressions;
 
 namespace OneStoryProjectEditor
 {
@@ -31,6 +32,15 @@ namespace OneStoryProjectEditor
         public int CountRetellingsTests;
         public int CountTestingQuestionTests;
         public bool JustAdded;
+
+        protected static Regex _regexAddCarriageReturn = new (@"(?<!\r)\n");
+
+        public static string NormalizeLineEndings(string str)
+        {
+            return String.IsNullOrEmpty(str) 
+                    ? str
+                    : _regexAddCarriageReturn.Replace(str, "\r\n");
+        }
 
         public StoryData(string strStoryName, string strCrafterMemberGuid, 
             string strLoggedOnMemberGuid, bool bIsBiblicalStory, 
@@ -1087,7 +1097,7 @@ namespace OneStoryProjectEditor
         public MemberIdInfo(string strTesterGuid, string strTestComment)
         {
             MemberId = strTesterGuid;
-            MemberComment = strTestComment;
+            MemberComment = StoryData.NormalizeLineEndings(strTestComment);
         }
 
         public MemberIdInfo(MemberIdInfo rhs)
@@ -1455,13 +1465,13 @@ namespace OneStoryProjectEditor
                 }
 
                 if (!theCIR.IsStoryPurposeNull())
-                    StoryPurpose = theCIR.StoryPurpose;
+                    StoryPurpose = StoryData.NormalizeLineEndings(theCIR.StoryPurpose);
 
                 if (!theCIR.IsResourcesUsedNull())
-                    ResourcesUsed = theCIR.ResourcesUsed;
+                    ResourcesUsed = StoryData.NormalizeLineEndings(theCIR.ResourcesUsed);
 
                 if (!theCIR.IsMiscellaneousStoryInfoNull())
-                    MiscellaneousStoryInfo = theCIR.MiscellaneousStoryInfo;
+                    MiscellaneousStoryInfo = StoryData.NormalizeLineEndings(theCIR.MiscellaneousStoryInfo);
 
                 NewDataSet.TestsRetellingsRow[] aTsReRs = theCIR.GetTestsRetellingsRows();
                 if (aTsReRs.Length == 1)

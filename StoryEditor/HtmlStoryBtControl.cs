@@ -949,7 +949,7 @@ namespace OneStoryProjectEditor
             int nLineIndex;
             var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
 
-            PasteVerseToIndex(theSe, nLineIndex - 1);
+            PasteVerseToIndex(theSe, Math.Max(0, nLineIndex - 1));
             theSe.InitAllPanes();
         }
 

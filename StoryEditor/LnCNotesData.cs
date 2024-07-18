@@ -271,15 +271,15 @@ namespace OneStoryProjectEditor
 
             Notes = theLnCNoteRow.IsLnCNote_textNull()
                         ? String.Empty
-                        : theLnCNoteRow.LnCNote_text;
+                        : StoryData.NormalizeLineEndings(theLnCNoteRow.LnCNote_text);
             if (!theLnCNoteRow.IsVernacularRenderingNull())
-                VernacularRendering = theLnCNoteRow.VernacularRendering;
+                VernacularRendering = StoryData.NormalizeLineEndings(theLnCNoteRow.VernacularRendering);
             if (!theLnCNoteRow.IsNationalBTRenderingNull())
-                NationalBtRendering = theLnCNoteRow.NationalBTRendering;
+                NationalBtRendering = StoryData.NormalizeLineEndings(theLnCNoteRow.NationalBTRendering);
             if (!theLnCNoteRow.IsInternationalBTRenderingNull())
-                InternationalBtRendering = theLnCNoteRow.InternationalBTRendering;
+                InternationalBtRendering = StoryData.NormalizeLineEndings(theLnCNoteRow.InternationalBTRendering);
             if (!theLnCNoteRow.IsKeyTermIdsNull())
-                KeyTermIds = theLnCNoteRow.KeyTermIds;
+                KeyTermIds = StoryData.NormalizeLineEndings(theLnCNoteRow.KeyTermIds);
         }
     }
 }
