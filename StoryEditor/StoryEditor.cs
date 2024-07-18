@@ -20,7 +20,9 @@ using Microsoft.Win32;
 using OneStoryProjectEditor.Properties;
 using SilEncConverters40;
 using System.Diagnostics;               // Process
+#if UseAutoUpgrade
 using devX;
+#endif
 using Control = System.Windows.Forms.Control;
 using Timer = System.Windows.Forms.Timer;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
@@ -339,9 +341,11 @@ namespace OneStoryProjectEditor
                 catch { }   // this was only a bene anyway, so just ignore it
             }
 
+#if UseAutoUpgrade
 #if !DEBUGBOB
             if (Settings.Default.AutoCheckForProgramUpdatesAtStartup)
                 backgroundWorker.RunWorkerAsync();
+#endif
 #endif
 
 #if EmbedSayMore
@@ -507,6 +511,7 @@ namespace OneStoryProjectEditor
             }
         }
 
+#if UseAutoUpgrade
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             string strManifestAddress = Program.IDS_OSEUpgradeServer;
@@ -544,6 +549,7 @@ namespace OneStoryProjectEditor
                 backgroundWorker = null;
             }
         }
+#endif
 
         internal bool _bAutoHide = false;
         private const int CnSecondsToDelyLastKeyPress = 7;
@@ -3826,6 +3832,7 @@ namespace OneStoryProjectEditor
                 SaveClicked();
             }
 
+#if UseAutoUpgrade
             // do the sync'ing now before the main window goes away (or users are too quick
             //  to try to launch it again, before the first instance actually goes away)
             //  also, this could be time consuming.
@@ -3835,6 +3842,7 @@ namespace OneStoryProjectEditor
                 Program.SyncBeforeClose(true);
                 Cursor = Cursors.Default;
             }
+#endif
         }
 
         private void editToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
@@ -6814,6 +6822,7 @@ namespace OneStoryProjectEditor
             advancedOneStoryProjectMetaData.Enabled = (StoryProject != null) && (StoryProject.ProjSettings != null);
         }
 
+#if UseAutoUpgrade
         private void checkForProgramUpdatesNowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CheckForUpgrade(_autoUpgrade,
@@ -6893,6 +6902,7 @@ namespace OneStoryProjectEditor
                 advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.Checked;
             Settings.Default.Save();
         }
+#endif
 
         private void enabledToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
         {

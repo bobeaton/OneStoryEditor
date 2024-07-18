@@ -12,7 +12,9 @@ using Chorus.sync;
 using Chorus.VcsDrivers.Mercurial;
 using Microsoft.Win32;
 using SIL.Progress;
-using devX;
+#if UseAutoUpgrade
+using devX;  // no longer using upgrade feature (no server to host it)
+#endif
 using MAPIEx;
 using NetLoc;
 using SIL.Email;
@@ -182,6 +184,7 @@ namespace OneStoryProjectEditor
                 if (Properties.Settings.Default.LastLocalizationId != "en")
                     StoryEditor.OnLocalizationChangeStatic();
 
+#if UseAutoUpgrade
                 // after we've loaded the localization (in case the msg has to be localized), 
                 //  check for a ready install before doing anything
                 if (AutoUpgrade.IsUpgradeReadyToInstall() &&
@@ -192,7 +195,7 @@ namespace OneStoryProjectEditor
                     AutoUpgrade.LaunchUpgrade();
                     return;
                 }
-
+#endif
 #if !TurnOnKeyboarding
                 SIL.Windows.Forms.Keyboarding.KeyboardController.Initialize();
 #endif
@@ -336,6 +339,7 @@ namespace OneStoryProjectEditor
         public const string IDS_OSEUpgradeServerTest = "ftp://onestory:yrotseno23@palaso.org/OseUpdates/Test/testmanifest.xml";
 #endif
 
+#if UseAutoUpgrade
         internal static void CheckForProgramUpdate(AutoUpgrade autoUpgrade, string strManifestAddress)
         {
             if ((autoUpgrade == null) || (autoUpgrade.SourcePath != strManifestAddress))
@@ -356,6 +360,7 @@ namespace OneStoryProjectEditor
                     "There are new program updates available, which will be installed when the program next launches."),
                 StoryEditor.OseCaption);
         }
+#endif
 
         private static void HgSanityCheck()
         {

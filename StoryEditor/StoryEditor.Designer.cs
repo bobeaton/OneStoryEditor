@@ -163,10 +163,6 @@ namespace OneStoryProjectEditor
             this.panoramaLastStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.tasksToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.advancedProgramUpdatesToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.advancedProgramUpdatesCheckNowMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.advancedProgramUpdatesCheckNowForNextMajorUpdateMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedLocalizationMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedOverrideLocalizeStateViewSettingsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedNewProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -223,7 +219,6 @@ namespace OneStoryProjectEditor
             this.toolStripButtonLast = new System.Windows.Forms.ToolStripButton();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeftRight)).BeginInit();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
@@ -1367,7 +1362,6 @@ namespace OneStoryProjectEditor
             // advancedToolStripMenu
             // 
             this.advancedToolStripMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.advancedProgramUpdatesToolStripMenu,
             this.advancedLocalizationMenu,
             this.advancedOverrideLocalizeStateViewSettingsMenu,
             this.advancedNewProjectMenu,
@@ -1390,44 +1384,6 @@ namespace OneStoryProjectEditor
             this.advancedToolStripMenu.Size = new System.Drawing.Size(72, 27);
             this.advancedToolStripMenu.Text = "A&dvanced";
             this.advancedToolStripMenu.DropDownOpening += new System.EventHandler(this.advancedToolStripMenuItem_DropDownOpening);
-            // 
-            // advancedProgramUpdatesToolStripMenu
-            // 
-            this.advancedProgramUpdatesToolStripMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu,
-            this.advancedProgramUpdatesCheckNowMenu,
-            this.advancedProgramUpdatesCheckNowForNextMajorUpdateMenu});
-            this.advancedProgramUpdatesToolStripMenu.Name = "advancedProgramUpdatesToolStripMenu";
-            this.advancedProgramUpdatesToolStripMenu.Size = new System.Drawing.Size(314, 22);
-            this.advancedProgramUpdatesToolStripMenu.Text = "Program &Updates";
-            this.advancedProgramUpdatesToolStripMenu.DropDownOpening += new System.EventHandler(this.programUpdatesToolStripMenuItem_DropDownOpening);
-            // 
-            // advancedProgramUpdatesAutomaticallyCheckAtStartupMenu
-            // 
-            this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.CheckOnClick = true;
-            this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.Name = "advancedProgramUpdatesAutomaticallyCheckAtStartupMenu";
-            this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.Size = new System.Drawing.Size(251, 22);
-            this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.Text = "&Automatically check at startup";
-            this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.ToolTipText = "Uncheck this menu to stop the program from automatically checking for program upd" +
-    "ates when the program is started (this can save startup time)";
-            this.advancedProgramUpdatesAutomaticallyCheckAtStartupMenu.CheckStateChanged += new System.EventHandler(this.automaticallyCheckAtStartupToolStripMenuItem_CheckStateChanged);
-            // 
-            // advancedProgramUpdatesCheckNowMenu
-            // 
-            this.advancedProgramUpdatesCheckNowMenu.Name = "advancedProgramUpdatesCheckNowMenu";
-            this.advancedProgramUpdatesCheckNowMenu.Size = new System.Drawing.Size(251, 22);
-            this.advancedProgramUpdatesCheckNowMenu.Text = "&Check now";
-            this.advancedProgramUpdatesCheckNowMenu.ToolTipText = "Click this menu to have the program manually check for program updates";
-            this.advancedProgramUpdatesCheckNowMenu.Click += new System.EventHandler(this.checkForProgramUpdatesNowToolStripMenuItem_Click);
-            // 
-            // advancedProgramUpdatesCheckNowForNextMajorUpdateMenu
-            // 
-            this.advancedProgramUpdatesCheckNowForNextMajorUpdateMenu.Name = "advancedProgramUpdatesCheckNowForNextMajorUpdateMenu";
-            this.advancedProgramUpdatesCheckNowForNextMajorUpdateMenu.Size = new System.Drawing.Size(251, 22);
-            this.advancedProgramUpdatesCheckNowForNextMajorUpdateMenu.Text = "Check now for next &major update";
-            this.advancedProgramUpdatesCheckNowForNextMajorUpdateMenu.ToolTipText = "Click this menu to have the program check if the next major update is available (" +
-    "which wouldn\'t otherwise be installed by default)";
-            this.advancedProgramUpdatesCheckNowForNextMajorUpdateMenu.Click += new System.EventHandler(this.checkNowForNextMajorUpdateToolStripMenuItem_Click);
             // 
             // advancedLocalizationMenu
             // 
@@ -2072,11 +2028,6 @@ namespace OneStoryProjectEditor
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "<no need to localize/translate>";
             // 
-            // backgroundWorker
-            // 
-            this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
-            this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
-            // 
             // StoryEditor
             // 
             this.ClientSize = new System.Drawing.Size(1404, 879);
@@ -2227,9 +2178,6 @@ namespace OneStoryProjectEditor
         internal ToolStripMenuItem viewOnlyOpenConversationsMenu;
         private ToolStripMenuItem viewStateTransitionHistoryMenu;
         private ToolStripMenuItem advancedChangeStateWithoutChecksMenu;
-        private ToolStripMenuItem advancedProgramUpdatesToolStripMenu;
-        private ToolStripMenuItem advancedProgramUpdatesAutomaticallyCheckAtStartupMenu;
-        private ToolStripMenuItem advancedProgramUpdatesCheckNowMenu;
         private ToolStripMenuItem advancedSaveTimeoutToolStripMenu;
         private ToolStripMenuItem advancedSaveTimeoutEnabledMenu;
         private ToolStripMenuItem advancedSaveTimeoutAsSilentlyAsPossibleMenu;
@@ -2251,9 +2199,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem projectOpenNewOSEWindowMenu;
         private ToolStripMenuItem projectCloseProjectMenu;
         internal ToolStripMenuItem viewExegeticalHelps;
-        private BackgroundWorker backgroundWorker;
         private ToolStripButton toolStripButtonShowPanoramaStories;
-        private ToolStripMenuItem advancedProgramUpdatesCheckNowForNextMajorUpdateMenu;
         private ToolStripMenuItem viewTransliteratorInternationalBtConfigureToolStripMenuItem;
         private ToolStripMenuItem viewTransliteratorFreeTranslationConfigureToolStripMenuItem;
         private ToolStripMenuItem storyOverrideTasksMenu;

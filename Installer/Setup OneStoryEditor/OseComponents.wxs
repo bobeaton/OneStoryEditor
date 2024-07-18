@@ -80,9 +80,14 @@
       <Component Id="FluentFTP.dll" Guid="{025B7112-DB25-4783-940B-DED74DEFBB9A}">
         <File Id="FluentFTP.dll" Name="FluentFTP.dll" Vital="yes" KeyPath="yes" Source="..\..\output\release\FluentFTP.dll"/>
       </Component>
+      <!-- Removed since Irene asked for it to be turned off
       <Component Id="GemBox.Document.dll" Guid="{22B409D8-B508-4B45-9003-0DA619B576B2}">
         <File Id="GemBox.Document.dll" Name="GemBox.Document.dll" Vital="yes" KeyPath="yes" AssemblyManifest="GemBox.Document.dll" AssemblyApplication="GemBox.Document.dll" Assembly=".net" Source="..\..\output\release\GemBox.Document.dll"/>
       </Component>
+      <Component Id="BouncyCastle.Cryptography.dll" Guid="{F94A4122-F845-4445-9AD3-93F87627D690}">
+        <File Id="BouncyCastle.Cryptography.dll" Name="BouncyCastle.Cryptography.dll" Vital="yes" KeyPath="yes" AssemblyManifest="BouncyCastle.Cryptography.dll" AssemblyApplication="BouncyCastle.Cryptography.dll" Assembly=".net" Source="..\..\output\release\BouncyCastle.Cryptography.dll"/>
+      </Component>
+      -->
       <!-- These are now included in EcCore in the EcTranslator package which is included
       <Component Id="Google.Apis.Auth.dll" Guid="{E7008ADF-B06B-4B33-AE69-9D7BCF87EF56}">
         <File Id="Google.Apis.Auth.dll" Name="Google.Apis.Auth.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Apis.Auth.dll" AssemblyApplication="Google.Apis.Auth.dll" Assembly=".net" Source="..\..\output\release\Google.Apis.Auth.dll"/>
@@ -130,9 +135,11 @@
       <Component Id="HtmlEditor.dll" Guid="{D145DD63-E101-43B2-843A-8DF3FA75092F}">
         <File Id="HtmlEditor.dll" Name="HtmlEditor.dll" Vital="yes" KeyPath="yes" AssemblyManifest="HtmlEditor.dll" AssemblyApplication="HtmlEditor.dll" Assembly=".net" Source="..\..\output\release\HtmlEditor.dll"/>
       </Component>
+      <!-- Removed due to vunerability
       <Component Id="Ionic.Zip.dll" Guid="{24C8EB0B-BCA4-42C7-AA59-D4892C44AB4B}">
         <File Id="Ionic.Zip.dll" Name="Ionic.Zip.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Ionic.Zip.dll" AssemblyApplication="Ionic.Zip.dll" Assembly=".net" Source="..\..\output\release\Ionic.Zip.dll"/>
       </Component>
+      -->
       <Component Id="Keyman7Interop.dll" Guid="{5D4CAB04-CE3C-4B9F-A709-6752BA8EA15A}">
         <File Id="Keyman7Interop.dll" Name="Keyman7Interop.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Keyman7Interop.dll" AssemblyApplication="Keyman7Interop.dll" Assembly=".net" Source="..\..\output\release\Keyman7Interop.dll"/>
       </Component>
@@ -252,9 +259,6 @@
       -->
       
       <!--LibPalaso dependencies, pulled from output folder via nuget in the projects-->
-      <Component Id="BouncyCastle.Crypto.dll" Guid="{4B0BC516-8CEC-487A-A9D0-4257680369A8}">
-        <File Id="BouncyCastle.Crypto.dll" Name="BouncyCastle.Crypto.dll" Vital="yes" KeyPath="yes" AssemblyManifest="BouncyCastle.Crypto.dll" AssemblyApplication="BouncyCastle.Crypto.dll" Assembly=".net" Source="..\..\output\release\BouncyCastle.Crypto.dll"/>
-      </Component>
       <Component Id="Commons.Xml.Relaxng.dll" Guid="{C02A7A94-9380-4AA3-A548-AB1BD4F1BA70}">
         <File Id="Commons.Xml.Relaxng.dll" Name="Commons.Xml.Relaxng.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Commons.Xml.Relaxng.dll" AssemblyApplication="Commons.Xml.Relaxng.dll" Assembly=".net" Source="..\..\output\release\Commons.Xml.Relaxng.dll"/>
       </Component>
@@ -302,9 +306,11 @@
       <Component Id="Spart.dll" Guid="{1E1163B1-065E-47F5-8918-C375B6607F7A}">
         <File Id="Spart.dll" Name="Spart.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Spart.dll" AssemblyApplication="Spart.dll" Assembly=".net" Source="..\..\output\release\Spart.dll"/>
       </Component>
+      <!--  this isn't found on the TeamCity build machine.. it shouldn't be needed, bkz it's a windows system dll
       <Component Id="stdole.dll" Guid="{53AE9895-06DC-4ED9-964A-737762CACC37}">
         <File Id="stdole.dll" Name="stdole.dll" Vital="yes" KeyPath="yes" AssemblyManifest="stdole.dll" AssemblyApplication="stdole.dll" Assembly=".net" Source="..\..\output\release\stdole.dll"/>
       </Component>
+      -->
       <Component Id="TagLibSharp.dll" Guid="{7790E7D5-25C4-4D43-AEE5-B25DEABC10D2}">
         <File Id="TagLibSharp.dll" Name="TagLibSharp.dll" Vital="yes" KeyPath="yes" AssemblyManifest="TagLibSharp.dll" AssemblyApplication="TagLibSharp.dll" Assembly=".net" Source="..\..\output\release\TagLibSharp.dll"/>
       </Component>

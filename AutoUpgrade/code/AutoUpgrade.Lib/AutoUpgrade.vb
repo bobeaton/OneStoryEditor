@@ -13,7 +13,6 @@ Imports FluentFTP
 #ElseIf Not UsingCSwordRemoteManager Then
 Imports Starksoft.Net.Ftp
 #End If
-Imports Ionic.Zip
 Imports System.Text
 Imports System.Threading.Tasks
 
@@ -598,10 +597,11 @@ Namespace devX
 
                 If Not mblnCancel Then
                     If (bAddZip) Then
-                        Using zip As ZipFile = ZipFile.Read(strLocalPath)
-                            zip.ExtractAll(strLocalPathFolder)
-                        End Using
-                        IO.File.Delete(strLocalPath)
+                        Throw New ApplicationException($"contact bub@sall.com to fix the zip file handling")
+                        'Using zip As ZipFile = ZipFile.Read(strLocalPath)
+                        ' zip.ExtractAll(strLocalPathFolder)
+                        ' End Using
+                        'IO.File.Delete(strLocalPath)
                         ' strLocalPath = strLocalPath.Substring(0, strLocalPath.Length - ZIP_ENDING.Length)
                     Else
                         ' Set the date on the downloaded file to the date of the source
@@ -827,10 +827,11 @@ Namespace devX
 
                     ' now zip it up and put the zip file in the parallel path based on strZipPath
                     Dim strZipFilepath As String = Path.Combine(strZipPathRoot, newFileEntry.Name + ZIP_ENDING)
-                    Using zip As ZipFile = New ZipFile
-                        zip.AddFile(strFile, "")
-                        zip.Save(strZipFilepath)
-                    End Using
+                    Throw New ApplicationException($"contact bub@sall.com to fix the zip file handling.")
+                    'Using zip As ZipFile = New ZipFile
+                    ' zip.AddFile(strFile, "")
+                    'zip.Save(strZipFilepath)
+                    'End Using
 
                     newFileEntry.Size = FileLen(strZipFilepath)
 

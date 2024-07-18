@@ -8,7 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using NetLoc;
+#if UseWordExportInGemBox
 using GemBox.Document;
+#endif
 
 namespace OneStoryProjectEditor
 {
@@ -46,6 +48,7 @@ namespace OneStoryProjectEditor
 
         private void ButtonExportWordClick(object sender, EventArgs e)
         {
+#if UseWordExportInGemBox
             if (saveWordFileDialog.ShowDialog() != DialogResult.OK)
                 return;
 
@@ -53,6 +56,7 @@ namespace OneStoryProjectEditor
             {
                 ComponentInfo.SetLicense("FREE-LIMITED-KEY");
                 ComponentInfo.FreeLimitReached += (senders, e1) => e1.FreeLimitReachedAction = FreeLimitReachedAction.ContinueAsTrial;
+
                 string strDocumentText = webBrowser.DocumentText;
 
                 var htmlLoadOptions = new HtmlLoadOptions();
@@ -67,6 +71,7 @@ namespace OneStoryProjectEditor
             {
                 Program.ShowException(ex);
             }
+#endif
         }
     }
 }
