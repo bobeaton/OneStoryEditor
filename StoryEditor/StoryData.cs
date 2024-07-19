@@ -33,7 +33,7 @@ namespace OneStoryProjectEditor
         public int CountTestingQuestionTests;
         public bool JustAdded;
 
-        protected static Regex _regexAddCarriageReturn = new (@"(?<!\r)\n");
+        protected static Regex _regexAddCarriageReturn = new (@"(?<!\r)\n", RegexOptions.Compiled);
 
         public static string NormalizeLineEndings(string str)
         {
