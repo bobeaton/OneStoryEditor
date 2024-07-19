@@ -33,9 +33,9 @@
   </Bundle>
 
   <?if $(var.Platform) = x64 ?>
-  <?define msiFilename = "Setup OneStory Editor_x64.msi" ?>
+  <?define msiFilename = "SetupOneStoryEditor_x64.msi" ?>
   <?else ?>
-  <?define msiFilename = "Setup OneStory Editor_x86.msi" ?>
+  <?define msiFilename = "SetupOneStoryEditor_x86.msi" ?>
   <?endif ?>
 
   <Fragment Id='AppFragment'>

@@ -8,7 +8,7 @@
     <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>015275ee-e5b0-439e-9030-85c8125bf911</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>Setup OneStory Editor</OutputName>
+    <OutputName>SetupOneStoryEditor</OutputName>
     <OutputType>Package</OutputType>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
