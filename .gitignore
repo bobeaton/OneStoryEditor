@@ -282,9 +282,7 @@ _Pvt_Extensions
 /Setup OneStory Editor/OSE4.2MSI.zip
 /output/Installer
 /AiChorus/gdck.dat
-/output/Setup OneStory Editor_x86.msi
 *.pyc
-/output/Setup OneStoryEditor_5.1_x86.exe
 /output/previousInstallers
 /Installer/ExternalMergeModules/TECkitDLLsMM.msm
 /Installer/ExternalMergeModules/PythonEcMM.msm

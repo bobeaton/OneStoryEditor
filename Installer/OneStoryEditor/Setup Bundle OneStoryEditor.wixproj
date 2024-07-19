@@ -8,7 +8,7 @@
     <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>f9469b39-b401-4a89-a144-f3cc753fc843</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>Setup OneStoryEditor_5.2</OutputName>
+    <OutputName>SetupOneStoryEditor_5.2</OutputName>
     <OutputType>Bundle</OutputType>
     <Name>Setup Bundle OneStoryEditor</Name>
     <NuGetPackageImportStamp>
