@@ -862,6 +862,8 @@ namespace OneStoryProjectEditor
         public override ConsultNotesDataConverter DataConverter(int nVerseIndex)
         {
             VerseData verse = GetVerseData(nVerseIndex);
+            if (verse == null)
+                return null;
             ConsultNotesDataConverter aCNsDC = verse.ConsultantNotes;
             return aCNsDC;
         }
@@ -910,6 +912,8 @@ namespace OneStoryProjectEditor
         public override ConsultNotesDataConverter DataConverter(int nVerseIndex)
         {
             VerseData verse = GetVerseData(nVerseIndex);
+            if (verse == null)
+                return null;
             ConsultNotesDataConverter aCNsDC = verse.CoachNotes;
             return aCNsDC;
         }

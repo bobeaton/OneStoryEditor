@@ -225,7 +225,8 @@ namespace OneStoryProjectEditor
 
         protected VerseData GetVerseData(int nLineIndex)
         {
-            Debug.Assert(StoryData.Verses.Count > (nLineIndex - 1));
+            if (StoryData.Verses.Count <= (nLineIndex - 1))
+                return null;
             return (nLineIndex == 0)
                        ? StoryData.Verses.FirstVerse
                        : StoryData.Verses[nLineIndex - 1];

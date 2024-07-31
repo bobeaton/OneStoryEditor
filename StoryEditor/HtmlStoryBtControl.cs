@@ -476,6 +476,8 @@ namespace OneStoryProjectEditor
         private StringTransfer GetStringTransferEx(TextAreaIdentifier textAreaIdentifier)
         {
             var verseData = GetVerseData(textAreaIdentifier.LineIndex);
+            if (verseData == null)
+                return null;
 
             LineData lineData;
             StringTransfer stField = null;
@@ -587,6 +589,9 @@ namespace OneStoryProjectEditor
                 return;
 
             var verseData = GetVerseData(nLineIndex);
+            if (verseData == null)
+                return;
+
             var strJumpTarget = TheSE.GetNetBibleScriptureReference;
             if (verseData.Anchors.Contains(strJumpTarget))
                 return;
@@ -1157,6 +1162,8 @@ namespace OneStoryProjectEditor
                 return;
 
             var verseData = GetVerseData(textAreaIdentifier.LineIndex);
+            if (verseData == null)
+                return;
 
             System.Diagnostics.Debug.Assert(textAreaIdentifier.ItemIndex < verseData.TestQuestions.Count);
             var testQuestionData = verseData.TestQuestions[textAreaIdentifier.ItemIndex];
@@ -1180,6 +1187,9 @@ namespace OneStoryProjectEditor
                 return;
 
             var verseData = GetVerseData(textAreaIdentifier.LineIndex);
+            if (verseData == null)
+                return;
+
             var testQuestionData = verseData.TestQuestions[textAreaIdentifier.ItemIndex];
             LineMemberData theNewAnswer;
             if (!theSe.AddSingleTestResult(testQuestionData, out theNewAnswer))
@@ -1199,6 +1209,8 @@ namespace OneStoryProjectEditor
                 return;
 
             var verseData = GetVerseData(textAreaIdentifier.LineIndex);
+            if (verseData == null)
+                return;
 
             System.Diagnostics.Debug.Assert(textAreaIdentifier.ItemIndex < verseData.TestQuestions.Count);
             var testQuestionData = verseData.TestQuestions[textAreaIdentifier.ItemIndex];
