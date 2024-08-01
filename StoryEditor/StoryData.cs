@@ -34,12 +34,20 @@ namespace OneStoryProjectEditor
         public bool JustAdded;
 
         protected static Regex _regexAddCarriageReturn = new (@"(?<!\r)\n", RegexOptions.Compiled);
+        protected static Regex _regexRemoveCarriageReturn = new(@"\r", RegexOptions.Compiled);
 
         public static string NormalizeLineEndings(string str)
         {
             return String.IsNullOrEmpty(str) 
                     ? str
                     : _regexAddCarriageReturn.Replace(str, "\r\n");
+        }
+
+        public static string RemoveCarriageReturns(string str)
+        {
+            return String.IsNullOrEmpty(str)
+                    ? str
+                    : _regexRemoveCarriageReturn.Replace(str, String.Empty);
         }
 
         public StoryData(string strStoryName, string strCrafterMemberGuid, 
@@ -1121,7 +1129,7 @@ namespace OneStoryProjectEditor
         {
             elem.Add(new XElement(strElementLabel,
                                   new XAttribute(CstrAttributeMemberID, MemberId),
-                                  MemberComment ?? String.Empty));  // merger now puts full closing tags, so do that here too, so we don't get false diffs
+                                  StoryData.RemoveCarriageReturns(MemberComment) ?? String.Empty));  // merger now puts full closing tags, so do that here too, so we don't get false diffs
         }
 
         public bool IsConfigured
@@ -1576,13 +1584,13 @@ namespace OneStoryProjectEditor
                                                           elemCraftingInfo);
 
                 if (!String.IsNullOrEmpty(StoryPurpose))
-                    elemCraftingInfo.Add(new XElement(CstrElementLabelStoryPurpose, StoryPurpose));
+                    elemCraftingInfo.Add(new XElement(CstrElementLabelStoryPurpose, StoryData.RemoveCarriageReturns(StoryPurpose)));
 
                 if (!String.IsNullOrEmpty(ResourcesUsed))
-                    elemCraftingInfo.Add(new XElement(CstrElementLabelResourcesUsed, ResourcesUsed));
+                    elemCraftingInfo.Add(new XElement(CstrElementLabelResourcesUsed, StoryData.RemoveCarriageReturns(ResourcesUsed)));
 
                 if (!String.IsNullOrEmpty(MiscellaneousStoryInfo))
-                    elemCraftingInfo.Add(new XElement(CstrElementLabelMiscellaneousStoryInfo, MiscellaneousStoryInfo));
+                    elemCraftingInfo.Add(new XElement(CstrElementLabelMiscellaneousStoryInfo, StoryData.RemoveCarriageReturns(MiscellaneousStoryInfo)));
 
                 if (TestersToCommentsRetellings.Count > 0)
                 {

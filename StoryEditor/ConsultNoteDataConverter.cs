@@ -121,7 +121,7 @@ namespace OneStoryProjectEditor
                 elem.Add(new XAttribute(CstrAttributeLabelMemberId, MemberId));
 
             elem.Add(new XAttribute(CstrAttributeLabelTimeStamp, StoryData.ToUniversalTime(TimeStamp)),
-                     this.ToString());
+                     StoryData.RemoveCarriageReturns(this.ToString()));
             
             return elem;
         }

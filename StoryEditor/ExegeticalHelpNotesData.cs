@@ -37,7 +37,7 @@ namespace OneStoryProjectEditor
             get
             {
                 System.Diagnostics.Debug.Assert(HasData, "Trying to serialize an ExegeticalHelpNoteData with no data");
-                return new XElement(CstrElementNameExegeticalHelp, ToString());
+                return new XElement(CstrElementNameExegeticalHelp, StoryData.RemoveCarriageReturns(ToString()));
             }
         }
     }

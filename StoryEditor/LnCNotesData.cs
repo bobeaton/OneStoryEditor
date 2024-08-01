@@ -238,22 +238,22 @@ namespace OneStoryProjectEditor
             {
                 string strNote = "-";   // can't be null
                 if (!String.IsNullOrEmpty(Notes))
-                    strNote = Notes;
+                    strNote = StoryData.RemoveCarriageReturns(Notes);
 
                 var elem = new XElement("LnCNote", strNote,
                     new XAttribute("guid", guid));
 
                 if (!String.IsNullOrEmpty(VernacularRendering))
-                    elem.Add(new XAttribute("VernacularRendering", VernacularRendering));
+                    elem.Add(new XAttribute("VernacularRendering", StoryData.RemoveCarriageReturns(VernacularRendering)));
 
                 if (!String.IsNullOrEmpty(NationalBtRendering))
-                    elem.Add(new XAttribute("NationalBTRendering", NationalBtRendering));
+                    elem.Add(new XAttribute("NationalBTRendering", StoryData.RemoveCarriageReturns(NationalBtRendering)));
 
                 if (!String.IsNullOrEmpty(InternationalBtRendering))
-                    elem.Add(new XAttribute("InternationalBTRendering", InternationalBtRendering));
+                    elem.Add(new XAttribute("InternationalBTRendering", StoryData.RemoveCarriageReturns(InternationalBtRendering)));
 
                 if (!String.IsNullOrEmpty(KeyTermIds))
-                    elem.Add(new XAttribute("KeyTermId", KeyTermIds));
+                    elem.Add(new XAttribute("KeyTermId", StoryData.RemoveCarriageReturns(KeyTermIds)));
 
                 return elem;
             }

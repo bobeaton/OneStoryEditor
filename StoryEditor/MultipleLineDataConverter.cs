@@ -145,7 +145,7 @@ namespace OneStoryProjectEditor
             {
                 var elem = new XElement(CollectionElementName);
                 foreach (LineMemberData aLineData in this)
-                    aLineData.AddXml(elem, InstanceElementName);
+                    aLineData.AddXml(elem, StoryData.RemoveCarriageReturns(InstanceElementName));
 
                 return elem;
             }

@@ -173,7 +173,7 @@ namespace OneStoryProjectEditor
                     new XAttribute(CstrAttributeLang, langFieldType),
                     (transliterator != null)
                         ? VerseData.GetStoryLineString(transliterator, field)
-                        : field));
+                        : StoryData.RemoveCarriageReturns(field.Value)));
         }
 
         public void ExtractSelectedText(out string strVernacular, out string strNationalBt, out string strEnglishBt, out string strFreeTranslation)
