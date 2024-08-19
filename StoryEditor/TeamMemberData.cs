@@ -391,23 +391,27 @@ namespace OneStoryProjectEditor
 
             if (IsUser(MemberType, UserTypes.ProjectFacilitator))
             {
-                DefaultAllowed =
-                    (long)
-                    (TasksPf.TaskSettings) Enum.Parse(typeof (TasksPf.TaskSettings), theMemberRow.DefaultTasksAllowed);
-                DefaultRequired =
-                    (long)
-                    (TasksPf.TaskSettings) Enum.Parse(typeof (TasksPf.TaskSettings), theMemberRow.DefaultTasksRequired);
+                if (!theMemberRow.IsDefaultTasksAllowedNull())
+                    DefaultAllowed =
+                        (long)
+                        (TasksPf.TaskSettings) Enum.Parse(typeof (TasksPf.TaskSettings), theMemberRow.DefaultTasksAllowed);
+                if (!theMemberRow.IsDefaultTasksRequiredNull())
+                    DefaultRequired =
+                        (long)
+                        (TasksPf.TaskSettings) Enum.Parse(typeof (TasksPf.TaskSettings), theMemberRow.DefaultTasksRequired);
             }
             
             else if (IsUser(MemberType, UserTypes.ConsultantInTraining))
             {
-                DefaultAllowed =
-                    (long)
-                    (TasksCit.TaskSettings) Enum.Parse(typeof (TasksCit.TaskSettings), theMemberRow.DefaultTasksAllowed);
-                DefaultRequired =
-                    (long)
-                    (TasksCit.TaskSettings)
-                    Enum.Parse(typeof (TasksCit.TaskSettings), theMemberRow.DefaultTasksRequired);
+                if (!theMemberRow.IsDefaultTasksAllowedNull())
+                    DefaultAllowed =
+                        (long)
+                        (TasksCit.TaskSettings) Enum.Parse(typeof (TasksCit.TaskSettings), theMemberRow.DefaultTasksAllowed);
+                if (!theMemberRow.IsDefaultTasksRequiredNull())
+                    DefaultRequired =
+                        (long)
+                        (TasksCit.TaskSettings)
+                        Enum.Parse(typeof (TasksCit.TaskSettings), theMemberRow.DefaultTasksRequired);
             }
         }
 
