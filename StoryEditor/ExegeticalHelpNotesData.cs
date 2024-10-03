@@ -100,9 +100,22 @@ namespace OneStoryProjectEditor
             {
                 System.Diagnostics.Debug.Assert(HasData);
                 XElement elemExegeticalHelps = new XElement(CstrElementLabelExegeticalHelps);
+
+                // transition fron 5.2.3 to 5.2.4 had a weird merge issue of duplicating an ExegeticalHelp note
+                //  (the merger ignores these, but I'm not certain why it just so happened then (maybe due to \r vs \r\n issue)
+                // Anyway, keep a hash of all the notes and only add identical ones once
+                var uniqueNotes = new HashSet<string>();
                 foreach (ExegeticalHelpNoteData aExHelpData in this)
                     if (aExHelpData.HasData)
-                        elemExegeticalHelps.Add(aExHelpData.GetXml);
+                    {
+                        var exegeticalHelpNote = aExHelpData.GetXml;
+                        var value = exegeticalHelpNote.Value;
+                        if (uniqueNotes.Contains(value))
+                            continue;
+                        uniqueNotes.Add(value);
+                        elemExegeticalHelps.Add(exegeticalHelpNote);
+                    }
+
                 return elemExegeticalHelps;
             }
         }

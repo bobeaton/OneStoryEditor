@@ -24,6 +24,6 @@ Imports System.Reflection
 ' You can specify all the values or you can default the Build and Revision Numbers 
 ' by using the '*' as shown below:
 
-<Assembly: AssemblyVersion("5.2.3.0")>
+<Assembly: AssemblyVersion("5.3.0.0")>
 
-<Assembly: AssemblyFileVersion("5.2.3.0")>
+<Assembly: AssemblyFileVersion("5.3.0.0")>
