@@ -257,8 +257,8 @@ namespace OneStoryProjectEditor
             // projectToolStripMenu
             // 
             this.projectToolStripMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.projectRecentProjectsMenu,
             this.projectSendReceiveMenu,
+            this.projectRecentProjectsMenu,
             this.projectOpenNewOSEWindowMenu,
             this.projectCloseProjectMenu,
             this.projectSaveProjectMenu,
