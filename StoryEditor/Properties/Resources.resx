@@ -2178,4 +2178,7 @@ href="http://users.bible.org"&gt;http://users.bible.org&lt;/a&gt;&lt;/p&gt;
   <data name="ConNoteDomPrefix" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\js\connotedomprefix.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="DefMyDocsFolder" xml:space="preserve">
+    <value>Documents</value>
+  </data>
 </root>

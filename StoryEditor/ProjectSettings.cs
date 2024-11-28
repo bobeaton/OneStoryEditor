@@ -570,7 +570,14 @@ namespace OneStoryProjectEditor
                     strDefaultProjectFolderRoot = (string)keyOneStoryHiveRoot.GetValue(CstrRootDirKey);
 
                 if (String.IsNullOrEmpty(strDefaultProjectFolderRoot))
-                    strDefaultProjectFolderRoot = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                {
+                    // doesn't work on a Mac w/ Parallels:
+                    // strDefaultProjectFolderRoot = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    // but this should:
+                    var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                    strDefaultProjectFolderRoot = Path.Combine(userProfile,
+                                                               Properties.Resources.DefMyDocsFolder);
+                }
 
                 var strPath = Path.Combine(strDefaultProjectFolderRoot,
                                            Properties.Resources.DefMyDocsSubfolder);

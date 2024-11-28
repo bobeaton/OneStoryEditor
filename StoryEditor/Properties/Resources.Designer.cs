@@ -250,6 +250,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Documents.
+        /// </summary>
+        internal static string DefMyDocsFolder {
+            get {
+                return ResourceManager.GetString("DefMyDocsFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OneStory Editor Projects.
         /// </summary>
         internal static string DefMyDocsSubfolder {
