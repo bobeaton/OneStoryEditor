@@ -1,4 +1,5 @@
 ﻿#define UseOseServer
+#define UseAutoUpgrade  // still need it for Sword installs
 
 using System;
 using System.Collections.Generic;

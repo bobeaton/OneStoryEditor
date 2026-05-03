@@ -22,7 +22,7 @@ jobs:
   # This workflow contains a single job called "build"
   build-windows:
     # The type of runner that the job will run on
-    runs-on: windows-2019   # [windows-latest]   # VS 2022 doesn't automatically include the proper .net framework 
+    runs-on: windows-2022
     strategy:
        # Keep building other jobs even if another fails, to show what _is_ still working.
        fail-fast: false
@@ -33,10 +33,18 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5   
 
-      - name: Add MSBuild to PATH
-        uses: microsoft/setup-msbuild@v1.0.2
+      # Locate MSBuild (no Node dependency)
+      - name: Locate MSBuild
+        id: msbuild
+        shell: powershell
+        run: |
+          $path = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" `
+            -latest -products * -requires Microsoft.Component.MSBuild `
+            -find MSBuild\**\Bin\MSBuild.exe
+
+          echo "MSBUILD_PATH=$path" >> $env:GITHUB_ENV
 
       - name: Fetch nuget dependecies
         run: nuget restore "${{env.SOLUTION_FILE_PATH}}"
@@ -53,21 +61,30 @@ jobs:
       #     [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
       #     $WebClient = New-Object System.Net.WebClient
       #     $WebClient.DownloadFile($url,$localDownloadPath)
-      
+
       - name: Build
-        working-directory: ${{env.GITHUB_WORKSPACE}}
-      # Add additional options to the MSBuild command line here (like platform or verbosity level).
-      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
-        run: msbuild /m /p:Configuration=${{matrix.build_configuration}} "${{env.SOLUTION_FILE_PATH}}"
+        shell: cmd
+        run: >
+          "%MSBUILD_PATH%"
+          /m
+          /p:Configuration=${{matrix.build_configuration}}
+          /p:Platform=${{matrix.build_platform}}
+          "${{env.SOLUTION_FILE_PATH}}"
+      
+      # - name: Build
+      #   working-directory: ${{env.GITHUB_WORKSPACE}}
+      # # Add additional options to the MSBuild command line here (like platform or verbosity level).
+      # # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
+      #   run: msbuild /m /p:Configuration=${{matrix.build_configuration}} "${{env.SOLUTION_FILE_PATH}}"
 
       # we get the build from TC now, since it's signed
       # - name: rename installer
       #   if: ${{ success() && matrix.build_configuration == 'Release' }}
-      #   run: cp "output/SetupOneStoryEditor_5.3_x86.exe" "output/SetupOneStoryEditor_5.3.${{github.run_number}}.exe"
+      #   run: cp "output/SetupOneStoryEditor_5.4_x86.exe" "output/SetupOneStoryEditor_5.4.${{github.run_number}}.exe"
         
       # - name: publish artifact
       #   if: ${{ success() && matrix.build_configuration == 'Release' }}
       #   uses: actions/upload-artifact@v4.3.1
       #   with: 
-      #     name: onestory-editor-installer-v5.3.latest
-      #     path: "output/SetupOneStoryEditor_5.3.${{github.run_number}}.exe"
+      #     name: onestory-editor-installer-v5.4.latest
+      #     path: "output/SetupOneStoryEditor_5.4.${{github.run_number}}.exe"
