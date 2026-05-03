@@ -68,7 +68,6 @@ jobs:
           "%MSBUILD_PATH%"
           /m
           /p:Configuration=${{matrix.build_configuration}}
-          /p:Platform=${{matrix.build_platform}}
           "${{env.SOLUTION_FILE_PATH}}"
       
       # - name: Build
