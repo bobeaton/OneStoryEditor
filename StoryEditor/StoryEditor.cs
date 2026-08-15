@@ -7594,6 +7594,28 @@ namespace OneStoryProjectEditor
                     break;
             }
 
+            // Optional third tier. Null when the .eaf had only the two tiers
+            // SayMore produces, in which case nothing below it changes.
+            StringTransferDelegate stGloss = null;
+            if (dlg.GlossLines.Count > 0)
+            {
+                switch (dlg.GlossTierField)
+                {
+                    case TextFields.NationalBt:
+                        stGloss = ld => ld.NationalBt;
+                        break;
+                    case TextFields.InternationalBt:
+                        stGloss = ld => ld.InternationalBt;
+                        break;
+                    case TextFields.FreeTranslation:
+                        stGloss = ld => ld.FreeTranslation;
+                        break;
+                    default:
+                        stGloss = ld => ld.Vernacular;
+                        break;
+                }
+            }
+
             StoryStageLogic.ProjectStages eStageToGoTo = StoryStageLogic.ProjectStages.eUndefined;
             StringTransferDelegate stTranslation;
             switch (dlg.TranslationField)
@@ -7649,7 +7671,9 @@ namespace OneStoryProjectEditor
             }
             else
             {
-                var nLen = Math.Max(dlg.VernacularLines.Count, dlg.BackTranslationLines.Count);
+                var nLen = Math.Max(dlg.VernacularLines.Count,
+                                    Math.Max(dlg.BackTranslationLines.Count,
+                                             dlg.GlossLines.Count));
 
                 var nLineIndex = 0;
                 var bCreateNewStory = (dlg.SaymoreImportType == SayMoreImportForm.SaymoreImportTypes.NewStory);
@@ -7678,6 +7702,10 @@ namespace OneStoryProjectEditor
                     Debug.Assert(lineData != null, "lineData != null");
                     stTranscription(lineData(newVerse)).SetValue(vernacular);
                     stTranslation(lineData(newVerse)).SetValue(backTr);
+
+                    if (stGloss != null)
+                        stGloss(lineData(newVerse))
+                            .SetValue(GetSafeValue(dlg.GlossLines, i));
                 }
             }
 
