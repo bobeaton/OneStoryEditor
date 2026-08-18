@@ -17,6 +17,17 @@ namespace OneStoryProjectEditor
         public List<string> VernacularLines;
         public List<string> BackTranslationLines;
 
+        // Optional word-gloss tier. SayMore records a transcription and a free
+        // translation, so those two tiers already cover baseline and free
+        // translation; what it has no concept of is a word-by-word gloss.
+        // Empty unless the .eaf carries a tier whose LINGUISTIC_TYPE_REF is
+        // CstrTierGloss, so a SayMore file behaves exactly as it did before.
+        public List<string> GlossLines = new List<string>();
+
+        private const string CstrTierTranscription = "Transcription";
+        private const string CstrTierTranslation   = "Translation";
+        private const string CstrTierGloss         = "Gloss";
+
         private const int CnColumnClickToInstall = 0;
         private const int CnColumnTitle = 2;
         private const int CnColumnCrafter = 4;
@@ -181,6 +192,10 @@ namespace OneStoryProjectEditor
 
         private void UpdateFieldRadioButtons()
         {
+            // Only offer the third mapping when the .eaf actually had a third
+            // tier. A SayMore file has two, so its UI is unchanged.
+            groupBoxGloss.Visible = (GlossLines.Count > 0);
+
             if (radioButtonNewStory.Checked)
             {
                 SetFieldVisibility(_projSettings.Vernacular.HasData,
@@ -199,7 +214,10 @@ namespace OneStoryProjectEditor
 
         private void SetFieldVisibility(bool bVernacular, bool bNationalBt, bool bInternationalBt, bool bFreeTr)
         {
-            bool bTranscriptionChosen = false, bTranslationChosen = false;
+            // bThirdChosen only ever matters when the optional third tier is
+            // present; when it isn't, the group is hidden and these defaults
+            // are inert.
+            bool bTranscriptionChosen = false, bTranslationChosen = false, bThirdChosen = false;
             if (bVernacular)
             {
                 // radioButtonVernacularTranslation.Visible =  doesn't make sense for this field to be the translation
@@ -209,28 +227,32 @@ namespace OneStoryProjectEditor
             }
             else
                 radioButtonVernacularTranscription.Visible =
-                    radioButtonVernacularTranslation.Visible = false;
+                    radioButtonVernacularTranslation.Visible =
+                    radioButtonVernacularGloss.Visible = false;
 
             if (bNationalBt)
             {
                 radioButtonNationalBtTranscription.Visible =
-                    radioButtonNationalBtTranslation.Visible = true;
+                    radioButtonNationalBtTranslation.Visible =
+                    radioButtonNationalBtGloss.Visible = true;
 
                 // if we haven't chosen the transcription yet, then this would be it
                 if (!bTranscriptionChosen)
                     bTranscriptionChosen = radioButtonNationalBtTranscription.Checked = true;
                 else
-                    // otherwise, this is the default for translation 
+                    // otherwise, this is the default for translation
                     bTranslationChosen = radioButtonNationalBtTranslation.Checked = true;
             }
             else
                 radioButtonNationalBtTranscription.Visible =
-                    radioButtonNationalBtTranslation.Visible = false;
+                    radioButtonNationalBtTranslation.Visible =
+                    radioButtonNationalBtGloss.Visible = false;
 
             if (bInternationalBt)
             {
                 radioButtonInternationalBtTranscription.Visible =
-                    radioButtonInternationalBtTranslation.Visible = true;
+                    radioButtonInternationalBtTranslation.Visible =
+                    radioButtonInternationalBtGloss.Visible = true;
 
                 // if we haven't chosen the transcription yet, then this would be it
                 if (!bTranscriptionChosen)
@@ -238,22 +260,42 @@ namespace OneStoryProjectEditor
                     // otherwise, if the translation hasn't yet been chosen, then this would be it
                 else if (!bTranslationChosen)
                     bTranslationChosen = radioButtonInternationalBtTranslation.Checked = true;
+                    // otherwise it is the default for the optional third tier
+                else if (!bThirdChosen)
+                    bThirdChosen = radioButtonInternationalBtGloss.Checked = true;
             }
             else
                 radioButtonInternationalBtTranscription.Visible =
-                    radioButtonInternationalBtTranslation.Visible = false;
+                    radioButtonInternationalBtTranslation.Visible =
+                    radioButtonInternationalBtGloss.Visible = false;
 
             if (bFreeTr)
             {
                 radioButtonFreeTrTranscription.Visible =
-                    radioButtonFreeTrTranslation.Visible = true;
+                    radioButtonFreeTrTranslation.Visible =
+                    radioButtonFreeTrGloss.Visible = true;
 
                 if (!bTranslationChosen)
                     radioButtonFreeTrTranslation.Checked = true;
+                else if (!bThirdChosen)
+                    radioButtonFreeTrGloss.Checked = true;
             }
             else
                 radioButtonFreeTrTranscription.Visible =
-                    radioButtonFreeTrTranslation.Visible = false;
+                    radioButtonFreeTrTranslation.Visible =
+                    radioButtonFreeTrGloss.Visible = false;
+
+            // With a gloss tier present the sensible mapping differs from the
+            // two-tier cascade above: a word-by-word gloss belongs in the
+            // national-language BT field, and the Translation tier (which in
+            // SayMore is a free translation) in the international one. Only
+            // applied when the gloss tier actually arrived, so an import from
+            // SayMore keeps exactly the defaults it has always had.
+            if ((GlossLines.Count > 0) && bNationalBt && bInternationalBt)
+            {
+                radioButtonNationalBtGloss.Checked = true;
+                radioButtonInternationalBtTranslation.Checked = true;
+            }
         }
 
         private void DataGridViewEventsCellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -279,10 +321,16 @@ namespace OneStoryProjectEditor
             StoryName = theRow.Cells[CnColumnTitle].Value as string;
             Crafter = theRow.Cells[CnColumnCrafter].Value as string;
             var doc = XDocument.Load(eafFile);
-            List<string> lstVernacular, lstBackTranslation;
-            GetTier(doc, "Transcription", out lstVernacular);
-            GetTier(doc, "Translation", out lstBackTranslation);
-            var nLen = Math.Max(lstVernacular.Count, lstBackTranslation.Count);
+            List<string> lstVernacular, lstBackTranslation, lstFreeTranslation;
+            GetTier(doc, CstrTierTranscription, out lstVernacular);
+            GetTier(doc, CstrTierTranslation, out lstBackTranslation);
+
+            // Optional: GetTier already yields an empty list when the tier is
+            // absent, so a two-tier SayMore file needs no special case here.
+            GetTier(doc, CstrTierGloss, out lstFreeTranslation);
+
+            var nLen = Math.Max(lstVernacular.Count,
+                                Math.Max(lstBackTranslation.Count, lstFreeTranslation.Count));
             if (nLen <= 0)
             {
                 LocalizableMessageBox.Show(
@@ -294,6 +342,7 @@ namespace OneStoryProjectEditor
 
             VernacularLines = lstVernacular;
             BackTranslationLines = lstBackTranslation;
+            GlossLines = lstFreeTranslation;
             tabControlImport.SelectTab(tabPageFieldMatching);
         }
 
@@ -329,6 +378,9 @@ namespace OneStoryProjectEditor
         public StoryEditor.TextFields TranscriptionField { get; set; }
         public StoryEditor.TextFields TranslationField { get; set; }
 
+        // Only meaningful when GlossLines is non-empty.
+        public StoryEditor.TextFields GlossTierField { get; set; }
+
         private void ButtonImportClick(object sender, EventArgs e)
         {
             SaymoreImportType = (radioButtonNewStory.Checked)
@@ -336,7 +388,7 @@ namespace OneStoryProjectEditor
                                     : (radioButtonAsRetelling.Checked)
                                           ? SaymoreImportTypes.Retelling
                                           : SaymoreImportTypes.Answers;
-            
+
             TranscriptionField = WhichField(radioButtonVernacularTranscription,
                                             radioButtonNationalBtTranscription,
                                             radioButtonInternationalBtTranscription,
@@ -355,6 +407,28 @@ namespace OneStoryProjectEditor
                         TranslationField),
                     StoryEditor.OseCaption);
                 return;
+            }
+
+            // The third tier is optional: only read and validate its mapping
+            // when the file actually supplied one.
+            if (GlossLines.Count > 0)
+            {
+                GlossTierField = WhichField(radioButtonVernacularGloss,
+                                                      radioButtonNationalBtGloss,
+                                                      radioButtonInternationalBtGloss,
+                                                      radioButtonFreeTrGloss);
+
+                if ((GlossTierField == TranscriptionField) ||
+                    (GlossTierField == TranslationField))
+                {
+                    LocalizableMessageBox.Show(
+                        String.Format(
+                            Localizer.Str(
+                                "You can't import two different tiers into the {0} field"),
+                            GlossTierField),
+                        StoryEditor.OseCaption);
+                    return;
+                }
             }
 
             DialogResult = DialogResult.OK;
