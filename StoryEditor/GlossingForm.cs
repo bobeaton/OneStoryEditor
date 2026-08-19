@@ -264,6 +264,7 @@ namespace OneStoryProjectEditor
 
         public void CheckForSimilarWords(GlossingControl glossingControl)
         {
+#if false   // this was an idea, but not that useful
             try
             {
                 List<string> lstSimilarWords = _theEc.GetSimilarWords(glossingControl.SourceWord);
@@ -274,6 +275,7 @@ namespace OneStoryProjectEditor
             {
                 Program.ShowException(ex);
             }
+#endif
         }
 
         public void Update(GlossingControl theGc, string strNewSourceWord)

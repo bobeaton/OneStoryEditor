@@ -140,12 +140,6 @@
         <File Id="Ionic.Zip.dll" Name="Ionic.Zip.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Ionic.Zip.dll" AssemblyApplication="Ionic.Zip.dll" Assembly=".net" Source="..\..\output\release\Ionic.Zip.dll"/>
       </Component>
       -->
-      <Component Id="Keyman7Interop.dll" Guid="{5D4CAB04-CE3C-4B9F-A709-6752BA8EA15A}">
-        <File Id="Keyman7Interop.dll" Name="Keyman7Interop.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Keyman7Interop.dll" AssemblyApplication="Keyman7Interop.dll" Assembly=".net" Source="..\..\output\release\Keyman7Interop.dll"/>
-      </Component>
-      <Component Id="Keyman10Interop.dll" Guid="{354530E9-659F-4B1B-97A2-38ECDFE66709}">
-        <File Id="Keyman10Interop.dll" Name="Keyman10Interop.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Keyman10Interop.dll" AssemblyApplication="Keyman10Interop.dll" Assembly=".net" Source="..\..\output\release\Keyman10Interop.dll"/>
-      </Component>
       <Component Id="KeymanLink.dll" Guid="{A50B7EA6-FF86-4459-8E03-AE23D61D7A5A}">
         <File Id="KeymanLink.dll" Name="KeymanLink.dll" Vital="yes" KeyPath="yes" AssemblyManifest="KeymanLink.dll" AssemblyApplication="KeymanLink.dll" Assembly=".net" Source="..\..\output\release\KeymanLink.dll"/>
       </Component>

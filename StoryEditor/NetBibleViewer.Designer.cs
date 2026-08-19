@@ -78,24 +78,25 @@
             this.webBrowserNetBible.ContextMenuStrip = this.contextMenuChangeFont;
             this.webBrowserNetBible.Dock = System.Windows.Forms.DockStyle.Fill;
             this.webBrowserNetBible.IsWebBrowserContextMenuEnabled = false;
-            this.webBrowserNetBible.Location = new System.Drawing.Point(3, 23);
+            this.webBrowserNetBible.Location = new System.Drawing.Point(3, 30);
             this.webBrowserNetBible.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserNetBible.Name = "webBrowserNetBible";
-            this.webBrowserNetBible.Size = new System.Drawing.Size(577, 236);
+            this.webBrowserNetBible.Size = new System.Drawing.Size(577, 229);
             this.webBrowserNetBible.TabIndex = 1;
             this.webBrowserNetBible.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserNetBible_DocumentCompleted);
             // 
             // contextMenuChangeFont
             // 
+            this.contextMenuChangeFont.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.contextMenuChangeFont.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemChangeFont});
             this.contextMenuChangeFont.Name = "contextMenuChangeFont";
-            this.contextMenuChangeFont.Size = new System.Drawing.Size(188, 26);
+            this.contextMenuChangeFont.Size = new System.Drawing.Size(254, 36);
             // 
             // toolStripMenuItemChangeFont
             // 
             this.toolStripMenuItemChangeFont.Name = "toolStripMenuItemChangeFont";
-            this.toolStripMenuItemChangeFont.Size = new System.Drawing.Size(187, 22);
+            this.toolStripMenuItemChangeFont.Size = new System.Drawing.Size(253, 32);
             this.toolStripMenuItemChangeFont.Text = "Change Font (or Size)";
             this.toolStripMenuItemChangeFont.ToolTipText = "Click this to change the font (or size) used for this Bible version";
             this.toolStripMenuItemChangeFont.Click += new System.EventHandler(this.toolStripMenuItemChangeFont_Click);
@@ -141,7 +142,7 @@
             this.tableLayoutPanelSpinControls.Name = "tableLayoutPanelSpinControls";
             this.tableLayoutPanelSpinControls.RowCount = 1;
             this.tableLayoutPanelSpinControls.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelSpinControls.Size = new System.Drawing.Size(563, 20);
+            this.tableLayoutPanelSpinControls.Size = new System.Drawing.Size(563, 27);
             this.tableLayoutPanelSpinControls.TabIndex = 2;
             // 
             // domainUpDownBookNames
@@ -150,14 +151,14 @@
             this.domainUpDownBookNames.Location = new System.Drawing.Point(0, 0);
             this.domainUpDownBookNames.Margin = new System.Windows.Forms.Padding(0);
             this.domainUpDownBookNames.Name = "domainUpDownBookNames";
-            this.domainUpDownBookNames.Size = new System.Drawing.Size(16, 20);
+            this.domainUpDownBookNames.Size = new System.Drawing.Size(24, 26);
             this.domainUpDownBookNames.TabIndex = 0;
             this.domainUpDownBookNames.Text = "Gen";
             this.domainUpDownBookNames.SelectedItemChanged += new System.EventHandler(this.domainUpDownBookNames_SelectedItemChanged);
             // 
             // numericUpDownChapterNumber
             // 
-            this.numericUpDownChapterNumber.Location = new System.Drawing.Point(16, 0);
+            this.numericUpDownChapterNumber.Location = new System.Drawing.Point(24, 0);
             this.numericUpDownChapterNumber.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDownChapterNumber.Minimum = new decimal(new int[] {
             1,
@@ -165,7 +166,7 @@
             0,
             0});
             this.numericUpDownChapterNumber.Name = "numericUpDownChapterNumber";
-            this.numericUpDownChapterNumber.Size = new System.Drawing.Size(53, 20);
+            this.numericUpDownChapterNumber.Size = new System.Drawing.Size(53, 26);
             this.numericUpDownChapterNumber.TabIndex = 1;
             this.numericUpDownChapterNumber.Value = new decimal(new int[] {
             100,
@@ -177,7 +178,7 @@
             // 
             // numericUpDownVerseNumber
             // 
-            this.numericUpDownVerseNumber.Location = new System.Drawing.Point(69, 0);
+            this.numericUpDownVerseNumber.Location = new System.Drawing.Point(77, 0);
             this.numericUpDownVerseNumber.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDownVerseNumber.Minimum = new decimal(new int[] {
             1,
@@ -185,7 +186,7 @@
             0,
             0});
             this.numericUpDownVerseNumber.Name = "numericUpDownVerseNumber";
-            this.numericUpDownVerseNumber.Size = new System.Drawing.Size(41, 20);
+            this.numericUpDownVerseNumber.Size = new System.Drawing.Size(41, 26);
             this.numericUpDownVerseNumber.TabIndex = 2;
             this.numericUpDownVerseNumber.Value = new decimal(new int[] {
             1,
@@ -199,10 +200,10 @@
             // 
             this.buttonPreviousReference.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonPreviousReference.Image = global::OneStoryProjectEditor.Properties.Resources.DataContainer_MovePreviousHS;
-            this.buttonPreviousReference.Location = new System.Drawing.Point(110, 0);
+            this.buttonPreviousReference.Location = new System.Drawing.Point(118, 0);
             this.buttonPreviousReference.Margin = new System.Windows.Forms.Padding(0);
             this.buttonPreviousReference.Name = "buttonPreviousReference";
-            this.buttonPreviousReference.Size = new System.Drawing.Size(22, 20);
+            this.buttonPreviousReference.Size = new System.Drawing.Size(22, 27);
             this.buttonPreviousReference.TabIndex = 8;
             this.buttonPreviousReference.UseVisualStyleBackColor = true;
             this.buttonPreviousReference.Click += new System.EventHandler(this.buttonPreviousReference_Click);
@@ -211,10 +212,10 @@
             // 
             this.buttonNextReference.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonNextReference.Image = global::OneStoryProjectEditor.Properties.Resources.DataContainer_MoveNextHS;
-            this.buttonNextReference.Location = new System.Drawing.Point(132, 0);
+            this.buttonNextReference.Location = new System.Drawing.Point(140, 0);
             this.buttonNextReference.Margin = new System.Windows.Forms.Padding(0);
             this.buttonNextReference.Name = "buttonNextReference";
-            this.buttonNextReference.Size = new System.Drawing.Size(22, 20);
+            this.buttonNextReference.Size = new System.Drawing.Size(22, 27);
             this.buttonNextReference.TabIndex = 9;
             this.buttonNextReference.UseVisualStyleBackColor = true;
             this.buttonNextReference.Click += new System.EventHandler(this.buttonNextReference_Click);
@@ -225,11 +226,11 @@
             this.textBoxNetFlixViewer.Cursor = System.Windows.Forms.Cursors.Hand;
             this.textBoxNetFlixViewer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxNetFlixViewer.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxNetFlixViewer.Location = new System.Drawing.Point(154, 0);
+            this.textBoxNetFlixViewer.Location = new System.Drawing.Point(162, 0);
             this.textBoxNetFlixViewer.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxNetFlixViewer.Name = "textBoxNetFlixViewer";
             this.textBoxNetFlixViewer.ReadOnly = true;
-            this.textBoxNetFlixViewer.Size = new System.Drawing.Size(358, 16);
+            this.textBoxNetFlixViewer.Size = new System.Drawing.Size(327, 24);
             this.textBoxNetFlixViewer.TabIndex = 6;
             this.textBoxNetFlixViewer.TabStop = false;
             this.textBoxNetFlixViewer.Text = "Bible";
@@ -240,10 +241,10 @@
             // radioButtonShowOtherSwordResources
             // 
             this.radioButtonShowOtherSwordResources.AutoSize = true;
-            this.radioButtonShowOtherSwordResources.Location = new System.Drawing.Point(512, 0);
+            this.radioButtonShowOtherSwordResources.Location = new System.Drawing.Point(489, 0);
             this.radioButtonShowOtherSwordResources.Margin = new System.Windows.Forms.Padding(0);
             this.radioButtonShowOtherSwordResources.Name = "radioButtonShowOtherSwordResources";
-            this.radioButtonShowOtherSwordResources.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonShowOtherSwordResources.Size = new System.Drawing.Size(74, 24);
             this.radioButtonShowOtherSwordResources.TabIndex = 7;
             this.radioButtonShowOtherSwordResources.TabStop = true;
             this.radioButtonShowOtherSwordResources.Text = "Other";
@@ -258,7 +259,7 @@
             this.checkBoxAutoHide.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxAutoHide.Location = new System.Drawing.Point(566, 3);
             this.checkBoxAutoHide.Name = "checkBoxAutoHide";
-            this.checkBoxAutoHide.Size = new System.Drawing.Size(14, 14);
+            this.checkBoxAutoHide.Size = new System.Drawing.Size(14, 21);
             this.checkBoxAutoHide.TabIndex = 3;
             this.toolTip.SetToolTip(this.checkBoxAutoHide, "Uncheck this box to have the Bible Pane automatically hide when you are typing. T" +
         "hen you can right-click on the box to manually open and close the Bible Pane");
@@ -269,6 +270,7 @@
             // 
             // contextMenuStripBibleBooks
             // 
+            this.contextMenuStripBibleBooks.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.contextMenuStripBibleBooks.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
             this.contextMenuStripBibleBooks.Name = "contextMenuStripBibleBooks";
             this.contextMenuStripBibleBooks.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
