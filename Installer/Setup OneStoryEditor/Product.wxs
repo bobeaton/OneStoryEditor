@@ -1,32 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" 
-     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
   
-  <Product Id="*" Name="OneStory Editor 5.4" Language="1033" Version="5.4" Manufacturer="SIL International" 
-           UpgradeCode="{92A9B369-3609-4129-A09D-5BB5BBE30AAB}">
-    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
-    <Condition Message="You need to be an administrator to install this product.">Privileged</Condition>
-    <Condition Message="[ProductName] will only run on Windows 2000 or better. You cannot intall it on this machine.">
-      <![CDATA[(NOT Version9X) OR (NOT VersionNT OR (VersionNT >= 500))]]>
-    </Condition>
+  <Package Name="OneStory Editor 5.5" Language="1033" Version="5.5" Manufacturer="SIL International" UpgradeCode="{92A9B369-3609-4129-A09D-5BB5BBE30AAB}">
+    
+    <Launch Condition="Privileged" Message="You need to be an administrator to install this product." />
+    <Launch Condition="(NOT Version9X) OR (NOT VersionNT OR (VersionNT &gt;= 500))" Message="[ProductName] will only run on Windows 2000 or better. You cannot intall it on this machine." />
 
-    <Icon Id="OneStory.ico" SourceFile="..\..\StoryEditor\OneStory.ico"/>
+    <Icon Id="OneStory.ico" SourceFile="..\..\StoryEditor\OneStory.ico" />
     <Property Id="ARPPRODUCTICON" Value="OneStory.ico" />
 
     <Property Id="REINSTALLMODE" Value="amus" />
     <Property Id="DISABLEADVTSHORTCUTS" Value="1" />
 
-    <MajorUpgrade Schedule='afterInstallInitialize'
-                  DowngradeErrorMessage="A newer version of [ProductName] is already installed." 
-                  AllowSameVersionUpgrades="yes" />
+    <MajorUpgrade Schedule="afterInstallInitialize" DowngradeErrorMessage="A newer version of [ProductName] is already installed." AllowSameVersionUpgrades="yes" />
 
     <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
 
     <!-- Require .NET 4.5+ -->
-    <PropertyRef Id="WIX_IS_NETFRAMEWORK_461_OR_LATER_INSTALLED"/>
-    <Condition Message="This application requires .NET Framework 4.6.1 or later. Please install the .NET Framework then run this installer again. (https://www.microsoft.com/en-us/download/details.aspx?id=49981)">
-      <![CDATA[Installed OR WIX_IS_NETFRAMEWORK_461_OR_LATER_INSTALLED]]>
-    </Condition>
+    <!-- WixToolset.Netfx.wixext no longer ships the "WIX_IS_NETFRAMEWORK_461_OR_LATER_INSTALLED" PropertyRef as
+         of v6.0.2 (confirmed: the v6.0.2 wixext DLL contains no NETFRAMEWORK-prefixed properties at all, only
+         NGen-scheduling custom actions) - hand-authored below instead, extracted byte-for-byte from the actual
+         v3.14.1 WixNetFxExtension.dll's embedded netfx.wixlib (NetFx461.wxs's AppSearch/Property/SetProperty
+         rows: RegLocator "SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full"\"Release" -> WIXNETFX4RELEASEINSTALLED,
+         then WIX_IS_NETFRAMEWORK_461_OR_LATER_INSTALLED = 1 when WIXNETFX4RELEASEINSTALLED >= "#394254"), not
+         reconstructed from memory. -->
+    <Property Id="WIXNETFX4RELEASEINSTALLED" Secure="yes">
+      <RegistrySearch Id="NetFx4ReleaseInstalled" Root="HKLM" Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full" Name="Release" Type="raw" />
+    </Property>
+    <SetProperty Id="WIX_IS_NETFRAMEWORK_461_OR_LATER_INSTALLED" Value="1" After="AppSearch" Condition="WIXNETFX4RELEASEINSTALLED &gt;= &quot;#394254&quot;" />
+    <Launch Condition="Installed OR WIX_IS_NETFRAMEWORK_461_OR_LATER_INSTALLED" Message="This application requires .NET Framework 4.6.1 or later. Please install the .NET Framework then run this installer again. (https://www.microsoft.com/en-us/download/details.aspx?id=49981)" />
     
     <Feature Id="Always" Title="Always" Display="hidden" Level="1" AllowAdvertise="no">
       <ComponentGroupRef Id="ProductComponents" />
@@ -36,20 +37,19 @@
       <ComponentGroupRef Id="SwordModsComponents" />
       <ComponentGroupRef Id="SwordNetBibleComponents" />
       <ComponentGroupRef Id="ApplicationStartMenuFolderComponents" />
-      <ComponentRef Id="MyAppFolder"/>
-      <MergeRef Id="ChorusMergeModule"/>
-      <MergeRef Id="CRT"/>
-      <MergeRef Id="AIGuesserMM"/>
-      <MergeRef Id="EcTranslatorsMM"/>
-      <MergeRef Id="CcDLLsMM"/>
-      <MergeRef Id="ClipboardEncConverter"/>
-      <MergeRef Id="EC_40_MM"/>
-      <MergeRef Id="ICU_40"/>
-      <MergeRef Id="SetPath"/>
-      <MergeRef Id="TECkitDLLsMM"/>
+      <ComponentRef Id="MyAppFolder" />
+      <MergeRef Id="ChorusMergeModule" />
+      <MergeRef Id="AIGuesserMM" />
+      <MergeRef Id="EcTranslatorsMM" />
+      <MergeRef Id="CcDLLsMM" />
+      <MergeRef Id="ClipboardEncConverter" />
+      <MergeRef Id="EC_40_MM" />
+      <MergeRef Id="ICU_40" />
+      <MergeRef Id="SetPath" />
+      <MergeRef Id="TECkitDLLsMM" />
     </Feature>
 
-    <PropertyRef Id='MergeModulesFragment'/>
+    <PropertyRef Id="MergeModulesFragment" />
 
     <InstallExecuteSequence>
       <WriteEnvironmentStrings />
@@ -59,13 +59,12 @@
     
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
 
-    <UIRef Id="WixUI_InstallDir" />
+    <ui:WixUI Id="WixUI_InstallDir" />
     
-  </Product>
+  </Package>
 
   <Fragment>
-    <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="ProgramFilesFolder">
+      <StandardDirectory Id="ProgramFilesFolder">
         <Directory Id="SIL" Name="SIL">
           <Directory Id="INSTALLFOLDER" Name="OneStory Editor">
             <Component Id="MyAppFolder" Guid="{F13C74FF-6D0C-41CC-B812-1C992FD2F49E}">
@@ -89,20 +88,20 @@
             </Directory>
           </Directory>
         </Directory>
-      </Directory>
-      <Directory Id="WindowsFolder" SourceName="Windows">
-        <Directory Id="ProfilesFolder" SourceName="Profiles">
-          <Directory Id="StartMenuFolder" SourceName="Start Menu">
-            <Directory Id="ProgramMenuFolder" SourceName="Programs">
-              <Directory Id="ApplicationStartMenuFolder" Name="OneStory Editor" />
-            </Directory>
-          </Directory>
-        </Directory>
-        <Directory Id="DesktopFolder"/>
-        <Directory Id="SystemFolder" SourceName="System32" />
-      </Directory>
+      </StandardDirectory>
+      <!-- wix convert mechanically wrapped every recognized standard-directory name it found (including the v3
+           structural scaffolding used only to reach StartMenuFolder\Programs) in its own StandardDirectory
+           element, nested exactly as the old Directory tree was - which isn't valid: a StandardDirectory
+           resolves to a fixed real-world location on its own and can't be nested inside another one. Flattened
+           by hand below: WindowsFolder/ProfilesFolder were pure v3 path scaffolding (never real content) and
+           are simply dropped; ProgramMenuFolder and DesktopFolder are each their own top-level StandardDirectory,
+           exactly as WiX v4+ expects. (SystemFolder was also one of these originally, for the now-removed CRT
+           merge module - see MergeModules.wxs - so it isn't declared here at all any more.) -->
+      <StandardDirectory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationStartMenuFolder" Name="OneStory Editor" />
+      </StandardDirectory>
+      <StandardDirectory Id="DesktopFolder" />
 
-    </Directory>
-  </Fragment>
+    </Fragment>
 
 </Wix>

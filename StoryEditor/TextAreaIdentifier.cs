@@ -27,8 +27,8 @@ namespace OneStoryProjectEditor
         {
             get
             {
-                var field = StoryEditor.LocalizedEnum<StoryEditor.TextFields>.Parse(FieldTypeName);
-                return field;
+                var fieldValue = StoryEditor.LocalizedEnum<StoryEditor.TextFields>.Parse(FieldTypeName);
+                return fieldValue;
             }
         }
 

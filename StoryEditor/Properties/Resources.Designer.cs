@@ -940,11 +940,12 @@ namespace OneStoryProjectEditor.Properties {
         ///&lt;meta name=Generator content=&quot;Microsoft Word 11&quot;&gt;
         ///&lt;meta name=Originator content=&quot;Microsoft Word 11&quot;&gt;
         ///&lt;link rel=File-List href=&quot;OneStory%20Editor%20is%20Copyright_files/filelist.xml&quot;&gt;
-        ///&lt;title&gt;OneStory Editor is Copyright © 2009-2022 SIL International &lt;/title&gt;
+        ///&lt;title&gt;OneStory Editor is Copyright © 2009-2026 SIL International &lt;/title&gt;
         ///&lt;!--[if gte mso 9]&gt;&lt;xml&gt;
         /// &lt;o:DocumentProperties&gt;
         ///  &lt;o:Author&gt;Bob Eaton&lt;/o:Author&gt;
-        ///  &lt;o:LastAuthor&gt;Bob Eaton&lt;/o:LastAuthor&gt;        /// [rest of string was truncated]&quot;;.
+        ///  &lt;o:LastAuthor&gt;Bob Eaton&lt;/o:LastAuthor&gt;
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IDS_CopyrightInfo {
             get {
@@ -1223,7 +1224,8 @@ namespace OneStoryProjectEditor.Properties {
         ///
         ///\+mkr ans
         ///\nam Answers
-        ///\lng InternationalBT        /// [rest of string was truncated]&quot;;.
+        ///\lng InternationalBT
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string IDS_TbxFile_StoryBT {
             get {
@@ -1341,7 +1343,8 @@ namespace OneStoryProjectEditor.Properties {
         ///    &lt;!-- oneStory2CoachNotes.xsl         
         ///        create by Bob Eaton based on Jim Albright&apos;s script for storyingBT 
         ///        (to handle conversion of onestory to sfm)
-        ///        2010-04-05        /// [rest of string was truncated]&quot;;.
+        ///        2010-04-05
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string oneStory2CoachNotes {
             get {

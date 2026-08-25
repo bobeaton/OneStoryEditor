@@ -68,6 +68,8 @@ namespace OneStoryProjectEditor
 
         private void InitGrid()
         {
+            // with the addition of Seth's elan import, we need to not assume anymore that we're dealing with saymore only.
+            // So instead of using ProjectSettings.SayMoreFolderRoot, browser for the folder.
             // this monsterous Linq statement says: give me any sub-folders of "<My Document>\SayMore" (which
             //  are the project names), which have a 'Sessions' sub-folder which itself has at least one sub-folder
             //  that contains a file with a '.eaf' extension (which is the file we get the transcriptions out of)

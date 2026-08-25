@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
 
   <Fragment>
     <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
 
       <Component Id="AdaptItChorusPlugin.dll" Guid="{DE4093EA-7731-4B1B-BCA7-254F717DDCC7}">
-        <File Id="AdaptItChorusPlugin.dll" Name="AdaptIt-ChorusPlugin.dll" Vital="yes" KeyPath="yes" AssemblyManifest="AdaptItChorusPlugin.dll" AssemblyApplication="AdaptItChorusPlugin.dll" Assembly=".net" Source="..\..\output\release\AdaptIt-ChorusPlugin.dll"/>
+        <File Id="AdaptItChorusPlugin.dll" Name="AdaptIt-ChorusPlugin.dll" Vital="yes" KeyPath="yes" AssemblyManifest="AdaptItChorusPlugin.dll" AssemblyApplication="AdaptItChorusPlugin.dll" Assembly=".net" Source="..\..\output\release\AdaptIt-ChorusPlugin.dll" />
       </Component>
       <Component Id="AiChorus.exe" Guid="{87538C01-6CCA-490E-88AC-020311E17332}">
         <File Id="AiChorus.exe" Name="AiChorus.exe" Vital="yes" KeyPath="yes" AssemblyManifest="AiChorus.exe" AssemblyApplication="AiChorus.exe" Assembly=".net" Source="..\..\output\release\AiChorus.exe">
@@ -13,7 +12,7 @@
                 <Shortcut Id="AiChorus.exe" Directory="ApplicationStartMenuFolder" Name="Chorus Project Application" Description="Can be used to edit *.cpc files to manage all OneStory and AdaptIt projects used by OneStory Editor"
                       IconIndex="0" Show="normal" WorkingDirectory="INSTALLFOLDER" Arguments="\e" Advertise="no" />-->
         </File>
-        <File Id="chorus.ico" Name="chorus.ico" Source="..\..\AiChorus\Resources\chorus.ico"/>
+        <File Id="chorus.ico" Name="chorus.ico" Source="..\..\AiChorus\Resources\chorus.ico" />
 
         <!-- App Paths to support Start,Run -> "SIL\OneStoryEditor" -->
         <RegistryValue Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\AiChorus.exe" Value="[!AiChorus.exe]" Type="string" />
@@ -37,48 +36,48 @@
         <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\SystemFileAssociations\.cpc\shell\sync.AiChorus.exe\command" Value="&quot;[INSTALLFOLDER]AiChorus.exe&quot; /s &quot;%1&quot;" Type="string" />
       </Component>
       <Component Id="AiChorus.exe.config" Guid="{3BE59DB2-4E87-402F-A192-608071E02B5B}">
-        <File Id="AiChorus.exe.config" Name="AiChorus.exe.config" KeyPath="yes" Source="..\..\output\release\AiChorus.exe.config"/>
+        <File Id="AiChorus.exe.config" Name="AiChorus.exe.config" KeyPath="yes" Source="..\..\output\release\AiChorus.exe.config" />
       </Component>
       <Component Id="AiChorus.pdb" Guid="{BFBD6A28-2CF1-4C57-B32A-B1B2A4F9194A}">
-        <File Id="AiChorus.pdb" Name="AiChorus.pdb" KeyPath="yes" Source="..\..\output\release\AiChorus.pdb"/>
+        <File Id="AiChorus.pdb" Name="AiChorus.pdb" KeyPath="yes" Source="..\..\output\release\AiChorus.pdb" />
       </Component>
       <Component Id="AutoUpgrade.exe" Guid="{A8999229-7C20-48DE-9B73-25B9EC1F3C7B}">
-        <File Id="AutoUpgrade.exe" Name="AutoUpgrade.exe" Vital="yes" KeyPath="yes" AssemblyManifest="AutoUpgrade.exe" AssemblyApplication="AutoUpgrade.exe" Assembly=".net" Source="..\..\output\release\AutoUpgrade.exe"/>
+        <File Id="AutoUpgrade.exe" Name="AutoUpgrade.exe" Vital="yes" KeyPath="yes" AssemblyManifest="AutoUpgrade.exe" AssemblyApplication="AutoUpgrade.exe" Assembly=".net" Source="..\..\output\release\AutoUpgrade.exe" />
       </Component>
       <Component Id="AutoUpgrade.exe.config" Guid="{CC064297-42B6-4F6F-8A00-934F78959694}">
-        <File Id="AutoUpgrade.exe.config" Name="AutoUpgrade.exe.config" KeyPath="yes" Source="..\..\output\release\AutoUpgrade.exe.config"/>
+        <File Id="AutoUpgrade.exe.config" Name="AutoUpgrade.exe.config" KeyPath="yes" Source="..\..\output\release\AutoUpgrade.exe.config" />
       </Component>
       <Component Id="AutoUpgrade.Lib.dll" Guid="{A086B029-833C-4754-B383-8790F79190D4}">
-        <File Id="AutoUpgrade.Lib.dll" Name="AutoUpgrade.Lib.dll" Vital="yes" KeyPath="yes" AssemblyManifest="AutoUpgrade.Lib.dll" AssemblyApplication="AutoUpgrade.Lib.dll" Assembly=".net" Source="..\..\output\release\AutoUpgrade.Lib.dll"/>
+        <File Id="AutoUpgrade.Lib.dll" Name="AutoUpgrade.Lib.dll" Vital="yes" KeyPath="yes" AssemblyManifest="AutoUpgrade.Lib.dll" AssemblyApplication="AutoUpgrade.Lib.dll" Assembly=".net" Source="..\..\output\release\AutoUpgrade.Lib.dll" />
       </Component>
       <Component Id="OseCommon.dll" Guid="{C2F85C37-5359-4522-B925-3515A4812E36}">
-        <File Id="OseCommon.dll" Name="OseCommon.dll" Vital="yes" KeyPath="yes" AssemblyManifest="OseCommon.dll" AssemblyApplication="OseCommon.dll" Assembly=".net" Source="..\..\output\release\OseCommon.dll"/>
+        <File Id="OseCommon.dll" Name="OseCommon.dll" Vital="yes" KeyPath="yes" AssemblyManifest="OseCommon.dll" AssemblyApplication="OseCommon.dll" Assembly=".net" Source="..\..\output\release\OseCommon.dll" />
       </Component>
       <Component Id="LICENSE.txt" Guid="{2E63C2A9-0F99-4382-9F31-39070CBDD475}">
-        <File Id="LICENSE.txt" Name="LICENSE.txt" KeyPath="yes" Source="..\..\LICENSE.txt"/>
+        <File Id="LICENSE.txt" Name="LICENSE.txt" KeyPath="yes" Source="..\..\LICENSE.txt" />
       </Component>
 
       <Component Id="LanguageCodes.tab" Guid="{056F4214-4E79-4860-9713-CB05412DD627}">
-        <File Id="LanguageCodes.tab" Name="LanguageCodes.tab" KeyPath="yes" Source="..\..\output\release\LanguageCodes.tab"/>
+        <File Id="LanguageCodes.tab" Name="LanguageCodes.tab" KeyPath="yes" Source="..\..\output\release\LanguageCodes.tab" />
       </Component>
 
       <!--The following 5 components are needed for SWORD support-->
       <Component Id="libsword.dll" Guid="{B5D08D96-A5B2-48E2-8D52-2EE0CEA47CEA}">
-        <File Id="libsword.dll" Name="libsword.dll" Vital="yes" KeyPath="yes" Source="..\..\DepDLLs\libsword.dll"/>
+        <File Id="libsword.dll" Name="libsword.dll" Vital="yes" KeyPath="yes" Source="..\..\DepDLLs\libsword.dll" />
       </Component>
       <Component Id="libbz2.dll" Guid="{372BC160-7213-4159-B7B8-5B10CA3BC67C}">
-        <File Id="libbz2.dll" Name="libbz2.dll" Vital="yes" KeyPath="yes" Source="..\..\DepDLLs\libbz2.dll"/>
+        <File Id="libbz2.dll" Name="libbz2.dll" Vital="yes" KeyPath="yes" Source="..\..\DepDLLs\libbz2.dll" />
       </Component>
       <Component Id="liblzma.dll" Guid="{5D737217-9B5F-4A0C-BA9E-26CBEE486F1F}">
-        <File Id="liblzma.dll" Name="liblzma.dll" Vital="yes" KeyPath="yes" Source="..\..\DepDLLs\liblzma.dll"/>
+        <File Id="liblzma.dll" Name="liblzma.dll" Vital="yes" KeyPath="yes" Source="..\..\DepDLLs\liblzma.dll" />
       </Component>
       <Component Id="CSSword.dll" Guid="{BFCB1E49-EAA4-49A4-A685-E0DAD1B169A4}">
-        <File Id="CSSword.dll" Name="CSSword.dll" Vital="yes" KeyPath="yes" AssemblyManifest="CSSword.dll" AssemblyApplication="CSSword.dll" Assembly=".net" Source="..\..\DepDLLs\CSSword.dll"/>
+        <File Id="CSSword.dll" Name="CSSword.dll" Vital="yes" KeyPath="yes" AssemblyManifest="CSSword.dll" AssemblyApplication="CSSword.dll" Assembly=".net" Source="..\..\DepDLLs\CSSword.dll" />
         <Environment Id="SWORD_PATH" Name="SWORD_PATH" Action="set" System="yes" Part="first" Value="[INSTALLFOLDER]SWORD" />
       </Component>
 
       <Component Id="FluentFTP.dll" Guid="{025B7112-DB25-4783-940B-DED74DEFBB9A}">
-        <File Id="FluentFTP.dll" Name="FluentFTP.dll" Vital="yes" KeyPath="yes" Source="..\..\output\release\FluentFTP.dll"/>
+        <File Id="FluentFTP.dll" Name="FluentFTP.dll" Vital="yes" KeyPath="yes" Source="..\..\output\release\FluentFTP.dll" />
       </Component>
       <!-- Removed since Irene asked for it to be turned off
       <Component Id="GemBox.Document.dll" Guid="{22B409D8-B508-4B45-9003-0DA619B576B2}">
@@ -88,10 +87,22 @@
         <File Id="BouncyCastle.Cryptography.dll" Name="BouncyCastle.Cryptography.dll" Vital="yes" KeyPath="yes" AssemblyManifest="BouncyCastle.Cryptography.dll" AssemblyApplication="BouncyCastle.Cryptography.dll" Assembly=".net" Source="..\..\output\release\BouncyCastle.Cryptography.dll"/>
       </Component>
       -->
-      <!-- These are now included in EcCore in the EcTranslator package which is included
-      <Component Id="Google.Apis.Auth.dll" Guid="{E7008ADF-B06B-4B33-AE69-9D7BCF87EF56}">
-        <File Id="Google.Apis.Auth.dll" Name="Google.Apis.Auth.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Apis.Auth.dll" AssemblyApplication="Google.Apis.Auth.dll" Assembly=".net" Source="..\..\output\release\Google.Apis.Auth.dll"/>
+      <!-- The claim that these are "already included in EcCore in the EcTranslator package" doesn't hold up -
+           decompiled EC_40_MM.msm (the merge module that actually ships EcCore) contains no Google.Apis.* file
+           at all, and all three of the dlls below are genuinely referenced directly by AiChorus.csproj
+           (Google.Apis/.Auth/.Core 1.76.0) and present in a real output\Release. Re-enabled as real components
+           (the PlatformServices/xml siblings below stay dropped - confirmed genuinely absent from output\Release
+           at the current package version, unlike the three core dlls). -->
+      <Component Id="Google.Apis.Auth.dll" Guid="{40B7FFF3-D6E3-41FE-B6A1-9AE20C8A3873}">
+        <File Id="Google.Apis.Auth.dll" Name="Google.Apis.Auth.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Apis.Auth.dll" AssemblyApplication="Google.Apis.Auth.dll" Assembly=".net" Source="..\..\output\release\Google.Apis.Auth.dll" />
       </Component>
+      <Component Id="Google.Apis.Core.dll" Guid="{2E578F7D-AF37-49B7-B6C5-72BBAE26867C}">
+        <File Id="Google.Apis.Core.dll" Name="Google.Apis.Core.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Apis.Core.dll" AssemblyApplication="Google.Apis.Core.dll" Assembly=".net" Source="..\..\output\release\Google.Apis.Core.dll" />
+      </Component>
+      <Component Id="Google.Apis.dll" Guid="{3BCC48F8-0A13-4E77-9D2E-396F3AC2EE15}">
+        <File Id="Google.Apis.dll" Name="Google.Apis.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Apis.dll" AssemblyApplication="Google.Apis.dll" Assembly=".net" Source="..\..\output\release\Google.Apis.dll" />
+      </Component>
+      <!-- Confirmed genuinely absent from output\Release at the current package version (not a build gap).
       <Component Id="Google.Apis.Auth.pdb" Guid="{1E1554CE-D9E7-4DBB-970B-B892B765FFBD}">
         <File Id="Google.Apis.Auth.pdb" Name="Google.Apis.Auth.pdb" KeyPath="yes" Source="..\..\output\release\Google.Apis.Auth.pdb"/>
       </Component>
@@ -99,19 +110,13 @@
         <File Id="Google.Apis.Auth.xml" Name="Google.Apis.Auth.xml" KeyPath="yes" Source="..\..\output\release\Google.Apis.Auth.xml"/>
       </Component>
       <Component Id="Google.Apis.Auth.PlatServ.dll" Guid="{A8D9DBCB-385E-4462-A07D-BA5B57E0E673}">
-        <File Id="Google.Apis.Auth.PlatServ.dll" Name="Google.Apis.Auth.PlatformServices.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Apis.Auth.PlatServ.dll" AssemblyApplication="Google.Apis.Auth.PlatServ.dll" Assembly=".net" Source="..\..\output\release\Google.Apis.Auth.PlatformServices.dll"/>
-      </Component>
-      <Component Id="Google.Apis.Core.dll" Guid="{C6025EB9-CDB0-46A0-9641-A85B677EDE53}">
-        <File Id="Google.Apis.Core.dll" Name="Google.Apis.Core.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Apis.Core.dll" AssemblyApplication="Google.Apis.Core.dll" Assembly=".net" Source="..\..\output\release\Google.Apis.Core.dll"/>
+        <File Id="Google.Apis.Auth.PlatServ.dll" Name="Google.Apis.Auth.PlatServ.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Apis.Auth.PlatServ.dll" AssemblyApplication="Google.Apis.Auth.PlatServ.dll" Assembly=".net" Source="..\..\output\release\Google.Apis.Auth.PlatformServices.dll"/>
       </Component>
       <Component Id="Google.Apis.Core.pdb" Guid="{9C97EE7D-5ABF-41A3-A900-69839BDCBA66}">
         <File Id="Google.Apis.Core.pdb" Name="Google.Apis.Core.pdb" KeyPath="yes" Source="..\..\output\release\Google.Apis.Core.pdb"/>
       </Component>
       <Component Id="Google.Apis.Core.xml" Guid="{3DAEC82C-3F98-437B-BE65-118D46BC2390}">
         <File Id="Google.Apis.Core.xml" Name="Google.Apis.Core.xml" KeyPath="yes" Source="..\..\output\release\Google.Apis.Core.xml"/>
-      </Component>
-      <Component Id="Google.Apis.dll" Guid="{BB079BFE-A2AD-4610-947D-446EBCA25EF5}">
-        <File Id="Google.Apis.dll" Name="Google.Apis.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Apis.dll" AssemblyApplication="Google.Apis.dll" Assembly=".net" Source="..\..\output\release\Google.Apis.dll"/>
       </Component>
       <Component Id="Google.Apis.pdb" Guid="{EA56A381-48A5-4CA0-83F1-722AA796E27C}">
         <File Id="Google.Apis.pdb" Name="Google.Apis.pdb" KeyPath="yes" Source="..\..\output\release\Google.Apis.pdb"/>
@@ -124,16 +129,18 @@
       </Component>
       -->
       <Component Id="Google.Apis.Sheets.v4.dll" Guid="{C1F6937F-D0D8-4BC7-9D33-5F825C6CA016}">
-        <File Id="Google.Apis.Sheets.v4.dll" Name="Google.Apis.Sheets.v4.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Apis.Sheets.v4.dll" AssemblyApplication="Google.Apis.Sheets.v4.dll" Assembly=".net" Source="..\..\output\release\Google.Apis.Sheets.v4.dll"/>
+        <File Id="Google.Apis.Sheets.v4.dll" Name="Google.Apis.Sheets.v4.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Apis.Sheets.v4.dll" AssemblyApplication="Google.Apis.Sheets.v4.dll" Assembly=".net" Source="..\..\output\release\Google.Apis.Sheets.v4.dll" />
       </Component>
       <Component Id="Google.Apis.Sheets.v4.pdb" Guid="{BBF2288D-F997-4D97-8BB1-FD9B569676B7}">
-        <File Id="Google.Apis.Sheets.v4.pdb" Name="Google.Apis.Sheets.v4.pdb" KeyPath="yes" Source="..\..\output\release\Google.Apis.Sheets.v4.pdb"/>
+        <File Id="Google.Apis.Sheets.v4.pdb" Name="Google.Apis.Sheets.v4.pdb" KeyPath="yes" Source="..\..\output\release\Google.Apis.Sheets.v4.pdb" />
       </Component>
+      <!-- apparently, no longer in the nuget package
       <Component Id="Google.Apis.Sheets.v4.xml" Guid="{3C93F580-85AE-42FC-A247-27538C3C8492}">
         <File Id="Google.Apis.Sheets.v4.xml" Name="Google.Apis.Sheets.v4.xml" KeyPath="yes" Source="..\..\output\release\Google.Apis.Sheets.v4.xml"/>
       </Component>
+      -->
       <Component Id="HtmlEditor.dll" Guid="{D145DD63-E101-43B2-843A-8DF3FA75092F}">
-        <File Id="HtmlEditor.dll" Name="HtmlEditor.dll" Vital="yes" KeyPath="yes" AssemblyManifest="HtmlEditor.dll" AssemblyApplication="HtmlEditor.dll" Assembly=".net" Source="..\..\output\release\HtmlEditor.dll"/>
+        <File Id="HtmlEditor.dll" Name="HtmlEditor.dll" Vital="yes" KeyPath="yes" AssemblyManifest="HtmlEditor.dll" AssemblyApplication="HtmlEditor.dll" Assembly=".net" Source="..\..\output\release\HtmlEditor.dll" />
       </Component>
       <!-- Removed due to vunerability
       <Component Id="Ionic.Zip.dll" Guid="{24C8EB0B-BCA4-42C7-AA59-D4892C44AB4B}">
@@ -141,16 +148,27 @@
       </Component>
       -->
       <Component Id="KeymanLink.dll" Guid="{A50B7EA6-FF86-4459-8E03-AE23D61D7A5A}">
-        <File Id="KeymanLink.dll" Name="KeymanLink.dll" Vital="yes" KeyPath="yes" AssemblyManifest="KeymanLink.dll" AssemblyApplication="KeymanLink.dll" Assembly=".net" Source="..\..\output\release\KeymanLink.dll"/>
+        <File Id="KeymanLink.dll" Name="KeymanLink.dll" Vital="yes" KeyPath="yes" AssemblyManifest="KeymanLink.dll" AssemblyApplication="KeymanLink.dll" Assembly=".net" Source="..\..\output\release\KeymanLink.dll" />
+      </Component>
+      <Component Id="Keyman10Interop.dll" Guid="{78D78F2C-FDF5-4079-87F6-D2F5364B7AD3}">
+        <File Id="Keyman10Interop.dll" Name="Keyman10Interop.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Keyman10Interop.dll" AssemblyApplication="Keyman10Interop.dll" Assembly=".net" Source="..\..\output\release\Keyman10Interop.dll" />
+      </Component>
+      <Component Id="Keyman7Interop.dll" Guid="{DE8E5C5F-2205-45F1-9848-46E2AB5ED443}">
+        <File Id="Keyman7Interop.dll" Name="Keyman7Interop.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Keyman7Interop.dll" AssemblyApplication="Keyman7Interop.dll" Assembly=".net" Source="..\..\output\release\Keyman7Interop.dll" />
       </Component>
       <Component Id="L10NSharp.dll" Guid="{D824370A-DC71-4EC7-AC81-EC32260B3AC1}">
-        <File Id="L10NSharp.dll" Name="L10NSharp.dll" Vital="yes" KeyPath="yes" AssemblyManifest="L10NSharp.dll" AssemblyApplication="L10NSharp.dll" Assembly=".net" Source="..\..\output\release\L10NSharp.dll"/>
+        <File Id="L10NSharp.dll" Name="L10NSharp.dll" Vital="yes" KeyPath="yes" AssemblyManifest="L10NSharp.dll" AssemblyApplication="L10NSharp.dll" Assembly=".net" Source="..\..\output\release\L10NSharp.dll" />
       </Component>
+      <!-- currently reverted to using v5 of L10NSharp, before this was split out:
+      <Component Id="L10NSharp.Windows.Forms.dll" Guid="{EF2D99F8-5685-4FC0-B82E-E402F85CA910}">
+        <File Id="L10NSharp.Windows.Forms.dll" Name="L10NSharp.Windows.Forms.dll" Vital="yes" KeyPath="yes" AssemblyManifest="L10NSharp.Windows.Forms.dll" AssemblyApplication="L10NSharp.Windows.Forms.dll" Assembly=".net" Source="..\..\output\release\L10NSharp.Windows.Forms.dll" />
+      </Component>
+      -->
       <Component Id="MAPIEx.dll" Guid="{FCF9B71B-2AAB-4AA8-A96D-AE214F32F700}">
-        <File Id="MAPIEx.dll" Name="MAPIEx.dll" Vital="yes" KeyPath="yes" Source="..\..\output\release\MAPIEx.dll"/>
+        <File Id="MAPIEx.dll" Name="MAPIEx.dll" Vital="yes" KeyPath="yes" Source="..\..\output\release\MAPIEx.dll" />
       </Component>
       <Component Id="Microsoft.mshtml.dll" Guid="{804A4109-1683-486B-9287-3E8970E0D460}">
-        <File Id="Microsoft.mshtml.dll" Name="Microsoft.mshtml.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.mshtml.dll" AssemblyApplication="Microsoft.mshtml.dll" Assembly=".net" Source="..\..\output\release\Microsoft.mshtml.dll"/>
+        <File Id="Microsoft.mshtml.dll" Name="Microsoft.mshtml.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.mshtml.dll" AssemblyApplication="Microsoft.mshtml.dll" Assembly=".net" Source="..\..\output\release\Microsoft.mshtml.dll" />
       </Component>
       <!--
       <Component Id="Microsoft.Win32.Primitives.dll" Guid="{F8590416-8B65-4FC0-9846-5013905D4509}">
@@ -158,13 +176,13 @@
       </Component>
       -->
       <Component Id="NDesk.DBus.dll" Guid="{E41FE36F-7431-4A1F-BC17-7A552A96E1AF}">
-        <File Id="NDesk.DBus.dll" Name="NDesk.DBus.dll" Vital="yes" KeyPath="yes" AssemblyManifest="NDesk.DBus.dll" AssemblyApplication="NDesk.DBus.dll" Assembly=".net" Source="..\..\output\release\NDesk.DBus.dll"/>
+        <File Id="NDesk.DBus.dll" Name="NDesk.DBus.dll" Vital="yes" KeyPath="yes" AssemblyManifest="NDesk.DBus.dll" AssemblyApplication="NDesk.DBus.dll" Assembly=".net" Source="..\..\output\release\NDesk.DBus.dll" />
       </Component>
       <Component Id="NetLoc.dll" Guid="{B5CB761F-4E7B-4FD0-ADE1-37C8EE289574}">
-        <File Id="NetLoc.dll" Name="NetLoc.dll" Vital="yes" KeyPath="yes" AssemblyManifest="NetLoc.dll" AssemblyApplication="NetLoc.dll" Assembly=".net" Source="..\..\output\release\NetLoc.dll"/>
+        <File Id="NetLoc.dll" Name="NetLoc.dll" Vital="yes" KeyPath="yes" AssemblyManifest="NetLoc.dll" AssemblyApplication="NetLoc.dll" Assembly=".net" Source="..\..\output\release\NetLoc.dll" />
       </Component>
       <Component Id="NetMAPI.dll" Guid="{0469D932-5D37-408F-9652-BD4D534896D0}">
-        <File Id="NetMAPI.dll" Name="NetMAPI.dll" Vital="yes" KeyPath="yes" AssemblyManifest="NetMAPI.dll" AssemblyApplication="NetMAPI.dll" Assembly=".net" Source="..\..\output\release\NetMAPI.dll"/>
+        <File Id="NetMAPI.dll" Name="NetMAPI.dll" Vital="yes" KeyPath="yes" AssemblyManifest="NetMAPI.dll" AssemblyApplication="NetMAPI.dll" Assembly=".net" Source="..\..\output\release\NetMAPI.dll" />
       </Component>
       <!--
       <Component Id="netstandard.dll" Guid="{DBF0CC3F-6BEC-42E8-90D9-593EEF0D80D5}">
@@ -172,34 +190,32 @@
       </Component>
       -->
       <Component Id="CircularProgressBar.dll" Guid="{BBEAB31A-22AA-4809-B757-D242AE62F9B3}">
-        <File Id="CircularProgressBar.dll" Name="CircularProgressBar.dll" Vital="yes" KeyPath="yes" AssemblyManifest="CircularProgressBar.dll" AssemblyApplication="CircularProgressBar.dll" Assembly=".net" Source="..\..\output\release\CircularProgressBar.dll"/>
+        <File Id="CircularProgressBar.dll" Name="CircularProgressBar.dll" Vital="yes" KeyPath="yes" AssemblyManifest="CircularProgressBar.dll" AssemblyApplication="CircularProgressBar.dll" Assembly=".net" Source="..\..\output\release\CircularProgressBar.dll" />
       </Component>
       <Component Id="WinFormAnimation.dll" Guid="{768C443C-B651-4280-9987-88B7F0ED85A9}">
-        <File Id="WinFormAnimation.dll" Name="WinFormAnimation.dll" Vital="yes" KeyPath="yes" AssemblyManifest="WinFormAnimation.dll" AssemblyApplication="WinFormAnimation.dll" Assembly=".net" Source="..\..\output\release\WinFormAnimation.dll"/>
+        <File Id="WinFormAnimation.dll" Name="WinFormAnimation.dll" Vital="yes" KeyPath="yes" AssemblyManifest="WinFormAnimation.dll" AssemblyApplication="WinFormAnimation.dll" Assembly=".net" Source="..\..\output\release\WinFormAnimation.dll" />
       </Component>
       <Component Id="ParatextShared.dll" Guid="{98F5F31F-03A4-4E85-BDB9-70CA223A1D1E}">
-        <File Id="ParatextShared.dll" Name="ParatextShared.dll" Vital="yes" KeyPath="yes" AssemblyManifest="ParatextShared.dll" AssemblyApplication="ParatextShared.dll" Assembly=".net" Source="..\..\output\release\ParatextShared.dll"/>
+        <File Id="ParatextShared.dll" Name="ParatextShared.dll" Vital="yes" KeyPath="yes" AssemblyManifest="ParatextShared.dll" AssemblyApplication="ParatextShared.dll" Assembly=".net" Source="..\..\output\release\ParatextShared.dll" />
       </Component>
       <Component Id="SharedScrUtils.dll" Guid="{1688BC8F-10A9-4565-B6C3-F2F4B655DDD4}">
-        <File Id="SharedScrUtils.dll" Name="SharedScrUtils.dll" Vital="yes" KeyPath="yes" AssemblyManifest="SharedScrUtils.dll" AssemblyApplication="SharedScrUtils.dll" Assembly=".net" Source="..\..\output\release\SharedScrUtils.dll"/>
+        <File Id="SharedScrUtils.dll" Name="SharedScrUtils.dll" Vital="yes" KeyPath="yes" AssemblyManifest="SharedScrUtils.dll" AssemblyApplication="SharedScrUtils.dll" Assembly=".net" Source="..\..\output\release\SharedScrUtils.dll" />
       </Component>
       <Component Id="StageTransitions.xml" Guid="{F82CCD91-6F07-49B5-B85F-9E0F5A2430E5}">
-        <File Id="StageTransitions.xml" Name="StageTransitions.xml" KeyPath="yes" Source="..\..\output\release\StageTransitions.xml"/>
+        <File Id="StageTransitions.xml" Name="StageTransitions.xml" KeyPath="yes" Source="..\..\output\release\StageTransitions.xml" />
       </Component>
       <Component Id="StageTransitionsId.xml" Guid="{595F8689-FEB7-490C-9043-4FEDEC74BADB}">
-        <File Id="StageTransitionsId.xml" Name="StageTransitionsId.xml" KeyPath="yes" Source="..\..\output\release\StageTransitionsId.xml"/>
+        <File Id="StageTransitionsId.xml" Name="StageTransitionsId.xml" KeyPath="yes" Source="..\..\output\release\StageTransitionsId.xml" />
       </Component>
       <Component Id="OneStoryChorusPlugin.dll" Guid="{4FB83131-54A9-4ACB-B91F-6F874549B0D0}">
-        <File Id="OneStoryChorusPlugin.dll" Name="OneStory-ChorusPlugin.dll" Vital="yes" KeyPath="yes" AssemblyManifest="OneStoryChorusPlugin.dll" AssemblyApplication="OneStoryChorusPlugin.dll" Assembly=".net" Source="..\..\output\release\OneStory-ChorusPlugin.dll"/>
+        <File Id="OneStoryChorusPlugin.dll" Name="OneStory-ChorusPlugin.dll" Vital="yes" KeyPath="yes" AssemblyManifest="OneStoryChorusPlugin.dll" AssemblyApplication="OneStoryChorusPlugin.dll" Assembly=".net" Source="..\..\output\release\OneStory-ChorusPlugin.dll" />
       </Component>
       <Component Id="StoryEditor.exe" Guid="{F6A646DC-50AB-4CB7-A954-12A504791F25}">
         <File Id="StoryEditor.exe" Name="StoryEditor.exe" Vital="yes" KeyPath="yes" AssemblyManifest="StoryEditor.exe" AssemblyApplication="StoryEditor.exe" Assembly=".net" Source="..\..\output\release\StoryEditor.exe">
-          <Shortcut Id="StoryEditor.exe.Desktop" Directory="DesktopFolder" Name="OneStory Editor" Description="OneStory Editor"
-                    IconIndex="0" Show="normal" WorkingDirectory="INSTALLFOLDER" Advertise="yes" />
-          <Shortcut Id="StoryEditor.exe.StartMenu" Directory="ApplicationStartMenuFolder" Name="OneStory Editor" Description="OneStory Editor"
-                    IconIndex="0" Show="normal" WorkingDirectory="INSTALLFOLDER" Advertise="yes" />
+          <Shortcut Id="StoryEditor.exe.Desktop" Directory="DesktopFolder" Name="OneStory Editor" Description="OneStory Editor" IconIndex="0" Show="normal" WorkingDirectory="INSTALLFOLDER" Advertise="yes" />
+          <Shortcut Id="StoryEditor.exe.StartMenu" Directory="ApplicationStartMenuFolder" Name="OneStory Editor" Description="OneStory Editor" IconIndex="0" Show="normal" WorkingDirectory="INSTALLFOLDER" Advertise="yes" />
         </File>
-        <File Id="OneStory.ico" Name="OneStory.ico" Source="..\..\StoryEditor\OneStory.ico"/>
+        <File Id="OneStory.ico" Name="OneStory.ico" Source="..\..\StoryEditor\OneStory.ico" />
 
         <!-- App Paths to support Start,Run -> "SIL\OneStoryEditor" -->
         <RegistryValue Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\StoryEditor.exe" Value="[!StoryEditor.exe]" Type="string" />
@@ -221,30 +237,33 @@
         <!-- Optional: add an 'Edit with onestory' to 'right click' even when not associated -->
         <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\SystemFileAssociations\.onestory\shell\edit.StoryEditor.exe" Value="Edit with OneStory Editor" Type="string" />
         <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\SystemFileAssociations\.onestory\shell\edit.StoryEditor.exe\command" Value="&quot;[INSTALLFOLDER]StoryEditor.exe&quot; &quot;%1&quot;" Type="string" />
-        <RemoveFolder Id='ApplicationStartMenuFolder' On='uninstall' />
+        <RemoveFolder Id="ApplicationStartMenuFolder" On="uninstall" />
       </Component>
       <Component Id="StoryEditor.exe.config" Guid="{0C9A4072-A9CD-4084-846D-77CAD54A98D7}">
-        <File Id="StoryEditor.exe.config" Name="StoryEditor.exe.config" KeyPath="yes" Source="..\..\output\release\StoryEditor.exe.config"/>
+        <File Id="StoryEditor.exe.config" Name="StoryEditor.exe.config" KeyPath="yes" Source="..\..\output\release\StoryEditor.exe.config" />
       </Component>
       <Component Id="StoryEditor.pdb" Guid="{2960C93B-1E7D-494F-9D88-9DBC2CA757FF}">
-        <File Id="StoryEditor.pdb" Name="StoryEditor.pdb" KeyPath="yes" Source="..\..\output\release\StoryEditor.pdb"/>
+        <File Id="StoryEditor.pdb" Name="StoryEditor.pdb" KeyPath="yes" Source="..\..\output\release\StoryEditor.pdb" />
       </Component>
       <Component Id="Utilities.dll" Guid="{2B8C9E1B-66D5-4D22-A400-0F5289471E14}">
-        <File Id="Utilities.dll" Name="Utilities.dll" KeyPath="yes" Source="..\..\output\release\Utilities.dll"/>
+        <File Id="Utilities.dll" Name="Utilities.dll" KeyPath="yes" Source="..\..\output\release\Utilities.dll" />
       </Component>
 
       <!--SendGrid dependencies, pulled from output folder via nuget in the projects-->
       <Component Id="SendGrid.dll" Guid="{34ABBA6F-1DA3-44BE-9D20-AF4111D4629A}">
-        <File Id="SendGrid.dll" Name="SendGrid.dll" Vital="yes" KeyPath="yes" AssemblyManifest="SendGrid.dll" AssemblyApplication="SendGrid.dll" Assembly=".net" Source="..\..\output\release\SendGrid.dll"/>
+        <File Id="SendGrid.dll" Name="SendGrid.dll" Vital="yes" KeyPath="yes" AssemblyManifest="SendGrid.dll" AssemblyApplication="SendGrid.dll" Assembly=".net" Source="..\..\output\release\SendGrid.dll" />
       </Component>
       <Component Id="SendGrid.pdb" Guid="{101F4A91-0956-46C2-8C58-3EDD10D330A5}">
-        <File Id="SendGrid.pdb" Name="SendGrid.pdb" KeyPath="yes" Source="..\..\output\release\SendGrid.pdb"/>
+        <File Id="SendGrid.pdb" Name="SendGrid.pdb" KeyPath="yes" Source="..\..\output\release\SendGrid.pdb" />
       </Component>
-      <Component Id="SendGrid.xml" Guid="{CEA8A2C7-C230-49E8-B91F-186A89005CCF}">
-        <File Id="SendGrid.xml" Name="SendGrid.xml" KeyPath="yes" Source="..\..\output\release\SendGrid.xml"/>
-      </Component>
+      <!-- SendGrid.xml (its doc-comment file, IDE-tooltip content only, no runtime effect) is no longer copied
+           to output\Release by the SDK-style project - SDK-style's NuGet asset-selection for a package's
+           build-output folder doesn't carry sibling .xml docs the way old-style packages.config-based CopyLocal
+           resolution did, and unlike the .pdb case (CopyDebugSymbolFilesFromPackages) there's no equally simple
+           opt-in switch for this. Not worth chasing further for a file with zero functional impact - dropped
+           here rather than the SendGrid.dll/.pdb components above, which are unaffected. -->
       <Component Id="StarkbankEcdsa.dll" Guid="{1A017EA9-6FC2-49CB-A771-49F7B40784FA}">
-        <File Id="StarkbankEcdsa.dll" Name="StarkbankEcdsa.dll" Vital="yes" KeyPath="yes" AssemblyManifest="StarkbankEcdsa.dll" AssemblyApplication="StarkbankEcdsa.dll" Assembly=".net" Source="..\..\output\release\StarkbankEcdsa.dll"/>
+        <File Id="StarkbankEcdsa.dll" Name="StarkbankEcdsa.dll" Vital="yes" KeyPath="yes" AssemblyManifest="StarkbankEcdsa.dll" AssemblyApplication="StarkbankEcdsa.dll" Assembly=".net" Source="..\..\output\release\StarkbankEcdsa.dll" />
       </Component>
       <!--
       <Component Id="System.Net.Http.dll" Guid="{067B7144-A8D4-46F9-BBA7-99E4E690E1B0}">
@@ -254,34 +273,34 @@
       
       <!--LibPalaso dependencies, pulled from output folder via nuget in the projects-->
       <Component Id="Commons.Xml.Relaxng.dll" Guid="{C02A7A94-9380-4AA3-A548-AB1BD4F1BA70}">
-        <File Id="Commons.Xml.Relaxng.dll" Name="Commons.Xml.Relaxng.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Commons.Xml.Relaxng.dll" AssemblyApplication="Commons.Xml.Relaxng.dll" Assembly=".net" Source="..\..\output\release\Commons.Xml.Relaxng.dll"/>
+        <File Id="Commons.Xml.Relaxng.dll" Name="Commons.Xml.Relaxng.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Commons.Xml.Relaxng.dll" AssemblyApplication="Commons.Xml.Relaxng.dll" Assembly=".net" Source="..\..\output\release\Commons.Xml.Relaxng.dll" />
       </Component>
       <Component Id="DialogAdapters.dll" Guid="{7B025089-7E0C-4EDB-91B7-EA149474636A}">
-        <File Id="DialogAdapters.dll" Name="DialogAdapters.dll" Vital="yes" KeyPath="yes" AssemblyManifest="DialogAdapters.dll" AssemblyApplication="DialogAdapters.dll" Assembly=".net" Source="..\..\output\release\DialogAdapters.dll"/>
+        <File Id="DialogAdapters.dll" Name="DialogAdapters.dll" Vital="yes" KeyPath="yes" AssemblyManifest="DialogAdapters.dll" AssemblyApplication="DialogAdapters.dll" Assembly=".net" Source="..\..\output\release\DialogAdapters.dll" />
       </Component>
       <Component Id="ekm.oledb.data.dll" Guid="{F4B1308D-AF42-4E7C-B820-C3B506896982}">
-        <File Id="ekm.oledb.data.dll" Name="ekm.oledb.data.dll" Vital="yes" KeyPath="yes" AssemblyManifest="ekm.oledb.data.dll" AssemblyApplication="ekm.oledb.data.dll" Assembly=".net" Source="..\..\output\release\ekm.oledb.data.dll"/>
+        <File Id="ekm.oledb.data.dll" Name="ekm.oledb.data.dll" Vital="yes" KeyPath="yes" AssemblyManifest="ekm.oledb.data.dll" AssemblyApplication="ekm.oledb.data.dll" Assembly=".net" Source="..\..\output\release\ekm.oledb.data.dll" />
       </Component>
       <Component Id="Enchant.Net.dll" Guid="{A17340AF-22AD-4770-BDDE-B025D0131570}">
-        <File Id="Enchant.Net.dll" Name="Enchant.Net.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Enchant.Net.dll" AssemblyApplication="Enchant.Net.dll" Assembly=".net" Source="..\..\output\release\Enchant.Net.dll"/>
+        <File Id="Enchant.Net.dll" Name="Enchant.Net.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Enchant.Net.dll" AssemblyApplication="Enchant.Net.dll" Assembly=".net" Source="..\..\output\release\Enchant.Net.dll" />
       </Component>
       <Component Id="ibusdotnet.dll" Guid="{7DEFF3FC-B43B-4989-869F-66D27EE9109F}">
-        <File Id="ibusdotnet.dll" Name="ibusdotnet.dll" Vital="yes" KeyPath="yes" AssemblyManifest="ibusdotnet.dll" AssemblyApplication="ibusdotnet.dll" Assembly=".net" Source="..\..\output\release\ibusdotnet.dll"/>
+        <File Id="ibusdotnet.dll" Name="ibusdotnet.dll" Vital="yes" KeyPath="yes" AssemblyManifest="ibusdotnet.dll" AssemblyApplication="ibusdotnet.dll" Assembly=".net" Source="..\..\output\release\ibusdotnet.dll" />
       </Component>
       <Component Id="Interop.WIA.dll" Guid="{CB77538D-92AD-4CD8-8FCA-D27598A35C84}">
-        <File Id="Interop.WIA.dll" Name="Interop.WIA.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Interop.WIA.dll" AssemblyApplication="Interop.WIA.dll" Assembly=".net" Source="..\..\output\release\Interop.WIA.dll"/>
+        <File Id="Interop.WIA.dll" Name="Interop.WIA.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Interop.WIA.dll" AssemblyApplication="Interop.WIA.dll" Assembly=".net" Source="..\..\output\release\Interop.WIA.dll" />
       </Component>
       <Component Id="Markdig.Signed.dll" Guid="{D44DB444-758E-4DA5-B0CA-EE9F8B487C06}">
-        <File Id="Markdig.Signed.dll" Name="Markdig.Signed.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Markdig.Signed.dll" AssemblyApplication="Markdig.Signed.dll" Assembly=".net" Source="..\..\output\release\Markdig.Signed.dll"/>
+        <File Id="Markdig.Signed.dll" Name="Markdig.Signed.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Markdig.Signed.dll" AssemblyApplication="Markdig.Signed.dll" Assembly=".net" Source="..\..\output\release\Markdig.Signed.dll" />
       </Component>
       <Component Id="MS.Net.PltfrmAbstractions" Guid="{44F0CA66-5B0A-4878-BB4A-AFE5700F559B}">
-        <File Id="MS.Net.PltfrmAbstractions.dll" Name="Microsoft.DotNet.PlatformAbstractions.dll" Vital="yes" KeyPath="yes" AssemblyManifest="MS.Net.PltfrmAbstractions.dll" AssemblyApplication="MS.Net.PltfrmAbstractions.dll" Assembly=".net" Source="..\..\output\release\Microsoft.DotNet.PlatformAbstractions.dll"/>
+        <File Id="MS.Net.PltfrmAbstractions.dll" Name="Microsoft.DotNet.PlatformAbstractions.dll" Vital="yes" KeyPath="yes" AssemblyManifest="MS.Net.PltfrmAbstractions.dll" AssemblyApplication="MS.Net.PltfrmAbstractions.dll" Assembly=".net" Source="..\..\output\release\Microsoft.DotNet.PlatformAbstractions.dll" />
       </Component>
       <Component Id="MS.Extns.DependencyModel.dll" Guid="{34FA67DE-C45B-49DB-BCE4-FB56F7AD3327}">
-        <File Id="MS.Extns.DependencyModel.dll" Name="Microsoft.Extensions.DependencyModel.dll" Vital="yes" KeyPath="yes" AssemblyManifest="MS.Extns.DependencyModel.dll" AssemblyApplication="MS.Extns.DependencyModel.dll" Assembly=".net" Source="..\..\output\release\Microsoft.Extensions.DependencyModel.dll"/>
+        <File Id="MS.Extns.DependencyModel.dll" Name="Microsoft.Extensions.DependencyModel.dll" Vital="yes" KeyPath="yes" AssemblyManifest="MS.Extns.DependencyModel.dll" AssemblyApplication="MS.Extns.DependencyModel.dll" Assembly=".net" Source="..\..\output\release\Microsoft.Extensions.DependencyModel.dll" />
       </Component>
       <Component Id="Mono.Posix.dll" Guid="{F1029F85-AAC1-474A-B0A0-53F65145AF3B}">
-        <File Id="Mono.Posix.dll" Name="Mono.Posix.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Mono.Posix.dll" AssemblyApplication="Mono.Posix.dll" Assembly=".net" Source="..\..\output\release\Mono.Posix.dll"/>
+        <File Id="Mono.Posix.dll" Name="Mono.Posix.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Mono.Posix.dll" AssemblyApplication="Mono.Posix.dll" Assembly=".net" Source="..\..\output\release\Mono.Posix.dll" />
       </Component>
       <!--
       <Component Id="Newtonsoft.Json.dll" Guid="{2B6ED6CA-B9D3-4CD6-B360-97F52CE3C6C0}">
@@ -289,16 +308,16 @@
       </Component>
       -->
       <Component Id="SIL.Core.Desktop.dll" Guid="{1243E3B4-3DA4-44F8-9994-65C52AD26E8A}">
-        <File Id="SIL.Core.Desktop.dll" Name="SIL.Core.Desktop.dll" Vital="yes" KeyPath="yes" AssemblyManifest="SIL.Core.Desktop.dll" AssemblyApplication="SIL.Core.Desktop.dll" Assembly=".net" Source="..\..\output\release\SIL.Core.Desktop.dll"/>
+        <File Id="SIL.Core.Desktop.dll" Name="SIL.Core.Desktop.dll" Vital="yes" KeyPath="yes" AssemblyManifest="SIL.Core.Desktop.dll" AssemblyApplication="SIL.Core.Desktop.dll" Assembly=".net" Source="..\..\output\release\SIL.Core.Desktop.dll" />
       </Component>
       <Component Id="SIL.Windows.Forms.Keyboarding.dll" Guid="{D06CBF8B-E2FA-4ED0-9C6B-5C4978FE30A6}">
-        <File Id="SIL.Windows.Forms.Keyboarding.dll" Name="SIL.Windows.Forms.Keyboarding.dll" Vital="yes" KeyPath="yes" AssemblyManifest="SIL.Windows.Forms.Keyboarding.dll" AssemblyApplication="SIL.Windows.Forms.Keyboarding.dll" Assembly=".net" Source="..\..\output\release\SIL.Windows.Forms.Keyboarding.dll"/>
+        <File Id="SIL.Windows.Forms.Keyboarding.dll" Name="SIL.Windows.Forms.Keyboarding.dll" Vital="yes" KeyPath="yes" AssemblyManifest="SIL.Windows.Forms.Keyboarding.dll" AssemblyApplication="SIL.Windows.Forms.Keyboarding.dll" Assembly=".net" Source="..\..\output\release\SIL.Windows.Forms.Keyboarding.dll" />
       </Component>
       <Component Id="SIL.WritingSystems.dll" Guid="{437E1A05-1AC6-4B00-BABF-50DC4B23F433}">
-        <File Id="SIL.WritingSystems.dll" Name="SIL.WritingSystems.dll" Vital="yes" KeyPath="yes" AssemblyManifest="SIL.WritingSystems.dll" AssemblyApplication="SIL.WritingSystems.dll" Assembly=".net" Source="..\..\output\release\SIL.WritingSystems.dll"/>
+        <File Id="SIL.WritingSystems.dll" Name="SIL.WritingSystems.dll" Vital="yes" KeyPath="yes" AssemblyManifest="SIL.WritingSystems.dll" AssemblyApplication="SIL.WritingSystems.dll" Assembly=".net" Source="..\..\output\release\SIL.WritingSystems.dll" />
       </Component>
       <Component Id="Spart.dll" Guid="{1E1163B1-065E-47F5-8918-C375B6607F7A}">
-        <File Id="Spart.dll" Name="Spart.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Spart.dll" AssemblyApplication="Spart.dll" Assembly=".net" Source="..\..\output\release\Spart.dll"/>
+        <File Id="Spart.dll" Name="Spart.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Spart.dll" AssemblyApplication="Spart.dll" Assembly=".net" Source="..\..\output\release\Spart.dll" />
       </Component>
       <!--  this isn't found on the TeamCity build machine.. it shouldn't be needed, bkz it's a windows system dll
       <Component Id="stdole.dll" Guid="{53AE9895-06DC-4ED9-964A-737762CACC37}">
@@ -306,19 +325,19 @@
       </Component>
       -->
       <Component Id="TagLibSharp.dll" Guid="{7790E7D5-25C4-4D43-AEE5-B25DEABC10D2}">
-        <File Id="TagLibSharp.dll" Name="TagLibSharp.dll" Vital="yes" KeyPath="yes" AssemblyManifest="TagLibSharp.dll" AssemblyApplication="TagLibSharp.dll" Assembly=".net" Source="..\..\output\release\TagLibSharp.dll"/>
+        <File Id="TagLibSharp.dll" Name="TagLibSharp.dll" Vital="yes" KeyPath="yes" AssemblyManifest="TagLibSharp.dll" AssemblyApplication="TagLibSharp.dll" Assembly=".net" Source="..\..\output\release\TagLibSharp.dll" />
       </Component>
       <Component Id="ChorusHub.exe" Guid="{656FABB3-E74D-411A-9A8E-8FB174171CD7}">
-        <File Id="ChorusHub.exe" Name="ChorusHub.exe" Vital="yes" KeyPath="yes" AssemblyManifest="ChorusHub.exe" AssemblyApplication="ChorusHub.exe" Assembly=".net" Source="..\..\DepDLLs\ChorusHub.exe"/>
+        <File Id="ChorusHub.exe" Name="ChorusHub.exe" Vital="yes" KeyPath="yes" AssemblyManifest="ChorusHub.exe" AssemblyApplication="ChorusHub.exe" Assembly=".net" Source="..\..\DepDLLs\ChorusHub.exe" />
       </Component>
       <Component Id="ChorusHub.pdb" Guid="{0B6D38C4-55F5-4EE1-AD98-A238CAC9C2E8}">
-        <File Id="ChorusHub.pdb" Name="ChorusHub.pdb" KeyPath="yes" Source="..\..\DepDLLs\ChorusHub.pdb"/>
+        <File Id="ChorusHub.pdb" Name="ChorusHub.pdb" KeyPath="yes" Source="..\..\DepDLLs\ChorusHub.pdb" />
       </Component>
       <Component Id="ChorusHubApp.exe" Guid="{0929F2F5-249D-40F4-94CB-76FE55FFC0E3}">
-        <File Id="ChorusHubApp.exe" Name="ChorusHubApp.exe" Vital="yes" KeyPath="yes" AssemblyManifest="ChorusHubApp.exe" AssemblyApplication="ChorusHubApp.exe" Assembly=".net" Source="..\..\DepDLLs\ChorusHubApp.exe"/>
+        <File Id="ChorusHubApp.exe" Name="ChorusHubApp.exe" Vital="yes" KeyPath="yes" AssemblyManifest="ChorusHubApp.exe" AssemblyApplication="ChorusHubApp.exe" Assembly=".net" Source="..\..\DepDLLs\ChorusHubApp.exe" />
       </Component>
       <Component Id="ChorusHubApp.pdb" Guid="{8CC356B7-43D5-47B6-B52B-F5462A52381C}">
-        <File Id="ChorusHubApp.pdb" Name="ChorusHubApp.pdb" KeyPath="yes" Source="..\..\DepDLLs\ChorusHubApp.pdb"/>
+        <File Id="ChorusHubApp.pdb" Name="ChorusHubApp.pdb" KeyPath="yes" Source="..\..\DepDLLs\ChorusHubApp.pdb" />
       </Component>
 
       <!--These are what used to be in ChorusDependencies MM - they appear to be in ChorusMergeModule.msm
@@ -405,8 +424,21 @@
         </Component>
         -->
 
+        <Component Id="Microsoft.Bcl.HashCode.dll" Guid="{E74615BD-25F5-4EB8-B011-B5E7658D7BF6}">
+          <File Id="Microsoft.Bcl.HashCode.dll" Name="Microsoft.Bcl.HashCode.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.Bcl.HashCode.dll" AssemblyApplication="Microsoft.Bcl.HashCode.dll" Assembly=".net" Source="..\..\output\release\Microsoft.Bcl.HashCode.dll" />
+        </Component>
+        <Component Id="System.Collections.Immutable.dll" Guid="{FE08C4BA-1B2B-4402-A915-F9F05A22F7FD}">
+          <File Id="System.Collections.Immutable.dll" Name="System.Collections.Immutable.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Collections.Immutable.dll" AssemblyApplication="System.Collections.Immutable.dll" Assembly=".net" Source="..\..\output\release\System.Collections.Immutable.dll" />
+        </Component>
+        <Component Id="System.Formats.Nrbf.dll" Guid="{CBF6D95F-2F2F-4544-B78A-3ABFDD971259}">
+          <File Id="System.Formats.Nrbf.dll" Name="System.Formats.Nrbf.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Formats.Nrbf.dll" AssemblyApplication="System.Formats.Nrbf.dll" Assembly=".net" Source="..\..\output\release\System.Formats.Nrbf.dll" />
+        </Component>
+        <Component Id="System.Reflection.Metadata.dll" Guid="{AF53F479-466B-4110-B820-FF3B970A411F}">
+          <File Id="System.Reflection.Metadata.dll" Name="System.Reflection.Metadata.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Reflection.Metadata.dll" AssemblyApplication="System.Reflection.Metadata.dll" Assembly=".net" Source="..\..\output\release\System.Reflection.Metadata.dll" />
+        </Component>
+
         <Component Id="System.Resources.Extensions.dll" Guid="{2EF3BB75-9832-41D8-A9DD-A239E1A6DF05}">
-          <File Id="System.Resources.Extensions.dll" Name="System.Resources.Extensions.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Resources.Extensions.dll" AssemblyApplication="System.Resources.Extensions.dll" Assembly=".net" Source="..\..\output\release\System.Resources.Extensions.dll"/>
+          <File Id="System.Resources.Extensions.dll" Name="System.Resources.Extensions.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Resources.Extensions.dll" AssemblyApplication="System.Resources.Extensions.dll" Assembly=".net" Source="..\..\output\release\System.Resources.Extensions.dll" />
         </Component>
       
       <!--
@@ -415,7 +447,204 @@
       </Component>
       -->
       <Component Id="System.Management.dll" Guid="{C016D47F-7EB0-4BF8-99F6-CE6E97161DEA}">
-        <File Id="System.Management.dll" Name="System.Management.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Management.dll" AssemblyApplication="System.Management.dll" Assembly=".net" Source="..\..\output\release\System.Management.dll"/>
+        <File Id="System.Management.dll" Name="System.Management.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Management.dll" AssemblyApplication="System.Management.dll" Assembly=".net" Source="..\..\output\release\System.Management.dll" />
+      </Component>
+
+      <!-- Cross-referenced every PackageReference in StoryEditor.csproj/AiChorus.csproj (incl. SharedItems.props)
+           against a real output\Release and this file, the same way the Microsoft.Bcl.HashCode/
+           System.Collections.Immutable/System.Formats.Nrbf/System.Reflection.Metadata/Keyman10Interop/
+           Keyman7Interop components above were added after a real installed-app crash. Verified via decompiling
+           both ChorusMergeModule.msm and EC_40_MM.msm that neither merge module bundles any of these - they're
+           genuinely uncovered, not just redundant with something already installed some other way.
+
+           First group: the Google Cloud/OpenAI/gRPC AI-translator stack pulled in by SharedItems.props (used
+           directly by StoryEditor's EcTranslators-facing code, per that file's own comment) and its own
+           transitive Microsoft.Extensions.*/Bcl dependencies - none of it was represented anywhere in this
+           installer. -->
+      <Component Id="Google.Api.CommonProtos.dll" Guid="{36BFC75A-6ACA-4D4B-B87C-FC10BB77ADDA}">
+        <File Id="Google.Api.CommonProtos.dll" Name="Google.Api.CommonProtos.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Api.CommonProtos.dll" AssemblyApplication="Google.Api.CommonProtos.dll" Assembly=".net" Source="..\..\output\release\Google.Api.CommonProtos.dll" />
+      </Component>
+      <Component Id="Google.Api.Gax.dll" Guid="{085DEDAF-7F27-4F51-A3E6-2DC3E9D26944}">
+        <File Id="Google.Api.Gax.dll" Name="Google.Api.Gax.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Api.Gax.dll" AssemblyApplication="Google.Api.Gax.dll" Assembly=".net" Source="..\..\output\release\Google.Api.Gax.dll" />
+      </Component>
+      <Component Id="Google.Api.Gax.Grpc.dll" Guid="{01CE409B-3C5A-4481-8E47-60520BBB6496}">
+        <File Id="Google.Api.Gax.Grpc.dll" Name="Google.Api.Gax.Grpc.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Api.Gax.Grpc.dll" AssemblyApplication="Google.Api.Gax.Grpc.dll" Assembly=".net" Source="..\..\output\release\Google.Api.Gax.Grpc.dll" />
+      </Component>
+      <Component Id="Google.Api.Gax.Rest.dll" Guid="{14F72295-F08F-4EA1-B0B2-D70AFA34BDC6}">
+        <File Id="Google.Api.Gax.Rest.dll" Name="Google.Api.Gax.Rest.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Api.Gax.Rest.dll" AssemblyApplication="Google.Api.Gax.Rest.dll" Assembly=".net" Source="..\..\output\release\Google.Api.Gax.Rest.dll" />
+      </Component>
+      <Component Id="Google.Apis.Translate.v2.dll" Guid="{67CD6231-54BA-44D4-AC89-0B10B39461E0}">
+        <File Id="Google.Apis.Translate.v2.dll" Name="Google.Apis.Translate.v2.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Apis.Translate.v2.dll" AssemblyApplication="Google.Apis.Translate.v2.dll" Assembly=".net" Source="..\..\output\release\Google.Apis.Translate.v2.dll" />
+      </Component>
+      <Component Id="Google.Cloud.AIPlatform.V1.dll" Guid="{4FEA734E-F054-4486-80BD-B7431B396705}">
+        <File Id="Google.Cloud.AIPlatform.V1.dll" Name="Google.Cloud.AIPlatform.V1.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Cloud.AIPlatform.V1.dll" AssemblyApplication="Google.Cloud.AIPlatform.V1.dll" Assembly=".net" Source="..\..\output\release\Google.Cloud.AIPlatform.V1.dll" />
+      </Component>
+      <Component Id="Google.Cloud.Iam.V1.dll" Guid="{D8BF7FF2-08FE-40ED-96E5-DE4277BAD106}">
+        <File Id="Google.Cloud.Iam.V1.dll" Name="Google.Cloud.Iam.V1.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Cloud.Iam.V1.dll" AssemblyApplication="Google.Cloud.Iam.V1.dll" Assembly=".net" Source="..\..\output\release\Google.Cloud.Iam.V1.dll" />
+      </Component>
+      <Component Id="Google.Cloud.Location.dll" Guid="{07FD3271-79A5-4553-8466-92298567F1CF}">
+        <File Id="Google.Cloud.Location.dll" Name="Google.Cloud.Location.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Cloud.Location.dll" AssemblyApplication="Google.Cloud.Location.dll" Assembly=".net" Source="..\..\output\release\Google.Cloud.Location.dll" />
+      </Component>
+      <Component Id="Google.Cloud.Translation.V2.dll" Guid="{7AC74702-455D-4F21-BE79-2AB97B5AA47D}">
+        <File Id="Google.Cloud.Translation.V2.dll" Name="Google.Cloud.Translation.V2.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Cloud.Translation.V2.dll" AssemblyApplication="Google.Cloud.Translation.V2.dll" Assembly=".net" Source="..\..\output\release\Google.Cloud.Translation.V2.dll" />
+      </Component>
+      <Component Id="Google.LongRunning.dll" Guid="{1412567E-1692-4D5D-907A-9B542B2D215F}">
+        <File Id="Google.LongRunning.dll" Name="Google.LongRunning.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.LongRunning.dll" AssemblyApplication="Google.LongRunning.dll" Assembly=".net" Source="..\..\output\release\Google.LongRunning.dll" />
+      </Component>
+      <Component Id="Google.Protobuf.dll" Guid="{5174582C-2EC1-49CA-8C1C-0925BD79B4A0}">
+        <File Id="Google.Protobuf.dll" Name="Google.Protobuf.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Google.Protobuf.dll" AssemblyApplication="Google.Protobuf.dll" Assembly=".net" Source="..\..\output\release\Google.Protobuf.dll" />
+      </Component>
+      <Component Id="Grpc.Auth.dll" Guid="{7FE714B5-4EB7-47F5-9C24-C827BE2AEA60}">
+        <File Id="Grpc.Auth.dll" Name="Grpc.Auth.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Grpc.Auth.dll" AssemblyApplication="Grpc.Auth.dll" Assembly=".net" Source="..\..\output\release\Grpc.Auth.dll" />
+      </Component>
+      <Component Id="Grpc.Core.dll" Guid="{980145BE-3D6C-456D-A575-0CF21C2EA2C7}">
+        <File Id="Grpc.Core.dll" Name="Grpc.Core.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Grpc.Core.dll" AssemblyApplication="Grpc.Core.dll" Assembly=".net" Source="..\..\output\release\Grpc.Core.dll" />
+      </Component>
+      <Component Id="Grpc.Core.Api.dll" Guid="{75A9873D-7CB9-47A3-AF8D-B43FCB345C58}">
+        <File Id="Grpc.Core.Api.dll" Name="Grpc.Core.Api.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Grpc.Core.Api.dll" AssemblyApplication="Grpc.Core.Api.dll" Assembly=".net" Source="..\..\output\release\Grpc.Core.Api.dll" />
+      </Component>
+      <Component Id="Grpc.Net.Client.dll" Guid="{2E58B1EC-30BD-45EA-8716-7D944272BCF8}">
+        <File Id="Grpc.Net.Client.dll" Name="Grpc.Net.Client.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Grpc.Net.Client.dll" AssemblyApplication="Grpc.Net.Client.dll" Assembly=".net" Source="..\..\output\release\Grpc.Net.Client.dll" />
+      </Component>
+      <Component Id="Grpc.Net.Common.dll" Guid="{8C23A300-7C52-428F-A656-A0DD4BDF9765}">
+        <File Id="Grpc.Net.Common.dll" Name="Grpc.Net.Common.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Grpc.Net.Common.dll" AssemblyApplication="Grpc.Net.Common.dll" Assembly=".net" Source="..\..\output\release\Grpc.Net.Common.dll" />
+      </Component>
+      <Component Id="OpenAI.dll" Guid="{FFA745C5-06A4-4281-B545-6744B6685B74}">
+        <File Id="OpenAI.dll" Name="OpenAI.dll" Vital="yes" KeyPath="yes" AssemblyManifest="OpenAI.dll" AssemblyApplication="OpenAI.dll" Assembly=".net" Source="..\..\output\release\OpenAI.dll" />
+      </Component>
+      <Component Id="Polly.dll" Guid="{CF60AE46-4845-44BE-ABCF-565BCD2B85DB}">
+        <File Id="Polly.dll" Name="Polly.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Polly.dll" AssemblyApplication="Polly.dll" Assembly=".net" Source="..\..\output\release\Polly.dll" />
+      </Component>
+      <Component Id="Polly.Extensions.Http.dll" Guid="{7D174B3E-8111-4E88-BF31-8A7A8BB7B2E8}">
+        <File Id="Polly.Extensions.Http.dll" Name="Polly.Extensions.Http.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Polly.Extensions.Http.dll" AssemblyApplication="Polly.Extensions.Http.dll" Assembly=".net" Source="..\..\output\release\Polly.Extensions.Http.dll" />
+      </Component>
+      <Component Id="System.ClientModel.dll" Guid="{D2A3BF20-8D92-4F33-8655-2A9353795579}">
+        <File Id="System.ClientModel.dll" Name="System.ClientModel.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.ClientModel.dll" AssemblyApplication="System.ClientModel.dll" Assembly=".net" Source="..\..\output\release\System.ClientModel.dll" />
+      </Component>
+      <Component Id="System.Net.ServerSentEvents.dll" Guid="{388C0679-1A54-4C6E-9471-BE58B5FC344B}">
+        <File Id="System.Net.ServerSentEvents.dll" Name="System.Net.ServerSentEvents.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Net.ServerSentEvents.dll" AssemblyApplication="System.Net.ServerSentEvents.dll" Assembly=".net" Source="..\..\output\release\System.Net.ServerSentEvents.dll" />
+      </Component>
+      <Component Id="Microsoft.Extensions.Configuration.dll" Guid="{71A1402D-96C6-4BBB-91F0-E8D7CCF7A820}">
+        <File Id="Microsoft.Extensions.Configuration.dll" Name="Microsoft.Extensions.Configuration.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.Extensions.Configuration.dll" AssemblyApplication="Microsoft.Extensions.Configuration.dll" Assembly=".net" Source="..\..\output\release\Microsoft.Extensions.Configuration.dll" />
+      </Component>
+      <Component Id="Microsoft.Extensions.Configuration.Abstractions.dll" Guid="{AAB2FDCF-C461-4B78-BC62-940774B1EDE1}">
+        <File Id="Microsoft.Extensions.Configuration.Abstractions.dll" Name="Microsoft.Extensions.Configuration.Abstractions.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.Extensions.Configuration.Abstractions.dll" AssemblyApplication="Microsoft.Extensions.Configuration.Abstractions.dll" Assembly=".net" Source="..\..\output\release\Microsoft.Extensions.Configuration.Abstractions.dll" />
+      </Component>
+      <Component Id="Microsoft.Extensions.Configuration.Binder.dll" Guid="{71C5E250-CD56-4CC9-8673-0FD774A1A28F}">
+        <File Id="Microsoft.Extensions.Configuration.Binder.dll" Name="Microsoft.Extensions.Configuration.Binder.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.Extensions.Configuration.Binder.dll" AssemblyApplication="Microsoft.Extensions.Configuration.Binder.dll" Assembly=".net" Source="..\..\output\release\Microsoft.Extensions.Configuration.Binder.dll" />
+      </Component>
+      <Component Id="Microsoft.Extensions.DependencyInjection.dll" Guid="{01CD7BA1-2D24-4DB9-8418-EC90C42A9435}">
+        <File Id="Microsoft.Extensions.DependencyInjection.dll" Name="Microsoft.Extensions.DependencyInjection.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.Extensions.DependencyInjection.dll" AssemblyApplication="Microsoft.Extensions.DependencyInjection.dll" Assembly=".net" Source="..\..\output\release\Microsoft.Extensions.DependencyInjection.dll" />
+      </Component>
+      <Component Id="Microsoft.Extensions.DependencyInjection.Abstractions.dll" Guid="{9B175D28-8CD4-45DA-A9DD-EDD7DBEAB96E}">
+        <File Id="Microsoft.Extensions.DependencyInjection.Abstractions.dll" Name="Microsoft.Extensions.DependencyInjection.Abstractions.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.Extensions.DependencyInjection.Abstractions.dll" AssemblyApplication="Microsoft.Extensions.DependencyInjection.Abstractions.dll" Assembly=".net" Source="..\..\output\release\Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
+      </Component>
+      <Component Id="Microsoft.Extensions.Diagnostics.Abstractions.dll" Guid="{9D164968-DF6B-4A35-A503-ECD9F4A53054}">
+        <File Id="Microsoft.Extensions.Diagnostics.Abstractions.dll" Name="Microsoft.Extensions.Diagnostics.Abstractions.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.Extensions.Diagnostics.Abstractions.dll" AssemblyApplication="Microsoft.Extensions.Diagnostics.Abstractions.dll" Assembly=".net" Source="..\..\output\release\Microsoft.Extensions.Diagnostics.Abstractions.dll" />
+      </Component>
+      <Component Id="Microsoft.Extensions.FileProviders.Abstractions.dll" Guid="{9536FB8C-DB51-4B36-8276-D242F6EF8C3A}">
+        <File Id="Microsoft.Extensions.FileProviders.Abstractions.dll" Name="Microsoft.Extensions.FileProviders.Abstractions.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.Extensions.FileProviders.Abstractions.dll" AssemblyApplication="Microsoft.Extensions.FileProviders.Abstractions.dll" Assembly=".net" Source="..\..\output\release\Microsoft.Extensions.FileProviders.Abstractions.dll" />
+      </Component>
+      <Component Id="Microsoft.Extensions.Hosting.Abstractions.dll" Guid="{12961808-29E2-4B8E-B27F-B1B4E19280BC}">
+        <File Id="Microsoft.Extensions.Hosting.Abstractions.dll" Name="Microsoft.Extensions.Hosting.Abstractions.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.Extensions.Hosting.Abstractions.dll" AssemblyApplication="Microsoft.Extensions.Hosting.Abstractions.dll" Assembly=".net" Source="..\..\output\release\Microsoft.Extensions.Hosting.Abstractions.dll" />
+      </Component>
+      <Component Id="Microsoft.Extensions.Http.dll" Guid="{CBC25A1A-351D-41AD-BEB4-B99CD3E30757}">
+        <File Id="Microsoft.Extensions.Http.dll" Name="Microsoft.Extensions.Http.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.Extensions.Http.dll" AssemblyApplication="Microsoft.Extensions.Http.dll" Assembly=".net" Source="..\..\output\release\Microsoft.Extensions.Http.dll" />
+      </Component>
+      <Component Id="Microsoft.Extensions.Http.Polly.dll" Guid="{0EDF24CE-F4D1-48DC-A770-68F6812B3968}">
+        <File Id="Microsoft.Extensions.Http.Polly.dll" Name="Microsoft.Extensions.Http.Polly.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.Extensions.Http.Polly.dll" AssemblyApplication="Microsoft.Extensions.Http.Polly.dll" Assembly=".net" Source="..\..\output\release\Microsoft.Extensions.Http.Polly.dll" />
+      </Component>
+      <Component Id="Microsoft.Extensions.Logging.dll" Guid="{76C3B36F-303B-4A24-A7D4-6DB3435D1065}">
+        <File Id="Microsoft.Extensions.Logging.dll" Name="Microsoft.Extensions.Logging.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.Extensions.Logging.dll" AssemblyApplication="Microsoft.Extensions.Logging.dll" Assembly=".net" Source="..\..\output\release\Microsoft.Extensions.Logging.dll" />
+      </Component>
+      <Component Id="Microsoft.Extensions.Logging.Abstractions.dll" Guid="{1BC0F832-710B-419A-B51D-25A209514E49}">
+        <File Id="Microsoft.Extensions.Logging.Abstractions.dll" Name="Microsoft.Extensions.Logging.Abstractions.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.Extensions.Logging.Abstractions.dll" AssemblyApplication="Microsoft.Extensions.Logging.Abstractions.dll" Assembly=".net" Source="..\..\output\release\Microsoft.Extensions.Logging.Abstractions.dll" />
+      </Component>
+      <Component Id="Microsoft.Extensions.Options.dll" Guid="{EE6A3649-6E38-4317-9629-9AFFADBAFF80}">
+        <File Id="Microsoft.Extensions.Options.dll" Name="Microsoft.Extensions.Options.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.Extensions.Options.dll" AssemblyApplication="Microsoft.Extensions.Options.dll" Assembly=".net" Source="..\..\output\release\Microsoft.Extensions.Options.dll" />
+      </Component>
+      <Component Id="Microsoft.Extensions.Primitives.dll" Guid="{88A5EE55-4CC6-4966-8B21-0F630F15DAC8}">
+        <File Id="Microsoft.Extensions.Primitives.dll" Name="Microsoft.Extensions.Primitives.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.Extensions.Primitives.dll" AssemblyApplication="Microsoft.Extensions.Primitives.dll" Assembly=".net" Source="..\..\output\release\Microsoft.Extensions.Primitives.dll" />
+      </Component>
+      <Component Id="Microsoft.Bcl.AsyncInterfaces.dll" Guid="{C60A1AC8-A852-4161-8FF2-1189CC00CC3D}">
+        <File Id="Microsoft.Bcl.AsyncInterfaces.dll" Name="Microsoft.Bcl.AsyncInterfaces.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.Bcl.AsyncInterfaces.dll" AssemblyApplication="Microsoft.Bcl.AsyncInterfaces.dll" Assembly=".net" Source="..\..\output\release\Microsoft.Bcl.AsyncInterfaces.dll" />
+      </Component>
+      <Component Id="System.ComponentModel.Annotations.dll" Guid="{D261D7F0-F2EE-438F-8479-CB6C7E94FACF}">
+        <File Id="System.ComponentModel.Annotations.dll" Name="System.ComponentModel.Annotations.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.ComponentModel.Annotations.dll" AssemblyApplication="System.ComponentModel.Annotations.dll" Assembly=".net" Source="..\..\output\release\System.ComponentModel.Annotations.dll" />
+      </Component>
+      <Component Id="System.Memory.Data.dll" Guid="{A3154D84-0A58-44CA-8FFF-FCA9D2DFE965}">
+        <File Id="System.Memory.Data.dll" Name="System.Memory.Data.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Memory.Data.dll" AssemblyApplication="System.Memory.Data.dll" Assembly=".net" Source="..\..\output\release\System.Memory.Data.dll" />
+      </Component>
+
+      <!-- Second group: other PackageReference dlls (StoryEditor.csproj and/or AiChorus.csproj, direct or via
+           SharedItems.props) that a real output\Release has but this file never did - same verification method
+           as above. -->
+      <Component Id="System.Buffers.dll" Guid="{8E7F4F1F-B119-4BE6-9662-9F58A83A0808}">
+        <File Id="System.Buffers.dll" Name="System.Buffers.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Buffers.dll" AssemblyApplication="System.Buffers.dll" Assembly=".net" Source="..\..\output\release\System.Buffers.dll" />
+      </Component>
+      <Component Id="System.CodeDom.dll" Guid="{D709D264-B8EC-4DCC-9DDE-57AFFF4E8DAD}">
+        <File Id="System.CodeDom.dll" Name="System.CodeDom.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.CodeDom.dll" AssemblyApplication="System.CodeDom.dll" Assembly=".net" Source="..\..\output\release\System.CodeDom.dll" />
+      </Component>
+      <Component Id="System.Configuration.ConfigurationManager.dll" Guid="{E2C7468F-0CEB-4C3B-9F75-995DFBC70975}">
+        <File Id="System.Configuration.ConfigurationManager.dll" Name="System.Configuration.ConfigurationManager.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Configuration.ConfigurationManager.dll" AssemblyApplication="System.Configuration.ConfigurationManager.dll" Assembly=".net" Source="..\..\output\release\System.Configuration.ConfigurationManager.dll" />
+      </Component>
+      <Component Id="System.Diagnostics.DiagnosticSource.dll" Guid="{7117C887-BE78-47D6-AB62-945A06B009A2}">
+        <File Id="System.Diagnostics.DiagnosticSource.dll" Name="System.Diagnostics.DiagnosticSource.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Diagnostics.DiagnosticSource.dll" AssemblyApplication="System.Diagnostics.DiagnosticSource.dll" Assembly=".net" Source="..\..\output\release\System.Diagnostics.DiagnosticSource.dll" />
+      </Component>
+      <Component Id="System.Drawing.Common.dll" Guid="{815C115F-ACDD-4CEF-9298-B32E583F6F45}">
+        <File Id="System.Drawing.Common.dll" Name="System.Drawing.Common.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Drawing.Common.dll" AssemblyApplication="System.Drawing.Common.dll" Assembly=".net" Source="..\..\output\release\System.Drawing.Common.dll" />
+      </Component>
+      <Component Id="System.Formats.Asn1.dll" Guid="{6AF9EFF8-EB4E-471A-B068-E095BCC57A75}">
+        <File Id="System.Formats.Asn1.dll" Name="System.Formats.Asn1.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Formats.Asn1.dll" AssemblyApplication="System.Formats.Asn1.dll" Assembly=".net" Source="..\..\output\release\System.Formats.Asn1.dll" />
+      </Component>
+      <Component Id="System.IO.FileSystem.AccessControl.dll" Guid="{4F64865A-7700-4176-94CF-FD7F3D0BA438}">
+        <File Id="System.IO.FileSystem.AccessControl.dll" Name="System.IO.FileSystem.AccessControl.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.IO.FileSystem.AccessControl.dll" AssemblyApplication="System.IO.FileSystem.AccessControl.dll" Assembly=".net" Source="..\..\output\release\System.IO.FileSystem.AccessControl.dll" />
+      </Component>
+      <Component Id="System.IO.Pipelines.dll" Guid="{6802CAFD-8EF7-4A94-87A4-FD444D71F751}">
+        <File Id="System.IO.Pipelines.dll" Name="System.IO.Pipelines.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.IO.Pipelines.dll" AssemblyApplication="System.IO.Pipelines.dll" Assembly=".net" Source="..\..\output\release\System.IO.Pipelines.dll" />
+      </Component>
+      <Component Id="System.Numerics.Vectors.dll" Guid="{20D638AB-1EBC-4F8C-A9F3-481C8253D95A}">
+        <File Id="System.Numerics.Vectors.dll" Name="System.Numerics.Vectors.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Numerics.Vectors.dll" AssemblyApplication="System.Numerics.Vectors.dll" Assembly=".net" Source="..\..\output\release\System.Numerics.Vectors.dll" />
+      </Component>
+      <Component Id="System.Runtime.CompilerServices.Unsafe.dll" Guid="{3FDE549D-08F6-4207-B6E8-5C0EA35D23CA}">
+        <File Id="System.Runtime.CompilerServices.Unsafe.dll" Name="System.Runtime.CompilerServices.Unsafe.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Runtime.CompilerServices.Unsafe.dll" AssemblyApplication="System.Runtime.CompilerServices.Unsafe.dll" Assembly=".net" Source="..\..\output\release\System.Runtime.CompilerServices.Unsafe.dll" />
+      </Component>
+      <Component Id="System.Security.AccessControl.dll" Guid="{33EAB700-F996-4EA6-9CC1-CCED946D58C0}">
+        <File Id="System.Security.AccessControl.dll" Name="System.Security.AccessControl.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Security.AccessControl.dll" AssemblyApplication="System.Security.AccessControl.dll" Assembly=".net" Source="..\..\output\release\System.Security.AccessControl.dll" />
+      </Component>
+      <Component Id="System.Security.Cryptography.ProtectedData.dll" Guid="{774ABB29-D946-482F-A7B1-1233AB32D899}">
+        <File Id="System.Security.Cryptography.ProtectedData.dll" Name="System.Security.Cryptography.ProtectedData.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Security.Cryptography.ProtectedData.dll" AssemblyApplication="System.Security.Cryptography.ProtectedData.dll" Assembly=".net" Source="..\..\output\release\System.Security.Cryptography.ProtectedData.dll" />
+      </Component>
+      <Component Id="System.Security.Permissions.dll" Guid="{29461896-7E72-4A11-98E6-C393D3730C08}">
+        <File Id="System.Security.Permissions.dll" Name="System.Security.Permissions.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Security.Permissions.dll" AssemblyApplication="System.Security.Permissions.dll" Assembly=".net" Source="..\..\output\release\System.Security.Permissions.dll" />
+      </Component>
+      <Component Id="System.Security.Principal.Windows.dll" Guid="{CF058E6C-7802-4B65-8255-3FF6D9531AB9}">
+        <File Id="System.Security.Principal.Windows.dll" Name="System.Security.Principal.Windows.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Security.Principal.Windows.dll" AssemblyApplication="System.Security.Principal.Windows.dll" Assembly=".net" Source="..\..\output\release\System.Security.Principal.Windows.dll" />
+      </Component>
+      <Component Id="System.Text.Encodings.Web.dll" Guid="{BC0CDBCB-F76E-4C93-9904-9AE488C4D7DA}">
+        <File Id="System.Text.Encodings.Web.dll" Name="System.Text.Encodings.Web.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Text.Encodings.Web.dll" AssemblyApplication="System.Text.Encodings.Web.dll" Assembly=".net" Source="..\..\output\release\System.Text.Encodings.Web.dll" />
+      </Component>
+      <Component Id="System.Text.Json.dll" Guid="{90598FCA-C798-4105-8128-7BCDB20FD68C}">
+        <File Id="System.Text.Json.dll" Name="System.Text.Json.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Text.Json.dll" AssemblyApplication="System.Text.Json.dll" Assembly=".net" Source="..\..\output\release\System.Text.Json.dll" />
+      </Component>
+      <Component Id="System.Threading.Tasks.Extensions.dll" Guid="{180D7ECC-43F2-4BA6-BA59-6195640D3041}">
+        <File Id="System.Threading.Tasks.Extensions.dll" Name="System.Threading.Tasks.Extensions.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Threading.Tasks.Extensions.dll" AssemblyApplication="System.Threading.Tasks.Extensions.dll" Assembly=".net" Source="..\..\output\release\System.Threading.Tasks.Extensions.dll" />
+      </Component>
+
+      <!-- ChorusMergeModule.msm (frozen 2022-09-25) still bundles its own Autofac.dll at 2.6.3.862 - ~2013-era,
+           long before Autofac's namespace/API overhaul - while Autofac is now referenced directly at 9.3.2 by
+           StoryEditor/AiChorus/AdaptIt-ChorusPlugin (confirmed by extracting the actual merge-module payload and
+           diffing FileVersion against the current build output; every other file the merge module carries -
+           SIL.Core/SIL.Lift/SIL.Windows.Forms/Vulcan.Uczniowie.HelpProvider/libchorus/chorus.exe/chorusmerge.exe
+           - turned out to be a byte-identical build, so this is the one real live mismatch, not a hypothetical
+           one). Adding the correct-version copy here doesn't remove the merge module's stale one - two
+           components can't be pointed at the same install path in this WiX version without an ICE30-style
+           conflict, and that's already true of icu.net.dll above for a different reason - but it does put a
+           correctly-versioned Autofac.dll into the File table so the outcome depends on MSI's internal sequencing
+           rather than the wrong version being the only candidate. The real fix is retiring ChorusMergeModule.msm
+           in favor of explicit components once Chorus/Mercurial's NuGet packaging stabilizes (see MergeModules.wxs). -->
+      <Component Id="Autofac.dll" Guid="{7E047AB0-A282-4375-A990-3FAB0F5E2B8D}">
+        <File Id="Autofac.dll" Name="Autofac.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Autofac.dll" AssemblyApplication="Autofac.dll" Assembly=".net" Source="..\..\output\release\Autofac.dll" />
       </Component>
 
       <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
@@ -428,49 +657,49 @@
 
     <ComponentGroup Id="EcPluginsComponents" Directory="Plugins">
       <Component Id="SIEC4.0.0.0PluginDetails.xml" Guid="{90F9F43E-DFB2-4DE2-8994-5AA83F275E06}">
-        <File Id="SIEC4.0.0.0PluginDetails.xml" Name="SIEC 4.0.0.0 Plugin Details.xml" KeyPath="yes" Source="..\..\output\release\EC\Plugins\SIEC 4.0.0.0 Plugin Details.xml"/>
+        <File Id="SIEC4.0.0.0PluginDetails.xml" Name="SIEC 4.0.0.0 Plugin Details.xml" KeyPath="yes" Source="..\..\output\release\EC\Plugins\SIEC 4.0.0.0 Plugin Details.xml" />
       </Component>
     </ComponentGroup>
 
     <ComponentGroup Id="LocDataComponents" Directory="LocData">
       <Component Id="es.xml" Guid="{9DA752C0-89DF-417B-A777-D5CD19D947E4}">
-        <File Id="es.xml" Name="es.xml" KeyPath="yes" Source="..\..\output\release\LocData\es.xml"/>
+        <File Id="es.xml" Name="es.xml" KeyPath="yes" Source="..\..\output\release\LocData\es.xml" />
       </Component>
       <Component Id="fr.xml" Guid="{500B39F1-D726-4214-AF98-6BB5655A0723}">
-        <File Id="fr.xml" Name="fr.xml" KeyPath="yes" Source="..\..\output\release\LocData\fr.xml"/>
+        <File Id="fr.xml" Name="fr.xml" KeyPath="yes" Source="..\..\output\release\LocData\fr.xml" />
       </Component>
       <Component Id="id.xml" Guid="{ECF9BB6C-2E03-4C2A-B503-4CEFF987CC83}">
-        <File Id="id.xml" Name="id.xml" KeyPath="yes" Source="..\..\output\release\LocData\id.xml"/>
+        <File Id="id.xml" Name="id.xml" KeyPath="yes" Source="..\..\output\release\LocData\id.xml" />
       </Component>
       <Component Id="pt.xml" Guid="{9D9D352F-EA17-4259-AC83-88386E5BC057}">
-        <File Id="pt.xml" Name="pt.xml" KeyPath="yes" Source="..\..\output\release\LocData\pt.xml"/>
+        <File Id="pt.xml" Name="pt.xml" KeyPath="yes" Source="..\..\output\release\LocData\pt.xml" />
       </Component>
     </ComponentGroup>
 
     <ComponentGroup Id="SwordModsComponents" Directory="mods.d">
       <Component Id="net.conf" Guid="{E6DF8CB2-820B-4DAD-A89C-80E46BD52E22}">
-        <File Id="net.conf" Name="net.conf" KeyPath="yes" Source="..\..\output\release\SWORD\mods.d\net.conf"/>
+        <File Id="net.conf" Name="net.conf" KeyPath="yes" Source="..\..\output\release\SWORD\mods.d\net.conf" />
       </Component>
     </ComponentGroup>
 
     <ComponentGroup Id="SwordNetBibleComponents" Directory="net">
       <Component Id="nt.bzs" Guid="{49FCF673-55E8-469A-BF50-6409A4A22C2F}">
-        <File Id="nt.bzs" Name="nt.bzs" KeyPath="yes" Source="..\..\output\release\SWORD\modules\texts\ztext\net\nt.bzs"/>
+        <File Id="nt.bzs" Name="nt.bzs" KeyPath="yes" Source="..\..\output\release\SWORD\modules\texts\ztext\net\nt.bzs" />
       </Component>
       <Component Id="nt.bzv" Guid="{7E847FA7-8A03-4261-A4FA-404EBB19C35E}">
-        <File Id="nt.bzv" Name="nt.bzv" KeyPath="yes" Source="..\..\output\release\SWORD\modules\texts\ztext\net\nt.bzv"/>
+        <File Id="nt.bzv" Name="nt.bzv" KeyPath="yes" Source="..\..\output\release\SWORD\modules\texts\ztext\net\nt.bzv" />
       </Component>
       <Component Id="nt.bzz" Guid="{26B668D8-CDAE-4B8D-8DB3-C1791EC1F0F0}">
-        <File Id="nt.bzz" Name="nt.bzz" KeyPath="yes" Source="..\..\output\release\SWORD\modules\texts\ztext\net\nt.bzz"/>
+        <File Id="nt.bzz" Name="nt.bzz" KeyPath="yes" Source="..\..\output\release\SWORD\modules\texts\ztext\net\nt.bzz" />
       </Component>
       <Component Id="ot.bzs" Guid="{B7783F9E-329B-4555-8ED7-F6A9BBD9792B}">
-        <File Id="ot.bzs" Name="ot.bzs" KeyPath="yes" Source="..\..\output\release\SWORD\modules\texts\ztext\net\ot.bzs"/>
+        <File Id="ot.bzs" Name="ot.bzs" KeyPath="yes" Source="..\..\output\release\SWORD\modules\texts\ztext\net\ot.bzs" />
       </Component>
       <Component Id="ot.bzv" Guid="{47BBF1FF-D4B4-4725-B88C-D09F1DEA18D9}">
-        <File Id="ot.bzv" Name="ot.bzv" KeyPath="yes" Source="..\..\output\release\SWORD\modules\texts\ztext\net\ot.bzv"/>
+        <File Id="ot.bzv" Name="ot.bzv" KeyPath="yes" Source="..\..\output\release\SWORD\modules\texts\ztext\net\ot.bzv" />
       </Component>
       <Component Id="ot.bzz" Guid="{F5FDF029-7099-4EA5-ACA5-7029B016125B}">
-        <File Id="ot.bzz" Name="ot.bzz" KeyPath="yes" Source="..\..\output\release\SWORD\modules\texts\ztext\net\ot.bzz"/>
+        <File Id="ot.bzz" Name="ot.bzz" KeyPath="yes" Source="..\..\output\release\SWORD\modules\texts\ztext\net\ot.bzz" />
       </Component>
     </ComponentGroup>
 

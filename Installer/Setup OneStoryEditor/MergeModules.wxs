@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <Fragment Id="MergeModulesFragment">
-    <Property Id='MergeModulesFragment' Value='1'/>
+    <Property Id="MergeModulesFragment" Value="1" />
 
     <DirectoryRef Id="INSTALLFOLDER">
       <!-- by using the package's reference, it forces us to update the merge module if the nuget is ever updated (but you have
@@ -21,19 +20,23 @@
            vcsroot.OneStory_EditorCommon.SilChorusAppNugetFolderName
           <Merge Id="ChorusMergeModule" Language="1033" SourceFile="..\..\packages\SIL.Chorus.App.5.0.0\ChorusMergeModule.msm" DiskId="1"/>
       -->
-      <Merge Id="ChorusMergeModule" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\ChorusMergeModule.msm" DiskId="1"/>
-      <Merge Id="AIGuesserMM" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\Release\AIGuesserMM.msm" DiskId="1"/>
-      <Merge Id="EcTranslatorsMM" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\Release\EcTranslatorsMM.msm" DiskId="1"/>
-      <Merge Id="CcDLLsMM" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\Release\CcDLLsMM.msm" DiskId="1"/>
-      <Merge Id="ClipboardEncConverter" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\ClipboardEncConverterMM.msm" DiskId="1"/>
-      <Merge Id="EC_40_MM" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\Release\EC_40_MM.msm" DiskId="1"/>
-      <Merge Id="ICU_40" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\Release\ICU_40.msm" DiskId="1"/>
-      <Merge Id="SetPath" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\SetPath.msm" DiskId="1"/>
-      <Merge Id="TECkitDLLsMM" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\Release\TECkitDLLsMM.msm" DiskId="1"/>
+      <Merge Id="ChorusMergeModule" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\ChorusMergeModule.msm" DiskId="1" />
+      <Merge Id="AIGuesserMM" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\Release\AIGuesserMM.msm" DiskId="1" />
+      <Merge Id="EcTranslatorsMM" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\Release\EcTranslatorsMM.msm" DiskId="1" />
+      <Merge Id="CcDLLsMM" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\Release\CcDLLsMM.msm" DiskId="1" />
+      <Merge Id="ClipboardEncConverter" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\ClipboardEncConverterMM.msm" DiskId="1" />
+      <Merge Id="EC_40_MM" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\Release\EC_40_MM.msm" DiskId="1" />
+      <Merge Id="ICU_40" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\Release\ICU_40.msm" DiskId="1" />
+      <Merge Id="SetPath" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\SetPath.msm" DiskId="1" />
+      <Merge Id="TECkitDLLsMM" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\Release\TECkitDLLsMM.msm" DiskId="1" />
     </DirectoryRef>
 
-    <DirectoryRef Id="SystemFolder">
-      <Merge Id="CRT" Language="1033" SourceFile="..\ExternalMergeModules\Microsoft_VC142_CRT_x86.msm" DiskId="1"/>
-    </DirectoryRef>
+    <!-- The VC++ CRT merge module (Microsoft_VC142_CRT_x86.msm, a stale v142/VS2019 build) used to be merged
+         in here. Removed in favor of the bundle's own chained vc_redist.x86.exe ExePackage (see Bundle.wxs),
+         which is now the sole source of the VC++ runtime - same fix as the sibling silconverters repo, for the
+         same reasons (wrong/stale toolset version, and merge-module-frozen runtime DLLs can never be serviced
+         by Windows Update the way the redistributable installer's are). Microsoft_VC142_MFC_x86.msm was never
+         actually referenced by this Feature (confirmed - it sat unused in ExternalMergeModules), so there was
+         nothing else to remove here. -->
   </Fragment>
 </Wix>

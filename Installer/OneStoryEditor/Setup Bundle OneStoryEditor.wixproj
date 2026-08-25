@@ -1,18 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" InitialTargets="EnsureWixToolsetInstalled" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\Encoding-Converters-Core.0.9.8\build\Encoding-Converters-Core.props" Condition="Exists('..\..\packages\Encoding-Converters-Core.0.9.8\build\Encoding-Converters-Core.props')" />
-  <Import Project="..\..\packages\wix.3.14.1\build\wix.props" Condition="Exists('..\..\packages\wix.3.14.1\build\wix.props')" />
+<Project Sdk="WixToolset.Sdk/6.0.2" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>f9469b39-b401-4a89-a144-f3cc753fc843</ProjectGuid>
-    <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>SetupOneStoryEditor_5.4</OutputName>
+    <OutputName>SetupOneStoryEditor_5.5</OutputName>
     <OutputType>Bundle</OutputType>
-    <Name>Setup Bundle OneStoryEditor</Name>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
     <SolutionDir>$(MSBuildStartupDirectory)\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -23,58 +15,26 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>ApplicationName=OneStory Editor;SafeApplicationName=OneStoryEditor;TruncatedVersion=5.4;VersionNumber=5.4.0.0;UpgradeCode=92A9B369-3609-4129-A09D-5BB5BBE30AAB;Year=2026;Manufacturer=SIL International;EcDistFilesPath=$(EcDistFilesPath)</DefineConstants>
+    <DefineConstants>ApplicationName=OneStory Editor;SafeApplicationName=OneStoryEditor;TruncatedVersion=5.5;VersionNumber=5.5.0.0;UpgradeCode=92A9B369-3609-4129-A09D-5BB5BBE30AAB;Year=2026;Manufacturer=SIL International;EcDistFilesPath=$(EcDistFilesPath)</DefineConstants>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="Bundle.wxs" />
-  </ItemGroup>
-  <ItemGroup>
-    <WixExtension Include="WixUtilExtension">
-      <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
-      <Name>WixUtilExtension</Name>
-    </WixExtension>
-    <WixExtension Include="WixNetFxExtension">
-      <HintPath>$(WixExtDir)\WixNetFxExtension.dll</HintPath>
-      <Name>WixNetFxExtension</Name>
-    </WixExtension>
-    <WixExtension Include="WixBalExtension">
-      <HintPath>$(WixExtDir)\WixBalExtension.dll</HintPath>
-      <Name>WixBalExtension</Name>
-    </WixExtension>
-  </ItemGroup>
+  <!-- No explicit <Compile>/<EmbeddedResource> ItemGroup needed for Bundle.wxs/BundleTheme.wxl:
+       WixToolset.Sdk auto-globs **/*.wxs and **/*.wxl by default. -->
   <ItemGroup>
     <Content Include="..\License.rtf">
       <Link>License.rtf</Link>
     </Content>
     <Content Include="BundleTheme.xml" />
     <Content Include="bundle_background.bmp" />
-    <Content Include="Installer.ico" />
-    <Content Include="packages.config" />
+    <Content Include="Redist\vc_redist.x86.exe" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="BundleTheme.wxl" />
+    <PackageReference Include="Encoding-Converters-Core" Version="0.9.9" GeneratePathProperty="true" />
+    <PackageReference Include="WixToolset.Util.wixext" Version="6.0.2" />
+    <PackageReference Include="WixToolset.Bal.wixext" Version="6.0.2" />
   </ItemGroup>
-  <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
-  <Target Name="EnsureWixToolsetInstalled" Condition=" '$(WixTargetsImported)' != 'true' ">
-    <Error Text="The WiX Toolset v3.11 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
+  <Target Name="PostBuildCopy" AfterTargets="Build">
+    <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(SolutionDir)output\$(TargetName)_$(PlatformName)$(TargetExt)" />
   </Target>
-  <PropertyGroup>
-    <PostBuildEvent>copy "!(TargetPath)" "$(SolutionDir)output\$(TargetName)_$(PlatformName)$(TargetExt)"</PostBuildEvent>
-  </PropertyGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\wix.3.14.1\build\wix.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\wix.3.14.1\build\wix.props'))" />
-    <Error Condition="!Exists('..\..\packages\Encoding-Converters-Core.0.9.8\build\Encoding-Converters-Core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Encoding-Converters-Core.0.9.8\build\Encoding-Converters-Core.props'))" />
-  </Target>
-  <!--
-	To modify your build process, add your task inside one of the targets below and uncomment it.
-	Other similar extension points exist, see Wix.targets.
-	<Target Name="BeforeBuild">
-	</Target>
-	-->
   <Target Name="SignBuild">
     <PropertyGroup>
       <ExeFile>$(TargetName)_$(PlatformName)$(TargetExt)</ExeFile>

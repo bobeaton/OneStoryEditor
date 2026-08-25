@@ -1,62 +1,25 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\icu.net.3.0.2\build\icu.net.props" Condition="Exists('..\packages\icu.net.3.0.2\build\icu.net.props')" />
-  <Import Project="..\packages\SIL.Windows.Forms.Keyboarding.17.0.0\build\SIL.Windows.Forms.Keyboarding.props" Condition="Exists('..\packages\SIL.Windows.Forms.Keyboarding.17.0.0\build\SIL.Windows.Forms.Keyboarding.props')" />
-  <Import Project="..\packages\Encoding-Converters-Core.0.9.8\build\Encoding-Converters-Core.props" Condition="Exists('..\packages\Encoding-Converters-Core.0.9.8\build\Encoding-Converters-Core.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
+    <TargetFramework>net48</TargetFramework>
+    <Platforms>x86</Platforms>
     <ProjectGuid>{EE63B2ED-1488-491F-990A-3FA16E2DB135}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OneStoryProjectEditor</RootNamespace>
     <AssemblyName>StoryEditor</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
     <ApplicationIcon>OneStory.ico</ApplicationIcon>
-    <TargetZone>Custom</TargetZone>
     <GenerateManifests>false</GenerateManifests>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <SignManifests>false</SignManifests>
-    <ManifestCertificateThumbprint>F914C1BEB491538EA349EAE5263186515C1947D4</ManifestCertificateThumbprint>
-    <ManifestKeyFile>
-    </ManifestKeyFile>
     <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
-    <PublishUrl>C:\Media\New\Jaars\OneStory Releases\OneClick\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Unc</InstallFrom>
-    <UpdateEnabled>true</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>\\Kids-pc\Public\Documents\OneClick\</InstallUrl>
-    <SupportUrl>http://projects.palaso.org/projects/show/onestory</SupportUrl>
-    <ErrorReportUrl>http://projects.palaso.org/projects/show/onestory</ErrorReportUrl>
-    <TargetCulture>en</TargetCulture>
-    <ProductName>OneStory Editor</ProductName>
-    <PublisherName>SIL</PublisherName>
-    <SuiteName>OneStory</SuiteName>
-    <ApplicationRevision>26</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <PublishWizardCompleted>true</PublishWizardCompleted>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <LangVersion>latest</LangVersion>
+    <!-- SDK-style doesn't copy a referenced package's .pdb to output by default the way the old
+         packages.config-based project did (only the .dll); WiX's OseComponents.wxs expects SendGrid's
+         alongside its dll, confirmed via a real build error. (SendGrid's sibling .xml doc-comment file has
+         the same gap with no equally simple opt-in switch - not worth chasing for a file with zero runtime
+         effect; dropped from OseComponents.wxs instead.) -->
+    <CopyDebugSymbolFilesFromPackages>true</CopyDebugSymbolFilesFromPackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -68,7 +31,6 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>..\output\$(Configuration)</OutputPath>
@@ -80,123 +42,27 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <!-- These don't resolve via plain PackageReference (non-standard package shapes - native EcDistFiles
+         binaries resolved by ProgID at runtime, or DLLs sitting outside any packages\ folder entirely under
+         DepDLLs, or the machine-wide mshtml PIA) - same pattern already used throughout this solution
+         (see ClipboardEC.csproj in the sibling silconverters repo for the identical EcDistFiles precedent). -->
     <Reference Include="AIGuesserEC">
       <HintPath>$(EcDistFilesPath)\win-$(Platform)\native\AIGuesserEC.dll</HintPath>
-    </Reference>
-    <Reference Include="Autofac, Version=9.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.9.3.0\lib\netstandard2.0\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="CcEC">
       <HintPath>$(EcDistFilesPath)\win-$(Platform)\native\CcEC.dll</HintPath>
     </Reference>
-    <Reference Include="Chorus, Version=5.1.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=MSIL">
-      <HintPath>..\packages\SIL.Chorus.App.5.1.0\lib\net461\Chorus.exe</HintPath>
-    </Reference>
-    <Reference Include="ChorusMerge, Version=5.1.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=MSIL">
-      <HintPath>..\packages\SIL.Chorus.ChorusMerge.5.1.0\lib\net461\ChorusMerge.exe</HintPath>
-    </Reference>
-    <Reference Include="CircularProgressBar, Version=2.8.0.16, Culture=neutral, PublicKeyToken=310fd07b25df79b3, processorArchitecture=MSIL">
-      <HintPath>..\packages\CircularProgressBar.2.8.0.16\lib\net40\CircularProgressBar.dll</HintPath>
-    </Reference>
-    <Reference Include="Commons.Xml.Relaxng, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <HintPath>..\packages\RelaxNG.3.2.3\lib\net40\Commons.Xml.Relaxng.dll</HintPath>
+    <Reference Include="EcTranslators">
+      <HintPath>$(EcDistFilesPath)\win-$(Platform)\native\EcTranslators.dll</HintPath>
     </Reference>
     <Reference Include="CSSword">
       <HintPath>..\DepDLLs\CSSword.dll</HintPath>
     </Reference>
-    <Reference Include="DialogAdapters, Version=0.1.11.0, Culture=neutral, PublicKeyToken=7dc842182b0626dc, processorArchitecture=MSIL">
-      <HintPath>..\packages\DialogAdapters.Gtk2.0.1.11\lib\net461\DialogAdapters.dll</HintPath>
-    </Reference>
-    <Reference Include="ECInterfaces, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=MSIL">
-      <HintPath>..\packages\Encoding-Converters-Core.0.9.8\lib\net48\x86\ECInterfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="EcTranslators">
-      <HintPath>$(EcDistFilesPath)\win-$(Platform)\native\EcTranslators.dll</HintPath>
-    </Reference>
-    <Reference Include="Enchant.Net, Version=1.4.0.0, Culture=neutral, PublicKeyToken=ae135aeb3d479ab9, processorArchitecture=MSIL">
-      <HintPath>..\packages\Enchant.Net.1.4.2\lib\net461\Enchant.Net.dll</HintPath>
-    </Reference>
-    <Reference Include="FluentFTP, Version=54.2.0.0, Culture=neutral, PublicKeyToken=f4af092b1d8df44f, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentFTP.54.2.0\lib\net472\FluentFTP.dll</HintPath>
-    </Reference>
     <Reference Include="HtmlEditor, Version=7.0.100.5147, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\HtmlEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="ibusdotnet, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c9ab93f7b23223fb, processorArchitecture=MSIL">
-      <HintPath>..\packages\ibusdotnet.2.0.3\lib\net461\ibusdotnet.dll</HintPath>
-    </Reference>
-    <Reference Include="icu.net, Version=3.0.0.0, Culture=neutral, PublicKeyToken=416fdd914afa6b66, processorArchitecture=MSIL">
-      <HintPath>..\packages\icu.net.3.0.2\lib\net451\icu.net.dll</HintPath>
-    </Reference>
-    <Reference Include="JetBrains.Annotations, Version=4242.42.42.42, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.2026.2.0\lib\net20\JetBrains.Annotations.dll</HintPath>
-    </Reference>
-    <Reference Include="Keyman10Interop, Version=10.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\packages\KeymanLegacyBundle.1.0.0\lib\Keyman10Interop.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Keyman7Interop, Version=1.4.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\packages\KeymanLegacyBundle.1.0.0\lib\Keyman7Interop.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="KeymanLink, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\packages\KeymanLegacyBundle.1.0.0\lib\KeymanLink.dll</HintPath>
-    </Reference>
-    <Reference Include="L10NSharp, Version=9.0.0.0, Culture=neutral, PublicKeyToken=fd0b3e309a5b7c28, processorArchitecture=MSIL">
-      <HintPath>..\packages\L10NSharp.9.0.0\lib\net48\L10NSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="L10NSharp.Windows.Forms, Version=9.0.0.0, Culture=neutral, PublicKeyToken=fd0b3e309a5b7c28, processorArchitecture=MSIL">
-      <HintPath>..\packages\L10NSharp.Windows.Forms.9.0.0\lib\net48\L10NSharp.Windows.Forms.dll</HintPath>
-    </Reference>
-    <Reference Include="LibChorus, Version=5.1.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=MSIL">
-      <HintPath>..\packages\SIL.Chorus.LibChorus.5.1.0\lib\net461\LibChorus.dll</HintPath>
-    </Reference>
-    <Reference Include="Markdig.Signed, Version=1.3.0.0, Culture=neutral, PublicKeyToken=870da25a133885f8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Markdig.Signed.1.3.2\lib\net462\Markdig.Signed.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=10.0.0.9, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.10.0.9\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Bcl.HashCode, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.HashCode.6.0.0\lib\net462\Microsoft.Bcl.HashCode.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.DotNet.PlatformAbstractions, Version=3.1.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.DotNet.PlatformAbstractions.3.1.6\lib\net45\Microsoft.DotNet.PlatformAbstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=10.0.0.9, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.10.0.9\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyModel, Version=10.0.0.9, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.DependencyModel.10.0.9\lib\net462\Microsoft.Extensions.DependencyModel.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=10.0.0.9, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.10.0.9\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Identity.Client, Version=4.85.0.0, Culture=neutral, PublicKeyToken=0a613f4dd989e8ae, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Identity.Client.4.85.0\lib\net472\Microsoft.Identity.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Identity.Client.Extensions.Msal, Version=4.85.0.0, Culture=neutral, PublicKeyToken=0a613f4dd989e8ae, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Identity.Client.Extensions.Msal.4.85.0\lib\netstandard2.0\Microsoft.Identity.Client.Extensions.Msal.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.IdentityModel.Abstractions, Version=8.19.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.Abstractions.8.19.1\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-      <HintPath>C:\Program Files (x86)\Microsoft.NET\Primary Interop Assemblies\Microsoft.mshtml.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="Mono.Unix, Version=7.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Unix.7.1.0-final.1.21458.1\lib\net45\Mono.Unix.dll</HintPath>
-    </Reference>
-    <Reference Include="NDesk.DBus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f6716e4f9b2ed099, processorArchitecture=MSIL">
-      <HintPath>..\packages\NDesk.DBus.0.15.0\lib\NDesk.DBus.dll</HintPath>
     </Reference>
     <Reference Include="NetLoc, Version=7.0.100.5030, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -205,858 +71,79 @@
     <Reference Include="NetMAPI">
       <HintPath>..\DepDLLs\NetMAPI.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="ParatextShared, Version=7.0.100.5029, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\ParatextShared.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="ReachFramework" />
-    <Reference Include="relaxngDatatype, Version=1.0.0.0, Culture=neutral, PublicKeyToken=01f76833cb3d9b58, processorArchitecture=MSIL">
-      <HintPath>..\packages\relaxngDatatype.1.0.0.39\lib\net461\relaxngDatatype.dll</HintPath>
-    </Reference>
-    <Reference Include="SendGrid, Version=9.29.3.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
-      <HintPath>..\packages\SendGrid.9.29.3\lib\net452\SendGrid.dll</HintPath>
     </Reference>
     <Reference Include="SharedScrUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\SharedScrUtils.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Core, Version=17.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\packages\SIL.Core.17.0.0\lib\net48\SIL.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="SIL.Core.Desktop, Version=17.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\packages\SIL.Core.Desktop.17.0.0\lib\net48\SIL.Core.Desktop.dll</HintPath>
-    </Reference>
-    <Reference Include="SIL.Lift, Version=17.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\packages\SIL.Lift.17.0.0\lib\net48\SIL.Lift.dll</HintPath>
-    </Reference>
-    <Reference Include="SIL.Windows.Forms, Version=17.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\packages\SIL.Windows.Forms.17.0.0\lib\net48\SIL.Windows.Forms.dll</HintPath>
-    </Reference>
-    <Reference Include="SIL.Windows.Forms.Keyboarding, Version=17.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\packages\SIL.Windows.Forms.Keyboarding.17.0.0\lib\net48\SIL.Windows.Forms.Keyboarding.dll</HintPath>
-    </Reference>
-    <Reference Include="SIL.WritingSystems, Version=17.0.0.0, Culture=neutral, PublicKeyToken=cab3c8c5232dfcf2, processorArchitecture=MSIL">
-      <HintPath>..\packages\SIL.WritingSystems.17.0.0\lib\net48\SIL.WritingSystems.dll</HintPath>
-    </Reference>
-    <Reference Include="SilEncConverters40, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f1447bae1e63f485, processorArchitecture=MSIL">
-      <HintPath>..\packages\Encoding-Converters-Core.0.9.8\lib\net48\x86\SilEncConverters40.dll</HintPath>
-    </Reference>
-    <Reference Include="Spart, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14d24e064e474331, processorArchitecture=MSIL">
-      <HintPath>..\packages\Spart.1.0.0\lib\net461\Spart.dll</HintPath>
-    </Reference>
-    <Reference Include="StarkbankEcdsa, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b2e6337a5d77bfbc, processorArchitecture=MSIL">
-      <HintPath>..\packages\starkbank-ecdsa.1.3.3\lib\net452\StarkbankEcdsa.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Collections.Immutable, Version=10.0.0.9, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Collections.Immutable.10.0.9\lib\net462\System.Collections.Immutable.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Configuration.ConfigurationManager, Version=10.0.0.9, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Configuration.ConfigurationManager.10.0.9\lib\net462\System.Configuration.ConfigurationManager.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Configuration.Install" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.OracleClient" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Design" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=10.0.0.9, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.10.0.9\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
-    </Reference>
-    <Reference Include="System.DirectoryServices" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Drawing.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Drawing.Common.10.0.9\lib\net462\System.Drawing.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Formats.Asn1, Version=10.0.0.9, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Formats.Asn1.10.0.9\lib\net462\System.Formats.Asn1.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Formats.Nrbf, Version=10.0.0.9, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Formats.Nrbf.10.0.9\lib\net462\System.Formats.Nrbf.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IdentityModel" />
-    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.IO.FileSystem.AccessControl, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.FileSystem.AccessControl.5.0.0\lib\net461\System.IO.FileSystem.AccessControl.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.Pipelines, Version=10.0.0.9, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.Pipelines.10.0.9\lib\net462\System.IO.Pipelines.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Management">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Memory.Data, Version=10.0.0.9, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.Data.10.0.9\lib\net462\System.Memory.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net" />
-    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Printing" />
-    <Reference Include="System.Reflection.Metadata, Version=10.0.0.9, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reflection.Metadata.10.0.9\lib\net462\System.Reflection.Metadata.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Resources.Extensions, Version=10.0.0.9, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Resources.Extensions.10.0.9\lib\net462\System.Resources.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.4.3.1\lib\net462\System.Runtime.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Security.AccessControl, Version=6.0.0.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.AccessControl.6.0.1\lib\net461\System.Security.AccessControl.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.ProtectedData, Version=10.0.0.9, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.ProtectedData.10.0.9\lib\net462\System.Security.Cryptography.ProtectedData.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.2\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Permissions, Version=10.0.0.9, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Permissions.10.0.9\lib\net462\System.Security.Permissions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.ServiceModel.Duplex, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ServiceModel.Primitives.10.0.652802\lib\net462\System.ServiceModel.Duplex.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel.Primitives, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ServiceModel.Primitives.10.0.652802\lib\net462\System.ServiceModel.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel.Security, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ServiceModel.Primitives.10.0.652802\lib\net462\System.ServiceModel.Security.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel.Web" />
-    <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Text.Encoding.CodePages, Version=10.0.0.9, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Encoding.CodePages.10.0.9\lib\net462\System.Text.Encoding.CodePages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Text.Encodings.Web, Version=10.0.0.9, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Encodings.Web.10.0.9\lib\net462\System.Text.Encodings.Web.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Text.Json, Version=10.0.0.9, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Json.10.0.9\lib\net462\System.Text.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.6.3\lib\net462\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.ValueTuple" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Forms.DataVisualization">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="TagLibSharp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
-      <HintPath>..\packages\TagLibSharp.2.3.0\lib\net462\TagLibSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Tenuto, Version=1.0.0.0, Culture=neutral, PublicKeyToken=666de9dd91bf6401, processorArchitecture=MSIL">
-      <HintPath>..\packages\Tenuto.1.0.0.39\lib\net461\Tenuto.dll</HintPath>
-    </Reference>
     <Reference Include="Utilities, Version=7.0.100.5029, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\Utilities.dll</HintPath>
     </Reference>
-    <Reference Include="Vulcan.Uczniowie.HelpProvider, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c5e47f534b8ee927, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vulcan.Uczniowie.HelpProvider.1.0.16\lib\net461\Vulcan.Uczniowie.HelpProvider.dll</HintPath>
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>C:\Program Files (x86)\Microsoft.NET\Primary Interop Assemblies\Microsoft.mshtml.dll</HintPath>
+      <Private>True</Private>
     </Reference>
+    <!-- KeymanLegacyBundle ships its DLLs directly under lib\ with no TFM subfolder, which plain
+         PackageReference asset selection doesn't reliably pick up - explicit HintPath via the generated
+         package-path property instead (see the Keyman10Interop/StoryEditor.exe launch-failure fix earlier:
+         EmbedInteropTypes was removed here for the same reason - it suppresses Copy-Local regardless of an
+         explicit Private override, and these two DLLs are genuinely needed at runtime, not just embeddable
+         COM interop types). -->
+    <Reference Include="Keyman10Interop">
+      <HintPath>$(PkgKeymanLegacyBundle)\lib\Keyman10Interop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Keyman7Interop">
+      <HintPath>$(PkgKeymanLegacyBundle)\lib\Keyman7Interop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="KeymanLink">
+      <HintPath>$(PkgKeymanLegacyBundle)\lib\KeymanLink.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="ReachFramework" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
-    <Reference Include="WinFormAnimation, Version=1.6.0.4, Culture=neutral, PublicKeyToken=310fd07b25df79b3, processorArchitecture=MSIL">
-      <HintPath>..\packages\WinFormAnimation.1.6.0.4\lib\net40\WinFormAnimation.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdaptItConfigControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="AdaptItConfigControl.Designer.cs">
-      <DependentUpon>AdaptItConfigControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AdaptItGlossing.cs" />
-    <Compile Include="AddConNoteForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AddConNoteForm.Designer.cs">
-      <DependentUpon>AddConNoteForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AddLnCNoteForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AddLnCNoteForm.Designer.cs">
-      <DependentUpon>AddLnCNoteForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AiRepoSelectionForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AiRepoSelectionForm.Designer.cs">
-      <DependentUpon>AiRepoSelectionForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AnchorControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="AnchorControl.Designer.cs">
-      <DependentUpon>AnchorControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BiblicalTerms.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BiblicalTermsHTMLBuilder.cs" />
-    <Compile Include="BreakIterator.cs" />
-    <Compile Include="CheckedComboBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="CheckEndOfStateTransition.cs" />
-    <Compile Include="ChooseWhichTestToDisplayForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ChooseWhichTestToDisplayForm.Designer.cs">
-      <DependentUpon>ChooseWhichTestToDisplayForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ClipboardHtmlFormat.cs" />
-    <Compile Include="ConcordanceForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ConcordanceForm.Designer.cs">
-      <DependentUpon>ConcordanceForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CorrectSourceWordForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CorrectSourceWordForm.Designer.cs">
-      <DependentUpon>CorrectSourceWordForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CtrlTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="CustomMsgBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CustomMsgBox.Designer.cs">
-      <DependentUpon>CustomMsgBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CutItemPicker.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CutItemPicker.Designer.cs">
-      <DependentUpon>CutItemPicker.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Diff.cs" />
-    <Compile Include="EditMemberForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="EditMemberForm.Designer.cs">
-      <DependentUpon>EditMemberForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AnchorAddCommentForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AnchorAddCommentForm.Designer.cs">
-      <DependentUpon>AnchorAddCommentForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AnchorsData.cs" />
-    <Compile Include="ConsultNoteDataConverter.cs" />
-    <Compile Include="DynamicTableLayoutPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ExegeticalHelpNotesData.cs" />
-    <Compile Include="GlossingControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GlossingControl.Designer.cs">
-      <DependentUpon>GlossingControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GlossingForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GlossingForm.Designer.cs">
-      <DependentUpon>GlossingForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="HtmlConNoteControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="HtmlDisplayForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HtmlDisplayForm.Designer.cs">
-      <DependentUpon>HtmlDisplayForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="HtmlForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HtmlForm.Designer.cs">
-      <DependentUpon>HtmlForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="HtmlStoryBtControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="HtmlStoryBtControl.Designer.cs">
-      <DependentUpon>HtmlStoryBtControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="HtmlVerseControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="InstallerClass.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="InstallerClass.Designer.cs">
-      <DependentUpon>InstallerClass.cs</DependentUpon>
-    </Compile>
-    <Compile Include="LineFlowLayoutPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="LineFlowLayoutPanel.Designer.cs">
-      <DependentUpon>LineFlowLayoutPanel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="LnCNotePrintForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LnCNotePrintForm.Designer.cs">
-      <DependentUpon>LnCNotePrintForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="LnCNotesData.cs" />
-    <Compile Include="LnCNotesForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LnCNotesForm.Designer.cs">
-      <DependentUpon>LnCNotesForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MinimizableSplitterContainer.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="MultiLineControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="MultiLineControl.Designer.cs">
-      <DependentUpon>MultiLineControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MultipleLineDataConverter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MyLocalizableMessageBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="NetBibleFootnoteTooltip.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="NetBibleFootnoteTooltip.designer.cs">
-      <DependentUpon>NetBibleFootnoteTooltip.cs</DependentUpon>
-    </Compile>
-    <Compile Include="NetBibleViewer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="NetBibleViewer.Designer.cs">
-      <DependentUpon>NetBibleViewer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="NewProjectWizard.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="NewProjectWizard.Designer.cs">
-      <DependentUpon>NewProjectWizard.cs</DependentUpon>
-    </Compile>
-    <Compile Include="NoteForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="NoteForm.Designer.cs">
-      <DependentUpon>NoteForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="OneStoryUrlBuilder.cs" />
-    <Compile Include="OsMetaDataForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="OsMetaDataForm.Designer.cs">
-      <DependentUpon>OsMetaDataForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="OsMetaDataModel.cs" />
-    <Compile Include="PanoramaView.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PanoramaView.Designer.cs">
-      <DependentUpon>PanoramaView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PrintForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PrintForm.Designer.cs">
-      <DependentUpon>PrintForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PrintViewer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="PrintViewer.Designer.cs">
-      <DependentUpon>PrintViewer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ProjectSettings.cs" />
-    <Compile Include="ReorderWordsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ReorderWordsForm.Designer.cs">
-      <DependentUpon>ReorderWordsForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ResizableControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ResizableControl.Designer.cs">
-      <DependentUpon>ResizableControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="RsaEncryptionClass.cs" />
-    <Compile Include="ProjectFacilitatorRequirementsCheck.cs" />
-    <Compile Include="ConsultantInTrainingRequirementsCheck.cs" />
-    <Compile Include="SayMoreImportForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SayMoreImportForm.Designer.cs">
-      <DependentUpon>SayMoreImportForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SearchForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SearchForm.Designer.cs">
-      <DependentUpon>SearchForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SetCitTasksForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SetCitTasksForm.designer.cs">
-      <DependentUpon>SetCitTasksForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SetPfTasksForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SetPfTasksForm.Designer.cs">
-      <DependentUpon>SetPfTasksForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SetTasksForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SetTasksForm.Designer.cs">
-      <DependentUpon>SetTasksForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Settings.cs" />
-    <Compile Include="SplashScreenBusyTransliterator.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SplashScreenBusyTransliterator.Designer.cs">
-      <DependentUpon>SplashScreenBusyTransliterator.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SplashScreenForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SplashScreenForm.Designer.cs">
-      <DependentUpon>SplashScreenForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StageEditorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="StageEditorForm.Designer.cs">
-      <DependentUpon>StageEditorForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StateEditorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="StateEditorForm.Designer.cs">
-      <DependentUpon>StateEditorForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StateTransitionHistoryGraphForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="StateTransitionHistoryGraphForm.Designer.cs">
-      <DependentUpon>StateTransitionHistoryGraphForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StoryData.cs" />
-    <Compile Include="StoryFrontMatterForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="StoryFrontMatterForm.Designer.cs">
-      <DependentUpon>StoryFrontMatterForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StoryLineControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="StoryLineControl.Designer.cs">
-      <DependentUpon>StoryLineControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StoryProject.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StoryProject.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="StoryStageLogic.cs" />
-    <Compile Include="StoryEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="StoryEditor.Designer.cs">
-      <DependentUpon>StoryEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AdaptItConfigControl.resx">
-      <DependentUpon>AdaptItConfigControl.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AddConNoteForm.resx">
-      <DependentUpon>AddConNoteForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AddLnCNoteForm.resx">
-      <DependentUpon>AddLnCNoteForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AiRepoSelectionForm.resx">
-      <DependentUpon>AiRepoSelectionForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AnchorControl.resx">
-      <DependentUpon>AnchorControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ChooseWhichTestToDisplayForm.resx">
-      <DependentUpon>ChooseWhichTestToDisplayForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ConcordanceForm.resx">
-      <DependentUpon>ConcordanceForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CorrectSourceWordForm.resx">
-      <DependentUpon>CorrectSourceWordForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CtrlTextBox.resx">
-      <DependentUpon>CtrlTextBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CustomMsgBox.resx">
-      <DependentUpon>CustomMsgBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CutItemPicker.resx">
-      <DependentUpon>CutItemPicker.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="EditMemberForm.resx">
-      <DependentUpon>EditMemberForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AnchorAddCommentForm.resx">
-      <DependentUpon>AnchorAddCommentForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GlossingControl.resx">
-      <DependentUpon>GlossingControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GlossingForm.resx">
-      <DependentUpon>GlossingForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HtmlConNoteControl.resx">
-      <DependentUpon>HtmlConNoteControl.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HtmlDisplayForm.resx">
-      <DependentUpon>HtmlDisplayForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HtmlForm.resx">
-      <DependentUpon>HtmlForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HtmlStoryBtControl.resx">
-      <DependentUpon>HtmlStoryBtControl.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HtmlVerseControl.resx">
-      <DependentUpon>HtmlVerseControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LineFlowLayoutPanel.resx">
-      <DependentUpon>LineFlowLayoutPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LnCNotePrintForm.resx">
-      <DependentUpon>LnCNotePrintForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LnCNotesForm.resx">
-      <DependentUpon>LnCNotesForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MultiLineControl.resx">
-      <DependentUpon>MultiLineControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NetBibleFootnoteTooltip.resx">
-      <DependentUpon>NetBibleFootnoteTooltip.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NetBibleViewer.resx">
-      <DependentUpon>NetBibleViewer.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NewProjectWizard.resx">
-      <DependentUpon>NewProjectWizard.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NoteForm.resx">
-      <DependentUpon>NoteForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OsMetaDataForm.resx">
-      <DependentUpon>OsMetaDataForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PanoramaView.resx">
-      <DependentUpon>PanoramaView.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PrintForm.resx">
-      <DependentUpon>PrintForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PrintViewer.resx">
-      <DependentUpon>PrintViewer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ReorderWordsForm.resx">
-      <DependentUpon>ReorderWordsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ResizableControl.resx">
-      <DependentUpon>ResizableControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SayMoreImportForm.resx">
-      <DependentUpon>SayMoreImportForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SearchForm.resx">
-      <DependentUpon>SearchForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SetCitTasksForm.resx">
-      <DependentUpon>SetCitTasksForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SetPfTasksForm.resx">
-      <DependentUpon>SetPfTasksForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SetTasksForm.resx">
-      <DependentUpon>SetTasksForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SplashScreenBusyTransliterator.resx">
-      <DependentUpon>SplashScreenBusyTransliterator.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SplashScreenForm.resx">
-      <DependentUpon>SplashScreenForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StageEditorForm.resx">
-      <DependentUpon>StageEditorForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StateEditorForm.resx">
-      <DependentUpon>StateEditorForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StateTransitionHistoryGraphForm.resx">
-      <DependentUpon>StateTransitionHistoryGraphForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StoryEditor.resx">
-      <DependentUpon>StoryEditor.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StoryFrontMatterForm.resx">
-      <DependentUpon>StoryFrontMatterForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StoryLineControl.resx">
-      <DependentUpon>StoryLineControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SwapColumnsForm.resx">
-      <DependentUpon>SwapColumnsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TaskBarControl.resx">
-      <DependentUpon>TaskBarControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TaskBarForm.resx">
-      <DependentUpon>TaskBarForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TeamMemberForm.resx">
-      <DependentUpon>TeamMemberForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MemberPicker.resx">
-      <DependentUpon>MemberPicker.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TestingQuestionControl.resx">
-      <DependentUpon>TestingQuestionControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TextPaster.resx">
-      <DependentUpon>TextPaster.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TopForm.resx">
-      <DependentUpon>TopForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TransitionHistoryForm.resx">
-      <DependentUpon>TransitionHistoryForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VerseBtControl.resx">
-      <DependentUpon>VerseBtControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VerseEditorForm.resx">
-      <DependentUpon>VerseEditorForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ViewEnableForm.resx">
-      <DependentUpon>ViewEnableForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ViewSwordOptionsForm.resx">
-      <DependentUpon>ViewSwordOptionsForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <None Include="app.config" />
-    <None Include="app.manifest" />
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="StringTransfer.cs" />
-    <Compile Include="SwapColumnsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SwapColumnsForm.Designer.cs">
-      <DependentUpon>SwapColumnsForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TaskBarControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TaskBarControl.Designer.cs">
-      <DependentUpon>TaskBarControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TaskBarForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TaskBarForm.Designer.cs">
-      <DependentUpon>TaskBarForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TeamMemberData.cs" />
-    <Compile Include="TeamMemberForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TeamMemberForm.Designer.cs">
-      <DependentUpon>TeamMemberForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TermRendering.cs" />
-    <Compile Include="TermRenderings.cs" />
-    <Compile Include="TestingQuestionControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TestingQuestionControl.Designer.cs">
-      <DependentUpon>TestingQuestionControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TestQuestionsData.cs" />
-    <Compile Include="MemberPicker.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MemberPicker.Designer.cs">
-      <DependentUpon>MemberPicker.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TextAreaIdentifier.cs" />
-    <Compile Include="TextPaster.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TextPaster.Designer.cs">
-      <DependentUpon>TextPaster.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TopForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TopForm.Designer.cs">
-      <DependentUpon>TopForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TransitionHistoryForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TransitionHistoryForm.Designer.cs">
-      <DependentUpon>TransitionHistoryForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="VerseBtControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="VerseBtControl.Designer.cs">
-      <DependentUpon>VerseBtControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="VerseData.cs" />
-    <Compile Include="VerseEditorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="VerseEditorForm.Designer.cs">
-      <DependentUpon>VerseEditorForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ViewEnableForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ViewEnableForm.Designer.cs">
-      <DependentUpon>ViewEnableForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ViewSwordOptionsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ViewSwordOptionsForm.Designer.cs">
-      <DependentUpon>ViewSwordOptionsForm.cs</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="1.4 to 1.5.xslt" />
+    <!-- Outside the project directory (..\DepDLLs) so default item globbing never picks these up regardless
+         of extension - must stay explicit. -->
     <Content Include="..\DepDLLs\libsword.dll">
       <Link>libsword.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -1085,294 +172,122 @@
       <Link>MAPIEx.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="BiblicalTerms\AllBiblicalTerms.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="BiblicalTerms\BiblicalTerms.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="BiblicalTerms\BiblicalTermsEn.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="BiblicalTerms\MyBiblicalTerms.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="BiblicalTerms\StatHasErrDenied.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="BiblicalTerms\StatHasErrors.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="BiblicalTerms\StatHasNoErrors.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="BiblicalTerms\Term.PNG">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="html\StoryBt.htm">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="js\jquery.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="js\StoryBt.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="js\StoryBtPlaceholders.js" />
-    <None Include="js\StoryBtPs.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="icu4c.readme.txt" />
-    <None Include="js\ConNoteDomPrefix.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <Content Include="LanguageCodes.tab">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="OneStory.ico" />
-    <None Include="Resources\DeleteHS.png" />
-    <None Include="Resources\BuilderDialog_moveup.png" />
-    <None Include="Resources\BuilderDialog_movedown.PNG" />
-    <None Include="Resources\CopyHS.png" />
-    <None Include="Resources\Hyperlink.bmp" />
-    <None Include="Resources\AddTableHS.png" />
-    <None Include="Resources\EditTableHS.png" />
-    <None Include="Resources\EditInformationHS.png" />
-    <None Include="Resources\OpenSelectedItemHS.png" />
-    <None Include="Resources\AddToFavoritesHS.png" />
-    <None Include="Resources\ShowAllCommentsHS.png" />
-    <None Include="Resources\SplashScreenImage.jpg" />
-    <None Include="Resources\DataContainer_MoveFirstHS.png" />
-    <None Include="Resources\DataContainer_MovePreviousHS.png" />
-    <None Include="Resources\DataContainer_MoveNextHS.png" />
-    <None Include="Resources\DataContainer_MoveLastHS.png" />
-    <None Include="Resources\Arrow.jpg" />
-    <None Include="Resources\search.png" />
-    <Content Include="LocData\es.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="LocData\fr.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LocData\id.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LocData\pt.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
-    <None Include="Resources\1.3 to 1.4.xslt" />
-    <None Include="Resources\PrintHS.png" />
-    <None Include="Resources\Pause.bmp" />
-    <None Include="Resources\Edit_Undo.bmp" />
-    <None Include="Resources\graphhs.png" />
-    <None Include="Resources\FillDownHS.png" />
-    <None Include="Resources\FillUpHS.png" />
-    <None Include="Resources\SyncArrowVertical_16x.png" />
-    <Content Include="StageTransitions.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="Properties\app.manifest" />
-    <None Include="Resources\DragDropHandle.bmp" />
-    <None Include="StoryProject.onestory" />
-    <None Include="StoryProject.xsc">
-      <DependentUpon>StoryProject.xsd</DependentUpon>
-    </None>
-    <None Include="StoryProject.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>StoryProject.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="StoryProject.xsx">
-      <DependentUpon>StoryProject.xsd</DependentUpon>
-    </None>
-    <None Include="Resources\oneStory2ConNotes.xsl" />
-    <None Include="Resources\oneStory2CoachNotes.xsl" />
-    <None Include="Resources\oneStory2KeyTerms.xsl" />
-    <None Include="Resources\oneStory2storyingBT.xsl" />
-    <None Include="Resources\oneStory2storyingRetelling.xsl" />
-    <None Include="Resources\gradient.gif">
-    </None>
-    <Content Include="StageTransitionsId.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolbox\FreeTranslation.lng">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolbox\BookReferences.lng">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolbox\Date.lng">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolbox\Default.lng">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolbox\English.lng">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolbox\InternationalBT.lng">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolbox\NationalBT.lng">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolbox\PathFixup\LCNote.typ">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolbox\PathFixup\StoryBT.typ">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolbox\PathFixup\StoryingProject.prj">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolbox\PathFixup\StoryNotes.typ">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolbox\Retellings.typ">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolbox\Scriptur.typ">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolbox\Vernacular.lng">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\mods.d\net.conf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\net\nt.bzs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\net\nt.bzv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\net\nt.bzz">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\net\ot.bzs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\net\ot.bzv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SWORD\modules\texts\ztext\net\ot.bzz">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolbox\BibleBookCodes.TXT">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolbox\chap00 Sample Set.TXT">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolbox\chap000 Sample Story.TXT">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolbox\toolbox helps.TXT">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Toolbox\toolbox helps2.TXT">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 3.1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
+    <!-- SDK-style default item globbing picks these files up as plain "None" items, but - unlike the old
+         csproj's explicit <Content>/<None> entries - doesn't carry CopyToOutputDirectory along for the ride.
+         These whole data-file trees (WiX's OseComponents.wxs/BiblicalTermComponents.wxs source every one of
+         them straight out of ..\output\Release) need it added back via Update, not re-declared via Include
+         (which would duplicate the already-globbed items). Confirmed against the original committed csproj's
+         full explicit file list, same method used to confirm the deleted dead-code files earlier. -->
+    <None Update="BiblicalTerms\**;LocData\**;SWORD\**;Toolbox\**;html\**;js\**;LanguageCodes.tab;StageTransitions.xml;StageTransitionsId.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <!-- 16 files (ProjectSettingsForm, ConsultNotesDataConverter, StorySettings, GeckoTestForm, BiblicalTerms,
+       EditBiblicalTermForm, SelectKeyTerms, BiblicalKeyTermsForm, KeyTermsSearchForm, SelectTermsListForm,
+       TermLocalizations, ConsultNoteControl, ConsultNotesControl, HgRepoForm, SelectStateBasicForm,
+       EditRenderingsForm, plus their Designer.cs/resx pairs) were confirmed dead/duplicate/superseded - absent
+       from both the current git history of this csproj's file list and the last real, successfully-built
+       StoryEditor.exe's actual compiled types - and deleted outright rather than merely excluded from the
+       build. Recoverable from git history if any of them ever needs resurrecting. -->
+  <ItemGroup>
+    <ProjectReference Include="..\AutoUpgrade\code\AutoUpgrade.Lib\AutoUpgrade.Lib.vbproj" />
+    <ProjectReference Include="..\OseCommon\OseCommon.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <FileAssociation Include=".onestory">
-      <Visible>False</Visible>
-      <Description>OneStory Project File</Description>
-      <Progid>OneStoryProjectEditor</Progid>
-      <DefaultIcon>OneStory.ico</DefaultIcon>
-    </FileAssociation>
+    <PackageReference Include="Autofac" Version="9.3.2" />
+    <PackageReference Include="CircularProgressBar" Version="2.8.0.16" />
+    <PackageReference Include="DialogAdapters.Gtk2" Version="0.1.11" />
+    <PackageReference Include="Enchant.Net" Version="1.4.2" />
+    <PackageReference Include="Encoding-Converters-Core" Version="0.9.9" />
+    <PackageReference Include="FluentFTP" Version="54.2.0" />
+    <PackageReference Include="ibusdotnet" Version="2.0.3" />
+    <!-- icu.net's version is owned by SharedItems.props (imported below). -->
+    <PackageReference Include="Icu4c.Win.Min" Version="62.2.1-beta" />
+    <PackageReference Include="JetBrains.Annotations" Version="2026.2.0" />
+    <PackageReference Include="KeymanLegacyBundle" Version="1.0.0" GeneratePathProperty="true" />
+    <PackageReference Include="L10NSharp" Version="5.0.0" />
+    <PackageReference Include="Markdig.Signed" Version="1.3.2" />
+    <!-- Microsoft.Bcl.AsyncInterfaces/Microsoft.Extensions.DependencyInjection.Abstractions/
+         Microsoft.Extensions.Logging.Abstractions versions are owned by SharedItems.props (imported below;
+         bumped to 10.0.11 there to match what this project already required). -->
+    <PackageReference Include="Microsoft.Bcl.HashCode" Version="6.0.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.DotNet.PlatformAbstractions" Version="3.1.6" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="10.0.11" />
+    <PackageReference Include="Microsoft.Identity.Client" Version="4.88.0" />
+    <PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="4.88.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Abstractions" Version="8.22.0" />
+    <PackageReference Include="Mono.Posix" Version="5.4.0.201" />
+    <PackageReference Include="Mono.Unix" Version="7.1.0-final.1.21458.1" />
+    <PackageReference Include="NDesk.DBus" Version="0.15.0" />
+    <!-- Newtonsoft.Json's version is owned by SharedItems.props. -->
+    <PackageReference Include="RelaxNG" Version="3.2.3" />
+    <PackageReference Include="relaxngDatatype" Version="1.0.0.39" />
+    <PackageReference Include="SendGrid" Version="9.29.3" />
+    <PackageReference Include="SIL.Chorus.App" Version="5.0.0" />
+    <PackageReference Include="SIL.Chorus.ChorusMerge" Version="5.0.0" />
+    <PackageReference Include="SIL.Chorus.LibChorus" Version="5.0.0" />
+    <PackageReference Include="SIL.Chorus.Mercurial" Version="6.5.1.43" />
+    <PackageReference Include="SIL.Core" Version="10.0.0" />
+    <PackageReference Include="SIL.Core.Desktop" Version="10.0.0" />
+    <PackageReference Include="SIL.Lift" Version="10.0.0" />
+    <PackageReference Include="SIL.Windows.Forms" Version="10.0.0" />
+    <PackageReference Include="SIL.Windows.Forms.Keyboarding" Version="10.0.0" />
+    <PackageReference Include="SIL.WritingSystems" Version="10.0.0" />
+    <PackageReference Include="Spart" Version="1.0.0" />
+    <PackageReference Include="starkbank-ecdsa" Version="1.3.3" />
+    <!-- System.Buffers/System.Diagnostics.DiagnosticSource/System.IO.Pipelines/System.Memory/
+         System.Memory.Data/System.Numerics.Vectors/System.Runtime.CompilerServices.Unsafe versions are owned
+         by SharedItems.props. -->
+    <PackageReference Include="System.Collections.Immutable" Version="10.0.11" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="10.0.11" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.11" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.11" />
+    <PackageReference Include="System.Formats.Asn1" Version="10.0.11" />
+    <PackageReference Include="System.Formats.Nrbf" Version="10.0.11" />
+    <PackageReference Include="System.IO" Version="4.3.0" />
+    <PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Reflection.Metadata" Version="10.0.11" />
+    <PackageReference Include="System.Resources.Extensions" Version="10.0.11" />
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
+    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
+    <PackageReference Include="System.Security.AccessControl" Version="6.0.1" />
+    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
+    <PackageReference Include="System.Security.Cryptography.Encoding" Version="4.3.0" />
+    <PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.11" />
+    <PackageReference Include="System.Security.Cryptography.X509Certificates" Version="4.3.2" />
+    <PackageReference Include="System.Security.Permissions" Version="10.0.11" />
+    <PackageReference Include="System.Security.Principal.Windows" Version="5.0.0" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="10.0.652802" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.11" />
+    <!-- System.Text.Encodings.Web/System.Text.Json/System.Threading.Tasks.Extensions/System.ValueTuple
+         versions are owned by SharedItems.props. -->
+    <PackageReference Include="TagLibSharp" Version="2.3.0" />
+    <PackageReference Include="Tenuto" Version="1.0.0.39" />
+    <PackageReference Include="Vulcan.Uczniowie.HelpProvider" Version="1.0.16" />
+    <PackageReference Include="WinFormAnimation" Version="1.6.0.4" />
   </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AutoUpgrade\code\AutoUpgrade.Lib\AutoUpgrade.Lib.vbproj">
-      <Project>{46f3be0e-71c5-4fa2-872f-3ae6c51d09a5}</Project>
-      <Name>AutoUpgrade.Lib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OseCommon\OseCommon.csproj">
-      <Project>{25893762-b72e-4dc6-bf11-cbb3a025cbc2}</Project>
-      <Name>OseCommon</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- SharedItems.props centralizes the AI-translator (Google Cloud/OpenAI/Grpc) package versions used by
+       EcTranslators-facing code in this project; imported last so it doesn't fight this project's own
+       explicit PackageReference versions above for anything overlapping. -->
+  <Import Project="$(MSBuildThisFileDirectory)..\SharedItems.props" Condition="Exists('$(MSBuildThisFileDirectory)..\SharedItems.props')" />
+  <!-- Restored verbatim from the original (pre-SDK-style) csproj - dropped by accident during the SDK-style
+       rewrite, only noticed once a genuinely clean rebuild (rather than one riding on years-old leftover
+       output\Release\* files) exposed the gap via the WiX installer's "file not found" errors. Populates
+       output\Release with the Mercurial/MercurialExtensions trees (SIL.Chorus.Mercurial's own package targets,
+       auto-imported via PackageReference, already stage these to $(SolutionDir)Mercurial -
+       $(SolutionDir)MercurialExtensions; this step is what additionally gets them into this project's own
+       output folder, next to the exe) and the Encoding-Converters-Core package's native/redist trees
+       (win-x86\native\*, redist\* - includes the EC\Plugins\*.xml plugin descriptors and Help\*.htm files the
+       installer also sources from here). -->
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PreBuildEvent>xcopy /S /Y /I "$(SolutionDir)Mercurial" "$(SolutionDir)output\$(Configuration)\mercurial"
+xcopy /S /Y /I "$(SolutionDir)MercurialExtensions" "$(SolutionDir)output\$(Configuration)\MercurialExtensions"
+xcopy /y "$(EcDistFilesPath)\win-x86\native\*.*" "$(SolutionDir)output\$(Configuration)\"
+xcopy /s /y "$(EcDistFilesPath)\redist\*.*" "$(SolutionDir)output\$(Configuration)\"</PreBuildEvent>
   </PropertyGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\NDesk.DBus.0.15.0\build\NDesk.DBus.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NDesk.DBus.0.15.0\build\NDesk.DBus.targets'))" />
-    <Error Condition="!Exists('..\packages\Mono.Posix.5.4.0.201\build\net45\Mono.Posix.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Mono.Posix.5.4.0.201\build\net45\Mono.Posix.targets'))" />
-    <Error Condition="!Exists('..\packages\Icu4c.Win.Min.62.2.1-beta\build\Icu4c.Win.Min.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Icu4c.Win.Min.62.2.1-beta\build\Icu4c.Win.Min.targets'))" />
-    <Error Condition="!Exists('..\packages\Mono.Unix.7.1.0-final.1.21458.1\build\Mono.Unix.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Mono.Unix.7.1.0-final.1.21458.1\build\Mono.Unix.targets'))" />
-    <Error Condition="!Exists('..\packages\Encoding-Converters-Core.0.9.8\build\Encoding-Converters-Core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Encoding-Converters-Core.0.9.8\build\Encoding-Converters-Core.props'))" />
-    <Error Condition="!Exists('..\packages\SIL.Chorus.Mercurial.6.5.1.43\build\SIL.Chorus.Mercurial.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SIL.Chorus.Mercurial.6.5.1.43\build\SIL.Chorus.Mercurial.targets'))" />
-    <Error Condition="!Exists('..\packages\SIL.Windows.Forms.Keyboarding.17.0.0\build\SIL.Windows.Forms.Keyboarding.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SIL.Windows.Forms.Keyboarding.17.0.0\build\SIL.Windows.Forms.Keyboarding.props'))" />
-    <Error Condition="!Exists('..\packages\SIL.Windows.Forms.Keyboarding.17.0.0\build\SIL.Windows.Forms.Keyboarding.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SIL.Windows.Forms.Keyboarding.17.0.0\build\SIL.Windows.Forms.Keyboarding.targets'))" />
-    <Error Condition="!Exists('..\packages\SIL.Windows.Forms.17.0.0\build\SIL.Windows.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SIL.Windows.Forms.17.0.0\build\SIL.Windows.Forms.targets'))" />
-    <Error Condition="!Exists('..\packages\icu.net.3.0.2\build\icu.net.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\icu.net.3.0.2\build\icu.net.props'))" />
-    <Error Condition="!Exists('..\packages\icu.net.3.0.2\build\icu.net.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\icu.net.3.0.2\build\icu.net.targets'))" />
-    <Error Condition="!Exists('..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets'))" />
-  </Target>
-  <Import Project="..\packages\NDesk.DBus.0.15.0\build\NDesk.DBus.targets" Condition="Exists('..\packages\NDesk.DBus.0.15.0\build\NDesk.DBus.targets')" />
-  <Import Project="..\packages\Mono.Posix.5.4.0.201\build\net45\Mono.Posix.targets" Condition="Exists('..\packages\Mono.Posix.5.4.0.201\build\net45\Mono.Posix.targets')" />
-  <Import Project="..\packages\Icu4c.Win.Min.62.2.1-beta\build\Icu4c.Win.Min.targets" Condition="Exists('..\packages\Icu4c.Win.Min.62.2.1-beta\build\Icu4c.Win.Min.targets')" />
-  <Import Project="..\packages\Mono.Unix.7.1.0-final.1.21458.1\build\Mono.Unix.targets" Condition="Exists('..\packages\Mono.Unix.7.1.0-final.1.21458.1\build\Mono.Unix.targets')" />
-  <PropertyGroup>
-    <PreBuildEvent>xcopy /S /Y /I "$(SolutionDir)Mercurial" "$(SolutionDir)output\$(ConfigurationName)\mercurial"
-xcopy /S /Y /I "$(SolutionDir)MercurialExtensions" "$(SolutionDir)output\$(ConfigurationName)\MercurialExtensions"
-xcopy /y "$(EcDistFilesPath)\win-x86\native\*.*" "$(SolutionDir)output\$(ConfigurationName)\"
-xcopy /s /y "$(EcDistFilesPath)\redist\*.*" "$(SolutionDir)output\$(ConfigurationName)\"</PreBuildEvent>
-  </PropertyGroup>
-  <Import Project="..\packages\SIL.Chorus.Mercurial.6.5.1.43\build\SIL.Chorus.Mercurial.targets" Condition="Exists('..\packages\SIL.Chorus.Mercurial.6.5.1.43\build\SIL.Chorus.Mercurial.targets')" />
-  <Import Project="..\packages\SIL.Windows.Forms.Keyboarding.17.0.0\build\SIL.Windows.Forms.Keyboarding.targets" Condition="Exists('..\packages\SIL.Windows.Forms.Keyboarding.17.0.0\build\SIL.Windows.Forms.Keyboarding.targets')" />
-  <Import Project="..\packages\SIL.Windows.Forms.17.0.0\build\SIL.Windows.Forms.targets" Condition="Exists('..\packages\SIL.Windows.Forms.17.0.0\build\SIL.Windows.Forms.targets')" />
-  <Import Project="..\packages\icu.net.3.0.2\build\icu.net.targets" Condition="Exists('..\packages\icu.net.3.0.2\build\icu.net.targets')" />
-  <Import Project="..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets" Condition="Exists('..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

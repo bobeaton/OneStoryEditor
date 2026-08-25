@@ -3494,8 +3494,7 @@ namespace OneStoryProjectEditor
             panoramaInsertNewStoryMenu.Enabled =
                 panoramaAddNewStoryAfterMenu.Enabled = isStoryInsertable;
 
-            storyImportFromSayMore.Enabled = isStoryInsertable &&
-                                             Directory.Exists(ProjectSettings.SayMoreFolderRoot);
+            storyImportFromSayMore.Enabled = isStoryInsertable;
 
             // the 'paste story from another project is enabled if ...
             if (isStoryInsertable)
