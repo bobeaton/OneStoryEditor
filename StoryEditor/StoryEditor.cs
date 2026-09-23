@@ -3494,7 +3494,7 @@ namespace OneStoryProjectEditor
             panoramaInsertNewStoryMenu.Enabled =
                 panoramaAddNewStoryAfterMenu.Enabled = isStoryInsertable;
 
-            storyImportFromSayMore.Enabled = isStoryInsertable;
+            storyImportFromExternalMenu.Enabled = isStoryInsertable;
 
             // the 'paste story from another project is enabled if ...
             if (isStoryInsertable)
@@ -7529,11 +7529,87 @@ namespace OneStoryProjectEditor
 
         private void StoryImportFromSayMoreClick(object sender, EventArgs e)
         {
+            DoExternalImport(() => new SayMoreImportForm(TheCurrentStory, StoryProject.ProjSettings));
+        }
+
+        private void StoryImportFromElanClick(object sender, EventArgs e)
+        {
+            DoExternalImport(() =>
+            {
+                var strFile = BrowseForImportFile(Localizer.Str("ELAN annotation files (*.eaf)|*.eaf"));
+                if (strFile == null)
+                    return null;
+
+                var importedText = EafReader.Read(strFile);
+                return CheckImportedText(importedText, strFile)
+                           ? new SayMoreImportForm(TheCurrentStory, StoryProject.ProjSettings, importedText)
+                           : null;
+            });
+        }
+
+        private void StoryImportFromFlexTextClick(object sender, EventArgs e)
+        {
+            DoExternalImport(() =>
+            {
+                var strFile = BrowseForImportFile(Localizer.Str("FLEx interlinear text files (*.flextext)|*.flextext"));
+                if (strFile == null)
+                    return null;
+
+                var texts = FlexTextReader.Read(strFile).Where(t => t.HasData).ToList();
+                if (!texts.Any())
+                {
+                    CheckImportedText(null, strFile);
+                    return null;
+                }
+
+                var importedText = ExternalImportHelper.ChooseText(this, texts);
+                return (importedText != null)
+                           ? new SayMoreImportForm(TheCurrentStory, StoryProject.ProjSettings, importedText)
+                           : null;
+            });
+        }
+
+        private string _strLastExternalImportFolder;
+        private string BrowseForImportFile(string strFilter)
+        {
+            using (var dlg = new OpenFileDialog())
+            {
+                dlg.Filter = strFilter + "|" + Localizer.Str("All files (*.*)|*.*");
+                dlg.Title = Localizer.Str("Choose the file to import");
+                if (!String.IsNullOrEmpty(_strLastExternalImportFolder) && Directory.Exists(_strLastExternalImportFolder))
+                    dlg.InitialDirectory = _strLastExternalImportFolder;
+                if (dlg.ShowDialog(this) != DialogResult.OK)
+                    return null;
+
+                _strLastExternalImportFolder = Path.GetDirectoryName(dlg.FileName);
+                return dlg.FileName;
+            }
+        }
+
+        private static bool CheckImportedText(ImportedText importedText, string strFile)
+        {
+            if ((importedText != null) && importedText.HasData)
+                return true;
+
+            LocalizableMessageBox.Show(
+                String.Format(Localizer.Str("Unable to find any transcription or back-translation data in the file '{0}'!"),
+                              strFile),
+                OseCaption);
+            return false;
+        }
+
+        private void DoExternalImport(Func<SayMoreImportForm> createImportForm)
+        {
             var cursor = Cursor;
             Cursor = Cursors.WaitCursor;
             try
             {
-                DoSaymoreImport();
+                CheckForSaveDirtyFileNoCleanup();
+                using (var dlg = createImportForm())
+                {
+                    if (dlg != null)
+                        DoExternalImport(dlg);
+                }
             }
             catch (Exception ex)
             {
@@ -7549,11 +7625,25 @@ namespace OneStoryProjectEditor
         private bool _bNagOnceSayMoreImport = true;
         private delegate StringTransfer StringTransferDelegate(LineData ld);
         private delegate LineData LineDataDelegate(VerseData vd);
-        private void DoSaymoreImport()
+
+        private static StringTransferDelegate FieldAccessor(TextFields field)
         {
-            CheckForSaveDirtyFileNoCleanup();
-            var dlg = new SayMoreImportForm(TheCurrentStory, StoryProject.ProjSettings);
-            if (dlg.ShowDialog() != DialogResult.OK) 
+            switch (field)
+            {
+                case TextFields.NationalBt:
+                    return ld => ld.NationalBt;
+                case TextFields.InternationalBt:
+                    return ld => ld.InternationalBt;
+                case TextFields.FreeTranslation:
+                    return ld => ld.FreeTranslation;
+                default:
+                    return ld => ld.Vernacular;
+            }
+        }
+
+        private void DoExternalImport(SayMoreImportForm dlg)
+        {
+            if (dlg.ShowDialog() != DialogResult.OK)
                 return;
 
             string strUnsGuid = null;
@@ -7576,78 +7666,32 @@ namespace OneStoryProjectEditor
                     break;
             }
 
-            StringTransferDelegate stTranscription;
-            switch (dlg.TranscriptionField)
-            {
-                case TextFields.NationalBt:
-                    stTranscription = ld => ld.NationalBt;
-                    break;
-                case TextFields.InternationalBt:
-                    stTranscription = ld => ld.InternationalBt;
-                    break;
-                case TextFields.FreeTranslation:
-                    stTranscription = ld => ld.FreeTranslation;
-                    break;
-                default:
-                    stTranscription = ld => ld.Vernacular;
-                    break;
-            }
-
-            // Optional third tier. Null when the .eaf had only the two tiers
-            // SayMore produces, in which case nothing below it changes.
-            StringTransferDelegate stGloss = null;
-            if (dlg.GlossLines.Count > 0)
-            {
-                switch (dlg.GlossTierField)
-                {
-                    case TextFields.NationalBt:
-                        stGloss = ld => ld.NationalBt;
-                        break;
-                    case TextFields.InternationalBt:
-                        stGloss = ld => ld.InternationalBt;
-                        break;
-                    case TextFields.FreeTranslation:
-                        stGloss = ld => ld.FreeTranslation;
-                        break;
-                    default:
-                        stGloss = ld => ld.Vernacular;
-                        break;
-                }
-            }
+            var mappings = dlg.Mappings;
+            var fields = mappings.Select(m => m.Field).ToList();
 
             StoryStageLogic.ProjectStages eStageToGoTo = StoryStageLogic.ProjectStages.eUndefined;
-            StringTransferDelegate stTranslation;
-            switch (dlg.TranslationField)
-            {
-                case TextFields.NationalBt:
-                    stTranslation = ld => ld.NationalBt;
-                    eStageToGoTo = StoryStageLogic.ProjectStages.eProjFacTypeNationalBT;
-                    break;
-                case TextFields.InternationalBt:
-                    stTranslation = ld => ld.InternationalBt;
-                    eStageToGoTo = StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT;
-                    break;
-                case TextFields.FreeTranslation:
-                    stTranslation = ld => ld.FreeTranslation;
-                    eStageToGoTo = StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation;
-                    break;
-                default:
-                    if (_bNagOnceSayMoreImport)
-                    {
-                        _bNagOnceSayMoreImport = false;
-                        LocalizableMessageBox.Show(
-                            Localizer.Str(
-                                "Import from Saymore will import both the Saymore 'Transcription' data (usually into the OSE 'Story Language' fields) and the Saymore 'Translation' data (into one of the OSE 'back-translation' fields), but you don't have a 'back-translation' field enabled. To enable one, click 'Project', 'Settings' and check another box in the 'Story' column of the 'Languages' tab."),
-                            OseCaption);
-                        Debug.Assert(false, "wasn't expecting any other value for BT");
-                    }
-                    stTranslation = ld => ld.FreeTranslation; // gotta put it somewhere
-                    break;
-            }
-
             StoryData theStory;
             if (dlg.SaymoreImportType == SayMoreImportForm.SaymoreImportTypes.NewStory)
             {
+                // set the state to the (last) BT field we import into (which enables the view)
+                if (fields.Contains(TextFields.FreeTranslation))
+                    eStageToGoTo = StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation;
+                else if (fields.Contains(TextFields.InternationalBt))
+                    eStageToGoTo = StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT;
+                else if (fields.Contains(TextFields.NationalBt))
+                    eStageToGoTo = StoryStageLogic.ProjectStages.eProjFacTypeNationalBT;
+                else if (_bNagOnceSayMoreImport &&
+                         !StoryProject.ProjSettings.NationalBT.HasData &&
+                         !StoryProject.ProjSettings.InternationalBT.HasData &&
+                         !StoryProject.ProjSettings.FreeTranslation.HasData)
+                {
+                    _bNagOnceSayMoreImport = false;
+                    LocalizableMessageBox.Show(
+                        Localizer.Str(
+                            "Only the transcription can be imported, because you don't have a 'back-translation' field enabled. To enable one, click 'Project', 'Settings' and check another box in the 'Story' column of the 'Languages' tab."),
+                        OseCaption);
+                }
+
                 theStory = AddNewStoryAfter(dlg.StoryName, dlg.FullRecordingFileSpec, dlg.Crafter);
                 if (theStory == null) // cancelled
                     return;
@@ -7665,21 +7709,15 @@ namespace OneStoryProjectEditor
             // for the answers, we have to do this a totally different way
             if (dlg.SaymoreImportType == SayMoreImportForm.SaymoreImportTypes.Answers)
             {
-                SaymoreImportToAnswers(theStory, dlg.VernacularLines, dlg.BackTranslationLines, 
-                                       stTranscription, stTranslation);
+                SaymoreImportToAnswers(theStory, mappings);
             }
             else
             {
-                var nLen = Math.Max(dlg.VernacularLines.Count,
-                                    Math.Max(dlg.BackTranslationLines.Count,
-                                             dlg.GlossLines.Count));
-
+                var nLen = mappings.Max(m => m.Tier.Lines.Count);
                 var nLineIndex = 0;
                 var bCreateNewStory = (dlg.SaymoreImportType == SayMoreImportForm.SaymoreImportTypes.NewStory);
                 for (var i = 0; i < nLen; i++)
                 {
-                    var vernacular = GetSafeValue(dlg.VernacularLines, i);
-                    var backTr = GetSafeValue(dlg.BackTranslationLines, i);
                     VerseData newVerse;
                     if (bCreateNewStory || (theStory.Verses.Count <= nLineIndex))
                     {
@@ -7699,18 +7737,14 @@ namespace OneStoryProjectEditor
                     }
 
                     Debug.Assert(lineData != null, "lineData != null");
-                    stTranscription(lineData(newVerse)).SetValue(vernacular);
-                    stTranslation(lineData(newVerse)).SetValue(backTr);
-
-                    if (stGloss != null)
-                        stGloss(lineData(newVerse))
-                            .SetValue(GetSafeValue(dlg.GlossLines, i));
+                    foreach (var mapping in mappings)
+                        FieldAccessor(mapping.Field)(lineData(newVerse))
+                            .SetValue(GetSafeValue(mapping.Tier.Lines, i));
                 }
             }
 
             Modified = true;
 
-            // set the state to whatever field we put the bt in (which enables the view)
             if (eStageToGoTo == StoryStageLogic.ProjectStages.eUndefined)
             {
                 InitAllPanes();
@@ -7720,9 +7754,7 @@ namespace OneStoryProjectEditor
             SetNextStateAdvancedOverride(eStageToGoTo, false);
         }
 
-        private void SaymoreImportToAnswers(StoryData theStory, 
-                                            List<string> vernacularLines, List<string> backTranslationLines, 
-                                            StringTransferDelegate stTranscription, StringTransferDelegate stTranslation)
+        private void SaymoreImportToAnswers(StoryData theStory, List<ImportMapping> mappings)
         {
             // Start by adding Answer boxes for all the TQs using our normal way
             if (!AddInferenceTest())
@@ -7730,24 +7762,19 @@ namespace OneStoryProjectEditor
 
             // find the TQs and start putting the lines we're importing into a new answer box
             var nIndex = 0;
-            SaymoreImportAnswers(theStory.Verses.FirstVerse, vernacularLines, backTranslationLines, 
-                                 stTranscription, stTranslation, ref nIndex);
+            SaymoreImportAnswers(theStory.Verses.FirstVerse, mappings, ref nIndex);
             foreach (var aVerseData in theStory.Verses)
-                SaymoreImportAnswers(aVerseData, vernacularLines, backTranslationLines,
-                                     stTranscription, stTranslation, ref nIndex);
+                SaymoreImportAnswers(aVerseData, mappings, ref nIndex);
         }
 
-        private void SaymoreImportAnswers(VerseData aVerse, List<string> vernacularLines, List<string> backTranslationLines, StringTransferDelegate stTranscription, StringTransferDelegate stTranslation, ref int nIndex)
+        private static void SaymoreImportAnswers(VerseData aVerse, List<ImportMapping> mappings, ref int nIndex)
         {
             foreach (var lineData in aVerse.TestQuestions.Select(testQuestion => testQuestion.Answers.Last()))
             {
-                var vernacular = GetSafeValue(vernacularLines, nIndex);
-                var backTr = GetSafeValue(backTranslationLines, nIndex);
-                nIndex++;
-
                 // now set the proper fields
-                stTranscription(lineData).SetValue(vernacular);
-                stTranslation(lineData).SetValue(backTr);
+                foreach (var mapping in mappings)
+                    FieldAccessor(mapping.Field)(lineData).SetValue(GetSafeValue(mapping.Tier.Lines, nIndex));
+                nIndex++;
             }
         }
 

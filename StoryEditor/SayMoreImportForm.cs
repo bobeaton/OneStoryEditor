@@ -9,24 +9,19 @@ using NetLoc;
 
 namespace OneStoryProjectEditor
 {
+    // Imports a transcribed text from another program into a new story, a retelling, or
+    //  the answers to the test questions. With SayMore, the user first picks the project
+    //  and session (which has the .eaf file); for ELAN (.eaf) and FLEx (.flextext) files,
+    //  the caller reads the file and passes in the ImportedText, so only the last tab is
+    //  shown: the one where each tier found in the file is mapped to an OSE field.
     public partial class SayMoreImportForm : TopForm
     {
         public string StoryName { get; set; }
         public string Crafter { get; set; }
         public string FullRecordingFileSpec { get; set; }
-        public List<string> VernacularLines;
-        public List<string> BackTranslationLines;
 
-        // Optional word-gloss tier. SayMore records a transcription and a free
-        // translation, so those two tiers already cover baseline and free
-        // translation; what it has no concept of is a word-by-word gloss.
-        // Empty unless the .eaf carries a tier whose LINGUISTIC_TYPE_REF is
-        // CstrTierGloss, so a SayMore file behaves exactly as it did before.
-        public List<string> GlossLines = new List<string>();
-
-        private const string CstrTierTranscription = "Transcription";
-        private const string CstrTierTranslation   = "Translation";
-        private const string CstrTierGloss         = "Gloss";
+        // the tiers to import and which field of the line each goes into
+        public List<ImportMapping> Mappings = new List<ImportMapping>();
 
         private const int CnColumnClickToInstall = 0;
         private const int CnColumnTitle = 2;
@@ -36,6 +31,7 @@ namespace OneStoryProjectEditor
         private const string CstrOrigFullRecordingSuffix2 = "_OralTranslation.wav";
 
         private readonly ProjectSettings _projSettings;
+        private ImportedText _importedText;
 
         // version used by Localization
         private SayMoreImportForm()
@@ -44,13 +40,37 @@ namespace OneStoryProjectEditor
             Localizer.Ctrl(this);
         }
 
+        // import from a SayMore session (browses the SayMore projects)
         public SayMoreImportForm(StoryData storyData, ProjectSettings projSettings)
         {
             _projSettings = projSettings;
             InitializeComponent();
             Localizer.Ctrl(this);
+            InitImportTypes(storyData);
             InitGrid();
+        }
 
+        // import from a file that's already been read (e.g. ELAN .eaf or FLEx .flextext)
+        public SayMoreImportForm(StoryData storyData, ProjectSettings projSettings, ImportedText importedText)
+        {
+            _projSettings = projSettings;
+            InitializeComponent();
+            Localizer.Ctrl(this);
+            InitImportTypes(storyData);
+
+            Text = String.Format(Localizer.Str("Import from {0}"), Path.GetFileName(importedText.SourceFile));
+            tabControlImport.TabPages.Remove(tabPageProjects);
+            tabControlImport.TabPages.Remove(tabPageEvents);
+
+            _importedText = importedText;
+            StoryName = importedText.ToString();
+            Crafter = importedText.Speaker;
+            FullRecordingFileSpec = importedText.MediaFile;
+            InitTierGrid();
+        }
+
+        private void InitImportTypes(StoryData storyData)
+        {
             // if we have a current story, then we can import into a retelling also
             if (storyData == null)
                 radioButtonAsRetelling.Enabled = radioButtonAsAnswers.Enabled = false;
@@ -68,18 +88,18 @@ namespace OneStoryProjectEditor
 
         private void InitGrid()
         {
-            // with the addition of Seth's elan import, we need to not assume anymore that we're dealing with saymore only.
-            // So instead of using ProjectSettings.SayMoreFolderRoot, browser for the folder.
             // this monsterous Linq statement says: give me any sub-folders of "<My Document>\SayMore" (which
             //  are the project names), which have a 'Sessions' sub-folder which itself has at least one sub-folder
             //  that contains a file with a '.eaf' extension (which is the file we get the transcriptions out of)
-            var projectFolders = Directory.GetDirectories(ProjectSettings.SayMoreFolderRoot)
-                .Where(fp => Directory.GetDirectories(fp)
-                                 .Any(fps => (Path.GetFileName(fps) == "Sessions") &&
-                                             (Directory.GetDirectories(fps)
-                                                 .Any(fpe => Directory.GetFiles(fpe)
-                                                                 .Any(fpef => Path.GetExtension(fpef) == ".eaf")))))
-                .Select(Path.GetFileName).ToArray<object>();
+            var projectFolders = !Directory.Exists(ProjectSettings.SayMoreFolderRoot)
+                ? new object[0]
+                : Directory.GetDirectories(ProjectSettings.SayMoreFolderRoot)
+                    .Where(fp => Directory.GetDirectories(fp)
+                                     .Any(fps => (Path.GetFileName(fps) == "Sessions") &&
+                                                 (Directory.GetDirectories(fps)
+                                                     .Any(fpe => Directory.GetFiles(fpe)
+                                                                     .Any(fpef => Path.GetExtension(fpef) == ".eaf")))))
+                    .Select(Path.GetFileName).ToArray<object>();
 
             if (!projectFolders.Any())
             {
@@ -104,8 +124,10 @@ namespace OneStoryProjectEditor
 
             foreach (var eventFolder in eventFolders)
             {
+                // newer versions of SayMore have a .session file; older ones, an .event file
                 var files = Directory.GetFiles(eventFolder);
-                var eventFile = files.FirstOrDefault(fp => Path.GetExtension(fp) == ".session");
+                var eventFile = files.FirstOrDefault(fp => Path.GetExtension(fp) == ".session") ??
+                                files.FirstOrDefault(fp => Path.GetExtension(fp) == ".event");
                 if (String.IsNullOrEmpty(eventFile) || !File.Exists(eventFile))
                     continue;
 
@@ -159,6 +181,10 @@ namespace OneStoryProjectEditor
 
         private void TabControlSelecting(object sender, TabControlCancelEventArgs e)
         {
+            // when importing from a file, the field matching tab is the only one
+            if (!tabControlImport.TabPages.Contains(tabPageProjects))
+                return;
+
             if (e.TabPage != tabPageProjects)
             {
                 if ((listBoxProjects.Items.Count == 0) || (listBoxProjects.SelectedIndex == -1))
@@ -173,7 +199,7 @@ namespace OneStoryProjectEditor
 
             if ((e.TabPage != tabPageProjects) && (e.TabPage != tabPageEvents))
             {
-                if (VernacularLines == null)
+                if (_importedText == null)
                 {
                     LocalizableMessageBox.Show(
                         Localizer.Str("First click on one of the Session buttons in the Sessions tab (if there are none listed, then no importable data was found)"),
@@ -188,121 +214,13 @@ namespace OneStoryProjectEditor
             }
             else if (e.TabPage == tabPageFieldMatching)
             {
-                UpdateFieldRadioButtons();
-            }
-        }
-
-        private void UpdateFieldRadioButtons()
-        {
-            // Only offer the third mapping when the .eaf actually had a third
-            // tier. A SayMore file has two, so its UI is unchanged.
-            groupBoxGloss.Visible = (GlossLines.Count > 0);
-
-            if (radioButtonNewStory.Checked)
-            {
-                SetFieldVisibility(_projSettings.Vernacular.HasData,
-                                   _projSettings.NationalBT.HasData,
-                                   _projSettings.InternationalBT.HasData,
-                                   _projSettings.FreeTranslation.HasData);
-            }
-            else
-            {
-                SetFieldVisibility(_projSettings.ShowRetellings.Vernacular,
-                                   _projSettings.ShowRetellings.NationalBt,
-                                   _projSettings.ShowRetellings.InternationalBt,
-                                   false);
-            }
-        }
-
-        private void SetFieldVisibility(bool bVernacular, bool bNationalBt, bool bInternationalBt, bool bFreeTr)
-        {
-            // bThirdChosen only ever matters when the optional third tier is
-            // present; when it isn't, the group is hidden and these defaults
-            // are inert.
-            bool bTranscriptionChosen = false, bTranslationChosen = false, bThirdChosen = false;
-            if (bVernacular)
-            {
-                // radioButtonVernacularTranslation.Visible =  doesn't make sense for this field to be the translation
-                radioButtonVernacularTranscription.Visible = true;
-
-                bTranscriptionChosen = radioButtonVernacularTranscription.Checked = true;
-            }
-            else
-                radioButtonVernacularTranscription.Visible =
-                    radioButtonVernacularTranslation.Visible =
-                    radioButtonVernacularGloss.Visible = false;
-
-            if (bNationalBt)
-            {
-                radioButtonNationalBtTranscription.Visible =
-                    radioButtonNationalBtTranslation.Visible =
-                    radioButtonNationalBtGloss.Visible = true;
-
-                // if we haven't chosen the transcription yet, then this would be it
-                if (!bTranscriptionChosen)
-                    bTranscriptionChosen = radioButtonNationalBtTranscription.Checked = true;
-                else
-                    // otherwise, this is the default for translation
-                    bTranslationChosen = radioButtonNationalBtTranslation.Checked = true;
-            }
-            else
-                radioButtonNationalBtTranscription.Visible =
-                    radioButtonNationalBtTranslation.Visible =
-                    radioButtonNationalBtGloss.Visible = false;
-
-            if (bInternationalBt)
-            {
-                radioButtonInternationalBtTranscription.Visible =
-                    radioButtonInternationalBtTranslation.Visible =
-                    radioButtonInternationalBtGloss.Visible = true;
-
-                // if we haven't chosen the transcription yet, then this would be it
-                if (!bTranscriptionChosen)
-                    radioButtonInternationalBtTranscription.Checked = true;
-                    // otherwise, if the translation hasn't yet been chosen, then this would be it
-                else if (!bTranslationChosen)
-                    bTranslationChosen = radioButtonInternationalBtTranslation.Checked = true;
-                    // otherwise it is the default for the optional third tier
-                else if (!bThirdChosen)
-                    bThirdChosen = radioButtonInternationalBtGloss.Checked = true;
-            }
-            else
-                radioButtonInternationalBtTranscription.Visible =
-                    radioButtonInternationalBtTranslation.Visible =
-                    radioButtonInternationalBtGloss.Visible = false;
-
-            if (bFreeTr)
-            {
-                radioButtonFreeTrTranscription.Visible =
-                    radioButtonFreeTrTranslation.Visible =
-                    radioButtonFreeTrGloss.Visible = true;
-
-                if (!bTranslationChosen)
-                    radioButtonFreeTrTranslation.Checked = true;
-                else if (!bThirdChosen)
-                    radioButtonFreeTrGloss.Checked = true;
-            }
-            else
-                radioButtonFreeTrTranscription.Visible =
-                    radioButtonFreeTrTranslation.Visible =
-                    radioButtonFreeTrGloss.Visible = false;
-
-            // With a gloss tier present the sensible mapping differs from the
-            // two-tier cascade above: a word-by-word gloss belongs in the
-            // national-language BT field, and the Translation tier (which in
-            // SayMore is a free translation) in the international one. Only
-            // applied when the gloss tier actually arrived, so an import from
-            // SayMore keeps exactly the defaults it has always had.
-            if ((GlossLines.Count > 0) && bNationalBt && bInternationalBt)
-            {
-                radioButtonNationalBtGloss.Checked = true;
-                radioButtonInternationalBtTranslation.Checked = true;
+                InitTierGrid();
             }
         }
 
         private void DataGridViewEventsCellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if ((e.RowIndex < 0) || (e.RowIndex >= dataGridViewEvents.Rows.Count) || 
+            if ((e.RowIndex < 0) || (e.RowIndex >= dataGridViewEvents.Rows.Count) ||
                 (e.ColumnIndex != CnColumnClickToInstall))
                 return;
 
@@ -319,21 +237,8 @@ namespace OneStoryProjectEditor
                 return;
             }
 
-            FullRecordingFileSpec = files.Item2;
-            StoryName = theRow.Cells[CnColumnTitle].Value as string;
-            Crafter = theRow.Cells[CnColumnCrafter].Value as string;
-            var doc = XDocument.Load(eafFile);
-            List<string> lstVernacular, lstBackTranslation, lstFreeTranslation;
-            GetTier(doc, CstrTierTranscription, out lstVernacular);
-            GetTier(doc, CstrTierTranslation, out lstBackTranslation);
-
-            // Optional: GetTier already yields an empty list when the tier is
-            // absent, so a two-tier SayMore file needs no special case here.
-            GetTier(doc, CstrTierGloss, out lstFreeTranslation);
-
-            var nLen = Math.Max(lstVernacular.Count,
-                                Math.Max(lstBackTranslation.Count, lstFreeTranslation.Count));
-            if (nLen <= 0)
+            var importedText = EafReader.Read(eafFile);
+            if ((importedText == null) || !importedText.HasData)
             {
                 LocalizableMessageBox.Show(
                     Localizer.Str(
@@ -342,31 +247,11 @@ namespace OneStoryProjectEditor
                 return;
             }
 
-            VernacularLines = lstVernacular;
-            BackTranslationLines = lstBackTranslation;
-            GlossLines = lstFreeTranslation;
+            FullRecordingFileSpec = files.Item2 ?? importedText.MediaFile;
+            StoryName = theRow.Cells[CnColumnTitle].Value as string;
+            Crafter = theRow.Cells[CnColumnCrafter].Value as string;
+            _importedText = importedText;
             tabControlImport.SelectTab(tabPageFieldMatching);
-        }
-
-        private static void GetTier(XContainer doc, string strType, out List<string> lst)
-        {
-            var tier = doc.Descendants("TIER")
-                .Where(t =>
-                           {
-                               var xAttribute = t.Attribute("LINGUISTIC_TYPE_REF");
-                               return xAttribute != null && xAttribute.Value == strType;
-                           }).FirstOrDefault();
-
-            if (tier == null)
-            {
-                lst = new List<string>();
-                return;
-            }
-
-            lst = (from annotation in tier.Elements("ANNOTATION") 
-                   select annotation.Descendants("ANNOTATION_VALUE").FirstOrDefault() into xValue 
-                   where xValue != null 
-                   select xValue.Value).ToList();
         }
 
         public enum SaymoreImportTypes
@@ -376,84 +261,246 @@ namespace OneStoryProjectEditor
             Answers
         }
         public SaymoreImportTypes SaymoreImportType { get; set; }
-        public string AsRetellingInStory { get; set; }
-        public StoryEditor.TextFields TranscriptionField { get; set; }
-        public StoryEditor.TextFields TranslationField { get; set; }
 
-        // Only meaningful when GlossLines is non-empty.
-        public StoryEditor.TextFields GlossTierField { get; set; }
+        private SaymoreImportTypes SelectedImportType
+        {
+            get
+            {
+                return (radioButtonNewStory.Checked)
+                           ? SaymoreImportTypes.NewStory
+                           : (radioButtonAsRetelling.Checked)
+                                 ? SaymoreImportTypes.Retelling
+                                 : SaymoreImportTypes.Answers;
+            }
+        }
+
+        private class FieldChoice
+        {
+            public string Name { get; set; }
+            public StoryEditor.TextFields Field { get; set; }
+        }
+
+        // the fields that are configured in the project for the type of import
+        private List<StoryEditor.TextFields> AvailableFields
+        {
+            get
+            {
+                var fields = new List<StoryEditor.TextFields>();
+                switch (SelectedImportType)
+                {
+                    case SaymoreImportTypes.NewStory:
+                        AddIf(fields, _projSettings.Vernacular.HasData, StoryEditor.TextFields.Vernacular);
+                        AddIf(fields, _projSettings.NationalBT.HasData, StoryEditor.TextFields.NationalBt);
+                        AddIf(fields, _projSettings.InternationalBT.HasData, StoryEditor.TextFields.InternationalBt);
+                        AddIf(fields, _projSettings.FreeTranslation.HasData, StoryEditor.TextFields.FreeTranslation);
+                        break;
+                    case SaymoreImportTypes.Retelling:
+                        AddShowFields(fields, _projSettings.ShowRetellings);
+                        break;
+                    case SaymoreImportTypes.Answers:
+                        AddShowFields(fields, _projSettings.ShowAnswers);
+                        break;
+                }
+                return fields;
+            }
+        }
+
+        private static void AddShowFields(List<StoryEditor.TextFields> fields, ShowLanguageFields show)
+        {
+            AddIf(fields, show.Vernacular, StoryEditor.TextFields.Vernacular);
+            AddIf(fields, show.NationalBt, StoryEditor.TextFields.NationalBt);
+            AddIf(fields, show.InternationalBt, StoryEditor.TextFields.InternationalBt);
+        }
+
+        private static void AddIf(List<StoryEditor.TextFields> fields, bool bAdd, StoryEditor.TextFields field)
+        {
+            if (bAdd)
+                fields.Add(field);
+        }
+
+        private ProjectSettings.LanguageInfo LanguageInfo(StoryEditor.TextFields field)
+        {
+            switch (field)
+            {
+                case StoryEditor.TextFields.Vernacular:
+                    return _projSettings.Vernacular;
+                case StoryEditor.TextFields.NationalBt:
+                    return _projSettings.NationalBT;
+                case StoryEditor.TextFields.InternationalBt:
+                    return _projSettings.InternationalBT;
+                case StoryEditor.TextFields.FreeTranslation:
+                    return _projSettings.FreeTranslation;
+            }
+            return null;
+        }
+
+        private string FieldDisplayName(StoryEditor.TextFields field)
+        {
+            string strField;
+            switch (field)
+            {
+                case StoryEditor.TextFields.Vernacular:
+                    strField = Localizer.Str("Story language");
+                    break;
+                case StoryEditor.TextFields.NationalBt:
+                    strField = Localizer.Str("National/Regional language BT");
+                    break;
+                case StoryEditor.TextFields.InternationalBt:
+                    strField = Localizer.Str("English language BT");
+                    break;
+                case StoryEditor.TextFields.FreeTranslation:
+                    strField = Localizer.Str("Free Translation");
+                    break;
+                default:
+                    return Localizer.Str("(don't import)");
+            }
+
+            var li = LanguageInfo(field);
+            return ((li != null) && !String.IsNullOrEmpty(li.LangName))
+                       ? String.Format("{0} ({1})", strField, li.LangName)
+                       : strField;
+        }
+
+        // fills the grid with one row per tier found in the file, each with a drop down
+        //  of the fields (available for this type of import) it could be imported into
+        private void InitTierGrid()
+        {
+            if (_importedText == null)
+                return;
+
+            var availableFields = AvailableFields;
+            var choices = new[] {StoryEditor.TextFields.Undefined}
+                .Concat(availableFields)
+                .Select(f => new FieldChoice {Name = FieldDisplayName(f), Field = f})
+                .ToList();
+
+            dataGridViewTiers.Rows.Clear();
+            ColumnTierField.DataSource = choices;
+            ColumnTierField.DisplayMember = "Name";
+            ColumnTierField.ValueMember = "Field";
+            ColumnTierField.ValueType = typeof(StoryEditor.TextFields);
+
+            var defaults = DefaultMapping(_importedText, availableFields);
+            foreach (var tier in _importedText.Tiers)
+            {
+                StoryEditor.TextFields field;
+                if (!defaults.TryGetValue(tier, out field))
+                    field = StoryEditor.TextFields.Undefined;
+
+                var nIndex = dataGridViewTiers.Rows.Add(tier.Name, tier.LangCode, tier.FirstNonEmptyLine, field);
+                dataGridViewTiers.Rows[nIndex].Tag = tier;
+            }
+        }
+
+        // The initial choice for which tier goes into which field (the user can change them):
+        //  the transcription goes into the story language field, and the translations into
+        //  the BT fields. When there's also a word-by-word gloss (e.g. from Seth's MTT tool
+        //  or FLEx), the gloss goes into the national language BT and the (free) translation
+        //  into the English BT (cf. PR #18). Otherwise, they go into the next free BT field
+        //  (which is what the SayMore import has always done).
+        private Dictionary<ImportedTier, StoryEditor.TextFields> DefaultMapping(ImportedText importedText,
+                                                                                List<StoryEditor.TextFields> availableFields)
+        {
+            var mapping = new Dictionary<ImportedTier, StoryEditor.TextFields>();
+            var free = new List<StoryEditor.TextFields>(availableFields);
+
+            Func<ImportedTier, StoryEditor.TextFields, bool> assign = (tier, field) =>
+            {
+                if ((tier == null) || mapping.ContainsKey(tier) || !free.Contains(field))
+                    return false;
+                mapping[tier] = field;
+                free.Remove(field);
+                return true;
+            };
+
+            var baseline = importedText.Baseline;
+            if ((baseline != null) && !assign(baseline, StoryEditor.TextFields.Vernacular) && free.Any())
+                assign(baseline, free.First());
+
+            var translations = importedText.Tiers.Where(t => t.Kind == ImportedTier.TierKind.PhraseTranslation).ToList();
+            var glosses = importedText.Tiers.Where(t => t.Kind == ImportedTier.TierKind.WordGloss).ToList();
+
+            if (glosses.Any() && translations.Any() &&
+                free.Contains(StoryEditor.TextFields.NationalBt) && free.Contains(StoryEditor.TextFields.InternationalBt))
+            {
+                assign(glosses.First(), StoryEditor.TextFields.NationalBt);
+                assign(translations.First(), StoryEditor.TextFields.InternationalBt);
+            }
+
+            var btFields = new[]
+            {
+                StoryEditor.TextFields.NationalBt,
+                StoryEditor.TextFields.InternationalBt,
+                StoryEditor.TextFields.FreeTranslation
+            };
+
+            foreach (var tier in translations.Concat(glosses))
+            {
+                var field = btFields.FirstOrDefault(free.Contains);
+                if (field == StoryEditor.TextFields.Undefined)
+                    break;
+                assign(tier, field);
+            }
+
+            return mapping;
+        }
+
+        private void DataGridViewTiersDataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            // e.g. a value no longer in the drop down after changing the type of import
+            e.ThrowException = false;
+        }
 
         private void ButtonImportClick(object sender, EventArgs e)
         {
-            SaymoreImportType = (radioButtonNewStory.Checked)
-                                    ? SaymoreImportTypes.NewStory
-                                    : (radioButtonAsRetelling.Checked)
-                                          ? SaymoreImportTypes.Retelling
-                                          : SaymoreImportTypes.Answers;
+            dataGridViewTiers.EndEdit();
+            SaymoreImportType = SelectedImportType;
 
-            TranscriptionField = WhichField(radioButtonVernacularTranscription,
-                                            radioButtonNationalBtTranscription,
-                                            radioButtonInternationalBtTranscription,
-                                            radioButtonFreeTrTranscription);
-            TranslationField = WhichField(radioButtonVernacularTranslation,
-                                            radioButtonNationalBtTranslation,
-                                            radioButtonInternationalBtTranslation,
-                                            radioButtonFreeTrTranslation);
+            var mappings = new List<ImportMapping>();
+            foreach (DataGridViewRow row in dataGridViewTiers.Rows)
+            {
+                var tier = row.Tag as ImportedTier;
+                var value = row.Cells[ColumnTierField.Index].Value;
+                if ((tier == null) || !(value is StoryEditor.TextFields))
+                    continue;
 
-            if (TranscriptionField == TranslationField)
+                var field = (StoryEditor.TextFields)value;
+                if (field == StoryEditor.TextFields.Undefined)
+                    continue;
+
+                var dup = mappings.FirstOrDefault(m => m.Field == field);
+                if (dup != null)
+                {
+                    LocalizableMessageBox.Show(
+                        String.Format(
+                            Localizer.Str("You can't import both the '{0}' and '{1}' tiers into the {2} field"),
+                            dup.Tier.Name, tier.Name, FieldDisplayName(field)),
+                        StoryEditor.OseCaption);
+                    return;
+                }
+
+                mappings.Add(new ImportMapping {Field = field, Tier = tier});
+            }
+
+            if (!mappings.Any())
             {
                 LocalizableMessageBox.Show(
-                    String.Format(
-                        Localizer.Str(
-                            "You can't import both the transcription and translation from SayMore into the {0} field"),
-                        TranslationField),
+                    Localizer.Str("Choose the field to import at least one of the tiers into"),
                     StoryEditor.OseCaption);
                 return;
             }
 
-            // The third tier is optional: only read and validate its mapping
-            // when the file actually supplied one.
-            if (GlossLines.Count > 0)
-            {
-                GlossTierField = WhichField(radioButtonVernacularGloss,
-                                                      radioButtonNationalBtGloss,
-                                                      radioButtonInternationalBtGloss,
-                                                      radioButtonFreeTrGloss);
-
-                if ((GlossTierField == TranscriptionField) ||
-                    (GlossTierField == TranslationField))
-                {
-                    LocalizableMessageBox.Show(
-                        String.Format(
-                            Localizer.Str(
-                                "You can't import two different tiers into the {0} field"),
-                            GlossTierField),
-                        StoryEditor.OseCaption);
-                    return;
-                }
-            }
-
+            Mappings = mappings;
             DialogResult = DialogResult.OK;
             Close();
         }
 
-        private static StoryEditor.TextFields WhichField(RadioButton radioButtonVernacular, RadioButton radioButtonNationalBt, 
-            RadioButton radioButtonInternationalBt, RadioButton radioButtonFreeTr)
-        {
-            StoryEditor.TextFields value;
-            if ((((value = StoryEditor.TextFields.Vernacular) == StoryEditor.TextFields.Vernacular) && radioButtonVernacular.Checked) ||
-                (((value = StoryEditor.TextFields.NationalBt) == StoryEditor.TextFields.NationalBt) && radioButtonNationalBt.Checked) ||
-                (((value = StoryEditor.TextFields.InternationalBt) == StoryEditor.TextFields.InternationalBt) && radioButtonInternationalBt.Checked) ||
-                (((value = StoryEditor.TextFields.FreeTranslation) == StoryEditor.TextFields.FreeTranslation) && radioButtonFreeTr.Checked))
-            {
-                return value;
-            }
-            return value;
-        }
-
         private void RadioButtonNewStoryCheckedChanged(object sender, EventArgs e)
         {
-            UpdateFieldRadioButtons();
+            // the fields available depend on the type of import, so redo the choices
+            var radioButton = sender as RadioButton;
+            if ((radioButton == null) || radioButton.Checked)
+                InitTierGrid();
         }
     }
 }

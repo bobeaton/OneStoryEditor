@@ -1296,16 +1296,6 @@
   <Entry Path="OneStoryProjectEditor.SayMoreImportForm.radioButtonAsRetelling.Text">&amp;Redire</Entry>
   <Entry Path="OneStoryProjectEditor.SayMoreImportForm.radioButtonNewStory.Text">&amp;Nouvelle histoire</Entry>
   <Entry Path="OneStoryProjectEditor.SayMoreImportForm.buttonImport.Text">&amp;Importer</Entry>
-  <Entry Path="OneStoryProjectEditor.SayMoreImportForm.groupBoxTranslation.Text">&amp;Champs de traduction</Entry>
-  <Entry Path="OneStoryProjectEditor.SayMoreImportForm.radioButtonVernacularTranslation.Text">&amp;Langue de l'histoire</Entry>
-  <Entry Path="OneStoryProjectEditor.SayMoreImportForm.radioButtonNationalBtTranslation.Text">RT en langue &amp;régionale</Entry>
-  <Entry Path="OneStoryProjectEditor.SayMoreImportForm.radioButtonInternationalBtTranslation.Text">RT en &amp;français</Entry>
-  <Entry Path="OneStoryProjectEditor.SayMoreImportForm.radioButtonFreeTrTranslation.Text">Traduction &amp;libre</Entry>
-  <Entry Path="OneStoryProjectEditor.SayMoreImportForm.groupBoxTranscription.Text">Champs de &amp;translittération</Entry>
-  <Entry Path="OneStoryProjectEditor.SayMoreImportForm.radioButtonVernacularTranscription.Text">Lange de l'&amp;histoire</Entry>
-  <Entry Path="OneStoryProjectEditor.SayMoreImportForm.radioButtonNationalBtTranscription.Text">RT en langue &amp;régionale</Entry>
-  <Entry Path="OneStoryProjectEditor.SayMoreImportForm.radioButtonInternationalBtTranscription.Text">RT en &amp;français</Entry>
-  <Entry Path="OneStoryProjectEditor.SayMoreImportForm.radioButtonFreeTrTranscription.Text">Traduction &amp;libre</Entry>
   <Entry Path="&quot;Re: ConNote:&quot;">Re : ConNote :</Entry>
   <Entry Path="&quot;You have to check one or more of the boxes on the left first&quot;">Il faut cocher une ou plusieurs case à gauche d'abord</Entry>
   <Entry Path="&quot;Sticky:&quot;">Note collante :</Entry>

@@ -146,7 +146,10 @@ namespace OneStoryProjectEditor
             this.storyUseAdaptItToolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.storySynchronizeSharedAdaptItProjectsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
+            this.storyImportFromExternalMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.storyImportFromSayMore = new System.Windows.Forms.ToolStripMenuItem();
+            this.storyImportFromElanMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.storyImportFromFlexTextMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
             this.storyCopyToAnotherProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.storyCopyFromAnotherProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -1120,7 +1123,7 @@ namespace OneStoryProjectEditor
             this.toolStripSeparator14,
             this.storyUseAdaptItForBackTranslationMenu,
             this.toolStripSeparator17,
-            this.storyImportFromSayMore,
+            this.storyImportFromExternalMenu,
             this.toolStripSeparator19,
             this.storyCopyToAnotherProjectMenu,
             this.storyCopyFromAnotherProjectMenu,
@@ -1231,6 +1234,17 @@ namespace OneStoryProjectEditor
             this.toolStripSeparator17.Name = "toolStripSeparator17";
             this.toolStripSeparator17.Size = new System.Drawing.Size(242, 6);
             // 
+            // storyImportFromExternalMenu
+            // 
+            this.storyImportFromExternalMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.storyImportFromSayMore,
+            this.storyImportFromElanMenu,
+            this.storyImportFromFlexTextMenu});
+            this.storyImportFromExternalMenu.Name = "storyImportFromExternalMenu";
+            this.storyImportFromExternalMenu.Size = new System.Drawing.Size(245, 22);
+            this.storyImportFromExternalMenu.Text = "&Import from external program";
+            this.storyImportFromExternalMenu.ToolTipText = "Import a transcribed (and back-translated) story from SayMore, ELAN, or FLEx";
+            // 
             // storyImportFromSayMore
             // 
             this.storyImportFromSayMore.Name = "storyImportFromSayMore";
@@ -1238,6 +1252,22 @@ namespace OneStoryProjectEditor
             this.storyImportFromSayMore.Text = "Import from &SayMore";
             this.storyImportFromSayMore.ToolTipText = "Click to import a transcribed story from a SayMore event";
             this.storyImportFromSayMore.Click += new System.EventHandler(this.StoryImportFromSayMoreClick);
+            // 
+            // storyImportFromElanMenu
+            // 
+            this.storyImportFromElanMenu.Name = "storyImportFromElanMenu";
+            this.storyImportFromElanMenu.Size = new System.Drawing.Size(245, 22);
+            this.storyImportFromElanMenu.Text = "Import from &ELAN file (*.eaf)...";
+            this.storyImportFromElanMenu.ToolTipText = "Click to import a transcribed story from an ELAN annotation file (*.eaf)";
+            this.storyImportFromElanMenu.Click += new System.EventHandler(this.StoryImportFromElanClick);
+            // 
+            // storyImportFromFlexTextMenu
+            // 
+            this.storyImportFromFlexTextMenu.Name = "storyImportFromFlexTextMenu";
+            this.storyImportFromFlexTextMenu.Size = new System.Drawing.Size(245, 22);
+            this.storyImportFromFlexTextMenu.Text = "Import from &FLEx interlinear text (*.flextext)...";
+            this.storyImportFromFlexTextMenu.ToolTipText = "Click to import a transcribed story from a FLEx (or FlexText Editor) interlinear text file (*.flextext)";
+            this.storyImportFromFlexTextMenu.Click += new System.EventHandler(this.StoryImportFromFlexTextClick);
             // 
             // toolStripSeparator19
             // 
@@ -2219,7 +2249,10 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem advancedConsultantNotesToCoachNotesPane;
         private ToolStripMenuItem advancedReassignNotesToProperMember;
         private ToolStripSeparator toolStripSeparator17;
+        private ToolStripMenuItem storyImportFromExternalMenu;
         private ToolStripMenuItem storyImportFromSayMore;
+        private ToolStripMenuItem storyImportFromElanMenu;
+        private ToolStripMenuItem storyImportFromFlexTextMenu;
         private Button buttonMoveToNextLine;
         private Button buttonMoveToPrevLine;
         internal ToolStripMenuItem storyRealignStoryLinesMenu;

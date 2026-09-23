@@ -1191,19 +1191,10 @@
   <Entry Path="OneStoryProjectEditor.TextPaster.checkBoxPause.ToolTip">Haga clic (o presiona Alt+P) para pausar el proceso de pegar (e.g. si quiere mover elementos sin que un 'clic' indique  pegar algo)</Entry>
   <Entry Path="&quot;CoachNote&quot;">NotasdelEntrenador</Entry>
   <Entry Path="OneStoryProjectEditor.SayMoreImportForm.buttonCancel.Text">Cerrar</Entry>
-  <Entry Path="OneStoryProjectEditor.SayMoreImportForm.radioButtonInternationalBtTranslation.Text">RT al español</Entry>
-  <Entry Path="OneStoryProjectEditor.SayMoreImportForm.radioButtonInternationalBtTranscription.Text">RT al español</Entry>
-  <Entry Path="OneStoryProjectEditor.SayMoreImportForm.radioButtonFreeTrTranscription.Text">Traducción libre</Entry>
-  <Entry Path="OneStoryProjectEditor.SayMoreImportForm.radioButtonFreeTrTranslation.Text">Traducción libre</Entry>
   <Entry Path="OneStoryProjectEditor.SayMoreImportForm.buttonImport.Text">Importar</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.advancedImportHelper.Text">Importar Ayudas (pegador de text)</Entry>
-  <Entry Path="OneStoryProjectEditor.SayMoreImportForm.radioButtonNationalBtTranslation.Text">lRetro-traduccion a lengua nacional</Entry>
-  <Entry Path="OneStoryProjectEditor.SayMoreImportForm.radioButtonNationalBtTranscription.Text">Retro-traduccion a lengua nacional</Entry>
   <Entry Path="OneStoryProjectEditor.SayMoreImportForm.radioButtonNewStory.Text">Nueva historia</Entry>
   <Entry Path="OneStoryProjectEditor.SayMoreImportForm.radioButtonAsRetelling.Text">Recuento</Entry>
-  <Entry Path="OneStoryProjectEditor.SayMoreImportForm.radioButtonVernacularTranscription.Text">Idioma del proyecto</Entry>
-  <Entry Path="OneStoryProjectEditor.SayMoreImportForm.radioButtonVernacularTranslation.Text">Idioma del proyecto</Entry>
-  <Entry Path="OneStoryProjectEditor.SayMoreImportForm.groupBoxTranscription.Text">Campo de transcripción</Entry>
   <Entry Path="&quot;Add Sticky Note&quot;">Agragar nota permanente (sticky)</Entry>
   <Entry Path="OneStoryProjectEditor.SayMoreImportForm.tabPageFieldMatching.Text">Seleccionar campos</Entry>
   <Entry Path="&quot;Click here to browse for your Dropbox folder&quot;">Haga clic aquí para buscar su folder Dropbox</Entry>
@@ -1300,7 +1291,6 @@
   <Entry Path="OneStoryProjectEditor.StateTransitionHistoryGraphForm.StateTransitionHistoryGraphForm.Text">Tiempo en este turno/estado</Entry>
   <Entry Path="OneStoryProjectEditor.SayMoreImportForm.ColumnTitle.HeaderText">Titulo</Entry>
   <Entry Path="OneStoryProjectEditor.StateTransitionHistoryGraphForm.chartTurnTiming.Text">Tiempo en este turno/estado</Entry>
-  <Entry Path="OneStoryProjectEditor.SayMoreImportForm.groupBoxTranslation.Text">Campo de traducción</Entry>
   <Entry Path="&quot;Unable to find any transcription or back-translation data in the .eaf file! Has the event been transcribed and/or back-translated yet?&quot;">No se ha podido encontrar transcripciones o retro-traducciones en el archivo .eaf! El evento ha sido transcrito y/o retro-traducido? </Entry>
   <Entry Path="&quot;Unable to find the transcription file (the file with the .eaf extension)! Was it just deleted?&quot;">No se ha podido encontrar el archivo de transcripción (el archivo con extensión .eaf)! Fue borrado?</Entry>
   <Entry Path="OneStoryProjectEditor.StoryEditor.advancedUseWordBreaks.Text">Utilice la division de palabras automatica cuando esta gloseando</Entry>

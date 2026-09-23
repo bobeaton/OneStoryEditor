@@ -45,37 +45,19 @@
             this.radioButtonAsRetelling = new System.Windows.Forms.RadioButton();
             this.radioButtonNewStory = new System.Windows.Forms.RadioButton();
             this.buttonImport = new System.Windows.Forms.Button();
-            this.groupBoxTranslation = new System.Windows.Forms.GroupBox();
-            this.flowLayoutPanelTranslation = new System.Windows.Forms.FlowLayoutPanel();
-            this.radioButtonVernacularTranslation = new System.Windows.Forms.RadioButton();
-            this.radioButtonNationalBtTranslation = new System.Windows.Forms.RadioButton();
-            this.radioButtonInternationalBtTranslation = new System.Windows.Forms.RadioButton();
-            this.radioButtonFreeTrTranslation = new System.Windows.Forms.RadioButton();
-            this.groupBoxTranscription = new System.Windows.Forms.GroupBox();
-            this.flowLayoutPanelTranscription = new System.Windows.Forms.FlowLayoutPanel();
-            this.radioButtonVernacularTranscription = new System.Windows.Forms.RadioButton();
-            this.radioButtonNationalBtTranscription = new System.Windows.Forms.RadioButton();
-            this.radioButtonInternationalBtTranscription = new System.Windows.Forms.RadioButton();
-            this.radioButtonFreeTrTranscription = new System.Windows.Forms.RadioButton();
-            this.groupBoxGloss = new System.Windows.Forms.GroupBox();
-            this.flowLayoutPanelGloss = new System.Windows.Forms.FlowLayoutPanel();
-            this.radioButtonVernacularGloss = new System.Windows.Forms.RadioButton();
-            this.radioButtonNationalBtGloss = new System.Windows.Forms.RadioButton();
-            this.radioButtonInternationalBtGloss = new System.Windows.Forms.RadioButton();
-            this.radioButtonFreeTrGloss = new System.Windows.Forms.RadioButton();
+            this.dataGridViewTiers = new System.Windows.Forms.DataGridView();
+            this.ColumnTierName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnTierLanguage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnTierSample = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnTierField = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.buttonCancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEvents)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTiers)).BeginInit();
             this.tabControlImport.SuspendLayout();
             this.tabPageProjects.SuspendLayout();
             this.tabPageEvents.SuspendLayout();
             this.tabPageFieldMatching.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.groupBoxTranslation.SuspendLayout();
-            this.flowLayoutPanelTranslation.SuspendLayout();
-            this.groupBoxTranscription.SuspendLayout();
-            this.flowLayoutPanelTranscription.SuspendLayout();
-            this.groupBoxGloss.SuspendLayout();
-            this.flowLayoutPanelGloss.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridViewEvents
@@ -188,10 +170,8 @@
             // tabPageFieldMatching
             // 
             this.tabPageFieldMatching.Controls.Add(this.groupBox1);
+            this.tabPageFieldMatching.Controls.Add(this.dataGridViewTiers);
             this.tabPageFieldMatching.Controls.Add(this.buttonImport);
-            this.tabPageFieldMatching.Controls.Add(this.groupBoxTranslation);
-            this.tabPageFieldMatching.Controls.Add(this.groupBoxTranscription);
-            this.tabPageFieldMatching.Controls.Add(this.groupBoxGloss);
             this.tabPageFieldMatching.Location = new System.Drawing.Point(4, 22);
             this.tabPageFieldMatching.Name = "tabPageFieldMatching";
             this.tabPageFieldMatching.Padding = new System.Windows.Forms.Padding(3);
@@ -222,6 +202,7 @@
             this.radioButtonAsAnswers.TabStop = true;
             this.radioButtonAsAnswers.Text = "&Answers to Test Questions";
             this.radioButtonAsAnswers.UseVisualStyleBackColor = true;
+            this.radioButtonAsAnswers.CheckedChanged += new System.EventHandler(this.RadioButtonNewStoryCheckedChanged);
             // 
             // radioButtonAsRetelling
             // 
@@ -233,6 +214,7 @@
             this.radioButtonAsRetelling.TabStop = true;
             this.radioButtonAsRetelling.Text = "&Retelling";
             this.radioButtonAsRetelling.UseVisualStyleBackColor = true;
+            this.radioButtonAsRetelling.CheckedChanged += new System.EventHandler(this.RadioButtonNewStoryCheckedChanged);
             // 
             // radioButtonNewStory
             // 
@@ -258,216 +240,60 @@
             this.buttonImport.UseVisualStyleBackColor = true;
             this.buttonImport.Click += new System.EventHandler(this.ButtonImportClick);
             // 
-            // groupBoxTranslation
+            // dataGridViewTiers
             // 
-            this.groupBoxTranslation.Controls.Add(this.flowLayoutPanelTranslation);
-            this.groupBoxTranslation.Location = new System.Drawing.Point(13, 141);
-            this.groupBoxTranslation.Name = "groupBoxTranslation";
-            this.groupBoxTranslation.Size = new System.Drawing.Size(688, 54);
-            this.groupBoxTranslation.TabIndex = 2;
-            this.groupBoxTranslation.TabStop = false;
-            this.groupBoxTranslation.Text = "Translation &Field";
+            this.dataGridViewTiers.AllowUserToAddRows = false;
+            this.dataGridViewTiers.AllowUserToDeleteRows = false;
+            this.dataGridViewTiers.AllowUserToResizeRows = false;
+            this.dataGridViewTiers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewTiers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewTiers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ColumnTierName,
+            this.ColumnTierLanguage,
+            this.ColumnTierSample,
+            this.ColumnTierField});
+            this.dataGridViewTiers.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            this.dataGridViewTiers.Location = new System.Drawing.Point(13, 72);
+            this.dataGridViewTiers.MultiSelect = false;
+            this.dataGridViewTiers.Name = "dataGridViewTiers";
+            this.dataGridViewTiers.RowHeadersVisible = false;
+            this.dataGridViewTiers.RowTemplate.Height = 24;
+            this.dataGridViewTiers.Size = new System.Drawing.Size(679, 190);
+            this.dataGridViewTiers.TabIndex = 1;
+            this.dataGridViewTiers.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.DataGridViewTiersDataError);
             // 
-            // flowLayoutPanelTranslation
+            // ColumnTierName
             // 
-            this.flowLayoutPanelTranslation.Controls.Add(this.radioButtonVernacularTranslation);
-            this.flowLayoutPanelTranslation.Controls.Add(this.radioButtonNationalBtTranslation);
-            this.flowLayoutPanelTranslation.Controls.Add(this.radioButtonInternationalBtTranslation);
-            this.flowLayoutPanelTranslation.Controls.Add(this.radioButtonFreeTrTranslation);
-            this.flowLayoutPanelTranslation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanelTranslation.Location = new System.Drawing.Point(3, 16);
-            this.flowLayoutPanelTranslation.Name = "flowLayoutPanelTranslation";
-            this.flowLayoutPanelTranslation.Size = new System.Drawing.Size(682, 35);
-            this.flowLayoutPanelTranslation.TabIndex = 0;
+            this.ColumnTierName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ColumnTierName.HeaderText = "Tier";
+            this.ColumnTierName.Name = "ColumnTierName";
+            this.ColumnTierName.ReadOnly = true;
+            this.ColumnTierName.ToolTipText = "The tier (or line) of data found in the file being imported";
             // 
-            // radioButtonVernacularTranslation
+            // ColumnTierLanguage
             // 
-            this.radioButtonVernacularTranslation.AutoSize = true;
-            this.radioButtonVernacularTranslation.Location = new System.Drawing.Point(3, 3);
-            this.radioButtonVernacularTranslation.Name = "radioButtonVernacularTranslation";
-            this.radioButtonVernacularTranslation.Size = new System.Drawing.Size(100, 17);
-            this.radioButtonVernacularTranslation.TabIndex = 0;
-            this.radioButtonVernacularTranslation.TabStop = true;
-            this.radioButtonVernacularTranslation.Text = "&Story Language";
-            this.radioButtonVernacularTranslation.UseVisualStyleBackColor = true;
-            this.radioButtonVernacularTranslation.Visible = false;
+            this.ColumnTierLanguage.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ColumnTierLanguage.HeaderText = "Language";
+            this.ColumnTierLanguage.Name = "ColumnTierLanguage";
+            this.ColumnTierLanguage.ReadOnly = true;
             // 
-            // radioButtonNationalBtTranslation
+            // ColumnTierSample
             // 
-            this.radioButtonNationalBtTranslation.AutoSize = true;
-            this.radioButtonNationalBtTranslation.Location = new System.Drawing.Point(109, 3);
-            this.radioButtonNationalBtTranslation.Name = "radioButtonNationalBtTranslation";
-            this.radioButtonNationalBtTranslation.Size = new System.Drawing.Size(175, 17);
-            this.radioButtonNationalBtTranslation.TabIndex = 1;
-            this.radioButtonNationalBtTranslation.TabStop = true;
-            this.radioButtonNationalBtTranslation.Text = "&National/Regional language BT";
-            this.radioButtonNationalBtTranslation.UseVisualStyleBackColor = true;
-            this.radioButtonNationalBtTranslation.Visible = false;
+            this.ColumnTierSample.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnTierSample.HeaderText = "First line";
+            this.ColumnTierSample.Name = "ColumnTierSample";
+            this.ColumnTierSample.ReadOnly = true;
             // 
-            // radioButtonInternationalBtTranslation
+            // ColumnTierField
             // 
-            this.radioButtonInternationalBtTranslation.AutoSize = true;
-            this.radioButtonInternationalBtTranslation.Location = new System.Drawing.Point(290, 3);
-            this.radioButtonInternationalBtTranslation.Name = "radioButtonInternationalBtTranslation";
-            this.radioButtonInternationalBtTranslation.Size = new System.Drawing.Size(123, 17);
-            this.radioButtonInternationalBtTranslation.TabIndex = 2;
-            this.radioButtonInternationalBtTranslation.TabStop = true;
-            this.radioButtonInternationalBtTranslation.Text = "&English language BT";
-            this.radioButtonInternationalBtTranslation.UseVisualStyleBackColor = true;
-            this.radioButtonInternationalBtTranslation.Visible = false;
-            // 
-            // radioButtonFreeTrTranslation
-            // 
-            this.radioButtonFreeTrTranslation.AutoSize = true;
-            this.radioButtonFreeTrTranslation.Location = new System.Drawing.Point(419, 3);
-            this.radioButtonFreeTrTranslation.Name = "radioButtonFreeTrTranslation";
-            this.radioButtonFreeTrTranslation.Size = new System.Drawing.Size(101, 17);
-            this.radioButtonFreeTrTranslation.TabIndex = 3;
-            this.radioButtonFreeTrTranslation.TabStop = true;
-            this.radioButtonFreeTrTranslation.Text = "&Free Translation";
-            this.radioButtonFreeTrTranslation.UseVisualStyleBackColor = true;
-            this.radioButtonFreeTrTranslation.Visible = false;
-            //
-            // groupBoxGloss
-            //
-            this.groupBoxGloss.Controls.Add(this.flowLayoutPanelGloss);
-            this.groupBoxGloss.Location = new System.Drawing.Point(13, 201);
-            this.groupBoxGloss.Name = "groupBoxGloss";
-            this.groupBoxGloss.Size = new System.Drawing.Size(688, 54);
-            this.groupBoxGloss.TabIndex = 3;
-            this.groupBoxGloss.TabStop = false;
-            this.groupBoxGloss.Text = "&Gloss Tier Field (optional)";
-            this.groupBoxGloss.Visible = false;
-            //
-            // flowLayoutPanelGloss
-            //
-            this.flowLayoutPanelGloss.Controls.Add(this.radioButtonVernacularGloss);
-            this.flowLayoutPanelGloss.Controls.Add(this.radioButtonNationalBtGloss);
-            this.flowLayoutPanelGloss.Controls.Add(this.radioButtonInternationalBtGloss);
-            this.flowLayoutPanelGloss.Controls.Add(this.radioButtonFreeTrGloss);
-            this.flowLayoutPanelGloss.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanelGloss.Location = new System.Drawing.Point(3, 16);
-            this.flowLayoutPanelGloss.Name = "flowLayoutPanelGloss";
-            this.flowLayoutPanelGloss.Size = new System.Drawing.Size(682, 35);
-            this.flowLayoutPanelGloss.TabIndex = 0;
-            //
-            // radioButtonVernacularGloss
-            //
-            this.radioButtonVernacularGloss.AutoSize = true;
-            this.radioButtonVernacularGloss.Location = new System.Drawing.Point(3, 3);
-            this.radioButtonVernacularGloss.Name = "radioButtonVernacularGloss";
-            this.radioButtonVernacularGloss.Size = new System.Drawing.Size(100, 17);
-            this.radioButtonVernacularGloss.TabIndex = 0;
-            this.radioButtonVernacularGloss.TabStop = true;
-            this.radioButtonVernacularGloss.Text = "Story Language";
-            this.radioButtonVernacularGloss.UseVisualStyleBackColor = true;
-            this.radioButtonVernacularGloss.Visible = false;
-            //
-            // radioButtonNationalBtGloss
-            //
-            this.radioButtonNationalBtGloss.AutoSize = true;
-            this.radioButtonNationalBtGloss.Location = new System.Drawing.Point(109, 3);
-            this.radioButtonNationalBtGloss.Name = "radioButtonNationalBtGloss";
-            this.radioButtonNationalBtGloss.Size = new System.Drawing.Size(175, 17);
-            this.radioButtonNationalBtGloss.TabIndex = 1;
-            this.radioButtonNationalBtGloss.TabStop = true;
-            this.radioButtonNationalBtGloss.Text = "National/Regional language BT";
-            this.radioButtonNationalBtGloss.UseVisualStyleBackColor = true;
-            this.radioButtonNationalBtGloss.Visible = false;
-            //
-            // radioButtonInternationalBtGloss
-            //
-            this.radioButtonInternationalBtGloss.AutoSize = true;
-            this.radioButtonInternationalBtGloss.Location = new System.Drawing.Point(290, 3);
-            this.radioButtonInternationalBtGloss.Name = "radioButtonInternationalBtGloss";
-            this.radioButtonInternationalBtGloss.Size = new System.Drawing.Size(123, 17);
-            this.radioButtonInternationalBtGloss.TabIndex = 2;
-            this.radioButtonInternationalBtGloss.TabStop = true;
-            this.radioButtonInternationalBtGloss.Text = "English language BT";
-            this.radioButtonInternationalBtGloss.UseVisualStyleBackColor = true;
-            this.radioButtonInternationalBtGloss.Visible = false;
-            //
-            // radioButtonFreeTrGloss
-            //
-            this.radioButtonFreeTrGloss.AutoSize = true;
-            this.radioButtonFreeTrGloss.Location = new System.Drawing.Point(419, 3);
-            this.radioButtonFreeTrGloss.Name = "radioButtonFreeTrGloss";
-            this.radioButtonFreeTrGloss.Size = new System.Drawing.Size(101, 17);
-            this.radioButtonFreeTrGloss.TabIndex = 3;
-            this.radioButtonFreeTrGloss.TabStop = true;
-            this.radioButtonFreeTrGloss.Text = "Free Translation";
-            this.radioButtonFreeTrGloss.UseVisualStyleBackColor = true;
-            this.radioButtonFreeTrGloss.Visible = false;
-            //
-            // groupBoxTranscription
-            // 
-            this.groupBoxTranscription.Controls.Add(this.flowLayoutPanelTranscription);
-            this.groupBoxTranscription.Location = new System.Drawing.Point(10, 72);
-            this.groupBoxTranscription.Name = "groupBoxTranscription";
-            this.groupBoxTranscription.Size = new System.Drawing.Size(688, 54);
-            this.groupBoxTranscription.TabIndex = 1;
-            this.groupBoxTranscription.TabStop = false;
-            this.groupBoxTranscription.Text = "&Transcription Field";
-            // 
-            // flowLayoutPanelTranscription
-            // 
-            this.flowLayoutPanelTranscription.Controls.Add(this.radioButtonVernacularTranscription);
-            this.flowLayoutPanelTranscription.Controls.Add(this.radioButtonNationalBtTranscription);
-            this.flowLayoutPanelTranscription.Controls.Add(this.radioButtonInternationalBtTranscription);
-            this.flowLayoutPanelTranscription.Controls.Add(this.radioButtonFreeTrTranscription);
-            this.flowLayoutPanelTranscription.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanelTranscription.Location = new System.Drawing.Point(3, 16);
-            this.flowLayoutPanelTranscription.Name = "flowLayoutPanelTranscription";
-            this.flowLayoutPanelTranscription.Size = new System.Drawing.Size(682, 35);
-            this.flowLayoutPanelTranscription.TabIndex = 0;
-            // 
-            // radioButtonVernacularTranscription
-            // 
-            this.radioButtonVernacularTranscription.AutoSize = true;
-            this.radioButtonVernacularTranscription.Location = new System.Drawing.Point(3, 3);
-            this.radioButtonVernacularTranscription.Name = "radioButtonVernacularTranscription";
-            this.radioButtonVernacularTranscription.Size = new System.Drawing.Size(100, 17);
-            this.radioButtonVernacularTranscription.TabIndex = 0;
-            this.radioButtonVernacularTranscription.TabStop = true;
-            this.radioButtonVernacularTranscription.Text = "&Story Language";
-            this.radioButtonVernacularTranscription.UseVisualStyleBackColor = true;
-            this.radioButtonVernacularTranscription.Visible = false;
-            // 
-            // radioButtonNationalBtTranscription
-            // 
-            this.radioButtonNationalBtTranscription.AutoSize = true;
-            this.radioButtonNationalBtTranscription.Location = new System.Drawing.Point(109, 3);
-            this.radioButtonNationalBtTranscription.Name = "radioButtonNationalBtTranscription";
-            this.radioButtonNationalBtTranscription.Size = new System.Drawing.Size(175, 17);
-            this.radioButtonNationalBtTranscription.TabIndex = 1;
-            this.radioButtonNationalBtTranscription.TabStop = true;
-            this.radioButtonNationalBtTranscription.Text = "&National/Regional language BT";
-            this.radioButtonNationalBtTranscription.UseVisualStyleBackColor = true;
-            this.radioButtonNationalBtTranscription.Visible = false;
-            // 
-            // radioButtonInternationalBtTranscription
-            // 
-            this.radioButtonInternationalBtTranscription.AutoSize = true;
-            this.radioButtonInternationalBtTranscription.Location = new System.Drawing.Point(290, 3);
-            this.radioButtonInternationalBtTranscription.Name = "radioButtonInternationalBtTranscription";
-            this.radioButtonInternationalBtTranscription.Size = new System.Drawing.Size(123, 17);
-            this.radioButtonInternationalBtTranscription.TabIndex = 2;
-            this.radioButtonInternationalBtTranscription.TabStop = true;
-            this.radioButtonInternationalBtTranscription.Text = "&English language BT";
-            this.radioButtonInternationalBtTranscription.UseVisualStyleBackColor = true;
-            this.radioButtonInternationalBtTranscription.Visible = false;
-            // 
-            // radioButtonFreeTrTranscription
-            // 
-            this.radioButtonFreeTrTranscription.AutoSize = true;
-            this.radioButtonFreeTrTranscription.Location = new System.Drawing.Point(419, 3);
-            this.radioButtonFreeTrTranscription.Name = "radioButtonFreeTrTranscription";
-            this.radioButtonFreeTrTranscription.Size = new System.Drawing.Size(101, 17);
-            this.radioButtonFreeTrTranscription.TabIndex = 3;
-            this.radioButtonFreeTrTranscription.TabStop = true;
-            this.radioButtonFreeTrTranscription.Text = "&Free Translation";
-            this.radioButtonFreeTrTranscription.UseVisualStyleBackColor = true;
-            this.radioButtonFreeTrTranscription.Visible = false;
+            this.ColumnTierField.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ColumnTierField.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.ColumnTierField.HeaderText = "Import into";
+            this.ColumnTierField.MinimumWidth = 200;
+            this.ColumnTierField.Name = "ColumnTierField";
+            this.ColumnTierField.ToolTipText = "Choose which field of the story lines this tier should be imported into";
             // 
             // buttonCancel
             // 
@@ -494,21 +320,13 @@
             this.Name = "SayMoreImportForm";
             this.Text = "Import from SayMore";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEvents)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTiers)).EndInit();
             this.tabControlImport.ResumeLayout(false);
             this.tabPageProjects.ResumeLayout(false);
             this.tabPageEvents.ResumeLayout(false);
             this.tabPageFieldMatching.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBoxTranslation.ResumeLayout(false);
-            this.flowLayoutPanelTranslation.ResumeLayout(false);
-            this.flowLayoutPanelTranslation.PerformLayout();
-            this.groupBoxTranscription.ResumeLayout(false);
-            this.flowLayoutPanelTranscription.ResumeLayout(false);
-            this.flowLayoutPanelTranscription.PerformLayout();
-            this.groupBoxGloss.ResumeLayout(false);
-            this.flowLayoutPanelGloss.ResumeLayout(false);
-            this.flowLayoutPanelGloss.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -527,25 +345,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnParticipant;
         private System.Windows.Forms.TabPage tabPageFieldMatching;
-        private System.Windows.Forms.GroupBox groupBoxTranscription;
-        private System.Windows.Forms.GroupBox groupBoxTranslation;
         private System.Windows.Forms.Button buttonImport;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelTranscription;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelTranslation;
-        private System.Windows.Forms.RadioButton radioButtonVernacularTranscription;
-        private System.Windows.Forms.RadioButton radioButtonVernacularTranslation;
-        private System.Windows.Forms.RadioButton radioButtonNationalBtTranscription;
-        private System.Windows.Forms.RadioButton radioButtonNationalBtTranslation;
-        private System.Windows.Forms.RadioButton radioButtonInternationalBtTranscription;
-        private System.Windows.Forms.RadioButton radioButtonInternationalBtTranslation;
-        private System.Windows.Forms.RadioButton radioButtonFreeTrTranscription;
-        private System.Windows.Forms.RadioButton radioButtonFreeTrTranslation;
-        private System.Windows.Forms.GroupBox groupBoxGloss;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelGloss;
-        private System.Windows.Forms.RadioButton radioButtonVernacularGloss;
-        private System.Windows.Forms.RadioButton radioButtonNationalBtGloss;
-        private System.Windows.Forms.RadioButton radioButtonInternationalBtGloss;
-        private System.Windows.Forms.RadioButton radioButtonFreeTrGloss;
+        private System.Windows.Forms.DataGridView dataGridViewTiers;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTierName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTierLanguage;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTierSample;
+        private System.Windows.Forms.DataGridViewComboBoxColumn ColumnTierField;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton radioButtonAsRetelling;
         private System.Windows.Forms.RadioButton radioButtonNewStory;

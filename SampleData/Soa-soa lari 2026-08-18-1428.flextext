@@ -1,0 +1,938 @@
+<?xml version="1.0" encoding="utf-8"?>
+<document version="2">
+  <interlinear-text guid="b150fcc0-3592-45ed-8168-8601e00ae3f5">
+    <item type="title" lang="id">Soa-soa lari</item>
+    <paragraphs>
+      <paragraph guid="3d171a20-b031-433f-b68d-c1e63a9d3fac">
+        <phrases>
+          <phrase guid="9c1114ec-7946-413b-98a8-e4270bbfc125" begin-time-offset="0" end-time-offset="2136">
+            <item type="txt" lang="fau">Tanggal dua pulu</item>
+            <item type="segnum" lang="id">1</item>
+            <words>
+              <word guid="915ff61f-f525-4613-9db1-f7e319da97ab">
+                <item type="txt" lang="fau">Tanggal</item>
+                <item type="gls" lang="id">tanggal</item>
+              </word>
+              <word guid="fca8bef7-aaf1-47b1-884c-d428f5eb347b">
+                <item type="txt" lang="fau">dua</item>
+                <item type="gls" lang="id">dua</item>
+              </word>
+              <word guid="1f681cd2-1cbb-4c7b-8f77-deeaf4e39101">
+                <item type="txt" lang="fau">pulu</item>
+                <item type="gls" lang="id">puluh</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">Tanggal dua puluh ( kami dua jalan ke kampung Dairi )</item>
+            <item type="note" lang="id">audio 0:00.000–0:02.136</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="6b97a90b-4388-4824-81f1-428a2c94c1fb">
+        <phrases>
+          <phrase guid="9c1114ec-7946-413b-98a8-e4270bbfc125" begin-time-offset="2136" end-time-offset="4275">
+            <item type="txt" lang="fau">I taha baiba bo dairi dai</item>
+            <item type="segnum" lang="id">2</item>
+            <words>
+              <word guid="6a7f5f1f-58e5-4e50-8a3a-5a235b10cc69">
+                <item type="txt" lang="fau">I</item>
+                <item type="gls" lang="id">kami/kita</item>
+              </word>
+              <word guid="38fd7424-abfd-4d3f-8b24-97f72070c147">
+                <item type="txt" lang="fau">taha</item>
+                <item type="gls" lang="id">dengan</item>
+              </word>
+              <word guid="ddca4233-7391-4968-81e6-4967e56311c0">
+                <item type="txt" lang="fau">baiba</item>
+                <item type="gls" lang="id">baiiba</item>
+              </word>
+              <word guid="50871dd4-425b-4e92-b0f1-7628ec4cea7f">
+                <item type="txt" lang="fau">bo</item>
+                <item type="gls" lang="id">sama</item>
+              </word>
+              <word guid="55a05626-d534-4b0b-af36-264017826683">
+                <item type="txt" lang="fau">dairi</item>
+                <item type="gls" lang="id">dairi</item>
+              </word>
+              <word guid="bc6abbeb-f083-4e40-b367-a5d89f9adde1">
+                <item type="txt" lang="fau">dai</item>
+                <item type="gls" lang="id">jalan</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">kami dua Biaiba jalan ke dairi</item>
+            <item type="note" lang="id">audio 0:02.136–0:04.275</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="6aa8e0e5-c8c7-42b4-8b73-a2ca9af88fa3">
+        <phrases>
+          <phrase guid="b2a67104-433f-4e60-be87-3ec463e7fea6" begin-time-offset="4275" end-time-offset="6239">
+            <item type="txt" lang="fau">Dairi daia</item>
+            <item type="segnum" lang="id">3</item>
+            <words>
+              <word guid="278f7fac-6bb2-490a-ba2e-327b466cb5e1">
+                <item type="txt" lang="fau">Dairi</item>
+                <item type="gls" lang="id">Dairi</item>
+              </word>
+              <word guid="38b6f99d-41f7-4f91-a01a-a58a6241191d">
+                <item type="txt" lang="fau">daia</item>
+                <item type="gls" lang="id">jalan/ke</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">jalan ke dairi lalu</item>
+            <item type="note" lang="id">audio 0:04.275–0:06.239</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="81b22de5-ec75-458e-b961-73e565e905ff">
+        <phrases>
+          <phrase guid="95ec228e-1bc1-42f1-8adf-f1e03bdae037" begin-time-offset="6239" end-time-offset="10502">
+            <item type="txt" lang="fau">Kaita a bo Ehedi eihia te kwa</item>
+            <item type="segnum" lang="id">4</item>
+            <words>
+              <word guid="79a0a2d6-e835-4224-84e1-fc592c8d3f55">
+                <item type="txt" lang="fau">Kaita</item>
+                <item type="gls" lang="id">sosua</item>
+              </word>
+              <word guid="2394f607-0851-4e62-b3e2-240e515166ef">
+                <item type="txt" lang="fau">a</item>
+                <item type="gls" lang="id">saya</item>
+              </word>
+              <word guid="0d37b2f3-b5ef-4396-a008-4e0392687e08">
+                <item type="txt" lang="fau">bo</item>
+                <item type="gls" lang="id">sama</item>
+              </word>
+              <word guid="902a98b4-b929-42ca-b975-5ffeacd3232d">
+                <item type="txt" lang="fau">Ehedi</item>
+                <item type="gls" lang="id">Loba</item>
+              </word>
+              <word guid="8942acf2-38cc-4fe2-860c-7f156b57dc70">
+                <item type="txt" lang="fau">eihia</item>
+                <item type="gls" lang="id">tengah</item>
+              </word>
+              <word guid="c80560ac-cfa2-48be-b75a-ec6222b90511">
+                <item type="txt" lang="fau">te</item>
+                <item type="gls" lang="id">sudah</item>
+              </word>
+              <word guid="6c826558-dd52-42a2-9c86-8f684b38764a">
+                <item type="txt" lang="fau">kwa</item>
+                <item type="gls" lang="id">panah/bunuh</item>
+              </word>
+            </words>
+            <item type="gls" lang="id"> saya yang panah sosua di tengah jalan di situ.</item>
+            <item type="note" lang="id">audio 0:06.239–0:10.502</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="4509a423-2b6c-4966-ab97-a907a73afb4b">
+        <phrases>
+          <phrase guid="95ec228e-1bc1-42f1-8adf-f1e03bdae037" begin-time-offset="10502" end-time-offset="12731">
+            <item type="txt" lang="fau">Ehedi eihiate kwaiate</item>
+            <item type="segnum" lang="id">5</item>
+            <words>
+              <word guid="4ce1a1b2-1746-4afe-9598-093d2734e817">
+                <item type="txt" lang="fau">Ehedi</item>
+                <item type="gls" lang="id">loba/jalan</item>
+              </word>
+              <word guid="1a2b95dc-581e-4c0c-b72e-a3aaa768e24a">
+                <item type="txt" lang="fau">eihiate</item>
+                <item type="gls" lang="id">tengah</item>
+              </word>
+              <word guid="f01afa00-5f10-438f-ada1-045e8ae0e50b">
+                <item type="txt" lang="fau">kwaiate</item>
+                <item type="gls" lang="id">pana/sudah/bunuh</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">Sudah panah dia dii tengah jalan</item>
+            <item type="note" lang="id">audio 0:10.502–0:12.731</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="464ca97a-ee47-4e1b-8da0-701c57b9dcd4">
+        <phrases>
+          <phrase guid="ff497837-cad1-4135-ad17-9aec8f2fd5c1" begin-time-offset="12731" end-time-offset="15566">
+            <item type="txt" lang="fau">Dawi Dawiate</item>
+            <item type="segnum" lang="id">6</item>
+            <words>
+              <word guid="c54602bc-06ba-4801-91ed-41da08eec30a">
+                <item type="txt" lang="fau">Dawi</item>
+                <item type="gls" lang="id">Dawi</item>
+              </word>
+              <word guid="be4374a1-144d-452c-bf40-7dedde69cad2">
+                <item type="txt" lang="fau">Dawiate</item>
+                <item type="gls" lang="id">Dawi/sudah</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">sudah pegang  selesai  pegang </item>
+            <item type="note" lang="id">audio 0:12.731–0:15.566</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="881b2e47-ba85-447e-84e2-e0c873e27618">
+        <phrases>
+          <phrase guid="14ceff09-c955-40bb-88cf-a2e59aeff3f1" begin-time-offset="15566" end-time-offset="18327">
+            <item type="txt" lang="fau">Bo to Feie boba biada</item>
+            <item type="segnum" lang="id">7</item>
+            <words>
+              <word guid="6a2c1417-c833-47b8-85f9-2edb7ac1e9ed">
+                <item type="txt" lang="fau">Bo</item>
+                <item type="gls" lang="id">Dia</item>
+              </word>
+              <word guid="1af6f52c-cefa-4e53-a920-8e2144c55bb8">
+                <item type="txt" lang="fau">to</item>
+                <item type="gls" lang="id">kan</item>
+              </word>
+              <word guid="bd00609f-cf11-465a-a3e6-360738be9500">
+                <item type="txt" lang="fau">Feie</item>
+                <item type="gls" lang="id">salah</item>
+              </word>
+              <word guid="37ab5615-c4c8-41a4-97cd-d5fc3eefa009">
+                <item type="txt" lang="fau">boba</item>
+                <item type="gls" lang="id">toki</item>
+              </word>
+              <word guid="8e3cebf6-8d28-4a71-98dc-b7dff3c45bef">
+                <item type="txt" lang="fau">biada</item>
+                <item type="gls" lang="id">lepas/dia</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">( Baiba ) dianya  ( salah.toki ) baru lepas dia atau kasihkan dia.</item>
+            <item type="note" lang="id">audio 0:15.566–0:18.327</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="92c8b43b-8b69-43ad-8ecf-4e2946d3a804">
+        <phrases>
+          <phrase guid="26cb2845-c2b2-498d-bfc0-9c6c5eb829a3" begin-time-offset="18327" end-time-offset="20781">
+            <item type="txt" lang="fau">Boba biadate</item>
+            <item type="segnum" lang="id">8</item>
+            <words>
+              <word guid="1c4bd0cb-e0b4-4500-9e90-1bcb699bd0b9">
+                <item type="txt" lang="fau">Boba</item>
+                <item type="gls" lang="id">toki</item>
+              </word>
+              <word guid="c3d5792c-a87c-4961-8107-cf885227442d">
+                <item type="txt" lang="fau">biadate</item>
+                <item type="gls" lang="id">lepa/sudah</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">sudah selesai toki baru kasih tinggalkan. </item>
+            <item type="note" lang="id">audio 0:18.327–0:20.781</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="c449dea0-cc8d-409b-a2d9-15d04068d0ef">
+        <phrases>
+          <phrase guid="558c5a27-fa6c-42e2-8543-d4fe6284ff07" begin-time-offset="20781" end-time-offset="23483">
+            <item type="txt" lang="fau">Bobo a tie kasaio de sade</item>
+            <item type="segnum" lang="id">9</item>
+            <words>
+              <word guid="a8149160-2d30-44e9-add0-5c63042d322c">
+                <item type="txt" lang="fau">Bobo</item>
+                <item type="gls" lang="id">dia</item>
+              </word>
+              <word guid="c68c2b2b-65ba-454a-bdf6-eeaf5d1d69ab">
+                <item type="txt" lang="fau">a</item>
+                <item type="gls" lang="id">saya</item>
+              </word>
+              <word guid="beaa3480-e086-4765-8c2b-e687952a14db">
+                <item type="txt" lang="fau">tie</item>
+                <item type="gls" lang="id">suruh</item>
+              </word>
+              <word guid="2fc56cc4-2ea4-43d7-97cf-0dbd5e2e0c29">
+                <item type="txt" lang="fau">kasaio</item>
+                <item type="gls" lang="id">isi</item>
+              </word>
+              <word guid="489013c9-be82-4a1c-bbb4-ca2427f0815e">
+                <item type="txt" lang="fau">de</item>
+                <item type="gls" lang="id">dia</item>
+              </word>
+              <word guid="c18d7292-0df0-4bd2-910d-3fc9bb061621">
+                <item type="txt" lang="fau">sade</item>
+                <item type="gls" lang="id">kalau/lalu</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">( baiba ) dia yang suruh saya isi  ( sosua )  isi di dalam (  nokenya  )</item>
+            <item type="note" lang="id">audio 0:20.781–0:23.483</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="4ea92646-0f5a-4967-98c6-a8107ada1b9d">
+        <phrases>
+          <phrase guid="265650f8-e4ac-45b2-bc8d-72d6cbb9b1c8" begin-time-offset="23483" end-time-offset="25892">
+            <item type="txt" lang="fau">Di bapa dedi a bo kasaio tuwodi</item>
+            <item type="segnum" lang="id">10</item>
+            <words>
+              <word guid="11f8b8bd-07fe-4606-86c2-7bd05d55c879">
+                <item type="txt" lang="fau">Di</item>
+                <item type="gls" lang="id">kamu</item>
+              </word>
+              <word guid="4e944ef2-74be-44d6-ab90-c2a8e8b33945">
+                <item type="txt" lang="fau">bapa</item>
+                <item type="gls" lang="id">bapak</item>
+              </word>
+              <word guid="464c247d-385e-477b-beea-a40c2635fbf1">
+                <item type="txt" lang="fau">dedi</item>
+                <item type="gls" lang="id">jadi/sudah</item>
+              </word>
+              <word guid="a3657744-deb8-4828-962e-ca469a6a677e">
+                <item type="txt" lang="fau">a</item>
+                <item type="gls" lang="id">saya</item>
+              </word>
+              <word guid="7a60d1bd-f269-433a-bd57-84c72e129dfb">
+                <item type="txt" lang="fau">bo</item>
+                <item type="gls" lang="id">sama</item>
+              </word>
+              <word guid="e7417e4b-2754-4784-ab66-4fd5611e723e">
+                <item type="txt" lang="fau">kasaio</item>
+                <item type="gls" lang="id">isi</item>
+              </word>
+              <word guid="8359d322-250b-4e66-95f3-399883ae8e1d">
+                <item type="txt" lang="fau">tuwodi</item>
+                <item type="gls" lang="id">nanti</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">Ia ko sudah jadi bapk ton nanti  saya  isi di (  noke )   </item>
+            <item type="note" lang="id">audio 0:23.483–0:25.892</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="f9b91bdc-85fe-453f-af45-80ac7613f40a">
+        <phrases>
+          <phrase guid="bbc63205-1c95-4966-868c-6b766e0196f0" begin-time-offset="25892" end-time-offset="27268">
+            <item type="txt" lang="fau">Kasai</item>
+            <item type="segnum" lang="id">11</item>
+            <words>
+              <word guid="7a15688a-2c64-470c-8cb3-88653d8d64e0">
+                <item type="txt" lang="fau">Kasai</item>
+                <item type="gls" lang="id">kasia</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">Sudah isi</item>
+            <item type="note" lang="id">audio 0:25.892–0:27.268</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="00823088-ad1a-4c37-90dc-f43aa40d5bde">
+        <phrases>
+          <phrase guid="bcd8f24e-4303-4369-80ff-b42b3f736816" begin-time-offset="27268" end-time-offset="29020">
+            <item type="txt" lang="fau">jaia bo</item>
+            <item type="segnum" lang="id">12</item>
+            <words>
+              <word guid="e87c92f5-0963-40e7-8759-ab879eb36590">
+                <item type="txt" lang="fau">jaia</item>
+                <item type="gls" lang="id">jalan</item>
+              </word>
+              <word guid="d4486c90-b19b-4da9-a313-9a5bbc89886d">
+                <item type="txt" lang="fau">bo</item>
+                <item type="gls" lang="id">coba/mulai</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">coba mau mulai jalan  baru</item>
+            <item type="note" lang="id">audio 0:27.268–0:29.020</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="6b99fe63-c0d6-4765-b201-05dacb6a5fc6">
+        <phrases>
+          <phrase guid="940c6cef-62c4-44b4-9b8f-5961e5c9ae32" begin-time-offset="29020" end-time-offset="31350">
+            <item type="txt" lang="fau">a kaie</item>
+            <item type="segnum" lang="id">13</item>
+            <words>
+              <word guid="d2f2e432-cd05-4d84-b0bc-bf382e3f149f">
+                <item type="txt" lang="fau">a</item>
+                <item type="gls" lang="id">saya</item>
+              </word>
+              <word guid="fbbab06b-9715-4899-a782-c500dd29b33d">
+                <item type="txt" lang="fau">kaie</item>
+                <item type="gls" lang="id">kain/mulai</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">saya punya kain  ( mulai di tarik lagi )</item>
+            <item type="note" lang="id">audio 0:29.020–0:31.350</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="04ec61c6-021e-478b-b0f4-21d926a90738">
+        <phrases>
+          <phrase guid="940c6cef-62c4-44b4-9b8f-5961e5c9ae32" begin-time-offset="31350" end-time-offset="33582">
+            <item type="txt" lang="fau">Ohodo tuhude baia dako sade e</item>
+            <item type="segnum" lang="id">14</item>
+            <words>
+              <word guid="58d4af67-b278-4cd2-abf7-acf8f31adbb4">
+                <item type="txt" lang="fau">Ohodo</item>
+                <item type="gls" lang="id">kaki</item>
+              </word>
+              <word guid="2699afe2-3601-430a-98fd-4ba25102fd9d">
+                <item type="txt" lang="fau">tuhude</item>
+                <item type="gls" lang="id">kuku/tajam</item>
+              </word>
+              <word guid="95dbccbf-a13e-4a67-bd35-23f92af40d38">
+                <item type="txt" lang="fau">baia</item>
+                <item type="gls" lang="id">tarik</item>
+              </word>
+              <word guid="b0385ef9-d5fb-4d70-b7f3-30ba866d7c1c">
+                <item type="txt" lang="fau">dako</item>
+                <item type="gls" lang="id">turus</item>
+              </word>
+              <word guid="61cb3852-ec9d-4433-ac62-dcefab51fbd2">
+                <item type="txt" lang="fau">sade</item>
+                <item type="gls" lang="id">kalau</item>
+              </word>
+              <word guid="4944300a-160c-4884-8f56-3933f7edc225">
+                <item type="txt" lang="fau">e</item>
+                <item type="gls" lang="id">ya</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">saya punya kain mulai  tarik -tarik  dengan kuku di dalam kainnya</item>
+            <item type="note" lang="id">audio 0:31.350–0:33.582</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="2cbb873b-e660-4cc4-b642-f68fbf3d9fc3">
+        <phrases>
+          <phrase guid="4ff77b97-c161-4095-9471-6e0de97ff490" begin-time-offset="33582" end-time-offset="36931">
+            <item type="txt" lang="fau">Obodu ae de bedi kaita edi obati kaio hakodu</item>
+            <item type="segnum" lang="id">15</item>
+            <words>
+              <word guid="46e1e235-d953-4127-9f87-b0bdf8713a99">
+                <item type="txt" lang="fau">Obodu</item>
+                <item type="gls" lang="id">hati</item>
+              </word>
+              <word guid="31180981-3c00-4e26-b453-46e5a1ddff35">
+                <item type="txt" lang="fau">ae</item>
+                <item type="gls" lang="id">saya/punya</item>
+              </word>
+              <word guid="e6ede334-b9fb-4881-9573-7461d122cb2b">
+                <item type="txt" lang="fau">de</item>
+                <item type="gls" lang="id">dia</item>
+              </word>
+              <word guid="7cc212b2-dcd8-489e-9272-49c77578ff22">
+                <item type="txt" lang="fau">bedi</item>
+                <item type="gls" lang="id">sekarang/pikir</item>
+              </word>
+              <word guid="1c449c94-b5a5-41ce-99b2-26593c4b9ea8">
+                <item type="txt" lang="fau">kaita</item>
+                <item type="gls" lang="id">sosua</item>
+              </word>
+              <word guid="82f4dfaf-1080-4e64-a358-d07b32ea374b">
+                <item type="txt" lang="fau">edi</item>
+                <item type="gls" lang="id">ini</item>
+              </word>
+              <word guid="08a62482-7118-4391-b454-98bcaa41a2ba">
+                <item type="txt" lang="fau">obati</item>
+                <item type="gls" lang="id">hidup</item>
+              </word>
+              <word guid="39611870-17a3-4fe4-b6c7-efe2bcc173cc">
+                <item type="txt" lang="fau">kaio</item>
+                <item type="gls" lang="id">bawa</item>
+              </word>
+              <word guid="26af8aa7-b304-4e30-aa25-6bfff49dec39">
+                <item type="txt" lang="fau">hakodu</item>
+                <item type="gls" lang="id">kah?</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">saya pikirkan dalam hati saya bahwa sossua ini bawa hidup kah?</item>
+            <item type="note" lang="id">audio 0:33.582–0:36.931</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="6f051b54-cfd4-49b9-bf77-019fa6729a8f">
+        <phrases>
+          <phrase guid="08053287-04ce-4975-84ba-eb42b2c07daf" begin-time-offset="36931" end-time-offset="38396">
+            <item type="txt" lang="fau">Dako</item>
+            <item type="segnum" lang="id">16</item>
+            <words>
+              <word guid="779aa581-5415-485c-8fde-b69abb9b05fb">
+                <item type="txt" lang="fau">Dako</item>
+                <item type="gls" lang="id">turu/jalan</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">sampai Jalan turus</item>
+            <item type="note" lang="id">audio 0:36.931–0:38.396</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="3a24ac36-c3ef-449e-b6b2-ae2d28b99a55">
+        <phrases>
+          <phrase guid="64fbfc61-c638-4a23-a1be-e18a44d2c2db" begin-time-offset="38396" end-time-offset="42003">
+            <item type="txt" lang="fau">Kwausa tadia kuri kaita fai de haiote bedibide</item>
+            <item type="segnum" lang="id">17</item>
+            <words>
+              <word guid="324d419e-96f6-4391-b96f-7b07849e065a">
+                <item type="txt" lang="fau">Kwausa</item>
+                <item type="gls" lang="id">sejenis/daun</item>
+              </word>
+              <word guid="4c90665e-f836-48d7-af4c-41d58c75736f">
+                <item type="txt" lang="fau">tadia</item>
+                <item type="gls" lang="id">patah</item>
+              </word>
+              <word guid="393ae9aa-a461-4873-b318-1874eee6e2e7">
+                <item type="txt" lang="fau">kuri</item>
+                <item type="gls" lang="id">ambil</item>
+              </word>
+              <word guid="375398bb-d11a-4542-8413-84b1e22f6f71">
+                <item type="txt" lang="fau">kaita</item>
+                <item type="gls" lang="id">sosua</item>
+              </word>
+              <word guid="ff8b0136-a283-41ed-b35a-61ed0f4f4c1e">
+                <item type="txt" lang="fau">fai</item>
+                <item type="gls" lang="id">batu</item>
+              </word>
+              <word guid="2b5610ca-38ce-4505-a879-40465224ae9d">
+                <item type="txt" lang="fau">de</item>
+                <item type="gls" lang="id">dia</item>
+              </word>
+              <word guid="3716467a-8e5c-4e5e-b7d1-520a0170bf1c">
+                <item type="txt" lang="fau">haiote</item>
+                <item type="gls" lang="id">madapet</item>
+              </word>
+              <word guid="05a8defb-265c-4661-8972-1af28907e4e8">
+                <item type="txt" lang="fau">bedibide</item>
+                <item type="gls" lang="id">untuk/dpakeua</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">Patah daun  baru ambil bawa untuk pake bakar batu sosua</item>
+            <item type="note" lang="id">audio 0:38.396–0:42.003</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="afbd261c-58aa-4997-be39-321d142ba099">
+        <phrases>
+          <phrase guid="22f2c245-6168-476c-9eba-751e04691d3e" begin-time-offset="42003" end-time-offset="44190">
+            <item type="txt" lang="fau">Sa tadia kuriate kada</item>
+            <item type="segnum" lang="id">18</item>
+            <words>
+              <word guid="002536e0-d879-4060-8d25-0fbd6e89cb2e">
+                <item type="txt" lang="fau">Sa</item>
+                <item type="gls" lang="id">Daun</item>
+              </word>
+              <word guid="3c1848d6-a2ee-4f9a-8aaf-4e9d75f99996">
+                <item type="txt" lang="fau">tadia</item>
+                <item type="gls" lang="id">patah</item>
+              </word>
+              <word guid="50737850-020c-4a83-aac4-97a44be8f94d">
+                <item type="txt" lang="fau">kuriate</item>
+                <item type="gls" lang="id">ambil</item>
+              </word>
+              <word guid="4d9de82d-6ae4-4ae1-9a66-067e983720f7">
+                <item type="txt" lang="fau">kada</item>
+                <item type="gls" lang="id">bawa</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">kemudian patah daun baru  ambil  bawa</item>
+            <item type="note" lang="id">audio 0:42.003–0:44.190</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="6e0c063f-17da-4072-84a7-92fcd6f7ce13">
+        <phrases>
+          <phrase guid="22f2c245-6168-476c-9eba-751e04691d3e" begin-time-offset="44190" end-time-offset="45912">
+            <item type="txt" lang="fau">Buha eihia joyabo</item>
+            <item type="segnum" lang="id">19</item>
+            <words>
+              <word guid="e5a6fa29-aa1d-481c-91af-dd454fe92349">
+                <item type="txt" lang="fau">Buha</item>
+                <item type="gls" lang="id">pasir</item>
+              </word>
+              <word guid="d72cbdaa-daa7-4dcd-a0ab-69af9cb11224">
+                <item type="txt" lang="fau">eihia</item>
+                <item type="gls" lang="id">tengah</item>
+              </word>
+              <word guid="bd95440d-1b54-4a79-882d-7f80aaf0e19b">
+                <item type="txt" lang="fau">joyabo</item>
+                <item type="gls" lang="id">letakkan/dia</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">( Sosua ) sudagh taruh di  tengah  pasir situ,</item>
+            <item type="note" lang="id">audio 0:44.190–0:45.912</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="9f634ecb-e1e5-4c83-8966-96c3b7ea2634">
+        <phrases>
+          <phrase guid="36f4b510-871b-4f70-8c8c-fc67070e6492" begin-time-offset="45912" end-time-offset="47540">
+            <item type="txt" lang="fau">Etida bo</item>
+            <item type="segnum" lang="id">20</item>
+            <words>
+              <word guid="5882ea9b-50ba-4ca3-84ea-f876e3e371c0">
+                <item type="txt" lang="fau">Etida</item>
+                <item type="gls" lang="id">ekor</item>
+              </word>
+              <word guid="aa72df2e-0986-4b2c-9dc4-0eb5346f0884">
+                <item type="txt" lang="fau">bo</item>
+                <item type="gls" lang="id">sama</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">Dengan ekornya mulai naik.</item>
+            <item type="note" lang="id">audio 0:45.912–0:47.540</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="1bf24c5f-2619-4e82-9fa1-443890fbe104">
+        <phrases>
+          <phrase guid="db0fd987-eb6f-411e-99ec-f63229eee35e" begin-time-offset="47540" end-time-offset="49657">
+            <item type="txt" lang="fau">oho uta bita kasi ba</item>
+            <item type="segnum" lang="id">21</item>
+            <words>
+              <word guid="4be52cf4-a8ab-40d1-aeee-5ac7c53f891d">
+                <item type="txt" lang="fau">oho</item>
+                <item type="gls" lang="id">kaki</item>
+              </word>
+              <word guid="605adbce-3e33-4d9a-a515-a4cb962124ce">
+                <item type="txt" lang="fau">uta</item>
+                <item type="gls" lang="id">tanah</item>
+              </word>
+              <word guid="8499f1b5-dea0-49fc-a554-60304786f77a">
+                <item type="txt" lang="fau">bita</item>
+                <item type="gls" lang="id">tikam</item>
+              </word>
+              <word guid="81cab31b-3dcf-4357-a532-27ab0c8531df">
+                <item type="txt" lang="fau">kasi</item>
+                <item type="gls" lang="id">kuat</item>
+              </word>
+              <word guid="a5ae5cf0-79e7-4887-a231-8150ce31ec71">
+                <item type="txt" lang="fau">ba</item>
+                <item type="gls" lang="id">jadi</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">Kaki  sudah injak di  tanah kuat  jadi mau siap lari  </item>
+            <item type="note" lang="id">audio 0:47.540–0:49.657</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="fd787528-1036-41cf-9c2e-74c87d1b04f0">
+        <phrases>
+          <phrase guid="59a941d7-ac9e-4c89-a8e4-f6af8710e461" begin-time-offset="49657" end-time-offset="53249">
+            <item type="txt" lang="fau">Uta bita kasi badide hei kaita edi jaboooo.</item>
+            <item type="segnum" lang="id">22</item>
+            <words>
+              <word guid="376e1d12-9cf3-48af-ae4f-bec07d5ff020">
+                <item type="txt" lang="fau">Uta</item>
+                <item type="gls" lang="id">tanah</item>
+              </word>
+              <word guid="f57796ce-80da-4087-b489-eb9ba4532ea2">
+                <item type="txt" lang="fau">bita</item>
+                <item type="gls" lang="id">tikam</item>
+              </word>
+              <word guid="82e79cd2-202b-4375-ade0-1bc97d53737e">
+                <item type="txt" lang="fau">kasi</item>
+                <item type="gls" lang="id">kuat</item>
+              </word>
+              <word guid="5bcb1344-67b7-46a5-b61a-713044fd0594">
+                <item type="txt" lang="fau">badide</item>
+                <item type="gls" lang="id">menjadi/sudah</item>
+              </word>
+              <word guid="b4ac7cbe-8f8c-41e3-b1b0-3e6e3f44e79e">
+                <item type="txt" lang="fau">hei</item>
+                <item type="gls" lang="id">heei</item>
+              </word>
+              <word guid="2470ae5f-8891-40cd-9303-614c001beb9c">
+                <item type="txt" lang="fau">kaita</item>
+                <item type="gls" lang="id">sosua</item>
+              </word>
+              <word guid="5a2bd4a0-53dc-4389-9ff1-0fd5235b0b5d">
+                <item type="txt" lang="fau">edi</item>
+                <item type="gls" lang="id">ini</item>
+              </word>
+              <word guid="1847fc60-0d60-44a3-9907-15f240ae9287">
+                <item type="txt" lang="fau">jaboooo</item>
+                <item type="gls" lang="id">jalan</item>
+              </word>
+              <word guid="0819f58e-b833-48f2-b04a-46e78242f4c9">
+                <item type="punct" lang="fau">.</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">Kaki dengan kuku itu sudah berdiri kuat jadi heei sosua lari itu.</item>
+            <item type="note" lang="id">audio 0:49.657–0:53.249</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="b2002fbe-5353-4e28-85d6-a55a5de952e8">
+        <phrases>
+          <phrase guid="150f3be7-2e56-47f6-afb5-5c90d408f9aa" begin-time-offset="53249" end-time-offset="55239">
+            <item type="txt" lang="fau">Kaita bidij ja obo</item>
+            <item type="segnum" lang="id">23</item>
+            <words>
+              <word guid="1d49240b-4750-444b-b266-f7fa9642521d">
+                <item type="txt" lang="fau">Kaita</item>
+                <item type="gls" lang="id">sosua</item>
+              </word>
+              <word guid="7d6af662-3c69-4170-9437-fd26d36a2572">
+                <item type="txt" lang="fau">bidij</item>
+                <item type="gls" lang="id">sana</item>
+              </word>
+              <word guid="2dfc4444-92f4-4fc6-9cf4-2db7afb8a8a2">
+                <item type="txt" lang="fau">ja</item>
+                <item type="gls" lang="id">jalan</item>
+              </word>
+              <word guid="0bdb8c57-78fa-4922-ba9f-6263ffb99010">
+                <item type="txt" lang="fau">obo</item>
+                <item type="gls" lang="id">itu</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">Sosua ada lari jalan ke sana itu......!</item>
+            <item type="note" lang="id">audio 0:53.249–0:55.239</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="b1d8d1af-010c-432f-bd8e-e93baf1645e3">
+        <phrases>
+          <phrase guid="59f8f067-216c-47f2-8949-4772a5c56e7f" begin-time-offset="55239" end-time-offset="56827">
+            <item type="txt" lang="fau">ka di ude</item>
+            <item type="segnum" lang="id">24</item>
+            <words>
+              <word guid="c0c4f4a0-8756-4820-bacf-b0d772a9a2f9">
+                <item type="txt" lang="fau">ka</item>
+                <item type="gls" lang="id">ke/menunju</item>
+              </word>
+              <word guid="50137cbd-188d-4e07-ad28-e2a1a2bbac7a">
+                <item type="txt" lang="fau">di</item>
+                <item type="gls" lang="id">ari</item>
+              </word>
+              <word guid="1f67c0bd-e7f5-443b-8144-a8a1348716dd">
+                <item type="txt" lang="fau">ude</item>
+                <item type="gls" lang="id">bunyi/air/lompat</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">Dia sudah lompat  lari ke dalam  air</item>
+            <item type="note" lang="id">audio 0:55.239–0:56.827</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="99c4f010-5624-438c-997b-28b135c48b0f">
+        <phrases>
+          <phrase guid="ead0c032-6d35-4748-b846-2abd8f097c5d" begin-time-offset="56827" end-time-offset="59637">
+            <item type="txt" lang="fau">sde u kolohu seiow sada taba</item>
+            <item type="segnum" lang="id">25</item>
+            <words>
+              <word guid="902a3571-501e-4e52-843f-71e3919955c8">
+                <item type="txt" lang="fau">sde</item>
+                <item type="gls" lang="id">lau</item>
+              </word>
+              <word guid="c3ec318c-5977-483f-8811-597cb4f50ceb">
+                <item type="txt" lang="fau">u</item>
+                <item type="gls" lang="id">kayu</item>
+              </word>
+              <word guid="d6a6ffa1-ed22-4668-9879-6b36a17f82aa">
+                <item type="txt" lang="fau">kolohu</item>
+                <item type="gls" lang="id">loba</item>
+              </word>
+              <word guid="08acf539-8562-45c3-8c7d-1a6e77ba4f08">
+                <item type="txt" lang="fau">seiow</item>
+                <item type="gls" lang="id">masuk</item>
+              </word>
+              <word guid="95ed0659-422d-4d37-bc70-db32a1a2ff1c">
+                <item type="txt" lang="fau">sada</item>
+                <item type="gls" lang="id">lalu/kalau</item>
+              </word>
+              <word guid="890a5a19-a44a-4cb3-9b39-9158081c44d3">
+                <item type="txt" lang="fau">taba</item>
+                <item type="gls" lang="id">pukul</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">Lalu * sosua ) itu  dia masuk ke dalam loba kayu baru pukul dia lagi</item>
+            <item type="note" lang="id">audio 0:56.827–0:59.637</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="2b897d42-17fa-4420-8059-6c3e3f89e0fe">
+        <phrases>
+          <phrase guid="247d1caf-ba80-456b-a8ef-afe701d4832d" begin-time-offset="59637" end-time-offset="61117">
+            <item type="txt" lang="fau">taba te</item>
+            <item type="segnum" lang="id">26</item>
+            <words>
+              <word guid="fac29285-1b30-405f-a343-95da82f30953">
+                <item type="txt" lang="fau">taba</item>
+                <item type="gls" lang="id">pukul</item>
+              </word>
+              <word guid="8ac3f7b5-e58b-43b9-910c-94821b8a8b9c">
+                <item type="txt" lang="fau">te</item>
+                <item type="gls" lang="id">sudah</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">sudah selesai pukul.</item>
+            <item type="note" lang="id">audio 0:59.637–1:01.117</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="525941c5-92b2-4003-adb3-91dc02d56d2e">
+        <phrases>
+          <phrase guid="1c0c3270-9d2c-458b-8612-a3d7601717b7" begin-time-offset="61117" end-time-offset="62487">
+            <item type="txt" lang="fau">saia kabe di bida</item>
+            <item type="segnum" lang="id">27</item>
+            <words>
+              <word guid="1125e299-5490-4444-ba3d-6892bde63a2a">
+                <item type="txt" lang="fau">saia</item>
+                <item type="gls" lang="id">baik-baik</item>
+              </word>
+              <word guid="f739ddb1-113d-47ae-8245-6722a71f4d5c">
+                <item type="txt" lang="fau">kabe</item>
+                <item type="gls" lang="id">ke/sana</item>
+              </word>
+              <word guid="0d42c6de-f082-4491-ba87-f65aac366665">
+                <item type="txt" lang="fau">di</item>
+                <item type="gls" lang="id">air</item>
+              </word>
+              <word guid="0467f636-edb7-4316-a02f-3f0b218f384c">
+                <item type="txt" lang="fau">bida</item>
+                <item type="gls" lang="id">buang/lepar</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">Buang baik - baik ke air</item>
+            <item type="note" lang="id">audio 1:01.117–1:02.487</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="cd85d74d-bf46-498a-b291-ec4fc416955a">
+        <phrases>
+          <phrase guid="f3bdf070-5bb5-4b32-a550-a109dd81d41c" begin-time-offset="62487" end-time-offset="63665">
+            <item type="txt" lang="fau">di bidate</item>
+            <item type="segnum" lang="id">28</item>
+            <words>
+              <word guid="ebacc6c8-9f86-4ab2-9a67-82e99f494387">
+                <item type="txt" lang="fau">di</item>
+                <item type="gls" lang="id">air</item>
+              </word>
+              <word guid="1391ded3-7464-4f9a-8bd7-e8e9ace49485">
+                <item type="txt" lang="fau">bidate</item>
+                <item type="gls" lang="id">buang/sudah</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">Buang ke dalam air ( sudah selesai )</item>
+            <item type="note" lang="id">audio 1:02.487–1:03.665</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="2466547e-d83d-43e9-82e5-16435b1211cc">
+        <phrases>
+          <phrase guid="228abce9-39e6-44bd-afc8-0b967edc6b6c" begin-time-offset="63665" end-time-offset="65372">
+            <item type="txt" lang="fau">fai bo</item>
+            <item type="segnum" lang="id">29</item>
+            <words>
+              <word guid="8f79a9f6-c8e6-4bc4-8729-d3a85d511429">
+                <item type="txt" lang="fau">fai</item>
+                <item type="gls" lang="id">batu</item>
+              </word>
+              <word guid="cf3ed4a5-69d5-4196-9d59-b3303cb2d26d">
+                <item type="txt" lang="fau">bo</item>
+                <item type="gls" lang="id">sama</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">batu  dengan ( api )</item>
+            <item type="note" lang="id">audio 1:03.665–1:05.372</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="3653306f-9006-4e30-b534-b9704b08f9e7">
+        <phrases>
+          <phrase guid="26b81291-8b62-487d-8dff-af6b89db76d3" begin-time-offset="65372" end-time-offset="67074">
+            <item type="txt" lang="fau">fai fdi</item>
+            <item type="segnum" lang="id">30</item>
+            <words>
+              <word guid="30cd6271-81aa-431a-a06e-1c2678110bce">
+                <item type="txt" lang="fau">fai</item>
+                <item type="gls" lang="id">batu</item>
+              </word>
+              <word guid="e77a699f-b0dd-45a6-9368-6b63e5bf6a1e">
+                <item type="txt" lang="fau">fdi</item>
+                <item type="gls" lang="id">masak</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">sudah masak batu atau bakar batu.</item>
+            <item type="note" lang="id">audio 1:05.372–1:07.074</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="98044f47-9af7-4839-b940-1474d75169fe">
+        <phrases>
+          <phrase guid="afe0db3a-c4e7-4498-9fbf-060e2955e948" begin-time-offset="67074" end-time-offset="68331">
+            <item type="txt" lang="fau">kwe duaw</item>
+            <item type="segnum" lang="id">31</item>
+            <words>
+              <word guid="7a37f15b-21f2-4de4-9cc8-f1461f2dbe9f">
+                <item type="txt" lang="fau">kwe</item>
+                <item type="gls" lang="id">Api</item>
+              </word>
+              <word guid="0d3b4098-ade1-4520-82df-8aea072ddc56">
+                <item type="txt" lang="fau">duaw</item>
+                <item type="gls" lang="id">bikin</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">Kemudian sudah  bikin api</item>
+            <item type="note" lang="id">audio 1:07.074–1:08.331</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="f26b2445-c841-4c7c-8371-2dc395ace66f">
+        <phrases>
+          <phrase guid="9f8742bd-b5e6-4c03-8881-e104c7e4a0e3" begin-time-offset="68331" end-time-offset="70226">
+            <item type="txt" lang="fau">fade faia te</item>
+            <item type="segnum" lang="id">32</item>
+            <words>
+              <word guid="406b01cd-778d-4fb6-9fc9-8942d4df88b7">
+                <item type="txt" lang="fau">fade</item>
+                <item type="gls" lang="id">batu/dia</item>
+              </word>
+              <word guid="bab02683-08dd-4651-a635-20c13a41127d">
+                <item type="txt" lang="fau">faia</item>
+                <item type="gls" lang="id">mapea/bakarbatu</item>
+              </word>
+              <word guid="1d6a245d-b369-4092-9267-d9d510891cad">
+                <item type="txt" lang="fau">te</item>
+                <item type="gls" lang="id">sudah</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">Sudah selesai bakar.</item>
+            <item type="note" lang="id">audio 1:08.331–1:10.226</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="c034aa6a-1619-4dd0-b37b-d8600cf4c0f0">
+        <phrases>
+          <phrase guid="b9256017-b3b3-4a42-b054-1344c33462f3" begin-time-offset="70226" end-time-offset="71562">
+            <item type="txt" lang="fau">dadi</item>
+            <item type="segnum" lang="id">33</item>
+            <words>
+              <word guid="c00650d6-570e-41cb-939e-bc3090fcc0d3">
+                <item type="txt" lang="fau">dadi</item>
+                <item type="gls" lang="id">makan</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">sudah makan ( sosua )</item>
+            <item type="note" lang="id">audio 1:10.226–1:11.562</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+      <paragraph guid="2387b5ff-194e-441a-a79e-7768d1b61e73">
+        <phrases>
+          <phrase guid="6aa6a828-6cde-4a5b-a6a1-7c46c728b05d" begin-time-offset="71562" end-time-offset="73614">
+            <item type="txt" lang="fau">dadiate dairi dai</item>
+            <item type="segnum" lang="id">34</item>
+            <words>
+              <word guid="1581548f-6559-4387-a069-b5c5f446663a">
+                <item type="txt" lang="fau">dadiate</item>
+                <item type="gls" lang="id">makan/sudah</item>
+              </word>
+              <word guid="73a53ec8-20fa-4ea2-9105-9647ad0c3a54">
+                <item type="txt" lang="fau">dairi</item>
+                <item type="gls" lang="id">dairi/kampung</item>
+              </word>
+              <word guid="6363e37d-6977-4eff-8039-cb9255ec90c5">
+                <item type="txt" lang="fau">dai</item>
+                <item type="gls" lang="id">jalan</item>
+              </word>
+            </words>
+            <item type="gls" lang="id">Sudah selesai makan baru  jalan ke kampung Dairi</item>
+            <item type="note" lang="id">audio 1:11.562–1:13.614</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+    </paragraphs>
+    <languages>
+      <language lang="fau" vernacular="true" />
+      <language lang="id" />
+    </languages>
+    <media-files offset-type="milliseconds">
+    <media guid="a4ba094f-affc-400e-bc96-804e72b4d647" location="https://connect.flextext.app/v1/textfile/wulNs2-URHiKcvmp.kMw4vQwNzFMDWohv-KzdGU9jjjEPmPAL39c7HgTjTchyuZjbWIL5wIiR_wHfLQDnjBzSqozQAYZT-PicGzdjpIhnml75JZs6-q9yJaSAE4c3hfDpdHKCIqVGDrA2qXqhO0fEVGUXUTz7UkXub5a83s6dWPUTaPvRfPHOZ40" />
+    </media-files>
+  </interlinear-text>
+</document>

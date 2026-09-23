@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<preferences version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.mpi.nl/tools/elan/Prefs_v1.1.xsd">
+    <prefList key="MultiTierViewer.TierOrder">
+        <String>A_phrase-txt-fau</String>
+        <String>A_word-txt-fau</String>
+        <String>A_word-gls-id</String>
+        <String>A_phrase-gls-id</String>
+        <String>A_paragraph</String>
+        <String>A_interlinear-text-title-id</String>
+    </prefList>
+    <pref key="MultiTierViewer.TierSortingMode">
+        <Int>0</Int>
+    </pref>
+    <pref key="MultiTierViewer.SortAlpabetically">
+        <Boolean>false</Boolean>
+    </pref>
+</preferences>
