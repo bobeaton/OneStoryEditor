@@ -1,6 +1,6 @@
 ﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
   
-  <Package Name="OneStory Editor 5.5" Language="1033" Version="5.5" Manufacturer="SIL International" UpgradeCode="{92A9B369-3609-4129-A09D-5BB5BBE30AAB}">
+  <Package Name="OneStory Editor 5.6" Language="1033" Version="5.6" Manufacturer="SIL International" UpgradeCode="{92A9B369-3609-4129-A09D-5BB5BBE30AAB}">
     
     <Launch Condition="Privileged" Message="You need to be an administrator to install this product." />
     <Launch Condition="(NOT Version9X) OR (NOT VersionNT OR (VersionNT &gt;= 500))" Message="[ProductName] will only run on Windows 2000 or better. You cannot intall it on this machine." />

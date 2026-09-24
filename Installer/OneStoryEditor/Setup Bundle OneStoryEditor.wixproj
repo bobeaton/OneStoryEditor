@@ -3,7 +3,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>f9469b39-b401-4a89-a144-f3cc753fc843</ProjectGuid>
-    <OutputName>SetupOneStoryEditor_5.5</OutputName>
+    <OutputName>SetupOneStoryEditor_5.6</OutputName>
     <OutputType>Bundle</OutputType>
     <SolutionDir>$(MSBuildStartupDirectory)\</SolutionDir>
   </PropertyGroup>
@@ -15,7 +15,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>ApplicationName=OneStory Editor;SafeApplicationName=OneStoryEditor;TruncatedVersion=5.5;VersionNumber=5.5.0.0;UpgradeCode=92A9B369-3609-4129-A09D-5BB5BBE30AAB;Year=2026;Manufacturer=SIL International;EcDistFilesPath=$(EcDistFilesPath)</DefineConstants>
+    <DefineConstants>$(DefineConstants);ApplicationName=OneStory Editor;SafeApplicationName=OneStoryEditor;TruncatedVersion=5.6;VersionNumber=5.6.0.0;UpgradeCode=92A9B369-3609-4129-A09D-5BB5BBE30AAB;Year=2026;Manufacturer=SIL International;EcDistFilesPath=$(EcDistFilesPath)</DefineConstants>
   </PropertyGroup>
   <!-- No explicit <Compile>/<EmbeddedResource> ItemGroup needed for Bundle.wxs/BundleTheme.wxl:
        WixToolset.Sdk auto-globs **/*.wxs and **/*.wxl by default. -->
