@@ -23,6 +23,10 @@ namespace OneStoryProjectEditor
         // the tiers to import and which field of the line each goes into
         public List<ImportMapping> Mappings = new List<ImportMapping>();
 
+        // for a retelling or answers: the story lines (or test questions) that line i of
+        //  each (aligned) tier in Mappings goes with
+        public List<AlignTarget> AlignTargets;
+
         private const int CnColumnClickToInstall = 0;
         private const int CnColumnTitle = 2;
         private const int CnColumnCrafter = 4;
@@ -31,6 +35,7 @@ namespace OneStoryProjectEditor
         private const string CstrOrigFullRecordingSuffix2 = "_OralTranslation.wav";
 
         private readonly ProjectSettings _projSettings;
+        private readonly StoryData _storyData;
         private ImportedText _importedText;
 
         // version used by Localization
@@ -44,6 +49,7 @@ namespace OneStoryProjectEditor
         public SayMoreImportForm(StoryData storyData, ProjectSettings projSettings)
         {
             _projSettings = projSettings;
+            _storyData = storyData;
             InitializeComponent();
             Localizer.Ctrl(this);
             InitImportTypes(storyData);
@@ -54,6 +60,7 @@ namespace OneStoryProjectEditor
         public SayMoreImportForm(StoryData storyData, ProjectSettings projSettings, ImportedText importedText)
         {
             _projSettings = projSettings;
+            _storyData = storyData;
             InitializeComponent();
             Localizer.Ctrl(this);
             InitImportTypes(storyData);
@@ -484,10 +491,43 @@ namespace OneStoryProjectEditor
 
             if (!mappings.Any())
             {
-                LocalizableMessageBox.Show(
-                    Localizer.Str("Choose the field to import at least one of the tiers into"),
-                    StoryEditor.OseCaption);
+                string strMessage;
+                if (AvailableFields.Any())
+                    strMessage = Localizer.Str("Choose the field to import at least one of the tiers into");
+                else if (SaymoreImportType == SaymoreImportTypes.Retelling)
+                    strMessage = Localizer.Str("This project doesn't have any languages configured for retellings. To add them, click 'Project', 'Settings' and check the boxes in the 'Retellings' column of the 'Languages' tab.");
+                else if (SaymoreImportType == SaymoreImportTypes.Answers)
+                    strMessage = Localizer.Str("This project doesn't have any languages configured for the answers to the testing questions. To add them, click 'Project', 'Settings' and check the boxes in the 'Answers' column of the 'Languages' tab.");
+                else
+                    strMessage = Localizer.Str("This project doesn't have any languages configured for the story. To add them, click 'Project', 'Settings' and check the boxes in the 'Story' column of the 'Languages' tab.");
+
+                LocalizableMessageBox.Show(strMessage, StoryEditor.OseCaption);
                 return;
+            }
+
+            // a retelling or the answers won't normally match the story line for line, so
+            //  have the user line them up first
+            if (SaymoreImportType != SaymoreImportTypes.NewStory)
+            {
+                var bAnswers = (SaymoreImportType == SaymoreImportTypes.Answers);
+                var targets = AlignImportLinesForm.GetTargets(_storyData, bAnswers);
+                if (!targets.Any())
+                {
+                    LocalizableMessageBox.Show(
+                        bAnswers
+                            ? Localizer.Str("This story doesn't have any testing questions to import the answers for")
+                            : Localizer.Str("This story doesn't have any lines to import the retelling for"),
+                        StoryEditor.OseCaption);
+                    return;
+                }
+
+                using (var dlg = new AlignImportLinesForm(targets, mappings, _projSettings, bAnswers))
+                {
+                    if (dlg.ShowDialog(this) != DialogResult.OK)
+                        return;
+                    mappings = dlg.AlignedMappings;
+                }
+                AlignTargets = targets;
             }
 
             Mappings = mappings;
@@ -500,7 +540,12 @@ namespace OneStoryProjectEditor
             // the fields available depend on the type of import, so redo the choices
             var radioButton = sender as RadioButton;
             if ((radioButton == null) || radioButton.Checked)
+            {
                 InitTierGrid();
+                buttonImport.Text = radioButtonNewStory.Checked
+                                        ? Localizer.Str("&Import")
+                                        : Localizer.Str("&Next >");
+            }
         }
     }
 }

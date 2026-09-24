@@ -7624,7 +7624,6 @@ namespace OneStoryProjectEditor
 
         private bool _bNagOnceSayMoreImport = true;
         private delegate StringTransfer StringTransferDelegate(LineData ld);
-        private delegate LineData LineDataDelegate(VerseData vd);
 
         private static StringTransferDelegate FieldAccessor(TextFields field)
         {
@@ -7646,34 +7645,14 @@ namespace OneStoryProjectEditor
             if (dlg.ShowDialog() != DialogResult.OK)
                 return;
 
-            string strUnsGuid = null;
-            LineDataDelegate lineData;
-            switch (dlg.SaymoreImportType)
-            {
-                case SayMoreImportForm.SaymoreImportTypes.NewStory:
-                    lineData = v => v.StoryLine;
-                    break;
-                case SayMoreImportForm.SaymoreImportTypes.Retelling:
-                    if (!AddRetellingTest(true))
-                        return;
-                    lineData = v => v.Retellings.Last();
-
-                    // keep track of the guid of this UNS in case we have to add more empty retellings.
-                    strUnsGuid = TheCurrentStory.Verses[0].Retellings.Last().MemberId;
-                    break;
-                default:
-                    lineData = null;
-                    break;
-            }
-
             var mappings = dlg.Mappings;
             var fields = mappings.Select(m => m.Field).ToList();
+            StoryStageLogic.ProjectStages eStageToGoTo;
 
-            StoryStageLogic.ProjectStages eStageToGoTo = StoryStageLogic.ProjectStages.eUndefined;
-            StoryData theStory;
             if (dlg.SaymoreImportType == SayMoreImportForm.SaymoreImportTypes.NewStory)
             {
                 // set the state to the (last) BT field we import into (which enables the view)
+                eStageToGoTo = StoryStageLogic.ProjectStages.eUndefined;
                 if (fields.Contains(TextFields.FreeTranslation))
                     eStageToGoTo = StoryStageLogic.ProjectStages.eProjFacTypeFreeTranslation;
                 else if (fields.Contains(TextFields.InternationalBt))
@@ -7692,55 +7671,46 @@ namespace OneStoryProjectEditor
                         OseCaption);
                 }
 
-                theStory = AddNewStoryAfter(dlg.StoryName, dlg.FullRecordingFileSpec, dlg.Crafter);
+                var theStory = AddNewStoryAfter(dlg.StoryName, dlg.FullRecordingFileSpec, dlg.Crafter);
                 if (theStory == null) // cancelled
                     return;
                 theStory.Verses.RemoveAt(0);
-            }
-            else
-            {
-                theStory = TheCurrentStory;
-                Debug.Assert(theStory != null); // shouldn't be possible to be null
-                eStageToGoTo = (dlg.SaymoreImportType == SayMoreImportForm.SaymoreImportTypes.Retelling)
-                                    ? StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest1
-                                    : StoryStageLogic.ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1;
-            }
 
-            // for the answers, we have to do this a totally different way
-            if (dlg.SaymoreImportType == SayMoreImportForm.SaymoreImportTypes.Answers)
-            {
-                SaymoreImportToAnswers(theStory, mappings);
-            }
-            else
-            {
+                // each imported line becomes a line of the new story
                 var nLen = mappings.Max(m => m.Tier.Lines.Count);
-                var nLineIndex = 0;
-                var bCreateNewStory = (dlg.SaymoreImportType == SayMoreImportForm.SaymoreImportTypes.NewStory);
                 for (var i = 0; i < nLen; i++)
                 {
-                    VerseData newVerse;
-                    if (bCreateNewStory || (theStory.Verses.Count <= nLineIndex))
-                    {
-                        newVerse = GetNewVerse(strUnsGuid, theStory, bCreateNewStory);
-                    }
-                    else
-                    {
-                        // skip over hidden lines
-                        while (!(newVerse = theStory.Verses[nLineIndex++]).IsVisible)
-                        {
-                            if (theStory.Verses.Count > nLineIndex)
-                                continue;
-
-                            newVerse = GetNewVerse(strUnsGuid, theStory, false);
-                            break;
-                        }
-                    }
-
-                    Debug.Assert(lineData != null, "lineData != null");
-                    foreach (var mapping in mappings)
-                        FieldAccessor(mapping.Field)(lineData(newVerse))
-                            .SetValue(GetSafeValue(mapping.Tier.Lines, i));
+                    var newVerse = new VerseData();
+                    theStory.Verses.Add(newVerse);
+                    SetImportedValues(newVerse.StoryLine, mappings, i);
                 }
+            }
+            else
+            {
+                // the import form had the user line up the imported lines with these targets
+                //  (the story lines or test questions), so line i goes with target i
+                var targets = dlg.AlignTargets;
+                Debug.Assert((TheCurrentStory != null) && (targets != null));
+                Func<AlignTarget, LineData> lineData;
+                if (dlg.SaymoreImportType == SayMoreImportForm.SaymoreImportTypes.Retelling)
+                {
+                    if (!AddRetellingTest(true))
+                        return;
+                    var strUnsGuid = TheCurrentStory.CraftingInfo.TestersToCommentsRetellings.Last().MemberId;
+                    lineData = t => t.Verse.Retellings.TryAddNewLine(strUnsGuid);
+                    eStageToGoTo = StoryStageLogic.ProjectStages.eProjFacEnterRetellingOfTest1;
+                }
+                else
+                {
+                    if (!AddInferenceTest())
+                        return;
+                    var strUnsGuid = TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.Last().MemberId;
+                    lineData = t => t.TestQuestion.Answers.TryAddNewLine(strUnsGuid);
+                    eStageToGoTo = StoryStageLogic.ProjectStages.eProjFacEnterAnswersToStoryQuestionsOfTest1;
+                }
+
+                for (var i = 0; i < targets.Count; i++)
+                    SetImportedValues(lineData(targets[i]), mappings, i);
             }
 
             Modified = true;
@@ -7754,38 +7724,10 @@ namespace OneStoryProjectEditor
             SetNextStateAdvancedOverride(eStageToGoTo, false);
         }
 
-        private void SaymoreImportToAnswers(StoryData theStory, List<ImportMapping> mappings)
+        private static void SetImportedValues(LineData lineData, List<ImportMapping> mappings, int nLine)
         {
-            // Start by adding Answer boxes for all the TQs using our normal way
-            if (!AddInferenceTest())
-                return;
-
-            // find the TQs and start putting the lines we're importing into a new answer box
-            var nIndex = 0;
-            SaymoreImportAnswers(theStory.Verses.FirstVerse, mappings, ref nIndex);
-            foreach (var aVerseData in theStory.Verses)
-                SaymoreImportAnswers(aVerseData, mappings, ref nIndex);
-        }
-
-        private static void SaymoreImportAnswers(VerseData aVerse, List<ImportMapping> mappings, ref int nIndex)
-        {
-            foreach (var lineData in aVerse.TestQuestions.Select(testQuestion => testQuestion.Answers.Last()))
-            {
-                // now set the proper fields
-                foreach (var mapping in mappings)
-                    FieldAccessor(mapping.Field)(lineData).SetValue(GetSafeValue(mapping.Tier.Lines, nIndex));
-                nIndex++;
-            }
-        }
-
-        private static VerseData GetNewVerse(string strUnsGuid, StoryData theStory, bool bCreateNewStory)
-        {
-            var newVerse = new VerseData();
-            theStory.Verses.Add(newVerse);
-
-            if (!bCreateNewStory)
-                newVerse.Retellings.TryAddNewLine(strUnsGuid);
-            return newVerse;
+            foreach (var mapping in mappings)
+                FieldAccessor(mapping.Field)(lineData).SetValue(GetSafeValue(mapping.Tier.Lines, nLine));
         }
 
         private static string GetSafeValue(IList<string> lst, int i)
