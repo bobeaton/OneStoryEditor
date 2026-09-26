@@ -28,8 +28,13 @@
             </Button>
         </Page>
         <Page Name="Install">
-            <ImageControl X="0" Y="0" Width="494" Height="140" ImageFile="logo.png" Visible="yes" />
-            <Label X="0" Y="140" Width="494" Height="50" FontId="1" Center="yes">#(loc.InstallHeader)</Label>
+            <!-- logo.png (really bundle_background.bmp, 494x301 native) is used as a top banner here rather
+                 than a full-page background like the other pages below; native aspect stretched into a
+                 494x140 box looked visibly squashed, so this is doubled to 494x280 (same fix as the sibling
+                 silconverters repo) and the header moved down to the new image's bottom edge so it's never
+                 covered. -->
+            <ImageControl X="0" Y="0" Width="494" Height="280" ImageFile="logo.png" Visible="yes" />
+            <Label X="0" Y="280" Width="494" Height="50" FontId="1" Center="yes">#(loc.InstallHeader)</Label>
             <Hypertext Name="EulaHyperlink" X="25" Y="206" Width="449" Height="40" TabStop="yes" FontId="7" HideWhenDisabled="yes">#(loc.InstallLicenseLinkText)</Hypertext>
             <Checkbox Name="EulaAcceptCheckbox" X="25" Y="270" Width="230" Height="20" TabStop="yes" FontId="7" HideWhenDisabled="yes">#(loc.InstallAcceptCheckbox)</Checkbox>
             <Label X="11" Y="-17" Width="266" Height="17" FontId="5">#(loc.InstallVersion)</Label>
