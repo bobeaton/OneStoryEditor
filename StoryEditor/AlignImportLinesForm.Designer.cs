@@ -54,6 +54,9 @@
             this.joinCellWithPreviousMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.insertBlankCellMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteBlankCellMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.includeAllRowsMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.leaveOutAllRowsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.undoMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.labelStatus = new System.Windows.Forms.Label();
@@ -190,6 +193,7 @@
             this.dataGridViewAlign.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridViewAlignCellMouseDown);
             this.dataGridViewAlign.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewAlignCellContentClick);
             this.dataGridViewAlign.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewAlignCellContentClick);
+            this.dataGridViewAlign.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridViewAlignColumnHeaderMouseClick);
             this.dataGridViewAlign.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.DataGridViewAlignCellPainting);
             this.dataGridViewAlign.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.DataGridViewAlignDataError);
             //
@@ -229,6 +233,9 @@
             this.joinCellWithPreviousMenu,
             this.insertBlankCellMenu,
             this.deleteBlankCellMenu,
+            this.toolStripSeparator5,
+            this.includeAllRowsMenu,
+            this.leaveOutAllRowsMenu,
             this.toolStripSeparator4,
             this.undoMenu});
             this.contextMenuStrip.Name = "contextMenuStrip";
@@ -301,6 +308,25 @@
             this.deleteBlankCellMenu.Size = new System.Drawing.Size(289, 22);
             this.deleteBlankCellMenu.Text = "Delete blank cell (this tier only)";
             this.deleteBlankCellMenu.Click += new System.EventHandler(this.DeleteBlankCellClick);
+            //
+            // toolStripSeparator5
+            //
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(286, 6);
+            //
+            // includeAllRowsMenu
+            //
+            this.includeAllRowsMenu.Name = "includeAllRowsMenu";
+            this.includeAllRowsMenu.Size = new System.Drawing.Size(289, 22);
+            this.includeAllRowsMenu.Text = "Include all rows";
+            this.includeAllRowsMenu.Click += new System.EventHandler(this.IncludeAllRowsClick);
+            //
+            // leaveOutAllRowsMenu
+            //
+            this.leaveOutAllRowsMenu.Name = "leaveOutAllRowsMenu";
+            this.leaveOutAllRowsMenu.Size = new System.Drawing.Size(289, 22);
+            this.leaveOutAllRowsMenu.Text = "Leave out all rows";
+            this.leaveOutAllRowsMenu.Click += new System.EventHandler(this.LeaveOutAllRowsClick);
             //
             // toolStripSeparator4
             //
@@ -403,6 +429,9 @@
         private System.Windows.Forms.ToolStripMenuItem joinCellWithPreviousMenu;
         private System.Windows.Forms.ToolStripMenuItem insertBlankCellMenu;
         private System.Windows.Forms.ToolStripMenuItem deleteBlankCellMenu;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem includeAllRowsMenu;
+        private System.Windows.Forms.ToolStripMenuItem leaveOutAllRowsMenu;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem undoMenu;
         private System.Windows.Forms.Label labelStatus;

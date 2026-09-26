@@ -7614,11 +7614,11 @@ namespace OneStoryProjectEditor
             catch (Exception ex)
             {
                 Program.ShowException(ex);
-                InitAllPanes();// just to make sure we aren't hiding something
             }
             finally
             {
                 Cursor = cursor;
+                InitAllPanes();// just to make sure we aren't hiding something
             }
         }
 

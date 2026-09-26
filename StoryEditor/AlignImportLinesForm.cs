@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using NetLoc;
 
 namespace OneStoryProjectEditor
@@ -53,7 +54,9 @@ namespace OneStoryProjectEditor
 
         private List<List<string>> _tiers;
         private List<bool> _include;        // one per row that has imported lines (rows past them are included)
-        private List<int> _rowTargets;      // the index of the target each row goes with (-1 if it's left out)
+        private List<int> _rowTargets;      // the index of the target each (grid) row goes with (-1 if it's left out)
+        private int _nLeftOverStart;        // the (grid) row where the targets left over are shown, if they're
+        private int _nLeftOverCount;        //  shown between the imported lines (i.e. 0 if they're after them)
         private readonly Stack<AlignState> _undoStack = new Stack<AlignState>();
         private AlignState _snapshotAtBeginEdit;
         private bool _bIgnoreEndEdit;
@@ -62,6 +65,7 @@ namespace OneStoryProjectEditor
         private const int CnColumnSource = 1;
         private const int CnColumnInclude = 2;
         private const int CnFirstTierColumn = 3;
+        private const int CnHeaderCheckBoxWidth = 20;
 
         private static readonly Color ColorNoCell = Color.Gainsboro;
         private static readonly Color ColorRagged = Color.LightYellow;
@@ -137,6 +141,9 @@ namespace OneStoryProjectEditor
             }
             ColumnSource.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             ColumnSource.DefaultCellStyle.BackColor = SystemColors.Control;
+
+            // room for the check box in the 'Include' header (cf. DataGridViewAlignCellPainting)
+            ColumnInclude.HeaderCell.Style.Padding = new Padding(CnHeaderCheckBoxWidth, 0, 0, 0);
 
             if (!_bNewStory)
                 InitSourceChoices();
@@ -322,7 +329,7 @@ namespace OneStoryProjectEditor
 
         private bool RowHasText(int nRow)
         {
-            return _tiers.Any(t => (nRow < t.Count) && !String.IsNullOrEmpty(t[nRow]));
+            return (nRow >= 0) && _tiers.Any(t => (nRow < t.Count) && !String.IsNullOrEmpty(t[nRow]));
         }
 
         private bool IsIncluded(int nRow)
@@ -330,9 +337,26 @@ namespace OneStoryProjectEditor
             return (nRow >= _include.Count) || _include[nRow];
         }
 
+        // nRow is the grid row here (i.e. it can be one of the targets left over)
         private bool IsOverflow(int nRow)
         {
             return !_bNewStory && (_rowTargets[nRow] >= _targets.Count);
+        }
+
+        // the row of imported lines shown in a grid row (-1 if it's one of the targets left over
+        //  that are shown between them; past the end of them if it's one shown after them)
+        private int DataRow(int nGridRow)
+        {
+            if (nGridRow < _nLeftOverStart)
+                return nGridRow;
+            if (nGridRow < _nLeftOverStart + _nLeftOverCount)
+                return -1;
+            return nGridRow - _nLeftOverCount;
+        }
+
+        private int GridRow(int nDataRow)
+        {
+            return (nDataRow < _nLeftOverStart) ? nDataRow : nDataRow + _nLeftOverCount;
         }
 
         // keeps one include flag per row with imported lines (e.g. after a line was split)
@@ -346,15 +370,29 @@ namespace OneStoryProjectEditor
         }
 
         // the included rows go with the targets (story lines or test questions) in order, so
-        //  a row that's left out doesn't use one up. After the imported lines, there's a row
-        //  for each target that's left over.
+        //  a row that's left out doesn't use one up. There's a row for each target that's left
+        //  over right after the last included row (i.e. at the top, if they're all left out),
+        //  so that as the user checks the rows that go with them one by one, the ones still
+        //  to go stay just above the rows they could go with (rather than at the bottom).
+        //  Returns the target of each grid row (and sets where the ones left over are shown).
         private List<int> GetRowTargets()
         {
+            var nRows = DataRowCount;
+            var nLastIncluded = Enumerable.Range(0, nRows).Where(IsIncluded).DefaultIfEmpty(-1).Last();
+            var nLeftOver = _bNewStory ? 0 : _targets.Count - Enumerable.Range(0, nRows).Count(IsIncluded);
+            var bBetween = (nLeftOver > 0) && (nLastIncluded + 1 < nRows);
+            _nLeftOverStart = bBetween ? nLastIncluded + 1 : nRows;
+            _nLeftOverCount = bBetween ? nLeftOver : 0;
+
             var rowTargets = new List<int>();
             var nTarget = 0;
-            var nRows = DataRowCount;
             for (var nRow = 0; nRow < nRows; nRow++)
+            {
+                if (nRow == _nLeftOverStart)
+                    for (var i = 0; i < _nLeftOverCount; i++)
+                        rowTargets.Add(nTarget++);
                 rowTargets.Add(IsIncluded(nRow) ? nTarget++ : -1);
+            }
             if (!_bNewStory)
                 while (nTarget < _targets.Count)
                     rowTargets.Add(nTarget++);
@@ -363,14 +401,23 @@ namespace OneStoryProjectEditor
 
         private void RefreshGrid()
         {
-            // keep the user's place
+            // keep the user's place (i.e. stay on the same imported line, even if the targets
+            //  left over moved, and scroll so it's still where it was on the screen)
             var nFirstRow = dataGridViewAlign.FirstDisplayedScrollingRowIndex;
             var current = dataGridViewAlign.CurrentCell;
             int nCurRow = (current != null) ? current.RowIndex : 0,
                 nCurCol = (current != null) ? current.ColumnIndex : CnFirstTierColumn;
+            var nCurDataRow = (current != null) ? DataRow(nCurRow) : -1;
 
             NormalizeInclude();
             _rowTargets = GetRowTargets();
+            if (nCurDataRow >= 0)
+            {
+                var nNewCurRow = GridRow(nCurDataRow);
+                if (nFirstRow >= 0)
+                    nFirstRow = Math.Max(nFirstRow + nNewCurRow - nCurRow, 0);
+                nCurRow = nNewCurRow;
+            }
             var nDataRows = DataRowCount;
 
             var sourceField = SourceField;
@@ -384,6 +431,7 @@ namespace OneStoryProjectEditor
             {
                 var row = dataGridViewAlign.Rows[nRow];
                 var nTarget = _rowTargets[nRow];
+                var nDataRow = DataRow(nRow);
                 if (nTarget < 0)
                 {
                     // left out, so it doesn't go with any line
@@ -407,12 +455,16 @@ namespace OneStoryProjectEditor
 
                 // (the rows past the imported lines (i.e. lines left over) don't have anything to
                 //  include, so their check box isn't drawn; cf. DataGridViewAlignCellPainting)
-                row.Cells[CnColumnInclude].Value = (nRow < nDataRows) ? (object)IsIncluded(nRow) : null;
+                row.Cells[CnColumnInclude].Value = ((nDataRow >= 0) && (nDataRow < nDataRows))
+                                                       ? (object)IsIncluded(nDataRow)
+                                                       : null;
 
                 for (var nTier = 0; nTier < _tiers.Count; nTier++)
                 {
                     var tier = _tiers[nTier];
-                    row.Cells[CnFirstTierColumn + nTier].Value = (nRow < tier.Count) ? tier[nRow] : null;
+                    row.Cells[CnFirstTierColumn + nTier].Value = ((nDataRow >= 0) && (nDataRow < tier.Count))
+                                                                     ? tier[nDataRow]
+                                                                     : null;
                 }
 
                 StyleRow(nRow);
@@ -439,7 +491,8 @@ namespace OneStoryProjectEditor
         {
             var row = dataGridViewAlign.Rows[nRow];
             var bOverflow = IsOverflow(nRow);
-            var bLeftOut = !IsIncluded(nRow);
+            nRow = DataRow(nRow);
+            var bLeftOut = (nRow >= 0) && !IsIncluded(nRow);
             row.DefaultCellStyle.BackColor = bOverflow ? ColorOverflow : Color.Empty;
             row.Cells[CnColumnSource].Style.BackColor = bOverflow ? ColorOverflow : Color.Empty;
 
@@ -453,7 +506,7 @@ namespace OneStoryProjectEditor
                     cell.Style.BackColor = ColorLeftOut;
                 else if (bOverflow)
                     cell.Style.BackColor = Color.Empty;
-                else if (nRow >= tier.Count)
+                else if ((nRow < 0) || (nRow >= tier.Count))
                     cell.Style.BackColor = ColorNoCell;
                 else if (bAnyText && String.IsNullOrEmpty(tier[nRow]) && (_tiers.Count > 1))
                     cell.Style.BackColor = ColorRagged;
@@ -480,7 +533,7 @@ namespace OneStoryProjectEditor
                 strStatus += "   " + String.Format(Localizer.Str("Left out: {0}"), nLeftOut);
 
             var bTiersDiffer = counts.Distinct().Count() > 1;
-            var bOverflow = Enumerable.Range(0, nDataRows).Any(n => IsOverflow(n) && RowHasText(n));
+            var bOverflow = Enumerable.Range(0, _rowTargets.Count).Any(n => IsOverflow(n) && RowHasText(DataRow(n)));
             if (bTiersDiffer)
                 strStatus += "   " + Localizer.Str("(the tiers don't have the same number of lines: did you split a line in one tier, but not the others?)");
             else if (bOverflow)
@@ -489,6 +542,7 @@ namespace OneStoryProjectEditor
             labelStatus.Text = strStatus;
             labelStatus.ForeColor = (bTiersDiffer || bOverflow) ? Color.Firebrick : SystemColors.ControlText;
             toolStripButtonUndo.Enabled = _undoStack.Any();
+            dataGridViewAlign.InvalidateCell(CnColumnInclude, -1);  // i.e. its header's check box
         }
 
         #endregion
@@ -512,6 +566,12 @@ namespace OneStoryProjectEditor
         private int CurrentRow
         {
             get { return (dataGridViewAlign.CurrentCell != null) ? dataGridViewAlign.CurrentCell.RowIndex : -1; }
+        }
+
+        // the row of imported lines of the current cell (-1 if none or it's a target left over)
+        private int CurrentDataRow
+        {
+            get { return (CurrentRow >= 0) ? DataRow(CurrentRow) : -1; }
         }
 
         // the index of the tier of the current cell (or -1 if it isn't on one of the tiers)
@@ -570,21 +630,25 @@ namespace OneStoryProjectEditor
 
         private void JoinRowWithNextClick(object sender, EventArgs e)
         {
-            var nRow = CurrentRow;
+            var nRow = CurrentDataRow;
             DoEdit(() => JoinRows(nRow));
         }
 
         private void JoinRowWithPreviousClick(object sender, EventArgs e)
         {
-            var nRow = CurrentRow;
+            var nRow = CurrentDataRow;
             if (nRow > 0)
-                MoveToRow(nRow - 1);
+                MoveToRow(GridRow(nRow - 1));
             DoEdit(() => JoinRows(nRow - 1));
         }
 
         private void InsertBlankRowClick(object sender, EventArgs e)
         {
-            var nRow = CurrentRow;
+            // (on a target left over that's shown between the imported lines, the blank row goes
+            //  where they are, so it goes with the first of them)
+            var nRow = CurrentDataRow;
+            if ((nRow < 0) && (CurrentRow >= 0))
+                nRow = _nLeftOverStart;
             DoEdit(() =>
             {
                 if (nRow < 0)
@@ -603,7 +667,7 @@ namespace OneStoryProjectEditor
 
         private void DeleteBlankRowClick(object sender, EventArgs e)
         {
-            var nRow = CurrentRow;
+            var nRow = CurrentDataRow;
             DoEdit(() =>
             {
                 if (nRow < 0)
@@ -627,23 +691,23 @@ namespace OneStoryProjectEditor
 
         private void JoinCellWithNextClick(object sender, EventArgs e)
         {
-            int nRow = CurrentRow, nTier = CurrentTier;
+            int nRow = CurrentDataRow, nTier = CurrentTier;
             if (nTier >= 0)
                 DoEdit(() => JoinWithNext(_tiers[nTier], nRow));
         }
 
         private void JoinCellWithPreviousClick(object sender, EventArgs e)
         {
-            int nRow = CurrentRow, nTier = CurrentTier;
+            int nRow = CurrentDataRow, nTier = CurrentTier;
             if ((nTier < 0) || (nRow <= 0))
                 return;
-            MoveToRow(nRow - 1);
+            MoveToRow(GridRow(nRow - 1));
             DoEdit(() => JoinWithNext(_tiers[nTier], nRow - 1));
         }
 
         private void InsertBlankCellClick(object sender, EventArgs e)
         {
-            int nRow = CurrentRow, nTier = CurrentTier;
+            int nRow = CurrentDataRow, nTier = CurrentTier;
             if ((nTier < 0) || (nRow < 0))
                 return;
             DoEdit(() =>
@@ -658,7 +722,7 @@ namespace OneStoryProjectEditor
 
         private void DeleteBlankCellClick(object sender, EventArgs e)
         {
-            int nRow = CurrentRow, nTier = CurrentTier;
+            int nRow = CurrentDataRow, nTier = CurrentTier;
             if ((nTier < 0) || (nRow < 0))
                 return;
             DoEdit(() =>
@@ -713,9 +777,11 @@ namespace OneStoryProjectEditor
         private void DataGridViewAlignCellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             // only the imported lines can be edited, and only the ones that are included and
-            //  have a line to go with
-            if ((e.ColumnIndex < CnFirstTierColumn) || !IsIncluded(e.RowIndex) ||
-                (IsOverflow(e.RowIndex) && (e.RowIndex >= _tiers[e.ColumnIndex - CnFirstTierColumn].Count)))
+            //  have a line to go with (and not the targets left over shown between them: insert
+            //  a blank row there first)
+            var nRow = DataRow(e.RowIndex);
+            if ((e.ColumnIndex < CnFirstTierColumn) || (nRow < 0) || !IsIncluded(nRow) ||
+                (IsOverflow(e.RowIndex) && (nRow >= _tiers[e.ColumnIndex - CnFirstTierColumn].Count)))
             {
                 e.Cancel = true;
                 return;
@@ -728,17 +794,20 @@ namespace OneStoryProjectEditor
             if (_bIgnoreEndEdit || (e.ColumnIndex < CnFirstTierColumn))
                 return;
 
+            var nRow = DataRow(e.RowIndex);
+            if (nRow < 0)
+                return;
             var tier = _tiers[e.ColumnIndex - CnFirstTierColumn];
             var value = (dataGridViewAlign.Rows[e.RowIndex].Cells[e.ColumnIndex].Value as string) ?? String.Empty;
-            var oldValue = (e.RowIndex < tier.Count) ? tier[e.RowIndex] : String.Empty;
+            var oldValue = (nRow < tier.Count) ? tier[nRow] : String.Empty;
             if (value == oldValue)
                 return;
 
             PushUndo(_snapshotAtBeginEdit);
-            var bNewDataRow = (e.RowIndex >= DataRowCount);
-            while (tier.Count <= e.RowIndex)
+            var bNewDataRow = (nRow >= DataRowCount);
+            while (tier.Count <= nRow)
                 tier.Add(String.Empty);
-            tier[e.RowIndex] = value;
+            tier[nRow] = value;
             NormalizeInclude();
 
             // the number of rows doesn't change by typing, so just redo this row's colors (and
@@ -753,7 +822,7 @@ namespace OneStoryProjectEditor
         //  cell below it (in this tier only; the other tiers' cells don't move)
         private void SplitCurrentCell(TextBox tb)
         {
-            int nRow = CurrentRow, nTier = CurrentTier;
+            int nRow = CurrentDataRow, nTier = CurrentTier;
             if ((nTier < 0) || (nRow < 0))
                 return;
 
@@ -777,9 +846,10 @@ namespace OneStoryProjectEditor
             RefreshGrid();
 
             // put the cursor at the start of the new cell, in case it needs splitting again
-            if (nRow + 1 < dataGridViewAlign.RowCount)
+            var nNewRow = GridRow(nRow + 1);
+            if (nNewRow < dataGridViewAlign.RowCount)
             {
-                dataGridViewAlign.CurrentCell = dataGridViewAlign.Rows[nRow + 1].Cells[CnFirstTierColumn + nTier];
+                dataGridViewAlign.CurrentCell = dataGridViewAlign.Rows[nNewRow].Cells[CnFirstTierColumn + nTier];
                 if (dataGridViewAlign.BeginEdit(false) && (dataGridViewAlign.EditingControl is TextBox tbNew))
                     tbNew.SelectionStart = 0;
             }
@@ -790,7 +860,7 @@ namespace OneStoryProjectEditor
         //  one. Returns false (so the key works as usual) if there's no cell to join with.
         private bool JoinCellWhileEditing(TextBox tb, bool bWithNext)
         {
-            int nRow = CurrentRow, nTier = CurrentTier;
+            int nRow = CurrentDataRow, nTier = CurrentTier;
             if ((nTier < 0) || (nRow < 0))
                 return false;
 
@@ -817,7 +887,7 @@ namespace OneStoryProjectEditor
             PushUndo(snapshot);
             RefreshGrid();
 
-            dataGridViewAlign.CurrentCell = dataGridViewAlign.Rows[nFirst].Cells[CnFirstTierColumn + nTier];
+            dataGridViewAlign.CurrentCell = dataGridViewAlign.Rows[GridRow(nFirst)].Cells[CnFirstTierColumn + nTier];
             if (dataGridViewAlign.BeginEdit(false) && (dataGridViewAlign.EditingControl is TextBox tbNew))
             {
                 tbNew.SelectionStart = Math.Min(nCaret, tbNew.TextLength);
@@ -826,7 +896,8 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        // checks or unchecks whether a row is imported (the lines on the left move down past it if not)
+        // checks or unchecks whether a row (of imported lines) is imported (the lines on the left
+        //  move down past it if not)
         private void ToggleInclude(int nRow)
         {
             if (!_bCanLeaveOut || (nRow < 0) || (nRow >= DataRowCount))
@@ -839,17 +910,71 @@ namespace OneStoryProjectEditor
             });
         }
 
+        // checks or unchecks all the rows (e.g. to leave out most of them and then check the few to import)
+        private void SetIncludeAll(bool bInclude)
+        {
+            if (!_bCanLeaveOut)
+                return;
+            DoEdit(() =>
+            {
+                NormalizeInclude();
+                if (_include.All(b => b == bInclude))
+                    return false;
+                for (var nRow = 0; nRow < _include.Count; nRow++)
+                    _include[nRow] = bInclude;
+                return true;
+            });
+        }
+
+        private void IncludeAllRowsClick(object sender, EventArgs e)
+        {
+            SetIncludeAll(true);
+        }
+
+        private void LeaveOutAllRowsClick(object sender, EventArgs e)
+        {
+            SetIncludeAll(false);
+        }
+
+        // clicking the 'Include' header unchecks all the rows if they're all checked (otherwise, checks them all)
+        private void DataGridViewAlignColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if ((e.Button == MouseButtons.Left) && (e.ColumnIndex == CnColumnInclude))
+                SetIncludeAll(!Enumerable.Range(0, DataRowCount).All(IsIncluded));
+        }
+
         private void DataGridViewAlignCellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if ((e.ColumnIndex == CnColumnInclude) && (e.RowIndex >= 0))
-                ToggleInclude(e.RowIndex);
+                ToggleInclude(DataRow(e.RowIndex));
         }
 
-        // the rows past the imported lines (i.e. story lines left over) have nothing to
-        //  include, so just draw the background (and border) of their 'Include' cell
+        // the rows for the story lines left over (i.e. that aren't imported lines) have nothing
+        //  to include, so just draw the background (and border) of their 'Include' cell. And
+        //  the 'Include' header has a check box for all the rows (checked if they're all
+        //  included, mixed if only some are; clicking it checks or unchecks them all)
         private void DataGridViewAlignCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            if ((e.ColumnIndex != CnColumnInclude) || (e.RowIndex < 0) || (e.RowIndex < DataRowCount))
+            if (e.ColumnIndex != CnColumnInclude)
+                return;
+            if (e.RowIndex < 0)
+            {
+                e.Paint(e.ClipBounds, DataGridViewPaintParts.All);
+                var nDataRows = DataRowCount;
+                var nIncluded = Enumerable.Range(0, nDataRows).Count(IsIncluded);
+                var state = (nIncluded == 0)
+                                ? CheckBoxState.UncheckedNormal
+                                : (nIncluded == nDataRows) ? CheckBoxState.CheckedNormal : CheckBoxState.MixedNormal;
+                var size = CheckBoxRenderer.GetGlyphSize(e.Graphics, state);
+                CheckBoxRenderer.DrawCheckBox(e.Graphics,
+                                              new Point(e.CellBounds.Left + (CnHeaderCheckBoxWidth - size.Width) / 2 + 2,
+                                                        e.CellBounds.Top + (e.CellBounds.Height - size.Height) / 2),
+                                              state);
+                e.Handled = true;
+                return;
+            }
+            var nRow = DataRow(e.RowIndex);
+            if ((nRow >= 0) && (nRow < DataRowCount))
                 return;
             e.Paint(e.ClipBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.ContentForeground);
             e.Handled = true;
@@ -872,7 +997,7 @@ namespace OneStoryProjectEditor
                     if ((tb == null) && (dataGridViewAlign.CurrentCell != null) &&
                         (dataGridViewAlign.CurrentCell.ColumnIndex == CnColumnInclude))
                     {
-                        ToggleInclude(CurrentRow);
+                        ToggleInclude(CurrentDataRow);
                         return true;
                     }
                     break;
@@ -937,6 +1062,10 @@ namespace OneStoryProjectEditor
                 joinCellWithPreviousMenu.Enabled =
                 insertBlankCellMenu.Enabled =
                 deleteBlankCellMenu.Enabled = bOnTier;
+            toolStripSeparator5.Visible = includeAllRowsMenu.Visible = leaveOutAllRowsMenu.Visible = _bCanLeaveOut;
+            var nDataRows = DataRowCount;
+            includeAllRowsMenu.Enabled = !Enumerable.Range(0, nDataRows).All(IsIncluded);
+            leaveOutAllRowsMenu.Enabled = Enumerable.Range(0, nDataRows).Any(IsIncluded);
             undoMenu.Enabled = _undoStack.Any();
         }
 
