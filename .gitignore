@@ -325,3 +325,4 @@ _Pvt_Extensions
 /MercurialExtensions/fixutf8/.guidsForInstaller.xml
 /MercurialExtensions/fixutf8/.gitignore
 /output
+/build/engine.exe
