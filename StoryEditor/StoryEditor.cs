@@ -7714,6 +7714,7 @@ namespace OneStoryProjectEditor
             }
 
             Modified = true;
+            AddImportedWordGlossesToAdaptIt(dlg);
 
             if (eStageToGoTo == StoryStageLogic.ProjectStages.eUndefined)
             {
@@ -7735,6 +7736,170 @@ namespace OneStoryProjectEditor
             return (lst.Count > i)
                        ? lst[i]
                        : null;
+        }
+
+        // the pairs of languages the user said not to create an Adapt It project for (so we don't keep asking)
+        private readonly HashSet<ProjectSettings.AdaptItConfiguration.AdaptItBtDirection> _setDeclinedImportAiKbs =
+            new HashSet<ProjectSettings.AdaptItConfiguration.AdaptItBtDirection>();
+
+        // Adds the word glosses of the imported text (e.g. the FLEx word 'gls' items) to the
+        //  Adapt It knowledge base for their pair of languages (e.g. Vernacular to National
+        //  BT, if the words are in the language imported into the story language field and
+        //  the glosses in the one imported into the National BT field). If the project uses
+        //  Adapt It for that pair, they're just added; if it doesn't use Adapt It at all, the
+        //  user is asked whether to create a project for it; and if it uses Adapt It, but for
+        //  other pairs, then nothing is done.
+        private void AddImportedWordGlossesToAdaptIt(SayMoreImportForm dlg)
+        {
+            var importedText = dlg.ImportedText;
+            if (importedText == null)
+                return;
+
+            var projSettings = StoryProject.ProjSettings;
+            foreach (var tier in importedText.Tiers.Where(t => (t.Kind == ImportedTier.TierKind.WordGloss) &&
+                                                               t.WordPairs.Any()))
+            {
+                var fieldSource = ImportedLanguageField(dlg.Mappings, tier.WordLangCode, null);
+                var fieldTarget = ImportedLanguageField(dlg.Mappings, tier.LangCode, tier);
+                ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection;
+                if (!AdaptItBtDirection(fieldSource, fieldTarget, out eBtDirection))
+                    continue;
+
+                ProjectSettings.LanguageInfo liSource, liTarget;
+                try
+                {
+                    var config = AdaptItConfig(projSettings, eBtDirection);
+                    if ((config == null) || !config.HasData)
+                    {
+                        if (projSettings.HasAdaptItConfigurationData || _setDeclinedImportAiKbs.Contains(eBtDirection))
+                            continue;
+
+                        var liSourceField = LanguageInfo(projSettings, fieldSource);
+                        var liTargetField = LanguageInfo(projSettings, fieldTarget);
+                        if (String.IsNullOrEmpty(liSourceField.LangName) || String.IsNullOrEmpty(liTargetField.LangName))
+                            continue;
+
+                        var res = LocalizableMessageBox.Show(
+                            String.Format(Localizer.Str("The imported text has glosses for {0} words from {1} to {2}. Would you like to add them to an Adapt It knowledge base for {1} to {2}? (Click 'Yes' to create an Adapt It project for them, which you can then use to gloss the story.)"),
+                                          tier.WordPairs.Count, liSourceField.LangName, liTargetField.LangName),
+                            OseCaption, MessageBoxButtons.YesNo);
+                        if (res != DialogResult.Yes)
+                        {
+                            _setDeclinedImportAiKbs.Add(eBtDirection);
+                            continue;
+                        }
+                    }
+
+                    // (this creates the Adapt It project, if it doesn't exist yet)
+                    var theEc = AdaptItGlossing.InitLookupAdapter(projSettings, eBtDirection, LoggedOnMember,
+                                                                  out liSource, out liTarget);
+                    if ((config == null) || !config.HasData)
+                    {
+                        SetAdaptItConfig(projSettings, eBtDirection, new ProjectSettings.AdaptItConfiguration
+                        {
+                            BtDirection = eBtDirection,
+                            ProjectType = ProjectSettings.AdaptItConfiguration.AdaptItProjectType.LocalAiProjectOnly,
+                            ConverterName = theEc.Name,
+                            ProjectFolderName = Path.GetFileNameWithoutExtension(
+                                AdaptItGlossing.GetAiProjectFolderFromConverterIdentifier(theEc.ConverterIdentifier))
+                        });
+                        Modified = true;
+                    }
+
+                    foreach (var pair in tier.WordPairs)
+                        theEc.AddEntryPair(pair.Key, pair.Value, false);
+                    theEc.AddEntryPairSave();
+                }
+                catch (Exception ex)
+                {
+                    Program.ShowException(ex);
+                }
+            }
+        }
+
+        // the field that the text in the given language was imported into: for a word gloss
+        //  tier, the one it was mapped to (if any); for the words, the one the (non-word gloss)
+        //  tier in that language was mapped to; otherwise, the one configured for the language
+        private TextFields ImportedLanguageField(List<ImportMapping> mappings, string strLangCode, ImportedTier tier)
+        {
+            var mapping = (tier != null)
+                              ? mappings.FirstOrDefault(m => m.Tier.Name == tier.Name)
+                              : mappings.Where(m => (m.Tier.Kind != ImportedTier.TierKind.WordGloss) &&
+                                                    (m.Tier.LangCode == strLangCode))
+                                        .OrderBy(m => m.Tier.Kind)  // i.e. the baseline first
+                                        .FirstOrDefault();
+            if (mapping != null)
+                return mapping.Field;
+
+            if (String.IsNullOrEmpty(strLangCode))
+                return TextFields.Undefined;
+
+            var projSettings = StoryProject.ProjSettings;
+            return new[] {TextFields.Vernacular, TextFields.NationalBt, TextFields.InternationalBt}
+                .FirstOrDefault(f => String.Equals(LanguageInfo(projSettings, f).LangCode, strLangCode,
+                                                   StringComparison.OrdinalIgnoreCase));
+        }
+
+        private static ProjectSettings.LanguageInfo LanguageInfo(ProjectSettings projSettings, TextFields field)
+        {
+            switch (field)
+            {
+                case TextFields.NationalBt:
+                    return projSettings.NationalBT;
+                case TextFields.InternationalBt:
+                    return projSettings.InternationalBT;
+                case TextFields.FreeTranslation:
+                    return projSettings.FreeTranslation;
+                default:
+                    return projSettings.Vernacular;
+            }
+        }
+
+        private static bool AdaptItBtDirection(TextFields fieldSource, TextFields fieldTarget,
+                                               out ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection)
+        {
+            eBtDirection = ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt;
+            if ((fieldSource == TextFields.Vernacular) && (fieldTarget == TextFields.NationalBt))
+                return true;
+
+            eBtDirection = ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToInternationalBt;
+            if ((fieldSource == TextFields.Vernacular) && (fieldTarget == TextFields.InternationalBt))
+                return true;
+
+            eBtDirection = ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.NationalBtToInternationalBt;
+            return (fieldSource == TextFields.NationalBt) && (fieldTarget == TextFields.InternationalBt);
+        }
+
+        private static ProjectSettings.AdaptItConfiguration AdaptItConfig(ProjectSettings projSettings,
+            ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection)
+        {
+            switch (eBtDirection)
+            {
+                case ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt:
+                    return projSettings.VernacularToNationalBt;
+                case ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToInternationalBt:
+                    return projSettings.VernacularToInternationalBt;
+                default:
+                    return projSettings.NationalBtToInternationalBt;
+            }
+        }
+
+        private static void SetAdaptItConfig(ProjectSettings projSettings,
+            ProjectSettings.AdaptItConfiguration.AdaptItBtDirection eBtDirection,
+            ProjectSettings.AdaptItConfiguration config)
+        {
+            switch (eBtDirection)
+            {
+                case ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt:
+                    projSettings.VernacularToNationalBt = config;
+                    break;
+                case ProjectSettings.AdaptItConfiguration.AdaptItBtDirection.VernacularToInternationalBt:
+                    projSettings.VernacularToInternationalBt = config;
+                    break;
+                default:
+                    projSettings.NationalBtToInternationalBt = config;
+                    break;
+            }
         }
 
         private void ButtonMoveToNextLineClick(object sender, EventArgs e)

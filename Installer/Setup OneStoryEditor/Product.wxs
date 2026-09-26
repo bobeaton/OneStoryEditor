@@ -41,6 +41,7 @@
       <MergeRef Id="ChorusMergeModule" />
       <MergeRef Id="AIGuesserMM" />
       <MergeRef Id="EcTranslatorsMM" />
+      <MergeRef Id="EncConverterHostExeMM" />
       <MergeRef Id="CcDLLsMM" />
       <MergeRef Id="ClipboardEncConverter" />
       <MergeRef Id="EC_40_MM" />

@@ -54,7 +54,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="icu4c.readme.txt" />
     <Content Include="SortAIKB.xslt" />
   </ItemGroup>

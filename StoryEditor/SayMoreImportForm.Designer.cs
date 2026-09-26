@@ -45,6 +45,7 @@
             this.radioButtonAsRetelling = new System.Windows.Forms.RadioButton();
             this.radioButtonNewStory = new System.Windows.Forms.RadioButton();
             this.buttonImport = new System.Windows.Forms.Button();
+            this.buttonViewLines = new System.Windows.Forms.Button();
             this.dataGridViewTiers = new System.Windows.Forms.DataGridView();
             this.ColumnTierName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnTierLanguage = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -172,6 +173,7 @@
             this.tabPageFieldMatching.Controls.Add(this.groupBox1);
             this.tabPageFieldMatching.Controls.Add(this.dataGridViewTiers);
             this.tabPageFieldMatching.Controls.Add(this.buttonImport);
+            this.tabPageFieldMatching.Controls.Add(this.buttonViewLines);
             this.tabPageFieldMatching.Location = new System.Drawing.Point(4, 22);
             this.tabPageFieldMatching.Name = "tabPageFieldMatching";
             this.tabPageFieldMatching.Padding = new System.Windows.Forms.Padding(3);
@@ -179,6 +181,7 @@
             this.tabPageFieldMatching.TabIndex = 3;
             this.tabPageFieldMatching.Text = "Choose Fields";
             this.tabPageFieldMatching.UseVisualStyleBackColor = true;
+            this.tabPageFieldMatching.Resize += new System.EventHandler(this.TabPageFieldMatchingResize);
             // 
             // groupBox1
             // 
@@ -239,6 +242,17 @@
             this.buttonImport.Text = "&Import";
             this.buttonImport.UseVisualStyleBackColor = true;
             this.buttonImport.Click += new System.EventHandler(this.ButtonImportClick);
+            //
+            // buttonViewLines
+            //
+            this.buttonViewLines.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.buttonViewLines.Location = new System.Drawing.Point(394, 274);
+            this.buttonViewLines.Name = "buttonViewLines";
+            this.buttonViewLines.Size = new System.Drawing.Size(140, 23);
+            this.buttonViewLines.TabIndex = 4;
+            this.buttonViewLines.Text = "&View Lines to Import >";
+            this.buttonViewLines.UseVisualStyleBackColor = true;
+            this.buttonViewLines.Click += new System.EventHandler(this.ButtonViewLinesClick);
             // 
             // dataGridViewTiers
             // 
@@ -346,6 +360,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnParticipant;
         private System.Windows.Forms.TabPage tabPageFieldMatching;
         private System.Windows.Forms.Button buttonImport;
+        private System.Windows.Forms.Button buttonViewLines;
         private System.Windows.Forms.DataGridView dataGridViewTiers;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTierName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTierLanguage;

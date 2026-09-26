@@ -27,6 +27,12 @@ namespace OneStoryProjectEditor
         //  each (aligned) tier in Mappings goes with
         public List<AlignTarget> AlignTargets;
 
+        // everything that was read in (e.g. including tiers that weren't mapped to a field)
+        public ImportedText ImportedText
+        {
+            get { return _importedText; }
+        }
+
         private const int CnColumnClickToInstall = 0;
         private const int CnColumnTitle = 2;
         private const int CnColumnCrafter = 4;
@@ -91,6 +97,7 @@ namespace OneStoryProjectEditor
                                                           storyData.CraftingInfo.TestersToCommentsTqAnswers.Count + 1,
                                                           storyData.Name);
             }
+            LayoutButtons();
         }
 
         private void InitGrid()
@@ -458,7 +465,9 @@ namespace OneStoryProjectEditor
             e.ThrowException = false;
         }
 
-        private void ButtonImportClick(object sender, EventArgs e)
+        // the tiers the user chose to import and the fields they go in (or null, after
+        //  telling the user why, if that isn't possible)
+        private List<ImportMapping> GetMappings()
         {
             dataGridViewTiers.EndEdit();
             SaymoreImportType = SelectedImportType;
@@ -483,7 +492,7 @@ namespace OneStoryProjectEditor
                             Localizer.Str("You can't import both the '{0}' and '{1}' tiers into the {2} field"),
                             dup.Tier.Name, tier.Name, FieldDisplayName(field)),
                         StoryEditor.OseCaption);
-                    return;
+                    return null;
                 }
 
                 mappings.Add(new ImportMapping {Field = field, Tier = tier});
@@ -502,13 +511,28 @@ namespace OneStoryProjectEditor
                     strMessage = Localizer.Str("This project doesn't have any languages configured for the story. To add them, click 'Project', 'Settings' and check the boxes in the 'Story' column of the 'Languages' tab.");
 
                 LocalizableMessageBox.Show(strMessage, StoryEditor.OseCaption);
-                return;
+                return null;
             }
 
-            // a retelling or the answers won't normally match the story line for line, so
-            //  have the user line them up first
+            return mappings;
+        }
+
+        private void ButtonImportClick(object sender, EventArgs e)
+        {
+            var mappings = GetMappings();
+            if (mappings == null)
+                return;
+
+            // e.g. an audio segment that was never transcribed isn't a line of the story (or
+            //  the retelling). (For the answers, the user can choose which lines to leave out
+            //  when lining them up, where the empty ones start out left out.)
+            if (SaymoreImportType != SaymoreImportTypes.Answers)
+                mappings = ImportMapping.WithoutEmptyLines(mappings);
+
             if (SaymoreImportType != SaymoreImportTypes.NewStory)
             {
+                // a retelling or the answers won't normally match the story line for line, so
+                //  have the user line them up first
                 var bAnswers = (SaymoreImportType == SaymoreImportTypes.Answers);
                 var targets = AlignImportLinesForm.GetTargets(_storyData, bAnswers);
                 if (!targets.Any())
@@ -530,6 +554,26 @@ namespace OneStoryProjectEditor
                 AlignTargets = targets;
             }
 
+            Finish(mappings);
+        }
+
+        // for a new story, lets the user see the lines first and choose which to import
+        private void ButtonViewLinesClick(object sender, EventArgs e)
+        {
+            var mappings = GetMappings();
+            if (mappings == null)
+                return;
+
+            using (var dlg = new AlignImportLinesForm(null, mappings, _projSettings, false))
+            {
+                if (dlg.ShowDialog(this) != DialogResult.OK)
+                    return;
+                Finish(dlg.AlignedMappings);
+            }
+        }
+
+        private void Finish(List<ImportMapping> mappings)
+        {
             Mappings = mappings;
             DialogResult = DialogResult.OK;
             Close();
@@ -545,7 +589,30 @@ namespace OneStoryProjectEditor
                 buttonImport.Text = radioButtonNewStory.Checked
                                         ? Localizer.Str("&Import")
                                         : Localizer.Str("&Next >");
+                LayoutButtons();
             }
+        }
+
+        // the 'View Lines' button is only for a new story (a retelling or answers always
+        //  goes to the lines next), so keep whichever buttons are visible centered.
+        // For now, a new story is just imported as is (without its empty lines), so the
+        //  button is never shown. To show it again (and let the user leave out lines of a
+        //  new story or retelling), define OSE_IMPORT_LEAVE_OUT_LINES (cf. AlignImportLinesForm).
+        private void LayoutButtons()
+        {
+#if OSE_IMPORT_LEAVE_OUT_LINES
+            buttonViewLines.Visible = radioButtonNewStory.Checked;
+#else
+            buttonViewLines.Visible = false;
+#endif
+            var nWidth = buttonImport.Width + (buttonViewLines.Visible ? buttonViewLines.Width + 6 : 0);
+            buttonImport.Left = (tabPageFieldMatching.ClientSize.Width - nWidth) / 2;
+            buttonViewLines.Left = buttonImport.Right + 6;
+        }
+
+        private void TabPageFieldMatchingResize(object sender, EventArgs e)
+        {
+            LayoutButtons();
         }
     }
 }

@@ -57,9 +57,37 @@ namespace OneStoryProjectEditor
         public TierKind Kind;
         public List<string> Lines = new List<string>();
 
+        // for a word gloss tier: the (distinct) pairs of word and its gloss (e.g. for adding
+        //  to an Adapt It knowledge base) and the language of the words
+        public string WordLangCode;
+        public List<KeyValuePair<string, string>> WordPairs = new List<KeyValuePair<string, string>>();
+
         public string FirstNonEmptyLine
         {
             get { return Lines.FirstOrDefault(l => !String.IsNullOrEmpty(l)); }
+        }
+
+        // a copy of this tier, but with different lines (e.g. after lining them up)
+        public ImportedTier WithLines(List<string> lines)
+        {
+            return new ImportedTier
+            {
+                Name = Name,
+                LangCode = LangCode,
+                Kind = Kind,
+                Lines = lines,
+                WordLangCode = WordLangCode,
+                WordPairs = WordPairs
+            };
+        }
+
+        public void AddWordPair(string strWord, string strGloss)
+        {
+            if (String.IsNullOrEmpty(strWord) || String.IsNullOrEmpty(strGloss))
+                return;
+            var pair = new KeyValuePair<string, string>(strWord, strGloss);
+            if (!WordPairs.Contains(pair))
+                WordPairs.Add(pair);
         }
     }
 
@@ -68,6 +96,22 @@ namespace OneStoryProjectEditor
     {
         public StoryEditor.TextFields Field;
         public ImportedTier Tier;
+
+        // leaves out the lines that don't have any text in any of the mapped tiers (e.g. an
+        //  audio segment that was never transcribed)
+        public static List<ImportMapping> WithoutEmptyLines(List<ImportMapping> mappings)
+        {
+            var nLines = mappings.Max(m => m.Tier.Lines.Count);
+            var lines = Enumerable.Range(0, nLines)
+                                  .Where(n => mappings.Any(m => (n < m.Tier.Lines.Count) &&
+                                                                !String.IsNullOrEmpty(m.Tier.Lines[n])))
+                                  .ToList();
+            return mappings.Select(m => new ImportMapping
+            {
+                Field = m.Field,
+                Tier = m.Tier.WithLines(lines.Select(n => (n < m.Tier.Lines.Count) ? m.Tier.Lines[n] : null).ToList())
+            }).ToList();
+        }
     }
 
     // Reads any ELAN .eaf file: both the 2-tier files SayMore writes (Transcription +
@@ -210,6 +254,7 @@ namespace OneStoryProjectEditor
 
                 var values = new List<string>[segments.Count];
                 var bMultiplePerSegment = false;
+                var wordPairs = new List<KeyValuePair<Annotation, Annotation>>();
                 foreach (var ann in tier.Annotations)
                 {
                     var nSegment = FindSegment(ann, annotations, segmentIndex, segments);
@@ -221,6 +266,12 @@ namespace OneStoryProjectEditor
                         bMultiplePerSegment = true;
                     if (!String.IsNullOrEmpty(ann.Value))
                         values[nSegment].Add(ann.Value);
+
+                    // e.g. a FLEx 'wordGloss' refers to the 'word' it glosses
+                    Annotation annWord;
+                    if ((ann.RefId != null) && annotations.TryGetValue(ann.RefId, out annWord) &&
+                        !segmentIndex.ContainsKey(annWord) && (annWord.Tier.LangCode != tier.LangCode))
+                        wordPairs.Add(new KeyValuePair<Annotation, Annotation>(annWord, ann));
                 }
 
                 if (values.All(v => v == null))
@@ -239,13 +290,22 @@ namespace OneStoryProjectEditor
                 if (tier.TypeRef == CstrTypeGloss)
                     kind = ImportedTier.TierKind.WordGloss;
 
-                importedText.Tiers.Add(new ImportedTier
+                var importedTier = new ImportedTier
                 {
                     Name = TierDisplayName(tier),
                     LangCode = tier.LangCode,
                     Kind = kind,
                     Lines = values.Select(v => (v == null) ? null : String.Join(" ", v)).ToList()
-                });
+                };
+
+                if (kind == ImportedTier.TierKind.WordGloss)
+                {
+                    importedTier.WordLangCode = wordPairs.Select(p => p.Key.Tier.LangCode).FirstOrDefault();
+                    foreach (var pair in wordPairs.Where(p => p.Key.Tier.LangCode == importedTier.WordLangCode))
+                        importedTier.AddWordPair(pair.Key.Value, pair.Value.Value);
+                }
+
+                importedText.Tiers.Add(importedTier);
             }
 
             return importedText;
@@ -426,9 +486,23 @@ namespace OneStoryProjectEditor
                                                    .Where(it => (string)it.Attribute("type") == CstrItemTypeGloss)
                                                    .GroupBy(it => (string)it.Attribute("lang")))
                     {
-                        AddValue(tiers, "word-" + CstrItemTypeGloss, langGroup.Key, Localizer.Str("Word gloss"),
-                                 ImportedTier.TierKind.WordGloss, i,
-                                 String.Join(" ", langGroup.Select(it => it.Value.Trim())));
+                        var tier = AddValue(tiers, "word-" + CstrItemTypeGloss, langGroup.Key, Localizer.Str("Word gloss"),
+                                            ImportedTier.TierKind.WordGloss, i,
+                                            String.Join(" ", langGroup.Select(it => it.Value.Trim())));
+
+                        // and each word with its gloss (e.g. for an Adapt It knowledge base)
+                        foreach (var elemGloss in langGroup)
+                        {
+                            var elemWord = elemGloss.Parent?.Elements("item")
+                                                    .FirstOrDefault(it => (string)it.Attribute("type") == CstrItemTypeTranscription);
+                            if (elemWord == null)
+                                continue;
+                            var strWordLang = (string)elemWord.Attribute("lang");
+                            if (tier.WordLangCode == null)
+                                tier.WordLangCode = strWordLang;
+                            if (strWordLang == tier.WordLangCode)
+                                tier.AddWordPair(elemWord.Value.Trim(), elemGloss.Value.Trim());
+                        }
                     }
                 }
 
@@ -452,8 +526,8 @@ namespace OneStoryProjectEditor
             return texts;
         }
 
-        private static void AddValue(Dictionary<string, ImportedTier> tiers, string strType, string strLang,
-                                     string strName, ImportedTier.TierKind kind, int nLine, string value)
+        private static ImportedTier AddValue(Dictionary<string, ImportedTier> tiers, string strType, string strLang,
+                                             string strName, ImportedTier.TierKind kind, int nLine, string value)
         {
             var key = strType + "|" + strLang;
             ImportedTier tier;
@@ -475,6 +549,7 @@ namespace OneStoryProjectEditor
                 tier.Lines.Add(value);
             else if (!String.IsNullOrEmpty(value))  // shouldn't happen, but don't lose anything
                 tier.Lines[nLine] = String.IsNullOrEmpty(tier.Lines[nLine]) ? value : tier.Lines[nLine] + " " + value;
+            return tier;
         }
     }
 

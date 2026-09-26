@@ -5,6 +5,7 @@
     <ProjectGuid>{DEFA9358-620F-48E2-9652-AA19A57646B9}</ProjectGuid>
     <AssemblyName>AutoUpgrade</AssemblyName>
     <OutputType>WinExe</OutputType>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <RootNamespace></RootNamespace>
     <OptionCompare>Binary</OptionCompare>
     <OptionExplicit>On</OptionExplicit>

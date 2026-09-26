@@ -43,6 +43,7 @@
             this.dataGridViewAlign = new System.Windows.Forms.DataGridView();
             this.ColumnLine = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnInclude = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.joinRowWithNextMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.joinRowWithPreviousMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -156,10 +157,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelInstructions.Location = new System.Drawing.Point(12, 30);
             this.labelInstructions.Name = "labelInstructions";
-            this.labelInstructions.Size = new System.Drawing.Size(960, 30);
+            this.labelInstructions.Size = new System.Drawing.Size(960, 42);
             this.labelInstructions.TabIndex = 1;
-            this.labelInstructions.Text = "The imported lines in each row will go with the line on the left. To line them up, join rows (e.g. if one line o" +
-    "f the story was said in several lines) or insert blank rows (e.g. for a line that was left out). To split a line, click on it and press Enter where it should be split (do this for each tier); Delete at the end of a line (or Backspace at the start) joins it back.";
+            this.labelInstructions.Text = "The imported lines in each included row will go with the line on the left. To line them up, join rows (e.g. if one l" +
+    "ine of the story was said in several lines), insert blank rows (e.g. for a line that was left out), or uncheck 'Include' for talk that isn't part of it. To split a line, click on it and press Enter where it should be split (do this for each tier); Delete at the end of a line (or Backspace at the start) joins it back.";
             //
             // dataGridViewAlign
             //
@@ -174,18 +175,23 @@
             this.dataGridViewAlign.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewAlign.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnLine,
-            this.ColumnSource});
+            this.ColumnSource,
+            this.ColumnInclude});
             this.dataGridViewAlign.ContextMenuStrip = this.contextMenuStrip;
-            this.dataGridViewAlign.Location = new System.Drawing.Point(12, 63);
+            this.dataGridViewAlign.Location = new System.Drawing.Point(12, 75);
             this.dataGridViewAlign.MultiSelect = false;
             this.dataGridViewAlign.Name = "dataGridViewAlign";
             this.dataGridViewAlign.RowHeadersVisible = false;
             this.dataGridViewAlign.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridViewAlign.Size = new System.Drawing.Size(960, 450);
+            this.dataGridViewAlign.Size = new System.Drawing.Size(960, 438);
             this.dataGridViewAlign.TabIndex = 2;
             this.dataGridViewAlign.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.DataGridViewAlignCellBeginEdit);
             this.dataGridViewAlign.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewAlignCellEndEdit);
             this.dataGridViewAlign.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridViewAlignCellMouseDown);
+            this.dataGridViewAlign.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewAlignCellContentClick);
+            this.dataGridViewAlign.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewAlignCellContentClick);
+            this.dataGridViewAlign.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.DataGridViewAlignCellPainting);
+            this.dataGridViewAlign.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.DataGridViewAlignDataError);
             //
             // ColumnLine
             //
@@ -202,6 +208,14 @@
             this.ColumnSource.Name = "ColumnSource";
             this.ColumnSource.ReadOnly = true;
             this.ColumnSource.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            //
+            // ColumnInclude
+            //
+            this.ColumnInclude.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ColumnInclude.HeaderText = "Include";
+            this.ColumnInclude.Name = "ColumnInclude";
+            this.ColumnInclude.ReadOnly = true;
+            this.ColumnInclude.ToolTipText = "Uncheck this to leave the row out, e.g. for talk that isn't part of the story (Space)";
             //
             // contextMenuStrip
             //
@@ -378,6 +392,7 @@
         private System.Windows.Forms.DataGridView dataGridViewAlign;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnLine;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSource;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnInclude;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem joinRowWithNextMenu;
         private System.Windows.Forms.ToolStripMenuItem joinRowWithPreviousMenu;

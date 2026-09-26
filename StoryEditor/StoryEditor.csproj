@@ -200,7 +200,7 @@
     <PackageReference Include="CircularProgressBar" Version="2.8.0.16" />
     <PackageReference Include="DialogAdapters.Gtk2" Version="0.1.11" />
     <PackageReference Include="Enchant.Net" Version="1.4.2" />
-    <PackageReference Include="Encoding-Converters-Core" Version="0.9.9" />
+    <PackageReference Include="Encoding-Converters-Core" Version="1.0.1" />
     <PackageReference Include="FluentFTP" Version="54.2.0" />
     <PackageReference Include="ibusdotnet" Version="2.0.3" />
     <!-- icu.net's version is owned by SharedItems.props (imported below). -->

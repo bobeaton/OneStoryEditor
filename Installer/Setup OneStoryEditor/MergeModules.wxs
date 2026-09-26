@@ -23,6 +23,9 @@
       <Merge Id="ChorusMergeModule" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\ChorusMergeModule.msm" DiskId="1" />
       <Merge Id="AIGuesserMM" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\Release\AIGuesserMM.msm" DiskId="1" />
       <Merge Id="EcTranslatorsMM" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\Release\EcTranslatorsMM.msm" DiskId="1" />
+      <!-- SilEncConverters40.dll references EncConverterHostExe.exe (which hosts converters out of process),
+           and this is the only thing that installs it -->
+      <Merge Id="EncConverterHostExeMM" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\Release\EncConverterHostExeMM.msm" DiskId="1" />
       <Merge Id="CcDLLsMM" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\Release\CcDLLsMM.msm" DiskId="1" />
       <Merge Id="ClipboardEncConverter" Language="1033" SourceFile="..\..\Installer\ExternalMergeModules\ClipboardEncConverterMM.msm" DiskId="1" />
       <Merge Id="EC_40_MM" Language="1033" SourceFile="$(var.EcDistFilesPath)\MergeModules\x86\Release\EC_40_MM.msm" DiskId="1" />

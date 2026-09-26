@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -24,28 +25,51 @@ namespace OneStoryProjectEditor
     // The imported lines can be joined or split (and blank rows inserted), but never
     //  deleted or moved: they always stay in the order they were said. Each tier is its
     //  own column, so a line can be split at a different place in each tier.
+    // For the answers, a row can also be left out (by unchecking 'Include'), e.g. for meta
+    //  discussion that isn't an answer: it's then not imported and doesn't go with any
+    //  question, so the questions on the left move down past it. Rows with no text in any
+    //  tier (e.g. an empty audio segment) are left out to begin with.
+    // Without any targets (i.e. for a new story), there's nothing on the left: the user
+    //  just chooses which lines to import.
+    // For now, a retelling can't have lines left out (all of it is the retelling) and a new
+    //  story doesn't come here at all (its empty lines are just removed). To allow both
+    //  again, define OSE_IMPORT_LEAVE_OUT_LINES (cf. SayMoreImportForm.LayoutButtons).
     public partial class AlignImportLinesForm : TopForm
     {
         private readonly List<AlignTarget> _targets;
         private readonly List<ImportMapping> _mappings;
         private readonly ProjectSettings _projSettings;
         private readonly bool _bAnswers;
+        private readonly bool _bNewStory;
+        private readonly bool _bCanLeaveOut;    // i.e. whether there's an 'Include' column
 
-        // the imported lines of each tier (i.e. each mapping), which can have different lengths
+        // what can be undone: the imported lines of each tier (i.e. each mapping), which can
+        //  have different lengths, and whether each row is included
+        private class AlignState
+        {
+            public List<List<string>> Tiers;
+            public List<bool> Include;
+        }
+
         private List<List<string>> _tiers;
-        private readonly Stack<List<List<string>>> _undoStack = new Stack<List<List<string>>>();
-        private List<List<string>> _snapshotAtBeginEdit;
+        private List<bool> _include;        // one per row that has imported lines (rows past them are included)
+        private List<int> _rowTargets;      // the index of the target each row goes with (-1 if it's left out)
+        private readonly Stack<AlignState> _undoStack = new Stack<AlignState>();
+        private AlignState _snapshotAtBeginEdit;
         private bool _bIgnoreEndEdit;
 
         private const int CnColumnLine = 0;
         private const int CnColumnSource = 1;
-        private const int CnFirstTierColumn = 2;
+        private const int CnColumnInclude = 2;
+        private const int CnFirstTierColumn = 3;
 
         private static readonly Color ColorNoCell = Color.Gainsboro;
         private static readonly Color ColorRagged = Color.LightYellow;
         private static readonly Color ColorOverflow = Color.MistyRose;
+        private static readonly Color ColorLeftOut = SystemColors.Control;
 
-        // the aligned tiers (one line per target) when the user clicks Accept
+        // the aligned tiers (one line per target, or for a new story, one per included
+        //  row) when the user clicks Accept
         public List<ImportMapping> AlignedMappings { get; private set; }
 
         // version used by Localization
@@ -55,19 +79,43 @@ namespace OneStoryProjectEditor
             Localizer.Ctrl(this);
         }
 
+        // targets is null for a new story (i.e. when only choosing which lines to import)
         public AlignImportLinesForm(List<AlignTarget> targets, List<ImportMapping> mappings,
                                     ProjectSettings projSettings, bool bAnswers)
         {
-            _targets = targets;
+            _bNewStory = (targets == null);
+            _targets = targets ?? new List<AlignTarget>();
             _mappings = mappings;
             _projSettings = projSettings;
             _bAnswers = bAnswers;
+#if OSE_IMPORT_LEAVE_OUT_LINES
+            _bCanLeaveOut = true;
+#else
+            _bCanLeaveOut = bAnswers;
+#endif
             InitializeComponent();
             Localizer.Ctrl(this);
 
             _tiers = mappings.Select(m => m.Tier.Lines.Select(l => l ?? String.Empty).ToList()).ToList();
 
-            if (bAnswers)
+            // rows without any text (e.g. an empty audio segment) aren't imported by default
+            //  (if rows can be left out; otherwise, all of them are included)
+            _include = Enumerable.Range(0, DataRowCount).Select(n => !_bCanLeaveOut || RowHasText(n)).ToList();
+
+            if (!_bCanLeaveOut)
+            {
+                ColumnInclude.Visible = false;
+                labelInstructions.Text = Localizer.Str("The imported lines in each row will go with the line on the left. To line them up, join rows (e.g. if one line of the story was said in several lines) or insert blank rows (e.g. for a line that was left out). To split a line, click on it and press Enter where it should be split (do this for each tier); Delete at the end of a line (or Backspace at the start) joins it back.");
+            }
+
+            if (_bNewStory)
+            {
+                Text = Localizer.Str("Choose the lines to import");
+                labelInstructions.Text = Localizer.Str("Uncheck 'Include' for any row that shouldn't be imported (e.g. talk that isn't part of the story). You can also join rows, or split a line by clicking on it and pressing Enter where it should be split (do this for each tier); Delete at the end of a line (or Backspace at the start) joins it back.");
+                ColumnSource.Visible = false;
+                toolStripSeparator2.Visible = toolStripLabelSource.Visible = toolStripComboBoxSource.Visible = false;
+            }
+            else if (bAnswers)
             {
                 Text = Localizer.Str("Line up the imported answers with the test questions");
                 ColumnLine.HeaderText = Localizer.Str("Question");
@@ -90,7 +138,8 @@ namespace OneStoryProjectEditor
             ColumnSource.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             ColumnSource.DefaultCellStyle.BackColor = SystemColors.Control;
 
-            InitSourceChoices();
+            if (!_bNewStory)
+                InitSourceChoices();
             RefreshGrid();
         }
 
@@ -265,9 +314,51 @@ namespace OneStoryProjectEditor
 
         #region display
 
-        private int RowCount
+        // the number of rows that have imported lines (in any tier)
+        private int DataRowCount
         {
-            get { return Math.Max(_targets.Count, _tiers.Max(t => t.Count)); }
+            get { return _tiers.Max(t => t.Count); }
+        }
+
+        private bool RowHasText(int nRow)
+        {
+            return _tiers.Any(t => (nRow < t.Count) && !String.IsNullOrEmpty(t[nRow]));
+        }
+
+        private bool IsIncluded(int nRow)
+        {
+            return (nRow >= _include.Count) || _include[nRow];
+        }
+
+        private bool IsOverflow(int nRow)
+        {
+            return !_bNewStory && (_rowTargets[nRow] >= _targets.Count);
+        }
+
+        // keeps one include flag per row with imported lines (e.g. after a line was split)
+        private void NormalizeInclude()
+        {
+            var nRows = DataRowCount;
+            while (_include.Count < nRows)
+                _include.Add(true);
+            if (_include.Count > nRows)
+                _include.RemoveRange(nRows, _include.Count - nRows);
+        }
+
+        // the included rows go with the targets (story lines or test questions) in order, so
+        //  a row that's left out doesn't use one up. After the imported lines, there's a row
+        //  for each target that's left over.
+        private List<int> GetRowTargets()
+        {
+            var rowTargets = new List<int>();
+            var nTarget = 0;
+            var nRows = DataRowCount;
+            for (var nRow = 0; nRow < nRows; nRow++)
+                rowTargets.Add(IsIncluded(nRow) ? nTarget++ : -1);
+            if (!_bNewStory)
+                while (nTarget < _targets.Count)
+                    rowTargets.Add(nTarget++);
+            return rowTargets;
         }
 
         private void RefreshGrid()
@@ -278,26 +369,45 @@ namespace OneStoryProjectEditor
             int nCurRow = (current != null) ? current.RowIndex : 0,
                 nCurCol = (current != null) ? current.ColumnIndex : CnFirstTierColumn;
 
+            NormalizeInclude();
+            _rowTargets = GetRowTargets();
+            var nDataRows = DataRowCount;
+
             var sourceField = SourceField;
             dataGridViewAlign.SuspendLayout();
             dataGridViewAlign.Rows.Clear();
-            var nRows = RowCount;
+            var nRows = _rowTargets.Count;
             if (nRows > 0)
                 dataGridViewAlign.Rows.Add(nRows);
 
             for (var nRow = 0; nRow < nRows; nRow++)
             {
                 var row = dataGridViewAlign.Rows[nRow];
-                if (nRow >= _targets.Count)
+                var nTarget = _rowTargets[nRow];
+                if (nTarget < 0)
+                {
+                    // left out, so it doesn't go with any line
+                    row.Cells[CnColumnLine].Value = null;
+                    row.Cells[CnColumnSource].Value = null;
+                }
+                else if (_bNewStory)
+                {
+                    row.Cells[CnColumnLine].Value = (nTarget + 1).ToString();
+                }
+                else if (nTarget >= _targets.Count)
                 {
                     row.Cells[CnColumnLine].Value = null;
                     row.Cells[CnColumnSource].Value = Localizer.Str("(no line to go with: join with the row above)");
                 }
                 else
                 {
-                    row.Cells[CnColumnLine].Value = _targets[nRow].Label;
-                    row.Cells[CnColumnSource].Value = SourceText(_targets[nRow], sourceField);
+                    row.Cells[CnColumnLine].Value = _targets[nTarget].Label;
+                    row.Cells[CnColumnSource].Value = SourceText(_targets[nTarget], sourceField);
                 }
+
+                // (the rows past the imported lines (i.e. lines left over) don't have anything to
+                //  include, so their check box isn't drawn; cf. DataGridViewAlignCellPainting)
+                row.Cells[CnColumnInclude].Value = (nRow < nDataRows) ? (object)IsIncluded(nRow) : null;
 
                 for (var nTier = 0; nTier < _tiers.Count; nTier++)
                 {
@@ -322,21 +432,26 @@ namespace OneStoryProjectEditor
         }
 
         // colors the rows past the last line (which need to be joined with the one above), the
-        //  cells a tier doesn't have, and the empty cells in a row where other tiers have text
-        //  (e.g. a line was split in one tier, but not (yet) in the others)
+        //  rows that are left out (which look disabled), the cells a tier doesn't have, and the
+        //  empty cells in a row where other tiers have text (e.g. a line was split in one tier,
+        //  but not (yet) in the others)
         private void StyleRow(int nRow)
         {
             var row = dataGridViewAlign.Rows[nRow];
-            var bOverflow = (nRow >= _targets.Count);
+            var bOverflow = IsOverflow(nRow);
+            var bLeftOut = !IsIncluded(nRow);
             row.DefaultCellStyle.BackColor = bOverflow ? ColorOverflow : Color.Empty;
             row.Cells[CnColumnSource].Style.BackColor = bOverflow ? ColorOverflow : Color.Empty;
 
-            var bAnyText = _tiers.Any(t => (nRow < t.Count) && !String.IsNullOrEmpty(t[nRow]));
+            var bAnyText = RowHasText(nRow);
             for (var nTier = 0; nTier < _tiers.Count; nTier++)
             {
                 var tier = _tiers[nTier];
                 var cell = row.Cells[CnFirstTierColumn + nTier];
-                if (bOverflow)
+                cell.Style.ForeColor = bLeftOut ? SystemColors.GrayText : Color.Empty;
+                if (bLeftOut)
+                    cell.Style.BackColor = ColorLeftOut;
+                else if (bOverflow)
                     cell.Style.BackColor = Color.Empty;
                 else if (nRow >= tier.Count)
                     cell.Style.BackColor = ColorNoCell;
@@ -350,13 +465,22 @@ namespace OneStoryProjectEditor
         private void UpdateStatus()
         {
             var counts = _tiers.Select(t => t.Count).ToList();
-            var strStatus = String.Format(_bAnswers ? Localizer.Str("Questions: {0}") : Localizer.Str("Story lines: {0}"),
-                                          _targets.Count);
-            for (var i = 0; i < _mappings.Count; i++)
-                strStatus += String.Format("   {0}: {1}", FieldName(_mappings[i].Field), counts[i]);
+            var nDataRows = DataRowCount;
+            var strStatus = _bNewStory
+                                ? String.Format(Localizer.Str("Lines to import: {0}"),
+                                                Enumerable.Range(0, nDataRows).Count(IsIncluded))
+                                : String.Format(_bAnswers ? Localizer.Str("Questions: {0}") : Localizer.Str("Story lines: {0}"),
+                                                _targets.Count);
+            if (!_bNewStory)
+                for (var i = 0; i < _mappings.Count; i++)
+                    strStatus += String.Format("   {0}: {1}", FieldName(_mappings[i].Field), counts[i]);
+
+            var nLeftOut = _include.Count(b => !b);
+            if (nLeftOut > 0)
+                strStatus += "   " + String.Format(Localizer.Str("Left out: {0}"), nLeftOut);
 
             var bTiersDiffer = counts.Distinct().Count() > 1;
-            var bOverflow = counts.Any(c => c > _targets.Count);
+            var bOverflow = Enumerable.Range(0, nDataRows).Any(n => IsOverflow(n) && RowHasText(n));
             if (bTiersDiffer)
                 strStatus += "   " + Localizer.Str("(the tiers don't have the same number of lines: did you split a line in one tier, but not the others?)");
             else if (bOverflow)
@@ -371,12 +495,16 @@ namespace OneStoryProjectEditor
 
         #region editing
 
-        private List<List<string>> Snapshot()
+        private AlignState Snapshot()
         {
-            return _tiers.Select(t => new List<string>(t)).ToList();
+            return new AlignState
+            {
+                Tiers = _tiers.Select(t => new List<string>(t)).ToList(),
+                Include = new List<bool>(_include)
+            };
         }
 
-        private void PushUndo(List<List<string>> snapshot = null)
+        private void PushUndo(AlignState snapshot = null)
         {
             _undoStack.Push(snapshot ?? Snapshot());
         }
@@ -430,10 +558,20 @@ namespace OneStoryProjectEditor
             return !dataGridViewAlign.IsCurrentCellInEditMode || dataGridViewAlign.EndEdit();
         }
 
+        // joins row nRow + 1 onto the end of row nRow (in all tiers); it's included (or not) as row nRow was
+        private bool JoinRows(int nRow)
+        {
+            if (!_tiers.Aggregate(false, (b, t) => JoinWithNext(t, nRow) | b))
+                return false;
+            if ((nRow >= 0) && (nRow + 1 < _include.Count))
+                _include.RemoveAt(nRow + 1);
+            return true;
+        }
+
         private void JoinRowWithNextClick(object sender, EventArgs e)
         {
             var nRow = CurrentRow;
-            DoEdit(() => _tiers.Aggregate(false, (b, t) => JoinWithNext(t, nRow) | b));
+            DoEdit(() => JoinRows(nRow));
         }
 
         private void JoinRowWithPreviousClick(object sender, EventArgs e)
@@ -441,7 +579,7 @@ namespace OneStoryProjectEditor
             var nRow = CurrentRow;
             if (nRow > 0)
                 MoveToRow(nRow - 1);
-            DoEdit(() => _tiers.Aggregate(false, (b, t) => JoinWithNext(t, nRow - 1) | b));
+            DoEdit(() => JoinRows(nRow - 1));
         }
 
         private void InsertBlankRowClick(object sender, EventArgs e)
@@ -457,6 +595,8 @@ namespace OneStoryProjectEditor
                     tier.Insert(nRow, String.Empty);
                     bChanged = true;
                 }
+                if (bChanged && (nRow <= _include.Count))
+                    _include.Insert(nRow, true);
                 return bChanged;
             });
         }
@@ -479,6 +619,8 @@ namespace OneStoryProjectEditor
                     tier.RemoveAt(nRow);
                     bChanged = true;
                 }
+                if (bChanged && (nRow < _include.Count))
+                    _include.RemoveAt(nRow);
                 return bChanged;
             });
         }
@@ -553,7 +695,9 @@ namespace OneStoryProjectEditor
 
             if (!_undoStack.Any())
                 return;
-            _tiers = _undoStack.Pop();
+            var state = _undoStack.Pop();
+            _tiers = state.Tiers;
+            _include = state.Include;
             RefreshGrid();
         }
 
@@ -568,9 +712,10 @@ namespace OneStoryProjectEditor
 
         private void DataGridViewAlignCellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
-            // only the imported lines can be edited, and only the ones that have a line to go with
-            if ((e.ColumnIndex < CnFirstTierColumn) ||
-                ((e.RowIndex >= _targets.Count) && (e.RowIndex >= _tiers[e.ColumnIndex - CnFirstTierColumn].Count)))
+            // only the imported lines can be edited, and only the ones that are included and
+            //  have a line to go with
+            if ((e.ColumnIndex < CnFirstTierColumn) || !IsIncluded(e.RowIndex) ||
+                (IsOverflow(e.RowIndex) && (e.RowIndex >= _tiers[e.ColumnIndex - CnFirstTierColumn].Count)))
             {
                 e.Cancel = true;
                 return;
@@ -590,12 +735,17 @@ namespace OneStoryProjectEditor
                 return;
 
             PushUndo(_snapshotAtBeginEdit);
+            var bNewDataRow = (e.RowIndex >= DataRowCount);
             while (tier.Count <= e.RowIndex)
                 tier.Add(String.Empty);
             tier[e.RowIndex] = value;
+            NormalizeInclude();
 
-            // the number of rows doesn't change by typing, so just redo this row's colors
+            // the number of rows doesn't change by typing, so just redo this row's colors (and
+            //  if typing into a left over line added one, show its 'Include' box)
             StyleRow(e.RowIndex);
+            if (bNewDataRow)
+                dataGridViewAlign.InvalidateCell(CnColumnInclude, e.RowIndex);
             UpdateStatus();
         }
 
@@ -676,11 +826,56 @@ namespace OneStoryProjectEditor
             return true;
         }
 
+        // checks or unchecks whether a row is imported (the lines on the left move down past it if not)
+        private void ToggleInclude(int nRow)
+        {
+            if (!_bCanLeaveOut || (nRow < 0) || (nRow >= DataRowCount))
+                return;
+            DoEdit(() =>
+            {
+                NormalizeInclude();
+                _include[nRow] = !_include[nRow];
+                return true;
+            });
+        }
+
+        private void DataGridViewAlignCellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if ((e.ColumnIndex == CnColumnInclude) && (e.RowIndex >= 0))
+                ToggleInclude(e.RowIndex);
+        }
+
+        // the rows past the imported lines (i.e. story lines left over) have nothing to
+        //  include, so just draw the background (and border) of their 'Include' cell
+        private void DataGridViewAlignCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if ((e.ColumnIndex != CnColumnInclude) || (e.RowIndex < 0) || (e.RowIndex < DataRowCount))
+                return;
+            e.Paint(e.ClipBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.ContentForeground);
+            e.Handled = true;
+        }
+
+        private void DataGridViewAlignDataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            // rather than the grid's own (modal) error dialog for a problem showing a cell
+            Debug.WriteLine(String.Format("AlignImportLinesForm: row {0}, column {1}: {2}",
+                                          e.RowIndex, e.ColumnIndex, e.Exception?.Message));
+            e.ThrowException = false;
+        }
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             var tb = dataGridViewAlign.EditingControl as TextBox;
             switch (keyData)
             {
+                case Keys.Space:
+                    if ((tb == null) && (dataGridViewAlign.CurrentCell != null) &&
+                        (dataGridViewAlign.CurrentCell.ColumnIndex == CnColumnInclude))
+                    {
+                        ToggleInclude(CurrentRow);
+                        return true;
+                    }
+                    break;
                 case Keys.Enter:
                     if (tb != null)
                     {
@@ -752,38 +947,51 @@ namespace OneStoryProjectEditor
             if (!CommitEdit())
                 return;
 
-            var nTargets = _targets.Count;
-            var tiers = Snapshot();
+            // only the rows that are included get imported
+            var includedRows = Enumerable.Range(0, DataRowCount).Where(IsIncluded).ToList();
+            var tiers = _tiers.Select(t => includedRows.Select(n => (n < t.Count) ? t[n] : String.Empty).ToList())
+                              .ToList();
 
-            // imported lines after the last line to go with get added to the end of the last
-            //  one (they can't be dropped or moved elsewhere, so the order is always kept)
-            var nExtra = tiers.Max(t => t.Count) - nTargets;
-            if (nExtra > 0)
+            int nLines;
+            if (_bNewStory)
             {
-                var res = LocalizableMessageBox.Show(
-                    String.Format(Localizer.Str("There are {0} imported line(s) after the last line they could go with. Click 'OK' to add them to the end of line {1}, or click 'Cancel' to go back and join them with the lines they belong with."),
-                                  nExtra, _targets.Last().Label),
-                    StoryEditor.OseCaption, MessageBoxButtons.OKCancel);
-                if (res != DialogResult.OK)
+                nLines = includedRows.Count;
+                if (nLines == 0)
+                {
+                    LocalizableMessageBox.Show(Localizer.Str("Check 'Include' for at least one row to import"),
+                                               StoryEditor.OseCaption);
                     return;
+                }
+            }
+            else
+            {
+                // imported lines after the last line to go with get added to the end of the last
+                //  one (they can't be dropped or moved elsewhere, so the order is always kept)
+                nLines = _targets.Count;
+                var nExtra = includedRows.Skip(nLines).Count(RowHasText);
+                if (nExtra > 0)
+                {
+                    var res = LocalizableMessageBox.Show(
+                        String.Format(_bCanLeaveOut
+                                          ? Localizer.Str("There are {0} imported line(s) after the last line they could go with. Click 'OK' to add them to the end of line {1}, or click 'Cancel' to go back and join them with the lines they belong with (or uncheck 'Include' for any that shouldn't be imported).")
+                                          : Localizer.Str("There are {0} imported line(s) after the last line they could go with. Click 'OK' to add them to the end of line {1}, or click 'Cancel' to go back and join them with the lines they belong with."),
+                                      nExtra, _targets.Last().Label),
+                        StoryEditor.OseCaption, MessageBoxButtons.OKCancel);
+                    if (res != DialogResult.OK)
+                        return;
+                }
 
                 foreach (var tier in tiers)
-                    while (tier.Count > nTargets)
-                        JoinWithNext(tier, nTargets - 1);
+                    while (tier.Count > nLines)
+                        JoinWithNext(tier, nLines - 1);
             }
 
             AlignedMappings = _mappings.Select((m, i) => new ImportMapping
             {
                 Field = m.Field,
-                Tier = new ImportedTier
-                {
-                    Name = m.Tier.Name,
-                    LangCode = m.Tier.LangCode,
-                    Kind = m.Tier.Kind,
-                    Lines = Enumerable.Range(0, nTargets)
-                                      .Select(n => (n < tiers[i].Count) ? tiers[i][n] : null)
-                                      .ToList()
-                }
+                Tier = m.Tier.WithLines(Enumerable.Range(0, nLines)
+                                                  .Select(n => (n < tiers[i].Count) ? tiers[i][n] : null)
+                                                  .ToList())
             }).ToList();
 
             DialogResult = DialogResult.OK;

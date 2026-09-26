@@ -90,7 +90,7 @@
     <PackageReference Include="Autofac" Version="9.3.2" />
     <PackageReference Include="DialogAdapters.Gtk2" Version="0.1.11" />
     <PackageReference Include="Enchant.Net" Version="1.4.2" />
-    <PackageReference Include="Encoding-Converters-Core" Version="0.9.9" />
+    <PackageReference Include="Encoding-Converters-Core" Version="1.0.1" />
     <PackageReference Include="Google.Apis" Version="1.76.0" />
     <PackageReference Include="Google.Apis.Auth" Version="1.76.0" />
     <PackageReference Include="Google.Apis.Core" Version="1.76.0" />

@@ -4,6 +4,7 @@
     <Platforms>x86</Platforms>
     <ProjectGuid>{EAAA534C-DEDF-46F5-90D7-67AD3F9E0406}</ProjectGuid>
     <OutputType>Exe</OutputType>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <RootNamespace>UpdateAccessDbWithOsMetaData</RootNamespace>
     <AssemblyName>UpdateAccessDbWithOsMetaData</AssemblyName>
     <LangVersion>latest</LangVersion>
