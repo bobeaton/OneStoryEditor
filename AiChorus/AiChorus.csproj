@@ -48,7 +48,7 @@
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.IdentityModel" />
     <!-- Predates this conversion (confirmed via git history - the original csproj had this exact same bare
-         Reference alongside the System.Management PackageReference below). The NuGet package is an
+         Reference alongside a System.Management PackageReference, now supplied by SharedItems.props). The NuGet package is an
          intentional no-op for net48 (ships an empty lib\net462\_._ placeholder - the real assembly already
          lives in the GAC), so it was never what actually produced a local copy; Private=True here is what
          makes WiX's OseComponents.wxs expectation of a local System.Management.dll in output\Release true. -->
@@ -90,24 +90,18 @@
     <PackageReference Include="Autofac" Version="9.3.2" />
     <PackageReference Include="DialogAdapters.Gtk2" Version="0.1.11" />
     <PackageReference Include="Enchant.Net" Version="1.4.2" />
-    <PackageReference Include="Encoding-Converters-Core" Version="1.0.1" />
-    <PackageReference Include="Google.Apis" Version="1.76.0" />
-    <PackageReference Include="Google.Apis.Auth" Version="1.76.0" />
-    <PackageReference Include="Google.Apis.Core" Version="1.76.0" />
+    <PackageReference Include="Encoding-Converters-Core" Version="$(EcCoreVersion)" />
     <PackageReference Include="Google.Apis.Sheets.v4" Version="1.75.0.4178" />
-    <PackageReference Include="icu.net" Version="3.0.2" />
     <PackageReference Include="Icu4c.Win.Min" Version="62.2.1-beta" />
     <PackageReference Include="JetBrains.Annotations" Version="2026.2.0" />
     <PackageReference Include="L10NSharp" Version="5.0.0" />
     <PackageReference Include="Markdig.Signed" Version="1.3.2" />
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.11" />
     <PackageReference Include="Microsoft.Bcl.HashCode" Version="6.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.DotNet.PlatformAbstractions" Version="3.1.6" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="10.0.11" />
     <PackageReference Include="Mono.Unix" Version="7.1.0-final.1.21458.1" />
     <PackageReference Include="NDesk.DBus" Version="0.15.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="RelaxNG" Version="3.2.3" />
     <PackageReference Include="relaxngDatatype" Version="1.0.0.39" />
     <PackageReference Include="SIL.Chorus.App" Version="5.0.0" />
@@ -120,25 +114,17 @@
     <PackageReference Include="SIL.Windows.Forms" Version="10.0.0" />
     <PackageReference Include="SIL.WritingSystems" Version="10.0.0" />
     <PackageReference Include="Spart" Version="1.0.0" />
-    <PackageReference Include="System.Buffers" Version="4.6.1" />
-    <PackageReference Include="System.CodeDom" Version="10.0.11" />
     <PackageReference Include="System.Collections.Immutable" Version="10.0.11" />
     <PackageReference Include="System.ComponentModel.Composition" Version="10.0.11" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.11" />
-    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="10.0.11" />
     <PackageReference Include="System.Drawing.Common" Version="10.0.11" />
     <PackageReference Include="System.Formats.Nrbf" Version="10.0.11" />
     <PackageReference Include="System.IO" Version="4.3.0" />
     <PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
-    <PackageReference Include="System.IO.Pipelines" Version="10.0.11" />
-    <PackageReference Include="System.Management" Version="10.0.11" />
-    <PackageReference Include="System.Memory" Version="4.6.3" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="System.Numerics.Vectors" Version="4.6.1" />
     <PackageReference Include="System.Reflection.Metadata" Version="10.0.11" />
     <PackageReference Include="System.Resources.Extensions" Version="10.0.11" />
     <PackageReference Include="System.Runtime" Version="4.3.1" />
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
     <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
     <PackageReference Include="System.Security.AccessControl" Version="6.0.1" />
     <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
@@ -149,14 +135,17 @@
     <PackageReference Include="System.Security.Principal.Windows" Version="5.0.0" />
     <PackageReference Include="System.ServiceModel.Primitives" Version="10.0.652802" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.11" />
-    <PackageReference Include="System.Text.Encodings.Web" Version="10.0.11" />
-    <PackageReference Include="System.Text.Json" Version="10.0.11" />
-    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
-    <PackageReference Include="System.ValueTuple" Version="4.6.2" />
     <PackageReference Include="TagLibSharp" Version="2.3.0" />
     <PackageReference Include="Tenuto" Version="1.0.0.39" />
     <PackageReference Include="Vulcan.Uczniowie.HelpProvider" Version="1.0.16" />
   </ItemGroup>
+  <!-- Encoding-Converters-Core's own build\SharedItems.props (imported via Directory.Build.targets) owns the
+       versions of the AI-translator (Google Cloud/OpenAI/Grpc) and related System.* packages, the same as for
+       StoryEditor (which shares this project's output folder), so don't also give any of its packages an
+       explicit PackageReference above. -->
+  <PropertyGroup>
+    <UseEcSharedItems>true</UseEcSharedItems>
+  </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>copy $(TargetDir)$(TargetName).* $(SolutionDir)DepDLLs</PostBuildEvent>
   </PropertyGroup>

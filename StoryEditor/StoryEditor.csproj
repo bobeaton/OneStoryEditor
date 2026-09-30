@@ -200,7 +200,7 @@
     <PackageReference Include="CircularProgressBar" Version="2.8.0.16" />
     <PackageReference Include="DialogAdapters.Gtk2" Version="0.1.11" />
     <PackageReference Include="Enchant.Net" Version="1.4.2" />
-    <PackageReference Include="Encoding-Converters-Core" Version="1.0.1" />
+    <PackageReference Include="Encoding-Converters-Core" Version="$(EcCoreVersion)" />
     <PackageReference Include="FluentFTP" Version="54.2.0" />
     <PackageReference Include="ibusdotnet" Version="2.0.3" />
     <!-- icu.net's version is owned by SharedItems.props (imported below). -->
@@ -210,8 +210,7 @@
     <PackageReference Include="L10NSharp" Version="5.0.0" />
     <PackageReference Include="Markdig.Signed" Version="1.3.2" />
     <!-- Microsoft.Bcl.AsyncInterfaces/Microsoft.Extensions.DependencyInjection.Abstractions/
-         Microsoft.Extensions.Logging.Abstractions versions are owned by SharedItems.props (imported below;
-         bumped to 10.0.11 there to match what this project already required). -->
+         Microsoft.Extensions.Logging.Abstractions versions are owned by SharedItems.props (imported below). -->
     <PackageReference Include="Microsoft.Bcl.HashCode" Version="6.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.DotNet.PlatformAbstractions" Version="3.1.6" />
@@ -271,10 +270,12 @@
     <PackageReference Include="Vulcan.Uczniowie.HelpProvider" Version="1.0.16" />
     <PackageReference Include="WinFormAnimation" Version="1.6.0.4" />
   </ItemGroup>
-  <!-- SharedItems.props centralizes the AI-translator (Google Cloud/OpenAI/Grpc) package versions used by
-       EcTranslators-facing code in this project; imported last so it doesn't fight this project's own
-       explicit PackageReference versions above for anything overlapping. -->
-  <Import Project="$(MSBuildThisFileDirectory)..\SharedItems.props" Condition="Exists('$(MSBuildThisFileDirectory)..\SharedItems.props')" />
+  <!-- Encoding-Converters-Core's own build\SharedItems.props (imported via Directory.Build.targets) centralizes
+       the AI-translator (Google Cloud/OpenAI/Grpc) package versions used by EcTranslators-facing code in this
+       project, so don't also give any of its packages an explicit PackageReference above. -->
+  <PropertyGroup>
+    <UseEcSharedItems>true</UseEcSharedItems>
+  </PropertyGroup>
   <!-- Restored verbatim from the original (pre-SDK-style) csproj - dropped by accident during the SDK-style
        rewrite, only noticed once a genuinely clean rebuild (rather than one riding on years-old leftover
        output\Release\* files) exposed the gap via the WiX installer's "file not found" errors. Populates

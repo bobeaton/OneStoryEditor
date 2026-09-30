@@ -36,7 +36,7 @@
          ships the "WIX_IS_NETFRAMEWORK_461_OR_LATER_INSTALLED" PropertyRef (or any NETFRAMEWORK-prefixed
          authoring at all) - the equivalent check is hand-authored directly in Product.wxs instead, so the
          extension package isn't needed. -->
-    <PackageReference Include="Encoding-Converters-Core" Version="1.0.1" GeneratePathProperty="true" />
+    <PackageReference Include="Encoding-Converters-Core" Version="$(EcCoreVersion)" GeneratePathProperty="true" />
     <PackageReference Include="WixToolset.UI.wixext" Version="6.0.2" />
   </ItemGroup>
   <Target Name="PostBuildCopy" AfterTargets="Build">

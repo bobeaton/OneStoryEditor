@@ -66,10 +66,16 @@
          evaluated by Burn as the name of an (undefined) Burn variable, which is always false, so .NET 4.8 was
          re-downloaded and re-run on every install even with 4.8+ already present (seen in a 2026-09-26 VM log
          with Release=528372). The old InstallCondition had the same problem and is redundant with the
-         DetectCondition anyway (an undetected package is installed by default), so it was dropped. -->
+         DetectCondition anyway (an undetected package is installed by default), so it was dropped.
+         Cache must be "remove", not "keep": Burn acquires (i.e. downloads) a Cache="keep" package into the package
+         cache whenever it's planned Present - even when it was detected as already installed and so won't be
+         run - so every install hit the network for ndp48-web.exe, and on a machine that couldn't reach
+         download.visualstudio.microsoft.com the (Vital) download failure aborted the whole install before the MSI
+         ever ran (0x80072ee7, seen in a 2026-09-29 silconverters log with Release=533325). "remove" only acquires
+         it when it actually needs to be installed. -->
     <PackageGroup Id="NetFx48Web">
       <ExePackage Id="NetFx48WebExe"
-                  Cache="keep"
+                  Cache="remove"
                   PerMachine="yes"
                   Permanent="yes"
                   Vital="yes"
@@ -109,7 +115,7 @@
   <Fragment>
     <util:RegistrySearch Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\X86" Variable="CPP2017Redist" Value="Installed" Result="value" />
     <PackageGroup Id="redist_vc15to19">
-      <ExePackage Id="vc17" Cache="keep" PerMachine="yes" Vital="yes" Permanent="yes" DetectCondition="CPP2017Redist" InstallArguments="/install /quiet /norestart" RepairArguments="/repair /quiet /norestart" UninstallArguments="/uninstall /quiet /norestart">
+      <ExePackage Id="vc17" Cache="remove" PerMachine="yes" Vital="yes" Permanent="yes" DetectCondition="CPP2017Redist" InstallArguments="/install /quiet /norestart" RepairArguments="/repair /quiet /norestart" UninstallArguments="/uninstall /quiet /norestart">
         <ExePackagePayload Name="vc_redist.x86.exe" SourceFile="Redist\vc_redist.x86.exe" />
       </ExePackage>
     </PackageGroup>
