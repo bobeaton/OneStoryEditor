@@ -53,8 +53,10 @@
            started, not the repo root, so BaseBuildDir below resolved to a nonexistent path. Falling back to
            MSBuildStartupDirectory only when SolutionDir isn't already set preserves the original behavior for
            TeamCity's existing direct "-t:SignBuild" invocation (which doesn't pass SolutionDir, and does launch
-           msbuild.exe from the repo root) while respecting an explicitly-passed value otherwise. -->
-      <SolutionDir Condition="'$(SolutionDir)' == ''">$(MSBuildStartupDirectory)\</SolutionDir>
+           msbuild.exe from the repo root) while respecting an explicitly-passed value otherwise. "*Undefined*" is
+           what Microsoft.Common targets set SolutionDir to when a project is built directly rather than via the
+           .sln (TC's "-t:SignBuild" step), so it has to count as unset too. -->
+      <SolutionDir Condition="'$(SolutionDir)' == '' or '$(SolutionDir)' == '*Undefined*'">$(MSBuildStartupDirectory)\</SolutionDir>
       <BaseBuildDir>$(SolutionDir)build\</BaseBuildDir>
       <OutputDir>$(SolutionDir)output\</OutputDir>
       <BaseBuildArgs>"$(OutputDir)$(MsiFile)"</BaseBuildArgs>
