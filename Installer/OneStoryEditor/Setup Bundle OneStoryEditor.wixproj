@@ -32,6 +32,29 @@
     <PackageReference Include="WixToolset.Util.wixext" Version="6.0.2" />
     <PackageReference Include="WixToolset.Bal.wixext" Version="6.0.2" />
   </ItemGroup>
+  <!-- Confirmed via a real 2026-09-30 TeamCity log: the solution-wide build compiles Setup OneStoryEditor.wixproj
+       (producing an unsigned MSI) and then this Bundle project (embedding that still-unsigned MSI as its
+       MsiPackage payload, per Bundle.wxs's SourceFile="$(var.SolutionDir)output\SetupOneStoryEditor_x86.msi") -
+       all before either project's separate SignBuild target ever runs. Signing the MSI afterward only re-signs
+       the loose standalone copy sitting in output\; the copy already embedded in this bundle's own container was
+       frozen at build time and never gets replaced, so the bundle's outer exe and detached engine end up
+       correctly signed while the MSI riding inside it ships unsigned (verified: signtool finds no signature on
+       the MSI extracted back out of a real signed bundle). Fixed here rather than in CI config, since CI
+       orchestration (TeamCity today, possibly GitHub Actions later) shouldn't have to know about a dependency
+       that's really this project's own to declare: force the MSI project to fully build AND sign before this
+       project's own Build starts, so whatever ends up embedded is always the already-signed file. Release-only -
+       a local Debug build of just this project shouldn't require signing credentials to be present. -->
+  <Target Name="EnsureSignedMsiPayload" BeforeTargets="CoreCompile" Condition="'$(Configuration)' == 'Release'">
+    <!-- SolutionDir passed explicitly: Setup OneStoryEditor.wixproj's own SignBuild target unconditionally
+         redefines SolutionDir from $(MSBuildStartupDirectory), which only happens to be the repo root when that
+         project is built directly (TC launches msbuild.exe from the repo root for each of its per-project
+         steps); built as a nested child project from here, MSBuildStartupDirectory instead reflects
+         wherever THIS outer build was launched from. Passing SolutionDir as a global property here takes
+         precedence over that unconditional in-target reassignment (global properties can't be overwritten by a
+         plain static PropertyGroup in the same project), so the nested build resolves build\ and output\
+         correctly regardless of where the outer build started. -->
+    <MSBuild Projects="..\Setup OneStoryEditor\Setup OneStoryEditor.wixproj" Targets="Build;SignBuild" Properties="Configuration=$(Configuration);Platform=$(Platform);SolutionDir=$(SolutionDir)" />
+  </Target>
   <Target Name="PostBuildCopy" AfterTargets="Build">
     <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(SolutionDir)output\$(TargetName)_$(PlatformName)$(TargetExt)" />
   </Target>

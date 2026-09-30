@@ -106,16 +106,28 @@
        VC\Redist\MSVC\v143\ folder, file version 14.44.35211.0) and embedded in the bundle rather than
        downloaded, to avoid the hash-drift problem documented for NetFx48Web above - Microsoft is known to
        change hosted redist files without notice, and a stale pinned hash breaks the bundle for every user
-       until someone re-verifies it. Detection follows the sillsdev/genericinstaller Bundle.wxs convention: a
-       bare "Installed" registry value under the runtime's Runtimes\X86 key is treated as good enough (the VC++
-       runtime is serviced in place by Windows Update once installed, so this isn't pinned to the exact
-       14.44.35211 build vendored here). NOT verified end-to-end on a machine lacking the VC++ runtime (this
-       dev machine already has it installed, so only the "already present, skip" path was exercised) -
-       flagged for a real clean-VM pass, same as NetFx48Web. -->
+       until someone re-verifies it.
+
+       DetectCondition history: originally followed the sillsdev/genericinstaller Bundle.wxs convention of
+       treating a bare "Installed" registry value under Runtimes\X86 as good enough, on the assumption the VC++
+       runtime is serviced in place by Windows Update once present. That assumption doesn't hold for a machine
+       whose only prior VC++ runtime came from an older app's own bundled installer rather than Windows Update -
+       exactly the "install on top of an existing OSE install" scenario, confirmed in a real 2026-09-30 VM log
+       (Bundle name OneStory_Editor_5.6): CPP2017Redist evaluated true off a pre-existing older runtime, so vc17
+       was planned "execute: None" and its cached payload was actively removed - the fresh v143 runtime never
+       ran, StoryEditor (heavy native/ATL/COM surface: Microsoft.mshtml, AIGuesserEC.dll, CcEC.dll, CSSword.dll)
+       failed to launch, and only a Repair - which re-runs RepairArguments unconditionally - fixed it by forcing
+       vc_redist.x86.exe to actually run. Switched to a real minimum-version gate on the same key's "Version"
+       value, the same shape as NetFx48OrLaterDetectCondition above (Microsoft's own documented pattern for this
+       exact key - the stored value is a literal "v#.#.#.#"-formatted string, e.g. "v14.44.35211.00", which
+       Burn's variable-type-sniffing recognizes as Version-typed automatically, enabling a real >= comparison
+       instead of a bare presence check). NOT verified against a real registry value in this environment (this
+       dev machine has no VC++ runtime installed at all, so RegistrySearch has nothing to read here) - confirm
+       the "Version" value's actual format on a VM that has the runtime before trusting this fully. -->
   <Fragment>
-    <util:RegistrySearch Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\X86" Variable="CPP2017Redist" Value="Installed" Result="value" />
+    <util:RegistrySearch Root="HKLM" Key="SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\X86" Variable="CPP2017RedistVersion" Value="Version" Result="value" />
     <PackageGroup Id="redist_vc15to19">
-      <ExePackage Id="vc17" Cache="remove" PerMachine="yes" Vital="yes" Permanent="yes" DetectCondition="CPP2017Redist" InstallArguments="/install /quiet /norestart" RepairArguments="/repair /quiet /norestart" UninstallArguments="/uninstall /quiet /norestart">
+      <ExePackage Id="vc17" Cache="remove" PerMachine="yes" Vital="yes" Permanent="yes" DetectCondition="CPP2017RedistVersion &gt;= v14.40.0.0" InstallArguments="/install /quiet /norestart" RepairArguments="/repair /quiet /norestart" UninstallArguments="/uninstall /quiet /norestart">
         <ExePackagePayload Name="vc_redist.x86.exe" SourceFile="Redist\vc_redist.x86.exe" />
       </ExePackage>
     </PackageGroup>

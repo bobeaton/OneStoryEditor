@@ -45,7 +45,16 @@
   <Target Name="SignBuild">
     <PropertyGroup>
       <MsiFile>$(TargetName)_$(PlatformName)$(TargetExt)</MsiFile>
-      <SolutionDir>$(MSBuildStartupDirectory)\</SolutionDir>
+      <!-- Condition added: a bare reassignment here unconditionally clobbers any SolutionDir already passed in
+           (target-scoped PropertyGroup assignments aren't protected from overriding global properties the way a
+           static, evaluation-time PropertyGroup is), which broke Setup Bundle OneStoryEditor.wixproj's
+           EnsureSignedMsiPayload target explicitly passing SolutionDir when building this project as a nested
+           child (see its own comment) - that nested build's MSBuildStartupDirectory is wherever the OUTER build
+           started, not the repo root, so BaseBuildDir below resolved to a nonexistent path. Falling back to
+           MSBuildStartupDirectory only when SolutionDir isn't already set preserves the original behavior for
+           TeamCity's existing direct "-t:SignBuild" invocation (which doesn't pass SolutionDir, and does launch
+           msbuild.exe from the repo root) while respecting an explicitly-passed value otherwise. -->
+      <SolutionDir Condition="'$(SolutionDir)' == ''">$(MSBuildStartupDirectory)\</SolutionDir>
       <BaseBuildDir>$(SolutionDir)build\</BaseBuildDir>
       <OutputDir>$(SolutionDir)output\</OutputDir>
       <BaseBuildArgs>"$(OutputDir)$(MsiFile)"</BaseBuildArgs>
