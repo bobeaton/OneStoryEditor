@@ -12,9 +12,14 @@
          bumping Encoding-Converters-Core to 0.9.9 (its EC_40_MM.msm's icu.net.dll component changed enough to
          collide with Chorus's own pre-existing one; the two hadn't collided under 0.9.8). Not fixable from
          this side short of patching either vendored merge module - suppressed here rather than left
-         unbuildable; both components still install byte-identical files in practice (both merge modules track
-         the same nuget-published icu.net build), so the theoretical reference-counting risk ICE30 warns about
-         (one component's uninstall removing a file the other still expects) is low. -->
+         unbuildable. The two copies are NOT the same build: ChorusMergeModule.msm carries icu.net.dll 2.8.1.52
+         and EC_40_MM.msm carries 3.0.2.0 (checked in the 5.6 MSI's File table, 2026-09-30). Under normal
+         file-versioning rules the higher version (3.0.2.0) wins whichever component is processed last, which is
+         what gets installed in practice - so don't force REINSTALLMODE to include 'a' (the File sequence order
+         would then decide), and re-check this if either merge module is updated. The same kind of
+         differently-versioned collision exists for Autofac.dll (9.3.2.0 from us vs. 2.6.3.862 from
+         ChorusMergeModule.msm); the many other duplicated files (Google.*, Grpc.*, Microsoft.Extensions.*, etc.,
+         between our components and an EC merge module) are the same version on both sides. -->
     <SuppressIces>ICE30</SuppressIces>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -40,6 +45,9 @@
     <PackageReference Include="WixToolset.UI.wixext" Version="6.0.2" />
   </ItemGroup>
   <Target Name="PostBuildCopy" AfterTargets="Build">
+    <!-- Patch the linked MSI (before it's copied out and later signed) so files whose version went down since
+         OSE 5.0 still get installed on upgrade - see RaiseFileVersions.ps1 for the details. -->
+    <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\RaiseFileVersions.ps1&quot; -MsiPath &quot;$(TargetPath)&quot;" />
     <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(SolutionDir)output\$(TargetName)_$(PlatformName)$(TargetExt)" />
   </Target>
   <Target Name="SignBuild">

@@ -112,12 +112,15 @@
        treating a bare "Installed" registry value under Runtimes\X86 as good enough, on the assumption the VC++
        runtime is serviced in place by Windows Update once present. That assumption doesn't hold for a machine
        whose only prior VC++ runtime came from an older app's own bundled installer rather than Windows Update -
-       exactly the "install on top of an existing OSE install" scenario, confirmed in a real 2026-09-30 VM log
-       (Bundle name OneStory_Editor_5.6): CPP2017Redist evaluated true off a pre-existing older runtime, so vc17
-       was planned "execute: None" and its cached payload was actively removed - the fresh v143 runtime never
-       ran, StoryEditor (heavy native/ATL/COM surface: Microsoft.mshtml, AIGuesserEC.dll, CcEC.dll, CSSword.dll)
-       failed to launch, and only a Repair - which re-runs RepairArguments unconditionally - fixed it by forcing
-       vc_redist.x86.exe to actually run. Switched to a real minimum-version gate on the same key's "Version"
+       e.g. the "install on top of an existing OSE install" scenario: in a real 2026-09-30 VM log (Bundle name
+       OneStory_Editor_5.6), CPP2017Redist evaluated true off a pre-existing runtime, so vc17 was planned
+       "execute: None" and never ran, meaning the bundled v143 runtime wasn't guaranteed to be present.
+       NOTE: StoryEditor failing to launch after that same upgrade (until a Repair) was originally blamed on this
+       too, but that turned out to be a different problem: upgrading over OSE 5.0 left LibChorus.dll, Chorus.exe,
+       ChorusMerge.exe and Enchant.Net.dll missing, because their file versions went down since 5.0 (StoryEditor
+       died before Main with a FileNotFoundException). A Repair "fixed" it by reinstalling those missing files,
+       not by running vc_redist. The real fix for that is "Setup OneStoryEditor"\RaiseFileVersions.ps1.
+       Either way a bare presence check is too weak, so switched to a real minimum-version gate on the same key's "Version"
        value, the same shape as NetFx48OrLaterDetectCondition above (Microsoft's own documented pattern for this
        exact key - the stored value is a literal "v#.#.#.#"-formatted string, e.g. "v14.44.35211.00", which
        Burn's variable-type-sniffing recognizes as Version-typed automatically, enabling a real >= comparison
