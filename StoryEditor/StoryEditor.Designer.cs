@@ -1,6 +1,4 @@
-﻿#define UsingHtmlDisplayForConNotes
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -178,7 +176,6 @@ namespace OneStoryProjectEditor
             this.advancedEmailNotifications = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedEmailSendGrid = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedEmailMapi = new System.Windows.Forms.ToolStripMenuItem();
-            this.advancedUseOldStyleStoryBtPaneMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedUseWordBreaks = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedImportHelper = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedTransferConNotes = new System.Windows.Forms.ToolStripMenuItem();
@@ -1400,7 +1397,6 @@ namespace OneStoryProjectEditor
             this.advancedResetStoredInformationMenu,
             this.advancedChangeProjectFolderRootMenu,
             this.advancedEmailNotifications,
-            this.advancedUseOldStyleStoryBtPaneMenu,
             this.advancedUseWordBreaks,
             this.advancedImportHelper,
             this.advancedTransferConNotes,
@@ -1526,16 +1522,6 @@ namespace OneStoryProjectEditor
             this.advancedEmailMapi.Text = "Email via &MAPI+";
             this.advancedEmailMapi.ToolTipText = resources.GetString("advancedEmailMapi.ToolTipText");
             this.advancedEmailMapi.Click += new System.EventHandler(this.advancedEmailMapi_Click);
-            // 
-            // advancedUseOldStyleStoryBtPaneMenu
-            // 
-            this.advancedUseOldStyleStoryBtPaneMenu.CheckOnClick = true;
-            this.advancedUseOldStyleStoryBtPaneMenu.Name = "advancedUseOldStyleStoryBtPaneMenu";
-            this.advancedUseOldStyleStoryBtPaneMenu.Size = new System.Drawing.Size(314, 22);
-            this.advancedUseOldStyleStoryBtPaneMenu.Text = "Use old-style Story BT pane";
-            this.advancedUseOldStyleStoryBtPaneMenu.ToolTipText = "This setting switches the Story BT pane to use the old-style (and slower) control" +
-    "s for editing the Story BT data";
-            this.advancedUseOldStyleStoryBtPaneMenu.Click += new System.EventHandler(this.advancedUseOldStyleStoryBtPaneMenu_Click);
             // 
             // advancedUseWordBreaks
             // 
@@ -1680,12 +1666,10 @@ namespace OneStoryProjectEditor
             // splitContainerLeftRight.Panel1
             // 
             this.splitContainerLeftRight.Panel1.Controls.Add(this.splitContainerUpDown);
-            this.splitContainerLeftRight.Panel1.SizeChanged += new System.EventHandler(this.splitContainerLeftRight_Panel1_SizeChanged);
             // 
             // splitContainerLeftRight.Panel2
             // 
             this.splitContainerLeftRight.Panel2.Controls.Add(this.splitContainerMentorNotes);
-            this.splitContainerLeftRight.Panel2.SizeChanged += new System.EventHandler(this.splitContainerLeftRight_Panel2_SizeChanged);
             this.splitContainerLeftRight.Size = new System.Drawing.Size(1404, 826);
             this.splitContainerLeftRight.SplitterDistance = 720;
             this.splitContainerLeftRight.TabIndex = 2;
@@ -2242,7 +2226,6 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator5;
         private HtmlStoryBtControl htmlStoryBtControl;
         internal ToolStripMenuItem advancedUseWordBreaks;
-        private ToolStripMenuItem advancedUseOldStyleStoryBtPaneMenu;
         private ToolStripMenuItem advancedImportHelper;
         private ToolStripMenuItem advancedTransferConNotes;
         private ToolStripMenuItem advancedCoachNotesToConsultantNotesPane;
@@ -2284,31 +2267,5 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem editPasteEnglishBtMenu;
         private ToolStripMenuItem editPasteFreeTranslationMenu;
     }
-
-#if UsingHtmlDisplayForConNotes
-#else
-    public class ConNoteFlowLayoutPanel : LineFlowLayoutPanel
-    {
-        protected List<ConsultNotesDataConverter> lstCNsD = new List<ConsultNotesDataConverter>();
-
-        public override void Clear()
-        {
-            base.Clear();
-            lstCNsD.Clear();
-        }
-
-        public void AddCtrl(ConsultNotesControl aCtrl)
-        {
-            Controls.Add(aCtrl);
-            System.Diagnostics.Debug.Assert(!lstCNsD.Contains(aCtrl._theCNsDC));
-            lstCNsD.Add(aCtrl._theCNsDC);
-        }
-
-        public bool Contains(ConsultNotesDataConverter aCNsD)
-        {
-            return lstCNsD.Contains(aCNsD);
-        }
-    }
-#endif
 }
 

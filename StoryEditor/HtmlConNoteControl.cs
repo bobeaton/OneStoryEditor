@@ -514,18 +514,8 @@ namespace OneStoryProjectEditor
 
         public void DoFind(string strId)
         {
-            if (TheSE.UsingHtmlForStoryBtPane)
-                return;
-
-            if (!GetIndicesFromId(strId, out int nVerseIndex, out int nConversationIndex, out int nCommentIndex))
-                return;
-
-            ConsultNotesDataConverter theCNsDC = DataConverter(nVerseIndex);
-            System.Diagnostics.Debug.Assert((theCNsDC != null) && (theCNsDC.Count > nConversationIndex));
-            ConsultNoteDataConverter theCNDC = theCNsDC[nConversationIndex];
-            System.Diagnostics.Debug.Assert((theCNDC != null) && (theCNDC.Count > nCommentIndex));
-            SearchForm.LastStringTransferSearched = theCNDC[nCommentIndex];
-            TheSE.LaunchSearchForm();
+            // search isn't wired to the HTML panes yet (menu item hidden; see sub-project C)
+            return;
         }
 
         private const string CstrParagraphHighlightBegin = "<span style=\"background-color:Blue; color: White\">";

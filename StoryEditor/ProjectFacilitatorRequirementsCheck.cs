@@ -400,10 +400,7 @@ namespace OneStoryProjectEditor
                             Localizer.Str(
                                 "The '{0}' field of line '{1}' is empty, but the '{2}' field of that same line is not. Did you forget to enter the back-translation?"),
                             liCheck.LangName, nVerseNumber, liHighest.LangName);
-                        if (theSe.UsingHtmlForStoryBtPane)
-                            CheckEndOfStateTransition.ShowErrorFocus(theSe, nVerseNumber, stCheck.WhichField, strError);
-                        else
-                            CheckEndOfStateTransition.ShowErrorFocus(theSe, stCheck.TextBox, strError);
+                        CheckEndOfStateTransition.ShowErrorFocus(theSe, nVerseNumber, stCheck.WhichField, strError);
                         return false;
                     }
                 }
