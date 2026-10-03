@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StoryProject version="1.8" ProjectName="minimal">
+  <Members HasOutsideEnglishBTer="false" HasFirstPassMentor="false" HasIndependentConsultant="false">
+    <Member name="Test Crafter" memberType="Crafter" memberKey="mem-00000000-0000-0000-0000-000000000001" />
+  </Members>
+  <Languages>
+    <LanguageInfo lang="Vernacular" name="Testish" code="tst" FontName="Arial" FontSize="12" FontColor="Maroon" SentenceFinalPunct=".!?:" />
+  </Languages>
+  <LnCNotes />
+  <stories SetName="Stories">
+    <story name="Minimal story" stage="ProjFacTypeVernacular" guid="00000000-0000-0000-0000-000000000010" stageDateTimeStamp="2026-10-03T00:00:00Z">
+      <CraftingInfo NonBiblicalStory="false">
+        <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001" />
+      </CraftingInfo>
+      <Verses>
+        <Verse guid="00000000-0000-0000-0000-000000000020">
+          <StoryLine lang="Vernacular">dengan [B&amp;amp;B] kata&amp;nbsp;Tuhan &lt;donkey bray&gt; B&amp;B;</StoryLine>
+          <TestQuestions>
+            <TestQuestion visible="true" guid="00000000-0000-0000-0000-000000000030">
+              <TestQuestionLine lang="Vernacular">snake &amp;amp; lady?</TestQuestionLine>
+            </TestQuestion>
+          </TestQuestions>
+          <ConsultantNotes>
+            <ConsultantConversation guid="00000000-0000-0000-0000-000000000040">
+              <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000041" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T00:00:00Z">ok &lt;B&gt;only&lt;/B&gt; [B&amp;amp;B]</ConsultantNote>
+            </ConsultantConversation>
+          </ConsultantNotes>
+        </Verse>
+      </Verses>
+    </story>
+  </stories>
+</StoryProject>
