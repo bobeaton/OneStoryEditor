@@ -19,6 +19,18 @@ namespace OneStoryProjectEditor
         public static DirectableEncConverter TransliteratorInternationalBt;
         public static DirectableEncConverter TransliteratorFreeTranslation;
 
+        public const string CstrNullAnchor = "No Anchor";
+
+        public static string CstrMenuLabelHide
+        {
+            get { return Localizer.Str("&Hide line"); }
+        }
+
+        public static string CstrMenuLabelUnhide
+        {
+            get { return Localizer.Str("&Unhide line"); }
+        }
+
         public VerseData.ViewSettings ViewSettings { get; set; }
         public StoryData ParentStory { get; set; }
 
@@ -410,23 +422,6 @@ namespace OneStoryProjectEditor
                 return false;
             }
 
-            /*
-            HtmlElement elem;
-            if (!GetHtmlElementById(strId, out elem))
-                return false;
-
-            int nVerseIndex;
-            var verseData = VerseDataFromLineOptionsButtonId(strId, out nVerseIndex);
-            if (verseData == null)
-                return false;
-            var verseNetCtrl = TheSE.CreateVerseBtControl(null, verseData, nVerseIndex);
-            var form = new VerseEditorForm(verseNetCtrl);
-            form.ShowDialog();
-
-            /*
-            if (IsLineOptionsButton(strId))
-                contextMenuStrip.Show(MousePosition);
-            */
             return true;
         }
 
@@ -1723,7 +1718,7 @@ namespace OneStoryProjectEditor
             if (verseData == null)
                 return;
 
-            verseData.Anchors.AddAnchorData(AnchorControl.CstrNullAnchor, AnchorControl.CstrNullAnchor);
+            verseData.Anchors.AddAnchorData(CstrNullAnchor, CstrNullAnchor);
 
             // indicate that we've changed something so that we don't exit without offering
             //  to save.
@@ -1761,7 +1756,7 @@ namespace OneStoryProjectEditor
             var verseData = VerseDataFromLineOptionsButtonId(_lastLineOptionsButtonClicked, out nLineIndex);
             moveLineUp.Enabled = (nLineIndex > 1);
             moveLineDown.Enabled = (nLineIndex < theSe.TheCurrentStory.Verses.Count);
-            hideVerseToolStripMenuItem.Text = (verseData.IsVisible) ? VerseBtControl.CstrMenuLabelHide : VerseBtControl.CstrMenuLabelUnhide;
+            hideVerseToolStripMenuItem.Text = (verseData.IsVisible) ? CstrMenuLabelHide : CstrMenuLabelUnhide;
 
             // the join story menu should be enabled as long as there's a following story
             var nIndexOfCurrentStory = theSe.TheCurrentStoriesSet.IndexOf(theSe.TheCurrentStory);
