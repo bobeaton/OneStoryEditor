@@ -1,6 +1,6 @@
 # Sub-project A: Legacy Text Repair — Design
 
-Status: approved (rev 2: marker attribute instead of version bump) · Branch: `DecoupleWebBrowser` · Date: 2026-10-03
+Status: approved (rev 3: rev 2 + refinements found while planning) · Branch: `DecoupleWebBrowser` · Date: 2026-10-03
 
 ## Context
 
@@ -98,11 +98,24 @@ paste in StoryEditor) when the pasted root element lacks the marker.
 
 ### 2. `HtmlText` (static helpers, new file)
 
-| Method | Behaviour | Replaces |
-|---|---|---|
-| `ForTextarea(string)` | HtmlEncode | raw value in `HTML_Textarea`, `HTML_TextareaWithRefDoubleClick` |
-| `ForParagraph(string)` | HtmlEncode, then `\r\n` → `<br />` | raw value in `HTML_ParagraphText`; `InnerHtml = stringTransfer.ToString()` in `HtmlVerseControl` search restore |
-| `FromIeHtmlText(string)` | strip highlight spans, `<br>` → `\r\n`, HtmlDecode | (new) applied to the IE `onchange` route |
+| Method | Behaviour |
+|---|---|
+| `Encode(string)` | encodes only `& < > "` (non-ASCII text is left as is) |
+| `ForParagraph(string)` | `Encode`, then line breaks → `<br />` |
+| `LineBreaksToBr(string html)` | `\r\n` / `\n` → `<br />` (for text that is already HTML) |
+| `FromIeHtmlText(string)` | remove `<span …>`/`</span>`, `<br>` → `\r\n`, then HtmlDecode (applied to the IE `onchange` route) |
+
+**Where encoding happens (refined while planning).** `StringTransfer.FormatLanguageColumnHtml`
+receives *HTML* from some callers: `Diff.HtmlDiff` output in the differencing, revision-history
+and print views. So it cannot encode its input. Instead:
+- `Diff.HtmlDiff(string, string, bool)` encodes every piece of text it emits (its output is
+  safe HTML); this also covers anchor labels and tooltips that use it.
+- Callers that pass plain values encode them first: `VerseData.GetHtmlCell` and the non-diff
+  branch of `VerseData.TryStoryLineStringDiff`, the three non-diff branches in
+  `TestQuestionsData`, `ExegeticalHelpNotesData.FinishPresentationHtml` (textarea branch),
+  and the print-preview tooltip in `AnchorsData`.
+- `FormatLanguageColumnHtml` treats its value as HTML: unchanged inside a textarea, and
+  `LineBreaksToBr` inside a paragraph.
 
 ### 3. `NoteHtmlSanitizer` (new file; wraps Ganss.Xss **HtmlSanitizer** NuGet, netstandard2.0)
 
@@ -111,30 +124,40 @@ Allowlist:
 - **`class` values:** only the language/field classes the app generates: `Lang*`, `StoryLine`,
   `Retelling`, `TestQuestion`, `Answer`, `ExegeticalNote`, `FreeTranslation` and the other
   `StoryEditor.TextFields` names, plus `LocalizationStyle`
-- **`a`:** `href`, `name`, `class`. The `onclick` for the known internal `href`s
-  (`bibleViewer.setReference` → `OnBibRefJump`, `conNote.jumpToLine` → `OnVerseLineJump`) is
-  **re-added by C#** after sanitizing, so those links keep working in IE. Http(s) links keep
-  their existing `OnUrlJump` treatment.
+- **`a`:** only `href` with `http`/`https`; `onClick="return OnUrlJump(this);"` is added after
+  sanitizing (none exist in the sample data, but `SetHyperlinks` creates them).
+- **internal links are unwrapped to text before sanitizing** (`href` = `bibleViewer.setReference`
+  or `conNote.jumpToLine`). `SetHyperlinks` originally created them from that text and recreates
+  them at render time. This avoids nested/broken links when the stored link's `name` attribute
+  (e.g. `name="Luk 3:23"`) also matches the Bible-reference pattern.
+- **user pseudo-tags are shown as text:** any `<word …>` whose name is not a known HTML tag
+  (e.g. `<RTL>`, `<retelling>`, `<malti see note>`; ~600 in the sample notes) is escaped before
+  sanitizing, so it now shows as written (IE hid these).
 - **removed with content:** `script`, `style`
 - **removed, content kept:** `div`, `font` and any other tag not on the list
 - **attributes dropped:** all `on*`, `id`, `style`
 
-`Sanitize(string html)` returns sanitized HTML. If the sanitizer throws, it falls back to
+`Sanitize(string html)` returns sanitized HTML. `ToReadOnlyHtml(string raw)` = `Sanitize`, then
+line breaks → `<br />` (HTML parsing turns `\r\n` into `\n`, so this converts `\n` after
+sanitizing). If the sanitizer throws, it falls back to
 `HtmlText.ForParagraph(raw)`, which is safe but shows the tags as text, and logs the failure.
 
 ### 4. Changes to existing code
 
-- **`StringTransfer.FormatLanguageColumnHtml`:** `HtmlText.ForTextarea` / `HtmlText.ForParagraph`.
+- **`StringTransfer.FormatLanguageColumnHtml`** and its callers: see "Where encoding happens" above.
 - **`ConsultNoteDataConverter`** (both `Html` builders and the read-only builder near :794/:917/:809/:951):
-  - ReferringText and read-only comments → `NoteHtmlSanitizer.Sanitize`, then `\r\n` → `<br />`, then `SetHyperlinks`
-  - the editable latest-comment textarea → `HtmlText.ForTextarea`
+  - ReferringText and read-only comments → `NoteHtmlSanitizer.ToReadOnlyHtml`, then `SetHyperlinks`
+  - the editable latest-comment textarea → `HtmlText.Encode`
+- **`HtmlConNoteControl.SetSelection`** (search highlight in a read-only note paragraph): mark the
+  found range with private-use sentinel characters, render with `ToReadOnlyHtml`, then replace the
+  sentinels with the highlight `<span>`.
 - **`HtmlStoryBtControl`:** split the two routes into `TextareaOnChange`.
   - `TextareaOnKeyUp` (sends plain `this.value`) calls a new private `SetFieldValue(id, text)`.
   - The public `TextareaOnChange` (called from the `StoryBtPs.js` onchange with `htmlText`-derived
     text) calls `SetFieldValue(id, HtmlText.FromIeHtmlText(text))`.
   - No JS changes.
-- **`HtmlVerseControl`** search-restore (`InnerHtml = …`): `HtmlText.ForParagraph` (or the
-  sanitizer for note paragraphs).
+- **`HtmlVerseControl.ClearSelection`** (paragraph restore): `NoteHtmlSanitizer.ToReadOnlyHtml` for a
+  `CommInstance`, otherwise `HtmlText.ForParagraph`.
 - **`StoryProjectData`:** call `DecodePlainTextFields` when `!IsPlainTextEncoded`; `GetXml`,
   `GetXmlToCopyStory` and `GetXmlToCopyColumn` add `TextEncoding="plain"`. Version handling is
   unchanged.
@@ -183,14 +206,17 @@ Allowlist:
   - `<donkey bray>` unchanged; `B&B;` (not a known entity) unchanged
   - note tables untouched
 - **`HtmlText`:**
-  - `ForTextarea`/`ForParagraph` encode `<`, `&` and line breaks correctly
+  - `Encode`/`ForParagraph` encode `<`, `&` and line breaks correctly
+  - `Diff.HtmlDiff` encodes text and keeps its insert/delete markup
   - `FromIeHtmlText` on an IE-style `htmlText` with `<SPAN class="… highlight">` and `<BR>`
     returns the plain text with `\r\n`
 - **`NoteHtmlSanitizer`:**
   - keeps `<SPAN class="LangVernacular StoryLine">idop</SPAN>` and `<B>only</B>`
   - removes the `<SCRIPT>` block and all `onclick`s
   - unwraps `<DIV id=tp_1_0_0 class=TextAreaStyle>`
-  - bibref and line-jump links come back with the correct `onclick`
+  - stored bibref and line-jump links are unwrapped to their text
+  - `<RTL>` / `<malti see note>` are shown as text
+  - line breaks survive (`\r\n` in, `<br />` out)
   - drops unknown classes
 - **Marker:**
   - a file without the marker is decoded; a file with it is not
