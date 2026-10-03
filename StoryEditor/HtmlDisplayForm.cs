@@ -251,6 +251,10 @@ namespace OneStoryProjectEditor
             if (nodeStoryProject == null)
                 throw new ApplicationException("done working");
 
+            // older revisions have the IE entities in their text (unless they were saved by this version)
+            if (!LegacyTextRepair.IsMarkedPlain(doc.DocumentElement))
+                LegacyTextRepair.DecodePlainTextElements(nodeStoryProject);
+
             strThisState = nodeStoryProject.Attributes["stage"].Value;
             System.Diagnostics.Debug.WriteLine(String.Format("In revision: {0}, story: {1}, State: {2}", 
                 rev.Number.LocalRevisionNumber,

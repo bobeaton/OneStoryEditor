@@ -111,6 +111,56 @@ namespace OneStoryProjectEditor.Tests
         }
 
         [Test]
+        public void IsFileMarkedPlain_NeverThrows()
+        {
+            var strDoctype = Path.Combine(Path.GetTempPath(), "ose-doctype-" + Guid.NewGuid() + ".onestory");
+            try
+            {
+                File.WriteAllText(strDoctype,
+                    "<?xml version=\"1.0\"?><!DOCTYPE StoryProject [<!ENTITY x \"y\">]><StoryProject TextEncoding=\"plain\" />");
+                Assert.That(LegacyTextRepair.IsFileMarkedPlain(strDoctype), Is.False);
+            }
+            finally
+            {
+                File.Delete(strDoctype);
+            }
+
+            Assert.That(LegacyTextRepair.IsFileMarkedPlain(Path.Combine(Path.GetTempPath(), "no-such-" + Guid.NewGuid() + ".onestory")),
+                        Is.False);
+        }
+
+        [TestCase("&#65;", "A")]
+        [TestCase("&#x41;", "A")]
+        [TestCase("&#0;", "&#0;")]
+        [TestCase("&#8;", "&#8;")]
+        [TestCase("&#xD800;", "&#xD800;")]
+        [TestCase("&#xFFFE;", "&#xFFFE;")]
+        [TestCase("&#9;", "\t")]
+        [TestCase("&#1114112;", "&#1114112;")]
+        public void DecodeIeEntities_NumericEntitiesMustBeValidXmlChars(string input, string expected)
+        {
+            Assert.That(LegacyTextRepair.DecodeIeEntities(input), Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void DecodePlainTextElements_XmlNode()
+        {
+            var doc = new System.Xml.XmlDocument();
+            doc.LoadXml("<story><Verses><Verse><StoryLine lang=\"V\">[B&amp;amp;B]</StoryLine>" +
+                        "<ConsultantNote>[B&amp;amp;B]</ConsultantNote>" +
+                        "<LnCNote VernacularRendering=\"a &amp;amp; b\">x &amp;amp; y</LnCNote></Verse></Verses></story>");
+
+            var node = LegacyTextRepair.DecodePlainTextElements(doc.DocumentElement);
+
+            Assert.That(node, Is.SameAs(doc.DocumentElement));
+            Assert.That(doc.SelectSingleNode("//StoryLine").InnerText, Is.EqualTo("[B&B]"));
+            Assert.That(doc.SelectSingleNode("//ConsultantNote").InnerText, Is.EqualTo("[B&amp;B]"));
+            Assert.That(doc.SelectSingleNode("//LnCNote").InnerText, Is.EqualTo("x & y"));
+            Assert.That(doc.SelectSingleNode("//LnCNote").Attributes["VernacularRendering"].Value, Is.EqualTo("a & b"));
+            Assert.That(LegacyTextRepair.DecodePlainTextElements((System.Xml.XmlNode)null), Is.Null);
+        }
+
+        [Test]
         public void ContainsIeEntity()
         {
             Assert.That(LegacyTextRepair.ContainsIeEntity("[B&amp;B]"), Is.True);

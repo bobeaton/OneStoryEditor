@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -54,7 +55,32 @@ namespace OneStoryProjectEditor
         {
             if (String.IsNullOrEmpty(str) || (str.IndexOf('&') < 0))
                 return str;
-            return RegexIeEntity.Replace(str, m => WebUtility.HtmlDecode(m.Value));
+            return RegexIeEntity.Replace(str, m => DecodeEntity(m.Value));
+        }
+
+        // a numeric entity that isn't a valid XML character (e.g. "&#0;", "&#xD800;") is left as it is, because
+        //  we couldn't save the decoded character in the file
+        private static string DecodeEntity(string strEntity)
+        {
+            if (strEntity[1] == '#')
+            {
+                var bHex = (strEntity[2] == 'x') || (strEntity[2] == 'X');
+                var strDigits = strEntity.Substring(bHex ? 3 : 2, strEntity.Length - (bHex ? 4 : 3));
+                int nCodePoint;
+                if (!Int32.TryParse(strDigits,
+                                    bHex ? NumberStyles.AllowHexSpecifier : NumberStyles.None,
+                                    CultureInfo.InvariantCulture, out nCodePoint) ||
+                    !IsValidXmlCodePoint(nCodePoint))
+                    return strEntity;
+            }
+            return WebUtility.HtmlDecode(strEntity);
+        }
+
+        private static bool IsValidXmlCodePoint(int nCodePoint)
+        {
+            if ((nCodePoint >= 0x10000) && (nCodePoint <= 0x10FFFF))
+                return true;    // supplementary plane
+            return (nCodePoint <= 0xFFFF) && XmlConvert.IsXmlChar((char)nCodePoint);
         }
 
         public static bool ContainsIeEntity(string str)
@@ -133,6 +159,60 @@ namespace OneStoryProjectEditor
             return nChanged;
         }
 
+        // same as above for an XmlNode (e.g. a story out of an old revision or one Chorus gave us); decodes it
+        //  in place and returns it
+        public static XmlNode DecodePlainTextElements(XmlNode node)
+        {
+            if (node == null)
+                return null;
+
+            var elements = new List<XmlElement>();
+            if (node is XmlElement)
+                elements.Add((XmlElement)node);
+            foreach (XmlElement elem in node.SelectNodes(".//*"))
+                elements.Add(elem);
+
+            foreach (var elem in elements)
+            {
+                var strName = elem.LocalName;
+                if (!PlainTextElementNames.Contains(strName))
+                    continue;
+
+                var bHasChildElements = false;
+                foreach (XmlNode child in elem.ChildNodes)
+                    if (child.NodeType == XmlNodeType.Element)
+                        bHasChildElements = true;
+
+                if (!bHasChildElements)
+                {
+                    var str = elem.InnerText;
+                    var strDecoded = DecodeIeEntities(str);
+                    if (strDecoded != str)
+                        elem.InnerText = strDecoded;
+                }
+
+                if (strName != "LnCNote")
+                    continue;
+
+                foreach (var strAttributeName in PlainTextAttributeNamesOfLnCNote)
+                {
+                    var attr = elem.GetAttributeNode(strAttributeName);
+                    if (attr == null)
+                        continue;
+                    var strDecoded = DecodeIeEntities(attr.Value);
+                    if (strDecoded != attr.Value)
+                        attr.Value = strDecoded;
+                }
+            }
+            return node;
+        }
+
+        public static bool IsMarkedPlain(XmlNode root)
+        {
+            var elem = root as XmlElement;
+            return (elem != null) && (elem.GetAttribute(CstrAttributeTextEncoding) == CstrTextEncodingPlain);
+        }
+
         public static bool IsMarkedPlain(XElement root)
         {
             return (string)root.Attribute(CstrAttributeTextEncoding) == CstrTextEncodingPlain;
@@ -155,10 +235,19 @@ namespace OneStoryProjectEditor
         //  which is why they can still read our files), so read it straight from the root element
         public static bool IsFileMarkedPlain(string strFilePath)
         {
-            using (var reader = XmlReader.Create(strFilePath))
+            // this must never stop a file from loading (DataSet.ReadXml accepts some things that XmlReader doesn't,
+            //  e.g. a DOCTYPE): if we can't tell, say it isn't marked, which means it gets decoded (the safe direction)
+            try
             {
-                reader.MoveToContent();
-                return reader.GetAttribute(CstrAttributeTextEncoding) == CstrTextEncodingPlain;
+                using (var reader = XmlReader.Create(strFilePath))
+                {
+                    reader.MoveToContent();
+                    return reader.GetAttribute(CstrAttributeTextEncoding) == CstrTextEncodingPlain;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
     }

@@ -482,10 +482,12 @@ namespace OneStoryProjectEditor
             var teamMembers = new TeamMembersData(nodeProjectFile);
             StoryData ParentStory = null;
             StoryData ChildStory = null;
+            // these nodes don't have a project root to say whether the text is already plain, so always decode
+            //  (on copies, since they're Chorus's nodes)
             if (parentStory != null)
-                ParentStory = new StoryData(parentStory, strProjectPath);
+                ParentStory = new StoryData(LegacyTextRepair.DecodePlainTextElements(parentStory.CloneNode(true)), strProjectPath);
             if (childStory != null)
-                ChildStory = new StoryData(childStory, strProjectPath);
+                ChildStory = new StoryData(LegacyTextRepair.DecodePlainTextElements(childStory.CloneNode(true)), strProjectPath);
             var viewSettings = new VerseData.ViewSettings(
                 projSettings, 
                 true,   // vernacular
@@ -1183,8 +1185,8 @@ namespace OneStoryProjectEditor
                     if (bIsPrinting)
                     {
                         // means there never was a child to compare with
-                        strName = strParentName;
-                        strComment = parent.MemberComment;
+                        strName = HtmlText.ForParagraph(strParentName);
+                        strComment = HtmlText.ForParagraph(parent.MemberComment);
                     }
                     else
                     {
@@ -1683,7 +1685,7 @@ namespace OneStoryProjectEditor
             string strParentComment, string strChildComment, bool bIsPrinting)
         {
             string strName = (bIsPrinting)
-                                 ? strParentComment
+                                 ? HtmlText.ForParagraph(strParentComment)
                                  : Diff.HtmlDiff(strParentComment, strChildComment, true);
             return MemberIdInfo.PresentationHtml(strLabel, strName);
         }
