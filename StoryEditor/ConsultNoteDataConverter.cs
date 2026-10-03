@@ -791,7 +791,8 @@ namespace OneStoryProjectEditor
                 string strReferringHtml = null;
                 if ((i == 0) && (ReferringText != null) && ReferringText.HasData)
                 {
-                    strReferringHtml = String.Format("<p ondblclick=\"OnDoubleClick(this)\">{0}</p>", ReferringText);
+                    strReferringHtml = String.Format("<p ondblclick=\"OnDoubleClick(this)\">{0}</p>",
+                                                     NoteHtmlSanitizer.ToReadOnlyHtml(ReferringText.ToString()));
                 }
 
                 // there are two factors in deciding whether a conversation may be edited.
@@ -806,7 +807,7 @@ namespace OneStoryProjectEditor
                 string strHyperlinkedText = strReferringHtml;
                 if (aCI.HasData)
                 {
-                    strHyperlinkedText += String.Format(Resources.HTML_Paragraph, aCI.ToString().Replace("\r\n", "<br />"));
+                    strHyperlinkedText += String.Format(Resources.HTML_Paragraph, NoteHtmlSanitizer.ToReadOnlyHtml(aCI.ToString()));
                     strHyperlinkedText = SetHyperlinks(strHyperlinkedText);
                 }
 
@@ -914,7 +915,8 @@ namespace OneStoryProjectEditor
                 string strReferringHtml = null;
                 if ((i == 0) && (ReferringText != null) && ReferringText.HasData)
                 {
-                    strReferringHtml = String.Format("<p ondblclick=\"OnDoubleClick(this)\">{0}</p>", ReferringText);
+                    strReferringHtml = String.Format("<p ondblclick=\"OnDoubleClick(this)\">{0}</p>",
+                                                     NoteHtmlSanitizer.ToReadOnlyHtml(ReferringText.ToString()));
                 }
 
                 // there are two factors in deciding whether a conversation may be edited.
@@ -935,7 +937,7 @@ namespace OneStoryProjectEditor
                                             String.Format(Resources.HTML_TextareaWithRefDoubleClick,
                                                           strHtmlElementId,
                                                           StoryData.CstrLangTextAreaStyleClassName,
-                                                          aCI));
+                                                          HtmlText.Encode(aCI.ToString())));
 
                     strHtmlTable += String.Format(Resources.HTML_TableRowIdColor,
                                                   TextareaRowId(nVerseIndex, nConversationIndex),
@@ -948,7 +950,7 @@ namespace OneStoryProjectEditor
                     string strHyperlinkedText = strReferringHtml;
                     if (aCI.HasData)
                     {
-                        strHyperlinkedText += String.Format(Resources.HTML_Paragraph, aCI.ToString().Replace("\r\n", "<br />"));
+                        strHyperlinkedText += String.Format(Resources.HTML_Paragraph, NoteHtmlSanitizer.ToReadOnlyHtml(aCI.ToString()));
                         strHyperlinkedText = SetHyperlinks(strHyperlinkedText);
                     }
 

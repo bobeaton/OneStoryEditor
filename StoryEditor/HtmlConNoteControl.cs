@@ -551,9 +551,10 @@ namespace OneStoryProjectEditor
                     HtmlElement elem = doc.GetElementById(stringTransfer.HtmlElementId);
                     if (elem != null)
                     {
-                        string str = stringTransfer.ToString();
-                        str = str.Insert(nFoundIndex + nLengthToSelect, CstrParagraphHighlightEnd);
-                        str = str.Insert(nFoundIndex, CstrParagraphHighlightBegin);
+                        var str = NoteHtmlSanitizer.ToReadOnlyHtmlWithHighlight(stringTransfer.ToString(),
+                                                                                nFoundIndex, nLengthToSelect,
+                                                                                CstrParagraphHighlightBegin,
+                                                                                CstrParagraphHighlightEnd);
                         System.Diagnostics.Debug.WriteLine(str);
                         elem.InnerHtml = str;
                     }

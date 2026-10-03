@@ -383,7 +383,9 @@ namespace OneStoryProjectEditor
                 {
                     HtmlElement elem = doc.GetElementById(stringTransfer.HtmlElementId);
                     if (elem != null)
-                        elem.InnerHtml = stringTransfer.ToString();
+                        elem.InnerHtml = (stringTransfer is CommInstance)
+                                             ? NoteHtmlSanitizer.ToReadOnlyHtml(stringTransfer.ToString())
+                                             : HtmlText.ForParagraph(stringTransfer.ToString());
                     else
                         Debug.Assert(false, "unexpected element id in HTML");
                 }
