@@ -202,6 +202,7 @@
     <PackageReference Include="Enchant.Net" Version="1.4.2" />
     <PackageReference Include="Encoding-Converters-Core" Version="$(EcCoreVersion)" />
     <PackageReference Include="FluentFTP" Version="54.2.0" />
+    <PackageReference Include="HtmlSanitizer" Version="9.2.1039" />
     <PackageReference Include="ibusdotnet" Version="2.0.3" />
     <!-- icu.net's version is owned by SharedItems.props (imported below). -->
     <PackageReference Include="Icu4c.Win.Min" Version="62.2.1-beta" />
