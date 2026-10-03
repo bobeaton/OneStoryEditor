@@ -3024,8 +3024,7 @@ namespace OneStoryProjectEditor
         private void editToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             bool bSomeVerses = ((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
-            editFindMenu.Enabled =
-                editCopyToolStripMenu.Enabled =
+            editCopyToolStripMenu.Enabled =
                 editCopyNationalBtMenu.Enabled =
                 editCopyEnglishBtMenu.Enabled =
                 editCopyFreeTranslationMenu.Enabled = bSomeVerses;
@@ -4220,14 +4219,6 @@ namespace OneStoryProjectEditor
         protected void UpdateUIMenusWithShortCuts()
         {
             viewRefreshMenu.Enabled = (TheCurrentStory != null);
-
-            editFindMenu.Enabled =
-                editFindNextMenu.Enabled =
-                editReplaceMenu.Enabled =
-                    ((StoryProject != null)
-                    && (StoryProject.ProjSettings != null)
-                    && (TheCurrentStory != null)
-                    && (TheCurrentStory.Verses.Count > 0));
 
             if ((StoryProject == null) || (StoryProject.ProjSettings == null))
                 return;

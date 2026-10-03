@@ -614,6 +614,8 @@ namespace OneStoryProjectEditor
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
             this.toolStripSeparator9.Size = new System.Drawing.Size(267, 6);
+            // hidden with Find/Find Next/Replace so only one separator remains (toolStripSeparator10)
+            this.toolStripSeparator9.Visible = false;
             // 
             // editFindMenu
             // 
@@ -622,6 +624,8 @@ namespace OneStoryProjectEditor
             this.editFindMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
             this.editFindMenu.Size = new System.Drawing.Size(270, 22);
             this.editFindMenu.Text = "&Find";
+            // search isn't wired to the HTML panes yet; hidden until sub-project C (SearchForm is kept)
+            this.editFindMenu.Visible = false;
             this.editFindMenu.Click += new System.EventHandler(this.editFindToolStripMenuItem_Click);
             // 
             // editFindNextMenu
@@ -631,6 +635,8 @@ namespace OneStoryProjectEditor
             this.editFindNextMenu.ShortcutKeys = System.Windows.Forms.Keys.F3;
             this.editFindNextMenu.Size = new System.Drawing.Size(270, 22);
             this.editFindNextMenu.Text = "Find &Next";
+            // search isn't wired to the HTML panes yet; hidden until sub-project C (SearchForm is kept)
+            this.editFindNextMenu.Visible = false;
             this.editFindNextMenu.Click += new System.EventHandler(this.findNextToolStripMenuItem_Click);
             // 
             // editReplaceMenu
@@ -640,6 +646,8 @@ namespace OneStoryProjectEditor
             this.editReplaceMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
             this.editReplaceMenu.Size = new System.Drawing.Size(270, 22);
             this.editReplaceMenu.Text = "&Replace";
+            // search isn't wired to the HTML panes yet; hidden until sub-project C (SearchForm is kept)
+            this.editReplaceMenu.Visible = false;
             this.editReplaceMenu.Click += new System.EventHandler(this.replaceToolStripMenuItem_Click);
             // 
             // toolStripSeparator10
