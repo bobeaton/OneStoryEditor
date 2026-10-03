@@ -55,6 +55,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{F46344C3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OseCommon", "OseCommon\OseCommon.csproj", "{25893762-B72E-4DC6-BF11-CBB3A025CBC2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryEditor.Tests", "StoryEditor.Tests\StoryEditor.Tests.csproj", "{B8372DBA-2894-4B87-BB06-56AEAA45FF22}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -99,6 +101,10 @@ Global
 		{25893762-B72E-4DC6-BF11-CBB3A025CBC2}.Debug|x86.Build.0 = Debug|x86
 		{25893762-B72E-4DC6-BF11-CBB3A025CBC2}.Release|x86.ActiveCfg = Release|x86
 		{25893762-B72E-4DC6-BF11-CBB3A025CBC2}.Release|x86.Build.0 = Release|x86
+		{B8372DBA-2894-4B87-BB06-56AEAA45FF22}.Debug|x86.ActiveCfg = Debug|x86
+		{B8372DBA-2894-4B87-BB06-56AEAA45FF22}.Debug|x86.Build.0 = Debug|x86
+		{B8372DBA-2894-4B87-BB06-56AEAA45FF22}.Release|x86.ActiveCfg = Release|x86
+		{B8372DBA-2894-4B87-BB06-56AEAA45FF22}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
