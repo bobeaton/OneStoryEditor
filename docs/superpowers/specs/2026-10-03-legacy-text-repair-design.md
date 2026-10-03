@@ -1,6 +1,6 @@
 # Sub-project A: Legacy Text Repair — Design
 
-Status: draft for review · Branch: `DecoupleWebBrowser` · Date: 2026-10-03
+Status: approved (rev 2: marker attribute instead of version bump) · Branch: `DecoupleWebBrowser` · Date: 2026-10-03
 
 ## Context
 
@@ -12,6 +12,7 @@ individually shippable steps:
 | | Sub-project | Still IE? |
 |---|---|---|
 | **A** | **Legacy text repair** (this document) | yes |
+| R | Remove the old .NET text-box Story/BT view (`advancedUseOldStyleStoryBtPaneMenu`, `CtrlTextBox`, `VerseBtControl` & co., `UsingHtmlDisplayForConNotes`) | yes |
 | E | Symmetric LINQ-to-XML serialization (replace the typed `NewDataSet`) | yes |
 | B | Host abstraction + JSON message protocol, implemented over IE first | yes |
 | C | WebView2 host + modern JS (selection/highlight rewrite) behind a setting | switchable |
@@ -34,8 +35,6 @@ From a scan of ~195 real project files (`Documents\OneStory Editor Projects`, `C
      `StringTransfer.FormatLanguageColumnHtml`).
    - **Reading back:** values return through the textarea `onchange` handler, which uses
      `createTextRange().htmlText` (`js/StoryBtPs.js`). That value is *already HTML-encoded*.
-   
-   The old .NET text-box view stores raw `&`, so the data is mixed.
 2. **Note fields (ConsultantNote/CoachNote, including ReferringText, which is stored as a
    ConsultantNote with direction `eReferringToText`) contain real HTML** that must keep
    rendering:
@@ -74,12 +73,28 @@ From a scan of ~195 real project files (`Documents\OneStory Editor Projects`, `C
 It does **not** touch ConsultantNote/CoachNote text (HTML), `PanoramaFrontMatter` (RTF),
 names, guids or other attribute data.
 
-It is called from the `StoryProjectData(NewDataSet, ProjectSettings)` constructor **only when the
-file's `StoryProject@version` is below `"1.9"`**, before any `StoriesData` is built.
+It is called from the `StoryProjectData(NewDataSet, ProjectSettings)` constructor, before any
+`StoriesData` is built, **only when the file lacks the plain-text marker** (see "Plain-text
+marker" below).
 
 The same decode is applied to plain-text values arriving through the copy-story / copy-column
 paste paths (`OseStoryToCopy`, `OseColumnToCopy`; `XElement.Parse` in PanoramaView and the column
-paste in StoryEditor) when the source has no version, or a version below 1.9.
+paste in StoryEditor) when the pasted root element lacks the marker.
+
+### Plain-text marker (replaces a version bump)
+
+- The new exe writes the attribute **`TextEncoding="plain"`** on the `StoryProject` root (and on
+  `OseStoryToCopy` / `OseColumnToCopy` clipboard roots). **`version` is not changed**; the
+  existing 1.6/1.7/1.8 logic stays as is.
+- Because neither the released exe's nor this exe's typed `NewDataSet` knows the attribute,
+  `ReadXml` ignores it. The new exe reads it separately: `ProjectReader.ReadProjectFile` reads the
+  root element's attributes with an `XmlReader` (first element only) and exposes
+  `ProjectReader.IsPlainTextEncoded`.
+- The released exe never writes the marker (its `GetXml` doesn't know it). So if anyone saves with
+  the released exe, the marker disappears and the next load in the new exe decodes again, cleaning
+  up anything the released exe re-encoded via `htmlText`.
+- Result: **mixed teams work, nobody is locked out, and users can go back to the released exe with
+  no manual steps.**
 
 ### 2. `HtmlText` (static helpers, new file)
 
@@ -120,18 +135,16 @@ Allowlist:
   - No JS changes.
 - **`HtmlVerseControl`** search-restore (`InnerHtml = …`): `HtmlText.ForParagraph` (or the
   sanitizer for note paragraphs).
-- **`StoryProjectData`:**
-  - `XmlDataVersion` becomes `"1.9"` and every save writes `"1.9"`. The conditional 1.7/1.8 bump
-    (`SetNextVersionIfNeeded`) is removed.
-  - The load check accepts 1.7, 1.8 and 1.9 and refuses anything newer with the existing
-    "newer version" message.
-  - Consequence: once a team member saves with this version and syncs, teammates on older
-    versions get the existing "please update" message.
+- **`StoryProjectData`:** call `DecodePlainTextFields` when `!IsPlainTextEncoded`; `GetXml`,
+  `GetXmlToCopyStory` and `GetXmlToCopyColumn` add `TextEncoding="plain"`. Version handling is
+  unchanged.
+- **`ProjectReader`:** add `IsPlainTextEncoded` (read from the root element as described above).
 
 ### Out of scope
 
 - Any JS change, the pane/host protocol (B) or WebView2 (C).
 - Changes to how the file is read or written (E).
+- The old .NET text-box view (removed in R); A ignores any implications for it.
 - Repairing pasted `<OseStoryToCopy>` blobs in StoryLines, or the zero-byte
   `or-mankidia (2).onestory`. These are reported only.
 
@@ -140,13 +153,20 @@ Allowlist:
 - **Notes are never rewritten in storage**; sanitizing happens only when rendering. A too-strict
   allowlist loses nothing and can be loosened later. The editable latest-comment box shows stored
   text as today.
-- **Decode applies only to files below 1.9.** In a Chorus merge between a 1.8 and a 1.9 user,
-  the merged file is expected to carry `version="1.9"`, which forces the 1.8 user to upgrade
-  before reopening. A field the 1.8 user edited just before upgrading may keep one `&amp;`.
-  This is accepted as a small risk. **Verify** how the OneStory Chorus plugin resolves the
-  root `version` attribute in a conflict (test item below).
-- **Decoding one level only:** a user who deliberately typed `&amp;` in a pre-1.9 file sees `&`.
-  This is negligible in the data.
+- **Decode runs whenever the marker is missing.** Repeated decoding (one level each time) only
+  affects text where a user deliberately typed an entity such as `&lt;`; this is negligible in the
+  data.
+- **Released exe on cleaned data:** decoded text containing `<…>` is inserted raw into the
+  released exe's read-only/print views and is hidden there. That is already true today for
+  `<donkey bray>`; most newly affected text is the junk `<OseStoryToCopy>` pastes. Accepted.
+- **Chorus merges:** if the merged root keeps the marker but a released-exe user edited a field,
+  that field may keep one `&amp;` until the next marker-less save. Accepted as a small risk.
+- **Ctrl+B / Ctrl+I in the editable note box** insert plain-text markers `$…$` / `*…*`
+  (`transformText` in `ConNoteDomPrefix.js`); `SetHyperlinks` turns them into `<b>`/`<em>` only
+  when rendering read-only. A keeps this: the editable box holds plain text, and the read-only
+  order is sanitize → line breaks to `<br />` → `SetHyperlinks`, so the app-generated
+  `<b>`/`<em>`/links are never sanitized away. (In C, `transformText` is rewritten with
+  `selectionStart`/`selectionEnd`/`setRangeText`; same keys and markers.)
 - **Search** now matches what users see (searching for `&` finds `[B&B]`).
 - **`TextPaster`** (sets `InnerText`, then fires `onchange` → `htmlText`) is covered by the
   `TextareaOnChange` decode.
@@ -172,8 +192,12 @@ Allowlist:
   - unwraps `<DIV id=tp_1_0_0 class=TextAreaStyle>`
   - bibref and line-jump links come back with the correct `onclick`
   - drops unknown classes
-- **Version gate:** a 1.8 file is decoded and saves as 1.9; a 1.9 file is not decoded; a 2.0
-  file is refused.
+- **Marker:**
+  - a file without the marker is decoded; a file with it is not
+  - saving writes `TextEncoding="plain"` and leaves `version` unchanged
+  - `ProjectReader.ReadProjectFile` loads a marked file without error (the same typed DataSet the
+    released exe uses, so this also shows the released exe ignores the attribute)
+  - copy-story/column XML: with marker not decoded, without marker decoded
 
 **Corpus test** (`[Explicit]`, reads the local sample folders):
 - every project loads
@@ -188,15 +212,22 @@ Allowlist:
   correctly; `<donkey bray>` is now visible in read-only/print views.
 - **"create note" across two textareas:** highlight and the resulting styled note are unchanged.
 - **Type `&` and `<x>`** in a story box, save, reopen: the text is identical.
-- **Chorus merge** of a 1.8-edited and a 1.9-saved copy of the same project: the resulting
-  version and behaviour on the 1.8 side.
+- **Released exe round trip:** open a marked file in the currently released OSE, edit a field
+  containing `&`, save; confirm it opens, the marker is gone, and the new exe cleans the field on
+  the next load.
+
+## Notes for sub-project C (recorded here so they aren't lost)
+
+- The IE/WebView2 choice is a **setting in one exe** (plus a command-line override), like the old
+  .NET-view toggle. Loading, rendering and saving are shared, so switching has no effect on the data.
 
 ## Notes for sub-project E (recorded here so they aren't lost)
 
 - **Goal:** replace `ReadXml` into the typed `NewDataSet` (`StoryProject.xsd` + the 24k-line
   `StoryProject.Designer.cs`) with `FromXml(XElement)` on each `*Data` class, mirroring the
   existing `GetXml`.
-- **Keep the file format exactly as it is**, for the Chorus merge plugin and older versions.
+- **Keep the file format exactly as it is**, for the Chorus merge plugin and older versions
+  (including the `TextEncoding` marker from A, which then becomes a normal attribute).
 - **Keep all `RobustFile` usage** and the save sequence (write temp → reload check → backup →
   replace). Teams have had files clobbered (e.g. the zero-byte file above), and `RobustFile`
   reduces that.
