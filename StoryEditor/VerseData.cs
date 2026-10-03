@@ -758,7 +758,7 @@ namespace OneStoryProjectEditor
             if (bNoDiff)
             {
                 // then just return the value (possibly transliterated)
-                strValue = stringTransfer.GetValue(transliterator);
+                strValue = HtmlText.Encode(stringTransfer.GetValue(transliterator));
                 return true;
             }
 
@@ -1147,7 +1147,7 @@ namespace OneStoryProjectEditor
         private static string GetHtmlCell(StringTransfer stringTransfer, int nVerseIndex, int nNumCols, 
             StoryData.PresentationType presentationType, ViewSettings viewSettings, DirectableEncConverter transliterator)
         {
-            var str = GetStoryLineString(transliterator, stringTransfer);
+            var str = HtmlText.Encode(GetStoryLineString(transliterator, stringTransfer));
             return stringTransfer.FormatLanguageColumnHtml(nVerseIndex,
                                                            nNumCols,
                                                            str,

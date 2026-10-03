@@ -191,7 +191,7 @@ namespace OneStoryProjectEditor
             return String.Format(Properties.Resources.HTML_TableCell,
                                  String.Format(Properties.Resources.HTML_ParagraphText,
                                                strLangStyleClassName,
-                                               strValue));
+                                               HtmlText.ForParagraph(strValue)));
         }
 
         private List<string> astrKeyTermId = new List<string>();

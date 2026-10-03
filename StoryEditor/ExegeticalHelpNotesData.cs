@@ -173,7 +173,7 @@ namespace OneStoryProjectEditor
                     var strNote = anExHelpNote.FormatLanguageColumnHtml(nVerseIndex,
                                                                         i,
                                                                         1,
-                                                                        anExHelpNote.ToString(),
+                                                                        HtmlText.Encode(anExHelpNote.ToString()),
                                                                         viewSettings);
                     strHtml += String.Format(Properties.Resources.HTML_TableRow,
                                              String.Format("{0}{1}",

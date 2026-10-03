@@ -29,8 +29,10 @@ namespace OneStoryProjectEditor
             return FormatLanguageColumnHtml(nVerseIndex, nItemNum, 0, nNumCols, strValue, viewSettings);
         }
 
-        public string FormatLanguageColumnHtml(int nVerseIndex, 
-            int nItemNum, 
+        // strValue is HTML: callers either pass Diff.HtmlDiff output (already safe HTML) or
+        //  HtmlText.Encode(plain text)
+        public string FormatLanguageColumnHtml(int nVerseIndex,
+            int nItemNum,
             int nSubItemNum,    // ans 1, 2, 3...
             int nNumCols,
             string strValue,
@@ -53,7 +55,7 @@ namespace OneStoryProjectEditor
             {
                 strHtmlElement = String.Format(Resources.HTML_ParagraphText,
                                                GetStyleClassName(viewSettings.FieldEditibility),
-                                               strValue);
+                                               HtmlText.LineBreaksToBr(strValue));
             }
 
             return String.Format(Resources.HTML_TableCellWidthAlignTop,

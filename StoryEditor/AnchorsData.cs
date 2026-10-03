@@ -242,7 +242,7 @@ namespace OneStoryProjectEditor
                 if (JumpTarget != ToolTipText)
                 {
                     strButtonLabelLocalized += CstrTooltipIndicator;
-                    astrExegeticalHelpNotes.Add(ToolTipText);
+                    astrExegeticalHelpNotes.Add(HtmlText.Encode(ToolTipText));
                 }
             }
 

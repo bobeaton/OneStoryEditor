@@ -256,29 +256,29 @@ namespace OneStoryProjectEditor
         /// <param name="strOrig">original string</param>
         /// <param name="strNew">new string (new as in will get a red underlined for new bits and strike out for removed bits)</param>
         /// <param name="bKeepStringsIntact">set to true if you want the original and new strings to be left intact (not split by false comparisons). Then strOrig will be fully striked out and strNew will be fully underlined</param>
-        /// <returns></returns>
+        /// <returns>safe HTML (the text is encoded)</returns>
         public static string HtmlDiff(string strOrig, string strNew, bool bKeepStringsIntact)
         {
             string strResult = null;
             // if the parent is empty, but the child is not...
             if (String.IsNullOrEmpty(strOrig) && !String.IsNullOrEmpty(strNew))
-                strResult = Rainbow.HtmlDiffEngine.Added.BeginTag + strNew + Rainbow.HtmlDiffEngine.Added.EndTag;   // addition
+                strResult = Rainbow.HtmlDiffEngine.Added.BeginTag + HtmlText.Encode(strNew) + Rainbow.HtmlDiffEngine.Added.EndTag;   // addition
 
             // if the child is empty, but the parent is not...
             else if (!String.IsNullOrEmpty(strOrig) && String.IsNullOrEmpty(strNew))
-                strResult = Rainbow.HtmlDiffEngine.CommentOff.BeginTag + strOrig + Rainbow.HtmlDiffEngine.CommentOff.EndTag;  // deletion
+                strResult = Rainbow.HtmlDiffEngine.CommentOff.BeginTag + HtmlText.Encode(strOrig) + Rainbow.HtmlDiffEngine.CommentOff.EndTag;  // deletion
 
             // if both are empty (or one is empty and one is null) OR otherwise the same...
             else if ((String.IsNullOrEmpty(strOrig) && String.IsNullOrEmpty(strNew)) || (strOrig == strNew))
-                strResult = strOrig;    // then there's no change
+                strResult = HtmlText.Encode(strOrig);    // then there's no change
             else if (bKeepStringsIntact)
             {
-                strResult = Rainbow.HtmlDiffEngine.CommentOff.BeginTag + strOrig + Rainbow.HtmlDiffEngine.CommentOff.EndTag + Rainbow.HtmlDiffEngine.Added.BeginTag + strNew + Rainbow.HtmlDiffEngine.Added.EndTag;
+                strResult = Rainbow.HtmlDiffEngine.CommentOff.BeginTag + HtmlText.Encode(strOrig) + Rainbow.HtmlDiffEngine.CommentOff.EndTag + Rainbow.HtmlDiffEngine.Added.BeginTag + HtmlText.Encode(strNew) + Rainbow.HtmlDiffEngine.Added.EndTag;
             }
             else
             {
 #if (UsingRainBow)
-                Rainbow.HtmlDiffEngine.Merger merger = new Rainbow.HtmlDiffEngine.Merger(strOrig, strNew);
+                Rainbow.HtmlDiffEngine.Merger merger = new Rainbow.HtmlDiffEngine.Merger(HtmlText.Encode(strOrig), HtmlText.Encode(strNew));  // the merger parses HTML, so give it encoded text
                 strResult = merger.merge();
 #else
                 int[] codesOrig = DiffCharCodes(strOrig, false);
@@ -291,14 +291,14 @@ namespace OneStoryProjectEditor
 
                     // write unchanged chars
                     while ((pos < it.StartB) && (pos < strNew.Length))
-                        strResult += strNew[pos++];
+                        strResult += HtmlText.Encode(strNew[pos++]);
 
                     // write deleted chars
                     if (it.deletedA > 0)
                     {
                         strResult += Rainbow.HtmlDiffEngine.CommentOff.BeginTag;
                         for (int m = 0; m < it.deletedA; m++)
-                            strResult += strOrig[it.StartA + m];
+                            strResult += HtmlText.Encode(strOrig[it.StartA + m]);
                         strResult += Rainbow.HtmlDiffEngine.CommentOff.EndTag;
                     }
 
@@ -307,14 +307,14 @@ namespace OneStoryProjectEditor
                     {
                         strResult += Rainbow.HtmlDiffEngine.Added.BeginTag;
                         while (pos < it.StartB + it.insertedB)
-                            strResult += strNew[pos++];
+                            strResult += HtmlText.Encode(strNew[pos++]);
                         strResult += Rainbow.HtmlDiffEngine.Added.EndTag;
                     }
                 }
 
                 // write rest of unchanged chars
                 while (pos < strNew.Length)
-                    strResult += strNew[pos++];
+                    strResult += HtmlText.Encode(strNew[pos++]);
 #endif
             }
             

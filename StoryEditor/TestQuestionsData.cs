@@ -217,7 +217,7 @@ namespace OneStoryProjectEditor
                         ? (child != null)
                             ? Diff.HtmlDiff(transliterator, TestQuestionLine.Vernacular, (theChildTQ != null) ? theChildTQ.TestQuestionLine.Vernacular : null)
                             : Diff.HtmlDiff(transliterator, null, TestQuestionLine.Vernacular)
-                        : TestQuestionLine.Vernacular.GetValue(transliterator);
+                        : HtmlText.Encode(TestQuestionLine.Vernacular.GetValue(transliterator));
 
                     strRow += TestQuestionLine.Vernacular.FormatLanguageColumnHtml(nVerseIndex,
                                                                                    nTQNum,
@@ -233,7 +233,7 @@ namespace OneStoryProjectEditor
                         ? (child != null)
                             ? Diff.HtmlDiff(transliterator, TestQuestionLine.NationalBt, (theChildTQ != null) ? theChildTQ.TestQuestionLine.NationalBt : null)
                             : Diff.HtmlDiff(transliterator, null, TestQuestionLine.NationalBt)
-                        : TestQuestionLine.NationalBt.GetValue(transliterator);
+                        : HtmlText.Encode(TestQuestionLine.NationalBt.GetValue(transliterator));
 
                     strRow += TestQuestionLine.NationalBt.FormatLanguageColumnHtml(nVerseIndex,
                                                                                    nTQNum,
@@ -249,7 +249,7 @@ namespace OneStoryProjectEditor
                         ? (child != null)
                             ? Diff.HtmlDiff(transliterator, TestQuestionLine.InternationalBt, (theChildTQ != null) ? theChildTQ.TestQuestionLine.InternationalBt : null)
                             : Diff.HtmlDiff(transliterator, null, TestQuestionLine.InternationalBt)
-                        : TestQuestionLine.InternationalBt.GetValue(transliterator);
+                        : HtmlText.Encode(TestQuestionLine.InternationalBt.GetValue(transliterator));
 
                     strRow += TestQuestionLine.InternationalBt.FormatLanguageColumnHtml(nVerseIndex,
                                                                                         nTQNum,
