@@ -582,6 +582,23 @@
       <Component Id="System.Buffers.dll" Guid="{8E7F4F1F-B119-4BE6-9662-9F58A83A0808}">
         <File Id="System.Buffers.dll" Name="System.Buffers.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Buffers.dll" AssemblyApplication="System.Buffers.dll" Assembly=".net" Source="..\..\output\release\System.Buffers.dll" />
       </Component>
+      <!-- NoteHtmlSanitizer (HtmlSanitizer 9.2.1039) and its dependencies. n.b. if one of these is missing the app
+           falls back to showing notes as plain text, but it should ship them. -->
+      <Component Id="HtmlSanitizer.dll" Guid="{8E497325-5321-466B-9535-DC9E496FD5BF}">
+        <File Id="HtmlSanitizer.dll" Name="HtmlSanitizer.dll" Vital="yes" KeyPath="yes" AssemblyManifest="HtmlSanitizer.dll" AssemblyApplication="HtmlSanitizer.dll" Assembly=".net" Source="..\..\output\release\HtmlSanitizer.dll" />
+      </Component>
+      <Component Id="AngleSharp.dll" Guid="{8A7E5A0D-8BFE-4F6A-9367-5BCB4F289381}">
+        <File Id="AngleSharp.dll" Name="AngleSharp.dll" Vital="yes" KeyPath="yes" AssemblyManifest="AngleSharp.dll" AssemblyApplication="AngleSharp.dll" Assembly=".net" Source="..\..\output\release\AngleSharp.dll" />
+      </Component>
+      <Component Id="AngleSharp.Css.dll" Guid="{3BFCBD68-C09D-4DE4-8214-13BD2DF78B84}">
+        <File Id="AngleSharp.Css.dll" Name="AngleSharp.Css.dll" Vital="yes" KeyPath="yes" AssemblyManifest="AngleSharp.Css.dll" AssemblyApplication="AngleSharp.Css.dll" Assembly=".net" Source="..\..\output\release\AngleSharp.Css.dll" />
+      </Component>
+      <Component Id="System.Text.Encoding.CodePages.dll" Guid="{FCE259EA-4D1B-475F-845F-5BD3AC06596E}">
+        <File Id="System.Text.Encoding.CodePages.dll" Name="System.Text.Encoding.CodePages.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Text.Encoding.CodePages.dll" AssemblyApplication="System.Text.Encoding.CodePages.dll" Assembly=".net" Source="..\..\output\release\System.Text.Encoding.CodePages.dll" />
+      </Component>
+      <Component Id="System.Memory.dll" Guid="{FD1322EE-D872-46B5-B491-4C0F29C1B378}">
+        <File Id="System.Memory.dll" Name="System.Memory.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Memory.dll" AssemblyApplication="System.Memory.dll" Assembly=".net" Source="..\..\output\release\System.Memory.dll" />
+      </Component>
       <Component Id="System.CodeDom.dll" Guid="{D709D264-B8EC-4DCC-9DDE-57AFFF4E8DAD}">
         <File Id="System.CodeDom.dll" Name="System.CodeDom.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.CodeDom.dll" AssemblyApplication="System.CodeDom.dll" Assembly=".net" Source="..\..\output\release\System.CodeDom.dll" />
       </Component>

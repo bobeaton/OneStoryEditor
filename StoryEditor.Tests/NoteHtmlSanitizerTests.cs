@@ -56,10 +56,60 @@ namespace OneStoryProjectEditor.Tests
         }
 
         [Test]
-        public void HttpLinksGetOnUrlJump()
+        public void HttpLinksAreUnwrappedToTextAndUrl()
         {
-            Assert.That(NoteHtmlSanitizer.Sanitize("<a href=\"https://example.org/a?b=1&c=2\" onclick=\"evil()\">here</a>"),
-                        Is.EqualTo("<a href=\"https://example.org/a?b=1&amp;c=2\" onClick=\"return OnUrlJump(this);\">here</a>"));
+            Assert.That(NoteHtmlSanitizer.Sanitize("<a href=\"https://example.org/a?b=1\" onclick=\"evil()\">here</a>"),
+                        Is.EqualTo("here https://example.org/a?b=1"));
+            Assert.That(NoteHtmlSanitizer.Sanitize("<a href=\"https://example.org/a\">https://example.org/a</a>"),
+                        Is.EqualTo("https://example.org/a"));
+        }
+
+        [Test]
+        public void SanitizedOutputHasNoAnchorsOrHrefs()
+        {
+            var result = NoteHtmlSanitizer.Sanitize("<a href=\"ftp://x\">a</a> <a name=n>b</a> <a href=\"https://x/y\">c</a>");
+            Assert.That(result, Does.Not.Contain("<a").And.Not.Contain("href"));
+        }
+
+        [TestCase("<a href=\"  JaVa&#x09;Script:alert(1)\">x</a>")]
+        [TestCase("<a href=\"data:text/html,x\">x</a>")]
+        [TestCase("<p style=\"width:expression(alert(1))\">x</p>")]
+        [TestCase("<img src=x onerror=alert(1)>")]
+        [TestCase("<iframe src=//e></iframe>")]
+        [TestCase("<!--[if IE]><script>alert(1)</script><![endif]-->")]
+        [TestCase("<!-- <script>x</script> -->")]
+        [TestCase("<a href=\"https://x/?Luk 3:23<img src=x onerror=alert(1)>\">t</a>")]
+        public void OutputHasNothingExecutable(string note)
+        {
+            AssertSafe(NoteHtmlSanitizer.Sanitize(note));
+            AssertSafe(NoteHtmlSanitizer.ToReadOnlyHtml(note));
+        }
+
+        [Test]
+        public void HyperlinkingSanitizedNoteInjectsNothing()
+        {
+            const string note = "<a href=\"https://x/?Luk 3:23<img src=x onerror=alert(1)>\">t</a>";
+            // (SetHyperlinks adds its own onClick attributes to the links it makes, so only look for ours)
+            var result = ConsultNoteDataConverter.SetHyperlinks(NoteHtmlSanitizer.ToReadOnlyHtml(note));
+            Assert.That(result, Does.Not.Contain("onerror").IgnoreCase);
+            Assert.That(result, Does.Not.Contain("<img").IgnoreCase);
+        }
+
+        private static void AssertSafe(string html)
+        {
+            Assert.That(html, Does.Not.Contain("<script").IgnoreCase);
+            Assert.That(html, Does.Not.Contain("javascript:").IgnoreCase);
+            Assert.That(html, Does.Not.Contain("vbscript:").IgnoreCase);
+            Assert.That(html, Does.Not.Contain("data:").IgnoreCase);
+            Assert.That(html, Does.Not.Contain("expression(").IgnoreCase);
+            Assert.That(html, Does.Not.Contain("<img").IgnoreCase);
+            Assert.That(html, Does.Not.Contain("<iframe").IgnoreCase);
+            Assert.That(html, Does.Not.Contain("<object").IgnoreCase);
+            Assert.That(html, Does.Not.Contain("<embed").IgnoreCase);
+            Assert.That(html, Does.Not.Contain("<style").IgnoreCase);
+            Assert.That(html, Does.Not.Contain("onerror").IgnoreCase);
+            Assert.That(System.Text.RegularExpressions.Regex.IsMatch(html, @"\son\w+\s*=",
+                            System.Text.RegularExpressions.RegexOptions.IgnoreCase), Is.False, html);
         }
 
         [TestCase("JH: Re: <RTL>  Your retellings", "JH: Re: &lt;RTL&gt;  Your retellings")]

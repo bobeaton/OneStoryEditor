@@ -13,7 +13,7 @@ namespace OneStoryProjectEditor
     /// </summary>
     public static class NoteHtmlSanitizer
     {
-        private static readonly string[] AllowedTagNames = { "span", "p", "br", "i", "b", "em", "strong", "u", "a" };
+        private static readonly string[] AllowedTagNames = { "span", "p", "br", "i", "b", "em", "strong", "u" };
 
         // the language/field classes the app generates (seen in the stored "create note" spans)
         private static readonly string[] AllowedClassNames =
@@ -43,12 +43,18 @@ namespace OneStoryProjectEditor
             RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         private static readonly Regex RegexTagLike = new Regex(@"<(/?)([A-Za-z][A-Za-z0-9:_-]*)([^<>]*)>", RegexOptions.Compiled);
-        private static readonly Regex RegexHttpLink = new Regex(@"<a href=""(https?:[^""]*)"">", RegexOptions.Compiled);
+
+        // http(s) links are unwrapped to their text (+ the URL if that's different), so SetHyperlinks makes them again
+        //  from the text. That way the sanitizer's output has no attribute that could carry user text
+        private static readonly Regex RegexHttpLink = new Regex(
+            @"<a\s[^>]*?\bhref\s*=\s*[""'](https?://[^""'<>]*)[""'][^>]*>(.*?)</a\s*>",
+            RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         private const char HighlightBeginSentinel = '\uE000';
         private const char HighlightEndSentinel = '\uE001';
 
-        private static readonly HtmlSanitizer Sanitizer = CreateSanitizer();
+        // lazy so that a missing/broken HtmlSanitizer assembly is caught by TrySanitize (and shown as plain text)
+        private static readonly Lazy<HtmlSanitizer> Sanitizer = new Lazy<HtmlSanitizer>(CreateSanitizer);
         private static readonly object SanitizerLock = new object();
 
         private static HtmlSanitizer CreateSanitizer()
@@ -61,7 +67,6 @@ namespace OneStoryProjectEditor
 
             sanitizer.AllowedAttributes.Clear();
             sanitizer.AllowedAttributes.Add("class");
-            sanitizer.AllowedAttributes.Add("href");
 
             sanitizer.AllowedClasses.Clear();
             foreach (var strClass in AllowedClassNames)
@@ -90,12 +95,15 @@ namespace OneStoryProjectEditor
             try
             {
                 var str = RegexInternalLink.Replace(html, "$1");
+                str = RegexHttpLink.Replace(str, m => (m.Groups[2].Value == m.Groups[1].Value)
+                                                          ? m.Groups[2].Value
+                                                          : m.Groups[2].Value + " " + m.Groups[1].Value);
                 str = RegexTagLike.Replace(str, m => KnownHtmlTagNames.Contains(m.Groups[2].Value)
                                                          ? m.Value
                                                          : HtmlText.Encode(m.Value));
                 lock (SanitizerLock)
-                    str = Sanitizer.Sanitize(str);
-                result = RegexHttpLink.Replace(str, "<a href=\"$1\" onClick=\"return OnUrlJump(this);\">");
+                    str = Sanitizer.Value.Sanitize(str);
+                result = str;
                 return true;
             }
             catch (Exception ex)

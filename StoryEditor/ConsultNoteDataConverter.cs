@@ -999,7 +999,7 @@ namespace OneStoryProjectEditor
                    TeamMemberData.IsUser(loggedOnMember.MemberType, TeamMemberData.UserTypes.Coach);
         }
 
-        private static string SetHyperlinks(string strHyperlinkedText)
+        internal static string SetHyperlinks(string strHyperlinkedText)
         {
             if (String.IsNullOrEmpty(strHyperlinkedText))
                 return strHyperlinkedText;
