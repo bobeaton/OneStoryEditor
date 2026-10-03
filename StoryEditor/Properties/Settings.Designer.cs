@@ -826,18 +826,6 @@ namespace OneStoryProjectEditor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool UsingHtmlForStoryBtPane {
-            get {
-                return ((bool)(this["UsingHtmlForStoryBtPane"]));
-            }
-            set {
-                this["UsingHtmlForStoryBtPane"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::System.Collections.Specialized.StringCollection ProjectNameToLastStoryWorkedOn {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["ProjectNameToLastStoryWorkedOn"]));
