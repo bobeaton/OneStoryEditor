@@ -2045,6 +2045,11 @@ namespace OneStoryProjectEditor
                 }
             }
 
+            // files not saved by a version that keeps plain text may have HTML entities in the
+            //  story text that IE's htmlText put there (e.g. "[B&amp;B]")
+            if (!((projFile as ProjectReader)?.IsPlainTextEncoded ?? false))
+                LegacyTextRepair.DecodePlainTextFields(projFile);
+
             PanoramaFrontMatter = projFile.StoryProject[0].PanoramaFrontMatter;
             if (String.IsNullOrEmpty(PanoramaFrontMatter))
                 PanoramaFrontMatter = Properties.Resources.IDS_DefaultPanoramaFrontMatter;
@@ -2595,6 +2600,7 @@ namespace OneStoryProjectEditor
                     new XElement(CstrElementStoryProjectRoot,
                                  new XAttribute(CstrAttributeVersion, XmlDataVersion),
                                  new XAttribute(CstrAttributeProjectName, ProjSettings.ProjectName));
+                LegacyTextRepair.MarkAsPlain(elemStoryProject);
 
                 if (ProjSettings.UseDropbox)
                 {
@@ -2642,10 +2648,12 @@ namespace OneStoryProjectEditor
         //  just need the members (so we can add them to the new project, if used in this story) and the story itself
         public XElement GetXmlToCopyStory(StoryData theStoryToCopy)
         {
-            return new XElement(CstrElementOseStoryToCopy,
-                                TeamMembers.GetXml,
-                                ProjSettings.GetXml,
-                                theStoryToCopy.GetXml);
+            var elem = new XElement(CstrElementOseStoryToCopy,
+                                    TeamMembers.GetXml,
+                                    ProjSettings.GetXml,
+                                    theStoryToCopy.GetXml);
+            LegacyTextRepair.MarkAsPlain(elem);
+            return elem;
         }
 
         // retrieve an xml fragment so we can copy a story to another project... 
@@ -2653,6 +2661,7 @@ namespace OneStoryProjectEditor
         public XElement GetXmlToCopyColumn(VersesData theColumnToCopy, SilEncConverters40.DirectableEncConverter transliterator, Func<LineData, StringTransfer> getFieldFunc)
         {
             var elem = new XElement(CstrElementOseColumnToCopy);
+            LegacyTextRepair.MarkAsPlain(elem);
             if (transliterator != null)
                 elem.Add(new XAttribute("Transliterator", transliterator.Name));
 
@@ -2729,6 +2738,9 @@ namespace OneStoryProjectEditor
     {
         public static List<string> UniqueStoryGuids = new List<string>();
 
+        // true if the file was saved by a version that keeps plain text (see LegacyTextRepair)
+        public bool IsPlainTextEncoded { get; private set; }
+
         public static DateTime ReadProjectFile(string strProjectFilePath, out ProjectReader projectReader)
         {
             try
@@ -2736,6 +2748,7 @@ namespace OneStoryProjectEditor
                 UniqueStoryGuids.Clear();
                 projectReader = new ProjectReader();
                 projectReader.ReadXml(strProjectFilePath);
+                projectReader.IsPlainTextEncoded = LegacyTextRepair.IsFileMarkedPlain(strProjectFilePath);
                 return File.GetLastWriteTime(strProjectFilePath);
             }
             catch (ReflectionTypeLoadException ex)

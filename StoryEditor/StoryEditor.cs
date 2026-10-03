@@ -3984,6 +3984,7 @@ namespace OneStoryProjectEditor
                 return;
 
             var theColumnToCopy = XElement.Parse(strData);
+            LegacyTextRepair.DecodeUnlessMarked(theColumnToCopy);
             var isTransliterated = theColumnToCopy.Attribute("Transliterator")?.Value != null;
             var sourceColumnName = theColumnToCopy.Element("StoryLine")?.Attribute("lang")?.Value;
             var verse = TheCurrentStory.Verses?[0];
@@ -7953,6 +7954,7 @@ namespace OneStoryProjectEditor
                 return;
 
             var theStoryToCopyPlusMembersXElement = XElement.Parse(strData);
+            LegacyTextRepair.DecodeUnlessMarked(theStoryToCopyPlusMembersXElement);
             var theStoryToCopyXElement = theStoryToCopyPlusMembersXElement.Element(StoryData.CstrElementNameStory);
 
             // find all of the descendent attributes for 'memberId'

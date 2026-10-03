@@ -1318,6 +1318,7 @@ namespace OneStoryProjectEditor
                 return;
 
             var theStoryToCopyPlusMembersXElement = XElement.Parse(strData);
+            LegacyTextRepair.DecodeUnlessMarked(theStoryToCopyPlusMembersXElement);
             var theStoryToCopyXElement = theStoryToCopyPlusMembersXElement.Element(StoryData.CstrElementNameStory);
 
             // find all of the descendent attributes for 'memberId'
