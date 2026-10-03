@@ -24,10 +24,15 @@ namespace OneStoryProjectEditor.Tests
                           .SelectMany(d => Directory.EnumerateFiles(d, "*.onestory", SearchOption.AllDirectories));
         }
 
+        private static bool IsPastedCopyXml(string str) =>
+            !String.IsNullOrEmpty(str) &&
+            ((str.IndexOf("<" + StoryProjectData.CstrElementOseStoryToCopy, StringComparison.Ordinal) >= 0) ||
+             (str.IndexOf("<" + StoryProjectData.CstrElementOseColumnToCopy, StringComparison.Ordinal) >= 0));
+
         [Test]
         public void EveryProjectLoadsDecodesAndSanitizes()
         {
-            int nFiles = 0, nUnreadable = 0, nDecoded = 0, nNotes = 0, nFallbacks = 0;
+            int nFiles = 0, nUnreadable = 0, nDecoded = 0, nNotes = 0, nFallbacks = 0, nPastedBlobs = 0;
             var lstProblems = new List<string>();
 
             foreach (var strFile in CorpusFiles())
@@ -55,7 +60,10 @@ namespace OneStoryProjectEditor.Tests
                     foreach (DataRow row in table.Rows)
                     {
                         var str = row[strTable + "_text"] as string;
-                        if (LegacyTextRepair.ContainsIeEntity(str))
+                        // a whole pasted OseStoryToCopy/OseColumnToCopy document (known junk) legitimately contains "&amp;" etc.
+                        if (IsPastedCopyXml(str))
+                            nPastedBlobs++;
+                        else if (LegacyTextRepair.ContainsIeEntity(str))
                             lstProblems.Add($"{strFile} {strTable}: entity remains: {str}");
                     }
                 }
@@ -80,7 +88,7 @@ namespace OneStoryProjectEditor.Tests
                 }
             }
 
-            TestContext.WriteLine($"files={nFiles} unreadable={nUnreadable} decodedValues={nDecoded} notes={nNotes} sanitizerFallbacks={nFallbacks}");
+            TestContext.WriteLine($"files={nFiles} unreadable={nUnreadable} decodedValues={nDecoded} notes={nNotes} sanitizerFallbacks={nFallbacks} pastedBlobsSkipped={nPastedBlobs}");
             Assert.That(nFiles, Is.GreaterThan(0), "no corpus files found");
             Assert.That(lstProblems, Is.Empty);
             Assert.That(nFallbacks, Is.EqualTo(0));
