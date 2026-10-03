@@ -267,6 +267,7 @@ namespace OneStoryProjectEditor
             InitializeComponent();
             Localizer.Ctrl(this);
 
+            flowLayoutPanelVerses.Visible = false;
             htmlStoryBtControl.Visible = true;
 
             linkLabelConsultantNotes.Text = CstrFirstVerse;
@@ -1638,13 +1639,6 @@ namespace OneStoryProjectEditor
             htmlConsultantNotesControl.LoadDocument();
             htmlCoachNotesControl.LoadDocument();
             ResumeLayout(true);
-
-            /* handled in another way -- see StrIdToScrollTo = GetTopRowId; prior to calling this method
-            if (String.IsNullOrEmpty(HtmlStoryBtControl.LastTextareaInFocusId) && (theVerses.Count > 0))
-                FocusOnVerse(1, false, false);
-            else
-                htmlStoryBtControl.ScrollToElement(HtmlStoryBtControl.LastTextareaInFocusId, false);
-            */
         }
 
         private void InitializeTransliterators()
@@ -4972,8 +4966,7 @@ namespace OneStoryProjectEditor
 
         internal void editCopySelectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string strText = null;
-            strText = htmlStoryBtControl.GetSelectedText;
+            string strText = htmlStoryBtControl.GetSelectedText;
             if (!String.IsNullOrEmpty(strText))
                 Clipboard.SetDataObject(strText);
         }
