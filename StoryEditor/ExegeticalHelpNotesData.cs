@@ -149,7 +149,7 @@ namespace OneStoryProjectEditor
 
                 // otherwise, the parent's version is the only one
                 else
-                    astrExegeticalHelpNotes.Add(anExHelpNoteData.ToString());
+                    astrExegeticalHelpNotes.Add(HtmlText.Encode(anExHelpNoteData.ToString()));
             }
 
             if (child != null)
