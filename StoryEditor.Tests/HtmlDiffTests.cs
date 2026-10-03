@@ -41,6 +41,16 @@ namespace OneStoryProjectEditor.Tests
         }
 
         [Test]
+        public void CharacterDiff_AdjacentEntitiesStayWhole()
+        {
+            var result = Diff.HtmlDiff("x&y", "x<y", false);
+            var text = result.Replace("<ins>", "").Replace("</ins>", "").Replace("<del>", "").Replace("</del>", "");
+            Assert.That(text, Does.Not.Contain("<"));
+            Assert.That(System.Text.RegularExpressions.Regex.IsMatch(text, "&(?!amp;|lt;|gt;|quot;)"), Is.False,
+                        "split or raw entity: " + result);
+        }
+
+        [Test]
         public void CharacterDiff_EncodesEveryPiece()
         {
             var result = Diff.HtmlDiff("a & b", "a < b", false);

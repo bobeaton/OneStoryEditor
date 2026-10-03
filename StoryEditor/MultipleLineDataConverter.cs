@@ -263,9 +263,9 @@ namespace OneStoryProjectEditor
                 else
                 {
                     // then the parent's value is the value
-                    strVernacular = theParentLineData.Vernacular.GetValue(viewSettings.TransliteratorVernacular);
-                    strNationalBt = theParentLineData.NationalBt.GetValue(viewSettings.TransliteratorNationalBT);
-                    strInternationalBt = theParentLineData.InternationalBt.GetValue(viewSettings.TransliteratorInternationalBt);
+                    strVernacular = HtmlText.Encode(theParentLineData.Vernacular.GetValue(viewSettings.TransliteratorVernacular));
+                    strNationalBt = HtmlText.Encode(theParentLineData.NationalBt.GetValue(viewSettings.TransliteratorNationalBT));
+                    strInternationalBt = HtmlText.Encode(theParentLineData.InternationalBt.GetValue(viewSettings.TransliteratorInternationalBt));
                 }
 
                 strRow += PresentationHtmlRow(nVerseIndex, nParentNum, nTestNum, strUnsName,
