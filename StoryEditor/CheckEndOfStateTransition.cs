@@ -13,7 +13,7 @@ namespace OneStoryProjectEditor
         /// <summary>
         /// Delegate definition for routines that determine whether the project stage goals are complete
         /// </summary>
-        /// <param name="theSE">Needed to be able to do things like show who's logged on and add verse controls</param>
+        /// <param name="theSE">Needed to be able to do things like show who's logged on</param>
         /// <param name="theStoryProjectData">Needed for things like punctuation full stops for the various languages, etc.</param>
         /// <param name="theCurrentStory">The data of the story that we're to check</param>
         /// <param name="eProposedNextState">The state we're going to (so we can do specialized checking that everything is ok)</param>

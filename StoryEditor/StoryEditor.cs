@@ -1554,7 +1554,7 @@ namespace OneStoryProjectEditor
                 // if the user switches stories, then we need to reindex the search
                 m_frmFind.ResetSearchParameters();
 
-            // finally, initialize the verse controls
+            // finally, initialize the HTML panes
             InitAllPanes();
 
             // see if we were in the process of swapping columns
@@ -1717,10 +1717,7 @@ namespace OneStoryProjectEditor
             if (nVerseIndex < 0)
                 return;
 
-            // light up whichever text box is visible
-            // from the verses pane... (for verse controls, this is the line number, which
-            //  is one more than the index we're looking for. (if this is from the zeroth
-            //  line of the ConNotes, then just skip it)
+            // scroll the story/BT HTML pane to the line
             if (nVerseIndex >= 0)
             {
                 htmlStoryBtControl.ScrollToVerse(nVerseIndex);
@@ -1757,15 +1754,6 @@ namespace OneStoryProjectEditor
                     (strRhs.Length >= nNumChars) &&
                     (strLhs.Substring(0, nNumChars)
                      == strRhs.Substring(0, nNumChars)));
-        }
-
-        private static bool IsFirstCharsEqual(string strLhs, string strRhs)
-        {
-            int nCompareLen = 4;
-            if (strRhs.Contains(' '))
-                nCompareLen = strRhs.IndexOf(' ') + 1;
-
-            return IsFirstCharsEqual(strLhs, strRhs, nCompareLen);
         }
 
         public LineMemberData GetTqAnswerData(AnswersData answers, string strTestNumber)
@@ -3024,7 +3012,8 @@ namespace OneStoryProjectEditor
         private void editToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             bool bSomeVerses = ((TheCurrentStory != null) && (TheCurrentStory.Verses.Count > 0));
-            editCopyToolStripMenu.Enabled =
+            editFindMenu.Enabled =
+                editCopyToolStripMenu.Enabled =
                 editCopyNationalBtMenu.Enabled =
                 editCopyEnglishBtMenu.Enabled =
                 editCopyFreeTranslationMenu.Enabled = bSomeVerses;
@@ -4220,6 +4209,15 @@ namespace OneStoryProjectEditor
         {
             viewRefreshMenu.Enabled = (TheCurrentStory != null);
 
+            // these items are hidden, but stay enabled so their shortcuts (Ctrl+F, F3, Ctrl+H) keep being swallowed instead of reaching the IE panes (until sub-project C)
+            editFindMenu.Enabled =
+                editFindNextMenu.Enabled =
+                editReplaceMenu.Enabled =
+                    ((StoryProject != null)
+                    && (StoryProject.ProjSettings != null)
+                    && (TheCurrentStory != null)
+                    && (TheCurrentStory.Verses.Count > 0));
+
             if ((StoryProject == null) || (StoryProject.ProjSettings == null))
                 return;
 
@@ -4954,6 +4952,7 @@ namespace OneStoryProjectEditor
             // search isn't wired to the HTML panes yet (menu item hidden; see sub-project C)
         }
 
+        // kept for re-enabling search in sub-project C (currently uncalled)
         internal void LaunchSearchForm()
         {
             if (m_frmFind == null)
@@ -4983,6 +4982,7 @@ namespace OneStoryProjectEditor
             // search isn't wired to the HTML panes yet (menu item hidden; see sub-project C)
         }
 
+        // kept for re-enabling search in sub-project C (currently uncalled)
         internal void LaunchReplaceForm()
         {
             if (m_frmFind == null)
