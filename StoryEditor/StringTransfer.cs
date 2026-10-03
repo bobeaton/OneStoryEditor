@@ -153,9 +153,6 @@ namespace OneStoryProjectEditor
                                  nVerseIndex, strPrefix, nItemNum, strFieldTypeName);
         }
 
-#if !DataDllBuild
-        protected CtrlTextBox _tb = null;
-#endif
         public DirectableEncConverter Transliterator { get; set; }
 
         public StringTransfer(string strValue, StoryEditor.TextFields eWhichField)
@@ -196,39 +193,6 @@ namespace OneStoryProjectEditor
 
             return str;
         }
-
-#if !DataDllBuild
-        public void SetAssociation(CtrlTextBox tb)
-        {
-            _tb = tb;
-            if (Transliterator != null)
-            {
-                try
-                {
-                    tb.Text = (String.IsNullOrEmpty(Value))
-                                  ? Value
-                                  : Transliterator.SafeConvert(Value);
-                }
-                catch
-                {
-                    tb.Text = Value;
-                }
-                tb.ReadOnly = true;
-            }
-            else
-            {
-                tb.Text = Value;
-                tb.ReadOnly = false;
-            }
-            tb.Tag = this;
-        }
-
-        // the TextBox is for the BT pane where this string is associated with
-        internal CtrlTextBox TextBox
-        {
-            get { return _tb; }
-        }
-#endif
 
         // if this string is associated with the ConNotes pane, then keep track
         //  of the element ID it's associated with and the pane, so we can use
@@ -278,23 +242,6 @@ namespace OneStoryProjectEditor
 
             System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(Value) && Value.Contains(str));
             Value = Value.Replace(str, null).Trim();
-        }
-
-        public void ExtractSelectedText(out string strSelectedText)
-        {
-#if !DataDllBuild
-            if (_tb != null)
-            {
-                strSelectedText = _tb.SelectedText;
-                if (!String.IsNullOrEmpty(strSelectedText))
-                {
-                    _tb.SelectedText = null;
-                    strSelectedText = strSelectedText.Trim();
-                }
-            }
-            else
-#endif
-                strSelectedText = null;
         }
 
         public bool TryGetSourceString(string strSubstring, out string strOriginalSubstring)

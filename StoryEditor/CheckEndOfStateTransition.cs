@@ -302,7 +302,7 @@ namespace OneStoryProjectEditor
                             {
                                 // then there ought to be some in the English BT box as well.
                                 // light it up and let the user know they need to do something!
-                                ShowErrorFocus(theSE, aVerseData.StoryLine.InternationalBt.TextBox,
+                                ShowErrorFocus(theSE, nVerseNumber, StoryEditor.TextFields.InternationalBt,
                                                String.Format(
                                                    "Error: Line {0} doesn't have any English back-translation in it. Did you forget it?",
                                                    nVerseNumber));
@@ -404,7 +404,7 @@ namespace OneStoryProjectEditor
                             {
                                 // then there ought to be some in the Free Translation box as well.
                                 // light it up and let the user know they need to do something!
-                                ShowErrorFocus(theSE, aVerseData.StoryLine.FreeTranslation.TextBox,
+                                ShowErrorFocus(theSE, nVerseNumber, StoryEditor.TextFields.FreeTranslation,
                                                String.Format(
                                                    "Error: Line {0} doesn't have any Free translation in it. Did you forget it?",
                                                    nVerseNumber));
@@ -508,16 +508,6 @@ namespace OneStoryProjectEditor
         {
             theSe.FocusOnVerse(nLineIndex, false, false);
             ShowError(theSe, strStatusMessage);
-        }
-
-        public static void ShowErrorFocus(StoryEditor theSE, CtrlTextBox tb, string strStatusMessage)
-        {
-            if (tb != null)
-            {
-                tb.Focus();
-                tb.SelectAll();
-            }
-            ShowError(theSE, strStatusMessage);
         }
 
         public static void ShowErrorFocus(StoryEditor theSe, 

@@ -198,7 +198,6 @@ namespace OneStoryProjectEditor
             this.linkLabelTasks = new System.Windows.Forms.LinkLabel();
             this.linkLabelVerseBT = new System.Windows.Forms.LinkLabel();
             this.contextMenuStripVerseList = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
             this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
             this.textBoxStoryVerse = new System.Windows.Forms.TextBox();
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
@@ -1688,7 +1687,6 @@ namespace OneStoryProjectEditor
             this.splitContainerUpDown.Panel1.Controls.Add(this.buttonMoveToPrevLine);
             this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelTasks);
             this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelVerseBT);
-            this.splitContainerUpDown.Panel1.Controls.Add(this.flowLayoutPanelVerses);
             this.splitContainerUpDown.Panel1.Controls.Add(this.htmlStoryBtControl);
             this.splitContainerUpDown.Panel1.Controls.Add(this.textBoxStoryVerse);
             // 
@@ -1758,20 +1756,6 @@ namespace OneStoryProjectEditor
             this.contextMenuStripVerseList.Name = "contextMenuStripVerseList";
             this.contextMenuStripVerseList.Size = new System.Drawing.Size(61, 4);
             this.contextMenuStripVerseList.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripVerseList_Opening);
-            // 
-            // flowLayoutPanelVerses
-            // 
-            this.flowLayoutPanelVerses.AutoScroll = true;
-            this.flowLayoutPanelVerses.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanelVerses.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelVerses.LastControlIntoView = null;
-            this.flowLayoutPanelVerses.LineNumberLink = null;
-            this.flowLayoutPanelVerses.Location = new System.Drawing.Point(0, 23);
-            this.flowLayoutPanelVerses.Name = "flowLayoutPanelVerses";
-            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(718, 500);
-            this.flowLayoutPanelVerses.TabIndex = 1;
-            this.flowLayoutPanelVerses.WrapContents = false;
-            this.flowLayoutPanelVerses.MouseMove += new System.Windows.Forms.MouseEventHandler(this.CheckBiblePaneCursorPositionMouseMove);
             // 
             // htmlStoryBtControl
             // 
@@ -2094,7 +2078,6 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator2;
         private OpenFileDialog openFileDialog;
         private SaveFileDialog saveFileDialog;
-        internal VerseBtLineFlowLayoutPanel flowLayoutPanelVerses;
         internal SplitContainer splitContainerLeftRight;
         internal MinimizableSplitterContainer splitContainerUpDown;
         private ToolStripMenuItem viewToolStripMenuItem;

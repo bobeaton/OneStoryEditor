@@ -38,8 +38,6 @@ namespace OneStoryProjectEditor
     // call to: webBrowserNetBible.ObjectForScripting = this;
     public partial class StoryEditor : Form
     {
-        internal const string CstrButtonDropTargetName = "buttonDropTarget";
-
         internal StoryProjectData StoryProject;
         internal string CurrentStoriesSetName = Resources.IDS_MainStoriesSet;   // otherwise Add New Project errors out
 
@@ -267,7 +265,6 @@ namespace OneStoryProjectEditor
             InitializeComponent();
             Localizer.Ctrl(this);
 
-            flowLayoutPanelVerses.Visible = false;
             htmlStoryBtControl.Visible = true;
 
             linkLabelConsultantNotes.Text = CstrFirstVerse;
@@ -882,7 +879,6 @@ namespace OneStoryProjectEditor
             ClearFlowControls();
 
             HtmlStoryBtControl.LastTextareaInFocusId = null;
-            CtrlTextBox._inTextBox = null;
             TheCurrentStory = null;
             // turning off in 2.4... StoryStageLogic.stateTransitions = null;
             comboBoxStorySelector.Items.Clear();
@@ -1552,7 +1548,6 @@ namespace OneStoryProjectEditor
 
             // forget things:
             HtmlStoryBtControl.LastTextareaInFocusId = null;
-            CtrlTextBox._nLastVerse = -1;
             linkLabelVerseBT.Tag = 0;
 
             if (m_frmFind != null)
@@ -1660,23 +1655,6 @@ namespace OneStoryProjectEditor
                                                                    : null;
         }
 
-        protected void InitVerseControls(VerseData aVerse, int nVerseIndex)
-        {
-            var aVerseCtrl = CreateVerseBtControl(flowLayoutPanelVerses, aVerse, nVerseIndex);
-            flowLayoutPanelVerses.Controls.Add(aVerseCtrl);
-            AddDropTargetToFlowLayout(nVerseIndex);
-        }
-
-        public Control CreateVerseBtControl(VerseBtLineFlowLayoutPanel verseBtLineFlowLayoutPanel, VerseData aVerseData, int nVerseIndex)
-        {
-            var aVerseCtrl = new VerseBtControl(this, verseBtLineFlowLayoutPanel, aVerseData, nVerseIndex);
-            if (!aVerseData.IsVisible)
-                aVerseCtrl.BackColor = Color.Khaki;
-
-            aVerseCtrl.UpdateHeight(Panel1_Width);
-            return aVerseCtrl;
-        }
-
         // this is for use by the consultant panes if we add or remove or hide a note
         internal void ReInitVerseControls()
         {
@@ -1760,92 +1738,6 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public void AddNoteAbout(VerseControl ctrlParent, bool bNoteToSelf)
-        {
-            Debug.Assert(LoggedOnMember != null);
-            string strNote = null; 
-            if (ctrlParent is VerseBtControl)
-            {
-                var ctrl = ctrlParent as VerseBtControl;
-                // if the control that was right-clicked on that led us here was one
-                //  of the story lines, then take the selected portion of all story line
-                //  controls and add it.
-                if (IsInStoryLine(ctrl))
-                {
-                    // get selected text from all visible Story line controls
-                    if (viewVernacularLangMenu.Checked)
-                    {
-                        string str = ctrl._verseData.StoryLine.Vernacular.TextBox.SelectedText.Trim();
-                        if (!String.IsNullOrEmpty(str))
-                            strNote += String.Format(" /{0}/", str);
-                    }
-                    if (viewNationalLangMenu.Checked)
-                    {
-                        string str = ctrl._verseData.StoryLine.NationalBt.TextBox.SelectedText.Trim();
-                        if (!String.IsNullOrEmpty(str))
-                            strNote += String.Format(" /{0}/", str);
-                    }
-                    if (viewEnglishBtMenu.Checked)
-                    {
-                        string str = ctrl._verseData.StoryLine.InternationalBt.TextBox.SelectedText.Trim();
-                        if (!String.IsNullOrEmpty(str))
-                            strNote += String.Format(" '{0}'", str);
-                    }
-                    if (viewFreeTranslationMenu.Checked)
-                    {
-                        string str = ctrl._verseData.StoryLine.FreeTranslation.TextBox.SelectedText.Trim();
-                        if (!String.IsNullOrEmpty(str))
-                            strNote += String.Format(" '{0}'", str);
-                    }
-                }
-                else if (CtrlTextBox._inTextBox != null)
-                {
-                    // otherwise, it might have been a retelling or some other control
-                    if (!String.IsNullOrEmpty(CtrlTextBox._inTextBox._strLabel))
-                    {
-                        try
-                        {
-                            AddExtraInfoBasedOnLabel(CtrlTextBox._inTextBox._strLabel,
-                                                     ctrl, ref strNote);
-                        }
-                        catch (Exception ex)
-                        {
-                            var exApp = new ApplicationException(String.Format("Error while trying to add ConNote on: '{0}' in verse#: {1} with selected text: '{2}' (full text: '{3}')",
-                                CtrlTextBox._inTextBox._strLabel,
-                                ctrlParent.VerseNumber,
-                                CtrlTextBox._inTextBox.SelectedText,
-                                CtrlTextBox._inTextBox.Text), ex);
-                            Program.ShowException(exApp);
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        string str = CtrlTextBox._inTextBox.SelectedText.Trim();
-                        if (!String.IsNullOrEmpty(str))
-                            strNote += String.Format(" /{0}/", str);
-                    }
-                }
-            }
-            else if (CtrlTextBox._inTextBox != null)
-            // otherwise, just get the selected text out of the one box that was 
-            //  right-clicked in.
-            {
-                if (viewCoachNotesMenu.Checked)
-                {
-                    if (!String.IsNullOrEmpty(CtrlTextBox._inTextBox._strLabel))
-                        strNote += CtrlTextBox._inTextBox._strLabel;
-
-                    string str = CtrlTextBox._inTextBox.SelectedText.Trim();
-                    if (!String.IsNullOrEmpty(str))
-                        strNote += String.Format(" /{0}/", str);
-                }
-            }
-            strNote += ". ";
-
-            SendNoteToCorrectPane(ctrlParent.VerseNumber, strNote, bNoteToSelf);
-        }
-
         /*
         public static string StrRegarding
         {
@@ -1856,14 +1748,6 @@ namespace OneStoryProjectEditor
         public static string DateForConNote
         {
             get { return String.Format(" ({0}): ", DateTime.Now.ToString("dd-MMM-yyyy")); }
-        }
-
-        private bool IsInStoryLine(VerseBtControl ctrl)
-        {
-            return (CtrlTextBox._inTextBox == ctrl._verseData.StoryLine.Vernacular.TextBox)
-                   || (CtrlTextBox._inTextBox == ctrl._verseData.StoryLine.NationalBt.TextBox)
-                   || (CtrlTextBox._inTextBox == ctrl._verseData.StoryLine.InternationalBt.TextBox)
-                   || (CtrlTextBox._inTextBox == ctrl._verseData.StoryLine.FreeTranslation.TextBox);
         }
 
         public static bool IsFirstCharsEqual(string strLhs, string strRhs, int nNumChars)
@@ -1883,146 +1767,6 @@ namespace OneStoryProjectEditor
 
             return IsFirstCharsEqual(strLhs, strRhs, nCompareLen);
         }
-
-        internal static bool IsTestQuestionBox(string strLabel)
-        {
-            return IsFirstCharsEqual(strLabel, TestQuestionData.TestQuestionsLabelFormat);
-        }
-
-        internal static bool IsRetellingBox(string strLabel)
-        {
-            return IsFirstCharsEqual(strLabel, RetellingsData.RetellingLabelFormat);
-        }
-
-        internal static bool IsTqAnswerBox(string strLabel)
-        {
-            return IsFirstCharsEqual(strLabel, AnswersData.AnswersLabelFormat);
-        }
-
-        private void AddExtraInfoBasedOnLabel(string strLabel, VerseBtControl ctrl,
-            ref string strNote)
-        {
-            if (IsTestQuestionBox(strLabel))
-            {
-                TestQuestionData testQuestionData = GetTestQuestionData(strLabel, ctrl);
-
-                strNote += strLabel;
-                // get selected text from all visible Story line controls
-                if (StoryProject.ProjSettings.ShowTestQuestions.Vernacular && viewVernacularLangMenu.Checked)
-                {
-                    string str = testQuestionData.TestQuestionLine.Vernacular.TextBox.SelectedText.Trim();
-                    if (!String.IsNullOrEmpty(str))
-                        strNote += String.Format(" /{0}/", str);
-                }
-                if (StoryProject.ProjSettings.ShowTestQuestions.NationalBt && viewNationalLangMenu.Checked)
-                {
-                    string str = testQuestionData.TestQuestionLine.NationalBt.TextBox.SelectedText.Trim();
-                    if (!String.IsNullOrEmpty(str))
-                        strNote += String.Format(" /{0}/", str);
-                }
-                if (StoryProject.ProjSettings.ShowTestQuestions.InternationalBt && viewEnglishBtMenu.Checked)
-                {
-                    string str = testQuestionData.TestQuestionLine.InternationalBt.TextBox.SelectedText.Trim();
-                    if (!String.IsNullOrEmpty(str))
-                        strNote += String.Format(" '{0}'", str);
-                }
-            }
-            else if (IsRetellingBox(strLabel))
-            {
-                LineMemberData retellingData = GetRetellingData(strLabel, ctrl);
-
-                strNote += strLabel;
-                // get selected text from all visible Story line controls
-                if (StoryProject.ProjSettings.ShowRetellings.Vernacular && viewVernacularLangMenu.Checked)
-                {
-                    string str = retellingData.Vernacular.TextBox.SelectedText.Trim();
-                    if (!String.IsNullOrEmpty(str))
-                        strNote += String.Format(" /{0}/", str);
-                }
-                if (StoryProject.ProjSettings.ShowRetellings.NationalBt && viewNationalLangMenu.Checked)
-                {
-                    string str = retellingData.NationalBt.TextBox.SelectedText.Trim();
-                    if (!String.IsNullOrEmpty(str))
-                        strNote += String.Format(" /{0}/", str);
-                }
-                if (StoryProject.ProjSettings.ShowRetellings.InternationalBt && viewEnglishBtMenu.Checked)
-                {
-                    string str = retellingData.InternationalBt.TextBox.SelectedText.Trim();
-                    if (!String.IsNullOrEmpty(str))
-                        strNote += String.Format(" '{0}'", str);
-                }
-            }
-            else if (IsTqAnswerBox(strLabel))
-            {
-                // e.g. "ans 1:tst 1:"
-                AnswersData answers;
-                var answerData = GetTqAnswerData(strLabel, ctrl, out answers);
-
-                strNote += strLabel;
-                // get selected text from all visible Story line controls
-                if (StoryProject.ProjSettings.ShowAnswers.Vernacular && viewVernacularLangMenu.Checked)
-                {
-                    string str = answerData.Vernacular.TextBox.SelectedText.Trim();
-                    if (!String.IsNullOrEmpty(str))
-                        strNote += String.Format(" /{0}/", str);
-                }
-                if (StoryProject.ProjSettings.ShowAnswers.NationalBt && viewNationalLangMenu.Checked)
-                {
-                    string str = answerData.NationalBt.TextBox.SelectedText.Trim();
-                    if (!String.IsNullOrEmpty(str))
-                        strNote += String.Format(" /{0}/", str);
-                }
-                if (StoryProject.ProjSettings.ShowAnswers.InternationalBt && viewEnglishBtMenu.Checked)
-                {
-                    string str = answerData.InternationalBt.TextBox.SelectedText.Trim();
-                    if (!String.IsNullOrEmpty(str))
-                        strNote += String.Format(" '{0}'", str);
-                }
-            }
-            else
-                strNote += CtrlTextBox._inTextBox._strLabel;
-        }
-
-        private LineMemberData GetRetellingData(string strLabel, VerseBtControl ctrl)
-        {
-            RetellingsData retellings = ctrl._verseData.Retellings;
-
-            // e.g. 'ret 1:'
-            Debug.Assert(strLabel.Contains(' '));
-            int nIndex = strLabel.LastIndexOf(' ');
-            string strTestNumber = strLabel.Substring(nIndex + 1, 1);
-
-            // there are two cases we have to treat specially:
-            //  1) it's 'ret 0' (because somehow the member id was removed)
-            //  2) there's no 'ret 1' (in which case 'ret 2' is the zeroth element)
-
-            // there are two cases we have to treat specially:
-            //  1) it's 'ans 0' (because somehow the member id was removed)
-            //  2) there's no 'ans 1' (in which case 'ans 2' is the zeroth element)
-            string strTesterId = GetTesterId(strTestNumber,
-                                             TheCurrentStory.CraftingInfo.TestersToCommentsRetellings,
-                                             retellings);
-            return retellings.TryGetValue(strTesterId);
-        }
-
-        internal LineMemberData GetTqAnswerData(string strLabel, VerseBtControl ctrl,
-            out AnswersData answers)
-        {
-            // e.g. "ans 1:tst 1:"
-            TestQuestionData testQuestionData = GetTestQuestionDataFromAnswerLabel(strLabel, ctrl);
-            answers = testQuestionData.Answers;
-            Debug.Assert(strLabel.Contains(' '));
-
-            // at one time, I had this as "LastIndexOf", but then it found the
-            //  TQ # rather than the test (i.e. ans) number, so it needs to be
-            //  IndexOf... but there's an issue with localization. If the person
-            //  uses multiple words for 'ans', then it'd be the last of those 
-            //  spaces...
-            int nIndex = strLabel.IndexOf(' ');
-            string strTestNumber = strLabel.Substring(nIndex + 1, 1);
-
-            return GetTqAnswerData(answers, strTestNumber);
-            }
 
         public LineMemberData GetTqAnswerData(AnswersData answers, string strTestNumber)
         {
@@ -2057,28 +1801,6 @@ namespace OneStoryProjectEditor
                 strMemberId = tester.MemberId;
             }
             return strMemberId;
-        }
-
-        internal static TestQuestionData GetTestQuestionData(string strLabel, VerseBtControl ctrl)
-        {
-            // e.g. "tst 1:" (but may be localized)
-            Debug.Assert(strLabel.Contains(' '));
-            var len = 1;
-            int nIndexSc, nIndex = strLabel.LastIndexOf(' ');
-            if ((nIndexSc = strLabel.LastIndexOf(':')) != -1)
-                len = nIndexSc - nIndex - 1;
-            string strTestNumber = strLabel.Substring(nIndex + 1, len);
-            int nTestNumber = Convert.ToInt32(strTestNumber) - 1;
-            return ctrl._verseData.TestQuestions[nTestNumber];
-        }
-
-        internal static TestQuestionData GetTestQuestionDataFromAnswerLabel(string strLabel, VerseBtControl ctrl)
-        {
-            // e.g. "ans 1:tst 1:"
-            // see if we can get just the 2nd portion
-            int nIndex = strLabel.IndexOf(':');
-            var strTstPortion = strLabel.Substring(nIndex + 1);
-            return GetTestQuestionData(strTstPortion, ctrl);
         }
 
         internal static string GetInitials(string name)
@@ -2256,40 +1978,6 @@ namespace OneStoryProjectEditor
             SetDefaultStatusBar(statusLabel, strState);
         }
 
-        protected Button AddDropTargetToFlowLayout(int nVerseIndex)
-        {
-            var buttonDropTarget = new Button
-                                       {
-                                           AllowDrop = true,
-                                           Location = new Point(3, 3),
-                                           Name = CstrButtonDropTargetName + nVerseIndex.ToString(),
-                                           Size = new Size(Panel1_Width, 10),
-                                           Dock = DockStyle.Fill,
-                                           TabIndex = nVerseIndex,
-                                           UseVisualStyleBackColor = true,
-                                           Visible = false,
-                                           Tag = nVerseIndex
-                                       };
-            buttonDropTarget.DragEnter += buttonDropTarget_DragEnter;
-            buttonDropTarget.DragDrop += buttonDropTarget_DragDrop;
-            flowLayoutPanelVerses.Controls.Add(buttonDropTarget);
-            return buttonDropTarget;
-        }
-
-        void buttonDropTarget_DragDrop(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(typeof(VerseData)))
-            {
-                var aVerseData = (VerseData)e.Data.GetData(typeof(VerseData));
-                var theDropTarget = sender as Button;
-                if (theDropTarget != null)
-                {
-                    var nInsertionIndex = (int)theDropTarget.Tag;    // (flowLayoutPanelVerses.Controls.IndexOf((Button)sender) / 2);
-                    DoMove(nInsertionIndex, aVerseData);
-                }
-            }
-        }
-
         public void DoMove(int nInsertionIndex, VerseData theVerseToMove)
         {
             int nCurIndex = TheCurrentStory.Verses.IndexOf(theVerseToMove);
@@ -2311,39 +1999,6 @@ namespace OneStoryProjectEditor
             TheCurrentStory.Verses.Insert(nInsertionIndex, theVerseToPaste);
             // now done by callerInitAllPanes();
             Modified = true;
-        }
-
-        void buttonDropTarget_DragEnter(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(typeof(VerseData)))
-                e.Effect = DragDropEffects.Move;
-        }
-
-        internal void LightUpDropTargetButtons(VerseBtControl aVerseCtrl)
-        {
-            int nIndex = flowLayoutPanelVerses.Controls.IndexOf(aVerseCtrl);
-            int nOffset = 0;
-            if (viewGeneralTestingsQuestionMenu.Checked)
-                nOffset++;
-
-            for (int i = nOffset; i < flowLayoutPanelVerses.Controls.Count; i += 2)
-            {
-                Control ctrl = flowLayoutPanelVerses.Controls[i];
-                if (ctrl is Button)
-                {
-                    if (Math.Abs(nIndex - i) > 1)
-                        ctrl.Visible = true;
-                }
-            }
-        }
-
-        internal void DimDropTargetButtons()
-        {
-            var buttons = from Control ctrl in flowLayoutPanelVerses.Controls
-                          where (ctrl is Button)
-                          select ctrl;
-            foreach (Button button in buttons)
-                button.Visible = false;
         }
 
         protected void InitializeNetBibleViewer()
@@ -2374,24 +2029,6 @@ namespace OneStoryProjectEditor
         internal string GetNetBibleScriptureReference
         {
             get { return netBibleViewer.JumpTarget; }
-        }
-
-        protected int Panel1_Width
-        {
-            get
-            {
-                return splitContainerLeftRight.Panel1.Width - splitContainerLeftRight.Margin.Horizontal -
-                    SystemInformation.VerticalScrollBarWidth;
-            }
-        }
-
-        internal int Panel2_Width
-        {
-            get
-            {
-                return splitContainerLeftRight.Panel2.Width - splitContainerLeftRight.Margin.Horizontal -
-                    SystemInformation.VerticalScrollBarWidth - 2;
-            }
         }
 
         private bool CheckForSaveDirtyFile()
@@ -3876,43 +3513,6 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        internal bool ChangeAnswerBoxUns(string strLabel, VerseBtControl theVerseCtrl)
-        {
-            var testQuestionData = GetTestQuestionDataFromAnswerLabel(strLabel, theVerseCtrl);
-            LineMemberData theNewAnswer;
-            if (!AddSingleTestResult(testQuestionData, out theNewAnswer))
-                return false;
-
-            Modified = true;
-
-            AnswersData answers;
-            var answerData = GetTqAnswerData(strLabel, theVerseCtrl, out answers);
-            if (answerData != null)
-            {
-                // put the original data in the new box
-                theNewAnswer.SetText(answerData, TextFields.TestQuestionAnswer);
-                answers.Remove(answerData);
-
-                // finally, if this is the last reference to that UNS, then remove the 
-                //  reference to it
-                if (!TheCurrentStory.DoesReferenceTqUns(answerData.MemberId))
-                {
-                    int nTestNum = TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.IndexOf(answerData.MemberId);
-                    if (nTestNum >= 0)
-                    {
-                        TheCurrentStory.CraftingInfo.TestersToCommentsTqAnswers.RemoveAt(nTestNum);
-
-                        // since we have removed a UNS from the test, now all 'ans N' values
-                        //  may change for other verses as well. So repaint all
-                        InitAllPanes();
-                        return false;    // and now we don't need to update this one verse only
-                    }
-                }
-            }
-
-            return true;
-        }
-
         internal void ChangeAnswerBoxUns(TestQuestionData testQuestionData, AnswersData answers, LineMemberData answerData)
         {
             LineMemberData theNewAnswer;
@@ -5311,15 +4911,6 @@ namespace OneStoryProjectEditor
                 htmlStoryBtControl.ScrollToElement(strTextareaToFocus, false);
         }
 
-        public void NavigateTo(string strStoryName,
-                               VerseData.ViewSettings viewItemToInsureOn, bool bDoOffToo,
-                               CtrlTextBox ctbToFocus)
-        {
-            NavigateTo(strStoryName, viewItemToInsureOn, bDoOffToo);
-            if (ctbToFocus != null)
-                ctbToFocus.Focus();
-        }
-
         protected bool InsureVisible(ToolStripMenuItem tsmi, bool bChecked, bool bDoOffToo)
         {
             Debug.Assert(tsmi != null);
@@ -6007,101 +5598,6 @@ namespace OneStoryProjectEditor
             htmlStoryBtControl.GetSelectedLanguageText(out strVernacular, out strNationalBt, out strInternationalBt, out strFreeTranslation);
         }
 
-        private void GetSelectedLanguageTextNetCtrls(ref string strVernacular, ref string strNationalBt,
-            ref string strInternationalBt, ref string strFreeTranslation)
-        {
-            if ((CtrlTextBox._inTextBox == null) || (CtrlTextBox._nLastVerse <= 0))
-                return;
-
-            Control ctrl = flowLayoutPanelVerses.GetControlAtVerseIndex(CtrlTextBox._nLastVerse);
-            if (ctrl == null)
-                return;
-
-            Debug.Assert(ctrl is VerseBtControl);
-            var theVerse = ctrl as VerseBtControl;
-            if (theVerse == null)
-                return;
-
-            if (IsInStoryLine(theVerse))
-            {
-                var lineData = theVerse._verseData.StoryLine;
-                GetSelectedDataFromLineData(lineData,
-                                            ref strVernacular,
-                                            ref strNationalBt,
-                                            ref strInternationalBt,
-                                            ref strFreeTranslation);
-            }
-            else if ((CtrlTextBox._inTextBox != null) &&
-                     !String.IsNullOrEmpty(CtrlTextBox._inTextBox._strLabel))
-            {
-                string strLabel = CtrlTextBox._inTextBox._strLabel;
-                if (IsTestQuestionBox(strLabel))
-                {
-                    var testQuestionData = GetTestQuestionData(strLabel, theVerse);
-                    var lineData = testQuestionData.TestQuestionLine;
-                    GetSelectedDataFromLineData(lineData,
-                                                ref strVernacular,
-                                                ref strNationalBt,
-                                                ref strInternationalBt,
-                                                ref strFreeTranslation);
-                }
-                else if (IsRetellingBox(strLabel))
-                {
-                    LineMemberData retellingData = GetRetellingData(strLabel, theVerse);
-                    GetSelectedDataFromLineData(retellingData,
-                                                ref strVernacular,
-                                                ref strNationalBt,
-                                                ref strInternationalBt,
-                                                ref strFreeTranslation);
-                }
-                else if (IsTqAnswerBox(strLabel))
-                {
-                    // e.g. "ans 1:tst 1:"
-                    AnswersData answers;
-                    var answerData = GetTqAnswerData(strLabel, theVerse, out answers);
-                    GetSelectedDataFromLineData(answerData,
-                                                ref strVernacular,
-                                                ref strNationalBt,
-                                                ref strInternationalBt,
-                                                ref strFreeTranslation);
-                }
-            }
-        }
-
-        private void GetSelectedDataFromLineData(LineData lineData,
-            ref string strVernacular, ref string strNationalBt,
-            ref string strInternationalBt, ref string strFreeTranslation)
-        {
-            if (viewVernacularLangMenu.Checked &&
-                (lineData.Vernacular.TextBox != null))
-            {
-                strVernacular = GrabTrimSelectedText(lineData.Vernacular.TextBox);
-            }
-            if (viewNationalLangMenu.Checked &&
-                (lineData.NationalBt.TextBox != null))
-            {
-                strNationalBt = GrabTrimSelectedText(lineData.NationalBt.TextBox);
-            }
-            if (viewEnglishBtMenu.Checked &&
-                (lineData.InternationalBt.TextBox != null))
-            {
-                strInternationalBt = GrabTrimSelectedText(lineData.InternationalBt.TextBox);
-            }
-            if (viewFreeTranslationMenu.Checked &&
-                (lineData.FreeTranslation.TextBox != null))
-            {
-                strFreeTranslation = GrabTrimSelectedText(lineData.FreeTranslation.TextBox);
-            }
-        }
-
-        private string GrabTrimSelectedText(CtrlTextBox tbx)
-        {
-            string str = tbx.SelectedText;
-            if (!String.IsNullOrEmpty(str))
-                str = str.Trim();
-            return str;
-        }
-
         private void viewLnCNotesMenu_Click(object sender, EventArgs e)
         {
             var dlg = new LnCNotesForm(this);
@@ -6519,11 +6015,6 @@ namespace OneStoryProjectEditor
             }
             else if (splitContainerUpDown.IsRestored && !netBibleViewer.checkBoxAutoHide.Checked)
                 splitContainerUpDown.Minimize();
-        }
-
-        private void CheckBiblePaneCursorPositionMouseMove(object sender, MouseEventArgs e)
-        {
-            CheckBiblePaneCursorPosition();
         }
 
         private void storyAdaptItVernacularToNationalMenuItem_Click(object sender, EventArgs e)

@@ -141,22 +141,6 @@ namespace OneStoryProjectEditor
                     itemToInsureOn | VerseData.ViewSettings.ItemToInsureOn.FreeTranslationField);
         }
 
-        public CtrlTextBox ExistingTextBox
-        {
-            get
-            {
-                if (InternationalBt.TextBox != null)
-                    return InternationalBt.TextBox;
-                if (NationalBt.TextBox != null)
-                    return NationalBt.TextBox;
-                if (Vernacular.TextBox != null)
-                    return Vernacular.TextBox;
-                if (FreeTranslation.TextBox != null)
-                    return FreeTranslation.TextBox;
-                return null;
-            }
-        }
-
         public virtual void AddXml(XElement elem, string strFieldName)
         {
             AddXmlField(elem, strFieldName, Vernacular, CstrAttributeLangVernacular);
@@ -174,14 +158,6 @@ namespace OneStoryProjectEditor
                     (transliterator != null)
                         ? VerseData.GetStoryLineString(transliterator, field)
                         : StoryData.RemoveCarriageReturns(field.Value)));
-        }
-
-        public void ExtractSelectedText(out string strVernacular, out string strNationalBt, out string strEnglishBt, out string strFreeTranslation)
-        {
-            Vernacular.ExtractSelectedText(out strVernacular);
-            NationalBt.ExtractSelectedText(out strNationalBt);
-            InternationalBt.ExtractSelectedText(out strEnglishBt);
-            FreeTranslation.ExtractSelectedText(out strFreeTranslation);
         }
 
         public void SetText(LineData rhs, StoryEditor.TextFields whichField)

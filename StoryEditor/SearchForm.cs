@@ -124,31 +124,9 @@ namespace OneStoryProjectEditor
 
             ssidx = ssidx ?? BoxesToSearch[TheSE.TheCurrentStory.Name];
 
-            // check to see if we have a starting place...
-            if (CtrlTextBox._inTextBox != null)
-                for (int i = 0; i < ssidx.Count; i++)
-                {
-                    // start with the last text box selected... find it
-                    StringTransfer boxToSearch = ssidx[i].StringTransfer;
-                    if (boxToSearch.TextBox == CtrlTextBox._inTextBox)
-                    {
-                        nStoryIndex = LastStoryIndex = BoxesToSearch.IndexOf(ssidx);
-                        nCtxBoxIndex = LastCtxBoxIndex = i;
-                        nCharIndex = LastCharIndex = 
-                            CaptureNextStartingCharIndex(boxToSearch.TextBox);
-                        return;
-                    }
-                }
-
-            // otherwise, just start at the 0th verse of *this* story
+            // just start at the 0th verse of *this* story
             nStoryIndex = LastStoryIndex = BoxesToSearch.IndexOf(ssidx);
             nCtxBoxIndex = LastCtxBoxIndex = nCharIndex = LastCharIndex = 0;
-        }
-
-        protected int CaptureNextStartingCharIndex(CtrlTextBox ctb)
-        {
-            return ctb.SelectionStart +
-                   ctb.SelectionLength;
         }
 
         protected static string UpdateComboBox(ComboBox cb)
@@ -187,7 +165,6 @@ namespace OneStoryProjectEditor
             int nLastStoryIndex, nLastCtxBoxIndex, nLastCharIndex;
             InitSearchList(ref BoxesToSearch, out nLastStoryIndex, out nLastCtxBoxIndex, out nLastCharIndex);
 
-            object ctbStopWhereWeStarted = null;
             int nStoryIndex = nLastStoryIndex;
             int nCtxBoxIndex = nLastCtxBoxIndex;
             while (nStoryIndex < BoxesToSearch.Count)
@@ -201,45 +178,12 @@ namespace OneStoryProjectEditor
 
                     string strValue = stringTransfer.ToString();
                     
-                    // check to see if we're wrapped around and are starting
-                    //  back at the beginning
-                    // note: that it's possible that this stringTransfer
-                    //  does not have a TextBox (e.g. if it isn't visible) OR
-                    //  if its in the ConNotes panes (which are HTML thingys)
-                    object ctrlTextBox = stringTransfer.TextBox;
-
                     // get the index *after* the selected text (our starting index
                     //  of the search)
                     int nStartIndex = 0;
-                    if (ctrlTextBox != null)
-                    {
-                        // if the length of the text in the text box is not the same
-                        //  length as the text in the StringTransfer, then this 
-                        //  assumption is probably no good
-                        System.Diagnostics.Debug.Assert((ctrlTextBox as CtrlTextBox).TextLength == strValue.Length);
-
-                        if (ctbStopWhereWeStarted == ctrlTextBox)
-                        {
-                            ShowNotFound();
-                            return;
-                        }
-
-                        nStartIndex = nLastCharIndex;
-                        if (nLastCharIndex != 0)
-                        {
-                            nLastCharIndex = 0; // only do that once
-                            (ctrlTextBox as CtrlTextBox).Select(0, 0);    // don't leave it selected
-                        }
-                    }
-                    else if (!String.IsNullOrEmpty((string)(ctrlTextBox = stringTransfer.HtmlElementId)))
+                    if (!String.IsNullOrEmpty(stringTransfer.HtmlElementId))
                     {
                         // dealing with the ConNote panes
-                        if (ctbStopWhereWeStarted == ctrlTextBox)
-                        {
-                            ShowNotFound();
-                            return;
-                        }
-
                         nStartIndex = nLastCharIndex;
                         if (nLastCharIndex != 0)
                         {
@@ -273,17 +217,10 @@ namespace OneStoryProjectEditor
                         VerseData.ViewSettings viewSettings = new VerseData.ViewSettings(vs.ViewToInsureIsOn);
                         TheSE.NavigateTo(stsi.StoryName,
                                          viewSettings,
-                                         false,
-                                         stringTransfer.TextBox);
-                        
+                                         false);
+
                         // The navigation process should make it visible as well.
-                        if (stringTransfer.TextBox != null)
-                        {
-                            stringTransfer.TextBox.Focus();
-                            stringTransfer.TextBox.Select(nFoundIndex, nLengthToSelect);
-                            LastCharIndex = CaptureNextStartingCharIndex(stringTransfer.TextBox);
-                        }
-                        else if (stringTransfer.HtmlPane != null)
+                        if (stringTransfer.HtmlPane != null)
                         {
                             Application.DoEvents(); // give the html doc a chance to catch up
                             var ctrl = stringTransfer.HtmlPane as HtmlConNoteControl;
@@ -316,9 +253,6 @@ namespace OneStoryProjectEditor
                         StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                     {
                         nCtxBoxIndex = 0;
-
-                        // have it stop where we started
-                        ctbStopWhereWeStarted = CtrlTextBox._inTextBox ?? stsi[0].StringTransfer.TextBox;
                     }
                     else
                         return; // user said *don't* start over
@@ -619,31 +553,7 @@ namespace OneStoryProjectEditor
             if (LastStringTransferSearched == null)
                 return;
 
-            if (LastStringTransferSearched.TextBox != null)
-            {
-                if (regex == null)
-                {
-                    if (CtrlTextBox._inTextBox.SelectedText == strFindWhat)
-                    {
-                        CtrlTextBox._inTextBox.SelectedText = strReplaceWith;
-                        LastCharIndex = CaptureNextStartingCharIndex(CtrlTextBox._inTextBox);
-                        TheSE.Modified = true;
-                    }
-                }
-                else
-                {
-                    Match match = regex.Match(CtrlTextBox._inTextBox.SelectedText);
-                    if (match.Success)
-                    {
-                        string strReplacedText =
-                            regex.Replace(CtrlTextBox._inTextBox.SelectedText, strReplaceWith);
-                        CtrlTextBox._inTextBox.SelectedText = strReplacedText;
-                        LastCharIndex = CaptureNextStartingCharIndex(CtrlTextBox._inTextBox);
-                        TheSE.Modified = true;
-                    }
-                }
-            }
-            else if (!String.IsNullOrEmpty(LastStringTransferSearched.HtmlElementId))
+            if (!String.IsNullOrEmpty(LastStringTransferSearched.HtmlElementId))
             {
                 var ctrl = LastStringTransferSearched.HtmlPane as HtmlConNoteControl;
                 if (ctrl != null)
@@ -692,32 +602,7 @@ namespace OneStoryProjectEditor
 
         private void comboBoxFindWhat_TextChanged(object sender, EventArgs e)
         {
-            try
-            {
-                UpdateEnableReplaceButton();
-            }
-            catch (Exception)
-            {
-                // don't care since editing the replacement might throw a 'bad regex' error
-            }
-        }
-
-        protected void UpdateEnableReplaceButton()
-        {
-            string strFindWhat = comboBoxFindWhat.Text;
-            if (!String.IsNullOrEmpty(strFindWhat) && (CtrlTextBox._inTextBox != null))
-            {
-                if (FindProperties.UseRegex)
-                {
-                    regex = GetRegex(strFindWhat);
-                    Match match = regex.Match(CtrlTextBox._inTextBox.SelectedText);
-                    buttonReplace.Enabled = match.Success;
-                }
-                else
-                {
-                    buttonReplace.Enabled = (CtrlTextBox._inTextBox.SelectedText == strFindWhat);
-                }
-            }
+            // the Replace button's enabled state was only driven by the (removed) .NET text boxes
         }
     }
 }

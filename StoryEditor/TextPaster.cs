@@ -109,13 +109,6 @@ namespace OneStoryProjectEditor
         }
 
         private delegate void SetText(object tb, string str);
-        private void SetTextBoxText(object tb, string str)
-        {
-            var textBox = tb as CtrlTextBox;
-            Debug.Assert(textBox != null);
-            textBox.Text = str;
-            textBox._ctrlVerseParent.TheSE.Modified = true;
-        }
         private void SetTextareaText(object tb, string str)
         {
             var elemTextArea = tb as HtmlElement;
@@ -130,12 +123,6 @@ namespace OneStoryProjectEditor
         }
 
         private delegate string GetText(object tb);
-        private string GetTextBoxText(object tb)
-        {
-            var textBox = tb as CtrlTextBox;
-            return textBox.Text;
-        }
-
         private string GetTextareaText(object tb)
         {
             var elemTextArea = tb as HtmlElement;
@@ -160,10 +147,6 @@ namespace OneStoryProjectEditor
             {
                 ButtonUndoLastClick(null, null);
             }
-        }
-        internal void TriggerPaste(bool bLeftClicked, CtrlTextBox textBox)
-        {
-            TriggerPaste(bLeftClicked, textBox, SetTextBoxText, GetTextBoxText);
         }
 
         internal void TriggerPaste(bool bLeftClicked, HtmlElement elemTextArea)
@@ -231,8 +214,6 @@ namespace OneStoryProjectEditor
                 {
                     ;    // no op -- means we deleted a line of data
                 }
-                else if (val.Item1 is CtrlTextBox)
-                    (val.Item1 as CtrlTextBox).Text = val.Item2;
                 else if (val.Item1 is HtmlElement)
                     SetElementText(val.Item1 as HtmlElement, val.Item2);
                 else
