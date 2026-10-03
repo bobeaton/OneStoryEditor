@@ -357,7 +357,7 @@ namespace OneStoryProjectEditor
                         // now we have to update the string transfer with the new value
                         HtmlElement elem = doc.GetElementById(stringTransfer.HtmlElementId);
                         if (elem != null)
-                            stringTransfer.SetValue(elem.InnerHtml);
+                            stringTransfer.SetValue(HtmlText.FromIeHtmlText(elem.InnerHtml));
                         return true;
                     }
                 }

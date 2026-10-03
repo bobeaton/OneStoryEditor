@@ -273,13 +273,19 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.WriteLine($"TextareaOnKeyUp: strId: {strId}, strText: {strText}");
             LastTextareaInFocusId = strId;
             TheSE.LastKeyPressedTimeStamp = DateTime.Now;
-            TextareaOnChange(strId, strText);
+            SetFieldValue(strId, strText);  // keyup sends the textarea's 'value', which is plain text
             return true;
         }
 
+        // called from StoryBtPs.js's onchange with text that came from IE's htmlText (i.e. HTML-encoded)
         public bool TextareaOnChange(string strId, string strText)
         {
-            System.Diagnostics.Debug.WriteLine($"TextareaOnChange: strText: {strText}");
+            return SetFieldValue(strId, HtmlText.FromIeHtmlText(strText));
+        }
+
+        private bool SetFieldValue(string strId, string strText)
+        {
+            System.Diagnostics.Debug.WriteLine($"SetFieldValue: strText: {strText}");
             StoryEditor theSe;
             if (!CheckForProperEditToken(out theSe))
                 return false;
