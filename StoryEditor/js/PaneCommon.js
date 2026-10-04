@@ -49,16 +49,20 @@
     function dropTarget(el) {
         return ose.closest(el, function (x) { return x.getAttribute('data-drop') == 'scripture'; });
     }
-    ose.listen(document, 'dragover', function (e) {
-        if (dropTarget(e.target))
+    // on document.body, not document: in quirks mode IE bubbles drag events only as far as the body (so the body
+    //  must exist first, hence 'load')
+    ose.listen(window, 'load', function () {
+        ose.listen(document.body, 'dragover', function (e) {
+            if (dropTarget(e.target))
+                ose.cancel(e);
+        }, false);
+        ose.listen(document.body, 'drop', function (e) {
+            var target = dropTarget(e.target);
+            if (!target)
+                return;
             ose.cancel(e);
-    }, false);
-    ose.listen(document, 'drop', function (e) {
-        var target = dropTarget(e.target);
-        if (!target)
-            return;
-        ose.cancel(e);
-        ose.send('scriptureDropped', { id: target.id });
+            ose.send('scriptureDropped', { id: target.id });
+        }, false);
     }, false);
 
     // which line is at the top, for the line-number link and for coming back to the same place after a reload

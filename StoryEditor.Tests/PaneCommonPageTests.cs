@@ -154,8 +154,8 @@ namespace OneStoryProjectEditor.Tests
         [Test]
         public void Drop_OnDropTarget_SendsScriptureDropped()
         {
-            if (_bQuirks)
-                Assert.Ignore("in quirks mode a drop made with fireEvent doesn't bubble to the document listener (IE documents real drag events as bubbling); covered by the manual checklist");
+            // (in quirks mode IE bubbles drag events to document.body but never to document, for real drags as well as
+            //  fireEvent ones -- so this also pins where PaneCommon.js listens)
             _host.Post("fire", new { id = "anc_2", what = "drop" });
             Assert.That(WaitFor("scriptureDropped")?.GetString("id"), Is.EqualTo("anc_2"),
                         string.Join("; ", _received.FindAll(m => m.Type == HtmlMessage.CstrTypeJsError).ConvertAll(m => m.GetString("message"))));
