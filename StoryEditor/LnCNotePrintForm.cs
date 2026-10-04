@@ -13,7 +13,8 @@ namespace OneStoryProjectEditor
                                                                 theSe.StoryProject.ProjSettings.ProjectName);
             var strHtmlInner = theSe.StoryProject.LnCNotes.PresentationHtml;
             printViewer.webBrowser.LoadHtml(StoryData.AddHtmlHtmlDocOutside(strHtmlInner,
-                                                                            theSe.StoryProject.ProjSettings));
+                                                                            theSe.StoryProject.ProjSettings,
+                                                                            printViewer.webBrowser.Engine));
         }
     }
 }

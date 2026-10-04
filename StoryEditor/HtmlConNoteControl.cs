@@ -448,7 +448,7 @@ namespace OneStoryProjectEditor
                 cndc.DontShowButtonsOverride = true;
                 strNote = StoryData.ConNoteHtml(this, theSE.StoryProject.ProjSettings, nVerseIndex,
                                                 nConversationIndex, theSE.LoggedOnMember,
-                                                theSE.StoryProject.TeamMembers, cndc);
+                                                theSE.StoryProject.TeamMembers, cndc, Engine);
                 var dlg = new AddConNoteForm(GetType(), theSE, StoryData, strNote);
                 if (dlg.ShowDialog() != DialogResult.OK)
                 {
@@ -743,7 +743,7 @@ namespace OneStoryProjectEditor
                                                         TheSE.StoryProject.TeamMembers,
                                                         TheSE.viewHiddenVersesMenu.Checked,
                                                         TheSE.viewOnlyOpenConversationsMenu.Checked,
-                                                        strFontName, strFontSize);
+                                                        strFontName, strFontSize, Engine);
             LoadHtml(strHtml);
             MakeLineNumberLinkVisible?.Invoke();
         }
@@ -800,7 +800,7 @@ namespace OneStoryProjectEditor
                                                    TheSE.StoryProject.TeamMembers,
                                                    TheSE.viewHiddenVersesMenu.Checked,
                                                    TheSE.viewOnlyOpenConversationsMenu.Checked,
-                                                   strFontName, strFontSize);
+                                                   strFontName, strFontSize, Engine);
             LoadHtml(strHtml);
 
             MakeLineNumberLinkVisible?.Invoke();

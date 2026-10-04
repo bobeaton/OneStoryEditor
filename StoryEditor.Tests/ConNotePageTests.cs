@@ -50,7 +50,7 @@ namespace OneStoryProjectEditor.Tests
             foreach (var member in project.TeamMembers.Values)
             {
                 strHtml = story.ConsultantNotesHtml(null, project.ProjSettings, member, project.TeamMembers,
-                                                    false, false, null, null);
+                                                    false, false, null, null, HtmlEngine.Ie);
                 if (strHtml.Contains("data-action=\"" + NoteActions.AddNote + "\""))
                     break;
             }

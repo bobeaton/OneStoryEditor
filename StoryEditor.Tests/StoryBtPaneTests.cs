@@ -95,6 +95,15 @@ namespace OneStoryProjectEditor.Tests
         }
 
         [Test]
+        public void SetSelectedText_AcceptsAModernValueReply()
+        {
+            var st = new StringTransfer("old", StoryEditor.TextFields.Vernacular) { HtmlElementId = "ta_1_StoryLine_0_0_Vernacular" };
+            _host.OnRequest = m => FakeHtmlHost.Reply(new { endPoint = 3, value = "a &amp; b" });
+            Assert.That(_pane.SetSelectedText(st, "x", out var nEnd), Is.True);
+            Assert.That(st.ToString(), Is.EqualTo("a &amp; b"), "a 'value' is the box's plain text: used as is, not decoded");
+        }
+
+        [Test]
         public void SetSelectedText_FailedReply_LeavesModel()
         {
             var st = new StringTransfer("old", StoryEditor.TextFields.Vernacular) { HtmlElementId = "ta_1_StoryLine_0_0_Vernacular" };

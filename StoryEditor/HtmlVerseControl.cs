@@ -260,9 +260,13 @@ namespace OneStoryProjectEditor
                 return false;
             }
 
-            // now we have to update the string transfer with the new value
+            // now we have to update the string transfer with the new value: the modern page sends the box's plain
+            //  'value'; the IE page sends its htmlText ('ieHtml'), which needs decoding
+            var strValue = reply.GetString("value");
             var strIeHtml = reply.GetString("ieHtml");
-            if (strIeHtml != null)
+            if (strValue != null)
+                stringTransfer.SetValue(strValue);
+            else if (strIeHtml != null)
                 stringTransfer.SetValue(HtmlText.FromIeHtmlText(strIeHtml));
             return true;
         }

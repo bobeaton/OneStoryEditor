@@ -96,12 +96,14 @@ namespace OneStoryProjectEditor
                 strHtml = ParentStory.PresentationHtml(ViewSettings,
                                                        TheSE.StoryProject.ProjSettings,
                                                        TheSE.StoryProject.TeamMembers,
-                                                       StoryData);
+                                                       StoryData,
+                                                       Engine);
             else if (StoryData != null)
                 strHtml = StoryData.PresentationHtml(ViewSettings,
                                                      TheSE.StoryProject.ProjSettings,
                                                      TheSE.StoryProject.TeamMembers,
-                                                     null);
+                                                     null,
+                                                     Engine);
 
             LoadHtml(strHtml);
         }

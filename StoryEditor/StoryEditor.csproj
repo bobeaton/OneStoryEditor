@@ -188,6 +188,12 @@
     <EmbeddedResource Include="js\HoverLinks.js" LogicalName="OneStoryProjectEditor.js.HoverLinks.js" />
     <EmbeddedResource Include="js\NetBible.js" LogicalName="OneStoryProjectEditor.js.NetBible.js" />
     <EmbeddedResource Include="js\PaneCommon.js" LogicalName="OneStoryProjectEditor.js.PaneCommon.js" />
+    <EmbeddedResource Include="js\modern\bridge.js" LogicalName="OneStoryProjectEditor.js.modern.bridge.js" />
+    <EmbeddedResource Include="js\modern\PaneCommon.js" LogicalName="OneStoryProjectEditor.js.modern.PaneCommon.js" />
+    <EmbeddedResource Include="js\modern\StoryBt.js" LogicalName="OneStoryProjectEditor.js.modern.StoryBt.js" />
+    <EmbeddedResource Include="js\modern\ConNote.js" LogicalName="OneStoryProjectEditor.js.modern.ConNote.js" />
+    <EmbeddedResource Include="js\modern\NetBible.js" LogicalName="OneStoryProjectEditor.js.modern.NetBible.js" />
+    <EmbeddedResource Include="js\modern\HoverLinks.js" LogicalName="OneStoryProjectEditor.js.modern.HoverLinks.js" />
   </ItemGroup>
   <!-- 16 files (ProjectSettingsForm, ConsultNotesDataConverter, StorySettings, GeckoTestForm, BiblicalTerms,
        EditBiblicalTermForm, SelectKeyTerms, BiblicalKeyTermsForm, KeyTermsSearchForm, SelectTermsListForm,

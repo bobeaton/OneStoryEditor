@@ -470,17 +470,18 @@ namespace OneStoryProjectEditor
             string strHtml = null;
             if (ParentStory != null)
                 strHtml = ParentStory.PresentationHtml(viewSettings,
-                    projSettings, teamMembers, ChildStory);
+                    projSettings, teamMembers, ChildStory, HtmlEngine.Ie);
             else if (ChildStory != null)
                 strHtml = ChildStory.PresentationHtml(viewSettings,
-                    projSettings, teamMembers, null);
+                    projSettings, teamMembers, null, HtmlEngine.Ie);
             return strHtml;
         }
 
         public string PresentationHtml(VerseData.ViewSettings viewSettings, 
             ProjectSettings projSettings, 
             TeamMembersData teamMembers, 
-            StoryData child)
+            StoryData child,
+            HtmlEngine engine)
         {
             Rainbow.HtmlDiffEngine.Added.BeginTag = "<span style=\"text-decoration: underline; color: orange\">";
             string strHtml = PresentationHtmlWithoutHtmlDocOutside(viewSettings,
@@ -490,30 +491,29 @@ namespace OneStoryProjectEditor
                                                                    (child != null)
                                                                        ? PresentationType.Differencing
                                                                        : PresentationType.Plain);
-            return AddHtmlHtmlDocOutside(strHtml, projSettings);
+            return AddHtmlHtmlDocOutside(strHtml, projSettings, engine);
         }
 
-        public static string AddHtmlHtmlDocOutside(string strHtmlInside, ProjectSettings projSettings)
+        public static string AddHtmlHtmlDocOutside(string strHtmlInside, ProjectSettings projSettings, HtmlEngine engine)
         {
-            return String.Format(Properties.Resources.StoryBtHtml,
-                                 Properties.Resources.jquery_min,
-                                 Properties.Resources.StoryBtJs,
+            var scripts = PageScripts.For(engine);
+            return scripts.ApplyDoctype(String.Format(Properties.Resources.StoryBtHtml,
+                                 scripts.JQuery,
+                                 scripts.StoryBt,
                                  GetPlaceHolders(projSettings),
                                  StylePrefix(projSettings, null, null),
                                  strHtmlInside,
-                                 Properties.Resources.StoryBtPsJs,
-                                 PageScripts.ScriptBlock(PageScripts.Bridge, PageScripts.Get("PaneCommon.js")));
+                                 scripts.StoryBtEnd,
+                                 PageScripts.ScriptBlock(scripts.Bridge, scripts.PaneCommon)));
         }
 
         // the scripts the note panes' HTML_Header puts in its <script> block
-        private static string ConNotePageScripts
+        private static string ConNotePageScripts(HtmlEngine engine)
         {
-            get
-            {
-                return PageScripts.Bridge + Environment.NewLine +
-                       PageScripts.Get("PaneCommon.js") + Environment.NewLine +
-                       Properties.Resources.ConNoteDomPrefix;
-            }
+            var scripts = PageScripts.For(engine);
+            return scripts.Bridge + Environment.NewLine +
+                   scripts.PaneCommon + Environment.NewLine +
+                   scripts.ConNote;
         }
 
         private static string GetPlaceHolders(ProjectSettings projSettings)
@@ -671,7 +671,7 @@ namespace OneStoryProjectEditor
 
         public string ConNoteHtml(HtmlConNoteControl htmlConNoteCtrl, ProjectSettings projSettings, int nVerseIndex, 
             int nConversationIndex, TeamMemberData loggedOnMember, TeamMembersData teamMembers, 
-            ConsultNoteDataConverter theCnDc)
+            ConsultNoteDataConverter theCnDc, HtmlEngine engine)
         {
             string strHtml = theCnDc.Html(htmlConNoteCtrl, teamMembers, loggedOnMember, this,
                                           nVerseIndex,
@@ -680,37 +680,41 @@ namespace OneStoryProjectEditor
             string strFontName, strFontSize;
             NetBibleViewer.ReadFontNameAndSizeFromUserConfig(htmlConNoteCtrl.SettingsKeyForFontToUse, out strFontName, out strFontSize);
 
-            return String.Format(Properties.Resources.HTML_Header,
-                                 StylePrefix(projSettings, strFontName, strFontSize),
-                                 ConNotePageScripts,
-                                 strHtml);
-        
+            return PageScripts.For(engine).ApplyDoctype(
+                String.Format(Properties.Resources.HTML_Header,
+                              StylePrefix(projSettings, strFontName, strFontSize),
+                              ConNotePageScripts(engine),
+                              strHtml));
         }
 
-        public string ConsultantNotesHtml(object htmlConNoteCtrl, 
-            ProjectSettings projSettings, TeamMemberData LoggedOnMember, 
-            TeamMembersData teamMembers, bool bViewHidden, bool bShowOnlyOpenConversations, string strFontName, string strFontSize)
+        public string ConsultantNotesHtml(object htmlConNoteCtrl,
+            ProjectSettings projSettings, TeamMemberData LoggedOnMember,
+            TeamMembersData teamMembers, bool bViewHidden, bool bShowOnlyOpenConversations, string strFontName, string strFontSize,
+            HtmlEngine engine)
         {
-            string strHtml = Verses.ConsultantNotesHtml(htmlConNoteCtrl, LoggedOnMember, 
+            string strHtml = Verses.ConsultantNotesHtml(htmlConNoteCtrl, LoggedOnMember,
                 teamMembers, this, bViewHidden, bShowOnlyOpenConversations);
 
-            return String.Format(Properties.Resources.HTML_Header,
-                                 StylePrefix(projSettings, strFontName, strFontSize),
-                                 ConNotePageScripts,
-                                 strHtml);
+            return PageScripts.For(engine).ApplyDoctype(
+                String.Format(Properties.Resources.HTML_Header,
+                              StylePrefix(projSettings, strFontName, strFontSize),
+                              ConNotePageScripts(engine),
+                              strHtml));
         }
 
-        public string CoachNotesHtml(object htmlConNoteCtrl, 
-            ProjectSettings projSettings, TeamMemberData LoggedOnMember, 
-            TeamMembersData teamMembers, bool bViewHidden, bool bShowOnlyOpenConversations, string strFontName, string strFontSize)
+        public string CoachNotesHtml(object htmlConNoteCtrl,
+            ProjectSettings projSettings, TeamMemberData LoggedOnMember,
+            TeamMembersData teamMembers, bool bViewHidden, bool bShowOnlyOpenConversations, string strFontName, string strFontSize,
+            HtmlEngine engine)
         {
-            string strHtml = Verses.CoachNotesHtml(htmlConNoteCtrl, LoggedOnMember, 
+            string strHtml = Verses.CoachNotesHtml(htmlConNoteCtrl, LoggedOnMember,
                 teamMembers, this, bViewHidden, bShowOnlyOpenConversations);
 
-            return String.Format(Properties.Resources.HTML_Header,
-                                 StylePrefix(projSettings, strFontName, strFontSize),
-                                 ConNotePageScripts,
-                                 strHtml);
+            return PageScripts.For(engine).ApplyDoctype(
+                String.Format(Properties.Resources.HTML_Header,
+                              StylePrefix(projSettings, strFontName, strFontSize),
+                              ConNotePageScripts(engine),
+                              strHtml));
         }
 
         /// <summary>

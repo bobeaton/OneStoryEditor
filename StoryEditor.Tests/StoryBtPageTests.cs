@@ -44,7 +44,7 @@ namespace OneStoryProjectEditor.Tests
                 true,                       // use textareas (the editable pane)
                 (StoryEditor.TextFields)~0, // everything editable
                 null, null, null, null);
-            _strHtml = story.PresentationHtml(viewSettings, project.ProjSettings, project.TeamMembers, null);
+            _strHtml = story.PresentationHtml(viewSettings, project.ProjSettings, project.TeamMembers, null, HtmlEngine.Ie);
             _host.LoadHtml(_strHtml.Replace("</head>", PageScripts.ScriptBlock(CstrDriver) + "</head>"));
             Assert.That(BrowserTestHelper.PumpUntil(() => _host.IsReady), Is.True, "page never sent 'ready'");
         }

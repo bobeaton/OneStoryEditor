@@ -581,11 +581,12 @@ namespace OneStoryProjectEditor
                 sb.Append(CstrHtmlTableEnd);
 
                 // set this along with scripts for clicks and such into the web browser.
-                var strHtml = preDocumentDOMScript.Replace(CstrReplaceWithStyle, (bSpecifyFont)
+                var scripts = PageScripts.For(_htmlHost.Engine);
+                var strHtml = scripts.ApplyDoctype(preDocumentDOMScript.Replace(CstrReplaceWithStyle, (bSpecifyFont)
                                                                                     ? GetTextStyle(strFontName, strFontSize)
                                                                                     : String.Empty)
-                              + PageScripts.ScriptBlock(PageScripts.Bridge, PageScripts.Get("NetBible.js"))
-                              + sb;
+                              + PageScripts.ScriptBlock(scripts.Bridge, scripts.NetBible)
+                              + sb);
                 _htmlHost.LoadHtml(strHtml);
                 bJustUpdated = true;
             }

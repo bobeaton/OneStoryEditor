@@ -64,9 +64,10 @@ namespace OneStoryProjectEditor
             set
             {
                 _strClientText = value;
-                _htmlHost.LoadHtml(CstrStyle +
-                                   PageScripts.ScriptBlock(PageScripts.Bridge, PageScripts.Get("HoverLinks.js")) +
-                                   value);
+                var scripts = PageScripts.For(_htmlHost.Engine);
+                _htmlHost.LoadHtml(scripts.ApplyDoctype(CstrStyle +
+                                   PageScripts.ScriptBlock(scripts.Bridge, scripts.HoverLinks) +
+                                   value));
             }
         }
 
