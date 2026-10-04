@@ -91,6 +91,11 @@ namespace OneStoryProjectEditor
             _dispatcher.Register("refMouseUp", m => OnDoOnMouseUp(m.GetString("target"), m.GetString("ref")));
             _htmlHost.MessageReceived += (s, m) => _dispatcher.Dispatch(m);
             _htmlHost.DocumentReady += (s, e) => ScrollToElement();
+            _htmlHost.EngineChanged += (s, e) =>
+            {
+                m_nBook = m_nChapter = 0;    // force DisplayVerses to rebuild the page (now with the IE scripts)
+                DisplayVerses();
+            };
             Disposed += (s, e) => _htmlHost.Dispose();      // stops the host's load watchdog timer
 
             OnLocalizationChange(false);

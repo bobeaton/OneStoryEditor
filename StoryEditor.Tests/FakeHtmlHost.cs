@@ -70,4 +70,14 @@ namespace OneStoryProjectEditor.Tests
             Control.Dispose();
         }
     }
+
+    public class FakeFailingHtmlHost : FakeHtmlHost, IFailingHtmlHost
+    {
+        public event EventHandler<Exception> Failed;
+
+        public void Fail(string strWhy = "simulated")
+        {
+            Failed?.Invoke(this, new InvalidOperationException(strWhy));
+        }
+    }
 }

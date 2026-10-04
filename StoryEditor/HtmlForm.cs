@@ -17,6 +17,7 @@ namespace OneStoryProjectEditor
         private readonly IHtmlHost _htmlHost;
         private readonly HtmlMessageDispatcher _dispatcher = new HtmlMessageDispatcher();
         private int _nIndexToScrollTo = 0;
+        private string _strClientText;
 
         public HtmlForm()
         {
@@ -39,6 +40,7 @@ namespace OneStoryProjectEditor
             _dispatcher.Register("hoverRef", m => ShowHoverOver(m.GetString("ref")));
             _htmlHost.MessageReceived += (s, m) => _dispatcher.Dispatch(m);
             _htmlHost.DocumentReady += (s, e) => UpdateButtonEnabledState(true);
+            _htmlHost.EngineChanged += (s, e) => { if (_strClientText != null) ClientText = _strClientText; };
             Disposed += (s, e) => _htmlHost.Dispose();      // stops the host's load watchdog timer
         }
 
@@ -61,6 +63,7 @@ namespace OneStoryProjectEditor
             get { return _htmlHost.LoadedHtml; }
             set
             {
+                _strClientText = value;
                 _htmlHost.LoadHtml(CstrStyle +
                                    PageScripts.ScriptBlock(PageScripts.Bridge, PageScripts.Get("HoverLinks.js")) +
                                    value);

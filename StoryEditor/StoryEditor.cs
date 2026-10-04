@@ -280,6 +280,21 @@ namespace OneStoryProjectEditor
             advancedAutomaticallySendandReceiveWindowMenu.Checked = Settings.Default.AutoSendReceiveAfterTurnChange;
             advancedPopupReminderForStoryInYourStateMenu.Checked = Settings.Default.AutoPopupReminderAfterTurnChange;
 
+            var menuUseIePanes = new ToolStripMenuItem(Localizer.Str("Use the &IE browser panes (takes effect after restart)"))
+            {
+                CheckOnClick = true,
+                Checked = Settings.Default.UseIeBrowserPanes
+            };
+            menuUseIePanes.CheckedChanged += (s, e) =>
+            {
+                Settings.Default.UseIeBrowserPanes = menuUseIePanes.Checked;
+                if (!menuUseIePanes.Checked)
+                    Settings.Default.WebView2FailedRuntimeVersion = String.Empty;  // try WebView2 again
+                Settings.Default.Save();
+            };
+            advancedToolStripMenu.DropDownItems.Add(menuUseIePanes);
+            HtmlHostFactory.Notice += (s, strNotice) => SetStatusBar(strNotice);
+
             if (advancedSaveTimeoutEnabledMenu.Checked)
             {
                 //autosave timer goes off every 5 minutes.
@@ -335,6 +350,11 @@ namespace OneStoryProjectEditor
                 }
                 catch { }   // this was only a bene anyway, so just ignore it
             }
+
+            // the panes were created by InitializeComponent, so a notice may already be waiting (shown here, after
+            //  the project open, which sets its own status text)
+            if (HtmlHostFactory.LastNotice != null)
+                SetStatusBar(HtmlHostFactory.LastNotice);
 
 #if UseAutoUpgrade
 #if !DEBUGBOB

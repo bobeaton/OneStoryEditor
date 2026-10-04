@@ -481,6 +481,30 @@ namespace OneStoryProjectEditor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseIeBrowserPanes {
+            get {
+                return ((bool)(this["UseIeBrowserPanes"]));
+            }
+            set {
+                this["UseIeBrowserPanes"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string WebView2FailedRuntimeVersion {
+            get {
+                return ((string)(this["WebView2FailedRuntimeVersion"]));
+            }
+            set {
+                this["WebView2FailedRuntimeVersion"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool DoAutoSaveSilently {
             get {

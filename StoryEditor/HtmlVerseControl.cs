@@ -54,6 +54,13 @@ namespace OneStoryProjectEditor
             Controls.Add(Host.Control);
             Host.MessageReceived += (sender, msg) => Dispatcher.Dispatch(msg);
             Host.DocumentReady += (sender, args) => OnDocumentReady();
+            // the host fell back to IE: rebuild the page with the IE scripts (a pane with no story yet has nothing to
+            //  rebuild; the host has already replayed its last page)
+            Host.EngineChanged += (sender, args) =>
+            {
+                if ((StoryData != null) && (TheSE != null))
+                    LoadDocument();
+            };
             Dispatcher.ReportError = s => TheSE?.SetStatusBar(String.Format(Localizer.Str("Error: {0}"), s));
 
             Dispatcher.Register("scrolled", OnScrolled);
@@ -78,6 +85,8 @@ namespace OneStoryProjectEditor
         }
 
         public string LoadedHtml => Host.LoadedHtml;
+
+        public HtmlEngine Engine => Host.Engine;
 
         public void ShowPrintPreview()
         {
