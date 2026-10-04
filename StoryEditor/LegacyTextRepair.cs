@@ -104,7 +104,7 @@ namespace OneStoryProjectEditor
                         continue;
 
                     elem.Value = String.Empty;
-                    elem.AddAnnotation(XmlRead.ClearedPlaceholder.Instance);   // reads as ""
+                    elem.AddAnnotation(XmlRead.ClearedPlaceholder.Instance);   // reads as "" (note: a cloned element loses the annotation)
                     nCleared++;
                 }
             }

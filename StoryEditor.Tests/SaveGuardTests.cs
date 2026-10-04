@@ -113,6 +113,18 @@ namespace OneStoryProjectEditor.Tests
         }
 
         [Test]
+        public void EmptyConsultantNote_FailsValidation()
+        {
+            var strXml = File.ReadAllText(MinimalFixturePath);
+            var strEmpty = new Regex("(<ConsultantNote [^>]*>)[^<]*(</ConsultantNote>)").Replace(strXml, "$1$2", 1);
+            Assert.That(strEmpty, Is.Not.EqualTo(strXml), "test setup: no note emptied");
+            var strPath = TempPath(".onestory.bad");
+            File.WriteAllText(strPath, strEmpty);
+
+            Assert.Throws<XmlSchemaValidationException>(() => ProjectFileValidator.Validate(strPath));
+        }
+
+        [Test]
         public void MalformedXml_FailsValidation()
         {
             var strPath = TempPath(".onestory.bad");
@@ -209,8 +221,7 @@ namespace OneStoryProjectEditor.Tests
                 LegacyTextRepair.DecodeUnlessMarked(wrapper);
                 // (the project load also clears values that are only a language's name; paste doesn't)
                 LegacyTextRepair.ClearLanguageNamePlaceholders(wrapper);
-                ProjectFile.UniqueStoryGuids.Clear();     // (the project load registered this guid; a story seen twice gets a new one)
-                var pasted = new StoryData(wrapper.Element(StoryData.CstrElementNameStory), strFolder);
+                var pasted = new StoryData(wrapper.Element(StoryData.CstrElementNameStory), strFolder, false);
                 var strName = (string)elemStory.Attribute("name");
                 Assert.That(StripGeneratedGuids(pasted.GetXml.ToString()), Is.EqualTo(StripGeneratedGuids(normal[i])), "story " + strName);
 
@@ -236,8 +247,7 @@ namespace OneStoryProjectEditor.Tests
             {
                 var elem = XElement.Parse(node.OuterXml);   // what GetPresentationHtmlForChorus does
                 LegacyTextRepair.DecodePlainTextElements(elem);
-                ProjectFile.UniqueStoryGuids.Clear();
-                var story = new StoryData(elem, strFolder);
+                var story = new StoryData(elem, strFolder, false);
                 var strXml = story.GetXml.ToString();
                 if (elem.Descendants().Any(e => (string)e.Attribute("finished") == "true"))
                 {

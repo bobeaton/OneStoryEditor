@@ -249,7 +249,7 @@ namespace OneStoryProjectEditor
                     elem.Add(new XAttribute("InternationalBTRendering", StoryData.RemoveCarriageReturns(InternationalBtRendering)));
 
                 if (!String.IsNullOrEmpty(KeyTermIds))
-                    elem.Add(new XAttribute("KeyTermIds",StoryData.RemoveCarriageReturns(KeyTermIds)));
+                    elem.Add(new XAttribute("KeyTermIds", StoryData.RemoveCarriageReturns(KeyTermIds)));
 
                 return elem;
             }

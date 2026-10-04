@@ -46,6 +46,27 @@ namespace OneStoryProjectEditor.Tests
         }
 
         [Test]
+        public void ClearLanguageNamePlaceholders_Element_ReadsAsEmptyText_AndWritesAnEmptyElementPair()
+        {
+            var root = XElement.Parse(
+                "<StoryProject><Languages><LanguageInfo lang=\"Vernacular\" name=\"Testish\" /></Languages>" +
+                "<Retelling lang=\"Vernacular\" memberID=\"m1\">Testish</Retelling></StoryProject>");
+            var elemRetelling = root.Element("Retelling");
+
+            Assert.That(LegacyTextRepair.ClearLanguageNamePlaceholders(root), Is.EqualTo(1));
+            Assert.That(XmlRead.Text(elemRetelling), Is.EqualTo(String.Empty));   // the annotation: "" and not null
+
+            // the object rebuilt from it writes <Retelling ...></Retelling>, not <Retelling ... />
+            var line = new LineMemberData("m1", StoryEditor.TextFields.Retelling);
+            line.SetValue("Vernacular", XmlRead.Text(elemRetelling));
+            var elemOut = new XElement("Retellings");
+            line.AddXml(elemOut, "Retelling");
+            var strVernacular = elemOut.Elements("Retelling").First().ToString(SaveOptions.DisableFormatting);
+            Assert.That(strVernacular, Does.EndWith("></Retelling>"));
+            Assert.That(strVernacular, Does.Contain("lang=\"Vernacular\""));
+        }
+
+        [Test]
         public void ClearLanguageNamePlaceholders_LeavesOtherTextAlone()
         {
             var root = ProjectFile.Load(FixturePath).Root;

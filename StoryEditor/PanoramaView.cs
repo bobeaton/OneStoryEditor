@@ -1325,7 +1325,7 @@ namespace OneStoryProjectEditor
             if (theStoryToCopyXElement == null)
                 return;
 
-            var theStoryToCopy = new StoryData(theStoryToCopyXElement, _storyProject.ProjSettings.ProjectFolder);
+            var theStoryToCopy = new StoryData(theStoryToCopyXElement, _storyProject.ProjSettings.ProjectFolder, false);
             theStoryToCopy = new StoryData(theStoryToCopy); // yes, we have to do this again, to regenerate the guids
             theStoryToCopy.CraftingInfo.IsBiblicalStory = bIsBiblicalStory;
             StoryEditor.InsertInOtherSetInsureUnique(_storyProject[strDestSet], theStoryToCopy);

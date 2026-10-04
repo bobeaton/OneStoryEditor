@@ -331,7 +331,7 @@ namespace OneStoryProjectEditor
             get
             {
                 System.Diagnostics.Debug.Assert(HasData, "trying to serialize an AnchorsData without items");
-                XElement elemAnchors = new XElement(CstrElementLabelAnchors, new XAttribute("keyTermChecked", IsKeyTermChecked));
+                XElement elemAnchors = new XElement(CstrElementLabelAnchors, new XAttribute(CstrAttributeKeyTermChecked, IsKeyTermChecked));
                 foreach (AnchorData anAnchorData in this)
                     elemAnchors.Add(anAnchorData.GetXml);
                 return elemAnchors;

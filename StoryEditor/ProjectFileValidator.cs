@@ -73,6 +73,18 @@ namespace OneStoryProjectEditor
                 sequence.SetAttributeValue("maxOccurs", "unbounded");
             }
 
+            // ConsultantNote and CoachNote (type Comment) must have text: the released exe's DataSet requires it and the
+            //  loader refuses empty notes. (The schema would take an empty string; "[\s\S]" because "." doesn't match a newline.)
+            var comment = xsd.Descendants(Xs + "complexType").FirstOrDefault(c => (string)c.Attribute("name") == "Comment");
+            var commentExtension = comment?.Element(Xs + "simpleContent")?.Element(Xs + "extension");
+            if (commentExtension != null)
+            {
+                commentExtension.SetAttributeValue("base", "NonBlankString");
+                xsd.Root.Add(new XElement(Xs + "simpleType", new XAttribute("name", "NonBlankString"),
+                    new XElement(Xs + "restriction", new XAttribute("base", "xs:string"),
+                        new XElement(Xs + "pattern", new XAttribute("value", @"[\s\S]*\S[\s\S]*")))));
+            }
+
             // attributes the schema doesn't know (written by newer versions)
             foreach (var complexType in xsd.Descendants(Xs + "complexType").ToList())
             {

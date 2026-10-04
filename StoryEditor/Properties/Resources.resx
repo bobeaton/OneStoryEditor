@@ -155,9 +155,6 @@
   <data name="Pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Pause.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="IDS_ConfirmDeleteStateTransitions" xml:space="preserve">
-    <value>The file that stores the view settings must be deleted to upgrade to the new format (these customizations were done via 'Select State', 'Advanced' button, and then right-click on a state button to check or uncheck view fields for a given state). Because of this, it means that you will need to redo the settings.</value>
-  </data>
   <data name="IDS_CheckOnKeyTerms" xml:space="preserve">
     <value>Are there any key terms in this story that you should check? To check key terms, right-click on an anchor button and choose the 'Edit Key Terms' command. Click the "Retry" button to continue on to the next state. Click the 'Cancel' button to stay in this state to look for key terms to check.</value>
   </data>

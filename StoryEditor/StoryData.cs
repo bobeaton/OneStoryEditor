@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Xml;
 using System.Xml.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Xml.Xsl;
 using NetLoc;
 using System.Collections.Specialized;
 using System.Text.RegularExpressions;
@@ -104,6 +101,13 @@ namespace OneStoryProjectEditor
 
         // elemStory is the <story> element
         public StoryData(XElement elemStory, string strProjectFolder)
+            : this(elemStory, strProjectFolder, true)
+        {
+        }
+
+        // bTrackUniqueGuid = false for throwaway/detached stories (paste, revision history, Chorus html): they neither
+        //  check nor register their guid in ProjectFile.UniqueStoryGuids
+        public StoryData(XElement elemStory, string strProjectFolder, bool bTrackUniqueGuid)
         {
             Name = XmlRead.RequiredAttr(elemStory, CstrAttributeName);
             TasksAllowedPf = EnumAttr(elemStory, CstrAttributeLabelTasksAllowedPf, TasksPf.DefaultAllowed);
@@ -116,16 +120,19 @@ namespace OneStoryProjectEditor
             // the guid is supposed to be unique, but the merger might leave two stories with the same guid. If that
             //  happens, start over with a new guid (we lose historical differencing, the lesser of 2 evils)
             guid = XmlRead.RequiredAttr(elemStory, CstrAttributeGuid);
-            if (ProjectFile.UniqueStoryGuids.Contains(guid))
+            if (bTrackUniqueGuid)
             {
-                Debug.Assert(false, String.Format("Duplicate unique identifier for story '{1}'{0}{0}{2}",
-                                                  Environment.NewLine,
-                                                  Name,
-                                                  guid));
-                guid = Guid.NewGuid().ToString();
-            }
+                if (ProjectFile.UniqueStoryGuids.Contains(guid))
+                {
+                    Debug.Assert(false, String.Format("Duplicate unique identifier for story '{1}'{0}{0}{2}",
+                                                      Environment.NewLine,
+                                                      Name,
+                                                      guid));
+                    guid = Guid.NewGuid().ToString();
+                }
 
-            ProjectFile.UniqueStoryGuids.Add(guid);
+                ProjectFile.UniqueStoryGuids.Add(guid);
+            }
 
             StageTimeStamp = XmlRead.Date(elemStory, CstrAttributeTimeStamp)?.ToLocalTime() ?? DateTime.Now;
             ProjStage = new StoryStageLogic(strProjectFolder, XmlRead.RequiredAttr(elemStory, CstrAttributeStage));
@@ -427,13 +434,13 @@ namespace OneStoryProjectEditor
             {
                 var elemParent = XElement.Parse(parentStory.OuterXml);  // a copy, so Chorus's node is untouched
                 LegacyTextRepair.DecodePlainTextElements(elemParent);
-                ParentStory = new StoryData(elemParent, strProjectPath);
+                ParentStory = new StoryData(elemParent, strProjectPath, false);
             }
             if (childStory != null)
             {
                 var elemChild = XElement.Parse(childStory.OuterXml);
                 LegacyTextRepair.DecodePlainTextElements(elemChild);
-                ChildStory = new StoryData(elemChild, strProjectPath);
+                ChildStory = new StoryData(elemChild, strProjectPath, false);
             }
             var viewSettings = new VerseData.ViewSettings(
                 projSettings, 

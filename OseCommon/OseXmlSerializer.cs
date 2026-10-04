@@ -43,7 +43,7 @@ namespace OseCommon
 
             // This is used for core OneStory data files. If we can't save it for some reason,
             //  the problem probably isn't going to magically go away.
-            throw new IOException($"Unable to save file: {filePath}: {error}", error);
+            throw new IOException($"Unable to save file: {filePath}: {error?.Message}", error);
         }
 
         public static void SerializeXmlToFileWithWriteThrough<T>(string path, T data, out Exception e)

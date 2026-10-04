@@ -2218,7 +2218,8 @@ namespace OneStoryProjectEditor
                 SaveXElement(GetXml, strFilename, bDoReloadTest);
                 _dateTimeLastSaved = RobustFile.GetLastWriteTime(strFilename);
             }
-            catch (UnauthorizedAccessException)
+            catch (Exception exLocked) when (exLocked is UnauthorizedAccessException
+                                             || (exLocked is IOException && exLocked.InnerException is UnauthorizedAccessException))
             {
                 LocalizableMessageBox.Show(
                     String.Format(
@@ -6895,7 +6896,7 @@ namespace OneStoryProjectEditor
             if (theStoryToCopyXElement == null)
                 return;
 
-            var theStoryToCopy = new StoryData(theStoryToCopyXElement, StoryProject.ProjSettings.ProjectFolder);
+            var theStoryToCopy = new StoryData(theStoryToCopyXElement, StoryProject.ProjSettings.ProjectFolder, false);
             theStoryToCopy = new StoryData(theStoryToCopy); // yes, we have to do this again, to regenerate the guids
 
             // remove references to participants we don't care about to minimize the # of memberId guid's we'd have to copy over

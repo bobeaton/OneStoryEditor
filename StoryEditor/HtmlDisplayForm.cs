@@ -147,15 +147,15 @@ namespace OneStoryProjectEditor
                 RevisionInfo ri = dataGridViewRevisions.Rows[nIndex].Tag as RevisionInfo;
                 if (ri != null)
                 {
-                    if (ri.StoryProjectNode != null)
-                        return new StoryData(ri.StoryProjectNode, _strProjectFolder);
-
                     try
                     {
+                        if (ri.StoryProjectNode != null)
+                            return new StoryData(ri.StoryProjectNode, _strProjectFolder, false);
+
                         XElement nodeStoryProject;
                         string strThisState;
                         ReadRevisionFile(_repository, ri.Revision, out nodeStoryProject, out strThisState);
-                        return new StoryData(nodeStoryProject, _strProjectFolder);
+                        return new StoryData(nodeStoryProject, _strProjectFolder, false);
                     }
                     catch
                     {
