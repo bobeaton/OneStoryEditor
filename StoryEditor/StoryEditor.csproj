@@ -189,6 +189,7 @@
     <EmbeddedResource Update="HtmlDisplayForm.resx" LogicalName="OneStoryProjectEditor.RevisionHistoryForm.resources" />
     <!-- ProjectFileValidator checks files we save against the schema -->
     <EmbeddedResource Include="StoryProject.xsd" LogicalName="OneStoryProjectEditor.StoryProject.xsd" />
+    <EmbeddedResource Include="js\bridge.js" LogicalName="OneStoryProjectEditor.js.bridge.js" />
   </ItemGroup>
   <!-- 16 files (ProjectSettingsForm, ConsultNotesDataConverter, StorySettings, GeckoTestForm, BiblicalTerms,
        EditBiblicalTermForm, SelectKeyTerms, BiblicalKeyTermsForm, KeyTermsSearchForm, SelectTermsListForm,

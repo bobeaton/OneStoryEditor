@@ -302,11 +302,7 @@ namespace OneStoryProjectEditor
 
         private static void AddIe9RegistryKey()
         {
-            var key = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION");
-            if (key == null)
-                return;
-
-            key.SetValue("StoryEditor.exe", 9999, RegistryValueKind.DWord);
+            IeHtmlHost.EnsureIe9Mode("StoryEditor.exe");
         }
 
         public static void SyncBeforeClose(bool bPretendOpening)
