@@ -96,7 +96,9 @@ public interface IHtmlHost : IDisposable
 ### `IeHtmlHost`
 
 - Wraps a `WebBrowser`:
-  - `AllowNavigation = false`
+  - `AllowNavigation` left at its default (`true`). The pre-B panes never actually set it: the private
+    `InitializeComponent` that did was never called. Links are cancelled by the pages' delegated click handler
+    instead (see "Refinements made during implementation").
   - `AllowWebBrowserDrop = false`
   - `IsWebBrowserContextMenuEnabled = false`
   - `ScriptErrorsSuppressed` left as it is today
@@ -475,3 +477,26 @@ There is no data or file-format change, and no version marker. Falling back to t
   the "You can't edit this field" box. This replaces the `_bIgnoringChanges` flag.
 - **`HtmlForm` sets its scroll position when `DocumentReady` fires**, instead of calling `Application.DoEvents()` in
   `Show()`.
+
+## Refinements made during implementation
+
+- **`AllowNavigation` stays at its default.** Section 1 first said `IeHtmlHost` sets it to `false`. But the pre-B panes
+  never set it: the private `InitializeComponent` that did was never called. Setting it now would change behaviour,
+  so it is left alone. Link clicks are still cancelled in the page (Review Focus 4).
+- **All the real pages run in IE quirks mode (documentMode 5)**, as they always have (Task 6b). They have no doctype,
+  or one IE treats as none, and the host doesn't force a mode: no `X-UA-Compatible` meta and no forced IE9 meta.
+  Quirks mode has no `JSON` object and no `addEventListener`, so `bridge.js` carries its own JSON fallback and an
+  `ose.listen` helper (`attachEvent` where there's no `addEventListener`). The page scripts are written to work there.
+- **A flush ignores line breaks at the ends of a box's text.** In quirks mode IE drops a leading line break from both a
+  textarea's `value` and its `createTextRange().htmlText` (the HTML parser eats it), and `htmlText` also drops a
+  trailing one. So a flush of a box the user merely focused could send text that differs from the stored value only
+  there, which would set `Modified` (a surprise "save changes?" on close, the dirty check, or every autosave tick)
+  and strip the line break. For quiet `textChanged` messages only, `PaneText.IsSame(st, text, true)` treats text that
+  differs from the stored value only by leading/trailing CR/LF (after line-ending normalisation) as unchanged, so
+  nothing is set. Keystrokes (not quiet) still compare exactly.
+- **The autosave tick** doesn't flush while NetBible's drag-and-drop loop is running (`SuspendSaveDialog`) or the
+  user is typing; it runs the flush and save under the same `_bInSave` guard as Ctrl+S, and always restarts the timer.
+- **`IeHtmlHost`'s load watchdog is 15 seconds**, and the page's own `ready` also ends the load in flight, so a slow
+  load of a big story can't let a deferred load start in the middle of it. A `Request` stops waiting once the host is
+  disposed.
+- **`HtmlMessage.TryParse` doesn't parse dates**, so a text value that looks like an ISO date stays a string.
