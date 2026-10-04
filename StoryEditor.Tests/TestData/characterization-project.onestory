@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StoryProject version="1.8" ProjectName="characterization-project" PanoramaFrontMatter="Front matter text" UseDropbox="true" DropboxStory="true" DropboxRetellings="false" DropboxAnswers="true">
+  <Members HasOutsideEnglishBTer="true" HasFirstPassMentor="true" HasIndependentConsultant="false">
+    <Member name="Full Crafter" memberType="Crafter" memberKey="mem-00000000-0000-0000-0000-000000000001" email="crafter@example.org" altPhone="555-0002" phone="555-0001" bioData="bio line 1&#10;bio line 2" skypeID="crafter.skype" teamViewerID="123 456 789" OverrideVernacularKeyboard="Keyman Vern" OverrideNationalBTKeyboard="Keyman Nat" OverrideInternationalBTKeyboard="Keyman Intl" OverrideFreeTranslationKeyboard="Keyman Free" OverrideFontNameVernacular="Charis SIL" OverrideFontSizeVernacular="14.5" OverrideRtlVernacular="true" OverrideFontNameNationalBT="Andika" OverrideFontSizeNationalBT="11" OverrideRtlNationalBT="false" OverrideFontNameInternationalBT="Calibri" OverrideFontSizeInternationalBT="10.25" OverrideRtlInternationalBT="1" OverrideFontNameFreeTranslation="Gentium" OverrideFontSizeFreeTranslation="9" OverrideRtlFreeTranslation="0" HgUsername="hguser" HgPassword="YMvxKu8EZfg=" TransliteratorVernacular="Vern Translit" TransliteratorDirectionForwardVernacular="true" TransliteratorNationalBT="Nat Translit" TransliteratorDirectionForwardNationalBT="false" TransliteratorInternationalBT="Intl Translit" TransliteratorDirectionForwardInternationalBT="true" TransliteratorFreeTranslation="Free Translit" TransliteratorDirectionForwardFreeTranslation="false" />
+    <Member name="The PF" memberType="ProjectFacilitator" memberKey="mem-00000000-0000-0000-0000-000000000002" DefaultTasksAllowed="VernacularLangFields, Anchors" DefaultTasksRequired="None" />
+    <Member name="The CIT" memberType="ConsultantInTraining" memberKey="mem-00000000-0000-0000-0000-000000000003" DefaultTasksAllowed="SendToCoachForReview" DefaultTasksRequired="None" email="cit@example.org" />
+    <Member name="The Coach" memberType="Coach" memberKey="mem-00000000-0000-0000-0000-000000000004" />
+    <Member name="Browser Only" memberType="JustLooking" memberKey="mem-00000000-0000-0000-0000-000000000005" OverrideFontSizeVernacular="12" />
+  </Members>
+  <Languages UseRetellingVernacular="true" UseRetellingNationalBT="false" UseRetellingInternationalBT="true" UseTestQuestionVernacular="false" UseTestQuestionNationalBT="true" UseAnswerInternationalBT="true">
+    <LanguageInfo lang="Vernacular" name="Testish" code="tst" FontName="Charis SIL" FontSize="12.5" FontColor="Maroon" SentenceFinalPunct=".!?:" RTL="true" Keyboard="Keyman Vern default" />
+    <LanguageInfo lang="NationalBt" name="Nationalese" code="nat" FontName="Arial" FontSize="11" FontColor="Green" SentenceFinalPunct="." Keyboard="" />
+    <LanguageInfo lang="InternationalBt" name="English" code="en" FontName="Times New Roman" FontSize="10" FontColor="Blue" SentenceFinalPunct=".!?" RTL="false" />
+    <LanguageInfo lang="FreeTranslation" name="Free English" code="en" FontName="Times New Roman" FontSize="10" FontColor="ForestGreen" SentenceFinalPunct=".!?" />
+  </Languages>
+  <AdaptItConfigurations>
+    <AdaptItConfiguration ProjectType="LocalAiProjectOnly" BtDirection="VernacularToNationalBt" ConverterName="AI Vern to Nat" ProjectFolderName="Tst to Nat" />
+    <AdaptItConfiguration ProjectType="SharedAiProject" BtDirection="VernacularToInternationalBt" ConverterName="AI Vern to Intl" ProjectFolderName="Tst to Eng" RepoProjectName="Tst-Eng" RepositoryServer="https://example.org/hg" NetworkRepositoryPath="\\server\share\Tst-Eng" />
+    <AdaptItConfiguration ProjectType="None" BtDirection="NationalBtToInternationalBt" ConverterName="AI Nat to Intl" />
+  </AdaptItConfigurations>
+  <LnCNotes>
+    <LnCNote guid="00000000-0000-0000-0000-000000000501" VernacularRendering="verb&#10;rendering" NationalBTRendering="national rendering" InternationalBTRendering="intl rendering" KeyTermIds="KT1, KT2">note with renderings&#10;second line</LnCNote>
+    <LnCNote guid="00000000-0000-0000-0000-000000000502">plain note</LnCNote>
+  </LnCNotes>
+  <stories SetName="Stories">
+    <story name="First Story" stage="ProjFacTypeVernacular" guid="00000000-0000-0000-0000-000000000101" stageDateTimeStamp="2026-10-03T12:34:56Z">
+      <CraftingInfo NonBiblicalStory="false">
+        <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001" />
+      </CraftingInfo>
+      <Verses>
+        <Verse guid="00000000-0000-0000-0000-000000000110" first="true">
+          <StoryLine lang="Vernacular">first &amp;amp; line</StoryLine>
+        </Verse>
+        <Verse guid="00000000-0000-0000-0000-000000000111">
+          <StoryLine lang="Vernacular">Testish</StoryLine>
+          <StoryLine lang="NationalBt">second line national</StoryLine>
+        </Verse>
+      </Verses>
+    </story>
+    <story name="Second Story" stage="ProjFacTypeVernacular" guid="00000000-0000-0000-0000-000000000102" stageDateTimeStamp="2026-10-03T12:34:56Z">
+      <CraftingInfo NonBiblicalStory="false">
+        <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001" />
+      </CraftingInfo>
+      <Verses>
+        <Verse guid="00000000-0000-0000-0000-000000000120" first="true">
+          <StoryLine lang="Vernacular">second story line</StoryLine>
+        </Verse>
+      </Verses>
+    </story>
+  </stories>
+  <stories SetName="Non-Biblical Stories">
+    <story name="Non Bib Story" stage="ProjFacTypeVernacular" guid="00000000-0000-0000-0000-000000000103" stageDateTimeStamp="2026-10-03T12:34:56Z">
+      <CraftingInfo NonBiblicalStory="true">
+        <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001" />
+      </CraftingInfo>
+      <Verses>
+        <Verse guid="00000000-0000-0000-0000-000000000130" first="true">
+          <StoryLine lang="Vernacular">non-biblical story line</StoryLine>
+        </Verse>
+      </Verses>
+    </story>
+  </stories>
+  <stories SetName="Old Stories">
+    <story name="Old Story" stage="ProjFacTypeVernacular" guid="00000000-0000-0000-0000-000000000104" stageDateTimeStamp="2026-10-03T12:34:56Z">
+      <CraftingInfo NonBiblicalStory="false">
+        <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001" />
+      </CraftingInfo>
+      <Verses>
+        <Verse guid="00000000-0000-0000-0000-000000000140" first="true">
+          <StoryLine lang="Vernacular">old story line</StoryLine>
+        </Verse>
+      </Verses>
+    </story>
+  </stories>
+</StoryProject>

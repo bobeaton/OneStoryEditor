@@ -133,6 +133,37 @@ namespace OneStoryProjectEditor
             return nCleared;
         }
 
+        // same as the DataSet overload, reading the LanguageInfo elements and the text of the placeholder elements
+        //  (an empty or whitespace-only element is a null value there, so it is never cleared)
+        public static int ClearLanguageNamePlaceholders(XElement elemStoryProject)
+        {
+            var mapLanguageNames = new Dictionary<string, string>();
+            foreach (var elemLanguage in elemStoryProject.Descendants("LanguageInfo"))
+            {
+                var strLang = (string)elemLanguage.Attribute("lang");
+                var strName = ((string)elemLanguage.Attribute("name"))?.Trim();
+                if (!String.IsNullOrEmpty(strLang) && !String.IsNullOrEmpty(strName))
+                    mapLanguageNames[strLang] = strName;
+            }
+
+            int nCleared = 0;
+            foreach (var strElementName in TablesWithPlaceholders)
+            {
+                foreach (var elem in elemStoryProject.Descendants(strElementName))
+                {
+                    var strText = XmlRead.Text(elem);
+                    if (String.IsNullOrEmpty(strText) ||
+                        !mapLanguageNames.TryGetValue((string)elem.Attribute("lang") ?? String.Empty, out var strName) ||
+                        (strText.Trim() != strName))
+                        continue;
+
+                    elem.Value = String.Empty;
+                    nCleared++;
+                }
+            }
+            return nCleared;
+        }
+
         public static int DecodePlainTextFields(DataSet ds)
         {
             int nChanged = 0;

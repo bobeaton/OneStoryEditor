@@ -1931,6 +1931,26 @@ namespace OneStoryProjectEditor
             }
         }
 
+        // mirrors StoriesData(NewDataSet.storiesRow, NewDataSet, string): elemStories is the <stories> element
+        public StoriesData(XElement elemStories, string strProjectFolder)
+        {
+            SetName = XmlRead.RequiredAttr(elemStories, CstrAttributeLabelSetName);
+
+            foreach (var elemStory in XmlRead.Children(elemStories, StoryData.CstrElementNameStory))
+            {
+                // create the story object
+                var theNewStory = new StoryData(elemStory, strProjectFolder);
+
+                // make sure it doesn't have a name the same as an existing one... (it could come in via the merge)
+                var n = 1;
+                var strName = theNewStory.Name;
+                while (Contains(theNewStory))
+                    theNewStory.Name = String.Format("{0}.{1}", strName, n++);
+
+                Add(theNewStory);
+            }
+        }
+
         public new bool Contains(StoryData theSD)
         {
             return this.Any(aSd => aSd.Name == theSD.Name);
@@ -2063,7 +2083,8 @@ namespace OneStoryProjectEditor
         public LnCNotesData LnCNotes;
         public OsMetaDataModel OsMetaData;
         public string PanoramaFrontMatter;
-        public string XmlDataVersion = "1.6";
+        public const string CstrCurrentXmlDataVersion = "1.6";
+        public string XmlDataVersion = CstrCurrentXmlDataVersion;
         private const string CxmlDataVersionReferringText = "1.7";
         private const string CxmlDataVersionStickyNote = "1.8";
 
@@ -2121,6 +2142,73 @@ namespace OneStoryProjectEditor
 
         private static bool _bProjectConvertWarnedOnce;
         private static bool _bStopNaggingPf;
+
+        // the row constructor's rule: a version after the current one, other than the two this version also reads
+        public static bool IsNewerThanSupported(string strVersion)
+        {
+            return (strVersion.CompareTo(CstrCurrentXmlDataVersion) > 0) &&
+                   (strVersion != CxmlDataVersionReferringText) &&
+                   (strVersion != CxmlDataVersionStickyNote);
+        }
+
+        // mirrors StoryProjectData(NewDataSet, ProjectSettings). The 1.3/1.4 conversions and the newer-version
+        //  refusal happen in ProjectFile.Load (which throws instead of showing a message box).
+        public StoryProjectData(XElement elemStoryProject, bool bIsPlainTextEncoded, ProjectSettings projSettings)
+        {
+            // this version comes with a project settings object
+            ProjSettings = projSettings;
+
+            elemStoryProject.SetAttributeValue(CstrAttributeProjectName, ProjSettings.ProjectName); // in case the user changed it.
+
+            // files not saved by a version that keeps plain text may have HTML entities in the
+            //  story text that IE's htmlText put there (e.g. "[B&amp;B]")
+            if (!bIsPlainTextEncoded)
+                LegacyTextRepair.DecodePlainTextElements(elemStoryProject);
+
+            // not gated by the marker: files saved before the placeholder fix may be marked already
+            LegacyTextRepair.ClearLanguageNamePlaceholders(elemStoryProject);
+
+            PanoramaFrontMatter = XmlRead.RequiredAttr(elemStoryProject, CstrAttributePanoramaFrontMatter);
+            if (String.IsNullOrEmpty(PanoramaFrontMatter))
+                PanoramaFrontMatter = Properties.Resources.IDS_DefaultPanoramaFrontMatter;
+
+            ProjSettings.UseDropbox = XmlRead.Bool(elemStoryProject, CstrAttributeUseDropbox, false);
+            ProjSettings.DropboxStory = XmlRead.Bool(elemStoryProject, CstrAttributeDropboxStory, false);
+            ProjSettings.DropboxRetelling = XmlRead.Bool(elemStoryProject, CstrAttributeDropboxRetellings, false);
+            ProjSettings.DropboxAnswers = XmlRead.Bool(elemStoryProject, CstrAttributeDropboxAnswers, false);
+
+            var elemsStories = XmlRead.Children(elemStoryProject, StoriesData.CstrElementLabelStories).ToList();
+            if (elemsStories.Count == 0)
+            {
+                elemStoryProject.Add(new XElement(StoriesData.CstrElementLabelStories,
+                    new XAttribute(StoriesData.CstrAttributeLabelSetName, Properties.Resources.IDS_MainStoriesSet)));
+                elemStoryProject.Add(new XElement(StoriesData.CstrElementLabelStories,
+                    new XAttribute(StoriesData.CstrAttributeLabelSetName, Properties.Resources.IDS_ObsoleteStoriesSet)));
+            }
+            // new 'non-biblical' stories set added in 2.4
+            // UPDATE (2/11/20): unless it's already there -- see trio-mina rev 91
+            else if ((elemsStories.Count == 2) &&
+                     !elemsStories.Any(s => (string)s.Attribute(StoriesData.CstrAttributeLabelSetName) == Properties.Resources.IDS_NonBibStoriesSet))
+            {
+                elemStoryProject.Add(new XElement(StoriesData.CstrElementLabelStories,
+                    new XAttribute(StoriesData.CstrAttributeLabelSetName, Properties.Resources.IDS_NonBibStoriesSet)));
+            }
+            TeamMembers = new TeamMembersData(elemStoryProject);
+            ProjSettings.SerializeProjectSettings(elemStoryProject);
+            LnCNotes = new LnCNotesData(elemStoryProject);
+
+            // finally, if it's not new, then it might (should) have stories as well
+            foreach (var elemStories in XmlRead.Children(elemStoryProject, StoriesData.CstrElementLabelStories))
+            {
+                var storiesData = new StoriesData(elemStories, ProjSettings.ProjectFolder);
+                Add(storiesData.SetName, storiesData);
+            }
+
+            if ((string)elemStoryProject.Attribute(CstrAttributeVersion) == "1.5")
+                CheckForCommentMemberIds();
+
+            OsMetaData = LoadOsMetaData();
+        }
 
         public StoryProjectData(NewDataSet projFile, ProjectSettings projSettings)
         {
@@ -2721,6 +2809,7 @@ namespace OneStoryProjectEditor
         public const string CstrAttributeVersion = "version";
 
         public const string CstrAttributeProjectName = "ProjectName";
+        public const string CstrAttributePanoramaFrontMatter = "PanoramaFrontMatter";
         public const string CstrAttributeUseDropbox = "UseDropbox";
         public const string CstrAttributeDropboxStory = "DropboxStory";
         public const string CstrAttributeDropboxRetellings = "DropboxRetellings";

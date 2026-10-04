@@ -30,9 +30,21 @@ namespace OneStoryProjectEditor
                 Add(new LnCNote(aLnCNoteRow));
         }
 
+        // mirrors LnCNotesData(NewDataSet): elemStoryProject is the root element; an absent <LnCNotes> is the
+        //  row path's added empty container
+        public LnCNotesData(XElement elemStoryProject)
+        {
+            var elemLnCNotes = XmlRead.First(elemStoryProject, "LnCNotes");
+            if (elemLnCNotes == null)
+                return;
+
+            foreach (var elemLnCNote in XmlRead.Children(elemLnCNotes, "LnCNote"))
+                Add(new LnCNote(elemLnCNote));
+        }
+
         public XElement GetXml
         {
-            get 
+            get
             {
                 var elem = new XElement("LnCNotes");
 
@@ -280,6 +292,31 @@ namespace OneStoryProjectEditor
                 InternationalBtRendering = StoryData.NormalizeLineEndings(theLnCNoteRow.InternationalBTRendering);
             if (!theLnCNoteRow.IsKeyTermIdsNull())
                 KeyTermIds = StoryData.NormalizeLineEndings(theLnCNoteRow.KeyTermIds);
+        }
+
+        // mirrors LnCNote(NewDataSet.LnCNoteRow). The row path reads the attribute "KeyTermIds" while GetXml writes
+        //  "KeyTermId" (so key terms are lost on a round trip); that is kept as is here (the fix is a later task).
+        public LnCNote(XElement elemLnCNote)
+        {
+            guid = XmlRead.RequiredAttr(elemLnCNote, "guid");  // the only thing absolutely required
+
+            var strNotes = XmlRead.Text(elemLnCNote);
+            Notes = (strNotes == null)
+                        ? String.Empty
+                        : StoryData.NormalizeLineEndings(strNotes);
+
+            var str = XmlRead.Attr(elemLnCNote, "VernacularRendering");
+            if (str != null)
+                VernacularRendering = StoryData.NormalizeLineEndings(str);
+            str = XmlRead.Attr(elemLnCNote, "NationalBTRendering");
+            if (str != null)
+                NationalBtRendering = StoryData.NormalizeLineEndings(str);
+            str = XmlRead.Attr(elemLnCNote, "InternationalBTRendering");
+            if (str != null)
+                InternationalBtRendering = StoryData.NormalizeLineEndings(str);
+            str = XmlRead.Attr(elemLnCNote, "KeyTermIds");
+            if (str != null)
+                KeyTermIds = StoryData.NormalizeLineEndings(str);
         }
     }
 }

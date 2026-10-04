@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
@@ -179,6 +180,113 @@ namespace OneStoryProjectEditor
             IsConfigured = true;
         }
 
+        // mirrors SerializeProjectSettings(NewDataSet): elemStoryProject is the root element. An absent <Languages> is
+        //  the row path's added row, which holds the current Show* values, so there is nothing to read from it.
+        public void SerializeProjectSettings(XElement elemStoryProject)
+        {
+            Debug.Assert((elemStoryProject != null) &&
+                         ((string)elemStoryProject.Attribute(StoryProjectData.CstrAttributeProjectName) == ProjectName));
+
+            var elemLanguages = XmlRead.First(elemStoryProject, CstrElementLabelLanguages);
+            if (elemLanguages != null)
+            {
+                bool? bValue;
+                if ((bValue = XmlRead.Bool(elemLanguages, "UseRetellingVernacular")).HasValue)
+                    ShowRetellings.Vernacular = bValue.Value;
+
+                if ((bValue = XmlRead.Bool(elemLanguages, "UseRetellingNationalBT")).HasValue)
+                    ShowRetellings.NationalBt = bValue.Value;
+
+                if ((bValue = XmlRead.Bool(elemLanguages, "UseRetellingInternationalBT")).HasValue)
+                    ShowRetellings.InternationalBt = bValue.Value;
+
+                if ((bValue = XmlRead.Bool(elemLanguages, "UseTestQuestionVernacular")).HasValue)
+                    ShowTestQuestions.Vernacular = bValue.Value;
+
+                if ((bValue = XmlRead.Bool(elemLanguages, "UseTestQuestionNationalBT")).HasValue)
+                    ShowTestQuestions.NationalBt = bValue.Value;
+
+                if ((bValue = XmlRead.Bool(elemLanguages, "UseTestQuestionInternationalBT")).HasValue)
+                    ShowTestQuestions.InternationalBt = bValue.Value;
+
+                if ((bValue = XmlRead.Bool(elemLanguages, "UseAnswerVernacular")).HasValue)
+                    ShowAnswers.Vernacular = bValue.Value;
+
+                if ((bValue = XmlRead.Bool(elemLanguages, "UseAnswerNationalBT")).HasValue)
+                    ShowAnswers.NationalBt = bValue.Value;
+
+                if ((bValue = XmlRead.Bool(elemLanguages, "UseAnswerInternationalBT")).HasValue)
+                    ShowAnswers.InternationalBt = bValue.Value;
+            }
+
+            // the row path only reads the configurations when there is exactly one <AdaptItConfigurations>
+            var elemsAiConfigurations = XmlRead.Children(elemStoryProject, "AdaptItConfigurations").ToList();
+            if (elemsAiConfigurations.Count == 1)
+            {
+                foreach (var elemAiConfig in XmlRead.Children(elemsAiConfigurations[0], CstrElementLabelAdaptItConfiguration))
+                {
+                    var strBtDirection = XmlRead.RequiredAttr(elemAiConfig, CstrAttributeLabelBtDirection);
+                    if (strBtDirection == AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt.ToString())
+                    {
+                        VernacularToNationalBt = new AdaptItConfiguration();
+                        VernacularToNationalBt.SerializeFromProjectFile(elemAiConfig);
+                    }
+                    if (strBtDirection == AdaptItConfiguration.AdaptItBtDirection.VernacularToInternationalBt.ToString())
+                    {
+                        VernacularToInternationalBt = new AdaptItConfiguration();
+                        VernacularToInternationalBt.SerializeFromProjectFile(elemAiConfig);
+                    }
+                    if (strBtDirection == AdaptItConfiguration.AdaptItBtDirection.NationalBtToInternationalBt.ToString())
+                    {
+                        NationalBtToInternationalBt = new AdaptItConfiguration();
+                        NationalBtToInternationalBt.SerializeFromProjectFile(elemAiConfig);
+                    }
+                }
+            }
+
+            bool bFoundInternationalBt = false, bFoundFreeTranslation = false;
+            if (elemLanguages != null)
+            {
+                foreach (var elemLang in XmlRead.Children(elemLanguages, LanguageInfo.CstrElementLabelLanguageInfo))
+                {
+                    var strLang = XmlRead.RequiredAttr(elemLang, LanguageInfo.CstrAttributeLang);
+                    if (strLang == LineData.CstrAttributeLangVernacular)
+                        Vernacular.Serialize(elemLang);
+                    if (strLang == LineData.CstrAttributeLangNationalBt)
+                        NationalBT.Serialize(elemLang);
+                    if (strLang == LineData.CstrAttributeLangInternationalBt)
+                    {
+                        bFoundInternationalBt = true;
+                        InternationalBT.Serialize(elemLang);
+                    }
+                    if (strLang == LineData.CstrAttributeLangFreeTranslation)
+                    {
+                        bFoundFreeTranslation = true;
+                        FreeTranslation.Serialize(elemLang);
+                    }
+                }
+            }
+
+            // the "international language" will appear to "have data" even when it shouldn't
+            //  so clear out the default language name in this case:
+            if (!bFoundInternationalBt)
+            {
+                InternationalBT.LangName = null;
+                Debug.Assert(!InternationalBT.HasData);
+            }
+
+            // the "international language" will appear to "have data" even when it shouldn't
+            //  so clear out the default language name in this case:
+            if (!bFoundFreeTranslation)
+            {
+                FreeTranslation.LangName = null;
+                Debug.Assert(!FreeTranslation.HasData);
+            }
+
+            // if we're setting this up from the file, then we're "configured"
+            IsConfigured = true;
+        }
+
         public const string CstrAttributeLabelProjectType = "ProjectType";
         public const string CstrAttributeLabelBtDirection = "BtDirection";
         public const string CstrAttributeLabelConverterName = "ConverterName";
@@ -219,6 +327,32 @@ namespace OneStoryProjectEditor
 
                 if (!aAiConfigRow.IsNetworkRepositoryPathNull())
                     NetworkRepositoryPath = aAiConfigRow.NetworkRepositoryPath;
+            }
+
+            // mirrors SerializeFromProjectFile(NewDataSet.AdaptItConfigurationRow)
+            public void SerializeFromProjectFile(XElement elemAdaptItConfiguration)
+            {
+                ProjectType = (AdaptItProjectType)Enum.Parse(typeof(AdaptItProjectType),
+                    XmlRead.RequiredAttr(elemAdaptItConfiguration, CstrAttributeLabelProjectType));
+                BtDirection = (AdaptItBtDirection)Enum.Parse(typeof(AdaptItBtDirection),
+                    XmlRead.RequiredAttr(elemAdaptItConfiguration, CstrAttributeLabelBtDirection));
+                ConverterName = XmlRead.RequiredAttr(elemAdaptItConfiguration, CstrAttributeLabelConverterName);
+
+                var str = XmlRead.Attr(elemAdaptItConfiguration, CstrAttributeLabelProjectFolderName);
+                if (str != null)
+                    ProjectFolderName = str;
+
+                str = XmlRead.Attr(elemAdaptItConfiguration, CstrAttributeLabelRepoProjectName);
+                if (str != null)
+                    RepoProjectName = str;
+
+                str = XmlRead.Attr(elemAdaptItConfiguration, CstrAttributeLabelRepositoryServer);
+                if (str != null)
+                    RepositoryServer = str;
+
+                str = XmlRead.Attr(elemAdaptItConfiguration, CstrAttributeLabelNetworkRepositoryPath);
+                if (str != null)
+                    NetworkRepositoryPath = str;
             }
 
             public AdaptItProjectType ProjectType { get; set; }
@@ -448,6 +582,23 @@ namespace OneStoryProjectEditor
                                                     (DoRtl) ? "right" : "left");
 
                 return strHtmlStyle;
+            }
+
+            // mirrors Serialize(NewDataSet.LanguageInfoRow): elemLanguageInfo is the <LanguageInfo> element
+            public void Serialize(XElement elemLanguageInfo)
+            {
+                LangName = XmlRead.RequiredAttr(elemLanguageInfo, CstrAttributeName);
+                LangCode = XmlRead.RequiredAttr(elemLanguageInfo, CstrAttributeCode);
+                DefaultFontName = XmlRead.RequiredAttr(elemLanguageInfo, CstrAttributeFontName);
+                DefaultFontSize = XmlRead.Float(elemLanguageInfo, CstrAttributeFontSize) ??
+                                  throw new ApplicationException(
+                                      $"The project file is damaged: <{elemLanguageInfo.Name}> is missing the required attribute '{CstrAttributeFontSize}'.");
+                FontToUse = new Font(DefaultFontName, DefaultFontSize);
+                FontColor = Color.FromName(XmlRead.RequiredAttr(elemLanguageInfo, CstrAttributeFontColor));
+                FullStop = XmlRead.RequiredAttr(elemLanguageInfo, CstrAttributeSentenceFinalPunct);
+                DefaultRtl = XmlRead.Bool(elemLanguageInfo, CstrAttributeRTL, false);
+                var strKeyboard = XmlRead.Attr(elemLanguageInfo, CstrAttributeKeyboard);
+                DefaultKeyboard = !String.IsNullOrEmpty(strKeyboard) ? strKeyboard : null;
             }
 
             public void Serialize(NewDataSet.LanguageInfoRow aLangRow)

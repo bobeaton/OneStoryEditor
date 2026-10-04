@@ -415,6 +415,132 @@ namespace OneStoryProjectEditor
             }
         }
 
+        // mirrors TeamMemberData(NewDataSet.MemberRow): elemMember is the <Member> element
+        public TeamMemberData(XElement elemMember)
+        {
+            Name = XmlRead.RequiredAttr(elemMember, CstrAttributeNameName);
+            MemberType = GetMemberType(XmlRead.RequiredAttr(elemMember, CstrAttributeNameMemberType));
+            MemberGuid = XmlRead.RequiredAttr(elemMember, CstrAttributeNameMemberKey);
+
+            // now for the optional ones
+            string str;
+            if ((str = XmlRead.Attr(elemMember, CstrAttributeNameEmail)) != null)
+                Email = str;
+
+            if ((str = XmlRead.Attr(elemMember, CstrAttributeNameSkypeID)) != null)
+                SkypeID = str;
+
+            if ((str = XmlRead.Attr(elemMember, CstrAttributeNameTeamViewerID)) != null)
+                TeamViewerID = str;
+
+            if ((str = XmlRead.Attr(elemMember, CstrAttributeNamePhone)) != null)
+                Phone = str;
+
+            if ((str = XmlRead.Attr(elemMember, CstrAttributeNameAltPhone)) != null)
+                AltPhone = str;
+
+            if ((str = XmlRead.Attr(elemMember, CstrAttributeNameBioData)) != null)
+                BioData = str;
+
+            if ((str = XmlRead.Attr(elemMember, CstrAttributeNameOverrideVernacularKeyboard)) != null)
+                OverrideVernacularKeyboard = str;
+
+            if ((str = XmlRead.Attr(elemMember, CstrAttributeNameOverrideNationalBTKeyboard)) != null)
+                OverrideNationalBTKeyboard = str;
+
+            if ((str = XmlRead.Attr(elemMember, CstrAttributeNameOverrideInternationalBTKeyboard)) != null)
+                OverrideInternationalBTKeyboard = str;
+
+            if ((str = XmlRead.Attr(elemMember, CstrAttributeNameOverrideFreeTranslationKeyboard)) != null)
+                OverrideFreeTranslationKeyboard = str;
+
+            if ((str = XmlRead.Attr(elemMember, CstrAttributeNameOverrideFontNameVernacular)) != null)
+                OverrideFontNameVernacular = str;
+
+            float? fValue;
+            bool? bValue;
+            if ((fValue = XmlRead.Float(elemMember, CstrAttributeNameOverrideFontSizeVernacular)).HasValue)
+                OverrideFontSizeVernacular = fValue.Value;
+
+            if ((bValue = XmlRead.Bool(elemMember, CstrAttributeNameOverrideRtlVernacular)).HasValue)
+                OverrideRtlVernacular = bValue.Value;
+
+            if ((str = XmlRead.Attr(elemMember, CstrAttributeNameOverrideFontNameNationalBT)) != null)
+                OverrideFontNameNationalBT = str;
+
+            if ((fValue = XmlRead.Float(elemMember, CstrAttributeNameOverrideFontSizeNationalBT)).HasValue)
+                OverrideFontSizeNationalBT = fValue.Value;
+
+            if ((bValue = XmlRead.Bool(elemMember, CstrAttributeNameOverrideRtlNationalBT)).HasValue)
+                OverrideRtlNationalBT = bValue.Value;
+
+            if ((str = XmlRead.Attr(elemMember, CstrAttributeNameOverrideFontNameInternationalBT)) != null)
+                OverrideFontNameInternationalBT = str;
+
+            if ((fValue = XmlRead.Float(elemMember, CstrAttributeNameOverrideFontSizeInternationalBT)).HasValue)
+                OverrideFontSizeInternationalBT = fValue.Value;
+
+            if ((bValue = XmlRead.Bool(elemMember, CstrAttributeNameOverrideRtlInternationalBT)).HasValue)
+                OverrideRtlInternationalBT = bValue.Value;
+
+            if ((str = XmlRead.Attr(elemMember, CstrAttributeNameOverrideFontNameFreeTranslation)) != null)
+                OverrideFontNameFreeTranslation = str;
+
+            if ((fValue = XmlRead.Float(elemMember, CstrAttributeNameOverrideFontSizeFreeTranslation)).HasValue)
+                OverrideFontSizeFreeTranslation = fValue.Value;
+
+            if ((bValue = XmlRead.Bool(elemMember, CstrAttributeNameOverrideRtlFreeTranslation)).HasValue)
+                OverrideRtlFreeTranslation = bValue.Value;
+
+            if ((str = XmlRead.Attr(elemMember, CstrAttributeNameHgUsername)) != null)
+                HgUsername = str;
+
+            if ((str = XmlRead.Attr(elemMember, CstrAttributeNameHgPassword)) != null)
+                HgPassword = EncryptionClass.Decrypt(str);
+
+            // transliterator information for the Vernacular field
+            if ((str = XmlRead.Attr(elemMember, CstrAttributeNameTransliteratorVernacular)) != null)
+                TransliteratorNameVernacular = str;
+            if ((bValue = XmlRead.Bool(elemMember, CstrAttributeNameTransliteratorDirectionForwardVernacular)).HasValue)
+                TransliteratorDirectionForwardVernacular = bValue.Value;
+
+            // transliterator information for the National BT
+            if ((str = XmlRead.Attr(elemMember, CstrAttributeNameTransliteratorNationalBT)) != null)
+                TransliteratorNameNationalBT = str;
+            if ((bValue = XmlRead.Bool(elemMember, CstrAttributeNameTransliteratorDirectionForwardNationalBT)).HasValue)
+                TransliteratorDirectionForwardNationalBT = bValue.Value;
+
+            // transliterator information for the International BT
+            if ((str = XmlRead.Attr(elemMember, CstrAttributeNameTransliteratorInternationalBT)) != null)
+                TransliteratorNameInternationalBt = str;
+            if ((bValue = XmlRead.Bool(elemMember, CstrAttributeNameTransliteratorDirectionForwardInternationalBT)).HasValue)
+                TransliteratorDirectionForwardInternationalBt = bValue.Value;
+
+            // transliterator information for the Free Translation
+            if ((str = XmlRead.Attr(elemMember, CstrAttributeNameTransliteratorFreeTranslation)) != null)
+                TransliteratorNameFreeTranslation = str;
+            if ((bValue = XmlRead.Bool(elemMember, CstrAttributeNameTransliteratorDirectionForwardFreeTranslation)).HasValue)
+                TransliteratorDirectionForwardFreeTranslation = bValue.Value;
+
+            var strDefaultAllowed = XmlRead.Attr(elemMember, CstrAttributeLabelDefaultTasksAllowed);
+            var strDefaultRequired = XmlRead.Attr(elemMember, CstrAttributeLabelDefaultTasksRequired);
+            if (IsUser(MemberType, UserTypes.ProjectFacilitator))
+            {
+                if (strDefaultAllowed != null)
+                    DefaultAllowed = (long)(TasksPf.TaskSettings)Enum.Parse(typeof(TasksPf.TaskSettings), strDefaultAllowed);
+                if (strDefaultRequired != null)
+                    DefaultRequired = (long)(TasksPf.TaskSettings)Enum.Parse(typeof(TasksPf.TaskSettings), strDefaultRequired);
+            }
+
+            else if (IsUser(MemberType, UserTypes.ConsultantInTraining))
+            {
+                if (strDefaultAllowed != null)
+                    DefaultAllowed = (long)(TasksCit.TaskSettings)Enum.Parse(typeof(TasksCit.TaskSettings), strDefaultAllowed);
+                if (strDefaultRequired != null)
+                    DefaultRequired = (long)(TasksCit.TaskSettings)Enum.Parse(typeof(TasksCit.TaskSettings), strDefaultRequired);
+            }
+        }
+
         public static UserTypes GetMemberType(string strMemberTypeString)
         {
             if (String.IsNullOrEmpty(strMemberTypeString))
@@ -910,6 +1036,37 @@ namespace OneStoryProjectEditor
                 HasIndependentConsultant = IsThereAnIndependentConsultant;
             else
                 HasIndependentConsultant = theMembersRow.HasIndependentConsultant;
+        }
+
+        // mirrors TeamMembersData(NewDataSet): elemStoryProject is the root element. An absent <Members> is the
+        //  row path's added row (all three 'Has' flags false, not null).
+        public TeamMembersData(XElement elemStoryProject)
+        {
+            var elemMembers = XmlRead.First(elemStoryProject, CstrElementLabelMembers);
+
+            if (elemMembers != null)
+            {
+                foreach (var elemMember in XmlRead.Children(elemMembers, TeamMemberData.CstrElementLabelMember))
+                {
+                    var strName = XmlRead.RequiredAttr(elemMember, TeamMemberData.CstrAttributeNameName);
+                    if (ContainsKey(strName))  // Throw away any duplicates
+                    {
+                        LocalizableMessageBox.Show(String.Format(Localizer.Str("It appears that some other team member has added a duplicate member with the name '{0}', but only one is allowed! The latter one will be discarded"),
+                                                      strName), StoryEditor.OseCaption);
+                    }
+                    else
+                        Add(strName, new TeamMemberData(elemMember));
+                }
+            }
+
+            // if the 'Has...' attributes are new, then get these values from the old method
+            var bHasOutsideEnglishBTer = (elemMembers == null) ? false : XmlRead.Bool(elemMembers, "HasOutsideEnglishBTer");
+            HasOutsideEnglishBTer = bHasOutsideEnglishBTer ?? (elemMembers != null && IsThereAnOutsideEnglishBTer);
+
+            HasLanguageSpecialtyReviewer = (elemMembers != null) && XmlRead.Bool(elemMembers, "HasFirstPassMentor", false);
+
+            var bHasIndependentConsultant = (elemMembers == null) ? false : XmlRead.Bool(elemMembers, "HasIndependentConsultant");
+            HasIndependentConsultant = bHasIndependentConsultant ?? (elemMembers != null && IsThereAnIndependentConsultant);
         }
 
         public string GetNameFromMemberId(string memberId)
