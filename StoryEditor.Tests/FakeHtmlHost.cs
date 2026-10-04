@@ -58,8 +58,11 @@ namespace OneStoryProjectEditor.Tests
             return HtmlMessage.Create(HtmlMessage.CstrTypeReply, payload);
         }
 
+        public int DisposeCount { get; private set; }
+
         public void Dispose()
         {
+            DisposeCount++;
             Control.Dispose();
         }
     }

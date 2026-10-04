@@ -39,6 +39,7 @@ namespace OneStoryProjectEditor
             _dispatcher.Register("hoverRef", m => ShowHoverOver(m.GetString("ref")));
             _htmlHost.MessageReceived += (s, m) => _dispatcher.Dispatch(m);
             _htmlHost.DocumentReady += (s, e) => UpdateButtonEnabledState(true);
+            Disposed += (s, e) => _htmlHost.Dispose();      // stops the host's load watchdog timer
         }
 
         public new void Show()

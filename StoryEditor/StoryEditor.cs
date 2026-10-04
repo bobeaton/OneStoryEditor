@@ -34,8 +34,6 @@ using SayMore.UI.SessionRecording;
 
 namespace OneStoryProjectEditor
 {
-    // have to make this com visible, because 'this' needs to be visible to COM for the 
-    // call to: webBrowserNetBible.ObjectForScripting = this;
     public partial class StoryEditor : Form
     {
         internal StoryProjectData StoryProject;
@@ -2065,31 +2063,44 @@ namespace OneStoryProjectEditor
                 return true;
             }
 
-            var outcome = FlushPendingEdits(false, false);
-            if (outcome == FlushOutcome.Cancelled)
-                return false;   // (as if they'd clicked Cancel on 'save changes?')
+            // a save is already collecting edits (we got here through the message pump it runs); treat that as
+            //  'cancel' so nothing new starts underneath it
+            if (_bInSave)
+                return false;
 
-            if (Modified)
+            _bInSave = true;    // the autosave tick and Ctrl+S stay out while we flush and save
+            try
             {
-                // it's annoying that the keyboard doesn't deactivate so I can just type 'y' for "Yes"
-                Program.ActivateDefaultKeyboard(); // ... do it manually
+                var outcome = FlushPendingEdits(false, false);
+                if (outcome == FlushOutcome.Cancelled)
+                    return false;   // (as if they'd clicked Cancel on 'save changes?')
 
-                if (!advancedSaveTimeoutAsSilentlyAsPossibleMenu.Checked && (outcome != FlushOutcome.SomeEditsMissing))
+                if (Modified)
                 {
-                    var res = QuerySave();
-                    if (res == DialogResult.Cancel)
-                        return false;
-                    if (res == DialogResult.No)
+                    // it's annoying that the keyboard doesn't deactivate so I can just type 'y' for "Yes"
+                    Program.ActivateDefaultKeyboard(); // ... do it manually
+
+                    if (!advancedSaveTimeoutAsSilentlyAsPossibleMenu.Checked && (outcome != FlushOutcome.SomeEditsMissing))
                     {
-                        Modified = false;
-                        return true;
+                        var res = QuerySave();
+                        if (res == DialogResult.Cancel)
+                            return false;
+                        if (res == DialogResult.No)
+                        {
+                            Modified = false;
+                            return true;
+                        }
                     }
+
+                    SaveAfterFlush(outcome);
                 }
 
-                SaveAfterFlush(outcome);
+                return true;
             }
-
-            return true;
+            finally
+            {
+                _bInSave = false;
+            }
         }
 
         protected void ClearFlowControls()
@@ -3056,32 +3067,48 @@ namespace OneStoryProjectEditor
             if (!IsInStoriesSet)
                 return;
 
-            var outcome = FlushPendingEdits(false, true);
-            if (outcome == FlushOutcome.Cancelled)
+            // a save is already collecting edits (the close came in through the message pump it runs); don't close
+            //  underneath it
+            if (_bInSave)
             {
                 e.Cancel = true;
                 return;
             }
 
-            if (Modified)
+            _bInSave = true;    // the autosave tick and Ctrl+S stay out while we flush and save
+            try
             {
-                if (!advancedSaveTimeoutAsSilentlyAsPossibleMenu.Checked && (outcome != FlushOutcome.SomeEditsMissing))
+                var outcome = FlushPendingEdits(false, true);
+                if (outcome == FlushOutcome.Cancelled)
                 {
-                    DialogResult res = QuerySave();
-                    if (res == DialogResult.Cancel)
-                    {
-                        e.Cancel = true;
-                        return;
-                    }
-
-                    if (res != DialogResult.Yes)
-                    {
-                        Modified = false;
-                        return;
-                    }
+                    e.Cancel = true;
+                    return;
                 }
 
-                SaveAfterFlush(outcome);
+                if (Modified)
+                {
+                    if (!advancedSaveTimeoutAsSilentlyAsPossibleMenu.Checked && (outcome != FlushOutcome.SomeEditsMissing))
+                    {
+                        DialogResult res = QuerySave();
+                        if (res == DialogResult.Cancel)
+                        {
+                            e.Cancel = true;
+                            return;
+                        }
+
+                        if (res != DialogResult.Yes)
+                        {
+                            Modified = false;
+                            return;
+                        }
+                    }
+
+                    SaveAfterFlush(outcome);
+                }
+            }
+            finally
+            {
+                _bInSave = false;
             }
 
 #if UseAutoUpgrade

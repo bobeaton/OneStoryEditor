@@ -22,6 +22,22 @@ namespace OneStoryProjectEditor.Tests
         }
 
         [Test]
+        public void DisposingANotePane_DisposesItsHost()
+        {
+            var host = new FakeHtmlHost();
+            new HtmlConsultantNotesControl(host).Dispose();
+            Assert.That(host.DisposeCount, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void DisposingAStoryBtPane_DisposesItsHost()
+        {
+            var host = new FakeHtmlHost();
+            new HtmlStoryBtControl(host).Dispose();
+            Assert.That(host.DisposeCount, Is.EqualTo(1));
+        }
+
+        [Test]
         public void SetSelection_TextareaPostsSelectRange()
         {
             var host = new FakeHtmlHost();

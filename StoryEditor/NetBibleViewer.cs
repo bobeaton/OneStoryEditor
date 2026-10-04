@@ -91,6 +91,7 @@ namespace OneStoryProjectEditor
             _dispatcher.Register("refMouseUp", m => OnDoOnMouseUp(m.GetString("target"), m.GetString("ref")));
             _htmlHost.MessageReceived += (s, m) => _dispatcher.Dispatch(m);
             _htmlHost.DocumentReady += (s, e) => ScrollToElement();
+            Disposed += (s, e) => _htmlHost.Dispose();      // stops the host's load watchdog timer
 
             OnLocalizationChange(false);
             domainUpDownBookNames.ContextMenuStrip = contextMenuStripBibleBooks;

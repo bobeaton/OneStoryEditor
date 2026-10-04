@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 using NetLoc;
@@ -23,6 +23,15 @@ namespace OneStoryProjectEditor
         internal MakeLineNumberLinkVisibleProc MakeLineNumberLinkVisible;
 
         internal string StrIdToScrollTo;
+
+        // the derived panes' designer Dispose overrides call base.Dispose(disposing), which reaches this one.
+        //  The host's Control is in Controls, so WinForms disposes it too; the host's own Dispose is idempotent
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+                Host?.Dispose();
+            base.Dispose(disposing);
+        }
 
         public StoryEditor TheSE { get; set; }
         public virtual StoryData StoryData { get; set; }

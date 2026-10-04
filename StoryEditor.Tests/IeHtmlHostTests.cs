@@ -41,6 +41,16 @@ namespace OneStoryProjectEditor.Tests
         }
 
         [Test]
+        public void Dispose_Twice_DoesNotThrow_AndLaterLoadsAreNoOps()
+        {
+            _host.Dispose();
+            Assert.DoesNotThrow(() => _host.Dispose());
+            Assert.DoesNotThrow(() => _host.LoadHtml("<html><body>late</body></html>"));
+            Assert.DoesNotThrow(() => _host.Post("anything"));
+            Assert.That(_host.IsReady, Is.False);
+        }
+
+        [Test]
         public void LoadHtml_RaisesDocumentReady()
         {
             var nReady = 0;

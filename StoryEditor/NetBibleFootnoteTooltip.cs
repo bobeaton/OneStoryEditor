@@ -24,6 +24,7 @@ namespace OneStoryProjectEditor
             ctrl.TabIndex = 0;
             ctrl.PreviewKeyDown += webBrowser_PreviewKeyDown;
             Controls.Add(ctrl);
+            Disposed += (s, e) => htmlHost.Dispose();       // stops the host's load watchdog timer
         }
 
         private void MinimalHtmlForm_FormClosing(object sender, FormClosingEventArgs e)
