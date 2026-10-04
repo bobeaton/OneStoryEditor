@@ -88,12 +88,19 @@ Rejected:
 - **Asynchronous start-up.**
   - The control starts asynchronously. `LoadHtml`, `Post` and `Request` made before it has started are handled the same
     way as before `ready`: loads are deferred, posts are queued, requests return null.
-  - `Request` pumps with the same bounded wait as `IeHtmlHost`, which the spike confirms works.
+  - `Request` pumps with the same bounded wait as `IeHtmlHost`, which the spike confirms works when the
+    `Request` is made from outside a `WebMessageReceived` handler (see "Messages" above and the spike findings, Q6).
 - **Keys.**
   - The page handles F5, Ctrl+F5 and Ctrl+S, as with IE.
-  - `CoreWebView2Controller.AcceleratorKeyPressed` lets through Ctrl+F (find), clipboard keys, and text-editing keys.
-  - It marks as handled (blocks): reload (F5 and Ctrl+R, after the page has seen them), print (Ctrl+P), Ctrl+N/T/O/W,
-    Alt+Left/Right, Ctrl+U, F12 in Release, and other browser-level commands.
+  - *(Amended by the spike, see "Spike findings", Q6; provisional until `Wv2Spike.exe q6` runs on an unlocked desktop.)*
+    `AcceleratorKeyPressed` filtering is **not** used, because the WinForms `WebView2` control doesn't expose the
+    `CoreWebView2Controller` event. Instead:
+    - Browser accelerator keys stay enabled, so Ctrl+F (find), clipboard keys and text-editing keys work.
+    - The modern page's `keydown` handler calls `preventDefault()` for F5, Ctrl+R and Ctrl+P, after handling its own
+      F5/Ctrl+F5.
+    - The `NavigationStarting` guard cancels any reload or back/forward navigation that still gets through, such as
+      Alt+Left/Right. This is verified for programmatic and page-initiated back/forward and reload.
+    - Whether Ctrl+F opens the find bar is a manual-check item.
 - **Print.** `ShowPrintPreview()` → `CoreWebView2.ShowPrintUI(CoreWebView2PrintDialogKind.Browser)`.
 - **Engine.** `IHtmlHost` gains `HtmlEngine Engine { get; }` (`Ie` | `WebView2`).
 
@@ -313,7 +320,8 @@ If an answer is "no", the plan uses the fallback named above, and this spec gets
 - **Standards-mode layout differences.** Covered by the visual comparison; fixes stay in the modern CSS.
 - **Mirror highlight fidelity** with complex scripts and Keyman. The spike checks it first; the mirror copies all
   computed text metrics.
-- **Drag-and-drop between the Bible pane and the panes.** The spike picks HTML5 drag or a WinForms text `DataObject`.
+- **Drag-and-drop between the Bible pane and the panes.** See the spike findings, Q3. Provisional
+  choice: HTML5 drag, with a WinForms text `DataObject` as the fallback.
 - **Focus, Tab and keyboard (Keyman) across the WinForms/WebView2 process boundary.** On the manual checklist.
   `MoveFocusRequested` is handled if Tab gets stuck.
 - **`Request` pumping while WebView2 runs in another process.** The spike checks it; the existing timeouts and the
@@ -328,7 +336,9 @@ Setup:
   `WebView2Loader.dll` next to the exe.
 - The throwaway harness is in the session scratchpad:
   `C:\Users\pete_\AppData\Local\Temp\claude\c--Users-pete--source-repos-OneStoryEditor\2363c84b-2c3f-4dd6-936b-1ad00b798e87\scratchpad\wv2spike\`
-  (`Wv2Spike.exe` in `bin\Debug`).
+  (`Wv2Spike.exe` in `bin\Debug`). That folder belongs to one session. If it is gone, rebuild the harness from the
+  description in `.superpowers/sdd/2026-10-04-webview2-host/task-1-report.md`: an SDK-style net48 x86 WinForms exe with
+  two `WebView2` controls, pages served from `https://ose.pane/*`, and one mode per question.
 - The real-input runs (Q3, and the key part of Q6) could not run: the Windows session was disconnected, and injected
   mouse and keyboard input reaches no window in that state. Those answers are **provisional** until someone runs them
   on an unlocked desktop.
@@ -398,8 +408,10 @@ Setup:
     - This replaces the `AcceleratorKeyPressed` filtering in Section 1, because the WinForms control doesn't expose the
       controller event.
 
-    To confirm key delivery, run `Wv2Spike.exe q6` on an unlocked desktop. **Whether Ctrl+F opens the find bar is a
-    manual-check item.**
+    To confirm key delivery, run `Wv2Spike.exe q6` on an unlocked desktop. Record each key on its own: F5, Ctrl+R,
+    Ctrl+P, Ctrl+F and Alt+Left. For each, note whether the page saw it, whether `preventDefault` stopped it, and
+    whether it raised `NavigationStarting` or `beforeprint`. **Whether Ctrl+F opens the find bar is a manual-check
+    item.**
   - **Request inside `WebMessageReceived` (verified): it times out.**
     - A `Request` made inside a `WebMessageReceived` handler timed out after 2 s, and so did one to the other control.
     - The replies arrived as soon as the handler returned.
