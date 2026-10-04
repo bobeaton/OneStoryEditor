@@ -1,0 +1,3 @@
+<LnCNotes>
+  <LnCNote guid="g1" VernacularRendering="v">-</LnCNote>
+</LnCNotes>

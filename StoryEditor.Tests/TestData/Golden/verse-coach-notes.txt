@@ -1,0 +1,74 @@
+== verse 0
+Count: 0
+== verse 1
+Count: 0
+== verse 2
+Count: 0
+== verse 3
+Count: 0
+== verse 4
+Count: 0
+== verse 5
+Count: 2
+conversation 0 guid: [00000000-0000-0000-0000-000000000070]
+conversation 0 Visible: False
+conversation 0 IsFinished: True
+conversation 0 AllowButtonsOverride: False
+conversation 0 DontShowButtonsOverride: False
+conversation 0 Count: 2
+conversation 0 ReferringText Direction: eReferringToText
+conversation 0 ReferringText Guid: [00000000-0000-0000-0000-000000000071]
+conversation 0 ReferringText MemberId: [mem-00000000-0000-0000-0000-000000000001]
+conversation 0 ReferringText Value: [coach referring]
+conversation 0 ReferringText WhichField: CoachNote
+conversation 0 ReferringText TimeStamp: timeStamp="2026-10-03T12:34:56Z" kind=Local
+conversation 0 comment 0 Direction: eCoachToConsultant
+conversation 0 comment 0 Guid: [00000000-0000-0000-0000-000000000072]
+conversation 0 comment 0 MemberId: <null>
+conversation 0 comment 0 Value: [coach mentor note without member]
+conversation 0 comment 0 WhichField: CoachNote
+conversation 0 comment 0 TimeStamp: timeStamp="2026-10-03T12:34:56Z" kind=Local
+conversation 0 comment 1 Direction: eConsultantToCoach
+conversation 0 comment 1 Guid: [00000000-0000-0000-0000-000000000073]
+conversation 0 comment 1 MemberId: [mem-00000000-0000-0000-0000-000000000001]
+conversation 0 comment 1 Value: [consultant asks]
+conversation 0 comment 1 WhichField: CoachNote
+conversation 0 comment 1 TimeStamp: timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}" kind=Local
+conversation 0 GetXml:
+<CoachConversation guid="00000000-0000-0000-0000-000000000070" visible="false" finished="true">
+  <CoachNote Direction="ReferringToText" guid="00000000-0000-0000-0000-000000000071" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">coach referring</CoachNote>
+  <CoachNote Direction="CoachToConsultant" guid="00000000-0000-0000-0000-000000000072" timeStamp="2026-10-03T12:34:56Z">coach mentor note without member</CoachNote>
+  <CoachNote Direction="ConsultantToCoach" guid="00000000-0000-0000-0000-000000000073" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}">consultant asks</CoachNote>
+</CoachConversation>
+conversation 1 guid: [00000000-0000-0000-0000-000000000074]
+conversation 1 Visible: True
+conversation 1 IsFinished: False
+conversation 1 AllowButtonsOverride: False
+conversation 1 DontShowButtonsOverride: False
+conversation 1 Count: 1
+conversation 1 ReferringText: <null>
+conversation 1 comment 0 Direction: eStickyNote
+conversation 1 comment 0 Guid: [00000000-0000-0000-0000-000000000075]
+conversation 1 comment 0 MemberId: [mem-00000000-0000-0000-0000-000000000001]
+conversation 1 comment 0 Value: [coach sticky]
+conversation 1 comment 0 WhichField: CoachNote
+conversation 1 comment 0 TimeStamp: timeStamp="{NOW}" kind=Local
+conversation 1 GetXml:
+<CoachConversation guid="00000000-0000-0000-0000-000000000074">
+  <CoachNote Direction="StickyNote" guid="00000000-0000-0000-0000-000000000075" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{NOW}">coach sticky</CoachNote>
+</CoachConversation>
+GetXml:
+<CoachNotes>
+  <CoachConversation guid="00000000-0000-0000-0000-000000000070" visible="false" finished="true">
+    <CoachNote Direction="ReferringToText" guid="00000000-0000-0000-0000-000000000071" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">coach referring</CoachNote>
+    <CoachNote Direction="CoachToConsultant" guid="00000000-0000-0000-0000-000000000072" timeStamp="2026-10-03T12:34:56Z">coach mentor note without member</CoachNote>
+    <CoachNote Direction="ConsultantToCoach" guid="00000000-0000-0000-0000-000000000073" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}">consultant asks</CoachNote>
+  </CoachConversation>
+  <CoachConversation guid="00000000-0000-0000-0000-000000000074">
+    <CoachNote Direction="StickyNote" guid="00000000-0000-0000-0000-000000000075" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{NOW}">coach sticky</CoachNote>
+  </CoachConversation>
+</CoachNotes>
+== verse 6
+Count: 0
+== verse 7
+Count: 0

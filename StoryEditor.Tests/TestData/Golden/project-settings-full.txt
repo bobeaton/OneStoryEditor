@@ -1,0 +1,106 @@
+Vernacular LangType: [Vernacular]
+Vernacular LangName: [Testish]
+Vernacular LangCode: [tst]
+Vernacular DefaultFontName: [Charis SIL]
+Vernacular DefaultFontSize: 12.5
+Vernacular FontToUse.Name: [Charis SIL]
+Vernacular FontToUse.Size: 12.5
+Vernacular FontColor.Name: [Maroon]
+Vernacular FullStop: [.!?:]
+Vernacular DefaultKeyboard: [Keyman Vern default]
+Vernacular KeyboardOverride: <null>
+Vernacular DefaultRtl: True
+Vernacular InvertRtl: False
+Vernacular HasData: True
+NationalBT LangType: [NationalBt]
+NationalBT LangName: [Nationalese]
+NationalBT LangCode: [nat]
+NationalBT DefaultFontName: [Arial]
+NationalBT DefaultFontSize: 11
+NationalBT FontToUse.Name: [Arial]
+NationalBT FontToUse.Size: 11
+NationalBT FontColor.Name: [Green]
+NationalBT FullStop: [.]
+NationalBT DefaultKeyboard: <null>
+NationalBT KeyboardOverride: <null>
+NationalBT DefaultRtl: False
+NationalBT InvertRtl: False
+NationalBT HasData: True
+InternationalBT LangType: [InternationalBt]
+InternationalBT LangName: [English]
+InternationalBT LangCode: [en]
+InternationalBT DefaultFontName: [Times New Roman]
+InternationalBT DefaultFontSize: 10
+InternationalBT FontToUse.Name: [Times New Roman]
+InternationalBT FontToUse.Size: 10
+InternationalBT FontColor.Name: [Blue]
+InternationalBT FullStop: [.!?]
+InternationalBT DefaultKeyboard: <null>
+InternationalBT KeyboardOverride: <null>
+InternationalBT DefaultRtl: False
+InternationalBT InvertRtl: False
+InternationalBT HasData: True
+FreeTranslation LangType: [FreeTranslation]
+FreeTranslation LangName: [Free English]
+FreeTranslation LangCode: [en]
+FreeTranslation DefaultFontName: [Times New Roman]
+FreeTranslation DefaultFontSize: 10
+FreeTranslation FontToUse.Name: [Times New Roman]
+FreeTranslation FontToUse.Size: 10
+FreeTranslation FontColor.Name: [ForestGreen]
+FreeTranslation FullStop: [.!?]
+FreeTranslation DefaultKeyboard: <null>
+FreeTranslation KeyboardOverride: <null>
+FreeTranslation DefaultRtl: False
+FreeTranslation InvertRtl: False
+FreeTranslation HasData: True
+ShowRetellings Vernacular: True
+ShowRetellings NationalBt: False
+ShowRetellings InternationalBt: True
+ShowTestQuestions Vernacular: False
+ShowTestQuestions NationalBt: True
+ShowTestQuestions InternationalBt: True
+ShowAnswers Vernacular: False
+ShowAnswers NationalBt: False
+ShowAnswers InternationalBt: True
+VernacularToNationalBt ProjectType: LocalAiProjectOnly
+VernacularToNationalBt BtDirection: VernacularToNationalBt
+VernacularToNationalBt ConverterName: [AI Vern to Nat]
+VernacularToNationalBt ProjectFolderName: [Tst to Nat]
+VernacularToNationalBt RepoProjectName: <null>
+VernacularToNationalBt RepositoryServer: <null>
+VernacularToNationalBt NetworkRepositoryPath: <null>
+VernacularToNationalBt GetXml:
+<AdaptItConfiguration BtDirection="VernacularToNationalBt" ProjectType="LocalAiProjectOnly" ConverterName="AI Vern to Nat" ProjectFolderName="Tst to Nat" />
+VernacularToInternationalBt ProjectType: SharedAiProject
+VernacularToInternationalBt BtDirection: VernacularToInternationalBt
+VernacularToInternationalBt ConverterName: [AI Vern to Intl]
+VernacularToInternationalBt ProjectFolderName: [Tst to Eng]
+VernacularToInternationalBt RepoProjectName: [Tst-Eng]
+VernacularToInternationalBt RepositoryServer: [https://example.org/hg]
+VernacularToInternationalBt NetworkRepositoryPath: [\\server\share\Tst-Eng]
+VernacularToInternationalBt GetXml:
+<AdaptItConfiguration BtDirection="VernacularToInternationalBt" ProjectType="SharedAiProject" ConverterName="AI Vern to Intl" ProjectFolderName="Tst to Eng" RepoProjectName="Tst-Eng" RepositoryServer="https://example.org/hg" NetworkRepositoryPath="\\server\share\Tst-Eng" />
+NationalBtToInternationalBt ProjectType: None
+NationalBtToInternationalBt BtDirection: NationalBtToInternationalBt
+NationalBtToInternationalBt ConverterName: [AI Nat to Intl]
+NationalBtToInternationalBt ProjectFolderName: <null>
+NationalBtToInternationalBt RepoProjectName: <null>
+NationalBtToInternationalBt RepositoryServer: <null>
+NationalBtToInternationalBt NetworkRepositoryPath: <null>
+NationalBtToInternationalBt GetXml:
+<AdaptItConfiguration BtDirection="NationalBtToInternationalBt" ProjectType="None" ConverterName="AI Nat to Intl" />
+IsConfigured: True
+GetXml:
+<Languages UseRetellingVernacular="true" UseRetellingNationalBT="false" UseRetellingInternationalBT="true" UseTestQuestionVernacular="false" UseTestQuestionNationalBT="true" UseTestQuestionInternationalBT="true" UseAnswerVernacular="false" UseAnswerNationalBT="false" UseAnswerInternationalBT="true">
+  <LanguageInfo lang="Vernacular" name="Testish" code="tst" FontName="Charis SIL" FontSize="12.5" FontColor="Maroon" SentenceFinalPunct=".!?:" RTL="true" Keyboard="Keyman Vern default" />
+  <LanguageInfo lang="NationalBt" name="Nationalese" code="nat" FontName="Arial" FontSize="11" FontColor="Green" SentenceFinalPunct="." />
+  <LanguageInfo lang="InternationalBt" name="English" code="en" FontName="Times New Roman" FontSize="10" FontColor="Blue" SentenceFinalPunct=".!?" />
+  <LanguageInfo lang="FreeTranslation" name="Free English" code="en" FontName="Times New Roman" FontSize="10" FontColor="ForestGreen" SentenceFinalPunct=".!?" />
+</Languages>
+HasAdaptItConfigurationData: True
+AdaptItConfigXml:
+<AdaptItConfigurations>
+  <AdaptItConfiguration BtDirection="VernacularToNationalBt" ProjectType="LocalAiProjectOnly" ConverterName="AI Vern to Nat" ProjectFolderName="Tst to Nat" />
+  <AdaptItConfiguration BtDirection="VernacularToInternationalBt" ProjectType="SharedAiProject" ConverterName="AI Vern to Intl" ProjectFolderName="Tst to Eng" RepoProjectName="Tst-Eng" RepositoryServer="https://example.org/hg" NetworkRepositoryPath="\\server\share\Tst-Eng" />
+</AdaptItConfigurations>

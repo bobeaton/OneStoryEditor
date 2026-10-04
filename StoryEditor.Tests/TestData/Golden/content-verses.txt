@@ -1,0 +1,133 @@
+== verse 0
+guid: [00000000-0000-0000-0000-000000000020]
+IsFirstVerse: False
+IsVisible: True
+GetXml:
+<Verse guid="00000000-0000-0000-0000-000000000020">
+  <Anchors keyTermChecked="false">
+    <Anchor jumpTarget="GEN 1:1">GEN 1:1</Anchor>
+    <Anchor jumpTarget="GEN 1:2">GEN 1:2</Anchor>
+    <Anchor jumpTarget="GEN 1:3">text</Anchor>
+  </Anchors>
+  <ConsultantNotes>
+    <ConsultantConversation guid="00000000-0000-0000-0000-000000000040">
+      <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000041" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">note Z</ConsultantNote>
+      <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000042" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">note local</ConsultantNote>
+      <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000043" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}">note offset</ConsultantNote>
+      <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000044" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{NOW}">no timestamp</ConsultantNote>
+    </ConsultantConversation>
+  </ConsultantNotes>
+</Verse>
+== verse 1
+guid: [00000000-0000-0000-0000-000000000021]
+IsFirstVerse: True
+IsVisible: False
+GetXml:
+<Verse guid="00000000-0000-0000-0000-000000000021" first="true" visible="false">
+  <ConsultantNotes>
+    <ConsultantConversation guid="00000000-0000-0000-0000-000000000045" finished="true">
+      <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000046" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">n</ConsultantNote>
+    </ConsultantConversation>
+  </ConsultantNotes>
+</Verse>
+== verse 2
+guid: [00000000-0000-0000-0000-000000000022]
+IsFirstVerse: False
+IsVisible: True
+GetXml:
+<Verse guid="00000000-0000-0000-0000-000000000022" />
+== verse 3
+guid: [00000000-0000-0000-0000-000000000023]
+IsFirstVerse: True
+IsVisible: True
+GetXml:
+<Verse guid="00000000-0000-0000-0000-000000000023" first="true">
+  <StoryLine lang="Vernacular">  padded text  </StoryLine>
+</Verse>
+== verse 4
+guid: [00000000-0000-0000-0000-000000000024]
+IsFirstVerse: False
+IsVisible: True
+GetXml:
+<Verse guid="00000000-0000-0000-0000-000000000024">
+  <StoryLine lang="Vernacular">plain</StoryLine>
+</Verse>
+== verse 5
+guid: [00000000-0000-0000-0000-000000000030]
+IsFirstVerse: False
+IsVisible: True
+GetXml:
+<Verse guid="00000000-0000-0000-0000-000000000030">
+  <StoryLine lang="Vernacular">verse content line</StoryLine>
+  <Anchors keyTermChecked="true">
+    <Anchor jumpTarget="EXO 2:1">anchor comment</Anchor>
+    <Anchor jumpTarget="EXO 2:2">EXO 2:2</Anchor>
+  </Anchors>
+  <ExegeticalHelps>
+    <ExegeticalHelp>first help note</ExegeticalHelp>
+    <ExegeticalHelp>second help note</ExegeticalHelp>
+  </ExegeticalHelps>
+  <TestQuestions>
+    <TestQuestion visible="true" guid="00000000-0000-0000-0000-000000000050">
+      <TestQuestionLine lang="Vernacular">why?</TestQuestionLine>
+      <TestQuestionLine lang="InternationalBt">  padded why  </TestQuestionLine>
+      <Answers>
+        <Answer lang="Vernacular" memberID="mem-00000000-0000-0000-0000-000000000001">because</Answer>
+        <Answer lang="NationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+        <Answer lang="InternationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+      </Answers>
+    </TestQuestion>
+    <TestQuestion visible="false" guid="00000000-0000-0000-0000-000000000051">
+      <TestQuestionLine lang="Vernacular">hidden question</TestQuestionLine>
+      <Answers />
+    </TestQuestion>
+  </TestQuestions>
+  <Retellings>
+    <Retelling lang="Vernacular" memberID="mem-00000000-0000-0000-0000-000000000001">a retelling</Retelling>
+    <Retelling lang="NationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+    <Retelling lang="InternationalBt" memberID="mem-00000000-0000-0000-0000-000000000001">retelling bt</Retelling>
+  </Retellings>
+  <ConsultantNotes>
+    <ConsultantConversation guid="00000000-0000-0000-0000-000000000060" visible="false" finished="true">
+      <ConsultantNote Direction="ReferringToText" guid="00000000-0000-0000-0000-000000000061" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">referring text</ConsultantNote>
+      <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000062" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">consultant says</ConsultantNote>
+      <ConsultantNote Direction="ProjFacToConsultant" guid="00000000-0000-0000-0000-000000000063" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}">pf replies</ConsultantNote>
+    </ConsultantConversation>
+    <ConsultantConversation guid="00000000-0000-0000-0000-000000000064">
+      <ConsultantNote Direction="StickyNote" guid="00000000-0000-0000-0000-000000000065" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">sticky</ConsultantNote>
+    </ConsultantConversation>
+    <ConsultantConversation guid="00000000-0000-0000-0000-000000000066">
+      <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000067" timeStamp="2026-10-03T12:34:56Z">mentor note without member</ConsultantNote>
+      <ConsultantNote Direction="ProjFacToConsultant" guid="00000000-0000-0000-0000-000000000068" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{NOW}">reply with no stamp</ConsultantNote>
+    </ConsultantConversation>
+  </ConsultantNotes>
+  <CoachNotes>
+    <CoachConversation guid="00000000-0000-0000-0000-000000000070" visible="false" finished="true">
+      <CoachNote Direction="ReferringToText" guid="00000000-0000-0000-0000-000000000071" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">coach referring</CoachNote>
+      <CoachNote Direction="CoachToConsultant" guid="00000000-0000-0000-0000-000000000072" timeStamp="2026-10-03T12:34:56Z">coach mentor note without member</CoachNote>
+      <CoachNote Direction="ConsultantToCoach" guid="00000000-0000-0000-0000-000000000073" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}">consultant asks</CoachNote>
+    </CoachConversation>
+    <CoachConversation guid="00000000-0000-0000-0000-000000000074">
+      <CoachNote Direction="StickyNote" guid="00000000-0000-0000-0000-000000000075" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{NOW}">coach sticky</CoachNote>
+    </CoachConversation>
+  </CoachNotes>
+</Verse>
+== verse 6
+guid: [00000000-0000-0000-0000-000000000031]
+IsFirstVerse: False
+IsVisible: True
+GetXml:
+<Verse guid="00000000-0000-0000-0000-000000000031">
+  <StoryLine lang="Vernacular">second content line</StoryLine>
+  <Anchors keyTermChecked="false">
+    <Anchor jumpTarget="EXO 3:1">no key term flag</Anchor>
+  </Anchors>
+</Verse>
+== verse 7
+guid: [00000000-0000-0000-0000-000000000032]
+IsFirstVerse: False
+IsVisible: True
+GetXml:
+<Verse guid="00000000-0000-0000-0000-000000000032">
+  <StoryLine lang="Vernacular">third content line</StoryLine>
+</Verse>

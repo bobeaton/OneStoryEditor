@@ -7,6 +7,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
 using NUnit.Framework;
+using OneStoryProjectEditor.Tests.ReleasedExeDataSet;
 using OseCommon;
 
 namespace OneStoryProjectEditor.Tests
@@ -120,7 +121,7 @@ namespace OneStoryProjectEditor.Tests
         }
 
         [Test]
-        public void FileWrittenByGetXml_PassesValidation_AndLoadsWithProjectReader()
+        public void FileWrittenByGetXml_PassesValidation_AndLoadsWithTheReleasedExesDataSet()
         {
             var strFolder = MakeProjectFolder();
             var strPath = Path.Combine(strFolder, ProjectName + ".onestory");
@@ -134,10 +135,9 @@ namespace OneStoryProjectEditor.Tests
             Assert.DoesNotThrow(() => ProjectFileValidator.Validate(strSaved));
             Assert.DoesNotThrow(() => ProjectFile.Load(strSaved));
 
-            // the released exe's typed DataSet must read it too
-            ProjectReader ds = null;
-            Assert.DoesNotThrow(() => ProjectReader.ReadProjectFile(strSaved, out ds));
-            Assert.That(ds, Is.Not.Null);
+            // the released exe's typed DataSet (a test-only copy of its generated class) must read it too
+            var ds = new NewDataSet();
+            Assert.DoesNotThrow(() => ds.ReadXml(strSaved));
             Assert.That(ds.story.Count, Is.GreaterThan(0));
         }
 
@@ -209,7 +209,7 @@ namespace OneStoryProjectEditor.Tests
                 LegacyTextRepair.DecodeUnlessMarked(wrapper);
                 // (the project load also clears values that are only a language's name; paste doesn't)
                 LegacyTextRepair.ClearLanguageNamePlaceholders(wrapper);
-                ProjectReader.UniqueStoryGuids.Clear();     // (the project load registered this guid; a story seen twice gets a new one)
+                ProjectFile.UniqueStoryGuids.Clear();     // (the project load registered this guid; a story seen twice gets a new one)
                 var pasted = new StoryData(wrapper.Element(StoryData.CstrElementNameStory), strFolder);
                 var strName = (string)elemStory.Attribute("name");
                 Assert.That(StripGeneratedGuids(pasted.GetXml.ToString()), Is.EqualTo(StripGeneratedGuids(normal[i])), "story " + strName);
@@ -236,7 +236,7 @@ namespace OneStoryProjectEditor.Tests
             {
                 var elem = XElement.Parse(node.OuterXml);   // what GetPresentationHtmlForChorus does
                 LegacyTextRepair.DecodePlainTextElements(elem);
-                ProjectReader.UniqueStoryGuids.Clear();
+                ProjectFile.UniqueStoryGuids.Clear();
                 var story = new StoryData(elem, strFolder);
                 var strXml = story.GetXml.ToString();
                 if (elem.Descendants().Any(e => (string)e.Attribute("finished") == "true"))

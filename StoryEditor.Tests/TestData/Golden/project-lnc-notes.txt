@@ -1,0 +1,14 @@
+note 0 Notes: [note with renderings\r\nsecond line]
+note 0 VernacularRendering: [verb\r\nrendering]
+note 0 NationalBtRendering: [national rendering]
+note 0 InternationalBtRendering: [intl rendering]
+note 1 Notes: [plain note]
+note 1 VernacularRendering: <null>
+note 1 NationalBtRendering: <null>
+note 1 InternationalBtRendering: <null>
+GetXml:
+<LnCNotes>
+  <LnCNote guid="00000000-0000-0000-0000-000000000501" VernacularRendering="verb&#xA;rendering" NationalBTRendering="national rendering" InternationalBTRendering="intl rendering" KeyTermIds="KT1, KT2">note with renderings
+second line</LnCNote>
+  <LnCNote guid="00000000-0000-0000-0000-000000000502">plain note</LnCNote>
+</LnCNotes>

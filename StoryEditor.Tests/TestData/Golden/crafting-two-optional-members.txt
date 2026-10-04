@@ -1,0 +1,3 @@
+<CraftingInfo NonBiblicalStory="false">
+  <StoryCrafter memberID="m1"></StoryCrafter>
+</CraftingInfo>

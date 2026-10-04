@@ -96,25 +96,6 @@ namespace OneStoryProjectEditor
             InitEmpty(whichField);
         }
 
-        public LineData(XmlNode node, string strNodeLabel, StoryEditor.TextFields whichField)
-        {
-            InitEmpty(whichField);
-            if (node == null)
-                return;
-
-            XmlNodeList list = node.SelectNodes(strNodeLabel);
-            if (list != null)
-                foreach (XmlNode nodeData in list)
-                {
-                    if (nodeData.Attributes != null)
-                    {
-                        XmlAttribute attr = nodeData.Attributes[CstrAttributeLang];
-                        string strLang = (attr != null) ? attr.Value : null;
-                        SetValue(strLang, nodeData.InnerText);
-                    }
-                }
-        }
-
         private void InitEmpty(StoryEditor.TextFields whichField)
         {
             Vernacular = new StringTransfer(null, whichField | StoryEditor.TextFields.Vernacular);
@@ -220,30 +201,6 @@ namespace OneStoryProjectEditor
             // set { StoryLine.FreeTranslation = value; }
         }
         */
-        public VerseData(NewDataSet.VerseRow theVerseRow, NewDataSet projFile)
-        {
-            guid = theVerseRow.guid;
-
-            if (!theVerseRow.IsfirstNull())
-                IsFirstVerse = theVerseRow.first;
-
-            if (!theVerseRow.IsvisibleNull())
-                IsVisible = theVerseRow.visible;
-
-            StoryLine = new LineData(StoryEditor.TextFields.StoryLine);
-            foreach (NewDataSet.StoryLineRow aStoryLine in theVerseRow.GetStoryLineRows())
-                StoryLine.SetValue(aStoryLine.lang,
-                    (aStoryLine.IsStoryLine_textNull()) ? null : aStoryLine.StoryLine_text);
-
-            Anchors = new AnchorsData(theVerseRow, projFile);
-            ExegeticalHelpNotes = new ExegeticalHelpNotesData(theVerseRow, projFile);
-            TestQuestions = new TestQuestionsData(theVerseRow, projFile);
-            Retellings = new RetellingsData(theVerseRow, projFile);
-            ConsultantNotes = new ConsultantNotesData(theVerseRow, projFile);
-            CoachNotes = new CoachNotesData(theVerseRow, projFile);
-        }
-
-        // mirrors VerseData(NewDataSet.VerseRow, NewDataSet)
         public VerseData(XElement elemVerse)
         {
             guid = XmlRead.RequiredAttr(elemVerse, CstrAttributeGuid);
@@ -279,21 +236,6 @@ namespace OneStoryProjectEditor
             Retellings = new RetellingsData();
             ConsultantNotes = new ConsultantNotesData();
             CoachNotes = new CoachNotesData();
-        }
-
-        public VerseData(XmlNode node)
-        {
-            XmlAttribute attr;
-            guid = ((attr = node.Attributes[CstrAttributeGuid]) != null) ? attr.Value : null;   // can't really happen
-            IsFirstVerse = ((attr = node.Attributes[CstrAttributeFirstVerse]) != null) ? (attr.Value == "true") : false;
-            IsVisible = ((attr = node.Attributes[CstrAttributeVisible]) != null) ? (attr.Value == "true") : true;
-            StoryLine = new LineData(node, CstrFieldNameStoryLine, StoryEditor.TextFields.StoryLine);
-            Anchors = new AnchorsData(node.SelectSingleNode(AnchorsData.CstrElementLabelAnchors));
-            ExegeticalHelpNotes = new ExegeticalHelpNotesData(node.SelectSingleNode(ExegeticalHelpNotesData.CstrElementLabelExegeticalHelps));
-            TestQuestions = new TestQuestionsData(node.SelectSingleNode(TestQuestionsData.CstrElementLabelTestQuestions));
-            Retellings = new RetellingsData(node.SelectSingleNode(RetellingsData.CstrElementLableRetellings));
-            ConsultantNotes = new ConsultantNotesData(node.SelectSingleNode(ConsultantNotesData.CstrCollectionElementName));
-            CoachNotes = new CoachNotesData(node.SelectSingleNode(CoachNotesData.CstrCollectionElementName));
         }
 
         public VerseData(VerseData rhs)
@@ -1450,43 +1392,13 @@ namespace OneStoryProjectEditor
     {
         public VerseData FirstVerse;    // full-story oriented line (no BT) for ConNotes
 
-        public VersesData(NewDataSet.storyRow theStoryRow, NewDataSet projFile)
-        {
-            NewDataSet.VersesRow[] theVersesRows = theStoryRow.GetVersesRows();
-            NewDataSet.VersesRow theVersesRow;
-            if (theVersesRows.Length == 0)
-                theVersesRow = projFile.Verses.AddVersesRow(theStoryRow);
-            else
-                theVersesRow = theVersesRows[0];
-
-            foreach (NewDataSet.VerseRow aVerseRow in theVersesRow.GetVerseRows())
-                Add(new VerseData(aVerseRow, projFile));
-
-            AdjustmentForFirstVerse();
-        }
-
-        // mirrors VersesData(NewDataSet.storyRow, NewDataSet): only the first <Verses> is read; none means no verses
+        // only the first <Verses> is read; none means no verses
         public VersesData(XElement elemStory)
         {
             var elemVerses = XmlRead.First(elemStory, CstrElementLabelVerses);
             if (elemVerses != null)
                 foreach (var elemVerse in XmlRead.Children(elemVerses, VerseData.CstrElementLabelVerse))
                     Add(new VerseData(elemVerse));
-
-            AdjustmentForFirstVerse();
-        }
-
-        public VersesData(XmlNode node)
-        {
-            if (node == null)
-                return;
-
-            XmlNodeList list = node.SelectNodes(VerseData.CstrElementLabelVerse);
-            if (list == null)
-                return;
-
-            foreach (XmlNode nodeVerse in list)
-                Add(new VerseData(nodeVerse));
 
             AdjustmentForFirstVerse();
         }

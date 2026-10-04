@@ -1,0 +1,35 @@
+== verse 0
+retellings Count: 0
+retellings HasData: False
+== verse 1
+retellings Count: 0
+retellings HasData: False
+== verse 2
+retellings Count: 0
+retellings HasData: False
+== verse 3
+retellings Count: 0
+retellings HasData: False
+== verse 4
+retellings Count: 0
+retellings HasData: False
+== verse 5
+retellings Count: 1
+retellings HasData: True
+retellings line 0 MemberId: [mem-00000000-0000-0000-0000-000000000001]
+retellings line 0 vern: [a retelling]
+retellings line 0 nat: <null>
+retellings line 0 intl: [retelling bt]
+retellings line 0 free: <null>
+retellings GetXml:
+<Retellings>
+  <Retelling lang="Vernacular" memberID="mem-00000000-0000-0000-0000-000000000001">a retelling</Retelling>
+  <Retelling lang="NationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+  <Retelling lang="InternationalBt" memberID="mem-00000000-0000-0000-0000-000000000001">retelling bt</Retelling>
+</Retellings>
+== verse 6
+retellings Count: 0
+retellings HasData: False
+== verse 7
+retellings Count: 0
+retellings HasData: False

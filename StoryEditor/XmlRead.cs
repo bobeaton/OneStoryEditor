@@ -7,8 +7,8 @@ namespace OneStoryProjectEditor
 {
     /// <summary>
     /// Parsing helpers for loading a project file from XElements. Each helper reproduces what the
-    /// typed DataSet (NewDataSet) used to yield for the same attribute or element text; this is
-    /// verified by XmlReadCharacterizationTests, which uses the DataSet as the oracle.
+    /// typed DataSet used to yield for the same attribute or element text; this is
+    /// pinned down by XmlReadCharacterizationTests (values observed from the DataSet).
     /// </summary>
     public static class XmlRead
     {

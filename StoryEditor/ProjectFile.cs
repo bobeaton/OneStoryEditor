@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
@@ -35,11 +36,14 @@ namespace OneStoryProjectEditor
     }
 
     /// <summary>
-    /// Loads a .onestory file as XML (replacing ProjectReader/the typed DataSet), refusing files that
+    /// Loads a .onestory file as XML, refusing files that
     /// this version can't read. It throws instead of showing a message box; the caller reports the message.
     /// </summary>
     public static class ProjectFile
     {
+        // the guids of the stories loaded so far (so a duplicate can be detected); cleared by Load
+        public static List<string> UniqueStoryGuids = new List<string>();
+
         public const string CstrVersionTooOldMessage =
             "This project was saved by a very old version of OneStory Editor. Open and save it with OneStory Editor 4.x first.";
 
@@ -50,7 +54,7 @@ namespace OneStoryProjectEditor
             using (var reader = XmlReader.Create(strPath, new XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore }))
                 doc = XDocument.Load(reader);
 
-            ProjectReader.UniqueStoryGuids.Clear();
+            UniqueStoryGuids.Clear();
 
             var root = doc.Root;
             if (root.Name.LocalName != StoryProjectData.CstrElementStoryProjectRoot)

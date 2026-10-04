@@ -1,0 +1,17 @@
+<stories SetName="Stories">
+  <story name="Same" stage="ProjFacTypeVernacular" TasksAllowedPf="VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers" TasksRequiredPf="Anchors" TasksAllowedCit="SendToProjectFacilitatorForRevision, SendToCoachForReview" TasksRequiredCit="None" CountRetellingsTests="0" CountTestingQuestionTests="0" guid="g1" stageDateTimeStamp="2026-10-03T12:34:56Z">
+    <CraftingInfo NonBiblicalStory="false">
+      <StoryCrafter memberID="m1"></StoryCrafter>
+    </CraftingInfo>
+  </story>
+  <story name="Same.1" stage="ProjFacTypeVernacular" TasksAllowedPf="VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers" TasksRequiredPf="Anchors" TasksAllowedCit="SendToProjectFacilitatorForRevision, SendToCoachForReview" TasksRequiredCit="None" CountRetellingsTests="0" CountTestingQuestionTests="0" guid="g2" stageDateTimeStamp="2026-10-03T12:34:56Z">
+    <CraftingInfo NonBiblicalStory="false">
+      <StoryCrafter memberID="m1"></StoryCrafter>
+    </CraftingInfo>
+  </story>
+  <story name="Same.2" stage="ProjFacTypeVernacular" TasksAllowedPf="VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers" TasksRequiredPf="Anchors" TasksAllowedCit="SendToProjectFacilitatorForRevision, SendToCoachForReview" TasksRequiredCit="None" CountRetellingsTests="0" CountTestingQuestionTests="0" guid="g3" stageDateTimeStamp="2026-10-03T12:34:56Z">
+    <CraftingInfo NonBiblicalStory="false">
+      <StoryCrafter memberID="m1"></StoryCrafter>
+    </CraftingInfo>
+  </story>
+</stories>

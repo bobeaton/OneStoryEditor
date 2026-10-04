@@ -58,130 +58,33 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public ProjectSettings(XmlNode node, string strProjectFolder)
+        // lenient reader for a project element that came from somewhere else (e.g., Chorus or the story copied
+        //  from another project): anything missing is simply left at its default
+        public ProjectSettings(XElement elemStoryProject, string strProjectFolder)
         {
-            XmlAttribute attr;
-            ProjectName = ((attr = node.Attributes[StoryProjectData.CstrAttributeProjectName]) != null)
-                              ? attr.Value
-                              : null;
+            ProjectName = (string)elemStoryProject.Attribute(StoryProjectData.CstrAttributeProjectName);
 
             _strProjectFolder = strProjectFolder;
 
-            UseDropbox = ((attr = node.Attributes[StoryProjectData.CstrAttributeUseDropbox]) != null) && (attr.Value == "true");
-            DropboxStory = ((attr = node.Attributes[StoryProjectData.CstrAttributeDropboxStory]) != null) && (attr.Value == "true");
-            DropboxRetelling = ((attr = node.Attributes[StoryProjectData.CstrAttributeDropboxRetellings]) != null) && (attr.Value == "true");
-            DropboxAnswers = ((attr = node.Attributes[StoryProjectData.CstrAttributeDropboxAnswers]) != null) && (attr.Value == "true");
+            UseDropbox = (string)elemStoryProject.Attribute(StoryProjectData.CstrAttributeUseDropbox) == "true";
+            DropboxStory = (string)elemStoryProject.Attribute(StoryProjectData.CstrAttributeDropboxStory) == "true";
+            DropboxRetelling = (string)elemStoryProject.Attribute(StoryProjectData.CstrAttributeDropboxRetellings) == "true";
+            DropboxAnswers = (string)elemStoryProject.Attribute(StoryProjectData.CstrAttributeDropboxAnswers) == "true";
 
-            Vernacular = new LanguageInfo(node.SelectSingleNode(XPathForLangInformation(LineData.CstrAttributeLangVernacular)));
-            NationalBT = new LanguageInfo(node.SelectSingleNode(XPathForLangInformation(LineData.CstrAttributeLangNationalBt)));
-            InternationalBT = new LanguageInfo(node.SelectSingleNode(XPathForLangInformation(LineData.CstrAttributeLangInternationalBt)));
-            FreeTranslation = new LanguageInfo(node.SelectSingleNode(XPathForLangInformation(LineData.CstrAttributeLangFreeTranslation)));
+            Vernacular = new LanguageInfo(FindLanguageInfo(elemStoryProject, LineData.CstrAttributeLangVernacular));
+            NationalBT = new LanguageInfo(FindLanguageInfo(elemStoryProject, LineData.CstrAttributeLangNationalBt));
+            InternationalBT = new LanguageInfo(FindLanguageInfo(elemStoryProject, LineData.CstrAttributeLangInternationalBt));
+            FreeTranslation = new LanguageInfo(FindLanguageInfo(elemStoryProject, LineData.CstrAttributeLangFreeTranslation));
         }
 
-        private static string XPathForLangInformation(string strLangType)
+        private static XElement FindLanguageInfo(XElement elemStoryProject, string strLangType)
         {
-            return String.Format("{0}/{1}[@lang = '{2}']",
-                                 CstrElementLabelLanguages,
-                                 LanguageInfo.CstrElementLabelLanguageInfo,
-                                 strLangType);
+            return elemStoryProject.Elements(CstrElementLabelLanguages)
+                                   .Elements(LanguageInfo.CstrElementLabelLanguageInfo)
+                                   .FirstOrDefault(e => (string)e.Attribute(LanguageInfo.CstrAttributeLang) == strLangType);
         }
 
-        public void SerializeProjectSettings(NewDataSet projFile)
-        {
-            Debug.Assert((projFile != null) && (projFile.StoryProject[0].ProjectName == ProjectName));
-
-            NewDataSet.LanguagesRow theLangRow = InsureLanguagesRow(projFile);
-
-            if (!theLangRow.IsUseRetellingVernacularNull())
-                ShowRetellings.Vernacular = theLangRow.UseRetellingVernacular;
-
-            if (!theLangRow.IsUseRetellingNationalBTNull())
-                ShowRetellings.NationalBt = theLangRow.UseRetellingNationalBT;
-
-            if (!theLangRow.IsUseRetellingInternationalBTNull())
-                ShowRetellings.InternationalBt = theLangRow.UseRetellingInternationalBT;
-
-            if (!theLangRow.IsUseTestQuestionVernacularNull())
-                ShowTestQuestions.Vernacular = theLangRow.UseTestQuestionVernacular;
-
-            if (!theLangRow.IsUseTestQuestionNationalBTNull())
-                ShowTestQuestions.NationalBt = theLangRow.UseTestQuestionNationalBT;
-
-            if (!theLangRow.IsUseTestQuestionInternationalBTNull())
-                ShowTestQuestions.InternationalBt = theLangRow.UseTestQuestionInternationalBT;
-
-            if (!theLangRow.IsUseAnswerVernacularNull())
-                ShowAnswers.Vernacular = theLangRow.UseAnswerVernacular;
-
-            if (!theLangRow.IsUseAnswerNationalBTNull())
-                ShowAnswers.NationalBt = theLangRow.UseAnswerNationalBT;
-
-            if (!theLangRow.IsUseAnswerInternationalBTNull())
-                ShowAnswers.InternationalBt = theLangRow.UseAnswerInternationalBT;
-
-            if (projFile.AdaptItConfigurations.Count == 1)
-            {
-                foreach (NewDataSet.AdaptItConfigurationRow aAiConfigRow in projFile.AdaptItConfigurations[0].GetAdaptItConfigurationRows())
-                {
-                    if (aAiConfigRow.BtDirection == AdaptItConfiguration.AdaptItBtDirection.VernacularToNationalBt.ToString())
-                    {
-                        VernacularToNationalBt = new AdaptItConfiguration();
-                        VernacularToNationalBt.SerializeFromProjectFile(aAiConfigRow);
-                    }
-                    if (aAiConfigRow.BtDirection == AdaptItConfiguration.AdaptItBtDirection.VernacularToInternationalBt.ToString())
-                    {
-                        VernacularToInternationalBt = new AdaptItConfiguration();
-                        VernacularToInternationalBt.SerializeFromProjectFile(aAiConfigRow);
-                    }
-                    if (aAiConfigRow.BtDirection == AdaptItConfiguration.AdaptItBtDirection.NationalBtToInternationalBt.ToString())
-                    {
-                        NationalBtToInternationalBt = new AdaptItConfiguration();
-                        NationalBtToInternationalBt.SerializeFromProjectFile(aAiConfigRow);
-                    }
-                }
-            }
-
-            bool bFoundInternationalBt = false, bFoundFreeTranslation = false;
-            foreach (NewDataSet.LanguageInfoRow aLangRow in theLangRow.GetLanguageInfoRows())
-            {
-                if (aLangRow.lang == LineData.CstrAttributeLangVernacular)
-                    Vernacular.Serialize(aLangRow);
-                if (aLangRow.lang == LineData.CstrAttributeLangNationalBt)
-                    NationalBT.Serialize(aLangRow);
-                if (aLangRow.lang == LineData.CstrAttributeLangInternationalBt)
-                {
-                    bFoundInternationalBt = true;
-                    InternationalBT.Serialize(aLangRow);
-                }
-                if (aLangRow.lang == LineData.CstrAttributeLangFreeTranslation)
-                {
-                    bFoundFreeTranslation = true;
-                    FreeTranslation.Serialize(aLangRow);
-                }
-            }
-
-            // the "international language" will appear to "have data" even when it shouldn't
-            //  so clear out the default language name in this case:
-            if (!bFoundInternationalBt)
-            {
-                InternationalBT.LangName = null;
-                Debug.Assert(!InternationalBT.HasData);
-            }
-
-            // the "international language" will appear to "have data" even when it shouldn't
-            //  so clear out the default language name in this case:
-            if (!bFoundFreeTranslation)
-            {
-                FreeTranslation.LangName = null;
-                Debug.Assert(!FreeTranslation.HasData);
-            }
-
-            // if we're setting this up from the file, then we're "configured"
-            IsConfigured = true;
-        }
-
-        // mirrors SerializeProjectSettings(NewDataSet): elemStoryProject is the root element. An absent <Languages> is
-        //  the row path's added row, which holds the current Show* values, so there is nothing to read from it.
+        // elemStoryProject is the root element. An absent <Languages> leaves the current Show* values as they are.
         public void SerializeProjectSettings(XElement elemStoryProject)
         {
             Debug.Assert((elemStoryProject != null) &&
@@ -219,7 +122,7 @@ namespace OneStoryProjectEditor
                     ShowAnswers.InternationalBt = bValue.Value;
             }
 
-            // the row path only reads the configurations when there is exactly one <AdaptItConfigurations>
+            // the configurations are only read when there is exactly one <AdaptItConfigurations>
             var elemsAiConfigurations = XmlRead.Children(elemStoryProject, "AdaptItConfigurations").ToList();
             if (elemsAiConfigurations.Count == 1)
             {
@@ -311,25 +214,6 @@ namespace OneStoryProjectEditor
                 NationalBtToInternationalBt
             }
 
-            public void SerializeFromProjectFile(NewDataSet.AdaptItConfigurationRow aAiConfigRow)
-            {
-                ProjectType = (AdaptItProjectType)Enum.Parse(typeof(AdaptItProjectType), aAiConfigRow.ProjectType);
-                BtDirection = (AdaptItBtDirection)Enum.Parse(typeof(AdaptItBtDirection), aAiConfigRow.BtDirection);
-                ConverterName = aAiConfigRow.ConverterName;
-                if (!aAiConfigRow.IsProjectFolderNameNull())
-                    ProjectFolderName = aAiConfigRow.ProjectFolderName;
-
-                if (!aAiConfigRow.IsRepoProjectNameNull())
-                    RepoProjectName = aAiConfigRow.RepoProjectName;
-
-                if (!aAiConfigRow.IsRepositoryServerNull())
-                    RepositoryServer = aAiConfigRow.RepositoryServer;
-
-                if (!aAiConfigRow.IsNetworkRepositoryPathNull())
-                    NetworkRepositoryPath = aAiConfigRow.NetworkRepositoryPath;
-            }
-
-            // mirrors SerializeFromProjectFile(NewDataSet.AdaptItConfigurationRow)
             public void SerializeFromProjectFile(XElement elemAdaptItConfiguration)
             {
                 ProjectType = (AdaptItProjectType)Enum.Parse(typeof(AdaptItProjectType),
@@ -473,22 +357,23 @@ namespace OneStoryProjectEditor
                 FontColor = fontColor;
             }
 
-            public LanguageInfo(XmlNode node)
+            // lenient reader (see ProjectSettings(XElement, string)); a null element gives an empty LanguageInfo
+            public LanguageInfo(XElement elemLanguageInfo)
             {
-                if (node == null)
+                if (elemLanguageInfo == null)
                     return;
 
-                XmlAttribute attr;
-                LangType = ((attr = node.Attributes[CstrAttributeLang]) != null) ? attr.Value : null;
-                LangName = ((attr = node.Attributes[CstrAttributeName]) != null) ? attr.Value : null;
-                LangCode = ((attr = node.Attributes[CstrAttributeCode]) != null) ? attr.Value : null;
-                DefaultFontName = ((attr = node.Attributes[CstrAttributeFontName]) != null) ? attr.Value : null;
-                DefaultFontSize = ((attr = node.Attributes[CstrAttributeFontSize]) != null) ? Convert.ToSingle(attr.Value) : 12;
+                LangType = (string)elemLanguageInfo.Attribute(CstrAttributeLang);
+                LangName = (string)elemLanguageInfo.Attribute(CstrAttributeName);
+                LangCode = (string)elemLanguageInfo.Attribute(CstrAttributeCode);
+                DefaultFontName = (string)elemLanguageInfo.Attribute(CstrAttributeFontName);
+                DefaultFontSize = XmlRead.Float(elemLanguageInfo, CstrAttributeFontSize) ?? 12;
                 FontToUse = new Font(DefaultFontName, DefaultFontSize);
-                FontColor = ((attr = node.Attributes[CstrAttributeFontColor]) != null) ? Color.FromName(attr.Value) : Color.Black;
-                FullStop = ((attr = node.Attributes[CstrAttributeSentenceFinalPunct]) != null) ? attr.Value : null;
-                DefaultKeyboard = ((attr = node.Attributes[CstrAttributeKeyboard]) != null) ? attr.Value : null;
-                DefaultRtl = ((attr = node.Attributes[CstrAttributeRTL]) != null) ? (attr.Value == "true") : false;
+                var strFontColor = (string)elemLanguageInfo.Attribute(CstrAttributeFontColor);
+                FontColor = (strFontColor != null) ? Color.FromName(strFontColor) : Color.Black;
+                FullStop = (string)elemLanguageInfo.Attribute(CstrAttributeSentenceFinalPunct);
+                DefaultKeyboard = (string)elemLanguageInfo.Attribute(CstrAttributeKeyboard);
+                DefaultRtl = (string)elemLanguageInfo.Attribute(CstrAttributeRTL) == "true";
             }
 
             public LanguageInfo(string strLangType, string strLangName, string strLangCode, Font font, Color fontColor)
@@ -584,7 +469,6 @@ namespace OneStoryProjectEditor
                 return strHtmlStyle;
             }
 
-            // mirrors Serialize(NewDataSet.LanguageInfoRow): elemLanguageInfo is the <LanguageInfo> element
             public void Serialize(XElement elemLanguageInfo)
             {
                 LangName = XmlRead.RequiredAttr(elemLanguageInfo, CstrAttributeName);
@@ -599,23 +483,6 @@ namespace OneStoryProjectEditor
                 DefaultRtl = XmlRead.Bool(elemLanguageInfo, CstrAttributeRTL, false);
                 var strKeyboard = XmlRead.Attr(elemLanguageInfo, CstrAttributeKeyboard);
                 DefaultKeyboard = !String.IsNullOrEmpty(strKeyboard) ? strKeyboard : null;
-            }
-
-            public void Serialize(NewDataSet.LanguageInfoRow aLangRow)
-            {
-                LangName = aLangRow.name;
-                LangCode = aLangRow.code;
-                DefaultFontName = aLangRow.FontName;
-                DefaultFontSize = aLangRow.FontSize;
-                FontToUse = new Font(aLangRow.FontName, aLangRow.FontSize);
-                FontColor = Color.FromName(aLangRow.FontColor);
-                FullStop = aLangRow.SentenceFinalPunct;
-                DefaultRtl = (!aLangRow.IsRTLNull() && aLangRow.RTL);
-                DefaultKeyboard =
-                    (!aLangRow.IsKeyboardNull() && !String.IsNullOrEmpty(aLangRow.Keyboard))
-                        ? aLangRow.Keyboard
-                        : null;
-
             }
         }
 
@@ -821,20 +688,6 @@ namespace OneStoryProjectEditor
 
                 return elem;
             }
-        }
-
-        protected NewDataSet.LanguagesRow InsureLanguagesRow(NewDataSet projFile)
-        {
-            Debug.Assert(projFile.StoryProject.Count == 1);
-            if (projFile.Languages.Count == 0)
-                return projFile.Languages.AddLanguagesRow(
-                    ShowRetellings.Vernacular, ShowRetellings.NationalBt, ShowRetellings.InternationalBt,
-                    ShowTestQuestions.Vernacular, ShowTestQuestions.NationalBt, ShowTestQuestions.InternationalBt,
-                    ShowAnswers.Vernacular, ShowAnswers.NationalBt, ShowAnswers.InternationalBt,
-                    projFile.StoryProject[0]);
-
-            Debug.Assert(projFile.Languages.Count == 1);
-            return projFile.Languages[0];
         }
 
         public void InitializeOverrides(TeamMemberData loggedOnMember)

@@ -1,0 +1,9 @@
+Count: 1
+Keys: [c]
+HasOutsideEnglishBTer: False
+HasLanguageSpecialtyReviewer: False
+HasIndependentConsultant: False
+GetXml:
+<Members HasOutsideEnglishBTer="false" HasFirstPassMentor="false" HasIndependentConsultant="false">
+  <Member name="c" memberType="Crafter" memberKey="m1" />
+</Members>

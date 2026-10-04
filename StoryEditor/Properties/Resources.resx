@@ -322,9 +322,6 @@ of the team before overwriting a list</value>
   <data name="DragDropHandle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DragDropHandle.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="IDS_QueryConvertProjectFile1_3to1_4" xml:space="preserve">
-    <value>The project file you're trying to open (i.e. '{0}') was lasted edited by an earlier version of the OneStory editor. I can automatically upgrade the project file to be readable by this newer version, but it will make it inaccessible to the earlier version. So if the rest of the team (Project Facilitators, Consultant, etc) have all: a) done a 'Project', 'Send/receive' to send all of their outstanding changes, and b) upgraded to the new version of OSE, then if you want the project file to be converted to the new format, click 'Yes'</value>
-  </data>
   <data name="HTML_ButtonClass" xml:space="preserve">
     <value>&lt;button id="{0}" class="{1}" onClick="{2}"&gt;{3}&lt;/button&gt;</value>
   </data>

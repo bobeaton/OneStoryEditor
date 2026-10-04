@@ -1,0 +1,84 @@
+== verse 0
+Count: 0
+HasData: False
+== verse 1
+Count: 0
+HasData: False
+== verse 2
+Count: 0
+HasData: False
+== verse 3
+Count: 0
+HasData: False
+== verse 4
+Count: 0
+HasData: False
+== verse 5
+Count: 2
+HasData: True
+tq 0 guid: [00000000-0000-0000-0000-000000000050]
+tq 0 IsVisible: True
+tq 0 HasData: True
+tq 0 vern: [why?]
+tq 0 nat: <null>
+tq 0 intl: [  padded why  ]
+tq 0 free: <null>
+tq 0 answers Count: 1
+tq 0 answers HasData: True
+tq 0 answers line 0 MemberId: [mem-00000000-0000-0000-0000-000000000001]
+tq 0 answers line 0 vern: [because]
+tq 0 answers line 0 nat: <null>
+tq 0 answers line 0 intl: <null>
+tq 0 answers line 0 free: <null>
+tq 0 answers GetXml:
+<Answers>
+  <Answer lang="Vernacular" memberID="mem-00000000-0000-0000-0000-000000000001">because</Answer>
+  <Answer lang="NationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+  <Answer lang="InternationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+</Answers>
+tq 0 GetXml:
+<TestQuestion visible="true" guid="00000000-0000-0000-0000-000000000050">
+  <TestQuestionLine lang="Vernacular">why?</TestQuestionLine>
+  <TestQuestionLine lang="InternationalBt">  padded why  </TestQuestionLine>
+  <Answers>
+    <Answer lang="Vernacular" memberID="mem-00000000-0000-0000-0000-000000000001">because</Answer>
+    <Answer lang="NationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+    <Answer lang="InternationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+  </Answers>
+</TestQuestion>
+tq 1 guid: [00000000-0000-0000-0000-000000000051]
+tq 1 IsVisible: False
+tq 1 HasData: True
+tq 1 vern: [hidden question]
+tq 1 nat: <null>
+tq 1 intl: <null>
+tq 1 free: <null>
+tq 1 answers Count: 0
+tq 1 answers HasData: False
+tq 1 GetXml:
+<TestQuestion visible="false" guid="00000000-0000-0000-0000-000000000051">
+  <TestQuestionLine lang="Vernacular">hidden question</TestQuestionLine>
+  <Answers />
+</TestQuestion>
+GetXml:
+<TestQuestions>
+  <TestQuestion visible="true" guid="00000000-0000-0000-0000-000000000050">
+    <TestQuestionLine lang="Vernacular">why?</TestQuestionLine>
+    <TestQuestionLine lang="InternationalBt">  padded why  </TestQuestionLine>
+    <Answers>
+      <Answer lang="Vernacular" memberID="mem-00000000-0000-0000-0000-000000000001">because</Answer>
+      <Answer lang="NationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+      <Answer lang="InternationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+    </Answers>
+  </TestQuestion>
+  <TestQuestion visible="false" guid="00000000-0000-0000-0000-000000000051">
+    <TestQuestionLine lang="Vernacular">hidden question</TestQuestionLine>
+    <Answers />
+  </TestQuestion>
+</TestQuestions>
+== verse 6
+Count: 0
+HasData: False
+== verse 7
+Count: 0
+HasData: False

@@ -1,0 +1,17 @@
+== tq 0
+answers Count: 1
+answers HasData: True
+answers line 0 MemberId: [mem-00000000-0000-0000-0000-000000000001]
+answers line 0 vern: [because]
+answers line 0 nat: <null>
+answers line 0 intl: <null>
+answers line 0 free: <null>
+answers GetXml:
+<Answers>
+  <Answer lang="Vernacular" memberID="mem-00000000-0000-0000-0000-000000000001">because</Answer>
+  <Answer lang="NationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+  <Answer lang="InternationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+</Answers>
+== tq 1
+answers Count: 0
+answers HasData: False

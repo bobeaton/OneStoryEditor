@@ -1,0 +1,202 @@
+Keys: [Stories|Non-Biblical Stories|Old Stories]
+PanoramaFrontMatter: [Front matter text]
+ProjectName: [characterization-project]
+UseDropbox: True
+DropboxStory: True
+DropboxRetelling: False
+DropboxAnswers: True
+OsMetaData is null: True
+Vernacular LangType: [Vernacular]
+Vernacular LangName: [Testish]
+Vernacular LangCode: [tst]
+Vernacular DefaultFontName: [Charis SIL]
+Vernacular DefaultFontSize: 12.5
+Vernacular FontToUse.Name: [Charis SIL]
+Vernacular FontToUse.Size: 12.5
+Vernacular FontColor.Name: [Maroon]
+Vernacular FullStop: [.!?:]
+Vernacular DefaultKeyboard: [Keyman Vern default]
+Vernacular KeyboardOverride: <null>
+Vernacular DefaultRtl: True
+Vernacular InvertRtl: False
+Vernacular HasData: True
+NationalBT LangType: [NationalBt]
+NationalBT LangName: [Nationalese]
+NationalBT LangCode: [nat]
+NationalBT DefaultFontName: [Arial]
+NationalBT DefaultFontSize: 11
+NationalBT FontToUse.Name: [Arial]
+NationalBT FontToUse.Size: 11
+NationalBT FontColor.Name: [Green]
+NationalBT FullStop: [.]
+NationalBT DefaultKeyboard: <null>
+NationalBT KeyboardOverride: <null>
+NationalBT DefaultRtl: False
+NationalBT InvertRtl: False
+NationalBT HasData: True
+InternationalBT LangType: [InternationalBt]
+InternationalBT LangName: [English]
+InternationalBT LangCode: [en]
+InternationalBT DefaultFontName: [Times New Roman]
+InternationalBT DefaultFontSize: 10
+InternationalBT FontToUse.Name: [Times New Roman]
+InternationalBT FontToUse.Size: 10
+InternationalBT FontColor.Name: [Blue]
+InternationalBT FullStop: [.!?]
+InternationalBT DefaultKeyboard: <null>
+InternationalBT KeyboardOverride: <null>
+InternationalBT DefaultRtl: False
+InternationalBT InvertRtl: False
+InternationalBT HasData: True
+FreeTranslation LangType: [FreeTranslation]
+FreeTranslation LangName: [Free English]
+FreeTranslation LangCode: [en]
+FreeTranslation DefaultFontName: [Times New Roman]
+FreeTranslation DefaultFontSize: 10
+FreeTranslation FontToUse.Name: [Times New Roman]
+FreeTranslation FontToUse.Size: 10
+FreeTranslation FontColor.Name: [ForestGreen]
+FreeTranslation FullStop: [.!?]
+FreeTranslation DefaultKeyboard: <null>
+FreeTranslation KeyboardOverride: <null>
+FreeTranslation DefaultRtl: False
+FreeTranslation InvertRtl: False
+FreeTranslation HasData: True
+ShowRetellings Vernacular: True
+ShowRetellings NationalBt: False
+ShowRetellings InternationalBt: True
+ShowTestQuestions Vernacular: False
+ShowTestQuestions NationalBt: True
+ShowTestQuestions InternationalBt: True
+ShowAnswers Vernacular: False
+ShowAnswers NationalBt: False
+ShowAnswers InternationalBt: True
+VernacularToNationalBt ProjectType: LocalAiProjectOnly
+VernacularToNationalBt BtDirection: VernacularToNationalBt
+VernacularToNationalBt ConverterName: [AI Vern to Nat]
+VernacularToNationalBt ProjectFolderName: [Tst to Nat]
+VernacularToNationalBt RepoProjectName: <null>
+VernacularToNationalBt RepositoryServer: <null>
+VernacularToNationalBt NetworkRepositoryPath: <null>
+VernacularToNationalBt GetXml:
+<AdaptItConfiguration BtDirection="VernacularToNationalBt" ProjectType="LocalAiProjectOnly" ConverterName="AI Vern to Nat" ProjectFolderName="Tst to Nat" />
+VernacularToInternationalBt ProjectType: SharedAiProject
+VernacularToInternationalBt BtDirection: VernacularToInternationalBt
+VernacularToInternationalBt ConverterName: [AI Vern to Intl]
+VernacularToInternationalBt ProjectFolderName: [Tst to Eng]
+VernacularToInternationalBt RepoProjectName: [Tst-Eng]
+VernacularToInternationalBt RepositoryServer: [https://example.org/hg]
+VernacularToInternationalBt NetworkRepositoryPath: [\\server\share\Tst-Eng]
+VernacularToInternationalBt GetXml:
+<AdaptItConfiguration BtDirection="VernacularToInternationalBt" ProjectType="SharedAiProject" ConverterName="AI Vern to Intl" ProjectFolderName="Tst to Eng" RepoProjectName="Tst-Eng" RepositoryServer="https://example.org/hg" NetworkRepositoryPath="\\server\share\Tst-Eng" />
+NationalBtToInternationalBt ProjectType: None
+NationalBtToInternationalBt BtDirection: NationalBtToInternationalBt
+NationalBtToInternationalBt ConverterName: [AI Nat to Intl]
+NationalBtToInternationalBt ProjectFolderName: <null>
+NationalBtToInternationalBt RepoProjectName: <null>
+NationalBtToInternationalBt RepositoryServer: <null>
+NationalBtToInternationalBt NetworkRepositoryPath: <null>
+NationalBtToInternationalBt GetXml:
+<AdaptItConfiguration BtDirection="NationalBtToInternationalBt" ProjectType="None" ConverterName="AI Nat to Intl" />
+IsConfigured: True
+GetXml:
+<Languages UseRetellingVernacular="true" UseRetellingNationalBT="false" UseRetellingInternationalBT="true" UseTestQuestionVernacular="false" UseTestQuestionNationalBT="true" UseTestQuestionInternationalBT="true" UseAnswerVernacular="false" UseAnswerNationalBT="false" UseAnswerInternationalBT="true">
+  <LanguageInfo lang="Vernacular" name="Testish" code="tst" FontName="Charis SIL" FontSize="12.5" FontColor="Maroon" SentenceFinalPunct=".!?:" RTL="true" Keyboard="Keyman Vern default" />
+  <LanguageInfo lang="NationalBt" name="Nationalese" code="nat" FontName="Arial" FontSize="11" FontColor="Green" SentenceFinalPunct="." />
+  <LanguageInfo lang="InternationalBt" name="English" code="en" FontName="Times New Roman" FontSize="10" FontColor="Blue" SentenceFinalPunct=".!?" />
+  <LanguageInfo lang="FreeTranslation" name="Free English" code="en" FontName="Times New Roman" FontSize="10" FontColor="ForestGreen" SentenceFinalPunct=".!?" />
+</Languages>
+HasAdaptItConfigurationData: True
+AdaptItConfigXml:
+<AdaptItConfigurations>
+  <AdaptItConfiguration BtDirection="VernacularToNationalBt" ProjectType="LocalAiProjectOnly" ConverterName="AI Vern to Nat" ProjectFolderName="Tst to Nat" />
+  <AdaptItConfiguration BtDirection="VernacularToInternationalBt" ProjectType="SharedAiProject" ConverterName="AI Vern to Intl" ProjectFolderName="Tst to Eng" RepoProjectName="Tst-Eng" RepositoryServer="https://example.org/hg" NetworkRepositoryPath="\\server\share\Tst-Eng" />
+</AdaptItConfigurations>
+GetXml:
+<StoryProject version="1.6" ProjectName="characterization-project" TextEncoding="plain" UseDropbox="true" DropboxStory="true" DropboxAnswers="true" PanoramaFrontMatter="Front matter text">
+  <Members HasOutsideEnglishBTer="true" HasFirstPassMentor="true" HasIndependentConsultant="false">
+    <Member name="Full Crafter" memberType="Crafter" email="crafter@example.org" altPhone="555-0002" phone="555-0001" bioData="bio line 1&#xA;bio line 2" skypeID="crafter.skype" teamViewerID="123 456 789" OverrideVernacularKeyboard="Keyman Vern" OverrideNationalBTKeyboard="Keyman Nat" OverrideInternationalBTKeyboard="Keyman Intl" OverrideFreeTranslationKeyboard="Keyman Free" OverrideFontNameVernacular="Charis SIL" OverrideFontSizeVernacular="14.5" OverrideRtlVernacular="true" OverrideFontNameNationalBT="Andika" OverrideFontSizeNationalBT="11" OverrideFontNameInternationalBT="Calibri" OverrideFontSizeInternationalBT="10.25" OverrideRtlInternationalBT="true" OverrideFontNameFreeTranslation="Gentium" OverrideFontSizeFreeTranslation="9" HgUsername="hguser" HgPassword="YMvxKu8EZfg=" TransliteratorVernacular="Vern Translit" TransliteratorDirectionForwardVernacular="true" TransliteratorNationalBT="Nat Translit" TransliteratorDirectionForwardNationalBT="false" TransliteratorInternationalBT="Intl Translit" TransliteratorDirectionForwardInternationalBT="true" TransliteratorFreeTranslation="Free Translit" TransliteratorDirectionForwardFreeTranslation="false" memberKey="mem-00000000-0000-0000-0000-000000000001" />
+    <Member name="The PF" memberType="ProjectFacilitator" memberKey="mem-00000000-0000-0000-0000-000000000002" DefaultTasksAllowed="VernacularLangFields, Anchors" DefaultTasksRequired="None" />
+    <Member name="The CIT" memberType="ConsultantInTraining" email="cit@example.org" memberKey="mem-00000000-0000-0000-0000-000000000003" DefaultTasksAllowed="SendToCoachForReview" DefaultTasksRequired="None" />
+    <Member name="The Coach" memberType="Coach" memberKey="mem-00000000-0000-0000-0000-000000000004" />
+    <Member name="Browser Only" memberType="JustLooking" memberKey="mem-00000000-0000-0000-0000-000000000005" />
+  </Members>
+  <Languages UseRetellingVernacular="true" UseRetellingNationalBT="false" UseRetellingInternationalBT="true" UseTestQuestionVernacular="false" UseTestQuestionNationalBT="true" UseTestQuestionInternationalBT="true" UseAnswerVernacular="false" UseAnswerNationalBT="false" UseAnswerInternationalBT="true">
+    <LanguageInfo lang="Vernacular" name="Testish" code="tst" FontName="Charis SIL" FontSize="12.5" FontColor="Maroon" SentenceFinalPunct=".!?:" RTL="true" Keyboard="Keyman Vern default" />
+    <LanguageInfo lang="NationalBt" name="Nationalese" code="nat" FontName="Arial" FontSize="11" FontColor="Green" SentenceFinalPunct="." />
+    <LanguageInfo lang="InternationalBt" name="English" code="en" FontName="Times New Roman" FontSize="10" FontColor="Blue" SentenceFinalPunct=".!?" />
+    <LanguageInfo lang="FreeTranslation" name="Free English" code="en" FontName="Times New Roman" FontSize="10" FontColor="ForestGreen" SentenceFinalPunct=".!?" />
+  </Languages>
+  <AdaptItConfigurations>
+    <AdaptItConfiguration BtDirection="VernacularToNationalBt" ProjectType="LocalAiProjectOnly" ConverterName="AI Vern to Nat" ProjectFolderName="Tst to Nat" />
+    <AdaptItConfiguration BtDirection="VernacularToInternationalBt" ProjectType="SharedAiProject" ConverterName="AI Vern to Intl" ProjectFolderName="Tst to Eng" RepoProjectName="Tst-Eng" RepositoryServer="https://example.org/hg" NetworkRepositoryPath="\\server\share\Tst-Eng" />
+  </AdaptItConfigurations>
+  <LnCNotes>
+    <LnCNote guid="00000000-0000-0000-0000-000000000501" VernacularRendering="verb&#xA;rendering" NationalBTRendering="national rendering" InternationalBTRendering="intl rendering" KeyTermIds="KT1, KT2">note with renderings
+second line</LnCNote>
+    <LnCNote guid="00000000-0000-0000-0000-000000000502">plain note</LnCNote>
+  </LnCNotes>
+  <stories SetName="Stories">
+    <story name="First Story" stage="ProjFacTypeVernacular" TasksAllowedPf="VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers" TasksRequiredPf="Anchors" TasksAllowedCit="SendToProjectFacilitatorForRevision, SendToCoachForReview" TasksRequiredCit="None" CountRetellingsTests="0" CountTestingQuestionTests="0" guid="00000000-0000-0000-0000-000000000101" stageDateTimeStamp="2026-10-03T12:34:56Z">
+      <CraftingInfo NonBiblicalStory="false">
+        <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001"></StoryCrafter>
+      </CraftingInfo>
+      <Verses>
+        <Verse guid="00000000-0000-0000-0000-000000000110" first="true">
+          <StoryLine lang="Vernacular">first &amp;amp; line</StoryLine>
+        </Verse>
+        <Verse guid="00000000-0000-0000-0000-000000000111">
+          <StoryLine lang="NationalBt">second line national</StoryLine>
+        </Verse>
+      </Verses>
+    </story>
+    <story name="Second Story" stage="ProjFacTypeVernacular" TasksAllowedPf="VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers" TasksRequiredPf="Anchors" TasksAllowedCit="SendToProjectFacilitatorForRevision, SendToCoachForReview" TasksRequiredCit="None" CountRetellingsTests="0" CountTestingQuestionTests="0" guid="00000000-0000-0000-0000-000000000102" stageDateTimeStamp="2026-10-03T12:34:56Z">
+      <CraftingInfo NonBiblicalStory="false">
+        <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001"></StoryCrafter>
+      </CraftingInfo>
+      <Verses>
+        <Verse guid="00000000-0000-0000-0000-000000000120" first="true">
+          <StoryLine lang="Vernacular">second story line</StoryLine>
+          <TestQuestions>
+            <TestQuestion visible="true" guid="00000000-0000-0000-0000-000000000150">
+              <Answers>
+                <Answer lang="Vernacular" memberID="mem-00000000-0000-0000-0000-000000000001"></Answer>
+                <Answer lang="NationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+                <Answer lang="InternationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+              </Answers>
+            </TestQuestion>
+          </TestQuestions>
+          <Retellings>
+            <Retelling lang="Vernacular" memberID="mem-00000000-0000-0000-0000-000000000001"></Retelling>
+            <Retelling lang="NationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+            <Retelling lang="InternationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+          </Retellings>
+        </Verse>
+      </Verses>
+    </story>
+  </stories>
+  <stories SetName="Non-Biblical Stories">
+    <story name="Non Bib Story" stage="ProjFacTypeVernacular" TasksAllowedPf="VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers" TasksRequiredPf="Anchors" TasksAllowedCit="SendToProjectFacilitatorForRevision, SendToCoachForReview" TasksRequiredCit="None" CountRetellingsTests="0" CountTestingQuestionTests="0" guid="00000000-0000-0000-0000-000000000103" stageDateTimeStamp="2026-10-03T12:34:56Z">
+      <CraftingInfo NonBiblicalStory="true">
+        <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001"></StoryCrafter>
+      </CraftingInfo>
+      <Verses>
+        <Verse guid="00000000-0000-0000-0000-000000000130" first="true">
+          <StoryLine lang="Vernacular">non-biblical story line</StoryLine>
+        </Verse>
+      </Verses>
+    </story>
+  </stories>
+  <stories SetName="Old Stories">
+    <story name="Old Story" stage="ProjFacTypeVernacular" TasksAllowedPf="VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers" TasksRequiredPf="Anchors" TasksAllowedCit="SendToProjectFacilitatorForRevision, SendToCoachForReview" TasksRequiredCit="None" CountRetellingsTests="0" CountTestingQuestionTests="0" guid="00000000-0000-0000-0000-000000000104" stageDateTimeStamp="2026-10-03T12:34:56Z">
+      <CraftingInfo NonBiblicalStory="false">
+        <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001"></StoryCrafter>
+      </CraftingInfo>
+      <Verses>
+        <Verse guid="00000000-0000-0000-0000-000000000140" first="true">
+          <StoryLine lang="Vernacular">old story line</StoryLine>
+        </Verse>
+      </Verses>
+    </story>
+  </stories>
+</StoryProject>

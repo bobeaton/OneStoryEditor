@@ -13,28 +13,11 @@ namespace OneStoryProjectEditor
         public string ToolTipText = null;
         public List<string> keyTerms = new List<string>();
 
-        public AnchorData(NewDataSet.AnchorRow theAnchorRow)
-        {
-            JumpTarget = theAnchorRow.jumpTarget;
-            ToolTipText = (theAnchorRow.IsAnchor_textNull()) 
-                ? JumpTarget 
-                : theAnchorRow.Anchor_text;
-        }
-
-        // mirrors AnchorData(NewDataSet.AnchorRow)
         public AnchorData(XElement elemAnchor)
         {
             JumpTarget = XmlRead.RequiredAttr(elemAnchor, CstrAttributeJumpTarget);
             var strText = XmlRead.Text(elemAnchor);
             ToolTipText = (strText == null) ? JumpTarget : strText;
-        }
-
-        public AnchorData(XmlNode node)
-        {
-            XmlAttribute attr;
-            JumpTarget = ((attr = node.Attributes[CstrAttributeJumpTarget]) != null) ? attr.Value : null;
-            // ToolTipText = ((attr = node.Attributes[CstrAttributeToolTip]) != null) ? attr.Value : null;
-            ToolTipText = node.InnerText;
         }
 
         public AnchorData(string strJumpTarget, string strComment)
@@ -295,23 +278,6 @@ namespace OneStoryProjectEditor
     public class AnchorsData : List<AnchorData>
     {
         public bool IsKeyTermChecked = false;
-        public AnchorsData(NewDataSet.VerseRow theVerseRow, NewDataSet projFile)
-        {
-            NewDataSet.AnchorsRow[] theAnchorsRows = theVerseRow.GetAnchorsRows();
-            NewDataSet.AnchorsRow theAnchorsRow;
-            if (theAnchorsRows.Length == 0)
-                theAnchorsRow = projFile.Anchors.AddAnchorsRow(false, theVerseRow);
-            else
-                theAnchorsRow = theAnchorsRows[0];
-
-            if (!theAnchorsRow.IskeyTermCheckedNull())
-                IsKeyTermChecked = theAnchorsRow.keyTermChecked;
-
-            foreach (NewDataSet.AnchorRow anAnchorRow in theAnchorsRow.GetAnchorRows())
-                Add(new AnchorData(anAnchorRow));
-        }
-
-        // mirrors AnchorsData(NewDataSet.VerseRow, NewDataSet); an absent <Anchors> is the row path's added empty container
         public AnchorsData(XElement elemVerse)
         {
             var elemAnchors = XmlRead.First(elemVerse, CstrElementLabelAnchors);
@@ -321,19 +287,6 @@ namespace OneStoryProjectEditor
             IsKeyTermChecked = XmlRead.Bool(elemAnchors, CstrAttributeKeyTermChecked, false);
             foreach (var elemAnchor in XmlRead.Children(elemAnchors, AnchorData.CstrElementLabelAnchor))
                 Add(new AnchorData(elemAnchor));
-        }
-
-        public AnchorsData(XmlNode node)
-        {
-            if (node == null)
-                return;
-
-            XmlNodeList list = node.SelectNodes(AnchorData.CstrElementLabelAnchor);
-            if (list == null)
-                return;
-
-            foreach (XmlNode nodeAnchor in list)
-                Add(new AnchorData(nodeAnchor));
         }
 
         public AnchorsData(AnchorsData rhs)

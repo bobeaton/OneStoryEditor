@@ -1,0 +1,41 @@
+== verse 0
+Count: 0
+HasData: False
+== verse 1
+Count: 0
+HasData: False
+== verse 2
+Count: 0
+HasData: False
+== verse 3
+Count: 0
+HasData: False
+== verse 4
+Count: 0
+HasData: False
+== verse 5
+Count: 4
+HasData: True
+note 0 HasData: True
+note 0 ToString: [first help note]
+note 0 Value: [first help note]
+note 1 HasData: True
+note 1 ToString: [first help note]
+note 1 Value: [first help note]
+note 2 HasData: True
+note 2 ToString: [second help note]
+note 2 Value: [second help note]
+note 3 HasData: False
+note 3 ToString: <null>
+note 3 Value: <null>
+GetXml:
+<ExegeticalHelps>
+  <ExegeticalHelp>first help note</ExegeticalHelp>
+  <ExegeticalHelp>second help note</ExegeticalHelp>
+</ExegeticalHelps>
+== verse 6
+Count: 0
+HasData: False
+== verse 7
+Count: 0
+HasData: False

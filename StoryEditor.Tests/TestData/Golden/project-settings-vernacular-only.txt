@@ -1,0 +1,74 @@
+Vernacular LangType: [Vernacular]
+Vernacular LangName: [V]
+Vernacular LangCode: [v]
+Vernacular DefaultFontName: [Arial]
+Vernacular DefaultFontSize: 9
+Vernacular FontToUse.Name: [Arial]
+Vernacular FontToUse.Size: 9
+Vernacular FontColor.Name: [Red]
+Vernacular FullStop: [.]
+Vernacular DefaultKeyboard: <null>
+Vernacular KeyboardOverride: <null>
+Vernacular DefaultRtl: False
+Vernacular InvertRtl: False
+Vernacular HasData: True
+NationalBT LangType: [NationalBt]
+NationalBT LangName: <null>
+NationalBT LangCode: <null>
+NationalBT DefaultFontName: [Arial Unicode MS]
+NationalBT DefaultFontSize: 12
+NationalBT FontToUse.Name: [Arial Unicode MS]
+NationalBT FontToUse.Size: 12
+NationalBT FontColor.Name: [Green]
+NationalBT FullStop: [.!?:]
+NationalBT DefaultKeyboard: <null>
+NationalBT KeyboardOverride: <null>
+NationalBT DefaultRtl: False
+NationalBT InvertRtl: False
+NationalBT HasData: False
+InternationalBT LangType: [InternationalBt]
+InternationalBT LangName: <null>
+InternationalBT LangCode: [en]
+InternationalBT DefaultFontName: [Times New Roman]
+InternationalBT DefaultFontSize: 10
+InternationalBT FontToUse.Name: [Times New Roman]
+InternationalBT FontToUse.Size: 10
+InternationalBT FontColor.Name: [Blue]
+InternationalBT FullStop: [.!?:]
+InternationalBT DefaultKeyboard: <null>
+InternationalBT KeyboardOverride: <null>
+InternationalBT DefaultRtl: False
+InternationalBT InvertRtl: False
+InternationalBT HasData: False
+FreeTranslation LangType: [FreeTranslation]
+FreeTranslation LangName: <null>
+FreeTranslation LangCode: [en]
+FreeTranslation DefaultFontName: [Times New Roman]
+FreeTranslation DefaultFontSize: 10
+FreeTranslation FontToUse.Name: [Times New Roman]
+FreeTranslation FontToUse.Size: 10
+FreeTranslation FontColor.Name: [ForestGreen]
+FreeTranslation FullStop: [.!?:]
+FreeTranslation DefaultKeyboard: <null>
+FreeTranslation KeyboardOverride: <null>
+FreeTranslation DefaultRtl: False
+FreeTranslation InvertRtl: False
+FreeTranslation HasData: False
+ShowRetellings Vernacular: False
+ShowRetellings NationalBt: False
+ShowRetellings InternationalBt: False
+ShowTestQuestions Vernacular: False
+ShowTestQuestions NationalBt: False
+ShowTestQuestions InternationalBt: True
+ShowAnswers Vernacular: False
+ShowAnswers NationalBt: False
+ShowAnswers InternationalBt: True
+VernacularToNationalBt: <null>
+VernacularToInternationalBt: <null>
+NationalBtToInternationalBt: <null>
+IsConfigured: True
+GetXml:
+<Languages UseRetellingVernacular="false" UseRetellingNationalBT="false" UseRetellingInternationalBT="false" UseTestQuestionVernacular="false" UseTestQuestionNationalBT="false" UseTestQuestionInternationalBT="true" UseAnswerVernacular="false" UseAnswerNationalBT="false" UseAnswerInternationalBT="true">
+  <LanguageInfo lang="Vernacular" name="V" code="v" FontName="Arial" FontSize="9" FontColor="Red" SentenceFinalPunct="." />
+</Languages>
+HasAdaptItConfigurationData: False

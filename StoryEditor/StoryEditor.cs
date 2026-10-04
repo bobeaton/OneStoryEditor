@@ -661,8 +661,8 @@ namespace OneStoryProjectEditor
                     {
                         // this means that the file is not in the default location... But before we can go ahead, we need to 
                         //  check to see if a project already exists with this name in the default location on the disk.
-                        // Here's the situation: the user has 'NewDataSet' in the default location and tries to 'browse/add'
-                        //  a 'NewDataSet' from another location. In that case, it isn't strictly true that finding the one
+                        // Here's the situation: the user has 'MyProject' in the default location and tries to 'browse/add'
+                        //  a 'MyProject' from another location. In that case, it isn't strictly true that finding the one
                         //  in the default location means we will have to overwrite the existing project file (as threatened in 
                         //  the message box below). However, it is true, that the RecentProjects list will lose the reference to 
                         //  the existing one. So if the user cares anything about the existing one at all, they aren't going to 
@@ -6950,9 +6950,7 @@ namespace OneStoryProjectEditor
                 DeleteFieldsFromStory(theStoryToCopy, dlg, mapToFieldsToDelete);
 
             // now that we've removed anything the user didn't want to copy, let's see what members are still being referenced
-            var theMembersInTheOtherProjectXElement = theStoryToCopyPlusMembersXElement.Element(TeamMembersData.CstrElementLabelMembers);
-            var theMembersInTheOtherProjectXmlNode = theMembersInTheOtherProjectXElement.GetXmlNode();
-            var theMembersInTheOtherProject = new TeamMembersData(theMembersInTheOtherProjectXmlNode);
+            var theMembersInTheOtherProject = new TeamMembersData(theStoryToCopyPlusMembersXElement);
 
 #if !UsingOldMethodToDetermineMembersToCopy
             foreach (var aMember in theMembersInTheOtherProject.Values)
@@ -7004,9 +7002,8 @@ namespace OneStoryProjectEditor
             nIndexOfCurrentStory = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
             InsertNewStoryAdjustComboBox(theStoryToCopy, nIndexOfCurrentStory);
 
-            var theProjectSettingsInTheOtherProjectXElement = theStoryToCopyPlusMembersXElement.Element(ProjectSettings.CstrElementLabelLanguages);
-            var theProjectSettingsInTheOtherProjectXmlNode = theProjectSettingsInTheOtherProjectXElement.GetXmlNode().FirstChild;
-            var theProjectSettingsInTheOtherProject = new ProjectSettings(theProjectSettingsInTheOtherProjectXmlNode, null);
+            var theProjectSettingsInTheOtherProject = new ProjectSettings(
+                new XElement(StoryProjectData.CstrElementStoryProjectRoot, theStoryToCopyPlusMembersXElement.Element(ProjectSettings.CstrElementLabelLanguages)), null);
             if ((theProjectSettingsInTheOtherProject.Vernacular.HasData ^ StoryProject.ProjSettings.Vernacular.HasData) ||
                 (theProjectSettingsInTheOtherProject.NationalBT.HasData ^ StoryProject.ProjSettings.NationalBT.HasData) ||
                 (theProjectSettingsInTheOtherProject.InternationalBT.HasData ^ StoryProject.ProjSettings.InternationalBT.HasData) ||
@@ -7406,27 +7403,6 @@ namespace OneStoryProjectEditor
         private void panoramaLastStoryMenu_Click(object sender, EventArgs e)
         {
             GoToLastStory();
-        }
-    }
-
-    public static class MyExtensions
-    {
-        public static XElement GetXElement(this XmlNode node)
-        {
-            var xDoc = new XDocument();
-            using (var xmlWriter = xDoc.CreateWriter())
-                node.WriteTo(xmlWriter);
-            return xDoc.Root;
-        }
-
-        public static XmlNode GetXmlNode(this XElement element)
-        {
-            using (var xmlReader = element.CreateReader())
-            {
-                var xmlDoc = new XmlDocument();
-                xmlDoc.Load(xmlReader);
-                return xmlDoc;
-            }
         }
     }
 }

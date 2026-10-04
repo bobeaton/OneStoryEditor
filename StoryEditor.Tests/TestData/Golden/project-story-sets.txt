@@ -1,0 +1,77 @@
+== set 0
+SetName: [Stories]
+Count: 2
+GetXml:
+<stories SetName="Stories">
+  <story name="First Story" stage="ProjFacTypeVernacular" TasksAllowedPf="VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers" TasksRequiredPf="Anchors" TasksAllowedCit="SendToProjectFacilitatorForRevision, SendToCoachForReview" TasksRequiredCit="None" CountRetellingsTests="0" CountTestingQuestionTests="0" guid="00000000-0000-0000-0000-000000000101" stageDateTimeStamp="2026-10-03T12:34:56Z">
+    <CraftingInfo NonBiblicalStory="false">
+      <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001"></StoryCrafter>
+    </CraftingInfo>
+    <Verses>
+      <Verse guid="00000000-0000-0000-0000-000000000110" first="true">
+        <StoryLine lang="Vernacular">first &amp;amp; line</StoryLine>
+      </Verse>
+      <Verse guid="00000000-0000-0000-0000-000000000111">
+        <StoryLine lang="Vernacular">Testish</StoryLine>
+        <StoryLine lang="NationalBt">second line national</StoryLine>
+      </Verse>
+    </Verses>
+  </story>
+  <story name="Second Story" stage="ProjFacTypeVernacular" TasksAllowedPf="VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers" TasksRequiredPf="Anchors" TasksAllowedCit="SendToProjectFacilitatorForRevision, SendToCoachForReview" TasksRequiredCit="None" CountRetellingsTests="0" CountTestingQuestionTests="0" guid="00000000-0000-0000-0000-000000000102" stageDateTimeStamp="2026-10-03T12:34:56Z">
+    <CraftingInfo NonBiblicalStory="false">
+      <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001"></StoryCrafter>
+    </CraftingInfo>
+    <Verses>
+      <Verse guid="00000000-0000-0000-0000-000000000120" first="true">
+        <StoryLine lang="Vernacular">second story line</StoryLine>
+        <TestQuestions>
+          <TestQuestion visible="true" guid="00000000-0000-0000-0000-000000000150">
+            <TestQuestionLine lang="Vernacular">Testish</TestQuestionLine>
+            <Answers>
+              <Answer lang="Vernacular" memberID="mem-00000000-0000-0000-0000-000000000001">Testish</Answer>
+              <Answer lang="NationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+              <Answer lang="InternationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+            </Answers>
+          </TestQuestion>
+        </TestQuestions>
+        <Retellings>
+          <Retelling lang="Vernacular" memberID="mem-00000000-0000-0000-0000-000000000001">Testish</Retelling>
+          <Retelling lang="NationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+          <Retelling lang="InternationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+        </Retellings>
+      </Verse>
+    </Verses>
+  </story>
+</stories>
+== set 1
+SetName: [Non-Biblical Stories]
+Count: 1
+GetXml:
+<stories SetName="Non-Biblical Stories">
+  <story name="Non Bib Story" stage="ProjFacTypeVernacular" TasksAllowedPf="VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers" TasksRequiredPf="Anchors" TasksAllowedCit="SendToProjectFacilitatorForRevision, SendToCoachForReview" TasksRequiredCit="None" CountRetellingsTests="0" CountTestingQuestionTests="0" guid="00000000-0000-0000-0000-000000000103" stageDateTimeStamp="2026-10-03T12:34:56Z">
+    <CraftingInfo NonBiblicalStory="true">
+      <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001"></StoryCrafter>
+    </CraftingInfo>
+    <Verses>
+      <Verse guid="00000000-0000-0000-0000-000000000130" first="true">
+        <StoryLine lang="Vernacular">non-biblical story line</StoryLine>
+      </Verse>
+    </Verses>
+  </story>
+</stories>
+== set 2
+SetName: [Old Stories]
+Count: 1
+GetXml:
+<stories SetName="Old Stories">
+  <story name="Old Story" stage="ProjFacTypeVernacular" TasksAllowedPf="VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers" TasksRequiredPf="Anchors" TasksAllowedCit="SendToProjectFacilitatorForRevision, SendToCoachForReview" TasksRequiredCit="None" CountRetellingsTests="0" CountTestingQuestionTests="0" guid="00000000-0000-0000-0000-000000000104" stageDateTimeStamp="2026-10-03T12:34:56Z">
+    <CraftingInfo NonBiblicalStory="false">
+      <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001"></StoryCrafter>
+    </CraftingInfo>
+    <Verses>
+      <Verse guid="00000000-0000-0000-0000-000000000140" first="true">
+        <StoryLine lang="Vernacular">old story line</StoryLine>
+      </Verse>
+    </Verses>
+  </story>
+</stories>

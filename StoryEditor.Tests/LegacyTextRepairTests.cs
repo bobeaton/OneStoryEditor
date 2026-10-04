@@ -29,61 +29,64 @@ namespace OneStoryProjectEditor.Tests
         public void ClearLanguageNamePlaceholders_ClearsValuesThatAreJustTheColumnsLanguageName()
         {
             // the fixture's Vernacular language is called "Testish"
-            var doc = XDocument.Load(FixturePath);
-            doc.Descendants("StoryLine").Single().Value = "Testish";
-            doc.Descendants("TestQuestionLine").Single().Value = " Testish ";
-            doc.Descendants("ConsultantNote").Single().Value = "Testish";
-            var strTemp = Path.Combine(Path.GetTempPath(), "ose-placeholder-" + Guid.NewGuid() + ".onestory");
-            try
-            {
-                doc.Save(strTemp);
-                ProjectReader projFile;
-                ProjectReader.ReadProjectFile(strTemp, out projFile);
+            var root = XDocument.Load(FixturePath).Root;
+            root.Descendants("StoryLine").Single().Value = "Testish";
+            root.Descendants("TestQuestionLine").Single().Value = " Testish ";
+            root.Descendants("ConsultantNote").Single().Value = "Testish";
 
-                var nCleared = LegacyTextRepair.ClearLanguageNamePlaceholders(projFile);
+            var nCleared = LegacyTextRepair.ClearLanguageNamePlaceholders(root);
 
-                Assert.That(nCleared, Is.EqualTo(2));
-                Assert.That(projFile.Tables["StoryLine"].Rows[0]["StoryLine_text"], Is.EqualTo(String.Empty));
-                Assert.That(projFile.Tables["TestQuestionLine"].Rows[0]["TestQuestionLine_text"], Is.EqualTo(String.Empty));
-                Assert.That(projFile.Tables["ConsultantNote"].Rows[0]["ConsultantNote_text"], Is.EqualTo("Testish"));   // notes aren't textareas with placeholders
-            }
-            finally
-            {
-                File.Delete(strTemp);
-            }
+            Assert.That(nCleared, Is.EqualTo(2));
+            Assert.That(XmlRead.Text(root.Descendants("StoryLine").Single()), Is.EqualTo(String.Empty));
+            Assert.That(XmlRead.Text(root.Descendants("TestQuestionLine").Single()), Is.EqualTo(String.Empty));
+            Assert.That(XmlRead.Text(root.Descendants("ConsultantNote").Single()), Is.EqualTo("Testish"));   // notes aren't textareas with placeholders
         }
 
         [Test]
         public void ClearLanguageNamePlaceholders_LeavesOtherTextAlone()
         {
-            ProjectReader projFile;
-            ProjectReader.ReadProjectFile(FixturePath, out projFile);
+            var root = ProjectFile.Load(FixturePath).Root;
 
-            Assert.That(LegacyTextRepair.ClearLanguageNamePlaceholders(projFile), Is.EqualTo(0));
-            Assert.That((string)projFile.Tables["StoryLine"].Rows[0]["StoryLine_text"], Does.StartWith("dengan"));
+            Assert.That(LegacyTextRepair.ClearLanguageNamePlaceholders(root), Is.EqualTo(0));
+            Assert.That(XmlRead.Text(root.Descendants("StoryLine").Single()), Does.StartWith("dengan"));
+        }
+
+        [Test]
+        public void DecodePlainTextElements_DecodesStoryFieldsButNotNotes()
+        {
+            var root = ProjectFile.Load(FixturePath).Root;
+
+            var nChanged = LegacyTextRepair.DecodePlainTextElements(root);
+
+            Assert.That(nChanged, Is.EqualTo(2));
+            Assert.That(XmlRead.Text(root.Descendants("StoryLine").Single()),
+                        Is.EqualTo("dengan [B&B] kata Tuhan <donkey bray> B&B;"));
+            Assert.That(XmlRead.Text(root.Descendants("TestQuestionLine").Single()),
+                        Is.EqualTo("snake & lady?"));
+            Assert.That(XmlRead.Text(root.Descendants("ConsultantNote").Single()),
+                        Is.EqualTo("ok <B>only</B> [B&amp;B]"));   // notes are HTML: untouched
+        }
+
+        [Test]
+        public void DecodePlainTextElements_DecodesLnCNoteTextAndRenderingAttributes()
+        {
+            var root = XElement.Parse(
+                "<story><Verses><Verse><StoryLine lang=\"V\">[B&amp;amp;B]</StoryLine>" +
+                "<ConsultantNote>[B&amp;amp;B]</ConsultantNote>" +
+                "<LnCNote VernacularRendering=\"a &amp;amp; b\">x &amp;amp; y</LnCNote></Verse></Verses></story>");
+
+            Assert.That(LegacyTextRepair.DecodePlainTextElements(root), Is.EqualTo(3));
+
+            Assert.That(root.Descendants("StoryLine").Single().Value, Is.EqualTo("[B&B]"));
+            Assert.That(root.Descendants("ConsultantNote").Single().Value, Is.EqualTo("[B&amp;B]"));
+            Assert.That(root.Descendants("LnCNote").Single().Value, Is.EqualTo("x & y"));
+            Assert.That((string)root.Descendants("LnCNote").Single().Attribute("VernacularRendering"), Is.EqualTo("a & b"));
         }
 
         [Test]
         public void DecodeIeEntities_OneLevelOnly()
         {
             Assert.That(LegacyTextRepair.DecodeIeEntities("&amp;amp;"), Is.EqualTo("&amp;"));
-        }
-
-        [Test]
-        public void DecodePlainTextFields_DecodesStoryFieldsButNotNotes()
-        {
-            ProjectReader projFile;
-            ProjectReader.ReadProjectFile(FixturePath, out projFile);
-
-            var nChanged = LegacyTextRepair.DecodePlainTextFields(projFile);
-
-            Assert.That(nChanged, Is.EqualTo(2));
-            Assert.That(projFile.Tables["StoryLine"].Rows[0]["StoryLine_text"],
-                        Is.EqualTo("dengan [B&B] kata\u00A0Tuhan <donkey bray> B&B;"));
-            Assert.That(projFile.Tables["TestQuestionLine"].Rows[0]["TestQuestionLine_text"],
-                        Is.EqualTo("snake & lady?"));
-            Assert.That(projFile.Tables["ConsultantNote"].Rows[0]["ConsultantNote_text"],
-                        Is.EqualTo("ok <B>only</B> [B&amp;B]"));   // notes are HTML: untouched
         }
 
         [Test]
@@ -129,44 +132,6 @@ namespace OneStoryProjectEditor.Tests
             Assert.That(root.Attribute("version").Value, Is.EqualTo("1.8"));
         }
 
-        [Test]
-        public void IsFileMarkedPlain()
-        {
-            var strMarked = Path.Combine(Path.GetTempPath(), "ose-marked-" + Guid.NewGuid() + ".onestory");
-            try
-            {
-                var doc = XDocument.Load(FixturePath);
-                LegacyTextRepair.MarkAsPlain(doc.Root);
-                doc.Save(strMarked);
-
-                Assert.That(LegacyTextRepair.IsFileMarkedPlain(FixturePath), Is.False);
-                Assert.That(LegacyTextRepair.IsFileMarkedPlain(strMarked), Is.True);
-            }
-            finally
-            {
-                File.Delete(strMarked);
-            }
-        }
-
-        [Test]
-        public void IsFileMarkedPlain_NeverThrows()
-        {
-            var strDoctype = Path.Combine(Path.GetTempPath(), "ose-doctype-" + Guid.NewGuid() + ".onestory");
-            try
-            {
-                File.WriteAllText(strDoctype,
-                    "<?xml version=\"1.0\"?><!DOCTYPE StoryProject [<!ENTITY x \"y\">]><StoryProject TextEncoding=\"plain\" />");
-                Assert.That(LegacyTextRepair.IsFileMarkedPlain(strDoctype), Is.False);
-            }
-            finally
-            {
-                File.Delete(strDoctype);
-            }
-
-            Assert.That(LegacyTextRepair.IsFileMarkedPlain(Path.Combine(Path.GetTempPath(), "no-such-" + Guid.NewGuid() + ".onestory")),
-                        Is.False);
-        }
-
         [TestCase("&#65;", "A")]
         [TestCase("&#x41;", "A")]
         [TestCase("&#0;", "&#0;")]
@@ -178,24 +143,6 @@ namespace OneStoryProjectEditor.Tests
         public void DecodeIeEntities_NumericEntitiesMustBeValidXmlChars(string input, string expected)
         {
             Assert.That(LegacyTextRepair.DecodeIeEntities(input), Is.EqualTo(expected));
-        }
-
-        [Test]
-        public void DecodePlainTextElements_XmlNode()
-        {
-            var doc = new System.Xml.XmlDocument();
-            doc.LoadXml("<story><Verses><Verse><StoryLine lang=\"V\">[B&amp;amp;B]</StoryLine>" +
-                        "<ConsultantNote>[B&amp;amp;B]</ConsultantNote>" +
-                        "<LnCNote VernacularRendering=\"a &amp;amp; b\">x &amp;amp; y</LnCNote></Verse></Verses></story>");
-
-            var node = LegacyTextRepair.DecodePlainTextElements(doc.DocumentElement);
-
-            Assert.That(node, Is.SameAs(doc.DocumentElement));
-            Assert.That(doc.SelectSingleNode("//StoryLine").InnerText, Is.EqualTo("[B&B]"));
-            Assert.That(doc.SelectSingleNode("//ConsultantNote").InnerText, Is.EqualTo("[B&amp;B]"));
-            Assert.That(doc.SelectSingleNode("//LnCNote").InnerText, Is.EqualTo("x & y"));
-            Assert.That(doc.SelectSingleNode("//LnCNote").Attributes["VernacularRendering"].Value, Is.EqualTo("a & b"));
-            Assert.That(LegacyTextRepair.DecodePlainTextElements((System.Xml.XmlNode)null), Is.Null);
         }
 
         [Test]

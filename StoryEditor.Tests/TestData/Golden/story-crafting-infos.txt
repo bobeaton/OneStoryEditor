@@ -1,0 +1,105 @@
+== story 0
+IsBiblicalStory: False
+crafter MemberId: [mem-00000000-0000-0000-0000-000000000001]
+crafter MemberComment: [crafter comment]
+pf MemberId: [mem-00000000-0000-0000-0000-000000000002]
+pf MemberComment: <null>
+consultant MemberId: [mem-00000000-0000-0000-0000-000000000003]
+consultant MemberComment: [consultant\r\ncomment]
+coach MemberId: [mem-00000000-0000-0000-0000-000000000004]
+coach MemberComment: <null>
+bt MemberId: [mem-00000000-0000-0000-0000-000000000005]
+bt MemberComment: [bt comment]
+oebt MemberId: [mem-00000000-0000-0000-0000-000000000006]
+oebt MemberComment: [outside comment]
+StoryPurpose: [purpose line 1\r\npurpose line 2]
+ResourcesUsed: [resources\r\nalready crlf]
+MiscellaneousStoryInfo: [misc info]
+retellings Count: 2
+retellings [0] MemberId: [mem-00000000-0000-0000-0000-000000000007]
+retellings [0] MemberComment: [retelling test comment\r\nsecond line]
+retellings [1] MemberId: [mem-00000000-0000-0000-0000-000000000008]
+retellings [1] MemberComment: <null>
+tq answers Count: 2
+tq answers [0] MemberId: [mem-00000000-0000-0000-0000-000000000009]
+tq answers [0] MemberComment: [tq answers comment]
+tq answers [1] MemberId: [mem-00000000-0000-0000-0000-000000000007]
+tq answers [1] MemberComment: <null>
+GetXml:
+<CraftingInfo NonBiblicalStory="true">
+  <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001">crafter comment</StoryCrafter>
+  <ProjectFacilitator memberID="mem-00000000-0000-0000-0000-000000000002"></ProjectFacilitator>
+  <Consultant memberID="mem-00000000-0000-0000-0000-000000000003">consultant
+comment</Consultant>
+  <Coach memberID="mem-00000000-0000-0000-0000-000000000004"></Coach>
+  <BackTranslator memberID="mem-00000000-0000-0000-0000-000000000005">bt comment</BackTranslator>
+  <OutsideEnglishBackTranslator memberID="mem-00000000-0000-0000-0000-000000000006">outside comment</OutsideEnglishBackTranslator>
+  <StoryPurpose>purpose line 1
+purpose line 2</StoryPurpose>
+  <ResourcesUsed>resources
+already crlf</ResourcesUsed>
+  <MiscellaneousStoryInfo>misc info</MiscellaneousStoryInfo>
+  <TestsRetellings>
+    <TestRetelling memberID="mem-00000000-0000-0000-0000-000000000007">retelling test comment
+second line</TestRetelling>
+    <TestRetelling memberID="mem-00000000-0000-0000-0000-000000000008"></TestRetelling>
+  </TestsRetellings>
+  <TestsTqAnswers>
+    <TestTqAnswer memberID="mem-00000000-0000-0000-0000-000000000009">tq answers comment</TestTqAnswer>
+    <TestTqAnswer memberID="mem-00000000-0000-0000-0000-000000000007"></TestTqAnswer>
+  </TestsTqAnswers>
+</CraftingInfo>
+== story 1
+IsBiblicalStory: True
+crafter MemberId: [mem-00000000-0000-0000-0000-000000000001]
+crafter MemberComment: <null>
+pf: <null>
+consultant: <null>
+coach: <null>
+bt: <null>
+oebt: <null>
+StoryPurpose: []
+ResourcesUsed: []
+MiscellaneousStoryInfo: <null>
+retellings Count: 0
+tq answers Count: 0
+GetXml:
+<CraftingInfo NonBiblicalStory="false">
+  <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001"></StoryCrafter>
+</CraftingInfo>
+== story 2
+IsBiblicalStory: True
+crafter MemberId: [mem-00000000-0000-0000-0000-000000000001]
+crafter MemberComment: <null>
+pf: <null>
+consultant: <null>
+coach: <null>
+bt: <null>
+oebt: <null>
+StoryPurpose: <null>
+ResourcesUsed: <null>
+MiscellaneousStoryInfo: <null>
+retellings Count: 0
+tq answers Count: 0
+GetXml:
+<CraftingInfo NonBiblicalStory="false">
+  <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001"></StoryCrafter>
+</CraftingInfo>
+== story 3
+IsBiblicalStory: True
+crafter MemberId: [mem-00000000-0000-0000-0000-000000000001]
+crafter MemberComment: <null>
+pf: <null>
+consultant: <null>
+coach: <null>
+bt: <null>
+oebt: <null>
+StoryPurpose: <null>
+ResourcesUsed: <null>
+MiscellaneousStoryInfo: <null>
+retellings Count: 0
+tq answers Count: 0
+GetXml:
+<CraftingInfo NonBiblicalStory="false">
+  <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001"></StoryCrafter>
+</CraftingInfo>

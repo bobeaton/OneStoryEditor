@@ -1,0 +1,172 @@
+== verse 0
+Count: 1
+conversation 0 guid: [00000000-0000-0000-0000-000000000040]
+conversation 0 Visible: True
+conversation 0 IsFinished: False
+conversation 0 AllowButtonsOverride: False
+conversation 0 DontShowButtonsOverride: False
+conversation 0 Count: 4
+conversation 0 ReferringText: <null>
+conversation 0 comment 0 Direction: eConsultantToProjFac
+conversation 0 comment 0 Guid: [00000000-0000-0000-0000-000000000041]
+conversation 0 comment 0 MemberId: [mem-00000000-0000-0000-0000-000000000001]
+conversation 0 comment 0 Value: [note Z]
+conversation 0 comment 0 WhichField: ConsultantNote
+conversation 0 comment 0 TimeStamp: timeStamp="2026-10-03T12:34:56Z" kind=Local
+conversation 0 comment 1 Direction: eConsultantToProjFac
+conversation 0 comment 1 Guid: [00000000-0000-0000-0000-000000000042]
+conversation 0 comment 1 MemberId: [mem-00000000-0000-0000-0000-000000000001]
+conversation 0 comment 1 Value: [note local]
+conversation 0 comment 1 WhichField: ConsultantNote
+conversation 0 comment 1 TimeStamp: timeStamp="2026-10-03T12:34:56Z" kind=Local
+conversation 0 comment 2 Direction: eConsultantToProjFac
+conversation 0 comment 2 Guid: [00000000-0000-0000-0000-000000000043]
+conversation 0 comment 2 MemberId: [mem-00000000-0000-0000-0000-000000000001]
+conversation 0 comment 2 Value: [note offset]
+conversation 0 comment 2 WhichField: ConsultantNote
+conversation 0 comment 2 TimeStamp: timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}" kind=Local
+conversation 0 comment 3 Direction: eConsultantToProjFac
+conversation 0 comment 3 Guid: [00000000-0000-0000-0000-000000000044]
+conversation 0 comment 3 MemberId: [mem-00000000-0000-0000-0000-000000000001]
+conversation 0 comment 3 Value: [no timestamp]
+conversation 0 comment 3 WhichField: ConsultantNote
+conversation 0 comment 3 TimeStamp: timeStamp="{NOW}" kind=Local
+conversation 0 GetXml:
+<ConsultantConversation guid="00000000-0000-0000-0000-000000000040">
+  <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000041" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">note Z</ConsultantNote>
+  <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000042" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">note local</ConsultantNote>
+  <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000043" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}">note offset</ConsultantNote>
+  <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000044" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{NOW}">no timestamp</ConsultantNote>
+</ConsultantConversation>
+GetXml:
+<ConsultantNotes>
+  <ConsultantConversation guid="00000000-0000-0000-0000-000000000040">
+    <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000041" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">note Z</ConsultantNote>
+    <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000042" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">note local</ConsultantNote>
+    <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000043" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}">note offset</ConsultantNote>
+    <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000044" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{NOW}">no timestamp</ConsultantNote>
+  </ConsultantConversation>
+</ConsultantNotes>
+== verse 1
+Count: 1
+conversation 0 guid: [00000000-0000-0000-0000-000000000045]
+conversation 0 Visible: True
+conversation 0 IsFinished: True
+conversation 0 AllowButtonsOverride: False
+conversation 0 DontShowButtonsOverride: False
+conversation 0 Count: 1
+conversation 0 ReferringText: <null>
+conversation 0 comment 0 Direction: eConsultantToProjFac
+conversation 0 comment 0 Guid: [00000000-0000-0000-0000-000000000046]
+conversation 0 comment 0 MemberId: [mem-00000000-0000-0000-0000-000000000001]
+conversation 0 comment 0 Value: [n]
+conversation 0 comment 0 WhichField: ConsultantNote
+conversation 0 comment 0 TimeStamp: timeStamp="2026-10-03T12:34:56Z" kind=Local
+conversation 0 GetXml:
+<ConsultantConversation guid="00000000-0000-0000-0000-000000000045" finished="true">
+  <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000046" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">n</ConsultantNote>
+</ConsultantConversation>
+GetXml:
+<ConsultantNotes>
+  <ConsultantConversation guid="00000000-0000-0000-0000-000000000045" finished="true">
+    <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000046" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">n</ConsultantNote>
+  </ConsultantConversation>
+</ConsultantNotes>
+== verse 2
+Count: 0
+== verse 3
+Count: 0
+== verse 4
+Count: 0
+== verse 5
+Count: 3
+conversation 0 guid: [00000000-0000-0000-0000-000000000060]
+conversation 0 Visible: False
+conversation 0 IsFinished: True
+conversation 0 AllowButtonsOverride: False
+conversation 0 DontShowButtonsOverride: False
+conversation 0 Count: 2
+conversation 0 ReferringText Direction: eReferringToText
+conversation 0 ReferringText Guid: [00000000-0000-0000-0000-000000000061]
+conversation 0 ReferringText MemberId: [mem-00000000-0000-0000-0000-000000000001]
+conversation 0 ReferringText Value: [referring text]
+conversation 0 ReferringText WhichField: ConsultantNote
+conversation 0 ReferringText TimeStamp: timeStamp="2026-10-03T12:34:56Z" kind=Local
+conversation 0 comment 0 Direction: eConsultantToProjFac
+conversation 0 comment 0 Guid: [00000000-0000-0000-0000-000000000062]
+conversation 0 comment 0 MemberId: [mem-00000000-0000-0000-0000-000000000001]
+conversation 0 comment 0 Value: [consultant says]
+conversation 0 comment 0 WhichField: ConsultantNote
+conversation 0 comment 0 TimeStamp: timeStamp="2026-10-03T12:34:56Z" kind=Local
+conversation 0 comment 1 Direction: eProjFacToConsultant
+conversation 0 comment 1 Guid: [00000000-0000-0000-0000-000000000063]
+conversation 0 comment 1 MemberId: [mem-00000000-0000-0000-0000-000000000001]
+conversation 0 comment 1 Value: [pf replies]
+conversation 0 comment 1 WhichField: ConsultantNote
+conversation 0 comment 1 TimeStamp: timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}" kind=Local
+conversation 0 GetXml:
+<ConsultantConversation guid="00000000-0000-0000-0000-000000000060" visible="false" finished="true">
+  <ConsultantNote Direction="ReferringToText" guid="00000000-0000-0000-0000-000000000061" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">referring text</ConsultantNote>
+  <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000062" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">consultant says</ConsultantNote>
+  <ConsultantNote Direction="ProjFacToConsultant" guid="00000000-0000-0000-0000-000000000063" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}">pf replies</ConsultantNote>
+</ConsultantConversation>
+conversation 1 guid: [00000000-0000-0000-0000-000000000064]
+conversation 1 Visible: True
+conversation 1 IsFinished: False
+conversation 1 AllowButtonsOverride: False
+conversation 1 DontShowButtonsOverride: False
+conversation 1 Count: 1
+conversation 1 ReferringText: <null>
+conversation 1 comment 0 Direction: eStickyNote
+conversation 1 comment 0 Guid: [00000000-0000-0000-0000-000000000065]
+conversation 1 comment 0 MemberId: [mem-00000000-0000-0000-0000-000000000001]
+conversation 1 comment 0 Value: [sticky]
+conversation 1 comment 0 WhichField: ConsultantNote
+conversation 1 comment 0 TimeStamp: timeStamp="2026-10-03T12:34:56Z" kind=Local
+conversation 1 GetXml:
+<ConsultantConversation guid="00000000-0000-0000-0000-000000000064">
+  <ConsultantNote Direction="StickyNote" guid="00000000-0000-0000-0000-000000000065" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">sticky</ConsultantNote>
+</ConsultantConversation>
+conversation 2 guid: [00000000-0000-0000-0000-000000000066]
+conversation 2 Visible: True
+conversation 2 IsFinished: False
+conversation 2 AllowButtonsOverride: False
+conversation 2 DontShowButtonsOverride: False
+conversation 2 Count: 2
+conversation 2 ReferringText: <null>
+conversation 2 comment 0 Direction: eConsultantToProjFac
+conversation 2 comment 0 Guid: [00000000-0000-0000-0000-000000000067]
+conversation 2 comment 0 MemberId: <null>
+conversation 2 comment 0 Value: [mentor note without member]
+conversation 2 comment 0 WhichField: ConsultantNote
+conversation 2 comment 0 TimeStamp: timeStamp="2026-10-03T12:34:56Z" kind=Local
+conversation 2 comment 1 Direction: eProjFacToConsultant
+conversation 2 comment 1 Guid: [00000000-0000-0000-0000-000000000068]
+conversation 2 comment 1 MemberId: [mem-00000000-0000-0000-0000-000000000001]
+conversation 2 comment 1 Value: [reply with no stamp]
+conversation 2 comment 1 WhichField: ConsultantNote
+conversation 2 comment 1 TimeStamp: timeStamp="{NOW}" kind=Local
+conversation 2 GetXml:
+<ConsultantConversation guid="00000000-0000-0000-0000-000000000066">
+  <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000067" timeStamp="2026-10-03T12:34:56Z">mentor note without member</ConsultantNote>
+  <ConsultantNote Direction="ProjFacToConsultant" guid="00000000-0000-0000-0000-000000000068" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{NOW}">reply with no stamp</ConsultantNote>
+</ConsultantConversation>
+GetXml:
+<ConsultantNotes>
+  <ConsultantConversation guid="00000000-0000-0000-0000-000000000060" visible="false" finished="true">
+    <ConsultantNote Direction="ReferringToText" guid="00000000-0000-0000-0000-000000000061" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">referring text</ConsultantNote>
+    <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000062" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">consultant says</ConsultantNote>
+    <ConsultantNote Direction="ProjFacToConsultant" guid="00000000-0000-0000-0000-000000000063" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}">pf replies</ConsultantNote>
+  </ConsultantConversation>
+  <ConsultantConversation guid="00000000-0000-0000-0000-000000000064">
+    <ConsultantNote Direction="StickyNote" guid="00000000-0000-0000-0000-000000000065" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">sticky</ConsultantNote>
+  </ConsultantConversation>
+  <ConsultantConversation guid="00000000-0000-0000-0000-000000000066">
+    <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000067" timeStamp="2026-10-03T12:34:56Z">mentor note without member</ConsultantNote>
+    <ConsultantNote Direction="ProjFacToConsultant" guid="00000000-0000-0000-0000-000000000068" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{NOW}">reply with no stamp</ConsultantNote>
+  </ConsultantConversation>
+</ConsultantNotes>
+== verse 6
+Count: 0
+== verse 7
+Count: 0

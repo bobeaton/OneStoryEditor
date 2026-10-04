@@ -1,0 +1,83 @@
+config 0 ProjectType: LocalAiProjectOnly
+config 0 BtDirection: VernacularToNationalBt
+config 0 ConverterName: [AI Vern to Nat]
+config 0 ProjectFolderName: [Tst to Nat]
+config 0 RepoProjectName: <null>
+config 0 RepositoryServer: <null>
+config 0 NetworkRepositoryPath: <null>
+config 0 GetXml:
+<AdaptItConfiguration BtDirection="VernacularToNationalBt" ProjectType="LocalAiProjectOnly" ConverterName="AI Vern to Nat" ProjectFolderName="Tst to Nat" />
+config 1 ProjectType: SharedAiProject
+config 1 BtDirection: VernacularToInternationalBt
+config 1 ConverterName: [AI Vern to Intl]
+config 1 ProjectFolderName: [Tst to Eng]
+config 1 RepoProjectName: [Tst-Eng]
+config 1 RepositoryServer: [https://example.org/hg]
+config 1 NetworkRepositoryPath: [\\server\share\Tst-Eng]
+config 1 GetXml:
+<AdaptItConfiguration BtDirection="VernacularToInternationalBt" ProjectType="SharedAiProject" ConverterName="AI Vern to Intl" ProjectFolderName="Tst to Eng" RepoProjectName="Tst-Eng" RepositoryServer="https://example.org/hg" NetworkRepositoryPath="\\server\share\Tst-Eng" />
+config 2 ProjectType: None
+config 2 BtDirection: NationalBtToInternationalBt
+config 2 ConverterName: [AI Nat to Intl]
+config 2 ProjectFolderName: <null>
+config 2 RepoProjectName: <null>
+config 2 RepositoryServer: <null>
+config 2 NetworkRepositoryPath: <null>
+config 2 GetXml:
+<AdaptItConfiguration BtDirection="NationalBtToInternationalBt" ProjectType="None" ConverterName="AI Nat to Intl" />
+language 0 LangType: [Vernacular]
+language 0 LangName: [Testish]
+language 0 LangCode: [tst]
+language 0 DefaultFontName: [Charis SIL]
+language 0 DefaultFontSize: 12.5
+language 0 FontToUse.Name: [Charis SIL]
+language 0 FontToUse.Size: 12.5
+language 0 FontColor.Name: [Maroon]
+language 0 FullStop: [.!?:]
+language 0 DefaultKeyboard: [Keyman Vern default]
+language 0 KeyboardOverride: <null>
+language 0 DefaultRtl: True
+language 0 InvertRtl: False
+language 0 HasData: True
+language 1 LangType: [Vernacular]
+language 1 LangName: [Nationalese]
+language 1 LangCode: [nat]
+language 1 DefaultFontName: [Arial]
+language 1 DefaultFontSize: 11
+language 1 FontToUse.Name: [Arial]
+language 1 FontToUse.Size: 11
+language 1 FontColor.Name: [Green]
+language 1 FullStop: [.]
+language 1 DefaultKeyboard: <null>
+language 1 KeyboardOverride: <null>
+language 1 DefaultRtl: False
+language 1 InvertRtl: False
+language 1 HasData: True
+language 2 LangType: [Vernacular]
+language 2 LangName: [English]
+language 2 LangCode: [en]
+language 2 DefaultFontName: [Times New Roman]
+language 2 DefaultFontSize: 10
+language 2 FontToUse.Name: [Times New Roman]
+language 2 FontToUse.Size: 10
+language 2 FontColor.Name: [Blue]
+language 2 FullStop: [.!?]
+language 2 DefaultKeyboard: <null>
+language 2 KeyboardOverride: <null>
+language 2 DefaultRtl: False
+language 2 InvertRtl: False
+language 2 HasData: True
+language 3 LangType: [Vernacular]
+language 3 LangName: [Free English]
+language 3 LangCode: [en]
+language 3 DefaultFontName: [Times New Roman]
+language 3 DefaultFontSize: 10
+language 3 FontToUse.Name: [Times New Roman]
+language 3 FontToUse.Size: 10
+language 3 FontColor.Name: [ForestGreen]
+language 3 FullStop: [.!?]
+language 3 DefaultKeyboard: <null>
+language 3 KeyboardOverride: <null>
+language 3 DefaultRtl: False
+language 3 InvertRtl: False
+language 3 HasData: True

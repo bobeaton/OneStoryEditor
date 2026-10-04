@@ -1,0 +1,12 @@
+Count: 4
+Keys: [c|e|i|f]
+HasOutsideEnglishBTer: True
+HasLanguageSpecialtyReviewer: False
+HasIndependentConsultant: True
+GetXml:
+<Members HasOutsideEnglishBTer="true" HasFirstPassMentor="false" HasIndependentConsultant="true">
+  <Member name="c" memberType="Crafter" memberKey="m1" />
+  <Member name="e" memberType="EnglishBackTranslator" memberKey="m2" />
+  <Member name="i" memberType="IndependentConsultant" memberKey="m3" />
+  <Member name="f" memberType="FirstPassMentor" memberKey="m4" />
+</Members>

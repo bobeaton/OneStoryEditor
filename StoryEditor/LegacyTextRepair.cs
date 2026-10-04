@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Globalization;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -24,20 +23,6 @@ namespace OneStoryProjectEditor
         // just the entities IE's htmlText produced (so the user's own "B&B;" is left alone)
         private static readonly Regex RegexIeEntity =
             new Regex(@"&(?:amp|lt|gt|quot|nbsp|#[0-9]{1,7}|#[xX][0-9A-Fa-f]{1,6});", RegexOptions.Compiled);
-
-        // typed NewDataSet table -> its plain-text columns
-        private static readonly Dictionary<string, string[]> PlainTextColumns = new Dictionary<string, string[]>
-        {
-            { "StoryLine", new[] { "StoryLine_text" } },
-            { "Retelling", new[] { "Retelling_text" } },
-            { "Answer", new[] { "Answer_text" } },
-            { "TestQuestionLine", new[] { "TestQuestionLine_text" } },
-            { "ExegeticalHelp", new[] { "ExegeticalHelp_Column" } },
-            { "LnCNote", new[] { "LnCNote_text", "VernacularRendering", "NationalBTRendering", "InternationalBTRendering" } },
-            { "CraftingInfo", new[] { "StoryPurpose", "ResourcesUsed", "MiscellaneousStoryInfo" } },
-            { "TestRetelling", new[] { "TestRetelling_text" } },
-            { "TestTqAnswer", new[] { "TestTqAnswer_text" } },
-        };
 
         // the same fields as XML elements (for the copy-story/copy-column clipboard XML)
         private static readonly HashSet<string> PlainTextElementNames = new HashSet<string>
@@ -94,46 +79,7 @@ namespace OneStoryProjectEditor
         // StoryBt.js fakes the (IE9-unsupported) placeholder by putting the language name into an empty
         //  textarea, and older versions saved that as if the user had typed it. So a value that is exactly
         //  its column's language name is really an empty field.
-        public static int ClearLanguageNamePlaceholders(DataSet ds)
-        {
-            var tableLanguages = ds.Tables["LanguageInfo"];
-            if (tableLanguages == null)
-                return 0;
-
-            var mapLanguageNames = new Dictionary<string, string>();
-            foreach (DataRow row in tableLanguages.Rows)
-            {
-                var strLang = row["lang"] as string;
-                var strName = (row["name"] as string)?.Trim();
-                if (!String.IsNullOrEmpty(strLang) && !String.IsNullOrEmpty(strName))
-                    mapLanguageNames[strLang] = strName;
-            }
-
-            int nCleared = 0;
-            foreach (var strTable in TablesWithPlaceholders)
-            {
-                var table = ds.Tables[strTable];
-                var columnText = table?.Columns[strTable + "_text"];
-                var columnLang = table?.Columns["lang"];
-                if ((columnText == null) || (columnLang == null))
-                    continue;
-
-                foreach (DataRow row in table.Rows)
-                {
-                    var strText = row[columnText] as string;
-                    if (String.IsNullOrEmpty(strText) ||
-                        !mapLanguageNames.TryGetValue(row[columnLang] as string ?? String.Empty, out var strName) ||
-                        (strText.Trim() != strName))
-                        continue;
-
-                    row[columnText] = String.Empty;
-                    nCleared++;
-                }
-            }
-            return nCleared;
-        }
-
-        // same as the DataSet overload, reading the LanguageInfo elements and the text of the placeholder elements
+        // reads the LanguageInfo elements and the text of the placeholder elements
         //  (an empty or whitespace-only element is a null value there, so it is never cleared)
         public static int ClearLanguageNamePlaceholders(XElement elemStoryProject)
         {
@@ -158,44 +104,11 @@ namespace OneStoryProjectEditor
                         continue;
 
                     elem.Value = String.Empty;
-                    elem.AddAnnotation(XmlRead.ClearedPlaceholder.Instance);   // reads as "", like the DataSet's cleared value
+                    elem.AddAnnotation(XmlRead.ClearedPlaceholder.Instance);   // reads as ""
                     nCleared++;
                 }
             }
             return nCleared;
-        }
-
-        public static int DecodePlainTextFields(DataSet ds)
-        {
-            int nChanged = 0;
-            foreach (var kvp in PlainTextColumns)
-            {
-                var table = ds.Tables[kvp.Key];
-                if (table == null)
-                    continue;
-
-                foreach (var strColumnName in kvp.Value)
-                {
-                    var column = table.Columns[strColumnName];
-                    if ((column == null) || (column.DataType != typeof(string)))
-                        continue;
-
-                    foreach (DataRow row in table.Rows)
-                    {
-                        if (row.IsNull(column))
-                            continue;
-
-                        var str = (string)row[column];
-                        var strDecoded = DecodeIeEntities(str);
-                        if (strDecoded == str)
-                            continue;
-
-                        row[column] = strDecoded;
-                        nChanged++;
-                    }
-                }
-            }
-            return nChanged;
         }
 
         public static int DecodePlainTextElements(XElement root)
@@ -236,60 +149,6 @@ namespace OneStoryProjectEditor
             return nChanged;
         }
 
-        // same as above for an XmlNode (e.g. a story out of an old revision or one Chorus gave us); decodes it
-        //  in place and returns it
-        public static XmlNode DecodePlainTextElements(XmlNode node)
-        {
-            if (node == null)
-                return null;
-
-            var elements = new List<XmlElement>();
-            if (node is XmlElement)
-                elements.Add((XmlElement)node);
-            foreach (XmlElement elem in node.SelectNodes(".//*"))
-                elements.Add(elem);
-
-            foreach (var elem in elements)
-            {
-                var strName = elem.LocalName;
-                if (!PlainTextElementNames.Contains(strName))
-                    continue;
-
-                var bHasChildElements = false;
-                foreach (XmlNode child in elem.ChildNodes)
-                    if (child.NodeType == XmlNodeType.Element)
-                        bHasChildElements = true;
-
-                if (!bHasChildElements)
-                {
-                    var str = elem.InnerText;
-                    var strDecoded = DecodeIeEntities(str);
-                    if (strDecoded != str)
-                        elem.InnerText = strDecoded;
-                }
-
-                if (strName != "LnCNote")
-                    continue;
-
-                foreach (var strAttributeName in PlainTextAttributeNamesOfLnCNote)
-                {
-                    var attr = elem.GetAttributeNode(strAttributeName);
-                    if (attr == null)
-                        continue;
-                    var strDecoded = DecodeIeEntities(attr.Value);
-                    if (strDecoded != attr.Value)
-                        attr.Value = strDecoded;
-                }
-            }
-            return node;
-        }
-
-        public static bool IsMarkedPlain(XmlNode root)
-        {
-            var elem = root as XmlElement;
-            return (elem != null) && (elem.GetAttribute(CstrAttributeTextEncoding) == CstrTextEncodingPlain);
-        }
-
         public static bool IsMarkedPlain(XElement root)
         {
             return (string)root.Attribute(CstrAttributeTextEncoding) == CstrTextEncodingPlain;
@@ -306,26 +165,6 @@ namespace OneStoryProjectEditor
                 return false;
             DecodePlainTextElements(root);
             return true;
-        }
-
-        // the typed NewDataSet doesn't know this attribute (neither does the one in older versions,
-        //  which is why they can still read our files), so read it straight from the root element
-        public static bool IsFileMarkedPlain(string strFilePath)
-        {
-            // this must never stop a file from loading (DataSet.ReadXml accepts some things that XmlReader doesn't,
-            //  e.g. a DOCTYPE): if we can't tell, say it isn't marked, which means it gets decoded (the safe direction)
-            try
-            {
-                using (var reader = XmlReader.Create(strFilePath))
-                {
-                    reader.MoveToContent();
-                    return reader.GetAttribute(CstrAttributeTextEncoding) == CstrTextEncodingPlain;
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            }
         }
     }
 }

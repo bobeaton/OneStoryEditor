@@ -1,0 +1,200 @@
+== member 0
+member 0: Name: [Full Crafter]
+member 0: MemberType: Crafter
+member 0: MemberGuid: [mem-00000000-0000-0000-0000-000000000001]
+member 0: Email: [crafter@example.org]
+member 0: SkypeID: [crafter.skype]
+member 0: TeamViewerID: [123 456 789]
+member 0: Phone: [555-0001]
+member 0: AltPhone: [555-0002]
+member 0: BioData: [bio line 1\nbio line 2]
+member 0: OverrideVernacularKeyboard: [Keyman Vern]
+member 0: OverrideNationalBTKeyboard: [Keyman Nat]
+member 0: OverrideInternationalBTKeyboard: [Keyman Intl]
+member 0: OverrideFreeTranslationKeyboard: [Keyman Free]
+member 0: OverrideFontNameVernacular: [Charis SIL]
+member 0: OverrideFontSizeVernacular: 14.5
+member 0: OverrideRtlVernacular: True
+member 0: OverrideFontNameNationalBT: [Andika]
+member 0: OverrideFontSizeNationalBT: 11
+member 0: OverrideRtlNationalBT: False
+member 0: OverrideFontNameInternationalBT: [Calibri]
+member 0: OverrideFontSizeInternationalBT: 10.25
+member 0: OverrideRtlInternationalBT: True
+member 0: OverrideFontNameFreeTranslation: [Gentium]
+member 0: OverrideFontSizeFreeTranslation: 9
+member 0: OverrideRtlFreeTranslation: False
+member 0: HgUsername: [hguser]
+member 0: HgPassword: [s3cret!]
+member 0: DefaultAllowed: 0
+member 0: DefaultRequired: 0
+member 0: TransliteratorNameVernacular: [Vern Translit]
+member 0: TransliteratorDirectionForwardVernacular: True
+member 0: TransliteratorNameNationalBT: [Nat Translit]
+member 0: TransliteratorDirectionForwardNationalBT: False
+member 0: TransliteratorNameInternationalBt: [Intl Translit]
+member 0: TransliteratorDirectionForwardInternationalBt: True
+member 0: TransliteratorNameFreeTranslation: [Free Translit]
+member 0: TransliteratorDirectionForwardFreeTranslation: False
+GetXml:
+<Member name="Full Crafter" memberType="Crafter" email="crafter@example.org" altPhone="555-0002" phone="555-0001" bioData="bio line 1&#xA;bio line 2" skypeID="crafter.skype" teamViewerID="123 456 789" OverrideVernacularKeyboard="Keyman Vern" OverrideNationalBTKeyboard="Keyman Nat" OverrideInternationalBTKeyboard="Keyman Intl" OverrideFreeTranslationKeyboard="Keyman Free" OverrideFontNameVernacular="Charis SIL" OverrideFontSizeVernacular="14.5" OverrideRtlVernacular="true" OverrideFontNameNationalBT="Andika" OverrideFontSizeNationalBT="11" OverrideFontNameInternationalBT="Calibri" OverrideFontSizeInternationalBT="10.25" OverrideRtlInternationalBT="true" OverrideFontNameFreeTranslation="Gentium" OverrideFontSizeFreeTranslation="9" HgUsername="hguser" HgPassword="YMvxKu8EZfg=" TransliteratorVernacular="Vern Translit" TransliteratorDirectionForwardVernacular="true" TransliteratorNationalBT="Nat Translit" TransliteratorDirectionForwardNationalBT="false" TransliteratorInternationalBT="Intl Translit" TransliteratorDirectionForwardInternationalBT="true" TransliteratorFreeTranslation="Free Translit" TransliteratorDirectionForwardFreeTranslation="false" memberKey="mem-00000000-0000-0000-0000-000000000001" />
+== member 1
+member 1: Name: [The PF]
+member 1: MemberType: ProjectFacilitator
+member 1: MemberGuid: [mem-00000000-0000-0000-0000-000000000002]
+member 1: Email: <null>
+member 1: SkypeID: <null>
+member 1: TeamViewerID: <null>
+member 1: Phone: <null>
+member 1: AltPhone: <null>
+member 1: BioData: <null>
+member 1: OverrideVernacularKeyboard: <null>
+member 1: OverrideNationalBTKeyboard: <null>
+member 1: OverrideInternationalBTKeyboard: <null>
+member 1: OverrideFreeTranslationKeyboard: <null>
+member 1: OverrideFontNameVernacular: <null>
+member 1: OverrideFontSizeVernacular: 0
+member 1: OverrideRtlVernacular: False
+member 1: OverrideFontNameNationalBT: <null>
+member 1: OverrideFontSizeNationalBT: 0
+member 1: OverrideRtlNationalBT: False
+member 1: OverrideFontNameInternationalBT: <null>
+member 1: OverrideFontSizeInternationalBT: 0
+member 1: OverrideRtlInternationalBT: False
+member 1: OverrideFontNameFreeTranslation: <null>
+member 1: OverrideFontSizeFreeTranslation: 0
+member 1: OverrideRtlFreeTranslation: False
+member 1: HgUsername: <null>
+member 1: HgPassword: <null>
+member 1: DefaultAllowed: 17
+member 1: DefaultRequired: 1024
+member 1: TransliteratorNameVernacular: <null>
+member 1: TransliteratorDirectionForwardVernacular: False
+member 1: TransliteratorNameNationalBT: <null>
+member 1: TransliteratorDirectionForwardNationalBT: False
+member 1: TransliteratorNameInternationalBt: <null>
+member 1: TransliteratorDirectionForwardInternationalBt: False
+member 1: TransliteratorNameFreeTranslation: <null>
+member 1: TransliteratorDirectionForwardFreeTranslation: False
+GetXml:
+<Member name="The PF" memberType="ProjectFacilitator" memberKey="mem-00000000-0000-0000-0000-000000000002" DefaultTasksAllowed="VernacularLangFields, Anchors" DefaultTasksRequired="None" />
+== member 2
+member 2: Name: [The CIT]
+member 2: MemberType: ConsultantInTraining
+member 2: MemberGuid: [mem-00000000-0000-0000-0000-000000000003]
+member 2: Email: [cit@example.org]
+member 2: SkypeID: <null>
+member 2: TeamViewerID: <null>
+member 2: Phone: <null>
+member 2: AltPhone: <null>
+member 2: BioData: <null>
+member 2: OverrideVernacularKeyboard: <null>
+member 2: OverrideNationalBTKeyboard: <null>
+member 2: OverrideInternationalBTKeyboard: <null>
+member 2: OverrideFreeTranslationKeyboard: <null>
+member 2: OverrideFontNameVernacular: <null>
+member 2: OverrideFontSizeVernacular: 0
+member 2: OverrideRtlVernacular: False
+member 2: OverrideFontNameNationalBT: <null>
+member 2: OverrideFontSizeNationalBT: 0
+member 2: OverrideRtlNationalBT: False
+member 2: OverrideFontNameInternationalBT: <null>
+member 2: OverrideFontSizeInternationalBT: 0
+member 2: OverrideRtlInternationalBT: False
+member 2: OverrideFontNameFreeTranslation: <null>
+member 2: OverrideFontSizeFreeTranslation: 0
+member 2: OverrideRtlFreeTranslation: False
+member 2: HgUsername: <null>
+member 2: HgPassword: <null>
+member 2: DefaultAllowed: 2
+member 2: DefaultRequired: 0
+member 2: TransliteratorNameVernacular: <null>
+member 2: TransliteratorDirectionForwardVernacular: False
+member 2: TransliteratorNameNationalBT: <null>
+member 2: TransliteratorDirectionForwardNationalBT: False
+member 2: TransliteratorNameInternationalBt: <null>
+member 2: TransliteratorDirectionForwardInternationalBt: False
+member 2: TransliteratorNameFreeTranslation: <null>
+member 2: TransliteratorDirectionForwardFreeTranslation: False
+GetXml:
+<Member name="The CIT" memberType="ConsultantInTraining" email="cit@example.org" memberKey="mem-00000000-0000-0000-0000-000000000003" DefaultTasksAllowed="SendToCoachForReview" DefaultTasksRequired="None" />
+== member 3
+member 3: Name: [The Coach]
+member 3: MemberType: Coach
+member 3: MemberGuid: [mem-00000000-0000-0000-0000-000000000004]
+member 3: Email: <null>
+member 3: SkypeID: <null>
+member 3: TeamViewerID: <null>
+member 3: Phone: <null>
+member 3: AltPhone: <null>
+member 3: BioData: <null>
+member 3: OverrideVernacularKeyboard: <null>
+member 3: OverrideNationalBTKeyboard: <null>
+member 3: OverrideInternationalBTKeyboard: <null>
+member 3: OverrideFreeTranslationKeyboard: <null>
+member 3: OverrideFontNameVernacular: <null>
+member 3: OverrideFontSizeVernacular: 0
+member 3: OverrideRtlVernacular: False
+member 3: OverrideFontNameNationalBT: <null>
+member 3: OverrideFontSizeNationalBT: 0
+member 3: OverrideRtlNationalBT: False
+member 3: OverrideFontNameInternationalBT: <null>
+member 3: OverrideFontSizeInternationalBT: 0
+member 3: OverrideRtlInternationalBT: False
+member 3: OverrideFontNameFreeTranslation: <null>
+member 3: OverrideFontSizeFreeTranslation: 0
+member 3: OverrideRtlFreeTranslation: False
+member 3: HgUsername: <null>
+member 3: HgPassword: <null>
+member 3: DefaultAllowed: 0
+member 3: DefaultRequired: 0
+member 3: TransliteratorNameVernacular: <null>
+member 3: TransliteratorDirectionForwardVernacular: False
+member 3: TransliteratorNameNationalBT: <null>
+member 3: TransliteratorDirectionForwardNationalBT: False
+member 3: TransliteratorNameInternationalBt: <null>
+member 3: TransliteratorDirectionForwardInternationalBt: False
+member 3: TransliteratorNameFreeTranslation: <null>
+member 3: TransliteratorDirectionForwardFreeTranslation: False
+GetXml:
+<Member name="The Coach" memberType="Coach" memberKey="mem-00000000-0000-0000-0000-000000000004" />
+== member 4
+member 4: Name: [Browser Only]
+member 4: MemberType: JustLooking
+member 4: MemberGuid: [mem-00000000-0000-0000-0000-000000000005]
+member 4: Email: <null>
+member 4: SkypeID: <null>
+member 4: TeamViewerID: <null>
+member 4: Phone: <null>
+member 4: AltPhone: <null>
+member 4: BioData: <null>
+member 4: OverrideVernacularKeyboard: <null>
+member 4: OverrideNationalBTKeyboard: <null>
+member 4: OverrideInternationalBTKeyboard: <null>
+member 4: OverrideFreeTranslationKeyboard: <null>
+member 4: OverrideFontNameVernacular: <null>
+member 4: OverrideFontSizeVernacular: 12
+member 4: OverrideRtlVernacular: False
+member 4: OverrideFontNameNationalBT: <null>
+member 4: OverrideFontSizeNationalBT: 0
+member 4: OverrideRtlNationalBT: False
+member 4: OverrideFontNameInternationalBT: <null>
+member 4: OverrideFontSizeInternationalBT: 0
+member 4: OverrideRtlInternationalBT: False
+member 4: OverrideFontNameFreeTranslation: <null>
+member 4: OverrideFontSizeFreeTranslation: 0
+member 4: OverrideRtlFreeTranslation: False
+member 4: HgUsername: <null>
+member 4: HgPassword: <null>
+member 4: DefaultAllowed: 0
+member 4: DefaultRequired: 0
+member 4: TransliteratorNameVernacular: <null>
+member 4: TransliteratorDirectionForwardVernacular: False
+member 4: TransliteratorNameNationalBT: <null>
+member 4: TransliteratorDirectionForwardNationalBT: False
+member 4: TransliteratorNameInternationalBt: <null>
+member 4: TransliteratorDirectionForwardInternationalBt: False
+member 4: TransliteratorNameFreeTranslation: <null>
+member 4: TransliteratorDirectionForwardFreeTranslation: False
+GetXml:
+<Member name="Browser Only" memberType="JustLooking" memberKey="mem-00000000-0000-0000-0000-000000000005" />

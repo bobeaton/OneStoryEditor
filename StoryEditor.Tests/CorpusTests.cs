@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
@@ -38,10 +37,10 @@ namespace OneStoryProjectEditor.Tests
             foreach (var strFile in CorpusFiles())
             {
                 nFiles++;
-                ProjectReader projFile;
+                ProjectFileContents contents;
                 try
                 {
-                    ProjectReader.ReadProjectFile(strFile, out projFile);
+                    contents = ProjectFile.Load(strFile);
                 }
                 catch (Exception ex)
                 {
@@ -50,32 +49,27 @@ namespace OneStoryProjectEditor.Tests
                     continue;
                 }
 
-                nDecoded += LegacyTextRepair.DecodePlainTextFields(projFile);
+                var root = contents.Root;
+                nDecoded += LegacyTextRepair.DecodePlainTextElements(root);
 
-                foreach (var strTable in new[] { "StoryLine", "Retelling", "Answer", "TestQuestionLine" })
+                foreach (var strElement in new[] { "StoryLine", "Retelling", "Answer", "TestQuestionLine" })
                 {
-                    var table = projFile.Tables[strTable];
-                    if (table == null)
-                        continue;
-                    foreach (DataRow row in table.Rows)
+                    foreach (var elem in root.Descendants(strElement))
                     {
-                        var str = row[strTable + "_text"] as string;
+                        var str = XmlRead.Text(elem);
                         // a whole pasted OseStoryToCopy/OseColumnToCopy document (known junk) legitimately contains "&amp;" etc.
                         if (IsPastedCopyXml(str))
                             nPastedBlobs++;
                         else if (LegacyTextRepair.ContainsIeEntity(str))
-                            lstProblems.Add($"{strFile} {strTable}: entity remains: {str}");
+                            lstProblems.Add($"{strFile} {strElement}: entity remains: {str}");
                     }
                 }
 
-                foreach (var strTable in new[] { "ConsultantNote", "CoachNote" })
+                foreach (var strElement in new[] { "ConsultantNote", "CoachNote" })
                 {
-                    var table = projFile.Tables[strTable];
-                    if (table == null)
-                        continue;
-                    foreach (DataRow row in table.Rows)
+                    foreach (var elem in root.Descendants(strElement))
                     {
-                        var str = row[strTable + "_text"] as string;
+                        var str = XmlRead.Text(elem);
                         if (String.IsNullOrEmpty(str))
                             continue;
                         nNotes++;
@@ -83,7 +77,7 @@ namespace OneStoryProjectEditor.Tests
                         if (!NoteHtmlSanitizer.TrySanitize(str, out strResult))
                             nFallbacks++;
                         if (strResult.IndexOf("<script", StringComparison.OrdinalIgnoreCase) >= 0)
-                            lstProblems.Add($"{strFile} {strTable}: script survived");
+                            lstProblems.Add($"{strFile} {strElement}: script survived");
                     }
                 }
             }

@@ -1130,15 +1130,6 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The project file you&apos;re trying to open (i.e. &apos;{0}&apos;) was lasted edited by an earlier version of the OneStory editor. I can automatically upgrade the project file to be readable by this newer version, but it will make it inaccessible to the earlier version. So if the rest of the team (Project Facilitators, Consultant, etc) have all: a) done a &apos;Project&apos;, &apos;Send/receive&apos; to send all of their outstanding changes, and b) upgraded to the new version of OSE, then if you want the project file to be converted to the n [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string IDS_QueryConvertProjectFile1_3to1_4 {
-            get {
-                return ResourceManager.GetString("IDS_QueryConvertProjectFile1_3to1_4", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to A key term or its status has changed. Do you wish to save these changes?.
         /// </summary>
         internal static string IDS_SaveKeyTermsPrompt {

@@ -4,13 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using NUnit.Framework;
+using OneStoryProjectEditor.Tests.ReleasedExeDataSet;
 
 namespace OneStoryProjectEditor.Tests
 {
     /// <summary>
-    /// The typed DataSet row constructors are the oracle: every test loads characterization.onestory both as a
-    /// DataSet and as an XDocument, builds each verse-content object both ways and requires identical results.
-    /// A fresh ProjectReader per test, because the row constructors add empty container rows to the DataSet.
+    /// Golden tests for the verse-content XElement constructors: each test loads characterization.onestory as an
+    /// XDocument, builds each verse-content object and compares what it holds (every field the old row-constructor
+    /// oracle tests compared, and the object's GetXml) with a golden file (see Golden). Where the old test also
+    /// asserted a value, the assertion is kept.
     /// </summary>
     [TestFixture]
     public class FromXmlVerseContentTests
@@ -18,46 +20,40 @@ namespace OneStoryProjectEditor.Tests
         private static string FixturePath =>
             Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "characterization.onestory");
 
-        private ProjectReader _ds;
         private XDocument _doc;
-        private List<NewDataSet.VerseRow> _verseRows;
         private List<XElement> _verseElems;
 
         [SetUp]
         public void Load()
         {
-            ProjectReader.ReadProjectFile(FixturePath, out _ds);
             _doc = XDocument.Load(FixturePath, LoadOptions.None);
-            _verseRows = _ds.Verse.ToList();
             _verseElems = _doc.Descendants("Verse").ToList();
-            Assert.That(_verseElems.Count, Is.EqualTo(_verseRows.Count));
+            Assert.That(_verseElems.Count, Is.EqualTo(8));
         }
 
         [Test]
-        public void AnchorsData_MatchesRowPath()
+        public void AnchorsData_Golden()
         {
+            var dump = new Dump();
             var nWithData = 0;
             var bSawKeyTermChecked = false;
             var bSawKeyTermUnchecked = false;
-            for (int i = 0; i < _verseRows.Count; i++)
+            for (int i = 0; i < _verseElems.Count; i++)
             {
-                var oldAnchors = new AnchorsData(_verseRows[i], _ds);
-                var newAnchors = new AnchorsData(_verseElems[i]);
-                Assert.That(newAnchors.Count, Is.EqualTo(oldAnchors.Count), $"verse {i}");
-                Assert.That(newAnchors.IsKeyTermChecked, Is.EqualTo(oldAnchors.IsKeyTermChecked), $"verse {i}");
-                for (int j = 0; j < oldAnchors.Count; j++)
-                {
-                    Assert.That(newAnchors[j].JumpTarget, Is.EqualTo(oldAnchors[j].JumpTarget), $"verse {i} anchor {j}");
-                    Assert.That(newAnchors[j].ToolTipText, Is.EqualTo(oldAnchors[j].ToolTipText), $"verse {i} anchor {j}");
-                }
-                if (!oldAnchors.HasData)
+                var anchors = new AnchorsData(_verseElems[i]);
+                dump.Raw($"== verse {i}").Line("Count", anchors.Count).Line("IsKeyTermChecked", anchors.IsKeyTermChecked)
+                    .Line("HasData", anchors.HasData);
+                for (int j = 0; j < anchors.Count; j++)
+                    dump.Line($"anchor {j} JumpTarget", anchors[j].JumpTarget).Line($"anchor {j} ToolTipText", anchors[j].ToolTipText);
+                if (!anchors.HasData)
                     continue;
 
                 nWithData++;
-                bSawKeyTermChecked |= oldAnchors.IsKeyTermChecked;
-                bSawKeyTermUnchecked |= !oldAnchors.IsKeyTermChecked;
-                Assert.That(newAnchors.GetXml.ToString(), Is.EqualTo(oldAnchors.GetXml.ToString()), $"verse {i}");
+                bSawKeyTermChecked |= anchors.IsKeyTermChecked;
+                bSawKeyTermUnchecked |= !anchors.IsKeyTermChecked;
+                dump.Xml("GetXml", anchors.GetXml);
             }
+            Golden.Check("verse-anchors", dump.ToString());
             Assert.That(nWithData, Is.GreaterThanOrEqualTo(3));
             Assert.That(bSawKeyTermChecked && bSawKeyTermUnchecked, Is.True, "fixture should cover keyTermChecked both ways");
         }
@@ -78,123 +74,141 @@ namespace OneStoryProjectEditor.Tests
         }
 
         [Test]
-        public void ExegeticalHelpNotesData_MatchesRowPath_IncludingDuplicates()
+        public void ExegeticalHelpNotesData_Golden_IncludingDuplicates()
         {
+            var dump = new Dump();
             var nWithData = 0;
-            for (int i = 0; i < _verseRows.Count; i++)
+            for (int i = 0; i < _verseElems.Count; i++)
             {
-                var oldNotes = new ExegeticalHelpNotesData(_verseRows[i], _ds);
-                var newNotes = new ExegeticalHelpNotesData(_verseElems[i]);
-                Assert.That(newNotes.Count, Is.EqualTo(oldNotes.Count), $"verse {i}");
-                for (int j = 0; j < oldNotes.Count; j++)
-                {
-                    Assert.That(newNotes[j].HasData, Is.EqualTo(oldNotes[j].HasData), $"verse {i} note {j}");
-                    Assert.That(newNotes[j].ToString(), Is.EqualTo(oldNotes[j].ToString()), $"verse {i} note {j}");
-                    Assert.That(newNotes[j].Value, Is.EqualTo(oldNotes[j].Value), $"verse {i} note {j} raw");
-                }
-                if (!oldNotes.HasData)
+                var notes = new ExegeticalHelpNotesData(_verseElems[i]);
+                dump.Raw($"== verse {i}").Line("Count", notes.Count).Line("HasData", notes.HasData);
+                for (int j = 0; j < notes.Count; j++)
+                    dump.Line($"note {j} HasData", notes[j].HasData).Line($"note {j} ToString", notes[j].ToString())
+                        .Line($"note {j} Value", notes[j].Value);
+                if (!notes.HasData)
                     continue;
 
                 nWithData++;
-                Assert.That(newNotes.GetXml.ToString(), Is.EqualTo(oldNotes.GetXml.ToString()), $"verse {i}");
+                dump.Xml("GetXml", notes.GetXml);
             }
+            Golden.Check("verse-exegetical-helps", dump.ToString());
             Assert.That(nWithData, Is.GreaterThanOrEqualTo(1));
 
             // the duplicate and the empty note are kept by the loader (GetXml is what drops the duplicate)
             Assert.That(new ExegeticalHelpNotesData(_verseElems[5]).Count, Is.EqualTo(4));
         }
 
-        [Test]
-        public void TestQuestionsData_MatchesRowPath()
+        private static void DumpLine(Dump dump, string strWhat, LineData line)
         {
-            var nWithData = 0;
-            for (int i = 0; i < _verseRows.Count; i++)
+            dump.Line(strWhat + " vern", line.Vernacular.Value).Line(strWhat + " nat", line.NationalBt.Value)
+                .Line(strWhat + " intl", line.InternationalBt.Value).Line(strWhat + " free", line.FreeTranslation.Value);
+        }
+
+        private static void DumpMultipleLines(Dump dump, string strWhat, MultipleLineDataConverter lines)
+        {
+            dump.Line(strWhat + " Count", lines.Count).Line(strWhat + " HasData", lines.HasData);
+            for (int j = 0; j < lines.Count; j++)
             {
-                var oldTqs = new TestQuestionsData(_verseRows[i], _ds);
-                var newTqs = new TestQuestionsData(_verseElems[i]);
-                Assert.That(newTqs.Count, Is.EqualTo(oldTqs.Count), $"verse {i}");
-                for (int j = 0; j < oldTqs.Count; j++)
+                dump.Line($"{strWhat} line {j} MemberId", lines[j].MemberId);
+                DumpLine(dump, $"{strWhat} line {j}", lines[j]);
+            }
+            if (lines.HasData)
+                dump.Xml(strWhat + " GetXml", lines.GetXml);
+        }
+
+        [Test]
+        public void TestQuestionsData_Golden()
+        {
+            var dump = new Dump();
+            var nWithData = 0;
+            for (int i = 0; i < _verseElems.Count; i++)
+            {
+                var tqs = new TestQuestionsData(_verseElems[i]);
+                dump.Raw($"== verse {i}").Line("Count", tqs.Count).Line("HasData", tqs.HasData);
+                for (int j = 0; j < tqs.Count; j++)
                 {
-                    var oldTq = oldTqs[j];
-                    var newTq = newTqs[j];
-                    Assert.That(newTq.guid, Is.EqualTo(oldTq.guid), $"verse {i} tq {j}");
-                    Assert.That(newTq.IsVisible, Is.EqualTo(oldTq.IsVisible), $"verse {i} tq {j}");
-                    Assert.That(newTq.HasData, Is.EqualTo(oldTq.HasData), $"verse {i} tq {j}");
-                    AssertSameLine(oldTq.TestQuestionLine, newTq.TestQuestionLine, $"verse {i} tq {j}");
-                    AssertSameMultipleLines(oldTq.Answers, newTq.Answers, $"verse {i} tq {j} answers");
-                    if (oldTq.HasData)
-                        Assert.That(newTq.GetXml.ToString(), Is.EqualTo(oldTq.GetXml.ToString()), $"verse {i} tq {j}");
+                    var tq = tqs[j];
+                    var strWhat = $"tq {j}";
+                    dump.Line(strWhat + " guid", tq.guid).Line(strWhat + " IsVisible", tq.IsVisible)
+                        .Line(strWhat + " HasData", tq.HasData);
+                    DumpLine(dump, strWhat, tq.TestQuestionLine);
+                    DumpMultipleLines(dump, strWhat + " answers", tq.Answers);
+                    if (tq.HasData)
+                        dump.Xml(strWhat + " GetXml", tq.GetXml);
                 }
-                if (!oldTqs.HasData)
+                if (!tqs.HasData)
                     continue;
 
                 nWithData++;
-                Assert.That(newTqs.GetXml.ToString(), Is.EqualTo(oldTqs.GetXml.ToString()), $"verse {i}");
+                dump.Xml("GetXml", tqs.GetXml);
             }
+            Golden.Check("verse-test-questions", dump.ToString());
             Assert.That(nWithData, Is.GreaterThanOrEqualTo(1));
         }
 
         [Test]
-        public void RetellingsData_MatchesRowPath()
+        public void RetellingsData_Golden()
         {
+            var dump = new Dump();
             var nWithData = 0;
-            for (int i = 0; i < _verseRows.Count; i++)
+            for (int i = 0; i < _verseElems.Count; i++)
             {
-                var oldRetellings = new RetellingsData(_verseRows[i], _ds);
-                var newRetellings = new RetellingsData(_verseElems[i]);
-                AssertSameMultipleLines(oldRetellings, newRetellings, $"verse {i}");
-                if (oldRetellings.HasData)
+                var retellings = new RetellingsData(_verseElems[i]);
+                DumpMultipleLines(dump.Raw($"== verse {i}"), "retellings", retellings);
+                if (retellings.HasData)
                     nWithData++;
             }
+            Golden.Check("verse-retellings", dump.ToString());
             Assert.That(nWithData, Is.EqualTo(1));
         }
 
         [Test]
-        public void AnswersData_MatchesRowPath()
+        public void AnswersData_Golden()
         {
-            var oldRows = _ds.TestQuestion.ToList();
-            var newElems = _doc.Descendants("TestQuestion").ToList();
-            Assert.That(newElems.Count, Is.EqualTo(oldRows.Count));
-            Assert.That(oldRows.Count, Is.EqualTo(2));
+            var elems = _doc.Descendants("TestQuestion").ToList();
+            Assert.That(elems.Count, Is.EqualTo(2));
+            var dump = new Dump();
             var nWithData = 0;
-            for (int i = 0; i < oldRows.Count; i++)
+            for (int i = 0; i < elems.Count; i++)
             {
-                var oldAnswers = new AnswersData(oldRows[i], _ds);
-                var newAnswers = new AnswersData(newElems[i]);
-                AssertSameMultipleLines(oldAnswers, newAnswers, $"tq {i}");
-                if (oldAnswers.HasData)
+                var answers = new AnswersData(elems[i]);
+                DumpMultipleLines(dump.Raw($"== tq {i}"), "answers", answers);
+                if (answers.HasData)
                     nWithData++;
             }
+            Golden.Check("verse-answers", dump.ToString());
             Assert.That(nWithData, Is.EqualTo(1));
         }
 
         [Test]
-        public void ConsultantNotesData_MatchesRowPath()
+        public void ConsultantNotesData_Golden()
         {
+            var dump = new Dump();
             var nWithData = 0;
-            for (int i = 0; i < _verseRows.Count; i++)
+            for (int i = 0; i < _verseElems.Count; i++)
             {
-                var oldNotes = new ConsultantNotesData(_verseRows[i], _ds);
-                var newNotes = new ConsultantNotesData(_verseElems[i]);
-                AssertSameConversations(oldNotes, newNotes, $"verse {i}");
-                if (oldNotes.Count > 0)
+                var notes = new ConsultantNotesData(_verseElems[i]);
+                DumpConversations(dump.Raw($"== verse {i}"), notes);
+                if (notes.Count > 0)
                     nWithData++;
             }
+            Golden.Check("verse-consultant-notes", dump.ToString());
             Assert.That(nWithData, Is.EqualTo(3));
         }
 
         [Test]
-        public void CoachNotesData_MatchesRowPath()
+        public void CoachNotesData_Golden()
         {
+            var dump = new Dump();
             var nWithData = 0;
-            for (int i = 0; i < _verseRows.Count; i++)
+            for (int i = 0; i < _verseElems.Count; i++)
             {
-                var oldNotes = new CoachNotesData(_verseRows[i], _ds);
-                var newNotes = new CoachNotesData(_verseElems[i]);
-                AssertSameConversations(oldNotes, newNotes, $"verse {i}");
-                if (oldNotes.Count > 0)
+                var notes = new CoachNotesData(_verseElems[i]);
+                DumpConversations(dump.Raw($"== verse {i}"), notes);
+                if (notes.Count > 0)
                     nWithData++;
             }
+            Golden.Check("verse-coach-notes", dump.ToString());
             Assert.That(nWithData, Is.EqualTo(1));
         }
 
@@ -231,7 +245,7 @@ namespace OneStoryProjectEditor.Tests
         }
 
         [Test]
-        public void ConsultantNoteData_EmptyNote_ThrowsOnBothPaths()
+        public void ConsultantNoteData_EmptyNote_Throws()
         {
             var doc = XDocument.Load(FixturePath, LoadOptions.None);
             var elemNote = doc.Descendants("ConsultantNote").First();
@@ -240,10 +254,8 @@ namespace OneStoryProjectEditor.Tests
             try
             {
                 doc.Save(strTemp);
-                // the DataSet refuses the whole file (non-null constraint on the note text), so the row
-                //  constructor never even sees such a note
-                ProjectReader ds;
-                Assert.That(() => ProjectReader.ReadProjectFile(strTemp, out ds), Throws.Exception);
+                // the released exe's typed DataSet refuses the whole file (non-null constraint on the note text)
+                Assert.That(() => new NewDataSet().ReadXml(strTemp), Throws.Exception);
 
                 var elemConversation = doc.Descendants("ConsultantConversation").First();
                 Assert.That(() => new ConsultantNoteData(elemConversation), Throws.TypeOf<ApplicationException>());
@@ -255,7 +267,7 @@ namespace OneStoryProjectEditor.Tests
         }
 
         [Test]
-        public void TestQuestionData_MissingVisible_ThrowsOnBothPaths()
+        public void TestQuestionData_MissingVisible_Throws()
         {
             var doc = XDocument.Load(FixturePath, LoadOptions.None);
             var elemTq = doc.Descendants("TestQuestion").First();
@@ -264,10 +276,11 @@ namespace OneStoryProjectEditor.Tests
             try
             {
                 doc.Save(strTemp);
-                ProjectReader ds;
-                ProjectReader.ReadProjectFile(strTemp, out ds);
+                // the released exe's typed DataSet loads the file, but its typed 'visible' getter throws when it's absent
+                var ds = new NewDataSet();
+                ds.ReadXml(strTemp);
                 var row = ds.TestQuestion.First();
-                Assert.That(() => new TestQuestionData(row, ds), Throws.Exception, "the row path throws for an absent visible");
+                Assert.That(() => row.visible, Throws.Exception);
                 Assert.That(() => new TestQuestionData(elemTq), Throws.TypeOf<ApplicationException>());
             }
             finally
@@ -276,66 +289,38 @@ namespace OneStoryProjectEditor.Tests
             }
         }
 
-        private static void AssertSameLine(LineData expected, LineData actual, string what)
+        private static void DumpConversations(Dump dump, ConsultNotesDataConverter conversations)
         {
-            Assert.That(actual.Vernacular.Value, Is.EqualTo(expected.Vernacular.Value), what + " vern");
-            Assert.That(actual.NationalBt.Value, Is.EqualTo(expected.NationalBt.Value), what + " nat");
-            Assert.That(actual.InternationalBt.Value, Is.EqualTo(expected.InternationalBt.Value), what + " intl");
-            Assert.That(actual.FreeTranslation.Value, Is.EqualTo(expected.FreeTranslation.Value), what + " free");
-        }
-
-        private static void AssertSameMultipleLines(MultipleLineDataConverter expected, MultipleLineDataConverter actual, string what)
-        {
-            Assert.That(actual.Count, Is.EqualTo(expected.Count), what);
-            for (int j = 0; j < expected.Count; j++)
+            dump.Line("Count", conversations.Count);
+            for (int j = 0; j < conversations.Count; j++)
             {
-                Assert.That(actual[j].MemberId, Is.EqualTo(expected[j].MemberId), $"{what} line {j}");
-                AssertSameLine(expected[j], actual[j], $"{what} line {j}");
+                var conv = conversations[j];
+                var strWhat = $"conversation {j}";
+                dump.Line(strWhat + " guid", conv.guid).Line(strWhat + " Visible", conv.Visible)
+                    .Line(strWhat + " IsFinished", conv.IsFinished)
+                    .Line(strWhat + " AllowButtonsOverride", conv.AllowButtonsOverride)
+                    .Line(strWhat + " DontShowButtonsOverride", conv.DontShowButtonsOverride)
+                    .Line(strWhat + " Count", conv.Count);
+                DumpComment(dump, strWhat + " ReferringText", conv.ReferringText);
+                for (int k = 0; k < conv.Count; k++)
+                    DumpComment(dump, $"{strWhat} comment {k}", conv[k]);
+                if (conv.Count > 0)
+                    dump.Xml(strWhat + " GetXml", conv.GetXml);
             }
-            if (expected.HasData)
-                Assert.That(actual.GetXml.ToString(), Is.EqualTo(expected.GetXml.ToString()), what);
+            if (conversations.Count > 0)
+                dump.Xml("GetXml", conversations.GetXml);
         }
 
-        private static void AssertSameConversations(ConsultNotesDataConverter expected, ConsultNotesDataConverter actual, string what)
+        private static void DumpComment(Dump dump, string strWhat, CommInstance comment)
         {
-            Assert.That(actual.Count, Is.EqualTo(expected.Count), what);
-            for (int j = 0; j < expected.Count; j++)
+            if (comment == null)
             {
-                var oldConv = expected[j];
-                var newConv = actual[j];
-                var strWhat = $"{what} conversation {j}";
-                Assert.That(newConv.guid, Is.EqualTo(oldConv.guid), strWhat);
-                Assert.That(newConv.Visible, Is.EqualTo(oldConv.Visible), strWhat + " Visible");
-                Assert.That(newConv.IsFinished, Is.EqualTo(oldConv.IsFinished), strWhat + " IsFinished");
-                Assert.That(newConv.AllowButtonsOverride, Is.EqualTo(oldConv.AllowButtonsOverride), strWhat);
-                Assert.That(newConv.DontShowButtonsOverride, Is.EqualTo(oldConv.DontShowButtonsOverride), strWhat);
-                Assert.That(newConv.Count, Is.EqualTo(oldConv.Count), strWhat);
-                AssertSameComment(oldConv.ReferringText, newConv.ReferringText, strWhat + " ReferringText");
-                for (int k = 0; k < oldConv.Count; k++)
-                    AssertSameComment(oldConv[k], newConv[k], $"{strWhat} comment {k}");
-                if (oldConv.Count > 0)
-                    Assert.That(newConv.GetXml.ToString(), Is.EqualTo(oldConv.GetXml.ToString()), strWhat);
-            }
-            if (expected.Count > 0)
-                Assert.That(actual.GetXml.ToString(), Is.EqualTo(expected.GetXml.ToString()), what);
-        }
-
-        private static void AssertSameComment(CommInstance expected, CommInstance actual, string what)
-        {
-            if (expected == null)
-            {
-                Assert.That(actual, Is.Null, what);
+                dump.Line(strWhat, null);
                 return;
             }
-            Assert.That(actual, Is.Not.Null, what);
-            Assert.That(actual.Direction, Is.EqualTo(expected.Direction), what);
-            Assert.That(actual.Guid, Is.EqualTo(expected.Guid), what);
-            Assert.That(actual.MemberId, Is.EqualTo(expected.MemberId), what);
-            Assert.That(actual.Value, Is.EqualTo(expected.Value), what);
-            Assert.That(actual.WhichField, Is.EqualTo(expected.WhichField), what);
-            Assert.That(actual.TimeStamp.Kind, Is.EqualTo(expected.TimeStamp.Kind), what + " Kind");
-            // no-timeStamp comments are stamped with "now" on each path, so allow a little slack
-            Assert.That(actual.TimeStamp, Is.EqualTo(expected.TimeStamp).Within(TimeSpan.FromSeconds(30)), what + " TimeStamp");
+            dump.Line(strWhat + " Direction", comment.Direction).Line(strWhat + " Guid", comment.Guid)
+                .Line(strWhat + " MemberId", comment.MemberId).Line(strWhat + " Value", comment.Value)
+                .Line(strWhat + " WhichField", comment.WhichField).Line(strWhat + " TimeStamp", comment.TimeStamp);
         }
     }
 }

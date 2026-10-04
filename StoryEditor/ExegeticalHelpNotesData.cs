@@ -12,15 +12,6 @@ namespace OneStoryProjectEditor
         private const StoryEditor.TextFields CMyField =
             StoryEditor.TextFields.ExegeticalNote | StoryEditor.TextFields.InternationalBt;
 
-        public ExegeticalHelpNoteData(NewDataSet.ExegeticalHelpRow theExHelpNoteRow)
-            : base((theExHelpNoteRow.IsExegeticalHelp_ColumnNull())
-                        ? null
-                        : theExHelpNoteRow.ExegeticalHelp_Column, CMyField)
-        {
-            
-        }
-
-        // mirrors ExegeticalHelpNoteData(NewDataSet.ExegeticalHelpRow)
         public ExegeticalHelpNoteData(XElement elemExegeticalHelp)
             : base(XmlRead.Text(elemExegeticalHelp), CMyField)
         {
@@ -50,21 +41,7 @@ namespace OneStoryProjectEditor
 
     public class ExegeticalHelpNotesData : List<ExegeticalHelpNoteData>
     {
-        public ExegeticalHelpNotesData(NewDataSet.VerseRow theVerseRow, NewDataSet projFile)
-        {
-            NewDataSet.ExegeticalHelpsRow[] theExHelpNotesRows = theVerseRow.GetExegeticalHelpsRows();
-            NewDataSet.ExegeticalHelpsRow theExHelpNotesRow;
-            if (theExHelpNotesRows.Length == 0)
-                theExHelpNotesRow = projFile.ExegeticalHelps.AddExegeticalHelpsRow(theVerseRow);
-            else
-                theExHelpNotesRow = theExHelpNotesRows[0];
-
-            foreach (NewDataSet.ExegeticalHelpRow anExHelpNoteRow in theExHelpNotesRow.GetExegeticalHelpRows())
-                Add(new ExegeticalHelpNoteData(anExHelpNoteRow));
-        }
-
-        // mirrors ExegeticalHelpNotesData(NewDataSet.VerseRow, NewDataSet); an absent <ExegeticalHelps> is the
-        //  row path's added empty container. Duplicates are kept here exactly as the row path keeps them
+        // an absent <ExegeticalHelps> gives an empty collection. Duplicates are kept here
         //  (GetXml is what drops them)
         public ExegeticalHelpNotesData(XElement elemVerse)
         {
@@ -74,19 +51,6 @@ namespace OneStoryProjectEditor
 
             foreach (var elemExegeticalHelp in XmlRead.Children(elemExegeticalHelps, ExegeticalHelpNoteData.CstrElementNameExegeticalHelp))
                 Add(new ExegeticalHelpNoteData(elemExegeticalHelp));
-        }
-
-        public ExegeticalHelpNotesData(XmlNode node)
-        {
-            if (node == null)
-                return;
-
-            XmlNodeList list = node.SelectNodes(ExegeticalHelpNoteData.CstrElementNameExegeticalHelp);
-            if (list == null)
-                return;
-
-            foreach (XmlNode nodeExegeticalNote in list)
-                Add(new ExegeticalHelpNoteData(nodeExegeticalNote.InnerText));
         }
 
         public ExegeticalHelpNotesData(ExegeticalHelpNotesData rhs)

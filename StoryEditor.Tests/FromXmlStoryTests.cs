@@ -8,8 +8,9 @@ using NUnit.Framework;
 namespace OneStoryProjectEditor.Tests
 {
     /// <summary>
-    /// The typed DataSet row constructors are the oracle for the verse/line/transition/crafting/story XElement
-    /// constructors. A fresh ProjectReader per test, because the row constructors add empty container rows.
+    /// Golden tests for the verse/line/transition/crafting/story XElement constructors (see Golden): each test builds
+    /// the objects from the fixture elements and compares what they hold (every field the old row-constructor oracle
+    /// tests compared, and GetXml) with a golden file. Assertions on values are kept as they were.
     /// The stories live in their own fixture (characterization-stories.onestory) so the counts that the
     /// earlier characterization tests assert about characterization.onestory stay as they are.
     /// </summary>
@@ -22,9 +23,7 @@ namespace OneStoryProjectEditor.Tests
         private static string StoriesFixturePath => Path.Combine(TestDataDir, "characterization-stories.onestory");
         private static string ContentFixturePath => Path.Combine(TestDataDir, "characterization.onestory");
 
-        private ProjectReader _ds;
         private XDocument _doc;
-        private List<NewDataSet.storyRow> _storyRows;
         private List<XElement> _storyElems;
 
         private System.Diagnostics.TraceListener[] _savedListeners;
@@ -32,12 +31,15 @@ namespace OneStoryProjectEditor.Tests
         [SetUp]
         public void Load()
         {
-            // The row constructors Debug.Assert(false) on a duplicate story guid (and the stage-transition loader
+            // The loader Debug.Assert(false)s on a duplicate story guid (and the stage-transition loader
             //  asserts on missing strings); with the default listener that kills the test host, so mute asserts.
             _savedListeners = new System.Diagnostics.TraceListener[System.Diagnostics.Trace.Listeners.Count];
             System.Diagnostics.Trace.Listeners.CopyTo(_savedListeners, 0);
             System.Diagnostics.Trace.Listeners.Clear();
-            Load(StoriesFixturePath);
+
+            _doc = XDocument.Load(StoriesFixturePath, LoadOptions.None);
+            _storyElems = _doc.Descendants("story").ToList();
+            Assert.That(_storyElems.Count, Is.EqualTo(4));
         }
 
         [TearDown]
@@ -47,56 +49,50 @@ namespace OneStoryProjectEditor.Tests
             System.Diagnostics.Trace.Listeners.AddRange(_savedListeners);
         }
 
-        private void Load(string strPath)
-        {
-            ProjectReader.ReadProjectFile(strPath, out _ds);
-            _doc = XDocument.Load(strPath, LoadOptions.None);
-            _storyRows = _ds.story.ToList();
-            _storyElems = _doc.Descendants("story").ToList();
-            Assert.That(_storyElems.Count, Is.EqualTo(_storyRows.Count));
-        }
+        private const string GeneratedFirstGuid = "00000000-0000-0000-0000-generated-first";
 
-        // When the story has no leading first="true" verse, InsureFirstVerse makes a new VerseData with a random guid
-        //  on both paths; give the new path's the old path's so the XML can be compared.
-        private static void AlignGeneratedFirstGuid(XElement elemStory, VersesData oldVerses, VersesData newVerses)
+        // When the story has no leading first="true" verse, InsureFirstVerse makes a new VerseData with a random guid;
+        //  give it a fixed one so the XML can be compared with a golden file.
+        private static void FixGeneratedFirstGuid(XElement elemStory, VersesData verses)
         {
             var firstElem = elemStory.Element("Verses")?.Elements("Verse").FirstOrDefault();
             var bHasFirst = firstElem != null && (string)firstElem.Attribute("first") == "true";
             if (!bHasFirst)
-                newVerses.FirstVerse.guid = oldVerses.FirstVerse.guid;
+                verses.FirstVerse.guid = GeneratedFirstGuid;
         }
 
         // ----- verses -----
 
         [Test]
-        public void VersesData_MatchesRowPath()
+        public void VersesData_Golden()
         {
+            var dump = new Dump();
             var nFirstFlagged = 0;
             var nWithVerses = 0;
-            for (int i = 0; i < _storyRows.Count; i++)
+            for (int i = 0; i < _storyElems.Count; i++)
             {
-                var oldVerses = new VersesData(_storyRows[i], _ds);
-                var newVerses = new VersesData(_storyElems[i]);
-                AlignGeneratedFirstGuid(_storyElems[i], oldVerses, newVerses);
-                Assert.That(newVerses.Count, Is.EqualTo(oldVerses.Count), $"story {i}");
-                Assert.That(newVerses.FirstVerse.IsFirstVerse, Is.EqualTo(oldVerses.FirstVerse.IsFirstVerse), $"story {i}");
-                Assert.That(newVerses.FirstVerse.guid, Is.EqualTo(oldVerses.FirstVerse.guid), $"story {i} first guid");
-                Assert.That(newVerses.FirstVerse.GetXml.ToString(), Is.EqualTo(oldVerses.FirstVerse.GetXml.ToString()), $"story {i} first");
+                var verses = new VersesData(_storyElems[i]);
+                FixGeneratedFirstGuid(_storyElems[i], verses);
+                dump.Raw($"== story {i}").Line("Count", verses.Count)
+                    .Line("FirstVerse IsFirstVerse", verses.FirstVerse.IsFirstVerse)
+                    .Line("FirstVerse guid", verses.FirstVerse.guid)
+                    .Xml("FirstVerse GetXml", verses.FirstVerse.GetXml);
                 if (_storyElems[i].Descendants("Verse").Any(v => (string)v.Attribute("first") == "true"))
                     nFirstFlagged++;
-                for (int j = 0; j < oldVerses.Count; j++)
+                for (int j = 0; j < verses.Count; j++)
                 {
-                    Assert.That(newVerses[j].guid, Is.EqualTo(oldVerses[j].guid), $"story {i} verse {j}");
-                    Assert.That(newVerses[j].IsFirstVerse, Is.False, $"story {i} verse {j}");
-                    Assert.That(newVerses[j].IsVisible, Is.EqualTo(oldVerses[j].IsVisible), $"story {i} verse {j}");
-                    Assert.That(newVerses[j].GetXml.ToString(), Is.EqualTo(oldVerses[j].GetXml.ToString()), $"story {i} verse {j}");
+                    Assert.That(verses[j].IsFirstVerse, Is.False, $"story {i} verse {j}");
+                    dump.Line($"verse {j} guid", verses[j].guid).Line($"verse {j} IsVisible", verses[j].IsVisible)
+                        .Xml($"verse {j} GetXml", verses[j].GetXml);
                 }
-                if (oldVerses.HasData)
+                dump.Line("HasData", verses.HasData);
+                if (verses.HasData)
                 {
                     nWithVerses++;
-                    Assert.That(newVerses.GetXml.ToString(), Is.EqualTo(oldVerses.GetXml.ToString()), $"story {i}");
+                    dump.Xml("GetXml", verses.GetXml);
                 }
             }
+            Golden.Check("story-verses", dump.ToString());
             Assert.That(nFirstFlagged, Is.GreaterThanOrEqualTo(1));
             Assert.That(nWithVerses, Is.GreaterThanOrEqualTo(2));
         }
@@ -114,123 +110,116 @@ namespace OneStoryProjectEditor.Tests
         [Test]
         public void VersesData_NoVersesElement_GetsNewFirstVerse()
         {
-            var oldVerses = new VersesData(_storyRows[1], _ds);
             var newVerses = new VersesData(_storyElems[1]);
             Assert.That(newVerses.Count, Is.EqualTo(0));
-            Assert.That(oldVerses.Count, Is.EqualTo(0));
             Assert.That(newVerses.FirstVerse, Is.Not.Null);
             Assert.That(newVerses.FirstVerse.IsFirstVerse, Is.True);
-            Assert.That(newVerses.FirstVerse.IsFirstVerse, Is.EqualTo(oldVerses.FirstVerse.IsFirstVerse));
         }
 
         [Test]
-        public void VerseData_MatchesRowPath_ForEveryFixtureVerse()
+        public void VerseData_Golden_ForEveryFixtureVerse()
         {
             // the earlier fixture has visible="1"/"false", first="true", padded and empty lines etc.
-            ProjectReader.ReadProjectFile(ContentFixturePath, out var ds);
             var doc = XDocument.Load(ContentFixturePath, LoadOptions.None);
-            var rows = ds.Verse.ToList();
             var elems = doc.Descendants("Verse").ToList();
-            Assert.That(elems.Count, Is.EqualTo(rows.Count));
-            for (int i = 0; i < rows.Count; i++)
+            Assert.That(elems.Count, Is.EqualTo(8));
+            var dump = new Dump();
+            for (int i = 0; i < elems.Count; i++)
             {
-                var oldVerse = new VerseData(rows[i], ds);
-                var newVerse = new VerseData(elems[i]);
-                Assert.That(newVerse.guid, Is.EqualTo(oldVerse.guid), $"verse {i}");
-                Assert.That(newVerse.IsFirstVerse, Is.EqualTo(oldVerse.IsFirstVerse), $"verse {i}");
-                Assert.That(newVerse.IsVisible, Is.EqualTo(oldVerse.IsVisible), $"verse {i}");
-                Assert.That(newVerse.GetXml.ToString(), Is.EqualTo(oldVerse.GetXml.ToString()), $"verse {i}");
+                var verse = new VerseData(elems[i]);
+                dump.Raw($"== verse {i}").Line("guid", verse.guid).Line("IsFirstVerse", verse.IsFirstVerse)
+                    .Line("IsVisible", verse.IsVisible).Xml("GetXml", verse.GetXml);
             }
+            Golden.Check("content-verses", dump.ToString());
         }
 
         // ----- transitions -----
 
         [Test]
-        public void StoryStateTransitionHistory_MatchesRowPath_DroppingDuplicates()
+        public void StoryStateTransitionHistory_Golden_DroppingDuplicates()
         {
-            for (int i = 0; i < _storyRows.Count; i++)
+            var dump = new Dump();
+            for (int i = 0; i < _storyElems.Count; i++)
             {
-                var oldHistory = new StoryStateTransitionHistory(_storyRows[i]);
-                var newHistory = new StoryStateTransitionHistory(_storyElems[i]);
-                Assert.That(newHistory.Count, Is.EqualTo(oldHistory.Count), $"story {i}");
-                for (int j = 0; j < oldHistory.Count; j++)
-                {
-                    Assert.That(newHistory[j].LoggedInMemberId, Is.EqualTo(oldHistory[j].LoggedInMemberId), $"story {i} t{j}");
-                    Assert.That(newHistory[j].WindowsUserName, Is.EqualTo(oldHistory[j].WindowsUserName), $"story {i} t{j}");
-                    Assert.That(newHistory[j].FromState, Is.EqualTo(oldHistory[j].FromState), $"story {i} t{j}");
-                    Assert.That(newHistory[j].ToState, Is.EqualTo(oldHistory[j].ToState), $"story {i} t{j}");
-                    Assert.That(newHistory[j].TransitionDateTime, Is.EqualTo(oldHistory[j].TransitionDateTime), $"story {i} t{j}");
-                    Assert.That(newHistory[j].TransitionDateTime.Kind, Is.EqualTo(oldHistory[j].TransitionDateTime.Kind), $"story {i} t{j} kind");
-                }
-                Assert.That(newHistory.HasData, Is.EqualTo(oldHistory.HasData), $"story {i}");
-                if (oldHistory.HasData)
-                    Assert.That(newHistory.GetXml.ToString(), Is.EqualTo(oldHistory.GetXml.ToString()), $"story {i}");
+                var history = new StoryStateTransitionHistory(_storyElems[i]);
+                dump.Raw($"== story {i}").Line("Count", history.Count).Line("HasData", history.HasData);
+                for (int j = 0; j < history.Count; j++)
+                    dump.Line($"t{j} LoggedInMemberId", history[j].LoggedInMemberId)
+                        .Line($"t{j} WindowsUserName", history[j].WindowsUserName)
+                        .Line($"t{j} FromState", history[j].FromState).Line($"t{j} ToState", history[j].ToState)
+                        .Line($"t{j} TransitionDateTime", history[j].TransitionDateTime);
+                if (history.HasData)
+                    dump.Xml("GetXml", history.GetXml);
             }
+            Golden.Check("story-transition-histories", dump.ToString());
 
             // 4 elements, one an exact duplicate, so 3 survive
             Assert.That(new StoryStateTransitionHistory(_storyElems[0]).Count, Is.EqualTo(3));
         }
 
         [Test]
-        public void StoryStateTransition_MatchesRowPath_ForEveryFixtureTransition()
+        public void StoryStateTransition_Golden_ForEveryFixtureTransition()
         {
-            ProjectReader.ReadProjectFile(ContentFixturePath, out var ds);
             var doc = XDocument.Load(ContentFixturePath, LoadOptions.None);
-            var rows = ds.StateTransition.ToList();
             var elems = doc.Descendants("StateTransition").ToList();
-            Assert.That(rows.Count, Is.GreaterThanOrEqualTo(3));
-            for (int i = 0; i < rows.Count; i++)
+            Assert.That(elems.Count, Is.EqualTo(3));
+            var dump = new Dump();
+            for (int i = 0; i < elems.Count; i++)
             {
-                var oldT = new StoryStateTransition(rows[i]);
-                var newT = new StoryStateTransition(elems[i]);
-                Assert.That(newT.GetXml.ToString(), Is.EqualTo(oldT.GetXml.ToString()), $"transition {i}");
-                Assert.That(newT.TransitionDateTime, Is.EqualTo(oldT.TransitionDateTime), $"transition {i}");
-                Assert.That(newT.TransitionDateTime.Kind, Is.EqualTo(oldT.TransitionDateTime.Kind), $"transition {i} kind");
+                var t = new StoryStateTransition(elems[i]);
+                dump.Raw($"== transition {i}").Line("TransitionDateTime", t.TransitionDateTime).Xml("GetXml", t.GetXml);
             }
+            Golden.Check("content-transitions", dump.ToString());
         }
 
         // ----- crafting info -----
 
+        private static void DumpMember(Dump dump, string strWhat, MemberIdInfo member)
+        {
+            if (member == null)
+            {
+                dump.Line(strWhat, null);
+                return;
+            }
+            dump.Line(strWhat + " MemberId", member.MemberId).Line(strWhat + " MemberComment", member.MemberComment);
+        }
+
+        private static void DumpTesters(Dump dump, string strWhat, TestInfo testers)
+        {
+            dump.Line(strWhat + " Count", testers.Count);
+            for (int i = 0; i < testers.Count; i++)
+                DumpMember(dump, $"{strWhat} [{i}]", testers[i]);
+        }
+
+        private static void DumpCraftingInfo(Dump dump, CraftingInfoData ci)
+        {
+            dump.Line("IsBiblicalStory", ci.IsBiblicalStory);
+            DumpMember(dump, "crafter", ci.StoryCrafter);
+            DumpMember(dump, "pf", ci.ProjectFacilitator);
+            DumpMember(dump, "consultant", ci.Consultant);
+            DumpMember(dump, "coach", ci.Coach);
+            DumpMember(dump, "bt", ci.BackTranslator);
+            DumpMember(dump, "oebt", ci.OutsideEnglishBackTranslator);
+            dump.Line("StoryPurpose", ci.StoryPurpose).Line("ResourcesUsed", ci.ResourcesUsed)
+                .Line("MiscellaneousStoryInfo", ci.MiscellaneousStoryInfo);
+            DumpTesters(dump, "retellings", ci.TestersToCommentsRetellings);
+            DumpTesters(dump, "tq answers", ci.TestersToCommentsTqAnswers);
+            dump.Xml("GetXml", ci.GetXml);
+        }
+
         [Test]
-        public void CraftingInfoData_MatchesRowPath()
+        public void CraftingInfoData_Golden()
         {
             var bSawNonBiblical = false;
-            for (int i = 0; i < _storyRows.Count; i++)
+            var dump = new Dump();
+            for (int i = 0; i < _storyElems.Count; i++)
             {
-                var oldCi = new CraftingInfoData(_storyRows[i]);
-                var newCi = new CraftingInfoData(_storyElems[i]);
-                Assert.That(newCi.IsBiblicalStory, Is.EqualTo(oldCi.IsBiblicalStory), $"story {i}");
-                bSawNonBiblical |= !oldCi.IsBiblicalStory;
-                Assert.That(newCi.GetXml.ToString(), Is.EqualTo(oldCi.GetXml.ToString()), $"story {i}");
-                AssertMember(newCi.StoryCrafter, oldCi.StoryCrafter, $"story {i} crafter");
-                AssertMember(newCi.ProjectFacilitator, oldCi.ProjectFacilitator, $"story {i} pf");
-                AssertMember(newCi.Consultant, oldCi.Consultant, $"story {i} consultant");
-                AssertMember(newCi.Coach, oldCi.Coach, $"story {i} coach");
-                AssertMember(newCi.BackTranslator, oldCi.BackTranslator, $"story {i} bt");
-                AssertMember(newCi.OutsideEnglishBackTranslator, oldCi.OutsideEnglishBackTranslator, $"story {i} oebt");
-                Assert.That(newCi.StoryPurpose, Is.EqualTo(oldCi.StoryPurpose), $"story {i} purpose");
-                Assert.That(newCi.ResourcesUsed, Is.EqualTo(oldCi.ResourcesUsed), $"story {i} resources");
-                Assert.That(newCi.MiscellaneousStoryInfo, Is.EqualTo(oldCi.MiscellaneousStoryInfo), $"story {i} misc");
-                AssertTesters(newCi.TestersToCommentsRetellings, oldCi.TestersToCommentsRetellings, $"story {i} retellings");
-                AssertTesters(newCi.TestersToCommentsTqAnswers, oldCi.TestersToCommentsTqAnswers, $"story {i} tq answers");
+                var ci = new CraftingInfoData(_storyElems[i]);
+                bSawNonBiblical |= !ci.IsBiblicalStory;
+                DumpCraftingInfo(dump.Raw($"== story {i}"), ci);
             }
+            Golden.Check("story-crafting-infos", dump.ToString());
             Assert.That(bSawNonBiblical, Is.True);
-        }
-
-        private static void AssertMember(MemberIdInfo actual, MemberIdInfo expected, string strMsg)
-        {
-            Assert.That(actual == null, Is.EqualTo(expected == null), strMsg);
-            if (expected == null)
-                return;
-            Assert.That(actual.MemberId, Is.EqualTo(expected.MemberId), strMsg);
-            Assert.That(actual.MemberComment, Is.EqualTo(expected.MemberComment), strMsg);
-        }
-
-        private static void AssertTesters(TestInfo actual, TestInfo expected, string strMsg)
-        {
-            Assert.That(actual.Count, Is.EqualTo(expected.Count), strMsg);
-            for (int i = 0; i < expected.Count; i++)
-                AssertMember(actual[i], expected[i], $"{strMsg} [{i}]");
         }
 
         [Test]
@@ -260,35 +249,35 @@ namespace OneStoryProjectEditor.Tests
         }
 
         [Test]
-        public void CraftingInfoData_MissingStoryCrafter_ThrowsSameAsRowPath()
+        public void CraftingInfoData_MissingStoryCrafter_Throws()
         {
             const string strStory = "<story name=\"S\" stage=\"ProjFacTypeVernacular\" guid=\"g1\">" +
                                     "<CraftingInfo NonBiblicalStory=\"false\" /></story>";
-            AssertBothPathsThrowSame(strStory, Properties.Resources.IDS_ProjectFileCorrupted);
+            AssertStoryThrows(strStory, Properties.Resources.IDS_ProjectFileCorrupted);
         }
 
         [Test]
-        public void CraftingInfoData_TwoStoryCrafters_ThrowsSameAsRowPath()
+        public void CraftingInfoData_TwoStoryCrafters_Throws()
         {
             const string strStory = "<story name=\"S\" stage=\"ProjFacTypeVernacular\" guid=\"g1\">" +
                                     "<CraftingInfo NonBiblicalStory=\"false\">" +
                                     "<StoryCrafter memberID=\"m1\" /><StoryCrafter memberID=\"m1\" />" +
                                     "</CraftingInfo></story>";
-            AssertBothPathsThrowSame(strStory, Properties.Resources.IDS_ProjectFileCorrupted);
+            AssertStoryThrows(strStory, Properties.Resources.IDS_ProjectFileCorrupted);
         }
 
         [Test]
-        public void CraftingInfoData_TwoCraftingInfoElements_ThrowsSameAsRowPath()
+        public void CraftingInfoData_TwoCraftingInfoElements_Throws()
         {
             const string strStory = "<story name=\"S\" stage=\"ProjFacTypeVernacular\" guid=\"g1\">" +
                                     "<CraftingInfo NonBiblicalStory=\"false\"><StoryCrafter memberID=\"m1\" /></CraftingInfo>" +
                                     "<CraftingInfo NonBiblicalStory=\"false\"><StoryCrafter memberID=\"m1\" /></CraftingInfo>" +
                                     "</story>";
-            AssertBothPathsThrowSame(strStory, Properties.Resources.IDS_ProjectFileCorruptedNoCraftingInfo);
+            AssertStoryThrows(strStory, Properties.Resources.IDS_ProjectFileCorruptedNoCraftingInfo);
         }
 
         [Test]
-        public void CraftingInfoData_TwoOptionalMembers_AreIgnoredLikeRowPath()
+        public void CraftingInfoData_TwoOptionalMembers_AreIgnored()
         {
             const string strStory = "<story name=\"S\" stage=\"ProjFacTypeVernacular\" guid=\"g1\">" +
                                     "<CraftingInfo NonBiblicalStory=\"false\"><StoryCrafter memberID=\"m1\" />" +
@@ -296,164 +285,96 @@ namespace OneStoryProjectEditor.Tests
                                     "<TestsRetellings><TestRetelling memberID=\"m2\">a</TestRetelling></TestsRetellings>" +
                                     "<TestsRetellings><TestRetelling memberID=\"m3\">b</TestRetelling></TestsRetellings>" +
                                     "</CraftingInfo></story>";
-            using (var tmp = new TempProject(strStory))
-            {
-                ProjectReader.ReadProjectFile(tmp.Path, out var ds);
-                var oldCi = new CraftingInfoData(ds.story.Single());
-                var newCi = new CraftingInfoData(XDocument.Load(tmp.Path).Descendants("story").Single());
-                Assert.That(newCi.Consultant, Is.Null);
-                Assert.That(newCi.Consultant == null, Is.EqualTo(oldCi.Consultant == null));
-                Assert.That(newCi.TestersToCommentsRetellings.Count, Is.EqualTo(oldCi.TestersToCommentsRetellings.Count));
-                Assert.That(newCi.GetXml.ToString(), Is.EqualTo(oldCi.GetXml.ToString()));
-            }
+            var ci = new CraftingInfoData(XElement.Parse(strStory));
+            Assert.That(ci.Consultant, Is.Null);
+            Assert.That(ci.TestersToCommentsRetellings.Count, Is.EqualTo(0));
+            Golden.Check("crafting-two-optional-members", ci.GetXml.ToString());
         }
 
-        // The DataSet may reject the file in ReadXml or in the row constructor; either way the row path throws
-        //  and the XElement path must throw the same message (when the row path's exception is the loader's own).
-        private static void AssertBothPathsThrowSame(string strStoryXml, string strExpectedMessage)
+        // the loader's own message for a damaged story
+        private static void AssertStoryThrows(string strStoryXml, string strExpectedMessage)
         {
-            using (var tmp = new TempProject(strStoryXml))
-            {
-                Exception exRow = null;
-                try
-                {
-                    ProjectReader.ReadProjectFile(tmp.Path, out var ds);
-                    new StoryData(ds.story.Single(), ds, TestDataDir);
-                }
-                catch (Exception ex)
-                {
-                    exRow = ex;
-                }
-
-                Assert.That(exRow, Is.Not.Null, "row path should throw");
-
-                var elemStory = XDocument.Load(tmp.Path).Descendants("story").Single();
-                var exNew = Assert.Throws<ApplicationException>(() => new StoryData(elemStory, TestDataDir));
-                Assert.That(exNew.Message, Is.EqualTo(strExpectedMessage));
-                if (exRow is ApplicationException)
-                {
-                    Assert.That(exNew.GetType(), Is.EqualTo(exRow.GetType()));
-                    Assert.That(exNew.Message, Is.EqualTo(exRow.Message));
-                }
-                TestContext.WriteLine($"row path threw {exRow.GetType().Name}: {exRow.Message}");
-            }
-        }
-
-        private sealed class TempProject : IDisposable
-        {
-            public string Path { get; }
-
-            public TempProject(string strStoryXml)
-            {
-                Path = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "ose-story-" + Guid.NewGuid() + ".onestory");
-                File.WriteAllText(Path,
-                    "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" +
-                    "<StoryProject version=\"1.8\" ProjectName=\"t\">" +
-                    "<Members HasOutsideEnglishBTer=\"false\" HasFirstPassMentor=\"false\" HasIndependentConsultant=\"false\"><Member name=\"c\" memberType=\"Crafter\" memberKey=\"m1\" /></Members>" +
-                    "<Languages /><LnCNotes /><stories SetName=\"Stories\">" + strStoryXml + "</stories></StoryProject>");
-            }
-
-            public void Dispose()
-            {
-                try { File.Delete(Path); } catch { /* best effort */ }
-            }
+            var elemStory = XElement.Parse(strStoryXml);
+            var ex = Assert.Throws<ApplicationException>(() => new StoryData(elemStory, TestDataDir));
+            Assert.That(ex.Message, Is.EqualTo(strExpectedMessage));
         }
 
         // ----- stories -----
 
         [Test]
-        public void StoryData_MatchesRowPath()
+        public void StoryData_Golden()
         {
-            for (int i = 0; i < _storyRows.Count; i++)
+            var dump = new Dump();
+            for (int i = 0; i < _storyElems.Count; i++)
             {
-                ProjectReader.UniqueStoryGuids.Clear();
-                // the duplicate-guid story is covered separately (it needs the earlier story registered first)
-                var oldStories = _storyRows.Take(i + 1).Select(r => new StoryData(r, _ds, TestDataDir)).ToList();
-                ProjectReader.UniqueStoryGuids.Clear();
+                ProjectFile.UniqueStoryGuids.Clear();
+                // the duplicate-guid story needs the earlier story registered first
                 var newStories = _storyElems.Take(i + 1).Select(e => new StoryData(e, TestDataDir)).ToList();
-                var oldStory = oldStories.Last();
                 var newStory = newStories.Last();
 
-                Assert.That(newStory.Name, Is.EqualTo(oldStory.Name), $"story {i}");
-                Assert.That(newStory.TasksAllowedPf, Is.EqualTo(oldStory.TasksAllowedPf), $"story {i}");
-                Assert.That(newStory.TasksRequiredPf, Is.EqualTo(oldStory.TasksRequiredPf), $"story {i}");
-                Assert.That(newStory.TasksAllowedCit, Is.EqualTo(oldStory.TasksAllowedCit), $"story {i}");
-                Assert.That(newStory.TasksRequiredCit, Is.EqualTo(oldStory.TasksRequiredCit), $"story {i}");
-                Assert.That(newStory.CountRetellingsTests, Is.EqualTo(oldStory.CountRetellingsTests), $"story {i}");
-                Assert.That(newStory.CountTestingQuestionTests, Is.EqualTo(oldStory.CountTestingQuestionTests), $"story {i}");
-                Assert.That(newStory.CraftingInfo.IsBiblicalStory, Is.EqualTo(oldStory.CraftingInfo.IsBiblicalStory), $"story {i}");
+                dump.Raw($"== story {i}").Line("Name", newStory.Name).Line("TasksAllowedPf", newStory.TasksAllowedPf)
+                    .Line("TasksRequiredPf", newStory.TasksRequiredPf).Line("TasksAllowedCit", newStory.TasksAllowedCit)
+                    .Line("TasksRequiredCit", newStory.TasksRequiredCit)
+                    .Line("CountRetellingsTests", newStory.CountRetellingsTests)
+                    .Line("CountTestingQuestionTests", newStory.CountTestingQuestionTests)
+                    .Line("IsBiblicalStory", newStory.CraftingInfo.IsBiblicalStory);
 
                 if (_storyElems[i].Attribute("stageDateTimeStamp") == null)
-                {
-                    // no stamp: both paths use DateTime.Now
-                    Assert.That((newStory.StageTimeStamp - oldStory.StageTimeStamp).Duration(), Is.LessThan(TimeSpan.FromSeconds(30)));
-                    newStory.StageTimeStamp = oldStory.StageTimeStamp;
-                }
-                else
-                {
-                    Assert.That(newStory.StageTimeStamp, Is.EqualTo(oldStory.StageTimeStamp), $"story {i}");
-                    Assert.That(newStory.StageTimeStamp.Kind, Is.EqualTo(oldStory.StageTimeStamp.Kind), $"story {i}");
-                }
+                    // no stamp: the loader uses DateTime.Now
+                    Assert.That((newStory.StageTimeStamp - DateTime.Now).Duration(), Is.LessThan(TimeSpan.FromSeconds(30)));
+                dump.Line("StageTimeStamp", newStory.StageTimeStamp);
 
-                AlignGeneratedFirstGuid(_storyElems[i], oldStory.Verses, newStory.Verses);
+                FixGeneratedFirstGuid(_storyElems[i], newStory.Verses);
                 if (i == 2)
-                    continue;   // duplicate guid: the replacement guid is random (see the guid tests)
-
-                Assert.That(newStory.guid, Is.EqualTo(oldStory.guid), $"story {i}");
-                Assert.That(newStory.GetXml.ToString(), Is.EqualTo(oldStory.GetXml.ToString()), $"story {i}");
+                {
+                    // duplicate guid: the replacement guid is random (see the guid tests)
+                    Assert.That(newStory.guid, Is.Not.EqualTo((string)_storyElems[i].Attribute("guid")));
+                    newStory.guid = "{REPLACED}";
+                }
+                dump.Line("guid", newStory.guid).Xml("GetXml", newStory.GetXml);
             }
+            Golden.Check("story-stories", dump.ToString());
         }
 
         [Test]
-        public void StoryData_DuplicateGuid_BothPathsAssignNewGuidToTheDuplicate()
+        public void StoryData_DuplicateGuid_AssignsNewGuidToTheDuplicate()
         {
             const string strOriginal = "00000000-0000-0000-0000-000000000101";
 
-            ProjectReader.UniqueStoryGuids.Clear();
-            var oldStories = _storyRows.Select(r => new StoryData(r, _ds, TestDataDir)).ToList();
-            ProjectReader.UniqueStoryGuids.Clear();
+            ProjectFile.UniqueStoryGuids.Clear();
             var newStories = _storyElems.Select(e => new StoryData(e, TestDataDir)).ToList();
 
-            foreach (var stories in new[] { oldStories, newStories })
-            {
-                Assert.That(stories[0].guid, Is.EqualTo(strOriginal));
-                Assert.That(stories[2].guid, Is.Not.EqualTo(strOriginal));
-                Assert.That(Guid.TryParse(stories[2].guid, out _), Is.True);
-                Assert.That(stories.Select(s => s.guid).Distinct().Count(), Is.EqualTo(stories.Count));
-            }
-            Assert.That(ProjectReader.UniqueStoryGuids, Does.Contain(newStories[2].guid));
+            Assert.That(newStories[0].guid, Is.EqualTo(strOriginal));
+            Assert.That(newStories[2].guid, Is.Not.EqualTo(strOriginal));
+            Assert.That(Guid.TryParse(newStories[2].guid, out _), Is.True);
+            Assert.That(newStories.Select(s => s.guid).Distinct().Count(), Is.EqualTo(newStories.Count));
+            Assert.That(ProjectFile.UniqueStoryGuids, Does.Contain(newStories[2].guid));
         }
 
         [Test]
         public void StoryData_SameNameTwice_BothKept()
         {
-            ProjectReader.UniqueStoryGuids.Clear();
-            var oldStories = _storyRows.Select(r => new StoryData(r, _ds, TestDataDir)).ToList();
-            ProjectReader.UniqueStoryGuids.Clear();
+            ProjectFile.UniqueStoryGuids.Clear();
             var newStories = _storyElems.Select(e => new StoryData(e, TestDataDir)).ToList();
             Assert.That(newStories.Count(s => s.Name == "Story Minimal"), Is.EqualTo(2));
-            Assert.That(newStories.Count(s => s.Name == "Story Minimal"), Is.EqualTo(oldStories.Count(s => s.Name == "Story Minimal")));
             Assert.That(newStories[1].guid, Is.Not.EqualTo(newStories[3].guid));
         }
 
         [Test]
-        public void StoryData_ContentFixture_MatchesRowPath()
+        public void StoryData_ContentFixture_Golden()
         {
-            ProjectReader.ReadProjectFile(ContentFixturePath, out var ds);
             var doc = XDocument.Load(ContentFixturePath, LoadOptions.None);
-            var rows = ds.story.ToList();
             var elems = doc.Descendants("story").ToList();
-            ProjectReader.UniqueStoryGuids.Clear();
-            var oldStories = rows.Select(r => new StoryData(r, ds, TestDataDir)).ToList();
-            ProjectReader.UniqueStoryGuids.Clear();
+            Assert.That(elems.Count, Is.EqualTo(5));
+            ProjectFile.UniqueStoryGuids.Clear();
             var newStories = elems.Select(e => new StoryData(e, TestDataDir)).ToList();
-            for (int i = 0; i < rows.Count; i++)
+            var dump = new Dump();
+            for (int i = 0; i < elems.Count; i++)
             {
-                if (elems[i].Attribute("stageDateTimeStamp") == null)
-                    newStories[i].StageTimeStamp = oldStories[i].StageTimeStamp;
-                AlignGeneratedFirstGuid(elems[i], oldStories[i].Verses, newStories[i].Verses);
-                Assert.That(newStories[i].GetXml.ToString(), Is.EqualTo(oldStories[i].GetXml.ToString()), $"story {i}");
+                FixGeneratedFirstGuid(elems[i], newStories[i].Verses);
+                dump.Raw($"== story {i}").Xml("GetXml", newStories[i].GetXml);
             }
+            Golden.Check("content-stories", dump.ToString());
         }
     }
 }

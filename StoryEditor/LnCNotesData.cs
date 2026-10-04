@@ -16,22 +16,6 @@ namespace OneStoryProjectEditor
         {
         }
 
-        public LnCNotesData(NewDataSet projFile)
-        {
-            NewDataSet.StoryProjectRow theStoryProjectRow = projFile.StoryProject[0];
-            NewDataSet.LnCNotesRow[] theLnCNotesRows = theStoryProjectRow.GetLnCNotesRows();
-            NewDataSet.LnCNotesRow theLnCNotesRow;
-            if (theLnCNotesRows.Length == 0)
-                theLnCNotesRow = projFile.LnCNotes.AddLnCNotesRow(theStoryProjectRow);
-            else
-                theLnCNotesRow = theLnCNotesRows[0];
-
-            foreach (NewDataSet.LnCNoteRow aLnCNoteRow in theLnCNotesRow.GetLnCNoteRows())
-                Add(new LnCNote(aLnCNoteRow));
-        }
-
-        // mirrors LnCNotesData(NewDataSet): elemStoryProject is the root element; an absent <LnCNotes> is the
-        //  row path's added empty container
         public LnCNotesData(XElement elemStoryProject)
         {
             var elemLnCNotes = XmlRead.First(elemStoryProject, "LnCNotes");
@@ -277,24 +261,7 @@ namespace OneStoryProjectEditor
             Notes = String.Empty; // xml doesn't like null for this
         }
 
-        public LnCNote(NewDataSet.LnCNoteRow theLnCNoteRow)
-        {
-            guid = theLnCNoteRow.guid;  // the only thing absolutely required
-
-            Notes = theLnCNoteRow.IsLnCNote_textNull()
-                        ? String.Empty
-                        : StoryData.NormalizeLineEndings(theLnCNoteRow.LnCNote_text);
-            if (!theLnCNoteRow.IsVernacularRenderingNull())
-                VernacularRendering = StoryData.NormalizeLineEndings(theLnCNoteRow.VernacularRendering);
-            if (!theLnCNoteRow.IsNationalBTRenderingNull())
-                NationalBtRendering = StoryData.NormalizeLineEndings(theLnCNoteRow.NationalBTRendering);
-            if (!theLnCNoteRow.IsInternationalBTRenderingNull())
-                InternationalBtRendering = StoryData.NormalizeLineEndings(theLnCNoteRow.InternationalBTRendering);
-            if (!theLnCNoteRow.IsKeyTermIdsNull())
-                KeyTermIds = StoryData.NormalizeLineEndings(theLnCNoteRow.KeyTermIds);
-        }
-
-        // mirrors LnCNote(NewDataSet.LnCNoteRow). GetXml used to write "KeyTermId" while the row path read "KeyTermIds"
+        // GetXml used to write "KeyTermId" while the loader read "KeyTermIds"
         //  (so key terms were lost on a round trip). GetXml now writes "KeyTermIds"; files saved by older versions
         //  have "KeyTermId", so fall back to that when reading.
         public LnCNote(XElement elemLnCNote)

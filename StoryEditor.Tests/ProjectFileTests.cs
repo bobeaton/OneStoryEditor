@@ -115,18 +115,16 @@ namespace OneStoryProjectEditor.Tests
         [Test]
         public void Load_ClearsTheUniqueStoryGuids()
         {
-            ProjectReader.UniqueStoryGuids.Add("left over");
+            ProjectFile.UniqueStoryGuids.Add("left over");
             ProjectFile.Load(Path.Combine(TestDataDir, "minimal-1.8.onestory"));
-            Assert.That(ProjectReader.UniqueStoryGuids, Is.Empty);
+            Assert.That(ProjectFile.UniqueStoryGuids, Is.Empty);
         }
 
         [Test]
-        public void Load_FixtureWithMarker_MatchesProjectReader()
+        public void Load_FixtureWithoutMarker_IsNotPlainTextEncoded()
         {
-            var strPath = Path.Combine(TestDataDir, "minimal-1.8.onestory");
-            ProjectReader.ReadProjectFile(strPath, out var ds);
-            var contents = ProjectFile.Load(strPath);
-            Assert.That(contents.IsPlainTextEncoded, Is.EqualTo(ds.IsPlainTextEncoded));
+            var contents = ProjectFile.Load(Path.Combine(TestDataDir, "minimal-1.8.onestory"));
+            Assert.That(contents.IsPlainTextEncoded, Is.False);
         }
 
         [Test]

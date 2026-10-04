@@ -5,11 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using NUnit.Framework;
+using OneStoryProjectEditor.Tests.ReleasedExeDataSet;
 
 namespace OneStoryProjectEditor.Tests
 {
     /// <summary>
-    /// The typed DataSet (ProjectReader) is the oracle: every test loads characterization.onestory both
+    /// The typed DataSet (the test-only copy of the released exe's, ReleasedExeDataSet) is the oracle: every test loads characterization.onestory both
     /// ways and requires the XmlRead helper to give what the DataSet column gives.
     /// </summary>
     [TestFixture]
@@ -18,13 +19,14 @@ namespace OneStoryProjectEditor.Tests
         private static string FixturePath =>
             Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "characterization.onestory");
 
-        private ProjectReader _ds;
+        private NewDataSet _ds;
         private XDocument _doc;
 
         [OneTimeSetUp]
         public void Load()
         {
-            ProjectReader.ReadProjectFile(FixturePath, out _ds);
+            _ds = new NewDataSet();
+            _ds.ReadXml(FixturePath);
             _doc = XDocument.Load(FixturePath, LoadOptions.None);
         }
 
@@ -243,14 +245,14 @@ namespace OneStoryProjectEditor.Tests
             return s.Replace("&", "&amp;").Replace("\"", "&quot;").Replace("<", "&lt;");
         }
 
-        private static ProjectReader LoadVariant(string storyAttrs, string verseAttrs, string text, out XElement elemStory, out XElement elemVerse, out XElement elemLine)
+        private static NewDataSet LoadVariant(string storyAttrs, string verseAttrs, string text, out XElement elemStory, out XElement elemVerse, out XElement elemLine)
         {
             var xml = VariantTemplate.Replace("@STORY@", storyAttrs).Replace("@VERSE@", verseAttrs).Replace("@TEXT@", text);
             var path = Path.Combine(Path.GetTempPath(), "ose-variant-" + Guid.NewGuid() + ".onestory");
             File.WriteAllText(path, xml, new System.Text.UTF8Encoding(false));
             try
             {
-                ProjectReader ds = new ProjectReader();
+                var ds = new NewDataSet();
                 ds.ReadXml(path);
                 var doc = XDocument.Load(path, LoadOptions.None);
                 elemStory = doc.Descendants("story").Single();
@@ -334,6 +336,42 @@ namespace OneStoryProjectEditor.Tests
                     },
                     "date form [" + form + "]");
             }
+        }
+
+        // what the DataSet gave for each form (observed in Task 1), as literal expectations. An explicit offset is
+        //  converted to the machine's local time, so that expectation is computed rather than hard-coded.
+        [TestCase("2026-10-03T12:34:56Z", "2026-10-03T12:34:56.0000000")]
+        [TestCase("2026-10-03T12:34:56", "2026-10-03T12:34:56.0000000")]
+        [TestCase("2026-10-03T12:34:56.1234567Z", "2026-10-03T12:34:56.1234567")]
+        [TestCase("2026-10-03T12:34:56.123", "2026-10-03T12:34:56.1230000")]
+        [TestCase("2026-10-03", "2026-10-03T00:00:00.0000000")]
+        [TestCase("2026-10-03Z", "2026-10-03T00:00:00.0000000")]
+        [TestCase(" 2026-10-03T12:34:56Z ", "2026-10-03T12:34:56.0000000")]
+        public void Date_HardCodedExpectations_ZoneLessAndZ(string strInput, string strExpectedRoundTrip)
+        {
+            var d = XmlRead.Date(XElement.Parse("<story stageDateTimeStamp=\"" + strInput + "\" />"), "stageDateTimeStamp").Value;
+            Assert.That(d.ToString("o"), Is.EqualTo(strExpectedRoundTrip));
+            Assert.That(d.Kind, Is.EqualTo(DateTimeKind.Unspecified));
+        }
+
+        [TestCase("2026-10-03T12:34:56+02:00")]
+        [TestCase("2026-10-03T12:34:56-05:00")]
+        public void Date_HardCodedExpectations_ExplicitOffsetBecomesLocalTime(string strInput)
+        {
+            var expected = DateTime.SpecifyKind(
+                DateTimeOffset.Parse(strInput, System.Globalization.CultureInfo.InvariantCulture).LocalDateTime,
+                DateTimeKind.Unspecified);
+            var d = XmlRead.Date(XElement.Parse("<story stageDateTimeStamp=\"" + strInput + "\" />"), "stageDateTimeStamp").Value;
+            Assert.That(d, Is.EqualTo(expected));
+            Assert.That(d.Kind, Is.EqualTo(DateTimeKind.Unspecified));
+        }
+
+        [TestCase("not a date")]
+        [TestCase("")]
+        public void Date_HardCodedExpectations_BadValueThrowsFormatException(string strInput)
+        {
+            Assert.Throws<FormatException>(() =>
+                XmlRead.Date(XElement.Parse("<story stageDateTimeStamp=\"" + strInput + "\" />"), "stageDateTimeStamp"));
         }
 
         private static readonly string[] IntForms = { "0", "2", "-3", "+4", " 5 ", "2.0", "abc", "" };

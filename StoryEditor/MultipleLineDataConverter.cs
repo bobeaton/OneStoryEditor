@@ -93,30 +93,7 @@ namespace OneStoryProjectEditor
             return this.FirstOrDefault(aLineData => aLineData.MemberId == strMemberId);
         }
 
-        protected void InitFromXmlNode(XmlNode node, string strInstanceElementName)
-        {
-            if (node == null)
-                return;
-
-            XmlNodeList list = node.SelectNodes(strInstanceElementName);
-            if (list == null)
-                return;
-
-            // e.g. 
-            // <Retelling lang="Vernacular" memberID="mem-34719c50-a00d-4910-846d-1c17b14ec973"></Retelling>
-            foreach (XmlNode nodeFromList in list)
-            {
-                if (nodeFromList.Attributes != null)
-                {
-                    string strLangId = nodeFromList.Attributes[LineData.CstrAttributeLang].Value;
-                    string strMemberId = nodeFromList.Attributes[LineMemberData.CstrAttributeMemberID].Value;
-                    string strValue = nodeFromList.InnerText;
-                    AddLineDataValue(strMemberId, strLangId, strValue);
-                }
-            }
-        }
-
-        // shared by the Retelling and Answer XElement constructors (the row constructors share their loop shape)
+        // shared by the Retelling and Answer XElement constructors
         protected void InitFromXElement(XElement elemContainer, string strInstanceElementName)
         {
             if (elemContainer == null)
@@ -448,39 +425,14 @@ namespace OneStoryProjectEditor
 
     public class RetellingsData : MultipleLineDataConverter
     {
-        public RetellingsData(NewDataSet.VerseRow theVerseRow, NewDataSet projFile)
-        {
-            var theRetellingsRows = theVerseRow.GetRetellingsRows();
-            var theRetellingsRow = (theRetellingsRows.Length == 0)
-                                       ? projFile.Retellings.AddRetellingsRow(theVerseRow)
-                                       : theRetellingsRows[0];
-
-            foreach (var aRetellingRow in theRetellingsRow.GetRetellingRows())
-            {
-                var strLangId = (aRetellingRow.IslangNull())
-                                    ? null
-                                    : aRetellingRow.lang;
-                var strValue = (aRetellingRow.IsRetelling_textNull())
-                                   ? null
-                                   : aRetellingRow.Retelling_text;
-                AddLineDataValue(aRetellingRow.memberID, strLangId, strValue);
-            }
-        }
-
         public RetellingsData(MultipleLineDataConverter rhs)
             : base(rhs)
         {
         }
 
-        // mirrors RetellingsData(NewDataSet.VerseRow, NewDataSet); an absent <Retellings> is the row path's added empty container
         public RetellingsData(XElement elemVerse)
         {
             InitFromXElement(XmlRead.First(elemVerse, CstrElementLableRetellings), InstanceElementName);
-        }
-
-        public RetellingsData(XmlNode node)
-        {
-            InitFromXmlNode(node, InstanceElementName);
         }
 
         public RetellingsData()
@@ -538,34 +490,9 @@ namespace OneStoryProjectEditor
 
     public class AnswersData : MultipleLineDataConverter
     {
-        public AnswersData(NewDataSet.TestQuestionRow theTestQuestionRow, NewDataSet projFile)
-        {
-            var theAnswersRows = theTestQuestionRow.GetAnswersRows();
-            var theAnswersRow = (theAnswersRows.Length == 0)
-                                    ? projFile.Answers.AddAnswersRow(theTestQuestionRow)
-                                    : theAnswersRows[0];
-
-            foreach (var anAnswerRow in theAnswersRow.GetAnswerRows())
-            {
-                var strLangId = (anAnswerRow.IslangNull())
-                                    ? null
-                                    : anAnswerRow.lang;
-                var strValue = (anAnswerRow.IsAnswer_textNull())
-                                   ? null
-                                   : anAnswerRow.Answer_text;
-                AddLineDataValue(anAnswerRow.memberID, strLangId, strValue);
-            }
-        }
-
-        // mirrors AnswersData(NewDataSet.TestQuestionRow, NewDataSet); an absent <Answers> is the row path's added empty container
         public AnswersData(XElement elemTestQuestion)
         {
             InitFromXElement(XmlRead.First(elemTestQuestion, CstrElementLableAnswers), InstanceElementName);
-        }
-
-        public AnswersData(XmlNode node)
-        {
-            InitFromXmlNode(node, InstanceElementName);
         }
 
         public AnswersData(MultipleLineDataConverter rhs)

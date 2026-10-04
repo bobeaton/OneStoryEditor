@@ -9,10 +9,10 @@ using NUnit.Framework;
 namespace OneStoryProjectEditor.Tests
 {
     /// <summary>
-    /// The typed DataSet row constructors are the oracle for the project-level XElement constructors: each test
-    /// loads a project file both as a DataSet (ProjectReader) and as an XDocument and requires identical results.
-    /// A fresh ProjectReader per test, because the row constructors add empty container rows to the DataSet.
-    /// Fixtures never contain duplicate member names (the row path shows a message box for those).
+    /// Golden tests for the project-level XElement constructors (see Golden): each test loads a project file as an
+    /// XDocument, builds the object and compares what it holds (every field the old row-constructor oracle tests
+    /// compared, and GetXml) with a golden file. Assertions on values are kept as they were.
+    /// Fixtures never contain duplicate member names (the loader shows a message box for those).
     /// </summary>
     [TestFixture]
     public class FromXmlProjectTests
@@ -22,7 +22,6 @@ namespace OneStoryProjectEditor.Tests
         private static string FixturePath =>
             Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "characterization-project.onestory");
 
-        private ProjectReader _ds;
         private XElement _root;
         private System.Diagnostics.TraceListener[] _savedListeners;
         private readonly List<string> _tempPaths = new List<string>();
@@ -30,11 +29,11 @@ namespace OneStoryProjectEditor.Tests
         [SetUp]
         public void Load()
         {
-            // the row constructors Debug.Assert in a few places; with the default listener that kills the test host
+            // the loader Debug.Asserts in a few places; with the default listener that kills the test host
             _savedListeners = new System.Diagnostics.TraceListener[System.Diagnostics.Trace.Listeners.Count];
             System.Diagnostics.Trace.Listeners.CopyTo(_savedListeners, 0);
             System.Diagnostics.Trace.Listeners.Clear();
-            LoadBoth(FixturePath);
+            _root = LoadRoot(FixturePath);
         }
 
         [TearDown]
@@ -58,10 +57,9 @@ namespace OneStoryProjectEditor.Tests
             }
         }
 
-        private void LoadBoth(string strPath)
+        private static XElement LoadRoot(string strPath)
         {
-            ProjectReader.ReadProjectFile(strPath, out _ds);
-            _root = XDocument.Load(strPath, LoadOptions.None).Root;
+            return XDocument.Load(strPath, LoadOptions.None).Root;
         }
 
         private string WriteTemp(string strRootChildrenXml, string strRootAttributes = "version=\"1.8\" ProjectName=\"" + ProjectName + "\" PanoramaFrontMatter=\"pfm\"")
@@ -79,35 +77,34 @@ namespace OneStoryProjectEditor.Tests
 
         // ----- members -----
 
-        // every instance field (public or private) of a simple type, so nothing the row path sets is missed
-        private static void AssertSameFields(object actual, object expected, string strMsg)
+        // every instance field (public or private) of a simple type, so nothing the loader sets is missed
+        private static int DumpFields(Dump dump, object obj, string strMsg)
         {
-            var nCompared = 0;
-            foreach (var field in expected.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+            var nDumped = 0;
+            foreach (var field in obj.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
             {
                 var type = field.FieldType;
                 if (!(type == typeof(string) || type == typeof(float) || type == typeof(bool) || type == typeof(long) || type.IsEnum))
                     continue;
-                Assert.That(field.GetValue(actual), Is.EqualTo(field.GetValue(expected)), $"{strMsg}: {field.Name}");
-                nCompared++;
+                dump.Line($"{strMsg}: {field.Name}", field.GetValue(obj));
+                nDumped++;
             }
-            Assert.That(nCompared, Is.GreaterThan(30), strMsg);
+            return nDumped;
         }
 
         [Test]
-        public void TeamMemberData_MatchesRowPath_ForEveryMember()
+        public void TeamMemberData_Golden_ForEveryMember()
         {
-            var rows = _ds.Member.ToList();
             var elems = _root.Descendants("Member").ToList();
-            Assert.That(rows.Count, Is.EqualTo(5));
-            Assert.That(elems.Count, Is.EqualTo(rows.Count));
-            for (int i = 0; i < rows.Count; i++)
+            Assert.That(elems.Count, Is.EqualTo(5));
+            var dump = new Dump();
+            for (int i = 0; i < elems.Count; i++)
             {
-                var oldMember = new TeamMemberData(rows[i]);
-                var newMember = new TeamMemberData(elems[i]);
-                AssertSameFields(newMember, oldMember, $"member {i}");
-                Assert.That(newMember.GetXml.ToString(), Is.EqualTo(oldMember.GetXml.ToString()), $"member {i}");
+                var member = new TeamMemberData(elems[i]);
+                Assert.That(DumpFields(dump.Raw($"== member {i}"), member, $"member {i}"), Is.GreaterThan(30));
+                dump.Xml("GetXml", member.GetXml);
             }
+            Golden.Check("project-members", dump.ToString());
 
             var full = new TeamMemberData(elems[0]);
             Assert.That(full.HgPassword, Is.EqualTo("s3cret!"));   // decrypted
@@ -120,117 +117,112 @@ namespace OneStoryProjectEditor.Tests
             Assert.That(new TeamMemberData(elems[4]).OverrideFontSizeVernacular, Is.EqualTo(12f));
         }
 
-        [Test]
-        public void TeamMembersData_MatchesRowPath()
+        private static void DumpMembers(Dump dump, TeamMembersData members)
         {
-            var oldMembers = new TeamMembersData(_ds);
-            var newMembers = new TeamMembersData(_root);
-            Assert.That(newMembers.Count, Is.EqualTo(5));
-            Assert.That(newMembers.Keys, Is.EqualTo(oldMembers.Keys));
-            Assert.That(newMembers.HasOutsideEnglishBTer, Is.EqualTo(oldMembers.HasOutsideEnglishBTer));
-            Assert.That(newMembers.HasLanguageSpecialtyReviewer, Is.EqualTo(oldMembers.HasLanguageSpecialtyReviewer));
-            Assert.That(newMembers.HasIndependentConsultant, Is.EqualTo(oldMembers.HasIndependentConsultant));
-            Assert.That(newMembers.HasLanguageSpecialtyReviewer, Is.True);
-            Assert.That(newMembers.GetXml.ToString(), Is.EqualTo(oldMembers.GetXml.ToString()));
+            dump.Line("Count", members.Count).Line("Keys", string.Join("|", members.Keys.Cast<string>()))
+                .Line("HasOutsideEnglishBTer", members.HasOutsideEnglishBTer)
+                .Line("HasLanguageSpecialtyReviewer", members.HasLanguageSpecialtyReviewer)
+                .Line("HasIndependentConsultant", members.HasIndependentConsultant)
+                .Xml("GetXml", members.GetXml);
         }
 
-        [TestCase("<Members>" + CrafterMember + "<Member name=\"e\" memberType=\"EnglishBackTranslator\" memberKey=\"m2\" /><Member name=\"i\" memberType=\"IndependentConsultant\" memberKey=\"m3\" /><Member name=\"f\" memberType=\"FirstPassMentor\" memberKey=\"m4\" /></Members>", true, false, true)]
-        [TestCase("<Members>" + CrafterMember + "</Members>", false, false, false)]
-        [TestCase("<Members HasOutsideEnglishBTer=\"false\" HasIndependentConsultant=\"true\">" + CrafterMember + "<Member name=\"e\" memberType=\"EnglishBackTranslator\" memberKey=\"m2\" /></Members>", false, false, true)]
-        [TestCase("", false, false, false)]    // no <Members> at all: the row path's added row has all three flags false
-        public void TeamMembersData_HasFlags_AbsentOrExplicit_MatchRowPath(string strMembersXml, bool bExpectOebt, bool bExpectLsr, bool bExpectIc)
+        [Test]
+        public void TeamMembersData_Golden()
+        {
+            var newMembers = new TeamMembersData(_root);
+            Assert.That(newMembers.Count, Is.EqualTo(5));
+            Assert.That(newMembers.HasLanguageSpecialtyReviewer, Is.True);
+            var dump = new Dump();
+            DumpMembers(dump, newMembers);
+            Golden.Check("project-team-members", dump.ToString());
+        }
+
+        [TestCase(0, "<Members>" + CrafterMember + "<Member name=\"e\" memberType=\"EnglishBackTranslator\" memberKey=\"m2\" /><Member name=\"i\" memberType=\"IndependentConsultant\" memberKey=\"m3\" /><Member name=\"f\" memberType=\"FirstPassMentor\" memberKey=\"m4\" /></Members>", true, false, true)]
+        [TestCase(1, "<Members>" + CrafterMember + "</Members>", false, false, false)]
+        [TestCase(2, "<Members HasOutsideEnglishBTer=\"false\" HasIndependentConsultant=\"true\">" + CrafterMember + "<Member name=\"e\" memberType=\"EnglishBackTranslator\" memberKey=\"m2\" /></Members>", false, false, true)]
+        [TestCase(3, "", false, false, false)]    // no <Members> at all: all three flags are false
+        public void TeamMembersData_HasFlags_AbsentOrExplicit(int nCase, string strMembersXml, bool bExpectOebt, bool bExpectLsr, bool bExpectIc)
         {
             var strPath = WriteTemp(strMembersXml + "<Languages /><LnCNotes /><stories SetName=\"Stories\" />");
-            LoadBoth(strPath);
-            var oldMembers = new TeamMembersData(_ds);
-            var newMembers = new TeamMembersData(_root);
+            var newMembers = new TeamMembersData(LoadRoot(strPath));
             Assert.That(newMembers.HasOutsideEnglishBTer, Is.EqualTo(bExpectOebt));
             Assert.That(newMembers.HasLanguageSpecialtyReviewer, Is.EqualTo(bExpectLsr));
             Assert.That(newMembers.HasIndependentConsultant, Is.EqualTo(bExpectIc));
-            Assert.That(newMembers.HasOutsideEnglishBTer, Is.EqualTo(oldMembers.HasOutsideEnglishBTer));
-            Assert.That(newMembers.HasLanguageSpecialtyReviewer, Is.EqualTo(oldMembers.HasLanguageSpecialtyReviewer));
-            Assert.That(newMembers.HasIndependentConsultant, Is.EqualTo(oldMembers.HasIndependentConsultant));
-            Assert.That(newMembers.Keys, Is.EqualTo(oldMembers.Keys));
-            Assert.That(newMembers.GetXml.ToString(), Is.EqualTo(oldMembers.GetXml.ToString()));
+            var dump = new Dump();
+            DumpMembers(dump, newMembers);
+            Golden.Check("project-team-members-flags-" + nCase, dump.ToString());
         }
 
         // ----- project settings -----
 
-        private static void AssertSameLanguage(ProjectSettings.LanguageInfo actual, ProjectSettings.LanguageInfo expected, string strMsg)
+        private static void DumpLanguage(Dump dump, string strMsg, ProjectSettings.LanguageInfo lang)
         {
-            Assert.That(actual.LangType, Is.EqualTo(expected.LangType), strMsg);
-            Assert.That(actual.LangName, Is.EqualTo(expected.LangName), strMsg);
-            Assert.That(actual.LangCode, Is.EqualTo(expected.LangCode), strMsg);
-            Assert.That(actual.DefaultFontName, Is.EqualTo(expected.DefaultFontName), strMsg);
-            Assert.That(actual.DefaultFontSize, Is.EqualTo(expected.DefaultFontSize), strMsg);
-            Assert.That(actual.FontToUse.Name, Is.EqualTo(expected.FontToUse.Name), strMsg);
-            Assert.That(actual.FontToUse.Size, Is.EqualTo(expected.FontToUse.Size), strMsg);
-            Assert.That(actual.FontColor.Name, Is.EqualTo(expected.FontColor.Name), strMsg);
-            Assert.That(actual.FullStop, Is.EqualTo(expected.FullStop), strMsg);
-            Assert.That(actual.DefaultKeyboard, Is.EqualTo(expected.DefaultKeyboard), strMsg);
-            Assert.That(actual.KeyboardOverride, Is.EqualTo(expected.KeyboardOverride), strMsg);
-            Assert.That(actual.DefaultRtl, Is.EqualTo(expected.DefaultRtl), strMsg);
-            Assert.That(actual.InvertRtl, Is.EqualTo(expected.InvertRtl), strMsg);
-            Assert.That(actual.HasData, Is.EqualTo(expected.HasData), strMsg);
+            dump.Line(strMsg + " LangType", lang.LangType).Line(strMsg + " LangName", lang.LangName)
+                .Line(strMsg + " LangCode", lang.LangCode).Line(strMsg + " DefaultFontName", lang.DefaultFontName)
+                .Line(strMsg + " DefaultFontSize", lang.DefaultFontSize).Line(strMsg + " FontToUse.Name", lang.FontToUse.Name)
+                .Line(strMsg + " FontToUse.Size", lang.FontToUse.Size).Line(strMsg + " FontColor.Name", lang.FontColor.Name)
+                .Line(strMsg + " FullStop", lang.FullStop).Line(strMsg + " DefaultKeyboard", lang.DefaultKeyboard)
+                .Line(strMsg + " KeyboardOverride", lang.KeyboardOverride).Line(strMsg + " DefaultRtl", lang.DefaultRtl)
+                .Line(strMsg + " InvertRtl", lang.InvertRtl).Line(strMsg + " HasData", lang.HasData);
         }
 
-        private static void AssertSameAdaptIt(ProjectSettings.AdaptItConfiguration actual, ProjectSettings.AdaptItConfiguration expected, string strMsg)
+        private static void DumpAdaptIt(Dump dump, string strMsg, ProjectSettings.AdaptItConfiguration config)
         {
-            Assert.That(actual == null, Is.EqualTo(expected == null), strMsg);
-            if (expected == null)
+            if (config == null)
+            {
+                dump.Line(strMsg, null);
                 return;
-            Assert.That(actual.ProjectType, Is.EqualTo(expected.ProjectType), strMsg);
-            Assert.That(actual.BtDirection, Is.EqualTo(expected.BtDirection), strMsg);
-            Assert.That(actual.ConverterName, Is.EqualTo(expected.ConverterName), strMsg);
-            Assert.That(actual.ProjectFolderName, Is.EqualTo(expected.ProjectFolderName), strMsg);
-            Assert.That(actual.RepoProjectName, Is.EqualTo(expected.RepoProjectName), strMsg);
-            Assert.That(actual.RepositoryServer, Is.EqualTo(expected.RepositoryServer), strMsg);
-            Assert.That(actual.NetworkRepositoryPath, Is.EqualTo(expected.NetworkRepositoryPath), strMsg);
-            Assert.That(actual.GetXml.ToString(), Is.EqualTo(expected.GetXml.ToString()), strMsg);
+            }
+            dump.Line(strMsg + " ProjectType", config.ProjectType).Line(strMsg + " BtDirection", config.BtDirection)
+                .Line(strMsg + " ConverterName", config.ConverterName).Line(strMsg + " ProjectFolderName", config.ProjectFolderName)
+                .Line(strMsg + " RepoProjectName", config.RepoProjectName).Line(strMsg + " RepositoryServer", config.RepositoryServer)
+                .Line(strMsg + " NetworkRepositoryPath", config.NetworkRepositoryPath).Xml(strMsg + " GetXml", config.GetXml);
         }
 
-        private static void AssertSameShow(ShowLanguageFields actual, ShowLanguageFields expected, string strMsg)
+        private static void DumpShow(Dump dump, string strMsg, ShowLanguageFields show)
         {
-            Assert.That(actual.Vernacular, Is.EqualTo(expected.Vernacular), strMsg);
-            Assert.That(actual.NationalBt, Is.EqualTo(expected.NationalBt), strMsg);
-            Assert.That(actual.InternationalBt, Is.EqualTo(expected.InternationalBt), strMsg);
+            dump.Line(strMsg + " Vernacular", show.Vernacular).Line(strMsg + " NationalBt", show.NationalBt)
+                .Line(strMsg + " InternationalBt", show.InternationalBt);
         }
 
-        private static void AssertSameSettings(ProjectSettings actual, ProjectSettings expected)
+        private static void DumpSettings(Dump dump, ProjectSettings settings)
         {
-            AssertSameLanguage(actual.Vernacular, expected.Vernacular, "Vernacular");
-            AssertSameLanguage(actual.NationalBT, expected.NationalBT, "NationalBT");
-            AssertSameLanguage(actual.InternationalBT, expected.InternationalBT, "InternationalBT");
-            AssertSameLanguage(actual.FreeTranslation, expected.FreeTranslation, "FreeTranslation");
-            AssertSameShow(actual.ShowRetellings, expected.ShowRetellings, "ShowRetellings");
-            AssertSameShow(actual.ShowTestQuestions, expected.ShowTestQuestions, "ShowTestQuestions");
-            AssertSameShow(actual.ShowAnswers, expected.ShowAnswers, "ShowAnswers");
-            AssertSameAdaptIt(actual.VernacularToNationalBt, expected.VernacularToNationalBt, "VernacularToNationalBt");
-            AssertSameAdaptIt(actual.VernacularToInternationalBt, expected.VernacularToInternationalBt, "VernacularToInternationalBt");
-            AssertSameAdaptIt(actual.NationalBtToInternationalBt, expected.NationalBtToInternationalBt, "NationalBtToInternationalBt");
-            Assert.That(actual.IsConfigured, Is.EqualTo(expected.IsConfigured));
-            Assert.That(actual.GetXml.ToString(), Is.EqualTo(expected.GetXml.ToString()));
-            Assert.That(actual.HasAdaptItConfigurationData, Is.EqualTo(expected.HasAdaptItConfigurationData));
-            if (expected.HasAdaptItConfigurationData)
-                Assert.That(actual.AdaptItConfigXml.ToString(), Is.EqualTo(expected.AdaptItConfigXml.ToString()));
+            DumpLanguage(dump, "Vernacular", settings.Vernacular);
+            DumpLanguage(dump, "NationalBT", settings.NationalBT);
+            DumpLanguage(dump, "InternationalBT", settings.InternationalBT);
+            DumpLanguage(dump, "FreeTranslation", settings.FreeTranslation);
+            DumpShow(dump, "ShowRetellings", settings.ShowRetellings);
+            DumpShow(dump, "ShowTestQuestions", settings.ShowTestQuestions);
+            DumpShow(dump, "ShowAnswers", settings.ShowAnswers);
+            DumpAdaptIt(dump, "VernacularToNationalBt", settings.VernacularToNationalBt);
+            DumpAdaptIt(dump, "VernacularToInternationalBt", settings.VernacularToInternationalBt);
+            DumpAdaptIt(dump, "NationalBtToInternationalBt", settings.NationalBtToInternationalBt);
+            dump.Line("IsConfigured", settings.IsConfigured).Xml("GetXml", settings.GetXml)
+                .Line("HasAdaptItConfigurationData", settings.HasAdaptItConfigurationData);
+            if (settings.HasAdaptItConfigurationData)
+                dump.Xml("AdaptItConfigXml", settings.AdaptItConfigXml);
         }
 
-        private void AssertSettingsMatchRowPath()
+        private ProjectSettings SettingsFromRoot(XElement root)
         {
-            var oldSettings = new ProjectSettings(Path.GetTempPath().TrimEnd('\\'), ProjectName);
-            var newSettings = new ProjectSettings(Path.GetTempPath().TrimEnd('\\'), ProjectName);
-            oldSettings.SerializeProjectSettings(_ds);
-            newSettings.SerializeProjectSettings(_root);
-            AssertSameSettings(newSettings, oldSettings);
+            var settings = new ProjectSettings(Path.GetTempPath().TrimEnd('\\'), ProjectName);
+            settings.SerializeProjectSettings(root);
+            return settings;
+        }
+
+        private void AssertSettingsGolden(string strName, XElement root)
+        {
+            var dump = new Dump();
+            DumpSettings(dump, SettingsFromRoot(root));
+            Golden.Check(strName, dump.ToString());
         }
 
         [Test]
-        public void ProjectSettings_FullFixture_MatchesRowPath()
+        public void ProjectSettings_FullFixture_Golden()
         {
-            AssertSettingsMatchRowPath();
+            AssertSettingsGolden("project-settings-full", _root);
 
-            var settings = new ProjectSettings(Path.GetTempPath().TrimEnd('\\'), ProjectName);
-            settings.SerializeProjectSettings(_root);
+            var settings = SettingsFromRoot(_root);
             Assert.That(settings.IsConfigured, Is.True);
             Assert.That(settings.ShowRetellings.Vernacular, Is.True);
             Assert.That(settings.ShowRetellings.NationalBt, Is.False);
@@ -248,165 +240,162 @@ namespace OneStoryProjectEditor.Tests
         }
 
         [Test]
-        public void ProjectSettings_NoLanguagesNoAdaptIt_MatchesRowPath()
+        public void ProjectSettings_NoLanguagesNoAdaptIt_Golden()
         {
-            LoadBoth(WriteTemp("<Members>" + CrafterMember + "</Members><LnCNotes /><stories SetName=\"Stories\" />"));
-            AssertSettingsMatchRowPath();
+            AssertSettingsGolden("project-settings-none",
+                LoadRoot(WriteTemp("<Members>" + CrafterMember + "</Members><LnCNotes /><stories SetName=\"Stories\" />")));
         }
 
         [Test]
-        public void ProjectSettings_NoInternationalOrFreeTranslation_ClearsTheirDefaultNames_LikeRowPath()
+        public void ProjectSettings_NoInternationalOrFreeTranslation_ClearsTheirDefaultNames()
         {
-            LoadBoth(WriteTemp("<Members>" + CrafterMember + "</Members>" +
-                               "<Languages UseRetellingInternationalBT=\"false\">" +
-                               "<LanguageInfo lang=\"Vernacular\" name=\"V\" code=\"v\" FontName=\"Arial\" FontSize=\"9\" FontColor=\"Red\" SentenceFinalPunct=\".\" />" +
-                               "</Languages><LnCNotes /><stories SetName=\"Stories\" />"));
-            AssertSettingsMatchRowPath();
+            var root = LoadRoot(WriteTemp("<Members>" + CrafterMember + "</Members>" +
+                                          "<Languages UseRetellingInternationalBT=\"false\">" +
+                                          "<LanguageInfo lang=\"Vernacular\" name=\"V\" code=\"v\" FontName=\"Arial\" FontSize=\"9\" FontColor=\"Red\" SentenceFinalPunct=\".\" />" +
+                                          "</Languages><LnCNotes /><stories SetName=\"Stories\" />"));
+            AssertSettingsGolden("project-settings-vernacular-only", root);
 
-            var settings = new ProjectSettings(Path.GetTempPath().TrimEnd('\\'), ProjectName);
-            settings.SerializeProjectSettings(_root);
+            var settings = SettingsFromRoot(root);
             Assert.That(settings.InternationalBT.HasData, Is.False);
             Assert.That(settings.FreeTranslation.HasData, Is.False);
             Assert.That(settings.ShowRetellings.InternationalBt, Is.False);
         }
 
         [Test]
-        public void ProjectSettings_TwoAdaptItConfigurationsElements_ReadsNeither_LikeRowPath()
+        public void ProjectSettings_TwoAdaptItConfigurationsElements_ReadsNeither()
         {
             const string strConfig = "<AdaptItConfiguration ProjectType=\"LocalAiProjectOnly\" BtDirection=\"VernacularToNationalBt\" ConverterName=\"c\" />";
-            LoadBoth(WriteTemp("<Members>" + CrafterMember + "</Members><Languages />" +
-                               "<AdaptItConfigurations>" + strConfig + "</AdaptItConfigurations>" +
-                               "<AdaptItConfigurations>" + strConfig + "</AdaptItConfigurations>" +
-                               "<LnCNotes /><stories SetName=\"Stories\" />"));
-            AssertSettingsMatchRowPath();
+            var root = LoadRoot(WriteTemp("<Members>" + CrafterMember + "</Members><Languages />" +
+                                          "<AdaptItConfigurations>" + strConfig + "</AdaptItConfigurations>" +
+                                          "<AdaptItConfigurations>" + strConfig + "</AdaptItConfigurations>" +
+                                          "<LnCNotes /><stories SetName=\"Stories\" />"));
+            AssertSettingsGolden("project-settings-two-adaptit", root);
+            Assert.That(SettingsFromRoot(root).VernacularToNationalBt, Is.Null);
         }
 
         [Test]
-        public void AdaptItConfiguration_And_LanguageInfo_MatchRowPath_Individually()
+        public void AdaptItConfiguration_And_LanguageInfo_Golden_Individually()
         {
-            var aiRows = _ds.AdaptItConfiguration.ToList();
             var aiElems = _root.Descendants("AdaptItConfiguration").ToList();
             Assert.That(aiElems.Count, Is.EqualTo(3));
-            Assert.That(aiRows.Count, Is.EqualTo(3));
-            for (int i = 0; i < aiRows.Count; i++)
+            var dump = new Dump();
+            for (int i = 0; i < aiElems.Count; i++)
             {
-                var oldAi = new ProjectSettings.AdaptItConfiguration();
                 var newAi = new ProjectSettings.AdaptItConfiguration();
-                oldAi.SerializeFromProjectFile(aiRows[i]);
                 newAi.SerializeFromProjectFile(aiElems[i]);
-                AssertSameAdaptIt(newAi, oldAi, $"config {i}");
+                DumpAdaptIt(dump, $"config {i}", newAi);
             }
 
-            var langRows = _ds.LanguageInfo.ToList();
             var langElems = _root.Descendants("LanguageInfo").ToList();
             Assert.That(langElems.Count, Is.EqualTo(4));
-            Assert.That(langRows.Count, Is.EqualTo(4));
             var settings = new ProjectSettings(Path.GetTempPath().TrimEnd('\\'), ProjectName);
-            for (int i = 0; i < langRows.Count; i++)
+            for (int i = 0; i < langElems.Count; i++)
             {
-                var oldLang = new ProjectSettings.LanguageInfo(settings.Vernacular.LangType, new System.Drawing.Font("Arial", 12), System.Drawing.Color.Black);
                 var newLang = new ProjectSettings.LanguageInfo(settings.Vernacular.LangType, new System.Drawing.Font("Arial", 12), System.Drawing.Color.Black);
-                oldLang.Serialize(langRows[i]);
                 newLang.Serialize(langElems[i]);
-                AssertSameLanguage(newLang, oldLang, $"language {i}");
+                DumpLanguage(dump, $"language {i}", newLang);
             }
+            Golden.Check("project-adaptit-and-languages", dump.ToString());
+        }
+
+        [Test]
+        public void ProjectSettings_FromAnotherProjectsElement_ReadsLanguagesLeniently()
+        {
+            // the lenient constructor used for a project element that came from Chorus or another project
+            var settings = new ProjectSettings(_root, null);
+            Assert.That(settings.ProjectName, Is.EqualTo(ProjectName));
+            Assert.That(settings.UseDropbox, Is.True);
+            Assert.That(settings.DropboxRetelling, Is.False);
+            Assert.That(settings.Vernacular.LangType, Is.EqualTo("Vernacular"));
+            Assert.That(settings.Vernacular.HasData, Is.True);
+            Assert.That(settings.FreeTranslation.LangName, Is.EqualTo("Free English"));
+
+            var settingsNone = new ProjectSettings(new XElement("StoryProject"), null);
+            Assert.That(settingsNone.Vernacular.HasData, Is.False);
+            Assert.That(settingsNone.ProjectName, Is.Null);
         }
 
         // ----- L&C notes -----
 
         [Test]
-        public void LnCNotesData_MatchesRowPath()
+        public void LnCNotesData_Golden()
         {
-            var oldNotes = new LnCNotesData(_ds);
             var newNotes = new LnCNotesData(_root);
             Assert.That(newNotes.Count, Is.EqualTo(2));
-            Assert.That(newNotes.Count, Is.EqualTo(oldNotes.Count));
-            Assert.That(newNotes.GetXml.ToString(), Is.EqualTo(oldNotes.GetXml.ToString()));
-            for (int i = 0; i < oldNotes.Count; i++)
-            {
-                Assert.That(newNotes[i].Notes, Is.EqualTo(oldNotes[i].Notes), $"note {i}");
-                Assert.That(newNotes[i].VernacularRendering, Is.EqualTo(oldNotes[i].VernacularRendering), $"note {i}");
-                Assert.That(newNotes[i].NationalBtRendering, Is.EqualTo(oldNotes[i].NationalBtRendering), $"note {i}");
-                Assert.That(newNotes[i].InternationalBtRendering, Is.EqualTo(oldNotes[i].InternationalBtRendering), $"note {i}");
-            }
+            var dump = new Dump();
+            for (int i = 0; i < newNotes.Count; i++)
+                dump.Line($"note {i} Notes", newNotes[i].Notes).Line($"note {i} VernacularRendering", newNotes[i].VernacularRendering)
+                    .Line($"note {i} NationalBtRendering", newNotes[i].NationalBtRendering)
+                    .Line($"note {i} InternationalBtRendering", newNotes[i].InternationalBtRendering);
+            dump.Xml("GetXml", newNotes.GetXml);
+            Golden.Check("project-lnc-notes", dump.ToString());
 
             // GetXml writes KeyTermIds (it used to write the singular KeyTermId)
             Assert.That((string)newNotes.GetXml.Elements("LnCNote").First().Attribute("KeyTermIds"), Is.EqualTo("KT1, KT2"));
-            Assert.That((string)oldNotes.GetXml.Elements("LnCNote").First().Attribute("KeyTermIds"), Is.EqualTo("KT1, KT2"));
             Assert.That(newNotes[0].Notes, Is.EqualTo("note with renderings\r\nsecond line"));
             Assert.That(newNotes[0].VernacularRendering, Is.EqualTo("verb\r\nrendering"));
         }
 
         [Test]
-        public void LnCNotesData_NoLnCNotesElement_IsEmpty_LikeRowPath()
+        public void LnCNotesData_NoLnCNotesElement_IsEmpty()
         {
-            LoadBoth(WriteTemp("<Members>" + CrafterMember + "</Members>"));
-            var oldNotes = new LnCNotesData(_ds);
-            var newNotes = new LnCNotesData(_root);
+            var newNotes = new LnCNotesData(LoadRoot(WriteTemp("<Members>" + CrafterMember + "</Members>")));
             Assert.That(newNotes.Count, Is.EqualTo(0));
-            Assert.That(newNotes.GetXml.ToString(), Is.EqualTo(oldNotes.GetXml.ToString()));
+            Assert.That(newNotes.GetXml.ToString(), Is.EqualTo("<LnCNotes />"));
         }
 
         [Test]
-        public void LnCNote_WithoutAnyText_HasEmptyNotes_LikeRowPath()
+        public void LnCNote_WithoutAnyText_HasEmptyNotes()
         {
-            LoadBoth(WriteTemp("<Members>" + CrafterMember + "</Members><LnCNotes><LnCNote guid=\"g1\" VernacularRendering=\"v\" /></LnCNotes>"));
-            var oldNotes = new LnCNotesData(_ds);
-            var newNotes = new LnCNotesData(_root);
+            var newNotes = new LnCNotesData(LoadRoot(WriteTemp("<Members>" + CrafterMember + "</Members><LnCNotes><LnCNote guid=\"g1\" VernacularRendering=\"v\" /></LnCNotes>")));
             Assert.That(newNotes.Count, Is.EqualTo(1));
-            Assert.That(newNotes[0].Notes, Is.EqualTo(oldNotes[0].Notes));
-            Assert.That(newNotes.GetXml.ToString(), Is.EqualTo(oldNotes.GetXml.ToString()));
+            Assert.That(newNotes[0].Notes, Is.EqualTo(String.Empty));
+            Golden.Check("project-lnc-note-no-text", newNotes.GetXml.ToString());
         }
 
         // ----- story sets -----
 
         [Test]
-        public void StoriesData_MatchesRowPath_ForEachOfTheThreeSets()
+        public void StoriesData_Golden_ForEachOfTheThreeSets()
         {
             var strProjectFolder = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
-            var rows = _ds.stories.ToList();
             var elems = _root.Elements("stories").ToList();
             Assert.That(elems.Count, Is.EqualTo(3));
-            Assert.That(rows.Count, Is.EqualTo(3));
             var expectedCounts = new[] { 2, 1, 1 };
-            for (int i = 0; i < rows.Count; i++)
+            var dump = new Dump();
+            for (int i = 0; i < elems.Count; i++)
             {
-                ProjectReader.UniqueStoryGuids.Clear();
-                var oldStories = new StoriesData(rows[i], _ds, strProjectFolder);
-                ProjectReader.UniqueStoryGuids.Clear();
+                ProjectFile.UniqueStoryGuids.Clear();
                 var newStories = new StoriesData(elems[i], strProjectFolder);
-                Assert.That(newStories.SetName, Is.EqualTo(oldStories.SetName), $"set {i}");
                 Assert.That(newStories.Count, Is.EqualTo(expectedCounts[i]), $"set {i}");
-                Assert.That(newStories.Count, Is.EqualTo(oldStories.Count), $"set {i}");
-                Assert.That(newStories.GetXml.ToString(), Is.EqualTo(oldStories.GetXml.ToString()), $"set {i}");
+                dump.Raw($"== set {i}").Line("SetName", newStories.SetName).Line("Count", newStories.Count)
+                    .Xml("GetXml", newStories.GetXml);
             }
-            Assert.That(rows.Select(r => r.SetName), Is.EqualTo(new[] { "Stories", "Non-Biblical Stories", "Old Stories" }));
+            Golden.Check("project-story-sets", dump.ToString());
+            Assert.That(elems.Select(e => (string)e.Attribute("SetName")), Is.EqualTo(new[] { "Stories", "Non-Biblical Stories", "Old Stories" }));
         }
 
         [Test]
-        public void StoriesData_DuplicateStoryNames_AreRenamedLikeRowPath()
+        public void StoriesData_DuplicateStoryNames_AreRenamed()
         {
             const string strStory = "<story name=\"Same\" stage=\"ProjFacTypeVernacular\" guid=\"{0}\" stageDateTimeStamp=\"2026-10-03T12:34:56Z\">" +
                                     "<CraftingInfo NonBiblicalStory=\"false\"><StoryCrafter memberID=\"m1\" /></CraftingInfo>" +
                                     "<Verses><Verse guid=\"v{0}\" first=\"true\" /></Verses></story>";
-            LoadBoth(WriteTemp("<Members>" + CrafterMember + "</Members><Languages /><LnCNotes />" +
-                               "<stories SetName=\"Stories\">" +
-                               string.Format(strStory, "g1") + string.Format(strStory, "g2") + string.Format(strStory, "g3") +
-                               "</stories>"));
+            var root = LoadRoot(WriteTemp("<Members>" + CrafterMember + "</Members><Languages /><LnCNotes />" +
+                                          "<stories SetName=\"Stories\">" +
+                                          string.Format(strStory, "g1") + string.Format(strStory, "g2") + string.Format(strStory, "g3") +
+                                          "</stories>"));
             var strProjectFolder = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
-            ProjectReader.UniqueStoryGuids.Clear();
-            var oldStories = new StoriesData(_ds.stories.Single(), _ds, strProjectFolder);
-            ProjectReader.UniqueStoryGuids.Clear();
-            var newStories = new StoriesData(_root.Element("stories"), strProjectFolder);
+            ProjectFile.UniqueStoryGuids.Clear();
+            var newStories = new StoriesData(root.Element("stories"), strProjectFolder);
             Assert.That(newStories.Select(s => s.Name), Is.EqualTo(new[] { "Same", "Same.1", "Same.2" }));
-            Assert.That(newStories.Select(s => s.Name), Is.EqualTo(oldStories.Select(s => s.Name)));
-            Assert.That(newStories.GetXml.ToString(), Is.EqualTo(oldStories.GetXml.ToString()));
+            Golden.Check("project-story-sets-duplicate-names", newStories.GetXml.ToString());
         }
 
         // ----- ClearLanguageNamePlaceholders -----
 
         [Test]
-        public void ClearLanguageNamePlaceholders_XElement_MatchesDataSetOverload()
+        public void ClearLanguageNamePlaceholders_XElement_ClearsTheNamedPlaceholders()
         {
             var strProject =
                 "<Members>" + CrafterMember + "</Members>" +
@@ -426,33 +415,21 @@ namespace OneStoryProjectEditor.Tests
                 "<Answers><Answer lang=\"NationalBt\" memberID=\"m1\">Nationalese</Answer><Answer lang=\"Vernacular\" memberID=\"m1\">   </Answer></Answers></TestQuestion></TestQuestions>" +
                 "<ConsultantNotes><ConsultantConversation guid=\"cc1\"><ConsultantNote Direction=\"ConsultantToProjFac\" guid=\"cn1\" memberID=\"m1\">Testish</ConsultantNote></ConsultantConversation></ConsultantNotes>" +
                 "</Verse></Verses></story></stories>";
-            LoadBoth(WriteTemp(strProject));
+            var root = LoadRoot(WriteTemp(strProject));
 
-            var nOld = LegacyTextRepair.ClearLanguageNamePlaceholders(_ds);
-            var nNew = LegacyTextRepair.ClearLanguageNamePlaceholders(_root);
-            Assert.That(nNew, Is.EqualTo(nOld));
+            var nNew = LegacyTextRepair.ClearLanguageNamePlaceholders(root);
             // Vernacular and National lines, Vernacular and International retellings, the TQ line and the National answer
             Assert.That(nNew, Is.EqualTo(6));
 
-            AssertSameTexts(_ds.StoryLine.Select(r => r.IsStoryLine_textNull() ? null : r.StoryLine_text), _root.Descendants("StoryLine"));
-            AssertSameTexts(_ds.Retelling.Select(r => r.IsRetelling_textNull() ? null : r.Retelling_text), _root.Descendants("Retelling"));
-            AssertSameTexts(_ds.TestQuestionLine.Select(r => r.IsTestQuestionLine_textNull() ? null : r.TestQuestionLine_text), _root.Descendants("TestQuestionLine"));
-            AssertSameTexts(_ds.Answer.Select(r => r.IsAnswer_textNull() ? null : r.Answer_text), _root.Descendants("Answer"));
+            // what the DataSet held after clearing: "" where it cleared a value; the element has no text at all then
+            Assert.That(root.Descendants("StoryLine").Select(e => e.Value), Is.EqualTo(new[] { "", "", "Testish", "English" }));
+            Assert.That(root.Descendants("Retelling").Select(e => e.Value), Is.EqualTo(new[] { "", "", "" }));
+            Assert.That(root.Descendants("TestQuestionLine").Select(e => e.Value), Is.EqualTo(new[] { "", "Testish and more" }));
+            Assert.That(root.Descendants("Answer").Select(e => e.Value), Is.EqualTo(new[] { "", "" }));   // (the parser drops whitespace-only text)
+            Assert.That(root.Descendants("StoryLine").Select(e => XmlRead.Text(e)), Is.EqualTo(new[] { "", "", "Testish", "English" }));
+            Assert.That(root.Descendants("Answer").Select(e => XmlRead.Text(e)), Is.EqualTo(new[] { "", null }));
             // not placeholders, whatever the text
-            Assert.That(_root.Descendants("ConsultantNote").Single().Value, Is.EqualTo("Testish"));
-            Assert.That(_root.Descendants("StoryLine").Select(e => e.Value),
-                Is.EqualTo(new[] { "", "", "Testish", "English" }));
-        }
-
-        // the DataSet leaves "" where it cleared a value; the element has no text at all then (which reads as null)
-        private static void AssertSameTexts(IEnumerable<string> dataSetValues, IEnumerable<XElement> elems)
-        {
-            var aOld = dataSetValues.ToList();
-            var aNew = elems.Select(XmlRead.Text).ToList();
-            Assert.That(aNew.Count, Is.EqualTo(aOld.Count));
-            for (int i = 0; i < aOld.Count; i++)
-                Assert.That(string.IsNullOrEmpty(aNew[i]) ? null : aNew[i],
-                            Is.EqualTo(string.IsNullOrEmpty(aOld[i]) ? null : aOld[i]), $"value {i}");
+            Assert.That(root.Descendants("ConsultantNote").Single().Value, Is.EqualTo("Testish"));
         }
 
         // ----- StoryProjectData -----
@@ -468,38 +445,32 @@ namespace OneStoryProjectEditor.Tests
             return strFolder;
         }
 
-        private static void AssertSameProjectData(StoryProjectData actual, StoryProjectData expected)
+        private static void DumpProjectData(Dump dump, StoryProjectData project)
         {
-            Assert.That(actual.Keys.Cast<string>(), Is.EqualTo(expected.Keys.Cast<string>()));
-            Assert.That(actual.PanoramaFrontMatter, Is.EqualTo(expected.PanoramaFrontMatter));
-            Assert.That(actual.ProjSettings.ProjectName, Is.EqualTo(expected.ProjSettings.ProjectName));
-            Assert.That(actual.ProjSettings.UseDropbox, Is.EqualTo(expected.ProjSettings.UseDropbox));
-            Assert.That(actual.ProjSettings.DropboxStory, Is.EqualTo(expected.ProjSettings.DropboxStory));
-            Assert.That(actual.ProjSettings.DropboxRetelling, Is.EqualTo(expected.ProjSettings.DropboxRetelling));
-            Assert.That(actual.ProjSettings.DropboxAnswers, Is.EqualTo(expected.ProjSettings.DropboxAnswers));
-            Assert.That(actual.OsMetaData == null, Is.EqualTo(expected.OsMetaData == null));
-            AssertSameSettings(actual.ProjSettings, expected.ProjSettings);
-            Assert.That(actual.GetXml.ToString(), Is.EqualTo(expected.GetXml.ToString()));
+            dump.Line("Keys", string.Join("|", project.Keys.Cast<string>())).Line("PanoramaFrontMatter", project.PanoramaFrontMatter)
+                .Line("ProjectName", project.ProjSettings.ProjectName).Line("UseDropbox", project.ProjSettings.UseDropbox)
+                .Line("DropboxStory", project.ProjSettings.DropboxStory).Line("DropboxRetelling", project.ProjSettings.DropboxRetelling)
+                .Line("DropboxAnswers", project.ProjSettings.DropboxAnswers).Line("OsMetaData is null", project.OsMetaData == null);
+            DumpSettings(dump, project.ProjSettings);
+            dump.Xml("GetXml", project.GetXml);
         }
 
-        private void AssertProjectDataMatchesRowPath(string strXml, out StoryProjectData newProject)
+        private StoryProjectData BuildProject(string strXml, string strProjectName, string strGoldenName)
         {
             var strFolder = MakeProjectFolder(strXml);
             var strPath = Path.Combine(strFolder, ProjectName + ".onestory");
-
-            ProjectReader.ReadProjectFile(strPath, out var ds);
-            var oldProject = new StoryProjectData(ds, new ProjectSettings(strFolder, ProjectName));
-
             var contents = ProjectFile.Load(strPath);
-            newProject = new StoryProjectData(contents.Root, contents.IsPlainTextEncoded, new ProjectSettings(strFolder, ProjectName));
-
-            AssertSameProjectData(newProject, oldProject);
+            var project = new StoryProjectData(contents.Root, contents.IsPlainTextEncoded, new ProjectSettings(strFolder, strProjectName));
+            var dump = new Dump();
+            DumpProjectData(dump, project);
+            Golden.Check(strGoldenName, dump.ToString());
+            return project;
         }
 
         [Test]
-        public void StoryProjectData_FullFixture_MatchesRowPath()
+        public void StoryProjectData_FullFixture_Golden()
         {
-            AssertProjectDataMatchesRowPath(File.ReadAllText(FixturePath), out var project);
+            var project = BuildProject(File.ReadAllText(FixturePath), ProjectName, "project-data-full");
 
             Assert.That(project.Keys.Cast<string>(), Is.EqualTo(new[] { "Stories", "Non-Biblical Stories", "Old Stories" }));
             Assert.That(project.PanoramaFrontMatter, Is.EqualTo("Front matter text"));
@@ -521,89 +492,70 @@ namespace OneStoryProjectEditor.Tests
         }
 
         [Test]
-        public void StoryProjectData_OverwritesProjectNameFromSettings_LikeRowPath()
+        public void StoryProjectData_OverwritesProjectNameFromSettings()
         {
-            var strFolder = MakeProjectFolder(File.ReadAllText(FixturePath));
-            var strPath = Path.Combine(strFolder, ProjectName + ".onestory");
-            ProjectReader.ReadProjectFile(strPath, out var ds);
-            var oldProject = new StoryProjectData(ds, new ProjectSettings(strFolder, "renamed"));
-            var contents = ProjectFile.Load(strPath);
-            var newProject = new StoryProjectData(contents.Root, contents.IsPlainTextEncoded, new ProjectSettings(strFolder, "renamed"));
+            var newProject = BuildProject(File.ReadAllText(FixturePath), "renamed", "project-data-renamed");
             Assert.That(newProject.GetXml.Attribute("ProjectName").Value, Is.EqualTo("renamed"));
-            Assert.That(newProject.GetXml.ToString(), Is.EqualTo(oldProject.GetXml.ToString()));
         }
 
         [Test]
-        public void StoryProjectData_MarkedPlain_IsNotDecoded_LikeRowPath()
+        public void StoryProjectData_MarkedPlain_IsNotDecoded()
         {
             var strXml = File.ReadAllText(FixturePath).Replace("<StoryProject version=\"1.8\"",
                 "<StoryProject TextEncoding=\"plain\" version=\"1.8\"");
-            AssertProjectDataMatchesRowPath(strXml, out var project);
+            var project = BuildProject(strXml, ProjectName, "project-data-marked-plain");
             Assert.That(project.GetXml.ToString(), Does.Contain("first &amp;amp; line"));
         }
 
         [TestCase(0, new[] { "Stories", "Old Stories" })]      // none: two sets are added
         [TestCase(1, new[] { "Stories" })]                      // one: nothing added
-        public void StoryProjectData_StorySetAdditions_MatchRowPath(int nSetsToKeep, string[] expectedKeys)
+        public void StoryProjectData_StorySetAdditions(int nSetsToKeep, string[] expectedKeys)
         {
             var doc = XDocument.Parse(File.ReadAllText(FixturePath));
             var sets = doc.Root.Elements("stories").ToList();
             for (int i = nSetsToKeep; i < sets.Count; i++)
                 sets[i].Remove();
-            AssertProjectDataMatchesRowPath(doc.ToString(), out var project);
+            var project = BuildProject(doc.ToString(), ProjectName, "project-data-sets-kept-" + nSetsToKeep);
             Assert.That(project.Keys.Cast<string>(), Is.EqualTo(expectedKeys));
         }
 
         [Test]
-        public void StoryProjectData_TwoSetsWithoutNonBiblical_AddsTheNonBiblicalSet_LikeRowPath()
+        public void StoryProjectData_TwoSetsWithoutNonBiblical_AddsTheNonBiblicalSet()
         {
             var doc = XDocument.Parse(File.ReadAllText(FixturePath));
             doc.Root.Elements("stories").Single(s => (string)s.Attribute("SetName") == "Non-Biblical Stories").Remove();
-            AssertProjectDataMatchesRowPath(doc.ToString(), out var project);
+            var project = BuildProject(doc.ToString(), ProjectName, "project-data-two-sets-add-nonbiblical");
             Assert.That(project.Keys.Cast<string>(), Is.EqualTo(new[] { "Stories", "Old Stories", "Non-Biblical Stories" }));
         }
 
         [Test]
-        public void StoryProjectData_TwoSetsIncludingNonBiblical_AddsNothing_LikeRowPath()
+        public void StoryProjectData_TwoSetsIncludingNonBiblical_AddsNothing()
         {
             var doc = XDocument.Parse(File.ReadAllText(FixturePath));
             doc.Root.Elements("stories").Single(s => (string)s.Attribute("SetName") == "Old Stories").Remove();
-            AssertProjectDataMatchesRowPath(doc.ToString(), out var project);
+            var project = BuildProject(doc.ToString(), ProjectName, "project-data-two-sets-with-nonbiblical");
             Assert.That(project.Keys.Cast<string>(), Is.EqualTo(new[] { "Stories", "Non-Biblical Stories" }));
         }
 
         [Test]
-        public void StoryProjectData_NoDropboxAttributesAndEmptyFrontMatter_UseDefaults_LikeRowPath()
+        public void StoryProjectData_NoDropboxAttributesAndEmptyFrontMatter_UseDefaults()
         {
             var doc = XDocument.Parse(File.ReadAllText(FixturePath));
             foreach (var strName in new[] { "UseDropbox", "DropboxStory", "DropboxRetellings", "DropboxAnswers" })
                 doc.Root.Attribute(strName).Remove();
             doc.Root.SetAttributeValue("PanoramaFrontMatter", "");
-            AssertProjectDataMatchesRowPath(doc.ToString(), out var project);
+            var project = BuildProject(doc.ToString(), ProjectName, "project-data-defaults");
             Assert.That(project.ProjSettings.UseDropbox, Is.False);
             Assert.That(project.PanoramaFrontMatter, Is.EqualTo(Properties.Resources.IDS_DefaultPanoramaFrontMatter));
         }
 
         [Test]
-        public void StoryProjectData_MissingPanoramaFrontMatter_BothPathsThrow()
+        public void StoryProjectData_MissingPanoramaFrontMatter_Throws()
         {
             var doc = XDocument.Parse(File.ReadAllText(FixturePath));
             doc.Root.Attribute("PanoramaFrontMatter").Remove();
             var strFolder = MakeProjectFolder(doc.ToString());
             var strPath = Path.Combine(strFolder, ProjectName + ".onestory");
-
-            Exception exOld = null;
-            try
-            {
-                ProjectReader.ReadProjectFile(strPath, out var ds);
-                new StoryProjectData(ds, new ProjectSettings(strFolder, ProjectName));
-            }
-            catch (Exception ex)
-            {
-                exOld = ex;
-            }
-            TestContext.WriteLine($"row path threw {exOld?.GetType().Name}: {exOld?.Message}");
-            Assert.That(exOld, Is.Not.Null);
 
             var contents = ProjectFile.Load(strPath);
             Assert.Throws<ApplicationException>(() =>

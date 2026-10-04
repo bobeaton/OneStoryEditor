@@ -43,18 +43,6 @@ namespace OneStoryProjectEditor
             TimeStamp = rhs.TimeStamp;
         }
 
-        public CommInstance(XmlNode xmlNode, StoryEditor.TextFields myField)
-            : base(xmlNode.InnerText, myField)
-        {
-            if (xmlNode.Attributes != null)
-            {
-                Guid = xmlNode.Attributes[CstrAttributeLabelGuid].Value;
-                Direction = ConsultNoteDataConverter.GetDirectionFromString(xmlNode.Attributes[CstrAttributeLabelDirection].Value);
-                MemberId = xmlNode.Attributes[CstrAttributeLabelMemberId].Value;
-                TimeStamp = DateTime.Parse(xmlNode.Attributes[CstrAttributeLabelTimeStamp].Value);
-            }
-        }
-
         public TeamMemberData.UserTypes InitiatorType
         {
             get
@@ -178,8 +166,7 @@ namespace OneStoryProjectEditor
             IsFinished = bIsFinished;
         }
 
-        // XElement flavor of the Consultant/Coach row constructors' shared loop over the conversation's notes
-        //  (mirrors the foreach in ConsultantNoteData(ConsultantConversationRow) / CoachNoteData(CoachConversationRow))
+        // shared loop over the conversation's notes of the Consultant/Coach XElement constructors
         protected void AddCommInstancesFromXml(XElement elemConversation, string strSubElementName)
         {
             foreach (var elemNote in XmlRead.Children(elemConversation, strSubElementName))
@@ -217,27 +204,6 @@ namespace OneStoryProjectEditor
 
             foreach (var aCi in rhs)
                 Add(new CommInstance(aCi));
-        }
-
-        protected ConsultNoteDataConverter(XmlNode xmlNode, StoryEditor.TextFields myField)
-        {
-            if (xmlNode == null)
-                return;
-
-            if (xmlNode.Attributes != null)
-            {
-                guid = xmlNode.Attributes[CstrAttributeLabelGuid].Value;
-                // these two are optionally not present (true and false respectively if not present)
-                Visible = !((xmlNode.Attributes[CstrAttributeLabelVisible] != null) && (xmlNode.Attributes[CstrAttributeLabelVisible].Value == "false"));
-                IsFinished = ((xmlNode.Attributes[CstrAttributeLabelVisible] != null) && (xmlNode.Attributes[CstrAttributeLabelVisible].Value == "true"));
-            }
-
-            var list = xmlNode.SelectNodes(SubElementName);
-            if (list == null)
-                return;
-
-            foreach (XmlNode commInstances in list)
-                Add(new CommInstance(commInstances, myField));
         }
 
         protected static Dictionary<string, CommunicationDirections> CmapDirectionStringToEnumType = new Dictionary<string, CommunicationDirections>()
@@ -1407,36 +1373,6 @@ namespace OneStoryProjectEditor
 
     public class ConsultantNoteData : ConsultNoteDataConverter
     {
-        public ConsultantNoteData(NewDataSet.ConsultantConversationRow aConRow)
-            : base (aConRow.guid, 
-            (aConRow.IsvisibleNull()) || aConRow.visible,
-            !(aConRow.IsfinishedNull()) && aConRow.finished)
-        {
-            var theNoteRows = aConRow.GetConsultantNoteRows();
-            foreach (var aNoteRow in theNoteRows)
-            {
-                var commDir = GetDirectionFromString(aNoteRow.Direction);
-                var commInst = new CommInstance(aNoteRow.ConsultantNote_text,
-                                                commDir,
-                                                aNoteRow.guid,
-                                                (aNoteRow.IsmemberIDNull())
-                                                    ? null
-                                                    : aNoteRow.memberID,
-                                                (aNoteRow.IstimeStampNull())
-                                                    ? DateTime.Now
-                                                    : aNoteRow.timeStamp.ToLocalTime(),
-                                                WhichField);
-                if (commDir == CommunicationDirections.eReferringToText)
-                    ReferringText = commInst;
-                else
-                    Add(commInst);
-            }
-
-            // make sure that there are at least two (we can't save them if they're empty)
-            System.Diagnostics.Debug.Assert(Count != 0, "It looks like you have an empty Consultant Note field that shouldn't be there. For now, you can just 'Ignore' this error (but perhaps let bob_eaton@sall.com know)");
-        }
-
-        // mirrors ConsultantNoteData(NewDataSet.ConsultantConversationRow); visible defaults true, finished false when absent
         public ConsultantNoteData(XElement elemConversation)
             : base(XmlRead.RequiredAttr(elemConversation, CstrAttributeLabelGuid),
                    XmlRead.Bool(elemConversation, CstrAttributeLabelVisible, true),
@@ -1457,11 +1393,6 @@ namespace OneStoryProjectEditor
 
         public ConsultantNoteData(ConsultNoteDataConverter rhs)
             : base(rhs)
-        {
-        }
-
-        public ConsultantNoteData(XmlNode xmlNode)
-            : base(xmlNode, StoryEditor.TextFields.ConsultantNote)
         {
         }
 
@@ -1595,33 +1526,6 @@ namespace OneStoryProjectEditor
 
     public class CoachNoteData : ConsultNoteDataConverter
     {
-        public CoachNoteData(NewDataSet.CoachConversationRow aCoaCRow)
-            : base (aCoaCRow.guid, 
-            (aCoaCRow.IsvisibleNull()) || aCoaCRow.visible,
-            !(aCoaCRow.IsfinishedNull()) && aCoaCRow.finished)
-        {
-            var theNoteRows = aCoaCRow.GetCoachNoteRows();
-            foreach (var aNoteRow in theNoteRows)
-            {
-                var commDir = GetDirectionFromString(aNoteRow.Direction);
-                var commInst = new CommInstance(aNoteRow.CoachNote_text,
-                                                commDir,
-                                                aNoteRow.guid,
-                                                (aNoteRow.IsmemberIDNull())
-                                                    ? null
-                                                    : aNoteRow.memberID,
-                                                (aNoteRow.IstimeStampNull())
-                                                    ? DateTime.Now
-                                                    : aNoteRow.timeStamp.ToLocalTime(),
-                                                WhichField);
-                if (commDir == CommunicationDirections.eReferringToText)
-                    ReferringText = commInst;
-                else
-                    Add(commInst);
-            }
-        }
-
-        // mirrors CoachNoteData(NewDataSet.CoachConversationRow); visible defaults true, finished false when absent
         public CoachNoteData(XElement elemConversation)
             : base(XmlRead.RequiredAttr(elemConversation, CstrAttributeLabelGuid),
                    XmlRead.Bool(elemConversation, CstrAttributeLabelVisible, true),
@@ -1639,11 +1543,6 @@ namespace OneStoryProjectEditor
 
         public CoachNoteData(ConsultNoteDataConverter rhs)
             : base(rhs)
-        {
-        }
-
-        public CoachNoteData(XmlNode xmlNode)
-            : base(xmlNode, StoryEditor.TextFields.CoachNote)
         {
         }
 
@@ -1926,20 +1825,6 @@ namespace OneStoryProjectEditor
     {
         public const string CstrCollectionElementName = "ConsultantNotes";
 
-        public ConsultantNotesData(NewDataSet.VerseRow theVerseRow, NewDataSet projFile)
-            : base(CstrCollectionElementName)
-        {
-            var theConsultantNotesRows = theVerseRow.GetConsultantNotesRows();
-            NewDataSet.ConsultantNotesRow theConsultantNotesRow;
-            if (theConsultantNotesRows.Length == 0)
-                theConsultantNotesRow = projFile.ConsultantNotes.AddConsultantNotesRow(theVerseRow);
-            else
-                theConsultantNotesRow = theConsultantNotesRows[0];
-
-            foreach (var aConsultantConversationRow in theConsultantNotesRow.GetConsultantConversationRows())
-                Add(new ConsultantNoteData(aConsultantConversationRow));
-        }
-
         public ConsultantNotesData(IEnumerable<ConsultNoteDataConverter> rhs)
             : base(CstrCollectionElementName)
         {
@@ -1952,7 +1837,6 @@ namespace OneStoryProjectEditor
         {
         }
 
-        // mirrors ConsultantNotesData(NewDataSet.VerseRow, NewDataSet); an absent <ConsultantNotes> is the row path's added empty container
         public ConsultantNotesData(XElement elemVerse)
             : base(CstrCollectionElementName)
         {
@@ -1962,20 +1846,6 @@ namespace OneStoryProjectEditor
 
             foreach (var elemConversation in XmlRead.Children(elemConsultantNotes, ConsultantNoteData.CstrElementName))
                 Add(new ConsultantNoteData(elemConversation));
-        }
-
-        public ConsultantNotesData(XmlNode xmlNode)
-            : base(CstrCollectionElementName)
-        {
-            if (xmlNode == null)
-                return;
-
-            var list = xmlNode.SelectNodes(ConsultantNoteData.CstrElementName);
-            if (list == null)
-                return;
-
-            foreach (XmlNode nodeConNote in list)
-                Add(new ConsultantNoteData(nodeConNote));
         }
 
         public override bool HasAddNotePrivilege(TeamMemberData loggedOnMember,
@@ -2039,20 +1909,6 @@ namespace OneStoryProjectEditor
     {
         public const string CstrCollectionElementName = "CoachNotes";
 
-        public CoachNotesData(NewDataSet.VerseRow theVerseRow, NewDataSet projFile)
-            : base(CstrCollectionElementName)
-        {
-            NewDataSet.CoachNotesRow[] theCoachNotesRows = theVerseRow.GetCoachNotesRows();
-            NewDataSet.CoachNotesRow theCoachNotesRow;
-            if (theCoachNotesRows.Length == 0)
-                theCoachNotesRow = projFile.CoachNotes.AddCoachNotesRow(theVerseRow);
-            else
-                theCoachNotesRow = theCoachNotesRows[0];
-
-            foreach (NewDataSet.CoachConversationRow aCoachConversationRow in theCoachNotesRow.GetCoachConversationRows())
-                Add(new CoachNoteData(aCoachConversationRow));
-        }
-
         public CoachNotesData(IEnumerable<ConsultNoteDataConverter> rhs)
             : base(CstrCollectionElementName)
         {
@@ -2065,7 +1921,6 @@ namespace OneStoryProjectEditor
         {
         }
 
-        // mirrors CoachNotesData(NewDataSet.VerseRow, NewDataSet); an absent <CoachNotes> is the row path's added empty container
         public CoachNotesData(XElement elemVerse)
             : base(CstrCollectionElementName)
         {
@@ -2075,20 +1930,6 @@ namespace OneStoryProjectEditor
 
             foreach (var elemConversation in XmlRead.Children(elemCoachNotes, CoachNoteData.CstrElementName))
                 Add(new CoachNoteData(elemConversation));
-        }
-
-        public CoachNotesData(XmlNode xmlNode)
-            : base(CstrCollectionElementName)
-        {
-            if (xmlNode == null)
-                return;
-
-            var list = xmlNode.SelectNodes(CoachNoteData.CstrElementName);
-            if (list == null)
-                return;
-
-            foreach (XmlNode nodeConNote in list)
-                Add(new CoachNoteData(nodeConNote));
         }
 
         public override ConsultNoteDataConverter Add(StoryData theStory,

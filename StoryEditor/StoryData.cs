@@ -96,39 +96,13 @@ namespace OneStoryProjectEditor
             }
         }
 
-        public StoryData(XmlNode node, string strProjectFolder)
-        {
-            XmlAttribute attr;
-            Name = ((attr = node.Attributes[CstrAttributeName]) != null) ? attr.Value : null;
-            TasksAllowedPf = GetAttributeValue(node, CstrAttributeLabelTasksAllowedPf, TasksPf.DefaultAllowed);
-            TasksRequiredPf = GetAttributeValue(node, CstrAttributeLabelTasksRequiredPf, TasksPf.DefaultRequired);
-            TasksAllowedCit = GetAttributeValue(node, CstrAttributeLabelTasksAllowedCit, TasksCit.DefaultAllowed);
-            TasksRequiredCit = GetAttributeValue(node, CstrAttributeLabelTasksRequiredCit, TasksCit.DefaultRequired);
-
-            CountRetellingsTests = ((attr = node.Attributes[CstrAttributeLabelCountRetellingsTests]) != null)
-                                       ? Convert.ToInt32(attr.Value)
-                                       : 0;
-            CountTestingQuestionTests = ((attr = node.Attributes[CstrAttributeLabelCountTestingQuestionTests]) != null)
-                                       ? Convert.ToInt32(attr.Value)
-                                       : 0;
-
-            // the last param isn't really false, but this ctor is only called when that doesn't matter
-            //  (during Chorus diff presentation)
-            ProjStage = new StoryStageLogic(strProjectFolder, node.Attributes[CstrAttributeStage].Value);
-            guid = node.Attributes[CstrAttributeGuid].Value;
-            StageTimeStamp = DateTime.Parse(node.Attributes[CstrAttributeTimeStamp].Value).ToLocalTime();
-            CraftingInfo = new CraftingInfoData(node.SelectSingleNode(CraftingInfoData.CstrElementLabelCraftingInfo));
-            TransitionHistory = new StoryStateTransitionHistory(node.SelectSingleNode(StoryStateTransitionHistory.CstrElementLabelTransitionHistory));
-            Verses = new VersesData(node.SelectSingleNode(VersesData.CstrElementLabelVerses));
-        }
-
         private static T EnumAttr<T>(XElement elemStory, string strAttrName, T defaultValue) where T : struct
         {
             var str = XmlRead.Attr(elemStory, strAttrName);
             return (str != null) ? (T)Enum.Parse(typeof(T), str) : defaultValue;
         }
 
-        // mirrors StoryData(NewDataSet.storyRow, NewDataSet, string): elemStory is the <story> element
+        // elemStory is the <story> element
         public StoryData(XElement elemStory, string strProjectFolder)
         {
             Name = XmlRead.RequiredAttr(elemStory, CstrAttributeName);
@@ -139,9 +113,10 @@ namespace OneStoryProjectEditor
             CountRetellingsTests = XmlRead.Int(elemStory, CstrAttributeLabelCountRetellingsTests, 0);
             CountTestingQuestionTests = XmlRead.Int(elemStory, CstrAttributeLabelCountTestingQuestionTests, 0);
 
-            // see the row constructor: a duplicate guid (left by the merger) gets a new one
+            // the guid is supposed to be unique, but the merger might leave two stories with the same guid. If that
+            //  happens, start over with a new guid (we lose historical differencing, the lesser of 2 evils)
             guid = XmlRead.RequiredAttr(elemStory, CstrAttributeGuid);
-            if (ProjectReader.UniqueStoryGuids.Contains(guid))
+            if (ProjectFile.UniqueStoryGuids.Contains(guid))
             {
                 Debug.Assert(false, String.Format("Duplicate unique identifier for story '{1}'{0}{0}{2}",
                                                   Environment.NewLine,
@@ -150,63 +125,13 @@ namespace OneStoryProjectEditor
                 guid = Guid.NewGuid().ToString();
             }
 
-            ProjectReader.UniqueStoryGuids.Add(guid);
+            ProjectFile.UniqueStoryGuids.Add(guid);
 
             StageTimeStamp = XmlRead.Date(elemStory, CstrAttributeTimeStamp)?.ToLocalTime() ?? DateTime.Now;
             ProjStage = new StoryStageLogic(strProjectFolder, XmlRead.RequiredAttr(elemStory, CstrAttributeStage));
             CraftingInfo = new CraftingInfoData(elemStory);
             TransitionHistory = new StoryStateTransitionHistory(elemStory);
             Verses = new VersesData(elemStory);
-        }
-
-        public StoryData(NewDataSet.storyRow theStoryRow, NewDataSet projFile, string strProjectFolder)
-        {
-            Name = theStoryRow.name;
-            TasksAllowedPf = (!theStoryRow.IsTasksAllowedPfNull())
-                                 ? (TasksPf.TaskSettings)
-                                   Enum.Parse(typeof (TasksPf.TaskSettings), theStoryRow.TasksAllowedPf)
-                                 : TasksPf.DefaultAllowed;
-            TasksRequiredPf = (!theStoryRow.IsTasksRequiredPfNull())
-                                  ? (TasksPf.TaskSettings)
-                                    Enum.Parse(typeof (TasksPf.TaskSettings), theStoryRow.TasksRequiredPf)
-                                  : TasksPf.DefaultRequired;
-            TasksAllowedCit = (!theStoryRow.IsTasksAllowedCitNull())
-                                  ? (TasksCit.TaskSettings)
-                                    Enum.Parse(typeof (TasksCit.TaskSettings), theStoryRow.TasksAllowedCit)
-                                  : TasksCit.DefaultAllowed;
-            TasksRequiredCit = (!theStoryRow.IsTasksRequiredCitNull())
-                                   ? (TasksCit.TaskSettings)
-                                     Enum.Parse(typeof (TasksCit.TaskSettings), theStoryRow.TasksRequiredCit)
-                                   : TasksCit.DefaultRequired;
-            CountRetellingsTests = (!theStoryRow.IsCountRetellingsTestsNull()) 
-                                            ? theStoryRow.CountRetellingsTests 
-                                            : 0;
-            CountTestingQuestionTests = (!theStoryRow.IsCountTestingQuestionTestsNull())
-                                            ? theStoryRow.CountTestingQuestionTests
-                                            : 0;
-
-            // the guid is supposed to be unique, but there are some cases where the merger might actually
-            //  leave two stories with the same guid. If that happens, then just start over with a new
-            //  guid (we'll lose historical differencing, but this is the lesser of 2 evils).
-            guid = theStoryRow.guid;
-            if (ProjectReader.UniqueStoryGuids.Contains(guid))
-            {
-                Debug.Assert(false, String.Format("Duplicate unique identifier for story '{1}'{0}{0}{2}",
-                                                  Environment.NewLine,
-                                                  Name,
-                                                  guid));
-                guid = Guid.NewGuid().ToString();
-            }
-
-            ProjectReader.UniqueStoryGuids.Add(guid);
-
-            StageTimeStamp = (theStoryRow.IsstageDateTimeStampNull())
-                                 ? DateTime.Now
-                                 : theStoryRow.stageDateTimeStamp.ToLocalTime();
-            ProjStage = new StoryStageLogic(strProjectFolder, theStoryRow.stage);
-            CraftingInfo = new CraftingInfoData(theStoryRow);
-            TransitionHistory = new StoryStateTransitionHistory(theStoryRow);
-            Verses = new VersesData(theStoryRow, projFile);
         }
 
         public StoryData(StoryData rhs)
@@ -488,35 +413,12 @@ namespace OneStoryProjectEditor
                        : null;
         }
 
-        private static TasksPf.TaskSettings GetAttributeValue(XmlNode node, 
-            string cstrAttributeLabel, TasksPf.TaskSettings defaultValue)
-        {
-            if (node.Attributes != null)
-            {
-                var attr = node.Attributes[cstrAttributeLabel];
-                if (attr != null)
-                    return (TasksPf.TaskSettings)Enum.Parse(typeof(TasksPf.TaskSettings), attr.Value);
-            }
-            return defaultValue;
-        }
-
-        private static TasksCit.TaskSettings GetAttributeValue(XmlNode node, 
-            string cstrAttributeLabel, TasksCit.TaskSettings defaultValue)
-        {
-            if (node.Attributes != null)
-            {
-                var attr = node.Attributes[cstrAttributeLabel];
-                if (attr != null)
-                    return (TasksCit.TaskSettings)Enum.Parse(typeof(TasksCit.TaskSettings), attr.Value);
-            }
-            return defaultValue;
-        }
-
         // remotely accessible one from Chorus
         public string GetPresentationHtmlForChorus(XmlNode nodeProjectFile, string strProjectPath, XmlNode parentStory, XmlNode childStory)
         {
-            var projSettings = new ProjectSettings(nodeProjectFile, strProjectPath);
-            var teamMembers = new TeamMembersData(nodeProjectFile);
+            var elemProjectFile = XElement.Parse(nodeProjectFile.OuterXml);  // a copy, so Chorus's node is untouched
+            var projSettings = new ProjectSettings(elemProjectFile, strProjectPath);
+            var teamMembers = new TeamMembersData(elemProjectFile);
             StoryData ParentStory = null;
             StoryData ChildStory = null;
             // these nodes don't have a project root to say whether the text is already plain, so always decode
@@ -988,34 +890,8 @@ namespace OneStoryProjectEditor
                 Add(new StoryStateTransition(state));
         }
 
-        public StoryStateTransitionHistory(XmlNode node)
-        {
-            if (node == null)
-                return;
-            XmlNodeList list = node.SelectNodes(String.Format("{0}/{1}",
-                CstrElementLabelTransitionHistory, StoryStateTransition.CstrElemLabelStateTransition));
-            if (list != null)
-                foreach (XmlNode nodeStateTransition in list)
-                    Add(new StoryStateTransition(nodeStateTransition));
-        }
-
         private bool _bSuspendBigThrow;
-        public StoryStateTransitionHistory(NewDataSet.storyRow theStoryRow)
-        {
-            NewDataSet.TransitionHistoryRow[] aTHRs = theStoryRow.GetTransitionHistoryRows();
-            if (aTHRs.Length == 1)
-            {
-                NewDataSet.TransitionHistoryRow theTHR = aTHRs[0];
-                
-                // don't throw in this case, because whatever the cause is, is already done
-                _bSuspendBigThrow = true;
-                foreach (NewDataSet.StateTransitionRow aSTR in theTHR.GetStateTransitionRows())
-                    Add(new StoryStateTransition(aSTR));
-                _bSuspendBigThrow = false;
-            }
-        }
-
-        // mirrors StoryStateTransitionHistory(NewDataSet.storyRow): only used when there is exactly one
+        // only used when there is exactly one
         //  <TransitionHistory>; duplicates are silently dropped
         public StoryStateTransitionHistory(XElement elemStory)
         {
@@ -1109,17 +985,6 @@ namespace OneStoryProjectEditor
             WindowsUserName = rhs.WindowsUserName;
         }
 
-        public StoryStateTransition(NewDataSet.StateTransitionRow theSTR)
-        {
-            LoggedInMemberId = theSTR.LoggedInMemberId;
-            FromState = StoryStageLogic.GetProjectStageFromString(theSTR.FromState);
-            ToState = StoryStageLogic.GetProjectStageFromString(theSTR.ToState);
-            TransitionDateTime = theSTR.TransitionDateTime.ToLocalTime();
-            if (!theSTR.IsWindowsUserNameNull())
-                WindowsUserName = theSTR.WindowsUserName;
-        }
-
-        // mirrors StoryStateTransition(NewDataSet.StateTransitionRow)
         public StoryStateTransition(XElement elemStateTransition)
         {
             LoggedInMemberId = XmlRead.RequiredAttr(elemStateTransition, CstrAttrNameLoggedInMemberId);
@@ -1138,16 +1003,6 @@ namespace OneStoryProjectEditor
             var strWindowsUserName = XmlRead.Attr(elemStateTransition, CstrAttrNameWindowsUserName);
             if (strWindowsUserName != null)
                 WindowsUserName = strWindowsUserName;
-        }
-
-        public StoryStateTransition(XmlNode node)
-        {
-            LoggedInMemberId = node.Attributes[CstrAttrNameLoggedInMemberId].Value;
-            XmlAttribute attr;
-            WindowsUserName = ((attr = node.Attributes[CstrAttrNameWindowsUserName]) != null) ? attr.Value : null;
-            FromState = StoryStageLogic.GetProjectStageFromString(node.Attributes[CstrAttrNameFromState].Value);
-            ToState = StoryStageLogic.GetProjectStageFromString(node.Attributes[CstrAttrNameToState].Value);
-            TransitionDateTime = DateTime.Parse(node.Attributes[CstrAttrNameTransitionDateTime].Value).ToLocalTime();
         }
 
         public const string CstrElemLabelStateTransition = "StateTransition";
@@ -1194,17 +1049,6 @@ namespace OneStoryProjectEditor
         {
             MemberId = rhs.MemberId;
             MemberComment = rhs.MemberComment;
-        }
-
-        public static MemberIdInfo CreateFromXmlNode(XmlNode node)
-        {
-            XmlAttribute attr;
-            if ((node == null) ||
-                (node.Attributes == null) ||
-                ((attr = node.Attributes[CstrAttributeMemberID]) == null))
-                return null;
-
-            return new MemberIdInfo(attr.Value, node.InnerText);
         }
 
         public void WriteXml(string strElementLabel, XElement elem)
@@ -1370,20 +1214,6 @@ namespace OneStoryProjectEditor
             return -1;
         }
 
-        public void Add(XmlNode node, string strCollectionElement, string strElementLabel)
-        {
-            XmlNodeList list = node.SelectNodes(String.Format("{0}/{1}",
-                strCollectionElement, strElementLabel));
-            if (list != null)
-                foreach (var memberIdInfo in
-                    list.Cast<XmlNode>().Select(nodeTest => 
-                        MemberIdInfo.CreateFromXmlNode(nodeTest)).Where(memberIdInfo => 
-                            memberIdInfo != null))
-                {
-                    Add(memberIdInfo);
-                }
-        }
-
         public void WriteXml(string strCollectionLabel, string strElementLabel, XElement elemCraftingInfo)
         {
             var elemTesters = new XElement(strCollectionLabel);
@@ -1459,31 +1289,7 @@ namespace OneStoryProjectEditor
             IsBiblicalStory = bIsBiblicalStory;
         }
 
-        public CraftingInfoData(XmlNode node)
-        {
-            StoryCrafter = MemberIdInfo.CreateFromXmlNode(node.SelectSingleNode(CstrElementLabelStoryCrafter));
-            ProjectFacilitator = MemberIdInfo.CreateFromXmlNode(node.SelectSingleNode(CstrElementLabelProjectFacilitator));
-            Consultant = MemberIdInfo.CreateFromXmlNode(node.SelectSingleNode(CstrElementLabelConsultant));
-            Coach = MemberIdInfo.CreateFromXmlNode(node.SelectSingleNode(CstrElementLabelCoach));
-            BackTranslator = MemberIdInfo.CreateFromXmlNode(node.SelectSingleNode(CstrElementLabelBackTranslator));
-            OutsideEnglishBackTranslator =
-                MemberIdInfo.CreateFromXmlNode(node.SelectSingleNode(CstrElementLabelOutsideEnglishBackTranslator));
-
-            XmlNode elem;
-            StoryPurpose = ((elem = node.SelectSingleNode(CstrElementLabelStoryPurpose)) != null) 
-                ? elem.InnerText 
-                : null;
-            ResourcesUsed = ((elem = node.SelectSingleNode(CstrElementLabelResourcesUsed)) != null)
-                ? elem.InnerText
-                : null;
-            MiscellaneousStoryInfo = ((elem = node.SelectSingleNode(CstrElementLabelMiscellaneousStoryInfo)) != null)
-                ? elem.InnerText
-                : null;
-            TestersToCommentsRetellings.Add(node, CstrElementLabelTestsRetellings, CstrElementLabelTestRetelling);
-            TestersToCommentsTqAnswers.Add(node, CstrElementLabelTestsTqAnswers, CstrElementLabelTestTqAnswer);
-        }
-
-        // a member element is used only when there is exactly one of it (as in the row constructor)
+        // a member element is used only when there is exactly one of it (a duplicate is ignored)
         private static MemberIdInfo MemberFromXElement(XElement elemCraftingInfo, string strElementLabel)
         {
             var elems = XmlRead.Children(elemCraftingInfo, strElementLabel).ToList();
@@ -1511,7 +1317,7 @@ namespace OneStoryProjectEditor
                                               XmlRead.Text(elemTester)));
         }
 
-        // mirrors CraftingInfoData(NewDataSet.storyRow): elemStory is the <story> element
+        // elemStory is the <story> element
         public CraftingInfoData(XElement elemStory)
         {
             var elemsCraftingInfo = XmlRead.Children(elemStory, CstrElementLabelCraftingInfo).ToList();
@@ -1541,112 +1347,6 @@ namespace OneStoryProjectEditor
                        CstrElementLabelTestRetelling);
             AddTesters(TestersToCommentsTqAnswers, elemCi, CstrElementLabelTestsTqAnswers,
                        CstrElementLabelTestTqAnswer);
-        }
-
-        public CraftingInfoData(NewDataSet.storyRow theStoryRow)
-        {
-            NewDataSet.CraftingInfoRow[] aCIRs = theStoryRow.GetCraftingInfoRows();
-            if (aCIRs.Length == 1)
-            {
-                NewDataSet.CraftingInfoRow theCIR = aCIRs[0];
-                if (!theCIR.IsNonBiblicalStoryNull())
-                    IsBiblicalStory = !theCIR.NonBiblicalStory;
-
-                NewDataSet.StoryCrafterRow[] aSCRs = theCIR.GetStoryCrafterRows();
-                if (aSCRs.Length == 1)
-                {
-                    var theRow = aSCRs[0];
-                    StoryCrafter = new MemberIdInfo(theRow.memberID,
-                                                    (theRow.IsStoryCrafter_textNull())
-                                                        ? null
-                                                        : theRow.StoryCrafter_text);
-                }
-                else
-                    throw new ApplicationException(Properties.Resources.IDS_ProjectFileCorrupted);
-
-                NewDataSet.ProjectFacilitatorRow[] thePfRows = theCIR.GetProjectFacilitatorRows();
-                if (thePfRows.Length == 1)
-                {
-                    var theRow = thePfRows[0];
-                    ProjectFacilitator = new MemberIdInfo(theRow.memberID,
-                                                          (theRow.IsProjectFacilitator_textNull())
-                                                              ? null
-                                                              : theRow.ProjectFacilitator_text);
-                }
-
-                NewDataSet.ConsultantRow[] theCoRows = theCIR.GetConsultantRows();
-                if (theCoRows.Length == 1)
-                {
-                    var theRow = theCoRows[0];
-                    Consultant = new MemberIdInfo(theRow.memberID,
-                                                  (theRow.IsConsultant_textNull())
-                                                      ? null
-                                                      : theRow.Consultant_text);
-                }
-
-                NewDataSet.CoachRow[] theCchRows = theCIR.GetCoachRows();
-                if (theCchRows.Length == 1)
-                {
-                    var theRow = theCchRows[0];
-                    Coach = new MemberIdInfo(theRow.memberID,
-                                                          (theRow.IsCoach_textNull())
-                                                              ? null
-                                                              : theRow.Coach_text);
-                }
-
-                NewDataSet.BackTranslatorRow[] aBTRs = theCIR.GetBackTranslatorRows();
-                if (aBTRs.Length == 1)
-                {
-                    var theRow = aBTRs[0];
-                    BackTranslator = new MemberIdInfo(theRow.memberID,
-                                                      (theRow.IsBackTranslator_textNull())
-                                                          ? null
-                                                          : theRow.BackTranslator_text);
-                }
-
-                NewDataSet.OutsideEnglishBackTranslatorRow[] aOEBTers = theCIR.GetOutsideEnglishBackTranslatorRows();
-                if (aOEBTers.Length == 1)
-                {
-                    var theRow = aOEBTers[0];
-                    OutsideEnglishBackTranslator = new MemberIdInfo(theRow.memberID,
-                                                      (theRow.IsOutsideEnglishBackTranslator_textNull())
-                                                          ? null
-                                                          : theRow.OutsideEnglishBackTranslator_text);
-                }
-
-                if (!theCIR.IsStoryPurposeNull())
-                    StoryPurpose = StoryData.NormalizeLineEndings(theCIR.StoryPurpose);
-
-                if (!theCIR.IsResourcesUsedNull())
-                    ResourcesUsed = StoryData.NormalizeLineEndings(theCIR.ResourcesUsed);
-
-                if (!theCIR.IsMiscellaneousStoryInfoNull())
-                    MiscellaneousStoryInfo = StoryData.NormalizeLineEndings(theCIR.MiscellaneousStoryInfo);
-
-                NewDataSet.TestsRetellingsRow[] aTsReRs = theCIR.GetTestsRetellingsRows();
-                if (aTsReRs.Length == 1)
-                {
-                    NewDataSet.TestRetellingRow[] aTReRs = aTsReRs[0].GetTestRetellingRows();
-                    foreach (NewDataSet.TestRetellingRow aTReR in aTReRs)
-                        TestersToCommentsRetellings.Add(new MemberIdInfo(aTReR.memberID,
-                                                                       (aTReR.IsTestRetelling_textNull())
-                                                                           ? null
-                                                                           : aTReR.TestRetelling_text));
-                }
-
-                NewDataSet.TestsTqAnswersRow[] aTsAnRs = theCIR.GetTestsTqAnswersRows();
-                if (aTsAnRs.Length == 1)
-                {
-                    NewDataSet.TestTqAnswerRow[] aTReRs = aTsAnRs[0].GetTestTqAnswerRows();
-                    foreach (NewDataSet.TestTqAnswerRow aTReR in aTReRs)
-                        TestersToCommentsTqAnswers.Add(new MemberIdInfo(aTReR.memberID,
-                                                                       (aTReR.IsTestTqAnswer_textNull())
-                                                                           ? null
-                                                                           : aTReR.TestTqAnswer_text));
-                }
-            }
-            else
-                throw new ApplicationException(Properties.Resources.IDS_ProjectFileCorruptedNoCraftingInfo);
         }
 
         public CraftingInfoData(CraftingInfoData rhs)
@@ -1919,27 +1619,6 @@ namespace OneStoryProjectEditor
             SetName = strSetName;
         }
 
-        public StoriesData(NewDataSet.storiesRow theStoriesRow, NewDataSet projFile, string strProjectFolder)
-        {
-            SetName = theStoriesRow.SetName;
-
-            // finally, if it's not new, then it might (should) have stories as well
-            foreach (var aStoryRow in theStoriesRow.GetstoryRows())
-            {
-                // create the story object
-                var theNewStory = new StoryData(aStoryRow, projFile, strProjectFolder);
-
-                // make sure it doesn't have a name the same as an existing one... (it could come in via the merge)
-                var n = 1;
-                var strName = theNewStory.Name;
-                while (Contains(theNewStory))
-                    theNewStory.Name = String.Format("{0}.{1}", strName, n++);
-
-                Add(theNewStory);
-            }
-        }
-
-        // mirrors StoriesData(NewDataSet.storiesRow, NewDataSet, string): elemStories is the <stories> element
         public StoriesData(XElement elemStories, string strProjectFolder)
         {
             SetName = XmlRead.RequiredAttr(elemStories, CstrAttributeLabelSetName);
@@ -2150,7 +1829,7 @@ namespace OneStoryProjectEditor
 
         private static bool _bStopNaggingPf;
 
-        // the row constructor's rule: a version after the current one, other than the two this version also reads
+        // a version after the current one, other than the two this version also reads
         public static bool IsNewerThanSupported(string strVersion)
         {
             return (strVersion.CompareTo(CstrCurrentXmlDataVersion) > 0) &&
@@ -2158,7 +1837,7 @@ namespace OneStoryProjectEditor
                    (strVersion != CxmlDataVersionStickyNote);
         }
 
-        // mirrors StoryProjectData(NewDataSet, ProjectSettings). The 1.3/1.4 conversions and the newer-version
+        // The 1.3/1.4 conversions and the newer-version
         //  refusal happen in ProjectFile.Load (which throws instead of showing a message box).
         public StoryProjectData(XElement elemStoryProject, bool bIsPlainTextEncoded, ProjectSettings projSettings)
         {
@@ -2212,93 +1891,6 @@ namespace OneStoryProjectEditor
             }
 
             if ((string)elemStoryProject.Attribute(CstrAttributeVersion) == "1.5")
-                CheckForCommentMemberIds();
-
-            OsMetaData = LoadOsMetaData();
-        }
-
-        public StoryProjectData(NewDataSet projFile, ProjectSettings projSettings)
-        {
-            // this version comes with a project settings object
-            ProjSettings = projSettings;
-
-            // if the project file we opened doesn't have anything yet.. (shouldn't really happen)
-            if (projFile.StoryProject.Count == 0)
-            {
-                projFile.StoryProject.AddStoryProjectRow(XmlDataVersion,
-                                                         ProjSettings.ProjectName,
-                                                         Properties.Resources.
-                                                             IDS_DefaultPanoramaFrontMatter,
-                                                         ProjSettings.UseDropbox,
-                                                         ProjSettings.DropboxStory,
-                                                         ProjSettings.DropboxRetelling,
-                                                         ProjSettings.DropboxAnswers);
-            }
-            else
-            {
-                projFile.StoryProject[0].ProjectName = ProjSettings.ProjectName; // in case the user changed it.
-
-                // (1.3/1.4 files are refused by ProjectFile.Load; the XSLT upgrade is gone)
-                if (projFile.StoryProject[0].version.CompareTo(XmlDataVersion) > 0)
-                {
-                    if ((projFile.StoryProject[0].version != CxmlDataVersionReferringText) &&
-                        (projFile.StoryProject[0].version != CxmlDataVersionStickyNote))
-                    {
-                        LocalizableMessageBox.Show(Localizer.Str("One of the team members is using a newer version of OSE to edit the file, which is not compatible with the version you are using. You might try, \"Advanced\", \"Program Updates\", \"Check now\" or \"Check now for next major update\" or you may have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the \"Setup OneStory Editor.zip\" file"), StoryEditor.OseCaption);
-                        throw BackOutWithNoUI;
-                    }
-                }
-            }
-
-            // files not saved by a version that keeps plain text may have HTML entities in the
-            //  story text that IE's htmlText put there (e.g. "[B&amp;B]")
-            if (!((projFile as ProjectReader)?.IsPlainTextEncoded ?? false))
-                LegacyTextRepair.DecodePlainTextFields(projFile);
-
-            // not gated by the marker: files saved before the placeholder fix may be marked already
-            LegacyTextRepair.ClearLanguageNamePlaceholders(projFile);
-
-            PanoramaFrontMatter = projFile.StoryProject[0].PanoramaFrontMatter;
-            if (String.IsNullOrEmpty(PanoramaFrontMatter))
-                PanoramaFrontMatter = Properties.Resources.IDS_DefaultPanoramaFrontMatter;
-
-            ProjSettings.UseDropbox = !projFile.StoryProject[0].IsUseDropboxNull() &&
-                                      projFile.StoryProject[0].UseDropbox;
-
-            ProjSettings.DropboxStory = !projFile.StoryProject[0].IsDropboxStoryNull() &&
-                                        projFile.StoryProject[0].DropboxStory;
-
-            ProjSettings.DropboxRetelling = !projFile.StoryProject[0].IsDropboxRetellingsNull() &&
-                                            projFile.StoryProject[0].DropboxRetellings;
-
-            ProjSettings.DropboxAnswers = !projFile.StoryProject[0].IsDropboxAnswersNull() &&
-                                          projFile.StoryProject[0].DropboxAnswers;
-
-            if (projFile.stories.Count == 0)
-            {
-                projFile.stories.AddstoriesRow(Properties.Resources.IDS_MainStoriesSet,
-                    projFile.StoryProject[0]);
-                projFile.stories.AddstoriesRow(Properties.Resources.IDS_ObsoleteStoriesSet,
-                    projFile.StoryProject[0]);
-            }
-            // new 'non-biblical' stories set added in 2.4 
-            // UPDATE (2/11/20): unless it's already there -- see trio-mina rev 91
-            else if ((projFile.stories.Count == 2) &&
-                     !projFile.StoryProject[0].GetstoriesRows().Any(s => s.SetName == Properties.Resources.IDS_NonBibStoriesSet))
-            {
-                projFile.stories.AddstoriesRow(Properties.Resources.IDS_NonBibStoriesSet, projFile.StoryProject[0]);
-            }
-            TeamMembers = new TeamMembersData(projFile);
-            ProjSettings.SerializeProjectSettings(projFile);
-            LnCNotes = new LnCNotesData(projFile);
-
-            // finally, if it's not new, then it might (should) have stories as well
-            foreach (NewDataSet.storiesRow aStoriesRow in projFile.StoryProject[0].GetstoriesRows())
-                Add(aStoriesRow.SetName, new StoriesData(aStoriesRow,
-                                                         projFile,
-                                                         ProjSettings.ProjectFolder));
-
-            if (projFile.StoryProject[0].version.CompareTo("1.5") == 0)
                 CheckForCommentMemberIds();
 
             OsMetaData = LoadOsMetaData();
@@ -2855,48 +2447,6 @@ namespace OneStoryProjectEditor
             public string MemberGuid { get; set; }
             public string StoryName { get; set; }
             public string Format { get; set; }
-        }
-    }
-
-    public class ProjectReader : NewDataSet
-    {
-        public static List<string> UniqueStoryGuids = new List<string>();
-
-        // true if the file was saved by a version that keeps plain text (see LegacyTextRepair)
-        public bool IsPlainTextEncoded { get; private set; }
-
-        public static DateTime ReadProjectFile(string strProjectFilePath, out ProjectReader projectReader)
-        {
-            try
-            {
-                UniqueStoryGuids.Clear();
-                projectReader = new ProjectReader();
-                projectReader.ReadXml(strProjectFilePath);
-                projectReader.IsPlainTextEncoded = LegacyTextRepair.IsFileMarkedPlain(strProjectFilePath);
-                return File.GetLastWriteTime(strProjectFilePath);
-            }
-            catch (ReflectionTypeLoadException ex)
-            {
-                var sb = new StringBuilder();
-                foreach (var exSub in ex.LoaderExceptions)
-                {
-                    sb.AppendLine(exSub.Message);
-                    if (exSub is FileNotFoundException)
-                    {
-                        var exFileNotFound = exSub as FileNotFoundException;
-                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
-                        {
-                            sb.AppendLine("Fusion Log:");
-                            sb.AppendLine(exFileNotFound.FusionLog);
-                        }
-                    }
-                    sb.AppendLine();
-                }
-                string errorMessage = sb.ToString();
-                MessageBox.Show(errorMessage);
-            }
-            projectReader = null;
-            return DateTime.MinValue;
         }
     }
 }

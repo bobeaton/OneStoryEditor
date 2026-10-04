@@ -1,0 +1,121 @@
+== story 0
+Name: [Story Full]
+TasksAllowedPf: VernacularLangFields, Anchors
+TasksRequiredPf: None
+TasksAllowedCit: SendToCoachForReview
+TasksRequiredCit: None
+CountRetellingsTests: 3
+CountTestingQuestionTests: 1
+IsBiblicalStory: False
+StageTimeStamp: timeStamp="2026-10-03T12:34:56Z" kind=Local
+guid: [00000000-0000-0000-0000-000000000101]
+GetXml:
+<story name="Story Full" stage="ProjFacTypeInternationalBT" TasksAllowedPf="VernacularLangFields, Anchors" TasksRequiredPf="None" TasksAllowedCit="SendToCoachForReview" TasksRequiredCit="None" CountRetellingsTests="3" CountTestingQuestionTests="1" guid="00000000-0000-0000-0000-000000000101" stageDateTimeStamp="2026-10-03T12:34:56Z">
+  <CraftingInfo NonBiblicalStory="true">
+    <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001">crafter comment</StoryCrafter>
+    <ProjectFacilitator memberID="mem-00000000-0000-0000-0000-000000000002"></ProjectFacilitator>
+    <Consultant memberID="mem-00000000-0000-0000-0000-000000000003">consultant
+comment</Consultant>
+    <Coach memberID="mem-00000000-0000-0000-0000-000000000004"></Coach>
+    <BackTranslator memberID="mem-00000000-0000-0000-0000-000000000005">bt comment</BackTranslator>
+    <OutsideEnglishBackTranslator memberID="mem-00000000-0000-0000-0000-000000000006">outside comment</OutsideEnglishBackTranslator>
+    <StoryPurpose>purpose line 1
+purpose line 2</StoryPurpose>
+    <ResourcesUsed>resources
+already crlf</ResourcesUsed>
+    <MiscellaneousStoryInfo>misc info</MiscellaneousStoryInfo>
+    <TestsRetellings>
+      <TestRetelling memberID="mem-00000000-0000-0000-0000-000000000007">retelling test comment
+second line</TestRetelling>
+      <TestRetelling memberID="mem-00000000-0000-0000-0000-000000000008"></TestRetelling>
+    </TestsRetellings>
+    <TestsTqAnswers>
+      <TestTqAnswer memberID="mem-00000000-0000-0000-0000-000000000009">tq answers comment</TestTqAnswer>
+      <TestTqAnswer memberID="mem-00000000-0000-0000-0000-000000000007"></TestTqAnswer>
+    </TestsTqAnswers>
+  </CraftingInfo>
+  <TransitionHistory>
+    <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" FromState="ProjFacTypeVernacular" ToState="ProjFacTypeInternationalBT" TransitionDateTime="2026-10-03T12:34:56Z" WindowsUserName="tester" />
+    <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" FromState="ProjFacTypeInternationalBT" ToState="ProjFacTypeVernacular" TransitionDateTime="{OFFSET 2026-10-03T13:00:00+02:00}" />
+    <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" FromState="ProjFacTypeVernacular" ToState="ProjFacTypeInternationalBT" TransitionDateTime="2026-10-03T14:00:00Z" WindowsUserName="tester" />
+  </TransitionHistory>
+  <Verses>
+    <Verse guid="00000000-0000-0000-0000-000000000110" first="true">
+      <StoryLine lang="Vernacular">global line</StoryLine>
+      <ConsultantNotes>
+        <ConsultantConversation guid="00000000-0000-0000-0000-000000000111">
+          <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000112" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">global note</ConsultantNote>
+        </ConsultantConversation>
+      </ConsultantNotes>
+    </Verse>
+    <Verse guid="00000000-0000-0000-0000-000000000113">
+      <StoryLine lang="Vernacular">first real line</StoryLine>
+      <StoryLine lang="NationalBt">national bt</StoryLine>
+      <StoryLine lang="InternationalBt">english bt</StoryLine>
+      <StoryLine lang="FreeTranslation">free translation</StoryLine>
+      <Anchors keyTermChecked="true">
+        <Anchor jumpTarget="GEN 1:1">anchor text</Anchor>
+      </Anchors>
+    </Verse>
+    <Verse guid="00000000-0000-0000-0000-000000000114" visible="false">
+      <StoryLine lang="Vernacular">stray first-flag line</StoryLine>
+    </Verse>
+  </Verses>
+</story>
+== story 1
+Name: [Story Minimal]
+TasksAllowedPf: VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers
+TasksRequiredPf: Anchors
+TasksAllowedCit: SendToProjectFacilitatorForRevision, SendToCoachForReview
+TasksRequiredCit: None
+CountRetellingsTests: 0
+CountTestingQuestionTests: 0
+IsBiblicalStory: True
+StageTimeStamp: timeStamp="{NOW}" kind=Local
+guid: [00000000-0000-0000-0000-000000000102]
+GetXml:
+<story name="Story Minimal" stage="ProjFacTypeVernacular" TasksAllowedPf="VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers" TasksRequiredPf="Anchors" TasksAllowedCit="SendToProjectFacilitatorForRevision, SendToCoachForReview" TasksRequiredCit="None" CountRetellingsTests="0" CountTestingQuestionTests="0" guid="00000000-0000-0000-0000-000000000102" stageDateTimeStamp="{NOW}">
+  <CraftingInfo NonBiblicalStory="false">
+    <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001"></StoryCrafter>
+  </CraftingInfo>
+</story>
+== story 2
+Name: [Story Duplicate Guid]
+TasksAllowedPf: VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers
+TasksRequiredPf: Anchors
+TasksAllowedCit: SendToProjectFacilitatorForRevision, SendToCoachForReview
+TasksRequiredCit: None
+CountRetellingsTests: 0
+CountTestingQuestionTests: 0
+IsBiblicalStory: True
+StageTimeStamp: timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}" kind=Local
+guid: [{REPLACED}]
+GetXml:
+<story name="Story Duplicate Guid" stage="ProjFacTypeVernacular" TasksAllowedPf="VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers" TasksRequiredPf="Anchors" TasksAllowedCit="SendToProjectFacilitatorForRevision, SendToCoachForReview" TasksRequiredCit="None" CountRetellingsTests="0" CountTestingQuestionTests="0" guid="{REPLACED}" stageDateTimeStamp="{OFFSET 2026-10-03T12:34:56+02:00}">
+  <CraftingInfo NonBiblicalStory="false">
+    <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001"></StoryCrafter>
+  </CraftingInfo>
+  <Verses>
+    <Verse guid="00000000-0000-0000-0000-generated-first" first="true" />
+    <Verse guid="00000000-0000-0000-0000-000000000120">
+      <StoryLine lang="Vernacular">dup guid line</StoryLine>
+    </Verse>
+  </Verses>
+</story>
+== story 3
+Name: [Story Minimal]
+TasksAllowedPf: VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers
+TasksRequiredPf: Anchors
+TasksAllowedCit: SendToProjectFacilitatorForRevision, SendToCoachForReview
+TasksRequiredCit: None
+CountRetellingsTests: 0
+CountTestingQuestionTests: 0
+IsBiblicalStory: True
+StageTimeStamp: timeStamp="{NOW}" kind=Local
+guid: [00000000-0000-0000-0000-000000000103]
+GetXml:
+<story name="Story Minimal" stage="ProjFacTypeVernacular" TasksAllowedPf="VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers" TasksRequiredPf="Anchors" TasksAllowedCit="SendToProjectFacilitatorForRevision, SendToCoachForReview" TasksRequiredCit="None" CountRetellingsTests="0" CountTestingQuestionTests="0" guid="00000000-0000-0000-0000-000000000103" stageDateTimeStamp="{NOW}">
+  <CraftingInfo NonBiblicalStory="false">
+    <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001"></StoryCrafter>
+  </CraftingInfo>
+</story>

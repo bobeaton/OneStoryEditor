@@ -1,0 +1,13 @@
+Count: 5
+Keys: [Full Crafter|The PF|The CIT|The Coach|Browser Only]
+HasOutsideEnglishBTer: True
+HasLanguageSpecialtyReviewer: True
+HasIndependentConsultant: False
+GetXml:
+<Members HasOutsideEnglishBTer="true" HasFirstPassMentor="true" HasIndependentConsultant="false">
+  <Member name="Full Crafter" memberType="Crafter" email="crafter@example.org" altPhone="555-0002" phone="555-0001" bioData="bio line 1&#xA;bio line 2" skypeID="crafter.skype" teamViewerID="123 456 789" OverrideVernacularKeyboard="Keyman Vern" OverrideNationalBTKeyboard="Keyman Nat" OverrideInternationalBTKeyboard="Keyman Intl" OverrideFreeTranslationKeyboard="Keyman Free" OverrideFontNameVernacular="Charis SIL" OverrideFontSizeVernacular="14.5" OverrideRtlVernacular="true" OverrideFontNameNationalBT="Andika" OverrideFontSizeNationalBT="11" OverrideFontNameInternationalBT="Calibri" OverrideFontSizeInternationalBT="10.25" OverrideRtlInternationalBT="true" OverrideFontNameFreeTranslation="Gentium" OverrideFontSizeFreeTranslation="9" HgUsername="hguser" HgPassword="YMvxKu8EZfg=" TransliteratorVernacular="Vern Translit" TransliteratorDirectionForwardVernacular="true" TransliteratorNationalBT="Nat Translit" TransliteratorDirectionForwardNationalBT="false" TransliteratorInternationalBT="Intl Translit" TransliteratorDirectionForwardInternationalBT="true" TransliteratorFreeTranslation="Free Translit" TransliteratorDirectionForwardFreeTranslation="false" memberKey="mem-00000000-0000-0000-0000-000000000001" />
+  <Member name="The PF" memberType="ProjectFacilitator" memberKey="mem-00000000-0000-0000-0000-000000000002" DefaultTasksAllowed="VernacularLangFields, Anchors" DefaultTasksRequired="None" />
+  <Member name="The CIT" memberType="ConsultantInTraining" email="cit@example.org" memberKey="mem-00000000-0000-0000-0000-000000000003" DefaultTasksAllowed="SendToCoachForReview" DefaultTasksRequired="None" />
+  <Member name="The Coach" memberType="Coach" memberKey="mem-00000000-0000-0000-0000-000000000004" />
+  <Member name="Browser Only" memberType="JustLooking" memberKey="mem-00000000-0000-0000-0000-000000000005" />
+</Members>

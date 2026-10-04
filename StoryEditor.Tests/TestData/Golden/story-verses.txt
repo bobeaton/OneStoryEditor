@@ -1,0 +1,89 @@
+== story 0
+Count: 2
+FirstVerse IsFirstVerse: True
+FirstVerse guid: [00000000-0000-0000-0000-000000000110]
+FirstVerse GetXml:
+<Verse guid="00000000-0000-0000-0000-000000000110" first="true">
+  <StoryLine lang="Vernacular">global line</StoryLine>
+  <ConsultantNotes>
+    <ConsultantConversation guid="00000000-0000-0000-0000-000000000111">
+      <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000112" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">global note</ConsultantNote>
+    </ConsultantConversation>
+  </ConsultantNotes>
+</Verse>
+verse 0 guid: [00000000-0000-0000-0000-000000000113]
+verse 0 IsVisible: True
+verse 0 GetXml:
+<Verse guid="00000000-0000-0000-0000-000000000113">
+  <StoryLine lang="Vernacular">first real line</StoryLine>
+  <StoryLine lang="NationalBt">national bt</StoryLine>
+  <StoryLine lang="InternationalBt">english bt</StoryLine>
+  <StoryLine lang="FreeTranslation">free translation</StoryLine>
+  <Anchors keyTermChecked="true">
+    <Anchor jumpTarget="GEN 1:1">anchor text</Anchor>
+  </Anchors>
+</Verse>
+verse 1 guid: [00000000-0000-0000-0000-000000000114]
+verse 1 IsVisible: False
+verse 1 GetXml:
+<Verse guid="00000000-0000-0000-0000-000000000114" visible="false">
+  <StoryLine lang="Vernacular">stray first-flag line</StoryLine>
+</Verse>
+HasData: True
+GetXml:
+<Verses>
+  <Verse guid="00000000-0000-0000-0000-000000000110" first="true">
+    <StoryLine lang="Vernacular">global line</StoryLine>
+    <ConsultantNotes>
+      <ConsultantConversation guid="00000000-0000-0000-0000-000000000111">
+        <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000112" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">global note</ConsultantNote>
+      </ConsultantConversation>
+    </ConsultantNotes>
+  </Verse>
+  <Verse guid="00000000-0000-0000-0000-000000000113">
+    <StoryLine lang="Vernacular">first real line</StoryLine>
+    <StoryLine lang="NationalBt">national bt</StoryLine>
+    <StoryLine lang="InternationalBt">english bt</StoryLine>
+    <StoryLine lang="FreeTranslation">free translation</StoryLine>
+    <Anchors keyTermChecked="true">
+      <Anchor jumpTarget="GEN 1:1">anchor text</Anchor>
+    </Anchors>
+  </Verse>
+  <Verse guid="00000000-0000-0000-0000-000000000114" visible="false">
+    <StoryLine lang="Vernacular">stray first-flag line</StoryLine>
+  </Verse>
+</Verses>
+== story 1
+Count: 0
+FirstVerse IsFirstVerse: True
+FirstVerse guid: [00000000-0000-0000-0000-generated-first]
+FirstVerse GetXml:
+<Verse guid="00000000-0000-0000-0000-generated-first" first="true" />
+HasData: False
+== story 2
+Count: 1
+FirstVerse IsFirstVerse: True
+FirstVerse guid: [00000000-0000-0000-0000-generated-first]
+FirstVerse GetXml:
+<Verse guid="00000000-0000-0000-0000-generated-first" first="true" />
+verse 0 guid: [00000000-0000-0000-0000-000000000120]
+verse 0 IsVisible: True
+verse 0 GetXml:
+<Verse guid="00000000-0000-0000-0000-000000000120">
+  <StoryLine lang="Vernacular">dup guid line</StoryLine>
+</Verse>
+HasData: True
+GetXml:
+<Verses>
+  <Verse guid="00000000-0000-0000-0000-generated-first" first="true" />
+  <Verse guid="00000000-0000-0000-0000-000000000120">
+    <StoryLine lang="Vernacular">dup guid line</StoryLine>
+  </Verse>
+</Verses>
+== story 3
+Count: 0
+FirstVerse IsFirstVerse: True
+FirstVerse guid: [00000000-0000-0000-0000-generated-first]
+FirstVerse GetXml:
+<Verse guid="00000000-0000-0000-0000-generated-first" first="true" />
+HasData: False

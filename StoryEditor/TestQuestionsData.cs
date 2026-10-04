@@ -15,22 +15,6 @@ namespace OneStoryProjectEditor
         public LineData TestQuestionLine;
         public AnswersData Answers;
 
-        public TestQuestionData(NewDataSet.TestQuestionRow theTestQuestionRow, NewDataSet projFile)
-        {
-            guid = theTestQuestionRow.guid;
-            IsVisible = theTestQuestionRow.visible;
-
-            TestQuestionLine = new LineData(StoryEditor.TextFields.TestQuestion);
-            foreach (NewDataSet.TestQuestionLineRow aTqLine in theTestQuestionRow.GetTestQuestionLineRows())
-                TestQuestionLine.SetValue(aTqLine.lang,
-                                          (aTqLine.IsTestQuestionLine_textNull())
-                                              ? null
-                                              : aTqLine.TestQuestionLine_text);
-
-            Answers = new AnswersData(theTestQuestionRow, projFile);
-        }
-
-        // mirrors TestQuestionData(NewDataSet.TestQuestionRow, NewDataSet)
         public TestQuestionData(XElement elemTestQuestion)
         {
             guid = XmlRead.RequiredAttr(elemTestQuestion, CstrAttributeGuid);
@@ -48,16 +32,6 @@ namespace OneStoryProjectEditor
                                           XmlRead.Text(elemTqLine));
 
             Answers = new AnswersData(elemTestQuestion);
-        }
-
-        public TestQuestionData(XmlNode node)
-        {
-            guid = node.Attributes[CstrAttributeGuid].Value;
-
-            XmlAttribute attr;
-            IsVisible = ((attr = node.Attributes[CstrAttributeVisible]) != null) ? (attr.Value == "true") : true;
-            TestQuestionLine = new LineData(node, CstrElementLabelTestQuestionLine, StoryEditor.TextFields.TestQuestion);
-            Answers = new AnswersData(node.SelectSingleNode(AnswersData.CstrElementLableAnswers));
         }
 
         public TestQuestionData(TestQuestionData rhs)
@@ -405,20 +379,6 @@ namespace OneStoryProjectEditor
 
     public class TestQuestionsData : List<TestQuestionData>
     {
-        public TestQuestionsData(NewDataSet.VerseRow theVerseRow, NewDataSet projFile)
-        {
-            NewDataSet.TestQuestionsRow[] theTestQuestionsRows = theVerseRow.GetTestQuestionsRows();
-            NewDataSet.TestQuestionsRow theTestQuestionsRow;
-            if (theTestQuestionsRows.Length == 0)
-                theTestQuestionsRow = projFile.TestQuestions.AddTestQuestionsRow(theVerseRow);
-            else
-                theTestQuestionsRow = theTestQuestionsRows[0];
-
-            foreach (NewDataSet.TestQuestionRow aTestingQuestionRow in theTestQuestionsRow.GetTestQuestionRows())
-                Add(new TestQuestionData(aTestingQuestionRow, projFile));
-        }
-
-        // mirrors TestQuestionsData(NewDataSet.VerseRow, NewDataSet); an absent <TestQuestions> is the row path's added empty container
         public TestQuestionsData(XElement elemVerse)
         {
             var elemTestQuestions = XmlRead.First(elemVerse, CstrElementLabelTestQuestions);
@@ -427,19 +387,6 @@ namespace OneStoryProjectEditor
 
             foreach (var elemTestQuestion in XmlRead.Children(elemTestQuestions, TestQuestionData.CstrElementLabelTestQuestion))
                 Add(new TestQuestionData(elemTestQuestion));
-        }
-
-        public TestQuestionsData(XmlNode node)
-        {
-            if (node == null)
-                return;
-
-            XmlNodeList list = node.SelectNodes(TestQuestionData.CstrElementLabelTestQuestion);
-            if (list == null)
-                return;
-
-            foreach (XmlNode nodeTQ in list)
-                Add(new TestQuestionData(nodeTQ));
         }
 
         public TestQuestionsData(TestQuestionsData rhs)
