@@ -183,6 +183,10 @@
     <None Update="BiblicalTerms\**;LocData\**;SWORD\**;Toolbox\**;html\**;js\**;LanguageCodes.tab;StageTransitions.xml;StageTransitionsId.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <!-- The SDK names embedded .resx resources after the file, but a form's InitializeComponent looks them
+         up by class name. HtmlDisplayForm.resx belongs to class RevisionHistoryForm, so name it explicitly
+         (otherwise MissingManifestResourceException when the form is created). -->
+    <EmbeddedResource Update="HtmlDisplayForm.resx" LogicalName="OneStoryProjectEditor.RevisionHistoryForm.resources" />
   </ItemGroup>
   <!-- 16 files (ProjectSettingsForm, ConsultNotesDataConverter, StorySettings, GeckoTestForm, BiblicalTerms,
        EditBiblicalTermForm, SelectKeyTerms, BiblicalKeyTermsForm, KeyTermsSearchForm, SelectTermsListForm,
