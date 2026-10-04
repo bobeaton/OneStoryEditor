@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
@@ -19,18 +17,14 @@ namespace OneStoryProjectEditor
         public const string CstrDocIdToken = "__OSE_DOC_ID__";
 
         private readonly WebBrowser _browser;
-        private readonly List<HtmlMessage> _pendingPosts = new List<HtmlMessage>();
-        private readonly HashSet<int> _awaitedRids = new HashSet<int>();
-        private readonly Dictionary<int, HtmlMessage> _replies = new Dictionary<int, HtmlMessage>();
+        private readonly HtmlMessageChannel _channel;
         private readonly System.Windows.Forms.Timer _loadWatchdog;
         private bool _bLoading;
         private bool _bLoadDeferred;
         private bool _bLoadCompleted;           // the in-flight load's DocumentCompleted has come
         private bool _bExpectStaleCompletion;   // a load ended by its 'ready' before its DocumentCompleted came
         private bool _bDisposed;
-        private int _nDocId;
         private int _nLoadingDocId;             // the doc id of the load in flight
-        private int _nLastRid;
 
         public IeHtmlHost(HtmlHostOptions options)
         {
@@ -42,6 +36,9 @@ namespace OneStoryProjectEditor
                 ObjectForScripting = new ScriptingBridge(this)
             };
             _browser.DocumentCompleted += OnDocumentCompleted;
+            _channel = new HtmlMessageChannel(SendJson, () => !_bDisposed && !_browser.IsDisposed, "IeHtmlHost");
+            _channel.MessageReceived += (s, m) => MessageReceived?.Invoke(this, m);
+            _channel.DocumentReady += (s, e) => DocumentReady?.Invoke(this, EventArgs.Empty);
             // generous: a big story's page can take seconds to load, and a deferred load mustn't start in the middle
             //  of one. (The load normally ends long before this, on DocumentCompleted or the page's 'ready'.)
             _loadWatchdog = new System.Windows.Forms.Timer { Interval = 15000 };
@@ -49,16 +46,16 @@ namespace OneStoryProjectEditor
         }
 
         public Control Control => _browser;
-        public bool IsReady { get; private set; }
+        public bool IsReady => _channel.IsReady;
         public string LoadedHtml { get; private set; }
         public event EventHandler<HtmlMessage> MessageReceived;
         public event EventHandler DocumentReady;
+        public HtmlEngine Engine => HtmlEngine.Ie;
+        public event EventHandler EngineChanged { add { } remove { } }   // never raised: IE is the last resort
 
         public void LoadHtml(string strHtml)
         {
-            _nDocId++;
-            IsReady = false;
-            _pendingPosts.Clear();
+            _channel.BeginDocument();
             LoadedHtml = strHtml ?? String.Empty;
 
             // WebBrowser.DocumentText navigates to about:blank and then streams the text in; a second DocumentText set
@@ -79,12 +76,12 @@ namespace OneStoryProjectEditor
             _bLoading = true;
             _bLoadDeferred = false;
             _bLoadCompleted = false;
-            _nLoadingDocId = _nDocId;
+            _nLoadingDocId = _channel.DocId;
             _loadWatchdog.Stop();
             _loadWatchdog.Start();
             // the page renders in whatever document mode its own markup gives it (the pane pages: quirks mode, as they
             //  always have; their scripts, bridge.js included, work there)
-            _browser.DocumentText = LoadedHtml.Replace(CstrDocIdToken, _nDocId.ToString(CultureInfo.InvariantCulture));
+            _browser.DocumentText = LoadedHtml.Replace(CstrDocIdToken, _channel.DocIdText);
         }
 
         private void OnDocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -136,50 +133,13 @@ namespace OneStoryProjectEditor
 
         public void Post(string strType, object payload = null)
         {
-            var msg = HtmlMessage.Create(strType, payload);
-            if (!IsReady)
-                _pendingPosts.Add(msg);
-            else
-                Send(msg);
+            _channel.Post(HtmlMessage.Create(strType, payload));
         }
 
         public HtmlMessage Request(string strType, object payload, TimeSpan timeout)
         {
-            if (!IsReady || _bDisposed || _browser.IsDisposed)
-                return null;
-
-            var nRid = ++_nLastRid;
-            _awaitedRids.Add(nRid);
-            try
-            {
-                Send(HtmlMessage.Create(strType, payload).WithRid(nRid));
-                var sw = Stopwatch.StartNew();
-                while (true)
-                {
-                    if (_replies.TryGetValue(nRid, out var reply))
-                    {
-                        _replies.Remove(nRid);
-                        return reply;
-                    }
-                    if (sw.Elapsed >= timeout)
-                    {
-                        Debug.WriteLine($"IeHtmlHost: no reply to '{strType}' within {timeout.TotalMilliseconds} ms");
-                        return null;
-                    }
-                    Application.DoEvents();     // replies arrive through BeginInvoke, so let the queue run
-                    if (_bDisposed || _browser.IsDisposed)
-                    {
-                        Debug.WriteLine($"IeHtmlHost: disposed while waiting for a reply to '{strType}'");
-                        return null;            // (the pane closed during the pump: no reply can come now)
-                    }
-                    if (!_replies.ContainsKey(nRid))
-                        Thread.Sleep(1);
-                }
-            }
-            finally
-            {
-                _awaitedRids.Remove(nRid);
-            }
+            // replies arrive through BeginInvoke, so let the queue run while waiting
+            return _channel.Request(HtmlMessage.Create(strType, payload), timeout, Application.DoEvents);
         }
 
         public void ShowPrintPreview()
@@ -198,17 +158,16 @@ namespace OneStoryProjectEditor
             _browser.Dispose();
         }
 
-        private void Send(HtmlMessage msg)
+        // (the channel only calls this while we're alive)
+        private void SendJson(string strJson)
         {
-            if (_bDisposed || _browser.IsDisposed)
-                return;
             var doc = _browser.Document;
             if (doc == null)
             {
-                Debug.WriteLine("IeHtmlHost: no document; dropped " + msg);
+                Debug.WriteLine("IeHtmlHost: no document; dropped " + strJson);
                 return;
             }
-            doc.InvokeScript("oseReceive", new object[] { msg.ToJson() });
+            doc.InvokeScript("oseReceive", new object[] { strJson });
         }
 
         // called (on the UI thread) from inside the page's postMessage call (see bridge.js)
@@ -227,33 +186,12 @@ namespace OneStoryProjectEditor
 
         private void Deliver(HtmlMessage msg)
         {
-            switch (msg.Type)
-            {
-                case HtmlMessage.CstrTypeReply:
-                    var nRe = msg.ReplyTo;
-                    if (nRe.HasValue && _awaitedRids.Contains(nRe.Value))
-                        _replies[nRe.Value] = msg;
-                    return;     // late replies (after a timeout) are dropped
-
-                case HtmlMessage.CstrTypeReady:
-                    // (this may start a deferred load, in which case _nDocId is that one's and this ready is ignored)
-                    if (_bLoading && (msg.DocId == _nLoadingDocId.ToString(CultureInfo.InvariantCulture)))
-                        EndLoadWithoutCompletion();
-                    if (msg.DocId != _nDocId.ToString(CultureInfo.InvariantCulture))
-                        return; // an older document finished loading after LoadHtml was called again
-                    IsReady = true;
-                    var aPending = _pendingPosts.ToArray();
-                    _pendingPosts.Clear();
-                    foreach (var pending in aPending)
-                        Send(pending);
-                    DocumentReady?.Invoke(this, EventArgs.Empty);
-                    return;
-
-                case HtmlMessage.CstrTypeJsError:
-                    Debug.WriteLine($"IeHtmlHost: script error: {msg.GetString("message")} ({msg.GetString("source")}:{msg.Body["line"]})");
-                    break;      // also passed on, so tests (and panes) can see it
-            }
-            MessageReceived?.Invoke(this, msg);
+            // a 'ready' for the load in flight ends that load, even if it's no longer the current document
+            //  (this may start a deferred load, in which case the channel's doc id is that one's and this ready is ignored)
+            if ((msg.Type == HtmlMessage.CstrTypeReady) && _bLoading &&
+                (msg.DocId == _nLoadingDocId.ToString(CultureInfo.InvariantCulture)))
+                EndLoadWithoutCompletion();
+            _channel.Deliver(msg);
         }
 
         // IE reads FEATURE_BROWSER_EMULATION for the exe when the first WebBrowser is created in the process

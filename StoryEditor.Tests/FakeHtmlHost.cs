@@ -19,6 +19,10 @@ namespace OneStoryProjectEditor.Tests
         public int PrintPreviewCount { get; private set; }
         public event EventHandler<HtmlMessage> MessageReceived;
         public event EventHandler DocumentReady;
+        public HtmlEngine Engine { get; set; } = HtmlEngine.Ie;
+        public event EventHandler EngineChanged;
+
+        public void RaiseEngineChanged() => EngineChanged?.Invoke(this, EventArgs.Empty);
 
         public void LoadHtml(string strHtml)
         {

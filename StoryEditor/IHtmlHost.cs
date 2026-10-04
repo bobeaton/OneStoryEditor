@@ -18,12 +18,27 @@ namespace OneStoryProjectEditor
         event EventHandler<HtmlMessage> MessageReceived; // JS -> C#, raised on the UI thread
         event EventHandler DocumentReady;
         void ShowPrintPreview();
+        HtmlEngine Engine { get; }                       // which script set its pages need (see PageScripts.For)
+        event EventHandler EngineChanged;                // the host switched engines (FallbackHtmlHost): rebuild the page
+    }
+
+    public enum HtmlEngine
+    {
+        Ie,
+        WebView2
+    }
+
+    // a host that can fail after it's been created (WebView2: start-up or browser-process failure)
+    public interface IFailingHtmlHost
+    {
+        event EventHandler<Exception> Failed;
     }
 
     public class HtmlHostOptions
     {
         public bool AllowBrowserContextMenu { get; set; }   // IE's own right-click menu
         public bool AllowFileDrop { get; set; }             // dropping a file onto the browser navigates to it
+        public string UserDataFolder { get; set; }          // WebView2 only; null = WebView2HtmlHost.DefaultUserDataFolder
     }
 
     public static class HtmlHostDefaults
