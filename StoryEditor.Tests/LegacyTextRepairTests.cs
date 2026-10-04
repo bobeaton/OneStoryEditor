@@ -12,9 +12,12 @@ namespace OneStoryProjectEditor.Tests
         private static string FixturePath =>
             Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "minimal-1.8.onestory");
 
+        // (the no-break space is written as an escape so it can't be mistaken for an ordinary space)
+        private const string Nbsp = "\x00A0";
+
         [TestCase("[B&amp;B]", "[B&B]")]
         [TestCase("snake &amp; lady", "snake & lady")]
-        [TestCase("kata&nbsp;Tuhan", "kata\u00A0Tuhan")]
+        [TestCase("kata&nbsp;Tuhan", "kata" + Nbsp + "Tuhan")]
         [TestCase("&lt;OseStoryToCopy&gt;", "<OseStoryToCopy>")]
         [TestCase("&quot;q&quot; &#39;s&#39; &#x41;", "\"q\" 's' A")]
         [TestCase("<donkey bray>", "<donkey bray>")]
@@ -60,7 +63,7 @@ namespace OneStoryProjectEditor.Tests
 
             Assert.That(nChanged, Is.EqualTo(2));
             Assert.That(XmlRead.Text(root.Descendants("StoryLine").Single()),
-                        Is.EqualTo("dengan [B&B] kata Tuhan <donkey bray> B&B;"));
+                        Is.EqualTo("dengan [B&B] kata" + Nbsp + "Tuhan <donkey bray> B&B;"));
             Assert.That(XmlRead.Text(root.Descendants("TestQuestionLine").Single()),
                         Is.EqualTo("snake & lady?"));
             Assert.That(XmlRead.Text(root.Descendants("ConsultantNote").Single()),

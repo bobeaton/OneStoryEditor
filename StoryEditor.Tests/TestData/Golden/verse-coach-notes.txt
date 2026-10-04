@@ -33,12 +33,12 @@ conversation 0 comment 1 Guid: [00000000-0000-0000-0000-000000000073]
 conversation 0 comment 1 MemberId: [mem-00000000-0000-0000-0000-000000000001]
 conversation 0 comment 1 Value: [consultant asks]
 conversation 0 comment 1 WhichField: CoachNote
-conversation 0 comment 1 TimeStamp: timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}" kind=Local
+conversation 0 comment 1 TimeStamp: timeStamp="{OFFSET 2026-10-03T12:34:57+02:00}" kind=Local
 conversation 0 GetXml:
 <CoachConversation guid="00000000-0000-0000-0000-000000000070" visible="false" finished="true">
   <CoachNote Direction="ReferringToText" guid="00000000-0000-0000-0000-000000000071" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">coach referring</CoachNote>
   <CoachNote Direction="CoachToConsultant" guid="00000000-0000-0000-0000-000000000072" timeStamp="2026-10-03T12:34:56Z">coach mentor note without member</CoachNote>
-  <CoachNote Direction="ConsultantToCoach" guid="00000000-0000-0000-0000-000000000073" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}">consultant asks</CoachNote>
+  <CoachNote Direction="ConsultantToCoach" guid="00000000-0000-0000-0000-000000000073" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{OFFSET 2026-10-03T12:34:57+02:00}">consultant asks</CoachNote>
 </CoachConversation>
 conversation 1 guid: [00000000-0000-0000-0000-000000000074]
 conversation 1 Visible: True
@@ -62,7 +62,7 @@ GetXml:
   <CoachConversation guid="00000000-0000-0000-0000-000000000070" visible="false" finished="true">
     <CoachNote Direction="ReferringToText" guid="00000000-0000-0000-0000-000000000071" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">coach referring</CoachNote>
     <CoachNote Direction="CoachToConsultant" guid="00000000-0000-0000-0000-000000000072" timeStamp="2026-10-03T12:34:56Z">coach mentor note without member</CoachNote>
-    <CoachNote Direction="ConsultantToCoach" guid="00000000-0000-0000-0000-000000000073" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}">consultant asks</CoachNote>
+    <CoachNote Direction="ConsultantToCoach" guid="00000000-0000-0000-0000-000000000073" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{OFFSET 2026-10-03T12:34:57+02:00}">consultant asks</CoachNote>
   </CoachConversation>
   <CoachConversation guid="00000000-0000-0000-0000-000000000074">
     <CoachNote Direction="StickyNote" guid="00000000-0000-0000-0000-000000000075" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{NOW}">coach sticky</CoachNote>

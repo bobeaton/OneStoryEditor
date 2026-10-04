@@ -36,7 +36,7 @@ second line</TestRetelling>
   </CraftingInfo>
   <TransitionHistory>
     <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" FromState="ProjFacTypeVernacular" ToState="ProjFacTypeInternationalBT" TransitionDateTime="2026-10-03T12:34:56Z" WindowsUserName="tester" />
-    <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" FromState="ProjFacTypeInternationalBT" ToState="ProjFacTypeVernacular" TransitionDateTime="{OFFSET 2026-10-03T13:00:00+02:00}" />
+    <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" FromState="ProjFacTypeInternationalBT" ToState="ProjFacTypeVernacular" TransitionDateTime="{OFFSET 2026-10-03T13:00:58+02:00}" />
     <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" FromState="ProjFacTypeVernacular" ToState="ProjFacTypeInternationalBT" TransitionDateTime="2026-10-03T14:00:00Z" WindowsUserName="tester" />
   </TransitionHistory>
   <Verses>
@@ -88,10 +88,10 @@ TasksRequiredCit: None
 CountRetellingsTests: 0
 CountTestingQuestionTests: 0
 IsBiblicalStory: True
-StageTimeStamp: timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}" kind=Local
+StageTimeStamp: timeStamp="{OFFSET 2026-10-03T12:34:57+02:00}" kind=Local
 guid: [{REPLACED}]
 GetXml:
-<story name="Story Duplicate Guid" stage="ProjFacTypeVernacular" TasksAllowedPf="VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers" TasksRequiredPf="Anchors" TasksAllowedCit="SendToProjectFacilitatorForRevision, SendToCoachForReview" TasksRequiredCit="None" CountRetellingsTests="0" CountTestingQuestionTests="0" guid="{REPLACED}" stageDateTimeStamp="{OFFSET 2026-10-03T12:34:56+02:00}">
+<story name="Story Duplicate Guid" stage="ProjFacTypeVernacular" TasksAllowedPf="VernacularLangFields, NationalBtLangFields, InternationalBtFields, FreeTranslationFields, Anchors, Retellings, TestQuestions, Answers" TasksRequiredPf="Anchors" TasksAllowedCit="SendToProjectFacilitatorForRevision, SendToCoachForReview" TasksRequiredCit="None" CountRetellingsTests="0" CountTestingQuestionTests="0" guid="{REPLACED}" stageDateTimeStamp="{OFFSET 2026-10-03T12:34:57+02:00}">
   <CraftingInfo NonBiblicalStory="false">
     <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001"></StoryCrafter>
   </CraftingInfo>

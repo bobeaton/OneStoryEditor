@@ -366,7 +366,8 @@ namespace OneStoryProjectEditor
                 LangType = (string)elemLanguageInfo.Attribute(CstrAttributeLang);
                 LangName = (string)elemLanguageInfo.Attribute(CstrAttributeName);
                 LangCode = (string)elemLanguageInfo.Attribute(CstrAttributeCode);
-                DefaultFontName = (string)elemLanguageInfo.Attribute(CstrAttributeFontName);
+                // a missing FontName gets the same default font the project settings start with (Font can't take null)
+                DefaultFontName = (string)elemLanguageInfo.Attribute(CstrAttributeFontName) ?? "Arial Unicode MS";
                 DefaultFontSize = XmlRead.Float(elemLanguageInfo, CstrAttributeFontSize) ?? 12;
                 FontToUse = new Font(DefaultFontName, DefaultFontSize);
                 var strFontColor = (string)elemLanguageInfo.Attribute(CstrAttributeFontColor);

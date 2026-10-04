@@ -15,7 +15,7 @@
       <TransitionHistory>
         <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" WindowsUserName="tester" FromState="ProjFacTypeVernacular" ToState="ProjFacTypeInternationalBT" TransitionDateTime="2026-10-03T12:34:56Z" />
         <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" WindowsUserName="tester" FromState="ProjFacTypeInternationalBT" ToState="ProjFacTypeVernacular" TransitionDateTime="2026-10-03T12:34:56" />
-        <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" WindowsUserName="tester" FromState="ProjFacTypeVernacular" ToState="ProjFacTypeInternationalBT" TransitionDateTime="2026-10-03T12:34:56+02:00" />
+        <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" WindowsUserName="tester" FromState="ProjFacTypeVernacular" ToState="ProjFacTypeInternationalBT" TransitionDateTime="2026-10-03T12:34:57+02:00" />
       </TransitionHistory>
       <Verses>
         <Verse guid="00000000-0000-0000-0000-000000000020">
@@ -29,7 +29,7 @@
             <ConsultantConversation guid="00000000-0000-0000-0000-000000000040">
               <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000041" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">note Z</ConsultantNote>
               <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000042" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56">note local</ConsultantNote>
-              <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000043" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56+02:00">note offset</ConsultantNote>
+              <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000043" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:57+02:00">note offset</ConsultantNote>
               <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000044" memberID="mem-00000000-0000-0000-0000-000000000001">no timestamp</ConsultantNote>
             </ConsultantConversation>
           </ConsultantNotes>
@@ -51,7 +51,7 @@
         </Verse>
       </Verses>
     </story>
-    <story name="Story Offset" stage="ProjFacTypeVernacular" guid="00000000-0000-0000-0000-000000000012" stageDateTimeStamp="2026-10-03T12:34:56+02:00">
+    <story name="Story Offset" stage="ProjFacTypeVernacular" guid="00000000-0000-0000-0000-000000000012" stageDateTimeStamp="2026-10-03T12:34:57+02:00">
       <CraftingInfo NonBiblicalStory="false">
         <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001" />
       </CraftingInfo>
@@ -115,7 +115,7 @@
             <ConsultantConversation guid="00000000-0000-0000-0000-000000000060" visible="false" finished="true">
               <ConsultantNote Direction="ReferringToText" guid="00000000-0000-0000-0000-000000000061" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">referring text</ConsultantNote>
               <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000062" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">consultant says</ConsultantNote>
-              <ConsultantNote Direction="ProjFacToConsultant" guid="00000000-0000-0000-0000-000000000063" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56+02:00">pf replies</ConsultantNote>
+              <ConsultantNote Direction="ProjFacToConsultant" guid="00000000-0000-0000-0000-000000000063" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:57+02:00">pf replies</ConsultantNote>
             </ConsultantConversation>
             <ConsultantConversation guid="00000000-0000-0000-0000-000000000064" visible="true">
               <ConsultantNote Direction="StickyNote" guid="00000000-0000-0000-0000-000000000065" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56">sticky</ConsultantNote>
@@ -129,7 +129,7 @@
             <CoachConversation guid="00000000-0000-0000-0000-000000000070" visible="false" finished="true">
               <CoachNote Direction="ReferringToText" guid="00000000-0000-0000-0000-000000000071" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">coach referring</CoachNote>
               <CoachNote Direction="CoachToConsultant" guid="00000000-0000-0000-0000-000000000072" timeStamp="2026-10-03T12:34:56Z">coach mentor note without member</CoachNote>
-              <CoachNote Direction="ConsultantToCoach" guid="00000000-0000-0000-0000-000000000073" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56+02:00">consultant asks</CoachNote>
+              <CoachNote Direction="ConsultantToCoach" guid="00000000-0000-0000-0000-000000000073" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:57+02:00">consultant asks</CoachNote>
             </CoachConversation>
             <CoachConversation guid="00000000-0000-0000-0000-000000000074">
               <CoachNote Direction="StickyNote" guid="00000000-0000-0000-0000-000000000075" memberID="mem-00000000-0000-0000-0000-000000000001">coach sticky</CoachNote>

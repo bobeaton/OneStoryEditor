@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -12,44 +13,92 @@ namespace OneStoryProjectEditor.Tests
     /// Golden-file comparison for what the XElement loader builds from the characterization fixtures. The golden
     /// files (TestData/Golden/*.txt) hold what the old DataSet row constructors produced for the same fixtures (the
     /// oracle tests that compared the two passed before the row constructors were deleted); to regenerate after a
-    /// deliberate change, run the tests with the environment variable OSE_UPDATE_GOLDEN=1 and review the diff.
+    /// deliberate change, run the tests with the environment variable OSE_UPDATE_GOLDEN=1 (each regenerating test then
+    /// reports Inconclusive, so a leftover variable is noticed) and review the diff.
     ///
-    /// Two kinds of text are normalized so a golden file doesn't depend on the machine or the clock:
-    ///  - a timestamp written within a few minutes of now (the loader's "no timestamp means now") becomes {NOW};
-    ///  - a timestamp that came from a date with an explicit UTC offset in a fixture is, by the loader's rule,
-    ///    converted to the machine's local time, so it is written as {OFFSET input} (the value is computed here from the
-    ///    same rule, independently of the loader, which is what makes the file machine-independent).
+    /// Two kinds of timestamp text are normalized so a golden file depends neither on the machine's time zone nor on the clock:
+    ///
+    ///  1. A fixture date with an explicit UTC offset ("2026-10-03T12:34:57+02:00") is loaded as the machine's LOCAL
+    ///     clock reading and the loader then treats that reading as UTC when it calls ToLocalTime, so what GetXml
+    ///     writes is (UTC instant + the machine's offset), written as a plain "...Z" string: a different value in every
+    ///     time zone, and in some zone equal to a Z or zone-less literal in a fixture. What is zone-independent is the
+    ///     SECONDS: no zone offset has a seconds part, so they survive every conversion (including zones with :30 and
+    ///     :45 minute offsets). The fixtures therefore give offset-form dates seconds that no Z or zone-less fixture
+    ///     date uses (:57 and :58). Any written timestamp ending in :57Z / :58Z is normalized to {OFFSET <source text>}.
+    ///  2. A timestamp that defaults to DateTime.Now when the fixture has none (only story stageDateTimeStamp and a
+    ///     comment's timeStamp do; Dump writes those as timeStamp=) becomes {NOW} when it is within two minutes of now,
+    ///     unless it is exactly a literal that appears in a fixture file (so a fixture literal can never become {NOW}).
+    ///     Residual risk, accepted: an offset-derived value is also within two minutes of now only when the clock is
+    ///     near the fixture's own 2026-10-0x time of day on those dates.
     /// </summary>
     internal static class Golden
     {
-        // the dates with an explicit offset that the fixtures contain
-        private static readonly string[] OffsetInputs = { "2026-10-03T12:34:56+02:00", "2026-10-03T13:00:00+02:00" };
+        // seconds of the offset-form fixture dates -> the fixture text they came from
+        private static readonly Dictionary<string, string> OffsetSources = new Dictionary<string, string>
+        {
+            { "57", "2026-10-03T12:34:57+02:00" },
+            { "58", "2026-10-03T13:00:58+02:00" },
+        };
 
-        private static readonly Regex RegexTimeStamp =
-            new Regex("(\\w*(?:imeStamp|DateTime))=\"([^\"]+)\"", RegexOptions.Compiled);
+        // attributes (as Dump and GetXml write them) that default to DateTime.Now when the source has no value
+        private static readonly HashSet<string> DefaultsToNow = new HashSet<string> { "timeStamp", "stageDateTimeStamp" };
 
-        internal static string Normalize(string str)
+        private static readonly Regex RegexTimestampAttribute =
+            new Regex("(\\w+)=\"(\\d{4}-\\d\\d-\\d\\dT[^\"]*)\"", RegexOptions.Compiled);
+
+        private static readonly Regex RegexOffsetDerived =
+            new Regex("^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:(57|58)Z$", RegexOptions.Compiled);
+
+        private static readonly Regex RegexFixtureLiteral =
+            new Regex("=\"(\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(?:\\.\\d+)?Z?)\"", RegexOptions.Compiled);
+
+        private static HashSet<string> _fixtureLiterals;
+
+        // the clock readings of every Z or zone-less timestamp in the fixture files, as GetXml would write them
+        internal static HashSet<string> FixtureLiterals()
+        {
+            if (_fixtureLiterals != null)
+                return _fixtureLiterals;
+
+            var set = new HashSet<string>();
+            var strDir = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData");
+            if (Directory.Exists(strDir))
+                foreach (var strFile in Directory.GetFiles(strDir, "*.onestory"))
+                    foreach (Match m in RegexFixtureLiteral.Matches(File.ReadAllText(strFile)))
+                    {
+                        DateTime dt;
+                        if (DateTime.TryParse(m.Groups[1].Value, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
+                            set.Add(WrittenForm(dt));
+                    }
+            return _fixtureLiterals = set;
+        }
+
+        // how GetXml writes a Z or zone-less clock reading
+        private static string WrittenForm(DateTime dt)
+        {
+            return DateTime.SpecifyKind(dt, DateTimeKind.Unspecified).ToString("yyyy-MM-dd'T'HH:mm:ss'Z'", CultureInfo.InvariantCulture);
+        }
+
+        internal static string Normalize(string str, ISet<string> fixtureLiterals = null)
         {
             str = str.Replace("\r\n", "\n");
+            var literals = fixtureLiterals ?? FixtureLiterals();
 
-            foreach (var strInput in OffsetInputs)
+            return RegexTimestampAttribute.Replace(str, m =>
             {
-                // a date with an explicit offset: the local clock reading (Kind Unspecified), which the loader then
-                //  treats as UTC when it calls ToLocalTime
-                var dtLocal = DateTime.SpecifyKind(
-                    DateTimeOffset.Parse(strInput, CultureInfo.InvariantCulture).LocalDateTime,
-                    DateTimeKind.Unspecified).ToLocalTime();
-                var strWritten = StoryData.ToUniversalTime(dtLocal);
-                str = str.Replace("\"" + strWritten + "\"", "\"{OFFSET " + strInput + "}\"");
-            }
+                var strAttribute = m.Groups[1].Value;
+                var strValue = m.Groups[2].Value;
 
-            return RegexTimeStamp.Replace(str, m =>
-            {
                 DateTime dt;
-                if (DateTime.TryParse(m.Groups[2].Value, CultureInfo.InvariantCulture,
-                                      DateTimeStyles.RoundtripKind, out dt) &&
-                    (Math.Abs((dt.ToUniversalTime() - DateTime.UtcNow).TotalMinutes) < 10))
-                    return m.Groups[1].Value + "=\"{NOW}\"";
+                if (DefaultsToNow.Contains(strAttribute) && !literals.Contains(strValue) &&
+                    DateTime.TryParse(strValue, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out dt) &&
+                    (Math.Abs((dt.ToUniversalTime() - DateTime.UtcNow).TotalMinutes) < 2))
+                    return strAttribute + "=\"{NOW}\"";
+
+                var mOffset = RegexOffsetDerived.Match(strValue);
+                if (mOffset.Success)
+                    return strAttribute + "=\"{OFFSET " + OffsetSources[mOffset.Groups[1].Value] + "}\"";
+
                 return m.Value;
             });
         }
@@ -64,7 +113,7 @@ namespace OneStoryProjectEditor.Tests
                 var strDir = Path.Combine(Path.GetDirectoryName(strCallerPath), "TestData", "Golden");
                 Directory.CreateDirectory(strDir);
                 File.WriteAllText(Path.Combine(strDir, strFileName), strNormalized, new UTF8Encoding(false));
-                return;
+                Assert.Inconclusive("golden regenerated: " + strFileName);
             }
 
             var strPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "Golden", strFileName);
@@ -82,6 +131,13 @@ namespace OneStoryProjectEditor.Tests
         public Dump Line(string strKey, object value)
         {
             _sb.Append(strKey).Append(": ").Append(Format(value)).Append('\n');
+            return this;
+        }
+
+        // a timestamp that defaults to DateTime.Now when the source has none (written as timeStamp=, which Golden may turn into {NOW})
+        public Dump DateMayDefaultToNow(string strKey, DateTime dt)
+        {
+            _sb.Append(strKey).Append(": timeStamp=\"").Append(StoryData.ToUniversalTime(dt)).Append("\" kind=").Append(dt.Kind).Append('\n');
             return this;
         }
 
@@ -108,7 +164,7 @@ namespace OneStoryProjectEditor.Tests
             if (value is DateTime)
             {
                 var dt = (DateTime)value;
-                return "timeStamp=\"" + StoryData.ToUniversalTime(dt) + "\" kind=" + dt.Kind;
+                return "stamp=\"" + StoryData.ToUniversalTime(dt) + "\" kind=" + dt.Kind;
             }
             return Convert.ToString(value, CultureInfo.InvariantCulture);
         }

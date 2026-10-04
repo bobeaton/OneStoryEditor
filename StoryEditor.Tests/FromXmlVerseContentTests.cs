@@ -320,7 +320,7 @@ namespace OneStoryProjectEditor.Tests
             }
             dump.Line(strWhat + " Direction", comment.Direction).Line(strWhat + " Guid", comment.Guid)
                 .Line(strWhat + " MemberId", comment.MemberId).Line(strWhat + " Value", comment.Value)
-                .Line(strWhat + " WhichField", comment.WhichField).Line(strWhat + " TimeStamp", comment.TimeStamp);
+                .Line(strWhat + " WhichField", comment.WhichField).DateMayDefaultToNow(strWhat + " TimeStamp", comment.TimeStamp);
         }
     }
 }

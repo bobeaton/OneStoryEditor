@@ -5,21 +5,21 @@ t0 LoggedInMemberId: [mem-00000000-0000-0000-0000-000000000001]
 t0 WindowsUserName: [tester]
 t0 FromState: eProjFacTypeVernacular
 t0 ToState: eProjFacTypeInternationalBT
-t0 TransitionDateTime: timeStamp="2026-10-03T12:34:56Z" kind=Local
+t0 TransitionDateTime: stamp="2026-10-03T12:34:56Z" kind=Local
 t1 LoggedInMemberId: [mem-00000000-0000-0000-0000-000000000001]
 t1 WindowsUserName: <null>
 t1 FromState: eProjFacTypeInternationalBT
 t1 ToState: eProjFacTypeVernacular
-t1 TransitionDateTime: timeStamp="{OFFSET 2026-10-03T13:00:00+02:00}" kind=Local
+t1 TransitionDateTime: stamp="{OFFSET 2026-10-03T13:00:58+02:00}" kind=Local
 t2 LoggedInMemberId: [mem-00000000-0000-0000-0000-000000000001]
 t2 WindowsUserName: [tester]
 t2 FromState: eProjFacTypeVernacular
 t2 ToState: eProjFacTypeInternationalBT
-t2 TransitionDateTime: timeStamp="2026-10-03T14:00:00Z" kind=Local
+t2 TransitionDateTime: stamp="2026-10-03T14:00:00Z" kind=Local
 GetXml:
 <TransitionHistory>
   <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" FromState="ProjFacTypeVernacular" ToState="ProjFacTypeInternationalBT" TransitionDateTime="2026-10-03T12:34:56Z" WindowsUserName="tester" />
-  <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" FromState="ProjFacTypeInternationalBT" ToState="ProjFacTypeVernacular" TransitionDateTime="{OFFSET 2026-10-03T13:00:00+02:00}" />
+  <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" FromState="ProjFacTypeInternationalBT" ToState="ProjFacTypeVernacular" TransitionDateTime="{OFFSET 2026-10-03T13:00:58+02:00}" />
   <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" FromState="ProjFacTypeVernacular" ToState="ProjFacTypeInternationalBT" TransitionDateTime="2026-10-03T14:00:00Z" WindowsUserName="tester" />
 </TransitionHistory>
 == story 1

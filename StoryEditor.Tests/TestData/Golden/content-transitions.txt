@@ -1,12 +1,12 @@
 == transition 0
-TransitionDateTime: timeStamp="2026-10-03T12:34:56Z" kind=Local
+TransitionDateTime: stamp="2026-10-03T12:34:56Z" kind=Local
 GetXml:
 <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" FromState="ProjFacTypeVernacular" ToState="ProjFacTypeInternationalBT" TransitionDateTime="2026-10-03T12:34:56Z" WindowsUserName="tester" />
 == transition 1
-TransitionDateTime: timeStamp="2026-10-03T12:34:56Z" kind=Local
+TransitionDateTime: stamp="2026-10-03T12:34:56Z" kind=Local
 GetXml:
 <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" FromState="ProjFacTypeInternationalBT" ToState="ProjFacTypeVernacular" TransitionDateTime="2026-10-03T12:34:56Z" WindowsUserName="tester" />
 == transition 2
-TransitionDateTime: timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}" kind=Local
+TransitionDateTime: stamp="{OFFSET 2026-10-03T12:34:57+02:00}" kind=Local
 GetXml:
-<StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" FromState="ProjFacTypeVernacular" ToState="ProjFacTypeInternationalBT" TransitionDateTime="{OFFSET 2026-10-03T12:34:56+02:00}" WindowsUserName="tester" />
+<StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" FromState="ProjFacTypeVernacular" ToState="ProjFacTypeInternationalBT" TransitionDateTime="{OFFSET 2026-10-03T12:34:57+02:00}" WindowsUserName="tester" />

@@ -322,7 +322,7 @@ namespace OneStoryProjectEditor.Tests
                 if (_storyElems[i].Attribute("stageDateTimeStamp") == null)
                     // no stamp: the loader uses DateTime.Now
                     Assert.That((newStory.StageTimeStamp - DateTime.Now).Duration(), Is.LessThan(TimeSpan.FromSeconds(30)));
-                dump.Line("StageTimeStamp", newStory.StageTimeStamp);
+                dump.DateMayDefaultToNow("StageTimeStamp", newStory.StageTimeStamp);
 
                 FixGeneratedFirstGuid(_storyElems[i], newStory.Verses);
                 if (i == 2)

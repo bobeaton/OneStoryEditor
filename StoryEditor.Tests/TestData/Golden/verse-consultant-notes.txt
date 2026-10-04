@@ -24,7 +24,7 @@ conversation 0 comment 2 Guid: [00000000-0000-0000-0000-000000000043]
 conversation 0 comment 2 MemberId: [mem-00000000-0000-0000-0000-000000000001]
 conversation 0 comment 2 Value: [note offset]
 conversation 0 comment 2 WhichField: ConsultantNote
-conversation 0 comment 2 TimeStamp: timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}" kind=Local
+conversation 0 comment 2 TimeStamp: timeStamp="{OFFSET 2026-10-03T12:34:57+02:00}" kind=Local
 conversation 0 comment 3 Direction: eConsultantToProjFac
 conversation 0 comment 3 Guid: [00000000-0000-0000-0000-000000000044]
 conversation 0 comment 3 MemberId: [mem-00000000-0000-0000-0000-000000000001]
@@ -35,7 +35,7 @@ conversation 0 GetXml:
 <ConsultantConversation guid="00000000-0000-0000-0000-000000000040">
   <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000041" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">note Z</ConsultantNote>
   <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000042" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">note local</ConsultantNote>
-  <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000043" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}">note offset</ConsultantNote>
+  <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000043" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{OFFSET 2026-10-03T12:34:57+02:00}">note offset</ConsultantNote>
   <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000044" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{NOW}">no timestamp</ConsultantNote>
 </ConsultantConversation>
 GetXml:
@@ -43,7 +43,7 @@ GetXml:
   <ConsultantConversation guid="00000000-0000-0000-0000-000000000040">
     <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000041" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">note Z</ConsultantNote>
     <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000042" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">note local</ConsultantNote>
-    <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000043" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}">note offset</ConsultantNote>
+    <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000043" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{OFFSET 2026-10-03T12:34:57+02:00}">note offset</ConsultantNote>
     <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000044" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{NOW}">no timestamp</ConsultantNote>
   </ConsultantConversation>
 </ConsultantNotes>
@@ -103,12 +103,12 @@ conversation 0 comment 1 Guid: [00000000-0000-0000-0000-000000000063]
 conversation 0 comment 1 MemberId: [mem-00000000-0000-0000-0000-000000000001]
 conversation 0 comment 1 Value: [pf replies]
 conversation 0 comment 1 WhichField: ConsultantNote
-conversation 0 comment 1 TimeStamp: timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}" kind=Local
+conversation 0 comment 1 TimeStamp: timeStamp="{OFFSET 2026-10-03T12:34:57+02:00}" kind=Local
 conversation 0 GetXml:
 <ConsultantConversation guid="00000000-0000-0000-0000-000000000060" visible="false" finished="true">
   <ConsultantNote Direction="ReferringToText" guid="00000000-0000-0000-0000-000000000061" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">referring text</ConsultantNote>
   <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000062" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">consultant says</ConsultantNote>
-  <ConsultantNote Direction="ProjFacToConsultant" guid="00000000-0000-0000-0000-000000000063" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}">pf replies</ConsultantNote>
+  <ConsultantNote Direction="ProjFacToConsultant" guid="00000000-0000-0000-0000-000000000063" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{OFFSET 2026-10-03T12:34:57+02:00}">pf replies</ConsultantNote>
 </ConsultantConversation>
 conversation 1 guid: [00000000-0000-0000-0000-000000000064]
 conversation 1 Visible: True
@@ -156,7 +156,7 @@ GetXml:
   <ConsultantConversation guid="00000000-0000-0000-0000-000000000060" visible="false" finished="true">
     <ConsultantNote Direction="ReferringToText" guid="00000000-0000-0000-0000-000000000061" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">referring text</ConsultantNote>
     <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000062" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">consultant says</ConsultantNote>
-    <ConsultantNote Direction="ProjFacToConsultant" guid="00000000-0000-0000-0000-000000000063" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{OFFSET 2026-10-03T12:34:56+02:00}">pf replies</ConsultantNote>
+    <ConsultantNote Direction="ProjFacToConsultant" guid="00000000-0000-0000-0000-000000000063" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="{OFFSET 2026-10-03T12:34:57+02:00}">pf replies</ConsultantNote>
   </ConsultantConversation>
   <ConsultantConversation guid="00000000-0000-0000-0000-000000000064">
     <ConsultantNote Direction="StickyNote" guid="00000000-0000-0000-0000-000000000065" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">sticky</ConsultantNote>
