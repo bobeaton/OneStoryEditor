@@ -25,6 +25,16 @@ namespace OneStoryProjectEditor
     }
 
     /// <summary>
+    /// The project file was saved by a version this one can't read (too old or newer); the message is for the user as is.
+    /// </summary>
+    public class ProjectFileVersionException : ApplicationException
+    {
+        public ProjectFileVersionException(string strMessage) : base(strMessage)
+        {
+        }
+    }
+
+    /// <summary>
     /// Loads a .onestory file as XML (replacing ProjectReader/the typed DataSet), refusing files that
     /// this version can't read. It throws instead of showing a message box; the caller reports the message.
     /// </summary>
@@ -49,10 +59,10 @@ namespace OneStoryProjectEditor
 
             var strVersion = XmlRead.RequiredAttr(root, StoryProjectData.CstrAttributeVersion);
             if (strVersion == "1.3" || strVersion == "1.4")
-                throw new ApplicationException(CstrVersionTooOldMessage);
+                throw new ProjectFileVersionException(CstrVersionTooOldMessage);
 
             if (StoryProjectData.IsNewerThanSupported(strVersion))
-                throw new ApplicationException(Localizer.Str("One of the team members is using a newer version of OSE to edit the file, which is not compatible with the version you are using. You might try, \"Advanced\", \"Program Updates\", \"Check now\" or \"Check now for next major update\" or you may have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the \"Setup OneStory Editor.zip\" file"));
+                throw new ProjectFileVersionException(Localizer.Str("One of the team members is using a newer version of OSE to edit the file, which is not compatible with the version you are using. You might try, \"Advanced\", \"Program Updates\", \"Check now\" or \"Check now for next major update\" or you may have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the \"Setup OneStory Editor.zip\" file"));
 
             return new ProjectFileContents(root,
                                            LegacyTextRepair.IsMarkedPlain(root),

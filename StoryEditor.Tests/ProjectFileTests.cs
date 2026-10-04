@@ -43,7 +43,7 @@ namespace OneStoryProjectEditor.Tests
         [TestCase("1.4")]
         public void VeryOldVersions_Throw(string strVersion)
         {
-            var ex = Assert.Throws<ApplicationException>(() => ProjectFile.Load(WriteTemp("version=\"" + strVersion + "\"")));
+            var ex = Assert.Throws<ProjectFileVersionException>(() => ProjectFile.Load(WriteTemp("version=\"" + strVersion + "\"")));
             Assert.That(ex.Message, Is.EqualTo("This project was saved by a very old version of OneStory Editor. Open and save it with OneStory Editor 4.x first."));
         }
 
@@ -52,7 +52,7 @@ namespace OneStoryProjectEditor.Tests
         [TestCase("3.1")]
         public void NewerVersions_Throw_WithTheNewerVersionMessage(string strVersion)
         {
-            var ex = Assert.Throws<ApplicationException>(() => ProjectFile.Load(WriteTemp("version=\"" + strVersion + "\"")));
+            var ex = Assert.Throws<ProjectFileVersionException>(() => ProjectFile.Load(WriteTemp("version=\"" + strVersion + "\"")));
             Assert.That(ex.Message, Is.EqualTo("One of the team members is using a newer version of OSE to edit the file, which is not compatible with the version you are using. You might try, \"Advanced\", \"Program Updates\", \"Check now\" or \"Check now for next major update\" or you may have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the \"Setup OneStory Editor.zip\" file"));
         }
 

@@ -1105,7 +1105,17 @@ namespace OneStoryProjectEditor
 
             // notify about reloading
             if (Modified)
-                SaveXElementWithBadExtn(GetXml, strProjectFilePath);    // just in case someone complains
+            {
+                try
+                {
+                    SaveXElementWithBadExtn(GetXml, strProjectFilePath);    // just in case someone complains
+                }
+                catch (Exception ex)
+                {
+                    // best effort only: SaveDoc throws on a persistent write failure, but we still need to ask about reloading
+                    Debug.WriteLine("Unable to save the 'just in case' copy: " + ex);
+                }
+            }
 
             var res = LocalizableMessageBox.Show(
                 String.Format(Localizer.Str(
@@ -1218,6 +1228,11 @@ namespace OneStoryProjectEditor
             catch (StoryProjectData.BackOutWithNoUIException)
             {
                 // sub-routine has taken care of the UI, just exit without doing anything
+            }
+            catch (ProjectFileVersionException ex)
+            {
+                // the message says it all (very old file, or saved by a newer version)
+                LocalizableMessageBox.Show(ex.Message, OseCaption);
             }
             catch (DuplicateStoryStateTransitionException)
             {

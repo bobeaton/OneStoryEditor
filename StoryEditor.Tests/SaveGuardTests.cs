@@ -100,6 +100,18 @@ namespace OneStoryProjectEditor.Tests
         }
 
         [Test]
+        public void BadDatatype_FailsValidation_EvenWithTheRelaxedSchema()
+        {
+            var strXml = File.ReadAllText(MinimalFixturePath);
+            var strBad = new Regex("stageDateTimeStamp=\"[^\"]*\"").Replace(strXml, "stageDateTimeStamp=\"not-a-date\"", 1);
+            Assert.That(strBad, Is.Not.EqualTo(strXml), "test setup: no timestamp replaced");
+            var strPath = TempPath(".onestory.bad");
+            File.WriteAllText(strPath, strBad);
+
+            Assert.Throws<XmlSchemaValidationException>(() => ProjectFileValidator.Validate(strPath));
+        }
+
+        [Test]
         public void MalformedXml_FailsValidation()
         {
             var strPath = TempPath(".onestory.bad");
@@ -207,6 +219,40 @@ namespace OneStoryProjectEditor.Tests
                 Assert.That(copy.guid, Is.Not.EqualTo(pasted.guid));
                 Assert.That(copy.Verses.Count, Is.EqualTo(pasted.Verses.Count));
             }
+        }
+
+        [Test]
+        public void StoryBuiltTheWayChorusBuildsIt_KeepsFinishedConversationsAndTransitionHistory()
+        {
+            // the old XmlNode constructors lost both of these
+            var doc = new XmlDocument();
+            doc.Load(Path.Combine(TestDataDir, "characterization.onestory"));
+            var strFolder = TempPath("");
+            var nodes = doc.SelectNodes("/StoryProject/stories/story").Cast<XmlNode>().ToList();
+            Assert.That(nodes.Count, Is.GreaterThan(0));
+
+            int nFinished = 0, nWithHistory = 0;
+            foreach (var node in nodes)
+            {
+                var elem = XElement.Parse(node.OuterXml);   // what GetPresentationHtmlForChorus does
+                LegacyTextRepair.DecodePlainTextElements(elem);
+                ProjectReader.UniqueStoryGuids.Clear();
+                var story = new StoryData(elem, strFolder);
+                var strXml = story.GetXml.ToString();
+                if (elem.Descendants().Any(e => (string)e.Attribute("finished") == "true"))
+                {
+                    nFinished++;
+                    Assert.That(strXml, Does.Contain("finished=\"true\""), "finished conversation lost in " + story.Name);
+                }
+                if (elem.Element("TransitionHistory") != null && elem.Element("TransitionHistory").HasElements)
+                {
+                    nWithHistory++;
+                    Assert.That(story.TransitionHistory.HasData, Is.True, "history empty in " + story.Name);
+                    Assert.That(strXml, Does.Contain("<StateTransition "));
+                }
+            }
+            Assert.That(nFinished, Is.GreaterThan(0), "fixture has no finished conversation");
+            Assert.That(nWithHistory, Is.GreaterThan(0), "fixture has no transition history");
         }
 
         [Test]
