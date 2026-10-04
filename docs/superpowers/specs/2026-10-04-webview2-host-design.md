@@ -78,6 +78,10 @@ Rejected:
     - `reply` is matched by rid
     - `ready` is gated on the current doc id
     - everything else goes to `MessageReceived`
+  - *(Amended by the spike, see "Spike findings", Q6.)* `WebView2HtmlHost` hands each received message to the shared
+    channel with `BeginInvoke`, as `IeHtmlHost` does, rather than inline from the `WebMessageReceived` handler. While a
+    `WebMessageReceived` handler is running, WebView2 raises no further `WebMessageReceived` for any control, even when
+    the code pumps with `DoEvents`. So a `Request` made inside that handler always times out.
   - C# → page: `PostWebMessageAsString(json)`.
   - The shared delivery logic moves into a small internal base class or helper that both hosts use, so the two hosts
     can't drift apart.
@@ -314,3 +318,92 @@ If an answer is "no", the plan uses the fallback named above, and this spec gets
   `MoveFocusRequested` is handled if Tab gets stuck.
 - **`Request` pumping while WebView2 runs in another process.** The spike checks it; the existing timeouts and the
   flush's Retry prompt are the safety net.
+
+## Spike findings (Task 1 of the plan)
+
+Setup:
+- SDK `Microsoft.Web.WebView2` 1.0.4258.31, the latest stable release on 2026-10-04.
+- Evergreen runtime 154.0.4258.53, Windows 11, x86 WinForms harness.
+- The x86 build places `Microsoft.Web.WebView2.Core.dll`, `Microsoft.Web.WebView2.WinForms.dll` and the x86
+  `WebView2Loader.dll` next to the exe.
+- The throwaway harness is in the session scratchpad:
+  `C:\Users\pete_\AppData\Local\Temp\claude\c--Users-pete--source-repos-OneStoryEditor\2363c84b-2c3f-4dd6-936b-1ad00b798e87\scratchpad\wv2spike\`
+  (`Wv2Spike.exe` in `bin\Debug`).
+- The real-input runs (Q3, and the key part of Q6) could not run: the Windows session was disconnected, and injected
+  mouse and keyboard input reaches no window in that state. Those answers are **provisional** until someone runs them
+  on an unlocked desktop.
+
+- **Q1: a pumping `Request` gets `WebMessageReceived` replies. Yes.**
+  - Evidence: from a button `Click` handler, 50 of 50 requests got their reply and none timed out.
+  - With `Application.DoEvents(); Thread.Sleep(1)`, the median round trip was 32 ms (min 14, max 35). With `Sleep(0)` the
+    median was 0.2 ms. So the round trip itself is under a millisecond, and the 32 ms is `Sleep(1)`'s timer granularity.
+  - Consequence: `Request` keeps the IE pattern. Pumping with `Sleep(0)` for the first few milliseconds is an optional
+    speed-up.
+- **Q2: a page over 2 MB served from memory, with UTF-8 intact. Yes.**
+  - Evidence: 200,000 copies of U+0915 U+093F U+0924 U+093E U+092C, 3.2 MB of UTF-8, served through
+    `WebResourceRequested`. The page loaded about 130 ms after navigation.
+  - `innerText.length` was 1,199,999, as expected, and substrings at the start, middle and end matched exactly.
+  - `innerText` on that one giant paragraph took 15–27 s, because of layout and shaping. Split into paragraphs, it took
+    25 ms, and the page loaded in 1.2 s. Tests shouldn't read `innerText` of huge single-block pages.
+  - **Consequence:** the `WebResourceRequested` handler serves only `page.html` and returns **404 for any other request**.
+    The browser asks for `https://ose.pane/favicon.ico` on every load.
+- **Q3: drag. Provisional, not verified (the desktop was locked).**
+  - **Decision:** the mechanism is HTML5 drag-and-drop between the WebView2 controls.
+    - Verse buttons are `draggable="true"` and set `text/plain` to the reference on `dragstart`.
+    - The page reports `refDragStart` / `refDragEnd`.
+    - The target's `[data-drop="scripture"]` element sends `scriptureDropped {id}` on `drop`.
+  - **Documented fallback:** `refMouseOut` → WinForms
+    `DoDragDrop(new DataObject(DataFormats.UnicodeText, ref), Copy | Link)`, as in Section 2.
+  - To confirm, run `Wv2Spike.exe q3a` (HTML5) and `Wv2Spike.exe q3b` (WinForms text `DataObject`) from the harness
+    folder above on an unlocked desktop, then read `log-q3a.txt` / `log-q3b.txt`.
+  - If q3a shows no `drop`, Task 5 switches to the fallback.
+- **Q4: start-up failures are catchable, but one case hangs silently.**
+  - **Missing runtime** (`WEBVIEW2_BROWSER_EXECUTABLE_FOLDER` set to an empty folder, in the harness process only):
+    `GetAvailableBrowserVersionString()` *throws* `WebView2RuntimeNotFoundException`; it does not return null.
+    `CreateAsync` throws the same exception within 4 ms.
+  - **User-data folder is a file, or is unwritable** (Program Files, non-admin): `CreateAsync` *succeeds*.
+    `EnsureCoreWebView2Async` throws `COMException` 0x80080005 (`CO_E_SERVER_EXEC_FAILURE`) after about 150 ms.
+    `CoreWebView2InitializationCompleted` fires with `IsSuccess == false` and the same exception.
+  - **In 1 of 7 bad-folder runs nothing happened for 30 s**: no exception and no event. Disposing the control then gave
+    `COMException` 0x80004004 (`E_ABORT`).
+  - A normal start takes about 300 ms, but 2 of about 14 runs took about 6.5 s.
+  - **Decision (Task 2):**
+    - The factory's probe treats an exception from `GetAvailableBrowserVersionString()` as "runtime not installed".
+    - `WebView2HtmlHost` treats as start-up failure: **any `Exception`** from `CreateAsync` or `EnsureCoreWebView2Async`;
+      `CoreWebView2InitializationCompleted` with `IsSuccess == false`; and **a 20 s start watchdog** expiring.
+    - Each of these leads to the IE fallback and sets `WebView2FailedLastRun`.
+- **Q5: the mirror highlight lines up. Yes.**
+  - Setup: a 300 px textarea with mixed English and Devanagari over three wrapped lines, then Arabic, scrollable. A
+    second `dir="rtl"` box with Arabic. Each box has a highlight that spans a line wrap.
+  - Evidence:
+    - The textarea and mirror `scrollHeight`s are equal (146/146 and 66/66, and still equal at 200 % zoom).
+    - The mirror's `scrollTop` follows the box.
+    - An overlay (mirror text red under 55 % blue textarea text) blends to clean purple, with no fringes before or after
+      scrolling.
+    - The native selection of the same range covers exactly the area of the `<mark>`, in LTR and RTL, on both sides of
+      the wrap.
+  - **Consequence:** the mirror must reserve the textarea's scrollbar width (`offsetWidth - clientWidth - borders`).
+    Add it to the mirror's right padding, or to its **left padding in RTL**, where Chromium puts the scrollbar.
+  - Keep the "trailing newline → extra space" rule, so the scroll heights stay equal.
+- **Q6: keys provisional; navigation guard and nested pumping verified.**
+  - **Navigation guard (verified).** With `NavigationStarting` cancelling, the guard caught every case below, and the
+    page stayed put with no new `ready`:
+    - `CoreWebView2.GoBack()` and the page's `history.back()` (`NavigationKind.BackOrForward`)
+    - the page's `location.reload()` and the host's `Reload()` (`Reload`)
+
+    A cancelled navigation can still raise a `WebResourceRequested` for the page. That is harmless.
+  - **Keys (provisional, not verified).** The design keeps it simple:
+    - The page's `keydown` handler calls `preventDefault()` for F5, Ctrl+R and Ctrl+P.
+    - The `NavigationStarting` guard is the backstop for reload and Alt+Left/Right.
+    - This replaces the `AcceleratorKeyPressed` filtering in Section 1, because the WinForms control doesn't expose the
+      controller event.
+
+    To confirm key delivery, run `Wv2Spike.exe q6` on an unlocked desktop. **Whether Ctrl+F opens the find bar is a
+    manual-check item.**
+  - **Request inside `WebMessageReceived` (verified): it times out.**
+    - A `Request` made inside a `WebMessageReceived` handler timed out after 2 s, and so did one to the other control.
+    - The replies arrived as soon as the handler returned.
+    - The same `Request` deferred with `BeginInvoke` got its reply in 13.5 ms.
+    - **Decision:** Section 1's "Messages" is amended. `WebView2HtmlHost` hands each received message to the shared
+      channel with `BeginInvoke`.
+    - No `Request` is made from inside any `CoreWebView2` event handler.
