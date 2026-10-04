@@ -149,8 +149,11 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to function DisplayHtml(str) {
-        ///    window.external.LogMessage(str.replace(/\r\n/gm, &quot;&lt;nl&gt;&quot;));
+        ///   Looks up a localized string similar to // ConNoteDomPrefix.js: the Consultant/Coach note panes. Inlined after bridge.js and PaneCommon.js (which handle the
+        ///  links, buttons, keys, drops, scrolling and the textarea commands).
+        ///function DisplayHtml(str) {
+        ///    if (window.oseDebug)
+        ///        ose.send(&apos;log&apos;, { text: str.replace(/\r\n/gm, &quot;&lt;nl&gt;&quot;) });
         ///}
         ///
         ///function regexRemoveSpan(html) {
@@ -162,13 +165,7 @@ namespace OneStoryProjectEditor.Properties {
         ///}
         ///
         ///if (typeof String.prototype.trim !== &apos;function&apos;) {
-        ///    String.prototype.trim = function () {
-        ///        return this.replace(/^\s+|\s+$/g, &apos;&apos;);
-        ///    }
-        ///}
-        ///
-        ///function OnBibRefJump(link) {
-        ///    window.external.OnBibRefJump(link [rest of string was truncated]&quot;;.
+        ///    String.prototype.trim = function () { [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ConNoteDomPrefix {
             get {
@@ -645,7 +642,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;td id=&quot;{0}&quot; width=&quot;{1}%&quot; ondragover=&quot;window.event.returnValue=false&quot; ondrop=&quot;window.external.AddScriptureReference(this.id)&quot; onmouseup=&quot;OnEmptyAnchorClick(this.id);&quot;&gt;{2}&lt;/td&gt;.
+        ///   Looks up a localized string similar to &lt;td id=&quot;{0}&quot; width=&quot;{1}%&quot; data-drop=&quot;scripture&quot; data-mouseup=&quot;anchorCell&quot;&gt;{2}&lt;/td&gt;.
         /// </summary>
         internal static string HTML_TableCellWidthDropAnchor {
             get {
@@ -1478,6 +1475,8 @@ namespace OneStoryProjectEditor.Properties {
         ///    &lt;head&gt;
         ///        &lt;title&gt;&lt;/title&gt;
         ///        &lt;script type=&quot;text/javascript&quot;&gt;
+        ///{6}
+        ///        &lt;script type=&quot;text/javascript&quot;&gt;
         ///{0}
         ///        &lt;/script&gt;
         ///        &lt;script type=&quot;text/javascript&quot;&gt;
@@ -1486,7 +1485,7 @@ namespace OneStoryProjectEditor.Properties {
         ///        &lt;/script&gt;
         ///{3}
         ///    &lt;/head&gt;
-        ///    &lt;body onscroll=&quot;window.external.OnScroll();&quot;&gt;
+        ///    &lt;body&gt;
         ///        &lt;!--for debugging: &lt;textarea id=&quot;osedebughtmlwindow&quot;&gt;&lt;/textarea&gt;--&gt;
         ///{4}
         ///    &lt;/body&gt;
@@ -1502,22 +1501,21 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to // this one is called from the anchor buttons
-        ///function OnBibRefJump(btn) {
-        ///    if (event.button == 2) {
-        ///        window.external.OnAnchorButton(btn.id);
-        ///
-        ///        // prevent the OnEmptyAnchorClick from happening too
-        ///        event.cancelBubble = true;
+        ///   Looks up a localized string similar to if (typeof String.prototype.trim !== &apos;function&apos;) {
+        ///    String.prototype.trim = function () {
+        ///        return this.replace(/^\s+|\s+$/g, &apos;&apos;);
         ///    }
-        ///    else
-        ///        window.external.OnBibRefJump(btn.name);
-        ///    return false; // cause the href navigation to not happen
         ///}
         ///
-        ///if (typeof String.prototype.trim !== &apos;function&apos;) {
-        ///    String.prototype.trim = function () {
-        ///        return this.replace( [rest of string was truncated]&quot;;.
+        ///function DisplayHtml(str) {
+        ///    // only when the debugging textarea (see StoryBt.htm) is in the page
+        ///    if ($(&apos;#osedebughtmlwindow&apos;).length)
+        ///        ose.send(&apos;log&apos;, { text: str.replace(/\r\n/gm, &quot;&lt;nl&gt;&quot;) });
+        ///}
+        ///function removeSelection(jqtextarea) {
+        ///    if (jqtextarea.attr(&apos;selectedText&apos;)) {
+        ///        jqtextarea.removeAttr(&quot;selectionStart&quot;);
+        ///        jqtextarea.removeAttr(&quot;selectionEnd&quot;); [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string StoryBtJs {
             get {
@@ -1546,13 +1544,15 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to var textareas = document.getElementsByTagName(&quot;textarea&quot;);
-        ///for (var i = 0; i &lt; textareas.length; i++) {
-        ///    // keep this one in this format (as opposed to jscript) since the C# code occasionally calls InvokeMember(&quot;onchange&quot;)
-        ///    //  and if we don&apos;t have it in regular java, then C# invoke can&apos;t access it (I think)
-        ///    // Now that we sometimes replace \r\n (which this.value can deal with), with things
-        ///    //  like &lt;br&gt;s (which this.value can&apos;t deal with), we have to switch them back before
-        ///    //  call [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to // sends a textarea&apos;s text the way the onchange always did: IE&apos;s htmlText (which keeps the line breaks that
+        /////  &apos;value&apos; loses once we&apos;ve put &lt;br&gt;s and highlight spans in the box), minus spans, &lt;br&gt; -&gt; \r\n
+        ///function oseSendChange(ta, bQuiet) {
+        ///    if (ta.readOnly)    // if edits aren&apos;t allowed, then our job is done here!
+        ///        return;
+        ///
+        ///    // an empty box shows its language&apos;s name (with class &apos;hasPlaceholder&apos;), but that isn&apos;t data
+        ///    if ($(ta).hasClass(&apos;hasPlaceholder&apos;)) {
+        ///        ose.send(&apos;textCha [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string StoryBtPsJs {
             get {

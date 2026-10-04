@@ -167,9 +167,6 @@
       <Component Id="MAPIEx.dll" Guid="{FCF9B71B-2AAB-4AA8-A96D-AE214F32F700}">
         <File Id="MAPIEx.dll" Name="MAPIEx.dll" Vital="yes" KeyPath="yes" Source="..\..\output\release\MAPIEx.dll" />
       </Component>
-      <Component Id="Microsoft.mshtml.dll" Guid="{804A4109-1683-486B-9287-3E8970E0D460}">
-        <File Id="Microsoft.mshtml.dll" Name="Microsoft.mshtml.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.mshtml.dll" AssemblyApplication="Microsoft.mshtml.dll" Assembly=".net" Source="..\..\output\release\Microsoft.mshtml.dll" />
-      </Component>
       <!--
       <Component Id="Microsoft.Win32.Primitives.dll" Guid="{F8590416-8B65-4FC0-9846-5013905D4509}">
         <File Id="Microsoft.Win32.Primitives.dll" Name="Microsoft.Win32.Primitives.dll" Vital="yes" KeyPath="yes" AssemblyManifest="Microsoft.Win32.Primitives.dll" AssemblyApplication="Microsoft.Win32.Primitives.dll" Assembly=".net" Source="..\..\output\release\Microsoft.Win32.Primitives.dll"/>

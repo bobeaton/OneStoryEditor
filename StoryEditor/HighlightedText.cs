@@ -6,7 +6,7 @@ namespace OneStoryProjectEditor
 {
     /// <summary>
     /// one highlighted selection in a Story/BT textarea, as the page reports it (the 'getHighlights' reply in StoryBt.js).
-    /// Replaces the HtmlElement spans C# used to read out of the DOM
+    /// Replaces the highlight spans C# used to read out of the page's DOM
     /// </summary>
     public sealed class HighlightedText
     {

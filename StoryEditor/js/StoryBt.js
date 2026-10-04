@@ -425,7 +425,7 @@ ose.listen(document, 'mouseup', function (e) {
 }, false);
 
 // the highlighted selections in one line's table, after turning the current selection into one (what C# did with
-//  InvokeScript("TriggerMyBlur") and then reading the spans)
+//  by calling TriggerMyBlur in the page and then reading the spans)
 ose.on('getHighlights', function (m) {
     TriggerMyBlur();
     var items = [];

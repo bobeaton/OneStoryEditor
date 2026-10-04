@@ -46,7 +46,7 @@
   <ItemGroup>
     <!-- These don't resolve via plain PackageReference (non-standard package shapes - native EcDistFiles
          binaries resolved by ProgID at runtime, or DLLs sitting outside any packages\ folder entirely under
-         DepDLLs, or the machine-wide mshtml PIA) - same pattern already used throughout this solution
+         DepDLLs) - same pattern already used throughout this solution
          (see ClipboardEC.csproj in the sibling silconverters repo for the identical EcDistFiles precedent). -->
     <Reference Include="AIGuesserEC">
       <HintPath>$(EcDistFilesPath)\win-$(Platform)\native\AIGuesserEC.dll</HintPath>
@@ -82,11 +82,6 @@
     <Reference Include="Utilities, Version=7.0.100.5029, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\Utilities.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-      <HintPath>C:\Program Files (x86)\Microsoft.NET\Primary Interop Assemblies\Microsoft.mshtml.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <!-- KeymanLegacyBundle ships its DLLs directly under lib\ with no TFM subfolder, which plain
          PackageReference asset selection doesn't reliably pick up - explicit HintPath via the generated

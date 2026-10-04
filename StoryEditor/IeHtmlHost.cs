@@ -11,7 +11,7 @@ namespace OneStoryProjectEditor
 {
     /// <summary>
     /// IHtmlHost over the IE WebBrowser control. The only class allowed to touch WebBrowser/HtmlDocument.
-    /// Messages from the page are delivered with BeginInvoke (never inside the window.external call) so that
+    /// Messages from the page are delivered with BeginInvoke (never inside the page's call into C#) so that
     /// timing matches WebView2's asynchronous WebMessageReceived
     /// </summary>
     public sealed class IeHtmlHost : IHtmlHost
@@ -25,6 +25,7 @@ namespace OneStoryProjectEditor
         private readonly System.Windows.Forms.Timer _loadWatchdog;
         private bool _bLoading;
         private bool _bLoadDeferred;
+        private bool _bDisposed;
         private int _nDocId;
         private int _nLastRid;
 
@@ -68,6 +69,8 @@ namespace OneStoryProjectEditor
 
         private void StartLoad()
         {
+            if (_bDisposed || _browser.IsDisposed)
+                return;
             _bLoading = true;
             _bLoadDeferred = false;
             _loadWatchdog.Stop();
@@ -89,12 +92,16 @@ namespace OneStoryProjectEditor
         // if the navigation is cancelled or fails, DocumentCompleted never comes; don't let that block every later load
         private void OnLoadWatchdog(object sender, EventArgs e)
         {
+            if (_bDisposed || _browser.IsDisposed)
+                return;
             Debug.WriteLine("IeHtmlHost: load did not complete in time; carrying on");
             EndLoad();
         }
 
         private void EndLoad()
         {
+            if (_bDisposed || _browser.IsDisposed)
+                return;
             _loadWatchdog.Stop();
             _bLoading = false;
             if (_bLoadDeferred)
@@ -149,14 +156,21 @@ namespace OneStoryProjectEditor
             _browser.ShowPrintPreviewDialog();
         }
 
+        // safe to call more than once (the owning pane disposes us, and WinForms disposes the browser control with it)
         public void Dispose()
         {
+            if (_bDisposed)
+                return;
+            _bDisposed = true;
+            _loadWatchdog.Stop();
             _loadWatchdog.Dispose();
             _browser.Dispose();
         }
 
         private void Send(HtmlMessage msg)
         {
+            if (_bDisposed || _browser.IsDisposed)
+                return;
             var doc = _browser.Document;
             if (doc == null)
             {
@@ -166,7 +180,7 @@ namespace OneStoryProjectEditor
             doc.InvokeScript("oseReceive", new object[] { msg.ToJson() });
         }
 
-        // called (on the UI thread) from inside the page's window.external.postMessage
+        // called (on the UI thread) from inside the page's postMessage call (see bridge.js)
         private void OnScriptMessage(string strJson)
         {
             var msg = HtmlMessage.TryParse(strJson);
@@ -215,7 +229,7 @@ namespace OneStoryProjectEditor
                 key?.SetValue(strExeName, 9999, RegistryValueKind.DWord);
         }
 
-        // what the page sees as window.external: exactly one method
+        // what the page sees as its external object: exactly one method
         [ComVisible(true)]
         public sealed class ScriptingBridge
         {

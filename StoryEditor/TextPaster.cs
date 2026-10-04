@@ -219,7 +219,7 @@ namespace OneStoryProjectEditor
         }
     }
 
-    // a textarea in one of the HTML panes, as a paste/undo target (was an IE HtmlElement)
+    // a textarea in one of the HTML panes, as a paste/undo target
     internal class TextareaRef
     {
         public HtmlVerseControl Pane;
