@@ -1,73 +1,13 @@
-﻿// this one is called from the anchor buttons
-function OnBibRefJump(btn) {
-    if (event.button == 2) {
-        window.external.OnAnchorButton(btn.id);
-
-        // prevent the OnEmptyAnchorClick from happening too
-        event.cancelBubble = true;
-    }
-    else
-        window.external.OnBibRefJump(btn.name);
-    return false; // cause the href navigation to not happen
-}
-
-if (typeof String.prototype.trim !== 'function') {
+﻿if (typeof String.prototype.trim !== 'function') {
     String.prototype.trim = function () {
         return this.replace(/^\s+|\s+$/g, '');
     }
 }
 
-// this one is called from the empty cell where the buttons go (for right-click to add Null Button)
-function OnEmptyAnchorClick(id) {
-    if (event.button == 2)
-        window.external.OnAnchorButton(id);
-}
-
-function OnLineOptionsButton(btn) {
-    // capture the last textarea selected before it loses focus to do a context menu
-    DisplayHtml("Calling TriggerMyBlur from OnLineOptionsButton");
-    TriggerMyBlur(true);
-    
-    var bIsRightButton = (event.button == 2);
-    window.external.OnLineOptionsButton(btn.id, bIsRightButton);
-    return false;
-}
-function OnVerseLineJump(link) {
-    window.external.OnVerseLineJump(link.name);
-    return false; // cause the href navigation to not happen
-}
-function textboxSetSelectionTextReturnEndPosition(strId, strNewValue) {
-    var oTextbox = document.getElementById(strId);
-
-    // if we had turned our selection into a span earlier, then convert it back
-    if (oTextbox.selectedText) {
-        var range = oTextbox.createTextRange();
-        range.collapse(true);
-        range.moveStart("character", oTextbox.selectionStart);
-        range.moveEnd("character", oTextbox.selectionEnd - oTextbox.selectionStart);
-        range.select();
-    }
-
-    var rangeSelection = document.selection.createRange();
-    var rangeElement = rangeSelection.duplicate();
-    rangeElement.moveToElementText(oTextbox);
-    var nEndPoint = 0;
-    if (rangeElement.inRange(rangeSelection)) {
-        rangeSelection.text = strNewValue;
-        rangeSelection.select();
-        while (rangeElement.compareEndPoints('StartToEnd', rangeSelection) < 0) {
-            rangeElement.moveStart('character', 1);
-            nEndPoint++;
-        }
-    }
-    return nEndPoint;
-}
-
 function DisplayHtml(str) {
-    var debugWindow = $('#osedebughtmlwindow');
-    if (debugWindow) {
-        window.external.LogMessage(str.replace(/\r\n/gm, "<nl>"));
-    }
+    // only when the debugging textarea (see StoryBt.htm) is in the page
+    if ($('#osedebughtmlwindow').length)
+        ose.send('log', { text: str.replace(/\r\n/gm, "<nl>") });
 }
 function removeSelection(jqtextarea) {
     if (jqtextarea.attr('selectedText')) {
@@ -250,7 +190,7 @@ $(document).ready(function () {
             $(this).val($(this).attr('placeholder')).addClass('hasPlaceholder');
         }
         window.oseConfig.idLastTextareaToBlur = this.id;
-        window.external.TextareaOnBlur(this.id);
+        ose.send('blur', { id: this.id });
         DisplayHtml(".blur end id: '" + this.id + "'");
     }).focus(function (event) {
         DisplayHtml(".focus start id: '" + this.id + "'");
@@ -306,7 +246,7 @@ $(document).ready(function () {
                     // range.select();   apparently not needed
                 }
             }
-            window.external.TextareaOnFocus(this.id);
+            ose.send('focus', { id: this.id });
         }
 
         DisplayHtml(".focus end id: '" + this.id + "'");
@@ -329,22 +269,27 @@ $(document).ready(function () {
             // TriggerMyBlur(bDontEmptySelection);
 
             // tell app to show the context menu for this control
-            window.external.ShowContextMenu(this.id);
+            ose.send('contextMenu', { id: this.id });
             // return false;
         }
-        window.external.TextareaMouseUp(this.id);
+        ose.send('textareaMouseUp', { id: this.id });
         DisplayHtml(".mouseup end id: '" + this.id + "'");
         return true;
     }).mousedown(function (event) {
         DisplayHtml(".mousedown start id: '" + this.id + "'");
         CheckRemovePlaceHolder($(this));    // remove the place holder in case this is TextPaster (or the name of the languages is thought to be text)
-        window.external.OnTextareaMouseDown(this.id, this.value, event.button);
+        ose.send('textareaMouseDown', { id: this.id, value: this.value, button: event.button });
         if (event.button == 1) {
             removeSelection($(this));
         }
         DisplayHtml(".mousedown end id: '" + this.id + "'");
     }).mousemove(function () {
-        window.external.OnMouseMove();
+        // only the Bible pane's auto-hide listens, so a few times a second is plenty
+        var now = new Date().getTime();
+        if (now - window.oseConfig.lastMouseMove >= 100) {
+            window.oseConfig.lastMouseMove = now;
+            ose.send('mouseMove');
+        }
     }).keyup(function (event) {
         DisplayHtml(".keyup start id: '" + this.id + "'");
         // if we had something selected and the user presses delete or backspace, 
@@ -362,7 +307,8 @@ $(document).ready(function () {
             return true;
         }
         DisplayHtml(".keyup end id: '" + this.id + "', this.value: '" + this.value + "' vs, html: '" + $(this).html() + "'");
-        return window.external.TextareaOnKeyUp(this.id, this.value);
+        ose.send('textChanged', { id: this.id, value: this.value });
+        return true;
     }).keydown(function (event) {
         DisplayHtml(".keydown start id: '" + this.id + "'");
         if (ctrl_down && ((event.keyCode == v_key) ||   // paste
@@ -431,7 +377,8 @@ $(document).ready(function () {
 window.oseConfig =
 {
     idLastTextareaToBlur: null,
-    idLastTextareaToFocus: null
+    idLastTextareaToFocus: null,
+    lastMouseMove: 0
 };
 
 var ctrl_down = false;
@@ -449,4 +396,65 @@ $(document).keydown(function (e) {
     if (e.keyCode == ctrl_key) ctrl_down = true;
 }).keyup(function (e) {
     if (e.keyCode == ctrl_key) ctrl_down = false;
-}); 
+});
+
+// anchor buttons, the empty part of the anchor row, and the line-options buttons (data-mouseup in the templates)
+document.addEventListener('mouseup', function (e) {
+    var el = ose.closest(e.target, function (x) { return !!x.getAttribute('data-mouseup'); });
+    if (!el)
+        return;
+    var what = el.getAttribute('data-mouseup');
+    var bRight = (e.button == 2);
+    if (what == 'lineOptions') {
+        // capture the last textarea selected before it loses focus to do a context menu
+        DisplayHtml("Calling TriggerMyBlur from lineOptions");
+        TriggerMyBlur(true);
+        ose.send('action', { name: 'lineOptions', id: el.id, arg: bRight ? 'right' : 'left' });
+        ose.cancel(e);
+    }
+    else if (what == 'anchor') {
+        if (bRight)
+            ose.send('action', { name: 'anchorMenu', id: el.id });
+        else
+            ose.send('bibRefJump', { ref: el.getAttribute('name') });
+        ose.cancel(e);  // and (being the nearest) the anchor cell's own right-click doesn't happen too
+    }
+    else if ((what == 'anchorCell') && bRight) {
+        ose.send('action', { name: 'anchorMenu', id: el.id });
+    }
+}, false);
+
+// the highlighted selections in one line's table, after turning the current selection into one (what C# did with
+//  InvokeScript("TriggerMyBlur") and then reading the spans)
+ose.on('getHighlights', function (m) {
+    TriggerMyBlur();
+    var items = [];
+    var table = document.getElementById(m.tableId);
+    if (table) {
+        var spans = table.getElementsByTagName('span');
+        for (var i = 0; i < spans.length; i++) {
+            var ta = spans[i].parentNode;
+            if (ta && (ta.nodeName == 'TEXTAREA'))
+                items.push({ textareaId: ta.id, className: spans[i].className, text: spans[i].innerText });
+        }
+    }
+    return { items: items };
+});
+
+ose.on('clearHighlight', function (m) {
+    ClearSelectionSpan(m.id);
+});
+
+// like PaneCommon's, but first turns a highlight we made back into the selection
+ose.on('replaceSelection', function (m) {
+    var oTextbox = document.getElementById(m.id);
+    if (oTextbox && oTextbox.selectedText) {
+        var range = oTextbox.createTextRange();
+        range.collapse(true);
+        range.moveStart("character", oTextbox.selectionStart);
+        range.moveEnd("character", oTextbox.selectionEnd - oTextbox.selectionStart);
+        range.select();
+    }
+    var nEndPoint = ose.replaceSelectionIn(m.id, m.text);
+    return { endPoint: nEndPoint, ieHtml: oTextbox ? oTextbox.innerHTML : null };
+});

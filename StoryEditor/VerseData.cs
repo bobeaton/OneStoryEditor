@@ -2006,7 +2006,7 @@ namespace OneStoryProjectEditor
                 strButton = String.Format(Properties.Resources.HTML_TableCellRightAlign,
                                           String.Format(Properties.Resources.HTML_ButtonLineOptions,
                                                         ButtonId(nVerseIndex),
-                                                        "return OnLineOptionsButton(this);",
+                                                        StoryBtActions.LineOptions,
                                                         " "));
             }
 

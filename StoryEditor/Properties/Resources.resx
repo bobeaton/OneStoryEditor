@@ -344,7 +344,7 @@ of the team before overwriting a list</value>
     <value>&lt;button id="{0}" onClick="{1}"&gt;{2}&lt;/button&gt;</value>
   </data>
   <data name="HTML_ButtonLineOptions" xml:space="preserve">
-    <value>&lt;button id="{0}" onmouseup="{1}" style="height:20px; width:20px;"&gt;{2}&lt;/button&gt;</value>
+    <value>&lt;button id="{0}" data-mouseup="{1}" style="height:20px; width:20px;"&gt;{2}&lt;/button&gt;</value>
   </data>
   <data name="oneStory2ConNotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\oneStory2ConNotes.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
@@ -483,7 +483,7 @@ eater Panorama
     <value>..\Resources\DataContainer_MoveLastHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="HTML_TableCellWidthDropAnchor" xml:space="preserve">
-    <value>&lt;td id="{0}" width="{1}%" ondragover="window.event.returnValue=false" ondrop="window.external.AddScriptureReference(this.id)" onmouseup="OnEmptyAnchorClick(this.id);"&gt;{2}&lt;/td&gt;</value>
+    <value>&lt;td id="{0}" width="{1}%" data-drop="scripture" data-mouseup="anchorCell"&gt;{2}&lt;/td&gt;</value>
   </data>
   <data name="IDS_CanDeleteOnlyFromMyBiblicalTerms" xml:space="preserve">
     <value>You can only delete a key term from the editable key term (i.e. "My Biblical Terms") list, which is not currently selected.</value>
@@ -510,7 +510,7 @@ eater Panorama
     <value>Click 'Yes' to enter UNS test results now or click 'No' to send the story to the consultant first for checking.</value>
   </data>
   <data name="HTML_ButtonToolTip" xml:space="preserve">
-    <value>&lt;button id="{0}" name="{1}" onMouseUp="{2}" title="{3}"&gt;{4}&lt;/button&gt;</value>
+    <value>&lt;button id="{0}" name="{1}" data-mouseup="{2}" title="{3}"&gt;{4}&lt;/button&gt;</value>
   </data>
   <data name="IDS_TbxFile_EmptyLnC" xml:space="preserve">
     <value>\_sh v3.0  374  LnC Note
