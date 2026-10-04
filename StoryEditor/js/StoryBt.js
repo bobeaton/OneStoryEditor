@@ -449,23 +449,4 @@ $(document).keydown(function (e) {
     if (e.keyCode == ctrl_key) ctrl_down = true;
 }).keyup(function (e) {
     if (e.keyCode == ctrl_key) ctrl_down = false;
-});
-
-$(document).keydown(function (e) {
-    if (ctrl_down && (e.keyCode == s_key)) {
-        window.external.OnSaveDocument();
-        // Your code
-        e.preventDefault();
-        return false;
-    }
-    else if (e.keyCode == f5_key) {
-        if (ctrl_down) {
-            window.external.TriggerCtrlF5();
-        }
-
-        // let the form handle it
-        window.external.LoadDocument();
-        // doesn't work... e.preventDefault();
-        return true;
-    }
 }); 

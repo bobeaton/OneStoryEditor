@@ -2120,7 +2120,7 @@ namespace OneStoryProjectEditor
         //  so that we'll get the new value of the textarea
         private void TriggerSaveUpdates()
         {
-            htmlStoryBtControl.TriggerChangeUpdate();
+            htmlStoryBtControl.FlushEdits(HtmlHostDefaults.RequestTimeout);
         }
 
         protected void SaveXElement(XElement elem, string strFilename, bool bDoReloadTest)

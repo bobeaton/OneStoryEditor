@@ -1,27 +1,79 @@
 ﻿#define AddNoteFromConNotes
 
 using System;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using mshtml;
 using NetLoc;
 using OneStoryProjectEditor.Properties;
 
 namespace OneStoryProjectEditor
 {
-    [ComVisible(true)]
+    // data-action values on the note panes' buttons (VerseData/ConsultNoteDataConverter make them; PaneCommon.js
+    //  sends them as 'action' messages)
+    internal static class NoteActions
+    {
+        public const string AddNote = "addNote";
+        public const string AddNoteToSelf = "addNoteToSelf";
+        public const string AddStickyNote = "addStickyNote";
+        public const string ShowHideOpen = "showHideOpen";
+        public const string Delete = "delete";
+        public const string ConvertToMentoree = "convertToMentoree";   // data-arg = needs approval (true/false)
+        public const string ConvertToMentor = "convertToMentor";
+        public const string ConvertToMentorToSelf = "convertToMentorToSelf";
+        public const string ConvertToMenteeToSelf = "convertToMenteeToSelf";
+        public const string Approve = "approve";
+        public const string EndConversation = "endConversation";
+    }
+
     public abstract class HtmlConNoteControl : HtmlVerseControl
     {
         public abstract string PaneLabel();
 
         protected HtmlConNoteControl()
+            : this(null)
+        {
+        }
+
+        protected internal HtmlConNoteControl(IHtmlHost host)
+            : base(host)
         {
             InitializeComponent();
-#if AddNoteFromConNotes
-            IsWebBrowserContextMenuEnabled = false;
-#endif
-            ObjectForScripting = this;
+
+            Dispatcher.Register("textChanged", msg => TextareaOnKeyUp(msg.GetString("id"), msg.GetString("value") ?? String.Empty, msg.GetBool("quiet")));
+            Dispatcher.Register("contextMenu", msg => ShowContextMenu());
+            Dispatcher.Register("scriptureDropped", msg => CopyScriptureReference(msg.GetString("id")));
+            Dispatcher.Register("action", OnAction);
+        }
+
+        private void OnAction(HtmlMessage msg)
+        {
+            var strId = msg.GetString("id");
+            switch (msg.GetString("name"))
+            {
+                case NoteActions.AddNote:
+                    if (Int32.TryParse(strId, out var nVerseIndex))     // this button's id is the bare line index
+                        OnAddNote(nVerseIndex, null, false);
+                    break;
+                case NoteActions.AddNoteToSelf: OnAddNoteToSelf(strId); break;
+                case NoteActions.AddStickyNote: OnAddStickyNote(strId); break;
+                case NoteActions.ShowHideOpen: OnShowHideOpenConversations(strId); break;
+                case NoteActions.Delete: OnClickDelete(strId); break;
+                case NoteActions.ConvertToMentoree: OnConvertToMentoreeNote(strId, msg.GetBool("arg")); break;
+                case NoteActions.ConvertToMentor: OnConvertToMentorNote(strId); break;
+                case NoteActions.ConvertToMentorToSelf: OnConvertToMentorNoteToSelf(strId); break;
+                case NoteActions.ConvertToMenteeToSelf: OnConvertToMentoreeNoteToSelf(strId); break;
+                case NoteActions.Approve: OnApproveNote(strId); break;
+                case NoteActions.EndConversation: OnClickEndConversation(strId); break;
+                default:
+                    System.Diagnostics.Debug.WriteLine("HtmlConNoteControl: unknown action " + msg);
+                    break;
+            }
+        }
+
+        // only the Consultant Notes pane has an Approve button
+        protected virtual bool OnApproveNote(string strId)
+        {
+            return false;
         }
 
         public override StoryData StoryData
@@ -144,22 +196,7 @@ namespace OneStoryProjectEditor
             }
 
             StrIdToScrollTo = GetTopRowId;
-            bool bRemovedLast = (theCNsDC.IndexOf(theCNDC) == (theCNsDC.Count - 1));
             theCNsDC.Remove(theCNDC);
-
-            // remove the HTML elements for the row of buttons and the conversation table
-            //  (but only if it was the last conversation. If it wasn't, then the other
-            //  conversations will have out of sequence ids, so we'll just *have* to do
-            //  LoadDoc
-            if (bRemovedLast
-                && 
-                RemoveHtmlNodeById(ConsultNoteDataConverter.ButtonRowId(nVerseIndex, nConversationIndex))
-                && 
-                RemoveHtmlNodeById(ConsultNoteDataConverter.ConversationTableRowId(nVerseIndex, nConversationIndex)))
-            {
-                return true;
-            }
-
             LoadDocument();
             return true;
         }
@@ -177,62 +214,9 @@ namespace OneStoryProjectEditor
             StrIdToScrollTo = GetTopRowId;
             theCNDC.Visible = !theCNDC.Visible;
 
-            /*
-            if (TheSE.hiddenVersesToolStripMenuItem.Checked)
-            {
-                // then we just swap the text on the button
-                if (Document != null)
-                {
-                    // repaint the button to be 'hide'
-                    // since the strId might be from a Delete request (where the user
-                    //  said "yes" to our request to hide it instead), we have to 
-                    //  rebuild the ID for the Hide button, which is:
-                    strId = ConsultNoteDataConverter.ButtonId(nVerseIndex,
-                        nConversationIndex, ConsultNoteDataConverter.CnBtnIndexHide);
-                    HtmlElement elemButtonHide = Document.GetElementById(strId);
-                    if (elemButtonHide != null)
-                    {
-                        elemButtonHide.InnerText = (theCNDC.Visible)
-                                                       ? ConsultNoteDataConverter.CstrButtonLabelHide
-                                                       : ConsultNoteDataConverter.CstrButtonLabelUnhide;
-                        return true;
-                    }
-                }
-            }
-            // otherwise remove the row of buttons and the embedded conversation table
-            // if it's not invisible (but only if it's the last conversation... if it
-            //  isn't the last one, then just hiding it won't work, because the subsequent
-            //  conversations will have the wrong index (so we *must* do LoadDoc)
-            else if (!theCNDC.Visible 
-                    && (theCNsDC.Count == (nConversationIndex - 1))
-                    && RemoveHtmlNodeById(ConsultNoteDataConverter.ButtonRowId(nVerseIndex, nConversationIndex))
-                    && RemoveHtmlNodeById(ConsultNoteDataConverter.ConversationTableRowId(nVerseIndex, nConversationIndex)))
-            {
-                return true;
-            }
-            */
-
             // otherwise, we have to reload the document
             LoadDocument();
             return true;
-        }
-
-        protected bool RemoveHtmlNodeById(string strId)
-        {
-            if (Document != null)
-            {
-                HTMLDocumentClass htmldoc = (HTMLDocumentClass)Document.DomDocument;
-                if (htmldoc != null)
-                {
-                    IHTMLDOMNode node = (IHTMLDOMNode)htmldoc.getElementById(strId);
-                    if (node != null)
-                    {
-                        node.parentNode.removeChild(node);
-                        return true;
-                    }
-                }
-            }
-            return false;
         }
 
         public bool OnClickEndConversation(string strId)
@@ -241,14 +225,9 @@ namespace OneStoryProjectEditor
                 out ConsultNotesDataConverter theCNsDC, out ConsultNoteDataConverter theCNDC))
                 return false;
 
-            System.Diagnostics.Debug.Assert(Document != null);
-            HtmlElement elemButton = Document.GetElementById(strId);
-            System.Diagnostics.Debug.Assert(elemButton != null);
-
             if (theCNDC.IsFinished)
             {
                 theCNDC.IsFinished = false;
-                elemButton.InnerText = ConsultNoteDataConverter.CstrButtonLabelConversationEnd;
 
                 // also if it were hidden, then make it unhidden
                 theCNDC.Visible = true;
@@ -256,32 +235,13 @@ namespace OneStoryProjectEditor
             else
             {
                 theCNDC.IsFinished = true;
-                elemButton.InnerText = ConsultNoteDataConverter.CstrButtonLabelConversationReopen;
             }
 
             StrIdToScrollTo = GetTopRowId;
             if (theCNDC.IsFinished)
             {
-#if !DontAlwaysDoLoadDoc
                 if (!theCNDC.FinalComment.HasData)
                     theCNDC.Remove(theCNDC.FinalComment);
-#else
-                if (Document != null)
-                {
-                    HtmlElement elem =
-                        Document.GetElementById(ConsultNoteDataConverter.TextareaId(nVerseIndex, nConversationIndex));
-                    if (elem != null)
-                    {
-                        if (String.IsNullOrEmpty(elem.InnerText))
-                        {
-                            theCNDC.RemoveAt(theCNDC.Count - 1);
-                            if (RemoveHtmlNodeById(ConsultNoteDataConverter.TextareaRowId(nVerseIndex,
-                                                                                          nConversationIndex)))
-                                return true;
-                        }
-                    }
-                }
-#endif
             }
             else
             {
@@ -300,17 +260,6 @@ namespace OneStoryProjectEditor
                                                                                      theCNDC.Count - 1);
             }
 
-#if false   // this doesn't really help (it makes it want to bring either the editable box (if reopening) or the
-            // the now readonly final box (if closed) to either the top or bottom... jumps around too much
-            if (elemButton.InnerText != ConsultNoteDataConverter.CstrButtonLabelConversationReopen)
-            {
-                StrIdToScrollTo = ConsultNoteDataConverter.TextareaId(nVerseIndex, nConversationIndex);
-            }
-            else
-            {
-                StrIdToScrollTo = ConsultNoteDataConverter.TextareaReadonlyRowId(nVerseIndex, nConversationIndex, theCNDC.Count - 1);
-            }
-#endif
             LoadDocument();
             return true;
         }
@@ -341,36 +290,23 @@ namespace OneStoryProjectEditor
         }
         */
         
-        public void CopyScriptureReference(string strId)
+        private void CopyScriptureReference(string strId)
         {
             if (!GetIndicesFromId(strId, out int nVerseIndex, out int nConversationIndex, out int nDontCare))
                 return;
 
-            ConsultNoteDataConverter theCNDC = DataConverter(nVerseIndex, nConversationIndex);
-            System.Diagnostics.Debug.Assert((theCNDC != null) && (theCNDC.Count > 0));
-            CommInstance aCI = theCNDC.FinalComment;
-
-            if (Document != null)
-            {
-                HtmlDocument doc = Document;
-                HtmlElement elem = doc.GetElementById(strId);
-                if (elem != null)
-                {
-                    elem.InnerText += TheSE.GetNetBibleScriptureReference;
-                    aCI.SetValue(elem.InnerText);
-                    elem.Focus();
-                }
-            }
+            // the page appends it and sends textChanged, which puts it in the note like typing would
+            Host.Post("appendText", new { id = strId, text = TheSE.GetNetBibleScriptureReference, focus = true });
         }
 
-        public void ShowContextMenu()
+        private void ShowContextMenu()
         {
             if (StoryEditor.TextPaster != null)
                 return;
             contextMenu.Show(MousePosition);
         }
 
-        public bool TextareaOnKeyUp(string strId, string strText)
+        private bool TextareaOnKeyUp(string strId, string strText, bool bQuiet)
         {
             if (!GetIndicesFromId(strId, out int nVerseIndex, out int nConversationIndex, out int nDontCare))
                 return false;
@@ -383,11 +319,17 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert((theCNDC != null) && (theCNDC.Count > 0));
 
             CommInstance aCI = theCNDC.FinalComment;
+
+            // nothing changed (e.g. an arrow key, or a flush): don't mark the project modified
+            if (PaneText.IsSame(aCI, strText))
+                return true;
+
             aCI.SetValue(strText);
 
             // indicate that the document has changed
             theSE.Modified = true;
-            theSE.LastKeyPressedTimeStamp = DateTime.Now;   // so we can delay the autosave while typing
+            if (!bQuiet)
+                theSE.LastKeyPressedTimeStamp = DateTime.Now;   // so we can delay the autosave while typing
 
             // update the status bar (in case we previously put an error there
             StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theSE.TheCurrentStory.ProjStage.ProjectStage];
@@ -522,29 +464,17 @@ namespace OneStoryProjectEditor
             int nFoundIndex, int nLengthToSelect)
         {
             System.Diagnostics.Debug.Assert(stringTransfer.HasData && !String.IsNullOrEmpty(stringTransfer.HtmlElementId));
-            if (Document != null)
+            if (IsTextareaElement(stringTransfer.HtmlElementId))
             {
-                HtmlDocument doc = Document;
-                if (IsTextareaElement(stringTransfer.HtmlElementId))
-                {
-                    object[] oaParams = new object[] { stringTransfer.HtmlElementId, nFoundIndex, nLengthToSelect };
-                    doc.InvokeScript("textboxSetSelection", oaParams);
-                }
-                else if (IsParagraphElement(stringTransfer.HtmlElementId))
-                {
-                    HtmlElement elem = doc.GetElementById(stringTransfer.HtmlElementId);
-                    if (elem != null)
-                    {
-                        var str = NoteHtmlSanitizer.ToReadOnlyHtmlWithHighlight(stringTransfer.ToString(),
-                                                                                nFoundIndex, nLengthToSelect,
-                                                                                CstrParagraphHighlightBegin,
-                                                                                CstrParagraphHighlightEnd);
-                        System.Diagnostics.Debug.WriteLine(str);
-                        elem.InnerHtml = str;
-                    }
-                    else
-                        System.Diagnostics.Debug.Assert(false, "unexpected element id in HTML");
-                }
+                Host.Post("selectRange", new { id = stringTransfer.HtmlElementId, start = nFoundIndex, length = nLengthToSelect });
+            }
+            else if (IsParagraphElement(stringTransfer.HtmlElementId))
+            {
+                var str = NoteHtmlSanitizer.ToReadOnlyHtmlWithHighlight(stringTransfer.ToString(),
+                                                                        nFoundIndex, nLengthToSelect,
+                                                                        CstrParagraphHighlightBegin,
+                                                                        CstrParagraphHighlightEnd);
+                Host.Post("setHtml", new { id = stringTransfer.HtmlElementId, html = str });
             }
         }
 
@@ -671,7 +601,6 @@ namespace OneStoryProjectEditor
             // 
             // this is now down manually (see ShowContextMenu) so we can turn it off when TextPaster is active
             // this.ContextMenuStrip = this.contextMenu;
-            this.IsWebBrowserContextMenuEnabled = false;
             this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
         }
@@ -733,8 +662,6 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private static readonly Regex regExReadLineNumber = new(@"id=tp_(\d+?)_", RegexOptions.Compiled);
-
         private void MenuAddNote_Click(object sender, EventArgs args)
         {
             bool bNoteToSelf = false;
@@ -745,62 +672,20 @@ namespace OneStoryProjectEditor
 
         private void ConNoteAddNote(bool bNoteToSelf)
         {
-            if (Document == null)
+            // the page finds the selection and the line it's on (getNoteSelection in ConNoteDomPrefix.js)
+            var reply = Host.Request("getNoteSelection", null, HtmlHostDefaults.RequestTimeout);
+            if ((reply == null) || !reply.TryGetInt("lineIndex", out var nLineNumber))
                 return;
 
-            if (Document.DomDocument is not IHTMLDocument2 htmlDocument)
-                return;
-
-            var selection = htmlDocument.selection;
-            var range = (IHTMLTxtRange) selection.createRange();
-            if ((range == null) || String.IsNullOrEmpty(range.htmlText))
-                return;
-
-            System.Diagnostics.Debug.WriteLine(range.htmlText);
-            var elem = range.parentElement();
-            if (elem == null)
-                return;
-
-            while (!regExReadLineNumber.IsMatch(elem.innerHTML))
-            {
-                elem = elem.parentElement;
-                if (elem == null)
-                    return;
-            }
-
-            var strLineNumber = regExReadLineNumber.Match(elem.innerHTML).Groups[1].Value;
-            var nLineNumber = Int32.Parse(strLineNumber);
-
-            var children = elem.children as IHTMLElementCollection;
-            if (children == null)
+            var strHtml = reply.GetString("html");
+            if (String.IsNullOrEmpty(strHtml))
                 return;
 
             var strReferringText = String.Format("<p><i>{0}</i></p>", Localizer.Str("Re: ConNote:"));
 
             // add the selection to the referring text, but strip out any bits which look like table parts
             //  (they don't add so easily)
-            var strExtra = regexStripTableBits.Replace(range.htmlText, "");
-            strReferringText += strExtra;
-#if false
-            var aMarkupService = (IMarkupServices)htmlDocument;
-            IMarkupPointer aPointerBegin, aPointerEnd;
-            aMarkupService.CreateMarkupPointer(out aPointerBegin);
-            aMarkupService.CreateMarkupPointer(out aPointerEnd);
-            aMarkupService.MovePointersToRange(range, aPointerBegin, aPointerEnd);
-            int pResult;
-            aPointerBegin.IsLeftOf(aPointerEnd, out pResult);
-            while (pResult > 0)
-            {
-                IHTMLElement elemThis;
-                aPointerBegin.CurrentScope(out elemThis);
-                System.Diagnostics.Debug.WriteLine("{0} = {1}", elemThis.tagName, elemThis.outerHTML);
-                strReferringText += elemThis.outerHTML;
-                aPointerBegin.MoveAdjacentToElement(elemThis, _ELEMENT_ADJACENCY.ELEM_ADJ_AfterEnd);
-                aPointerBegin.IsLeftOf(aPointerEnd, out pResult);
-            }
-#endif
-
-            // var strReferringText = String.Format("<p><i>{0}</i></p><p>{1}</p>", Localizer.Str("Re: ConNote:"), range.htmlText);
+            strReferringText += regexStripTableBits.Replace(strHtml, "");
             TheSE.SendNoteToCorrectPane(nLineNumber, strReferringText, bNoteToSelf);
         }
 
@@ -821,9 +706,17 @@ namespace OneStoryProjectEditor
         }
     }
 
-    [ComVisible(true)]
     public class HtmlConsultantNotesControl : HtmlConNoteControl
     {
+        public HtmlConsultantNotesControl()
+        {
+        }
+
+        internal HtmlConsultantNotesControl(IHtmlHost host)
+            : base(host)
+        {
+        }
+
         public override void LoadDocument()
         {
             NetBibleViewer.ReadFontNameAndSizeFromUserConfig(SettingsKeyForFontToUse, out string strFontName, out string strFontSize);
@@ -835,7 +728,7 @@ namespace OneStoryProjectEditor
                                                         TheSE.viewHiddenVersesMenu.Checked,
                                                         TheSE.viewOnlyOpenConversationsMenu.Checked,
                                                         strFontName, strFontSize);
-            DocumentText = strHtml;
+            LoadHtml(strHtml);
             MakeLineNumberLinkVisible?.Invoke();
         }
 
@@ -858,21 +751,29 @@ namespace OneStoryProjectEditor
             theSe.CheckUpdateMentorInfoConsultant();
         }
 
-        public void OnVerseLineJump(int nVerseIndex)
+        public override void OnVerseLineJump(int nVerseIndex)
         {
             TheSE.FocusOnVerse(nVerseIndex, false, true);
         }
 
         // this only applies to the Consultant Note pane
-        public bool OnApproveNote(string strId)
+        protected override bool OnApproveNote(string strId)
         {
             return SetDirectionTo(strId, false, true);
         }
     }
 
-    [ComVisible(true)]
     public class HtmlCoachNotesControl : HtmlConNoteControl
     {
+        public HtmlCoachNotesControl()
+        {
+        }
+
+        internal HtmlCoachNotesControl(IHtmlHost host)
+            : base(host)
+        {
+        }
+
         public override void LoadDocument()
         {
             NetBibleViewer.ReadFontNameAndSizeFromUserConfig(SettingsKeyForFontToUse, out string strFontName, out string strFontSize);
@@ -884,7 +785,7 @@ namespace OneStoryProjectEditor
                                                    TheSE.viewHiddenVersesMenu.Checked,
                                                    TheSE.viewOnlyOpenConversationsMenu.Checked,
                                                    strFontName, strFontSize);
-            DocumentText = strHtml;
+            LoadHtml(strHtml);
 
             MakeLineNumberLinkVisible?.Invoke();
         }
@@ -908,7 +809,7 @@ namespace OneStoryProjectEditor
             theSe.CheckUpdateMentorInfoCoach();
         }
 
-        public void OnVerseLineJump(int nVerseIndex)
+        public override void OnVerseLineJump(int nVerseIndex)
         {
             TheSE.FocusOnVerse(nVerseIndex, true, false);
         }

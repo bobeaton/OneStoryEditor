@@ -397,7 +397,6 @@ namespace OneStoryProjectEditor
             // 
             // HtmlStoryBtControl
             // 
-            this.AllowWebBrowserDrop = false;
             this.contextMenuStripLineOptions.ResumeLayout(false);
             this.contextMenuStripAnchorOptions.ResumeLayout(false);
             this.ResumeLayout(false);

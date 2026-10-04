@@ -2,16 +2,22 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using NetLoc;
 using SilEncConverters40;
-using mshtml;
 using SIL.Keyboarding;
 
 namespace OneStoryProjectEditor
 {
-    [ComVisible(true)]
+    // data-mouseup values on the Story/BT page's buttons and cells (StoryBt.js turns them into 'action' messages)
+    internal static class StoryBtActions
+    {
+        public const string Anchor = "anchor";          // an anchor button
+        public const string AnchorCell = "anchorCell";  // the empty part of the anchor row
+        public const string LineOptions = "lineOptions";
+        public const string AnchorMenu = "anchorMenu";  // the action name sent for a right-click on either of the first two
+    }
+
     public partial class HtmlStoryBtControl : HtmlVerseControl
     {
         public static DirectableEncConverter TransliteratorVernacular;
@@ -35,11 +41,41 @@ namespace OneStoryProjectEditor
         public StoryData ParentStory { get; set; }
 
         public HtmlStoryBtControl()
+            : this(null)
+        {
+        }
+
+        internal HtmlStoryBtControl(IHtmlHost host)
+            : base(host)
         {
             InitializeComponent();
-            IsWebBrowserContextMenuEnabled = false;
-            ObjectForScripting = this;
             ResetContextMenu();
+
+            Dispatcher.Register("textChanged", OnTextChanged);
+            Dispatcher.Register("focus", msg => TextareaOnFocus(msg.GetString("id")));
+            Dispatcher.Register("blur", msg => Program.ActivateDefaultKeyboard());
+            Dispatcher.Register("textareaMouseUp", msg => LastTextareaInFocusId = msg.GetString("id"));
+            Dispatcher.Register("contextMenu", msg => ShowContextMenu(msg.GetString("id")));
+            Dispatcher.Register("mouseMove", msg => TheSE?.CheckBiblePaneCursorPosition());
+            Dispatcher.Register("scriptureDropped", msg => AddScriptureReference(msg.GetString("id")));
+            Dispatcher.Register("action", OnAction);
+        }
+
+        private void OnAction(HtmlMessage msg)
+        {
+            var strId = msg.GetString("id");
+            switch (msg.GetString("name"))
+            {
+                case StoryBtActions.AnchorMenu:
+                    OnAnchorButton(strId);
+                    break;
+                case StoryBtActions.LineOptions:
+                    OnLineOptionsButton(strId, msg.GetString("arg") == "right");
+                    break;
+                default:
+                    System.Diagnostics.Debug.WriteLine("HtmlStoryBtControl: unknown action " + msg);
+                    break;
+            }
         }
 
         public void ResetContextMenu()
@@ -47,13 +83,10 @@ namespace OneStoryProjectEditor
             _contextMenuTextarea = CreateContextMenuStrip();
         }
 
-        public void TriggerCtrlF5()
+        protected override void OnRealign()
         {
-            if (TheSE.RealignLines())
-                return;
-
-            // done by the jscript
-            // LoadDocument();
+            TheSE.RealignLines();
+            LoadDocument();     // (the page used to call LoadDocument itself after TriggerCtrlF5)
         }
 
         public override void LoadDocument()
@@ -70,7 +103,7 @@ namespace OneStoryProjectEditor
                                                      TheSE.StoryProject.TeamMembers,
                                                      null);
 
-            DocumentText = strHtml;
+            LoadHtml(strHtml);
         }
 
         /*
@@ -148,38 +181,18 @@ namespace OneStoryProjectEditor
         }
         */
 
-        public void OnVerseLineJump(int nVerseIndex)
+        public override void OnVerseLineJump(int nVerseIndex)
         {
             TheSE.FocusOnVerse(nVerseIndex, true, true);
         }
 
-        public List<HtmlElement> GetSelectedTexts(int nLineNumber)
+        // the highlighted selections on this line (StoryBt.js first turns the current selection into one, as
+        //  TriggerMyBlur always did)
+        public List<HighlightedText> GetSelectedTexts(int nLineNumber)
         {
-            if (Document == null)
-                return null;
-
-            var doc = Document;
-
-            System.Diagnostics.Debug.WriteLine("Calling TriggerMyBlur from C#: GetSelectedTexts");
-            TriggerOnBlur(doc);
-    
-            var strIdLn = VerseData.GetLineTableId(nLineNumber);
-            HtmlElement elemParentLn = doc.GetElementById(strIdLn);
-            if (elemParentLn == null)
-                return null;
-
-            var spans = elemParentLn.GetElementsByTagName("span");
-            var list = new List<HtmlElement>(spans.Count);
-            list.AddRange(spans.Cast<object>().Cast<HtmlElement>());
-            return list;
-        }
-
-        private static void TriggerOnBlur(HtmlDocument doc)
-        {
-            // before we query for the spans, we have to trigger a 'blur'
-            //  event (well, my 'fake' blur event) so the cell currently
-            //  being edited will turn it's selection into a span also
-            doc.InvokeScript("TriggerMyBlur");
+            var reply = Host.Request("getHighlights", new { tableId = VerseData.GetLineTableId(nLineNumber) },
+                                     HtmlHostDefaults.RequestTimeout);
+            return HighlightedText.FromReply(reply);
         }
 
         public new string GetSelectedText
@@ -243,73 +256,52 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private static bool _bIgnoringChanges;
-
-        public void TriggerChangeUpdate()
-        {
-            // we only update the StringTransfer for a textarea when the user leaves (onchange), 
-            //  so when the user saves, sometimes, we need to trigger that call.
-            if (LastTextareaInFocusId == null)
-                return;
-
-            // we don't want to do this if the field is read-only (e.g. so we don't cause
-            //  the internal buffer to be filled with the transliterated value)
-            var st = GetStringTransferOfLastTextAreaInFocus;
-            if ((st == null) || GetStringTransferOfLastTextAreaInFocus.IsFieldReadonly(ViewSettings.FieldEditibility))
-                return;
-
-            HtmlElement elem;
-            if (!GetHtmlElementById(LastTextareaInFocusId, out elem))
-                return;
-
-            _bIgnoringChanges = true;
-            elem.InvokeMember("onchange");
-            _bIgnoringChanges = false;
-        }
-
         public void OnMouseMove()
         {
             TheSE.CheckBiblePaneCursorPosition();
         }
 
-        public bool TextareaMouseUp(string strId)
+        // textChanged: 'value' is a textarea's plain value (keyup, paste, set by C#); 'ieHtml' is IE's htmlText form
+        //  (the onchange path in StoryBtPs.js); 'quiet' means it came from a flush (no error box for read-only boxes)
+        private void OnTextChanged(HtmlMessage msg)
         {
-            LastTextareaInFocusId = strId;
-            return true;
+            var strId = msg.GetString("id");
+            if (strId == null)
+                return;
+
+            var bQuiet = msg.GetBool("quiet");
+            var strIeHtml = msg.GetString("ieHtml");
+            if ((strIeHtml == null) && !bQuiet)
+            {
+                LastTextareaInFocusId = strId;
+                TheSE.LastKeyPressedTimeStamp = DateTime.Now;
+            }
+
+            var strText = (strIeHtml != null)
+                              ? HtmlText.FromIeHtmlText(strIeHtml)
+                              : (msg.GetString("value") ?? String.Empty);
+            SetFieldValue(strId, strText, bQuiet);
         }
 
-        public bool TextareaOnKeyUp(string strId, string strText)
+        private bool SetFieldValue(string strId, string strText, bool bQuiet)
         {
-            // we'll get the value updates during OnChange, but in order to enable 
-            //  the save menu, we have to set modified
-            System.Diagnostics.Debug.WriteLine($"TextareaOnKeyUp: strId: {strId}, strText: {strText}");
-            LastTextareaInFocusId = strId;
-            TheSE.LastKeyPressedTimeStamp = DateTime.Now;
-            SetFieldValue(strId, strText);  // keyup sends the textarea's 'value', which is plain text
-            return true;
-        }
-
-        // called from StoryBtPs.js's onchange with text that came from IE's htmlText (i.e. HTML-encoded)
-        public bool TextareaOnChange(string strId, string strText)
-        {
-            return SetFieldValue(strId, HtmlText.FromIeHtmlText(strText));
-        }
-
-        private bool SetFieldValue(string strId, string strText)
-        {
-            System.Diagnostics.Debug.WriteLine($"SetFieldValue: strText: {strText}");
-            StoryEditor theSe;
-            if (!CheckForProperEditToken(out theSe))
-                return false;
-
             var stringTransfer = GetStringTransfer(strId);
             if (stringTransfer == null)
                 return false;
 
-            if (!CheckShowErrorOnFieldNotEditable(stringTransfer)) 
+            // nothing changed (e.g. an arrow key, or a flush): don't mark the project modified
+            if (PaneText.IsSame(stringTransfer, strText))
+                return true;
+
+            if (!CheckForProperEditToken(out var theSe))
                 return false;
 
-            // finally make sure it's supposed to be visible.
+            if (bQuiet && stringTransfer.IsFieldReadonly(ViewSettings.FieldEditibility))
+                return false;
+
+            if (!CheckShowErrorOnFieldNotEditable(stringTransfer))
+                return false;
+
             stringTransfer.SetValue(strText);
 
             // indicate that the document has changed
@@ -326,7 +318,7 @@ namespace OneStoryProjectEditor
         {
             // this will fail if the field is readonly which would be if the consultant hadn't allowed it or if
             //  a transliterator were turned on. Either way, this should catch it.
-            if (stringTransfer.IsFieldReadonly(ViewSettings.FieldEditibility) && !_bIgnoringChanges)
+            if (stringTransfer.IsFieldReadonly(ViewSettings.FieldEditibility))
             {
                 LocalizableMessageBox.Show(
                     String.Format(
@@ -357,7 +349,7 @@ namespace OneStoryProjectEditor
             return stringTransfer;
         }
 
-        public bool TextareaOnFocus(string strId)
+        private bool TextareaOnFocus(string strId)
         {
             LastTextareaInFocusId = strId;
             TextAreaIdentifier textAreaIdentifier;
@@ -371,52 +363,12 @@ namespace OneStoryProjectEditor
             return false;
         }
 
-        public bool TextareaOnBlur(string strId)
-        {
-            Program.ActivateDefaultKeyboard();
-            return false;
-        }
-
-        public bool TextareaOnSelect(string strId, int nStartIndex, int nLength)
-        {
-            return false;
-        }
-
-        public bool GetHtmlElementById(string strId, out HtmlElement elem)
-        {
-            if (Document == null)
-            {
-                elem = null;
-                return false;
-            }
-
-            var doc = Document;
-            elem = doc.GetElementById(strId);
-            return (elem != null);
-        }
-
-        public bool GetHtmlElementById(string strId, out HtmlDocument doc, out HtmlElement elem)
-        {
-            if (Document == null)
-            {
-                doc = null;
-                elem = null;
-                return false;
-            }
-
-            doc = Document;
-            elem = doc.GetElementById(strId);
-            return (elem != null);
-        }
-
         private string _lastLineOptionsButtonClicked;
 
-        public bool OnLineOptionsButton(string strId, bool bIsRightButton)
+        private bool OnLineOptionsButton(string strId, bool bIsRightButton)
         {
             if (bIsRightButton)
             {
-                System.Diagnostics.Debug.WriteLine("Calling TriggerMyBlur from C#: OnLineOptionsButton");
-                TriggerOnBlur(Document);
                 _lastLineOptionsButtonClicked = strId;
                 contextMenuStripLineOptions.Show(MousePosition); 
                 return false;
@@ -438,7 +390,7 @@ namespace OneStoryProjectEditor
         }
 
         private string _lastAnchorButtonClicked;
-        public bool OnAnchorButton(string strButtonId)
+        private bool OnAnchorButton(string strButtonId)
         {
             _lastAnchorButtonClicked = strButtonId;
             contextMenuStripAnchorOptions.Show(MousePosition);
@@ -574,19 +526,14 @@ namespace OneStoryProjectEditor
             return true;
         }
 
-        public void AddScriptureReference(string strId)
+        private void AddScriptureReference(string strId)
         {
             StoryEditor theSe;
             if (!CheckForProperEditToken(out theSe))
                 return;
-            
+
             int nLineIndex;
             if (!GetIndicesFromId(strId, out nLineIndex))
-                return;
-
-            HtmlElement elem;
-            HtmlDocument doc;
-            if (!GetHtmlElementById(strId, out doc, out elem))
                 return;
 
             var verseData = GetVerseData(nLineIndex);
@@ -599,21 +546,15 @@ namespace OneStoryProjectEditor
 
             var anchorNew = verseData.Anchors.AddAnchorData(strJumpTarget,
                                                             strJumpTarget);
-            
-            List<string> astrDontCare = null;
-            string str = anchorNew.PresentationHtml(nLineIndex, null,
-                                                    StoryData.PresentationType.Plain,
-                                                    false,
-                                                    ref astrDontCare);
-            
-            // create a new button element out of this string of html
-            var elemNew = doc.CreateElement(str);
-            if (elemNew == null) 
-                return;
 
-            // don't know why, but you have to explicitly set the inner text
-            elemNew.InnerText = NetBibleViewer.CheckForLocalization(anchorNew.JumpTarget);
-            elem.AppendChild(elemNew);
+            List<string> astrDontCare = null;
+            var strButtonHtml = anchorNew.PresentationHtml(nLineIndex, null,
+                                                           StoryData.PresentationType.Plain,
+                                                           false,
+                                                           ref astrDontCare);
+
+            // the button's html already has its (localized) label in it
+            Host.Post("appendHtml", new { id = strId, html = strButtonHtml });
             TheSE.Modified = true;
         }
 
@@ -637,16 +578,6 @@ namespace OneStoryProjectEditor
                 return false;
             }
             return true;
-        }
-
-        public void SelectFoundText(string strHtmlElementId,
-            int nFoundIndex, int nLengthToSelect)
-        {
-            if (Document == null)
-                return;
-
-            var oaParams = new object[] { strHtmlElementId, nFoundIndex, nLengthToSelect };
-            Document.InvokeScript("paragraphSelect", oaParams);
         }
 
         private void MoveSelectedTextToANewLineToolStripMenuItemClick(object sender, EventArgs e)
@@ -705,7 +636,7 @@ namespace OneStoryProjectEditor
             ReloadAllWindows();
         }
 
-        private void MoveSelectedText(IEnumerable<HtmlElement> spans, string strId, bool bFieldShowing,
+        private void MoveSelectedText(IEnumerable<HighlightedText> spans, string strId, bool bFieldShowing,
             StringTransfer stFrom, StringTransfer stTo)
         {
             if (!bFieldShowing)
@@ -1041,7 +972,7 @@ namespace OneStoryProjectEditor
 
         protected readonly char[] _achDelim = new[] { '_' };
 
-        public void ShowContextMenu(string strId)
+        private void ShowContextMenu(string strId)
         {
             if (StoryEditor.TextPaster != null)
                 return;
@@ -1053,7 +984,6 @@ namespace OneStoryProjectEditor
             else if (IsTextareaElement(strId))
             {
                 LastTextareaInFocusId = strId;
-                // done by js TriggerOnBlur(Document);
                 _contextMenuTextarea.Show(MousePosition);
             }
         }
@@ -1120,14 +1050,13 @@ namespace OneStoryProjectEditor
                 return;
 
             var st = GetStringTransfer(textAreaIdentifier);
-            if ((st == null) || !CheckShowErrorOnFieldNotEditable(st) || (this.Document == null))
+            if ((st == null) || !CheckShowErrorOnFieldNotEditable(st) || !Host.IsReady)
                 return;
 
             int nNewEndPoint;
             var selectedText = GetSelectedText;
             Clipboard.SetDataObject(selectedText);
             SetSelectedText(st, String.Empty, out nNewEndPoint);
-            TriggerChangeUpdate();
             theSe.Modified = true;
         }
 
@@ -1381,8 +1310,8 @@ namespace OneStoryProjectEditor
                 if (siblingId == null)
                     return;
 
-                HtmlElement siblingElement;
-                if (!GetHtmlElementById(siblingId, out siblingElement))
+                var hasSibling = Host.Request("hasElement", new { id = siblingId }, HtmlHostDefaults.RequestTimeout);
+                if ((hasSibling == null) || !hasSibling.GetBool("found"))
                     return;
 
                 var myStringTransfer = GetStringTransferOfLastTextAreaInFocus;
@@ -1513,61 +1442,19 @@ namespace OneStoryProjectEditor
             if (!TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
                 return;
 
-            var nLastSubItemIndex = -1;
-            string strLastFieldReference = null,
-                   strReferringText = null;
-
             var spans = GetSelectedTexts(textAreaIdentifier.LineIndex);
-            foreach (var span in spans)
-            {
-                var textarea = span.Parent;
-                System.Diagnostics.Debug.Assert(textarea != null && textarea.TagName == "TEXTAREA");
-
-                TextAreaIdentifier textAreaIdentifierParent;
-                if (!TryGetTextAreaId(textarea.Id, out textAreaIdentifierParent))
-                    return;
-
-                // if this is a new type, then add it to the stream
-                if (strLastFieldReference != textAreaIdentifierParent.FieldTypeName)
-                {
-                    if (!String.IsNullOrEmpty(strLastFieldReference))
-                        strReferringText += " vs: ";
-
-                    strLastFieldReference = textAreaIdentifierParent.FieldReferenceName;
-                    strReferringText += strLastFieldReference;
-                }
-                
-                else if (textAreaIdentifierParent.SubItemIndex != nLastSubItemIndex)
-                {
-                    if (nLastSubItemIndex != -1)
-                        strReferringText += " &";
-                    nLastSubItemIndex = textAreaIdentifierParent.SubItemIndex;
-                }
-                strReferringText += " " + span.OuterHtml;
-            }
-
-            // remove the highlight class so it isn't highlighted in the connnote pane
-            if (strReferringText != null)
-            {
-                strReferringText = strReferringText.Replace(" highlight", null);
-                strReferringText = strReferringText.Replace(" readonly", null);
-            }
+            if (!ReferringTextBuilder.TryBuild(spans, out var strReferringText))
+                return;
 
             // if the user doesn't cancel, then clear out the spans/selected text (save a step for the next note)
             if (TheSE.SendNoteToCorrectPane(textAreaIdentifier.LineIndex, strReferringText, bNoteToSelf))
                 ClearSelectionSpans(spans);
         }
 
-        private void ClearSelectionSpans(IEnumerable<HtmlElement> spans)
+        private void ClearSelectionSpans(IEnumerable<HighlightedText> spans)
         {
-            System.Diagnostics.Debug.Assert(Document != null);
-            foreach (var textarea in spans.Select(span => span.Parent))
-            {
-                System.Diagnostics.Debug.Assert((textarea != null) && (textarea.TagName == "TEXTAREA"));
-
-                var oaParams = new object[] { textarea.Id };
-                Document.InvokeScript("ClearSelectionSpan", oaParams);
-            }
+            foreach (var strTextareaId in spans.Select(s => s.TextareaId).Distinct())
+                Host.Post("clearHighlight", new { id = strTextareaId });
         }
 
         internal void GetSelectedLanguageText(out string strVernacular, out string strNationalBt,
@@ -1587,23 +1474,16 @@ namespace OneStoryProjectEditor
             strFreeTranslation = GetSpanInnerText(spans, GetMyFreeTranslationSibling);
         }
 
-        private static string GetSpanInnerText(IEnumerable<HtmlElement> spans, GetSiblingId getterSiblingId)
+        private static string GetSpanInnerText(IEnumerable<HighlightedText> spans, GetSiblingId getterSiblingId)
         {
             return GetSpanInnerText(spans, getterSiblingId(LastTextareaInFocusId));
         }
 
-        private static string GetSpanInnerText(IEnumerable<HtmlElement> spans, string strId)
+        private static string GetSpanInnerText(IEnumerable<HighlightedText> spans, string strId)
         {
-#if false
-            return (from span in spans
-                    where (span != null) && (span.Parent != null) && (span.Parent.Id == strId)
-                    select span.InnerText).FirstOrDefault();
-#else
-            var lstSpans = spans.Where(s => (s != null) && (s.Parent != null) && (s.Parent.Id == strId) && !String.IsNullOrEmpty(s.InnerText))
-                                .Select(s => s.InnerText)
-                                .ToList();
-            return lstSpans.FirstOrDefault();
-#endif
+            return spans.Where(s => (s.TextareaId == strId) && !String.IsNullOrEmpty(s.Text))
+                        .Select(s => s.Text)
+                        .FirstOrDefault();
         }
 
         private bool TryGetAnchorData(string strAnchorButtonId, out int nLineIndex, out AnchorData anchor)

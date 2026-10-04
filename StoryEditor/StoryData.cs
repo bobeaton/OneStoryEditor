@@ -501,7 +501,19 @@ namespace OneStoryProjectEditor
                                  GetPlaceHolders(projSettings),
                                  StylePrefix(projSettings, null, null),
                                  strHtmlInside,
-                                 Properties.Resources.StoryBtPsJs);
+                                 Properties.Resources.StoryBtPsJs,
+                                 PageScripts.ScriptBlock(PageScripts.Bridge, PageScripts.Get("PaneCommon.js")));
+        }
+
+        // the scripts the note panes' HTML_Header puts in its <script> block
+        private static string ConNotePageScripts
+        {
+            get
+            {
+                return PageScripts.Bridge + Environment.NewLine +
+                       PageScripts.Get("PaneCommon.js") + Environment.NewLine +
+                       Properties.Resources.ConNoteDomPrefix;
+            }
         }
 
         private static string GetPlaceHolders(ProjectSettings projSettings)
@@ -670,7 +682,7 @@ namespace OneStoryProjectEditor
 
             return String.Format(Properties.Resources.HTML_Header,
                                  StylePrefix(projSettings, strFontName, strFontSize),
-                                 Properties.Resources.ConNoteDomPrefix,
+                                 ConNotePageScripts,
                                  strHtml,
                                  Properties.Resources.HTML_Script_AddTextareaMouseDown);
         
@@ -685,7 +697,7 @@ namespace OneStoryProjectEditor
 
             return String.Format(Properties.Resources.HTML_Header,
                                  StylePrefix(projSettings, strFontName, strFontSize),
-                                 Properties.Resources.ConNoteDomPrefix,
+                                 ConNotePageScripts,
                                  strHtml,
                                  Properties.Resources.HTML_Script_AddTextareaMouseDown);
         }
@@ -699,7 +711,7 @@ namespace OneStoryProjectEditor
 
             return String.Format(Properties.Resources.HTML_Header,
                                  StylePrefix(projSettings, strFontName, strFontSize),
-                                 Properties.Resources.ConNoteDomPrefix,
+                                 ConNotePageScripts,
                                  strHtml,
                                  Properties.Resources.HTML_Script_AddTextareaMouseDown);
         }

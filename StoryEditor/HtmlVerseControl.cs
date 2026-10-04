@@ -1,17 +1,16 @@
-﻿using System;
+using System;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using NetLoc;
-using mshtml;
-using OneStoryProjectEditor.Properties;
 
 namespace OneStoryProjectEditor
 {
-    [ComVisible(true)]
-    public class HtmlVerseControl : WebBrowser
+    /// <summary>
+    /// base of the HTML panes (Story/BT, Consultant Notes, Coach Notes). It holds an IHtmlHost (it used to *be* the
+    /// IE WebBrowser) and talks to its page only through messages; see
+    /// docs/superpowers/specs/2026-10-04-html-message-protocol-design.md
+    /// </summary>
+    public class HtmlVerseControl : UserControl
     {
         public const string CstrTextAreaPrefix = "ta";
         public const string CstrParagraphPrefix = "tp";
@@ -28,20 +27,87 @@ namespace OneStoryProjectEditor
         public StoryEditor TheSE { get; set; }
         public virtual StoryData StoryData { get; set; }
 
+        protected readonly IHtmlHost Host;
+        protected readonly HtmlMessageDispatcher Dispatcher = new HtmlMessageDispatcher();
+
+        // what the page last reported about which line is at the top (the 'scrolled' message)
+        private string _strTopRowId, _strPrevRowId, _strNextRowId;
+
         protected HtmlVerseControl()
+            : this(null)
         {
-            DocumentCompleted += HtmlConNoteControl_DocumentCompleted;
         }
 
-        public void OnUrlJump(string url)
+        protected internal HtmlVerseControl(IHtmlHost host)
+        {
+            Host = host ?? HtmlHostFactory.Create();
+            Host.Control.Dock = DockStyle.Fill;
+            Controls.Add(Host.Control);
+            Host.MessageReceived += (sender, msg) => Dispatcher.Dispatch(msg);
+            Host.DocumentReady += (sender, args) => OnDocumentReady();
+            Dispatcher.ReportError = s => TheSE?.SetStatusBar(String.Format(Localizer.Str("Error: {0}"), s));
+
+            Dispatcher.Register("scrolled", OnScrolled);
+            Dispatcher.Register("save", msg => TheSE?.SaveClicked());
+            Dispatcher.Register("reload", msg => LoadDocument());
+            Dispatcher.Register("realign", msg => OnRealign());
+            Dispatcher.Register("bibRefJump", msg => OnBibRefJump(msg.GetString("ref")));
+            Dispatcher.Register("openUrl", msg => OnUrlJump(msg.GetString("url")));
+            Dispatcher.Register("verseLineJump", msg =>
+            {
+                if (msg.TryGetInt("index", out var nVerseIndex))
+                    OnVerseLineJump(nVerseIndex);
+            });
+            Dispatcher.Register("textareaMouseDown", OnTextareaMouseDown);
+            Dispatcher.Register(HtmlMessage.CstrTypeLog, msg => Debug.WriteLine(msg.GetString("text")));
+            Dispatcher.Register(HtmlMessage.CstrTypeJsError, msg => { });   // the host has already logged it
+        }
+
+        public void LoadHtml(string strHtml)
+        {
+            Host.LoadHtml(strHtml);
+        }
+
+        public string LoadedHtml => Host.LoadedHtml;
+
+        public void ShowPrintPreview()
+        {
+            Host.ShowPrintPreview();
+        }
+
+        public virtual void LoadDocument()
+        {
+            Debug.Assert(false);
+        }
+
+        // asks the page to send any edit it hasn't sent yet. True when it has (or when there's no page to ask)
+        public bool FlushEdits(TimeSpan timeout)
+        {
+            if (!Host.IsReady)
+                return true;
+            var reply = Host.Request("flush", null, timeout);
+            return (reply != null) && (reply.GetString("error") == null);
+        }
+
+        public virtual void OnVerseLineJump(int nVerseIndex)
+        {
+        }
+
+        protected virtual void OnRealign()
+        {
+            LoadDocument();
+        }
+
+        private void OnUrlJump(string url)
         {
             // doing it this way allows us to launch the default browser defined rather than IE
-            System.Diagnostics.Process.Start(url);
+            if (!String.IsNullOrEmpty(url))
+                Process.Start(url);
         }
 
-        public void LogMessage(string str)
+        private void OnBibRefJump(string strBibRef)
         {
-            Debug.WriteLine(str);
+            TheSE?.SetNetBibleVerse(strBibRef);
         }
 
         public virtual void ScrollToVerse(int nVerseIndex)
@@ -51,173 +117,23 @@ namespace OneStoryProjectEditor
                 ScrollToElement(StrIdToScrollTo, true);
         }
 
-        public void OnSaveDocument()
+        private void OnScrolled(HtmlMessage msg)
         {
-            TheSE.SaveClicked();
-        }
-
-        public void OnScroll()
-        {
-            var elemLnPrev = GetTopHtmlElementId("td");
-            if ((elemLnPrev == null) || (SetLineNumberLink == null))
-                return;
-
-            if (StoryEditor.IsFirstCharsEqual(elemLnPrev.InnerText,
-                                              VersesData.CstrZerothLineNameConNotes,
-                                              VersesData.CstrZerothLineNameConNotes.Length))
+            _strTopRowId = msg.GetString("topId");
+            _strPrevRowId = msg.GetString("prevId");
+            _strNextRowId = msg.GetString("nextId");
+            if ((SetLineNumberLink != null) &&
+                LineLabelParser.TryParse(msg.GetString("topLabel"), out var strLinkText, out var nLineIndex))
             {
-                SetLineNumberLink(StoryEditor.CstrFirstVerse, 0);
-            }
-            else if (StoryEditor.IsFirstCharsEqual(elemLnPrev.InnerText,
-                                                   VersesData.CstrZerothLineNameBtPane,
-                                                   VersesData.CstrZerothLineNameBtPane.Length))
-            {
-                SetLineNumberLink(VersesData.CstrZerothLineNameBtPane, 0);
-            }
-            else if (StoryEditor.IsFirstCharsEqual(elemLnPrev.InnerText,
-                                                   VersesData.LinePrefix,
-                                                   VersesData.LinePrefix.Length))
-            {
-                // e.g.
-                //  "Ln: 1" (or for the French localization: "Ln : 1")
-                //  "Ln: 1 (Hidden)"
-                var strLabel = elemLnPrev.InnerText;
-                
-                // if the 'Hidden' keyword is showing, then strip that off
-                int nIndex;
-                var bHidden = ((nIndex = strLabel.IndexOf(VersesData.HiddenStringSpace)) != -1);
-                if (bHidden)
-                    strLabel = strLabel.Substring(0, nIndex);
-
-                // the verse number should be the last bit after the last space (French has a space before the colon)
-                nIndex = strLabel.LastIndexOf(' ');
-                if (nIndex == -1) 
-                    return;
-
-                var strLineNumber = strLabel.Substring(nIndex + 1);
-                SetLineNumberLink(strLabel, Convert.ToInt32(strLineNumber));
+                SetLineNumberLink(strLinkText, nLineIndex);
             }
         }
 
-        protected string GetTopRowId
-        {
-            get
-            {
-                var elem = GetTopHtmlElementId("td");
-                return elem?.Id;
-            }
-        }
+        protected string GetTopRowId => _strTopRowId;
+        protected string GetNextRowId => _strNextRowId ?? _strTopRowId;
+        protected string GetPrevRowId => _strPrevRowId ?? _strTopRowId;
 
-        protected string GetNextRowId
-        {
-            get
-            {
-                var topRow = GetTopRowId;
-                if (topRow != null)
-                {
-                    var astr = topRow.Split(AchDelim);
-                    if ((astr.Length == 2) && (astr[0] == VersesData.CstrLinePrefix))
-                    {
-                        var nextRow = VersesData.LineId(Int32.Parse(astr[1]) + 1);
-                        if ((Document != null) && Document.GetElementById(nextRow) != null)
-                            topRow = nextRow;
-                    }
-                }
-                return topRow;
-            }
-        }
-
-        protected string GetPrevRowId
-        {
-            get
-            {
-                var topRow = GetTopRowId;
-                if (topRow != null)
-                {
-                    var astr = topRow.Split(AchDelim);
-                    if ((astr.Length == 2) && (astr[0] == VersesData.CstrLinePrefix))
-                    {
-                        var prevRow = VersesData.LineId(Int32.Parse(astr[1]) - 1);
-                        if ((Document != null) && Document.GetElementById(prevRow) != null)
-                            topRow = prevRow;
-                    }
-                }
-                return topRow;
-            }
-        }
-
-        private static void HtmlElementTotalScrollTop(HtmlElement elem, 
-            ref int nTopOffset, ref int nTopScroll)
-        {
-            nTopOffset += elem.OffsetRectangle.Top;
-            nTopScroll += elem.ScrollTop;
-            if (elem.OffsetParent != null)
-                HtmlElementTotalScrollTop(elem.OffsetParent, ref nTopOffset, ref nTopScroll);
-        }
-
-        private HtmlElement GetTopHtmlElementId(string strElementTagName)
-        {
-            HtmlElement elemLnPrev = null;
-            HtmlDocument doc;
-            int nScrollTop;
-            if (((doc = Document) != null) &&
-                ((elemLnPrev = doc.Body) != null) &&
-                (nScrollTop = elemLnPrev.ScrollTop) >= 0)
-            {
-#if DEBUGBOB
-                // in debug, dump out the position of all the rows that have IDs
-                HtmlWindow window = doc.Window;
-                var domwindow = (mshtml.IHTMLWindow3)window.DomWindow;
-                var screenY = domwindow.screenTop;
-                System.Diagnostics.Debug.WriteLine(String.Format("GetTopRow: doc.Body.ScrollTop: {0}, screenY: {1}",
-                                                                 nScrollTop,
-                                                                 screenY));
-
-                foreach (var elemLn in
-                    doc.GetElementsByTagName(strElementTagName).Cast<HtmlElement>().Where(elemLn =>
-                            !String.IsNullOrEmpty(elemLn.Id)))
-                {
-                    int nTopOffset = 0, nTopScroll = 0;
-                    HtmlElementTotalScrollTop(elemLn, ref nTopOffset, ref nTopScroll);
-                    System.Diagnostics.Debug.WriteLine(String.Format("id: {0}, to: {1}, ts: {2}",
-                                                                     elemLn.Id,
-                                                                     nTopOffset,
-                                                                     nTopScroll));
-                }
-#endif
-                var docWindow = doc.Window;
-                elemLnPrev = doc.GetElementFromPoint(new Point { X = docWindow.Position.X, Y = docWindow.Position.Y });
-                
-                // if we don't get anything back from this, then go back to the original of finding it from the next highest line
-                if (elemLnPrev == null)
-                {
-                    // get all the 'row' elements that have 'ids' (these are the ones that we 
-                    //  can scroll to if the need arises)
-                    foreach (var elemLn in
-                        doc.GetElementsByTagName(strElementTagName).Cast<HtmlElement>().
-                            Where(elemLn => !String.IsNullOrEmpty(elemLn.Id)))
-                    {
-                        // the first time through, the lhs might be a small # and the rhs 0
-                        //  so if st is 0, just pick the first one
-                        int nTopOffset = 0, nTopScroll = 0;
-                        HtmlElementTotalScrollTop(elemLn, ref nTopOffset, ref nTopScroll);
-                        if (nTopOffset <= (nScrollTop + 1))
-                            elemLnPrev = elemLn;
-                        else
-                            break;
-                    }
-                }
-            }
-
-            return elemLnPrev;
-        }
-
-        public virtual void LoadDocument()
-        {
-            Debug.Assert(false);
-        }
-
-        private void HtmlConNoteControl_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        private void OnDocumentReady()
         {
             if (!String.IsNullOrEmpty(StrIdToScrollTo))
                 ScrollToElement(StrIdToScrollTo, true);
@@ -235,19 +151,7 @@ namespace OneStoryProjectEditor
         public void ScrollToElement(String strElemName, bool bAlignWithTop)
         {
             Debug.Assert(!String.IsNullOrEmpty(strElemName));
-            if (Document != null)
-            {
-                HtmlDocument doc = Document;
-                HtmlElement elem = doc.GetElementById(strElemName);
-                if (elem != null)
-                {
-                    // for some reason, there's an event waiting that wants to bring the doc to the top... so let that run first...
-                    Application.DoEvents();
-                    elem.ScrollIntoView(bAlignWithTop);
-                    if (!bAlignWithTop)
-                        elem.Focus();
-                }
-            }
+            Host.Post("scrollTo", new { id = strElemName, alignTop = bAlignWithTop, focus = !bAlignWithTop });
         }
 
         public void ForgetWhereYouWere()
@@ -257,24 +161,17 @@ namespace OneStoryProjectEditor
 
         public void ResetDocument()
         {
-            //reset so we don't jump to a soon-to-be-non-existant (or wrong context) place
+            // reset so we don't jump to a soon-to-be-non-existant (or wrong context) place
             // update: if you *don't* want to jump there, then clear out StrIdToScrollTo manually. This needs
             //  to be here (e.g. for DoMove) which wants to go back to the same spot
-            // StrIdToScrollTo = null;
-            Document?.OpenNew(true);
-        }
-
-        public bool OnBibRefJump(string strBibRef)
-        {
-            TheSE.SetNetBibleVerse(strBibRef);
-            return true;
+            Host.LoadHtml(String.Empty);
         }
 
         protected static readonly char[] AchDelim = new[] { '_' };
 
         protected bool CheckForProperEditToken(out StoryEditor theSE)
         {
-            theSE = TheSE;  // (StoryEditor)FindForm();
+            theSE = TheSE;
             try
             {
                 if (theSE == null)
@@ -299,27 +196,20 @@ namespace OneStoryProjectEditor
         {
             // this isn't allowed for paragraphs (it could be, but this is only currently called
             //  when we want to do 'replace', which isn't allowed for paragraphs (as opposed to textareas)
-            if (IsTextareaElement(stringTransfer.HtmlElementId) && (Document != null))
-            {
-                var doc = Document;
-                if (doc.DomDocument is IHTMLDocument2 htmlDocument)
-                {
-                    var selection = htmlDocument.selection;
-                    if (selection.type.ToLower() != "text")
-                    {
-                        LocalizableMessageBox.Show(Localizer.Str("Sorry, you can only modify editable text in consultant or coach notes!"),
-                            StoryEditor.OseCaption);
-                    }
-                    else
-                    {
-                        if (selection.createRange() is IHTMLTxtRange rangeSelection)
-                            return rangeSelection.text;
-                        // else otherwise nothing selected, so just return
-                    }
-                }
-            }
+            if (!IsTextareaElement(stringTransfer.HtmlElementId))
+                return null;
 
-            return null;
+            var reply = Host.Request("getSelection", new { id = stringTransfer.HtmlElementId }, HtmlHostDefaults.RequestTimeout);
+            if (reply == null)
+                return null;
+
+            if (reply.GetString("selType") != "text")
+            {
+                LocalizableMessageBox.Show(Localizer.Str("Sorry, you can only modify editable text in consultant or coach notes!"),
+                                           StoryEditor.OseCaption);
+                return null;
+            }
+            return reply.GetString("text");
         }
 
         public bool IsParagraphElement(string strHtmlId)
@@ -342,76 +232,54 @@ namespace OneStoryProjectEditor
             // this isn't allowed for paragraphs (it could be, but this is only currently called
             //  when we want to do 'replace', which isn't allowed for paragraphs (as opposed to textareas)
             Debug.Assert(IsTextareaElement(stringTransfer.HtmlElementId));
-            nNewEndPoint = 0;   // return of 0 means it didn't work.
-            if (Document != null)
-            {
-                HtmlDocument doc = Document;
-                if (doc.DomDocument is IHTMLDocument2)
-                {
-                    object[] oaParams = new object[] { stringTransfer.HtmlElementId, strNewValue };
-                    nNewEndPoint = (int)doc.InvokeScript("textboxSetSelectionTextReturnEndPosition", oaParams);
+            nNewEndPoint = 0;   // 0 means it didn't work
 
-                    // zero return means it failed (e.g. the selected portion wasn't in the element thought)
-                    if (nNewEndPoint > 0)
-                    {
-                        // now we have to update the string transfer with the new value
-                        HtmlElement elem = doc.GetElementById(stringTransfer.HtmlElementId);
-                        if (elem != null)
-                            stringTransfer.SetValue(HtmlText.FromIeHtmlText(elem.InnerHtml));
-                        return true;
-                    }
-                }
+            var reply = Host.Request("replaceSelection", new { id = stringTransfer.HtmlElementId, text = strNewValue },
+                                     HtmlHostDefaults.RequestTimeout);
+            if ((reply == null) || !reply.TryGetInt("endPoint", out nNewEndPoint) || (nNewEndPoint <= 0))
+            {
+                nNewEndPoint = 0;   // e.g. the selected portion wasn't in the element thought
+                return false;
             }
-            return false;
+
+            // now we have to update the string transfer with the new value
+            var strIeHtml = reply.GetString("ieHtml");
+            if (strIeHtml != null)
+                stringTransfer.SetValue(HtmlText.FromIeHtmlText(strIeHtml));
+            return true;
         }
 
         public void ClearSelection(StringTransfer stringTransfer)
         {
             Debug.Assert(stringTransfer.HasData && !String.IsNullOrEmpty(stringTransfer.HtmlElementId));
-            if (Document != null)
+            if (IsTextareaElement(stringTransfer.HtmlElementId))
             {
-                HtmlDocument doc = Document;
-                if (IsTextareaElement(stringTransfer.HtmlElementId))
-                {
-                    if (doc.DomDocument is IHTMLDocument2 htmlDocument)
-                    {
-                        IHTMLSelectionObject selection = htmlDocument.selection;
-                        selection.empty();
-                    }
-                }
-                else if (IsParagraphElement(stringTransfer.HtmlElementId))
-                {
-                    HtmlElement elem = doc.GetElementById(stringTransfer.HtmlElementId);
-                    if (elem != null)
-                        elem.InnerHtml = (stringTransfer is CommInstance)
-                                             ? NoteHtmlSanitizer.ToReadOnlyHtml(stringTransfer.ToString())
-                                             : HtmlText.ForParagraph(stringTransfer.ToString());
-                    else
-                        Debug.Assert(false, "unexpected element id in HTML");
-                }
+                Host.Post("clearSelection");
+            }
+            else if (IsParagraphElement(stringTransfer.HtmlElementId))
+            {
+                var strHtml = (stringTransfer is CommInstance)
+                                  ? NoteHtmlSanitizer.ToReadOnlyHtml(stringTransfer.ToString())
+                                  : HtmlText.ForParagraph(stringTransfer.ToString());
+                Host.Post("setHtml", new { id = stringTransfer.HtmlElementId, html = strHtml });
             }
         }
 
-        // nButton == 1 for left and 2 for right
-        public void OnTextareaMouseDown(string strId, string strText, int nButton)
+        // TextPaster sets a textarea's text this way; the page then sends 'textChanged' like any other edit
+        internal void SetTextareaText(string strId, string strText)
         {
-            if ((StoryEditor.TextPaster != null) && (Document != null))
-            {
-                var elemTextArea = Document.GetElementById(strId);
-                StoryEditor.TextPaster.TriggerPaste((nButton == 1), elemTextArea);
-            }
+            Host.Post("setText", new { id = strId, text = strText });
         }
 
-        private void InitializeComponent()
+        // button is the value JS reports (1 == left, as before)
+        private void OnTextareaMouseDown(HtmlMessage msg)
         {
-            this.SuspendLayout();
-            // 
-            // HtmlVerseControl
-            // 
-            this.AllowNavigation = false;
-            this.AllowWebBrowserDrop = false;
-            this.ResumeLayout(false);
+            var strId = msg.GetString("id");
+            if ((StoryEditor.TextPaster == null) || (strId == null) || !msg.TryGetInt("button", out var nButton))
+                return;
 
+            StoryEditor.TextPaster.TriggerPaste(nButton == 1,
+                                                new TextareaRef { Pane = this, Id = strId, Text = msg.GetString("value") ?? String.Empty });
         }
     }
 }

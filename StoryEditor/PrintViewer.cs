@@ -30,13 +30,13 @@ namespace OneStoryProjectEditor
             if (saveFileDialog.ShowDialog() != DialogResult.OK) 
                 return;
             
-            string strDocumentText = webBrowser.DocumentText;
-            File.WriteAllText(saveFileDialog.FileName, strDocumentText, Encoding.UTF8);
+            string strHtml = webBrowser.LoadedHtml;
+            File.WriteAllText(saveFileDialog.FileName, strHtml, Encoding.UTF8);
         }
 
         private void ButtonPrintClick(object sender, EventArgs e)
         {
-            webBrowser.ShowPrintPreviewDialog();
+            webBrowser.ShowPrintPreview();
         }
 
         private void ButtonCloseClick(object sender, EventArgs e)
@@ -57,10 +57,10 @@ namespace OneStoryProjectEditor
                 ComponentInfo.SetLicense("FREE-LIMITED-KEY");
                 ComponentInfo.FreeLimitReached += (senders, e1) => e1.FreeLimitReachedAction = FreeLimitReachedAction.ContinueAsTrial;
 
-                string strDocumentText = webBrowser.DocumentText;
+                string strHtml = webBrowser.LoadedHtml;
 
                 var htmlLoadOptions = new HtmlLoadOptions();
-                using (var htmlStream = new MemoryStream(htmlLoadOptions.Encoding.GetBytes(strDocumentText)))
+                using (var htmlStream = new MemoryStream(htmlLoadOptions.Encoding.GetBytes(strHtml)))
                 {
                     var document = DocumentModel.Load(htmlStream, htmlLoadOptions);
                     // Save output PDF file.

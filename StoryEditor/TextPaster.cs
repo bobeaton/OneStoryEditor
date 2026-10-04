@@ -111,22 +111,19 @@ namespace OneStoryProjectEditor
         private delegate void SetText(object tb, string str);
         private void SetTextareaText(object tb, string str)
         {
-            var elemTextArea = tb as HtmlElement;
-            Debug.Assert(elemTextArea != null);
-            SetElementText(elemTextArea, str);
+            SetElementText((TextareaRef)tb, str);
         }
 
-        internal static void SetElementText(HtmlElement elemTextArea, string str)
+        internal static void SetElementText(TextareaRef textarea, string str)
         {
-            elemTextArea.InnerText = str;
-            elemTextArea.InvokeMember("onchange"); // triggers the update to the data buffer
+            textarea.Text = str;
+            textarea.Pane.SetTextareaText(textarea.Id, str); // the page sends textChanged, which updates the data buffer
         }
 
         private delegate string GetText(object tb);
         private string GetTextareaText(object tb)
         {
-            var elemTextArea = tb as HtmlElement;
-            return elemTextArea.InnerText;
+            return ((TextareaRef)tb).Text;
         }
 
         private void TriggerPaste(bool bLeftClicked, object tb, 
@@ -149,9 +146,9 @@ namespace OneStoryProjectEditor
             }
         }
 
-        internal void TriggerPaste(bool bLeftClicked, HtmlElement elemTextArea)
+        internal void TriggerPaste(bool bLeftClicked, TextareaRef textarea)
         {
-            TriggerPaste(bLeftClicked, elemTextArea, SetTextareaText, GetTextareaText);
+            TriggerPaste(bLeftClicked, textarea, SetTextareaText, GetTextareaText);
         }
 
         public string GetNextLine(bool bCheckForSfm)
@@ -214,11 +211,19 @@ namespace OneStoryProjectEditor
                 {
                     ;    // no op -- means we deleted a line of data
                 }
-                else if (val.Item1 is HtmlElement)
-                    SetElementText(val.Item1 as HtmlElement, val.Item2);
+                else if (val.Item1 is TextareaRef textarea)
+                    SetElementText(textarea, val.Item2);
                 else
                     Debug.Assert(false, "oops, did we add support for something new?");
             }
         }
+    }
+
+    // a textarea in one of the HTML panes, as a paste/undo target (was an IE HtmlElement)
+    internal class TextareaRef
+    {
+        public HtmlVerseControl Pane;
+        public string Id;
+        public string Text;     // what the textarea holds, as far as we know (updated when we set it)
     }
 }

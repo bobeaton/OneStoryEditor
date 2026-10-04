@@ -1767,9 +1767,7 @@ namespace OneStoryProjectEditor
             // 
             // htmlStoryBtControl
             // 
-            this.htmlStoryBtControl.AllowWebBrowserDrop = false;
             this.htmlStoryBtControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlStoryBtControl.IsWebBrowserContextMenuEnabled = false;
             this.htmlStoryBtControl.Location = new System.Drawing.Point(0, 23);
             this.htmlStoryBtControl.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlStoryBtControl.Name = "htmlStoryBtControl";
@@ -1849,7 +1847,6 @@ namespace OneStoryProjectEditor
             // htmlConsultantNotesControl
             // 
             this.htmlConsultantNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlConsultantNotesControl.IsWebBrowserContextMenuEnabled = false;
             this.htmlConsultantNotesControl.Location = new System.Drawing.Point(0, 23);
             this.htmlConsultantNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlConsultantNotesControl.Name = "htmlConsultantNotesControl";
@@ -1893,7 +1890,6 @@ namespace OneStoryProjectEditor
             // htmlCoachNotesControl
             // 
             this.htmlCoachNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlCoachNotesControl.IsWebBrowserContextMenuEnabled = false;
             this.htmlCoachNotesControl.Location = new System.Drawing.Point(0, 23);
             this.htmlCoachNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlCoachNotesControl.Name = "htmlCoachNotesControl";

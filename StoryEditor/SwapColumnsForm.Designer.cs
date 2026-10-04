@@ -399,10 +399,8 @@
             // 
             // htmlStoryBtControlBefore
             // 
-            this.htmlStoryBtControlBefore.AllowWebBrowserDrop = false;
             this.tableLayoutPanel1.SetColumnSpan(this.htmlStoryBtControlBefore, 3);
             this.htmlStoryBtControlBefore.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlStoryBtControlBefore.IsWebBrowserContextMenuEnabled = false;
             this.htmlStoryBtControlBefore.Location = new System.Drawing.Point(3, 32);
             this.htmlStoryBtControlBefore.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlStoryBtControlBefore.Name = "htmlStoryBtControlBefore";
@@ -466,10 +464,8 @@
             // 
             // htmlStoryBtControlAfter
             // 
-            this.htmlStoryBtControlAfter.AllowWebBrowserDrop = false;
             this.tableLayoutPanel2.SetColumnSpan(this.htmlStoryBtControlAfter, 3);
             this.htmlStoryBtControlAfter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlStoryBtControlAfter.IsWebBrowserContextMenuEnabled = false;
             this.htmlStoryBtControlAfter.Location = new System.Drawing.Point(3, 32);
             this.htmlStoryBtControlAfter.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlStoryBtControlAfter.Name = "htmlStoryBtControlAfter";

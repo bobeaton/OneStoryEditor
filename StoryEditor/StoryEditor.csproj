@@ -192,6 +192,7 @@
     <EmbeddedResource Include="js\bridge.js" LogicalName="OneStoryProjectEditor.js.bridge.js" />
     <EmbeddedResource Include="js\HoverLinks.js" LogicalName="OneStoryProjectEditor.js.HoverLinks.js" />
     <EmbeddedResource Include="js\NetBible.js" LogicalName="OneStoryProjectEditor.js.NetBible.js" />
+    <EmbeddedResource Include="js\PaneCommon.js" LogicalName="OneStoryProjectEditor.js.PaneCommon.js" />
   </ItemGroup>
   <!-- 16 files (ProjectSettingsForm, ConsultNotesDataConverter, StorySettings, GeckoTestForm, BiblicalTerms,
        EditBiblicalTermForm, SelectKeyTerms, BiblicalKeyTermsForm, KeyTermsSearchForm, SelectTermsListForm,

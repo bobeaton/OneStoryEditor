@@ -405,7 +405,7 @@ namespace OneStoryProjectEditor.Properties {
         ///{1}
         ///&lt;/script&gt;
         ///&lt;/head&gt;
-        ///&lt;body onKeyDown=&quot;return OnKeyDown();&quot; onscroll=&quot;window.external.OnScroll();&quot; onmouseup=&quot;OnMouseUp();&quot;&gt;
+        ///&lt;body onmouseup=&quot;OnMouseUp();&quot;&gt;
         ///{2}
         ///&lt;/body&gt;
         ///{3}
@@ -418,7 +418,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;a href=&quot;{0}&quot; onClick=&quot;return OnUrlJump(this);&quot;&gt;here&lt;/a&gt; .
+        ///   Looks up a localized string similar to &lt;a href=&quot;{0}&quot;&gt;here&lt;/a&gt; .
         /// </summary>
         internal static string HTML_HttpLink {
             get {
@@ -454,7 +454,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;a href=&quot;conNote.jumpToLine&quot; name=&quot;{0}&quot; class=&quot;{1}&quot; onClick=&quot;return OnVerseLineJump(this);&quot;&gt;{2}&lt;/a&gt;.
+        ///   Looks up a localized string similar to &lt;a href=&quot;conNote.jumpToLine&quot; name=&quot;{0}&quot; class=&quot;{1}&quot;&gt;{2}&lt;/a&gt;.
         /// </summary>
         internal static string HTML_LinkJumpLine {
             get {
@@ -463,7 +463,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;a href=&quot;bibleViewer.setReference&quot; name=&quot;{0}&quot; onClick=&quot;return OnBibRefJump(this);&quot;&gt;{0}&lt;/a&gt;.
+        ///   Looks up a localized string similar to &lt;a href=&quot;bibleViewer.setReference&quot; name=&quot;{0}&quot;&gt;{0}&lt;/a&gt;.
         /// </summary>
         internal static string HTML_LinkJumpTargetBibleReference {
             get {
