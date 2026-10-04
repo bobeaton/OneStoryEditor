@@ -575,6 +575,19 @@ namespace OneStoryProjectEditor
         {
             mySaveTimer.Stop();
 
+            if (_bInSave)
+            {
+                mySaveTimer.Start();
+                return;
+            }
+
+            // an autosave never asks about a pane that didn't answer; it tries again next time
+            if (FlushPendingEdits(true, false) == FlushOutcome.Cancelled)
+            {
+                mySaveTimer.Start();
+                return;
+            }
+
             if (Modified
                 && !((LoggedOnMember != null)
                         && TeamMemberData.IsUser(LoggedOnMember.MemberType,
@@ -596,7 +609,7 @@ namespace OneStoryProjectEditor
 
                     if (res == DialogResult.Yes)
                     {
-                        SaveClicked();
+                        SaveAfterFlush(FlushOutcome.AllEditsCollected);
                         return;
                     }
                 }
@@ -2052,12 +2065,16 @@ namespace OneStoryProjectEditor
                 return true;
             }
 
+            var outcome = FlushPendingEdits(false, false);
+            if (outcome == FlushOutcome.Cancelled)
+                return false;   // (as if they'd clicked Cancel on 'save changes?')
+
             if (Modified)
             {
                 // it's annoying that the keyboard doesn't deactivate so I can just type 'y' for "Yes"
                 Program.ActivateDefaultKeyboard(); // ... do it manually
 
-                if (!advancedSaveTimeoutAsSilentlyAsPossibleMenu.Checked)
+                if (!advancedSaveTimeoutAsSilentlyAsPossibleMenu.Checked && (outcome != FlushOutcome.SomeEditsMissing))
                 {
                     var res = QuerySave();
                     if (res == DialogResult.Cancel)
@@ -2069,7 +2086,7 @@ namespace OneStoryProjectEditor
                     }
                 }
 
-                SaveClicked();
+                SaveAfterFlush(outcome);
             }
 
             return true;
@@ -2085,7 +2102,63 @@ namespace OneStoryProjectEditor
             Application.DoEvents(); // give them time to actually empty the webcontrols
         }
 
+        private bool _bInSave;  // e.g. Ctrl+S (or an autosave tick) arriving while a save is collecting edits
+
+        // asks the HTML panes for any edit they haven't sent yet; see PaneFlush
+        internal FlushOutcome FlushPendingEdits(bool bAutosave, bool bClosing)
+        {
+            var panes = new List<KeyValuePair<string, Func<bool>>>
+            {
+                new KeyValuePair<string, Func<bool>>(Localizer.Str("Story"), () => htmlStoryBtControl.FlushEdits(PaneFlush.Timeout)),
+                new KeyValuePair<string, Func<bool>>(htmlConsultantNotesControl.PaneLabel(), () => htmlConsultantNotesControl.FlushEdits(PaneFlush.Timeout)),
+                new KeyValuePair<string, Func<bool>>(htmlCoachNotesControl.PaneLabel(), () => htmlCoachNotesControl.FlushEdits(PaneFlush.Timeout))
+            };
+            return PaneFlush.Run(() => PaneFlush.FlushAll(panes),
+                                 strPane => AskAboutUncollectedEdits(strPane, bClosing),
+                                 bAutosave);
+        }
+
+        private static FlushChoice AskAboutUncollectedEdits(string strPane, bool bClosing)
+        {
+            var res = new CustomMsgBox(OseCaption,
+                                       String.Format(Localizer.Str("The most recent typing in the {0} pane could not be collected (the pane is not responding)."),
+                                                     strPane),
+                                       Localizer.Str("Retry"),
+                                       bClosing
+                                           ? Localizer.Str("Save the rest and close")
+                                           : Localizer.Str("Save without the latest typing"))
+                .ShowDialog();
+            switch (res)
+            {
+                case DialogResult.OK:
+                    return FlushChoice.Retry;
+                case DialogResult.Retry:
+                    return FlushChoice.SaveWithoutLatest;
+                default:
+                    return FlushChoice.Cancel;
+            }
+        }
+
         internal void SaveClicked()
+        {
+            if (_bInSave)
+                return;
+            _bInSave = true;
+            try
+            {
+                // first, so an edit the panes hadn't sent yet counts for the Modified check below
+                var outcome = FlushPendingEdits(false, false);
+                if (outcome != FlushOutcome.Cancelled)
+                    SaveAfterFlush(outcome);
+            }
+            finally
+            {
+                _bInSave = false;
+            }
+        }
+
+        // for callers that have already flushed (and asked the user what they needed to)
+        private void SaveAfterFlush(FlushOutcome outcome)
         {
             mySaveTimer.Stop();
             mySaveTimer.Interval = CnIntervalBetweenAutoSaveReqs;
@@ -2097,8 +2170,12 @@ namespace OneStoryProjectEditor
             string strFilename = StoryProject.ProjSettings.ProjectFilePath;
 
             bool bSaveThisSnapshotInRepo = (DateTime.Now - tmLastSync) > tsBackupTime;
-            TriggerSaveUpdates();
             SaveFile(strFilename, bSaveThisSnapshotInRepo);
+
+            // the user chose to save without the latest typing in a pane that didn't answer, so there's more to save
+            //  once it does
+            if (outcome == FlushOutcome.SomeEditsMissing)
+                Modified = true;
 
             if (bSaveThisSnapshotInRepo)
             {
@@ -2114,13 +2191,6 @@ namespace OneStoryProjectEditor
                 }
                 tmLastSync = DateTime.Now;
             }
-        }
-
-        // if the user was editing and hasn't yet left the textarea, we need to trigger it now
-        //  so that we'll get the new value of the textarea
-        private void TriggerSaveUpdates()
-        {
-            htmlStoryBtControl.FlushEdits(HtmlHostDefaults.RequestTimeout);
         }
 
         protected void SaveXElement(XElement elem, string strFilename, bool bDoReloadTest)
@@ -2986,9 +3056,16 @@ namespace OneStoryProjectEditor
             if (!IsInStoriesSet)
                 return;
 
+            var outcome = FlushPendingEdits(false, true);
+            if (outcome == FlushOutcome.Cancelled)
+            {
+                e.Cancel = true;
+                return;
+            }
+
             if (Modified)
             {
-                if (!advancedSaveTimeoutAsSilentlyAsPossibleMenu.Checked)
+                if (!advancedSaveTimeoutAsSilentlyAsPossibleMenu.Checked && (outcome != FlushOutcome.SomeEditsMissing))
                 {
                     DialogResult res = QuerySave();
                     if (res == DialogResult.Cancel)
@@ -3004,7 +3081,7 @@ namespace OneStoryProjectEditor
                     }
                 }
 
-                SaveClicked();
+                SaveAfterFlush(outcome);
             }
 
 #if UseAutoUpgrade
