@@ -55,7 +55,8 @@ namespace OneStoryProjectEditor
         {
             _strUserDataFolder = options?.UserDataFolder ?? DefaultUserDataFolder;
             _view = new WebView2 { Dock = DockStyle.Fill, DefaultBackgroundColor = Color.White };
-            _channel = new HtmlMessageChannel(SendJson, () => !_bDisposed && !_bFailed && _bStarted, "WebView2HtmlHost");
+            _channel = new HtmlMessageChannel(SendJson, () => !_bDisposed && !_bFailed && _bStarted && !_view.IsDisposed,
+                                              "WebView2HtmlHost");
             _channel.MessageReceived += (s, m) => MessageReceived?.Invoke(this, m);
             _channel.DocumentReady += (s, e) => DocumentReady?.Invoke(this, EventArgs.Empty);
             _startWatchdog = new Timer { Interval = (int)StartTimeout.TotalMilliseconds };
@@ -132,7 +133,18 @@ namespace OneStoryProjectEditor
             core.NavigationStarting += OnNavigationStarting;
             core.NewWindowRequested += (s, e) => e.Handled = true;
             core.WebMessageReceived += OnWebMessageReceived;
-            core.ProcessFailed += (s, e) => Fail(new InvalidOperationException("WebView2 browser process failed: " + e.ProcessFailedKind));
+            core.ProcessFailed += OnProcessFailed;
+        }
+
+        private void OnProcessFailed(object sender, CoreWebView2ProcessFailedEventArgs e)
+        {
+            // only the browser or the page's renderer gone is fatal; WebView2 restarts helper processes (GPU, utility,
+            //  ...) itself, and an unresponsive renderer may recover
+            if ((e.ProcessFailedKind == CoreWebView2ProcessFailedKind.BrowserProcessExited) ||
+                (e.ProcessFailedKind == CoreWebView2ProcessFailedKind.RenderProcessExited))
+                Fail(new InvalidOperationException("WebView2 process failed: " + e.ProcessFailedKind));
+            else
+                Debug.WriteLine("WebView2HtmlHost: process failure (not fatal): " + e.ProcessFailedKind);
         }
 
         public void LoadHtml(string strHtml)
@@ -168,9 +180,11 @@ namespace OneStoryProjectEditor
 
         private void OnWebResourceRequested(object sender, CoreWebView2WebResourceRequestedEventArgs e)
         {
-            // only the page itself; anything else (e.g. the favicon.ico the browser asks for on every load) is a 404
+            // only the current document's page; anything else (the favicon.ico the browser asks for on every load, or the
+            //  page of a navigation a later LoadHtml superseded: it mustn't get the newer document) is a 404
             var uri = new Uri(e.Request.Uri);
-            if (!String.Equals(uri.AbsolutePath, "/" + CstrPagePath, StringComparison.OrdinalIgnoreCase))
+            if (!String.Equals(uri.AbsolutePath, "/" + CstrPagePath, StringComparison.OrdinalIgnoreCase) ||
+                (uri.Query != "?d=" + _channel.DocIdText))
             {
                 e.Response = _env.CreateWebResourceResponse(null, 404, "Not Found", "");
                 return;
@@ -226,7 +240,7 @@ namespace OneStoryProjectEditor
 
         public void ShowPrintPreview()
         {
-            if (_bStarted && !_bDisposed && !_bFailed)
+            if (_bStarted && !_bDisposed && !_bFailed && !_view.IsDisposed)
                 _view.CoreWebView2.ShowPrintUI(CoreWebView2PrintDialogKind.Browser);
         }
 
@@ -237,7 +251,17 @@ namespace OneStoryProjectEditor
             _bFailed = true;
             _startWatchdog.Stop();
             Debug.WriteLine("WebView2HtmlHost: failed: " + ex);
-            Failed?.Invoke(this, ex);
+
+            // raised later, not from inside the WebView2 event (or await continuation) that found the failure: the
+            //  subscriber (FallbackHtmlHost) disposes this host, and with it the control that is raising the event
+            if (_view.IsHandleCreated && !_view.IsDisposed)
+                _view.BeginInvoke((Action)(() =>
+                {
+                    if (!_bDisposed)
+                        Failed?.Invoke(this, ex);
+                }));
+            else
+                Failed?.Invoke(this, ex);
         }
 
         // safe to call more than once (the owning pane disposes us, and WinForms disposes the control with it)
