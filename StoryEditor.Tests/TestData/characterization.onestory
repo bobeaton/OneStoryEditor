@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StoryProject version="1.8" ProjectName="characterization">
+  <Members HasOutsideEnglishBTer="true" HasFirstPassMentor="false" HasIndependentConsultant="false">
+    <Member name="Test Crafter" memberType="Crafter" memberKey="mem-00000000-0000-0000-0000-000000000001" />
+  </Members>
+  <Languages>
+    <LanguageInfo lang="Vernacular" name="Testish" code="tst" FontName="Arial" FontSize="12.5" FontColor="Maroon" SentenceFinalPunct=".!?:" />
+  </Languages>
+  <LnCNotes />
+  <stories SetName="Stories">
+    <story name="Story Z" stage="ProjFacTypeVernacular" guid="00000000-0000-0000-0000-000000000010" stageDateTimeStamp="2026-10-03T12:34:56Z">
+      <CraftingInfo NonBiblicalStory="false">
+        <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001" />
+      </CraftingInfo>
+      <TransitionHistory>
+        <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" WindowsUserName="tester" FromState="ProjFacTypeVernacular" ToState="ProjFacTypeInternationalBT" TransitionDateTime="2026-10-03T12:34:56Z" />
+        <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" WindowsUserName="tester" FromState="ProjFacTypeInternationalBT" ToState="ProjFacTypeVernacular" TransitionDateTime="2026-10-03T12:34:56" />
+        <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" WindowsUserName="tester" FromState="ProjFacTypeVernacular" ToState="ProjFacTypeInternationalBT" TransitionDateTime="2026-10-03T12:34:56+02:00" />
+      </TransitionHistory>
+      <Verses>
+        <Verse guid="00000000-0000-0000-0000-000000000020">
+          <StoryLine lang="Vernacular" />
+          <Anchors>
+            <Anchor jumpTarget="GEN 1:1" />
+            <Anchor jumpTarget="GEN 1:2">   </Anchor>
+            <Anchor jumpTarget="GEN 1:3">text</Anchor>
+          </Anchors>
+          <ConsultantNotes>
+            <ConsultantConversation guid="00000000-0000-0000-0000-000000000040">
+              <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000041" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">note Z</ConsultantNote>
+              <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000042" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56">note local</ConsultantNote>
+              <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000043" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56+02:00">note offset</ConsultantNote>
+              <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000044" memberID="mem-00000000-0000-0000-0000-000000000001">no timestamp</ConsultantNote>
+            </ConsultantConversation>
+          </ConsultantNotes>
+        </Verse>
+      </Verses>
+    </story>
+    <story name="Story Local" stage="ProjFacTypeVernacular" guid="00000000-0000-0000-0000-000000000011" stageDateTimeStamp="2026-10-03T12:34:56" CountRetellingsTests="2">
+      <CraftingInfo NonBiblicalStory="false">
+        <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001" />
+      </CraftingInfo>
+      <Verses>
+        <Verse guid="00000000-0000-0000-0000-000000000021" visible="false" first="true">
+          <StoryLine lang="Vernacular"></StoryLine>
+          <ConsultantNotes>
+            <ConsultantConversation guid="00000000-0000-0000-0000-000000000045" finished="true">
+              <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000046" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">n</ConsultantNote>
+            </ConsultantConversation>
+          </ConsultantNotes>
+        </Verse>
+      </Verses>
+    </story>
+    <story name="Story Offset" stage="ProjFacTypeVernacular" guid="00000000-0000-0000-0000-000000000012" stageDateTimeStamp="2026-10-03T12:34:56+02:00">
+      <CraftingInfo NonBiblicalStory="false">
+        <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001" />
+      </CraftingInfo>
+      <Verses>
+        <Verse guid="00000000-0000-0000-0000-000000000022" visible="true">
+          <StoryLine lang="Vernacular">  </StoryLine>
+        </Verse>
+        <Verse guid="00000000-0000-0000-0000-000000000023" visible="1" first="true">
+          <StoryLine lang="Vernacular">  padded text  </StoryLine>
+        </Verse>
+      </Verses>
+    </story>
+    <story name="Story NoStamp" stage="ProjFacTypeVernacular" guid="00000000-0000-0000-0000-000000000013">
+      <CraftingInfo NonBiblicalStory="false">
+        <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001" />
+      </CraftingInfo>
+      <Verses>
+        <Verse guid="00000000-0000-0000-0000-000000000024">
+          <StoryLine lang="Vernacular">plain</StoryLine>
+        </Verse>
+      </Verses>
+    </story>
+  </stories>
+</StoryProject>
