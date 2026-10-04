@@ -32,7 +32,6 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.textBoxSizer = new System.Windows.Forms.TextBox();
-            this.webBrowserNetBible = new System.Windows.Forms.WebBrowser();
             this.contextMenuChangeFont = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemChangeFont = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
@@ -72,19 +71,6 @@
             this.textBoxSizer.Size = new System.Drawing.Size(100, 20);
             this.textBoxSizer.TabIndex = 1;
             // 
-            // webBrowserNetBible
-            // 
-            this.tableLayoutPanel.SetColumnSpan(this.webBrowserNetBible, 2);
-            this.webBrowserNetBible.ContextMenuStrip = this.contextMenuChangeFont;
-            this.webBrowserNetBible.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowserNetBible.IsWebBrowserContextMenuEnabled = false;
-            this.webBrowserNetBible.Location = new System.Drawing.Point(3, 30);
-            this.webBrowserNetBible.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowserNetBible.Name = "webBrowserNetBible";
-            this.webBrowserNetBible.Size = new System.Drawing.Size(577, 229);
-            this.webBrowserNetBible.TabIndex = 1;
-            this.webBrowserNetBible.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserNetBible_DocumentCompleted);
-            // 
             // contextMenuChangeFont
             // 
             this.contextMenuChangeFont.ImageScalingSize = new System.Drawing.Size(24, 24);
@@ -106,7 +92,6 @@
             this.tableLayoutPanel.ColumnCount = 2;
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel.Controls.Add(this.webBrowserNetBible, 0, 1);
             this.tableLayoutPanel.Controls.Add(this.tableLayoutPanelSpinControls, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.checkBoxAutoHide, 1, 0);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -297,7 +282,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.TextBox textBoxSizer;
         #endregion
-        private System.Windows.Forms.WebBrowser webBrowserNetBible;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private DynamicTableLayoutPanel tableLayoutPanelSpinControls;
         private System.Windows.Forms.DomainUpDown domainUpDownBookNames;

@@ -67,6 +67,36 @@
         return false;   // keep IE's own handling, as before
     };
 
+    // the nearest element (from el up) for which test(el) is true, or null
+    function closest(el, test) {
+        while (el && el.nodeType == 1) {
+            if (test(el))
+                return el;
+            el = el.parentNode;
+        }
+        return null;
+    }
+
+    function cancel(e) {
+        if (e.preventDefault)
+            e.preventDefault();
+        e.returnValue = false;
+    }
+
+    on('scrollTo', function (m) {
+        var el = document.getElementById(m.id);
+        if (!el)
+            return { found: false };
+        // later, so it runs after anything else waiting to scroll the document (what Application.DoEvents was for)
+        setTimeout(function () {
+            el.scrollIntoView(m.alignTop !== false);
+            if (m.focus) {
+                try { el.focus(); } catch (e) { }
+            }
+        }, 0);
+        return { found: true };
+    });
+
     function ready() {
         send('ready', { docMode: document.documentMode || 0 });
     }
@@ -75,5 +105,5 @@
     else
         window.attachEvent('onload', ready);
 
-    window.ose = { send: send, on: on };
+    window.ose = { send: send, on: on, closest: closest, cancel: cancel };
 })();

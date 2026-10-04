@@ -28,22 +28,8 @@ namespace OneStoryProjectEditor
 		/// </summary>
 		private void InitializeComponent()
 		{
-            this.webBrowser = new System.Windows.Forms.WebBrowser();
             this.SuspendLayout();
-            // 
-            // webBrowser
-            // 
-            this.webBrowser.AllowWebBrowserDrop = false;
-            this.webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser.Location = new System.Drawing.Point(0, 0);
-            this.webBrowser.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.webBrowser.MaximumSize = new System.Drawing.Size(1774, 1473);
-            this.webBrowser.MinimumSize = new System.Drawing.Size(100, 29);
-            this.webBrowser.Name = "webBrowser";
-            this.webBrowser.Size = new System.Drawing.Size(748, 588);
-            this.webBrowser.TabIndex = 0;
-            this.webBrowser.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.webBrowser_PreviewKeyDown);
-            // 
+            //
             // MinimalHtmlForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -51,7 +37,6 @@ namespace OneStoryProjectEditor
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.ClientSize = new System.Drawing.Size(748, 588);
-            this.Controls.Add(this.webBrowser);
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.MaximizeBox = false;
@@ -72,7 +57,6 @@ namespace OneStoryProjectEditor
 
 		#endregion
 
-        protected System.Windows.Forms.WebBrowser webBrowser;
 
 
 

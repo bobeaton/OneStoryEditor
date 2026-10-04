@@ -13,7 +13,6 @@ using Sword;
 
 namespace OneStoryProjectEditor
 {
-    [System.Runtime.InteropServices.ComVisible(true)]
     public partial class NetBibleViewer : UserControl
     {
         protected string m_strScriptureReference = "Gen 1:1";
@@ -41,45 +40,7 @@ namespace OneStoryProjectEditor
             return String.Format(CstrTextStyleFormat, strFontFaceName, strFontSize);
         }
 
-        protected const string preDocumentDOMScript = "<style> body { margin:0 } " + CstrReplaceWithStyle + " </style>" + 
-            "<script>" +
-            "function OpenHoverWindow(link)" +
-            "{" +
-            "  window.external.ShowHoverOver(link.getAttribute(\"href\").substr(6,link.length));" +
-            "  return false;" +
-            "}" +
-            "" +
-            "function DoOnMouseOut(button)" +
-            "{" +
-            "  window.external.OnMouseOut(button.id, button.getAttribute(\"value\"));" +
-            "  return false;" +
-            "}" +
-            "function DoOnMouseDown()" +
-            "{" +
-            "  window.external.OnMouseDown();" +
-            "  return false;" +
-            "}" +
-            "function DoOnMouseUp(button)" +
-            "{" +
-            "  window.external.OnDoOnMouseUp(button.id, button.getAttribute(\"value\"));" +
-            "  return false;" +
-            "}" +
-            "</script>";
-
-        protected const string postDocumentDOMScript = "<script>" +
-            "var links = document.getElementsByTagName(\"a\");" +
-            "for (var i=0; i < links.length; i++)" +
-            "{" +
-            "  links[i].onclick = function(){return OpenHoverWindow(this);};" +
-            "}" +
-            "var buttons = document.getElementsByTagName(\"button\");" +
-            "for (var i=0; i < buttons.length; i++)" +
-            "{" +
-            "  buttons[i].onmousedown = function(){return DoOnMouseDown();};" +
-            "  buttons[i].onmouseup = function(){return DoOnMouseUp(this);};" +
-            "  buttons[i].onmouseout = function(){return DoOnMouseOut(this);};" +
-            "}" +
-            "</script>";
+        protected const string preDocumentDOMScript = "<style> body { margin:0 } " + CstrReplaceWithStyle + " </style>";
         #endregion
 
         #region "Defines for Sword capability"
@@ -106,10 +67,30 @@ namespace OneStoryProjectEditor
 
 #endregion
 
+        private readonly IHtmlHost _htmlHost;
+        private readonly HtmlMessageDispatcher _dispatcher = new HtmlMessageDispatcher();
+
         public NetBibleViewer()
         {
             InitializeComponent();
             Localizer.Ctrl(this);
+
+            // these are the settings the designer had for webBrowserNetBible (file drop was left on)
+            _htmlHost = HtmlHostFactory.Create(new HtmlHostOptions { AllowFileDrop = true });
+            var ctrl = _htmlHost.Control;
+            ctrl.ContextMenuStrip = contextMenuChangeFont;
+            ctrl.MinimumSize = new Size(20, 20);
+            ctrl.Name = "webBrowserNetBible";
+            ctrl.TabIndex = 1;
+            tableLayoutPanel.Controls.Add(ctrl, 0, 1);
+            tableLayoutPanel.SetColumnSpan(ctrl, 2);
+
+            _dispatcher.Register("hoverRef", m => ShowHoverOver(m.GetString("ref")));
+            _dispatcher.Register("refMouseDown", m => OnMouseDown());
+            _dispatcher.Register("refMouseOut", m => OnMouseOut(m.GetString("target"), m.GetString("ref")));
+            _dispatcher.Register("refMouseUp", m => OnDoOnMouseUp(m.GetString("target"), m.GetString("ref")));
+            _htmlHost.MessageReceived += (s, m) => _dispatcher.Dispatch(m);
+            _htmlHost.DocumentReady += (s, e) => ScrollToElement();
 
             OnLocalizationChange(false);
             domainUpDownBookNames.ContextMenuStrip = contextMenuStripBibleBooks;
@@ -362,14 +343,6 @@ namespace OneStoryProjectEditor
             manager.SetGlobalOption("Cross-references", "On");
             manager.SetGlobalOption("Textual Variants", "On");
 
-            /* NOTE: This is needed so the DOM Script I'm using for strongs numbers,
-             * morph, and footnote tags will work.  This basicly allows the webbrowser
-             * control to talk to my form control using DOM Script using the command
-             * window.external.<the public method from this form>;
-             * -Richard Parsons 01-31-2007
-             */
-            webBrowserNetBible.ObjectForScripting = this;
-
             if (tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + moduleToStartWith] is RadioButton)
             {
                 var rb = (RadioButton)tableLayoutPanelSpinControls.Controls[CstrRadioButtonPrefix + moduleToStartWith];
@@ -602,12 +575,12 @@ namespace OneStoryProjectEditor
                 sb.Append(CstrHtmlTableEnd);
 
                 // set this along with scripts for clicks and such into the web browser.
-                var strHtml = preDocumentDOMScript.Replace(CstrReplaceWithStyle, (bSpecifyFont) 
-                                                                                    ? GetTextStyle(strFontName,strFontSize)
-                                                                                    : String.Empty);
-                strHtml += sb + postDocumentDOMScript;
-
-                webBrowserNetBible.DocumentText = strHtml;
+                var strHtml = preDocumentDOMScript.Replace(CstrReplaceWithStyle, (bSpecifyFont)
+                                                                                    ? GetTextStyle(strFontName, strFontSize)
+                                                                                    : String.Empty)
+                              + PageScripts.ScriptBlock(PageScripts.Bridge, PageScripts.Get("NetBible.js"))
+                              + sb;
+                _htmlHost.LoadHtml(strHtml);
                 bJustUpdated = true;
             }
 
@@ -721,13 +694,8 @@ namespace OneStoryProjectEditor
 
         private void ScrollToElement()
         {
-            if (!String.IsNullOrEmpty(strIdToScrollTo) && (webBrowserNetBible.Document != null))
-            {
-                HtmlDocument doc = webBrowserNetBible.Document;
-                HtmlElement elem = doc.GetElementById(strIdToScrollTo);
-                if (elem != null)
-                    elem.ScrollIntoView(true);
-            }
+            if (!String.IsNullOrEmpty(strIdToScrollTo))
+                _htmlHost.Post("scrollTo", new { id = strIdToScrollTo, alignTop = true });
         }
 
         protected void UpdateUpDowns(SwordKeyChildren swordModuleInfo)
@@ -804,24 +772,24 @@ namespace OneStoryProjectEditor
 #region "Callbacks from HTML script"
         protected bool m_bMouseDown = false;
 
-        public void OnMouseDown()
+        private void OnMouseDown()
         {
             m_bMouseDown = true;
         }
 
-        public void OnMouseOut(string strJumpTarget, string strScriptureReference)
+        private void OnMouseOut(string strJumpTarget, string strScriptureReference)
         {
             if (m_bMouseDown)
             {
                 JumpTarget = strJumpTarget;
                 ScriptureReference = strScriptureReference;
                 StoryEditor.SuspendSaveDialog++;
-                webBrowserNetBible.DoDragDrop(this, DragDropEffects.Link | DragDropEffects.Copy);
+                _htmlHost.Control.DoDragDrop(this, DragDropEffects.Link | DragDropEffects.Copy);
                 StoryEditor.SuspendSaveDialog--;
             }
         }
 
-        public void OnDoOnMouseUp(string strJumpTarget, string strScriptureReference)
+        private void OnDoOnMouseUp(string strJumpTarget, string strScriptureReference)
         {
             m_bMouseDown = false;
 #if !DoDisplayVerse
@@ -837,7 +805,7 @@ namespace OneStoryProjectEditor
 
         protected NetBibleFootnoteTooltip _theFootnoteForm = null;
 
-        public void ShowHoverOver(string s)
+        private void ShowHoverOver(string s)
         {
             if (tooltipNBFNs != null)
             {
@@ -908,11 +876,6 @@ namespace OneStoryProjectEditor
         private void numericUpDownVerse_ValueChanged(object sender, EventArgs e)
         {
             CallUpdateUpDowns();
-        }
-
-        private void webBrowserNetBible_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-            ScrollToElement();
         }
 
         private void checkBoxAutoHide_CheckStateChanged(object sender, EventArgs e)

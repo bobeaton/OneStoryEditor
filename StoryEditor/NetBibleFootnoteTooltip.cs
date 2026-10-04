@@ -9,9 +9,21 @@ namespace OneStoryProjectEditor
 {
     public partial class MinimalHtmlForm : Form
     {
+        protected readonly IHtmlHost htmlHost;
+
         public MinimalHtmlForm()
         {
             InitializeComponent();
+
+            htmlHost = HtmlHostFactory.Create();
+            var ctrl = htmlHost.Control;
+            ctrl.Margin = new Padding(6);
+            ctrl.MaximumSize = new Size(1774, 1473);
+            ctrl.MinimumSize = new Size(100, 29);
+            ctrl.Name = "webBrowser";
+            ctrl.TabIndex = 0;
+            ctrl.PreviewKeyDown += webBrowser_PreviewKeyDown;
+            Controls.Add(ctrl);
         }
 
         private void MinimalHtmlForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -42,9 +54,9 @@ namespace OneStoryProjectEditor
             if (!theSE.splitContainerLeftRight.Panel2Collapsed)
                 Width = theSE.splitContainerLeftRight.Panel2.Size.Width;
 
-            webBrowser.DocumentText = aConNote.Html(null, 
-                theSE.StoryProject.TeamMembers, theSE.LoggedOnMember, 
-                theSE.TheCurrentStory, 0, 0);
+            htmlHost.LoadHtml(aConNote.Html(null,
+                theSE.StoryProject.TeamMembers, theSE.LoggedOnMember,
+                theSE.TheCurrentStory, 0, 0));
         }
     }
 
@@ -128,7 +140,7 @@ namespace OneStoryProjectEditor
             }
 
             Show();
-            webBrowser.Focus();
+            htmlHost.Control.Focus();
         }
 
         private void ShowNote(Module module, string NoteType)
@@ -161,7 +173,7 @@ namespace OneStoryProjectEditor
             }
 
             //Display text in a web browser so we get Greek/Hebrew, etc.
-            webBrowser.DocumentText = text; // .Replace("<br>", "\r\n").Replace("<br />", "\r\n");
+            htmlHost.LoadHtml(text); // .Replace("<br>", "\r\n").Replace("<br />", "\r\n");
 		}
 
         /*
