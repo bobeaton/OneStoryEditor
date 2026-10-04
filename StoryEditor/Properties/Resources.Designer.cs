@@ -61,29 +61,6 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-        ///&lt;xsl:stylesheet version=&quot;1.0&quot; xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;
-        ///    xmlns:msxsl=&quot;urn:schemas-microsoft-com:xslt&quot; exclude-result-prefixes=&quot;msxsl&quot;
-        ///&gt;
-        ///  &lt;xsl:output method=&quot;xml&quot; indent=&quot;yes&quot;/&gt;
-        ///
-        ///  &lt;xsl:template match=&quot;@* | node()&quot;&gt;
-        ///    &lt;xsl:copy&gt;
-        ///      &lt;xsl:apply-templates select=&quot;@* | node()&quot;/&gt;
-        ///    &lt;/xsl:copy&gt;
-        ///  &lt;/xsl:template&gt;
-        ///
-        ///  &lt;!--StoryProject@version changed from 1.4 to 1.5--&gt;
-        ///  &lt;xsl:template match=&quot;StoryProject/@version&quot;&gt;
-        ///    &lt;xsl:attribu [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string _1_4_to_1_5 {
-            get {
-                return ResourceManager.GetString("_1_4_to_1_5", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to aikb-{0}-{1}.
         /// </summary>
         internal static string AdaptItProjectRepositoryFormat {
@@ -1471,29 +1448,6 @@ namespace OneStoryProjectEditor.Properties {
             get {
                 object obj = ResourceManager.GetObject("PrintHS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-        ///&lt;xsl:stylesheet version=&quot;1.0&quot; xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;
-        ///    xmlns:msxsl=&quot;urn:schemas-microsoft-com:xslt&quot; exclude-result-prefixes=&quot;msxsl&quot;
-        ///&gt;
-        ///  &lt;xsl:output method=&quot;xml&quot; indent=&quot;yes&quot;/&gt;
-        ///
-        ///  &lt;xsl:template match=&quot;@* | node()&quot;&gt;
-        ///    &lt;xsl:copy&gt;
-        ///      &lt;xsl:apply-templates select=&quot;@* | node()&quot;/&gt;
-        ///    &lt;/xsl:copy&gt;
-        ///  &lt;/xsl:template&gt;
-        ///
-        ///  &lt;!--StoryProject@version changed from 1.3 to 1.4--&gt;
-        ///  &lt;xsl:template match=&quot;StoryProject/@version&quot;&gt;
-        ///    &lt;xsl:attribu [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string project_1_3_to_1_4 {
-            get {
-                return ResourceManager.GetString("project_1_3_to_1_4", resourceCulture);
             }
         }
         

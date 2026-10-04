@@ -265,7 +265,7 @@ namespace OneStoryProjectEditor
                     elem.Add(new XAttribute("InternationalBTRendering", StoryData.RemoveCarriageReturns(InternationalBtRendering)));
 
                 if (!String.IsNullOrEmpty(KeyTermIds))
-                    elem.Add(new XAttribute("KeyTermId", StoryData.RemoveCarriageReturns(KeyTermIds)));
+                    elem.Add(new XAttribute("KeyTermIds",StoryData.RemoveCarriageReturns(KeyTermIds)));
 
                 return elem;
             }
@@ -294,8 +294,9 @@ namespace OneStoryProjectEditor
                 KeyTermIds = StoryData.NormalizeLineEndings(theLnCNoteRow.KeyTermIds);
         }
 
-        // mirrors LnCNote(NewDataSet.LnCNoteRow). The row path reads the attribute "KeyTermIds" while GetXml writes
-        //  "KeyTermId" (so key terms are lost on a round trip); that is kept as is here (the fix is a later task).
+        // mirrors LnCNote(NewDataSet.LnCNoteRow). GetXml used to write "KeyTermId" while the row path read "KeyTermIds"
+        //  (so key terms were lost on a round trip). GetXml now writes "KeyTermIds"; files saved by older versions
+        //  have "KeyTermId", so fall back to that when reading.
         public LnCNote(XElement elemLnCNote)
         {
             guid = XmlRead.RequiredAttr(elemLnCNote, "guid");  // the only thing absolutely required
@@ -314,7 +315,7 @@ namespace OneStoryProjectEditor
             str = XmlRead.Attr(elemLnCNote, "InternationalBTRendering");
             if (str != null)
                 InternationalBtRendering = StoryData.NormalizeLineEndings(str);
-            str = XmlRead.Attr(elemLnCNote, "KeyTermIds");
+            str = XmlRead.Attr(elemLnCNote, "KeyTermIds") ?? XmlRead.Attr(elemLnCNote, "KeyTermId");
             if (str != null)
                 KeyTermIds = StoryData.NormalizeLineEndings(str);
         }

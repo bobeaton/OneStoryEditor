@@ -5,7 +5,8 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using System.Xml;
+using System.Linq;
+using System.Xml.Linq;
 using Chorus.Utilities;
 using Chorus.VcsDrivers.Mercurial;
 using ECInterfaces;
@@ -151,7 +152,7 @@ namespace OneStoryProjectEditor
 
                     try
                     {
-                        XmlNode nodeStoryProject;
+                        XElement nodeStoryProject;
                         string strThisState;
                         ReadRevisionFile(_repository, ri.Revision, out nodeStoryProject, out strThisState);
                         return new StoryData(nodeStoryProject, _strProjectFolder);
@@ -172,7 +173,7 @@ namespace OneStoryProjectEditor
         {
             public Revision Revision { get; set; }
             public object[] RowInfo { get; set; }
-            public XmlNode StoryProjectNode { get; set; }
+            public XElement StoryProjectNode { get; set; }
         }
 
         private void backgroundWorkerCheckRevisions_DoWork(object sender, DoWorkEventArgs e)
@@ -187,7 +188,7 @@ namespace OneStoryProjectEditor
                     Revision rev = form._lstRevisions[i];
                     int nPercentDone = i * 100 / nCount;
                     RevisionInfo ri = null;
-                    XmlNode nodeStoryProject;
+                    XElement nodeStoryProject;
                     if (ShowThisRevision(form._repository, rev, out nodeStoryProject))
                     {
                         var dateString = rev.DateString;
@@ -219,7 +220,7 @@ namespace OneStoryProjectEditor
             }
         }
 
-        private bool ShowThisRevision(HgRepository repository, Revision rev, out XmlNode nodeStoryProject)
+        private bool ShowThisRevision(HgRepository repository, Revision rev, out XElement nodeStoryProject)
         {
             nodeStoryProject = null;
             if (radioButtonShowAllRevisions.Checked)
@@ -235,7 +236,7 @@ namespace OneStoryProjectEditor
         }
 
         private void ReadRevisionFile(HgRepository repository, Revision rev,
-            out XmlNode nodeStoryProject, out string strThisState)
+            out XElement nodeStoryProject, out string strThisState)
         {
             // determine the file we want to look in
             string strFileName = Path.GetFileName(repository.PathToRepo) + ".onestory";
@@ -243,19 +244,19 @@ namespace OneStoryProjectEditor
             // we only want to show revisions that have a state change
             string strFilePath = repository.RetrieveHistoricalVersionOfFile(strFileName, rev.Number.LocalRevisionNumber);
             string strFileContents = File.ReadAllText(strFilePath);
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(strFileContents);
-            string strXPathToStoryWithName = String.Format("/StoryProject/stories[@SetName = 'Stories']/story[@guid = \"{0}\"]",
-                _strStoryToDiff);
-            nodeStoryProject = doc.SelectSingleNode(strXPathToStoryWithName);
+            var doc = XDocument.Parse(strFileContents);
+            nodeStoryProject = doc.Root.Elements(StoriesData.CstrElementLabelStories)
+                .Where(e => (string)e.Attribute(StoriesData.CstrAttributeLabelSetName) == "Stories")
+                .Elements(StoryData.CstrElementNameStory)
+                .FirstOrDefault(e => (string)e.Attribute("guid") == _strStoryToDiff);
             if (nodeStoryProject == null)
                 throw new ApplicationException("done working");
 
             // older revisions have the IE entities in their text (unless they were saved by this version)
-            if (!LegacyTextRepair.IsMarkedPlain(doc.DocumentElement))
+            if (!LegacyTextRepair.IsMarkedPlain(doc.Root))
                 LegacyTextRepair.DecodePlainTextElements(nodeStoryProject);
 
-            strThisState = nodeStoryProject.Attributes["stage"].Value;
+            strThisState = (string)nodeStoryProject.Attribute("stage");
             System.Diagnostics.Debug.WriteLine(String.Format("In revision: {0}, story: {1}, State: {2}", 
                 rev.Number.LocalRevisionNumber,
                 _strStoryToDiff, 

@@ -187,6 +187,8 @@
          up by class name. HtmlDisplayForm.resx belongs to class RevisionHistoryForm, so name it explicitly
          (otherwise MissingManifestResourceException when the form is created). -->
     <EmbeddedResource Update="HtmlDisplayForm.resx" LogicalName="OneStoryProjectEditor.RevisionHistoryForm.resources" />
+    <!-- ProjectFileValidator checks files we save against the schema -->
+    <EmbeddedResource Include="StoryProject.xsd" LogicalName="OneStoryProjectEditor.StoryProject.xsd" />
   </ItemGroup>
   <!-- 16 files (ProjectSettingsForm, ConsultNotesDataConverter, StorySettings, GeckoTestForm, BiblicalTerms,
        EditBiblicalTermForm, SelectKeyTerms, BiblicalKeyTermsForm, KeyTermsSearchForm, SelectTermsListForm,

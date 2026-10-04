@@ -522,9 +522,17 @@ namespace OneStoryProjectEditor
             // these nodes don't have a project root to say whether the text is already plain, so always decode
             //  (on copies, since they're Chorus's nodes)
             if (parentStory != null)
-                ParentStory = new StoryData(LegacyTextRepair.DecodePlainTextElements(parentStory.CloneNode(true)), strProjectPath);
+            {
+                var elemParent = XElement.Parse(parentStory.OuterXml);  // a copy, so Chorus's node is untouched
+                LegacyTextRepair.DecodePlainTextElements(elemParent);
+                ParentStory = new StoryData(elemParent, strProjectPath);
+            }
             if (childStory != null)
-                ChildStory = new StoryData(LegacyTextRepair.DecodePlainTextElements(childStory.CloneNode(true)), strProjectPath);
+            {
+                var elemChild = XElement.Parse(childStory.OuterXml);
+                LegacyTextRepair.DecodePlainTextElements(elemChild);
+                ChildStory = new StoryData(elemChild, strProjectPath);
+            }
             var viewSettings = new VerseData.ViewSettings(
                 projSettings, 
                 true,   // vernacular
@@ -2140,7 +2148,6 @@ namespace OneStoryProjectEditor
             return false;
         }
 
-        private static bool _bProjectConvertWarnedOnce;
         private static bool _bStopNaggingPf;
 
         // the row constructor's rule: a version after the current one, other than the two this version also reads
@@ -2231,32 +2238,8 @@ namespace OneStoryProjectEditor
             {
                 projFile.StoryProject[0].ProjectName = ProjSettings.ProjectName; // in case the user changed it.
 
-                if (projFile.StoryProject[0].version.CompareTo("1.3") == 0)
-                {
-                    // see if the user wants us to upgrade this one
-                    if (LocalizableMessageBox.Show(String.Format(Properties.Resources.IDS_QueryConvertProjectFile1_3to1_4,
-                        ProjSettings.ProjectName), StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
-                        throw BackOutWithNoUI;
-
-                    // convert the 1.3 file to 1.4 using xslt
-                    _bProjectConvertWarnedOnce = true;
-                    ConvertProjectFile1_3_to_1_4(ProjSettings.ProjectFilePath);
-                }
-
-                else if (projFile.StoryProject[0].version.CompareTo("1.4") == 0)
-                {
-                    // see if the user wants us to upgrade this one
-                    if (!_bProjectConvertWarnedOnce)
-                        if (LocalizableMessageBox.Show(String.Format(Properties.Resources.IDS_QueryConvertProjectFile1_3to1_4,
-                            ProjSettings.ProjectName), StoryEditor.OseCaption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
-                            throw BackOutWithNoUI;
-
-                    // convert the 1.3 file to 1.4 using xslt
-                    _bProjectConvertWarnedOnce = true;
-                    ConvertProjectFile1_4_to_1_5(ProjSettings.ProjectFilePath);
-                }
-
-                else if (projFile.StoryProject[0].version.CompareTo(XmlDataVersion) > 0)
+                // (1.3/1.4 files are refused by ProjectFile.Load; the XSLT upgrade is gone)
+                if (projFile.StoryProject[0].version.CompareTo(XmlDataVersion) > 0)
                 {
                     if ((projFile.StoryProject[0].version != CxmlDataVersionReferringText) &&
                         (projFile.StoryProject[0].version != CxmlDataVersionStickyNote))
@@ -2516,81 +2499,6 @@ namespace OneStoryProjectEditor
                     storiesData.SetCommentMemberId(strConsultant, strCoach);
         }
 
-        private void ConvertProjectFile1_3_to_1_4(string strProjectFilePath)
-        {
-            // if the user had 1.3 and customized the state transition xml file, 
-            //  then blow it away.
-            string strProjectFolder = Path.GetDirectoryName(strProjectFilePath);
-            if (StoryStageLogic.StateTransitions.DoesStateTransitionFileOverrideExist(strProjectFolder))
-            {
-                if (LocalizableMessageBox.Show(Properties.Resources.IDS_ConfirmDeleteStateTransitions,
-                    StoryEditor.OseCaption, MessageBoxButtons.OKCancel) == DialogResult.Cancel)
-                    throw BackOutWithNoUI;
-
-                StoryStageLogic.StateTransitions.DeleteStateTransitionFileOverride(strProjectFolder);
-            }
-
-            // get the xml (.onestory) file into a memory string so it can be the 
-            //  input to the transformer
-            string strProjectFile = File.ReadAllText(strProjectFilePath);
-            var streamData = new MemoryStream(Encoding.UTF8.GetBytes(strProjectFile));
-
-#if false // DEBUG
-            string strXslt = File.ReadAllText(@"D:\src\StoryEditor\StoryEditor\Resources\1.3 to 1.4.xslt");
-            System.Diagnostics.Debug.Assert(strXslt == Properties.Resources.project_1_3_to_1_4);
-#else
-            string strXslt = Properties.Resources.project_1_3_to_1_4;
-#endif
-            var streamXSLT = new MemoryStream(Encoding.UTF8.GetBytes(strXslt));
-            var xelemProjectFileXml = TransformedXmlDataToSfm(streamXSLT, streamData);
-            throw BackOut2Reopen(xelemProjectFileXml);
-        }
-
-        private void ConvertProjectFile1_4_to_1_5(string strProjectFilePath)
-        {
-            // get the xml (.onestory) file into a memory string so it can be the 
-            //  input to the transformer
-            string strProjectFile = File.ReadAllText(strProjectFilePath);
-            var streamData = new MemoryStream(Encoding.UTF8.GetBytes(strProjectFile));
-
-            string strXslt = Properties.Resources._1_4_to_1_5;
-            var streamXSLT = new MemoryStream(Encoding.UTF8.GetBytes(strXslt));
-            var xelemProjectFileXml = TransformedXmlDataToSfm(streamXSLT, streamData);
-            throw BackOut2Reopen(xelemProjectFileXml);
-        }
-
-        protected XElement TransformedXmlDataToSfm(Stream streamXSLT, Stream streamData)
-        {
-            var myProcessor = new XslCompiledTransform();
-            var xslReader = XmlReader.Create(streamXSLT);
-            myProcessor.Load(xslReader);
-
-            // rewind
-            streamData.Seek(0, SeekOrigin.Begin);
-            var reader = XmlReader.Create(streamData);
-            /*
-            using (MemoryStream stream = new MemoryStream())
-            {
-                using (StreamWriter writer = new StreamWriter(stream))
-                {
-                    _xslt.Transform(section.CreateReader(), null, writer);
-                    stream.Seek(0, SeekOrigin.Begin);
-                    transformed = XElement.Load(stream);
-                }
-            }
-            */
-            using (MemoryStream stream = new MemoryStream())
-            {
-                using (StreamWriter writer = new StreamWriter(stream))
-                {
-                    myProcessor.Transform(reader, null, writer);
-                    stream.Seek(0, SeekOrigin.Begin);
-                    XElement elem = XElement.Load(XmlReader.Create(stream));
-                    return elem;
-                }
-            }
-        }
-
         // if this is 'new', then we won't have a project name yet, so query the user for it
         public bool InitializeProjectSettings(TeamMemberData loggedOnMember)
         {
@@ -2619,16 +2527,6 @@ namespace OneStoryProjectEditor
         internal static BackOutWithNoUIException BackOutWithNoUI
         {
             get { return new BackOutWithNoUIException(); }
-        }
-
-        internal class Backout2ReOpenException : ApplicationException
-        {
-            public XElement XmlProjectFile;
-        }
-
-        internal static Backout2ReOpenException BackOut2Reopen(XElement xElement)
-        {
-            return new Backout2ReOpenException { XmlProjectFile = xElement };
         }
 
         internal string GetMemberNameFromMemberGuid(string strMemberGuid)

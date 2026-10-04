@@ -1138,12 +1138,12 @@ namespace OneStoryProjectEditor
             try
             {
                 // serialize in the file
-                ProjectReader projFile;
-                _dateTimeLastSaved = ProjectReader.ReadProjectFile(projSettings.ProjectFilePath, out projFile);
+                var contents = ProjectFile.Load(projSettings.ProjectFilePath);
+                _dateTimeLastSaved = contents.LastWriteTime;
                 myReopenTimer.Start();
 
                 // get the data into another structure that we use internally (more flexible)
-                StoryProject = GetOldStoryProjectData(projFile, projSettings);
+                StoryProject = GetOldStoryProjectData(contents, projSettings);
 
                 // this makes the most sense to choose the set name here (maybe based on the last one we edited for this project)
                 var strStoriesSetName = Resources.IDS_MainStoriesSet;
@@ -1219,11 +1219,6 @@ namespace OneStoryProjectEditor
             {
                 // sub-routine has taken care of the UI, just exit without doing anything
             }
-            catch (StoryProjectData.Backout2ReOpenException ex)
-            {
-                SaveXElement(ex.XmlProjectFile, projSettings.ProjectFilePath, true);
-                OpenProject(projSettings);
-            }
             catch (DuplicateStoryStateTransitionException)
             {
                 // pass this one on so it triggers an email
@@ -1281,9 +1276,9 @@ namespace OneStoryProjectEditor
                 LoggedOnMember = theStoryProject.GetLogin(ref Modified);
         }
 
-        protected StoryProjectData GetOldStoryProjectData(NewDataSet projFile, ProjectSettings projSettings)
+        protected StoryProjectData GetOldStoryProjectData(ProjectFileContents contents, ProjectSettings projSettings)
         {
-            var theOldStoryProject = new StoryProjectData(projFile, projSettings);
+            var theOldStoryProject = new StoryProjectData(contents.Root, contents.IsPlainTextEncoded, projSettings);
             CheckForLogon(theOldStoryProject);
             return theOldStoryProject;
         }
@@ -2126,8 +2121,8 @@ namespace OneStoryProjectEditor
             {
                 // now try to load the xml file. it'll throw if it's malformed 
                 //  (so we won't want to put it into the repo)
-                ProjectReader projFile;
-                ProjectReader.ReadProjectFile(strTempFilename, out projFile);
+                ProjectFileValidator.Validate(strTempFilename);
+                ProjectFile.Load(strTempFilename);
             }
 
             // backup the last version to appdata
@@ -6885,9 +6880,8 @@ namespace OneStoryProjectEditor
             if (theStoryToCopyXElement == null)
                 return;
 
-            var theStoryToCopyXmlNode = theStoryToCopyXElement.GetXmlNode();
-            var theStoryToCopy = new StoryData(theStoryToCopyXmlNode.FirstChild, StoryProject.ProjSettings.ProjectFolder);
-            theStoryToCopy = new StoryData(theStoryToCopy); // yes, we have to do this again, because the XmlNode ctor won't re-do the guids
+            var theStoryToCopy = new StoryData(theStoryToCopyXElement, StoryProject.ProjSettings.ProjectFolder);
+            theStoryToCopy = new StoryData(theStoryToCopy); // yes, we have to do this again, to regenerate the guids
 
             // remove references to participants we don't care about to minimize the # of memberId guid's we'd have to copy over
             theStoryToCopy.CraftingInfo.BackTranslator =

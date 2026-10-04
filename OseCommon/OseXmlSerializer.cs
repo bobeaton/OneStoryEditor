@@ -24,26 +24,26 @@ namespace OseCommon
             {
                 SerializeXmlToFileWithWriteThrough(filePath, doc.Root, out error);
                 if (error == null)
-                    break;
-                exceptionHandler(error);
+                    return;
+                exceptionHandler?.Invoke(error);
 
-                if (attempt++ == 0 && finfo.IsReadOnly)
+                if (attempt++ == 0)
                 {
                     try
                     {
-                        finfo.IsReadOnly = false;
+                        if (finfo.IsReadOnly)
+                            finfo.IsReadOnly = false;
                     }
                     catch (Exception e)
                     {
-                        exceptionHandler(e);
+                        exceptionHandler?.Invoke(e);
                     }
                 }
             }
 
             // This is used for core OneStory data files. If we can't save it for some reason,
             //  the problem probably isn't going to magically go away.
-            if (attempt > 2)
-                throw new ApplicationException($"Unable to save file: {filePath}: {error}");
+            throw new IOException($"Unable to save file: {filePath}: {error}", error);
         }
 
         public static void SerializeXmlToFileWithWriteThrough<T>(string path, T data, out Exception e)

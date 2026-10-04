@@ -130,6 +130,25 @@ namespace OneStoryProjectEditor.Tests
         }
 
         [Test]
+        public void LnCNote_OldSingularKeyTermIdAttribute_StillLoads()
+        {
+            var note = new LnCNote(System.Xml.Linq.XElement.Parse(
+                "<LnCNote guid=\"g1\" KeyTermId=\"KT1, KT2\">text</LnCNote>"));
+            Assert.That(note.GetXml.Attribute("KeyTermIds")?.Value, Is.EqualTo("KT1, KT2"));
+            Assert.That(note.GetXml.Attribute("KeyTermId"), Is.Null);
+        }
+
+        [Test]
+        public void LnCNote_KeyTermIds_RoundTrips()
+        {
+            var note = new LnCNote(System.Xml.Linq.XElement.Parse(
+                "<LnCNote guid=\"g1\" KeyTermIds=\"KT3\">text</LnCNote>"));
+            var again = new LnCNote(note.GetXml);
+            Assert.That(again.GetXml.ToString(), Is.EqualTo(note.GetXml.ToString()));
+            Assert.That(again.GetXml.Attribute("KeyTermIds")?.Value, Is.EqualTo("KT3"));
+        }
+
+        [Test]
         public void MissingFile_Throws()
         {
             Assert.Throws<FileNotFoundException>(() => ProjectFile.Load(Path.Combine(Path.GetTempPath(), "ose-does-not-exist.onestory")));

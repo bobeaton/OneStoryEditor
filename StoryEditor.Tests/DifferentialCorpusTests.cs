@@ -153,6 +153,19 @@ namespace OneStoryProjectEditor.Tests
                     nDecodePath++;
                 try
                 {
+                    // the old loader never read the old singular KeyTermId attribute (GetXml wrote KeyTermId, the row
+                    //  path read KeyTermIds); the new loader falls back to it. Normalize KeyTermId -> KeyTermIds on the
+                    //  old side (and only that) so the comparison stays meaningful.
+                    foreach (var elemNote in contents.Root.Descendants("LnCNote"))
+                    {
+                        var strKeyTermId = (string)elemNote.Attribute("KeyTermId");
+                        if ((strKeyTermId == null) || (elemNote.Attribute("KeyTermIds") != null))
+                            continue;
+                        var rowNote = ds.LnCNote.FirstOrDefault(r => r.guid == (string)elemNote.Attribute("guid"));
+                        if ((rowNote != null) && rowNote.IsKeyTermIdsNull())
+                            rowNote.KeyTermIds = strKeyTermId;
+                    }
+
                     // same repairs on both sides: decode unless marked, placeholders always
                     if (!ds.IsPlainTextEncoded)
                         LegacyTextRepair.DecodePlainTextFields(ds);

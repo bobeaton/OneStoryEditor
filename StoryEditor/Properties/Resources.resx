@@ -173,9 +173,6 @@
   <data name="HTML_TableCell" xml:space="preserve">
     <value>&lt;td&gt;{0}&lt;/td&gt;</value>
   </data>
-  <data name="project_1_3_to_1_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\1.3 to 1.4.xslt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
   <data name="StoryBtPlaceholders" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\js\storybtplaceholders.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -1051,9 +1048,6 @@ for more extensive study materials.&lt;/p&gt;
   </data>
   <data name="HTML_BoldText" xml:space="preserve">
     <value>&lt;b&gt;{0}&lt;/b&gt;</value>
-  </data>
-  <data name="_1_4_to_1_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\1.4 to 1.5.xslt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Edit_Undo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Edit_Undo.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

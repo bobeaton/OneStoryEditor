@@ -330,9 +330,9 @@ namespace OneStoryProjectEditor.Tests
                 Assert.That(newNotes[i].InternationalBtRendering, Is.EqualTo(oldNotes[i].InternationalBtRendering), $"note {i}");
             }
 
-            // the row path reads KeyTermIds (GetXml writes the singular KeyTermId, which is why this is the thing to check)
-            Assert.That((string)newNotes.GetXml.Elements("LnCNote").First().Attribute("KeyTermId"), Is.EqualTo("KT1, KT2"));
-            Assert.That((string)oldNotes.GetXml.Elements("LnCNote").First().Attribute("KeyTermId"), Is.EqualTo("KT1, KT2"));
+            // GetXml writes KeyTermIds (it used to write the singular KeyTermId)
+            Assert.That((string)newNotes.GetXml.Elements("LnCNote").First().Attribute("KeyTermIds"), Is.EqualTo("KT1, KT2"));
+            Assert.That((string)oldNotes.GetXml.Elements("LnCNote").First().Attribute("KeyTermIds"), Is.EqualTo("KT1, KT2"));
             Assert.That(newNotes[0].Notes, Is.EqualTo("note with renderings\r\nsecond line"));
             Assert.That(newNotes[0].VernacularRendering, Is.EqualTo("verb\r\nrendering"));
         }
