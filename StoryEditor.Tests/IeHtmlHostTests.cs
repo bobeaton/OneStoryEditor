@@ -90,6 +90,34 @@ namespace OneStoryProjectEditor.Tests
             Assert.That(_received.Exists(m => m.Type == HtmlMessage.CstrTypeJsError), Is.True);
         }
 
+        private const string CstrModeScript = "ose.on('mode', function () { return { mode: document.documentMode }; });";
+
+        [Test]
+        public void PageWithoutDoctype_RunsInIe9Mode()
+        {
+            _host.LoadHtml("<html><head>" + PageScripts.ScriptBlock(PageScripts.Bridge, CstrModeScript) + "</head><body>x</body></html>");
+            Assert.That(BrowserTestHelper.PumpUntil(() => _host.IsReady), Is.True, "page never sent 'ready'");
+            var reply = _host.Request("mode", null, HtmlHostDefaults.RequestTimeout);
+            Assert.That(reply.TryGetInt("mode", out var nMode) && nMode >= 9, Is.True);
+        }
+
+        [Test]
+        public void PageWithoutHeadOrDoctype_RunsInIe9Mode()
+        {
+            _host.LoadHtml(PageScripts.ScriptBlock(PageScripts.Bridge, CstrModeScript) + "<p>x</p>");
+            Assert.That(BrowserTestHelper.PumpUntil(() => _host.IsReady), Is.True, "page never sent 'ready'");
+            var reply = _host.Request("mode", null, HtmlHostDefaults.RequestTimeout);
+            Assert.That(reply.TryGetInt("mode", out var nMode) && nMode >= 9, Is.True);
+        }
+
+        [Test]
+        public void LoadedHtml_IsWhatTheCallerPassed()
+        {
+            var strHtml = "<html><head>" + PageScripts.ScriptBlock(PageScripts.Bridge) + "</head></html>";
+            _host.LoadHtml(strHtml);
+            Assert.That(_host.LoadedHtml, Is.EqualTo(strHtml));
+        }
+
         [Test]
         public void Request_NotReady_ReturnsNullImmediately()
         {

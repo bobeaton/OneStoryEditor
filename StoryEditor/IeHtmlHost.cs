@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
@@ -22,6 +23,7 @@ namespace OneStoryProjectEditor
         private readonly List<HtmlMessage> _pendingPosts = new List<HtmlMessage>();
         private readonly HashSet<int> _awaitedRids = new HashSet<int>();
         private readonly Dictionary<int, HtmlMessage> _replies = new Dictionary<int, HtmlMessage>();
+        private readonly System.Windows.Forms.Timer _loadWatchdog;
         private bool _bLoading;
         private bool _bLoadDeferred;
         private int _nDocId;
@@ -37,6 +39,8 @@ namespace OneStoryProjectEditor
                 ObjectForScripting = new ScriptingBridge(this)
             };
             _browser.DocumentCompleted += OnDocumentCompleted;
+            _loadWatchdog = new System.Windows.Forms.Timer { Interval = 5000 };
+            _loadWatchdog.Tick += OnLoadWatchdog;
         }
 
         public Control Control => _browser;
@@ -67,11 +71,42 @@ namespace OneStoryProjectEditor
         {
             _bLoading = true;
             _bLoadDeferred = false;
-            _browser.DocumentText = LoadedHtml.Replace(CstrDocIdToken, _nDocId.ToString(CultureInfo.InvariantCulture));
+            _loadWatchdog.Stop();
+            _loadWatchdog.Start();
+            _browser.DocumentText = WithIeMode(LoadedHtml).Replace(CstrDocIdToken, _nDocId.ToString(CultureInfo.InvariantCulture));
+        }
+
+        // pane pages have no (or a quirks-mode) doctype, and quirks mode has no JSON, so ask for IE9 mode explicitly
+        private static string WithIeMode(string strHtml)
+        {
+            if (!strHtml.Contains(CstrDocIdToken) || (strHtml.IndexOf("X-UA-Compatible", StringComparison.OrdinalIgnoreCase) >= 0))
+                return strHtml;
+            const string CstrMeta = "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=9\">";
+            var match = Regex.Match(strHtml, "<head(\\s[^>]*)?>", RegexOptions.IgnoreCase);
+            return match.Success
+                ? strHtml.Insert(match.Index + match.Length, CstrMeta)
+                : CstrMeta + strHtml;
         }
 
         private void OnDocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+            // framed pages raise this per frame; only the top-level completion ends the load
+            if ((_browser.ReadyState != WebBrowserReadyState.Complete) ||
+                ((e.Url != null) && (_browser.Url != null) && (e.Url.AbsoluteUri != _browser.Url.AbsoluteUri)))
+                return;
+            EndLoad();
+        }
+
+        // if the navigation is cancelled or fails, DocumentCompleted never comes; don't let that block every later load
+        private void OnLoadWatchdog(object sender, EventArgs e)
+        {
+            Debug.WriteLine("IeHtmlHost: load did not complete in time; carrying on");
+            EndLoad();
+        }
+
+        private void EndLoad()
+        {
+            _loadWatchdog.Stop();
             _bLoading = false;
             if (_bLoadDeferred)
                 StartLoad();
@@ -127,6 +162,7 @@ namespace OneStoryProjectEditor
 
         public void Dispose()
         {
+            _loadWatchdog.Dispose();
             _browser.Dispose();
         }
 
