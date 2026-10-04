@@ -2050,10 +2050,10 @@ namespace OneStoryProjectEditor
             // files not saved by a version that keeps plain text may have HTML entities in the
             //  story text that IE's htmlText put there (e.g. "[B&amp;B]")
             if (!((projFile as ProjectReader)?.IsPlainTextEncoded ?? false))
-            {
                 LegacyTextRepair.DecodePlainTextFields(projFile);
-                LegacyTextRepair.ClearLanguageNamePlaceholders(projFile);
-            }
+
+            // not gated by the marker: files saved before the placeholder fix may be marked already
+            LegacyTextRepair.ClearLanguageNamePlaceholders(projFile);
 
             PanoramaFrontMatter = projFile.StoryProject[0].PanoramaFrontMatter;
             if (String.IsNullOrEmpty(PanoramaFrontMatter))
