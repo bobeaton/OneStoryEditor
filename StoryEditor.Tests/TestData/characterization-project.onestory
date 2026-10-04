@@ -44,6 +44,17 @@
       <Verses>
         <Verse guid="00000000-0000-0000-0000-000000000120" first="true">
           <StoryLine lang="Vernacular">second story line</StoryLine>
+          <Retellings>
+            <Retelling lang="Vernacular" memberID="mem-00000000-0000-0000-0000-000000000001">Testish</Retelling>
+          </Retellings>
+          <TestQuestions>
+            <TestQuestion visible="true" guid="00000000-0000-0000-0000-000000000150">
+              <TestQuestionLine lang="Vernacular">Testish</TestQuestionLine>
+              <Answers>
+                <Answer lang="Vernacular" memberID="mem-00000000-0000-0000-0000-000000000001">Testish</Answer>
+              </Answers>
+            </TestQuestion>
+          </TestQuestions>
         </Verse>
       </Verses>
     </story>

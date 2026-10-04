@@ -158,6 +158,7 @@ namespace OneStoryProjectEditor
                         continue;
 
                     elem.Value = String.Empty;
+                    elem.AddAnnotation(XmlRead.ClearedPlaceholder.Instance);   // reads as "", like the DataSet's cleared value
                     nCleared++;
                 }
             }

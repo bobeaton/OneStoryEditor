@@ -69,8 +69,17 @@ namespace OneStoryProjectEditor
             return DateTime.SpecifyKind(dt, DateTimeKind.Unspecified);
         }
 
+        // put on an element whose value ClearLanguageNamePlaceholders emptied: the DataSet holds "" there (not null)
+        internal sealed class ClearedPlaceholder
+        {
+            public static readonly ClearedPlaceholder Instance = new ClearedPlaceholder();
+        }
+
         public static string Text(XElement e)
         {
+            if (e.Annotation<ClearedPlaceholder>() != null)
+                return String.Empty;
+
             // The DataSet yields null (never "") for a self-closing, empty or whitespace-only element
             //  and the exact text (padding included) otherwise.
             var str = e.Value;

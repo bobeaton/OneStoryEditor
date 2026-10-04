@@ -43,11 +43,15 @@ namespace OneStoryProjectEditor
             ProjectReader.UniqueStoryGuids.Clear();
 
             var root = doc.Root;
-            var strVersion = (root == null) ? null : (string)root.Attribute(StoryProjectData.CstrAttributeVersion);
+            if (root.Name.LocalName != StoryProjectData.CstrElementStoryProjectRoot)
+                throw new ApplicationException(
+                    $"The project file is damaged: its root element is <{root.Name}> instead of <{StoryProjectData.CstrElementStoryProjectRoot}>.");
+
+            var strVersion = XmlRead.RequiredAttr(root, StoryProjectData.CstrAttributeVersion);
             if (strVersion == "1.3" || strVersion == "1.4")
                 throw new ApplicationException(CstrVersionTooOldMessage);
 
-            if ((strVersion != null) && StoryProjectData.IsNewerThanSupported(strVersion))
+            if (StoryProjectData.IsNewerThanSupported(strVersion))
                 throw new ApplicationException(Localizer.Str("One of the team members is using a newer version of OSE to edit the file, which is not compatible with the version you are using. You might try, \"Advanced\", \"Program Updates\", \"Check now\" or \"Check now for next major update\" or you may have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the \"Setup OneStory Editor.zip\" file"));
 
             return new ProjectFileContents(root,

@@ -53,8 +53,33 @@ namespace OneStoryProjectEditor.Tests
         public void NewerVersions_Throw_WithTheNewerVersionMessage(string strVersion)
         {
             var ex = Assert.Throws<ApplicationException>(() => ProjectFile.Load(WriteTemp("version=\"" + strVersion + "\"")));
-            Assert.That(ex.Message, Does.StartWith("One of the team members is using a newer version of OSE to edit the file"));
-            Assert.That(ex.Message, Does.Contain("Setup OneStory Editor.zip"));
+            Assert.That(ex.Message, Is.EqualTo("One of the team members is using a newer version of OSE to edit the file, which is not compatible with the version you are using. You might try, \"Advanced\", \"Program Updates\", \"Check now\" or \"Check now for next major update\" or you may have to go to the http://palaso.org/install/onestory website and download and install the new version of the program in the \"Setup OneStory Editor.zip\" file"));
+        }
+
+        [Test]
+        public void MissingVersion_Throws()
+        {
+            var strPath = Path.Combine(Path.GetTempPath(), "ose-pf-" + Guid.NewGuid() + ".onestory");
+            File.WriteAllText(strPath, "<StoryProject ProjectName=\"p\" />");
+            _tempPaths.Add(strPath);
+            var ex = Assert.Throws<ApplicationException>(() => ProjectFile.Load(strPath));
+            Assert.That(ex.Message, Is.EqualTo("The project file is damaged: <StoryProject> is missing the required attribute 'version'."));
+        }
+
+        [Test]
+        public void EmptyVersion_Loads()
+        {
+            Assert.That(ProjectFile.Load(WriteTemp("version=\"\"")).Root.Name.LocalName, Is.EqualTo("StoryProject"));
+        }
+
+        [Test]
+        public void WrongRootName_Throws()
+        {
+            var strPath = Path.Combine(Path.GetTempPath(), "ose-pf-" + Guid.NewGuid() + ".onestory");
+            File.WriteAllText(strPath, "<Other version=\"1.8\" />");
+            _tempPaths.Add(strPath);
+            var ex = Assert.Throws<ApplicationException>(() => ProjectFile.Load(strPath));
+            Assert.That(ex.Message, Is.EqualTo("The project file is damaged: its root element is <Other> instead of <StoryProject>."));
         }
 
         [TestCase("1.5")]
