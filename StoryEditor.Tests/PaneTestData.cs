@@ -39,6 +39,22 @@ namespace OneStoryProjectEditor.Tests
             return strHtml;
         }
 
+        // the editable Story/BT page of the first story, with the four language columns and most rows showing
+        internal static string StoryBtPage(HtmlEngine engine)
+        {
+            var project = LoadProject();
+            var story = Stories(project).First(s => s.Verses.Count > 0);
+            var viewSettings = new VerseData.ViewSettings(project.ProjSettings,
+                true, true, true, true,     // the four language columns
+                true, true, true, true, true,   // anchors, exegetical notes, TQs, answers, retellings
+                false, false, false,        // consultant notes, coach notes, bible viewer
+                true, false, false, true,   // front matter, hidden, only open conversations, general TQs
+                true,                       // use textareas (the editable pane)
+                (StoryEditor.TextFields)~0, // everything editable
+                null, null, null, null);
+            return story.PresentationHtml(viewSettings, project.ProjSettings, project.TeamMembers, null, engine);
+        }
+
         public static IEnumerable<StoryData> Stories(StoryProjectData project)
         {
             return project.Values.Cast<StoriesData>().SelectMany(s => s.Cast<StoryData>());

@@ -33,18 +33,7 @@ namespace OneStoryProjectEditor.Tests
             _received.Clear();
             _host = BrowserTestHelper.CreateHostInOffscreenForm(out _form);
             _host.MessageReceived += (s, m) => _received.Add(m);
-
-            var project = PaneTestData.LoadProject();
-            var story = PaneTestData.Stories(project).First(s => s.Verses.Count > 0);
-            var viewSettings = new VerseData.ViewSettings(project.ProjSettings,
-                true, true, true, true,     // the four language columns
-                true, true, true, true, true,   // anchors, exegetical notes, TQs, answers, retellings
-                false, false, false,        // consultant notes, coach notes, bible viewer
-                true, false, false, true,   // front matter, hidden, only open conversations, general TQs
-                true,                       // use textareas (the editable pane)
-                (StoryEditor.TextFields)~0, // everything editable
-                null, null, null, null);
-            _strHtml = story.PresentationHtml(viewSettings, project.ProjSettings, project.TeamMembers, null, HtmlEngine.Ie);
+            _strHtml = PaneTestData.StoryBtPage(HtmlEngine.Ie);
             _host.LoadHtml(_strHtml.Replace("</head>", PageScripts.ScriptBlock(CstrDriver) + "</head>"));
             Assert.That(BrowserTestHelper.PumpUntil(() => _host.IsReady), Is.True, "page never sent 'ready'");
         }

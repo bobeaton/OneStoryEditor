@@ -9,8 +9,8 @@ namespace OneStoryProjectEditor
     /// </summary>
     public static class HtmlHostFactory
     {
-        // off until every page has its modern (WebView2) scripts; the last step of the plan's Task 7 turns it on
-        internal static bool UseWebView2WhenAvailable = false;
+        // on: every page has its modern scripts (plan Task 7)
+        internal static bool UseWebView2WhenAvailable = true;
 
         private static bool _bNoticeGiven;
 
