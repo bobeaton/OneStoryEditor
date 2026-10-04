@@ -41,18 +41,6 @@ function OnKeyDown() {
         window.event.returnValue = false;
         return false;
     }
-    else if (window.event.ctrlKey && (window.event.keyCode == 70)) {
-        if (window.event.stopPropagation) {
-            window.event.stopPropagation();
-        }
-        else {
-            window.event.cancelBubble = true;
-            window.event.returnValue = false;
-            window.event.keyCode = 0;
-        }
-        window.external.DoFind();
-        return false;
-    }
     else if (window.event.ctrlKey && (window.event.keyCode == s_key)) {
         if (window.event.stopPropagation) {
             window.event.stopPropagation();

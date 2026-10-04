@@ -88,6 +88,51 @@ namespace OneStoryProjectEditor
             return !String.IsNullOrEmpty(str) && RegexIeEntity.IsMatch(str);
         }
 
+        // the textareas that show their language's name (grayed) when empty
+        private static readonly string[] TablesWithPlaceholders = { "StoryLine", "Retelling", "Answer", "TestQuestionLine" };
+
+        // StoryBt.js fakes the (IE9-unsupported) placeholder by putting the language name into an empty
+        //  textarea, and older versions saved that as if the user had typed it. So a value that is exactly
+        //  its column's language name is really an empty field.
+        public static int ClearLanguageNamePlaceholders(DataSet ds)
+        {
+            var tableLanguages = ds.Tables["LanguageInfo"];
+            if (tableLanguages == null)
+                return 0;
+
+            var mapLanguageNames = new Dictionary<string, string>();
+            foreach (DataRow row in tableLanguages.Rows)
+            {
+                var strLang = row["lang"] as string;
+                var strName = (row["name"] as string)?.Trim();
+                if (!String.IsNullOrEmpty(strLang) && !String.IsNullOrEmpty(strName))
+                    mapLanguageNames[strLang] = strName;
+            }
+
+            int nCleared = 0;
+            foreach (var strTable in TablesWithPlaceholders)
+            {
+                var table = ds.Tables[strTable];
+                var columnText = table?.Columns[strTable + "_text"];
+                var columnLang = table?.Columns["lang"];
+                if ((columnText == null) || (columnLang == null))
+                    continue;
+
+                foreach (DataRow row in table.Rows)
+                {
+                    var strText = row[columnText] as string;
+                    if (String.IsNullOrEmpty(strText) ||
+                        !mapLanguageNames.TryGetValue(row[columnLang] as string ?? String.Empty, out var strName) ||
+                        (strText.Trim() != strName))
+                        continue;
+
+                    row[columnText] = String.Empty;
+                    nCleared++;
+                }
+            }
+            return nCleared;
+        }
+
         public static int DecodePlainTextFields(DataSet ds)
         {
             int nChanged = 0;

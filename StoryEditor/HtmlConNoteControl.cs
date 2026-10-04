@@ -512,12 +512,6 @@ namespace OneStoryProjectEditor
 
         protected abstract void CheckUpdateMentorInfo(StoryEditor theSe);
 
-        public void DoFind(string strId)
-        {
-            // search isn't wired to the HTML panes yet (menu item hidden; see sub-project C)
-            return;
-        }
-
         private const string CstrParagraphHighlightBegin = "<span style=\"background-color:Blue; color: White\">";
         private ToolStripMenuItem menuAddNote;
         private ToolStripMenuItem menuAddNoteToSelf;

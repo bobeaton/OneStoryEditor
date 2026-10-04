@@ -12,6 +12,10 @@ for (var i = 0; i < textareas.length; i++) {
             return;
         }
 
+        // an empty box shows its language's name (with class 'hasPlaceholder'), but that isn't data
+        if ($(this).hasClass('hasPlaceholder'))
+            return window.external.TextareaOnChange(this.id, "");
+
         // we can get the html text (which includes the '<br>'s that we need to convert to \r\n or we lose the paragraph breaks on saving)
         //  if we use a text range (there is no 'this.htmlText'!?)
         var range = this.createTextRange();
@@ -32,4 +36,12 @@ $('textarea').attr('placeholder', function () {
         return FreeTranslationLanguageName();
     else
         return "error in StoryBtPs.js";
+});
+
+// IE9 mode doesn't show 'placeholder' itself, so (as the blur handler does) show the language name
+//  grayed in boxes that start out empty
+$('textarea').each(function () {
+    if ($(this).attr('placeholder') != '' && $(this).val() == '') {
+        $(this).val($(this).attr('placeholder')).addClass('hasPlaceholder');
+    }
 });

@@ -26,6 +26,44 @@ namespace OneStoryProjectEditor.Tests
         }
 
         [Test]
+        public void ClearLanguageNamePlaceholders_ClearsValuesThatAreJustTheColumnsLanguageName()
+        {
+            // the fixture's Vernacular language is called "Testish"
+            var doc = XDocument.Load(FixturePath);
+            doc.Descendants("StoryLine").Single().Value = "Testish";
+            doc.Descendants("TestQuestionLine").Single().Value = " Testish ";
+            doc.Descendants("ConsultantNote").Single().Value = "Testish";
+            var strTemp = Path.Combine(Path.GetTempPath(), "ose-placeholder-" + Guid.NewGuid() + ".onestory");
+            try
+            {
+                doc.Save(strTemp);
+                ProjectReader projFile;
+                ProjectReader.ReadProjectFile(strTemp, out projFile);
+
+                var nCleared = LegacyTextRepair.ClearLanguageNamePlaceholders(projFile);
+
+                Assert.That(nCleared, Is.EqualTo(2));
+                Assert.That(projFile.Tables["StoryLine"].Rows[0]["StoryLine_text"], Is.EqualTo(String.Empty));
+                Assert.That(projFile.Tables["TestQuestionLine"].Rows[0]["TestQuestionLine_text"], Is.EqualTo(String.Empty));
+                Assert.That(projFile.Tables["ConsultantNote"].Rows[0]["ConsultantNote_text"], Is.EqualTo("Testish"));   // notes aren't textareas with placeholders
+            }
+            finally
+            {
+                File.Delete(strTemp);
+            }
+        }
+
+        [Test]
+        public void ClearLanguageNamePlaceholders_LeavesOtherTextAlone()
+        {
+            ProjectReader projFile;
+            ProjectReader.ReadProjectFile(FixturePath, out projFile);
+
+            Assert.That(LegacyTextRepair.ClearLanguageNamePlaceholders(projFile), Is.EqualTo(0));
+            Assert.That((string)projFile.Tables["StoryLine"].Rows[0]["StoryLine_text"], Does.StartWith("dengan"));
+        }
+
+        [Test]
         public void DecodeIeEntities_OneLevelOnly()
         {
             Assert.That(LegacyTextRepair.DecodeIeEntities("&amp;amp;"), Is.EqualTo("&amp;"));
