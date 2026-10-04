@@ -74,5 +74,80 @@
         </Verse>
       </Verses>
     </story>
+    <story name="Story Content" stage="ProjFacTypeVernacular" guid="00000000-0000-0000-0000-000000000014">
+      <CraftingInfo NonBiblicalStory="false">
+        <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001" />
+      </CraftingInfo>
+      <Verses>
+        <Verse guid="00000000-0000-0000-0000-000000000030">
+          <StoryLine lang="Vernacular">verse content line</StoryLine>
+          <Anchors keyTermChecked="true">
+            <Anchor jumpTarget="EXO 2:1">anchor comment</Anchor>
+            <Anchor jumpTarget="EXO 2:2" />
+          </Anchors>
+          <ExegeticalHelps>
+            <ExegeticalHelp>first help note</ExegeticalHelp>
+            <ExegeticalHelp>first help note</ExegeticalHelp>
+            <ExegeticalHelp>second help note</ExegeticalHelp>
+            <ExegeticalHelp />
+          </ExegeticalHelps>
+          <TestQuestions>
+            <TestQuestion visible="true" guid="00000000-0000-0000-0000-000000000050">
+              <TestQuestionLine lang="Vernacular">why?</TestQuestionLine>
+              <TestQuestionLine lang="InternationalBt">  padded why  </TestQuestionLine>
+              <TestQuestionLine lang="NationalBt" />
+              <Answers>
+                <Answer lang="Vernacular" memberID="mem-00000000-0000-0000-0000-000000000001">because</Answer>
+                <Answer lang="NationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+                <Answer lang="InternationalBt" memberID="mem-00000000-0000-0000-0000-000000000001">   </Answer>
+              </Answers>
+            </TestQuestion>
+            <TestQuestion visible="false" guid="00000000-0000-0000-0000-000000000051">
+              <TestQuestionLine lang="Vernacular">hidden question</TestQuestionLine>
+            </TestQuestion>
+          </TestQuestions>
+          <Retellings>
+            <Retelling lang="Vernacular" memberID="mem-00000000-0000-0000-0000-000000000001">a retelling</Retelling>
+            <Retelling lang="NationalBt" memberID="mem-00000000-0000-0000-0000-000000000001" />
+            <Retelling lang="InternationalBt" memberID="mem-00000000-0000-0000-0000-000000000001">retelling bt</Retelling>
+          </Retellings>
+          <ConsultantNotes>
+            <ConsultantConversation guid="00000000-0000-0000-0000-000000000060" visible="false" finished="true">
+              <ConsultantNote Direction="ReferringToText" guid="00000000-0000-0000-0000-000000000061" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">referring text</ConsultantNote>
+              <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000062" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">consultant says</ConsultantNote>
+              <ConsultantNote Direction="ProjFacToConsultant" guid="00000000-0000-0000-0000-000000000063" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56+02:00">pf replies</ConsultantNote>
+            </ConsultantConversation>
+            <ConsultantConversation guid="00000000-0000-0000-0000-000000000064" visible="true">
+              <ConsultantNote Direction="StickyNote" guid="00000000-0000-0000-0000-000000000065" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56">sticky</ConsultantNote>
+            </ConsultantConversation>
+            <ConsultantConversation guid="00000000-0000-0000-0000-000000000066">
+              <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000067" timeStamp="2026-10-03T12:34:56Z">mentor note without member</ConsultantNote>
+              <ConsultantNote Direction="ProjFacToConsultant" guid="00000000-0000-0000-0000-000000000068" memberID="mem-00000000-0000-0000-0000-000000000001">reply with no stamp</ConsultantNote>
+            </ConsultantConversation>
+          </ConsultantNotes>
+          <CoachNotes>
+            <CoachConversation guid="00000000-0000-0000-0000-000000000070" visible="false" finished="true">
+              <CoachNote Direction="ReferringToText" guid="00000000-0000-0000-0000-000000000071" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">coach referring</CoachNote>
+              <CoachNote Direction="CoachToConsultant" guid="00000000-0000-0000-0000-000000000072" timeStamp="2026-10-03T12:34:56Z">coach mentor note without member</CoachNote>
+              <CoachNote Direction="ConsultantToCoach" guid="00000000-0000-0000-0000-000000000073" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56+02:00">consultant asks</CoachNote>
+            </CoachConversation>
+            <CoachConversation guid="00000000-0000-0000-0000-000000000074">
+              <CoachNote Direction="StickyNote" guid="00000000-0000-0000-0000-000000000075" memberID="mem-00000000-0000-0000-0000-000000000001">coach sticky</CoachNote>
+            </CoachConversation>
+          </CoachNotes>
+        </Verse>
+        <Verse guid="00000000-0000-0000-0000-000000000031">
+          <StoryLine lang="Vernacular">second content line</StoryLine>
+          <Anchors>
+            <Anchor jumpTarget="EXO 3:1">no key term flag</Anchor>
+          </Anchors>
+          <ExegeticalHelps />
+          <TestQuestions />
+        </Verse>
+        <Verse guid="00000000-0000-0000-0000-000000000032">
+          <StoryLine lang="Vernacular">third content line</StoryLine>
+        </Verse>
+      </Verses>
+    </story>
   </stories>
 </StoryProject>

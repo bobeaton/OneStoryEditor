@@ -20,6 +20,12 @@ namespace OneStoryProjectEditor
             
         }
 
+        // mirrors ExegeticalHelpNoteData(NewDataSet.ExegeticalHelpRow)
+        public ExegeticalHelpNoteData(XElement elemExegeticalHelp)
+            : base(XmlRead.Text(elemExegeticalHelp), CMyField)
+        {
+        }
+
         public ExegeticalHelpNoteData(string strInitialText)
             : base(strInitialText, CMyField)
         {
@@ -55,6 +61,19 @@ namespace OneStoryProjectEditor
 
             foreach (NewDataSet.ExegeticalHelpRow anExHelpNoteRow in theExHelpNotesRow.GetExegeticalHelpRows())
                 Add(new ExegeticalHelpNoteData(anExHelpNoteRow));
+        }
+
+        // mirrors ExegeticalHelpNotesData(NewDataSet.VerseRow, NewDataSet); an absent <ExegeticalHelps> is the
+        //  row path's added empty container. Duplicates are kept here exactly as the row path keeps them
+        //  (GetXml is what drops them)
+        public ExegeticalHelpNotesData(XElement elemVerse)
+        {
+            var elemExegeticalHelps = XmlRead.First(elemVerse, CstrElementLabelExegeticalHelps);
+            if (elemExegeticalHelps == null)
+                return;
+
+            foreach (var elemExegeticalHelp in XmlRead.Children(elemExegeticalHelps, ExegeticalHelpNoteData.CstrElementNameExegeticalHelp))
+                Add(new ExegeticalHelpNoteData(elemExegeticalHelp));
         }
 
         public ExegeticalHelpNotesData(XmlNode node)

@@ -30,6 +30,26 @@ namespace OneStoryProjectEditor
             Answers = new AnswersData(theTestQuestionRow, projFile);
         }
 
+        // mirrors TestQuestionData(NewDataSet.TestQuestionRow, NewDataSet)
+        public TestQuestionData(XElement elemTestQuestion)
+        {
+            guid = XmlRead.RequiredAttr(elemTestQuestion, CstrAttributeGuid);
+
+            // the row's typed 'visible' getter throws when the attribute is absent (no default is applied)
+            var bVisible = XmlRead.Bool(elemTestQuestion, CstrAttributeVisible);
+            if (!bVisible.HasValue)
+                throw new ApplicationException(
+                    $"The project file is damaged: <{elemTestQuestion.Name}> is missing the required attribute '{CstrAttributeVisible}'.");
+            IsVisible = bVisible.Value;
+
+            TestQuestionLine = new LineData(StoryEditor.TextFields.TestQuestion);
+            foreach (var elemTqLine in XmlRead.Children(elemTestQuestion, CstrElementLabelTestQuestionLine))
+                TestQuestionLine.SetValue(XmlRead.RequiredAttr(elemTqLine, LineData.CstrAttributeLang),
+                                          XmlRead.Text(elemTqLine));
+
+            Answers = new AnswersData(elemTestQuestion);
+        }
+
         public TestQuestionData(XmlNode node)
         {
             guid = node.Attributes[CstrAttributeGuid].Value;
@@ -396,6 +416,17 @@ namespace OneStoryProjectEditor
 
             foreach (NewDataSet.TestQuestionRow aTestingQuestionRow in theTestQuestionsRow.GetTestQuestionRows())
                 Add(new TestQuestionData(aTestingQuestionRow, projFile));
+        }
+
+        // mirrors TestQuestionsData(NewDataSet.VerseRow, NewDataSet); an absent <TestQuestions> is the row path's added empty container
+        public TestQuestionsData(XElement elemVerse)
+        {
+            var elemTestQuestions = XmlRead.First(elemVerse, CstrElementLabelTestQuestions);
+            if (elemTestQuestions == null)
+                return;
+
+            foreach (var elemTestQuestion in XmlRead.Children(elemTestQuestions, TestQuestionData.CstrElementLabelTestQuestion))
+                Add(new TestQuestionData(elemTestQuestion));
         }
 
         public TestQuestionsData(XmlNode node)

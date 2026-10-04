@@ -60,7 +60,7 @@ namespace OneStoryProjectEditor.Tests
         public void FixtureLoadsInDataSet()
         {
             Assert.That(_ds, Is.Not.Null);
-            Assert.That(_ds.story.Count, Is.EqualTo(4));
+            Assert.That(_ds.story.Count, Is.EqualTo(5));
         }
 
         [Test]
@@ -89,7 +89,7 @@ namespace OneStoryProjectEditor.Tests
         {
             var rows = _ds.ConsultantNote.ToList();
             var elems = _doc.Descendants("ConsultantNote").ToList();
-            Assert.That(rows.Count, Is.EqualTo(5));
+            Assert.That(rows.Count, Is.EqualTo(11));
             Assert.That(elems.Count, Is.EqualTo(rows.Count));
             for (int i = 0; i < rows.Count; i++)
                 AssertDate(rows[i], "timeStamp", elems[i], "timeStamp", $"note {i}");
@@ -109,7 +109,7 @@ namespace OneStoryProjectEditor.Tests
         {
             var rows = _ds.Verse.ToList();
             var elems = _doc.Descendants("Verse").ToList();
-            Assert.That(rows.Count, Is.EqualTo(5));
+            Assert.That(rows.Count, Is.EqualTo(8));
             Assert.That(elems.Count, Is.EqualTo(rows.Count));
             for (int i = 0; i < rows.Count; i++)
             {
@@ -136,7 +136,7 @@ namespace OneStoryProjectEditor.Tests
         {
             var rows = _ds.ConsultantConversation.ToList();
             var elems = _doc.Descendants("ConsultantConversation").ToList();
-            Assert.That(rows.Count, Is.EqualTo(2));
+            Assert.That(rows.Count, Is.EqualTo(5));
             Assert.That(elems.Count, Is.EqualTo(rows.Count));
             for (int i = 0; i < rows.Count; i++)
             {
@@ -162,7 +162,7 @@ namespace OneStoryProjectEditor.Tests
         {
             var rows = _ds.StoryLine.ToList();
             var elems = _doc.Descendants("StoryLine").ToList();
-            Assert.That(rows.Count, Is.EqualTo(5));
+            Assert.That(rows.Count, Is.EqualTo(8));
             Assert.That(elems.Count, Is.EqualTo(rows.Count));
             for (int i = 0; i < rows.Count; i++)
                 Assert.That(XmlRead.Text(elems[i]), Is.EqualTo(RawString(rows[i], "StoryLine_text")), $"storyline {i}");
@@ -173,7 +173,7 @@ namespace OneStoryProjectEditor.Tests
         {
             var rows = _ds.Anchor.ToList();
             var elems = _doc.Descendants("Anchor").ToList();
-            Assert.That(rows.Count, Is.EqualTo(3));
+            Assert.That(rows.Count, Is.EqualTo(6));
             Assert.That(elems.Count, Is.EqualTo(rows.Count));
             for (int i = 0; i < rows.Count; i++)
                 Assert.That(XmlRead.Text(elems[i]), Is.EqualTo(RawString(rows[i], "Anchor_text")), $"anchor {i}");
@@ -205,7 +205,7 @@ namespace OneStoryProjectEditor.Tests
         {
             // forms present in the fixture: absent, "false", "true", "1"
             var forms = _doc.Descendants("Verse").Select(v => (string)v.Attribute("visible")).ToList();
-            Assert.That(forms, Is.EquivalentTo(new string[] { null, "false", "true", "1", null }));
+            Assert.That(forms, Is.EquivalentTo(new string[] { null, "false", "true", "1", null, null, null, null }));
         }
 
         [Test]

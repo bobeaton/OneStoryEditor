@@ -178,6 +178,34 @@ namespace OneStoryProjectEditor
             IsFinished = bIsFinished;
         }
 
+        // XElement flavor of the Consultant/Coach row constructors' shared loop over the conversation's notes
+        //  (mirrors the foreach in ConsultantNoteData(ConsultantConversationRow) / CoachNoteData(CoachConversationRow))
+        protected void AddCommInstancesFromXml(XElement elemConversation, string strSubElementName)
+        {
+            foreach (var elemNote in XmlRead.Children(elemConversation, strSubElementName))
+            {
+                // the row's typed getter for the note text throws on an empty note, because the DataSet gives
+                //  DBNull for empty text; a self-closing/empty note is therefore damage here too
+                var strDirection = XmlRead.RequiredAttr(elemNote, CommInstance.CstrAttributeLabelDirection);
+                var commDir = GetDirectionFromString(strDirection);
+                var strText = XmlRead.Text(elemNote);
+                if (strText == null)
+                    throw new ApplicationException(
+                        $"The project file is damaged: <{elemNote.Name}> has no text.");
+                var commInst = new CommInstance(strText,
+                                                commDir,
+                                                XmlRead.RequiredAttr(elemNote, CommInstance.CstrAttributeLabelGuid),
+                                                XmlRead.Attr(elemNote, CommInstance.CstrAttributeLabelMemberId),
+                                                XmlRead.Date(elemNote, CommInstance.CstrAttributeLabelTimeStamp)?.ToLocalTime()
+                                                    ?? DateTime.Now,
+                                                WhichField);
+                if (commDir == CommunicationDirections.eReferringToText)
+                    ReferringText = commInst;
+                else
+                    Add(commInst);
+            }
+        }
+
         protected ConsultNoteDataConverter(ConsultNoteDataConverter rhs)
         {
             // the guid shouldn't be replicated
@@ -1408,6 +1436,18 @@ namespace OneStoryProjectEditor
             System.Diagnostics.Debug.Assert(Count != 0, "It looks like you have an empty Consultant Note field that shouldn't be there. For now, you can just 'Ignore' this error (but perhaps let bob_eaton@sall.com know)");
         }
 
+        // mirrors ConsultantNoteData(NewDataSet.ConsultantConversationRow); visible defaults true, finished false when absent
+        public ConsultantNoteData(XElement elemConversation)
+            : base(XmlRead.RequiredAttr(elemConversation, CstrAttributeLabelGuid),
+                   XmlRead.Bool(elemConversation, CstrAttributeLabelVisible, true),
+                   XmlRead.Bool(elemConversation, CstrAttributeLabelFinished, false))
+        {
+            AddCommInstancesFromXml(elemConversation, CstrSubElementName);
+
+            // make sure that there are at least two (we can't save them if they're empty)
+            System.Diagnostics.Debug.Assert(Count != 0, "It looks like you have an empty Consultant Note field that shouldn't be there. For now, you can just 'Ignore' this error (but perhaps let bob_eaton@sall.com know)");
+        }
+
         public ConsultantNoteData(StoryData theStory, TeamMemberData loggedOnMember,
             TeamMembersData theTeamMembers, string strReferringText, string strValue, NoteType eNoteType)
             : base(strReferringText, loggedOnMember, StoryEditor.TextFields.ConsultantNote)
@@ -1579,6 +1619,15 @@ namespace OneStoryProjectEditor
                 else
                     Add(commInst);
             }
+        }
+
+        // mirrors CoachNoteData(NewDataSet.CoachConversationRow); visible defaults true, finished false when absent
+        public CoachNoteData(XElement elemConversation)
+            : base(XmlRead.RequiredAttr(elemConversation, CstrAttributeLabelGuid),
+                   XmlRead.Bool(elemConversation, CstrAttributeLabelVisible, true),
+                   XmlRead.Bool(elemConversation, CstrAttributeLabelFinished, false))
+        {
+            AddCommInstancesFromXml(elemConversation, CstrSubElementName);
         }
 
         public CoachNoteData(StoryData theStory, TeamMemberData loggedOnMember,
@@ -1903,6 +1952,18 @@ namespace OneStoryProjectEditor
         {
         }
 
+        // mirrors ConsultantNotesData(NewDataSet.VerseRow, NewDataSet); an absent <ConsultantNotes> is the row path's added empty container
+        public ConsultantNotesData(XElement elemVerse)
+            : base(CstrCollectionElementName)
+        {
+            var elemConsultantNotes = XmlRead.First(elemVerse, CstrCollectionElementName);
+            if (elemConsultantNotes == null)
+                return;
+
+            foreach (var elemConversation in XmlRead.Children(elemConsultantNotes, ConsultantNoteData.CstrElementName))
+                Add(new ConsultantNoteData(elemConversation));
+        }
+
         public ConsultantNotesData(XmlNode xmlNode)
             : base(CstrCollectionElementName)
         {
@@ -2002,6 +2063,18 @@ namespace OneStoryProjectEditor
         public CoachNotesData()
             : base(CstrCollectionElementName)
         {
+        }
+
+        // mirrors CoachNotesData(NewDataSet.VerseRow, NewDataSet); an absent <CoachNotes> is the row path's added empty container
+        public CoachNotesData(XElement elemVerse)
+            : base(CstrCollectionElementName)
+        {
+            var elemCoachNotes = XmlRead.First(elemVerse, CstrCollectionElementName);
+            if (elemCoachNotes == null)
+                return;
+
+            foreach (var elemConversation in XmlRead.Children(elemCoachNotes, CoachNoteData.CstrElementName))
+                Add(new CoachNoteData(elemConversation));
         }
 
         public CoachNotesData(XmlNode xmlNode)

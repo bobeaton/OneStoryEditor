@@ -21,6 +21,14 @@ namespace OneStoryProjectEditor
                 : theAnchorRow.Anchor_text;
         }
 
+        // mirrors AnchorData(NewDataSet.AnchorRow)
+        public AnchorData(XElement elemAnchor)
+        {
+            JumpTarget = XmlRead.RequiredAttr(elemAnchor, CstrAttributeJumpTarget);
+            var strText = XmlRead.Text(elemAnchor);
+            ToolTipText = (strText == null) ? JumpTarget : strText;
+        }
+
         public AnchorData(XmlNode node)
         {
             XmlAttribute attr;
@@ -303,6 +311,18 @@ namespace OneStoryProjectEditor
                 Add(new AnchorData(anAnchorRow));
         }
 
+        // mirrors AnchorsData(NewDataSet.VerseRow, NewDataSet); an absent <Anchors> is the row path's added empty container
+        public AnchorsData(XElement elemVerse)
+        {
+            var elemAnchors = XmlRead.First(elemVerse, CstrElementLabelAnchors);
+            if (elemAnchors == null)
+                return;
+
+            IsKeyTermChecked = XmlRead.Bool(elemAnchors, CstrAttributeKeyTermChecked, false);
+            foreach (var elemAnchor in XmlRead.Children(elemAnchors, AnchorData.CstrElementLabelAnchor))
+                Add(new AnchorData(elemAnchor));
+        }
+
         public AnchorsData(XmlNode node)
         {
             if (node == null)
@@ -351,6 +371,7 @@ namespace OneStoryProjectEditor
         }
 
         public const string CstrElementLabelAnchors = "Anchors";
+        public const string CstrAttributeKeyTermChecked = "keyTermChecked";
 
         public XElement GetXml
         {

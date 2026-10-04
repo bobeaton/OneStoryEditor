@@ -116,6 +116,21 @@ namespace OneStoryProjectEditor
             }
         }
 
+        // shared by the Retelling and Answer XElement constructors (the row constructors share their loop shape)
+        protected void InitFromXElement(XElement elemContainer, string strInstanceElementName)
+        {
+            if (elemContainer == null)
+                return;
+
+            foreach (var elemInstance in XmlRead.Children(elemContainer, strInstanceElementName))
+            {
+                var strMemberId = XmlRead.RequiredAttr(elemInstance, LineMemberData.CstrAttributeMemberID);
+                var strLangId = XmlRead.Attr(elemInstance, LineData.CstrAttributeLang);
+                var strValue = XmlRead.Text(elemInstance);
+                AddLineDataValue(strMemberId, strLangId, strValue);
+            }
+        }
+
         protected void AddLineDataValue(string strMemberId, string strLangId, string strValue)
         {
             LineMemberData theLineData = TryAddNewLine(strMemberId);
@@ -457,6 +472,12 @@ namespace OneStoryProjectEditor
         {
         }
 
+        // mirrors RetellingsData(NewDataSet.VerseRow, NewDataSet); an absent <Retellings> is the row path's added empty container
+        public RetellingsData(XElement elemVerse)
+        {
+            InitFromXElement(XmlRead.First(elemVerse, CstrElementLableRetellings), InstanceElementName);
+        }
+
         public RetellingsData(XmlNode node)
         {
             InitFromXmlNode(node, InstanceElementName);
@@ -534,6 +555,12 @@ namespace OneStoryProjectEditor
                                    : anAnswerRow.Answer_text;
                 AddLineDataValue(anAnswerRow.memberID, strLangId, strValue);
             }
+        }
+
+        // mirrors AnswersData(NewDataSet.TestQuestionRow, NewDataSet); an absent <Answers> is the row path's added empty container
+        public AnswersData(XElement elemTestQuestion)
+        {
+            InitFromXElement(XmlRead.First(elemTestQuestion, CstrElementLableAnswers), InstanceElementName);
         }
 
         public AnswersData(XmlNode node)
