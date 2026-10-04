@@ -353,15 +353,6 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; class=&quot;{1}&quot; onClick=&quot;{2}&quot;&gt;{3}&lt;/button&gt;.
-        /// </summary>
-        internal static string HTML_ButtonClass {
-            get {
-                return ResourceManager.GetString("HTML_ButtonClass", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; onmouseup=&quot;{1}&quot; style=&quot;height:20px; width:20px;&quot;&gt;{2}&lt;/button&gt;.
         /// </summary>
         internal static string HTML_ButtonLineOptions {
@@ -495,21 +486,6 @@ namespace OneStoryProjectEditor.Properties {
         internal static string HTML_ParagraphTextId {
             get {
                 return ResourceManager.GetString("HTML_ParagraphTextId", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;script type=&quot;text/javascript&quot;&gt;
-        ///  var textareas = document.getElementsByTagName(&quot;textarea&quot;);
-        ///  for (var i=0; i &lt; textareas.length; i++) {
-        ///	textareas[i].onmousedown = function() { return window.external.OnTextareaMouseDown(this.id, this.value, window.event.button); };
-        ///	textareas[i].onkeyup = function() { return window.external.TextareaOnKeyUp(this.id, this.value); };
-        ///	textareas[i].ondragover = function() { window.event.returnValue=false; };
-        ///	textareas[i].ondrop = function () { window.external.CopyScrip [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string HTML_Script_AddTextareaMouseDown {
-            get {
-                return ResourceManager.GetString("HTML_Script_AddTextareaMouseDown", resourceCulture);
             }
         }
         
@@ -784,7 +760,7 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; ondblclick=&quot;OnDoubleClick(this)&quot; onKeyDown=&quot;OnTextAreaKeyDown()&quot; class=&quot;{1}&quot;&gt;{2}&lt;/textarea&gt;.
+        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; data-note=&quot;edit&quot; data-drop=&quot;scripture&quot; class=&quot;{1}&quot;&gt;{2}&lt;/textarea&gt;.
         /// </summary>
         internal static string HTML_TextareaWithRefDoubleClick {
             get {

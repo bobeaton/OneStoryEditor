@@ -23,6 +23,15 @@ namespace OneStoryProjectEditor
         public const string ConvertToMenteeToSelf = "convertToMenteeToSelf";
         public const string Approve = "approve";
         public const string EndConversation = "endConversation";
+
+        // a note-pane button; PaneCommon.js sends its data-action (and data-arg) when it's clicked
+        public static string ButtonHtml(string strId, string strClass, string strAction, string strLabel, string strArg = null)
+        {
+            return String.Format("<button id=\"{0}\" class=\"{1}\" data-action=\"{2}\"{3}>{4}</button>",
+                                 strId, strClass, strAction,
+                                 (strArg == null) ? String.Empty : String.Format(" data-arg=\"{0}\"", strArg),
+                                 strLabel);
+        }
     }
 
     public abstract class HtmlConNoteControl : HtmlVerseControl
@@ -312,17 +321,23 @@ namespace OneStoryProjectEditor
                 return false;
 
             ConsultNotesDataConverter theCNsDC = DataConverter(nVerseIndex);
+
+            // nothing changed (e.g. an arrow key, or a flush): don't mark the project modified, and don't
+            //  complain (via the edit-token check's status bar message) to someone who can't edit anyway
+            ConsultNoteDataConverter theCNDC = ((theCNsDC != null) && (nConversationIndex >= 0) && (nConversationIndex < theCNsDC.Count))
+                                                   ? theCNsDC[nConversationIndex]
+                                                   : null;
+            CommInstance aCI = (theCNDC != null) ? theCNDC.FinalComment : null;
+            if ((aCI != null) && PaneText.IsSame(aCI, strText))
+                return true;
+
             if (!CheckForProperEditToken(theCNsDC, out StoryEditor theSE))
                 return false;
 
-            ConsultNoteDataConverter theCNDC = theCNsDC[nConversationIndex];
+            theCNDC = theCNsDC[nConversationIndex];
             System.Diagnostics.Debug.Assert((theCNDC != null) && (theCNDC.Count > 0));
 
-            CommInstance aCI = theCNDC.FinalComment;
-
-            // nothing changed (e.g. an arrow key, or a flush): don't mark the project modified
-            if (PaneText.IsSame(aCI, strText))
-                return true;
+            aCI = theCNDC.FinalComment;
 
             aCI.SetValue(strText);
 

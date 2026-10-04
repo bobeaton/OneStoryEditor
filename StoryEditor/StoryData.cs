@@ -683,8 +683,7 @@ namespace OneStoryProjectEditor
             return String.Format(Properties.Resources.HTML_Header,
                                  StylePrefix(projSettings, strFontName, strFontSize),
                                  ConNotePageScripts,
-                                 strHtml,
-                                 Properties.Resources.HTML_Script_AddTextareaMouseDown);
+                                 strHtml);
         
         }
 
@@ -698,8 +697,7 @@ namespace OneStoryProjectEditor
             return String.Format(Properties.Resources.HTML_Header,
                                  StylePrefix(projSettings, strFontName, strFontSize),
                                  ConNotePageScripts,
-                                 strHtml,
-                                 Properties.Resources.HTML_Script_AddTextareaMouseDown);
+                                 strHtml);
         }
 
         public string CoachNotesHtml(object htmlConNoteCtrl, 
@@ -712,8 +710,7 @@ namespace OneStoryProjectEditor
             return String.Format(Properties.Resources.HTML_Header,
                                  StylePrefix(projSettings, strFontName, strFontSize),
                                  ConNotePageScripts,
-                                 strHtml,
-                                 Properties.Resources.HTML_Script_AddTextareaMouseDown);
+                                 strHtml);
         }
 
         /// <summary>

@@ -785,7 +785,7 @@ namespace OneStoryProjectEditor
                 string strReferringHtml = null;
                 if ((i == 0) && (ReferringText != null) && ReferringText.HasData)
                 {
-                    strReferringHtml = String.Format("<p ondblclick=\"OnDoubleClick(this)\">{0}</p>",
+                    strReferringHtml = String.Format("<p data-note=\"ref\">{0}</p>",
                                                      NoteHtmlSanitizer.ToReadOnlyHtml(ReferringText.ToString()));
                 }
 
@@ -909,7 +909,7 @@ namespace OneStoryProjectEditor
                 string strReferringHtml = null;
                 if ((i == 0) && (ReferringText != null) && ReferringText.HasData)
                 {
-                    strReferringHtml = String.Format("<p ondblclick=\"OnDoubleClick(this)\">{0}</p>",
+                    strReferringHtml = String.Format("<p data-note=\"ref\">{0}</p>",
                                                      NoteHtmlSanitizer.ToReadOnlyHtml(ReferringText.ToString()));
                 }
 
@@ -1077,40 +1077,32 @@ namespace OneStoryProjectEditor
                     AllowButtonsOverride ||
                     (IsStickyNote && IsMentorLoggedOn(loggedOnMember))))
             {
-                strRow += String.Format(Resources.HTML_ButtonClass,
+                strRow += NoteActions.ButtonHtml(
                                         ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexDelete),
                                         StoryData.CstrLangLocalizationStyleClassName,
-                                        "return window.external.OnClickDelete(this.id);",
+                                        NoteActions.Delete,
                                         StoryFrontMatterForm.CstrDeleteTest);
 
-                /* I think no need to allow this anymore...
-                strRow += String.Format(Resources.HTML_ButtonClass,
-                                        ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexHide),
-                                        StoryData.CstrLangLocalizationStyleClassName,
-                                        "return window.external.OnClickHide(this.id);",
-                                        (Visible) ? CstrButtonLabelHide : CstrButtonLabelUnhide);
-                */
                 // allow the person who created a 'note to self' to convert it to a note to 
                 //  the mentoree
                 if (IsNoteToLoggedOnMemberSelf(loggedOnMember))
                 {
-                    string strScriptCall;
+                    string strAction;
+                    string strArg = null;
                     if (IsMentorNoteToSelf(InitialComment))
                     {
-                        strScriptCall = String.Format("return window.external.OnConvertToMentoreeNote(this.id, {0});",
-                                                      (InitiatedByCit(theTeamMembers))
-                                                          ? "true"
-                                                          : "false");
+                        strAction = NoteActions.ConvertToMentoree;
+                        strArg = (InitiatedByCit(theTeamMembers)) ? "true" : "false";
                     }
                     else
                     {
-                        strScriptCall = "return window.external.OnConvertToMentorNote(this.id);";
+                        strAction = NoteActions.ConvertToMentor;
                     }
 
-                    strRow += String.Format(Resources.HTML_ButtonClass,
+                    strRow += NoteActions.ButtonHtml(
                                             ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexConvertToMentoreeNote),
                                             StoryData.CstrLangLocalizationStyleClassName,
-                                            strScriptCall, Localizer.Str("Change to note"));
+                                            strAction, Localizer.Str("Change to note"), strArg);
                 }
                 else if (!IsStickyNote)
                 {
@@ -1130,21 +1122,21 @@ namespace OneStoryProjectEditor
                 (this.Count == 1) &&
                 !IsNoteToSelf)  // = no responses yet
             {
-                string strScriptCall;
+                string strAction;
                 // if (IsMentorNoteToSelf(InitialComment))
                 if (IsFromMentor(InitialComment))
                 {
-                    strScriptCall = "return window.external.OnConvertToMentorNoteToSelf(this.id);";
+                    strAction = NoteActions.ConvertToMentorToSelf;
                 }
                 else
                 {
-                    strScriptCall = "return window.external.OnConvertToMentoreeNoteToSelf(this.id);";
+                    strAction = NoteActions.ConvertToMenteeToSelf;
                 }
 
-                strRow += String.Format(Resources.HTML_ButtonClass,
+                strRow += NoteActions.ButtonHtml(
                                         ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexConvertToNoteToSelf),
                                         StoryData.CstrLangLocalizationStyleClassName,
-                                        strScriptCall, Localizer.Str("Change to note to self"));
+                                        strAction, Localizer.Str("Change to note to self"));
             }
 
             // add a button if the logged on person has the authority to approve the note (or show it to the person who needs to see it)
@@ -1153,10 +1145,10 @@ namespace OneStoryProjectEditor
                 if (HasNoteApprovalAuthority(loggedOnMember, theTeamMembers) && 
                     (loggedOnMember.IsEditAllowed(theStory) || 
                         CoachWithoutaTurn(loggedOnMember, theTeamMembers)))
-                    strRow += String.Format(Resources.HTML_ButtonClass,
+                    strRow += NoteActions.ButtonHtml(
                                             ButtonId(nVerseIndex, nConversationIndex, CnBtnIndexApproveNote),
                                             StoryData.CstrLangLocalizationStyleClassName,
-                                            "return window.external.OnApproveNote(this.id);",
+                                            NoteActions.Approve,
                                             Localizer.Str("Approve Note"));
                 else
                     strRow += Localizer.Str("(Awaiting approval)");
@@ -1181,11 +1173,11 @@ namespace OneStoryProjectEditor
         private string GetEndOrOpenConversationButtonHtml(int nVerseIndex, int nConversationIndex)
         {
             // otherwise, add an 'End Conversation' button (if it's not a sticky note)
-            return String.Format(Resources.HTML_ButtonClass,
+            return NoteActions.ButtonHtml(
                 ButtonId(nVerseIndex, nConversationIndex,
                     CnBtnIndexEndConversation),
                 StoryData.CstrLangLocalizationStyleClassName,
-                "return window.external.OnClickEndConversation(this.id);",
+                NoteActions.EndConversation,
                 (IsFinished)
                     ? CstrButtonLabelConversationReopen
                     : CstrButtonLabelConversationEnd);

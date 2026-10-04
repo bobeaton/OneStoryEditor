@@ -174,7 +174,7 @@
     <value>..\js\storybtplaceholders.js;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="HTML_TextareaWithRefDoubleClick" xml:space="preserve">
-    <value>&lt;textarea id="{0}" ondblclick="OnDoubleClick(this)" onKeyDown="OnTextAreaKeyDown()" class="{1}"&gt;{2}&lt;/textarea&gt;</value>
+    <value>&lt;textarea id="{0}" data-note="edit" data-drop="scripture" class="{1}"&gt;{2}&lt;/textarea&gt;</value>
   </data>
   <data name="HTML_TableCellId" xml:space="preserve">
     <value>&lt;td id="{0}"&gt;{1}&lt;/td&gt;</value>
@@ -319,9 +319,6 @@ of the team before overwriting a list</value>
   <data name="DragDropHandle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DragDropHandle.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="HTML_ButtonClass" xml:space="preserve">
-    <value>&lt;button id="{0}" class="{1}" onClick="{2}"&gt;{3}&lt;/button&gt;</value>
-  </data>
   <data name="IDS_AdaptItProjectFolderFormat" xml:space="preserve">
     <value>{0} to {1} adaptations</value>
   </data>
@@ -339,20 +336,6 @@ of the team before overwriting a list</value>
   </data>
   <data name="IDS_AdaptItConverterDoesntExist" xml:space="preserve">
     <value>The Adapt It converter named '{0}' doesn't exist! You probably need to do 'Project', 'Settings' and configure it on the 'Adapt It' tab</value>
-  </data>
-  <data name="HTML_Script_AddTextareaMouseDown" xml:space="preserve">
-    <value>&lt;script type="text/javascript"&gt;
-  var textareas = document.getElementsByTagName("textarea");
-  for (var i=0; i &lt; textareas.length; i++) {
-	textareas[i].onmousedown = function() { return window.external.OnTextareaMouseDown(this.id, this.value, window.event.button); };
-	textareas[i].onkeyup = function() { return window.external.TextareaOnKeyUp(this.id, this.value); };
-	textareas[i].ondragover = function() { window.event.returnValue=false; };
-	textareas[i].ondrop = function () { window.external.CopyScriptureReference(this.id); };
-	textareas[i].onselect = function () { this.focus(); };
-	textareas[i].onchange = function () { return window.external.TextareaOnKeyUp(this.id, this.value); };
-	textareas[i].onpaste = function () { return window.external.TextareaOnKeyUp(this.id, this.value); };
-  }
-&lt;/script&gt;</value>
   </data>
   <data name="IDS_MainStoriesSet" xml:space="preserve">
     <value>Stories</value>
@@ -582,10 +565,9 @@ and in the resulting window click on the next (green) state.
 {1}
 &lt;/script&gt;
 &lt;/head&gt;
-&lt;body onmouseup="OnMouseUp();"&gt;
+&lt;body&gt;
 {2}
 &lt;/body&gt;
-{3}
 &lt;/html&gt;</value>
   </data>
   <data name="IDS_ConfirmDeleteKeyTerm" xml:space="preserve">

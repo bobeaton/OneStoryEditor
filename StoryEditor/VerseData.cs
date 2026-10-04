@@ -2048,33 +2048,29 @@ namespace OneStoryProjectEditor
             string strHtmlButtons = null;
             if (theCNsDC.HasAddNotePrivilege(LoggedOnMember, strThePfMemberId))
             {
-                strHtmlButtons += String.Format(Properties.Resources.HTML_ButtonClass,
-                                                nVerseIndex,
-                                                StoryData.CstrLangLocalizationStyleClassName,
-                                                "return window.external.OnAddNote(this.id, null, false);",
-                                                Localizer.Str("Add Note"));
+                strHtmlButtons += NoteActions.ButtonHtml(nVerseIndex.ToString(),
+                                                         StoryData.CstrLangLocalizationStyleClassName,
+                                                         NoteActions.AddNote,
+                                                         Localizer.Str("Add Note"));
 
-                strHtmlButtons += String.Format(Properties.Resources.HTML_ButtonClass,
-                                                NoteToSelfButtonId(nVerseIndex),
-                                                StoryData.CstrLangLocalizationStyleClassName,
-                                                "return window.external.OnAddNoteToSelf(this.id);",
-                                                Localizer.Str("Add Note to Self"));
+                strHtmlButtons += NoteActions.ButtonHtml(NoteToSelfButtonId(nVerseIndex),
+                                                         StoryData.CstrLangLocalizationStyleClassName,
+                                                         NoteActions.AddNoteToSelf,
+                                                         Localizer.Str("Add Note to Self"));
 
                 if ((nVerseIndex == 0) &&
                     theCNsDC.IsMentorLoggedOn(LoggedOnMember) &&
                     ((theCNsDC.Count == 0) || !theCNsDC[0].IsStickyNote))
-                    strHtmlButtons += String.Format(Properties.Resources.HTML_ButtonClass,
-                                                    StickyNoteButtonId(nVerseIndex),
-                                                    StoryData.CstrLangLocalizationStyleClassName,
-                                                    "return window.external.OnAddStickyNote(this.id);",
-                                                    Localizer.Str("Add Sticky Note"));
+                    strHtmlButtons += NoteActions.ButtonHtml(StickyNoteButtonId(nVerseIndex),
+                                                             StoryData.CstrLangLocalizationStyleClassName,
+                                                             NoteActions.AddStickyNote,
+                                                             Localizer.Str("Add Sticky Note"));
             }
 
             if (bShowOnlyOpenConversations)
-                strHtmlButtons = String.Format(Properties.Resources.HTML_ButtonClass,
-                                               ButtonId(nVerseIndex),
+                strHtmlButtons = NoteActions.ButtonHtml(ButtonId(nVerseIndex),
                                                StoryData.CstrLangLocalizationStyleClassName,
-                                               "return window.external.OnShowHideOpenConversations(this.id);",
+                                               NoteActions.ShowHideOpen,
                                                (theCNsDC.ShowOpenConversations)
                                                    ? CstrShowOpenHideClosed
                                                    : CstrShowOpenShowAll)

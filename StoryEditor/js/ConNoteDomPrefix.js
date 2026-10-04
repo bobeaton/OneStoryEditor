@@ -1,5 +1,8 @@
-﻿function DisplayHtml(str) {
-    window.external.LogMessage(str.replace(/\r\n/gm, "<nl>"));
+// ConNoteDomPrefix.js: the Consultant/Coach note panes. Inlined after bridge.js and PaneCommon.js (which handle the
+//  links, buttons, keys, drops, scrolling and the textarea commands).
+function DisplayHtml(str) {
+    if (window.oseDebug)
+        ose.send('log', { text: str.replace(/\r\n/gm, "<nl>") });
 }
 
 function regexRemoveSpan(html) {
@@ -16,44 +19,7 @@ if (typeof String.prototype.trim !== 'function') {
     }
 }
 
-function OnBibRefJump(link) {
-    window.external.OnBibRefJump(link.name);
-    return false; // cause the href navigation to not happen
-}
-function OnVerseLineJump(link) {
-    window.external.OnVerseLineJump(link.name);
-    return false; // cause the href navigation to not happen
-}
-function OnUrlJump(link) {
-    window.external.OnUrlJump(link.href);
-    return false; // cause the href navigation to not happen
-}
-
-var s_key = 83;
-var f5_key = 116;
-function OnKeyDown() {
-    if (window.event.keyCode == f5_key) {
-        // let the form handle it
-        window.external.LoadDocument();
-
-        // disable the propagation of the F5 event
-        window.event.keyCode = 0;
-        window.event.returnValue = false;
-        return false;
-    }
-    else if (window.event.ctrlKey && (window.event.keyCode == s_key)) {
-        if (window.event.stopPropagation) {
-            window.event.stopPropagation();
-        }
-        else {
-            window.event.cancelBubble = true;
-            window.event.returnValue = false;
-            window.event.keyCode = 0;
-        }
-        window.external.OnSaveDocument();
-        return false;
-    }
-}
+// (unchanged from before, apart from being called by the dblclick listener below)
 function OnDoubleClick(elem) {
     DisplayHtml("OnDoubleClick: start: typeof elem (<p>): '" + (typeof elem) + "'");
     if (document.selection) {
@@ -69,7 +35,7 @@ function OnDoubleClick(elem) {
                 DisplayHtml("OnDoubleClick: rng.text: '" + rng.text + "'");
 
                 /* none of this works, because anytime you double click on a <p> (non-editable portion of the con notes pane)
-                    it returns !rng.text, which means you can't tell which portion was selected. So doubleclick will select 
+                    it returns !rng.text, which means you can't tell which portion was selected. So doubleclick will select
                     everything in the cell (from moveToElementText above) and if they need to select a single (set of) words
                     then they'll need to click and drag
                 var fullText = rng.text;
@@ -121,43 +87,7 @@ function OnDoubleClick(elem) {
         rng.parentElement().focus();    // gotta focus or typing afterwards won't replace the selected text
     }
 }
-function textboxSetSelection(strId, iStart, iLen) {
-    var oTextbox = document.getElementById(strId);
-    var oRange = oTextbox.createTextRange();
-    oRange.moveStart("character", iStart);
-    oRange.moveEnd("character", -oTextbox.value.length + iStart + iLen);
-    oRange.select();
-}
-function textboxSetSelectionTextReturnEndPosition(strId, strNewValue) {
-    var oTextbox = document.getElementById(strId);
-    var rangeSelection = document.selection.createRange();
-    var rangeElement = rangeSelection.duplicate();
-    rangeElement.moveToElementText(oTextbox);
-    var nEndPoint = 0;
-    if (rangeElement.inRange(rangeSelection)) {
-        rangeSelection.text = strNewValue;
-        rangeSelection.select();
-        while (rangeElement.compareEndPoints('StartToEnd', rangeSelection) < 0) {
-            rangeElement.moveStart('character', 1);
-            nEndPoint++;
-        }
-    }
-    return nEndPoint;
-}
-function OnMouseUp() {
-    // if the user right-clicks, then ask the ConNote pane to show the context menu
-    if (window.event.button == 2)
-        window.external.ShowContextMenu();
-}
-function OnTextAreaKeyDown() {
-    if (window.event.ctrlKey && (window.event.keyCode == 66)) {
-        transformText("$")
-    } else if (window.event.ctrlKey && (window.event.keyCode == 73)) {
-        transformText("*")
-    }
-}
-
-function transformText(type) {
+function transformText(e, type) {
     if (document.selection) {
         var rangeSelection = document.selection.createRange();
         var selectVal = rangeSelection.text;
@@ -170,8 +100,8 @@ function transformText(type) {
             }
         }
     }
-    window.event.returnValue = false;
-    window.event.keyCode = 0;
+    try { window.event.keyCode = 0; } catch (ex) { }
+    ose.cancel(e);
 }
 
 function startsWith(str, word) {
@@ -180,3 +110,55 @@ function startsWith(str, word) {
 function endsWith(str, word) {
     return str.indexOf(word, str.length - word.length) !== -1;
 }
+
+// double-click selects a word in the note box or the referring text (data-note on both)
+document.addEventListener('dblclick', function (e) {
+    var el = ose.closest(e.target, function (x) { return !!x.getAttribute('data-note'); });
+    if (el)
+        OnDoubleClick(el);
+}, false);
+
+// Ctrl+B / Ctrl+I in the note box wrap the selection in $...$ / *...*
+document.addEventListener('keydown', function (e) {
+    if (!e.ctrlKey || !ose.closest(e.target, function (x) { return x.getAttribute('data-note') == 'edit'; }))
+        return;
+    if (e.keyCode == 66)
+        transformText(e, "$");
+    else if (e.keyCode == 73)
+        transformText(e, "*");
+}, false);
+
+// right-click anywhere asks C# for the note context menu (window.event.button, as the old body onmouseup used)
+document.onmouseup = function () {
+    if (window.event.button == 2)
+        ose.send('contextMenu', {});
+};
+
+// the note box's own events (this replaces the HTML_Script_AddTextareaMouseDown block; same event properties, so
+//  the values sent are the same as before)
+window.addEventListener('load', function () {
+    var textareas = document.getElementsByTagName("textarea");
+    for (var i = 0; i < textareas.length; i++) {
+        textareas[i].onmousedown = function () { ose.send('textareaMouseDown', { id: this.id, value: this.value, button: window.event.button }); };
+        textareas[i].onkeyup = function () { ose.send('textChanged', { id: this.id, value: this.value }); };
+        textareas[i].onselect = function () { this.focus(); };
+        textareas[i].onchange = function () { ose.send('textChanged', { id: this.id, value: this.value }); };
+        textareas[i].onpaste = function () { ose.send('textChanged', { id: this.id, value: this.value }); };
+    }
+}, false);
+
+// the selection in a read-only part of the pane, and the line it's on, for "Add note on selected text"
+ose.on('getNoteSelection', function () {
+    if (!document.selection)
+        return {};
+    var range = document.selection.createRange();
+    if (!range || !range.htmlText)
+        return {};
+    var re = /id="?tp_(\d+?)_/;
+    var elem = range.parentElement();
+    while (elem && !re.test(elem.innerHTML))
+        elem = elem.parentElement;
+    if (!elem)
+        return {};
+    return { lineIndex: parseInt(re.exec(elem.innerHTML)[1], 10), html: range.htmlText };
+});
