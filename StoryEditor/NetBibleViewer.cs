@@ -16,7 +16,7 @@ namespace OneStoryProjectEditor
     public partial class NetBibleViewer : UserControl
     {
         protected string m_strScriptureReference = "Gen 1:1";
-        private bool _bHtmlDragInProgress;
+        private readonly HtmlDragSuspension _htmlDrag = new HtmlDragSuspension();
         protected List<string> m_astrReferences = new List<string>();
         protected int m_nReferenceArrayIndex = -1;
 
@@ -96,21 +96,19 @@ namespace OneStoryProjectEditor
             {
                 JumpTarget = m.GetString("target");
                 ScriptureReference = m.GetString("ref");
-                StoryEditor.SuspendSaveDialog++;
-                _bHtmlDragInProgress = true;
+                _htmlDrag.Begin();
             });
-            _dispatcher.Register("refDragEnd", m =>
-            {
-                if (_bHtmlDragInProgress)
-                {
-                    _bHtmlDragInProgress = false;
-                    StoryEditor.SuspendSaveDialog--;
-                }
-            });
+            _dispatcher.Register("refDragEnd", m => _htmlDrag.End());
             _htmlHost.MessageReceived += (s, m) => _dispatcher.Dispatch(m);
-            _htmlHost.DocumentReady += (s, e) => ScrollToElement();
+            // a new page means any drag from the old one is over (its dragend may never arrive)
+            _htmlHost.DocumentReady += (s, e) =>
+            {
+                _htmlDrag.End();
+                ScrollToElement();
+            };
             _htmlHost.EngineChanged += (s, e) =>
             {
+                _htmlDrag.End();
                 m_nBook = m_nChapter = 0;    // force DisplayVerses to rebuild the page (now with the IE scripts)
                 DisplayVerses();
             };
