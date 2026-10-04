@@ -90,6 +90,7 @@ namespace OneStoryProjectEditor.Tests
         {
             int nFiles = 0, nCompared = 0, nSkipped = 0;
             long nChars = 0;
+            int nBothThrew = 0, nMarkedPlain = 0, nDecodePath = 0;
             var lstDiffering = new List<string>();
 
             foreach (var strFile in CorpusFiles())
@@ -110,6 +111,16 @@ namespace OneStoryProjectEditor.Tests
                 {
                     nSkipped++;
                     TestContext.WriteLine($"SKIP (old loader can't read it) {strFile}: {ex.GetType().Name}: {ex.Message}");
+                    try
+                    {
+                        ProjectFile.Load(strFile);
+                        lstDiffering.Add(strFile);
+                        TestContext.WriteLine($"DIFF {strFile}: new loader read a file the old loader could not");
+                    }
+                    catch (Exception exNew)
+                    {
+                        TestContext.WriteLine($"  (new loader also throws {exNew.GetType().Name}: {exNew.Message})");
+                    }
                     continue;
                 }
 
@@ -136,6 +147,10 @@ namespace OneStoryProjectEditor.Tests
                 }
 
                 nCompared++;
+                if (contents.IsPlainTextEncoded)
+                    nMarkedPlain++;
+                else
+                    nDecodePath++;
                 try
                 {
                     // same repairs on both sides: decode unless marked, placeholders always
@@ -152,10 +167,16 @@ namespace OneStoryProjectEditor.Tests
                         if (strFirstDiff != null)
                             return;
                         string strOld, strNew;
+                        bool bOldThrew = false, bNewThrew = false;
                         try { strOld = fOld(); }
-                        catch (Exception ex) { strOld = "EXCEPTION " + ex.GetType().Name + ": " + ex.Message; }
+                        catch (Exception ex) { bOldThrew = true; strOld = "EXCEPTION " + ex.GetType().Name + ": " + ex.Message; }
                         try { strNew = fNew(); }
-                        catch (Exception ex) { strNew = "EXCEPTION " + ex.GetType().Name + ": " + ex.Message; }
+                        catch (Exception ex) { bNewThrew = true; strNew = "EXCEPTION " + ex.GetType().Name + ": " + ex.Message; }
+                        if (bOldThrew && bNewThrew)
+                        {
+                            nBothThrew++;
+                            TestContext.WriteLine($"BOTH THREW {strFile} {strObject}: {strOld}");
+                        }
                         nChars += strOld.Length;
                         if (strOld != strNew)
                             strFirstDiff = $"{strObject}: " + FirstDifference(strOld, strNew);
@@ -205,8 +226,9 @@ namespace OneStoryProjectEditor.Tests
                 }
             }
 
-            TestContext.WriteLine($"SUMMARY files={nFiles} compared={nCompared} skipped={nSkipped} differing={lstDiffering.Count} charsCompared={nChars}");
+            TestContext.WriteLine($"SUMMARY files={nFiles} compared={nCompared} skipped={nSkipped} differing={lstDiffering.Count} charsCompared={nChars} bothThrew={nBothThrew} markedPlain={nMarkedPlain} decodePath={nDecodePath}");
             Assert.That(nFiles, Is.GreaterThan(0), "no corpus files found");
+            Assert.That(nCompared, Is.GreaterThan(0), "nothing was compared");
             Assert.That(lstDiffering, Is.Empty);
         }
     }
