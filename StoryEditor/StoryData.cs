@@ -122,6 +122,43 @@ namespace OneStoryProjectEditor
             Verses = new VersesData(node.SelectSingleNode(VersesData.CstrElementLabelVerses));
         }
 
+        private static T EnumAttr<T>(XElement elemStory, string strAttrName, T defaultValue) where T : struct
+        {
+            var str = XmlRead.Attr(elemStory, strAttrName);
+            return (str != null) ? (T)Enum.Parse(typeof(T), str) : defaultValue;
+        }
+
+        // mirrors StoryData(NewDataSet.storyRow, NewDataSet, string): elemStory is the <story> element
+        public StoryData(XElement elemStory, string strProjectFolder)
+        {
+            Name = XmlRead.RequiredAttr(elemStory, CstrAttributeName);
+            TasksAllowedPf = EnumAttr(elemStory, CstrAttributeLabelTasksAllowedPf, TasksPf.DefaultAllowed);
+            TasksRequiredPf = EnumAttr(elemStory, CstrAttributeLabelTasksRequiredPf, TasksPf.DefaultRequired);
+            TasksAllowedCit = EnumAttr(elemStory, CstrAttributeLabelTasksAllowedCit, TasksCit.DefaultAllowed);
+            TasksRequiredCit = EnumAttr(elemStory, CstrAttributeLabelTasksRequiredCit, TasksCit.DefaultRequired);
+            CountRetellingsTests = XmlRead.Int(elemStory, CstrAttributeLabelCountRetellingsTests, 0);
+            CountTestingQuestionTests = XmlRead.Int(elemStory, CstrAttributeLabelCountTestingQuestionTests, 0);
+
+            // see the row constructor: a duplicate guid (left by the merger) gets a new one
+            guid = XmlRead.RequiredAttr(elemStory, CstrAttributeGuid);
+            if (ProjectReader.UniqueStoryGuids.Contains(guid))
+            {
+                Debug.Assert(false, String.Format("Duplicate unique identifier for story '{1}'{0}{0}{2}",
+                                                  Environment.NewLine,
+                                                  Name,
+                                                  guid));
+                guid = Guid.NewGuid().ToString();
+            }
+
+            ProjectReader.UniqueStoryGuids.Add(guid);
+
+            StageTimeStamp = XmlRead.Date(elemStory, CstrAttributeTimeStamp)?.ToLocalTime() ?? DateTime.Now;
+            ProjStage = new StoryStageLogic(strProjectFolder, XmlRead.RequiredAttr(elemStory, CstrAttributeStage));
+            CraftingInfo = new CraftingInfoData(elemStory);
+            TransitionHistory = new StoryStateTransitionHistory(elemStory);
+            Verses = new VersesData(elemStory);
+        }
+
         public StoryData(NewDataSet.storyRow theStoryRow, NewDataSet projFile, string strProjectFolder)
         {
             Name = theStoryRow.name;
@@ -970,6 +1007,20 @@ namespace OneStoryProjectEditor
             }
         }
 
+        // mirrors StoryStateTransitionHistory(NewDataSet.storyRow): only used when there is exactly one
+        //  <TransitionHistory>; duplicates are silently dropped
+        public StoryStateTransitionHistory(XElement elemStory)
+        {
+            var elemsHistory = XmlRead.Children(elemStory, CstrElementLabelTransitionHistory).ToList();
+            if (elemsHistory.Count != 1)
+                return;
+
+            _bSuspendBigThrow = true;
+            foreach (var elemTransition in XmlRead.Children(elemsHistory[0], StoryStateTransition.CstrElemLabelStateTransition))
+                Add(new StoryStateTransition(elemTransition));
+            _bSuspendBigThrow = false;
+        }
+
         public void Add(string strMemberId, StoryStageLogic.ProjectStages fromState,
             StoryStageLogic.ProjectStages toState)
         {
@@ -1058,6 +1109,27 @@ namespace OneStoryProjectEditor
             TransitionDateTime = theSTR.TransitionDateTime.ToLocalTime();
             if (!theSTR.IsWindowsUserNameNull())
                 WindowsUserName = theSTR.WindowsUserName;
+        }
+
+        // mirrors StoryStateTransition(NewDataSet.StateTransitionRow)
+        public StoryStateTransition(XElement elemStateTransition)
+        {
+            LoggedInMemberId = XmlRead.RequiredAttr(elemStateTransition, CstrAttrNameLoggedInMemberId);
+            FromState = StoryStageLogic.GetProjectStageFromString(
+                XmlRead.RequiredAttr(elemStateTransition, CstrAttrNameFromState));
+            ToState = StoryStageLogic.GetProjectStageFromString(
+                XmlRead.RequiredAttr(elemStateTransition, CstrAttrNameToState));
+
+            // the row's typed getter throws when the attribute is absent
+            var dt = XmlRead.Date(elemStateTransition, CstrAttrNameTransitionDateTime);
+            if (!dt.HasValue)
+                throw new ApplicationException(
+                    $"The project file is damaged: <{elemStateTransition.Name}> is missing the required attribute '{CstrAttrNameTransitionDateTime}'.");
+            TransitionDateTime = dt.Value.ToLocalTime();
+
+            var strWindowsUserName = XmlRead.Attr(elemStateTransition, CstrAttrNameWindowsUserName);
+            if (strWindowsUserName != null)
+                WindowsUserName = strWindowsUserName;
         }
 
         public StoryStateTransition(XmlNode node)
@@ -1401,6 +1473,66 @@ namespace OneStoryProjectEditor
                 : null;
             TestersToCommentsRetellings.Add(node, CstrElementLabelTestsRetellings, CstrElementLabelTestRetelling);
             TestersToCommentsTqAnswers.Add(node, CstrElementLabelTestsTqAnswers, CstrElementLabelTestTqAnswer);
+        }
+
+        // a member element is used only when there is exactly one of it (as in the row constructor)
+        private static MemberIdInfo MemberFromXElement(XElement elemCraftingInfo, string strElementLabel)
+        {
+            var elems = XmlRead.Children(elemCraftingInfo, strElementLabel).ToList();
+            if (elems.Count != 1)
+                return null;
+
+            return new MemberIdInfo(XmlRead.RequiredAttr(elems[0], CstrAttributeMemberID), XmlRead.Text(elems[0]));
+        }
+
+        private static string NormalizedChildText(XElement elemCraftingInfo, string strElementLabel)
+        {
+            var elem = XmlRead.First(elemCraftingInfo, strElementLabel);
+            return (elem == null) ? null : StoryData.NormalizeLineEndings(elem.Value);
+        }
+
+        private static void AddTesters(TestInfo testInfo, XElement elemCraftingInfo, string strCollectionLabel,
+            string strInstanceLabel)
+        {
+            var elemsCollection = XmlRead.Children(elemCraftingInfo, strCollectionLabel).ToList();
+            if (elemsCollection.Count != 1)
+                return;
+
+            foreach (var elemTester in XmlRead.Children(elemsCollection[0], strInstanceLabel))
+                testInfo.Add(new MemberIdInfo(XmlRead.RequiredAttr(elemTester, CstrAttributeMemberID),
+                                              XmlRead.Text(elemTester)));
+        }
+
+        // mirrors CraftingInfoData(NewDataSet.storyRow): elemStory is the <story> element
+        public CraftingInfoData(XElement elemStory)
+        {
+            var elemsCraftingInfo = XmlRead.Children(elemStory, CstrElementLabelCraftingInfo).ToList();
+            if (elemsCraftingInfo.Count != 1)
+                throw new ApplicationException(Properties.Resources.IDS_ProjectFileCorruptedNoCraftingInfo);
+
+            var elemCi = elemsCraftingInfo[0];
+            var bNonBiblical = XmlRead.Bool(elemCi, CstrElementLabelNonBiblicalStory);
+            if (bNonBiblical.HasValue)
+                IsBiblicalStory = !bNonBiblical.Value;
+
+            StoryCrafter = MemberFromXElement(elemCi, CstrElementLabelStoryCrafter);
+            if (StoryCrafter == null)
+                throw new ApplicationException(Properties.Resources.IDS_ProjectFileCorrupted);
+
+            ProjectFacilitator = MemberFromXElement(elemCi, CstrElementLabelProjectFacilitator);
+            Consultant = MemberFromXElement(elemCi, CstrElementLabelConsultant);
+            Coach = MemberFromXElement(elemCi, CstrElementLabelCoach);
+            BackTranslator = MemberFromXElement(elemCi, CstrElementLabelBackTranslator);
+            OutsideEnglishBackTranslator = MemberFromXElement(elemCi, CstrElementLabelOutsideEnglishBackTranslator);
+
+            StoryPurpose = NormalizedChildText(elemCi, CstrElementLabelStoryPurpose);
+            ResourcesUsed = NormalizedChildText(elemCi, CstrElementLabelResourcesUsed);
+            MiscellaneousStoryInfo = NormalizedChildText(elemCi, CstrElementLabelMiscellaneousStoryInfo);
+
+            AddTesters(TestersToCommentsRetellings, elemCi, CstrElementLabelTestsRetellings,
+                       CstrElementLabelTestRetelling);
+            AddTesters(TestersToCommentsTqAnswers, elemCi, CstrElementLabelTestsTqAnswers,
+                       CstrElementLabelTestTqAnswer);
         }
 
         public CraftingInfoData(NewDataSet.storyRow theStoryRow)

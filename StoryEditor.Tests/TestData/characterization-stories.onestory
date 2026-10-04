@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StoryProject version="1.8" ProjectName="characterization-stories">
+  <Members HasOutsideEnglishBTer="true" HasFirstPassMentor="false" HasIndependentConsultant="false">
+    <Member name="Test Crafter" memberType="Crafter" memberKey="mem-00000000-0000-0000-0000-000000000001" />
+  </Members>
+  <Languages>
+    <LanguageInfo lang="Vernacular" name="Testish" code="tst" FontName="Arial" FontSize="12.5" FontColor="Maroon" SentenceFinalPunct=".!?:" />
+  </Languages>
+  <LnCNotes />
+  <stories SetName="Stories">
+    <story name="Story Full" stage="ProjFacTypeInternationalBT" guid="00000000-0000-0000-0000-000000000101" stageDateTimeStamp="2026-10-03T12:34:56Z" TasksAllowedPf="VernacularLangFields, Anchors" TasksRequiredPf="None" TasksAllowedCit="SendToCoachForReview" TasksRequiredCit="None" CountRetellingsTests="3" CountTestingQuestionTests="1">
+      <CraftingInfo NonBiblicalStory="true">
+        <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001">crafter comment</StoryCrafter>
+        <ProjectFacilitator memberID="mem-00000000-0000-0000-0000-000000000002" />
+        <Consultant memberID="mem-00000000-0000-0000-0000-000000000003">consultant&#10;comment</Consultant>
+        <Coach memberID="mem-00000000-0000-0000-0000-000000000004">   </Coach>
+        <BackTranslator memberID="mem-00000000-0000-0000-0000-000000000005">bt comment</BackTranslator>
+        <OutsideEnglishBackTranslator memberID="mem-00000000-0000-0000-0000-000000000006">outside comment</OutsideEnglishBackTranslator>
+        <StoryPurpose>purpose line 1&#10;purpose line 2</StoryPurpose>
+        <ResourcesUsed>resources&#13;&#10;already crlf</ResourcesUsed>
+        <MiscellaneousStoryInfo>misc info</MiscellaneousStoryInfo>
+        <TestsRetellings>
+          <TestRetelling memberID="mem-00000000-0000-0000-0000-000000000007">retelling test comment&#10;second line</TestRetelling>
+          <TestRetelling memberID="mem-00000000-0000-0000-0000-000000000008" />
+        </TestsRetellings>
+        <TestsTqAnswers>
+          <TestTqAnswer memberID="mem-00000000-0000-0000-0000-000000000009">tq answers comment</TestTqAnswer>
+          <TestTqAnswer memberID="mem-00000000-0000-0000-0000-000000000007" />
+        </TestsTqAnswers>
+      </CraftingInfo>
+      <TransitionHistory>
+        <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" WindowsUserName="tester" FromState="ProjFacTypeVernacular" ToState="ProjFacTypeInternationalBT" TransitionDateTime="2026-10-03T12:34:56Z" />
+        <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" WindowsUserName="tester" FromState="ProjFacTypeVernacular" ToState="ProjFacTypeInternationalBT" TransitionDateTime="2026-10-03T12:34:56Z" />
+        <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" FromState="ProjFacTypeInternationalBT" ToState="ProjFacTypeVernacular" TransitionDateTime="2026-10-03T13:00:00+02:00" />
+        <StateTransition LoggedInMemberId="mem-00000000-0000-0000-0000-000000000001" WindowsUserName="tester" FromState="ProjFacTypeVernacular" ToState="ProjFacTypeInternationalBT" TransitionDateTime="2026-10-03T14:00:00" />
+      </TransitionHistory>
+      <Verses>
+        <Verse guid="00000000-0000-0000-0000-000000000110" first="true">
+          <StoryLine lang="Vernacular">global line</StoryLine>
+          <ConsultantNotes>
+            <ConsultantConversation guid="00000000-0000-0000-0000-000000000111">
+              <ConsultantNote Direction="ConsultantToProjFac" guid="00000000-0000-0000-0000-000000000112" memberID="mem-00000000-0000-0000-0000-000000000001" timeStamp="2026-10-03T12:34:56Z">global note</ConsultantNote>
+            </ConsultantConversation>
+          </ConsultantNotes>
+        </Verse>
+        <Verse guid="00000000-0000-0000-0000-000000000113">
+          <StoryLine lang="Vernacular">first real line</StoryLine>
+          <StoryLine lang="NationalBt">national bt</StoryLine>
+          <StoryLine lang="InternationalBt">english bt</StoryLine>
+          <StoryLine lang="FreeTranslation">free translation</StoryLine>
+          <Anchors keyTermChecked="true">
+            <Anchor jumpTarget="GEN 1:1">anchor text</Anchor>
+          </Anchors>
+        </Verse>
+        <Verse guid="00000000-0000-0000-0000-000000000114" first="true" visible="false">
+          <StoryLine lang="Vernacular">stray first-flag line</StoryLine>
+        </Verse>
+      </Verses>
+    </story>
+    <story name="Story Minimal" stage="ProjFacTypeVernacular" guid="00000000-0000-0000-0000-000000000102">
+      <CraftingInfo>
+        <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001" />
+        <StoryPurpose />
+        <ResourcesUsed>  </ResourcesUsed>
+      </CraftingInfo>
+    </story>
+    <story name="Story Duplicate Guid" stage="ProjFacTypeVernacular" guid="00000000-0000-0000-0000-000000000101" stageDateTimeStamp="2026-10-03T12:34:56+02:00">
+      <CraftingInfo NonBiblicalStory="false">
+        <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001" />
+      </CraftingInfo>
+      <Verses>
+        <Verse guid="00000000-0000-0000-0000-000000000120">
+          <StoryLine lang="Vernacular">dup guid line</StoryLine>
+        </Verse>
+      </Verses>
+    </story>
+    <story name="Story Minimal" stage="ProjFacTypeVernacular" guid="00000000-0000-0000-0000-000000000103">
+      <CraftingInfo NonBiblicalStory="false">
+        <StoryCrafter memberID="mem-00000000-0000-0000-0000-000000000001" />
+      </CraftingInfo>
+      <Verses />
+    </story>
+  </stories>
+</StoryProject>

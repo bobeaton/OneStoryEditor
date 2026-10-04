@@ -243,6 +243,32 @@ namespace OneStoryProjectEditor
             CoachNotes = new CoachNotesData(theVerseRow, projFile);
         }
 
+        // mirrors VerseData(NewDataSet.VerseRow, NewDataSet)
+        public VerseData(XElement elemVerse)
+        {
+            guid = XmlRead.RequiredAttr(elemVerse, CstrAttributeGuid);
+
+            var bFirst = XmlRead.Bool(elemVerse, CstrAttributeFirstVerse);
+            if (bFirst.HasValue)
+                IsFirstVerse = bFirst.Value;
+
+            var bVisible = XmlRead.Bool(elemVerse, CstrAttributeVisible);
+            if (bVisible.HasValue)
+                IsVisible = bVisible.Value;
+
+            StoryLine = new LineData(StoryEditor.TextFields.StoryLine);
+            foreach (var elemStoryLine in XmlRead.Children(elemVerse, CstrFieldNameStoryLine))
+                StoryLine.SetValue(XmlRead.RequiredAttr(elemStoryLine, LineData.CstrAttributeLang),
+                                   XmlRead.Text(elemStoryLine));
+
+            Anchors = new AnchorsData(elemVerse);
+            ExegeticalHelpNotes = new ExegeticalHelpNotesData(elemVerse);
+            TestQuestions = new TestQuestionsData(elemVerse);
+            Retellings = new RetellingsData(elemVerse);
+            ConsultantNotes = new ConsultantNotesData(elemVerse);
+            CoachNotes = new CoachNotesData(elemVerse);
+        }
+
         public VerseData()
         {
             guid = Guid.NewGuid().ToString();
@@ -1435,6 +1461,17 @@ namespace OneStoryProjectEditor
 
             foreach (NewDataSet.VerseRow aVerseRow in theVersesRow.GetVerseRows())
                 Add(new VerseData(aVerseRow, projFile));
+
+            AdjustmentForFirstVerse();
+        }
+
+        // mirrors VersesData(NewDataSet.storyRow, NewDataSet): only the first <Verses> is read; none means no verses
+        public VersesData(XElement elemStory)
+        {
+            var elemVerses = XmlRead.First(elemStory, CstrElementLabelVerses);
+            if (elemVerses != null)
+                foreach (var elemVerse in XmlRead.Children(elemVerses, VerseData.CstrElementLabelVerse))
+                    Add(new VerseData(elemVerse));
 
             AdjustmentForFirstVerse();
         }
