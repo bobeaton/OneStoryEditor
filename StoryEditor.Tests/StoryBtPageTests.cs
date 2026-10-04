@@ -16,8 +16,10 @@ namespace OneStoryProjectEditor.Tests
             "  var r = ta.createTextRange(); r.collapse(true); r.moveEnd('character', m.n); r.select();" +
             "  $(ta).triggerHandler('select'); window.oseConfig.idLastTextareaToBlur = ta.id; });" +
             "ose.on('focusOn', function (m) { document.getElementById(m.id).focus(); });" +
+            "ose.on('mode', function () { return { mode: document.documentMode }; });" +
+            // (in quirks mode getElementsByTagName('*') also returns comments, which have no attributes)
             "ose.on('countInline', function () { var n = 0, all = document.getElementsByTagName('*');" +
-            "  for (var i = 0; i < all.length; i++) { var a = all[i].attributes;" +
+            "  for (var i = 0; i < all.length; i++) { var a = all[i].attributes; if (all[i].nodeType != 1 || !a) continue;" +
             "    for (var j = 0; j < a.length; j++) if (a[j].specified && /^on/i.test(a[j].name)) n++; } return { n: n }; });";
 
         private Form _form;
@@ -68,6 +70,15 @@ namespace OneStoryProjectEditor.Tests
             Assert.That(_received.Where(m => m.Type == HtmlMessage.CstrTypeJsError).Select(m => m.GetString("message")), Is.Empty);
         }
 
+        // the shipped app has always shown this page in quirks mode (its HTML 4.0 doctype has no system id); the
+        //  selection highlights depend on that mode's text ranges and textarea expandos
+        [Test]
+        public void Page_RunsInQuirksMode()
+        {
+            var reply = _host.Request("mode", null, HtmlHostDefaults.RequestTimeout);
+            Assert.That(reply.TryGetInt("mode", out var nMode) && (nMode == 5), Is.True, "documentMode " + nMode);
+        }
+
         [Test]
         public void Page_HasNoInlineEventHandlers()
         {
@@ -82,10 +93,9 @@ namespace OneStoryProjectEditor.Tests
             Assert.That(HighlightedText.FromReply(reply), Is.Empty);
         }
 
-        // In an IE9-mode page document.selection.createRange() reports the whole textarea (even right after
-        //  setSelectionRange(0, 3) or a TextRange.select() of 3 characters), so the page can't be driven to a partial
-        //  selection here. See the Task 6 report.
-        [Test, Explicit("IE won't select programmatically here; covered by the manual checklist")]
+        // (this only works in the page's own quirks mode: in IE9 mode document.selection.createRange() reports the whole
+        //  textarea, and selectionStart/End are the real caret rather than StoryBt.js's expandos)
+        [Test]
         public void Selection_BecomesAHighlight_ThatCanBeCleared()
         {
             var strId = FirstStoryLineTextareaId(1);
@@ -115,9 +125,7 @@ namespace OneStoryProjectEditor.Tests
             BrowserTestHelper.Pump(100);
             _host.Post("setText", new { id = strId, text = strText });
             Assert.That(BrowserTestHelper.PumpUntil(() => _received.Exists(m => m.Type == "textChanged")), Is.True);
-            // IE9 mode's textarea.value reports line breaks as \n, whatever we set; C# normalizes line endings itself
-            Assert.That(StoryData.NormalizeLineEndings(_received.First(m => m.Type == "textChanged").GetString("value")),
-                        Is.EqualTo(StoryData.NormalizeLineEndings(strText)));
+            Assert.That(_received.First(m => m.Type == "textChanged").GetString("value"), Is.EqualTo(strText));
 
             _received.Clear();
             _host.Post("focusOn", new { id = strId });

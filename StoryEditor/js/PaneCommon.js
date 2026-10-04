@@ -6,18 +6,18 @@
     function isTextarea(el) { return !!el && (el.nodeName == 'TEXTAREA'); }
     function textarea(id) { var el = id ? document.getElementById(id) : null; return isTextarea(el) ? el : null; }
 
-    // focus doesn't bubble, but it can be captured
-    document.addEventListener('focus', function (e) {
+    // focus doesn't bubble, but it can be captured (focusin in quirks mode; see ose.listen)
+    ose.listen(document, 'focus', function (e) {
         if (isTextarea(e.target))
             lastTextareaId = e.target.id;
     }, true);
 
     // never let a click navigate the pane away; the links we make are sent to C# instead
-    document.addEventListener('click', function (e) {
+    ose.listen(document, 'click', function (e) {
         var link = ose.closest(e.target, function (el) { return el.nodeName == 'A'; });
         if (link) {
             ose.cancel(e);
-            var href = link.getAttribute('href') || '';
+            var href = link.getAttribute('href', 2) || '';  // 2: as written (quirks mode IE would resolve it to a URL)
             if (href == 'bibleViewer.setReference')
                 ose.send('bibRefJump', { ref: link.getAttribute('name') });
             else if (href == 'conNote.jumpToLine')
@@ -33,7 +33,7 @@
         }
     }, false);
 
-    document.addEventListener('keydown', function (e) {
+    ose.listen(document, 'keydown', function (e) {
         if (e.ctrlKey && (e.keyCode == 83)) {           // Ctrl+S
             ose.cancel(e);
             ose.send('save');
@@ -49,11 +49,11 @@
     function dropTarget(el) {
         return ose.closest(el, function (x) { return x.getAttribute('data-drop') == 'scripture'; });
     }
-    document.addEventListener('dragover', function (e) {
+    ose.listen(document, 'dragover', function (e) {
         if (dropTarget(e.target))
             ose.cancel(e);
     }, false);
-    document.addEventListener('drop', function (e) {
+    ose.listen(document, 'drop', function (e) {
         var target = dropTarget(e.target);
         if (!target)
             return;
@@ -96,11 +96,11 @@
         }
         ose.send('scrolled', msg);
     }
-    window.addEventListener('scroll', function () {
+    ose.listen(window, 'scroll', function () {
         if (!scrollTimer)
             scrollTimer = setTimeout(reportScroll, 50);
     }, false);
-    window.addEventListener('load', reportScroll, false);
+    ose.listen(window, 'load', reportScroll, false);
 
     // commands from C#
     ose.on('setText', function (m) {

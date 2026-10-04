@@ -10,10 +10,13 @@ namespace OneStoryProjectEditor.Tests
     public class ConNotePageTests
     {
         private const string CstrDriver =
-            "ose.on('clickFirst', function (m) { var els = document.querySelectorAll('[data-action=\"' + m.action + '\"]');" +
+            // (quirks-mode safe: the page has no querySelectorAll)
+            "ose.on('clickFirst', function (m) { var els = [], all = document.getElementsByTagName('*');" +
+            "  for (var i = 0; i < all.length; i++) if (all[i].nodeType == 1 && all[i].getAttribute('data-action') == m.action) els.push(all[i]);" +
             "  if (els.length) els[0].click(); return { n: els.length }; });" +
+            "ose.on('mode', function () { return { mode: document.documentMode }; });" +
             "ose.on('countInline', function () { var n = 0, all = document.getElementsByTagName('*');" +
-            "  for (var i = 0; i < all.length; i++) { var a = all[i].attributes;" +
+            "  for (var i = 0; i < all.length; i++) { var a = all[i].attributes; if (all[i].nodeType != 1 || !a) continue;" +
             "    for (var j = 0; j < a.length; j++) if (a[j].specified && /^on/i.test(a[j].name)) n++; } return { n: n }; });";
 
         private Form _form;
@@ -62,6 +65,15 @@ namespace OneStoryProjectEditor.Tests
             LoadConsultantNotesPage();
             BrowserTestHelper.Pump(300);
             Assert.That(_received.Where(m => m.Type == HtmlMessage.CstrTypeJsError).Select(m => m.GetString("message")), Is.Empty);
+        }
+
+        // the shipped app has always shown this page in quirks mode; the selection code depends on its text ranges
+        [Test]
+        public void Page_RunsInQuirksMode()
+        {
+            LoadConsultantNotesPage();
+            var reply = _host.Request("mode", null, HtmlHostDefaults.RequestTimeout);
+            Assert.That(reply.TryGetInt("mode", out var nMode) && (nMode == 5), Is.True, "documentMode " + nMode);
         }
 
         [Test]

@@ -10,10 +10,8 @@ function oseSendChange(ta, bQuiet) {
         return;
     }
 
-    // (in IE9 mode a range that covers the whole box comes back wrapped in the <textarea> tags themselves)
     var range = ta.createTextRange();
-    var html = range.htmlText.replace(/^<textarea[^>]*>/i, '').replace(/<\/textarea>$/i, '');
-    ose.send('textChanged', { id: ta.id, ieHtml: ToNewLines(regexRemoveSpan(html)), quiet: bQuiet });
+    ose.send('textChanged', { id: ta.id, ieHtml: ToNewLines(regexRemoveSpan(range.htmlText)), quiet: bQuiet });
 }
 
 var textareas = document.getElementsByTagName("textarea");

@@ -112,14 +112,14 @@ function endsWith(str, word) {
 }
 
 // double-click selects a word in the note box or the referring text (data-note on both)
-document.addEventListener('dblclick', function (e) {
+ose.listen(document, 'dblclick', function (e) {
     var el = ose.closest(e.target, function (x) { return !!x.getAttribute('data-note'); });
     if (el)
         OnDoubleClick(el);
 }, false);
 
 // Ctrl+B / Ctrl+I in the note box wrap the selection in $...$ / *...*
-document.addEventListener('keydown', function (e) {
+ose.listen(document, 'keydown', function (e) {
     if (!e.ctrlKey || !ose.closest(e.target, function (x) { return x.getAttribute('data-note') == 'edit'; }))
         return;
     if (e.keyCode == 66)
@@ -136,7 +136,7 @@ document.onmouseup = function () {
 
 // the note box's own events (this replaces the HTML_Script_AddTextareaMouseDown block; same event properties, so
 //  the values sent are the same as before)
-window.addEventListener('load', function () {
+ose.listen(window, 'load', function () {
     var textareas = document.getElementsByTagName("textarea");
     for (var i = 0; i < textareas.length; i++) {
         textareas[i].onmousedown = function () { ose.send('textareaMouseDown', { id: this.id, value: this.value, button: window.event.button }); };

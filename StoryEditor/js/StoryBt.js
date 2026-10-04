@@ -399,7 +399,7 @@ $(document).keydown(function (e) {
 });
 
 // anchor buttons, the empty part of the anchor row, and the line-options buttons (data-mouseup in the templates)
-document.addEventListener('mouseup', function (e) {
+ose.listen(document, 'mouseup', function (e) {
     var el = ose.closest(e.target, function (x) { return !!x.getAttribute('data-mouseup'); });
     if (!el)
         return;

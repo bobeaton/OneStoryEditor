@@ -3,7 +3,7 @@
 (function () {
     function isButton(el) { return el.nodeName == 'BUTTON'; }
 
-    document.addEventListener('click', function (e) {
+    ose.listen(document, 'click', function (e) {
         var link = ose.closest(e.target, function (el) { return el.nodeName == 'A'; });
         if (!link)
             return;
@@ -11,14 +11,14 @@
         ose.send('hoverRef', { ref: link.getAttribute('href').substr(6) });
     }, false);
 
-    document.addEventListener('mousedown', function (e) {
+    ose.listen(document, 'mousedown', function (e) {
         if (!ose.closest(e.target, isButton))
             return;
         ose.cancel(e);
         ose.send('refMouseDown');
     }, false);
 
-    document.addEventListener('mouseup', function (e) {
+    ose.listen(document, 'mouseup', function (e) {
         var btn = ose.closest(e.target, isButton);
         if (!btn)
             return;
@@ -26,7 +26,7 @@
         ose.send('refMouseUp', { target: btn.id, ref: btn.getAttribute('value') });
     }, false);
 
-    document.addEventListener('mouseout', function (e) {
+    ose.listen(document, 'mouseout', function (e) {
         var btn = ose.closest(e.target, isButton);
         if (!btn)
             return;

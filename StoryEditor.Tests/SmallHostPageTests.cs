@@ -2,20 +2,30 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 
 namespace OneStoryProjectEditor.Tests
 {
-    [TestFixture, Apartment(ApartmentState.STA), Category("Browser")]
+    // in both document modes: standards (IE9) and quirks (no doctype, as the real NetBibleViewer and HtmlForm pages are)
+    [TestFixture(false), TestFixture(true), Apartment(ApartmentState.STA), Category("Browser")]
     public class SmallHostPageTests
     {
         // test-only driver: simulates the user's mouse on the first link/button
         private const string CstrDriver =
-            "function oseFire(el, type) { var ev = document.createEvent('MouseEvents');" +
+            "function oseFire(el, type) { if (!document.createEvent) { el.fireEvent('on' + type); return; }" +
+            "  var ev = document.createEvent('MouseEvents');" +
             "  ev.initMouseEvent(type, true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);" +
             "  el.dispatchEvent(ev); }" +
             "ose.on('clickLink', function () { document.getElementsByTagName('a')[0].click(); });" +
             "ose.on('mouseButton', function (m) { oseFire(document.getElementsByTagName('button')[0], m.what); });" +
             "ose.on('echo', function (m) { return { text: m.text }; });";
+
+        private readonly bool _bQuirks;
+
+        public SmallHostPageTests(bool bQuirks)
+        {
+            _bQuirks = bQuirks;
+        }
 
         private Form _form;
         private IeHtmlHost _host;
@@ -38,7 +48,8 @@ namespace OneStoryProjectEditor.Tests
 
         private void Load(string strBody, string strPageScript)
         {
-            _host.LoadHtml(BrowserTestHelper.Page(strBody, PageScripts.Bridge, PageScripts.Get(strPageScript), CstrDriver));
+            var astrScripts = new[] { PageScripts.Bridge, PageScripts.Get(strPageScript), CstrDriver };
+            _host.LoadHtml(_bQuirks ? BrowserTestHelper.QuirksPage(strBody, astrScripts) : BrowserTestHelper.Page(strBody, astrScripts));
             Assert.That(BrowserTestHelper.PumpUntil(() => _host.IsReady), Is.True);
         }
 
@@ -81,15 +92,18 @@ namespace OneStoryProjectEditor.Tests
         [TestCase("mouseout", "refMouseOut")]
         public void NetBible_ButtonMouse_SendsMessage(string strDomEvent, string strMessage)
         {
-            // real verse buttons have id "Gen 1:2" (book chapter:verse) as DisplayVerses builds them
-            Load("<button id=\"Gen 1:2\" value=\"Genesis 1:2\">2</button>", "NetBible.js");
+            // a real verse button as DisplayVerses builds it (CstrHtmlButtonCell): id "Gen 1:2", the localized label as
+            //  its content, and no value attribute
+            Load("<table><tr><td dir='ltr'><button id='Gen 1:2' type=\"button\">Genesis 1:2</button></td></tr></table>", "NetBible.js");
             _host.Post("mouseButton", new { what = strDomEvent });
             var msg = WaitFor(strMessage);
             Assert.That(msg, Is.Not.Null);
             if (strMessage != "refMouseDown")
             {
                 Assert.That(msg.GetString("target"), Is.EqualTo("Gen 1:2"));
-                Assert.That(msg.GetString("ref"), Is.EqualTo("Genesis 1:2"));
+                // the reference is getAttribute('value'), as it always was: in the real page's quirks mode that is the
+                //  button's content (in IE9 mode it would be null, since the button has no value attribute)
+                Assert.That(msg.GetString("ref"), _bQuirks ? (IResolveConstraint)Is.EqualTo("Genesis 1:2") : Is.Null);
             }
         }
     }

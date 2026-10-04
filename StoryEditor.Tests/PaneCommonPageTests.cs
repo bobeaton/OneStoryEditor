@@ -6,17 +6,26 @@ using NUnit.Framework;
 
 namespace OneStoryProjectEditor.Tests
 {
-    [TestFixture, Apartment(ApartmentState.STA), Category("Browser")]
+    // in both document modes: standards (IE9) and quirks (no doctype, as the real pane pages are)
+    [TestFixture(false), TestFixture(true), Apartment(ApartmentState.STA), Category("Browser")]
     public class PaneCommonPageTests
     {
         private const string CstrDriver =
+            BrowserTestHelper.CstrFireEventScript +
             "ose.on('click', function (m) { document.getElementById(m.id).click(); });" +
             "ose.on('focusOn', function (m) { document.getElementById(m.id).focus(); });" +
             "ose.on('typeInto', function (m) { var ta = document.getElementById(m.id); ta.value = m.text; });" +
             "ose.on('innerHtml', function (m) { return { html: document.getElementById(m.id).innerHTML }; });" +
-            "ose.on('fire', function (m) { var ev = document.createEvent('Event'); ev.initEvent(m.what, true, true);" +
-            "  document.getElementById(m.id).dispatchEvent(ev); });" +
+            "ose.on('fire', function (m) { oseFire(document.getElementById(m.id), m.what); });" +
+            "ose.on('mode', function () { return { mode: document.documentMode }; });" +
             "ose.on('echo', function (m) { return { text: m.text }; });";
+
+        private readonly bool _bQuirks;
+
+        public PaneCommonPageTests(bool bQuirks)
+        {
+            _bQuirks = bQuirks;
+        }
 
         private Form _form;
         private IeHtmlHost _host;
@@ -41,8 +50,17 @@ namespace OneStoryProjectEditor.Tests
             sb.Append("<textarea id=\"ta_1_0\">abc</textarea><textarea id=\"ta_ro\" readonly>ro</textarea>");
             sb.Append("<p id=\"tp_1_0_0\">para</p>");
 
-            _host.LoadHtml(BrowserTestHelper.Page(sb.ToString(), PageScripts.Bridge, PageScripts.Get("PaneCommon.js"), CstrDriver));
+            var astrScripts = new[] { PageScripts.Bridge, PageScripts.Get("PaneCommon.js"), CstrDriver };
+            _host.LoadHtml(_bQuirks ? BrowserTestHelper.QuirksPage(sb.ToString(), astrScripts) : BrowserTestHelper.Page(sb.ToString(), astrScripts));
             Assert.That(BrowserTestHelper.PumpUntil(() => _host.IsReady), Is.True);
+        }
+
+        [Test]
+        public void Page_RunsInTheModeUnderTest()
+        {
+            var reply = _host.Request("mode", null, HtmlHostDefaults.RequestTimeout);
+            Assert.That(reply.TryGetInt("mode", out var nMode), Is.True);
+            Assert.That(_bQuirks ? (nMode == 5) : (nMode >= 9), Is.True, "documentMode " + nMode);
         }
 
         [TearDown]
@@ -136,8 +154,11 @@ namespace OneStoryProjectEditor.Tests
         [Test]
         public void Drop_OnDropTarget_SendsScriptureDropped()
         {
+            if (_bQuirks)
+                Assert.Ignore("in quirks mode a drop made with fireEvent doesn't bubble to the document listener (IE documents real drag events as bubbling); covered by the manual checklist");
             _host.Post("fire", new { id = "anc_2", what = "drop" });
-            Assert.That(WaitFor("scriptureDropped")?.GetString("id"), Is.EqualTo("anc_2"));
+            Assert.That(WaitFor("scriptureDropped")?.GetString("id"), Is.EqualTo("anc_2"),
+                        string.Join("; ", _received.FindAll(m => m.Type == HtmlMessage.CstrTypeJsError).ConvertAll(m => m.GetString("message"))));
         }
 
         [Test]

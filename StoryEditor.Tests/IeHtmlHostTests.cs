@@ -90,24 +90,34 @@ namespace OneStoryProjectEditor.Tests
             Assert.That(_received.Exists(m => m.Type == HtmlMessage.CstrTypeJsError), Is.True);
         }
 
-        private const string CstrModeScript = "ose.on('mode', function () { return { mode: document.documentMode }; });";
+        private const string CstrModeScript =
+            "ose.on('mode', function () { return { mode: document.documentMode, hasJson: !!window.JSON }; });" +
+            "ose.on('echoObj', function (m) { return { o: m.o }; });";
 
-        [Test]
-        public void PageWithoutDoctype_RunsInIe9Mode()
+        // the pane pages have no doctype (or one IE treats as none), so they run in quirks mode, as they always have:
+        //  no JSON and no addEventListener there, and the host doesn't change the mode
+        [TestCase("<html><head>{0}</head><body>x</body></html>")]
+        [TestCase("{0}<p>x</p>")]
+        public void PageWithoutDoctype_StaysInQuirksMode_AndRoundTripsRequests(string strFormat)
         {
-            _host.LoadHtml("<html><head>" + PageScripts.ScriptBlock(PageScripts.Bridge, CstrModeScript) + "</head><body>x</body></html>");
+            _host.LoadHtml(string.Format(strFormat, PageScripts.ScriptBlock(PageScripts.Bridge, CstrTestScript, CstrModeScript)));
             Assert.That(BrowserTestHelper.PumpUntil(() => _host.IsReady), Is.True, "page never sent 'ready'");
-            var reply = _host.Request("mode", null, HtmlHostDefaults.RequestTimeout);
-            Assert.That(reply.TryGetInt("mode", out var nMode) && nMode >= 9, Is.True);
-        }
+            var mode = _host.Request("mode", null, HtmlHostDefaults.RequestTimeout);
+            Assert.That(mode.TryGetInt("mode", out var nMode) && nMode < 8, Is.True, "documentMode " + nMode);
+            Assert.That(mode.GetBool("hasJson", true), Is.False, "this test is about bridge.js's own JSON");
 
-        [Test]
-        public void PageWithoutHeadOrDoctype_RunsInIe9Mode()
-        {
-            _host.LoadHtml(PageScripts.ScriptBlock(PageScripts.Bridge, CstrModeScript) + "<p>x</p>");
-            Assert.That(BrowserTestHelper.PumpUntil(() => _host.IsReady), Is.True, "page never sent 'ready'");
-            var reply = _host.Request("mode", null, HtmlHostDefaults.RequestTimeout);
-            Assert.That(reply.TryGetInt("mode", out var nMode) && nMode >= 9, Is.True);
+            // quotes, backslash, line breaks, a tab and another control character, the line separators that
+            //  end a line in script source, and non-ASCII
+            var strText = "a \"quote\" <b>&amp;</b>\r\nline2 \\ \t" + (char)1 + (char)0x2028 + (char)0x2029 + HtmlMessageTests.AwkwardNonAscii;
+            Assert.That(_host.Request("echo", new { text = strText }, HtmlHostDefaults.RequestTimeout)?.GetString("text"), Is.EqualTo(strText));
+
+            var reply = _host.Request("echoObj", new { o = new { a = new object[] { 1, "two", null, false }, b = true, c = (string)null, d = 1.5, e = -3 } },
+                                      HtmlHostDefaults.RequestTimeout);
+            Assert.That(reply?.Body["o"]?.ToString(Newtonsoft.Json.Formatting.None),
+                        Is.EqualTo("{\"a\":[1,\"two\",null,false],\"b\":true,\"c\":null,\"d\":1.5,\"e\":-3}"));
+
+            var error = _host.Request("boom", null, HtmlHostDefaults.RequestTimeout);
+            Assert.That(error?.GetString("error"), Does.Contain("boom"));
         }
 
         [Test]

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
@@ -73,19 +72,9 @@ namespace OneStoryProjectEditor
             _bLoadDeferred = false;
             _loadWatchdog.Stop();
             _loadWatchdog.Start();
-            _browser.DocumentText = WithIeMode(LoadedHtml).Replace(CstrDocIdToken, _nDocId.ToString(CultureInfo.InvariantCulture));
-        }
-
-        // pane pages have no (or a quirks-mode) doctype, and quirks mode has no JSON, so ask for IE9 mode explicitly
-        private static string WithIeMode(string strHtml)
-        {
-            if (!strHtml.Contains(CstrDocIdToken) || (strHtml.IndexOf("X-UA-Compatible", StringComparison.OrdinalIgnoreCase) >= 0))
-                return strHtml;
-            const string CstrMeta = "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=9\">";
-            var match = Regex.Match(strHtml, "<head(\\s[^>]*)?>", RegexOptions.IgnoreCase);
-            return match.Success
-                ? strHtml.Insert(match.Index + match.Length, CstrMeta)
-                : CstrMeta + strHtml;
+            // the page renders in whatever document mode its own markup gives it (the pane pages: quirks mode, as they
+            //  always have; their scripts, bridge.js included, work there)
+            _browser.DocumentText = LoadedHtml.Replace(CstrDocIdToken, _nDocId.ToString(CultureInfo.InvariantCulture));
         }
 
         private void OnDocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)

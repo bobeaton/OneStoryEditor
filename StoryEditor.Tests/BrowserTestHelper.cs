@@ -53,10 +53,21 @@ namespace OneStoryProjectEditor.Tests
             return host;
         }
 
+        // a standards-mode (IE9) page
         public static string Page(string strBodyHtml, params string[] astrScripts)
         {
-            // without a doctype IE renders in quirks mode (documentMode 5), which has no JSON object, so bridge.js can't work
-            return "<!DOCTYPE html><html><head>" + PageScripts.ScriptBlock(astrScripts) + "</head><body>" + strBodyHtml + "</body></html>";
+            return "<!DOCTYPE html>" + QuirksPage(strBodyHtml, astrScripts);
         }
+
+        // without a doctype IE renders in quirks mode (documentMode 5), as the real pane pages do
+        public static string QuirksPage(string strBodyHtml, params string[] astrScripts)
+        {
+            return "<html><head>" + PageScripts.ScriptBlock(astrScripts) + "</head><body>" + strBodyHtml + "</body></html>";
+        }
+
+        // test-driver JS: fires a DOM event of the given type at el in either document mode
+        public const string CstrFireEventScript =
+            "function oseFire(el, type) { if (document.createEvent) { var ev = document.createEvent('Event'); ev.initEvent(type, true, true);" +
+            "  el.dispatchEvent(ev); } else el.fireEvent('on' + type); }";
     }
 }
