@@ -7,9 +7,10 @@ away, awaiting review · Branch: `DecoupleWebBrowser` (after A, R, E)
 
 These were decided without the user. Each has a default that the rest of the spec assumes:
 
-1. **If the flush fails when the window is closing**, ask "The latest edits could not be collected from the editing
-   pane, so the project was not saved. Close anyway and lose them?" (Yes closes, No cancels the close). Every other
-   save path cancels the save and shows a message instead.
+1. **If a pane doesn't answer the flush**, the user chooses: **Retry** (the default), **Save without the latest typing**, or
+   **Cancel**. When closing, the second choice reads "Save the rest and close". Details are in Section 3. Revised with
+   the user on 2026-10-04: refusing to save would also put everything else since the last save at risk, and F5 doesn't
+   help, because it rebuilds the page from the model, which is exactly what's missing the edit.
 2. **Mouse-move messages are throttled to one per 100 ms.** They drive only the Bible pane's auto-hide.
 3. **Dead code is deleted:**
    - `SelectFoundText` and the missing JS `paragraphSelect`
@@ -314,12 +315,22 @@ up, and "Add note on selected text" collects them. **Only how C# reads them chan
   - the autosave timer tick
 
   These all check `Modified` before they decide whether to ask or save.
-- **On failure:**
-  - Save: no write. The message says "The latest edits could not be collected from the editing pane, so the
-    project was not saved. Please try again." `Modified` stays true.
-  - Closing: Decision 1 above.
-  - `CheckForSaveDirtyFileNoCleanup`: the same message, and it returns false, which cancels the new action, as
-    Cancel does today.
+- **A pane with no document, or one that hasn't sent `ready`, counts as flushed.** It has no edits waiting to be
+  sent, so it can't cause a false failure.
+- **When a pane doesn't answer** (a script bug in the page, or IE busy with one of its own dialogs; expected to be rare
+  and short-lived), show:
+  > The most recent typing in the {pane name} pane could not be collected (the pane is not responding).
+  > [Retry] [Save without the latest typing] [Cancel]
+  - **Retry** (the default) runs the flush again. If it succeeds, the save continues as normal.
+  - **Save without the latest typing** saves the model as it is. Every field in it is complete and consistent; only
+    the text not yet sent from that pane is missing. After the write, `Modified` is set back to true, so the next
+    save or prompt picks up the rest once the pane answers.
+  - **Cancel** writes nothing and leaves `Modified` true. In `CheckForSaveDirtyFileNoCleanup` it returns false, which
+    cancels the new action, the same as Cancel today. In `FormClosing` it sets `e.Cancel`.
+  - When closing, the second button reads **Save the rest and close**.
+  - **Autosave** never shows this dialog. It skips this tick and tries again at the next one.
+- **F5 is not a recovery path.** It rebuilds the page from the model, which would throw away the text that couldn't
+  be collected.
 - **Re-entrancy:** a `_bSaving` guard in `SaveClicked` drops a nested `save` (for example Ctrl+S delivered during the
   flush pump) and an autosave tick that fires during a save. `FlushPendingEdits` is re-entrant-safe because each
   `Request` waits only for its own `rid`.
@@ -352,9 +363,14 @@ up, and "Add note on selected text" collects them. **Only how C# reads them chan
     ignored
   - `PaneFlush`:
     - all panes reply → true
-    - one pane times out → false
+    - one pane times out → false, and the result names that pane
+    - a pane that isn't ready counts as flushed
     - a `textChanged` delivered before the reply is applied before `PaneFlush` returns
-    - no write after a failure, checked through a fake save action
+    - the dialog choices, checked with a fake prompt and a fake save action:
+      - Retry then success → saved
+      - Save without → saved, and `Modified` is true afterwards
+      - Cancel → no write
+      - autosave → no prompt and no write
 - `LineLabelParser`: zeroth line (ConNote and BT forms), "Ln: 5", "Ln : 5" (French), "Ln: 5 (Hidden)", garbage.
 - `ReferringTextBuilder`: field-type separators (" vs: ", " &"), encoding, newline → `<br>`, `highlight`/`readonly`
   stripping. A characterization case reproduces a string captured from the old `OuterHtml` path.
@@ -427,7 +443,10 @@ There is no data or file-format change, and no version marker. Falling back to t
 
 ## Risks
 
-- **Focus and keys inside a `UserControl`.** The browser is one level deeper than before. Ctrl+F/F3/Ctrl+H are
+- **Keys the page handles are unaffected.** C# never saw raw keystrokes. The page script detects Ctrl+S, F5 and
+  Ctrl+F5 and sends `save`, `reload` and `realign` (previously direct calls). Keyup still sends the text, with the same
+  Ctrl+C/A/F/H/S skip list. Ctrl+B/I in notes stays entirely in the page.
+- **Focus and keys inside a `UserControl`** (keys WinForms handles before the page sees them). The browser is one level deeper than before. Ctrl+F/F3/Ctrl+H are
   swallowed by hidden menu items (sub-project R), and Tab, the clipboard keys and the Keyman keyboards all need
   re-checking. These are on the smoke checklist.
 - **`DoEvents` re-entrancy during `Request`.** The waits are short and bounded, and the code already uses `DoEvents`
