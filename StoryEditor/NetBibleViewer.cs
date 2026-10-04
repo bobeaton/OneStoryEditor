@@ -16,6 +16,7 @@ namespace OneStoryProjectEditor
     public partial class NetBibleViewer : UserControl
     {
         protected string m_strScriptureReference = "Gen 1:1";
+        private bool _bHtmlDragInProgress;
         protected List<string> m_astrReferences = new List<string>();
         protected int m_nReferenceArrayIndex = -1;
 
@@ -89,6 +90,23 @@ namespace OneStoryProjectEditor
             _dispatcher.Register("refMouseDown", m => OnMouseDown());
             _dispatcher.Register("refMouseOut", m => OnMouseOut(m.GetString("target"), m.GetString("ref")));
             _dispatcher.Register("refMouseUp", m => OnDoOnMouseUp(m.GetString("target"), m.GetString("ref")));
+            // WebView2: the verse buttons are dragged with HTML5 drag-and-drop (no WinForms DoDragDrop); the drop target
+            //  asks StoryEditor.GetNetBibleScriptureReference, i.e. JumpTarget, as it always has
+            _dispatcher.Register("refDragStart", m =>
+            {
+                JumpTarget = m.GetString("target");
+                ScriptureReference = m.GetString("ref");
+                StoryEditor.SuspendSaveDialog++;
+                _bHtmlDragInProgress = true;
+            });
+            _dispatcher.Register("refDragEnd", m =>
+            {
+                if (_bHtmlDragInProgress)
+                {
+                    _bHtmlDragInProgress = false;
+                    StoryEditor.SuspendSaveDialog--;
+                }
+            });
             _htmlHost.MessageReceived += (s, m) => _dispatcher.Dispatch(m);
             _htmlHost.DocumentReady += (s, e) => ScrollToElement();
             _htmlHost.EngineChanged += (s, e) =>
