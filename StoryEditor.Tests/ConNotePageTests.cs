@@ -41,20 +41,7 @@ namespace OneStoryProjectEditor.Tests
         // the Consultant Notes page of the first story, for the first team member who gets 'Add Note' buttons
         private void LoadConsultantNotesPage()
         {
-            var project = PaneTestData.LoadProject();
-            var story = PaneTestData.Stories(project).First(s => s.Verses.Count > 0);
-            // the app always has a project facilitator by the time a note pane is built; this test project's stories don't
-            var pf = project.TeamMembers.Values.First(m => m.MemberType == TeamMemberData.UserTypes.ProjectFacilitator);
-            story.CraftingInfo.ProjectFacilitator = new MemberIdInfo(pf.MemberGuid, null);
-            string strHtml = null;
-            foreach (var member in project.TeamMembers.Values)
-            {
-                strHtml = story.ConsultantNotesHtml(null, project.ProjSettings, member, project.TeamMembers,
-                                                    false, false, null, null, HtmlEngine.Ie);
-                if (strHtml.Contains("data-action=\"" + NoteActions.AddNote + "\""))
-                    break;
-            }
-            Assert.That(strHtml, Does.Contain("data-action=\"" + NoteActions.AddNote + "\""), "no member gets an Add Note button");
+            var strHtml = PaneTestData.ConsultantNotesPage(HtmlEngine.Ie);
             _host.LoadHtml(strHtml.Replace("</head>", PageScripts.ScriptBlock(CstrDriver) + "</head>"));
             Assert.That(BrowserTestHelper.PumpUntil(() => _host.IsReady), Is.True, "page never sent 'ready'");
         }
