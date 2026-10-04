@@ -538,7 +538,7 @@ namespace OneStoryProjectEditor
             return stField;
         }
 
-        protected static bool TryGetTextAreaId(string strId, out TextAreaIdentifier textAreaIdentifier)
+        internal static bool TryGetTextAreaId(string strId, out TextAreaIdentifier textAreaIdentifier)
         {
             try
             {
