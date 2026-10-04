@@ -229,7 +229,7 @@ up, and "Add note on selected text" collects them. **Only how C# reads them chan
 
 | Today (file) | After B |
 |---|---|
-| `OnScroll` → `GetTopHtmlElementId("td")` (`GetElementFromPoint`, offset walk), parse the "Ln: N" `InnerText` (HtmlVerseControl.cs) | JS sends `scrolled {topId, topLabel, prevId, nextId}`, throttled with `setTimeout` to one per 50 ms (IE9 has no `requestAnimationFrame`). It mirrors the current logic exactly: first `document.elementFromPoint` at the window's top-left (C# used `GetElementFromPoint(doc.Window.Position)`; that element's `id` and `innerText` are reported as they are). If that returns nothing, it falls back to the last `td[id]` whose summed `offsetTop` is ≤ `scrollTop + 1`. C# caches it in `TopRowId`/`PrevRowId`/`NextRowId` and calls a new pure `LineLabelParser.TryParse(label, out text, out lineIndex)` (the current Zeroth/BtPane/"Ln: N (Hidden)" logic, localized prefixes passed in) → `SetLineNumberLink`. The page also sends `scrolled` once after `ready` |
+| `OnScroll` → `GetTopHtmlElementId("td")` (`GetElementFromPoint`, offset walk), parse the "Ln: N" `InnerText` (HtmlVerseControl.cs) | JS sends `scrolled {topId, topLabel, prevId, nextId}`, throttled with `setTimeout` to one per 50 ms (IE9 has no `requestAnimationFrame`). It uses the current *fallback* scan as the only rule. `topId` is the last `td[id]` (in document order) whose summed `offsetTop` is ≤ `scrollTop + 1`. `topLabel` is the `innerText` of the last `td` whose id starts with `ln_` and meets the same condition. `prevId`/`nextId` are `ln_{N∓1}` for that line, when such a row exists. (Refined while writing the plan: the old first step passed `doc.Window.Position`, a *screen* position, to `GetElementFromPoint`, which expects client coordinates, so its result depended on where the window sat on screen.) C# caches it in `TopRowId`/`PrevRowId`/`NextRowId` and calls a new pure `LineLabelParser.TryParse(label, out text, out lineIndex)` (the current Zeroth/BtPane/"Ln: N (Hidden)" logic, localized prefixes passed in) → `SetLineNumberLink`. The page also sends `scrolled` once after `ready` |
 | `GetTopRowId` / `GetNextRowId` / `GetPrevRowId` (existence checked with `GetElementById`) | read the cached values. JS fills in `nextId`/`prevId` only if those rows exist |
 | `ScrollToElement(id, alignTop)` with `Application.DoEvents()` + `ScrollIntoView` + `Focus` | `Post("scrollTo", {id, alignTop, focus: !alignTop})`. JS defers with `setTimeout(0)`, which replaces the `DoEvents` hack. On `DocumentReady` the pane posts `scrollTo` for `StrIdToScrollTo` |
 | `TriggerChangeUpdate` → `InvokeMember("onchange")` (HtmlStoryBtControl) | removed. The flush covers it (Section 3). `onCutSelectedText` now calls the flush |
@@ -455,3 +455,23 @@ There is no data or file-format change, and no version marker. Falling back to t
   keeps that mechanism; C has to check it against WebView2.
 - **Asynchronous `contextMenu`.** The menu now opens a few milliseconds later, at `Cursor.Position`. That isn't
   noticeable.
+
+## Refinements made while writing the plan
+
+- **The `removeElement` command is dropped.** `OnClickDelete` always reloads the pane (with `StrIdToScrollTo` kept), as it
+  already does for every case except deleting the last conversation. Deleting is rare, and one path is simpler than
+  two.
+- **`scrollTo` can also be sent as a `Request`**, replying `{found}`. `HtmlForm`'s Next/Prev buttons skip commentary
+  headers that aren't on the page, so they need to know whether the element exists.
+- **`js/PaneCommon.js` (new)** holds the handlers that both pane pages share:
+  - the delegated action, link and drop handlers
+  - Ctrl+S / F5 / Ctrl+F5
+  - `scrolled`
+  - the textarea commands
+
+  A page file registered after it can override a handler with `ose.on`; the last registration wins. `StoryBt.js` does
+  this for `replaceSelection` and `flush`.
+- **`textChanged` sent by the flush carries `quiet: true`.** C# then skips a read-only field silently instead of showing
+  the "You can't edit this field" box. This replaces the `_bIgnoringChanges` flag.
+- **`HtmlForm` sets its scroll position when `DocumentReady` fires**, instead of calling `Application.DoEvents()` in
+  `Show()`.
