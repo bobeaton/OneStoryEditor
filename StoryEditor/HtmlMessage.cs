@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -37,7 +38,17 @@ namespace OneStoryProjectEditor
                 return null;
             try
             {
-                var body = JObject.Parse(json);
+                JObject body;
+                // DateParseHandling.None: text that looks like a date (e.g. "2021-03-04T12:00") stays a string
+                using (var reader = new JsonTextReader(new StringReader(json)) { DateParseHandling = DateParseHandling.None })
+                {
+                    body = JObject.Load(reader);
+                    while (reader.Read())
+                    {
+                        if (reader.TokenType != JsonToken.Comment)
+                            return null;    // something after the object (JObject.Parse rejects that too)
+                    }
+                }
                 var tokType = body["type"];
                 if ((tokType == null) || (tokType.Type != JTokenType.String))
                     return null;

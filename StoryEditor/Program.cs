@@ -11,7 +11,6 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using Chorus.sync;
 using Chorus.VcsDrivers.Mercurial;
-using Microsoft.Win32;
 using SIL.Progress;
 #if UseAutoUpgrade
 using devX;  // no longer using upgrade feature (no server to host it)

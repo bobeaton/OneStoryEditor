@@ -341,15 +341,6 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; onClick=&quot;{1}&quot;&gt;{2}&lt;/button&gt;.
-        /// </summary>
-        internal static string HTML_Button {
-            get {
-                return ResourceManager.GetString("HTML_Button", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &lt;button id=&quot;{0}&quot; onmouseup=&quot;{1}&quot; style=&quot;height:20px; width:20px;&quot;&gt;{2}&lt;/button&gt;.
         /// </summary>
         internal static string HTML_ButtonLineOptions {
@@ -762,15 +753,6 @@ namespace OneStoryProjectEditor.Properties {
         internal static string HTML_TextareaWithRefDoubleClick {
             get {
                 return ResourceManager.GetString("HTML_TextareaWithRefDoubleClick", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;textarea id=&quot;{0}&quot; class=&quot;{1}&quot;&gt;{2}&lt;/textarea&gt;.
-        /// </summary>
-        internal static string HTML_TextareaWithRefDrop {
-            get {
-                return ResourceManager.GetString("HTML_TextareaWithRefDrop", resourceCulture);
             }
         }
         

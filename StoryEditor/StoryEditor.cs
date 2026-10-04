@@ -573,47 +573,68 @@ namespace OneStoryProjectEditor
         {
             mySaveTimer.Stop();
 
+            // (a save is already collecting edits: we got here through the message pump it runs)
             if (_bInSave)
             {
                 mySaveTimer.Start();
                 return;
             }
 
-            // an autosave never asks about a pane that didn't answer; it tries again next time
-            if (FlushPendingEdits(true, false) == FlushOutcome.Cancelled)
+            // the timer is always restarted, even if something below throws, so autosave keeps going for the session
+            //  (Start on a running timer does nothing, so SaveAfterFlush having restarted it already is fine)
+            _bInSave = true;    // Ctrl+S, close and the dirty-file check stay out while we flush and save
+            try
             {
-                mySaveTimer.Start();
-                return;
-            }
-
-            if (Modified
-                && !((LoggedOnMember != null)
-                        && TeamMemberData.IsUser(LoggedOnMember.MemberType,
-                                                 TeamMemberData.UserTypes.JustLooking)))
-            {
-                // don't do it *now* if the user is typing
-                if ((SuspendSaveDialog > 0) ||
-                    (DateTime.Now - LastKeyPressedTimeStamp) < tsLastKeyPressDelay)
+                // don't flush (it pumps messages) while NetBible's drag-and-drop loop is running or the user is
+                //  typing (the pane sends each keystroke as it happens, so this doesn't need the flush); try later
+                if (IsAutoSaveDelayed)
                 {
-                    // wait at least 3 secs from the last key press
-                    mySaveTimer.Interval = CnSecondsToDelyLastKeyPress * 1000;
+                    if (Modified)
+                        mySaveTimer.Interval = CnSecondsToDelyLastKeyPress * 1000;
+                    return;
                 }
-                else
+
+                // an autosave never asks about a pane that didn't answer; it tries again next time
+                if (FlushPendingEdits(true, false) == FlushOutcome.Cancelled)
+                    return;
+
+                if (Modified
+                    && !((LoggedOnMember != null)
+                            && TeamMemberData.IsUser(LoggedOnMember.MemberType,
+                                                     TeamMemberData.UserTypes.JustLooking)))
                 {
-                    DialogResult res = DialogResult.Yes;
-
-                    if (!advancedSaveTimeoutAsSilentlyAsPossibleMenu.Checked)
-                        res = QuerySave();
-
-                    if (res == DialogResult.Yes)
+                    // don't do it *now* if the user is typing (or started a drag while the flush pumped messages)
+                    if (IsAutoSaveDelayed)
                     {
-                        SaveAfterFlush(FlushOutcome.AllEditsCollected);
-                        return;
+                        // wait at least 3 secs from the last key press
+                        mySaveTimer.Interval = CnSecondsToDelyLastKeyPress * 1000;
+                    }
+                    else
+                    {
+                        DialogResult res = DialogResult.Yes;
+
+                        if (!advancedSaveTimeoutAsSilentlyAsPossibleMenu.Checked)
+                            res = QuerySave();
+
+                        if (res == DialogResult.Yes)
+                            SaveAfterFlush(FlushOutcome.AllEditsCollected);
                     }
                 }
             }
+            finally
+            {
+                _bInSave = false;
+                mySaveTimer.Start();
+            }
+        }
 
-            mySaveTimer.Start();
+        private bool IsAutoSaveDelayed
+        {
+            get
+            {
+                return (SuspendSaveDialog > 0) ||
+                       ((DateTime.Now - LastKeyPressedTimeStamp) < tsLastKeyPressDelay);
+            }
         }
 
         private DialogResult QuerySave()

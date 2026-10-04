@@ -127,6 +127,42 @@ namespace OneStoryProjectEditor.Tests
             Assert.That(_pane.FlushEdits(HtmlHostDefaults.RequestTimeout), Is.EqualTo(bExpected));
         }
 
+        // IE's htmlText drops a trailing line break (and both forms drop a leading one), so a flush of a box the user
+        //  merely focused sends "x" for a stored "x\r\n". That mustn't change the field or reach the edit-token check
+        //  (which, with no StoryEditor here, fails: SetFieldValue returning false shows the token check was reached;
+        //  true with the field unchanged shows the IsSame check returned before it, so Modified can't have been set)
+        [Test]
+        public void QuietTextChanged_DifferingOnlyByEdgeLineBreaks_LeavesTheField()
+        {
+            const string CstrId = "ta_1_StoryLine_0_0_Vernacular";
+            var story = PaneTestData.Stories(PaneTestData.LoadProject()).First(s => s.Verses.Count > 0);
+            var st = story.Verses[0].StoryLine.Vernacular;
+            st.SetValue("x\r\n");
+            var strStored = st.ToString();
+            Assert.That(strStored, Does.EndWith("\n"), "the model must keep the trailing line break for this test to mean anything");
+            _pane.StoryData = story;
+
+            _host.Raise("textChanged", new { id = CstrId, ieHtml = "x", quiet = true });
+            Assert.That(st.ToString(), Is.EqualTo(strStored));
+
+            Assert.That(InvokeSetFieldValue(CstrId, "x", true), Is.True, "a quiet edge-line-break difference reached the edit-token check");
+            Assert.That(InvokeSetFieldValue(CstrId, "\r\nx", true), Is.True);
+            Assert.That(st.ToString(), Is.EqualTo(strStored));
+
+            // not quiet (a keystroke): a real change, so it goes on to the edit-token check (which fails here)
+            Assert.That(InvokeSetFieldValue(CstrId, "x", false), Is.False);
+            // quiet, but different text: also goes on to the edit-token check
+            Assert.That(InvokeSetFieldValue(CstrId, "y", true), Is.False);
+            Assert.That(st.ToString(), Is.EqualTo(strStored));
+        }
+
+        private bool InvokeSetFieldValue(string strId, string strText, bool bQuiet)
+        {
+            return (bool)typeof(HtmlStoryBtControl)
+                .GetMethod("SetFieldValue", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
+                .Invoke(_pane, new object[] { strId, strText, bQuiet });
+        }
+
         internal static HtmlMessageDispatcher PaneDispatcher(HtmlVerseControl pane)
         {
             return (HtmlMessageDispatcher)typeof(HtmlVerseControl)

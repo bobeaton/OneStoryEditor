@@ -289,8 +289,9 @@ namespace OneStoryProjectEditor
             if (stringTransfer == null)
                 return false;
 
-            // nothing changed (e.g. an arrow key, or a flush): don't mark the project modified
-            if (PaneText.IsSame(stringTransfer, strText))
+            // nothing changed (e.g. an arrow key, or a flush): don't mark the project modified. A flush (quiet)
+            //  ignores leading/trailing line breaks, which IE drops from a box the user merely focused
+            if (PaneText.IsSame(stringTransfer, strText, bQuiet))
                 return true;
 
             if (!CheckForProperEditToken(out var theSe))
@@ -1164,6 +1165,19 @@ namespace OneStoryProjectEditor
             var myStringTransfer = GetStringTransferOfLastTextAreaInFocus;
             var hasStringTransfer = (myStringTransfer != null);
 
+            // the selection is a request to the page (which pumps messages), so ask at most once per Opening
+            string strSelectedText = null;
+            var bHaveSelectedText = false;
+            Func<string> selectedText = () =>
+            {
+                if (!bHaveSelectedText)
+                {
+                    strSelectedText = GetSelectedText;
+                    bHaveSelectedText = true;
+                }
+                return strSelectedText;
+            };
+
             // don't ask... I'm not sure why Items.ContainsKey isn't finding this...
             foreach (ToolStripItem x in _contextMenuTextarea.Items)
             {
@@ -1187,7 +1201,7 @@ namespace OneStoryProjectEditor
                 }
                 else if (x.Text == StoryEditor.CstrAddLnCNote)
                 {
-                    CheckForLnCNoteLookup((ToolStripMenuItem)x);
+                    CheckForLnCNoteLookup((ToolStripMenuItem)x, selectedText);
                 }
                 else if (x.Text == StoryEditor.CstrConcordanceSearch)
                 {
@@ -1206,7 +1220,7 @@ namespace OneStoryProjectEditor
                          (x.Text == StoryEditor.CstrCopySelected) ||
                          (x.Text == StoryEditor.CstrCopyOriginalSelected))
                 {
-                    x.Enabled = !String.IsNullOrEmpty(GetSelectedText);
+                    x.Enabled = !String.IsNullOrEmpty(selectedText());
                 }
                 else if (x.Text == StoryEditor.CstrPasteSelected)
                 {
@@ -1244,7 +1258,8 @@ namespace OneStoryProjectEditor
             TheSE.concordanceToolStripMenuItem_Click(null, null);
         }
 
-        private void CheckForLnCNoteLookup(ToolStripMenuItem x)
+        // selectedText: GetSelectedText, asked for (once) by the caller
+        private void CheckForLnCNoteLookup(ToolStripMenuItem x, Func<string> selectedText)
         {
             x.DropDownItems.Clear();
 
@@ -1255,8 +1270,9 @@ namespace OneStoryProjectEditor
             if (!TryGetTextAreaId(LastTextareaInFocusId, out textAreaIdentifier))
                 return;
 
-            StoryEditor.TextFields whichLanguage;
-            var selText = GetSelectedTextByTextareaIdentifier(textAreaIdentifier, out whichLanguage);
+            // (GetSelectedText is GetSelectedTextByTextareaIdentifier for this same textarea)
+            var whichLanguage = textAreaIdentifier.LanguageColumn;
+            var selText = selectedText();
             if (String.IsNullOrEmpty(selText))
                 return;
 

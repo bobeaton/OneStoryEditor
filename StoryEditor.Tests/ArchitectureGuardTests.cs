@@ -16,7 +16,7 @@ namespace OneStoryProjectEditor.Tests
     public class ArchitectureGuardTests
     {
         private static readonly Regex RegexBrowserApi = new Regex(
-            @"\b(HtmlElement|HtmlDocument|InvokeScript|InvokeMember|DomDocument|DocumentText|ObjectForScripting|mshtml)\b",
+            @"\b(WebBrowser|HtmlElement|HtmlDocument|InvokeScript|InvokeMember|DomDocument|DocumentText|ObjectForScripting|mshtml)\b",
             RegexOptions.Compiled);
 
         // starts from where this file was compiled, so it also works when the tests were built into some other OutDir

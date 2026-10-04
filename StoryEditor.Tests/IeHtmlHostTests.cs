@@ -152,6 +152,68 @@ namespace OneStoryProjectEditor.Tests
             Assert.That(reply?.GetString("error"), Does.Contain("no handler"));
         }
 
+        // a deferred load waits for the one in flight to end. That page's own 'ready' ends it too (not only
+        //  DocumentCompleted or the 15-second watchdog), so here, with DocumentCompleted unhooked, the second page
+        //  still loads promptly
+        [Test]
+        public void ReadyOfTheLoadInFlight_StartsTheDeferredLoad()
+        {
+            var browser = (WebBrowser)_host.Control;
+            browser.DocumentCompleted -= (WebBrowserDocumentCompletedEventHandler)Delegate.CreateDelegate(
+                typeof(WebBrowserDocumentCompletedEventHandler), _host, "OnDocumentCompleted");
+            _host.LoadHtml(BrowserTestHelper.Page("first", PageScripts.Bridge, CstrTestScript));
+            _host.LoadHtml(BrowserTestHelper.Page("second", PageScripts.Bridge, CstrTestScript));
+            var sw = Stopwatch.StartNew();
+            Assert.That(BrowserTestHelper.PumpUntil(() => _host.IsReady, 10000), Is.True, "the deferred page never loaded");
+            Assert.That(sw.ElapsedMilliseconds, Is.LessThan(10000), "it waited for the watchdog");
+            Assert.That(_host.Request("echo", new { text = "second" }, HtmlHostDefaults.RequestTimeout)?.GetString("text"),
+                        Is.EqualTo("second"));
+        }
+
+        // three loads in quick succession: the host ends up ready, talking to the last page (not a blank one)
+        [Test]
+        public void ThreeQuickLoads_EndOnTheLastPage()
+        {
+            const string CstrBodyScript = "ose.on('body', function () { return { text: document.body.innerText }; });";
+            _host.LoadHtml(BrowserTestHelper.Page("first", PageScripts.Bridge, CstrTestScript, CstrBodyScript));
+            _host.LoadHtml(BrowserTestHelper.Page("second", PageScripts.Bridge, CstrTestScript, CstrBodyScript));
+            _host.LoadHtml(BrowserTestHelper.Page("third", PageScripts.Bridge, CstrTestScript, CstrBodyScript));
+            Assert.That(BrowserTestHelper.PumpUntil(() => _host.IsReady), Is.True);
+            BrowserTestHelper.Pump(500);    // (anything still to come in from the earlier loads)
+            Assert.That(_host.Request("body", null, HtmlHostDefaults.RequestTimeout)?.GetString("text"), Is.EqualTo("third"));
+        }
+
+        [Test]
+        public void Request_AfterDispose_ReturnsNullImmediately()
+        {
+            LoadTestPage();
+            _host.Dispose();
+            var sw = Stopwatch.StartNew();
+            Assert.That(_host.Request("echo", new { text = "x" }, TimeSpan.FromSeconds(5)), Is.Null);
+            Assert.That(sw.ElapsedMilliseconds, Is.LessThan(1000));
+        }
+
+        // the pane can be disposed by something the wait loop's message pump runs (e.g. the window closing)
+        [Test]
+        public void Request_HostDisposedWhileWaiting_ReturnsNullPromptly()
+        {
+            // 'mute' makes the page ignore everything after it, so the next request never gets a reply
+            const string CstrMuteScript = "ose.on('mute', function () { window.oseReceive = function () { }; return {}; });";
+            _host.LoadHtml(BrowserTestHelper.Page("hi", PageScripts.Bridge, CstrTestScript, CstrMuteScript));
+            Assert.That(BrowserTestHelper.PumpUntil(() => _host.IsReady), Is.True, "page never sent 'ready'");
+            Assert.That(_host.Request("mute", null, HtmlHostDefaults.RequestTimeout), Is.Not.Null);
+
+            using (var timer = new System.Windows.Forms.Timer { Interval = 100 })
+            {
+                timer.Tick += (s, e) => { timer.Stop(); _host.Dispose(); };
+                timer.Start();
+                var sw = Stopwatch.StartNew();
+                var reply = _host.Request("echo", new { text = "x" }, TimeSpan.FromSeconds(10));
+                Assert.That(reply, Is.Null);
+                Assert.That(sw.ElapsedMilliseconds, Is.LessThan(3000), "the wait went on after the host was disposed");
+            }
+        }
+
         [Test]
         public void ReadyFromAnOlderDocument_IsIgnored()
         {

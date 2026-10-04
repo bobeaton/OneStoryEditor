@@ -323,12 +323,13 @@ namespace OneStoryProjectEditor
             ConsultNotesDataConverter theCNsDC = DataConverter(nVerseIndex);
 
             // nothing changed (e.g. an arrow key, or a flush): don't mark the project modified, and don't
-            //  complain (via the edit-token check's status bar message) to someone who can't edit anyway
+            //  complain (via the edit-token check's status bar message) to someone who can't edit anyway. A flush
+            //  (quiet) ignores leading/trailing line breaks, which IE drops from a box the user merely focused
             ConsultNoteDataConverter theCNDC = ((theCNsDC != null) && (nConversationIndex >= 0) && (nConversationIndex < theCNsDC.Count))
                                                    ? theCNsDC[nConversationIndex]
                                                    : null;
             CommInstance aCI = (theCNDC != null) ? theCNDC.FinalComment : null;
-            if ((aCI != null) && PaneText.IsSame(aCI, strText))
+            if ((aCI != null) && PaneText.IsSame(aCI, strText, bQuiet))
                 return true;
 
             if (!CheckForProperEditToken(theCNsDC, out StoryEditor theSE))

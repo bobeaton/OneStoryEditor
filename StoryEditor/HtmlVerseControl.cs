@@ -7,7 +7,7 @@ namespace OneStoryProjectEditor
 {
     /// <summary>
     /// base of the HTML panes (Story/BT, Consultant Notes, Coach Notes). It holds an IHtmlHost (it used to *be* the
-    /// IE WebBrowser) and talks to its page only through messages; see
+    /// IE browser control) and talks to its page only through messages; see
     /// docs/superpowers/specs/2026-10-04-html-message-protocol-design.md
     /// </summary>
     public class HtmlVerseControl : UserControl

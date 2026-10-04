@@ -31,9 +31,20 @@ namespace OneStoryProjectEditor.Tests
         [TestCase("{\"type\":5}")]
         [TestCase("")]
         [TestCase(null)]
+        [TestCase("{\"type\":\"t\"} {\"type\":\"u\"}")]     // trailing content (JObject.Parse rejected it too)
         public void TryParse_Garbage_ReturnsNull(string json)
         {
             Assert.That(HtmlMessage.TryParse(json), Is.Null);
+        }
+
+        // Json.NET would otherwise turn date-like strings into DateTime (and GetString would then give null)
+        [TestCase("2021-03-04T12:00")]
+        [TestCase("2021-03-04T12:00:00Z")]
+        [TestCase("2021-03-04T12:00:00.123+02:00")]
+        public void TryParse_DateLikeText_StaysAString(string strText)
+        {
+            var msg = HtmlMessage.TryParse("{\"type\":\"t\",\"text\":\"" + strText + "\"}");
+            Assert.That(msg.GetString("text"), Is.EqualTo(strText));
         }
 
         [Test]

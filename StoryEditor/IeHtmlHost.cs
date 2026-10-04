@@ -25,8 +25,11 @@ namespace OneStoryProjectEditor
         private readonly System.Windows.Forms.Timer _loadWatchdog;
         private bool _bLoading;
         private bool _bLoadDeferred;
+        private bool _bLoadCompleted;           // the in-flight load's DocumentCompleted has come
+        private bool _bExpectStaleCompletion;   // a load ended by its 'ready' before its DocumentCompleted came
         private bool _bDisposed;
         private int _nDocId;
+        private int _nLoadingDocId;             // the doc id of the load in flight
         private int _nLastRid;
 
         public IeHtmlHost(HtmlHostOptions options)
@@ -39,7 +42,9 @@ namespace OneStoryProjectEditor
                 ObjectForScripting = new ScriptingBridge(this)
             };
             _browser.DocumentCompleted += OnDocumentCompleted;
-            _loadWatchdog = new System.Windows.Forms.Timer { Interval = 5000 };
+            // generous: a big story's page can take seconds to load, and a deferred load mustn't start in the middle
+            //  of one. (The load normally ends long before this, on DocumentCompleted or the page's 'ready'.)
+            _loadWatchdog = new System.Windows.Forms.Timer { Interval = 15000 };
             _loadWatchdog.Tick += OnLoadWatchdog;
         }
 
@@ -73,6 +78,8 @@ namespace OneStoryProjectEditor
                 return;
             _bLoading = true;
             _bLoadDeferred = false;
+            _bLoadCompleted = false;
+            _nLoadingDocId = _nDocId;
             _loadWatchdog.Stop();
             _loadWatchdog.Start();
             // the page renders in whatever document mode its own markup gives it (the pane pages: quirks mode, as they
@@ -86,6 +93,25 @@ namespace OneStoryProjectEditor
             if ((_browser.ReadyState != WebBrowserReadyState.Complete) ||
                 ((e.Url != null) && (_browser.Url != null) && (e.Url.AbsoluteUri != _browser.Url.AbsoluteUri)))
                 return;
+
+            // the completion of a load that its 'ready' already ended; it says nothing about the load now in flight
+            if (_bExpectStaleCompletion)
+            {
+                _bExpectStaleCompletion = false;
+                return;
+            }
+            _bLoadCompleted = true;
+            EndLoad();
+        }
+
+        // the page in flight said 'ready' (its window.onload ran), or the watchdog gave up on it: end the load even
+        //  though DocumentCompleted hasn't come (or never will). If it comes later, it isn't the next load's
+        private void EndLoadWithoutCompletion()
+        {
+            if (!_bLoading)
+                return;
+            if (!_bLoadCompleted)
+                _bExpectStaleCompletion = true;
             EndLoad();
         }
 
@@ -95,7 +121,7 @@ namespace OneStoryProjectEditor
             if (_bDisposed || _browser.IsDisposed)
                 return;
             Debug.WriteLine("IeHtmlHost: load did not complete in time; carrying on");
-            EndLoad();
+            EndLoadWithoutCompletion();
         }
 
         private void EndLoad()
@@ -119,7 +145,7 @@ namespace OneStoryProjectEditor
 
         public HtmlMessage Request(string strType, object payload, TimeSpan timeout)
         {
-            if (!IsReady)
+            if (!IsReady || _bDisposed || _browser.IsDisposed)
                 return null;
 
             var nRid = ++_nLastRid;
@@ -141,6 +167,11 @@ namespace OneStoryProjectEditor
                         return null;
                     }
                     Application.DoEvents();     // replies arrive through BeginInvoke, so let the queue run
+                    if (_bDisposed || _browser.IsDisposed)
+                    {
+                        Debug.WriteLine($"IeHtmlHost: disposed while waiting for a reply to '{strType}'");
+                        return null;            // (the pane closed during the pump: no reply can come now)
+                    }
                     if (!_replies.ContainsKey(nRid))
                         Thread.Sleep(1);
                 }
@@ -205,6 +236,9 @@ namespace OneStoryProjectEditor
                     return;     // late replies (after a timeout) are dropped
 
                 case HtmlMessage.CstrTypeReady:
+                    // (this may start a deferred load, in which case _nDocId is that one's and this ready is ignored)
+                    if (_bLoading && (msg.DocId == _nLoadingDocId.ToString(CultureInfo.InvariantCulture)))
+                        EndLoadWithoutCompletion();
                     if (msg.DocId != _nDocId.ToString(CultureInfo.InvariantCulture))
                         return; // an older document finished loading after LoadHtml was called again
                     IsReady = true;

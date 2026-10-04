@@ -340,18 +340,11 @@ of the team before overwriting a list</value>
   <data name="IDS_MainStoriesSet" xml:space="preserve">
     <value>Stories</value>
   </data>
-  <data name="HTML_Button" xml:space="preserve">
-    <value>&lt;button id="{0}" onClick="{1}"&gt;{2}&lt;/button&gt;</value>
-  </data>
   <data name="HTML_ButtonLineOptions" xml:space="preserve">
     <value>&lt;button id="{0}" data-mouseup="{1}" style="height:20px; width:20px;"&gt;{2}&lt;/button&gt;</value>
   </data>
   <data name="oneStory2ConNotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\oneStory2ConNotes.xsl;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="HTML_TextareaWithRefDrop" xml:space="preserve">
-    <value>&lt;textarea id="{0}" class="{1}"&gt;{2}&lt;/textarea&gt;</value>
-    <comment>the drop target is marked by data-drop="scripture" on the page's elements (handled in PaneCommon.js)</comment>
   </data>
   <data name="RegexHelpProgram" xml:space="preserve">
     <value>http://msdn2.microsoft.com/en-us/library/az24scfc.aspx</value>
