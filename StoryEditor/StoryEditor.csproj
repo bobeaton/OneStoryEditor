@@ -230,7 +230,7 @@
     <PackageReference Include="Microsoft.Identity.Client" Version="4.88.0" />
     <PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="4.88.0" />
     <PackageReference Include="Microsoft.IdentityModel.Abstractions" Version="8.22.0" />
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4258.31" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4191.47" />
     <PackageReference Include="Mono.Posix" Version="5.4.0.201" />
     <PackageReference Include="Mono.Unix" Version="7.1.0-final.1.21458.1" />
     <PackageReference Include="NDesk.DBus" Version="0.15.0" />

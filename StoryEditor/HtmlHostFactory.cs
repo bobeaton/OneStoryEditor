@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using OneStoryProjectEditor.Properties;
 
 namespace OneStoryProjectEditor
@@ -24,15 +25,43 @@ namespace OneStoryProjectEditor
             if (!UseWebView2WhenAvailable)
                 return new IeHtmlHost(options);
 
+            // n.b. this method must not mention WebView2HtmlHost: the JIT loads the WebView2 assembly when it compiles a
+            // method that does, and a missing or mismatched assembly has to be caught below, not crash here
+            IHtmlHost host = null;
+            try
+            {
+                host = WebView2Creator(options);
+            }
+            catch (Exception ex) when (ex is System.IO.FileNotFoundException || ex is System.IO.FileLoadException ||
+                                       ex is TypeLoadException || ex is BadImageFormatException)
+            {
+                GiveNotice("Using IE browser panes: the WebView2 components could not be loaded (" + ex.Message + ")");
+            }
+            return host ?? new IeHtmlHost(options);
+        }
+
+        // test seam: replaced by a creator that throws, to check the fallback
+        internal static Func<HtmlHostOptions, IHtmlHost> WebView2Creator = CreateWebView2;
+
+        // null = use IE (the notice has been given)
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static IHtmlHost CreateWebView2(HtmlHostOptions options)
+        {
             var strWhyNot = WhyNotWebView2(Settings.Default.UseIeBrowserPanes, WebView2HtmlHost.RuntimeVersion,
                                            Settings.Default.WebView2FailedRuntimeVersion);
             if (strWhyNot != null)
             {
                 GiveNotice("Using IE browser panes: " + strWhyNot);
-                return new IeHtmlHost(options);
+                return null;
             }
 
             return new FallbackHtmlHost(new WebView2HtmlHost(options), () => new IeHtmlHost(options), OnWebView2Failed);
+        }
+
+        internal static void ResetNoticeForTests()
+        {
+            _bNoticeGiven = false;
+            LastNotice = null;
         }
 
         // null = use WebView2; otherwise the reason not to (for the status bar)

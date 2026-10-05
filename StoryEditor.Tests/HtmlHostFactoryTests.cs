@@ -30,6 +30,35 @@ namespace OneStoryProjectEditor.Tests
             Assert.That(HtmlHostFactory.WhyNotWebView2(false, "130.0.2849.80", "130.0.2849.80"), Does.Contain("failed"));
         }
 
+        [Test, Apartment(System.Threading.ApartmentState.STA)]
+        public void MissingWebView2Assembly_FallsBackToIe_WithNotice()
+        {
+            var creator = HtmlHostFactory.WebView2Creator;
+            var use = HtmlHostFactory.UseWebView2WhenAvailable;
+            try
+            {
+                HtmlHostFactory.ResetNoticeForTests();
+                HtmlHostFactory.UseWebView2WhenAvailable = true;
+                HtmlHostFactory.WebView2Creator = o => throw new System.IO.FileNotFoundException("Microsoft.Web.WebView2.Core");
+                var host = HtmlHostFactory.Create();
+                try
+                {
+                    Assert.That(host, Is.InstanceOf<IeHtmlHost>());
+                    Assert.That(HtmlHostFactory.LastNotice, Does.Contain("WebView2 components could not be loaded"));
+                }
+                finally
+                {
+                    (host as System.IDisposable)?.Dispose();
+                }
+            }
+            finally
+            {
+                HtmlHostFactory.WebView2Creator = creator;
+                HtmlHostFactory.UseWebView2WhenAvailable = use;
+                HtmlHostFactory.ResetNoticeForTests();
+            }
+        }
+
         [Test]
         public void FailedOnAnOlderRuntime_TriesWebView2Again()
         {
