@@ -225,7 +225,7 @@
     margin-bottom: 0em;
   }} 
   {2}
-  .hasPlaceholder {{
+  textarea.hasPlaceholder {{
      color: #777;
   }}
   .Retelling {{

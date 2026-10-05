@@ -17,6 +17,10 @@ namespace OneStoryProjectEditor.Tests
             "  $(ta).triggerHandler('select'); window.oseConfig.idLastTextareaToBlur = ta.id; });" +
             "ose.on('focusOn', function (m) { document.getElementById(m.id).focus(); });" +
             "ose.on('mode', function () { return { mode: document.documentMode }; });" +
+            // the color a box showing its language name (StoryBt.js's stand-in for 'placeholder') gets, by field
+            "ose.on('placeholderColor', function (m) { var ta = document.createElement('textarea');" +
+            "  ta.className = 'LangVernacular ' + m.field + ' hasPlaceholder'; document.body.appendChild(ta);" +
+            "  var c = ta.currentStyle.color; document.body.removeChild(ta); return { color: c }; });" +
             // (in quirks mode getElementsByTagName('*') also returns comments, which have no attributes)
             "ose.on('countInline', function () { var n = 0, all = document.getElementsByTagName('*');" +
             "  for (var i = 0; i < all.length; i++) { var a = all[i].attributes; if (all[i].nodeType != 1 || !a) continue;" +
@@ -50,6 +54,18 @@ namespace OneStoryProjectEditor.Tests
             var match = Regex.Match(_strHtml, "id=\"(ta_" + nLine + "_StoryLine_0_0_[A-Za-z]+)\"");
             Assert.That(match.Success, Is.True, "no story line textarea on line " + nLine);
             return match.Groups[1].Value;
+        }
+
+        // .Retelling, .TestQuestion and .TestQuestionAnswer give their text a color; the language name shown in an
+        //  empty box must still be gray, as in a story line box
+        [TestCase("Retelling")]
+        [TestCase("TestQuestion")]
+        [TestCase("TestQuestionAnswer")]
+        public void LanguageNameInAnEmptyBox_IsGray_WhateverTheField(string strField)
+        {
+            string Color(string f) => _host.Request("placeholderColor", new { field = f }, HtmlHostDefaults.RequestTimeout).GetString("color");
+            Assert.That(Color("StoryLine"), Is.EqualTo("#777"));
+            Assert.That(Color(strField), Is.EqualTo("#777"));
         }
 
         [Test]
