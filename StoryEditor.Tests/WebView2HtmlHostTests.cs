@@ -66,16 +66,16 @@ namespace OneStoryProjectEditor.Tests
             host.Failed += (s, ex) => failure = ex;
             form.Controls.Add(host.Control);
             string strContextAtStart = "?";
-            host.Control.HandleCreated += (s, e) => strContextAtStart = SynchronizationContext.Current?.GetType().Name ?? "null";
+            host.Control.HandleCreated += (s, e) => strContextAtStart = SynchronizationContext.Current?.GetType().Name ?? "none";
             var oldContext = SynchronizationContext.Current;
             try
             {
-                SynchronizationContext.SetSynchronizationContext(null);     // (WinForms then puts a plain one there)
-                form.Show();    // (creates the handle, which starts the host)
+                // (the form's handle is made before its children's: the host starts with no context at all, as in the app)
+                form.HandleCreated += (s, e) => SynchronizationContext.SetSynchronizationContext(null);
+                form.Show();    // (creates the handles, which starts the host)
                 host.LoadHtml(BrowserTestHelper.ModernPage("<p>hi</p>", CstrMiniBridge));
                 BrowserTestHelper.PumpUntil(() => host.IsReady || (failure != null), 20000);
-                Assert.That(strContextAtStart, Is.Not.EqualTo(nameof(WindowsFormsSynchronizationContext)),
-                            "the test must start the host without the WinForms context");
+                Assert.That(strContextAtStart, Is.EqualTo("none"), "the test must start the host with no context");
                 Assert.That(failure, Is.Null, failure?.ToString());
                 Assert.That(host.IsReady, Is.True, "page never sent 'ready'");
 

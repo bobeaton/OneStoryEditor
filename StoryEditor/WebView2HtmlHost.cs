@@ -21,7 +21,7 @@ namespace OneStoryProjectEditor
         public static readonly TimeSpan StartTimeout = TimeSpan.FromSeconds(20);
 
         public static string DefaultUserDataFolder =>
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "OneStory Editor", "WebView2");
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SIL", "OneStory Editor", "WebView2");
 
         // null when no WebView2 runtime is installed (it throws WebView2RuntimeNotFoundException then) or it can't be queried
         public static string RuntimeVersion
@@ -82,6 +82,14 @@ namespace OneStoryProjectEditor
                 return;
             _bStarting = true;
             _startWatchdog.Start();
+
+            // every await below (and inside the control's EnsureCoreWebView2Async) must resume on this, the UI, thread:
+            //  WebView2's COM objects can't be used from a pool thread ("Unable to cast to ...ICoreWebView2Controller2").
+            //  The app builds its panes before Application.Run, and a modal dialog closing then (e.g. the login) leaves
+            //  the UI thread with no SynchronizationContext, so put the WinForms one there (as creating a control does)
+            if (!(System.Threading.SynchronizationContext.Current is WindowsFormsSynchronizationContext))
+                System.Threading.SynchronizationContext.SetSynchronizationContext(new WindowsFormsSynchronizationContext());
+
             try
             {
                 try
@@ -268,7 +276,7 @@ namespace OneStoryProjectEditor
         }
 
         // where the full story of a failure goes (the status bar only has room for the message): beside the user data
-        //  folder, i.e. %LOCALAPPDATA%\OneStory Editor\WebView2-failures.log for the app
+        //  folder, i.e. %LOCALAPPDATA%\SIL\OneStory Editor\WebView2-failures.log for the app
         public string FailureLogPath =>
             Path.Combine(Path.GetDirectoryName(Path.GetFullPath(_strUserDataFolder)) ?? String.Empty, "WebView2-failures.log");
 

@@ -58,7 +58,7 @@ Rejected:
 - **Control and environment.**
   - Uses the WinForms `Microsoft.Web.WebView2.WinForms.WebView2` control from the `Microsoft.Web.WebView2` NuGet SDK.
   - Creates its environment with `CoreWebView2Environment.CreateAsync(null, userDataFolder)`, where the data folder is
-    `%LOCALAPPDATA%\OneStory Editor\WebView2`. The default, next to the exe, is read-only under Program Files.
+    `%LOCALAPPDATA%\SIL\OneStory Editor\WebView2` (failures are logged beside it, in `WebView2-failures.log`). The default, next to the exe, is read-only under Program Files.
   - Uses the x86 `WebView2Loader.dll`, because StoryEditor is x86.
 - **Settings:**
   - default context menus off
