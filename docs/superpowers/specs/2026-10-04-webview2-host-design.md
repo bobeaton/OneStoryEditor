@@ -433,7 +433,8 @@ What changed from the spec text above.
 - Keys use page-level `preventDefault` plus the navigation guard, not `AcceleratorKeyPressed` (the WinForms control
   doesn't expose the controller event; Task 1 Q6).
 - The Bible-reference drag uses HTML5 drag-and-drop (`refDragStart` / `refDragEnd`, `scriptureDropped` on drop), the
-  mechanism Task 1 Q3 chose. The WinForms text `DataObject` remains the fallback. `HtmlDragSuspension` keeps
+  provisional mechanism Task 1 Q3 chose (the real-input run is still pending). If the `q3a` run shows no `drop`, switch
+  to the fallback: `refMouseOut` and a WinForms text `DataObject`. `HtmlDragSuspension` keeps
   `SuspendSaveDialog` balanced for HTML5 drags.
 - The modern page tests are separate `Modern*` fixtures, not engine parameters on the IE fixtures. The IE fixtures keep
   their quirks-mode drivers.

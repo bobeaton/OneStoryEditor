@@ -43,12 +43,30 @@ namespace OneStoryProjectEditor.Tests
             @"\bMicrosoft\.Web\.WebView2\b|\bCoreWebView2\w*", RegexOptions.Compiled);
 
         private static readonly Regex RegexIeOnlyJs = new Regex(
-            @"document\.selection|createTextRange|attachEvent|fireEvent|window\.event\b", RegexOptions.Compiled);
+            @"document\.selection|\bcreateTextRange\b|\bcreateControlRange\b|\battachEvent\b|\bdetachEvent\b|\bfireEvent\b" +
+            @"|\bsetCapture\b|\bcurrentStyle\b|\bdocument\.all\b|\bclipboardData\b|\bshowModalDialog\b|\bonpropertychange\b" +
+            @"|\bsrcElement\b|\bcancelBubble\b|\breturnValue\b|(^|[^\w.])event\.|window\s*\.\s*event\b|window\s*\[\s*[""']event[""']\s*\]",
+            RegexOptions.Compiled);
 
+        private static string Normalized(string strPath)
+        {
+            return strPath.Replace('/', '\\');
+        }
+
+        // js\bridge.js (IE) or js\modern\bridge.js (modern), matched on the path's tail
         private static bool IsBridge(string strPath, bool bModern)
         {
-            return Path.GetFileName(strPath).Equals("bridge.js") &&
-                   (strPath.Replace('/', '\\').Contains(@"\js\modern\") == bModern);
+            return Normalized(strPath).EndsWith(bModern ? @"\js\modern\bridge.js" : @"\js\bridge.js",
+                                                StringComparison.OrdinalIgnoreCase);
+        }
+
+        [Test]
+        public void TheGuardsHaveSomethingToScan()
+        {
+            Assert.That(SourceFiles(".js").Any(f => IsBridge(f, true)), "js\\modern\\bridge.js wasn't found");
+            Assert.That(SourceFiles(".js").Any(f => IsBridge(f, false)), "js\\bridge.js wasn't found");
+            Assert.That(SourceFiles(".cs").Any(f => Path.GetFileName(f).Equals("WebView2HtmlHost.cs")),
+                        "WebView2HtmlHost.cs wasn't found");
         }
 
         [Test]
@@ -89,8 +107,13 @@ namespace OneStoryProjectEditor.Tests
         [Test]
         public void ModernScriptsUseNoIeOnlyApis()
         {
-            var offenders = SourceFiles(".js")
-                .Where(f => f.Replace('/', '\\').Contains(@"\js\modern\"))
+            // js\modern holds only .js files today; .htm/.html are scanned too in case any appear
+            var modern = SourceFiles(".js", ".htm", ".html")
+                .Where(f => Normalized(f).IndexOf(@"\js\modern\", StringComparison.OrdinalIgnoreCase) >= 0)
+                .ToList();
+            Assert.That(modern.Any(f => IsBridge(f, true)), "js\\modern\\bridge.js wasn't found");
+            Assert.That(modern.Count, Is.GreaterThan(1), "the modern scripts weren't found");
+            var offenders = modern
                 .Where(f => RegexIeOnlyJs.IsMatch(File.ReadAllText(f)))
                 .Select(f => Path.GetFileName(f) + ": " + RegexIeOnlyJs.Match(File.ReadAllText(f)).Value)
                 .ToList();
