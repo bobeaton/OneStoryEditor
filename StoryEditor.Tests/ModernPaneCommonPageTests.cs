@@ -142,17 +142,31 @@ namespace OneStoryProjectEditor.Tests
             Assert.That(reply.GetString("ieHtml"), Is.Null);
         }
 
-        // IE parity: the named box's selection or nothing (not some other selection on the page); and no replacement
+        // IE parity: the named box's selection or nothing (not some other selection on the page)
         [Test]
-        public void NamedBoxWithoutASelection_GivesNone_AndReplacesNothing()
+        public void NamedBoxWithoutASelection_GivesNone()
         {
             _host.Post("selectIn", new { id = "ta_1_0", start = 2, end = 2 });
             _host.Post("selectPara", new { id = "tp_1_0_0" });
             BrowserTestHelper.Pump(200);
             Assert.That(Ask("getSelection", new { id = "ta_1_0" }).GetString("selType"), Is.EqualTo("none"));
+        }
+
+        // IE parity: with only a caret in the box, replaceSelection inserts there (Edit > Paste relies on it)
+        [Test]
+        public void ReplaceSelection_WithACaret_InsertsAtTheCaret()
+        {
+            _host.Post("selectIn", new { id = "ta_1_0", start = 2, end = 2 });
+            BrowserTestHelper.Pump(200);
             var reply = Ask("replaceSelection", new { id = "ta_1_0", text = "XYZ" });
-            Assert.That(reply.TryGetInt("endPoint", out var n) && (n == 0), Is.True, "endPoint " + n);
-            Assert.That(reply.GetString("value"), Is.EqualTo("abcdef"));
+            Assert.That(reply.GetString("value"), Is.EqualTo("abXYZcdef"));
+            Assert.That(reply.TryGetInt("endPoint", out var n) && (n == 5), Is.True, "endPoint " + n);
+        }
+
+        [Test]
+        public void ReplaceSelection_NoSuchBox_Fails()
+        {
+            Assert.That(Ask("replaceSelection", new { id = "ta_nope", text = "XYZ" }).TryGetInt("endPoint", out var n) && (n == 0), Is.True);
         }
 
         [Test]

@@ -261,10 +261,11 @@
         return { selType: 'none', text: '' };
     });
 
-    // replaces box 'id''s selection with text; returns the new end point (0 = failed, e.g. the box has no selection)
+    // replaces box 'id''s selection with text -- or inserts it at the caret when nothing is selected, as IE did (Edit >
+    //  Paste relies on it); returns the new end point (0 = failed: no such box)
     function replaceSelectionIn(id, text) {
         var ta = textarea(id);
-        if (!ta || !(ta.selectionEnd > ta.selectionStart))
+        if (!ta)
             return 0;
         ta.setRangeText(text, ta.selectionStart, ta.selectionEnd, 'end');
         autoSize(ta);
