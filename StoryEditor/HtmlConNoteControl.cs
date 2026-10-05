@@ -446,10 +446,11 @@ namespace OneStoryProjectEditor
             {
                 var nConversationIndex = aCNsDC.IndexOf(cndc);
                 cndc.DontShowButtonsOverride = true;
-                strNote = StoryData.ConNoteHtml(this, theSE.StoryProject.ProjSettings, nVerseIndex,
-                                                nConversationIndex, theSE.LoggedOnMember,
-                                                theSE.StoryProject.TeamMembers, cndc, Engine);
-                var dlg = new AddConNoteForm(GetType(), theSE, StoryData, strNote);
+                var storyData = StoryData;
+                var dlg = new AddConNoteForm(GetType(), theSE, storyData,
+                                             engine => storyData.ConNoteHtml(this, theSE.StoryProject.ProjSettings, nVerseIndex,
+                                                                             nConversationIndex, theSE.LoggedOnMember,
+                                                                             theSE.StoryProject.TeamMembers, cndc, engine));
                 if (dlg.ShowDialog() != DialogResult.OK)
                 {
                     aCNsDC.Remove(cndc);

@@ -21,6 +21,25 @@ namespace OneStoryProjectEditor.Tests
             }
         }
 
+        // a page that isn't the pane's own document (the Add Note dialog's preview, a print preview) is built for the
+        //  pane's engine, and built again -- not replaced by LoadDocument's page -- when the engine changes
+        [Test]
+        public void LoadPage_BuildsForThePanesEngine_AndRebuildsOnEngineChanged()
+        {
+            var host = new FakeHtmlHost { Engine = HtmlEngine.WebView2 };
+            using (var pane = new HtmlConsultantNotesControl(host))
+            {
+                pane.LoadPage(engine => "note for " + engine);
+                host.Engine = HtmlEngine.Ie;
+                host.RaiseEngineChanged();
+                Assert.That(host.Loads, Is.EqualTo(new[] { "note for WebView2", "note for Ie" }));
+
+                pane.LoadHtml("<p>own page</p>");     // (an ordinary load forgets the builder)
+                host.RaiseEngineChanged();
+                Assert.That(host.Loads.Count, Is.EqualTo(3));
+            }
+        }
+
         [Test]
         public void DisposingANotePane_DisposesItsHost()
         {

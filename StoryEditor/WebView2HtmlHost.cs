@@ -42,6 +42,7 @@ namespace OneStoryProjectEditor
         private readonly WebView2 _view;
         private readonly HtmlMessageChannel _channel;
         private readonly string _strUserDataFolder;
+        private readonly bool _bAllowContextMenu;
         private readonly Timer _startWatchdog;
         private CoreWebView2Environment _env;
         private bool _bStarted;
@@ -54,6 +55,7 @@ namespace OneStoryProjectEditor
         public WebView2HtmlHost(HtmlHostOptions options)
         {
             _strUserDataFolder = options?.UserDataFolder ?? DefaultUserDataFolder;
+            _bAllowContextMenu = options?.AllowBrowserContextMenu ?? false;
             _view = new WebView2 { Dock = DockStyle.Fill, DefaultBackgroundColor = Color.White };
             _channel = new HtmlMessageChannel(SendJson, () => !_bDisposed && !_bFailed && _bStarted && !_view.IsDisposed,
                                               "WebView2HtmlHost");
@@ -120,7 +122,7 @@ namespace OneStoryProjectEditor
         private void Configure(CoreWebView2 core)
         {
             var settings = core.Settings;
-            settings.AreDefaultContextMenusEnabled = false;
+            settings.AreDefaultContextMenusEnabled = _bAllowContextMenu;    // (HtmlForm wants right-click Copy)
 #if DEBUG
             settings.AreDevToolsEnabled = true;
 #else

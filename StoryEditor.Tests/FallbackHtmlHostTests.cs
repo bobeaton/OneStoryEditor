@@ -55,6 +55,93 @@ namespace OneStoryProjectEditor.Tests
             Assert.That(_primary.DisposeCount, Is.EqualTo(1));
         }
 
+        private const string CstrModernPage = "<!DOCTYPE html>\r\n<html><script>chrome.webview</script></html>";
+
+        [Test]
+        public void EngineChanged_IsRaisedBeforeAnyReplay_AndBeforeTheFailureIsReported()
+        {
+            var order = new List<string>();
+            _host.Dispose();
+            _primary = new FakeFailingHtmlHost { Engine = HtmlEngine.WebView2 };
+            _fallback = new FakeHtmlHost { Engine = HtmlEngine.Ie };
+            _host = new FallbackHtmlHost(_primary, () => _fallback, ex => order.Add("reported(loads=" + _fallback.Loads.Count + ")"));
+            _host.EngineChanged += (s, e) => order.Add("engineChanged(engine=" + _host.Engine + ", loads=" + _fallback.Loads.Count + ")");
+            _host.LoadHtml("<p>a</p>");
+            _primary.Fail();
+            Assert.That(order, Is.EqualTo(new[] { "engineChanged(engine=Ie, loads=0)", "reported(loads=1)" }));
+            Assert.That(_fallback.Loads, Is.EqualTo(new[] { "<p>a</p>" }));
+        }
+
+        [Test]
+        public void ModernPage_IsNotReplayedInIe_TheFallbackGetsABlankPage()
+        {
+            _host.LoadHtml(CstrModernPage);
+            _primary.Fail();
+            Assert.That(_fallback.Loads, Is.EqualTo(new[] { "" }), "IE can't run a WebView2 page's scripts");
+        }
+
+        [Test]
+        public void OwnerReloadOnEngineChanged_Wins_NoReplay()
+        {
+            _host.EngineChanged += (s, e) => _host.LoadHtml("<p>rebuilt for " + _host.Engine + "</p>");
+            _host.LoadHtml(CstrModernPage);
+            _primary.Fail();
+            Assert.That(_fallback.Loads, Is.EqualTo(new[] { "<p>rebuilt for Ie</p>" }));
+        }
+
+        [Test]
+        public void NoPageYet_NothingIsLoaded()
+        {
+            _primary.Fail();
+            Assert.That(_fallback.Loads, Is.Empty);
+        }
+
+        [Test]
+        public void ThrowingOnFallback_DoesNotBreakTheSwap()
+        {
+            _host.Dispose();
+            _primary = new FakeFailingHtmlHost { Engine = HtmlEngine.WebView2 };
+            _fallback = new FakeHtmlHost { Engine = HtmlEngine.Ie };
+            _host = new FallbackHtmlHost(_primary, () => _fallback, ex => throw new System.IO.IOException("Settings.Save failed"));
+            var nChanged = 0;
+            _host.EngineChanged += (s, e) => nChanged++;
+            _host.LoadHtml("<p>a</p>");
+            Assert.DoesNotThrow(() => _primary.Fail());
+            Assert.That(nChanged, Is.EqualTo(1));
+            Assert.That(_host.Engine, Is.EqualTo(HtmlEngine.Ie));
+            Assert.That(_fallback.LoadedHtml, Is.EqualTo("<p>a</p>"));
+        }
+
+        [Test]
+        public void ThrowingFactory_KeepsTheFailedHostAttached_AndUsable()
+        {
+            _host.Dispose();
+            _primary = new FakeFailingHtmlHost { Engine = HtmlEngine.WebView2 };
+            _reported = null;
+            _host = new FallbackHtmlHost(_primary, () => throw new InvalidOperationException("no IE either"), ex => _reported = ex);
+            var nChanged = 0;
+            _host.EngineChanged += (s, e) => nChanged++;
+            Assert.DoesNotThrow(() => _primary.Fail());
+            Assert.That(nChanged, Is.EqualTo(0), "the engine didn't change");
+            Assert.That(_primary.DisposeCount, Is.EqualTo(0), "the host the owner still talks to isn't disposed");
+            Assert.That(_host.Control.Controls.Contains(_primary.Control), Is.True);
+            Assert.That(_reported, Is.Not.Null, "the failure is still recorded");
+            Assert.DoesNotThrow(() => _host.LoadHtml("<p>b</p>"));
+            Assert.DoesNotThrow(() => _host.Post("x"));
+        }
+
+        [Test]
+        public void ThrowingFactory_DoesNotLoseTheFirstFailure_ASecondIsIgnored()
+        {
+            _host.Dispose();
+            _primary = new FakeFailingHtmlHost { Engine = HtmlEngine.WebView2 };
+            var nCreates = 0;
+            _host = new FallbackHtmlHost(_primary, () => { nCreates++; throw new InvalidOperationException("x"); }, ex => { });
+            _primary.Fail();
+            _primary.Fail();
+            Assert.That(nCreates, Is.EqualTo(1));
+        }
+
         [Test]
         public void MessagesAndReady_AreForwarded_FromWhicheverHostIsCurrent()
         {

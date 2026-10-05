@@ -53,10 +53,10 @@
 
     <!-- the shared (Evergreen) WebView2 runtime: per-machine (32-bit registry view) or per-user. 'pv' of 0.0.0.0 means
          not installed -->
-    <Property Id="WEBVIEW2_MACHINE">
+    <Property Id="WEBVIEW2_MACHINE" Secure="yes">
       <RegistrySearch Id="WebView2Machine" Root="HKLM" Key="SOFTWARE\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}" Name="pv" Type="raw" />
     </Property>
-    <Property Id="WEBVIEW2_USER">
+    <Property Id="WEBVIEW2_USER" Secure="yes">
       <RegistrySearch Id="WebView2User" Root="HKCU" Key="Software\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}" Name="pv" Type="raw" />
     </Property>
 

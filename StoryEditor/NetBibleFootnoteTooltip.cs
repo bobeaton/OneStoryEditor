@@ -44,6 +44,18 @@ namespace OneStoryProjectEditor
             if (e.KeyCode == Keys.Escape)
                 Close();
         }
+
+        // Escape closes the popup wherever the key lands: the browser control's PreviewKeyDown above doesn't fire when
+        //  htmlHost.Control is FallbackHtmlHost's container (the browser is inside it)
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Escape)
+            {
+                Close();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
     }
 
     public class MoveConNoteTooltip : MinimalHtmlForm

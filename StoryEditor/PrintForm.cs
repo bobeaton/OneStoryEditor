@@ -75,7 +75,9 @@ namespace OneStoryProjectEditor
                                                                             StoryData.PresentationType.Printing);
             }
 
-            printViewer.webBrowser.LoadHtml(StoryData.AddHtmlHtmlDocOutside(strHtml, _theSE.StoryProject.ProjSettings, printViewer.webBrowser.Engine));
+            // (built again for the IE scripts if the pane falls back to IE)
+            var projSettings = _theSE.StoryProject.ProjSettings;
+            printViewer.webBrowser.LoadPage(engine => StoryData.AddHtmlHtmlDocOutside(strHtml, projSettings, engine));
         }
 
         private VerseData.ViewSettings ViewSettings

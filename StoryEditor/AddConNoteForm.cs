@@ -12,7 +12,11 @@ namespace OneStoryProjectEditor
             Localizer.Ctrl(this);
         }
 
-        public AddConNoteForm(Type typeConNotePane, StoryEditor theSe, StoryData storyData, string strHtmlNote)
+        // buildNoteHtml builds the one-note preview for the dialog pane's own engine (its host may differ from the
+        //  parent pane's, or fall back to IE while the dialog is open: then the preview is built again, not replaced by
+        //  the whole notes page)
+        public AddConNoteForm(Type typeConNotePane, StoryEditor theSe, StoryData storyData,
+            Func<HtmlEngine, string> buildNoteHtml)
         {
             InitializeComponent();
             Localizer.Ctrl(this);
@@ -28,7 +32,7 @@ namespace OneStoryProjectEditor
             tableLayoutPanel.Controls.Add(pane, 0, 1);
             tableLayoutPanel.SetColumnSpan(pane, 2);
             textBoxConNotes.Text = pane.PaneLabel();
-            pane.LoadHtml(strHtmlNote);
+            pane.LoadPage(buildNoteHtml);
             this.tableLayoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);
         }

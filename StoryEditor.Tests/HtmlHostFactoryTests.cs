@@ -30,33 +30,66 @@ namespace OneStoryProjectEditor.Tests
             Assert.That(HtmlHostFactory.WhyNotWebView2(false, "130.0.2849.80", "130.0.2849.80"), Does.Contain("failed"));
         }
 
-        [Test, Apartment(System.Threading.ApartmentState.STA)]
-        public void MissingWebView2Assembly_FallsBackToIe_WithNotice()
+        // Create with the given setting and WebView2 creator; returns the host's type and the notice
+        private static void CreateWith(bool bUseIeSetting, System.Func<HtmlHostOptions, IHtmlHost> creator,
+            out System.Type typeHost, out string strNotice)
         {
-            var creator = HtmlHostFactory.WebView2Creator;
+            var oldCreator = HtmlHostFactory.WebView2Creator;
+            var oldSetting = HtmlHostFactory.UseIeSetting;
             var use = HtmlHostFactory.UseWebView2WhenAvailable;
             try
             {
                 HtmlHostFactory.ResetNoticeForTests();
                 HtmlHostFactory.UseWebView2WhenAvailable = true;
-                HtmlHostFactory.WebView2Creator = o => throw new System.IO.FileNotFoundException("Microsoft.Web.WebView2.Core");
+                HtmlHostFactory.UseIeSetting = () => bUseIeSetting;
+                HtmlHostFactory.WebView2Creator = creator;
                 var host = HtmlHostFactory.Create();
-                try
-                {
-                    Assert.That(host, Is.InstanceOf<IeHtmlHost>());
-                    Assert.That(HtmlHostFactory.LastNotice, Does.Contain("WebView2 components could not be loaded"));
-                }
-                finally
-                {
-                    (host as System.IDisposable)?.Dispose();
-                }
+                typeHost = host.GetType();
+                strNotice = HtmlHostFactory.LastNotice;
+                host.Dispose();
             }
             finally
             {
-                HtmlHostFactory.WebView2Creator = creator;
+                HtmlHostFactory.WebView2Creator = oldCreator;
+                HtmlHostFactory.UseIeSetting = oldSetting;
                 HtmlHostFactory.UseWebView2WhenAvailable = use;
                 HtmlHostFactory.ResetNoticeForTests();
             }
+        }
+
+        [Test, Apartment(System.Threading.ApartmentState.STA)]
+        public void MissingWebView2Assembly_FallsBackToIe_WithNotice()
+        {
+            CreateWith(false, o => throw new System.IO.FileNotFoundException("Microsoft.Web.WebView2.Core"), out var type, out var strNotice);
+            Assert.That(type, Is.EqualTo(typeof(IeHtmlHost)));
+            Assert.That(strNotice, Does.Contain("WebView2 components could not be loaded"));
+        }
+
+        // start-up must never crash over WebView2, whatever it throws
+        [Test, Apartment(System.Threading.ApartmentState.STA)]
+        public void AnyWebView2CreationException_FallsBackToIe_WithNotice()
+        {
+            CreateWith(false, o => throw new System.Runtime.InteropServices.COMException("boom"), out var type, out var strNotice);
+            Assert.That(type, Is.EqualTo(typeof(IeHtmlHost)));
+            Assert.That(strNotice, Does.Contain("WebView2 could not be started").And.Contain("boom"));
+        }
+
+        // forcing IE mustn't touch WebView2 at all (not even load its assembly to ask for the runtime version)
+        [Test, Apartment(System.Threading.ApartmentState.STA)]
+        public void IeSetting_IsCheckedBeforeWebView2IsTouched()
+        {
+            var bCreatorCalled = false;
+            CreateWith(true, o => { bCreatorCalled = true; return null; }, out var type, out var strNotice);
+            Assert.That(bCreatorCalled, Is.False);
+            Assert.That(type, Is.EqualTo(typeof(IeHtmlHost)));
+            Assert.That(strNotice, Does.Contain("setting"));
+        }
+
+        [Test]
+        public void FailedLastTime_NoticeSaysHowToRetry()
+        {
+            Assert.That(HtmlHostFactory.WhyNotWebView2(false, "130.0.2849.80", "130.0.2849.80"),
+                        Does.Contain("to try WebView2 again").And.Contain("Use the IE browser panes"));
         }
 
         [Test]

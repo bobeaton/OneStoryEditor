@@ -24,9 +24,12 @@ namespace OneStoryProjectEditor.Tests
 
         public void RaiseEngineChanged() => EngineChanged?.Invoke(this, EventArgs.Empty);
 
+        public readonly List<string> Loads = new List<string>();   // every LoadHtml, in order
+
         public void LoadHtml(string strHtml)
         {
             LoadedHtml = strHtml;
+            Loads.Add(strHtml);
         }
 
         public void Post(string strType, object payload = null)

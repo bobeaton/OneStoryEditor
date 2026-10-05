@@ -54,11 +54,14 @@ namespace OneStoryProjectEditor
             Controls.Add(Host.Control);
             Host.MessageReceived += (sender, msg) => Dispatcher.Dispatch(msg);
             Host.DocumentReady += (sender, args) => OnDocumentReady();
-            // the host fell back to IE: rebuild the page with the IE scripts (a pane with no story yet has nothing to
-            //  rebuild; the host has already replayed its last page)
+            // the host fell back to IE: rebuild the page with the IE scripts -- the page LoadPage was given (a print
+            //  preview, the Add Note dialog's preview), or else the pane's own document (a pane with no story yet has
+            //  nothing to rebuild; the host then replays or blanks its last page)
             Host.EngineChanged += (sender, args) =>
             {
-                if ((StoryData != null) && (TheSE != null))
+                if (_pageBuilder != null)
+                    Host.LoadHtml(_pageBuilder(Host.Engine));
+                else if ((StoryData != null) && (TheSE != null))
                     LoadDocument();
             };
             Dispatcher.ReportError = s => TheSE?.SetStatusBar(String.Format(Localizer.Str("Error: {0}"), s));
@@ -81,8 +84,19 @@ namespace OneStoryProjectEditor
 
         public void LoadHtml(string strHtml)
         {
+            _pageBuilder = null;
             Host.LoadHtml(strHtml);
         }
+
+        // shows a page that isn't this pane's own document, built for the pane's engine; it's built again if the
+        //  engine changes (and LoadDocument isn't used then)
+        public void LoadPage(Func<HtmlEngine, string> pageBuilder)
+        {
+            _pageBuilder = pageBuilder;
+            Host.LoadHtml(pageBuilder(Host.Engine));
+        }
+
+        private Func<HtmlEngine, string> _pageBuilder;
 
         public string LoadedHtml => Host.LoadedHtml;
 
@@ -182,6 +196,7 @@ namespace OneStoryProjectEditor
             // reset so we don't jump to a soon-to-be-non-existant (or wrong context) place
             // update: if you *don't* want to jump there, then clear out StrIdToScrollTo manually. This needs
             //  to be here (e.g. for DoMove) which wants to go back to the same spot
+            _pageBuilder = null;
             Host.LoadHtml(String.Empty);
         }
 

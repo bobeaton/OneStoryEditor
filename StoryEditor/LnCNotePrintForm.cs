@@ -12,9 +12,9 @@ namespace OneStoryProjectEditor
             printViewer.saveFileDialog.FileName = String.Format("{0} LnCNotes.html",
                                                                 theSe.StoryProject.ProjSettings.ProjectName);
             var strHtmlInner = theSe.StoryProject.LnCNotes.PresentationHtml;
-            printViewer.webBrowser.LoadHtml(StoryData.AddHtmlHtmlDocOutside(strHtmlInner,
-                                                                            theSe.StoryProject.ProjSettings,
-                                                                            printViewer.webBrowser.Engine));
+            // (built again for the IE scripts if the pane falls back to IE)
+            var projSettings = theSe.StoryProject.ProjSettings;
+            printViewer.webBrowser.LoadPage(engine => StoryData.AddHtmlHtmlDocOutside(strHtmlInner, projSettings, engine));
         }
     }
 }
