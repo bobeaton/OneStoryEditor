@@ -602,6 +602,17 @@
       <Component Id="System.Configuration.ConfigurationManager.dll" Guid="{E2C7468F-0CEB-4C3B-9F75-995DFBC70975}">
         <File Id="System.Configuration.ConfigurationManager.dll" Name="System.Configuration.ConfigurationManager.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Configuration.ConfigurationManager.dll" AssemblyApplication="System.Configuration.ConfigurationManager.dll" Assembly=".net" Source="..\..\output\release\System.Configuration.ConfigurationManager.dll" />
       </Component>
+      <!-- WebView2 SDK (Microsoft.Web.WebView2 1.0.4258.31). The loader sits at the output root (no static loader). The
+           WPF assembly isn't used. The runtime itself is installed by the bootstrapper in Product.wxs. -->
+      <Component Id="Microsoft.Web.WebView2.Core.dll" Guid="{ABE1082D-9816-459F-A1D8-E1C851CF16DD}">
+        <File Id="Microsoft.Web.WebView2.Core.dll" Name="Microsoft.Web.WebView2.Core.dll" Vital="yes" KeyPath="yes" Source="..\..\output\release\Microsoft.Web.WebView2.Core.dll" />
+      </Component>
+      <Component Id="Microsoft.Web.WebView2.WinForms.dll" Guid="{4B9E4132-66E0-462D-BAE4-B2ABE532D0F3}">
+        <File Id="Microsoft.Web.WebView2.WinForms.dll" Name="Microsoft.Web.WebView2.WinForms.dll" Vital="yes" KeyPath="yes" Source="..\..\output\release\Microsoft.Web.WebView2.WinForms.dll" />
+      </Component>
+      <Component Id="WebView2Loader.dll" Guid="{C44E3F58-13E7-4654-A3F9-602860856CF3}">
+        <File Id="WebView2Loader.dll" Name="WebView2Loader.dll" Vital="yes" KeyPath="yes" Source="..\..\output\release\WebView2Loader.dll" />
+      </Component>
       <Component Id="System.Diagnostics.DiagnosticSource.dll" Guid="{7117C887-BE78-47D6-AB62-945A06B009A2}">
         <File Id="System.Diagnostics.DiagnosticSource.dll" Name="System.Diagnostics.DiagnosticSource.dll" Vital="yes" KeyPath="yes" AssemblyManifest="System.Diagnostics.DiagnosticSource.dll" AssemblyApplication="System.Diagnostics.DiagnosticSource.dll" Assembly=".net" Source="..\..\output\release\System.Diagnostics.DiagnosticSource.dll" />
       </Component>

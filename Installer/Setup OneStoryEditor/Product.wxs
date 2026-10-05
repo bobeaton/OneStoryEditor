@@ -51,8 +51,24 @@
 
     <PropertyRef Id="MergeModulesFragment" />
 
+    <!-- the shared (Evergreen) WebView2 runtime: per-machine (32-bit registry view) or per-user. 'pv' of 0.0.0.0 means
+         not installed -->
+    <Property Id="WEBVIEW2_MACHINE">
+      <RegistrySearch Id="WebView2Machine" Root="HKLM" Key="SOFTWARE\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}" Name="pv" Type="raw" />
+    </Property>
+    <Property Id="WEBVIEW2_USER">
+      <RegistrySearch Id="WebView2User" Root="HKCU" Key="Software\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}" Name="pv" Type="raw" />
+    </Property>
+
+    <Binary Id="WebView2Bootstrapper" SourceFile="..\ExternalFiles\MicrosoftEdgeWebview2Setup.exe" />
+    <!-- installs the runtime when it's missing; failure (e.g. offline) is ignored: the app then uses IE panes -->
+    <CustomAction Id="InstallWebView2Runtime" BinaryRef="WebView2Bootstrapper" ExeCommand="/silent /install"
+                  Execute="deferred" Impersonate="no" Return="ignore" />
+
     <InstallExecuteSequence>
       <WriteEnvironmentStrings />
+      <Custom Action="InstallWebView2Runtime" Before="InstallFinalize"
+              Condition="NOT REMOVE AND (NOT WEBVIEW2_MACHINE OR WEBVIEW2_MACHINE = &quot;0.0.0.0&quot;) AND (NOT WEBVIEW2_USER OR WEBVIEW2_USER = &quot;0.0.0.0&quot;)" />
     </InstallExecuteSequence>
 
     <WixVariable Id="WixUILicenseRtf" Value="..\License.rtf" />
