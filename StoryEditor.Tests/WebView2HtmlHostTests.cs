@@ -53,6 +53,44 @@ namespace OneStoryProjectEditor.Tests
             Assert.That(BrowserTestHelper.PumpUntil(() => _host.IsReady, 20000), Is.True, "page never sent 'ready'");
         }
 
+        // the app builds its main form before Application.Run, so a pane can start while the UI thread has no WinForms
+        //  SynchronizationContext (e.g. after a modal dialog closed); it must still start, and its controller must
+        //  still be usable from the UI thread afterwards (ICoreWebView2Controller2 is what DefaultBackgroundColor uses)
+        [Test]
+        public void Starts_EvenWhenTheUiThreadHasNoSynchronizationContext()
+        {
+            var form = new Form { StartPosition = FormStartPosition.Manual, Location = new System.Drawing.Point(-32000, -32000),
+                                  Size = new System.Drawing.Size(400, 300), ShowInTaskbar = false };
+            var host = new WebView2HtmlHost(new HtmlHostOptions { UserDataFolder = BrowserTestHelper.WebView2TestDataFolder });
+            Exception failure = null;
+            host.Failed += (s, ex) => failure = ex;
+            form.Controls.Add(host.Control);
+            string strContextAtStart = "?";
+            host.Control.HandleCreated += (s, e) => strContextAtStart = SynchronizationContext.Current?.GetType().Name ?? "null";
+            var oldContext = SynchronizationContext.Current;
+            try
+            {
+                SynchronizationContext.SetSynchronizationContext(null);     // (WinForms then puts a plain one there)
+                form.Show();    // (creates the handle, which starts the host)
+                host.LoadHtml(BrowserTestHelper.ModernPage("<p>hi</p>", CstrMiniBridge));
+                BrowserTestHelper.PumpUntil(() => host.IsReady || (failure != null), 20000);
+                Assert.That(strContextAtStart, Is.Not.EqualTo(nameof(WindowsFormsSynchronizationContext)),
+                            "the test must start the host without the WinForms context");
+                Assert.That(failure, Is.Null, failure?.ToString());
+                Assert.That(host.IsReady, Is.True, "page never sent 'ready'");
+
+                // what the WebView2 control does from the UI thread later (it's ICoreWebView2Controller2)
+                Assert.DoesNotThrow(() => host.Control.GetType().GetProperty("DefaultBackgroundColor")
+                                              .SetValue(host.Control, System.Drawing.Color.Azure));
+            }
+            finally
+            {
+                SynchronizationContext.SetSynchronizationContext(oldContext);
+                form.Close();
+                form.Dispose();
+            }
+        }
+
         [Test]
         public void Engine_IsWebView2()
         {
@@ -231,11 +269,19 @@ namespace OneStoryProjectEditor.Tests
                 Assert.That(BrowserTestHelper.PumpUntil(() => failure != null, (int)WebView2HtmlHost.StartTimeout.TotalMilliseconds + 5000), Is.True,
                             "a host that can't start must say so (exception or watchdog)");
                 TestContext.WriteLine("failure: " + failure.GetType().Name + ": " + failure.Message);
+
+                // the full story (stack, thread, versions, which pane) goes in the log beside the data folder
+                Assert.That(host.FailureLogPath, Is.EqualTo(Path.Combine(Path.GetTempPath(), "WebView2-failures.log")));
+                var strLog = File.ReadAllText(host.FailureLogPath);
+                Assert.That(strLog, Does.Contain(failure.GetType().FullName).And.Contain("runtime: ").And.Contain("Core.dll: ")
+                                        .And.Contain("thread ").And.Contain("pane: WebView2"));
             }
             finally
             {
                 host?.Dispose();
                 File.Delete(strFile);
+                if (host != null)
+                    File.Delete(host.FailureLogPath);
             }
         }
 
