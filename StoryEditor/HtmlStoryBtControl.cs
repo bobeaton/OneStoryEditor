@@ -429,6 +429,17 @@ namespace OneStoryProjectEditor
             }
         }
     
+        // a retelling box's sub-item number is the tester's place in the story's retelling testers (that's how the page
+        //  numbers it), not the retelling's place in this line's list: a line retold only by the 2nd tester has its one
+        //  retelling at [0]
+        private LineMemberData RetellingByTester(MultipleLineDataConverter retellings, int nTestIndex)
+        {
+            var testers = StoryData.CraftingInfo.TestersToCommentsRetellings;
+            return ((nTestIndex >= 0) && (nTestIndex < testers.Count))
+                       ? retellings.TryGetValue(testers[nTestIndex].MemberId)
+                       : null;
+        }
+
         private StringTransfer GetStringTransferEx(TextAreaIdentifier textAreaIdentifier)
         {
             var verseData = GetVerseData(textAreaIdentifier.LineIndex);
@@ -451,7 +462,9 @@ namespace OneStoryProjectEditor
                     return stField;
 
                 case StoryEditor.TextFields.Retelling:
-                    lineData = verseData.Retellings[textAreaIdentifier.SubItemIndex];
+                    lineData = RetellingByTester(verseData.Retellings, textAreaIdentifier.SubItemIndex);
+                    if (lineData == null)
+                        return null;
                     break;
 
                 case StoryEditor.TextFields.TestQuestion:
@@ -619,13 +632,15 @@ namespace OneStoryProjectEditor
             {
                 var lineDataFrom = verseData.Retellings[i];
                 var lineDataTo = verseNew.Retellings[i];
-                MoveSelectedText(spans, GetRetellingId(nLineIndex, i, StoryEditor.TextFields.Vernacular.ToString()),
+                // the page numbers a retelling's boxes by tester (see RetellingByTester), not by place in this list
+                var nTestIndex = StoryData.CraftingInfo.TestersToCommentsRetellings.IndexOf(lineDataFrom.MemberId);
+                MoveSelectedText(spans, GetRetellingId(nLineIndex, nTestIndex, StoryEditor.TextFields.Vernacular.ToString()),
                                  TheSE.StoryProject.ProjSettings.ShowRetellings.Vernacular,
                                  lineDataFrom.Vernacular, lineDataTo.Vernacular);
-                MoveSelectedText(spans, GetRetellingId(nLineIndex, i, StoryEditor.TextFields.NationalBt.ToString()),
+                MoveSelectedText(spans, GetRetellingId(nLineIndex, nTestIndex, StoryEditor.TextFields.NationalBt.ToString()),
                                  TheSE.StoryProject.ProjSettings.ShowRetellings.NationalBt,
                                  lineDataFrom.NationalBt, lineDataTo.NationalBt);
-                MoveSelectedText(spans, GetRetellingId(nLineIndex, i, StoryEditor.TextFields.InternationalBt.ToString()),
+                MoveSelectedText(spans, GetRetellingId(nLineIndex, nTestIndex, StoryEditor.TextFields.InternationalBt.ToString()),
                                  TheSE.StoryProject.ProjSettings.ShowRetellings.InternationalBt,
                                  lineDataFrom.InternationalBt, lineDataTo.InternationalBt);
             }

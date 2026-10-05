@@ -165,6 +165,40 @@ namespace OneStoryProjectEditor.Tests
             Assert.That(st.ToString(), Is.EqualTo(strStored));
         }
 
+        // a retelling box's id carries the tester's number (its place in the story's retelling testers), not the
+        //  retelling's place in the line's list: a line retold only by the 2nd tester has its one retelling at [0]
+        //  but its boxes are named ..._Retelling_0_1_...
+        [Test]
+        public void RetellingBox_FindsTheRetellingByTester_NotByListPosition()
+        {
+            var story = PaneTestData.Stories(PaneTestData.LoadProject()).First(s => s.Verses.Count > 0);
+            var testers = story.CraftingInfo.TestersToCommentsRetellings;
+            testers.Clear();
+            testers.Add(new MemberIdInfo("tester1", null));
+            testers.Add(new MemberIdInfo("tester2", null));
+            var retellings = story.Verses[0].Retellings;
+            retellings.Clear();
+            retellings.TryAddNewLine("tester2").Vernacular.SetValue("second tester's retelling");
+            _pane.StoryData = story;
+
+            var st = InvokeGetStringTransfer(StringTransfer.TextareaId(1, StoryEditor.TextFields.Retelling.ToString(), 0, 1,
+                                                                        StoryEditor.TextFields.Vernacular.ToString()));
+            Assert.That(st, Is.Not.Null, "the 2nd tester's retelling box found no field, so typing there is dropped");
+            Assert.That(st.ToString(), Is.EqualTo("second tester's retelling"));
+
+            // the 1st tester didn't retell this line: no field (rather than someone else's)
+            Assert.That(InvokeGetStringTransfer(StringTransfer.TextareaId(1, StoryEditor.TextFields.Retelling.ToString(), 0, 0,
+                                                                           StoryEditor.TextFields.Vernacular.ToString())), Is.Null);
+        }
+
+        private StringTransfer InvokeGetStringTransfer(string strId)
+        {
+            return (StringTransfer)typeof(HtmlStoryBtControl)
+                .GetMethod("GetStringTransfer", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic,
+                           null, new[] { typeof(string) }, null)
+                .Invoke(_pane, new object[] { strId });
+        }
+
         private bool InvokeSetFieldValue(string strId, string strText, bool bQuiet)
         {
             return (bool)typeof(HtmlStoryBtControl)

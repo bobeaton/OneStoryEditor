@@ -154,6 +154,20 @@ namespace OneStoryProjectEditor.Tests
             Assert.That(Highlights(1), Is.Empty, "a box's highlight must not survive an edit of that box");
         }
 
+        // typing is how C# learns the project is modified (the Save menu item follows Modified)
+        [Test]
+        public void Typing_SendsTextChanged_WithTheBoxValue()
+        {
+            var strId = StoryLineBox(1);
+            _host.Post("setValue", new { id = strId, text = "abc" });
+            _host.Post("typeIn", new { id = strId, text = "X" });
+            Assert.That(BrowserTestHelper.PumpUntil(() => _received.Any(m => m.Type == "textChanged"), 3000), Is.True,
+                "no textChanged; got: " + string.Join(", ", _received.Select(m => m.Type)));
+            var msg = _received.Last(m => m.Type == "textChanged");
+            Assert.That(msg.GetString("id"), Is.EqualTo(strId));
+            Assert.That(msg.GetString("value"), Is.EqualTo("abcX"));
+        }
+
         [Test]
         public void LeftClick_ClearsTheBoxHighlight()
         {
