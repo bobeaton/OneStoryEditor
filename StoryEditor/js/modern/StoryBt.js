@@ -4,7 +4,7 @@
 //  Same messages as js/StoryBt.js + StoryBtPs.js (the IE ones). Inlined after modern/bridge.js and modern/PaneCommon.js.
 (function () {
     'use strict';
-    var highlights = {};      // textarea id -> { start, end }
+    var highlights = {};      // textarea id -> { start, end, value (the box's value then) }
     var mirrors = {};         // textarea id -> its mirror div
     var lastMouseMove = 0;
     var COPIED = ['fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'fontVariant', 'lineHeight', 'letterSpacing',
@@ -29,9 +29,20 @@
     // a box's current (non-empty) selection becomes its highlight
     function record(ta) {
         if (ta.selectionEnd > ta.selectionStart) {
-            highlights[ta.id] = { start: ta.selectionStart, end: ta.selectionEnd };
+            highlights[ta.id] = { start: ta.selectionStart, end: ta.selectionEnd, value: ta.value };
             drawMirror(ta);
         }
+    }
+
+    // a box's highlight, unless its value has changed since (e.g. by a script, with no input event): then the range
+    //  no longer marks the text that was selected, so the highlight is dropped
+    function current(ta) {
+        var h = highlights[ta.id];
+        if (h && (h.value !== ta.value)) {
+            delete highlights[ta.id];
+            h = null;
+        }
+        return h || null;
     }
 
     function clear(ta) {
@@ -42,7 +53,7 @@
     }
 
     function drawMirror(ta) {
-        var h = highlights[ta.id], m = mirrors[ta.id];
+        var h = current(ta), m = mirrors[ta.id];
         if (!h) {
             if (m) {
                 m.parentNode.removeChild(m);
@@ -97,8 +108,8 @@
                       esc(v.substring(h.start, h.end)) + '</mark>' + esc(v.substring(h.end)) + '\n';
         m.scrollTop = ta.scrollTop;
         m.scrollLeft = ta.scrollLeft;
-        // while the box has focus, the browser shows its own selection
-        m.style.visibility = (document.activeElement === ta) ? 'hidden' : 'visible';
+        // while the box has focus, the browser shows its own selection (the mirror stays, as the box's background)
+        m.querySelector('mark').style.visibility = (document.activeElement === ta) ? 'hidden' : 'visible';
     }
 
     function redrawAll() {
@@ -239,7 +250,9 @@
         if (table) {
             var boxes = table.getElementsByTagName('textarea');
             for (var i = 0; i < boxes.length; i++) {
-                var h = highlights[boxes[i].id];
+                var h = current(boxes[i]);
+                if (!h && mirrors[boxes[i].id])
+                    drawMirror(boxes[i]);     // (a stale highlight's mirror goes too)
                 if (h)
                     items.push({ textareaId: boxes[i].id, className: boxes[i].className + ' highlight',
                                  text: boxes[i].value.substring(h.start, h.end) });
@@ -256,5 +269,37 @@
             return;
         clear(ta);
         ta.setSelectionRange(ta.selectionEnd, ta.selectionEnd);
+    });
+
+    // PaneCommon's commands that change a box's value by script (no input event), redone here so they drop the box's
+    //  highlight first (the last ose.on registration wins); same replies as PaneCommon's
+    function textarea(id) { var el = id ? document.getElementById(id) : null; return isTextarea(el) ? el : null; }
+
+    ose.on('setText', function (m) {
+        var ta = textarea(m.id);
+        if (!ta)
+            return;
+        clear(ta);
+        ta.value = m.text;
+        ose.send('textChanged', { id: ta.id, value: ta.value });
+    });
+
+    ose.on('appendText', function (m) {
+        var ta = textarea(m.id);
+        if (!ta)
+            return;
+        clear(ta);
+        ta.value += m.text;
+        ose.send('textChanged', { id: ta.id, value: ta.value });
+        if (m.focus)
+            ta.focus();
+    });
+
+    ose.on('replaceSelection', function (m) {
+        var ta = textarea(m.id);
+        if (ta)
+            clear(ta);
+        var nEndPoint = ose.replaceSelectionIn(m.id, m.text);
+        return { endPoint: nEndPoint, value: ta ? ta.value : null };
     });
 })();

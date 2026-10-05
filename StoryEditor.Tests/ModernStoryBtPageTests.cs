@@ -25,7 +25,15 @@ namespace OneStoryProjectEditor.Tests
             "  var a = t.getBoundingClientRect(), b = mi.getBoundingClientRect(), mk = mi.querySelector('mark');" +
             "  return { has: true, dx: Math.abs(a.left - b.left), dy: Math.abs(a.top - b.top), dw: Math.abs(a.width - b.width)," +
             "    dh: Math.abs(a.height - b.height), text: mi.textContent, mark: mk ? mk.textContent : null," +
-            "    transparent: window.getComputedStyle(t).backgroundColor }; });" +
+            "    transparent: window.getComputedStyle(t).backgroundColor, mirrorBg: window.getComputedStyle(mi).backgroundColor," +
+            "    mirrorVisibility: window.getComputedStyle(mi).visibility," +
+            "    markVisibility: mk ? window.getComputedStyle(mk).visibility : null }; });" +
+            "ose.on('rightClick', function (m) { var t = document.getElementById(m.id);" +
+            "  t.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, button: 2 }));" +
+            "  t.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, button: 2 })); });" +
+            "ose.on('focusBox', function (m) { document.getElementById(m.id).focus(); });" +
+            "ose.on('blurBox', function (m) { document.getElementById(m.id).blur(); });" +
+            "ose.on('tint', function (m) { document.getElementById(m.id).style.backgroundColor = 'rgb(240, 255, 255)'; });" +
             // make a box short and narrow (so long text wraps and it gets a vertical scrollbar), in a given direction
             "function oseScrollbar(el) { var cs = window.getComputedStyle(el);" +
             "  return el.offsetWidth - el.clientWidth - parseFloat(cs.borderLeftWidth) - parseFloat(cs.borderRightWidth); }" +
@@ -182,6 +190,81 @@ namespace OneStoryProjectEditor.Tests
                         "the text starts at the same place (the scrollbar is on the " + (strDir == "rtl" ? "left" : "right") + ")");
             Assert.That(w.Body["mirrorHeight"].ToObject<double>(), Is.EqualTo(w.Body["boxHeight"].ToObject<double>()).Within(1.0),
                         "the text wraps onto as many lines in the mirror as in the box");
+        }
+
+        // a highlight made in a box, then the box's value changed by a C# command (no input event)
+        private void HighlightThen(string strCommand, object payload)
+        {
+            var strId = StoryLineBox(1);
+            _host.Post("setValue", new { id = strId, text = "abcdef ghi" });
+            _host.Post("selectIn", new { id = strId, start = 2, end = 5 });
+            BrowserTestHelper.Pump(200);
+            Assert.That(Ask("mirror", new { id = strId }).GetBool("has"), Is.True, "the selection must first become a highlight");
+            if (strCommand == "replaceSelection")
+                Assert.That(Ask(strCommand, payload).TryGetInt("endPoint", out var n) && (n == 4), Is.True, "replaceSelection reply");
+            else
+                _host.Post(strCommand, payload);
+            BrowserTestHelper.Pump(100);
+        }
+
+        [TestCase("setText")]
+        [TestCase("appendText")]
+        [TestCase("replaceSelection")]
+        [TestCase("setValue")]      // (a value change no command knows about: the stale-value guard)
+        public void ScriptValueChange_DropsTheBoxHighlight_AndItsMirror(string strCommand)
+        {
+            var strId = StoryLineBox(1);
+            HighlightThen(strCommand, new { id = strId, text = "XY" });
+            Assert.That(Highlights(1), Is.Empty, "a highlight must not outlive a change to its box's value");
+            Assert.That(Ask("mirror", new { id = strId }).GetBool("has"), Is.False, "nor may its mirror");
+        }
+
+        [Test]
+        public void FocusedHighlightedBox_KeepsItsBackground_AndHidesOnlyTheMark()
+        {
+            var strId = StoryLineBox(1);
+            _host.Post("tint", new { id = strId });     // e.g. a read-only (Azure) box
+            _host.Post("setValue", new { id = strId, text = "abcdef ghi" });
+            _host.Post("selectIn", new { id = strId, start = 2, end = 5 });
+            BrowserTestHelper.Pump(200);
+            var m = Ask("mirror", new { id = strId });
+            Assert.That(m.GetString("markVisibility"), Is.EqualTo("visible"));
+
+            _host.Post("focusBox", new { id = strId });
+            BrowserTestHelper.Pump(100);
+            m = Ask("mirror", new { id = strId });
+            Assert.That(m.GetBool("has"), Is.True);
+            Assert.That(m.GetString("mirrorVisibility"), Is.EqualTo("visible"), "the mirror (the box's background) stays while it has focus");
+            Assert.That(m.GetString("mirrorBg"), Is.EqualTo("rgb(240, 255, 255)"), "the box's own background shows while it has focus");
+            Assert.That(m.GetString("markVisibility"), Is.EqualTo("hidden"), "the browser shows its own selection while the box has focus");
+
+            _host.Post("blurBox", new { id = strId });
+            BrowserTestHelper.Pump(100);
+            Assert.That(Ask("mirror", new { id = strId }).GetString("markVisibility"), Is.EqualTo("visible"));
+        }
+
+        [Test]
+        public void LeftMouseDown_ReportsIeButtonValue()
+        {
+            var strId = StoryLineBox(1);
+            _host.Post("leftClick", new { id = strId });
+            Assert.That(BrowserTestHelper.PumpUntil(() => _received.Exists(m => m.Type == "textareaMouseDown"), 3000), Is.True);
+            var msg = _received.First(m => m.Type == "textareaMouseDown");
+            Assert.That(msg.GetString("id"), Is.EqualTo(strId));
+            Assert.That(msg.TryGetInt("button", out var nButton) && (nButton == 1), Is.True, "button " + nButton);
+        }
+
+        [Test]
+        public void RightClick_KeepsTheHighlight_AndAsksForTheContextMenu()
+        {
+            var strId = StoryLineBox(1);
+            _host.Post("setValue", new { id = strId, text = "abcdef" });
+            _host.Post("selectIn", new { id = strId, start = 1, end = 4 });
+            _host.Post("rightClick", new { id = strId });
+            Assert.That(BrowserTestHelper.PumpUntil(() => _received.Exists(m => m.Type == "contextMenu"), 3000), Is.True);
+            Assert.That(_received.First(m => m.Type == "contextMenu").GetString("id"), Is.EqualTo(strId));
+            Assert.That(_received.First(m => m.Type == "textareaMouseDown").TryGetInt("button", out var nButton) && (nButton == 2), Is.True);
+            Assert.That(Highlights(1).Select(h => h.Text), Is.EqualTo(new[] { "bcd" }));
         }
 
         [Test]
