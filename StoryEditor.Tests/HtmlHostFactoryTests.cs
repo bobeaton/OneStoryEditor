@@ -34,15 +34,29 @@ namespace OneStoryProjectEditor.Tests
         private static void CreateWith(bool bUseIeSetting, System.Func<HtmlHostOptions, IHtmlHost> creator,
             out System.Type typeHost, out string strNotice)
         {
+            CreateWith(bUseIeSetting, creator, out typeHost, out strNotice, out _);
+        }
+
+        // ... and whether IE was remembered as in use (the setting turned on, and IeInUse raised); the real setting is
+        //  never touched
+        private static void CreateWith(bool bUseIeSetting, System.Func<HtmlHostOptions, IHtmlHost> creator,
+            out System.Type typeHost, out string strNotice, out bool bIeRemembered)
+        {
             var oldCreator = HtmlHostFactory.WebView2Creator;
             var oldSetting = HtmlHostFactory.UseIeSetting;
+            var oldRemember = HtmlHostFactory.RememberIeInUse;
             var use = HtmlHostFactory.UseWebView2WhenAvailable;
+            var bRemembered = false;
+            var bRaised = false;
+            System.EventHandler onIeInUse = (s, e) => bRaised = true;
             try
             {
                 HtmlHostFactory.ResetNoticeForTests();
                 HtmlHostFactory.UseWebView2WhenAvailable = true;
                 HtmlHostFactory.UseIeSetting = () => bUseIeSetting;
                 HtmlHostFactory.WebView2Creator = creator;
+                HtmlHostFactory.RememberIeInUse = () => bRemembered = true;
+                HtmlHostFactory.IeInUse += onIeInUse;
                 var host = HtmlHostFactory.Create();
                 typeHost = host.GetType();
                 strNotice = HtmlHostFactory.LastNotice;
@@ -50,11 +64,28 @@ namespace OneStoryProjectEditor.Tests
             }
             finally
             {
+                HtmlHostFactory.IeInUse -= onIeInUse;
                 HtmlHostFactory.WebView2Creator = oldCreator;
                 HtmlHostFactory.UseIeSetting = oldSetting;
+                HtmlHostFactory.RememberIeInUse = oldRemember;
                 HtmlHostFactory.UseWebView2WhenAvailable = use;
                 HtmlHostFactory.ResetNoticeForTests();
             }
+            Assert.That(bRaised, Is.EqualTo(bRemembered), "IeInUse is raised exactly when IE is remembered");
+            bIeRemembered = bRemembered;
+        }
+
+        // falling back to IE checks 'Use the IE browser panes', so the Advanced menu shows what's in use
+        [Test, Apartment(System.Threading.ApartmentState.STA)]
+        public void FallingBackToIe_TurnsOnTheIeSetting()
+        {
+            CreateWith(false, o => throw new System.Runtime.InteropServices.COMException("boom"), out _, out _, out var bThrown);
+            Assert.That(bThrown, Is.True, "WebView2 threw");
+            CreateWith(false, o => null, out var type, out _, out var bWhyNot);    // (CreateWebView2's 'why not' case)
+            Assert.That(type, Is.EqualTo(typeof(IeHtmlHost)));
+            Assert.That(bWhyNot, Is.True, "a reason not to use WebView2 (e.g. no runtime)");
+            CreateWith(true, o => null, out _, out _, out var bSetting);
+            Assert.That(bSetting, Is.False, "the setting is already on");
         }
 
         [Test, Apartment(System.Threading.ApartmentState.STA)]

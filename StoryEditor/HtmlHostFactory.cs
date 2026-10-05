@@ -13,9 +13,9 @@ namespace OneStoryProjectEditor
         // on: every page has its modern scripts (plan Task 7)
         internal static bool UseWebView2WhenAvailable = true;
 
-        // how to undo a sticky WebView2 failure (the failure is remembered per runtime version; see WhyNotWebView2)
+        // how to go back to WebView2 once IE has taken over (see RememberIeInUse)
         internal const string CstrRetryHint =
-            " (to try WebView2 again: on the Advanced menu, check 'Use the IE browser panes', uncheck it again, and restart)";
+            " (to try WebView2 again: on the Advanced menu, uncheck 'Use the IE browser panes' and restart)";
 
         private static bool _bNoticeGiven;
 
@@ -27,6 +27,19 @@ namespace OneStoryProjectEditor
         //  check the fallback)
         internal static Func<bool> UseIeSetting = () => Settings.Default.UseIeBrowserPanes;
         internal static Func<HtmlHostOptions, IHtmlHost> WebView2Creator = CreateWebView2;
+
+        // whenever IE is used instead of WebView2, the 'Use the IE browser panes' setting is turned on, so the Advanced
+        //  menu shows (checked) what is in use and unchecking it is how to try WebView2 again (test seam)
+        internal static Action RememberIeInUse = () =>
+        {
+            if (Settings.Default.UseIeBrowserPanes)
+                return;
+            Settings.Default.UseIeBrowserPanes = true;
+            Settings.Default.Save();
+        };
+
+        // raised when IE has been chosen or has taken over from WebView2 (so the menu item can show it straight away)
+        public static event EventHandler IeInUse;
 
         public static IHtmlHost Create(HtmlHostOptions options = null)
         {
@@ -57,7 +70,10 @@ namespace OneStoryProjectEditor
                 else
                     GiveNotice("Using IE browser panes: WebView2 could not be started (" + ex.Message + ")");
             }
-            return host ?? new IeHtmlHost(options);
+            if (host != null)
+                return host;
+            UsingIe();
+            return new IeHtmlHost(options);
         }
 
         // null = use IE (the notice has been given)
@@ -100,6 +116,13 @@ namespace OneStoryProjectEditor
             GiveNotice("WebView2 stopped working (" + ex.Message + "), so IE browser panes are being used" + CstrRetryHint);
             Settings.Default.WebView2FailedRuntimeVersion = WebView2HtmlHost.RuntimeVersion ?? String.Empty;
             Settings.Default.Save();
+            UsingIe();
+        }
+
+        private static void UsingIe()
+        {
+            RememberIeInUse();
+            IeInUse?.Invoke(null, EventArgs.Empty);
         }
 
         private static void GiveNotice(string strNotice)

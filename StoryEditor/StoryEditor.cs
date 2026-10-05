@@ -294,6 +294,8 @@ namespace OneStoryProjectEditor
             };
             advancedToolStripMenu.DropDownItems.Add(menuUseIePanes);
             HtmlHostFactory.Notice += (s, strNotice) => SetStatusBar(strNotice);
+            // IE took over (or was chosen) after this item was made: show it checked (n.b. this only re-saves the setting)
+            HtmlHostFactory.IeInUse += (s, e) => menuUseIePanes.Checked = true;
 
             if (advancedSaveTimeoutEnabledMenu.Checked)
             {
