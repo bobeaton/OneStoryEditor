@@ -501,7 +501,7 @@ namespace OneStoryProjectEditor
                                  scripts.JQuery,
                                  scripts.StoryBt,
                                  GetPlaceHolders(projSettings),
-                                 StylePrefix(projSettings, null, null),
+                                 StylePrefix(projSettings, null, null, engine),
                                  strHtmlInside,
                                  scripts.StoryBtEnd,
                                  PageScripts.ScriptBlock(scripts.Bridge, scripts.PaneCommon)));
@@ -625,7 +625,35 @@ namespace OneStoryProjectEditor
         public const string CstrLangLocalizationEdgeStyleClassName = "LocalizationEdgeStyle";
         public const string CstrLangTextAreaStyleClassName = "TextAreaStyle";
 
+        // the IE pages' styles, as they have always been
         public static string StylePrefix(ProjectSettings projSettings, string strFontName, string strFontSize)
+        {
+            return StylePrefix(projSettings, strFontName, strFontSize, HtmlEngine.Ie);
+        }
+
+        // ... and for the given engine (WebView2's standards mode needs "12pt", not "12 pt"; see PageScriptSet.Css)
+        public static string StylePrefix(ProjectSettings projSettings, string strFontName, string strFontSize,
+            HtmlEngine engine)
+        {
+            var strStyle = IeStylePrefix(projSettings, strFontName, strFontSize);
+            if (engine == HtmlEngine.Ie)
+                return strStyle;
+
+            // the boxes' classes are "Lang" + the lang attribute ("LangNationalBt"), the styles' "LangNationalBT": quirks
+            //  mode matched class names whatever their case, standards mode doesn't
+            strStyle = AliasClass(strStyle, CstrLangNationalBtStyleClassName, "Lang" + LineData.CstrAttributeLangNationalBt);
+            strStyle = AliasClass(strStyle, CstrLangInternationalBtStyleClassName, "Lang" + LineData.CstrAttributeLangInternationalBt);
+            return PageScripts.For(engine).Css(strStyle);
+        }
+
+        private static string AliasClass(string strStyle, string strClass, string strAlias)
+        {
+            return (strClass == strAlias)
+                       ? strStyle
+                       : strStyle.Replace("." + strClass + " {", "." + strClass + ", ." + strAlias + " {");
+        }
+
+        private static string IeStylePrefix(ProjectSettings projSettings, string strFontName, string strFontSize)
         {
             string strLangStyles = null;
             if (projSettings.Vernacular.HasData)
@@ -682,7 +710,7 @@ namespace OneStoryProjectEditor
 
             return PageScripts.For(engine).ApplyDoctype(
                 String.Format(Properties.Resources.HTML_Header,
-                              StylePrefix(projSettings, strFontName, strFontSize),
+                              StylePrefix(projSettings, strFontName, strFontSize, engine),
                               ConNotePageScripts(engine),
                               strHtml));
         }
@@ -697,7 +725,7 @@ namespace OneStoryProjectEditor
 
             return PageScripts.For(engine).ApplyDoctype(
                 String.Format(Properties.Resources.HTML_Header,
-                              StylePrefix(projSettings, strFontName, strFontSize),
+                              StylePrefix(projSettings, strFontName, strFontSize, engine),
                               ConNotePageScripts(engine),
                               strHtml));
         }
@@ -712,7 +740,7 @@ namespace OneStoryProjectEditor
 
             return PageScripts.For(engine).ApplyDoctype(
                 String.Format(Properties.Resources.HTML_Header,
-                              StylePrefix(projSettings, strFontName, strFontSize),
+                              StylePrefix(projSettings, strFontName, strFontSize, engine),
                               ConNotePageScripts(engine),
                               strHtml));
         }

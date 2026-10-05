@@ -140,6 +140,7 @@
         }
     });
     window.addEventListener('resize', redrawAll);
+    ose.afterAutoSize = redrawAll;      // (PaneCommon grew or shrank boxes to fit their text: the mirrors follow)
 
     document.addEventListener('focusin', function (e) {
         if (!isTextarea(e.target))
@@ -281,6 +282,7 @@
             return;
         clear(ta);
         ta.value = m.text;
+        ose.autoSize(ta);
         ose.send('textChanged', { id: ta.id, value: ta.value });
     });
 
@@ -290,6 +292,7 @@
             return;
         clear(ta);
         ta.value += m.text;
+        ose.autoSize(ta);
         ose.send('textChanged', { id: ta.id, value: ta.value });
         if (m.focus)
             ta.focus();

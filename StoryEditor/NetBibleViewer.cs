@@ -599,7 +599,7 @@ namespace OneStoryProjectEditor
                 // set this along with scripts for clicks and such into the web browser.
                 var scripts = PageScripts.For(_htmlHost.Engine);
                 var strHtml = scripts.ApplyDoctype(preDocumentDOMScript.Replace(CstrReplaceWithStyle, (bSpecifyFont)
-                                                                                    ? GetTextStyle(strFontName, strFontSize)
+                                                                                    ? scripts.Css(GetTextStyle(strFontName, strFontSize))
                                                                                     : String.Empty)
                               + PageScripts.ScriptBlock(scripts.Bridge, scripts.NetBible)
                               + sb);

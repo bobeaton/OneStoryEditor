@@ -65,7 +65,7 @@ namespace OneStoryProjectEditor
             {
                 _strClientText = value;
                 var scripts = PageScripts.For(_htmlHost.Engine);
-                _htmlHost.LoadHtml(scripts.ApplyDoctype(CstrStyle +
+                _htmlHost.LoadHtml(scripts.ApplyDoctype(scripts.Css(CstrStyle) +
                                    PageScripts.ScriptBlock(scripts.Bridge, scripts.HoverLinks) +
                                    value));
             }

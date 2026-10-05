@@ -25,7 +25,12 @@ namespace OneStoryProjectEditor.Tests
             "ose.on('injectBox', function () { var t = document.createElement('textarea'); t.id = 'injected_box'; t.setAttribute('data-note', 'edit');" +
             "  document.body.appendChild(t); var p = document.createElement('p'); p.id = 'tp_7_0_0'; p.textContent = 'some note words'; document.body.appendChild(p); return { id: t.id }; });" +
             "ose.on('leftDown', function (m) { document.getElementById(m.id).dispatchEvent(new MouseEvent('mousedown', { bubbles: true, button: 0 })); });" +
-            "ose.on('rightClick', function () { document.body.dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, cancelable: true, button: 2 })); });";
+            "ose.on('rightClick', function () { document.body.dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, cancelable: true, button: 2 })); });" +
+            // a note box in a 292px cell, as the notes table has them
+            "ose.on('injectCellBox', function () { var tb = document.createElement('table'); tb.innerHTML = '<tr><td style=\"width:292px\">" +
+            "<textarea id=\"cell_box\" data-note=\"edit\" class=\"" + StoryData.CstrLangVernacularStyleClassName + "\"></textarea></td></tr>';" +
+            "  document.body.appendChild(tb); return { id: 'cell_box' }; });" +
+            ModernStoryBtPageTests.LayoutDriver;
 
         private Form _form;
         private WebView2HtmlHost _host;
@@ -125,6 +130,25 @@ namespace OneStoryProjectEditor.Tests
             var reply = Ask("getNoteSelection");
             Assert.That(reply.TryGetInt("lineIndex", out var nLine) && nLine == 7, Is.True);
             Assert.That(reply.GetString("html"), Is.EqualTo("some note words"));
+        }
+
+        // the standards-mode layout faults: font size ignored ("10 pt"), the box not growing, the box overflowing its cell
+        [Test]
+        public void NoteBox_HasTheProjectFont_ShowsAllItsLines_AndFitsItsCell()
+        {
+            var strId = Ask("injectCellBox").GetString("id");
+            _host.Post("setText", new { id = strId, text = "line one\nline two\nline three\nline four\nline five" });
+            BrowserTestHelper.Pump(200);
+            var r = Ask("layout", new { id = strId });
+            Assert.That(r.GetString("mode"), Is.EqualTo("CSS1Compat"));
+            var project = PaneTestData.LoadProject();
+            var dExpected = ModernStoryBtPageTests.ExpectedPx(project.ProjSettings.Vernacular);
+            Assert.That(dExpected, Is.Not.EqualTo(13.333).Within(0.01), "(the check needs a size that isn't Chromium's default)");
+            Assert.That(ModernStoryBtPageTests.Px(r.GetString("fontSize")), Is.EqualTo(dExpected).Within(0.1),
+                        "a box with the vernacular class gets the vernacular style's size");
+            Assert.That(r.Body["clientHeight"].ToObject<double>(), Is.GreaterThanOrEqualTo(r.Body["scrollHeight"].ToObject<double>()), "no hidden lines");
+            Assert.That(r.Body["offsetWidth"].ToObject<double>(),
+                        Is.LessThanOrEqualTo(r.Body["cellWidth"].ToObject<double>() - r.Body["cellPadding"].ToObject<double>() + 0.5), "fits its cell");
         }
 
         [Test]

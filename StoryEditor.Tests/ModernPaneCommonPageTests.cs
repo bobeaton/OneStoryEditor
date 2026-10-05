@@ -19,7 +19,13 @@ namespace OneStoryProjectEditor.Tests
             "ose.on('valueOf', function (m) { return { value: document.getElementById(m.id).value }; });" +
             "ose.on('innerHtml', function (m) { return { html: document.getElementById(m.id).innerHTML }; });" +
             "ose.on('fire', function (m) { document.getElementById(m.id).dispatchEvent(new Event(m.what, { bubbles: true, cancelable: true })); });" +
-            "ose.on('echo', function (m) { return { text: m.text }; });";
+            "ose.on('echo', function (m) { return { text: m.text }; });" +
+            // dispatches a drag event at an element; prevented = the page refused the browser's default (inserting the text)
+            "ose.on('drag', function (m) { if (m.startIn) document.getElementById(m.startIn).dispatchEvent(new Event('dragstart', { bubbles: true }));" +
+            "  var ok = document.getElementById(m.id).dispatchEvent(new Event(m.what, { bubbles: true, cancelable: true }));" +
+            "  return { prevented: !ok }; });" +
+            "ose.on('selectPara', function (m) { var r = document.createRange(); r.selectNodeContents(document.getElementById(m.id));" +
+            "  var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); });";
 
         private Form _form;
         private WebView2HtmlHost _host;
@@ -134,6 +140,39 @@ namespace OneStoryProjectEditor.Tests
             Assert.That(reply.GetString("value"), Is.EqualTo("aXYZdef"));
             Assert.That(reply.TryGetInt("endPoint", out var n) && n == 4, Is.True);
             Assert.That(reply.GetString("ieHtml"), Is.Null);
+        }
+
+        // IE parity: the named box's selection or nothing (not some other selection on the page); and no replacement
+        [Test]
+        public void NamedBoxWithoutASelection_GivesNone_AndReplacesNothing()
+        {
+            _host.Post("selectIn", new { id = "ta_1_0", start = 2, end = 2 });
+            _host.Post("selectPara", new { id = "tp_1_0_0" });
+            BrowserTestHelper.Pump(200);
+            Assert.That(Ask("getSelection", new { id = "ta_1_0" }).GetString("selType"), Is.EqualTo("none"));
+            var reply = Ask("replaceSelection", new { id = "ta_1_0", text = "XYZ" });
+            Assert.That(reply.TryGetInt("endPoint", out var n) && (n == 0), Is.True, "endPoint " + n);
+            Assert.That(reply.GetString("value"), Is.EqualTo("abcdef"));
+        }
+
+        [Test]
+        public void NoBoxNamed_FallsBackToThePageSelection()
+        {
+            _host.Post("selectPara", new { id = "tp_1_0_0" });
+            BrowserTestHelper.Pump(200);
+            Assert.That(Ask("getSelection", new { })?.GetString("text"), Is.EqualTo("para"));
+        }
+
+        // a verse (or any text) dragged in from outside the page isn't typed into an ordinary box, as with IE
+        [Test]
+        public void OutsideDrop_OnAnOrdinaryBox_IsRefused_InPageDrag_IsNot()
+        {
+            Assert.That(Ask("drag", new { id = "ta_1_0", what = "dragover" }).GetBool("prevented"), Is.True, "dragover (no drop allowed)");
+            Assert.That(Ask("drag", new { id = "ta_1_0", what = "drop" }).GetBool("prevented"), Is.True, "drop");
+            Assert.That(_received.Exists(m => m.Type == "scriptureDropped"), Is.False);
+            Assert.That(Ask("drag", new { id = "ta_1_0", what = "drop", startIn = "ta_ro" }).GetBool("prevented"), Is.False,
+                        "text dragged from another box on the page still drops as usual");
+            Assert.That(Ask("drag", new { id = "tp_1_0_0", what = "drop" }).GetBool("prevented"), Is.False, "not a box: left alone");
         }
 
         [Test]

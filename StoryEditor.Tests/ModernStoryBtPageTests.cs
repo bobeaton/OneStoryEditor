@@ -10,6 +10,21 @@ namespace OneStoryProjectEditor.Tests
     [TestFixture, Apartment(ApartmentState.STA), Category("Browser")]
     public class ModernStoryBtPageTests
     {
+        // standards-mode layout checks (also used by ModernConNotePageTests)
+        internal const string LayoutDriver =
+            "ose.on('layout', function (m) { var t = document.getElementById(m.id), td = t.parentNode;" +
+            "  while (td && td.nodeName !== 'TD') td = td.parentNode;" +
+            "  return { fontSize: window.getComputedStyle(t).fontSize, className: t.className, mode: document.compatMode," +
+            "    clientHeight: t.clientHeight, scrollHeight: t.scrollHeight, offsetWidth: t.offsetWidth," +
+            "    cellWidth: td ? td.clientWidth : -1, cellPadding: td ? parseFloat(window.getComputedStyle(td).paddingLeft) + parseFloat(window.getComputedStyle(td).paddingRight) : 0 }; });" +
+            "ose.on('resizeTo', function (m) { var t = document.getElementById(m.id); t.style.width = m.width; window.dispatchEvent(new Event('resize')); });";
+
+        // the font size (in CSS px, as getComputedStyle gives it) a project language's style asks for
+        internal static double ExpectedPx(ProjectSettings.LanguageInfo li) => li.FontToUse.SizeInPoints * 96.0 / 72.0;
+
+        internal static double Px(string strCssPx) =>
+            double.Parse(strCssPx.Replace("px", ""), System.Globalization.CultureInfo.InvariantCulture);
+
         private const string CstrDriver =
             // a user selecting characters [start, end) in a box and leaving it
             "ose.on('selectIn', function (m) { var t = document.getElementById(m.id); t.focus(); t.setSelectionRange(m.start, m.end);" +
@@ -37,8 +52,11 @@ namespace OneStoryProjectEditor.Tests
             // make a box short and narrow (so long text wraps and it gets a vertical scrollbar), in a given direction
             "function oseScrollbar(el) { var cs = window.getComputedStyle(el);" +
             "  return el.offsetWidth - el.clientWidth - parseFloat(cs.borderLeftWidth) - parseFloat(cs.borderRightWidth); }" +
+            // (boxes normally grow to fit and never scroll; this one is made to scroll)
             "ose.on('squeeze', function (m) { var t = document.getElementById(m.id); t.style.width = '120px'; t.style.height = '40px';" +
-            "  t.style.direction = m.dir; return { scrollbar: oseScrollbar(t) }; });" +
+            "  t.style.overflow = 'auto'; t.style.direction = m.dir; return { scrollbar: oseScrollbar(t) }; });" +
+            // a box's layout: its computed font size, whether its text all shows, and whether it fits its cell
+            LayoutDriver +
             // how the mirror's text wraps compared to the box's: the width the text has, and the height it takes up
             "ose.on('wrap', function (m) { var t = document.getElementById(m.id), mi = t.previousElementSibling;" +
             "  function inner(el) { var cs = window.getComputedStyle(el); return el.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight); }" +
@@ -265,6 +283,98 @@ namespace OneStoryProjectEditor.Tests
             Assert.That(_received.First(m => m.Type == "contextMenu").GetString("id"), Is.EqualTo(strId));
             Assert.That(_received.First(m => m.Type == "textareaMouseDown").TryGetInt("button", out var nButton) && (nButton == 2), Is.True);
             Assert.That(Highlights(1).Select(h => h.Text), Is.EqualTo(new[] { "bcd" }));
+        }
+
+        internal static ProjectSettings.LanguageInfo LanguageOf(ProjectSettings ps, string strClassName)
+        {
+            // (the boxes say "LangNationalBt", the style constants "LangNationalBT")
+            var astrClasses = strClassName.Split(' ').Select(s => s.ToLowerInvariant()).ToArray();
+            bool Has(string strClass) => astrClasses.Contains(strClass.ToLowerInvariant());
+            if (Has(StoryData.CstrLangVernacularStyleClassName)) return ps.Vernacular;
+            if (Has(StoryData.CstrLangNationalBtStyleClassName)) return ps.NationalBT;
+            if (Has(StoryData.CstrLangInternationalBtStyleClassName)) return ps.InternationalBT;
+            if (Has(StoryData.CstrLangFreeTranslationStyleClassName)) return ps.FreeTranslation;
+            Assert.Fail("no language class in '" + strClassName + "'");
+            return null;
+        }
+
+
+        // standards mode ignored "font-size: 12 pt" (the space), so every box showed Chromium's 13.33px default
+        [Test]
+        public void StoryBox_HasTheProjectsFontSize()
+        {
+            var project = PaneTestData.LoadProject();
+            var nNotDefault = 0;
+            for (var nNth = 0; nNth < 4; nNth++)
+            {
+                var r = Ask("layout", new { id = StoryLineBox(1, nNth) });
+                Assert.That(r.GetString("mode"), Is.EqualTo("CSS1Compat"));
+                var li = LanguageOf(project.ProjSettings, r.GetString("className"));
+                if (System.Math.Abs(ExpectedPx(li) - 13.333) > 0.01)
+                    nNotDefault++;
+                Assert.That(Px(r.GetString("fontSize")), Is.EqualTo(ExpectedPx(li)).Within(0.1),
+                            r.GetString("className") + " should be " + li.FontToUse.SizeInPoints + "pt");
+            }
+            Assert.That(nNotDefault, Is.GreaterThan(0), "(the check needs a size that isn't Chromium's default 13.33px)");
+        }
+
+        // IE grew a box to fit its text; standards mode doesn't, so lines were hidden
+        [Test]
+        public void StoryBox_GrowsToShowAllItsLines_AndShrinksAgain()
+        {
+            var strId = StoryLineBox(1);
+            var nOneLine = Ask("layout", new { id = strId }).Body["clientHeight"].ToObject<double>();
+            _host.Post("setText", new { id = strId, text = "one\ntwo\nthree\nfour\nfive\nsix" });
+            BrowserTestHelper.Pump(200);
+            var r = Ask("layout", new { id = strId });
+            Assert.That(r.Body["clientHeight"].ToObject<double>(), Is.GreaterThanOrEqualTo(r.Body["scrollHeight"].ToObject<double>()),
+                        "no hidden lines");
+            Assert.That(r.Body["clientHeight"].ToObject<double>(), Is.GreaterThan(nOneLine * 2), "the box grew");
+
+            _host.Post("setText", new { id = strId, text = "one" });
+            BrowserTestHelper.Pump(200);
+            Assert.That(Ask("layout", new { id = strId }).Body["clientHeight"].ToObject<double>(), Is.LessThan(nOneLine * 2), "and shrank");
+        }
+
+        [Test]
+        public void TypedLines_GrowTheBox()
+        {
+            var strId = StoryLineBox(1);
+            _host.Post("typeIn", new { id = strId, text = "\na\nb\nc\nd\ne\nf" });
+            BrowserTestHelper.Pump(200);
+            var r = Ask("layout", new { id = strId });
+            Assert.That(r.Body["clientHeight"].ToObject<double>(), Is.GreaterThanOrEqualTo(r.Body["scrollHeight"].ToObject<double>()));
+        }
+
+        // width:100% plus the border and padding overflowed the cell (content-box)
+        [Test]
+        public void StoryBoxes_FitTheirCells()
+        {
+            for (var nNth = 0; nNth < 4; nNth++)
+            {
+                var r = Ask("layout", new { id = StoryLineBox(1, nNth) });
+                Assert.That(r.Body["cellWidth"].ToObject<double>(), Is.GreaterThan(0));
+                Assert.That(r.Body["offsetWidth"].ToObject<double>(),
+                            Is.LessThanOrEqualTo(r.Body["cellWidth"].ToObject<double>() - r.Body["cellPadding"].ToObject<double>() + 0.5));
+            }
+        }
+
+        // a box that grows (window resize, new text) moves the mirror with it
+        [Test]
+        public void Mirror_FollowsTheBox_WhenItIsResized()
+        {
+            var strId = StoryLineBox(1);
+            _host.Post("setValue", new { id = strId, text = string.Join(" ", Enumerable.Repeat("words that wrap", 10)) });
+            _host.Post("selectIn", new { id = strId, start = 2, end = 5 });
+            BrowserTestHelper.Pump(200);
+            _host.Post("resizeTo", new { id = strId, width = "150px" });
+            BrowserTestHelper.Pump(300);
+            var r = Ask("layout", new { id = strId });
+            Assert.That(r.Body["clientHeight"].ToObject<double>(), Is.GreaterThanOrEqualTo(r.Body["scrollHeight"].ToObject<double>()));
+            var m = Ask("mirror", new { id = strId });
+            Assert.That(m.GetBool("has"), Is.True);
+            foreach (var strDelta in new[] { "dx", "dy", "dw", "dh" })
+                Assert.That(m.Body[strDelta].ToObject<double>(), Is.LessThan(1.0), strDelta);
         }
 
         [Test]
