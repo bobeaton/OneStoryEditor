@@ -39,13 +39,60 @@ namespace OneStoryProjectEditor.Tests
                             .Where(f => astrExtensions.Contains(Path.GetExtension(f).ToLowerInvariant()));
         }
 
+        private static readonly Regex RegexWebView2Api = new Regex(
+            @"\bMicrosoft\.Web\.WebView2\b|\bCoreWebView2\w*", RegexOptions.Compiled);
+
+        private static readonly Regex RegexIeOnlyJs = new Regex(
+            @"document\.selection|createTextRange|attachEvent|fireEvent|window\.event\b", RegexOptions.Compiled);
+
+        private static bool IsBridge(string strPath, bool bModern)
+        {
+            return Path.GetFileName(strPath).Equals("bridge.js") &&
+                   (strPath.Replace('/', '\\').Contains(@"\js\modern\") == bModern);
+        }
+
         [Test]
         public void OnlyTheBridgeScriptUsesWindowExternal()
         {
+            // only the IE bridge (js\bridge.js); js\modern\bridge.js is not excluded
             var offenders = SourceFiles(".js", ".cs", ".htm", ".html", ".resx")
-                .Where(f => !Path.GetFileName(f).Equals("bridge.js"))
+                .Where(f => !IsBridge(f, false))
                 .Where(f => File.ReadAllText(f).Contains("window.external"))
                 .Select(Path.GetFileName)
+                .ToList();
+            Assert.That(offenders, Is.Empty);
+        }
+
+        [Test]
+        public void OnlyWebView2HtmlHostTouchesWebView2()
+        {
+            var offenders = SourceFiles(".cs")
+                .Where(f => !Path.GetFileName(f).Equals("WebView2HtmlHost.cs"))
+                .Where(f => RegexWebView2Api.IsMatch(File.ReadAllText(f)))
+                .Select(Path.GetFileName)
+                .ToList();
+            Assert.That(offenders, Is.Empty);
+        }
+
+        [Test]
+        public void OnlyTheBridgesUseChromeWebview()
+        {
+            // js\bridge.js keeps sub-project B's host-detection branch; js\modern\bridge.js is the WebView2 bridge
+            var offenders = SourceFiles(".js", ".cs", ".htm", ".html", ".resx")
+                .Where(f => !IsBridge(f, false) && !IsBridge(f, true))
+                .Where(f => File.ReadAllText(f).Contains("chrome.webview"))
+                .Select(Path.GetFileName)
+                .ToList();
+            Assert.That(offenders, Is.Empty);
+        }
+
+        [Test]
+        public void ModernScriptsUseNoIeOnlyApis()
+        {
+            var offenders = SourceFiles(".js")
+                .Where(f => f.Replace('/', '\\').Contains(@"\js\modern\"))
+                .Where(f => RegexIeOnlyJs.IsMatch(File.ReadAllText(f)))
+                .Select(f => Path.GetFileName(f) + ": " + RegexIeOnlyJs.Match(File.ReadAllText(f)).Value)
                 .ToList();
             Assert.That(offenders, Is.Empty);
         }

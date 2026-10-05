@@ -419,3 +419,47 @@ Setup:
     - **Decision:** Section 1's "Messages" is amended. `WebView2HtmlHost` hands each received message to the shared
       channel with `BeginInvoke`.
     - No `Request` is made from inside any `CoreWebView2` event handler.
+
+## Refinements made while planning and implementing
+
+What changed from the spec text above.
+
+**Spike status**
+- Q3 (drag) and the key part of Q6 are provisional, because the desktop was locked during the spike. Someone must run
+  `Wv2Spike.exe q3a`, `q3b` and `q6` on an unlocked desktop. The harness is in the session scratchpad; rebuild it from
+  `.superpowers/sdd/2026-10-04-webview2-host/task-1-report.md` if it is gone.
+
+**Keys, drag, tests, gate**
+- Keys use page-level `preventDefault` plus the navigation guard, not `AcceleratorKeyPressed` (the WinForms control
+  doesn't expose the controller event; Task 1 Q6).
+- The Bible-reference drag uses HTML5 drag-and-drop (`refDragStart` / `refDragEnd`, `scriptureDropped` on drop), the
+  mechanism Task 1 Q3 chose. The WinForms text `DataObject` remains the fallback. `HtmlDragSuspension` keeps
+  `SuspendSaveDialog` balanced for HTML5 drags.
+- The modern page tests are separate `Modern*` fixtures, not engine parameters on the IE fixtures. The IE fixtures keep
+  their quirks-mode drivers.
+- `HtmlHostFactory.UseWebView2WhenAvailable` gated the switch-over until the modern pages were complete; it is now on.
+
+**`WebView2HtmlHost`**
+- Received messages are delivered through `BeginInvoke` (a `Request` inside `WebMessageReceived` times out).
+- The navigation guard allows the expected URL once; a reload is cancelled.
+- Pages are served only for the current `?d=` document id; any other request gets a 404.
+- `Failed` is raised asynchronously.
+- `ProcessFailed` is fatal only for `BrowserProcessExited` and `RenderProcessExited`.
+
+**Installer**
+- The WebView2 SDK DLLs come from the Encoding Converters `EC_40_MM` merge module (1.0.4191.47). StoryEditor's
+  `PackageReference` is pinned to that version.
+- `HtmlHostFactory` falls back to IE if the WebView2 assembly can't load.
+- Newtonsoft.Json is supplied by the `EcTranslatorsMM` merge module (verified in the MSI).
+
+**Modern `StoryBt`**
+- The mirror reserves the scrollbar width (on the right; on the left for RTL).
+- `clearHighlight` also collapses the box selection.
+- Script value changes (`setText`, `appendText`, `replaceSelection`) drop the box highlight.
+- Highlights store the box value and are dropped if it changed.
+
+**Guard rules (Task 9)**
+- `Microsoft.Web.WebView2` types only in `WebView2HtmlHost.cs`.
+- `chrome.webview` only in `js/bridge.js` (B's host-detection branch, untouched) and `js/modern/bridge.js`.
+- `window.external` only in `js/bridge.js`.
+- No IE-only DOM APIs in `js/modern/`.
