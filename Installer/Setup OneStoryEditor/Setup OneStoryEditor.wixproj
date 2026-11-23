@@ -44,6 +44,19 @@
     <PackageReference Include="Encoding-Converters-Core" Version="$(EcCoreVersion)" GeneratePathProperty="true" />
     <PackageReference Include="WixToolset.UI.wixext" Version="6.0.2" />
   </ItemGroup>
+  <!-- Sign every dll/exe this MSI packages (the Source= files in this folder's *.wxs) that isn't already signed,
+       BEFORE the MSI is compiled - it embeds copies of them, so signing them afterward wouldn't reach what gets
+       installed. SignBuild only ever signed the MSI and bundle themselves, so StoryEditor.exe etc. used to ship
+       unsigned, which Smart App Control / WDAC block ("An Application Control policy has blocked this file").
+       Runs on TeamCity (TEAMCITY_VERSION is set on its agents), where it also fails the build if anything is
+       still unsigned afterward; elsewhere only on request (/p:SignBinaries=true), so a local Release build
+       doesn't try (and fail) to sign ~70 files. -->
+  <Target Name="SignPackagedBinaries" BeforeTargets="CoreCompile" Condition="'$(Configuration)' == 'Release' and ('$(TEAMCITY_VERSION)' != '' or '$(SignBinaries)' == 'true')">
+    <PropertyGroup>
+      <_SignVerifyArg Condition="'$(TEAMCITY_VERSION)' != ''">-Verify</_SignVerifyArg>
+    </PropertyGroup>
+    <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\..\..\build\SignUnsignedFiles.ps1&quot; -WxsDir &quot;$(MSBuildProjectDirectory)&quot; $(_SignVerifyArg)" />
+  </Target>
   <Target Name="PostBuildCopy" AfterTargets="Build">
     <!-- Patch the linked MSI (before it's copied out and later signed) so files whose version went down since
          OSE 5.0 still get installed on upgrade - see RaiseFileVersions.ps1 for the details. -->
