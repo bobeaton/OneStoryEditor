@@ -113,7 +113,7 @@
        runtime is serviced in place by Windows Update once present. That assumption doesn't hold for a machine
        whose only prior VC++ runtime came from an older app's own bundled installer rather than Windows Update -
        e.g. the "install on top of an existing OSE install" scenario: in a real 2026-09-30 VM log (Bundle name
-       OneStory_Editor_5.6), CPP2017Redist evaluated true off a pre-existing runtime, so vc17 was planned
+       OneStory_Editor_6.0), CPP2017Redist evaluated true off a pre-existing runtime, so vc17 was planned
        "execute: None" and never ran, meaning the bundled v143 runtime wasn't guaranteed to be present.
        NOTE: StoryEditor failing to launch after that same upgrade (until a Repair) was originally blamed on this
        too, but that turned out to be a different problem: upgrading over OSE 5.0 left LibChorus.dll, Chorus.exe,

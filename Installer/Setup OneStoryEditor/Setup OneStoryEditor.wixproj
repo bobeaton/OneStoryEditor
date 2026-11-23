@@ -13,7 +13,7 @@
          collide with Chorus's own pre-existing one; the two hadn't collided under 0.9.8). Not fixable from
          this side short of patching either vendored merge module - suppressed here rather than left
          unbuildable. The two copies are NOT the same build: ChorusMergeModule.msm carries icu.net.dll 2.8.1.52
-         and EC_40_MM.msm carries 3.0.2.0 (checked in the 5.6 MSI's File table, 2026-09-30). Under normal
+         and EC_40_MM.msm carries 3.0.2.0 (checked in the 6.0 MSI's File table, 2026-09-30). Under normal
          file-versioning rules the higher version (3.0.2.0) wins whichever component is processed last, which is
          what gets installed in practice - so don't force REINSTALLMODE to include 'a' (the File sequence order
          would then decide), and re-check this if either merge module is updated. The same kind of
