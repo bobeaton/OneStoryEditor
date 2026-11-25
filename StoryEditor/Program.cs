@@ -366,6 +366,36 @@ namespace OneStoryProjectEditor
                 throw new ApplicationException(msg);
         }
 
+        /// <summary>
+        /// Chorus' settings class (Chorus.Properties.Settings) is internal to LibChorus, so
+        /// upgrade it via reflection. It uses SIL's CrossPlatformSettingsProvider, whose Upgrade
+        /// copies the values from the most recent previous version's user.config.
+        /// </summary>
+        private static void UpgradeChorusSettings()
+        {
+            try
+            {
+                var typeChorusSettings = typeof(HgRepository).Assembly.GetType("Chorus.Properties.Settings");
+                var propDefault = typeChorusSettings?.GetProperty("Default",
+                    System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public |
+                    System.Reflection.BindingFlags.NonPublic);
+                if (!(propDefault?.GetValue(null) is System.Configuration.ApplicationSettingsBase chorusSettings))
+                    return;
+
+                // don't clobber account info that's already been entered for this version
+                if (!String.IsNullOrEmpty(chorusSettings["LanguageForgeUser"] as string))
+                    return;
+
+                chorusSettings.Upgrade();
+                chorusSettings.Save();
+            }
+            catch (Exception ex)
+            {
+                // not fatal: worst case, the user has to re-enter their account info in the Send/Receive dialog
+                Debug.WriteLine($"Unable to upgrade Chorus settings: {ex.Message}");
+            }
+        }
+
         public static void InitializeLocalSettingsCollections(bool bDoUpgrade)
         {
             // see if this is perhaps an upgrade from a previous version (i.e. when we change from 1.3.5.* to 1.4.0.*
@@ -376,6 +406,11 @@ namespace OneStoryProjectEditor
                 Properties.Settings.Default.Upgrade();
                 Properties.Settings.Default.UpgradeSettings = false;
                 Properties.Settings.Default.Save();
+
+                // Chorus keeps its own settings (e.g. the LanguageForge/Send-Receive account
+                //  info) in a separate user.config (<LocalAppData>\SIL\OneStory Editor\<version>),
+                //  which also needs to be carried forward to the new version
+                UpgradeChorusSettings();
             }
 
             if (Properties.Settings.Default.RecentProjects == null)
